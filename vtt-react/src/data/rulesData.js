@@ -136,18 +136,17 @@ GMs can mix and match these systems to create the perfect experience for their t
             },
             {
               title: 'Encumbrance Zones',
-              content: `Your carrying capacity has three zones based on grid fullness:`
+              content: `Your carrying capacity is divided into three zones based on grid columns. Items placed in different zones trigger different encumbrance effects:`
             }
           ],
           tables: [
             {
               title: 'Encumbrance Effects',
-              headers: ['Zone', 'Grid Fullness', 'Effects'],
+              headers: ['Zone', 'Grid Columns', 'Effects'],
               rows: [
-                ['Light Load', '0-50%', 'No penalties'],
-                ['Medium Load', '51-75%', '-10% movement speed'],
-                ['Heavy Load', '76-100%', '-25% movement speed, +5% STR/CON, -5% all other stats'],
-                ['Overloaded', '>100%', 'Cannot move, must drop items']
+                ['Normal', 'Columns 0-4', 'No penalties'],
+                ['Encumbered', 'Columns 5-9', '-25% movement speed, +5% STR/CON, -5% all other stats'],
+                ['Overencumbered', 'Columns 10-14', '-75% movement speed, +15% STR/CON, -15% all other stats']
               ]
             },
             {
@@ -264,19 +263,27 @@ GMs can mix and match these systems to create the perfect experience for their t
         icon: 'fas fa-list-check',
         content: {
           title: 'Character Creation Overview',
-          description: 'Creation process and background/class independence',
+          description: 'Introduction to the Mythrill character creation system',
           sections: [
             {
+              title: 'Introduction',
+              content: `Mythrill features a comprehensive character creation system with 27 unique character classes, 10 races with subraces, and flexible character building that allows for diverse and creative character concepts. The creation process is divided into 11 steps, guiding you through choosing your character's heritage, profession, abilities, and story.`
+            },
+            {
               title: 'Creation Steps',
-              content: `Character creation follows these steps: 1) Choose Race & Subrace, 2) Select Background, 3) Choose Class, 4) Allocate Attributes, 5) Select Skills, 6) Choose Starting Equipment, 7) Fill out Lore & Appearance.`
+              content: `Character creation follows these 11 steps in order:\n\n1. Basic Information - Set your character's name, gender, and appearance\n2. Race & Subrace - Choose your character's heritage and racial traits\n3. Class - Select your character's profession and combat role from 27 unique classes\n4. Starting Spells - Choose your initial spells (if applicable to your class)\n5. Background - Select your character's history and pre-adventuring life\n6. Discipline - Choose your character's philosophical approach and practice (Mystic, Zealot, Trickster, etc.)\n7. Ability Scores - Allocate your base stats using the point-buy system\n8. Skills & Languages - Select your skill proficiencies and known languages\n9. Lore & Details - Fill out your character's backstory, personality, and appearance details\n10. Starting Equipment - Purchase and select your initial gear with starting currency\n11. Character Summary - Review all your choices and finalize your character`
             },
             {
-              title: 'Background Independence',
-              content: `Backgrounds and classes are independent. Your background provides thematic abilities and flavor, while your class determines your mechanical role and resource system. Any background can pair with any class.`
+              title: 'Background and Class Independence',
+              content: `Backgrounds and classes are independent choices. Your background represents your character's life before becoming an adventurer and provides thematic abilities, skill proficiencies, and social capabilities. Your class determines your mechanical role, combat abilities, and resource system. Any background can pair with any class, allowing for diverse character concepts like a Soldier Wizard or a Noble Barbarian.`
             },
             {
-              title: 'Flexibility',
-              content: `This system encourages creative character concepts. A Mystic Reaver, Arcanist Sentinel, or Trickster Zealot are all viable and interesting combinations.`
+              title: 'Disciplines',
+              content: `Disciplines represent your character's chosen philosophical approach and practice. The 9 disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel) provide stat modifiers, skill proficiencies, starting equipment, special features, and extra point-buy points. Unlike backgrounds (which represent your past) or classes (which determine your role), disciplines represent your character's approach to power, knowledge, and adventure. Each discipline also offers specializations (sub-paths) that further customize your character's capabilities.`
+            },
+            {
+              title: 'System Flexibility',
+              content: `The Mythrill character creation system encourages creative character concepts through its flexible combination system. With independent choices for race, class, background, and discipline, you can create unique characters like a Mystic Reaver, Arcanist Sentinel, or Trickster Zealot. All combinations are viable and can lead to interesting roleplaying opportunities.`
             }
           ]
         }
@@ -306,25 +313,21 @@ GMs can mix and match these systems to create the perfect experience for their t
         }
       },
       {
-        id: 'paths',
-        name: 'Paths',
-        icon: 'fas fa-scroll',
-        useCustomComponent: true, // Flag to use BackgroundSelector component (shows paths)
+        id: 'disciplines',
+        name: 'Disciplines',
+        icon: 'fas fa-book',
+        useCustomComponent: true, // Flag to use BackgroundSelector component (shows disciplines)
         content: {
-          title: 'Character Paths & Specializations',
-          description: '9 thematic paths (Mystic, Zealot, Trickster, etc.) with sub-paths, selectable abilities, and deep customization',
+          title: 'Character Disciplines & Sub-disciplines',
+          description: '9 thematic disciplines (Mystic, Zealot, Trickster, etc.) with sub-disciplines, selectable abilities, and deep customization',
           sections: [
             {
-              title: 'Path System Overview',
-              content: `Paths represent your character's philosophical approach and spiritual journey. Each of the 9 paths (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel) provides mechanical benefits, thematic abilities, and specialization options. Unlike backgrounds (Sailor, Soldier, etc.) which represent your past, paths represent your chosen approach to power and adventure.`
+              title: 'Discipline System Overview',
+              content: `Disciplines represent your character's chosen philosophical approach and practice. Each of the 9 disciplines (Mystic, Zealot, Trickster, Harrow, Arcanist, Hexer, Reaver, Mercenary, Sentinel) provides mechanical benefits, thematic abilities, and sub-discipline options. Unlike backgrounds (Sailor, Soldier, etc.) which represent your past, disciplines represent your chosen approach to power, knowledge, and adventure through systematic practice and training.`
             },
             {
-              title: 'Sub-Paths (Specializations)',
-              content: `Each path has 3 specializations that represent different focuses within that path. For example, a Zealot can specialize as a Divine Crusader (combat), Sacred Healer (support), or Faith Inquisitor (detection). Choose the specialization that best fits your character concept and playstyle.`
-            },
-            {
-              title: 'Selectable Abilities',
-              content: `After choosing your specialization, you select 2 abilities from a pool of 6-8 options. These abilities are formatted like spells with detailed mechanics, targeting information, and usage limitations. This allows for meaningful customization within each specialization while maintaining balance.`
+              title: 'Discipline Abilities',
+              content: `Each discipline provides a set of unique abilities that reflect its core philosophy and practice. These abilities are formatted like spells with detailed mechanics, targeting information, and usage limitations. Each discipline grants these abilities as part of your character's training and mastery of that discipline.`
             },
             {
               title: 'Ability Formatting',
@@ -481,15 +484,11 @@ GMs can mix and match these systems to create the perfect experience for their t
           sections: [
             {
               title: 'How Skills Work',
-              content: `Skills represent your character's training and expertise in various areas. When you make a skill check, your GM determines the difficulty and tells you which die to roll (d4 for very easy tasks up to d20 for very difficult ones). You add your relevant ability modifiers to the roll.`
+              content: `Skills represent your character's training and expertise in various areas. Each skill is tied to a primary and secondary ability score. When you make a skill check, your GM determines the difficulty and tells you which die to roll (d4 for very easy tasks up to d20 for very difficult ones). Ability modifiers are not added to the roll - instead, if your primary or secondary stat modifier is +5 or higher, you may request to roll a smaller die for better success chances.`
             },
             {
               title: 'Skill Ranks & Progression',
               content: `Skills have seven ranks: Untrained, Novice, Trained, Apprentice, Adept, Expert, and Master. Each rank unlocks better outcomes on rollable tables and adds a bonus to your checks. You advance through ranks by completing skill quests during gameplay—small challenges that demonstrate your growing expertise.`
-            },
-            {
-              title: 'Ability Scores and Skills',
-              content: `Each skill is tied to a primary ability score and a secondary ability score. Both modifiers apply to your skill checks. For example, Persuasion uses Charisma (primary) and Intelligence (secondary), so you add both modifiers when making Persuasion checks.`
             },
             {
               title: 'Critical Success & Failure',

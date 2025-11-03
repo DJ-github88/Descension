@@ -26,11 +26,243 @@ export const HEXER_PATH = {
         mechanicalIntegration: 'Curses, hexes, and dark pacts.'
     },
 
+    // Top 3 abilities representing the discipline
+    abilities: [
+        {
+            id: 'hex',
+            name: 'Hex',
+            description: '"You are cursed." Place a debilitating hex on an enemy.',
+            icon: 'spell_shadow_curseofachimonde',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['debuff', 'curse', 'hex', 'damage-amplification'],
+            effectTypes: ['debuff'],
+            damageTypes: [],
+
+            debuffConfig: {
+                duration: 10,
+                durationValue: 10,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [
+                    {
+                        name: 'hex_vulnerability',
+                        stat: 'damage_taken',
+                        value: 20,
+                        magnitude: 20,
+                        magnitudeType: 'percentage',
+                        isPercentage: true
+                    }
+                ],
+                statusEffects: [
+                    {
+                        id: 'hexed',
+                        name: 'Hexed',
+                        description: 'Cursed to take 20% increased damage'
+                    }
+                ],
+                debuffs: [
+                    {
+                        name: 'Curse of Vulnerability',
+                        description: 'Increased damage taken',
+                        duration: 10,
+                        effects: {
+                            damageTakenBonus: 20
+                        }
+                    }
+                ],
+                difficultyClass: 14,
+                savingThrow: 'spirit',
+                saveOutcome: 'negates',
+                canBeDispelled: true,
+                concentrationRequired: false
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 60,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 15,
+                health: 0,
+                stamina: 0,
+                focus: 5,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 10,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: true
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'spirit_ward',
+            name: 'Spirit Ward',
+            description: '"My spirits protect me." Summon protective spirits to shield you from harm.',
+            icon: 'spell_shadow_antimagicshell',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['buff', 'defensive', 'spirit', 'ward'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            buffConfig: {
+                duration: 8,
+                durationValue: 8,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [
+                    {
+                        name: 'spirit_shield',
+                        stat: 'armor',
+                        value: 3,
+                        magnitude: 3,
+                        magnitudeType: 'flat',
+                        isPercentage: false
+                    }
+                ],
+                statusEffects: [
+                    {
+                        id: 'spirit_warded',
+                        name: 'Spirit Warded',
+                        description: 'Protected by spirits, +3 AC'
+                    }
+                ],
+                buffs: [
+                    {
+                        name: 'Spiritual Protection',
+                        description: 'Spirits shield you',
+                        duration: 8,
+                        effects: {
+                            armorBonus: 3
+                        }
+                    }
+                ]
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            resourceCost: {
+                mana: 18,
+                health: 0,
+                stamina: 0,
+                focus: 5,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 8,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: true
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'voodoo_bolt',
+            name: 'Voodoo Bolt',
+            description: '"The spirits strike!" Launch a bolt of dark spiritual energy.',
+            icon: 'spell_shadow_shadowbolt',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['damage', 'curse', 'spirit', 'ranged'],
+            effectTypes: ['damage'],
+            damageTypes: ['necrotic', 'psychic'],
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'necrotic',
+                formula: '3d6 + INT',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                savingThrowConfig: {
+                    enabled: false
+                },
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 2,
+                    critDiceOnly: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 90,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 12,
+                health: 0,
+                stamina: 0,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 3,
+                recovery: 3
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        }
+    ],
+
     subPaths: {
         spiritCaller: {
             id: 'spirit_caller',
-            name: 'Spirit Caller',
-            description: 'Spiritual invokers channeling loa spirits',
+            name: 'Spirit Discipline',
+            description: 'The practice of channeling loa spirits and spiritual invocation',
             theme: 'Spirit magic and voodoo',
             icon: 'fas fa-hat-wizard',
 
@@ -270,8 +502,8 @@ export const HEXER_PATH = {
 
         skinwalker: {
             id: 'skinwalker',
-            name: 'Skinwalker',
-            description: 'Shapeshifters with primal instinct energy',
+            name: 'Transformation Discipline',
+            description: 'The practice of shapeshifting and primal transformation',
             theme: 'Shapeshifting and transformation',
             icon: 'fas fa-paw',
 
@@ -464,8 +696,8 @@ export const HEXER_PATH = {
 
         totemist: {
             id: 'totemist',
-            name: 'Totemist',
-            description: 'Totem masters resonating with elemental forces',
+            name: 'Totem Discipline',
+            description: 'The practice of resonating with elemental forces through totems',
             theme: 'Totem magic and elemental spirits',
             icon: 'fas fa-tree',
 

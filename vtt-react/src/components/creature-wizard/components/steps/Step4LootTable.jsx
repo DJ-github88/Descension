@@ -111,27 +111,36 @@ const Step4LootTable = () => {
     }));
   };
 
-  // Currency randomizer presets - 5 tiers for more granular control
+  // Currency randomizer presets - 7 tiers for more granular control
+  // Note: 100 copper = 1 silver, 100 silver = 1 gold, 100 gold = 1 platinum
   const currencyPresets = {
-    minimal: {
-      min: { platinum: 0, gold: 0, silver: 0, copper: Math.floor(Math.random() * 20) + 5 },
-      max: { platinum: 0, gold: 0, silver: 0, copper: Math.floor(Math.random() * 30) + 25 }
+    poor: {
+      min: { platinum: 0, gold: 0, silver: 0, copper: Math.floor(Math.random() * 15) + 5 },
+      max: { platinum: 0, gold: 0, silver: 0, copper: Math.floor(Math.random() * 20) + 20 }
     },
-    low: {
-      min: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 3) + 1, copper: Math.floor(Math.random() * 50) + 10 },
-      max: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 8) + 3, copper: Math.floor(Math.random() * 50) + 50 }
+    common: {
+      min: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 2) + 1, copper: Math.floor(Math.random() * 30) + 5 },
+      max: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 5) + 2, copper: Math.floor(Math.random() * 40) + 30 }
     },
-    moderate: {
+    uncommon: {
+      min: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 8) + 3, copper: Math.floor(Math.random() * 50) + 10 },
+      max: { platinum: 0, gold: 0, silver: Math.floor(Math.random() * 15) + 8, copper: Math.floor(Math.random() * 80) + 50 }
+    },
+    rare: {
       min: { platinum: 0, gold: Math.floor(Math.random() * 2) + 1, silver: Math.floor(Math.random() * 10) + 5, copper: Math.floor(Math.random() * 50) },
-      max: { platinum: 0, gold: Math.floor(Math.random() * 5) + 2, silver: Math.floor(Math.random() * 20) + 10, copper: Math.floor(Math.random() * 100) + 50 }
-    },
-    high: {
-      min: { platinum: 0, gold: Math.floor(Math.random() * 8) + 3, silver: Math.floor(Math.random() * 30) + 15, copper: Math.floor(Math.random() * 100) },
-      max: { platinum: Math.floor(Math.random() * 2) + 1, gold: Math.floor(Math.random() * 15) + 8, silver: Math.floor(Math.random() * 50) + 25, copper: Math.floor(Math.random() * 150) + 100 }
+      max: { platinum: 0, gold: Math.floor(Math.random() * 3) + 3, silver: Math.floor(Math.random() * 20) + 10, copper: Math.floor(Math.random() * 100) + 50 }
     },
     epic: {
-      min: { platinum: Math.floor(Math.random() * 3) + 2, gold: Math.floor(Math.random() * 20) + 10, silver: Math.floor(Math.random() * 50) + 25, copper: Math.floor(Math.random() * 100) },
-      max: { platinum: Math.floor(Math.random() * 8) + 5, gold: Math.floor(Math.random() * 40) + 25, silver: Math.floor(Math.random() * 100) + 50, copper: Math.floor(Math.random() * 200) + 150 }
+      min: { platinum: 0, gold: Math.floor(Math.random() * 3) + 4, silver: Math.floor(Math.random() * 15) + 10, copper: Math.floor(Math.random() * 50) },
+      max: { platinum: 0, gold: Math.floor(Math.random() * 5) + 12, silver: Math.floor(Math.random() * 30) + 20, copper: Math.floor(Math.random() * 100) + 50 }
+    },
+    legendary: {
+      min: { platinum: 0, gold: Math.floor(Math.random() * 5) + 13, silver: Math.floor(Math.random() * 25) + 15, copper: Math.floor(Math.random() * 80) },
+      max: { platinum: 0, gold: Math.floor(Math.random() * 10) + 25, silver: Math.floor(Math.random() * 50) + 30, copper: Math.floor(Math.random() * 150) + 80 }
+    },
+    artifact: {
+      min: { platinum: Math.floor(Math.random() * 1) + 1, gold: Math.floor(Math.random() * 10) + 26, silver: Math.floor(Math.random() * 40) + 25, copper: Math.floor(Math.random() * 100) },
+      max: { platinum: Math.floor(Math.random() * 2) + 3, gold: Math.floor(Math.random() * 20) + 40, silver: Math.floor(Math.random() * 75) + 50, copper: Math.floor(Math.random() * 200) + 100 }
     }
   };
 
@@ -152,6 +161,10 @@ const Step4LootTable = () => {
 
   // Handle editing an existing loot item
   const handleEditItem = (index) => {
+    // Clear tooltip when editing
+    setTooltipItem(null);
+    setTooltip({ show: false, item: null, x: 0, y: 0 });
+    
     setEditingItemIndex(index);
     setCurrentItem({ ...wizardState.lootTable.items[index] });
     setShowItemForm(true);
@@ -178,6 +191,10 @@ const Step4LootTable = () => {
 
   // Handle canceling the item form
   const handleCancelItemForm = () => {
+    // Clear tooltip when canceling
+    setTooltipItem(null);
+    setTooltip({ show: false, item: null, x: 0, y: 0 });
+    
     setShowItemForm(false);
     setEditingItemIndex(null);
     setCurrentItem({ ...DEFAULT_LOOT_ITEM });
@@ -461,39 +478,53 @@ const Step4LootTable = () => {
                 <label>Quick Randomize:</label>
                 <div className="randomizer-buttons">
                   <button
-                    className="randomizer-button minimal"
-                    onClick={() => handleCurrencyRandomize('minimal')}
-                    title="Minimal value (5-55 copper only)"
+                    className="randomizer-button poor"
+                    onClick={() => handleCurrencyRandomize('poor')}
+                    title="Poor value (5-55 copper only)"
                   >
-                    Minimal
+                    Poor
                   </button>
                   <button
-                    className="randomizer-button low"
-                    onClick={() => handleCurrencyRandomize('low')}
-                    title="Low value (1-11 silver, some copper)"
+                    className="randomizer-button common"
+                    onClick={() => handleCurrencyRandomize('common')}
+                    title="Common value (1-11 silver, some copper)"
                   >
-                    Low
+                    Common
                   </button>
                   <button
-                    className="randomizer-button moderate"
-                    onClick={() => handleCurrencyRandomize('moderate')}
-                    title="Moderate value (1-7 gold, silver mix)"
+                    className="randomizer-button uncommon"
+                    onClick={() => handleCurrencyRandomize('uncommon')}
+                    title="Uncommon value (5-45 silver, copper mix)"
                   >
-                    Moderate
+                    Uncommon
                   </button>
                   <button
-                    className="randomizer-button high"
-                    onClick={() => handleCurrencyRandomize('high')}
-                    title="High value (3-23 gold, some platinum)"
+                    className="randomizer-button rare"
+                    onClick={() => handleCurrencyRandomize('rare')}
+                    title="Rare value (1-6 gold, silver and copper)"
                   >
-                    High
+                    Rare
                   </button>
                   <button
                     className="randomizer-button epic"
                     onClick={() => handleCurrencyRandomize('epic')}
-                    title="Epic value (2-13 platinum, lots of gold)"
+                    title="Epic value (4-17 gold, silver and copper)"
                   >
                     Epic
+                  </button>
+                  <button
+                    className="randomizer-button legendary"
+                    onClick={() => handleCurrencyRandomize('legendary')}
+                    title="Legendary value (13-35 gold, silver and copper)"
+                  >
+                    Legendary
+                  </button>
+                  <button
+                    className="randomizer-button artifact"
+                    onClick={() => handleCurrencyRandomize('artifact')}
+                    title="Artifact value (1-5 platinum, 26-60 gold)"
+                  >
+                    Artifact
                   </button>
                 </div>
               </div>
@@ -655,7 +686,7 @@ const Step4LootTable = () => {
   // Render the item form
   const renderItemForm = () => {
     return (
-      <div className="item-form">
+      <div className="item-form" onClick={(e) => e.stopPropagation()}>
         <h3>Edit Item</h3>
 
         <div className="form-row">
@@ -669,44 +700,7 @@ const Step4LootTable = () => {
               placeholder="Enter item name"
             />
           </div>
-        </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label htmlFor="item-type">Type</label>
-            <select
-              id="item-type"
-              value={currentItem.type}
-              onChange={(e) => handleItemChange('type', e.target.value)}
-            >
-              <option value="weapon">Weapon</option>
-              <option value="armor">Armor</option>
-              <option value="accessory">Accessory</option>
-              <option value="consumable">Consumable</option>
-              <option value="material">Material</option>
-              <option value="quest">Quest Item</option>
-              <option value="miscellaneous">Miscellaneous</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="item-rarity">Rarity</label>
-            <select
-              id="item-rarity"
-              value={currentItem.rarity}
-              onChange={(e) => handleItemChange('rarity', e.target.value)}
-              style={{ color: getRarityColor(currentItem.rarity) }}
-            >
-              <option value="common" style={{ color: getRarityColor('common') }}>Common</option>
-              <option value="uncommon" style={{ color: getRarityColor('uncommon') }}>Uncommon</option>
-              <option value="rare" style={{ color: getRarityColor('rare') }}>Rare</option>
-              <option value="epic" style={{ color: getRarityColor('epic') }}>Epic</option>
-              <option value="legendary" style={{ color: getRarityColor('legendary') }}>Legendary</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="form-row">
           <div className="form-group">
             <label htmlFor="item-drop-chance">Drop Chance (%)</label>
             <input
@@ -745,6 +739,10 @@ const Step4LootTable = () => {
     <div className="wizard-step">
       <h2 className="step-title">Loot Table</h2>
 
+      {showItemForm && (
+        <div className="item-form-backdrop" onClick={handleCancelItemForm}></div>
+      )}
+      
       {!showItemForm ? renderLootTable() : renderItemForm()}
 
       {/* Item Selector Modal */}

@@ -439,27 +439,107 @@ const Step5ShopConfiguration = () => {
 
                   return (
                     <div key={index} className="shop-item-row">
-                      <div className="item-info">
+                      <div
+                        className="item-icon-wrapper"
+                        onMouseEnter={(e) => handleMouseEnter(e, item)}
+                        onMouseMove={(e) => handleMouseMove(e, item)}
+                        onMouseLeave={handleMouseLeave}
+                      >
                         <div
                           className="item-icon"
                           style={{
                             backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
                             borderColor: qualityColor
                           }}
-                          onMouseEnter={(e) => handleMouseEnter(e, item)}
-                          onMouseMove={(e) => handleMouseMove(e, item)}
-                          onMouseLeave={handleMouseLeave}
                         />
-                        <div className="item-details">
-                          <span className="item-name" style={{ color: qualityColor }}>
-                            {item.name}
-                          </span>
-                          <span className="item-type">{item.type}</span>
-                          <span className="item-quality">{item.quality || 'common'}</span>
-                        </div>
                       </div>
                       
-                      <div className="item-controls">
+                      <div className="item-details">
+                        <span className="item-name" style={{ color: qualityColor }}>
+                          {item.name}
+                        </span>
+                        <span className="item-separator">•</span>
+                        <span className="item-type">{item.type}</span>
+                        {item.subtype && (
+                          <>
+                            <span className="item-separator">•</span>
+                            <span className="item-subtype">{item.subtype}</span>
+                          </>
+                        )}
+                        <span className="item-separator">•</span>
+                        <span className="item-quality" style={{ color: qualityColor }}>
+                          {item.quality || 'common'}
+                        </span>
+                      </div>
+                      
+                      <div className="item-right-section">
+                        <div className="price-control">
+                        <label>Price:</label>
+                        <div className="currency-inputs">
+                          <span className="currency-part">
+                            <input
+                              type="number"
+                              min="0"
+                              max="999999"
+                              className="currency-input gold-input"
+                              value={shopItem.customPrice.gold || 0}
+                              onChange={(e) => handlePriceChange(index, 'gold', e.target.value)}
+                              placeholder="0"
+                            />
+                            <img
+                              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg"
+                              alt="Gold"
+                              className="currency-coin-small"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23ffd700"/></svg>';
+                              }}
+                            />
+                          </span>
+
+                          <span className="currency-part">
+                            <input
+                              type="number"
+                              min="0"
+                              max="999999"
+                              className="currency-input silver-input"
+                              value={shopItem.customPrice.silver || 0}
+                              onChange={(e) => handlePriceChange(index, 'silver', e.target.value)}
+                              placeholder="0"
+                            />
+                            <img
+                              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_03.jpg"
+                              alt="Silver"
+                              className="currency-coin-small"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23c0c0c0"/></svg>';
+                              }}
+                            />
+                          </span>
+
+                          <span className="currency-part">
+                            <input
+                              type="number"
+                              min="0"
+                              max="999999"
+                              className="currency-input copper-input"
+                              value={shopItem.customPrice.copper || 0}
+                              onChange={(e) => handlePriceChange(index, 'copper', e.target.value)}
+                              placeholder="0"
+                            />
+                            <img
+                              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_05.jpg"
+                              alt="Copper"
+                              className="currency-coin-small"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23cd7f32"/></svg>';
+                              }}
+                            />
+                          </span>
+                        </div>
+                        </div>
                         <div className="quantity-control">
                           <label>Qty:</label>
                           <input
@@ -469,51 +549,16 @@ const Step5ShopConfiguration = () => {
                             onChange={(e) => handleUpdateShopItem(index, 'quantity', parseInt(e.target.value) || 1)}
                           />
                         </div>
-                        
-                        <div className="price-control">
-                          <label>Price:</label>
-                          <div className="currency-inputs">
-                            <input
-                              type="number"
-                              min="0"
-                              max="999999"
-                              value={shopItem.customPrice.gold}
-                              onChange={(e) => handlePriceChange(index, 'gold', e.target.value)}
-                              placeholder="0"
-                            />
-                            <span className="currency-label gold">g</span>
-
-                            <input
-                              type="number"
-                              min="0"
-                              max="999999"
-                              value={shopItem.customPrice.silver}
-                              onChange={(e) => handlePriceChange(index, 'silver', e.target.value)}
-                              placeholder="0"
-                            />
-                            <span className="currency-label silver">s</span>
-
-                            <input
-                              type="number"
-                              min="0"
-                              max="999999"
-                              value={shopItem.customPrice.copper}
-                              onChange={(e) => handlePriceChange(index, 'copper', e.target.value)}
-                              placeholder="0"
-                            />
-                            <span className="currency-label copper">c</span>
-                          </div>
-                        </div>
-                        
-                        <button
-                          type="button"
-                          className="remove-item-btn"
-                          onClick={() => handleRemoveShopItem(index)}
-                          title="Remove item"
-                        >
-                          <i className="fas fa-trash"></i>
-                        </button>
                       </div>
+                      
+                      <button
+                        type="button"
+                        className="remove-item-btn"
+                        onClick={() => handleRemoveShopItem(index)}
+                        title="Remove item"
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
                     </div>
                   );
                 })}

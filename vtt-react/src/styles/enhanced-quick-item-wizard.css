@@ -316,62 +316,73 @@
 }
 
 /* Button toggle group */
-.button-toggle-group {
-    display: flex;
-    gap: 2px;
-    margin-top: 10px;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+.enhanced-quick-item-wizard .button-toggle-group {
+    display: flex !important;
+    gap: 2px !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+    border-radius: 8px !important;
+    overflow: visible !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    flex-wrap: nowrap !important;
 }
 
-.toggle-button {
-    flex: 1;
-    padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.8);
-    border: none;
-    color: #5e2e23;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-    margin: 0;
-    position: relative;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.enhanced-quick-item-wizard .toggle-button {
+    flex: 1 1 0 !important;
+    padding: 10px 6px !important;
+    background: linear-gradient(135deg, rgba(240, 235, 225, 0.98), rgba(220, 210, 195, 0.98)) !important;
+    border: 2px solid #8b7355 !important;
+    color: #000000 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-align: center !important;
+    margin: 0 !important;
+    position: relative !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+    flex-shrink: 1 !important;
 }
 
-.toggle-button:first-child {
-    border-radius: 8px 0 0 8px;
+.enhanced-quick-item-wizard .toggle-button:first-child {
+    border-radius: 8px 0 0 8px !important;
 }
 
-.toggle-button:last-child {
-    border-radius: 0 8px 8px 0;
+.enhanced-quick-item-wizard .toggle-button:last-child {
+    border-radius: 0 8px 8px 0 !important;
 }
 
-.toggle-button:only-child {
-    border-radius: 8px;
+.enhanced-quick-item-wizard .toggle-button:only-child {
+    border-radius: 8px !important;
 }
 
-.toggle-button:hover {
-    background: rgba(122, 59, 46, 0.1);
-    color: #7a3b2e;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.enhanced-quick-item-wizard .toggle-button:hover {
+    background: rgba(122, 59, 46, 0.15) !important;
+    color: #000000 !important;
+    border-color: #7a3b2e !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
-.toggle-button.active {
-    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
-    color: #f0e6d2;
-    font-weight: 700;
-    z-index: 1;
+.enhanced-quick-item-wizard .toggle-button.active {
+    background: linear-gradient(135deg, #d4a574, #c89664) !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    z-index: 1 !important;
+    border-color: #8b7355 !important;
     box-shadow:
         0 3px 12px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Checkbox styling */
@@ -721,32 +732,41 @@
 }
 
 .mini-toggle {
-    padding: 4px 10px;
-    font-size: 12px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid #a08c70;
-    border-radius: 4px;
-    color: #5e2e23;
+    padding: 6px 14px;
+    font-size: 13px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 235, 225, 0.95));
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    color: #3a2a1a;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-weight: 600;
-    min-width: 40px;
+    font-weight: 700;
+    min-width: 50px;
     text-align: center;
     font-family: 'Bookman Old Style', 'Garamond', serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 .mini-toggle:hover {
-    background: rgba(122, 59, 46, 0.15);
+    background: linear-gradient(135deg, rgba(122, 59, 46, 0.15), rgba(160, 140, 112, 0.15));
     border-color: #7a3b2e;
+    color: #5a2a1a;
     transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .mini-toggle.active {
-    background: linear-gradient(135deg, #7a3b2e, #5e2e23);
-    color: #f0e6d2;
-    border-color: #7a3b2e;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #8b4513, #654321);
+    color: #ffffff;
+    border-color: #654321;
+    font-weight: 700;
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Improve font readability for labels */
@@ -756,6 +776,9 @@
     color: #5e2e23;
     margin-bottom: 8px;
     display: block;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+    text-shadow: none;
     font-family: 'Bookman Old Style', 'Garamond', serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }

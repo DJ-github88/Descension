@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
+import { isPositionVisible } from '../../../utils/VisibilityCalculations';
 
 // Image cache for tile variations
 const imageCache = {};
@@ -200,7 +201,10 @@ const TerrainSystem = () => {
         selectedTool,
         toolSettings,
         activeLayer,
-        drawingLayers
+        drawingLayers,
+        viewingFromToken,
+        visibleArea,
+        isGMMode
     } = useLevelEditorStore();
 
     const {
@@ -301,6 +305,16 @@ const TerrainSystem = () => {
 
                 const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
                 if (!terrain) continue;
+
+                // Check visibility for FOV-based rendering (only if viewing from a token)
+                if (viewingFromToken && visibleArea && !isGMMode) {
+                    // Convert visibleArea array to Set for efficient lookup (if needed)
+                    const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+                    // Check if this tile is in the visible area
+                    if (!visibleAreaSet.has(tileKey)) {
+                        continue; // Skip rendering this tile - not visible
+                    }
+                }
 
                 // Use the same viewport dimensions as the grid system for consistent positioning
                 const gridSystem = getGridSystem();
@@ -432,7 +446,7 @@ const TerrainSystem = () => {
                 ctx.globalAlpha = 1.0;
             }
         }
-    }, [terrainData, drawingLayers, activeLayer, isEditorMode, gridToScreen, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY]);
+    }, [terrainData, drawingLayers, activeLayer, isEditorMode, gridToScreen, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, viewingFromToken, visibleArea, isGMMode]);
 
     // Create terrain pattern for visual variety
     const createTerrainPattern = (ctx, terrain) => {

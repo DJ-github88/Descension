@@ -7,6 +7,8 @@ import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useCombatStore from '../../store/combatStore';
 import useBuffStore from '../../store/buffStore';
 import useChatStore from '../../store/chatStore';
+import useLevelEditorStore from '../../store/levelEditorStore';
+import { isPositionVisible } from '../../utils/VisibilityCalculations';
 // Removed useEnhancedMultiplayer import - hook was removed
 import TurnTimer from '../combat/TurnTimer';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
@@ -208,6 +210,50 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const gameState = useGameStore();
   const { cameraX, cameraY, zoomLevel, playerZoom, gridSize, feetPerTile, showMovementVisualization, isGMMode } = gameState;
   const effectiveZoom = zoomLevel * playerZoom;
+  
+  // Check if this token is being viewed from and get visibility data
+  const { viewingFromToken, visibleArea, dynamicFogEnabled, fovAngle, getTokenFacingDirection, setTokenFacingDirection } = useLevelEditorStore();
+  const [isHovering, setIsHovering] = useState(false);
+  const { gridOffsetX, gridOffsetY, gridSize: tokenGridSize } = gameState;
+  const isViewingFrom = viewingFromToken && (
+    (viewingFromToken.type === 'creature' && (viewingFromToken.creatureId === token.creatureId || viewingFromToken.id === token.id)) ||
+    (viewingFromToken.id === token.id)
+  );
+  
+  // Convert visibleArea array back to Set for efficient lookup (if it's an array)
+  const visibleAreaSet = React.useMemo(() => {
+    if (!visibleArea) return null;
+    return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+  }, [visibleArea]);
+  
+  // Check if this token is visible based on FOV (only if viewing from a token)
+  const isTokenVisible = React.useMemo(() => {
+    // If this is the viewing token, always visible
+    if (isViewingFrom) return true;
+    
+    // If viewing from a token AND dynamic fog is enabled, check FOV visibility
+    // This applies even in GM mode - when viewing from a token, we should only see what that token can see
+    if (viewingFromToken && dynamicFogEnabled) {
+      // Check if token position is in visible area
+      if (!position || position.x === undefined || position.y === undefined) return false;
+      
+      // Get visibility polygon from store for accurate point-in-polygon check
+      const levelEditorStore = useLevelEditorStore.getState();
+      const visibilityPolygon = levelEditorStore.visibilityPolygon;
+      
+      // If polygon is available, use it for accurate visibility (raycast-based)
+      if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length > 0) {
+        return isPositionVisible(position.x, position.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
+      }
+      
+      // Fallback to tile-based visibility if polygon not available
+      if (!visibleAreaSet || visibleAreaSet.size === 0) return false;
+      return isPositionVisible(position.x, position.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
+    }
+    
+    // If not viewing from a token, always visible (normal view)
+    return true;
+  }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY]);
 
   // Handle mouse move and up for dragging with pure immediate feedback
   useEffect(() => {
@@ -302,12 +348,14 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           updateMovementVisualization({ x: snappedPos.x, y: snappedPos.y });
         }
 
+        // Calculate movement distance (used for both combat distance and facing direction)
+        const dx = snappedPos.x - dragStartPosition.x;
+        const dy = snappedPos.y - dragStartPosition.y;
+        const worldDistance = Math.sqrt(dx * dx + dy * dy);
+
         // Calculate and update temporary movement distance for tooltip (only needed in combat)
         if (isInCombat) {
           // CRITICAL FIX: Use snapped positions for tile-based distance calculation
-          const dx = snappedPos.x - dragStartPosition.x;
-          const dy = snappedPos.y - dragStartPosition.y;
-          const worldDistance = Math.sqrt(dx * dx + dy * dy);
           const tileDistance = worldDistance / gridSystem.getGridState().gridSize;
           const distance = tileDistance * feetPerTile;
           updateTempMovementDistance(tokenId, distance);
@@ -599,6 +647,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const handleMouseEnter = (e) => {
     if (!tokenRef.current) return;
 
+    setIsHovering(true);
+
     // Clear any existing timeout
     if (tooltipTimeoutRef.current) {
       clearTimeout(tooltipTimeoutRef.current);
@@ -640,12 +690,65 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Handle mouse leave (hide tooltip)
   const handleMouseLeave = () => {
+    setIsHovering(false);
     // Clear timeout and hide tooltip
     if (tooltipTimeoutRef.current) {
       clearTimeout(tooltipTimeoutRef.current);
     }
     setShowTooltip(false);
   };
+
+  // Handle wheel/scroll to rotate token facing direction
+  const handleWheel = React.useCallback((e) => {
+    // Only rotate if:
+    // 1. We're hovering over the token
+    // 2. We're not dragging
+    // 3. We're in 100-degree FOV mode
+    // 4. We're viewing from this token
+    
+    // Early check - if we're in the right conditions, stop event propagation immediately
+    // to prevent Grid's global wheel handler from interfering
+    if (isHovering && !isDraggingRef.current && !isMouseDownRef.current && fovAngle === 100 && isViewingFrom) {
+      // Stop propagation and prevent default BEFORE the Grid's handler gets it
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Get token ID for this creature token
+      const tokenIdToUse = token ? (token.creatureId || token.id) : tokenId;
+      
+      // Get current facing direction (default to 0 if not set)
+      const currentFacing = getTokenFacingDirection(tokenIdToUse) || 0;
+      
+      // Rotate based on scroll delta - much more responsive rotation speed
+      // Convert deltaY to radians with smooth, fluid rotation
+      // Higher rotation speed (0.002) provides more responsive rotation per pixel scrolled
+      const rotationSpeed = 0.002; // Smooth and fluid rotation
+      const deltaAngle = -e.deltaY * rotationSpeed;
+      const newFacing = currentFacing + deltaAngle;
+      
+      // Normalize angle to -PI to PI range efficiently
+      let normalizedFacing = newFacing;
+      if (normalizedFacing > Math.PI) normalizedFacing -= 2 * Math.PI;
+      if (normalizedFacing < -Math.PI) normalizedFacing += 2 * Math.PI;
+      
+      // Update facing direction in store immediately for smooth, fluid rotation
+      setTokenFacingDirection(tokenIdToUse, normalizedFacing);
+    }
+  }, [isHovering, token, tokenId, fovAngle, isViewingFrom, getTokenFacingDirection, setTokenFacingDirection]);
+
+  // Add wheel event listener with passive: false to allow preventDefault
+  // Use capture phase to ensure it fires before Grid's document-level handler
+  React.useEffect(() => {
+    const tokenElement = tokenRef.current;
+    if (!tokenElement) return;
+
+    // Use capture phase to intercept the event before it bubbles to document
+    tokenElement.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+
+    return () => {
+      tokenElement.removeEventListener('wheel', handleWheel, { capture: true });
+    };
+  }, [handleWheel]);
 
   // Handle click outside to close context menu and cleanup tooltip timeout
   useEffect(() => {
@@ -1239,26 +1342,33 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return null;
   }
 
+  // Don't render if not visible based on FOV (unless in GM mode or not viewing from a token)
+  if (!isTokenVisible) {
+    return null;
+  }
+
   return (
     <>
       <div
         ref={tokenRef}
-        className={`creature-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isSelectedForCombat ? 'selected-for-combat' : ''} ${isMyTurn ? 'my-turn' : ''} ${isHiddenFromPlayers && isGMMode ? 'gm-hidden' : ''}`}
+        className={`creature-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isSelectedForCombat ? 'selected-for-combat' : ''} ${isMyTurn ? 'my-turn' : ''} ${isHiddenFromPlayers && isGMMode ? 'gm-hidden' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
         style={{
           left: screenPosition.x,
           top: screenPosition.y,
           width: `${tokenSize}px`,
           height: `${tokenSize}px`,
-          borderColor: isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder,
+          borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder),
           cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
           zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
           position: 'absolute',
           transform: 'translate(-50%, -50%)',
           pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
           borderRadius: '50%',
-          border: `3px solid ${isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder}`,
+          border: `3px solid ${isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder)}`,
           overflow: 'hidden',
-          boxShadow: isMyTurn
+          boxShadow: isViewingFrom
+            ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
+            : isMyTurn
             ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
             : isSelectedForCombat
             ? '0 0 15px rgba(0, 255, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
@@ -1353,6 +1463,38 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               handleDuplicateToken();
             }
           },
+          {
+            icon: <i className="fas fa-eye"></i>,
+            label: isViewingFrom ? 'Deselect View from Token' : 'View from Token',
+            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                const { setViewingFromToken } = useLevelEditorStore.getState();
+                                if (isViewingFrom) {
+                                    // Deselect view from token
+                                    setViewingFromToken(null);
+                                } else if (position) {
+                                    // Enable dynamic fog if not already enabled
+                                    const { dynamicFogEnabled, setDynamicFogEnabled } = useLevelEditorStore.getState();
+                                    if (!dynamicFogEnabled) {
+                                        setDynamicFogEnabled(true);
+                                    }
+                                    // Set this token as the viewing token (restricts fog reveal to token's vision)
+                                    const tokenData = {
+                                        type: 'creature',
+                                        id: token.id,
+                                        creatureId: token.creatureId,
+                                        position: position
+                                    };
+                                    setViewingFromToken(tokenData);
+                                    // Center camera on token initially (but don't lock it)
+                                    const gameStore = useGameStore.getState();
+                                    gameStore.setCameraPosition(position.x, position.y);
+                                }
+                            },
+                            className: isViewingFrom ? 'active' : ''
+                        },
           {
             icon: <i className="fas fa-tag"></i>,
             label: 'Rename',

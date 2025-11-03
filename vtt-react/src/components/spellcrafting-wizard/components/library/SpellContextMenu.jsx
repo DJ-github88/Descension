@@ -16,7 +16,9 @@ const SpellContextMenu = ({
   onEdit,
   onDuplicate,
   onDelete,
-  onAddToCollection
+  onAddToCollection,
+  onShareToCommunity,
+  onDownload
 }) => {
   const menuItems = [];
 
@@ -46,8 +48,21 @@ const SpellContextMenu = ({
       className: 'danger'
     });
   } else {
-    // Add to collection as a submenu (only for custom spells)
-    if (collections.length > 0 && isCustomSpell) {
+    // Download option (for community spells)
+    if (onDownload) {
+      menuItems.push({
+        icon: <i className="fas fa-download"></i>,
+        label: 'Download to Library',
+        onClick: () => {
+          console.log('[SpellContextMenu] Download clicked');
+          onDownload();
+          onClose();
+        }
+      });
+    }
+
+    // Add to collection as a submenu (for custom spells and community spells with onAddToCollection)
+    if (collections.length > 0 && (isCustomSpell || onAddToCollection)) {
       menuItems.push({
         icon: <i className="fas fa-folder-plus"></i>,
         label: 'Add to Collection',
@@ -60,6 +75,19 @@ const SpellContextMenu = ({
             onClose();
           }
         }))
+      });
+    }
+
+    // Share to Community option (only for custom spells)
+    if (onShareToCommunity && isCustomSpell) {
+      menuItems.push({
+        icon: <i className="fas fa-share-alt"></i>,
+        label: 'Share with Community',
+        onClick: () => {
+          console.log('[SpellContextMenu] Share to community clicked');
+          onShareToCommunity(spell);
+          onClose();
+        }
       });
     }
 
@@ -109,7 +137,9 @@ SpellContextMenu.propTypes = {
   onEdit: PropTypes.func,
   onDuplicate: PropTypes.func,
   onDelete: PropTypes.func,
-  onAddToCollection: PropTypes.func
+  onAddToCollection: PropTypes.func,
+  onShareToCommunity: PropTypes.func,
+  onDownload: PropTypes.func
 };
 
 export default SpellContextMenu;

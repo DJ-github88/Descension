@@ -88,7 +88,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Audience is politely attentive', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You entertain well, warm applause', type: 'success' },
             { roll: [3, 3], result: 'Excellent performance, standing ovation', type: 'success' },
             { roll: [4, 4], result: 'Audience is moved to tears', type: 'critical' }
@@ -167,7 +167,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Excellent performance, standing ovation', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Audience is moved to tears', type: 'success' },
             { roll: [3, 3], result: 'Legendary performance, audience inspired + gain fame', type: 'critical' },
             { roll: [4, 4], result: 'Perfect performance, audience transformed + permanent fans', type: 'critical' }
@@ -179,7 +179,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Good performance, warm applause', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Excellent performance, standing ovation', type: 'success' },
             { roll: [4, 5], result: 'Audience is moved to tears', type: 'success' },
             { roll: [6, 6], result: 'Legendary performance, audience inspired + gain fame', type: 'critical' }
@@ -249,7 +249,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Audience is moved to tears', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Legendary performance, audience inspired + gain fame', type: 'success' },
             { roll: [3, 3], result: 'Perfect performance, audience transformed + permanent fans', type: 'critical' },
             { roll: [4, 4], result: 'Mythic performance, audience enlightened + magical effects', type: 'critical' }
@@ -261,7 +261,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Excellent performance, standing ovation', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Audience is moved to tears', type: 'success' },
             { roll: [4, 5], result: 'Legendary performance, audience inspired + gain fame', type: 'success' },
             { roll: [6, 6], result: 'Perfect performance, audience transformed + permanent fans', type: 'critical' }
@@ -331,7 +331,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Legendary performance, audience inspired + gain fame', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect performance, audience transformed + permanent fans', type: 'success' },
             { roll: [3, 3], result: 'Mythic performance, audience enlightened + magical effects', type: 'critical' },
             { roll: [4, 4], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'critical' }
@@ -343,7 +343,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Audience is moved to tears', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Legendary performance, audience inspired + gain fame', type: 'success' },
             { roll: [4, 5], result: 'Perfect performance, audience transformed + permanent fans', type: 'success' },
             { roll: [6, 6], result: 'Mythic performance, audience enlightened + magical effects', type: 'critical' }
@@ -414,7 +414,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Perfect performance, audience transformed + permanent fans', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Mythic performance, audience enlightened + magical effects', type: 'success' },
             { roll: [3, 3], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'critical' },
             { roll: [4, 4], result: 'Ultimate performance, audience ascended + become immortal legend', type: 'critical' }
@@ -426,7 +426,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Legendary performance, deeply moving', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Perfect performance, audience transformed + permanent fans', type: 'success' },
             { roll: [4, 5], result: 'Mythic performance, audience enlightened + magical effects', type: 'success' },
             { roll: [6, 6], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'critical' }
@@ -497,7 +497,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Mythic performance, audience enlightened + magical effects', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'success' },
             { roll: [3, 3], result: 'Ultimate performance, audience ascended + become immortal legend', type: 'critical' },
             { roll: [4, 4], result: 'Cosmic performance, reality altered + your art becomes law', type: 'critical' }
@@ -509,7 +509,7 @@ export const PERFORMANCE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_drum_01.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Perfect performance, audience transformed + permanent fans', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 3], result: 'Mythic performance, audience enlightened + magical effects', type: 'success' },
             { roll: [4, 5], result: 'Divine performance, audience blessed + heal all + spread legend', type: 'success' },
             { roll: [6, 6], result: 'Ultimate performance, audience ascended + become immortal legend', type: 'critical' }

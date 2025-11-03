@@ -26,11 +26,217 @@ export const ARCANIST_PATH = {
         mechanicalIntegration: 'Spell mastery and arcane manipulation.'
     },
 
+    // Top 3 abilities representing the discipline
+    abilities: [
+        {
+            id: 'elemental_blast',
+            name: 'Elemental Blast',
+            description: '"Feel the fury of the elements!" Unleash a devastating blast of elemental energy.',
+            icon: 'spell_fire_elementaldevastation',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['damage', 'elemental', 'blast', 'aoe'],
+            effectTypes: ['damage'],
+            damageTypes: ['fire', 'frost', 'lightning'],
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'fire',
+                formula: '5d6 + INT',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                savingThrowConfig: {
+                    enabled: true,
+                    savingThrowType: 'agility',
+                    difficultyClass: 15,
+                    saveOutcome: 'halves'
+                },
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 2,
+                    critDiceOnly: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'area',
+                rangeType: 'ranged',
+                rangeDistance: 60,
+                aoeShape: 'sphere',
+                aoeSize: 10,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 25,
+                health: 0,
+                stamina: 0,
+                focus: 0,
+                actionPoints: 3
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'fire',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'time_stop',
+            name: 'Time Stop',
+            description: '"Time bends to my will." Briefly freeze time to take extra actions.',
+            icon: 'spell_arcane_blink',
+            level: 2,
+            spellType: 'ACTION',
+            tags: ['utility', 'time', 'buff', 'extra-actions'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            buffConfig: {
+                duration: 1,
+                durationValue: 1,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [],
+                statusEffects: [
+                    {
+                        id: 'time_stopped',
+                        name: 'Time Stopped',
+                        description: 'Gain 2 extra action points this turn'
+                    }
+                ],
+                buffs: [
+                    {
+                        name: 'Temporal Acceleration',
+                        description: 'Extra actions',
+                        duration: 1,
+                        effects: {
+                            bonusActionPoints: 2
+                        }
+                    }
+                ]
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            resourceCost: {
+                mana: 30,
+                health: 0,
+                stamina: 0,
+                focus: 0,
+                actionPoints: 0
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'long_rest',
+                value: 1,
+                charges: 1,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'arcane',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'arcane_missiles',
+            name: 'Arcane Missiles',
+            description: '"Magic seeks its target." Launch bolts of pure arcane energy that always find their mark.',
+            icon: 'spell_nature_starfall',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['damage', 'arcane', 'missile', 'guaranteed'],
+            effectTypes: ['damage'],
+            damageTypes: ['arcane'],
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'arcane',
+                formula: '3d4 + INT',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                savingThrowConfig: {
+                    enabled: false
+                },
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 2,
+                    critDiceOnly: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 120,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 15,
+                health: 0,
+                stamina: 0,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 3,
+                recovery: 3
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'arcane',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        }
+    ],
+
     subPaths: {
         evoker: {
             id: 'evoker',
-            name: 'Evoker',
-            description: 'Masters of raw elemental evocation',
+            name: 'Evocation Discipline',
+            description: 'The practice of mastering raw elemental evocation',
             theme: 'Elemental magic and destruction',
             icon: 'fas fa-fire',
 
@@ -56,12 +262,11 @@ export const ARCANIST_PATH = {
                         formula: '5d6 + INT',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: true,
-                            attribute: 'agility',
-                            difficulty: 15,
-                            onSuccess: 'half_damage',
-                            onFailure: 'full_damage'
+                            savingThrowType: 'agility',
+                            difficultyClass: 15,
+                            saveOutcome: 'halves'
                         },
                         criticalConfig: {
                             enabled: true,
@@ -193,8 +398,8 @@ export const ARCANIST_PATH = {
 
         temporalist: {
             id: 'temporalist',
-            name: 'Temporalist',
-            description: 'Manipulators of time and space',
+            name: 'Temporal Discipline',
+            description: 'The practice of manipulating time and space',
             theme: 'Time magic and temporal manipulation',
             icon: 'fas fa-hourglass',
 
@@ -362,8 +567,8 @@ export const ARCANIST_PATH = {
 
         spellweaver: {
             id: 'spellweaver',
-            name: 'Spellweaver',
-            description: 'Masters of spell combination and metamagic',
+            name: 'Spellweaving Discipline',
+            description: 'The practice of combining spells and mastering metamagic',
             theme: 'Spell enhancement and manipulation',
             icon: 'fas fa-wand-magic',
 

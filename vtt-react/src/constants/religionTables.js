@@ -502,7 +502,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You identify a subtle theological nuance', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You explain the theology with scholarly depth', type: 'success' },
             { roll: [3, 3], result: 'You recall all myths and their cultural context', type: 'critical' },
             { roll: [4, 4], result: 'You trace all variations to their sources', type: 'critical' }
@@ -514,7 +514,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You note a minor inconsistency', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You explain the faith with full scholarship', type: 'success' },
             { roll: [3, 3], result: 'You recall all teachings and their evolution', type: 'success' },
             { roll: [4, 4], result: 'You explain ritual symbolism completely', type: 'success' },
@@ -528,7 +528,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You overlook a subtle detail', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You identify the sect and all beliefs', type: 'success' },
             { roll: [3, 3], result: 'You recall the doctrine with scholarly precision', type: 'success' },
             { roll: [4, 4], result: 'You explain ritual layers with full context', type: 'success' },
@@ -544,7 +544,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You note a subtle heretical variation', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You identify the obscure faith', type: 'success' },
             { roll: [3, 3], result: 'You recall the teaching with full detail', type: 'success' },
             { roll: [4, 4], result: 'You explain the doctrine comprehensively', type: 'success' },
@@ -562,7 +562,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You identify the tradition', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recall the theology', type: 'success' },
             { roll: [3, 3], result: 'You piece together the doctrine', type: 'success' },
             { roll: [4, 4], result: 'You identify the ancient faith', type: 'success' },
@@ -582,7 +582,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You note a primordial inconsistency', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'You identify the tradition', type: 'success' },
             { roll: [4, 5], result: 'You recall fragments of lost doctrine', type: 'success' },
             { roll: [6, 7], result: 'You piece together the ancient faith', type: 'success' },
@@ -605,7 +605,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You explain the theology with unmatched depth', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recall all myths and their interconnections', type: 'critical' },
             { roll: [3, 3], result: 'You trace all variations to primordial sources', type: 'critical' },
             { roll: [4, 4], result: 'You reveal hidden theological patterns', type: 'critical' }
@@ -617,7 +617,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You explain the faith with complete mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recall all teachings and their origins', type: 'success' },
             { roll: [3, 3], result: 'You explain ritual symbolism in full context', type: 'critical' },
             { roll: [4, 4], result: 'You identify all sects and their connections', type: 'critical' },
@@ -631,7 +631,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You identify the sect with full scholarship', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recall the doctrine with perfect precision', type: 'success' },
             { roll: [3, 3], result: 'You explain ritual layers completely', type: 'success' },
             { roll: [4, 4], result: 'You trace sect lineage through all ages', type: 'critical' },
@@ -647,7 +647,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You identify the obscure faith', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recall the teaching with full detail', type: 'success' },
             { roll: [3, 3], result: 'You explain the doctrine comprehensively', type: 'success' },
             { roll: [4, 4], result: 'You identify all sect schisms and causes', type: 'critical' },
@@ -665,7 +665,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You recall the theology', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You piece together the doctrine', type: 'success' },
             { roll: [3, 3], result: 'You identify the ancient faith', type: 'success' },
             { roll: [4, 4], result: 'You recall forgotten texts', type: 'critical' },
@@ -685,7 +685,7 @@ export const RELIGION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_powerwordshield.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You identify the tradition', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recall fragments of lost doctrine', type: 'success' },
             { roll: [3, 3], result: 'You piece together the ancient faith', type: 'success' },
             { roll: [4, 4], result: 'You recall primordial scripture', type: 'critical' },

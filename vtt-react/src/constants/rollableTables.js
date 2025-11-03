@@ -146,7 +146,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Target listens but remains neutral', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You make a good point, target becomes friendly', type: 'success' },
             { roll: [3, 3], result: 'Your words resonate, target becomes helpful', type: 'success' },
             { roll: [4, 4], result: 'Target is impressed, offers minor assistance', type: 'success' }
@@ -239,7 +239,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Your skilled approach wins them over, target becomes friendly', type: 'success' },
+            { roll: [1, 1], result: 'Small misstep, attempt fails', type: 'failure' },
             { roll: [2, 2], result: 'You expertly address their concerns, target becomes helpful', type: 'success' },
             { roll: [3, 3], result: 'Your words inspire trust, target becomes devoted ally', type: 'critical' },
             { roll: [4, 4], result: 'Target is thoroughly convinced, offers significant aid', type: 'critical' }
@@ -251,7 +251,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Target remains neutral despite your efforts', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You make a good case, target becomes friendly', type: 'success' },
             { roll: [3, 3], result: 'Your reasoning is sound, target becomes helpful', type: 'success' },
             { roll: [4, 4], result: 'Target is impressed by your argument', type: 'success' },
@@ -334,7 +334,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Your refined approach wins them over, target becomes helpful', type: 'success' },
+            { roll: [1, 1], result: 'Small misstep, attempt fails', type: 'failure' },
             { roll: [2, 2], result: 'You expertly build rapport, target becomes devoted ally', type: 'success' },
             { roll: [3, 3], result: 'Your mastery is evident, target becomes loyal follower', type: 'critical' },
             { roll: [4, 4], result: 'Target is deeply moved, pledges unwavering support', type: 'critical' }
@@ -346,7 +346,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You make good progress, target becomes friendly', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your skill is apparent, target becomes helpful', type: 'success' },
             { roll: [3, 3], result: 'You build strong trust, target becomes devoted ally', type: 'success' },
             { roll: [4, 4], result: 'Target is thoroughly convinced', type: 'success' },
@@ -426,7 +426,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Your advanced skill easily wins them over, target becomes devoted ally', type: 'success' },
+            { roll: [1, 1], result: 'Small misstep, attempt fails', type: 'failure' },
             { roll: [2, 2], result: 'You effortlessly build deep trust, target becomes loyal follower', type: 'critical' },
             { roll: [3, 3], result: 'Target is thoroughly convinced, offers significant aid', type: 'critical' },
             { roll: [4, 4], result: 'Your mastery inspires them, target pledges resources and support', type: 'critical' }
@@ -438,7 +438,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You make strong progress, target becomes helpful', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your expertise is clear, target becomes devoted ally', type: 'success' },
             { roll: [3, 3], result: 'You build profound trust, target becomes loyal follower', type: 'success' },
             { roll: [4, 4], result: 'Target is deeply persuaded, offers significant aid', type: 'success' },
@@ -518,7 +518,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Your legendary skill effortlessly wins them, target becomes loyal follower', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You inspire complete trust, target offers significant aid', type: 'critical' },
             { roll: [3, 3], result: 'Target is moved to action, converts their allies to your cause', type: 'critical' },
             { roll: [4, 4], result: 'Your mastery creates a devoted champion, target pledges everything', type: 'critical' }
@@ -530,7 +530,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You easily win them over, target becomes devoted ally', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your expertise creates deep loyalty, target becomes loyal follower', type: 'success' },
             { roll: [3, 3], result: 'Target is thoroughly convinced, offers significant aid', type: 'success' },
             { roll: [4, 4], result: 'You inspire them completely, target brings allies to your cause', type: 'success' },
@@ -610,7 +610,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Your unparalleled skill creates instant loyalty, target offers significant aid', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You inspire a movement, target converts their allies to your cause', type: 'critical' },
             { roll: [3, 3], result: 'Target abandons all previous loyalties, pledges to your vision', type: 'critical' },
             { roll: [4, 4], result: 'Your words create a devoted disciple, target becomes your prophet', type: 'critical' }
@@ -622,7 +622,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You effortlessly create loyalty, target becomes loyal follower', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'Your mastery is absolute, target offers significant aid', type: 'success' },
             { roll: [3, 3], result: 'You inspire them completely, target converts their allies to your cause', type: 'success' },
             { roll: [4, 4], result: 'Target abandons previous loyalties for your vision', type: 'success' },
@@ -797,7 +797,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Target listens but remains uncertain', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You tell a convincing lie, target is fooled', type: 'success' },
             { roll: [3, 3], result: 'Your deception works well, target trusts you', type: 'success' },
             { roll: [4, 4], result: 'Target is impressed, believes you completely', type: 'success' }
@@ -890,7 +890,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Your skilled approach deceives them, target is fooled', type: 'success' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You expertly craft your lie, target trusts you', type: 'success' },
             { roll: [3, 3], result: 'Your deception inspires belief, target becomes unwitting ally', type: 'critical' },
             { roll: [4, 4], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'critical' }
@@ -902,7 +902,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Target remains uncertain despite your efforts', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You make a good deception, target is fooled', type: 'success' },
             { roll: [3, 3], result: 'Your lie is sound, target trusts you', type: 'success' },
             { roll: [4, 4], result: 'Target is impressed by your story', type: 'success' },
@@ -985,7 +985,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Your refined approach deceives them, target trusts you', type: 'success' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You expertly build false trust, target becomes unwitting ally', type: 'success' },
             { roll: [3, 3], result: 'Your mastery is evident, target becomes loyal to your lie', type: 'critical' },
             { roll: [4, 4], result: 'Target is deeply deceived, pledges unwavering belief', type: 'critical' }
@@ -997,7 +997,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You make good progress, target is uncertain', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'Your skill is apparent, target trusts you', type: 'success' },
             { roll: [3, 3], result: 'You build strong false trust, target becomes unwitting ally', type: 'success' },
             { roll: [4, 4], result: 'Target is thoroughly deceived', type: 'success' },
@@ -1077,7 +1077,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Your advanced skill easily deceives them, target becomes unwitting ally', type: 'success' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You effortlessly build deep false trust, target becomes loyal to your lie', type: 'critical' },
             { roll: [3, 3], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'critical' },
             { roll: [4, 4], result: 'Your mastery inspires them, target pledges resources based on your lie', type: 'critical' }
@@ -1089,7 +1089,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You make strong progress, target trusts you', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'Your expertise is clear, target becomes unwitting ally', type: 'success' },
             { roll: [3, 3], result: 'You build profound false trust, target becomes loyal to your lie', type: 'success' },
             { roll: [4, 4], result: 'Target is deeply deceived, spreads your lie to others', type: 'success' },
@@ -1169,7 +1169,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Your legendary skill effortlessly deceives them, target becomes loyal to your lie', type: 'success' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You inspire complete false trust, target spreads your lie to others', type: 'critical' },
             { roll: [3, 3], result: 'Target is moved to action, converts their allies to believe your lie', type: 'critical' },
             { roll: [4, 4], result: 'Your mastery creates a devoted believer, target pledges everything to your false narrative', type: 'critical' }
@@ -1181,7 +1181,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You easily deceive them, target becomes unwitting ally', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'Your expertise creates deep false trust, target becomes loyal to your lie', type: 'success' },
             { roll: [3, 3], result: 'Target is thoroughly deceived, spreads your lie to others', type: 'success' },
             { roll: [4, 4], result: 'You inspire them completely, target brings allies to believe your lie', type: 'success' },
@@ -1261,7 +1261,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Your unparalleled skill creates instant false trust, target spreads your lie to others', type: 'success' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You inspire a movement based on your lie, target converts their allies', type: 'critical' },
             { roll: [3, 3], result: 'Target abandons all previous beliefs, pledges to your false vision', type: 'critical' },
             { roll: [4, 4], result: 'Your deception creates a devoted disciple, target becomes your prophet of lies', type: 'critical' }
@@ -1273,7 +1273,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You effortlessly create false loyalty, target becomes loyal to your lie', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'Your mastery is absolute, target spreads your lie to others', type: 'success' },
             { roll: [3, 3], result: 'You inspire them completely, target converts their allies to believe your lie', type: 'success' },
             { roll: [4, 4], result: 'Target abandons previous beliefs for your false vision', type: 'success' },
@@ -1447,7 +1447,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Followers listen but remain uncertain', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You inspire confidence, followers gain +2 to actions', type: 'success' },
             { roll: [3, 3], result: 'Your command is clear, followers gain +3 to actions', type: 'success' },
             { roll: [4, 4], result: 'Followers are impressed, gain +3 to actions + extra action', type: 'success' }

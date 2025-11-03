@@ -26,11 +26,237 @@ export const REAVER_PATH = {
         mechanicalIntegration: 'Berserker rage and brutal combat.'
     },
 
+    // Top 3 abilities representing the discipline
+    abilities: [
+        {
+            id: 'blood_rage',
+            name: 'Blood Rage',
+            description: '"RAGE!" Enter a berserker rage, dealing massive damage but taking more damage.',
+            icon: 'ability_warrior_intensifyrage',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['buff', 'rage', 'damage', 'risk-reward'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            buffConfig: {
+                duration: 6,
+                durationValue: 6,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [
+                    {
+                        name: 'rage_damage',
+                        stat: 'damage',
+                        value: 8,
+                        magnitude: 8,
+                        magnitudeType: 'flat',
+                        isPercentage: false
+                    },
+                    {
+                        name: 'rage_vulnerability',
+                        stat: 'armor_class',
+                        value: -2,
+                        magnitude: 2,
+                        magnitudeType: 'flat',
+                        isPercentage: false
+                    }
+                ],
+                statusEffects: [
+                    {
+                        id: 'raging',
+                        name: 'Raging',
+                        description: '+8 damage, -2 AC'
+                    }
+                ],
+                buffs: [
+                    {
+                        name: 'Berserker Rage',
+                        description: 'Enhanced damage, reduced defense',
+                        duration: 6,
+                        effects: {
+                            damageBonus: 8,
+                            armorPenalty: -2
+                        }
+                    }
+                ]
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 20,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 6,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'fire',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'whirlwind',
+            name: 'Whirlwind',
+            description: '"None escape!" Spin in a deadly whirlwind, striking all nearby enemies.',
+            icon: 'ability_whirlwind',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['damage', 'melee', 'aoe', 'physical'],
+            effectTypes: ['damage'],
+            damageTypes: ['physical'],
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'physical',
+                formula: '2d8 + STR',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                savingThrowConfig: {
+                    enabled: false
+                },
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 2,
+                    critDiceOnly: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'area',
+                rangeType: 'self_centered',
+                rangeDistance: 0,
+                aoeShape: 'sphere',
+                aoeSize: 10,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 15,
+                focus: 0,
+                actionPoints: 2
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'fire',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'execute',
+            name: 'Execute',
+            description: '"Finish them!" Deal massive damage to a wounded enemy.',
+            icon: 'ability_warrior_savageblow',
+            level: 2,
+            spellType: 'ACTION',
+            tags: ['damage', 'melee', 'finisher', 'physical'],
+            effectTypes: ['damage'],
+            damageTypes: ['physical'],
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'physical',
+                formula: '6d10 + STR',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                savingThrowConfig: {
+                    enabled: false
+                },
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 3,
+                    critDiceOnly: false
+                },
+                conditionalDamage: {
+                    condition: 'target_below_50_percent',
+                    multiplier: 2,
+                    description: 'Double damage if target is below 50% health'
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'melee',
+                rangeDistance: 5,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 25,
+                focus: 0,
+                actionPoints: 3
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 1,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'fire',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        }
+    ],
+
     subPaths: {
         rageborn: {
             id: 'rageborn',
-            name: 'Rageborn',
-            description: 'Frenzied warriors who channel rage into devastating power',
+            name: 'Rage Discipline',
+            description: 'The practice of channeling rage into devastating power',
             theme: 'Rage and reckless fury',
             icon: 'fas fa-angry',
 
@@ -145,7 +371,7 @@ export const REAVER_PATH = {
                         formula: '8d10 + STR',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: false
                         },
                         criticalConfig: {
@@ -196,8 +422,8 @@ export const REAVER_PATH = {
 
         bloodreaver: {
             id: 'bloodreaver',
-            name: 'Bloodreaver',
-            description: 'Warriors who drain life from their enemies',
+            name: 'Blood Discipline',
+            description: 'The practice of draining life from enemies through blood magic',
             theme: 'Life steal and blood magic',
             icon: 'fas fa-tint',
 
@@ -223,7 +449,7 @@ export const REAVER_PATH = {
                         formula: '3d8 + STR',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: false
                         },
                         criticalConfig: {
@@ -359,8 +585,8 @@ export const REAVER_PATH = {
 
         warlord: {
             id: 'warlord',
-            name: 'Warlord',
-            description: 'Battlefield commanders who inspire allies',
+            name: 'Leadership Discipline',
+            description: 'The practice of commanding and inspiring allies on the battlefield',
             theme: 'Leadership and tactical combat',
             icon: 'fas fa-crown',
 

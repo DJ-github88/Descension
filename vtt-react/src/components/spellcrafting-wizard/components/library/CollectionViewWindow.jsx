@@ -99,7 +99,18 @@ const CollectionViewWindow = ({
 
       // Casting information
       castTime: formatCastTime(spell),
-      range: spell.targetingConfig?.rangeDistance ? `${spell.targetingConfig.rangeDistance} ft` : spell.range || '30 ft',
+      // Format range based on rangeType first, then fall back to rangeDistance
+      range: (() => {
+        const rangeType = spell.targetingConfig?.rangeType;
+        const rangeDistance = spell.targetingConfig?.rangeDistance;
+        if (rangeType === 'touch') return 'Touch';
+        if (rangeType === 'sight') return 'Sight';
+        if (rangeType === 'unlimited') return 'Unlimited';
+        if (rangeType === 'self_centered' || spell.targetingConfig?.targetingType === 'self') return 'Self';
+        if (rangeType === 'ranged' && rangeDistance) return `${rangeDistance} ft`;
+        if (rangeDistance) return `${rangeDistance} ft`;
+        return spell.range || '30 ft';
+      })(),
       rangeType: spell.targetingConfig?.rangeType || 'ranged',
 
       // Targeting information

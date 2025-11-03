@@ -165,10 +165,10 @@ const QuickItemGeneratorModal = ({ onComplete, onCancel }) => {
                             left: `${position.x}px`,
                             top: `${position.y}px`,
                             transformOrigin: 'top left',
-                            transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                            '--window-scale': windowScale !== 1 ? windowScale : 1
                         } : {
                             transformOrigin: 'center center',
-                            transform: windowScale !== 1 ? `scale(${windowScale})` : undefined
+                            '--window-scale': windowScale !== 1 ? windowScale : 1
                         }),
                         pointerEvents: 'auto'
                     }}

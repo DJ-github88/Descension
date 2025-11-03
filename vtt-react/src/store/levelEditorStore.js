@@ -512,15 +512,24 @@ const initialState = {
     // D&D elements
     dndElements: [], // [{ id, type, position: {x, y}, properties }]
 
-    // Fog of war data - Enhanced for dynamic visibility
-    fogOfWarData: {}, // { "x,y": boolean } - Static fog placement
+    // Fog of war data - Free-form path-based fog
+    fogOfWarPaths: [], // Array of fog paths: [{ id, points: [{worldX, worldY, brushRadius}], timestamp }]
+    fogErasePaths: [], // Array of fog erase paths: [{ id, points: [{worldX, worldY, brushRadius}], timestamp }]
+    fogOfWarData: {}, // { "x,y": boolean } - Legacy tile-based fog (kept for backwards compatibility)
     revealedAreas: {}, // { "x,y": boolean } - Areas revealed by token vision
     tokenVisionRanges: {}, // { tokenId: { range: number, type: 'normal'|'darkvision'|'blindsight' } }
+    viewingFromToken: null, // Current token being viewed from (for highlighting and camera locking)
+    visibleArea: null, // Array of visible tile keys for FOV-based visibility (stored as array for React reactivity)
+    visibilityPolygon: null, // Array of {x, y} points forming the raycast visibility polygon for accurate point-in-polygon checks
 
     // Dynamic fog settings
     dynamicFogEnabled: true,
     respectLineOfSight: true,
     fogRevealMode: 'permanent', // 'permanent' | 'temporary'
+    
+    // FOV cone settings
+    fovAngle: 360, // Field of view angle in degrees (360 = full view, 100 = directional view)
+    tokenFacingDirections: {}, // { tokenId: angleInRadians } - Direction token is facing based on drag direction
 
     // Lighting modes
     fogMode: 'paint', // 'paint' | 'erase' | 'clear' | 'reveal'
@@ -893,6 +902,44 @@ const useLevelEditorStore = create((set, get) => ({
 
             setTokenVisionEnabled: (enabled) => {
                 set({ tokenVisionEnabled: enabled });
+            },
+
+            // Viewing from token management
+            setViewingFromToken: (token) => {
+                set({ viewingFromToken: token });
+            },
+
+            // Update visible area for FOV-based visibility
+            setVisibleArea: (visibleArea) => {
+                // Convert Set to Array for better React reactivity (Zustand works better with arrays)
+                // We'll convert it back to Set when needed for performance
+                const visibleAreaArray = visibleArea ? Array.from(visibleArea) : null;
+                set({ visibleArea: visibleAreaArray });
+            },
+
+            // Update visibility polygon for accurate point-in-polygon checks
+            setVisibilityPolygon: (polygon) => {
+                set({ visibilityPolygon: polygon });
+            },
+            
+            // FOV cone settings
+            setFovAngle: (angle) => {
+                set({ fovAngle: angle });
+            },
+            
+            setTokenFacingDirection: (tokenId, angle) => {
+                const state = get();
+                set({
+                    tokenFacingDirections: {
+                        ...state.tokenFacingDirections,
+                        [tokenId]: angle
+                    }
+                });
+            },
+            
+            getTokenFacingDirection: (tokenId) => {
+                const state = get();
+                return state.tokenFacingDirections[tokenId] || null;
             },
 
             // Clear all fog of war
@@ -1366,51 +1413,170 @@ const useLevelEditorStore = create((set, get) => ({
                 set({ terrainData: newTerrainData });
             },
 
-            // Fog of War functions
-            paintFogBrush: (gridX, gridY, brushSize = 1) => {
+            // Fog of War functions - Free-form path-based painting
+            paintFogBrush: (worldX, worldY, brushRadius, gridSize = 50) => {
                 const state = get();
-                const newFogData = { ...state.fogOfWarData };
-
-                // Calculate brush pattern based on size
-                const startOffset = Math.floor(brushSize / 2);
-                const tilesAdded = [];
-
-                for (let dx = 0; dx < brushSize; dx++) {
-                    for (let dy = 0; dy < brushSize; dy++) {
-                        const tileX = gridX - startOffset + dx;
-                        const tileY = gridY - startOffset + dy;
-                        const tileKey = `${tileX},${tileY}`;
-                        newFogData[tileKey] = true; // Simple fog - just mark as fogged
-                        tilesAdded.push(tileKey);
+                const fogPaths = [...state.fogOfWarPaths];
+                
+                // Ensure brush radius is valid and positive
+                const validBrushRadius = Math.max(0.5, brushRadius || 1);
+                
+                // Convert brush size (1-5) to pixel radius in world space
+                // Use consistent calculation for all points
+                const actualRadius = validBrushRadius * gridSize * 0.5;
+                
+                // Ensure minimum radius to avoid rendering issues
+                if (actualRadius <= 0 || !Number.isFinite(actualRadius)) {
+                    return; // Skip if invalid radius
+                }
+                
+                // Check if we're continuing an existing path (within 2x brush radius of last point)
+                let currentPath = fogPaths.find(path => path.isDrawing);
+                
+                if (currentPath && currentPath.points.length > 0) {
+                    const lastPoint = currentPath.points[currentPath.points.length - 1];
+                    const distance = Math.sqrt(
+                        Math.pow(worldX - lastPoint.worldX, 2) + 
+                        Math.pow(worldY - lastPoint.worldY, 2)
+                    );
+                    
+                    // Use the same radius calculation for continuity check
+                    const continuationRadius = actualRadius * 2;
+                    
+                    // If close enough, add to existing path with consistent radius
+                    if (distance <= continuationRadius) {
+                        currentPath.points.push({
+                            worldX,
+                            worldY,
+                            brushRadius: actualRadius
+                        });
+                        set({ fogOfWarPaths: [...fogPaths] });
+                        return;
                     }
                 }
-
-                console.log('Painting fog at', gridX, gridY, 'brush size', brushSize, 'tiles added:', tilesAdded);
-                console.log('Total fog tiles:', Object.keys(newFogData).length);
-                set({ fogOfWarData: newFogData });
+                
+                // Create new path with consistent radius calculation
+                const newPath = {
+                    id: `fog_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                    points: [{ worldX, worldY, brushRadius: actualRadius }],
+                    timestamp: Date.now(),
+                    isDrawing: true
+                };
+                
+                fogPaths.push(newPath);
+                set({ fogOfWarPaths: fogPaths });
             },
 
-            removeFogAtPosition: (gridX, gridY, brushSize = 1) => {
+            removeFogAtPosition: (worldX, worldY, brushRadius, gridSize = 50) => {
                 const state = get();
-                const newFogData = { ...state.fogOfWarData };
-
-                // Calculate brush pattern based on size
-                const startOffset = Math.floor(brushSize / 2);
-
-                for (let dx = 0; dx < brushSize; dx++) {
-                    for (let dy = 0; dy < brushSize; dy++) {
-                        const tileX = gridX - startOffset + dx;
-                        const tileY = gridY - startOffset + dy;
-                        const tileKey = `${tileX},${tileY}`;
-                        delete newFogData[tileKey];
+                const fogErasePaths = [...state.fogErasePaths];
+                
+                // Ensure brush radius is valid and positive
+                const validBrushRadius = Math.max(0.5, brushRadius || 1);
+                
+                // Convert brush size to pixel radius in world space
+                // Use consistent calculation for all points
+                const actualRadius = validBrushRadius * gridSize * 0.5;
+                
+                // Ensure minimum radius to avoid rendering issues
+                if (actualRadius <= 0 || !Number.isFinite(actualRadius)) {
+                    return; // Skip if invalid radius
+                }
+                
+                // Check if we're continuing an existing erase path (within 2x brush radius of last point)
+                let currentErasePath = fogErasePaths.find(path => path.isDrawing);
+                
+                if (currentErasePath && currentErasePath.points.length > 0) {
+                    const lastPoint = currentErasePath.points[currentErasePath.points.length - 1];
+                    const distance = Math.sqrt(
+                        Math.pow(worldX - lastPoint.worldX, 2) + 
+                        Math.pow(worldY - lastPoint.worldY, 2)
+                    );
+                    
+                    // Use the same radius calculation for continuity check
+                    const continuationRadius = actualRadius * 2;
+                    
+                    // If close enough, add to existing erase path with consistent radius
+                    if (distance <= continuationRadius) {
+                        currentErasePath.points.push({
+                            worldX,
+                            worldY,
+                            brushRadius: actualRadius
+                        });
+                        set({ fogErasePaths: [...fogErasePaths] });
+                        return;
                     }
                 }
+                
+                // Create new erase path with consistent radius calculation
+                const newErasePath = {
+                    id: `fog_erase_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                    points: [{ worldX, worldY, brushRadius: actualRadius }],
+                    timestamp: Date.now(),
+                    isDrawing: true
+                };
+                
+                fogErasePaths.push(newErasePath);
+                set({ fogErasePaths: fogErasePaths });
+            },
 
-                set({ fogOfWarData: newFogData });
+            finishFogPath: () => {
+                const state = get();
+                const fogPaths = state.fogOfWarPaths.map(path => 
+                    path.isDrawing ? { ...path, isDrawing: false } : path
+                );
+                set({ fogOfWarPaths: fogPaths });
+            },
+
+            finishFogErasePath: () => {
+                const state = get();
+                const fogErasePaths = state.fogErasePaths.map(path => 
+                    path.isDrawing ? { ...path, isDrawing: false } : path
+                );
+                set({ fogErasePaths: fogErasePaths });
             },
 
             clearAllFog: () => {
-                set({ fogOfWarData: {} });
+                set({ fogOfWarPaths: [], fogErasePaths: [], fogOfWarData: {} });
+            },
+
+            coverEntireMapWithFog: (gridSize = 50) => {
+                // Create a single large fog path covering the entire map
+                // This makes erasing much easier - one path instead of hundreds
+                const mapBounds = 200;
+                const mapMin = -mapBounds * gridSize;
+                const mapMax = mapBounds * gridSize;
+                
+                // Create a dense grid of overlapping points for complete coverage
+                // But keep them in a single path so they can be erased together
+                const fogPaths = [];
+                const brushRadius = gridSize * 2.5; // Brush radius for each point
+                const spacing = brushRadius * 0.8; // Overlap for complete coverage
+                
+                // Create a single path with many points for unified fog coverage
+                const points = [];
+                for (let x = mapMin; x <= mapMax; x += spacing) {
+                    for (let y = mapMin; y <= mapMax; y += spacing) {
+                        points.push({
+                            worldX: x,
+                            worldY: y,
+                            brushRadius: brushRadius
+                        });
+                    }
+                }
+                
+                // Create single unified path instead of many individual paths
+                fogPaths.push({
+                    id: `fog_cover_entire_map_${Date.now()}`,
+                    points: points,
+                    timestamp: Date.now(),
+                    isDrawing: false
+                });
+                
+                // Clear erase paths when covering entire map
+                // Old erase paths were meant for old fog paths that no longer exist
+                // New erase paths will be created for the new "cover entire map" fog path
+                set({ fogOfWarPaths: fogPaths, fogErasePaths: [] });
             },
 
             // Deterministic pseudo-random function based on tile coordinates

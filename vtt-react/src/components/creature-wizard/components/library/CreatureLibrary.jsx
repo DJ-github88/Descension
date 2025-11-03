@@ -267,7 +267,7 @@ const CreatureLibrary = ({ onEdit }) => {
     const viewportHeight = window.innerHeight;
 
     // Tooltip dimensions
-    const tooltipWidth = 320; // From CSS
+    const tooltipWidth = 380; // From CSS
     let tooltipHeight = 450; // Default estimated height
 
     // Try to get actual tooltip height if it's rendered

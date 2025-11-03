@@ -7,101 +7,42 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  getSpellCategories,
-  getSpellsByCategory,
+  getAllCommunitySpells,
   searchSpells,
   getFeaturedSpells,
-  uploadSpell,
   downloadSpell,
-  rateSpell
+  getUserSpells,
+  voteSpell,
+  getUserVote,
+  favoriteSpell,
+  isSpellFavorited,
+  getUserFavorites
 } from '../services/firebase/communitySpellService';
 
 export function useCommunitySpells() {
-  const [categories, setCategories] = useState([]);
   const [spells, setSpells] = useState([]);
   const [featuredSpells, setFeaturedSpells] = useState([]);
+  const [mySpells, setMySpells] = useState([]);
+  const [favoriteSpells, setFavoriteSpells] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
   const [hasMore, setHasMore] = useState(false);
   const [lastDoc, setLastDoc] = useState(null);
+  const [userVotes, setUserVotes] = useState({}); // Map of spellId -> vote
+  const [userFavorites, setUserFavorites] = useState(new Set()); // Set of favorited spell IDs
 
-  // Load categories on mount
-  useEffect(() => {
-    loadCategories();
-    loadFeaturedSpells();
-  }, []);
-
-  // Load spells when category or search term changes
-  useEffect(() => {
-    if (selectedCategory) {
-      loadSpellsByCategory(selectedCategory);
-    } else if (searchTerm) {
-      performSearch(searchTerm);
-    } else {
-      setSpells([]);
-    }
-  }, [selectedCategory, searchTerm]);
-
-  const loadCategories = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const categoriesData = await getSpellCategories();
-      setCategories(categoriesData);
-    } catch (err) {
-      setError(err.message);
-      console.error('Failed to load categories:', err);
-      // If Firebase is not configured, provide default categories
-      if (err.message.includes('Firebase is not configured')) {
-        setCategories([
-          {
-            id: 'damage',
-            name: 'Damage Spells',
-            description: 'Spells that deal damage to enemies',
-            icon: 'spell_fire_fireball02',
-            color: '#FF4500'
-          },
-          {
-            id: 'healing',
-            name: 'Healing Spells',
-            description: 'Spells that restore health and vitality',
-            icon: 'spell_holy_heal',
-            color: '#32CD32'
-          },
-          {
-            id: 'utility',
-            name: 'Utility Spells',
-            description: 'Spells that provide various utility effects',
-            icon: 'spell_arcane_teleportundercity',
-            color: '#4169E1'
-          }
-        ]);
-      }
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const loadFeaturedSpells = useCallback(async () => {
-    try {
-      const featured = await getFeaturedSpells(6);
-      setFeaturedSpells(featured);
-    } catch (err) {
-      console.error('Failed to load featured spells:', err);
-    }
-  }, []);
-
-  const loadSpellsByCategory = useCallback(async (categoryId, loadMore = false) => {
+  // Define all callback functions first
+  const loadSpells = useCallback(async (sortByValue = sortBy, loadMore = false) => {
     try {
       setLoading(true);
       setError(null);
       
-      const result = await getSpellsByCategory(
-        categoryId, 
-        20, 
-        loadMore ? lastDoc : null
+      const result = await getAllCommunitySpells(
+        20,
+        loadMore ? lastDoc : null,
+        sortByValue
       );
       
       if (loadMore) {
@@ -118,7 +59,19 @@ export function useCommunitySpells() {
     } finally {
       setLoading(false);
     }
-  }, [lastDoc]);
+  }, [sortBy, lastDoc]);
+
+
+  const loadFeaturedSpells = useCallback(async () => {
+    try {
+      const featured = await getFeaturedSpells(6);
+      setFeaturedSpells(featured);
+    } catch (err) {
+      console.error('Failed to load featured spells:', err);
+    }
+  }, []);
+
+
 
   const performSearch = useCallback(async (term) => {
     try {
@@ -137,51 +90,30 @@ export function useCommunitySpells() {
   }, []);
 
   const loadMoreSpells = useCallback(() => {
-    if (selectedCategory && hasMore && !loading) {
-      loadSpellsByCategory(selectedCategory, true);
+    if (hasMore && !loading && !searchTerm) {
+      loadSpells(sortBy, true);
     }
-  }, [selectedCategory, hasMore, loading, loadSpellsByCategory]);
-
-  const selectCategory = useCallback((categoryId) => {
-    setSelectedCategory(categoryId);
-    setSearchTerm('');
-    setLastDoc(null);
-  }, []);
+  }, [hasMore, loading, searchTerm, sortBy, loadSpells]);
 
   const search = useCallback((term) => {
     setSearchTerm(term);
-    setSelectedCategory(null);
-    setLastDoc(null);
-  }, []);
-
-  const clearSelection = useCallback(() => {
-    setSelectedCategory(null);
-    setSearchTerm('');
-    setSpells([]);
     setLastDoc(null);
     setHasMore(false);
   }, []);
 
-  const uploadCommunitySpell = useCallback(async (spellData, userId) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const uploadedSpell = await uploadSpell(spellData, userId);
-      
-      // Refresh the current view if we're in the same category
-      if (selectedCategory === uploadedSpell.categoryId) {
-        loadSpellsByCategory(selectedCategory);
-      }
-      
-      return uploadedSpell;
-    } catch (err) {
-      setError(err.message);
-      console.error('Failed to upload spell:', err);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedCategory, loadSpellsByCategory]);
+  const clearSelection = useCallback(() => {
+    setSearchTerm('');
+    setLastDoc(null);
+    setHasMore(false);
+    loadSpells();
+  }, [loadSpells]);
+
+  const changeSortBy = useCallback((newSortBy) => {
+    setSortBy(newSortBy);
+    setLastDoc(null);
+    setHasMore(false);
+  }, []);
+
 
   const downloadCommunitySpell = useCallback(async (spellId) => {
     try {
@@ -202,45 +134,181 @@ export function useCommunitySpells() {
     }
   }, []);
 
-  const rateCommunitySpell = useCallback(async (spellId, userId, rating) => {
+
+  const loadMySpells = useCallback(async (userId) => {
     try {
-      await rateSpell(spellId, userId, rating);
+      if (!userId) {
+        setMySpells([]);
+        return;
+      }
+
+      setLoading(true);
+      const userSpells = await getUserSpells(userId);
+      setMySpells(userSpells);
+    } catch (err) {
+      console.error('Failed to load user spells:', err);
+      setMySpells([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const voteCommunitySpell = useCallback(async (spellId, userId, voteType) => {
+    try {
+      await voteSpell(spellId, userId, voteType);
       
-      // Refresh the spell data to get updated rating
-      if (selectedCategory) {
-        loadSpellsByCategory(selectedCategory);
+      // Update local state
+      setUserVotes(prev => ({ ...prev, [spellId]: voteType === 'upvote' ? 1 : -1 }));
+      
+      // Refresh spell data to get updated rating
+      if (searchTerm) {
+        performSearch(searchTerm);
+      } else {
+        loadSpells(sortBy);
+      }
+      
+      // Refresh featured and my spells
+      loadFeaturedSpells();
+      loadMySpells(userId);
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to vote on spell:', err);
+      throw err;
+    }
+  }, [searchTerm, sortBy, performSearch, loadSpells, loadFeaturedSpells, loadMySpells]);
+
+  const favoriteCommunitySpell = useCallback(async (spellId, userId, isFavorite) => {
+    try {
+      await favoriteSpell(spellId, userId, isFavorite);
+      
+      // Update local state
+      setUserFavorites(prev => {
+        const newSet = new Set(prev);
+        if (isFavorite) {
+          newSet.add(spellId);
+        } else {
+          newSet.delete(spellId);
+        }
+        return newSet;
+      });
+      
+      // Refresh favorites list
+      if (isFavorite) {
+        const favorites = await getUserFavorites(userId);
+        setFavoriteSpells(favorites);
       }
     } catch (err) {
       setError(err.message);
-      console.error('Failed to rate spell:', err);
+      console.error('Failed to favorite spell:', err);
       throw err;
     }
-  }, [selectedCategory, loadSpellsByCategory]);
+  }, []);
+
+  const loadUserFavorites = useCallback(async (userId) => {
+    try {
+      if (!userId) {
+        setFavoriteSpells([]);
+        return;
+      }
+
+      const favorites = await getUserFavorites(userId);
+      setFavoriteSpells(favorites);
+      
+      // Build set of favorited spell IDs
+      const favoriteIds = new Set(favorites.map(s => s.id));
+      setUserFavorites(favoriteIds);
+    } catch (err) {
+      console.error('Failed to load favorites:', err);
+      setFavoriteSpells([]);
+    }
+  }, []);
+
+  const loadFavoriteStatuses = useCallback(async (spellIds, userId) => {
+    if (!userId || !spellIds || spellIds.length === 0) return;
+
+    try {
+      const favoriteIds = new Set();
+      await Promise.all(
+        spellIds.map(async (spellId) => {
+          const isFav = await isSpellFavorited(spellId, userId);
+          if (isFav) {
+            favoriteIds.add(spellId);
+          }
+        })
+      );
+      setUserFavorites(favoriteIds);
+    } catch (err) {
+      console.error('Failed to load favorite statuses:', err);
+    }
+  }, []);
+
+  const loadUserVotes = useCallback(async (spellIds, userId) => {
+    if (!userId || !spellIds || spellIds.length === 0) return;
+
+    try {
+      const votes = {};
+      await Promise.all(
+        spellIds.map(async (spellId) => {
+          const vote = await getUserVote(spellId, userId);
+          if (vote !== null) {
+            votes[spellId] = vote;
+          }
+        })
+      );
+      setUserVotes(votes);
+    } catch (err) {
+      console.error('Failed to load user votes:', err);
+    }
+  }, []);
+
+  // Load spells on mount and when sort changes
+  useEffect(() => {
+    loadFeaturedSpells();
+    if (!searchTerm) {
+      loadSpells();
+    }
+  }, [sortBy]);
+
+  // Load spells when search term changes
+  useEffect(() => {
+    if (searchTerm) {
+      performSearch(searchTerm);
+    } else {
+      loadSpells();
+    }
+  }, [searchTerm]);
 
   return {
     // Data
-    categories,
     spells,
     featuredSpells,
+    mySpells,
+    favoriteSpells,
     
     // State
     loading,
     error,
-    selectedCategory,
     searchTerm,
+    sortBy,
     hasMore,
+    userVotes,
+    userFavorites,
     
     // Actions
-    selectCategory,
     search,
     clearSelection,
+    changeSortBy,
     loadMoreSpells,
-    uploadCommunitySpell,
     downloadCommunitySpell,
-    rateCommunitySpell,
+    voteCommunitySpell,
+    favoriteCommunitySpell,
+    loadMySpells,
+    loadUserVotes,
+    loadUserFavorites,
+    loadFavoriteStatuses,
     
     // Refresh functions
-    refreshCategories: loadCategories,
+    refreshSpells: loadSpells,
     refreshFeatured: loadFeaturedSpells
   };
 }

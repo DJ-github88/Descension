@@ -102,7 +102,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Followers listen but remain uncertain', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You inspire confidence, followers gain +2 to actions', type: 'success' },
             { roll: [3, 3], result: 'Your command is clear, followers gain +3 to actions', type: 'success' },
             { roll: [4, 4], result: 'Followers are impressed, gain +3 to actions + extra action', type: 'success' }
@@ -199,7 +199,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You make good progress, followers gain +2 to actions', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your skill is apparent, followers gain +3 to actions + extra action', type: 'success' },
             { roll: [3, 3], result: 'You build strong morale, followers become fearless', type: 'success' },
             { roll: [4, 4], result: 'Followers are thoroughly inspired, gain +4 to all stats', type: 'success' }
@@ -295,7 +295,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You effortlessly inspire, followers gain +3 to actions + extra action', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Your mastery is clear, followers become fearless', type: 'success' },
             { roll: [3, 3], result: 'You rally them completely, followers gain +4 to all stats + double actions', type: 'success' },
             { roll: [4, 4], result: 'Followers transcend limits, gain +5 to all stats + triple actions', type: 'success' }
@@ -307,7 +307,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You make good progress, followers gain +2 to actions', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your skill is apparent, followers gain +3 to actions + extra action', type: 'success' },
             { roll: [3, 3], result: 'You build strong morale, followers become fearless', type: 'success' },
             { roll: [4, 4], result: 'Followers are thoroughly inspired, gain +4 to all stats + double actions', type: 'success' },
@@ -391,7 +391,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Your unparalleled skill creates instant loyalty, followers gain +4 to all stats + double actions', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You inspire a movement, followers gain +5 to all stats + triple actions', type: 'critical' },
             { roll: [3, 3], result: 'Followers transcend limits, gain +6 to all stats + quadruple actions', type: 'critical' },
             { roll: [4, 4], result: 'Your words create legends, followers gain +7 to all stats + quintuple actions', type: 'critical' }
@@ -403,7 +403,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You effortlessly inspire, followers gain +3 to actions + extra action', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Your mastery is absolute, followers gain +4 to all stats + double actions', type: 'success' },
             { roll: [3, 3], result: 'You inspire them completely, followers gain +5 to all stats + triple actions', type: 'success' },
             { roll: [4, 4], result: 'Followers transcend limits, gain +6 to all stats + quadruple actions', type: 'success' },
@@ -486,7 +486,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Your legendary skill creates instant devotion, followers gain +5 to all stats + triple actions', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You inspire a revolution, followers gain +6 to all stats + quadruple actions', type: 'critical' },
             { roll: [3, 3], result: 'Followers transcend mortality, gain +7 to all stats + quintuple actions', type: 'critical' },
             { roll: [4, 4], result: 'Your words create gods, followers gain +10 to all stats + unlimited actions', type: 'critical' }
@@ -498,7 +498,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You effortlessly command, followers gain +4 to all stats + double actions', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'Your mastery is legendary, followers gain +5 to all stats + triple actions', type: 'success' },
             { roll: [3, 3], result: 'You inspire transcendence, followers gain +6 to all stats + quadruple actions', type: 'success' },
             { roll: [4, 4], result: 'Followers become legends, gain +7 to all stats + quintuple actions', type: 'success' },
@@ -581,7 +581,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Your unparalleled skill creates instant devotion, followers gain +6 to all stats + quadruple actions', type: 'success' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You inspire a divine movement, followers gain +7 to all stats + quintuple actions', type: 'critical' },
             { roll: [3, 3], result: 'Followers transcend mortality, gain +8 to all stats + unlimited actions', type: 'critical' },
             { roll: [4, 4], result: 'Your words create living legends, followers gain +10 to all stats + time stops for enemies + victory guaranteed', type: 'critical' }
@@ -593,7 +593,7 @@ export const LEADERSHIP_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You effortlessly command legends, followers gain +5 to all stats + triple actions', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'Your mastery is absolute, followers gain +6 to all stats + quadruple actions', type: 'success' },
             { roll: [3, 3], result: 'You inspire transcendence, followers gain +7 to all stats + quintuple actions', type: 'success' },
             { roll: [4, 4], result: 'Followers become myths, gain +8 to all stats + unlimited actions', type: 'success' },

@@ -65,7 +65,7 @@ const CommunityCreaturesTab = () => {
   const updateTooltipPosition = (e) => {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const tooltipWidth = 320;
+    const tooltipWidth = 380;
     const tooltipHeight = 450;
 
     // Check if creature icon selector is open

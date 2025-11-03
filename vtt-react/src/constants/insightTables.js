@@ -102,7 +102,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'You sense their surface emotions clearly', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You detect lies and know their basic motivation', type: 'success' },
             { roll: [3, 3], result: 'You read their intentions and immediate plans', type: 'success' },
             { roll: [4, 4], result: 'You understand their desires and fears', type: 'success' }
@@ -199,7 +199,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You read their thoughts and know all lies', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand their deepest motivations and predict actions', type: 'success' },
             { roll: [3, 3], result: 'You see their past experiences shaping current behavior', type: 'success' },
             { roll: [4, 4], result: 'You know their secrets and hidden agendas', type: 'success' }
@@ -295,7 +295,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You read their soul, know all thoughts and secrets', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You see their entire past and predict all future actions', type: 'success' },
             { roll: [3, 3], result: 'You understand their deepest self, can manipulate perfectly', type: 'success' },
             { roll: [4, 4], result: 'You know them better than they know themselves', type: 'success' }
@@ -307,7 +307,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You sense surface thoughts and emotions', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You read their mind, know all lies and secrets', type: 'success' },
             { roll: [3, 3], result: 'You see their past and predict actions', type: 'success' },
             { roll: [4, 4], result: 'You understand their soul completely', type: 'success' },
@@ -391,7 +391,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You experience their memories as your own', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You see all possible futures for them', type: 'critical' },
             { roll: [3, 3], result: 'You can rewrite their memories and personality', type: 'critical' },
             { roll: [4, 4], result: 'You alter their destiny with a thought', type: 'critical' }
@@ -403,7 +403,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You read their soul completely', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You know all thoughts and can manipulate them', type: 'success' },
             { roll: [3, 3], result: 'You experience their memories', type: 'success' },
             { roll: [4, 4], result: 'You see all possible futures', type: 'success' },
@@ -486,7 +486,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You perceive cosmic truths through them', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You see all timelines and realities for them', type: 'critical' },
             { roll: [3, 3], result: 'You merge consciousness, become one being', type: 'critical' },
             { roll: [4, 4], result: 'You achieve perfect understanding of all minds nearby', type: 'critical' }
@@ -498,7 +498,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You experience their memories completely', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You see all possible futures', type: 'success' },
             { roll: [3, 3], result: 'You rewrite their memories and destiny', type: 'success' },
             { roll: [4, 4], result: 'You perceive cosmic truths', type: 'success' },
@@ -581,7 +581,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You achieve cosmic awareness, know all minds nearby', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You see all timelines across all realities', type: 'critical' },
             { roll: [3, 3], result: 'You merge with universal consciousness', type: 'critical' },
             { roll: [4, 4], result: 'You transcend individual thought, become omniscient', type: 'critical' }
@@ -593,7 +593,7 @@ export const INSIGHT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You see all possible futures and realities', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You perceive cosmic truths', type: 'success' },
             { roll: [3, 3], result: 'You merge consciousness with them', type: 'success' },
             { roll: [4, 4], result: 'You achieve cosmic awareness', type: 'success' },

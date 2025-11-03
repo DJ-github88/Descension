@@ -216,7 +216,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Spell flows with practiced ease', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell releases with clean control', type: 'success' },
             { roll: [3, 3], result: 'Spell strikes with confident precision', type: 'success' },
             { roll: [4, 4], result: 'Spell lands perfectly, effortless', type: 'critical' }
@@ -319,7 +319,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Spell releases with effortless control', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with practiced mastery', type: 'success' },
             { roll: [3, 3], result: 'Spell strikes with perfect precision', type: 'critical' },
             { roll: [4, 4], result: 'Spell lands flawlessly, no wasted energy', type: 'critical' }
@@ -331,7 +331,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Spell requires brief focus adjustment', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with clean control', type: 'success' },
             { roll: [3, 3], result: 'Spell strikes with confident precision', type: 'success' },
             { roll: [4, 4], result: 'Spell adapts smoothly to conditions', type: 'success' },
@@ -422,7 +422,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Spell flows with absolute control', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell strikes with perfect precision', type: 'critical' },
             { roll: [3, 3], result: 'Spell lands flawlessly, enhanced effect', type: 'critical' },
             { roll: [4, 4], result: 'Masterful casting, spell greatly enhanced', type: 'critical' }
@@ -434,7 +434,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Spell releases with practiced mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with effortless control', type: 'success' },
             { roll: [3, 3], result: 'Spell strikes with perfect timing', type: 'success' },
             { roll: [4, 4], result: 'Spell lands flawlessly, enhanced', type: 'critical' },
@@ -448,7 +448,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Spell requires brief concentration', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with clean control', type: 'normal' },
             { roll: [3, 3], result: 'Spell strikes with practiced precision', type: 'success' },
             { roll: [4, 4], result: 'Spell adapts smoothly to conditions', type: 'success' },
@@ -525,7 +525,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Spell flows with absolute mastery', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell strikes with perfect precision, enhanced', type: 'critical' },
             { roll: [3, 3], result: 'Flawless casting, spell empowered', type: 'critical' },
             { roll: [4, 4], result: 'Masterful control, spell greatly enhanced', type: 'critical' }
@@ -537,7 +537,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Spell releases with effortless mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with perfect control', type: 'critical' },
             { roll: [3, 3], result: 'Spell strikes with flawless precision', type: 'critical' },
             { roll: [4, 4], result: 'Masterful casting, spell enhanced', type: 'critical' },
@@ -551,7 +551,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Spell flows with practiced mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell strikes with effortless control', type: 'success' },
             { roll: [3, 3], result: 'Spell lands with perfect timing', type: 'success' },
             { roll: [4, 4], result: 'Flawless execution, spell enhanced', type: 'critical' },
@@ -567,7 +567,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Spell requires focused concentration', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with clean control', type: 'success' },
             { roll: [3, 3], result: 'Spell strikes with practiced precision', type: 'success' },
             { roll: [4, 4], result: 'Spell adapts smoothly to complexity', type: 'success' },
@@ -585,7 +585,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Spell wavers under extreme pressure', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with effort', type: 'normal' },
             { roll: [3, 3], result: 'Spell strikes with controlled power', type: 'success' },
             { roll: [4, 4], result: 'Spell adapts to difficulty smoothly', type: 'success' },
@@ -628,7 +628,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Spell flows with transcendent mastery', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect casting, spell greatly enhanced', type: 'critical' },
             { roll: [3, 3], result: 'Absolute control, spell maximized', type: 'critical' },
             { roll: [4, 4], result: 'Legendary precision, spell perfected', type: 'critical' }
@@ -640,7 +640,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Spell releases with absolute mastery', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Flawless casting, spell enhanced', type: 'critical' },
             { roll: [3, 3], result: 'Masterful control, spell empowered', type: 'critical' },
             { roll: [4, 4], result: 'Perfect execution, spell greatly enhanced', type: 'critical' },
@@ -654,14 +654,14 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Spell flows with effortless mastery', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Spell strikes with perfect control', type: 'critical' },
             { roll: [3, 3], result: 'Flawless execution, spell enhanced', type: 'critical' },
             { roll: [4, 4], result: 'Masterful casting, spell empowered', type: 'critical' },
             { roll: [5, 5], result: 'Perfect precision, spell greatly enhanced', type: 'critical' },
             { roll: [6, 6], result: 'Absolute control, spell maximized', type: 'critical' },
             { roll: [7, 7], result: 'Legendary mastery, spell perfected', type: 'critical' },
-            { roll: [8, 8], result: 'Transcendent casting, spell ascendant', type: 'critical' }
+            { roll: [8, 8], result: 'Exceptional casting, spell maximized', type: 'critical' }
         ]
     },
     spellcraft_master_d10: {
@@ -670,7 +670,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Spell flows with practiced mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell strikes with effortless control', type: 'critical' },
             { roll: [3, 3], result: 'Spell lands with perfect timing', type: 'critical' },
             { roll: [4, 4], result: 'Flawless execution, spell enhanced', type: 'critical' },
@@ -678,7 +678,7 @@ export const SPELLCRAFT_TABLES = {
             { roll: [6, 6], result: 'Perfect control, spell greatly enhanced', type: 'critical' },
             { roll: [7, 7], result: 'Absolute mastery, spell maximized', type: 'critical' },
             { roll: [8, 8], result: 'Legendary precision, spell perfected', type: 'critical' },
-            { roll: [9, 9], result: 'Transcendent control, spell ascendant', type: 'critical' },
+            { roll: [9, 9], result: 'Exceptional control, spell maximized', type: 'critical' },
             { roll: [10, 10], result: 'Ultimate mastery, spell divine', type: 'critical' }
         ]
     },
@@ -688,7 +688,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Spell requires focused concentration', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Spell flows with clean control', type: 'success' },
             { roll: [3, 3], result: 'Spell strikes with masterful precision', type: 'critical' },
             { roll: [4, 4], result: 'Flawless execution, spell enhanced', type: 'critical' },
@@ -696,7 +696,7 @@ export const SPELLCRAFT_TABLES = {
             { roll: [6, 6], result: 'Perfect control, spell greatly enhanced', type: 'critical' },
             { roll: [7, 7], result: 'Absolute mastery, spell maximized', type: 'critical' },
             { roll: [8, 8], result: 'Legendary precision, spell perfected', type: 'critical' },
-            { roll: [9, 9], result: 'Transcendent control, spell ascendant', type: 'critical' },
+            { roll: [9, 9], result: 'Exceptional control, spell maximized', type: 'critical' },
             { roll: [10, 10], result: 'Ultimate mastery, spell divine', type: 'critical' },
             { roll: [11, 11], result: 'Supreme casting, spell transcendent', type: 'critical' },
             { roll: [12, 12], result: 'Absolute perfection, spell eternal', type: 'critical' }
@@ -708,7 +708,7 @@ export const SPELLCRAFT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcanetorrent.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Spell wavers under overwhelming complexity', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Spell flows with effort', type: 'success' },
             { roll: [4, 5], result: 'Spell strikes with controlled power', type: 'success' },
             { roll: [6, 7], result: 'Spell adapts to chaos smoothly', type: 'critical' },

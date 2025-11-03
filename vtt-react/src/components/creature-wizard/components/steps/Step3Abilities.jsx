@@ -135,7 +135,7 @@ const Step3Abilities = () => {
       return (
         <div className="no-abilities-message">
           <div className="no-abilities-icon"><i className="fas fa-book-open"></i></div>
-          <p>No abilities added yet. Click "Add From Spell Library" to add spells and abilities.</p>
+          <p className="no-abilities-text">No abilities added yet. Click "Add From Spell Library" to add spells and abilities.</p>
         </div>
       );
     }
@@ -614,7 +614,20 @@ const Step3Abilities = () => {
 
   return (
     <div className="wizard-step">
-      <h2>Abilities & Spells</h2>
+      <div className="creature-window-content">
+        <div className="abilities-header-section">
+          <h2>Abilities & Spells</h2>
+          <button
+            type="button"
+            className="add-from-spell-library-btn"
+            onClick={handleAddFromLibrary}
+          >
+            <i className="fas fa-book"></i> Add From Spell Library
+          </button>
+        </div>
+
+        {renderAbilityList()}
+      </div>
 
       {/* Ability Selection Window */}
       <AbilitySelectionWindow
@@ -624,18 +637,6 @@ const Step3Abilities = () => {
         recentlyAddedSpells={recentlyAddedSpells}
         existingAbilities={wizardState.abilities}
       />
-
-      <div className="step-actions">
-        <button
-          type="button"
-          className="add-from-spell-library-btn"
-          onClick={handleAddFromLibrary}
-        >
-          <i className="fas fa-book"></i> Add From Spell Library
-        </button>
-      </div>
-
-      {renderAbilityList()}
     </div>
   );
 };

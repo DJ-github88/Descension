@@ -217,7 +217,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You identify instantly with full detail', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You know all common applications', type: 'success' },
             { roll: [3, 3], result: 'You recall advanced preparation', type: 'success' },
             { roll: [4, 4], result: 'You recognize optimal harvest method', type: 'critical' }
@@ -320,7 +320,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You identify with perfect accuracy', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You know all properties and uses', type: 'success' },
             { roll: [3, 3], result: 'You understand complete life cycle', type: 'critical' },
             { roll: [4, 4], result: 'You recognize optimal conditions', type: 'critical' }
@@ -332,7 +332,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You identify with complete detail', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You know all medicinal applications', type: 'success' },
             { roll: [3, 3], result: 'You understand ecosystem role fully', type: 'success' },
             { roll: [4, 4], result: 'You predict growth patterns', type: 'success' },
@@ -423,7 +423,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You know everything instantly', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand all applications', type: 'critical' },
             { roll: [3, 3], result: 'You predict all interactions', type: 'critical' },
             { roll: [4, 4], result: 'You see complete natural picture', type: 'critical' }
@@ -435,7 +435,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You identify with perfect detail', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You know all properties', type: 'success' },
             { roll: [3, 3], result: 'You understand ecosystem perfectly', type: 'success' },
             { roll: [4, 4], result: 'You predict all patterns', type: 'critical' },
@@ -449,7 +449,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You identify with minor effort', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand all relationships', type: 'normal' },
             { roll: [3, 3], result: 'You predict weather week ahead', type: 'success' },
             { roll: [4, 4], result: 'You identify complex interactions', type: 'success' },
@@ -526,7 +526,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You know everything instantly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand all connections', type: 'critical' },
             { roll: [3, 3], result: 'You predict all outcomes', type: 'critical' },
             { roll: [4, 4], result: 'You see complete natural harmony', type: 'critical' }
@@ -538,7 +538,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You identify with perfect clarity', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You know all properties', type: 'critical' },
             { roll: [3, 3], result: 'You understand ecosystem perfectly', type: 'critical' },
             { roll: [4, 4], result: 'You predict all patterns', type: 'critical' },
@@ -552,7 +552,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You identify effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You understand all relationships', type: 'success' },
             { roll: [3, 3], result: 'You predict weather precisely', type: 'success' },
             { roll: [4, 4], result: 'You identify complex interactions', type: 'critical' },
@@ -568,7 +568,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You need brief analysis', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You identify all species', type: 'success' },
             { roll: [3, 3], result: 'You understand ecosystem fully', type: 'success' },
             { roll: [4, 4], result: 'You predict natural events', type: 'success' },
@@ -586,7 +586,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You require careful study', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You identify major patterns', type: 'normal' },
             { roll: [3, 3], result: 'You understand adaptations', type: 'success' },
             { roll: [4, 4], result: 'You predict environmental shifts', type: 'success' },
@@ -629,7 +629,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You know everything instantly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand all connections', type: 'critical' },
             { roll: [3, 3], result: 'You predict all outcomes', type: 'critical' },
             { roll: [4, 4], result: 'You see complete natural harmony', type: 'critical' }
@@ -641,7 +641,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You identify with absolute clarity', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You know all properties', type: 'critical' },
             { roll: [3, 3], result: 'You understand ecosystem perfectly', type: 'critical' },
             { roll: [4, 4], result: 'You predict all patterns', type: 'critical' },
@@ -655,7 +655,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You identify effortlessly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You understand all relationships', type: 'critical' },
             { roll: [3, 3], result: 'You predict weather precisely', type: 'critical' },
             { roll: [4, 4], result: 'You identify complex interactions', type: 'critical' },
@@ -671,7 +671,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You identify with ease', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You identify all species', type: 'critical' },
             { roll: [3, 3], result: 'You understand ecosystem fully', type: 'critical' },
             { roll: [4, 4], result: 'You predict natural events', type: 'critical' },
@@ -689,7 +689,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You analyze with focus', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You identify major patterns', type: 'success' },
             { roll: [3, 3], result: 'You understand adaptations', type: 'critical' },
             { roll: [4, 4], result: 'You predict environmental shifts', type: 'critical' },
@@ -709,7 +709,7 @@ export const NATURE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You face ultimate challenge', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'You need brief analysis', type: 'success' },
             { roll: [4, 5], result: 'You identify basic patterns', type: 'success' },
             { roll: [6, 7], result: 'You understand structure', type: 'critical' },

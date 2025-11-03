@@ -300,7 +300,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You complete it without thought', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You succeed effortlessly', type: 'success' },
             { roll: [3, 3], result: 'You perform with practiced grace', type: 'success' },
             { roll: [4, 4], result: 'You execute with perfect form', type: 'critical' }
@@ -312,7 +312,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You complete it routinely', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You succeed smoothly', type: 'normal' },
             { roll: [3, 3], result: 'You perform with ease', type: 'success' },
             { roll: [4, 4], result: 'You execute skillfully', type: 'success' },
@@ -326,7 +326,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You hesitate briefly, then succeed', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You complete it with effort', type: 'normal' },
             { roll: [3, 3], result: 'You succeed steadily', type: 'normal' },
             { roll: [4, 4], result: 'You perform competently', type: 'success' },
@@ -404,7 +404,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You succeed without effort', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You perform with perfect ease', type: 'success' },
             { roll: [3, 3], result: 'You execute flawlessly', type: 'critical' },
             { roll: [4, 4], result: 'You demonstrate mastery', type: 'critical' }
@@ -416,7 +416,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You complete it effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You succeed with grace', type: 'success' },
             { roll: [3, 3], result: 'You perform with precision', type: 'success' },
             { roll: [4, 4], result: 'You execute with mastery', type: 'success' },
@@ -430,7 +430,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You succeed routinely', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You complete it smoothly', type: 'success' },
             { roll: [3, 3], result: 'You perform capably', type: 'success' },
             { roll: [4, 4], result: 'You execute with skill', type: 'success' },
@@ -446,7 +446,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You succeed with effort', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You complete it steadily', type: 'normal' },
             { roll: [3, 3], result: 'You perform capably', type: 'success' },
             { roll: [4, 4], result: 'You succeed with good form', type: 'success' },
@@ -464,7 +464,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You succeed with strain', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You complete it, slightly winded', type: 'normal' },
             { roll: [3, 3], result: 'You perform steadily', type: 'normal' },
             { roll: [4, 4], result: 'You succeed capably', type: 'success' },
@@ -509,7 +509,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You perform effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You execute with perfect control', type: 'critical' },
             { roll: [3, 3], result: 'You demonstrate supreme mastery', type: 'critical' },
             { roll: [4, 4], result: 'You perform with flawless precision', type: 'critical' }
@@ -521,7 +521,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You succeed with ease', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You perform gracefully', type: 'success' },
             { roll: [3, 3], result: 'You execute with mastery', type: 'critical' },
             { roll: [4, 4], result: 'You demonstrate excellence', type: 'critical' },
@@ -535,7 +535,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You complete it smoothly', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'You perform capably', type: 'success' },
             { roll: [3, 3], result: 'You execute skillfully', type: 'success' },
             { roll: [4, 4], result: 'You succeed with precision', type: 'success' },
@@ -551,7 +551,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You succeed steadily', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You complete it capably', type: 'success' },
             { roll: [3, 3], result: 'You perform with skill', type: 'success' },
             { roll: [4, 4], result: 'You execute confidently', type: 'success' },
@@ -569,7 +569,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You succeed with effort', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You complete it steadily', type: 'normal' },
             { roll: [3, 3], result: 'You perform capably', type: 'success' },
             { roll: [4, 4], result: 'You execute with skill', type: 'success' },
@@ -614,7 +614,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You perform with absolute ease', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You execute with supreme mastery', type: 'critical' },
             { roll: [3, 3], result: 'You demonstrate perfect control', type: 'critical' },
             { roll: [4, 4], result: 'You perform with flawless precision', type: 'critical' }
@@ -626,7 +626,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You succeed effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You perform with grace', type: 'critical' },
             { roll: [3, 3], result: 'You execute with mastery', type: 'critical' },
             { roll: [4, 4], result: 'You demonstrate excellence', type: 'critical' },
@@ -640,7 +640,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You perform smoothly', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'You execute skillfully', type: 'success' },
             { roll: [3, 3], result: 'You succeed with precision', type: 'success' },
             { roll: [4, 4], result: 'You perform admirably', type: 'critical' },
@@ -656,7 +656,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You complete it capably', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You perform with skill', type: 'success' },
             { roll: [3, 3], result: 'You execute confidently', type: 'success' },
             { roll: [4, 4], result: 'You succeed with precision', type: 'success' },
@@ -674,7 +674,7 @@ export const ATHLETICS_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You succeed steadily', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You complete it capably', type: 'success' },
             { roll: [3, 3], result: 'You perform with skill', type: 'success' },
             { roll: [4, 4], result: 'You execute confidently', type: 'success' },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import WowWindow from '../../../windows/WowWindow';
 import ItemTooltip from '../../../item-generation/ItemTooltip';
@@ -10,6 +10,10 @@ import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/Un
 import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
 import { WOW_ICON_BASE_URL } from '../../../item-generation/wowIcons';
 import { getQualityColor } from '../../../../constants/itemConstants';
+import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
+import { ROLLABLE_TABLES } from '../../../../constants/rollableTables';
+import { calculateStatModifier } from '../../../../utils/characterUtils';
+import { showSkillRollNotification } from '../../../../utils/skillRollNotification';
 import useCreatureStore from '../../../../store/creatureStore';
 import useGridItemStore from '../../../../store/gridItemStore';
 import useGameStore from '../../../../store/gameStore';
@@ -19,6 +23,8 @@ import useItemStore from '../../../../store/itemStore';
 import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
+import '../../../../styles/skills.css';
+import '../../../../styles/skill-roll-notification.css';
 import './EnhancedCreatureInspectView.css';
 
 // Helper function to calculate ability modifier
@@ -116,6 +122,10 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
   // Selected index for combined Abilities & Spells icon strip
   const [selectedAbilityIndex, setSelectedAbilityIndex] = useState(0);
+  // Skills section state
+  const [selectedSkill, setSelectedSkill] = useState(null);
+  const [collapsedCategories, setCollapsedCategories] = useState({});
+  const [selectedDie, setSelectedDie] = useState('d20');
 
   // Store hooks for loot drop functionality
   const { addItemToGrid } = useGridItemStore();
@@ -126,11 +136,119 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Process the creature's loot items - use useMemo to avoid reprocessing on every render
   const creature = useMemo(() => {
     // Only process if we have items in the store (avoid timing issues)
+    let processed = null;
     if (!itemStore.items || itemStore.items.length === 0) {
-      return initialCreature; // Return unprocessed creature if store isn't ready
+      processed = initialCreature; // Return unprocessed creature if store isn't ready
+    } else {
+      processed = processCreatureLoot(initialCreature, itemStore);
     }
-    return processCreatureLoot(initialCreature, itemStore);
+    
+    // Ensure stats always exists to prevent null errors
+    if (processed && !processed.stats) {
+      processed = { ...processed, stats: {} };
+    }
+    
+    return processed;
   }, [initialCreature, itemStore.items]);
+
+  // Get all skills grouped by category (static, doesn't depend on creature)
+  const skillsByCategory = useMemo(() => {
+    return Object.entries(SKILL_DEFINITIONS).reduce((acc, [skillId, skill]) => {
+      if (!acc[skill.category]) {
+        acc[skill.category] = [];
+      }
+      acc[skill.category].push({ id: skillId, ...skill });
+      return acc;
+    }, {});
+  }, []);
+
+  // Get skills that the creature knows (from skillRanks or legacy skills format)
+  const getCreatureSkills = useCallback(() => {
+    const skills = new Set();
+    
+    // Check if creature and stats exist before accessing
+    if (!creature || !creature.stats) {
+      return Array.from(skills);
+    }
+    
+    // New format: skillRanks
+    if (creature.stats.skillRanks) {
+      Object.keys(creature.stats.skillRanks).forEach(skillId => {
+        skills.add(skillId);
+      });
+    }
+    
+    // Legacy format: skills (old bonus system)
+    if (creature.stats.skills) {
+      Object.keys(creature.stats.skills).forEach(skillId => {
+        skills.add(skillId);
+      });
+    }
+    
+    return Array.from(skills);
+  }, [creature?.stats?.skillRanks, creature?.stats?.skills]);
+
+  // Filter to only show skills the creature knows
+  const creatureSkills = useMemo(() => {
+    const knownSkills = getCreatureSkills();
+    const filtered = {};
+    
+    Object.entries(skillsByCategory).forEach(([categoryName, skills]) => {
+      const creatureSkillsInCategory = skills.filter(skill => knownSkills.includes(skill.id));
+      if (creatureSkillsInCategory.length > 0) {
+        filtered[categoryName] = creatureSkillsInCategory;
+      }
+    });
+    
+    return filtered;
+  }, [getCreatureSkills, skillsByCategory]);
+
+  // Get skill rank for a creature skill
+  const getSkillRank = useCallback((skillId) => {
+    // Check if creature and stats exist before accessing
+    if (!creature || !creature.stats) {
+      return { key: 'UNTRAINED', ...SKILL_RANKS.UNTRAINED };
+    }
+    
+    // Check new format first
+    if (creature.stats.skillRanks && creature.stats.skillRanks[skillId]) {
+      const rankKey = creature.stats.skillRanks[skillId];
+      return { key: rankKey, ...SKILL_RANKS[rankKey] };
+    }
+    
+    // Fallback to legacy format or default to UNTRAINED
+    return { key: 'UNTRAINED', ...SKILL_RANKS.UNTRAINED };
+  }, [creature?.stats?.skillRanks]);
+
+  // Calculate skill modifier for creature
+  const calculateSkillModifier = useCallback((skill, skillId) => {
+    // Check if creature and stats exist before accessing
+    if (!creature || !creature.stats) {
+      const rank = getSkillRank(skillId);
+      const rankBonus = rank.statBonus || 0;
+      return Math.floor(calculateStatModifier(10) / 2) + rankBonus;
+    }
+    
+    const primaryMod = calculateStatModifier(creature.stats[skill.primaryStat] || 10);
+    const secondaryMod = calculateStatModifier(creature.stats[skill.secondaryStat] || 10);
+    const rank = getSkillRank(skillId);
+    const rankBonus = rank.statBonus || 0;
+
+    return primaryMod + Math.floor(secondaryMod / 2) + rankBonus;
+  }, [creature?.stats, getSkillRank]);
+
+  // Auto-select first skill when skills section is viewed
+  useEffect(() => {
+    if (activeSection === 'skills') {
+      const knownSkills = getCreatureSkills();
+      if (knownSkills.length > 0 && !selectedSkill) {
+        // Auto-select first skill
+        setSelectedSkill(knownSkills[0]);
+      } else if (knownSkills.length === 0) {
+        setSelectedSkill(null);
+      }
+    }
+  }, [activeSection, getCreatureSkills, selectedSkill]);
 
   // Helper function to calculate tooltip position with improved logic
   const calculateTooltipPosition = (e) => {
@@ -183,8 +301,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     }
   }, [isOpen, creature]);
 
-  // Early return if no creature or not open
-  if (!creature || !isOpen) return null;
+  // Early return if no creature, no stats, or not open
+  if (!creature || !creature.stats || !isOpen) return null;
 
   // Process creature loot to ensure itemId references are resolved
   // Note: creature is already processed at line 118, so we use it directly
@@ -222,7 +340,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Get stat components for tooltips (similar to character sheet)
   const getStatComponents = (statName) => {
     const components = {
-      base: creature.stats[statName] || 0,
+      base: (creature && creature.stats) ? (creature.stats[statName] || 0) : 0,
       equipment: 0, // Creatures don't have equipment bonuses
       buffs: 0,     // Could be extended for creature buffs
       debuffs: 0    // Could be extended for creature debuffs
@@ -234,19 +352,24 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   // Define sections for the header navigation (matching character sheet style)
   const sections = {
     statistics: {
-      title: 'Statistics'
+      title: 'Statistics',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
     },
     abilities: {
-      title: 'Abilities & Spells'
+      title: 'Abilities & Spells',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_wordfortitude.jpg'
     },
     skills: {
-      title: 'Skills'
+      title: 'Skills',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg'
     },
     loot: {
-      title: 'Loot Table'
+      title: 'Loot Table',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_08.jpg'
     },
     description: {
-      title: 'Description & Lore'
+      title: 'Description & Lore',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_scroll_11.jpg'
     }
   };
 
@@ -270,6 +393,11 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Render the Statistics section - matching character sheet exactly
   const renderStatsSection = () => {
+    // Safety check - should not happen due to early return, but just in case
+    if (!creature || !creature.stats) {
+      return null;
+    }
+    
     // Define stat groups similar to character sheet
     const statGroups = {
       summary: {
@@ -797,115 +925,204 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     );
   };
 
+  // Get current rollable table for skill based on rank and selected die
+  const getCurrentRollableTable = (skill, skillId) => {
+    const rank = getSkillRank(skillId);
+    if (skill.rollableTables) {
+      const rankTables = skill.rollableTables[rank.key] || skill.rollableTables.UNTRAINED;
+      if (typeof rankTables === 'object' && rankTables[selectedDie]) {
+        const tableId = rankTables[selectedDie];
+        if (!ROLLABLE_TABLES[tableId]) {
+          return null;
+        }
+        return tableId;
+      }
+      return rankTables;
+    }
+    return skill.rollableTable;
+  };
+
+  // Roll on a skill table
+  const rollSkillTable = (skill, skillId) => {
+    const tableId = getCurrentRollableTable(skill, skillId);
+    const table = ROLLABLE_TABLES[tableId];
+    if (!table) return;
+
+    const dieSize = parseInt(selectedDie.substring(1));
+    const roll = Math.floor(Math.random() * dieSize) + 1;
+    const result = table.table.find(entry =>
+      roll >= entry.roll[0] && roll <= entry.roll[1]
+    );
+
+    if (result) {
+      showSkillRollNotification(roll, result, skill.name);
+    }
+  };
+
+  // Toggle category collapse state
+  const toggleCategory = (categoryName) => {
+    setCollapsedCategories(prev => ({
+      ...prev,
+      [categoryName]: !prev[categoryName]
+    }));
+  };
+
+  // Render skill detail view (without quests)
+  const renderSkillDetail = () => {
+    if (!selectedSkill) {
+      return (
+        <div className="no-skill-selected">
+          <i className="fas fa-hand-pointer" style={{ fontSize: '48px', color: '#8b7355', marginBottom: '20px' }}></i>
+          <p>Select a skill from the list to view details</p>
+        </div>
+      );
+    }
+
+    const skill = SKILL_DEFINITIONS[selectedSkill];
+    if (!skill) return null;
+
+    const rank = getSkillRank(selectedSkill);
+    const modifier = calculateSkillModifier(skill, selectedSkill);
+
+    // Check if skill has rollable tables
+    const rankTables = skill.rollableTables?.[rank.key] || skill.rollableTables?.UNTRAINED;
+    const hasMultiDieTables = rankTables && typeof rankTables === 'object' && rankTables.d4;
+    const currentTableId = getCurrentRollableTable(skill, selectedSkill);
+    const currentTable = currentTableId ? ROLLABLE_TABLES[currentTableId] : null;
+
+    return (
+      <div className="skill-detail-view">
+        <div className="skill-detail-header">
+          <img src={skill.icon} alt={skill.name} className="skill-detail-icon" />
+          <div className="skill-detail-title-section">
+            <h2 className="skill-detail-name" style={{ color: rank.color }}>
+              {skill.name}
+            </h2>
+            <p className="skill-detail-description">{skill.description}</p>
+            <div className="skill-detail-stats">
+              <span className="skill-rank">{rank.name}</span>
+              <span className="skill-modifier">+{modifier}</span>
+              <span className="skill-primary-stat">
+                {skill.primaryStat.charAt(0).toUpperCase() + skill.primaryStat.slice(1)}
+              </span>
+            </div>
+          </div>
+          {(skill.rollableTable || skill.rollableTables) && (
+            <button
+              className="roll-table-btn"
+              onClick={() => rollSkillTable(skill, selectedSkill)}
+            >
+              <i className="fas fa-dice"></i> Roll
+            </button>
+          )}
+        </div>
+
+        {currentTable && (
+          <div className="table-section">
+            {hasMultiDieTables && (
+              <div className="die-selector-section">
+                <h4>Difficulty (Die Type)</h4>
+                <div className="die-selector-strip">
+                  {['d4', 'd6', 'd8', 'd10', 'd12', 'd20'].map(die => (
+                    <div
+                      key={die}
+                      className={`die-selector-icon ${selectedDie === die ? 'selected' : ''}`}
+                      onClick={() => setSelectedDie(die)}
+                      title={`${die.toUpperCase()} - ${
+                        die === 'd4' ? 'Very Easy' :
+                        die === 'd6' ? 'Easy' :
+                        die === 'd8' ? 'Moderate' :
+                        die === 'd10' ? 'Challenging' :
+                        die === 'd12' ? 'Difficult' :
+                        'Very Difficult'
+                      }`}
+                    >
+                      <span className="die-number">{die.substring(1)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            <h3>Rollable Table ({rank.name}): {currentTable.name}</h3>
+            <p>{currentTable.description}</p>
+            <div className="table-entries">
+              {currentTable.table.map((entry, index) => (
+                <div key={index} className={`table-entry ${entry.type}`}>
+                  <span className="roll-range">
+                    {entry.roll[0] === entry.roll[1]
+                      ? entry.roll[0]
+                      : `${entry.roll[0]}-${entry.roll[1]}`}
+                  </span>
+                  <span className="roll-result">{entry.result}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // Render the Skills section
   const renderSkillsSection = () => {
-    if (!creature.stats.skills || Object.keys(creature.stats.skills).length === 0) {
+    const knownSkills = getCreatureSkills();
+    
+    if (knownSkills.length === 0) {
       return (
-        <div className="creature-inspect-section empty-section">
-          <p>This creature has no special skills.</p>
+        <div className="skills-container">
+          <div className="no-skill-selected">
+            <i className="fas fa-hand-pointer" style={{ fontSize: '48px', color: '#8b7355', marginBottom: '20px' }}></i>
+            <p>This creature has no skills.</p>
+          </div>
         </div>
       );
     }
 
     return (
-      <div className="stats-section">
-        <h3>Skills</h3>
-        <div className="stats-content">
-          {Object.entries(creature.stats.skills).map(([skillId, bonus]) => {
-            // Convert skill ID to display name
-            const skillName = skillId.charAt(0).toUpperCase() + skillId.slice(1).replace(/([A-Z])/g, ' $1');
-
-            // Handle both old proficiency system and new flat bonus system
-            let skillBonus = 0;
-            if (typeof bonus === 'number') {
-              // New system: flat bonus
-              skillBonus = bonus;
-            } else if (typeof bonus === 'string') {
-              // Old system: convert proficiency to flat bonus
-              const abilityScore = creature.stats.spirit || 10; // Default to spirit for most skills
-              const modifier = calculateModifier(abilityScore);
-              const profBonus = creature.stats.proficiencyBonus || 2;
-
-              if (bonus === 'proficient') {
-                skillBonus = modifier + profBonus;
-              } else if (bonus === 'expert') {
-                skillBonus = modifier + (profBonus * 2);
-              } else {
-                skillBonus = modifier;
-              }
-            }
-
-            const getSkillIcon = (skillId) => {
-              const iconMap = {
-                acrobatics: 'ability_rogue_sprint',
-                animalHandling: 'ability_hunter_beastmastery',
-                arcana: 'spell_holy_magicalsentry',
-                athletics: 'ability_warrior_savageblow',
-                deception: 'ability_rogue_disguise',
-                history: 'inv_misc_book_11',
-                insight: 'spell_holy_sealofwisdom',
-                intimidation: 'ability_warrior_warcry',
-                investigation: 'spell_holy_detectundead',
-                medicine: 'spell_holy_flashheal',
-                nature: 'spell_nature_rejuvenation',
-                perception: 'ability_hunter_senseundead',
-                performance: 'spell_holy_blessingofwisdom',
-                persuasion: 'spell_holy_blessingofwisdom',
-                religion: 'spell_holy_holybolt',
-                sleightOfHand: 'ability_rogue_pickpocket',
-                stealth: 'ability_stealth',
-                survival: 'ability_hunter_pathfinding'
-              };
-              return `https://wow.zamimg.com/images/wow/icons/large/${iconMap[skillId] || 'trade_engineering'}.jpg`;
-            };
+      <div className="skills-container">
+        <div className="skills-sidebar">
+          {Object.entries(creatureSkills).map(([categoryName, skills]) => {
+            const categoryData = Object.values(SKILL_CATEGORIES).find(cat => cat.name === categoryName);
+            const isCollapsed = collapsedCategories[categoryName];
 
             return (
-              <div key={skillId} className="stat-row">
-                <div className="stat-label-container">
-                  <img
-                    src={getSkillIcon(skillId)}
-                    alt={skillName}
-                    className="stat-icon"
-                  />
-                  <div className="stat-info">
-                    <span className="stat-label">{skillName}:</span>
-                    <span className="stat-description">Skill bonus modifier</span>
-                  </div>
-                </div>
-                <span className="stat-value" style={{ color: '#2196F3' }}>
-                  {formatModifier(skillBonus)}
-                </span>
+              <div key={categoryName} className="skill-category-section">
                 <div
-                  className="tooltip-trigger"
-                  onMouseEnter={(e) => handleStatHover(e, skillName)}
-                  onMouseMove={updateStatTooltipPosition}
-                  onMouseLeave={handleStatLeave}
-                />
-                {hoveredStat === skillName && (
-                  <TooltipPortal>
-                    <div
-                      className="equipment-slot-tooltip"
-                      style={{
-                        position: 'fixed',
-                        left: statTooltipPosition.x,
-                        top: statTooltipPosition.y,
-                        transform: 'translate(10px, -50%)',
-                        pointerEvents: 'none',
-                        zIndex: 2147483647 // Maximum z-index to ensure tooltips always appear above windows
-                      }}
-                    >
-                      <GeneralStatTooltip
-                        stat={skillName}
-                        value={skillBonus}
-                        baseValue={skillBonus}
-                        description={`Skill bonus for ${skillName.toLowerCase()}`}
-                      />
-                    </div>
-                  </TooltipPortal>
+                  className="skill-category-header"
+                  onClick={() => toggleCategory(categoryName)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <img src={categoryData?.icon} alt="" className="skill-category-icon" />
+                  <span className="skill-category-name">{categoryName}</span>
+                  <i className={`fas fa-chevron-${isCollapsed ? 'down' : 'up'} category-toggle-icon`}></i>
+                </div>
+                {!isCollapsed && (
+                  <div className="skill-list">
+                    {skills.map(skill => {
+                      const rank = getSkillRank(skill.id);
+                      const isSelected = selectedSkill === skill.id;
+
+                      return (
+                        <div
+                          key={skill.id}
+                          className={`skill-list-item ${isSelected ? 'selected' : ''}`}
+                          onClick={() => setSelectedSkill(skill.id)}
+                        >
+                          <div className="skill-list-name" style={{ color: rank.color }}>
+                            {skill.name} <span className="skill-rank-label">({rank.name})</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 )}
               </div>
             );
           })}
+        </div>
+
+        <div className="skills-content">
+          {renderSkillDetail()}
         </div>
       </div>
     );
@@ -1459,7 +1676,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               className={`spellbook-tab-button ${activeSection === key ? 'active' : ''}`}
               onClick={() => setActiveSection(key)}
             >
-              <img src={section.icon} alt="" className="tab-icon-img" />
               <span>{section.title}</span>
             </button>
           ))}
@@ -1473,11 +1689,13 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         ) : (
           <div className="creature-content-area-full">
             <div className="creature-section-header">
-              <img
-                src={sections[activeSection].icon}
-                alt=""
-                className="creature-section-icon"
-              />
+              {sections[activeSection].icon && (
+                <img
+                  src={getIconUrl(sections[activeSection].icon)}
+                  alt=""
+                  className="creature-section-icon"
+                />
+              )}
               <h2 className="creature-section-title">{sections[activeSection].title}</h2>
             </div>
 

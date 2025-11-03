@@ -175,6 +175,7 @@
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    margin-bottom: 16px !important;
 }
 
 /* Override input fields */
@@ -514,7 +515,7 @@
 .item-wizard-modal .wizard-footer {
   background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
   border-top: 3px solid var(--pf-brown-light, #a08c70) !important;
-  padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
+  padding: 6px var(--pf-space-4, 16px) !important;
   box-shadow:
     0 -4px 12px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
@@ -602,13 +603,13 @@
   background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%)) !important;
   border: 2px solid var(--pf-brown-light) !important;
   border-radius: 12px !important;
-  padding: var(--pf-space-6, 24px) !important;
+  padding: var(--pf-space-3, 12px) !important;
   margin: 0 !important;
   margin-bottom: 16px !important;
   flex: 1 !important;
   overflow-y: visible !important; /* Allow content to flow naturally */
   overflow-x: hidden !important;
-  min-height: 400px !important; /* Ensure minimum height for content */
+  min-height: 200px !important; /* Ensure minimum height for content */
   max-height: none !important; /* Remove height restrictions */
   height: auto !important; /* Allow natural height expansion */
   position: relative !important;
@@ -975,7 +976,7 @@
   flex-direction: column !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  padding: var(--pf-space-4, 16px) !important;
+  padding: var(--pf-space-2, 8px) !important;
   padding-bottom: 150px !important; /* Much more space at bottom for scrolling past description */
   min-height: 0 !important;
   max-height: 100% !important; /* Ensure content can scroll within its container */
@@ -2232,7 +2233,7 @@
 }
 
 .wizard-footer {
-    padding: 12px 16px;
+    padding: 6px 16px;
     display: flex;
     justify-content: space-between;
     transition: all 0.3s ease;
@@ -6484,6 +6485,7 @@ h4 {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 1rem;
+    margin-bottom: 16px;
 }
 
 .property-header {

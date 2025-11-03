@@ -83,6 +83,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 0;
+  padding-bottom: 120px !important;
   background-color: #f0e6d2; /* Parchment background */
 }
 

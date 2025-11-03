@@ -102,7 +102,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Target listens but remains defiant', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You inspire fear, target is nervous and cooperative', type: 'success' },
             { roll: [3, 3], result: 'Your threat is clear, target is frightened', type: 'success' },
             { roll: [4, 4], result: 'Target is terrified, will do anything', type: 'success' }
@@ -199,7 +199,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You terrify them completely, target will do anything', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your presence crushes their will, target becomes servant', type: 'success' },
             { roll: [3, 3], result: 'Target is paralyzed with fear, obeys instantly', type: 'success' },
             { roll: [4, 4], result: 'Your threat breaks them, target spreads fear of you', type: 'success' }
@@ -295,7 +295,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Your terror is legendary, target spreads fear of you', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Entire groups submit to your presence', type: 'success' },
             { roll: [3, 3], result: 'Your name becomes feared, enemies flee at sight', type: 'success' },
             { roll: [4, 4], result: 'You inspire mythic terror, target worships you', type: 'success' }
@@ -307,7 +307,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You crush their will completely', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Target is paralyzed with fear, becomes servant', type: 'success' },
             { roll: [3, 3], result: 'Target spreads fear of you', type: 'success' },
             { roll: [4, 4], result: 'Entire groups submit to you', type: 'success' },
@@ -391,7 +391,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Entire armies flee from your presence', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your name becomes a curse, instant submission', type: 'critical' },
             { roll: [3, 3], result: 'Legends spread of your terror across lands', type: 'critical' },
             { roll: [4, 4], result: 'Your mere existence breaks wills', type: 'critical' }
@@ -403,7 +403,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Target spreads fear of you everywhere', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Entire groups submit instantly', type: 'success' },
             { roll: [3, 3], result: 'Your name becomes feared across regions', type: 'success' },
             { roll: [4, 4], result: 'Entire armies flee from you', type: 'success' },
@@ -486,7 +486,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Nations fear your name, instant submission from all', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your legend transcends reality, gods fear you', type: 'critical' },
             { roll: [3, 3], result: 'Your presence shatters minds, enemies go mad', type: 'critical' },
             { roll: [4, 4], result: 'You become the embodiment of terror itself', type: 'critical' }
@@ -498,7 +498,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Entire armies flee from you', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your name becomes a curse', type: 'success' },
             { roll: [3, 3], result: 'Legends spread of your terror', type: 'success' },
             { roll: [4, 4], result: 'Nations fear your name', type: 'success' },
@@ -581,7 +581,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Entire worlds fear you, instant submission from all', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your name becomes cosmic law, reality bends to your will', type: 'critical' },
             { roll: [3, 3], result: 'You transcend fear itself, become primordial terror', type: 'critical' },
             { roll: [4, 4], result: 'Your existence rewrites the concept of fear', type: 'critical' }
@@ -593,7 +593,7 @@ export const INTIMIDATION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_warcry.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Nations fear your name', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Your legend transcends reality', type: 'success' },
             { roll: [3, 3], result: 'Your presence shatters minds', type: 'success' },
             { roll: [4, 4], result: 'Entire worlds fear you', type: 'success' },

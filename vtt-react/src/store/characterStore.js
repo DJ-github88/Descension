@@ -401,7 +401,7 @@ const useCharacterStore = create((set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
             // Update health and mana max values when constitution or intelligence change
             let newHealth = { ...state.health };
@@ -474,7 +474,7 @@ const useCharacterStore = create((set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
             // Send equipment update to multiplayer if connected
             const gameStore = useGameStore.getState();
@@ -718,6 +718,12 @@ const useCharacterStore = create((set, get) => ({
 
     updateCharacterInfo: (field, value) => {
         set(state => {
+            // Special handling for exhaustion level - use the dedicated function
+            if (field === 'exhaustionLevel') {
+                get().updateExhaustionLevel(parseInt(value) || 0);
+                return {}; // updateExhaustionLevel handles the state update
+            }
+
             const newState = { [field]: value };
 
             // If level is being changed, handle level-up/down logic
@@ -1119,7 +1125,7 @@ const useCharacterStore = create((set, get) => ({
         });
 
         const encumbranceState = getEncumbranceState();
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
         // Calculate total level-up bonuses from history
         let totalHealthBonus = 0;
@@ -1211,7 +1217,7 @@ const useCharacterStore = create((set, get) => ({
 
         // Calculate derived stats with all effects
         const encumbranceState = getEncumbranceState();
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
         // Add derived stats to total stats
         totalStats.maxHealth = Math.round(derivedStats.maxHealth || state.health.max);
@@ -1279,7 +1285,7 @@ const useCharacterStore = create((set, get) => ({
             }
         });
 
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
         // Update health and mana max values based on new derived stats
         const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -1811,7 +1817,7 @@ const useCharacterStore = create((set, get) => ({
         const encumbranceState = state.inventory?.encumbranceState || 'normal';
 
         // Calculate derived stats
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
         // Calculate correct max values
         const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -2372,7 +2378,59 @@ const useCharacterStore = create((set, get) => ({
                 });
             }
 
-            return { exhaustionLevel: newExhaustionLevel };
+            // Recalculate derived stats with new exhaustion level
+            const effectiveStats = state.race && state.subrace
+                ? applyRacialModifiers(state.stats, state.race, state.subrace)
+                : state.stats;
+            const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
+
+            // Apply equipment bonuses to stats before calculating derived stats
+            const totalStats = { ...effectiveStats };
+            const statMapping = {
+                str: 'strength',
+                con: 'constitution',
+                agi: 'agility',
+                int: 'intelligence',
+                spir: 'spirit',
+                cha: 'charisma'
+            };
+
+            Object.entries(statMapping).forEach(([shortName, fullName]) => {
+                if (equipmentBonuses[shortName]) {
+                    totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+                }
+            });
+
+            const encumbranceState = getEncumbranceState();
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, newExhaustionLevel);
+
+            // Update health and mana max values based on new derived stats
+            const newMaxHealth = Math.round(derivedStats.maxHealth);
+            const newMaxMana = Math.round(derivedStats.maxMana);
+
+            let newHealth = { ...state.health };
+            let newMana = { ...state.mana };
+
+            // Level 4: HP maximum halved (handled in calculateDerivedStats)
+            // But we need to ensure current health doesn't exceed new max
+            newHealth.max = newMaxHealth;
+            newHealth.current = Math.min(newHealth.current, newMaxHealth);
+
+            // Level 6: Death - set HP to 0
+            if (newExhaustionLevel >= 6) {
+                newHealth.current = 0;
+            }
+
+            // Update mana max
+            newMana.max = newMaxMana;
+            newMana.current = Math.min(newMana.current, newMaxMana);
+
+            return {
+                exhaustionLevel: newExhaustionLevel,
+                derivedStats,
+                health: newHealth,
+                mana: newMana
+            };
         });
     },
 
@@ -2538,7 +2596,7 @@ const initializeCharacterStore = () => {
         }
     });
 
-    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
     // Update health and mana max values based on derived stats
     const newMaxHealth = Math.round(derivedStats.maxHealth);
@@ -2623,7 +2681,7 @@ window.recalculateCharacterStats = () => {
         }
     });
 
-    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
 
     // Update health and mana max values based on derived stats
     const newMaxHealth = Math.round(derivedStats.maxHealth);

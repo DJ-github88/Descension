@@ -102,7 +102,8 @@ export const InspectionProvider = ({ character, children }) => {
         const encumbranceState = charData.inventory?.encumbranceState || 'normal';
 
         // Calculate derived stats
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+        const exhaustionLevel = charData.exhaustionLevel || 0;
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel);
 
         // Calculate correct max values
         const maxHealth = Math.round(derivedStats.maxHealth);

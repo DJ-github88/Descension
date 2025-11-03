@@ -3,6 +3,7 @@
   background-color: #f0e6d2;
   color: #3a3a3a;
   font-family: 'Bookman Old Style', 'Garamond', serif;
+  padding-bottom: 120px;
 }
 
 .shop-configuration-step h2 {
@@ -106,17 +107,17 @@
 .shop-items-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .shop-item-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #ffffff;
+  gap: 16px;
+  background-color: #f5f0e8;
   border: 1px solid #a08c70;
-  border-radius: 6px;
-  padding: 12px;
+  border-radius: 4px;
+  padding: 12px 16px;
   transition: box-shadow 0.2s;
 }
 
@@ -124,59 +125,214 @@
   box-shadow: 0 2px 8px rgba(90, 30, 18, 0.1);
 }
 
-.item-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
+.item-icon-wrapper {
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .item-icon {
-  width: 32px;
-  height: 32px;
+  width: 50px;
+  height: 50px;
   background-size: cover;
   background-position: center;
-  border-radius: 4px;
-  border: 1px solid #a08c70;
+  border-radius: 3px;
+  border: 2px solid;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.item-icon-wrapper:hover .item-icon {
+  transform: scale(1.1);
 }
 
 .item-details {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 500px;
+  padding: 4px 0;
+  gap: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.item-right-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+  padding: 4px 0;
+}
+
+.item-right-section .price-control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.item-right-section .price-control label {
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+.item-right-section .currency-inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+}
+
+.item-right-section .currency-part {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .item-name {
-  font-weight: 600;
-  color: #3a3a3a;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+  display: inline-block;
+  letter-spacing: 0.2px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
+
+.item-meta-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+  padding: 4px 0;
 }
 
 .item-type {
-  font-size: 12px;
-  color: #666;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  color: #555;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.item-subtype {
+  text-transform: uppercase;
+  color: #555;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.item-separator {
+  color: #888;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 500;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 .item-quality {
-  font-size: 11px;
-  color: #888;
   text-transform: capitalize;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.item-price-display {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  font-size: 12px;
+  margin-top: 6px;
+  align-items: flex-start;
+  width: auto;
+}
+
+.item-right-section .item-price-display {
+  align-items: flex-end;
+  margin-top: 0;
+}
+
+.price-value {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1.5;
+  margin: 0;
+  width: auto;
+}
+
+.price-amount {
   font-weight: 600;
 }
 
-/* Item controls */
-.item-controls {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.price-value.gold-value {
+  color: #ffd100;
+}
+
+.price-value.gold-value .price-amount {
+  color: #ffd100;
+}
+
+.price-value.silver-value {
+  color: #c0c0c0;
+}
+
+.price-value.silver-value .price-amount {
+  color: #c0c0c0;
+}
+
+.price-value.copper-value {
+  color: #cd7f32;
+}
+
+.price-value.copper-value .price-amount {
+  color: #cd7f32;
+}
+
+.currency-coin-tiny {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  display: block;
 }
 
 .quantity-control,
 .price-control {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  flex-shrink: 0;
+  flex: 0 0 auto;
+}
+
+.item-right-section .quantity-control {
+  justify-content: flex-start;
+}
+
+.item-right-section .item-price-display {
+  margin-top: 0;
 }
 
 .quantity-control label,
@@ -184,56 +340,116 @@
   font-size: 12px;
   color: #5a1e12;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .quantity-control input {
-  width: 60px;
-  padding: 4px 6px;
+  width: 50px;
+  min-width: 50px;
+  max-width: 50px;
+  padding: 6px 4px;
   border: 1px solid #a08c70;
   border-radius: 3px;
+  background-color: #f5f0e8;
   text-align: center;
+  font-size: 12px;
+  box-sizing: border-box;
+  font-weight: 600;
 }
 
 .currency-inputs {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 6px;
 }
 
-.currency-inputs input {
-  width: 40px;
-  padding: 4px 6px;
-  border: 1px solid #a08c70;
-  border-radius: 3px;
+.currency-part {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.currency-input {
+  width: 55px;
+  padding: 6px 8px;
+  border: 2px solid #a08c70;
+  border-radius: 4px;
   text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.currency-label {
-  font-size: 12px;
-  font-weight: 600;
-  margin-right: 5px;
+.currency-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(90, 30, 18, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.currency-label.gold {
-  color: #ffd100;
+.currency-input.gold-input {
+  color: #b8860b;
+  background-color: #fffef5;
+  border-color: #d4af37;
 }
 
-.currency-label.silver {
+.currency-input.gold-input:focus {
+  border-color: #ffd700;
+  color: #8b6914;
+  box-shadow: 0 0 0 3px rgba(255, 209, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.currency-input.gold-input::placeholder {
+  color: #d4c4a0;
+}
+
+.currency-input.silver-input {
+  color: #708090;
+  background-color: #f8f8f9;
+  border-color: #a8a8a8;
+}
+
+.currency-input.silver-input:focus {
+  border-color: #c0c0c0;
+  color: #5a6a7a;
+  box-shadow: 0 0 0 3px rgba(192, 192, 192, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.currency-input.silver-input::placeholder {
   color: #c0c0c0;
 }
 
-.currency-label.copper {
-  color: #b87333;
+.currency-input.copper-input {
+  color: #8b4513;
+  background-color: #fff8f0;
+  border-color: #cd853f;
+}
+
+.currency-input.copper-input:focus {
+  border-color: #cd7f32;
+  color: #6b3413;
+  box-shadow: 0 0 0 3px rgba(205, 127, 50, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.currency-input.copper-input::placeholder {
+  color: #cd7f32;
+}
+
+.currency-coin-small {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
 }
 
 .remove-item-btn {
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 6px 8px;
-  border-radius: 3px;
+  padding: 8px 10px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
   transition: background-color 0.2s;
 }
 

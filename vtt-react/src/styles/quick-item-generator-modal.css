@@ -35,7 +35,9 @@
     padding: 0; /* Ensure no padding on the modal itself */
     margin: 0; /* Ensure no margin on the modal itself */
     animation: modalFadeIn 0.3s ease;
+    animation-fill-mode: both; /* Keep final animation state */
     user-select: none;
+    --window-scale: 1; /* Default scale */
 }
 
 /* Add parchment texture background */
@@ -55,11 +57,11 @@
 @keyframes modalFadeIn {
     from {
         opacity: 0;
-        transform: scale(0.95) translateY(-20px);
+        transform: scale(calc(0.95 * var(--window-scale, 1))) translateY(-20px);
     }
     to {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: scale(var(--window-scale, 1)) translateY(0);
     }
 }
 

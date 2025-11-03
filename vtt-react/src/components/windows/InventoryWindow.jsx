@@ -924,6 +924,10 @@ export default function InventoryWindow() {
 
         e.dataTransfer.setData('text/plain', JSON.stringify(dragData));
 
+        // Set a global flag for Grid.jsx to detect item drags
+        // This is needed because event bubbling might be blocked by window components
+        window.isDraggingItem = true;
+
         // Store dragged item info globally for visual feedback in containers
         window.draggedItemInfo = {
             item: item,
@@ -942,7 +946,7 @@ export default function InventoryWindow() {
         // Allow both move and copy operations
         e.dataTransfer.effectAllowed = 'copyMove';
 
-
+        console.log('📦 Inventory item drag started:', item.name, 'Global flag set:', window.isDraggingItem);
     };
 
     // Handle drag over for cells
@@ -1009,8 +1013,11 @@ export default function InventoryWindow() {
         });
         setDraggedItem(null);
 
-        // Clear global drag info
+        // Clear global drag flags
+        window.isDraggingItem = false;
         window.draggedItemInfo = null;
+        
+        console.log('🏁 Inventory item drag ended, global flag cleared');
     };
 
     // Handle drop for cells

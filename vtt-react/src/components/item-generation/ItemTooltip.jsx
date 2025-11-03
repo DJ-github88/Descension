@@ -723,7 +723,7 @@ export default function ItemTooltip({ item }) {
                             fontSize: '15px',
                             marginBottom: '4px'
                         }}>
-                            {resultItem.name}
+                            {recipeData.resultQuantity > 1 ? `${recipeData.resultQuantity}x ` : ''}{resultItem.name}
                         </div>
 
                         {/* Show actual item properties */}

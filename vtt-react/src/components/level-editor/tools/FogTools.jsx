@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { WOW_ICON_BASE_URL } from '../../item-generation/wowIcons';
+import useLevelEditorStore from '../../../store/levelEditorStore';
 import './styles/FogTools.css';
 
 const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
     const [brushSize, setBrushSize] = useState(settings.brushSize || 1);
+    const { fovAngle, setFovAngle } = useLevelEditorStore();
 
     // Simplified fog tool configurations - just paint and erase
     const fogTools = [
@@ -24,6 +26,12 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
             name: 'Clear All Fog',
             icon: 'spell_holy_holynova',
             description: 'Remove all fog from map'
+        },
+        {
+            id: 'fog_cover_map',
+            name: 'Cover Entire Map',
+            icon: 'spell_shadow_nethercloak',
+            description: 'Cover the entire map with fog'
         }
     ];
 
@@ -91,22 +99,31 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
                 </div>
             )}
 
-            {/* Animated Fog Info */}
+            {/* FOV Toggle */}
             <div className="tool-section">
-                <h4>Animated Fog Features</h4>
-                <div className="fog-features">
-                    <ul>
-                        <li>🌫️ Realistic moving fog particles</li>
-                        <li>✨ Smooth opacity transitions</li>
-                        <li>🎭 Blocks player vision completely</li>
-                        <li>🎨 Atmospheric visual effects</li>
-                        <li>⚡ 60fps smooth animation</li>
-                    </ul>
+                <h4>Field of View (FOV)</h4>
+                <div className="fov-toggle">
+                    <button
+                        className={`fov-button ${fovAngle === 360 ? 'active' : ''}`}
+                        onClick={() => setFovAngle(360)}
+                        title="360° - Full view around token"
+                    >
+                        360°
+                    </button>
+                    <button
+                        className={`fov-button ${fovAngle === 100 ? 'active' : ''}`}
+                        onClick={() => setFovAngle(100)}
+                        title="100° - Limited directional view (use scroll to look around)"
+                    >
+                        100°
+                    </button>
+                </div>
+                <div className="fov-description">
+                    {fovAngle === 360 
+                        ? 'Full 360° view around token' 
+                        : '100° directional view - use scroll wheel on token to rotate view'}
                 </div>
             </div>
-
-
-
 
         </div>
     );

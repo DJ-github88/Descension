@@ -52,9 +52,9 @@ export const STEP_INFO = {
         icon: 'fas fa-book'
     },
     [WIZARD_STEPS.PATH_SELECTION]: {
-        name: 'Path',
-        description: 'Select your character\'s path',
-        icon: 'fas fa-route'
+        name: 'Discipline',
+        description: 'Select your character\'s discipline',
+        icon: 'fas fa-book'
     },
     [WIZARD_STEPS.STAT_ALLOCATION]: {
         name: 'Ability Scores',
@@ -115,8 +115,6 @@ const initialState = {
 
         // Path (custom paths like Mystic, Zealot, etc.)
         path: '',
-        subPath: '',
-        selectedAbilities: [], // Array of ability IDs (max 1)
 
         // Stats (point-buy allocation)
         baseStats: getDefaultStats(),
@@ -173,8 +171,6 @@ export const ACTION_TYPES = {
     SET_LANGUAGES: 'SET_LANGUAGES',
     SET_SKILL_RANKS: 'SET_SKILL_RANKS',
     SET_PATH: 'SET_PATH',
-    SET_SUBPATH: 'SET_SUBPATH',
-    SET_SELECTED_ABILITIES: 'SET_SELECTED_ABILITIES',
     UPDATE_LORE: 'UPDATE_LORE',
     UPDATE_BASE_STATS: 'UPDATE_BASE_STATS',
     RECALCULATE_FINAL_STATS: 'RECALCULATE_FINAL_STATS',
@@ -304,30 +300,7 @@ const characterWizardReducer = (state, action) => {
                 ...state,
                 characterData: {
                     ...state.characterData,
-                    path: action.payload,
-                    // Reset subpath and abilities when path changes
-                    subPath: '',
-                    selectedAbilities: []
-                }
-            };
-
-        case ACTION_TYPES.SET_SUBPATH:
-            return {
-                ...state,
-                characterData: {
-                    ...state.characterData,
-                    subPath: action.payload,
-                    // Reset abilities when subpath changes
-                    selectedAbilities: []
-                }
-            };
-
-        case ACTION_TYPES.SET_SELECTED_ABILITIES:
-            return {
-                ...state,
-                characterData: {
-                    ...state.characterData,
-                    selectedAbilities: action.payload
+                    path: action.payload
                 }
             };
 
@@ -453,8 +426,6 @@ const characterWizardReducer = (state, action) => {
 
                     // Path
                     path: existingChar.path || '',
-                    subPath: existingChar.subPath || '',
-                    selectedAbilities: existingChar.selectedAbilities || [],
 
                     // Stats - use existing stats or defaults
                     baseStats: existingChar.stats || getDefaultStats(),
@@ -529,13 +500,7 @@ const validateCurrentStep = (state) => {
 
         case WIZARD_STEPS.PATH_SELECTION:
             if (!characterData.path) {
-                errors.path = 'Please select a path';
-            }
-            if (!characterData.subPath) {
-                errors.subPath = 'Please select a specialization';
-            }
-            if (!characterData.selectedAbilities || characterData.selectedAbilities.length !== 1) {
-                errors.abilities = 'Please select exactly 1 ability';
+                errors.path = 'Please select a discipline';
             }
             break;
 
@@ -635,8 +600,6 @@ export const wizardActionCreators = {
     setLanguages: (languages) => ({ type: ACTION_TYPES.SET_LANGUAGES, payload: languages }),
     setSkillRanks: (skillRanks) => ({ type: ACTION_TYPES.SET_SKILL_RANKS, payload: skillRanks }),
     setPath: (path) => ({ type: ACTION_TYPES.SET_PATH, payload: path }),
-    setSubPath: (subPath) => ({ type: ACTION_TYPES.SET_SUBPATH, payload: subPath }),
-    setSelectedAbilities: (abilities) => ({ type: ACTION_TYPES.SET_SELECTED_ABILITIES, payload: abilities }),
     updateLore: (lore) => ({ type: ACTION_TYPES.UPDATE_LORE, payload: lore }),
     updateBaseStats: (stats) => ({ type: ACTION_TYPES.UPDATE_BASE_STATS, payload: stats }),
     setStartingSpells: (spellIds) => ({ type: ACTION_TYPES.SET_STARTING_SPELLS, payload: spellIds }),

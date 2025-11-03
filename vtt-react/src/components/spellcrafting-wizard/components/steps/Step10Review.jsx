@@ -159,7 +159,18 @@ const Step10Review = ({
 
       // Casting information
       castTime: formatCastTime(spellState),
-      range: spellState.targetingConfig?.rangeDistance ? `${spellState.targetingConfig.rangeDistance} ft` : '30 ft',
+      // Format range based on rangeType first, then fall back to rangeDistance
+      range: (() => {
+        const rangeType = spellState.targetingConfig?.rangeType;
+        const rangeDistance = spellState.targetingConfig?.rangeDistance;
+        if (rangeType === 'touch') return 'Touch';
+        if (rangeType === 'sight') return 'Sight';
+        if (rangeType === 'unlimited') return 'Unlimited';
+        if (rangeType === 'self_centered' || spellState.targetingConfig?.targetingType === 'self') return 'Self';
+        if (rangeType === 'ranged' && rangeDistance) return `${rangeDistance} ft`;
+        if (rangeDistance) return `${rangeDistance} ft`;
+        return '30 ft';
+      })(),
       rangeType: spellState.targetingConfig?.rangeType || 'ranged',
 
       // Targeting information

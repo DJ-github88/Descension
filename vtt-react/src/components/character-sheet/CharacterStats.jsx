@@ -228,6 +228,7 @@ export default function CharacterStats() {
         experience = 0,
         resistances = {},
         immunities = [],
+        exhaustionLevel = 0,
         updateStat
     } = dataSource || {};
 
@@ -249,14 +250,21 @@ export default function CharacterStats() {
     const { isGMMode } = useGameStore();
     const { encumbranceState } = useInventoryStore();
 
-    // Get derived stats from character store (includes encumbrance effects)
-    const { derivedStats } = useCharacterStore();
+    // Get derived stats and exhaustion level from character store (includes encumbrance effects)
+    const { derivedStats, exhaustionLevel: storeExhaustionLevel } = useCharacterStore();
 
     const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
     const [hoveredStat, setHoveredStat] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [statEditModal, setStatEditModal] = useState({ visible: false, stat: null, value: 0, position: { x: 0, y: 0 } });
     const [forceUpdate, setForceUpdate] = useState(0);
+
+    // Force re-render when exhaustion level changes to update movement speed
+    // Use store exhaustion level if available, otherwise use dataSource exhaustion level
+    const currentExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : exhaustionLevel;
+    useEffect(() => {
+        setForceUpdate(prev => prev + 1);
+    }, [currentExhaustionLevel]);
 
     // Calculate total stats including equipment and buff/debuff effects
     const getTotalStats = () => {
@@ -288,7 +296,9 @@ export default function CharacterStats() {
             });
 
             // Calculate derived stats with equipment bonuses and encumbrance
-            const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, currentEncumbranceState);
+            // Use store exhaustion level if available, otherwise use dataSource exhaustion level
+            const finalExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : (exhaustionLevel !== undefined ? exhaustionLevel : (dataSource?.exhaustionLevel || 0));
+            const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, currentEncumbranceState, finalExhaustionLevel);
 
             // Use derived stats from character store (already includes encumbrance effects) or fallback to calculated
             const storeDerivedStats = derivedStats || {};
@@ -302,9 +312,10 @@ export default function CharacterStats() {
             // Always use calculated values for health and mana to ensure they reflect current constitution/intelligence
             totalStats.maxHealth = calculatedDerivedStats.maxHealth;
             totalStats.maxMana = calculatedDerivedStats.maxMana;
-            totalStats.movementSpeed = storeDerivedStats.moveSpeed || calculatedDerivedStats.moveSpeed;
-            totalStats.swimSpeed = storeDerivedStats.swimSpeed || calculatedDerivedStats.swimSpeed || 10;
-            totalStats.climbSpeed = storeDerivedStats.climbSpeed || calculatedDerivedStats.climbSpeed || 15;
+            // Always use calculated values for movement speeds to ensure they reflect exhaustion effects
+            totalStats.movementSpeed = calculatedDerivedStats.moveSpeed || 0;
+            totalStats.swimSpeed = calculatedDerivedStats.swimSpeed || 0;
+            totalStats.climbSpeed = calculatedDerivedStats.climbSpeed || 0;
 
             // Apply encumbrance effects to base stats for display purposes
             const encumbranceEffects = storeDerivedStats.encumbranceEffects || calculatedDerivedStats.encumbranceEffects;
@@ -736,7 +747,7 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Movement Speed',
-                    value: Math.round(totalStats.movementSpeed || 30),
+                    value: Math.round(totalStats.movementSpeed ?? 30),
                     baseValue: 30,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
@@ -980,7 +991,7 @@ export default function CharacterStats() {
             stats: [
                 {
                     label: 'Movement Speed',
-                    value: Math.round(totalStats.movementSpeed || 30),
+                    value: Math.round(totalStats.movementSpeed ?? 30),
                     baseValue: 30,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
@@ -989,8 +1000,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Swim Speed',
-                    value: Math.round(totalStats.swimSpeed || 10),
-                    baseValue: 10,
+                    value: Math.round(totalStats.swimSpeed || 0),
+                    baseValue: Math.floor((totalStats.movementSpeed ?? 30) / 3),
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_aquaticform.jpg',
                     color: '#4444ff',
@@ -998,8 +1009,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Climb Speed',
-                    value: Math.round(totalStats.climbSpeed || 15),
-                    baseValue: 15,
+                    value: Math.round(totalStats.climbSpeed || 0),
+                    baseValue: Math.floor((totalStats.movementSpeed ?? 30) / 2),
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aspectofthemonkey.jpg',
                     color: '#8B4513',

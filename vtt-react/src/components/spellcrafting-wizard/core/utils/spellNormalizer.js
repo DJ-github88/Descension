@@ -201,8 +201,18 @@ function normalizeTargetingConfig(spell) {
 
   // Set defaults
   config.targetingType = config.targetingType || 'single';
-  config.rangeType = config.rangeType || 'ranged';
-  config.rangeDistance = config.rangeDistance || 30;
+  config.rangeType = config.rangeType || 'touch';  // Default to touch instead of ranged
+  
+  // Ensure rangeDistance matches rangeType
+  if (config.rangeType === 'touch') {
+    config.rangeDistance = 5;  // Touch is always 5 ft
+  } else if (config.rangeType === 'sight') {
+    config.rangeDistance = config.rangeDistance || 60;
+  } else if (config.rangeType === 'ranged') {
+    config.rangeDistance = config.rangeDistance || 30;
+  } else {
+    config.rangeDistance = config.rangeDistance || 30;
+  }
   config.aoeShape = config.aoeShape || 'circle';
   config.aoeParameters = config.aoeParameters || {};
   config.targetRestrictions = config.targetRestrictions || 

@@ -287,6 +287,8 @@ const generateItemName = (type, subtype, quality, weaponSlot, weaponHand, armorM
                 slotInfo = 'Main Hand';
             } else if (weaponHand === 'OFF_HAND') {
                 slotInfo = 'Off Hand';
+            } else if (weaponHand === 'ONE_HAND') {
+                slotInfo = 'One-Handed';
             }
         }
 
@@ -364,7 +366,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
 
     // State for weapon properties
     const [weaponSlot, setWeaponSlot] = useState('ONE_HANDED');
-    const [weaponHand, setWeaponHand] = useState('ONE_HAND');
+    const [weaponHand, setWeaponHand] = useState('MAIN_HAND');
 
     // State for armor properties
     const [armorSlot, setArmorSlot] = useState('chest');
@@ -2120,66 +2122,48 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                             <div className="form-group">
                                 <label>Weapon Slot</label>
                                 <div className="button-toggle-group">
-                                    {Object.entries(WEAPON_SLOTS).map(([slot, data], index) => (
+                                    {Object.entries(WEAPON_SLOTS).map(([slot, data], index) => {
+                                        // Debug: Log all weapon slots
+                                        if (index === 0) console.log('Weapon Slots:', Object.keys(WEAPON_SLOTS));
+                                        return (
                                         <button
                                             key={slot}
-                                            className={`toggle-button ${weaponSlot === slot ? 'active' : ''}`}
+                                            className={`toggle-button ${
+                                                (slot === 'MAIN_HAND' && weaponSlot === 'ONE_HANDED' && weaponHand === 'MAIN_HAND') ||
+                                                (slot === 'OFF_HAND' && weaponSlot === 'ONE_HANDED' && weaponHand === 'OFF_HAND') ||
+                                                (slot === 'ONE_HANDED' && weaponSlot === 'ONE_HANDED' && weaponHand === 'ONE_HAND') ||
+                                                (slot === 'TWO_HANDED' && weaponSlot === 'TWO_HANDED') ||
+                                                (slot === 'RANGED' && weaponSlot === 'RANGED')
+                                                    ? 'active' : ''
+                                            }`}
                                             onClick={() => {
-                                                // Set the weapon slot
-                                                setWeaponSlot(slot);
-
-                                                // Reset hand if changing from one-handed to another type
-                                                if (slot !== 'ONE_HANDED') {
-                                                    // For TWO_HANDED and RANGED, we don't need a hand value
-                                                    setWeaponHand('');
+                                                // Convert MAIN_HAND/OFF_HAND to ONE_HANDED with appropriate hand
+                                                if (slot === 'MAIN_HAND') {
+                                                    setWeaponSlot('ONE_HANDED');
+                                                    setWeaponHand('MAIN_HAND');
+                                                } else if (slot === 'OFF_HAND') {
+                                                    setWeaponSlot('ONE_HANDED');
+                                                    setWeaponHand('OFF_HAND');
+                                                } else if (slot === 'ONE_HANDED') {
+                                                    setWeaponSlot('ONE_HANDED');
+                                                    setWeaponHand('ONE_HAND');
                                                 } else {
-                                                    // For ONE_HANDED, always set a default hand if not already set
-                                                    // or if coming from a non-ONE_HANDED slot
-                                                    if (!weaponHand || weaponSlot !== 'ONE_HANDED') {
-                                                        setWeaponHand('MAIN_HAND');
-                                                    }
+                                                    // TWO_HANDED or RANGED
+                                                    setWeaponSlot(slot);
+                                                    setWeaponHand('');
                                                 }
-
-                                                // Force immediate preview update
-                                                setTimeout(() => generatePreviewItem(), 0);
                                             }}
                                             style={{
                                                 borderRadius: index === 0 ? '3px 0 0 3px' : index === Object.entries(WEAPON_SLOTS).length - 1 ? '0 3px 3px 0' : '0',
-                                                borderRight: index < Object.entries(WEAPON_SLOTS).length - 1 ? 'none' : '1px solid #444'
+                                                borderRight: index < Object.entries(WEAPON_SLOTS).length - 1 ? 'none' : undefined
                                             }}
                                         >
                                             {data.name}
                                         </button>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </div>
-
-                            {weaponSlot === 'ONE_HANDED' && (
-                                <div className="form-group">
-                                    <label>Hand Option</label>
-                                    <div className="button-toggle-group">
-                                        {Object.entries(HAND_OPTIONS).map(([hand, data], index) => (
-                                            <button
-                                                key={hand}
-                                                className={`toggle-button ${weaponHand === hand ? 'active' : ''}`}
-                                                onClick={() => {
-                                                    // Set the weapon hand
-                                                    setWeaponHand(hand);
-
-                                                    // Force immediate preview update
-                                                    setTimeout(() => generatePreviewItem(), 0);
-                                                }}
-                                                style={{
-                                                    borderRadius: index === 0 ? '3px 0 0 3px' : index === Object.entries(HAND_OPTIONS).length - 1 ? '0 3px 3px 0' : '0',
-                                                    borderRight: index < Object.entries(HAND_OPTIONS).length - 1 ? 'none' : '1px solid #444'
-                                                }}
-                                            >
-                                                {data.name}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
 
                             <div className="form-group">
                                 <label>Damage Type (Optional)</label>

@@ -217,7 +217,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You notice detail instantly', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You spot detail and all context', type: 'success' },
             { roll: [3, 3], result: 'You detect detail before it appears', type: 'success' },
             { roll: [4, 4], result: 'You sense everything in area clearly', type: 'critical' }
@@ -320,7 +320,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You notice everything instantly', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You sense all details before looking', type: 'success' },
             { roll: [3, 3], result: 'You detect hidden elements effortlessly', type: 'critical' },
             { roll: [4, 4], result: 'You perceive complete scene at glance', type: 'critical' }
@@ -332,7 +332,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You briefly distracted by environment', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You notice all visible details clearly', type: 'success' },
             { roll: [3, 3], result: 'You detect all hidden elements', type: 'success' },
             { roll: [4, 4], result: 'You sense threats before they appear', type: 'success' },
@@ -423,7 +423,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You perceive everything without effort', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You sense all details before observing', type: 'critical' },
             { roll: [3, 3], result: 'You detect hidden and visible as one', type: 'critical' },
             { roll: [4, 4], result: 'You perceive complete truth instantly', type: 'critical' }
@@ -435,7 +435,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You notice all details effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You detect all hidden elements', type: 'success' },
             { roll: [3, 3], result: 'You sense invisible presences clearly', type: 'success' },
             { roll: [4, 4], result: 'You perceive magical auras perfectly', type: 'critical' },
@@ -449,7 +449,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You need moment to focus senses', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You notice all visible and hidden', type: 'normal' },
             { roll: [3, 3], result: 'You detect expertly concealed details', type: 'success' },
             { roll: [4, 4], result: 'You sense invisible creatures clearly', type: 'success' },
@@ -526,7 +526,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You perceive all without thought', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You sense everything before observing', type: 'critical' },
             { roll: [3, 3], result: 'You detect all truths instantly', type: 'critical' },
             { roll: [4, 4], result: 'You perceive beyond normal senses', type: 'critical' }
@@ -538,7 +538,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You notice all details perfectly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You detect all hidden elements', type: 'critical' },
             { roll: [3, 3], result: 'You sense invisible presences clearly', type: 'critical' },
             { roll: [4, 4], result: 'You perceive magical auras perfectly', type: 'critical' },
@@ -552,7 +552,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You notice all details effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You detect all visible and hidden', type: 'success' },
             { roll: [3, 3], result: 'You sense expertly concealed details', type: 'success' },
             { roll: [4, 4], result: 'You perceive invisible creatures clearly', type: 'critical' },
@@ -568,7 +568,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You need brief focus to perceive', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You detect all visible details', type: 'success' },
             { roll: [3, 3], result: 'You notice well-hidden elements', type: 'success' },
             { roll: [4, 4], result: 'You sense subtle magical traces', type: 'success' },
@@ -586,7 +586,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You need concentration to pierce', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You detect vague disturbance', type: 'normal' },
             { roll: [3, 3], result: 'You notice expertly hidden detail', type: 'success' },
             { roll: [4, 4], result: 'You sense invisible magical aura', type: 'success' },
@@ -629,7 +629,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You perceive all without effort', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You sense everything before it exists', type: 'critical' },
             { roll: [3, 3], result: 'You detect all truths simultaneously', type: 'critical' },
             { roll: [4, 4], result: 'You perceive across all dimensions', type: 'critical' }
@@ -641,7 +641,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You notice all details perfectly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You detect all hidden elements', type: 'critical' },
             { roll: [3, 3], result: 'You sense invisible presences', type: 'critical' },
             { roll: [4, 4], result: 'You perceive magical auras perfectly', type: 'critical' },
@@ -655,7 +655,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You perceive all effortlessly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You detect all visible and hidden', type: 'critical' },
             { roll: [3, 3], result: 'You sense expertly concealed details', type: 'critical' },
             { roll: [4, 4], result: 'You perceive invisible creatures', type: 'critical' },
@@ -671,7 +671,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You notice all details instantly', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You detect all visible elements', type: 'critical' },
             { roll: [3, 3], result: 'You sense well-hidden details', type: 'critical' },
             { roll: [4, 4], result: 'You perceive subtle magical traces', type: 'critical' },
@@ -689,7 +689,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You need brief focus to perceive', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You detect all visible details', type: 'success' },
             { roll: [3, 3], result: 'You notice expertly hidden elements', type: 'critical' },
             { roll: [4, 4], result: 'You sense invisible magical auras', type: 'critical' },
@@ -709,7 +709,7 @@ export const PERCEPTION_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_farsight.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You need concentration to pierce', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'You sense vague disturbance', type: 'success' },
             { roll: [4, 5], result: 'You detect faint presence', type: 'success' },
             { roll: [6, 7], result: 'You notice imperceptible detail', type: 'critical' },

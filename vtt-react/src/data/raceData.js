@@ -33,12 +33,12 @@ export const RACE_DATA = {
                 name: 'Berserker Nordmark',
                 description: 'Fierce warriors who embrace the fury of battle above all else',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 2,
+                    constitution: 3,
+                    strength: 3,
                     agility: -1,
                     intelligence: -2,
                     spirit: 1,
-                    charisma: -1
+                    charisma: -2
                 },
                 traits: [
                     {
@@ -66,26 +66,26 @@ export const RACE_DATA = {
                 description: 'Warrior-poets who preserve the ancient sagas and inspire others',
                 statModifiers: {
                     constitution: 1,
-                    strength: 0,
+                    strength: -1,
                     agility: -1,
-                    intelligence: 1,
-                    spirit: 2,
-                    charisma: 1
+                    intelligence: 2,
+                    spirit: 3,
+                    charisma: 2
                 },
                 traits: [
                     {
                         name: 'Frostborn',
-                        description: 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. You can survive in arctic conditions without shelter, but your breath creates visible frost even in warm climates, making stealth difficult.',
+                        description: 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. You can survive in arctic conditions without shelter, but your breath creates visible frost even in warm climates, making stealth impossible in warm areas. You take +50% damage from fire attacks due to your frozen nature.',
                         type: 'environmental'
                     },
                     {
                         name: 'Inspiring Saga',
-                        description: 'You can recite ancient sagas to inspire allies (2 AP). All allies within 30 feet gain advantage on their next attack or save. Once per short rest, but you must speak loudly, potentially alerting enemies.',
+                        description: 'You can recite ancient sagas to inspire allies (2 AP). All allies within 30 feet gain advantage on their next attack or save. Once per short rest, but you MUST speak loudly (alerting all enemies within 120 feet) and cannot stop mid-recitation - if interrupted, you take 1d6 psychic damage from the broken saga.',
                         type: 'support'
                     },
                     {
                         name: 'Ancestral Memory',
-                        description: 'You have advantage on History checks and can recall ancient lore, but you are compelled to share these stories at length, often at inappropriate times, giving disadvantage on stealth group checks.',
+                        description: 'You have advantage on History checks and can recall ancient lore, but you are COMPELLED to share these stories at length whenever the topic arises. You cannot make brief responses - must tell the full story (taking at least 1 minute), giving disadvantage on stealth group checks and often revealing information you meant to keep secret.',
                         type: 'knowledge'
                     }
                 ],
@@ -97,12 +97,12 @@ export const RACE_DATA = {
                 name: 'Icewalker Nordmark',
                 description: 'Hardy survivors who have adapted to the harshest frozen wastes',
                 statModifiers: {
-                    constitution: 3,
+                    constitution: 4,
                     strength: 0,
-                    agility: 0,
+                    agility: -1,
                     intelligence: -1,
-                    spirit: 1,
-                    charisma: -2
+                    spirit: 2,
+                    charisma: -3
                 },
                 traits: [
                     {
@@ -153,27 +153,27 @@ export const RACE_DATA = {
                 name: 'Oracle Corvani',
                 description: 'Gifted seers who peer deep into fate\'s threads',
                 statModifiers: {
-                    constitution: 0,
-                    strength: -1,
+                    constitution: -2,
+                    strength: -2,
                     agility: 1,
-                    intelligence: 2,
-                    spirit: 3,
-                    charisma: 1
+                    intelligence: 3,
+                    spirit: 4,
+                    charisma: 2
                 },
                 traits: [
                     {
                         name: 'Prophetic Vision',
-                        description: 'Once per long rest, can glimpse the future to reroll any d20 roll (yours or an ally\'s) within 60 feet.',
+                        description: 'Once per long rest, can glimpse the future to reroll any d20 roll (yours or an ally\'s) within 60 feet. However, seeing the future is physically taxing - you take 1d4 psychic damage and gain disadvantage on Constitution saves for 1 hour after using this ability.',
                         type: 'divination'
                     },
                     {
                         name: 'Raven Sight',
-                        description: 'Can see through illusions and detect hidden creatures within 30 feet, but suffer -2 to Constitution saves against disease.',
+                        description: 'Can see through illusions and detect hidden creatures within 30 feet, but you suffer -2 to Constitution saves against disease and poison. Your eyes are constantly strained from seeing multiple layers of reality - you have disadvantage on Perception checks in bright light.',
                         type: 'perception'
                     },
                     {
                         name: 'Fate\'s Warning',
-                        description: 'Allies within 30 feet gain +1 Armor against the first attack each round, but you take 1 psychic damage when they\'re hit.',
+                        description: 'Allies within 30 feet gain +1 Armor against the first attack each round, but you take 2 psychic damage (not 1) when they\'re hit. You feel their pain as your own - when an ally is critically hit, you must make a Spirit save (DC 15) or be stunned for 1 round.',
                         type: 'protection'
                     }
                 ],
@@ -185,12 +185,12 @@ export const RACE_DATA = {
                 name: 'Scout Corvani',
                 description: 'Swift messengers navigating treacherous highland paths',
                 statModifiers: {
-                    constitution: 1,
-                    strength: 0,
-                    agility: 3,
-                    intelligence: 1,
-                    spirit: 1,
-                    charisma: 0
+                    constitution: 0,
+                    strength: -1,
+                    agility: 4,
+                    intelligence: 2,
+                    spirit: 2,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -205,7 +205,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Mist Walker',
-                        description: 'Can become partially incorporeal for 1 round (resistance to physical damage), but become vulnerable to radiant damage for 1 minute.',
+                        description: 'Can become partially incorporeal for 1 round (resistant to bludgeoning, piercing, and slashing damage - takes half damage), but become vulnerable to radiant damage (takes double damage) for 1 minute.',
                         type: 'defense'
                     }
                 ],
@@ -241,12 +241,12 @@ export const RACE_DATA = {
                 name: 'Delver Grimheart',
                 description: 'Obsessive miners driven by deep earth whispers',
                 statModifiers: {
-                    constitution: 3,
-                    strength: 2,
-                    agility: -1,
+                    constitution: 4,
+                    strength: 3,
+                    agility: -2,
                     intelligence: 1,
-                    spirit: -1,
-                    charisma: -2
+                    spirit: -2,
+                    charisma: -3
                 },
                 traits: [
                     {
@@ -273,11 +273,11 @@ export const RACE_DATA = {
                 name: 'Warden Grimheart',
                 description: 'Guardians who protect others from the depths',
                 statModifiers: {
-                    constitution: 2,
+                    constitution: 3,
                     strength: 1,
-                    agility: -1,
+                    agility: -2,
                     intelligence: 0,
-                    spirit: 2,
+                    spirit: 3,
                     charisma: 1
                 },
                 traits: [
@@ -307,10 +307,10 @@ export const RACE_DATA = {
                 statModifiers: {
                     constitution: 3,
                     strength: 2,
-                    agility: 0,
+                    agility: -2,
                     intelligence: 1,
-                    spirit: 1,
-                    charisma: 0
+                    spirit: 2,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -361,27 +361,27 @@ export const RACE_DATA = {
                 name: 'Medium Veilborn',
                 description: 'Gifted communicators with spirits of other realms',
                 statModifiers: {
-                    constitution: -1,
-                    strength: -1,
+                    constitution: -2,
+                    strength: -2,
                     agility: 1,
-                    intelligence: 1,
-                    spirit: 3,
-                    charisma: 2
+                    intelligence: 2,
+                    spirit: 4,
+                    charisma: 3
                 },
                 traits: [
                     {
                         name: 'Spirit Communication',
-                        description: 'Can speak with spirits and undead, gaining valuable information, but spirits may demand favors or become hostile.',
+                        description: 'Can speak with spirits and undead, gaining valuable information, but spirits may demand favors or become hostile. You cannot refuse a spirit\'s request once communication begins - failing to complete their task causes 2d6 psychic damage and disadvantage on all rolls for 24 hours. Spirits are drawn to you - random encounters with undead/spirits are 3x more likely.',
                         type: 'communication'
                     },
                     {
                         name: 'Ethereal Sight',
-                        description: 'Can see into the Ethereal Plane and detect invisible creatures, but suffer constant visions that impose -2 to Perception in combat.',
+                        description: 'Can see into the Ethereal Plane and detect invisible creatures, but suffer constant visions that impose -2 to Perception in combat and -1 to all attack rolls (you see too many layers of reality). In areas with strong spiritual activity, you must make Spirit saves (DC 12) each round or be frightened by the overwhelming visions.',
                         type: 'perception'
                     },
                     {
                         name: 'Spiritual Guidance',
-                        description: 'Once per day, can ask spirits for guidance on a decision, gaining advantage on next ability check, but must follow their advice or suffer a curse.',
+                        description: 'Once per day, can ask spirits for guidance on a decision, gaining advantage on next ability check, but you MUST follow their advice exactly or suffer a curse that causes disadvantage on all rolls of that type for 1 week. The spirits are not always benevolent - their advice may lead you into danger.',
                         type: 'divination'
                     }
                 ],
@@ -393,12 +393,12 @@ export const RACE_DATA = {
                 name: 'Walker Veilborn',
                 description: 'Explorers who traverse the border between worlds',
                 statModifiers: {
-                    constitution: 0,
-                    strength: 0,
-                    agility: 2,
-                    intelligence: 2,
-                    spirit: 2,
-                    charisma: 0
+                    constitution: -1,
+                    strength: -1,
+                    agility: 3,
+                    intelligence: 3,
+                    spirit: 3,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -408,12 +408,12 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Reality Anchor',
-                        description: 'Immune to forced planar travel and can stabilize dimensional rifts, but take double damage from force effects.',
+                        description: 'Immune to forced planar travel and can stabilize dimensional rifts, but you are vulnerable to force damage (take double damage from force attacks).',
                         type: 'utility'
                     },
                     {
                         name: 'Veil Walker',
-                        description: 'Can phase through walls for 1 round (once per long rest), but become vulnerable to all damage types for 1 minute afterward.',
+                        description: 'Can phase through walls for 1 round (once per long rest), but become vulnerable to all damage types (take double damage from all sources) for 1 minute afterward as your form struggles to fully rematerialize.',
                         type: 'movement'
                     }
                 ],
@@ -449,27 +449,27 @@ export const RACE_DATA = {
                 name: 'Doppel Mirrorkin',
                 description: 'Master impersonators perfecting deception arts',
                 statModifiers: {
-                    constitution: 0,
-                    strength: 0,
-                    agility: 2,
-                    intelligence: 1,
+                    constitution: -2,
+                    strength: -2,
+                    agility: 3,
+                    intelligence: 2,
                     spirit: 0,
-                    charisma: 3
+                    charisma: 4
                 },
                 traits: [
                     {
                         name: 'Perfect Mimicry',
-                        description: 'Can perfectly copy appearance and voice of observed creatures, but lose 1 point of original identity each use.',
+                        description: 'Can perfectly copy appearance and voice of observed creatures, but each use causes you to lose 1 point of your original identity permanently. After 5 uses without resting, you must make a Spirit save (DC 15) or forget who you originally were for 1d4 hours, believing yourself to be the last person you copied.',
                         type: 'illusion'
                     },
                     {
                         name: 'Adaptive Form',
-                        description: 'Can alter physical features to gain advantage on disguise checks, but suffer identity confusion (-2 to Wisdom saves).',
+                        description: 'Can alter physical features to gain advantage on disguise checks, but suffer severe identity confusion - you have -2 to Wisdom saves and cannot remember your own original appearance without looking in a mirror. Extended use (more than 4 hours in a single form) risks becoming permanently stuck in that form.',
                         type: 'utility'
                     },
                     {
                         name: 'Mirror Memory',
-                        description: 'Can access surface memories of copied forms, but risk personality bleed that affects decision-making.',
+                        description: 'Can access surface memories of copied forms, but risk personality bleed that affects decision-making. Each memory you access has a 20% chance to overwrite one of your own memories permanently. You may forget important personal details, loyalties, or goals.',
                         type: 'mental'
                     }
                 ],
@@ -481,11 +481,11 @@ export const RACE_DATA = {
                 name: 'Broken Mirrorkin',
                 description: 'Fragmented beings struggling with identity loss',
                 statModifiers: {
-                    constitution: -1,
-                    strength: -1,
-                    agility: 1,
-                    intelligence: 2,
-                    spirit: 1,
+                    constitution: -2,
+                    strength: -2,
+                    agility: 2,
+                    intelligence: 3,
+                    spirit: 2,
                     charisma: 1
                 },
                 traits: [
@@ -537,27 +537,27 @@ export const RACE_DATA = {
                 name: 'Courtly Thornkin',
                 description: 'Noble fae bound by supernatural bargains and rules',
                 statModifiers: {
-                    constitution: 0,
-                    strength: -1,
+                    constitution: -2,
+                    strength: -2,
                     agility: 2,
-                    intelligence: 2,
+                    intelligence: 3,
                     spirit: 1,
-                    charisma: 3
+                    charisma: 4
                 },
                 traits: [
                     {
                         name: 'Fae Bargain',
-                        description: 'Can make magical contracts that compel truth and compliance, but become bound by the same terms.',
+                        description: 'Can make magical contracts that compel truth and compliance, but you are MAGICALLY BOUND to honor every agreement you make or witness. Breaking a bargain causes 2d6 psychic damage and you cannot regain HP until you fulfill your obligation. You cannot lie under any circumstances - attempting to do so causes physical pain.',
                         type: 'social'
                     },
                     {
                         name: 'Court Etiquette',
-                        description: 'Advantage on social interactions with nobility and fae, but must follow strict behavioral codes or suffer penalties.',
+                        description: 'Advantage on social interactions with nobility and fae, but you MUST follow strict behavioral codes (no direct insults, proper titles, formal greetings). Violating etiquette causes disadvantage on all social rolls for 24 hours and thorns grow from your skin dealing 1d4 damage per violation.',
                         type: 'social'
                     },
                     {
                         name: 'Thorn Crown',
-                        description: 'Can command plant growth and entangle enemies, but thorns grow from your skin causing 1 damage per use.',
+                        description: 'Can command plant growth and entangle enemies, but each use causes thorns to grow from your skin dealing 1d4 damage and giving you -1 to Constitution saves for 1 hour. In combat, this stacks quickly.',
                         type: 'nature'
                     }
                 ],
@@ -569,17 +569,17 @@ export const RACE_DATA = {
                 name: 'Wild Thornkin',
                 description: 'Untamed fae who rejected the courts for primal freedom',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 2,
-                    agility: 2,
-                    intelligence: -1,
+                    constitution: 3,
+                    strength: 3,
+                    agility: 3,
+                    intelligence: -2,
                     spirit: 1,
-                    charisma: -2
+                    charisma: -3
                 },
                 traits: [
                     {
                         name: 'Briar Form',
-                        description: 'Can transform into a mass of thorny vines, gaining damage resistance but becoming immobile. Costs 3 AP.',
+                        description: 'Can transform into a mass of thorny vines, gaining resistance to bludgeoning and slashing damage (takes half damage), but becoming completely immobile and vulnerable to fire damage (takes double damage). Costs 3 AP, lasts 1 minute.',
                         type: 'transformation'
                     },
                     {
@@ -601,11 +601,11 @@ export const RACE_DATA = {
                 name: 'Dusk Thornkin',
                 description: 'Twilight fae who walk the boundary between light and shadow',
                 statModifiers: {
-                    constitution: 0,
-                    strength: 0,
-                    agility: 3,
-                    intelligence: 2,
-                    spirit: 2,
+                    constitution: -2,
+                    strength: -2,
+                    agility: 4,
+                    intelligence: 3,
+                    spirit: 3,
                     charisma: 1
                 },
                 traits: [
@@ -657,12 +657,12 @@ export const RACE_DATA = {
                 name: 'Guardian Wildkin',
                 description: 'Fierce protectors of ancient forests and groves',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 2,
+                    constitution: 3,
+                    strength: 3,
                     agility: 1,
-                    intelligence: 0,
-                    spirit: 2,
-                    charisma: -1
+                    intelligence: -1,
+                    spirit: 3,
+                    charisma: -2
                 },
                 traits: [
                     {
@@ -690,11 +690,11 @@ export const RACE_DATA = {
                 description: 'Restless nomads following seasonal migrations',
                 statModifiers: {
                     constitution: 1,
-                    strength: 0,
-                    agility: 3,
-                    intelligence: 1,
-                    spirit: 2,
-                    charisma: 0
+                    strength: -1,
+                    agility: 4,
+                    intelligence: 2,
+                    spirit: 3,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -721,27 +721,27 @@ export const RACE_DATA = {
                 name: 'Shaman Wildkin',
                 description: 'Wise druids communing with nature spirits',
                 statModifiers: {
-                    constitution: 1,
-                    strength: -1,
+                    constitution: 0,
+                    strength: -2,
                     agility: 1,
-                    intelligence: 2,
-                    spirit: 3,
-                    charisma: 1
+                    intelligence: 3,
+                    spirit: 4,
+                    charisma: 2
                 },
                 traits: [
                     {
                         name: 'Spirit Communion',
-                        description: 'Can speak with nature spirits for guidance and aid, but must perform rituals and offerings regularly.',
+                        description: 'Can speak with nature spirits for guidance and aid, but you MUST perform daily rituals and offerings (costing 50gp in materials per day) or the spirits become hostile. Neglecting spirits for more than 2 days causes them to curse you - disadvantage on all rolls until you make amends. Spirits often demand favors that may conflict with your goals.',
                         type: 'spiritual'
                     },
                     {
                         name: 'Elemental Affinity',
-                        description: 'Can channel elemental forces for various effects, but become vulnerable to opposing elements.',
+                        description: 'Can channel elemental forces for various effects, but you become VULNERABLE (take double damage) to opposing elements. Using fire magic makes you vulnerable to cold, water makes you vulnerable to lightning, etc. The vulnerability lasts for 1 hour after using elemental powers.',
                         type: 'elemental'
                     },
                     {
                         name: 'Ancestral Wisdom',
-                        description: 'Can access memories of previous shamans for knowledge, but risk being overwhelmed by ancient experiences.',
+                        description: 'Can access memories of previous shamans for knowledge, but risk being overwhelmed by ancient experiences. Each use requires a Spirit save (DC 15) or you become confused for 1d4 rounds, unable to distinguish between your memories and those of ancestors. Extended use can cause permanent personality shifts.',
                         type: 'knowledge'
                     }
                 ],
@@ -754,26 +754,26 @@ export const RACE_DATA = {
                 description: 'Small, nimble folk who blend into crowds and move with supernatural stealth',
                 statModifiers: {
                     constitution: 1,
-                    strength: -1,
-                    agility: 3,
-                    intelligence: 1,
-                    spirit: 1,
-                    charisma: 2
+                    strength: -3,
+                    agility: 4,
+                    intelligence: 2,
+                    spirit: 2,
+                    charisma: 3
                 },
                 traits: [
                     {
                         name: 'Naturally Stealthy',
-                        description: 'Can attempt to hide even when only obscured by a creature that is at least one size larger than you.',
+                        description: 'Can attempt to hide even when only obscured by a creature that is at least one size larger than you. However, your small size makes you vulnerable - you take +50% damage from Large or larger creatures and have disadvantage on Strength-based saves.',
                         type: 'stealth'
                     },
                     {
                         name: 'Lucky',
-                        description: 'When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.',
+                        description: 'When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll. However, you cannot benefit from this again until you complete a short rest. Over-relying on luck leaves you exhausted.',
                         type: 'luck'
                     },
                     {
                         name: 'Brave',
-                        description: 'You have advantage on saving throws against being frightened.',
+                        description: 'You have advantage on saving throws against being frightened, but your bravery can become recklessness - you must make a Spirit save (DC 12) to retreat from dangerous situations, often leading you into harm.',
                         type: 'mental'
                     }
                 ],
@@ -809,12 +809,12 @@ export const RACE_DATA = {
                 name: 'Forgeborn Ashmark',
                 description: 'Master smiths whose bodies burn with forge heat',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 3,
-                    agility: -1,
-                    intelligence: 2,
+                    constitution: 3,
+                    strength: 4,
+                    agility: -2,
+                    intelligence: 3,
                     spirit: 0,
-                    charisma: 0
+                    charisma: -2
                 },
                 traits: [
                     {
@@ -824,7 +824,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Fire Immunity',
-                        description: 'Immune to fire damage and can walk through lava, but take double damage from cold effects.',
+                        description: 'Immune to fire damage (takes no damage) and can walk through lava unharmed, but you are vulnerable to cold damage (take double damage from cold attacks).',
                         type: 'resistance'
                     },
                     {
@@ -842,11 +842,11 @@ export const RACE_DATA = {
                 description: 'Swift scouts leaving trails of smoldering embers',
                 statModifiers: {
                     constitution: 1,
-                    strength: 1,
-                    agility: 3,
-                    intelligence: 1,
-                    spirit: 1,
-                    charisma: 0
+                    strength: 0,
+                    agility: 4,
+                    intelligence: 2,
+                    spirit: 2,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -873,12 +873,12 @@ export const RACE_DATA = {
                 name: 'War Orc',
                 description: 'Fierce warriors from volcanic battlegrounds, tempered by fire and war',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 3,
+                    constitution: 3,
+                    strength: 4,
                     agility: 1,
-                    intelligence: -1,
+                    intelligence: -2,
                     spirit: 1,
-                    charisma: 0
+                    charisma: -2
                 },
                 traits: [
                     {
@@ -929,12 +929,12 @@ export const RACE_DATA = {
                 name: 'Hunter Skinwalker',
                 description: 'Predatory shapeshifters embracing bestial nature',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 2,
-                    agility: 2,
-                    intelligence: -1,
+                    constitution: 3,
+                    strength: 3,
+                    agility: 3,
+                    intelligence: -2,
                     spirit: 1,
-                    charisma: -2
+                    charisma: -3
                 },
                 traits: [
                     {
@@ -962,11 +962,11 @@ export const RACE_DATA = {
                 description: 'Those seeking redemption from their curse',
                 statModifiers: {
                     constitution: 1,
-                    strength: 0,
-                    agility: 1,
-                    intelligence: 1,
-                    spirit: 2,
-                    charisma: 1
+                    strength: -1,
+                    agility: 2,
+                    intelligence: 2,
+                    spirit: 3,
+                    charisma: 2
                 },
                 traits: [
                     {
@@ -976,7 +976,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Curse Resistance',
-                        description: 'Resistance to curses and lycanthropy due to existing curse, but vulnerable to divine magic.',
+                        description: 'Resistant to curses and lycanthropy due to existing curse, but you are vulnerable to radiant damage (take double damage from radiant attacks) due to your cursed nature.',
                         type: 'resistance'
                     },
                     {
@@ -1017,12 +1017,12 @@ export const RACE_DATA = {
                 name: 'Hoarder Graveworn',
                 description: 'Ancient guardians consumed by insatiable greed',
                 statModifiers: {
-                    constitution: 3,
-                    strength: 2,
-                    agility: -2,
+                    constitution: 4,
+                    strength: 3,
+                    agility: -3,
                     intelligence: 1,
-                    spirit: -1,
-                    charisma: -1
+                    spirit: -2,
+                    charisma: -2
                 },
                 traits: [
                     {
@@ -1032,7 +1032,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Undead Resilience',
-                        description: 'Immunity to poison, disease, and exhaustion, but vulnerable to radiant damage and turn undead effects.',
+                        description: 'Immune to poison and disease damage, and immune to exhaustion. However, you are vulnerable to radiant damage (take double damage from radiant attacks) and vulnerable to turn undead effects (disadvantage on saves).',
                         type: 'undead'
                     },
                     {
@@ -1050,10 +1050,10 @@ export const RACE_DATA = {
                 description: 'Undead academics obsessed with collecting knowledge',
                 statModifiers: {
                     constitution: 2,
-                    strength: -1,
-                    agility: -1,
-                    intelligence: 3,
-                    spirit: 1,
+                    strength: -2,
+                    agility: -2,
+                    intelligence: 4,
+                    spirit: 2,
                     charisma: 0
                 },
                 traits: [
@@ -1105,12 +1105,12 @@ export const RACE_DATA = {
                 name: 'Thundercaller Stormborn',
                 description: 'Masters of thunder and sonic devastation',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 2,
+                    constitution: 3,
+                    strength: 3,
                     agility: 1,
-                    intelligence: 0,
-                    spirit: 1,
-                    charisma: 2
+                    intelligence: -1,
+                    spirit: 2,
+                    charisma: 3
                 },
                 traits: [
                     {
@@ -1138,11 +1138,11 @@ export const RACE_DATA = {
                 description: 'Living conduits of pure electrical energy',
                 statModifiers: {
                     constitution: 1,
-                    strength: 0,
-                    agility: 3,
-                    intelligence: 2,
-                    spirit: 2,
-                    charisma: 0
+                    strength: -1,
+                    agility: 4,
+                    intelligence: 3,
+                    spirit: 3,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -1157,7 +1157,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Grounded',
-                        description: 'Immune to lightning damage, but vulnerable to water and take double damage when wet.',
+                        description: 'Immune to lightning damage (takes no damage). However, you are vulnerable to cold damage when wet (take double damage from cold attacks). Additionally, you take 1d4 lightning damage per round when standing in water or during rain.',
                         type: 'resistance'
                     }
                 ],
@@ -1169,17 +1169,17 @@ export const RACE_DATA = {
                 name: 'Tempest Stormborn',
                 description: 'Embodiments of chaotic storm fury',
                 statModifiers: {
-                    constitution: 2,
-                    strength: 3,
-                    agility: 2,
-                    intelligence: -1,
-                    spirit: 1,
+                    constitution: 3,
+                    strength: 4,
+                    agility: 3,
+                    intelligence: -2,
+                    spirit: 2,
                     charisma: 1
                 },
                 traits: [
                     {
                         name: 'Storm Rage',
-                        description: 'Enter a berserk state gaining massive damage and resistance, but attack randomly including allies.',
+                        description: 'Enter a berserk state gaining +3 to attack rolls and +2d6 lightning damage to all attacks, plus resistance to bludgeoning, piercing, and slashing damage (takes half damage). However, you must attack the nearest creature each turn (friend or foe) - you cannot choose targets. Lasts 1 minute or until unconscious. Once per long rest.',
                         type: 'combat'
                     },
                     {
@@ -1225,27 +1225,27 @@ export const RACE_DATA = {
                 name: 'Abyssal Deepkin',
                 description: 'Beings from the crushing depths, nearly indestructible',
                 statModifiers: {
-                    constitution: 3,
+                    constitution: 4,
                     strength: 2,
-                    agility: -1,
-                    intelligence: 1,
+                    agility: -3,
+                    intelligence: 0,
                     spirit: 2,
-                    charisma: -2
+                    charisma: -3
                 },
                 traits: [
                     {
                         name: 'Pressure Adaptation',
-                        description: 'Immune to crushing damage and can survive any depth, but move slowly on land.',
+                        description: 'Resistant to bludgeoning damage (takes half damage) due to deep-sea adaptation. Can survive at any ocean depth without pressure effects. However, you move at HALF speed on land (10 feet base) and have disadvantage on all agility-based rolls when not in water. Extended time on land (more than 4 hours) causes 1d4 bludgeoning damage per hour from gravity strain.',
                         type: 'defense'
                     },
                     {
                         name: 'Abyssal Resilience',
-                        description: 'Massive damage resistance and HP, but bright light causes pain and disadvantage.',
+                        description: 'Resistant to cold and acid damage (takes half damage). High Constitution grants substantial HP. However, bright light (sunlight or magical light) causes you to take 1d4 radiant damage per minute and gives disadvantage on all rolls while exposed. You must make Constitution saves (DC 12) each hour in bright light or become exhausted.',
                         type: 'defense'
                     },
                     {
                         name: 'Deep Sight',
-                        description: 'Perfect vision in darkness and can see through murky water, but blinded by daylight.',
+                        description: 'Perfect vision in darkness and can see through murky water up to 120 feet. However, you are BLINDED by daylight (treat as blind condition). In bright light, all Perception checks are made with disadvantage and you cannot see creatures more than 30 feet away.',
                         type: 'perception'
                     }
                 ],
@@ -1259,10 +1259,10 @@ export const RACE_DATA = {
                 statModifiers: {
                     constitution: 1,
                     strength: 2,
-                    agility: 3,
-                    intelligence: 2,
-                    spirit: 1,
-                    charisma: -1
+                    agility: 4,
+                    intelligence: 3,
+                    spirit: 2,
+                    charisma: -2
                 },
                 traits: [
                     {
@@ -1272,7 +1272,7 @@ export const RACE_DATA = {
                     },
                     {
                         name: 'Ambush Predator',
-                        description: 'Massive damage bonus on surprise attacks, but disadvantage in direct combat.',
+                        description: 'Deal double damage on surprise attacks and attacks from hiding, but you have disadvantage on attack rolls and damage rolls in direct, face-to-face combat. This represents your reliance on ambush tactics rather than frontal assaults.',
                         type: 'combat'
                     },
                     {
@@ -1290,11 +1290,11 @@ export const RACE_DATA = {
                 description: 'Adaptable beings who bridge deep and surface waters',
                 statModifiers: {
                     constitution: 2,
-                    strength: 1,
-                    agility: 2,
-                    intelligence: 2,
-                    spirit: 1,
-                    charisma: 0
+                    strength: 0,
+                    agility: 3,
+                    intelligence: 3,
+                    spirit: 2,
+                    charisma: -1
                 },
                 traits: [
                     {
@@ -1345,12 +1345,12 @@ export const RACE_DATA = {
                 name: 'Voidwalker Starborn',
                 description: 'Beings from the empty void between stars',
                 statModifiers: {
-                    constitution: 1,
-                    strength: 0,
-                    agility: 2,
-                    intelligence: 3,
-                    spirit: 3,
-                    charisma: -1
+                    constitution: 0,
+                    strength: -2,
+                    agility: 3,
+                    intelligence: 4,
+                    spirit: 4,
+                    charisma: -2
                 },
                 traits: [
                     {
@@ -1379,7 +1379,7 @@ export const RACE_DATA = {
                 statModifiers: {
                     constitution: 2,
                     strength: 3,
-                    agility: 1,
+                    agility: 0,
                     intelligence: 2,
                     spirit: 2,
                     charisma: 2
@@ -1387,17 +1387,17 @@ export const RACE_DATA = {
                 traits: [
                     {
                         name: 'Stellar Radiance',
-                        description: 'Emit intense light and heat, damaging nearby enemies but also revealing your position.',
+                        description: 'Emit intense light and heat, damaging nearby enemies (including allies!) but also revealing your position. The heat damages equipment and causes exhaustion in extended exposure. You glow brightly, making stealth impossible.',
                         type: 'combat'
                     },
                     {
                         name: 'Solar Flare',
-                        description: 'Release devastating bursts of stellar energy, but burn yourself in the process. Costs 4 AP.',
+                        description: 'Release devastating bursts of stellar energy, but you take HALF the damage dealt (minimum 2d6) as backlash. Each use reduces your maximum HP by 1 until long rest. Costs 4 AP.',
                         type: 'combat'
                     },
                     {
                         name: 'Photosynthesis',
-                        description: 'Regenerate health in sunlight, but weaken in darkness.',
+                        description: 'Regenerate health in sunlight, but you WEAKEN in darkness - take -2 to all stats and cannot regenerate HP when not in direct sunlight. In darkness for more than 4 hours, you begin taking 1d4 damage per hour.',
                         type: 'utility'
                     }
                 ],
@@ -1409,27 +1409,27 @@ export const RACE_DATA = {
                 name: 'Constellation Starborn',
                 description: 'Living embodiments of celestial patterns',
                 statModifiers: {
-                    constitution: 0,
-                    strength: 0,
-                    agility: 2,
-                    intelligence: 3,
-                    spirit: 3,
+                    constitution: -2,
+                    strength: -3,
+                    agility: 3,
+                    intelligence: 4,
+                    spirit: 4,
                     charisma: 2
                 },
                 traits: [
                     {
                         name: 'Star Map',
-                        description: 'Can read fate in the stars and predict future events, but visions are cryptic and maddening.',
+                        description: 'Can read fate in the stars and predict future events, but visions are cryptic and maddening. Each use risks madness - make a Spirit save (DC 15) or gain disadvantage on all rolls for 1 hour. You cannot stop reading the stars once you start - must make Spirit save to look away.',
                         type: 'divination'
                     },
                     {
                         name: 'Constellation Form',
-                        description: 'Transform into pure starlight, becoming intangible but unable to affect the physical world. Costs 3 AP.',
+                        description: 'Transform into pure starlight, becoming intangible but unable to affect the physical world. While transformed, you cannot attack, cast spells with material components, or interact with objects. You are vulnerable to all damage types (take double damage from all sources) and cannot benefit from cover or armor. Costs 3 AP, lasts 1 minute.',
                         type: 'transformation'
                     },
                     {
                         name: 'Cosmic Insight',
-                        description: 'Gain advantage on all knowledge checks, but risk madness from forbidden knowledge.',
+                        description: 'Gain advantage on all knowledge checks, but accessing forbidden knowledge causes 1d6 psychic damage per question answered. You are compelled to share cosmic truths at inappropriate times, often causing social penalties.',
                         type: 'knowledge'
                     }
                 ],

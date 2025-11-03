@@ -112,7 +112,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'You identify the spell but miss subtle variation', type: 'normal' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You recognize the enchantment and its basic function', type: 'success' },
             { roll: [3, 3], result: 'You identify school, effect, and duration', type: 'success' },
             { roll: [4, 4], result: 'You recognize the specific caster tradition', type: 'critical' }
@@ -214,7 +214,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You identify everything instantly', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize spell, components, and caster level', type: 'success' },
             { roll: [3, 3], result: 'You determine full mechanics and potential counters', type: 'critical' },
             { roll: [4, 4], result: 'You identify hidden optimization in the casting', type: 'critical' }
@@ -227,7 +227,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You identify the spell but miss minor details', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize all primary characteristics', type: 'success' },
             { roll: [3, 4], result: 'You determine full effect, duration, and components', type: 'success' },
             { roll: [5, 5], result: 'You identify weaknesses and potential counters', type: 'critical' },
@@ -316,7 +316,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You comprehend everything, including subtle nuances', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You identify spell, caster intent, and optimal counters', type: 'critical' },
             { roll: [3, 3], result: 'You recognize how to improve the enchantment', type: 'critical' },
             { roll: [4, 4], result: 'You understand the theoretical foundation completely', type: 'critical' }
@@ -329,7 +329,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You identify all features with perfect clarity', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You recognize spell, components, and all variations', type: 'success' },
             { roll: [3, 4], result: 'You determine full mechanics and weaknesses', type: 'critical' },
             { roll: [5, 5], result: 'You identify how to replicate and enhance it', type: 'critical' },
@@ -343,7 +343,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You identify all major elements clearly', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize the full spell structure', type: 'success' },
             { roll: [3, 4], result: 'You determine all components and interactions', type: 'success' },
             { roll: [5, 5], result: 'You identify the exact casting sequence', type: 'success' },
@@ -418,7 +418,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You understand everything including creator psychology', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You comprehend all aspects and see improvements', type: 'critical' },
             { roll: [3, 3], result: 'You recognize the theoretical elegance and flaws', type: 'critical' },
             { roll: [4, 4], result: 'You perceive connections to broader magical theory', type: 'critical' }
@@ -431,7 +431,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You comprehend all elements with perfect clarity', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You understand the complete magical architecture', type: 'critical' },
             { roll: [3, 4], result: 'You recognize all nuances and potential applications', type: 'critical' },
             { roll: [5, 5], result: 'You identify how to replicate and perfect it', type: 'critical' },
@@ -445,7 +445,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You identify all components with complete understanding', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize the full magical structure and theory', type: 'success' },
             { roll: [3, 4], result: 'You determine all interactions and dependencies', type: 'critical' },
             { roll: [5, 5], result: 'You identify optimal methods to enhance or counter', type: 'critical' },
@@ -461,7 +461,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You identify all major elements clearly', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize the complete structure', type: 'success' },
             { roll: [3, 4], result: 'You determine all enchantment layers and purposes', type: 'success' },
             { roll: [5, 5], result: 'You identify all power flows and bindings', type: 'success' },
@@ -479,7 +479,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You identify the primary structure and most layers', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize the tradition and framework', type: 'success' },
             { roll: [3, 4], result: 'You determine all major enchantments', type: 'success' },
             { roll: [5, 5], result: 'You identify the power architecture', type: 'success' },
@@ -520,7 +520,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You perceive all aspects and their place in magical history', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand the magic and its broader implications', type: 'critical' },
             { roll: [3, 3], result: 'You recognize how it relates to fundamental theory', type: 'critical' },
             { roll: [4, 4], result: 'You comprehend the magic at a transcendent level', type: 'critical' }
@@ -533,7 +533,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You understand everything with absolute clarity', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You comprehend the complete magical theory', type: 'critical' },
             { roll: [3, 4], result: 'You recognize all applications and variations', type: 'critical' },
             { roll: [5, 5], result: 'You identify how to perfect and transcend it', type: 'critical' },
@@ -547,7 +547,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You comprehend all elements and their significance', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand the complete magical architecture', type: 'critical' },
             { roll: [3, 4], result: 'You recognize all theoretical foundations', type: 'critical' },
             { roll: [5, 5], result: 'You identify how to enhance or revolutionize it', type: 'critical' },
@@ -563,7 +563,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You identify all components with deep understanding', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize the complete structure and theory', type: 'success' },
             { roll: [3, 4], result: 'You determine all layers and interactions', type: 'critical' },
             { roll: [5, 5], result: 'You identify all power flows and principles', type: 'critical' },
@@ -581,7 +581,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You identify the complete structure clearly', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You recognize all major enchantments', type: 'success' },
             { roll: [3, 4], result: 'You determine the power architecture', type: 'critical' },
             { roll: [5, 5], result: 'You identify all component interactions', type: 'critical' },
@@ -622,7 +622,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You perceive the magic and its echo across reality', type: 'critical' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You understand it as part of the cosmic tapestry', type: 'critical' },
             { roll: [3, 3], result: 'You recognize its connection to fundamental forces', type: 'critical' },
             { roll: [4, 4], result: 'You comprehend the magic at an absolute level', type: 'critical' }
@@ -635,7 +635,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You understand everything with transcendent clarity', type: 'critical' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You comprehend the magic and its universal implications', type: 'critical' },
             { roll: [3, 4], result: 'You recognize all connections to fundamental laws', type: 'critical' },
             { roll: [5, 5], result: 'You identify how to transcend its limitations', type: 'critical' },
@@ -649,7 +649,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You comprehend all aspects with perfect understanding', type: 'critical' },
+            { roll: [1, 1], result: 'Execution falters, noticeable error', type: 'failure' },
             { roll: [2, 2], result: 'You understand the complete magical theory', type: 'critical' },
             { roll: [3, 4], result: 'You recognize all theoretical foundations', type: 'critical' },
             { roll: [5, 5], result: 'You identify how to revolutionize it', type: 'critical' },
@@ -665,7 +665,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You identify all elements with absolute clarity', type: 'critical' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You recognize the complete structure and theory', type: 'critical' },
             { roll: [3, 4], result: 'You determine all layers and principles', type: 'critical' },
             { roll: [5, 5], result: 'You identify all power flows and foundations', type: 'critical' },
@@ -683,7 +683,7 @@ export const ARCANE_KNOWLEDGE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You comprehend the complete structure', type: 'critical' },
+            { roll: [1, 1], result: 'Failure, attempt unsuccessful', type: 'failure' },
             { roll: [2, 2], result: 'You recognize all enchantments and purposes', type: 'critical' },
             { roll: [3, 4], result: 'You determine the power architecture', type: 'critical' },
             { roll: [5, 5], result: 'You identify all interactions and dependencies', type: 'critical' },

@@ -26,11 +26,213 @@ export const TRICKSTER_PATH = {
         mechanicalIntegration: 'Deception, mobility, and tactical advantage.'
     },
 
+    // Top 3 abilities representing the discipline
+    abilities: [
+        {
+            id: 'shadow_step',
+            name: 'Shadow Step',
+            description: '"Now you see me..." Teleport through shadows to a nearby location.',
+            icon: 'ability_rogue_shadowstep',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['utility', 'teleport', 'shadow', 'mobility'],
+            effectTypes: ['utility'],
+            damageTypes: [],
+
+            utilityConfig: {
+                utilityType: 'movement',
+                utilitySubtype: 'teleport',
+                duration: 0,
+                durationUnit: 'instant',
+                selectedEffects: [
+                    {
+                        name: 'Shadow Teleport',
+                        description: 'Teleport up to 60 feet to an unoccupied space you can see that is in dim light or darkness',
+                        customName: 'Shadow Step'
+                    }
+                ],
+                difficultyClass: 0,
+                concentration: false
+            },
+
+            targetingConfig: {
+                targetingType: 'location',
+                rangeType: 'ranged',
+                rangeDistance: 60,
+                targetRestrictions: []
+            },
+
+            resourceCost: {
+                mana: 10,
+                health: 0,
+                stamina: 5,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 3,
+                recovery: 3
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'mirror_image',
+            name: 'Mirror Image',
+            description: '"Which one is real?" Create illusory duplicates of yourself.',
+            icon: 'spell_magic_lesserinvisibilty',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['utility', 'illusion', 'defense', 'misdirection'],
+            effectTypes: ['utility'],
+            damageTypes: [],
+
+            utilityConfig: {
+                utilityType: 'illusion',
+                utilitySubtype: 'visual',
+                duration: 6,
+                durationUnit: 'rounds',
+                selectedEffects: [
+                    {
+                        name: 'Illusory Duplicates',
+                        description: 'Create 2 illusory duplicates that share your space and mimic your movements. Attackers have a 33% chance to hit a duplicate instead',
+                        customName: 'Mirror Image'
+                    }
+                ],
+                difficultyClass: 0,
+                concentration: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            resourceCost: {
+                mana: 15,
+                health: 0,
+                stamina: 0,
+                focus: 5,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 6,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: true
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'arcane',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'envenom_weapon',
+            name: 'Envenom Weapon',
+            description: '"A little something extra." Coat your weapon with deadly poison.',
+            icon: 'ability_rogue_deadlypoison',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['buff', 'poison', 'weapon', 'damage-over-time'],
+            effectTypes: ['buff'],
+            damageTypes: ['poison'],
+
+            buffConfig: {
+                duration: 10,
+                durationValue: 10,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [],
+                statusEffects: [
+                    {
+                        id: 'envenomed_weapon',
+                        name: 'Envenomed Weapon',
+                        description: 'Weapon attacks deal additional 2d6 poison damage and apply poison DoT'
+                    }
+                ],
+                buffs: [
+                    {
+                        name: 'Deadly Poison',
+                        description: 'Weapon deals poison damage',
+                        duration: 10,
+                        effects: {
+                            bonusDamage: '2d6',
+                            damageType: 'poison',
+                            dotDamage: '1d6',
+                            dotDuration: 3
+                        }
+                    }
+                ]
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            resourceCost: {
+                mana: 12,
+                health: 0,
+                stamina: 0,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 10,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'nature',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        }
+    ],
+
     subPaths: {
         shadowDancer: {
             id: 'shadow_dancer',
-            name: 'Shadow Dancer',
-            description: 'Masters of stealth and shadow magic',
+            name: 'Shadow Discipline',
+            description: 'The practice of mastering stealth and shadow magic',
             theme: 'Stealth and shadow manipulation',
             icon: 'fas fa-user-ninja',
 
@@ -118,7 +320,7 @@ export const TRICKSTER_PATH = {
                         formula: '6d6 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: false
                         },
                         criticalConfig: {
@@ -175,8 +377,8 @@ export const TRICKSTER_PATH = {
 
         illusionist: {
             id: 'illusionist',
-            name: 'Illusionist',
-            description: 'Weavers of deceptive magic and false realities',
+            name: 'Illusion Discipline',
+            description: 'The practice of weaving deceptive magic and false realities',
             theme: 'Illusion and misdirection',
             icon: 'fas fa-eye-slash',
 
@@ -283,12 +485,11 @@ export const TRICKSTER_PATH = {
                         formula: '5d8 + INT',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: true,
-                            attribute: 'spirit',
-                            difficulty: 15,
-                            onSuccess: 'half_damage',
-                            onFailure: 'full_damage'
+                            savingThrowType: 'spirit',
+                            difficultyClass: 15,
+                            saveOutcome: 'halves'
                         },
                         criticalConfig: {
                             enabled: true,
@@ -363,8 +564,8 @@ export const TRICKSTER_PATH = {
 
         poisoner: {
             id: 'poisoner',
-            name: 'Poisoner',
-            description: 'Masters of toxins and venoms',
+            name: 'Poison Discipline',
+            description: 'The practice of mastering toxins and venoms',
             theme: 'Poison crafting and application',
             icon: 'fas fa-flask-poison',
 
@@ -466,12 +667,11 @@ export const TRICKSTER_PATH = {
                         hasDotEffect: true,
                         dotTickInterval: 1,
                         dotDuration: 5,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: true,
-                            attribute: 'constitution',
-                            difficulty: 14,
-                            onSuccess: 'half_damage',
-                            onFailure: 'full_damage'
+                            savingThrowType: 'constitution',
+                            difficultyClass: 14,
+                            saveOutcome: 'halves'
                         },
                         criticalConfig: {
                             enabled: true,

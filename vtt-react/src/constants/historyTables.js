@@ -187,7 +187,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You recall all major facts accurately', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You remember details and cultural context', type: 'success' },
             { roll: [3, 3], result: 'You understand motivations and consequences', type: 'success' },
             { roll: [4, 4], result: 'You connect this to related historical patterns', type: 'critical' }
@@ -276,7 +276,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You recall comprehensive details effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You understand all context and significance', type: 'success' },
             { roll: [3, 3], result: 'You identify patterns and draw insights', type: 'critical' },
             { roll: [4, 4], result: 'You connect this to broader historical movements', type: 'critical' }
@@ -288,7 +288,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You recall most details with minor gaps', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You remember comprehensive account with context', type: 'success' },
             { roll: [3, 4], result: 'You understand all motivations and consequences', type: 'success' },
             { roll: [5, 5], result: 'You identify cultural and political patterns', type: 'success' },
@@ -365,7 +365,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You recall comprehensive details and all context', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand complex patterns and significance', type: 'critical' },
             { roll: [3, 3], result: 'You connect this to distant eras and cultures', type: 'critical' },
             { roll: [4, 4], result: 'You reveal forgotten perspectives that reshape understanding', type: 'critical' }
@@ -377,7 +377,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You recall detailed account with minor gaps', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You remember comprehensive details and context', type: 'success' },
             { roll: [3, 4], result: 'You understand all motivations and consequences', type: 'success' },
             { roll: [5, 5], result: 'You identify repeating patterns across eras', type: 'critical' },
@@ -454,7 +454,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You synthesize all details and context effortlessly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You identify patterns across multiple civilizations', type: 'critical' },
             { roll: [3, 3], result: 'You reveal forgotten perspectives that reshape understanding', type: 'critical' },
             { roll: [4, 4], result: 'You draw profound political and moral insights', type: 'critical' }
@@ -466,7 +466,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You recall comprehensive details with ease', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand all context and significance', type: 'success' },
             { roll: [3, 4], result: 'You identify repeating patterns across eras', type: 'critical' },
             { roll: [5, 5], result: 'You connect distant civilizations and events', type: 'critical' },
@@ -479,7 +479,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You recall detailed account with minor gaps', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You remember comprehensive details and context', type: 'success' },
             { roll: [3, 4], result: 'You understand complex motivations and outcomes', type: 'success' },
             { roll: [5, 5], result: 'You identify patterns across cultures and eras', type: 'success' },
@@ -543,7 +543,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You synthesize all knowledge across civilizations effortlessly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You identify universal patterns that transcend cultures', type: 'critical' },
             { roll: [3, 3], result: 'You reveal forgotten truths that redefine understanding', type: 'critical' },
             { roll: [4, 4], result: 'You draw transformative insights from the entire span of history', type: 'critical' }
@@ -555,7 +555,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You recall all details and context with perfect clarity', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You understand patterns across all civilizations', type: 'critical' },
             { roll: [3, 4], result: 'You connect distant eras and reveal hidden parallels', type: 'critical' },
             { roll: [5, 5], result: 'You reveal forgotten perspectives that transform understanding', type: 'critical' },
@@ -568,7 +568,7 @@ export const HISTORY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You recall comprehensive details with ease', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You understand all context and significance', type: 'success' },
             { roll: [3, 4], result: 'You identify repeating patterns across civilizations', type: 'critical' },
             { roll: [5, 5], result: 'You connect distant eras and cultures', type: 'critical' },

@@ -30,62 +30,12 @@ import { db } from '../../config/firebase';
 // Collection names
 const COLLECTIONS = {
   SPELLS: 'community_spells',
-  CATEGORIES: 'spell_categories',
   USERS: 'users',
-  RATINGS: 'spell_ratings'
+  RATINGS: 'spell_ratings',
+  FAVORITES: 'spell_favorites'
 };
 
 // Mock data for when Firebase is not available
-const MOCK_CATEGORIES = [
-  {
-    id: 'damage',
-    name: 'Damage Spells',
-    description: 'Offensive spells that deal damage to enemies',
-    icon: 'spell_fire_fireball02',
-    color: '#8B4513',
-    spellCount: 15
-  },
-  {
-    id: 'healing',
-    name: 'Healing Spells',
-    description: 'Restorative spells that heal wounds and cure ailments',
-    icon: 'spell_holy_heal',
-    color: '#2d5016',
-    spellCount: 8
-  },
-  {
-    id: 'utility',
-    name: 'Utility Spells',
-    description: 'Versatile spells for exploration and problem-solving',
-    icon: 'spell_arcane_teleportundercity',
-    color: '#5a1e12',
-    spellCount: 12
-  },
-  {
-    id: 'protection',
-    name: 'Protection Spells',
-    description: 'Defensive spells that shield and protect',
-    icon: 'spell_holy_devotionaura',
-    color: '#b8860b',
-    spellCount: 6
-  },
-  {
-    id: 'illusion',
-    name: 'Illusion Spells',
-    description: 'Deceptive spells that manipulate perception',
-    icon: 'spell_shadow_charm',
-    color: '#8b7355',
-    spellCount: 9
-  },
-  {
-    id: 'elemental',
-    name: 'Elemental Spells',
-    description: 'Spells that harness the power of the elements',
-    icon: 'spell_nature_lightning',
-    color: '#a08c70',
-    spellCount: 18
-  }
-];
 
 const MOCK_FEATURED_SPELLS = [
   {
@@ -136,73 +86,76 @@ const checkFirebaseAvailable = () => {
 };
 
 /**
- * Get all spell categories/folders
+ * Get all shared community spells (simplified - no folders/maps)
  */
-export async function getSpellCategories() {
+export async function getAllCommunitySpells(pageSize = 20, lastDoc = null, sortBy = 'rating') {
   try {
     if (!checkFirebaseAvailable()) {
-      // Return mock data when Firebase is not available
-      return MOCK_CATEGORIES;
-    }
-
-    const categoriesRef = collection(db, COLLECTIONS.CATEGORIES);
-    const snapshot = await getDocs(categoriesRef);
-
-    return snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-  } catch (error) {
-    console.error('Error fetching spell categories:', error);
-    console.log('Falling back to mock data');
-    return MOCK_CATEGORIES;
-  }
-}
-
-/**
- * Get spells by category with pagination
- */
-export async function getSpellsByCategory(categoryId, pageSize = 20, lastDoc = null) {
-  try {
-    if (!checkFirebaseAvailable()) {
-      // Return mock spells for the category
-      const mockSpells = MOCK_FEATURED_SPELLS.filter(spell => spell.categoryId === categoryId);
       return {
-        spells: mockSpells,
+        spells: [],
         lastDoc: null,
         hasMore: false
       };
     }
 
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
-    let q = query(
-      spellsRef,
-      where('categoryId', '==', categoryId),
-      where('isPublic', '==', true),
-      orderBy('createdAt', 'desc'),
-      limit(pageSize)
-    );
+    
+    // Build query - get all public shared spells
+    try {
+      let orderField = 'createdAt';
+      if (sortBy === 'rating') orderField = 'rating';
+      else if (sortBy === 'downloads') orderField = 'downloadCount';
+      else if (sortBy === 'newest') orderField = 'createdAt';
 
-    if (lastDoc) {
-      q = query(q, startAfter(lastDoc));
+      let q = query(
+        spellsRef,
+        where('isPublic', '==', true),
+        orderBy(orderField, sortBy === 'rating' || sortBy === 'downloads' ? 'desc' : 'desc'),
+        limit(pageSize)
+      );
+
+      if (lastDoc) {
+        q = query(q, startAfter(lastDoc));
+      }
+
+      const snapshot = await getDocs(q);
+
+      return {
+        spells: snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })),
+        lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+        hasMore: snapshot.docs.length === pageSize
+      };
+    } catch (queryError) {
+      // If orderBy fails, try without it
+      console.warn('Query with orderBy failed, trying without:', queryError);
+      let q = query(
+        spellsRef,
+        where('isPublic', '==', true),
+        limit(pageSize)
+      );
+
+      if (lastDoc) {
+        q = query(q, startAfter(lastDoc));
+      }
+
+      const snapshot = await getDocs(q);
+
+      return {
+        spells: snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })),
+        lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+        hasMore: snapshot.docs.length === pageSize
+      };
     }
-
-    const snapshot = await getDocs(q);
-
-    return {
-      spells: snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })),
-      lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
-      hasMore: snapshot.docs.length === pageSize
-    };
   } catch (error) {
-    console.error('Error fetching spells by category:', error);
-    console.log('Falling back to mock data');
-    const mockSpells = MOCK_FEATURED_SPELLS.filter(spell => spell.categoryId === categoryId);
+    console.error('Error fetching community spells:', error);
     return {
-      spells: mockSpells,
+      spells: [],
       lastDoc: null,
       hasMore: false
     };
@@ -294,6 +247,10 @@ export async function getFeaturedSpells(pageSize = 10) {
  */
 export async function uploadSpell(spellData, userId) {
   try {
+    if (!checkFirebaseAvailable()) {
+      throw new Error('Firebase not available');
+    }
+
     const spellsRef = collection(db, COLLECTIONS.SPELLS);
     
     const communitySpell = {
@@ -398,116 +355,233 @@ async function recalculateSpellRating(spellId) {
   }
 }
 
-// Default categories for initial setup
-export const DEFAULT_CATEGORIES = [
-  {
-    id: 'damage',
-    name: 'Damage Spells',
-    description: 'Spells that deal damage to enemies',
-    icon: 'spell_fire_fireball02',
-    color: '#8B4513'
-  },
-  {
-    id: 'healing',
-    name: 'Healing Spells',
-    description: 'Spells that restore health and vitality',
-    icon: 'spell_holy_heal',
-    color: '#2d5016'
-  },
-  {
-    id: 'utility',
-    name: 'Utility Spells',
-    description: 'Spells that provide various utility effects',
-    icon: 'spell_arcane_teleportundercity',
-    color: '#5a1e12'
-  },
-  {
-    id: 'control',
-    name: 'Control Spells',
-    description: 'Spells that control enemies or the battlefield',
-    icon: 'spell_frost_frostbolt',
-    color: '#a08c70'
-  },
-  {
-    id: 'summoning',
-    name: 'Summoning Spells',
-    description: 'Spells that summon creatures or objects',
-    icon: 'spell_shadow_summonvoidwalker',
-    color: '#8b7355'
+/**
+ * Favorite/unfavorite a spell
+ */
+export async function favoriteSpell(spellId, userId, isFavorite) {
+  try {
+    if (!checkFirebaseAvailable() || !userId) {
+      throw new Error('Firebase not available or user not logged in');
+    }
+
+    const favoriteRef = doc(db, COLLECTIONS.FAVORITES, `${userId}_${spellId}`);
+    
+    if (isFavorite) {
+      await setDoc(favoriteRef, {
+        userId,
+        spellId,
+        favoritedAt: new Date().toISOString()
+      });
+    } else {
+      await deleteDoc(favoriteRef);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error favoriting spell:', error);
+    throw error;
   }
-];
+}
 
 /**
- * Setup function to create initial spell categories
+ * Check if user has favorited a spell
  */
-export async function setupSpellCategories() {
+export async function isSpellFavorited(spellId, userId) {
+  try {
+    if (!checkFirebaseAvailable() || !userId) {
+      return false;
+    }
+
+    const favoriteRef = doc(db, COLLECTIONS.FAVORITES, `${userId}_${spellId}`);
+    const favoriteDoc = await getDoc(favoriteRef);
+    
+    return favoriteDoc.exists();
+  } catch (error) {
+    console.error('Error checking favorite:', error);
+    return false;
+  }
+}
+
+/**
+ * Get user's favorited spells
+ */
+export async function getUserFavorites(userId, pageSize = 20) {
+  try {
+    if (!checkFirebaseAvailable() || !userId) {
+      return [];
+    }
+
+    const favoritesRef = collection(db, COLLECTIONS.FAVORITES);
+    const q = query(
+      favoritesRef,
+      where('userId', '==', userId),
+      orderBy('favoritedAt', 'desc'),
+      limit(pageSize)
+    );
+
+    const snapshot = await getDocs(q);
+    const favoriteSpellIds = snapshot.docs.map(doc => doc.data().spellId);
+
+    // Fetch the actual spells
+    const spells = [];
+    for (const spellId of favoriteSpellIds) {
+      const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
+      const spellDoc = await getDoc(spellRef);
+      if (spellDoc.exists()) {
+        spells.push({
+          id: spellDoc.id,
+          ...spellDoc.data()
+        });
+      }
+    }
+
+    return spells;
+  } catch (error) {
+    console.error('Error fetching user favorites:', error);
+    return [];
+  }
+}
+
+/**
+ * Get spells uploaded/shared by a specific user
+ */
+export async function getUserSpells(userId, pageSize = 20) {
+  try {
+    if (!checkFirebaseAvailable()) {
+      return [];
+    }
+
+    const spellsRef = collection(db, COLLECTIONS.SPELLS);
+    const q = query(
+      spellsRef,
+      where('authorId', '==', userId),
+      where('isPublic', '==', true),
+      orderBy('createdAt', 'desc'),
+      limit(pageSize)
+    );
+
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error) {
+    console.error('Error fetching user spells:', error);
+    return [];
+  }
+}
+
+/**
+ * Vote on a spell (upvote = 1, downvote = -1)
+ */
+export async function voteSpell(spellId, userId, voteType) {
   try {
     if (!checkFirebaseAvailable()) {
       throw new Error('Firebase not available');
     }
 
-    const categories = {
-      damage: {
-        name: "Damage Spells",
-        description: "Offensive spells that deal damage to enemies",
-        icon: "spell_fire_fireball02",
-        color: "#8B4513",
-        spellCount: 0
-      },
-      healing: {
-        name: "Healing Spells",
-        description: "Restorative spells that heal wounds and cure ailments",
-        icon: "spell_holy_heal",
-        color: "#2d5016",
-        spellCount: 0
-      },
-      utility: {
-        name: "Utility Spells",
-        description: "Versatile spells for exploration and problem-solving",
-        icon: "spell_arcane_teleportundercity",
-        color: "#5a1e12",
-        spellCount: 0
-      },
-      protection: {
-        name: "Protection Spells",
-        description: "Defensive spells that shield and protect",
-        icon: "spell_holy_devotionaura",
-        color: "#b8860b",
-        spellCount: 0
-      },
-      illusion: {
-        name: "Illusion Spells",
-        description: "Deceptive spells that manipulate perception",
-        icon: "spell_shadow_charm",
-        color: "#8b7355",
-        spellCount: 0
-      },
-      elemental: {
-        name: "Elemental Spells",
-        description: "Spells that harness the power of the elements",
-        icon: "spell_nature_lightning",
-        color: "#a08c70",
-        spellCount: 0
-      }
-    };
-
-    const results = [];
-    for (const [categoryId, categoryData] of Object.entries(categories)) {
-      try {
-        const categoryRef = doc(db, 'spell_categories', categoryId);
-        await setDoc(categoryRef, categoryData);
-        results.push(`✅ Created: ${categoryData.name}`);
-      } catch (error) {
-        results.push(`❌ Failed: ${categoryData.name} - ${error.message}`);
-      }
+    const vote = voteType === 'upvote' ? 1 : -1;
+    const ratingRef = doc(db, COLLECTIONS.RATINGS, `${spellId}_${userId}`);
+    
+    // Check if user has already voted
+    const ratingDoc = await getDoc(ratingRef);
+    
+    if (ratingDoc.exists()) {
+      // Update existing vote
+      await updateDoc(ratingRef, {
+        spellId,
+        userId,
+        vote,
+        updatedAt: new Date()
+      });
+    } else {
+      // Create new vote
+      await setDoc(ratingRef, {
+        spellId,
+        userId,
+        vote,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
     }
 
-    return results;
+    // Recalculate spell rating based on votes
+    await recalculateSpellVotes(spellId);
+    
   } catch (error) {
-    console.error('Error setting up spell categories:', error);
-    throw error;
+    console.error('Error voting on spell:', error);
+    throw new Error('Failed to vote on spell');
   }
 }
+
+/**
+ * Get user's vote for a spell
+ */
+export async function getUserVote(spellId, userId) {
+  try {
+    if (!checkFirebaseAvailable() || !userId) {
+      return null;
+    }
+
+    const ratingRef = doc(db, COLLECTIONS.RATINGS, `${spellId}_${userId}`);
+    const ratingDoc = await getDoc(ratingRef);
+    
+    if (ratingDoc.exists()) {
+      return ratingDoc.data().vote || null;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error getting user vote:', error);
+    return null;
+  }
+}
+
+/**
+ * Recalculate vote-based rating for a spell
+ */
+async function recalculateSpellVotes(spellId) {
+  try {
+    const ratingsRef = collection(db, COLLECTIONS.RATINGS);
+    const q = query(ratingsRef, where('spellId', '==', spellId));
+    const snapshot = await getDocs(q);
+    
+    if (snapshot.empty) {
+      // Set default rating if no votes
+      const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
+      await updateDoc(spellRef, {
+        rating: 0,
+        ratingCount: 0,
+        upvotes: 0,
+        downvotes: 0
+      });
+      return;
+    }
+
+    const votes = snapshot.docs.map(doc => doc.data().vote);
+    const upvotes = votes.filter(v => v === 1).length;
+    const downvotes = votes.filter(v => v === -1).length;
+    const totalVotes = votes.length;
+    
+    // Calculate score: (upvotes - downvotes) / totalVotes, scaled to 0-5
+    const score = totalVotes > 0 
+      ? Math.max(0, Math.min(5, ((upvotes - downvotes) / totalVotes) * 2.5 + 2.5))
+      : 0;
+    
+    const spellRef = doc(db, COLLECTIONS.SPELLS, spellId);
+    await updateDoc(spellRef, {
+      rating: Math.round(score * 10) / 10, // Round to 1 decimal place
+      ratingCount: totalVotes,
+      upvotes,
+      downvotes
+    });
+    
+  } catch (error) {
+    console.error('Error recalculating spell votes:', error);
+  }
+}
+
 
 // Debug function to check Firebase status
 export function debugFirebaseStatus() {
@@ -528,121 +602,7 @@ export function debugFirebaseStatus() {
   };
 }
 
-// Simple setup function that works directly
-async function simpleSetupCategories() {
-  console.log('🔥 Starting simple category setup...');
-
-  if (!db) {
-    console.error('❌ Database not available');
-    return ['❌ Database not available'];
-  }
-
-  // Try to authenticate first
-  try {
-    const { getAuth, signInAnonymously } = await import('firebase/auth');
-    const auth = getAuth();
-
-    if (!auth.currentUser) {
-      console.log('🔐 Signing in anonymously...');
-      await signInAnonymously(auth);
-      console.log('✅ Authenticated successfully');
-    }
-  } catch (authError) {
-    console.warn('⚠️ Authentication failed, trying without auth:', authError.message);
-    return ['❌ Authentication failed. Please enable Anonymous authentication in Firebase Console.'];
-  }
-
-  const categories = {
-    damage: {
-      name: "Damage Spells",
-      description: "Offensive spells that deal damage to enemies",
-      icon: "spell_fire_fireball02",
-      color: "#8B4513",
-      spellCount: 0
-    },
-    healing: {
-      name: "Healing Spells",
-      description: "Restorative spells that heal wounds and cure ailments",
-      icon: "spell_holy_heal",
-      color: "#2d5016",
-      spellCount: 0
-    },
-    utility: {
-      name: "Utility Spells",
-      description: "Versatile spells for exploration and problem-solving",
-      icon: "spell_arcane_teleportundercity",
-      color: "#5a1e12",
-      spellCount: 0
-    }
-  };
-
-  const results = [];
-  for (const [categoryId, categoryData] of Object.entries(categories)) {
-    try {
-      const categoryRef = doc(db, 'spell_categories', categoryId);
-      await setDoc(categoryRef, categoryData);
-      results.push(`✅ Created: ${categoryData.name}`);
-      console.log(`✅ Created: ${categoryData.name}`);
-    } catch (error) {
-      results.push(`❌ Failed: ${categoryData.name} - ${error.message}`);
-      console.error(`❌ Failed: ${categoryData.name}`, error);
-    }
-  }
-
-  return results;
-}
-
-// Test function to check what we have
-async function testCommunityData() {
-  console.log('🔍 Testing community data...');
-
-  if (!db) {
-    console.error('❌ Database not available');
-    return;
-  }
-
-  try {
-    const { collection, getDocs } = await import('firebase/firestore');
-
-    // Check categories
-    const categoriesRef = collection(db, 'spell_categories');
-    const categoriesSnapshot = await getDocs(categoriesRef);
-
-    console.log(`📚 Found ${categoriesSnapshot.size} categories:`);
-    categoriesSnapshot.forEach(doc => {
-      console.log(`  - ${doc.id}:`, doc.data());
-    });
-
-    // Check spells
-    const spellsRef = collection(db, 'community_spells');
-    const spellsSnapshot = await getDocs(spellsRef);
-
-    console.log(`✨ Found ${spellsSnapshot.size} community spells:`);
-    spellsSnapshot.forEach(doc => {
-      console.log(`  - ${doc.id}:`, doc.data().name);
-    });
-
-    return {
-      categories: categoriesSnapshot.size,
-      spells: spellsSnapshot.size
-    };
-  } catch (error) {
-    console.error('❌ Test failed:', error);
-    return { error: error.message };
-  }
-}
-
-// Make functions available globally for testing
+// Make debug function available globally for testing
 if (typeof window !== 'undefined') {
-  window.setupSpellCategories = setupSpellCategories;
-  window.simpleSetupCategories = simpleSetupCategories;
   window.debugFirebaseStatus = debugFirebaseStatus;
-  window.testCommunityData = testCommunityData;
-}
-
-// Make setup function available globally for easy access
-if (typeof window !== 'undefined') {
-  window.setupSpellCategories = setupSpellCategories;
-  window.debugFirebaseStatus = debugFirebaseStatus;
-  window.simpleSetupCategories = simpleSetupCategories;
 }

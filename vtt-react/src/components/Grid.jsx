@@ -939,6 +939,55 @@ export default function Grid() {
 
     // Real-time wheel handler for smooth zoom and interaction
     const handleWheelEvent = useCallback((e) => {
+        // Always prevent browser zoom when Ctrl is held down
+        if (e.ctrlKey) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // In editor mode, let the level editor overlay handle the zoom
+            if (isEditorMode) {
+                return; // Don't handle zoom here, let editor handle it
+            }
+
+            // Background manipulation mode - scale background with scroll wheel
+            if (isBackgroundManipulationMode && activeBackgroundId) {
+                const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
+                if (activeBackground) {
+                    const scaleFactor = e.deltaY < 0 ? 1.1 : 0.9;
+                    const newScale = Math.max(0.1, Math.min(5.0, activeBackground.scale * scaleFactor));
+                    updateBackground(activeBackgroundId, { scale: newScale });
+                }
+                return;
+            }
+
+            // Handle player zoom
+            // Get mouse position for zoom-to-cursor functionality
+            // Use viewport coordinates directly - instantZoom expects coordinates relative to viewport center
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            // Calculate target zoom with smooth scaling
+            const zoomFactor = 1.15; // Slightly more aggressive zoom for better feel
+            const currentZoom = playerZoom;
+            let targetZoom = e.deltaY < 0 ?
+                Math.min(currentZoom * zoomFactor, maxPlayerZoom) :
+                Math.max(currentZoom / zoomFactor, minPlayerZoom);
+
+            // Additional safety check: prevent effective zoom from going too low to avoid VTT breaking
+            const effectiveTargetZoom = zoomLevel * targetZoom;
+            const minEffectiveZoom = 0.6; // Much higher minimum to prevent grid combining
+            if (effectiveTargetZoom < minEffectiveZoom) {
+                targetZoom = Math.max(targetZoom, minEffectiveZoom / zoomLevel);
+            }
+
+            // Apply instant zoom if zoom actually changes
+            if (Math.abs(targetZoom - currentZoom) > 0.001) {
+                instantZoom(targetZoom, mouseX, mouseY);
+            }
+
+            return false;
+        }
+
         // In editor mode, let the level editor overlay handle all wheel events
         if (isEditorMode) {
             return; // Don't handle wheel events in editor mode
@@ -956,40 +1005,6 @@ export default function Grid() {
                 updateBackground(activeBackgroundId, { scale: newScale });
             }
             return;
-        }
-
-        // Only handle player zoom if Ctrl is held down
-        if (e.ctrlKey) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Get mouse position for zoom-to-cursor functionality
-            const rect = gridRef.current?.getBoundingClientRect();
-            if (rect) {
-                const mouseX = e.clientX - rect.left;
-                const mouseY = e.clientY - rect.top;
-
-                // Calculate target zoom with smooth scaling
-                const zoomFactor = 1.15; // Slightly more aggressive zoom for better feel
-                const currentZoom = playerZoom;
-                let targetZoom = e.deltaY < 0 ?
-                    Math.min(currentZoom * zoomFactor, maxPlayerZoom) :
-                    Math.max(currentZoom / zoomFactor, minPlayerZoom);
-
-                // Additional safety check: prevent effective zoom from going too low to avoid VTT breaking
-                const effectiveTargetZoom = zoomLevel * targetZoom;
-                const minEffectiveZoom = 0.6; // Much higher minimum to prevent grid combining
-                if (effectiveTargetZoom < minEffectiveZoom) {
-                    targetZoom = Math.max(targetZoom, minEffectiveZoom / zoomLevel);
-                }
-
-                // Apply instant zoom if zoom actually changes
-                if (Math.abs(targetZoom - currentZoom) > 0.001) {
-                    instantZoom(targetZoom, mouseX, mouseY);
-                }
-            }
-
-            return false;
         }
 
         // If Ctrl is not held down, prevent default to avoid page scrolling
@@ -1022,16 +1037,17 @@ export default function Grid() {
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
         // Add wheel event listener to prevent default scroll behavior
-        gridElement.addEventListener('wheel', handleWheel, { passive: false });
-        // Also add global wheel listener to prevent page scrolling
-        document.addEventListener('wheel', handleWheel, { passive: false });
+        // Use capture phase to catch Ctrl+wheel before browser zoom handler
+        gridElement.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+        // Also add global wheel listener to prevent page scrolling (with capture)
+        document.addEventListener('wheel', handleWheel, { passive: false, capture: true });
 
         return () => {
             gridElement.removeEventListener('mousedown', handleMouseDown);
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-            gridElement.removeEventListener('wheel', handleWheel);
-            document.removeEventListener('wheel', handleWheel);
+            gridElement.removeEventListener('wheel', handleWheel, { capture: true });
+            document.removeEventListener('wheel', handleWheel, { capture: true });
         };
     }, [handleMouseDown, handleMouseMove, handleMouseUp, handleWheel]);
 
@@ -1638,6 +1654,7 @@ export default function Grid() {
     // Handle drop for grid tiles
     const handleDrop = (e, tile) => {
         e.preventDefault();
+        e.stopPropagation(); // Prevent document-level drop handler from processing
         setHoveredTile(null);
 
         // Drop event on tile
@@ -1741,6 +1758,10 @@ export default function Grid() {
 
                     // Trigger auto-save for local rooms after placing item
                     setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
+                    
+                    // Stop propagation to prevent document-level drop handler from also processing this
+                    e.stopPropagation();
+                    return;
                 } else {
                     // Item not found in store
                 }

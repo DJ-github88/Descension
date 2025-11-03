@@ -7,21 +7,31 @@ module.exports = {
     // Ensure chunks are served from the correct port
     devMiddleware: {
       publicPath: '/',
+      writeToDisk: false, // Use in-memory filesystem for development
     },
     // Fix for chunk loading issues
     allowedHosts: 'all',
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
+    // Hot module replacement configuration
+    hot: true,
+    liveReload: true,
+    // Ensure chunks are properly handled
+    historyApiFallback: {
+      disableDotRule: true,
+    },
   },
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
       // Fix chunk loading issues by ensuring correct public path
       if (env === 'development') {
+        // Ensure correct public path for chunk loading
+        // This should already be set correctly by CRA, but we ensure it here
         webpackConfig.output.publicPath = '/';
-
-        // Completely disable code splitting in development to prevent chunk loading issues
-        webpackConfig.optimization.splitChunks = false;
+        
+        // Let CRA handle chunk splitting defaults - don't override
+        // React.lazy() works correctly with CRA's default webpack configuration
       }
       if (env === 'production') {
         // Configure CSS minification with safer settings

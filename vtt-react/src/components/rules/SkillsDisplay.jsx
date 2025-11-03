@@ -8,6 +8,7 @@ const SkillsDisplay = () => {
     const [selectedSkill, setSelectedSkill] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedDie, setSelectedDie] = useState('d20'); // Default to d20 (hardest)
+    const [selectedProficiency, setSelectedProficiency] = useState('UNTRAINED'); // Default to UNTRAINED
 
     // Group skills by category
     const skillsByCategory = Object.entries(SKILL_DEFINITIONS).reduce((acc, [skillId, skillData]) => {
@@ -27,6 +28,8 @@ const SkillsDisplay = () => {
     const handleSkillClick = (skill) => {
         setSelectedSkill(skill);
         setSelectedCategory(null);
+        // Reset proficiency to UNTRAINED when selecting a new skill
+        setSelectedProficiency('UNTRAINED');
     };
 
     const handleCategoryClick = (categoryName) => {
@@ -47,24 +50,6 @@ const SkillsDisplay = () => {
         return (
             <div className="background-selector">
                 <div className="skill-categories-view">
-                    <div className="skills-explanation-box">
-                        <h3><i className="fas fa-book"></i> How Skills Work</h3>
-                        <div className="skills-explanation-content">
-                            <div className="skill-explain-section">
-                                <h4>Making Skill Checks</h4>
-                                <p>Your GM determines difficulty and tells you which die to roll (d4 for very easy up to d20 for very difficult). Add your <strong>primary</strong> and <strong>secondary</strong> ability modifiers plus your rank bonus to the roll.</p>
-                            </div>
-                            <div className="skill-explain-section">
-                                <h4>Ranks & Quests</h4>
-                                <p>Skills have seven ranks: <strong>Untrained → Novice → Trained → Apprentice → Adept → Expert → Master</strong>. Complete skill quests during gameplay to advance ranks and unlock better rollable table outcomes.</p>
-                            </div>
-                            <div className="skill-explain-section">
-                                <h4>Critical Results</h4>
-                                <p>Rolling <strong>maximum</strong> (e.g., 20 on d20) = critical success with exceptional results. Rolling <strong>minimum</strong> (1) = critical failure with complications. Check rollable tables for all possible outcomes.</p>
-                            </div>
-                        </div>
-                    </div>
-
                     <div className="skill-categories-simple">
                         {Object.entries(skillsByCategory).map(([categoryName, skills]) => {
                             const categoryData = getCategoryData(categoryName);
@@ -142,18 +127,26 @@ const SkillsDisplay = () => {
         const skillQuests = SKILL_QUESTS[selectedSkill.id] || [];
         const startingQuests = skillQuests.filter(q => q.rank === 'NOVICE' || q.rank === 'APPRENTICE').slice(0, 3);
 
+        // Check if this skill has rollableTables with multiple proficiency levels
+        const hasMultipleProficiencyLevels = selectedSkill.rollableTables && 
+            Object.keys(selectedSkill.rollableTables).length > 0;
+
+        // Get the rank tables for the selected proficiency level
+        const rankTables = selectedSkill.rollableTables?.[selectedProficiency] || 
+                          selectedSkill.rollableTables?.UNTRAINED || 
+                          selectedSkill.rollableTables?.NOVICE;
+        
         // Check if this skill uses the new multi-dimensional table structure
-        const rankTables = selectedSkill.rollableTables?.UNTRAINED || selectedSkill.rollableTables?.NOVICE;
         const hasMultiDieTables = rankTables && typeof rankTables === 'object' && rankTables.d4;
 
         // Get rollable table for this skill
         let rollableTableKey;
         if (hasMultiDieTables) {
-            // New structure: use selected die
+            // New structure: use selected proficiency and selected die
             rollableTableKey = rankTables[selectedDie];
         } else {
             // Old structure: just use the rank table
-            rollableTableKey = selectedSkill.rollableTables?.UNTRAINED || selectedSkill.rollableTables?.NOVICE || selectedSkill.rollableTable;
+            rollableTableKey = rankTables || selectedSkill.rollableTable;
         }
         const rollableTable = rollableTableKey ? ROLLABLE_TABLES[rollableTableKey] : null;
 
@@ -190,6 +183,32 @@ const SkillsDisplay = () => {
                             <p style={{ marginBottom: '14px', color: '#2c1810', fontSize: '15px', fontWeight: '500', lineHeight: '1.6' }}>
                                 {rollableTable.description}
                             </p>
+
+                            {/* Proficiency Level Selector */}
+                            {hasMultipleProficiencyLevels && (
+                                <div className="proficiency-selector-section">
+                                    <h4>Proficiency Level</h4>
+                                    <div className="proficiency-selector-strip">
+                                        {Object.entries(SKILL_RANKS).map(([rankKey, rankData]) => {
+                                            const hasTablesForRank = selectedSkill.rollableTables?.[rankKey];
+                                            return (
+                                                <div
+                                                    key={rankKey}
+                                                    className={`proficiency-selector-icon ${selectedProficiency === rankKey ? 'selected' : ''} ${!hasTablesForRank ? 'disabled' : ''}`}
+                                                    onClick={() => hasTablesForRank && setSelectedProficiency(rankKey)}
+                                                    style={{
+                                                        borderColor: rankData.color,
+                                                        opacity: hasTablesForRank ? 1 : 0.4
+                                                    }}
+                                                    title={`${rankData.name}${!hasTablesForRank ? ' (No tables available)' : ''}`}
+                                                >
+                                                    <span className="proficiency-name">{rankData.name}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Die Selector for multi-die skills */}
                             {hasMultiDieTables && (
@@ -262,10 +281,10 @@ const SkillsDisplay = () => {
                     <div className="benefits-section">
                         <h4>Common Uses</h4>
                         <ul className="equipment-items">
-                            <li><i className="fas fa-check"></i> Make ability checks when attempting tasks related to this skill</li>
-                            <li><i className="fas fa-check"></i> Add your proficiency bonus if you're proficient in this skill</li>
-                            <li><i className="fas fa-check"></i> Use the primary ability score modifier for most checks</li>
-                            <li><i className="fas fa-check"></i> GM may allow secondary ability score in specific situations</li>
+                            <li><i className="fas fa-check"></i> Make skill checks when attempting tasks related to this skill</li>
+                            <li><i className="fas fa-check"></i> Your proficiency rank determines which rollable table outcomes are available</li>
+                            <li><i className="fas fa-check"></i> Primary and secondary stats affect your ability to reduce die size with +5 modifiers</li>
+                            <li><i className="fas fa-check"></i> Higher proficiency ranks unlock better outcomes on rollable tables</li>
                         </ul>
                     </div>
 

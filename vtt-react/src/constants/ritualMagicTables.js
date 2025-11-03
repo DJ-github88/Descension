@@ -217,7 +217,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Ritual forms instantly and holds', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual succeeds with perfect alignment', type: 'success' },
             { roll: [3, 3], result: 'Ritual achieves enhanced stability', type: 'success' },
             { roll: [4, 4], result: 'Ritual forms with exceptional power', type: 'critical' }
@@ -320,7 +320,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Ritual forms before chant completes', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual performs with perfect precision', type: 'success' },
             { roll: [3, 3], result: 'Ritual resonates with deep harmony', type: 'critical' },
             { roll: [4, 4], result: 'Ritual attunement is unmistakable', type: 'critical' }
@@ -332,7 +332,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Momentary distraction by ambient energy', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual executes flawlessly', type: 'success' },
             { roll: [3, 3], result: 'Ritual adds its own elegant flourish', type: 'success' },
             { roll: [4, 4], result: 'Ritual anticipates next three steps', type: 'success' },
@@ -423,7 +423,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Ritual responds to your mere thought', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual moves as extension of your will', type: 'critical' },
             { roll: [3, 3], result: 'Ritual and you share single purpose', type: 'critical' },
             { roll: [4, 4], result: 'Ritual bond transcends normal limits', type: 'critical' }
@@ -435,7 +435,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Ritual performs with minimal guidance', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual executes with flawless precision', type: 'success' },
             { roll: [3, 3], result: 'Ritual improves upon your design', type: 'success' },
             { roll: [4, 4], result: 'Ritual demonstrates tactical genius', type: 'critical' },
@@ -449,7 +449,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Ritual pauses to assess energies', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual completes smoothly', type: 'normal' },
             { roll: [3, 3], result: 'Ritual handles challenge expertly', type: 'success' },
             { roll: [4, 4], result: 'Ritual shows strategic thinking', type: 'success' },
@@ -526,7 +526,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Ritual forms before you think the pattern', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual and you share consciousness', type: 'critical' },
             { roll: [3, 3], result: 'Ritual becomes perfect mirror of intent', type: 'critical' },
             { roll: [4, 4], result: 'Ritual transcends mortal understanding', type: 'critical' }
@@ -538,7 +538,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Ritual performs with absolute mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual achieves flawless execution', type: 'critical' },
             { roll: [3, 3], result: 'Ritual demonstrates supernatural skill', type: 'critical' },
             { roll: [4, 4], result: 'Ritual defies planar limitations', type: 'critical' },
@@ -552,7 +552,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Ritual completes effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Ritual handles complexity with ease', type: 'success' },
             { roll: [3, 3], result: 'Ritual shows masterful technique', type: 'success' },
             { roll: [4, 4], result: 'Ritual performs with legendary grace', type: 'critical' },
@@ -568,7 +568,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Ritual requires brief concentration', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual succeeds with minor effort', type: 'success' },
             { roll: [3, 3], result: 'Ritual handles challenge expertly', type: 'success' },
             { roll: [4, 4], result: 'Ritual overcomes difficulty smoothly', type: 'success' },
@@ -586,7 +586,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Ritual pushed to absolute limits', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual succeeds through sheer mastery', type: 'normal' },
             { roll: [3, 3], result: 'Ritual overcomes planar boundaries', type: 'success' },
             { roll: [4, 4], result: 'Ritual transcends magical limits', type: 'success' },
@@ -629,7 +629,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Ritual and you exist as single entity', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual transcends all mortal bounds', type: 'critical' },
             { roll: [3, 3], result: 'Ritual becomes avatar of perfection', type: 'critical' },
             { roll: [4, 4], result: 'Ritual achieves absolute unity with you', type: 'critical' }
@@ -641,7 +641,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Ritual performs beyond comprehension', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual defies all planar law', type: 'critical' },
             { roll: [3, 3], result: 'Ritual becomes living divinity', type: 'critical' },
             { roll: [4, 4], result: 'Ritual transcends physical reality', type: 'critical' },
@@ -655,7 +655,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Ritual executes with divine grace', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual performs impossible feat casually', type: 'critical' },
             { roll: [3, 3], result: 'Ritual rewrites planar order', type: 'critical' },
             { roll: [4, 4], result: 'Ritual transcends mortal understanding', type: 'critical' },
@@ -671,7 +671,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Ritual handles challenge effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Ritual overcomes difficulty with ease', type: 'critical' },
             { roll: [3, 3], result: 'Ritual defies impossible odds', type: 'critical' },
             { roll: [4, 4], result: 'Ritual transcends planar limits', type: 'critical' },
@@ -689,7 +689,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Ritual faces ultimate challenge', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Ritual overcomes through mastery', type: 'success' },
             { roll: [3, 3], result: 'Ritual transcends all boundaries', type: 'critical' },
             { roll: [4, 4], result: 'Ritual defies cosmic forces', type: 'critical' },
@@ -709,7 +709,7 @@ export const RITUAL_MAGIC_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ritualofsacrifice.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Ritual confronts ultimate impossibility', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Ritual struggles against cosmic will', type: 'success' },
             { roll: [4, 5], result: 'Ritual overcomes through divine power', type: 'success' },
             { roll: [6, 7], result: 'Ritual transcends all mortal limits', type: 'critical' },

@@ -3311,7 +3311,17 @@
     overflow-y: auto;
 }
 
-/* Equipment backdrop - only affects the content area, not the header */
+/* Character backdrop - only affects the content area, not the header */
+.character-content-area.character-backdrop {
+    background-image: url('https://img.itch.zone/aW1hZ2UvNTI0MTI1LzI3MzQ1MDMucG5n/original/ljCPHz.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+}
+
+/* Equipment backdrop - uses original equipment backdrop image */
 .character-content-area.equipment-backdrop {
     background-image: url('https://img.itch.zone/aW1nLzE4NTY1MTExLmpwZw==/original/LFD1XZ.jpg');
     background-size: cover;
@@ -3322,6 +3332,7 @@
 }
 
 /* Ensure header section doesn't have the backdrop */
+.character-content-area.character-backdrop .character-section-header,
 .character-content-area.equipment-backdrop .character-section-header {
     background: linear-gradient(135deg,
         rgba(240, 230, 210, 0.98) 0%,
@@ -3331,6 +3342,15 @@
     border-radius: 8px;
     padding: 15px 20px;
     margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Ensure identity section doesn't have the backdrop */
+.character-content-area.character-backdrop .character-identity-section,
+.character-content-area.equipment-backdrop .character-identity-section {
+    position: relative;
+    z-index: 1;
 }
 
 .character-section-header {
@@ -3374,12 +3394,14 @@
 
 .character-identity-section {
     background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(250, 245, 235, 0.8) 100%);
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(250, 245, 235, 0.9) 100%);
     border: 2px solid #8b7355;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .character-name-section {
@@ -3444,13 +3466,13 @@
 /* Resources Content - Two Column Layout */
 .resources-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
     height: 100%;
     padding: 20px;
 }
 
-/* Resource Bars Section - Left Column */
+/* Resource Bars Section - Full Width */
 .resource-bars-section {
     background: linear-gradient(135deg,
         rgba(255, 255, 255, 0.9) 0%,
@@ -3463,6 +3485,8 @@
     flex-direction: column;
     gap: 24px;
     justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Class Resource Section - Right Column */

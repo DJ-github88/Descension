@@ -217,7 +217,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Routine success, standard quality', type: 'normal' },
+            { roll: [1, 1], result: 'Small misstep, attempt fails', type: 'failure' },
             { roll: [2, 2], result: 'Efficient process, quick completion', type: 'success' },
             { roll: [3, 3], result: 'High purity achieved', type: 'success' },
             { roll: [4, 4], result: 'Perfect mixture, bonus dose created', type: 'critical' }
@@ -320,7 +320,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Flawless execution, perfect purity', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Rapid synthesis, double yield', type: 'success' },
             { roll: [3, 3], result: 'Enhanced potency, extended duration', type: 'critical' },
             { roll: [4, 4], result: 'Masterwork quality, triple effect', type: 'critical' }
@@ -332,7 +332,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Minor distraction, standard quality', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Excellent mixture created', type: 'success' },
             { roll: [3, 3], result: 'Superior purity achieved', type: 'success' },
             { roll: [4, 4], result: 'Enhanced effect, stable compound', type: 'success' },
@@ -423,7 +423,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Effortless perfection, triple yield', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Instant synthesis, quadruple potency', type: 'critical' },
             { roll: [3, 3], result: 'Flawless purity, permanent stability', type: 'critical' },
             { roll: [4, 4], result: 'Transcendent quality, new properties emerge', type: 'critical' }
@@ -435,7 +435,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Excellent quality produced', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Superior compound, enhanced effect', type: 'success' },
             { roll: [3, 3], result: 'Refined synthesis, double duration', type: 'success' },
             { roll: [4, 4], result: 'Masterful control, triple potency', type: 'critical' },
@@ -449,7 +449,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Slight complexity, standard result', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Strong mixture created', type: 'normal' },
             { roll: [3, 3], result: 'Excellent stability achieved', type: 'success' },
             { roll: [4, 4], result: 'Superior quality, enhanced potency', type: 'success' },
@@ -526,7 +526,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Instant perfection, quintuple yield', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Transcendent purity, permanent enhancement', type: 'critical' },
             { roll: [3, 3], result: 'Flawless synthesis, new properties discovered', type: 'critical' },
             { roll: [4, 4], result: 'Absolute mastery, revolutionary compound', type: 'critical' }
@@ -538,7 +538,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Superior quality, triple potency', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Masterful synthesis, quadruple effect', type: 'critical' },
             { roll: [3, 3], result: 'Perfect control, quintuple duration', type: 'critical' },
             { roll: [4, 4], result: 'Flawless execution, increased yield', type: 'critical' },
@@ -552,7 +552,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Excellent result with ease', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Superior compound, enhanced effect', type: 'success' },
             { roll: [3, 3], result: 'Refined synthesis, double duration', type: 'success' },
             { roll: [4, 4], result: 'Masterful control, triple potency', type: 'critical' },
@@ -568,7 +568,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Requires concentration, good result', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Strong compound achieved', type: 'success' },
             { roll: [3, 3], result: 'Excellent quality, stable reaction', type: 'success' },
             { roll: [4, 4], result: 'Superior control, enhanced effect', type: 'success' },
@@ -586,7 +586,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Challenging but controlled', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Good quality through mastery', type: 'normal' },
             { roll: [3, 3], result: 'Strong compound created', type: 'success' },
             { roll: [4, 4], result: 'Excellent result, stable effect', type: 'success' },
@@ -629,7 +629,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Effortless perfection, unlimited yield', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Transcendent synthesis, permanent effects', type: 'critical' },
             { roll: [3, 3], result: 'Absolute mastery, reality-altering compound', type: 'critical' },
             { roll: [4, 4], result: 'Perfect unity with elements, legendary creation', type: 'critical' }
@@ -641,7 +641,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Masterful execution, quintuple effect', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect synthesis, unlimited duration', type: 'critical' },
             { roll: [3, 3], result: 'Flawless control, new substance class', type: 'critical' },
             { roll: [4, 4], result: 'Transcendent quality, revolutionary properties', type: 'critical' },
@@ -655,7 +655,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Superior quality with ease', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Masterful control, quadruple potency', type: 'critical' },
             { roll: [3, 3], result: 'Perfect execution, quintuple yield', type: 'critical' },
             { roll: [4, 4], result: 'Flawless technique, unlimited duration', type: 'critical' },
@@ -671,7 +671,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Excellent result effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Superior compound, triple effect', type: 'critical' },
             { roll: [3, 3], result: 'Refined synthesis, quadruple potency', type: 'critical' },
             { roll: [4, 4], result: 'Masterful control, quintuple yield', type: 'critical' },
@@ -689,7 +689,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Strong compound with focus', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Excellent quality achieved', type: 'success' },
             { roll: [3, 3], result: 'Superior control, double effect', type: 'critical' },
             { roll: [4, 4], result: 'Refined synthesis, triple potency', type: 'critical' },
@@ -709,7 +709,7 @@ export const ALCHEMY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Complex but manageable challenge', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Good quality through mastery', type: 'success' },
             { roll: [4, 5], result: 'Strong compound, stable reaction', type: 'success' },
             { roll: [6, 7], result: 'Excellent control, enhanced effect', type: 'critical' },

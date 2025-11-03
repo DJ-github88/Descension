@@ -201,7 +201,8 @@ const AccountDashboard = ({ user }) => {
     const encumbranceState = character.inventory?.encumbranceState || 'normal';
 
     // Calculate derived stats
-    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState);
+    const exhaustionLevel = character.exhaustionLevel || 0;
+    const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel);
 
     // Calculate correct max values
     const maxHealth = Math.round(derivedStats.maxHealth);

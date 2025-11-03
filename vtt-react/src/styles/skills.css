@@ -94,6 +94,11 @@
     border-bottom: 1px solid rgba(139, 115, 85, 0.3);
 }
 
+/* Remove margin from first skill category section when inside creature-section-content */
+.creature-section-content .skills-sidebar .skill-category-section:first-child {
+    margin-top: 0 !important;
+}
+
 .skill-category-header {
     display: flex;
     align-items: center;
@@ -245,6 +250,44 @@
         rgba(240, 230, 210, 0.95) 0%,
         rgba(230, 220, 200, 0.9) 50%,
         rgba(213, 203, 176, 0.85) 100%);
+}
+
+/* Reduce padding when skills-content is inside creature-section-content */
+.creature-section-content .skills-content {
+    padding: 0 !important;
+    flex: 1 !important;
+    min-height: 0 !important;
+}
+
+/* Make skills-container fill properly when inside creature-section-content */
+.creature-section-content .skills-container {
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Add padding to skill-detail-view when inside creature-section-content */
+.creature-section-content .skill-detail-view {
+    padding: 20px !important;
+    gap: 15px !important;
+}
+
+/* Ensure table-section keeps its padding when inside creature-section-content */
+.creature-section-content .skill-detail-view .table-section,
+.creature-section-content .table-section {
+    padding: 20px !important;
+}
+
+/* Ensure skill-detail-header keeps its padding */
+.creature-section-content .skill-detail-view .skill-detail-header {
+    padding: 20px !important;
+}
+
+/* Ensure skills-sidebar has no padding when inside creature-section-content */
+.creature-section-content .skills-sidebar {
+    padding: 0 !important;
 }
 
 /* No Skill Selected State */

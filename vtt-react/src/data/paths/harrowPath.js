@@ -26,11 +26,232 @@ export const HARROW_PATH = {
         mechanicalIntegration: 'Endurance, fear manipulation, and grim determination.'
     },
 
+    // Top 3 abilities representing the discipline
+    abilities: [
+        {
+            id: 'terrifying_presence',
+            name: 'Terrifying Presence',
+            description: '"Fear me!" Unleash an aura of dread that frightens nearby enemies.',
+            icon: 'spell_shadow_psychicscream',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['debuff', 'fear', 'aura', 'mental'],
+            effectTypes: ['debuff'],
+            damageTypes: ['psychic'],
+
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                durationValue: 4,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                difficultyClass: 14,
+                savingThrow: 'spirit',
+                saveOutcome: 'negates',
+                effects: [
+                    {
+                        id: 'frightened',
+                        name: 'Frightened',
+                        description: 'Target is frightened and must move away from you',
+                        statModifier: null
+                    }
+                ],
+                canBeDispelled: true,
+                concentrationRequired: false
+            },
+
+            targetingConfig: {
+                targetingType: 'area',
+                rangeType: 'self_centered',
+                rangeDistance: 0,
+                aoeShape: 'sphere',
+                aoeSize: 30,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 15,
+                health: 0,
+                stamina: 0,
+                focus: 5,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 4,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: true
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'plague_touch',
+            name: 'Plague Touch',
+            description: '"Rot and decay." Infect an enemy with a virulent disease.',
+            icon: 'spell_shadow_plaguecloud',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['damage', 'disease', 'dot', 'necrotic'],
+            effectTypes: ['damage'],
+            damageTypes: ['necrotic'],
+
+            damageConfig: {
+                damageType: 'dot',
+                elementType: 'necrotic',
+                formula: '2d6',
+                resolution: 'DICE',
+                hasDotEffect: true,
+                dotTickInterval: 1,
+                dotDuration: 5,
+                savingThrowConfig: {
+                    enabled: true,
+                    savingThrowType: 'constitution',
+                    difficultyClass: 14,
+                    saveOutcome: 'negates'
+                },
+                criticalConfig: {
+                    enabled: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'melee',
+                rangeDistance: 5,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 12,
+                health: 0,
+                stamina: 0,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 5,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: true
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'nature',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'deaths_door',
+            name: "Death's Door",
+            description: '"Not yet." When reduced to 0 HP, automatically stabilize and gain temporary HP.',
+            icon: 'spell_shadow_demonicfortitude',
+            level: 2,
+            spellType: 'REACTION',
+            tags: ['defensive', 'survival', 'reaction', 'passive'],
+            effectTypes: ['healing'],
+            damageTypes: [],
+
+            healingConfig: {
+                healingType: 'direct',
+                formula: '3d8 + CON',
+                resolution: 'DICE',
+                hasHotEffect: false,
+                hasShieldEffect: true,
+                shieldAmount: '2d8',
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 2,
+                    critDiceOnly: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            triggerConfig: {
+                global: {
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'health_threshold',
+                            name: 'When reduced to 0 HP',
+                            parameters: {
+                                perspective: 'self',
+                                threshold: 0,
+                                condition: 'below',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'REACTIVE',
+                    activationDelay: 0,
+                    requiresLOS: false
+                }
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 0,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'long_rest',
+                value: 1,
+                charges: 1,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        }
+    ],
+
     subPaths: {
         dreadKnight: {
             id: 'dread_knight',
-            name: 'Dread Knight',
-            description: 'Warriors who wield fear as a weapon',
+            name: 'Dread Discipline',
+            description: 'The practice of wielding fear as a weapon',
             theme: 'Fear and intimidation',
             icon: 'fas fa-skull-crossbones',
 
@@ -217,7 +438,7 @@ export const HARROW_PATH = {
                         formula: '8d8 + CON',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: false
                         },
                         criticalConfig: {
@@ -268,8 +489,8 @@ export const HARROW_PATH = {
 
         plaguebringer: {
             id: 'plaguebringer',
-            name: 'Plaguebringer',
-            description: 'Spreaders of disease and decay',
+            name: 'Plague Discipline',
+            description: 'The practice of spreading disease and decay',
             theme: 'Disease and corruption',
             icon: 'fas fa-biohazard',
 
@@ -297,12 +518,11 @@ export const HARROW_PATH = {
                         hasDotEffect: true,
                         dotTickInterval: 1,
                         dotDuration: 8,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: true,
-                            attribute: 'constitution',
-                            difficulty: 15,
-                            onSuccess: 'half_duration',
-                            onFailure: 'full_duration'
+                            savingThrowType: 'constitution',
+                            difficultyClass: 15,
+                            saveOutcome: 'halves'
                         },
                         criticalConfig: {
                             enabled: true,
@@ -401,12 +621,11 @@ export const HARROW_PATH = {
                         hasDotEffect: true,
                         dotTickInterval: 1,
                         dotDuration: 6,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: true,
-                            attribute: 'constitution',
-                            difficulty: 15,
-                            onSuccess: 'no_effect',
-                            onFailure: 'full_damage'
+                            savingThrowType: 'constitution',
+                            difficultyClass: 15,
+                            saveOutcome: 'negates'
                         },
                         criticalConfig: {
                             enabled: true,
@@ -461,8 +680,8 @@ export const HARROW_PATH = {
 
         deathwarden: {
             id: 'deathwarden',
-            name: 'Deathwarden',
-            description: 'Guardians who walk the line between life and death',
+            name: 'Ward Discipline',
+            description: 'The practice of walking the line between life and death',
             theme: 'Necromancy and undeath',
             icon: 'fas fa-ghost',
 

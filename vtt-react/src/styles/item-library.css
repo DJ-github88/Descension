@@ -508,7 +508,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(76px, 76px));
     grid-auto-rows: max-content;
-    gap: 8px;
+    gap: 4px;
     padding: 10px;
     flex: 1;
     overflow-y: scroll !important;

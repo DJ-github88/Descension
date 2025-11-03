@@ -144,6 +144,12 @@ const ChatTabs = () => {
         const whisperTabId = `whisper_${userId}`;
         const isActiveWhisper = activeTab === whisperTabId;
         const hasMessages = tabData.messages && tabData.messages.length > 0;
+        
+        // Get character name with fallback
+        const characterName = tabData.user?.characterName || 
+                             tabData.user?.name || 
+                             tabData.user?.displayName || 
+                             'Unknown';
 
         return (
           <div
@@ -152,7 +158,7 @@ const ChatTabs = () => {
             onClick={() => handleTabClick(whisperTabId)}
           >
             <i className="fas fa-comment"></i>
-            <span>{tabData.user.characterName}</span>
+            <span>{characterName}</span>
             {tabData.unreadCount > 0 && (
               <span className="unread-badge">{tabData.unreadCount}</span>
             )}

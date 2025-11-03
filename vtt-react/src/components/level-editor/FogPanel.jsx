@@ -22,7 +22,9 @@ const FogPanel = () => {
         lineOfSightEnabled,
         setLineOfSightEnabled,
         tokenVisionEnabled,
-        setTokenVisionEnabled
+        setTokenVisionEnabled,
+        fovAngle,
+        setFovAngle
     } = useLevelEditorStore();
 
     // Game store for GM mode check
@@ -261,6 +263,30 @@ const FogPanel = () => {
                             />
                             Token Vision
                         </label>
+                    </div>
+                    <div className="control-group">
+                        <label>Field of View (FOV):</label>
+                        <div className="fov-toggle">
+                            <button
+                                className={`fov-button ${fovAngle === 360 ? 'active' : ''}`}
+                                onClick={() => setFovAngle(360)}
+                                title="360° - Full view around token"
+                            >
+                                360°
+                            </button>
+                            <button
+                                className={`fov-button ${fovAngle === 100 ? 'active' : ''}`}
+                                onClick={() => setFovAngle(100)}
+                                title="100° - Directional view (token faces drag direction)"
+                            >
+                                100°
+                            </button>
+                        </div>
+                        <div className="fov-description">
+                            {fovAngle === 360 
+                                ? 'Full 360° view around token' 
+                                : '100° directional view - token faces the direction it was dragged'}
+                        </div>
                     </div>
                 </div>
             </div>

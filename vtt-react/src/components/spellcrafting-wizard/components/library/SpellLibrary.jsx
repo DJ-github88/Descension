@@ -18,7 +18,9 @@ import '../../styles/pathfinder/components/wow-spellbook.css';
 
 import SpellContextMenu from './SpellContextMenu';
 import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
+import ShareToCommunityDialog from './ShareToCommunityDialog';
 import useSpellbookStore from '../../../../store/spellbookStore';
+import { useCommunitySpells } from '../../../../hooks/useCommunitySpells';
 
 
 // Helper function to get spell icon URL
@@ -179,22 +181,61 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     return combined;
   }, [spellCategories, generalSpells]);
 
+  // Track deleted spell IDs to prevent reloading them from Firebase
+  const getDeletedSpellIds = () => {
+    try {
+      const deletedIds = localStorage.getItem('mythrill-deleted-spells');
+      return deletedIds ? JSON.parse(deletedIds) : [];
+    } catch (error) {
+      console.error('Error reading deleted spell IDs:', error);
+      return [];
+    }
+  };
+
+  const markSpellAsDeleted = (spellId) => {
+    try {
+      const deletedIds = getDeletedSpellIds();
+      if (!deletedIds.includes(spellId)) {
+        deletedIds.push(spellId);
+        localStorage.setItem('mythrill-deleted-spells', JSON.stringify(deletedIds));
+        console.log('🗑️ [SpellLibrary] Marked spell as deleted in localStorage:', spellId);
+      }
+    } catch (error) {
+      console.error('🗑️ [SpellLibrary] Error marking spell as deleted:', error);
+    }
+  };
+
   // Load user spells from Firebase when user logs in
   useEffect(() => {
     const loadUserSpellsFromFirebase = async () => {
       if (user?.uid && !userSpellsLoaded) {
         try {
           const userSpells = await loadUserSpells(user.uid);
+          const deletedSpellIds = getDeletedSpellIds();
 
           if (userSpells && userSpells.length > 0) {
-
-            // Add each spell to the library if it doesn't already exist
-            userSpells.forEach(spell => {
-              const existingSpell = library.spells.find(s => s.id === spell.id);
-              if (!existingSpell) {
-                dispatch({ type: 'ADD_SPELL_DIRECT', payload: spell });
+            // Filter out deleted spells and spells that already exist
+            const spellsToAdd = userSpells.filter(spell => {
+              // Don't add if it's been deleted
+              if (deletedSpellIds.includes(spell.id)) {
+                console.log('🗑️ [SpellLibrary] Skipping deleted spell:', spell.id, spell.name);
+                return false;
               }
+              // Don't add if it already exists in the library
+              const existingSpell = library.spells.find(s => s.id === spell.id);
+              if (existingSpell) {
+                return false;
+              }
+              return true;
             });
+
+            // Add each spell to the library
+            spellsToAdd.forEach(spell => {
+              console.log('📥 [SpellLibrary] Adding spell from Firebase:', spell.id, spell.name);
+              dispatch({ type: 'ADD_SPELL_DIRECT', payload: spell });
+            });
+
+            console.log(`📥 [SpellLibrary] Loaded ${spellsToAdd.length} spells from Firebase (${userSpells.length - spellsToAdd.length} filtered out)`);
           }
 
           setUserSpellsLoaded(true);
@@ -209,7 +250,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     };
 
     loadUserSpellsFromFirebase();
-  }, [user?.uid, userSpellsLoaded, dispatch, library.spells]);
+  }, [user?.uid, userSpellsLoaded, dispatch]);
 
   // Debug: Log spell library state changes (disabled)
   useEffect(() => {
@@ -344,7 +385,18 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
       // Casting information
       castTime: formatCastTime(spell),
-      range: spell.targetingConfig?.rangeDistance ? `${spell.targetingConfig.rangeDistance} ft` : spell.range || '30 ft',
+      // Format range based on rangeType first, then fall back to rangeDistance
+      range: (() => {
+        const rangeType = spell.targetingConfig?.rangeType;
+        const rangeDistance = spell.targetingConfig?.rangeDistance;
+        if (rangeType === 'touch') return 'Touch';
+        if (rangeType === 'sight') return 'Sight';
+        if (rangeType === 'unlimited') return 'Unlimited';
+        if (rangeType === 'self_centered' || spell.targetingConfig?.targetingType === 'self') return 'Self';
+        if (rangeType === 'ranged' && rangeDistance) return `${rangeDistance} ft`;
+        if (rangeDistance) return `${rangeDistance} ft`;
+        return spell.range || '30 ft';
+      })(),
       rangeType: spell.targetingConfig?.rangeType || 'ranged',
 
       // Targeting information
@@ -505,8 +557,26 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Apply filters and sorting to get displayed spells
   const filteredSpells = useMemo(() => {
+    // Debug logging to track spell filtering
+    console.log('🔍 [filteredSpells] Starting filteredSpells calculation:', {
+      librarySpellsCount: library.spells.length,
+      librarySpellIds: library.spells.map(s => s.id),
+      librarySpellNames: library.spells.map(s => s.name),
+      hasActiveCharacter,
+      hasClassSpells,
+      activeCategory
+    });
+
     // Use class-based spells if available, otherwise fall back to library spells
     let spellsToFilter = [];
+
+    // ALWAYS include library.spells first (custom spells from wizard should always appear)
+    spellsToFilter = [...library.spells];
+
+    console.log('🔍 [filteredSpells] After including library.spells:', {
+      spellsToFilterCount: spellsToFilter.length,
+      spellIds: spellsToFilter.map(s => s.id)
+    });
 
     if (hasActiveCharacter && hasClassSpells) {
       // If we have an active category, show only spells from that category
@@ -516,32 +586,58 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
         if (isGeneralCategory) {
           // Filter general spells by category
-          spellsToFilter = generalSpells.filter(spell =>
+          const categoryGeneralSpells = generalSpells.filter(spell =>
             spell.categoryIds && spell.categoryIds.includes(activeCategory)
           );
+          spellsToFilter = [...spellsToFilter, ...categoryGeneralSpells];
         } else {
-          // Use class-based category
-          spellsToFilter = getSpellsByCategory(activeCategory);
+          // Use class-based category (but still include library spells)
+          const categoryClassSpells = getSpellsByCategory(activeCategory);
+          spellsToFilter = [...spellsToFilter, ...categoryClassSpells];
         }
+        // library.spells is already included at the top
       } else {
-        // Show all spells from all categories (class + general)
+        // Show all spells from all categories (class + general + library spells for custom spells)
         const classSpells = getAllSpells();
-        spellsToFilter = [...classSpells, ...generalSpells];
+        // Include class spells and general spells
+        spellsToFilter = [...spellsToFilter, ...classSpells, ...generalSpells];
       }
     } else {
       // Fall back to traditional library spells + general spells
-      spellsToFilter = [...library.spells, ...generalSpells];
+      spellsToFilter = [...spellsToFilter, ...generalSpells];
     }
+
+    // Deduplicate spells by ID (same spell might be in both class spells and library.spells)
+    // Keep the first occurrence, which ensures library.spells take priority
+    const uniqueSpellsMap = new Map();
+    spellsToFilter.forEach(spell => {
+      if (!uniqueSpellsMap.has(spell.id)) {
+        uniqueSpellsMap.set(spell.id, spell);
+      }
+    });
+    const uniqueSpellsToFilter = Array.from(uniqueSpellsMap.values());
+
+    console.log('🔍 [filteredSpells] After deduplication:', {
+      uniqueSpellsCount: uniqueSpellsToFilter.length,
+      spellIds: uniqueSpellsToFilter.map(s => s.id)
+    });
 
     // Create a temporary library object for filtering
     const tempLibrary = {
       ...library,
-      spells: spellsToFilter
+      spells: uniqueSpellsToFilter
     };
 
     const filtered = filterSpells(tempLibrary, library.filters);
     const sorted = sortSpells(filtered, library.sortOrder);
 
+    console.log('🔍 [filteredSpells] Final result:', {
+      filteredCount: filtered.length,
+      sortedCount: sorted.length,
+      spellIds: sorted.map(s => s.id),
+      filterQuery: library.filters?.query,
+      filterCategories: library.filters?.categories
+    });
 
     return sorted;
   }, [
@@ -618,31 +714,115 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // State for confirmation dialog
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
+  // State for share to community dialog
+  const [shareDialog, setShareDialog] = useState(null);
+
   // Handle spell deletion with confirmation
   const handleDeleteSpell = (spellId, spellName) => {
     setDeleteConfirmation({ spellId, spellName });
   };
 
+  // Handle sharing spell to community
+  const handleShareToCommunity = (spell) => {
+    setShareDialog(spell);
+  };
+
+  // Confirm sharing to community
+  const confirmShareToCommunity = async (spell) => {
+    if (!user?.uid) {
+      alert('Please log in to share spells with the community.');
+      return;
+    }
+
+    try {
+      // Use shareSpellToCommunity from userSpellService
+      const { shareSpellToCommunity } = await import('../../../../services/firebase/userSpellService');
+      
+      // The spell should already have an ID from user_spells
+      if (!spell.id) {
+        throw new Error('Spell must be saved to your account before sharing. Please save the spell first.');
+      }
+
+      await shareSpellToCommunity(user.uid, spell.id);
+      alert(`Successfully shared "${spell.name}" with the community!`);
+      setShareDialog(null);
+    } catch (error) {
+      console.error('Failed to share spell:', error);
+      alert(`Failed to share spell: ${error.message}`);
+      throw error;
+    }
+  };
+
   // Confirm deletion
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (deleteConfirmation) {
       const spellId = deleteConfirmation.spellId;
+      const spellName = deleteConfirmation.spellName;
 
-      // Check if this is a custom spell (starts with "custom-" or has isCustom flag)
-      const spell = filteredSpells.find(s => s.id === spellId);
+      console.log('🗑️ [SpellLibrary] Deleting spell:', { spellId, spellName });
+
+      // Find the spell in filteredSpells or library.spells to check if it's custom
+      const spell = filteredSpells.find(s => s.id === spellId) || 
+                   library.spells.find(s => s.id === spellId);
+      
       const isCustomSpell = spell && (
         spell.isCustom === true ||
-        spell.id?.startsWith('custom-')
+        spell.id?.startsWith('custom-') ||
+        spell.source === 'wizard'
       );
 
+      console.log('🗑️ [SpellLibrary] Spell details:', {
+        found: !!spell,
+        isCustomSpell,
+        inLibrarySpells: library.spells.some(s => s.id === spellId),
+        inFilteredSpells: filteredSpells.some(s => s.id === spellId)
+      });
+
+      // ALWAYS remove from library.spells first (all completed spells are stored here)
+      const libraryAction = libraryActionCreators.deleteSpell(spellId);
+      dispatch(libraryAction);
+      console.log('🗑️ [SpellLibrary] Removed from library.spells');
+
+      // ALSO remove from custom spells category if it's a custom spell
       if (isCustomSpell) {
         removeCustomSpell(spellId);
-      } else {
-        const action = libraryActionCreators.deleteSpell(spellId);
-        dispatch(action);
+        console.log('🗑️ [SpellLibrary] Removed from custom spells category');
+        
+        // Remove from localStorage custom spells if it exists there
+        try {
+          const savedCustomSpells = localStorage.getItem('mythrill-custom-spells');
+          if (savedCustomSpells) {
+            const customSpells = JSON.parse(savedCustomSpells);
+            const updatedCustomSpells = customSpells.filter(s => s.id !== spellId);
+            localStorage.setItem('mythrill-custom-spells', JSON.stringify(updatedCustomSpells));
+            console.log('🗑️ [SpellLibrary] Removed from localStorage custom spells');
+          }
+        } catch (error) {
+          console.error('🗑️ [SpellLibrary] Error removing from localStorage:', error);
+        }
+      }
+
+      // Mark spell as deleted in localStorage to prevent reloading from Firebase
+      markSpellAsDeleted(spellId);
+
+      // Delete from Firebase if user is logged in and spell exists in Firebase
+      if (user?.uid && spellId) {
+        try {
+          const { deleteUserSpell } = await import('../../../../services/firebase/userSpellService');
+          const result = await deleteUserSpell(user.uid, spellId);
+          if (result.success) {
+            console.log('🗑️ [SpellLibrary] Deleted from Firebase');
+          } else {
+            console.log('🗑️ [SpellLibrary] Spell not found in Firebase or already deleted');
+          }
+        } catch (error) {
+          console.error('🗑️ [SpellLibrary] Error deleting from Firebase:', error);
+          // Continue even if Firebase deletion fails - spell is already removed locally
+        }
       }
 
       setDeleteConfirmation(null);
+      console.log('🗑️ [SpellLibrary] Spell deletion complete');
     }
   };
 
@@ -1499,10 +1679,21 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
               handleDeleteSpell(spellId, spellToDelete?.name || 'Unknown Spell');
             } : null}
             onAddToCollection={handleAddToCollection}
+            onShareToCommunity={isCustomSpell ? handleShareToCommunity : null}
           />,
           document.body
         );
       })()}
+
+      {/* Share to Community Dialog */}
+      {shareDialog && (
+        <ShareToCommunityDialog
+          isOpen={!!shareDialog}
+          spell={shareDialog}
+          onClose={() => setShareDialog(null)}
+          onShare={confirmShareToCommunity}
+        />
+      )}
 
       {/* Spell Tooltip - Shows full spell card on hover (only when no spell is selected) */}
       {hoveredSpell && viewMode === 'compact' && !library.selectedSpell && ReactDOM.createPortal(

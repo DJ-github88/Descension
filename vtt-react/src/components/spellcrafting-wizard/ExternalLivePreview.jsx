@@ -123,25 +123,38 @@ const ExternalLivePreview = () => {
         spellData.devotionGain = resourceValues.devotion_gain;
       }
 
+      // Ensure spell has an ID
+      if (!spellData.id) {
+        const generateSpellId = (name) => {
+          const base = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+          const timestamp = Date.now().toString(36);
+          return `${base}-${timestamp}`;
+        };
+        spellData.id = generateSpellId(spellData.name || 'Unnamed Spell');
+        spellData.dateCreated = new Date().toISOString();
+        spellData.lastModified = new Date().toISOString();
+      }
+
       // Add to spell library context (shows in spell library immediately)
+      // This works whether logged in or not - saves to localStorage
       libraryDispatch(libraryActionCreators.addSpell(spellData));
 
       // Add to custom spells (for character-specific spell library)
       addCustomSpell(spellData);
 
-      // Save to Firebase if user is logged in
+      // Save to Firebase if user is logged in (for cloud sync)
       if (user?.uid) {
         const result = await saveUserSpell(user.uid, spellData);
         if (result.success) {
           console.log('✅ Spell saved to user account in Firebase');
-          setCompletionMessage('✓ Spell saved to your account and added to library!');
+          setCompletionMessage('✓ Spell added to library and saved to your account!');
         } else if (result.localOnly) {
           console.log('⚠️ Spell saved locally only (Firebase not available)');
-          setCompletionMessage('✓ Spell saved locally (will sync when online)');
+          setCompletionMessage('✓ Spell added to library (will sync when online)');
         }
       } else {
-        console.log('⚠️ No user logged in, spell saved locally only');
-        setCompletionMessage('✓ Spell saved locally (login to sync across devices)');
+        console.log('✓ Spell added to local library (not logged in - spell will not persist after page refresh)');
+        setCompletionMessage('✓ Spell added to library! (Login to save to your account)');
       }
 
       // Clear the message after 3 seconds
@@ -287,7 +300,18 @@ const ExternalLivePreview = () => {
 
       // Casting information
       castTime: formatCastTime(spellState),
-      range: spellState.targetingConfig?.rangeDistance ? `${spellState.targetingConfig.rangeDistance} ft` : '30 ft',
+      // Format range based on rangeType first, then fall back to rangeDistance
+      range: (() => {
+        const rangeType = spellState.targetingConfig?.rangeType;
+        const rangeDistance = spellState.targetingConfig?.rangeDistance;
+        if (rangeType === 'touch') return 'Touch';
+        if (rangeType === 'sight') return 'Sight';
+        if (rangeType === 'unlimited') return 'Unlimited';
+        if (rangeType === 'self_centered' || spellState.targetingConfig?.targetingType === 'self') return 'Self';
+        if (rangeType === 'ranged' && rangeDistance) return `${rangeDistance} ft`;
+        if (rangeDistance) return `${rangeDistance} ft`;
+        return '30 ft';
+      })(),
       rangeType: spellState.targetingConfig?.rangeType || 'ranged',
 
       // Targeting information

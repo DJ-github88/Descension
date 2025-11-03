@@ -27,7 +27,6 @@ const RaceSelector = () => {
             {/* Step 1: Race Selection */}
             <div className="race-selection-step">
                 <h3 className="step-title">
-                    <span className="step-number">1</span>
                     Select a Race
                 </h3>
                 <div className="race-grid">
@@ -57,7 +56,6 @@ const RaceSelector = () => {
             {raceData && (
                 <div className="variant-selection-step">
                     <h3 className="step-title">
-                        <span className="step-number">2</span>
                         Select a Variant
                     </h3>
                     <div className="variant-grid">
@@ -91,7 +89,6 @@ const RaceSelector = () => {
             {variantData && raceData && (
                 <div className="variant-details-view">
                     <h3 className="step-title">
-                        <span className="step-number">3</span>
                         {variantData.name} Details
                     </h3>
 
@@ -103,12 +100,10 @@ const RaceSelector = () => {
                                 <h4 className="stat-block-title">Stat Modifiers</h4>
                                 <div className="stat-modifiers-full">
                                     {Object.entries(variantData.statModifiers).map(([stat, modifier]) => (
-                                        <div key={stat} className="stat-row">
-                                            <span className="stat-label">{stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
-                                            <span className={`stat-value ${modifier > 0 ? 'positive' : modifier < 0 ? 'negative' : 'neutral'}`}>
-                                                {modifier > 0 ? '+' : ''}{modifier}
-                                            </span>
-                                        </div>
+                                        <span key={stat} className={`stat-badge ${modifier > 0 ? 'positive' : modifier < 0 ? 'negative' : 'neutral'}`}>
+                                            <span className="stat-badge-label">{stat.substring(0, 3).toUpperCase()}</span>
+                                            <span className="stat-badge-value">{modifier > 0 ? '+' : ''}{modifier}</span>
+                                        </span>
                                     ))}
                                 </div>
                             </div>
@@ -116,22 +111,22 @@ const RaceSelector = () => {
                             {/* Basic Information */}
                             <div className="info-block">
                                 <h4 className="info-block-title">Basic Information</h4>
-                                <div className="info-grid">
-                                    <div className="info-item">
-                                        <span className="info-label">Size</span>
-                                        <span className="info-value">{raceData.baseTraits.size}</span>
+                                <div className="info-list">
+                                    <div className="info-list-item">
+                                        <span className="info-list-label">Size:</span>
+                                        <span className="info-list-value">{raceData.baseTraits.size}</span>
                                     </div>
-                                    <div className="info-item">
-                                        <span className="info-label">Speed</span>
-                                        <span className="info-value">{raceData.baseTraits.baseSpeed} ft</span>
+                                    <div className="info-list-item">
+                                        <span className="info-list-label">Speed:</span>
+                                        <span className="info-list-value">{raceData.baseTraits.baseSpeed} ft</span>
                                     </div>
-                                    <div className="info-item">
-                                        <span className="info-label">Lifespan</span>
-                                        <span className="info-value">{raceData.baseTraits.lifespan}</span>
+                                    <div className="info-list-item">
+                                        <span className="info-list-label">Lifespan:</span>
+                                        <span className="info-list-value">{raceData.baseTraits.lifespan}</span>
                                     </div>
-                                    <div className="info-item">
-                                        <span className="info-label">Languages</span>
-                                        <span className="info-value">{raceData.baseTraits.languages.join(', ')}</span>
+                                    <div className="info-list-item">
+                                        <span className="info-list-label">Languages:</span>
+                                        <span className="info-list-value">{raceData.baseTraits.languages.join(', ')}</span>
                                     </div>
                                 </div>
                             </div>

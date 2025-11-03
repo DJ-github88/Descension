@@ -266,36 +266,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         {activeSection === 'membership' && renderMembershipSection()}
       </main>
 
-      <footer className="landing-footer">
-        <div className="footer-content">
-          <div className="footer-section">
-            <h4>Mythrill</h4>
-            <p>The ultimate fantasy TTRPG experience</p>
-          </div>
-          <div className="footer-section">
-            <h4>Community</h4>
-            <a href="#discord">Discord</a>
-            <a href="#reddit">Reddit</a>
-            <a href="#forums">Forums</a>
-          </div>
-          <div className="footer-section">
-            <h4>Support</h4>
-            <a href="#help">Help Center</a>
-            <a href="#contact">Contact Us</a>
-            <a href="#feedback">Feedback</a>
-          </div>
-          <div className="footer-section">
-            <h4>Legal</h4>
-            <a href="#privacy">Privacy Policy</a>
-            <a href="#terms">Terms of Service</a>
-            <a href="#cookies">Cookie Policy</a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>&copy; 2024 Mythrill. All rights reserved.</p>
-        </div>
-      </footer>
-
       {/* Scroll to Top Button */}
       {showScrollTop && (
         <button

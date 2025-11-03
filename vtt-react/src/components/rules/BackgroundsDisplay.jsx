@@ -38,11 +38,8 @@ const BackgroundsDisplay = () => {
                             className={`background-card ${selectedBackground === background.id ? 'selected' : ''}`}
                             onClick={() => handleBackgroundSelect(background.id)}
                         >
-                            <div className="background-card-icon">
-                                <i className="fas fa-book"></i>
-                            </div>
                             <h4 className="background-card-name">{background.name}</h4>
-                            <p className="background-card-description">{background.description.substring(0, 100)}...</p>
+                            <p className="background-card-description">{background.description}</p>
                             <div className="background-card-info">
                                 <span className="info-badge">
                                     <i className="fas fa-cogs"></i>

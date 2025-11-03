@@ -55,17 +55,32 @@ function spellLibraryReducer(state, action) {
 
       const newSpell = {
         ...action.payload,
-        id: generateUniqueId(),
-        dateCreated: new Date().toISOString(),
+        // Preserve existing ID if provided, otherwise generate a new one
+        id: action.payload.id || generateUniqueId(),
+        dateCreated: action.payload.dateCreated || new Date().toISOString(),
         lastModified: new Date().toISOString(),
         categoryIds: spellCategories
       };
 
-      return {
+      console.log('📚 [SpellLibraryContext] ADD_SPELL action:', {
+        spellName: newSpell.name,
+        spellId: newSpell.id,
+        currentSpellsCount: state.spells.length,
+        willHaveCount: state.spells.length + 1
+      });
+
+      const newState = {
         ...state,
         spells: [...state.spells, newSpell],
         selectedSpell: newSpell.id
       };
+
+      console.log('📚 [SpellLibraryContext] After ADD_SPELL:', {
+        newSpellsCount: newState.spells.length,
+        spellIds: newState.spells.map(s => s.id)
+      });
+
+      return newState;
     }
 
     case 'ADD_SPELL_DIRECT': {
@@ -107,24 +122,38 @@ function spellLibraryReducer(state, action) {
     }
 
     case LIBRARY_ACTION_TYPES.DELETE_SPELL: {
-      console.log('[SpellLibraryReducer] DELETE_SPELL action received:', action.payload);
-      console.log('[SpellLibraryReducer] Current spells:', state.spells.map(s => s.id));
+      const spellId = action.payload;
+      console.log('🗑️ [SpellLibraryReducer] DELETE_SPELL action received:', spellId);
+      console.log('🗑️ [SpellLibraryReducer] Current spells count:', state.spells.length);
+      console.log('🗑️ [SpellLibraryReducer] Current spell IDs:', state.spells.map(s => s.id));
 
-      const updatedSpells = state.spells.filter(spell => spell.id !== action.payload);
+      const spellToDelete = state.spells.find(s => s.id === spellId);
+      if (spellToDelete) {
+        console.log('🗑️ [SpellLibraryReducer] Spell found to delete:', spellToDelete.name);
+      } else {
+        console.warn('🗑️ [SpellLibraryReducer] Spell NOT found in library.spells:', spellId);
+      }
 
-      console.log('[SpellLibraryReducer] Updated spells after deletion:', updatedSpells.map(s => s.id));
-      console.log('[SpellLibraryReducer] Spell was deleted?', state.spells.length !== updatedSpells.length);
+      const updatedSpells = state.spells.filter(spell => spell.id !== spellId);
+
+      console.log('🗑️ [SpellLibraryReducer] Updated spells count:', updatedSpells.length);
+      console.log('🗑️ [SpellLibraryReducer] Updated spell IDs:', updatedSpells.map(s => s.id));
+      console.log('🗑️ [SpellLibraryReducer] Deletion successful?', state.spells.length !== updatedSpells.length);
 
       // If the deleted spell was selected, deselect it
-      const selectedSpell = state.selectedSpell === action.payload
+      const selectedSpell = state.selectedSpell === spellId
         ? null
         : state.selectedSpell;
 
-      return {
+      const newState = {
         ...state,
         spells: updatedSpells,
         selectedSpell
       };
+
+      console.log('🗑️ [SpellLibraryReducer] New state created, will save to localStorage automatically');
+
+      return newState;
     }
 
     case LIBRARY_ACTION_TYPES.DUPLICATE_SPELL: {

@@ -217,7 +217,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You execute with minor hesitation', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You read the flow cleanly', type: 'success' },
             { roll: [3, 3], result: 'You anticipate with precision', type: 'success' },
             { roll: [4, 4], result: 'You dominate the exchange', type: 'critical' }
@@ -320,7 +320,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You execute with perfect timing', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You anticipate before movement', type: 'success' },
             { roll: [3, 3], result: 'You control the entire exchange', type: 'critical' },
             { roll: [4, 4], result: 'You dominate with precision', type: 'critical' }
@@ -332,7 +332,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You briefly lose focus', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You read the pattern clearly', type: 'success' },
             { roll: [3, 3], result: 'You dictate engagement terms', type: 'success' },
             { roll: [4, 4], result: 'You bait enemy into trap', type: 'success' },
@@ -423,7 +423,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You read intent before action', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You control flow effortlessly', type: 'critical' },
             { roll: [3, 3], result: 'You dominate with minimal effort', type: 'critical' },
             { roll: [4, 4], result: 'You achieve tactical perfection', type: 'critical' }
@@ -435,7 +435,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You execute with precision', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You anticipate all movements', type: 'success' },
             { roll: [3, 3], result: 'You dictate complete flow', type: 'success' },
             { roll: [4, 4], result: 'You bait perfect counter', type: 'critical' },
@@ -449,7 +449,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You briefly lose tactical edge', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You maintain superior control', type: 'normal' },
             { roll: [3, 3], result: 'You coordinate team flawlessly', type: 'success' },
             { roll: [4, 4], result: 'You exploit every mistake', type: 'success' },
@@ -526,7 +526,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You anticipate before thought', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You control flow instinctively', type: 'critical' },
             { roll: [3, 3], result: 'You dominate without effort', type: 'critical' },
             { roll: [4, 4], result: 'You achieve absolute control', type: 'critical' }
@@ -538,7 +538,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You execute with mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You anticipate all patterns', type: 'critical' },
             { roll: [3, 3], result: 'You dictate absolute flow', type: 'critical' },
             { roll: [4, 4], result: 'You bait flawless counter', type: 'critical' },
@@ -552,7 +552,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You maintain superior control', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You coordinate team perfectly', type: 'success' },
             { roll: [3, 3], result: 'You exploit every opening', type: 'success' },
             { roll: [4, 4], result: 'You control battlefield tempo', type: 'critical' },
@@ -568,7 +568,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You briefly lose tactical edge', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You maintain tactical position', type: 'success' },
             { roll: [3, 3], result: 'You adapt to pressure', type: 'success' },
             { roll: [4, 4], result: 'You hold battle awareness', type: 'success' },
@@ -586,7 +586,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You struggle with complexity', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You maintain control', type: 'normal' },
             { roll: [3, 3], result: 'You adapt to chaos', type: 'success' },
             { roll: [4, 4], result: 'You hold tactical position', type: 'success' },
@@ -629,7 +629,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You control flow before engagement', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You dominate with absolute precision', type: 'critical' },
             { roll: [3, 3], result: 'You achieve perfect tactical unity', type: 'critical' },
             { roll: [4, 4], result: 'You transcend tactical limits', type: 'critical' }
@@ -641,7 +641,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You anticipate all possibilities', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You dictate complete battlefield', type: 'critical' },
             { roll: [3, 3], result: 'You bait perfect execution', type: 'critical' },
             { roll: [4, 4], result: 'You orchestrate flawless victory', type: 'critical' },
@@ -655,7 +655,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You coordinate team flawlessly', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You exploit every weakness', type: 'critical' },
             { roll: [3, 3], result: 'You control battlefield tempo', type: 'critical' },
             { roll: [4, 4], result: 'You predict all adaptations', type: 'critical' },
@@ -671,7 +671,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You maintain superior control', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You adapt to all pressure', type: 'critical' },
             { roll: [3, 3], result: 'You hold perfect awareness', type: 'critical' },
             { roll: [4, 4], result: 'You counter all strategies', type: 'critical' },
@@ -689,7 +689,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You maintain tactical position', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You adapt to chaos perfectly', type: 'success' },
             { roll: [3, 3], result: 'You identify all critical targets', type: 'critical' },
             { roll: [4, 4], result: 'You coordinate under any pressure', type: 'critical' },
@@ -709,7 +709,7 @@ export const TACTICAL_COMBAT_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_commandingshout.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You face ultimate complexity', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'You maintain cohesion', type: 'success' },
             { roll: [4, 5], result: 'You hold defensive stance', type: 'success' },
             { roll: [6, 7], result: 'You adapt to all threats', type: 'critical' },

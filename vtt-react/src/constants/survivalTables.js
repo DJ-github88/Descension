@@ -381,7 +381,7 @@ export const SURVIVAL_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You complete task effortlessly', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You master conditions, find extra provisions', type: 'success' },
             { roll: [3, 3], result: 'You navigate perfectly, discover hidden resources', type: 'success' },
             { roll: [4, 4], result: 'You thrive completely, gain advantage on next survival roll', type: 'critical' }
@@ -474,7 +474,7 @@ export const SURVIVAL_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You master conditions effortlessly, find hidden cache', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You navigate perfectly, discover abundant resources', type: 'critical' },
             { roll: [3, 3], result: 'You read terrain like a map, find optimal routes for miles', type: 'critical' },
             { roll: [4, 4], result: 'You command the wilderness, party gains lasting survival bonuses', type: 'critical' }
@@ -486,7 +486,7 @@ export const SURVIVAL_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You handle task with complete mastery', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You navigate flawlessly, find excellent provisions', type: 'success' },
             { roll: [3, 3], result: 'You discover hidden landmarks and safe routes', type: 'success' },
             { roll: [4, 4], result: 'You find pristine campsite and abundant game', type: 'success' },
@@ -567,7 +567,7 @@ export const SURVIVAL_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You navigate with absolute mastery, find legendary campsite', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You read wilderness like your own hand, discover ancient safe routes', type: 'critical' },
             { roll: [3, 3], result: 'You command terrain completely, establish permanent supply caches', type: 'critical' },
             { roll: [4, 4], result: 'You become one with nature, party gains permanent survival bonuses in region', type: 'critical' }
@@ -579,7 +579,7 @@ export const SURVIVAL_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You master conditions with legendary skill', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You navigate flawlessly, discover pristine resources', type: 'success' },
             { roll: [3, 3], result: 'You read terrain perfectly, find hidden sanctuaries', type: 'success' },
             { roll: [4, 4], result: 'You establish ideal base camp with abundant provisions', type: 'success' },
@@ -649,7 +649,7 @@ export const SURVIVAL_TABLES = {
             { roll: [14, 16], result: 'You command hostile terrain, secure excellent provisions', type: 'success' },
             { roll: [17, 18], result: 'You discover hidden sanctuary in impossible places', type: 'success' },
             { roll: [19, 19], result: 'You read wilderness perfectly, establish legendary base camp', type: 'critical' },
-            { roll: [20, 20], result: 'You achieve impossible feat, turn deadliest terrain into paradise, your legend endures forever', type: 'critical' }
+            { roll: [20, 20], result: 'You achieve remarkable feat, adapt deadliest terrain into safe haven, establishing a legendary base', type: 'critical' }
         ]
     }
 };

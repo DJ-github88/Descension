@@ -2957,10 +2957,14 @@ const UnifiedSpellCard = ({
         'enemy': 'enemy\'s health',
         'any': 'anyone\'s health'
       };
+      // Map all possible comparison values (both new format and legacy)
       const compMap = {
-        'below': 'falls below',
-        'above': 'rises above',
-        'equals': 'equals'
+        'less_than': 'falls below',
+        'greater_than': 'rises above',
+        'equal': 'equals',
+        'below': 'falls below',  // Legacy support
+        'above': 'rises above',  // Legacy support
+        'equals': 'equals'      // Legacy support
       };
       displayText = `When ${whoMap[perspective] || 'my health'} ${compMap[comparison] || 'falls below'} ${percentage}%`;
     } else if (trigger.id === 'spell_cast') {
@@ -3274,10 +3278,14 @@ const UnifiedSpellCard = ({
     } else if (trigger.id === 'duration_threshold') {
       const duration = trigger.parameters?.duration || 5;
       const comparison = trigger.parameters?.comparison || 'below';
+      // Map all possible comparison values (both new format and legacy)
       const compMap = {
-        'below': 'falls below',
-        'above': 'rises above',
-        'equals': 'equals'
+        'less_than': 'falls below',
+        'greater_than': 'rises above',
+        'equal': 'equals',
+        'below': 'falls below',  // Legacy support
+        'above': 'rises above',  // Legacy support
+        'equals': 'equals'      // Legacy support
       };
       displayText = `When spell duration ${compMap[comparison] || 'falls below'} ${duration} seconds`;
     }
@@ -3439,22 +3447,58 @@ const UnifiedSpellCard = ({
     let damageText = '';
     let dotText = '';
 
-    // Get damage type for appending to formulas
-    // For DoT spells, use elementType; for instant damage, use damageType
-    const damageType = spell.damageConfig?.damageType ||
+    // Get damage types for appending to formulas
+    // Priority: use damageTypes array (from Step 1), then fallback to single damageType
+    let damageTypesArray = spell.damageTypes || spell.damageConfig?.damageTypes;
+    
+    // If no array, try to get from typeConfig (Step 1)
+    if (!damageTypesArray || damageTypesArray.length === 0) {
+      damageTypesArray = [];
+      if (spell.typeConfig?.school) {
+        damageTypesArray.push(spell.typeConfig.school);
+      }
+      if (spell.typeConfig?.secondaryElement) {
+        damageTypesArray.push(spell.typeConfig.secondaryElement);
+      }
+    }
+    
+    // If still no array, try single damageType (for DoT spells, use elementType; for instant damage, use damageType)
+    const singleDamageType = spell.damageConfig?.damageType ||
                       spell.effects?.damage?.instant?.type ||
-                      spell.damageTypes?.[0] ||
                       null;
 
     // For DoT spells (damageType === 'dot'), use elementType for the suffix
     // For instant damage spells, use damageType
-    const effectiveType = damageType === 'dot'
+    const effectiveSingleType = singleDamageType === 'dot'
       ? (spell.damageConfig?.elementType || spell.effects?.damage?.dot?.type)
-      : damageType;
+      : singleDamageType;
 
-    const damageTypeSuffix = effectiveType && effectiveType !== 'dot' ?
-                            ` ${effectiveType.charAt(0).toUpperCase() + effectiveType.slice(1)} Damage` :
-                            '';
+    // If we have an array, use it; otherwise use single type
+    const effectiveDamageTypes = (damageTypesArray && damageTypesArray.length > 0) 
+      ? damageTypesArray 
+      : (effectiveSingleType ? [effectiveSingleType] : []);
+
+    // Format damage type suffix - handle multiple types
+    let damageTypeSuffix = '';
+    if (effectiveDamageTypes.length > 0) {
+      const formattedTypes = effectiveDamageTypes
+        .filter(type => type && type !== 'dot') // Filter out 'dot' as it's not a damage type
+        .map(type => {
+          // Capitalize first letter and handle special cases
+          const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
+          // Handle lightning -> Lightning (not "Storm" in damage context)
+          return capitalized;
+        });
+      
+      if (formattedTypes.length > 0) {
+        if (formattedTypes.length === 1) {
+          damageTypeSuffix = ` ${formattedTypes[0]} Damage`;
+        } else {
+          // Join with "and" for multiple types: "Cold and Lightning Damage"
+          damageTypeSuffix = ` ${formattedTypes.join(' and ')} Damage`;
+        }
+      }
+    }
 
     // Check if this is a pure DoT spell (no instant damage)
     // A spell is pure DoT if: damageType is 'dot' AND there's no instant damage formula

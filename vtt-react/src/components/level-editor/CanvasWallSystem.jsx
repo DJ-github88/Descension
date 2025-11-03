@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { rafThrottle } from '../../utils/performanceUtils';
 
 const CanvasWallSystem = () => {
     const canvasRef = useRef(null);
@@ -21,7 +22,9 @@ const CanvasWallSystem = () => {
         wallData,
         drawingLayers,
         showWallLayer,
-        isEditorMode
+        isEditorMode,
+        viewingFromToken,
+        visibleArea
     } = useLevelEditorStore();
 
     // Calculate effective zoom
@@ -89,7 +92,7 @@ const CanvasWallSystem = () => {
             return;
         }
 
-        console.log('🧱 CANVAS WALL SYSTEM: Rendering walls', Object.keys(wallData).length);
+        // Render walls (logging removed for performance)
 
         // Calculate visible bounds for performance
         let startX, endX, startY, endY;
@@ -109,6 +112,21 @@ const CanvasWallSystem = () => {
             endY = Math.ceil((cameraY + canvas.height / effectiveZoom - gridOffsetY) / gridSize) + 5;
         }
 
+        // Get visibility data for FOV-based rendering
+        const levelEditorStore = useLevelEditorStore.getState();
+        const { isGMMode } = levelEditorStore;
+        
+        // Convert visibleArea array back to Set for efficient lookup (if it's an array)
+        // Use subscribed values for better reactivity
+        const visibleAreaSet = visibleArea ? (visibleArea instanceof Set ? visibleArea : new Set(visibleArea)) : null;
+        
+        // Only apply FOV filtering if:
+        // 1. We're viewing from a token (not just editing)
+        // 2. We have a visible area set
+        // 3. We're NOT in GM mode
+        // 4. We're NOT in editor mode (walls should always be visible when editing)
+        const shouldFilterByFOV = viewingFromToken && visibleAreaSet && !isGMMode && !isEditorMode;
+        
         // Render walls
         Object.entries(wallData).forEach(([wallKey, wallData_item]) => {
             // Handle both old format (string) and new format (object)
@@ -127,6 +145,114 @@ const CanvasWallSystem = () => {
 
             if (maxX < startX || minX > endX || maxY < startY || minY > endY) {
                 return; // Skip walls outside visible area
+            }
+            
+            // Check FOV visibility: only apply when actually viewing from a token (not during editing)
+            // A wall is visible if:
+            // 1. At least one of its endpoint tiles or tiles it crosses are in visibleArea, OR
+            // 2. The wall blocks line of sight to any visible tile (walls obstructing vision should be visible)
+            // Note: In GM mode or editor mode, walls should always be visible regardless of FOV
+            if (shouldFilterByFOV) {
+                // Check if any tile the wall passes through is in the visible area
+                let isWallVisible = false;
+                
+                // Check endpoint tiles
+                const tile1Key = `${x1},${y1}`;
+                const tile2Key = `${x2},${y2}`;
+                if (visibleAreaSet.has(tile1Key) || visibleAreaSet.has(tile2Key)) {
+                    isWallVisible = true;
+                } else {
+                    // Check intermediate tiles along the wall
+                    // For horizontal walls, check tiles between x1 and x2
+                    // For vertical walls, check tiles between y1 and y2
+                    if (x1 === x2) {
+                        // Vertical wall
+                        for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+                            const tileKey = `${x1},${y}`;
+                            if (visibleAreaSet.has(tileKey)) {
+                                isWallVisible = true;
+                                break;
+                            }
+                        }
+                    } else if (y1 === y2) {
+                        // Horizontal wall
+                        for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+                            const tileKey = `${x},${y1}`;
+                            if (visibleAreaSet.has(tileKey)) {
+                                isWallVisible = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        // Diagonal wall - check all tiles along the line
+                        const dx = x2 > x1 ? 1 : -1;
+                        const dy = y2 > y1 ? 1 : -1;
+                        let x = x1;
+                        let y = y1;
+                        while (x !== x2 || y !== y2) {
+                            const tileKey = `${x},${y}`;
+                            if (visibleAreaSet.has(tileKey)) {
+                                isWallVisible = true;
+                                break;
+                            }
+                            if (x !== x2) x += dx;
+                            if (y !== y2) y += dy;
+                        }
+                    }
+                }
+                
+                // If wall is not directly in visible area, check if it's adjacent to visible tiles
+                // Walls that are adjacent to visible tiles are likely blocking line of sight and should be visible
+                // This ensures walls obstructing vision are shown even if they're outside the visible area
+                if (!isWallVisible) {
+                    const wallMinX = Math.min(x1, x2);
+                    const wallMaxX = Math.max(x1, x2);
+                    const wallMinY = Math.min(y1, y2);
+                    const wallMaxY = Math.max(y1, y2);
+                    
+                    // Check tiles adjacent to the wall - these are tiles that the wall borders
+                    const tilesAdjacentToWall = [];
+                    
+                    if (x1 === x2) {
+                        // Vertical wall - check tiles on both sides (left and right)
+                        for (let y = wallMinY; y <= wallMaxY; y++) {
+                            tilesAdjacentToWall.push(`${x1 - 1},${y}`); // Left side
+                            tilesAdjacentToWall.push(`${x1},${y}`);     // Right side
+                        }
+                    } else if (y1 === y2) {
+                        // Horizontal wall - check tiles on both sides (top and bottom)
+                        for (let x = wallMinX; x <= wallMaxX; x++) {
+                            tilesAdjacentToWall.push(`${x},${y1 - 1}`); // Top side
+                            tilesAdjacentToWall.push(`${x},${y1}`);     // Bottom side
+                        }
+                    } else {
+                        // Diagonal wall - check tiles around it
+                        const dx = x2 > x1 ? 1 : -1;
+                        const dy = y2 > y1 ? 1 : -1;
+                        for (let i = 0; i <= Math.abs(x2 - x1); i++) {
+                            const x = x1 + (i * dx);
+                            const y = y1 + (i * dy);
+                            // Check all 8 surrounding tiles
+                            for (let dx2 = -1; dx2 <= 1; dx2++) {
+                                for (let dy2 = -1; dy2 <= 1; dy2++) {
+                                    tilesAdjacentToWall.push(`${x + dx2},${y + dy2}`);
+                                }
+                            }
+                        }
+                    }
+                    
+                    // If wall is adjacent to any visible tile, show it (it's blocking or bordering vision)
+                    for (const adjacentTileKey of tilesAdjacentToWall) {
+                        if (visibleAreaSet.has(adjacentTileKey)) {
+                            isWallVisible = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!isWallVisible) {
+                    return; // Skip wall - not in visible area and not blocking visible tiles
+                }
             }
 
             // Get screen positions for wall endpoints
@@ -151,25 +277,37 @@ const CanvasWallSystem = () => {
             ctx.lineTo(screenPos2.x, screenPos2.y);
             ctx.stroke();
 
-            console.log('🧱 Rendered wall:', wallKey, 'from', screenPos1, 'to', screenPos2, 'thickness:', wallThickness);
+            // Wall rendered (logging removed for performance)
         });
 
-    }, [wallData, drawingLayers, gridToScreen, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY]);
+    }, [wallData, drawingLayers, gridToScreen, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode]);
 
-    // Update canvas when dependencies change
+    // Throttle wall rendering with RAF for smooth performance during camera movement
+    const throttledRenderWallsRef = useRef(null);
+    
+    // Update throttled function when renderWalls changes
     useEffect(() => {
-        renderWalls();
+        throttledRenderWallsRef.current = rafThrottle(renderWalls);
     }, [renderWalls]);
+    
+    // Trigger render when dependencies change (throttled)
+    useEffect(() => {
+        if (throttledRenderWallsRef.current) {
+            throttledRenderWallsRef.current();
+        }
+    }, [wallData, drawingLayers, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode]);
 
     // Handle window resize
     useEffect(() => {
         const handleResize = () => {
-            renderWalls();
+            if (throttledRenderWallsRef.current) {
+                throttledRenderWallsRef.current();
+            }
         };
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [renderWalls]);
+    }, []);
 
     return (
         <canvas

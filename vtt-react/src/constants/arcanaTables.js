@@ -107,7 +107,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Minor fluctuation, energy wavers', type: 'normal' },
+            { roll: [1, 1], result: 'Energy wavers, brief loss of focus', type: 'failure' },
             { roll: [2, 2], result: 'Stable channeling, clean flow', type: 'success' },
             { roll: [3, 3], result: 'Smooth control, energy responds well', type: 'success' },
             { roll: [4, 4], result: 'Perfect flow, effortless manipulation', type: 'critical' }
@@ -119,7 +119,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Brief instability, quickly corrected', type: 'normal' },
+            { roll: [1, 1], result: 'Brief instability, lose control momentarily', type: 'failure' },
             { roll: [2, 2], result: 'Steady channeling, minor adjustments needed', type: 'success' },
             { roll: [3, 4], result: 'Clean energy flow, well controlled', type: 'success' },
             { roll: [5, 5], result: 'Smooth manipulation, energy obeys', type: 'critical' },
@@ -204,7 +204,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Effortless channeling, perfect flow', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Smooth control, energy harmonizes', type: 'critical' },
             { roll: [3, 3], result: 'Flawless manipulation, resonant flow', type: 'critical' },
             { roll: [4, 4], result: 'Perfect attunement, energy responds instantly', type: 'critical' }
@@ -216,7 +216,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Clean channeling, stable flow', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'Smooth control, well executed', type: 'success' },
             { roll: [3, 4], result: 'Effortless manipulation, energy obeys', type: 'critical' },
             { roll: [5, 5], result: 'Perfect flow, harmonious resonance', type: 'critical' },
@@ -229,7 +229,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Minor fluctuation, quickly stabilized', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Steady channeling, good control', type: 'success' },
             { roll: [3, 4], result: 'Clean flow, well managed', type: 'success' },
             { roll: [5, 5], result: 'Smooth manipulation, energy responds', type: 'success' },
@@ -301,7 +301,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Perfect channeling, instant attunement', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Flawless control, energy synchronizes', type: 'critical' },
             { roll: [3, 3], result: 'Harmonious flow, resonant manipulation', type: 'critical' },
             { roll: [4, 4], result: 'Complete mastery, effortless precision', type: 'critical' }
@@ -313,7 +313,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Smooth control, clean flow', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'Effortless manipulation, energy obeys', type: 'critical' },
             { roll: [3, 4], result: 'Perfect channeling, harmonious resonance', type: 'critical' },
             { roll: [5, 5], result: 'Flawless control, complete synchronization', type: 'critical' },
@@ -326,7 +326,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Steady channeling, stable flow', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'Clean control, well executed', type: 'success' },
             { roll: [3, 4], result: 'Smooth manipulation, energy responds', type: 'success' },
             { roll: [5, 5], result: 'Effortless channeling, harmonious flow', type: 'critical' },
@@ -341,7 +341,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Minor fluctuation, quickly corrected', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Partial control, energy wavers', type: 'normal' },
             { roll: [3, 4], result: 'Steady channeling achieved', type: 'success' },
             { roll: [5, 5], result: 'Clean flow, well controlled', type: 'success' },
@@ -398,7 +398,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Flawless attunement, instant synchronization', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Perfect harmony, energy flows effortlessly', type: 'critical' },
             { roll: [3, 3], result: 'Complete mastery, resonant precision', type: 'critical' },
             { roll: [4, 4], result: 'Absolute control, energy obeys without thought', type: 'critical' }
@@ -410,7 +410,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Effortless control, perfect flow', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Flawless manipulation, energy synchronizes', type: 'critical' },
             { roll: [3, 4], result: 'Harmonious channeling, resonant precision', type: 'critical' },
             { roll: [5, 5], result: 'Complete attunement, energy flows like thought', type: 'critical' },
@@ -423,7 +423,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Clean channeling, stable flow', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'Smooth control, energy responds', type: 'success' },
             { roll: [3, 4], result: 'Effortless manipulation, harmonious flow', type: 'critical' },
             { roll: [5, 5], result: 'Perfect channeling, resonant energy', type: 'critical' },
@@ -438,7 +438,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Partial control, energy wavers', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Steady channeling achieved', type: 'success' },
             { roll: [3, 4], result: 'Clean flow, well controlled', type: 'success' },
             { roll: [5, 5], result: 'Smooth manipulation, energy responds', type: 'success' },
@@ -455,7 +455,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Unstable flow, requires focus', type: 'normal' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'Partial control, energy fluctuates', type: 'normal' },
             { roll: [3, 4], result: 'Steady channeling achieved', type: 'success' },
             { roll: [5, 5], result: 'Clean flow, well controlled', type: 'success' },
@@ -495,7 +495,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Absolute mastery, instant perfect attunement', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Supreme control, energy flows as extension of will', type: 'critical' },
             { roll: [3, 3], result: 'Complete harmony, resonant synchronization', type: 'critical' },
             { roll: [4, 4], result: 'Flawless precision, energy obeys before thought', type: 'critical' }
@@ -507,7 +507,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Perfect channeling, effortless flow', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Flawless control, complete synchronization', type: 'critical' },
             { roll: [3, 4], result: 'Absolute attunement, harmonious resonance', type: 'critical' },
             { roll: [5, 5], result: 'Supreme mastery, energy flows like breath', type: 'critical' },
@@ -520,7 +520,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Smooth control, stable flow', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'Effortless manipulation, energy responds', type: 'critical' },
             { roll: [3, 4], result: 'Perfect channeling, harmonious flow', type: 'critical' },
             { roll: [5, 5], result: 'Flawless control, resonant energy', type: 'critical' },
@@ -535,7 +535,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Steady channeling, good control', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Clean flow, well managed', type: 'success' },
             { roll: [3, 4], result: 'Smooth manipulation, energy responds', type: 'success' },
             { roll: [5, 5], result: 'Effortless control, harmonious flow', type: 'critical' },
@@ -552,7 +552,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Partial control, energy fluctuates', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Steady channeling achieved', type: 'success' },
             { roll: [3, 4], result: 'Clean flow, well controlled', type: 'success' },
             { roll: [5, 5], result: 'Smooth manipulation, energy responds', type: 'success' },
@@ -592,7 +592,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Transcendent attunement, energy flows as pure will', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect unity, complete synchronization with arcane field', type: 'critical' },
             { roll: [3, 3], result: 'Absolute mastery, energy obeys before intention forms', type: 'critical' },
             { roll: [4, 4], result: 'Supreme harmony, flawless resonance with magical current', type: 'critical' }
@@ -604,7 +604,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Flawless control, perfect harmony', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Absolute attunement, energy flows effortlessly', type: 'critical' },
             { roll: [3, 4], result: 'Supreme mastery, complete synchronization', type: 'critical' },
             { roll: [5, 5], result: 'Transcendent precision, energy as extension of self', type: 'critical' },
@@ -617,7 +617,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Effortless control, stable flow', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Perfect channeling, harmonious energy', type: 'critical' },
             { roll: [3, 4], result: 'Flawless manipulation, complete attunement', type: 'critical' },
             { roll: [5, 5], result: 'Masterful precision, resonant synchronization', type: 'critical' },
@@ -632,7 +632,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Clean channeling, well controlled', type: 'success' },
+            { roll: [1, 1], result: 'Slight error, execution falters', type: 'failure' },
             { roll: [2, 2], result: 'Smooth manipulation, energy responds', type: 'success' },
             { roll: [3, 4], result: 'Effortless control, harmonious flow', type: 'critical' },
             { roll: [5, 5], result: 'Perfect channeling, resonant energy', type: 'critical' },
@@ -649,7 +649,7 @@ export const ARCANA_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Steady channeling, good control', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Clean flow, well managed', type: 'success' },
             { roll: [3, 4], result: 'Smooth manipulation, energy responds', type: 'success' },
             { roll: [5, 5], result: 'Effortless control, harmonious flow', type: 'critical' },

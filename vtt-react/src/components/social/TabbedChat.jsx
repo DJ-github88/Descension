@@ -15,6 +15,7 @@ const TabbedChat = () => {
   const [messageInput, setMessageInput] = useState('');
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const autoMessageSentRef = useRef(new Set()); // Track which tabs have received auto messages
 
   const activeTab = usePresenceStore((state) => state.activeTab);
   const globalChatMessages = usePresenceStore((state) => state.globalChatMessages);
@@ -51,6 +52,51 @@ const TabbedChat = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Focus input when tab changes to whisper tab and send automatic test messages
+  useEffect(() => {
+    if (activeTab.startsWith('whisper_')) {
+      const userId = activeTab.replace('whisper_', '');
+      const tab = whisperTabs.get(userId);
+      
+      // Small delay to ensure input is rendered
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+
+      // Automatically send test messages from the target user when tab is first opened
+      if (tab && tab.user && !autoMessageSentRef.current.has(userId)) {
+        const testMessages = [
+          'Hello! Thanks for reaching out.',
+          'How can I help you today?',
+          'Feel free to ask me anything!'
+        ];
+
+        // Mark this tab as having auto messages sent
+        autoMessageSentRef.current.add(userId);
+
+        // Send messages one by one with delays
+        testMessages.forEach((message, index) => {
+          setTimeout(() => {
+            const whisperMessage = {
+              id: `msg_${Date.now()}_${index}_${Math.random()}`,
+              senderId: userId,
+              senderName: tab.user.characterName || tab.user.name || tab.user.displayName || 'Unknown',
+              recipientId: currentUserPresence?.userId || 'test_user',
+              recipientName: characterName || currentUserPresence?.characterName || 'Yad',
+              content: message,
+              timestamp: new Date().toISOString(),
+              type: 'whisper_received'
+            };
+            
+            // Add message to whisper tab
+            const { addWhisperMessage } = usePresenceStore.getState();
+            addWhisperMessage(userId, whisperMessage);
+          }, (index + 1) * 1500); // 1.5s delay between each message
+        });
+      }
+    }
+  }, [activeTab, whisperTabs, currentUserPresence, characterName]);
 
   // Handle send message
   const handleSendMessage = (e) => {
@@ -113,7 +159,11 @@ const TabbedChat = () => {
     } else if (activeTab.startsWith('whisper_')) {
       const userId = activeTab.replace('whisper_', '');
       const tab = whisperTabs.get(userId);
-      return tab ? `Whisper to ${tab.user.characterName} - ${displayName}` : displayName;
+      if (tab && tab.user) {
+        const targetName = tab.user.characterName || tab.user.name || tab.user.displayName || 'Unknown';
+        return `Whisper to ${targetName} - ${displayName}`;
+      }
+      return `Whisper to... - ${displayName}`;
     }
     return displayName;
   };
@@ -217,6 +267,7 @@ const TabbedChat = () => {
             onChange={(e) => setMessageInput(e.target.value)}
             placeholder={getPlaceholder()}
             maxLength={500}
+            autoFocus={activeTab.startsWith('whisper_')}
           />
           <button
             type="submit"

@@ -7,8 +7,10 @@ import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
+import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { isPositionVisible } from '../../utils/VisibilityCalculations';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
@@ -93,10 +95,55 @@ const CharacterToken = ({
         multiplayerSocket,
         isGMMode,
         showMovementVisualization,
-        feetPerTile
+        feetPerTile,
+        setCameraPosition
     } = useGameStore();
+    
+    // Check if this token is being viewed from and get visibility data
+    const { viewingFromToken, visibleArea, dynamicFogEnabled, fovAngle, getTokenFacingDirection, setTokenFacingDirection } = useLevelEditorStore();
+    const [isHovering, setIsHovering] = useState(false);
+    const { gridOffsetX, gridOffsetY, gridSize: tokenGridSize } = useGameStore();
+    const isViewingFrom = viewingFromToken && (
+        (viewingFromToken.type === 'character' && (viewingFromToken.characterId === tokenId || viewingFromToken.id === tokenId || viewingFromToken.playerId === tokenId)) ||
+        (viewingFromToken.id === tokenId)
+    );
+    
+    // Convert visibleArea array back to Set for efficient lookup (if it's an array)
+    const visibleAreaSet = useMemo(() => {
+        if (!visibleArea) return null;
+        return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+    }, [visibleArea]);
+    
+    // Check if this token is visible based on FOV (only if viewing from a token)
+    const isTokenVisible = useMemo(() => {
+        // If this is the viewing token, always visible
+        if (isViewingFrom) return true;
+        
+        // If viewing from a token AND dynamic fog is enabled, check FOV visibility
+        // This applies even in GM mode - when viewing from a token, we should only see what that token can see
+        if (viewingFromToken && dynamicFogEnabled) {
+            // Check if token position is in visible area
+            if (!localPosition || localPosition.x === undefined || localPosition.y === undefined) return false;
+            
+            // Get visibility polygon from store for accurate point-in-polygon check
+            const levelEditorStore = useLevelEditorStore.getState();
+            const visibilityPolygon = levelEditorStore.visibilityPolygon;
+            
+            // If polygon is available, use it for accurate visibility (raycast-based)
+            if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length > 0) {
+                return isPositionVisible(localPosition.x, localPosition.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
+            }
+            
+            // Fallback to tile-based visibility if polygon not available
+            if (!visibleAreaSet || visibleAreaSet.size === 0) return false;
+            return isPositionVisible(localPosition.x, localPosition.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
+        }
+        
+        // If not viewing from a token, always visible (normal view)
+        return true;
+    }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, localPosition, tokenGridSize, gridOffsetX, gridOffsetY]);
     const effectiveZoom = zoomLevel * playerZoom;
-    const tokenSize = gridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
+    const tokenSize = tokenGridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
     const {
         isInCombat,
@@ -171,6 +218,8 @@ const CharacterToken = ({
     const handleMouseEnter = (e) => {
         if (!tokenRef.current) return;
 
+        setIsHovering(true);
+
         // Removed excessive logging for performance
 
         // Clear any existing timeout
@@ -200,13 +249,63 @@ const CharacterToken = ({
 
     // Handle mouse leave (hide tooltip)
     const handleMouseLeave = () => {
+        setIsHovering(false);
         // Removed excessive logging for performance
         // Clear timeout and hide tooltip
         if (tooltipTimeoutRef.current) {
             clearTimeout(tooltipTimeoutRef.current);
         }
-        setShowTooltip(false);
+            setShowTooltip(false);
     };
+
+    // Handle wheel/scroll to rotate token facing direction
+    const handleWheel = useCallback((e) => {
+        // Only rotate if:
+        // 1. We're hovering over the token
+        // 2. We're not dragging
+        // 3. We're in 100-degree FOV mode
+        // 4. We're viewing from this token
+        
+        // Early check - if we're in the right conditions, stop event propagation immediately
+        // to prevent Grid's global wheel handler from interfering
+        if (isHovering && !isDragging && !isMouseDown && fovAngle === 100 && isViewingFrom) {
+            // Stop propagation and prevent default BEFORE the Grid's handler gets it
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Get current facing direction (default to 0 if not set)
+            const currentFacing = getTokenFacingDirection(tokenId) || 0;
+            
+            // Rotate based on scroll delta - much more responsive rotation speed
+            // Convert deltaY to radians with smooth, fluid rotation
+            // Higher rotation speed (0.002) provides more responsive rotation per pixel scrolled
+            const rotationSpeed = 0.002; // Smooth and fluid rotation
+            const deltaAngle = -e.deltaY * rotationSpeed;
+            const newFacing = currentFacing + deltaAngle;
+            
+            // Normalize angle to -PI to PI range efficiently
+            let normalizedFacing = newFacing;
+            if (normalizedFacing > Math.PI) normalizedFacing -= 2 * Math.PI;
+            if (normalizedFacing < -Math.PI) normalizedFacing += 2 * Math.PI;
+            
+            // Update facing direction in store immediately for smooth, fluid rotation
+            setTokenFacingDirection(tokenId, normalizedFacing);
+        }
+    }, [isHovering, isDragging, isMouseDown, tokenId, fovAngle, isViewingFrom, getTokenFacingDirection, setTokenFacingDirection]);
+
+    // Add wheel event listener with passive: false to allow preventDefault
+    // Use capture phase to ensure it fires before Grid's document-level handler
+    useEffect(() => {
+        const tokenElement = tokenRef.current;
+        if (!tokenElement) return;
+
+        // Use capture phase to intercept the event before it bubbles to document
+        tokenElement.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+
+        return () => {
+            tokenElement.removeEventListener('wheel', handleWheel, { capture: true });
+        };
+    }, [handleWheel]);
 
     // Movement confirmation handlers
     const handleConfirmMovement = () => {
@@ -965,25 +1064,32 @@ const CharacterToken = ({
         return '#F44336'; // Red
     };
 
+    // Don't render if not visible (unless in GM mode or not viewing from a token)
+    if (!isTokenVisible) {
+        return null;
+    }
+
     return (
         <>
             <div
                 ref={tokenRef}
-                className={`character-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isMyTurn ? 'my-turn' : ''}`}
+                className={`character-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isMyTurn ? 'my-turn' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
                 style={{
                     left: screenPosition.x,
                     top: screenPosition.y,
                     width: `${tokenSize}px`,
                     height: `${tokenSize}px`,
-                    borderColor: isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor,
+                    borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor),
                     cursor: isInCombat && !isMyTurn ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
                     zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
                     position: 'absolute',
                     transform: 'translate(-50%, -50%)',
                     borderRadius: '50%',
-                    border: `3px solid ${isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor}`,
+                    border: `3px solid ${isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor)}`,
                     overflow: 'hidden',
-                    boxShadow: isMyTurn
+                    boxShadow: isViewingFrom
+                        ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
+                        : isMyTurn
                         ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
                         : isSelectedForCombat
                         ? '0 0 15px rgba(0, 255, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
@@ -1081,6 +1187,37 @@ const CharacterToken = ({
                                 setShowContextMenu(false);
                                 handleDuplicateToken();
                             }
+                        },
+                        {
+                            icon: <i className="fas fa-eye"></i>,
+                            label: isViewingFrom ? 'Deselect View from Token' : 'View from Token',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setShowContextMenu(false);
+                                const { setViewingFromToken } = useLevelEditorStore.getState();
+                                if (isViewingFrom) {
+                                    // Deselect view from token
+                                    setViewingFromToken(null);
+                                } else if (position) {
+                                    // Enable dynamic fog if not already enabled
+                                    const { dynamicFogEnabled, setDynamicFogEnabled } = useLevelEditorStore.getState();
+                                    if (!dynamicFogEnabled) {
+                                        setDynamicFogEnabled(true);
+                                    }
+                                    // Set this token as the viewing token (restricts fog reveal to token's vision)
+                                    const tokenData = {
+                                        type: 'character',
+                                        id: tokenId,
+                                        characterId: tokenId,
+                                        position: position
+                                    };
+                                    setViewingFromToken(tokenData);
+                                    // Center camera on token initially (but don't lock it)
+                                    setCameraPosition(position.x, position.y);
+                                }
+                            },
+                            className: isViewingFrom ? 'active' : ''
                         },
                         {
                             icon: <i className="fas fa-trash"></i>,

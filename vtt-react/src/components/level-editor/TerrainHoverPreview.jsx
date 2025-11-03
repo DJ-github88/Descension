@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { rafThrottle } from '../../utils/performanceUtils';
 
-const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog }) => {
+const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX, screenY }) => {
     const {
         gridSize,
         gridOffsetX,
@@ -14,6 +15,15 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog }) => {
     } = useGameStore();
 
     const effectiveZoom = zoomLevel * playerZoom;
+    
+    // For fog tools, update preview immediately without throttling for instant feedback
+    // Use useMemo to optimize calculations but keep updates immediate
+    const previewPos = useMemo(() => {
+        if (isFog && screenX !== undefined && screenY !== undefined) {
+            return { screenX, screenY };
+        }
+        return { screenX: undefined, screenY: undefined };
+    }, [isFog, screenX, screenY]);
 
     // Convert grid coordinates to screen coordinates using the same system as InfiniteGridSystem
     const gridToScreen = (gx, gy) => {
@@ -34,6 +44,33 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog }) => {
         }
     };
 
+    // For fog tools, show smooth circle brush preview instead of grid squares
+    if (isFog && previewPos.screenX !== undefined && previewPos.screenY !== undefined) {
+        // Calculate brush radius in screen pixels
+        const brushRadius = brushSize * gridSize * effectiveZoom * 0.5;
+        const diameter = brushRadius * 2;
+
+        return (
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
+                <div
+                    style={{
+                        position: 'absolute',
+                        left: previewPos.screenX - brushRadius,
+                        top: previewPos.screenY - brushRadius,
+                        width: diameter,
+                        height: diameter,
+                        border: isEraser ? '2px solid #ff4444' : '2px solid #8844ff',
+                        borderRadius: '50%',
+                        backgroundColor: isEraser ? 'rgba(255, 68, 68, 0.2)' : 'rgba(136, 68, 255, 0.3)',
+                        pointerEvents: 'none',
+                        boxSizing: 'border-box'
+                    }}
+                />
+            </div>
+        );
+    }
+
+    // For terrain tools, keep the grid-based preview
     // Calculate brush pattern
     const startOffset = Math.floor(brushSize / 2);
     const tiles = [];

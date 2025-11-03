@@ -26,11 +26,227 @@ export const MERCENARY_PATH = {
         mechanicalIntegration: 'Versatility, tactics, and professional combat skills.'
     },
 
+    // Top 3 abilities representing the discipline
+    abilities: [
+        {
+            id: 'exploit_weakness',
+            name: 'Exploit Weakness',
+            description: '"I see your weakness." Mark an enemy, dealing increased damage to them.',
+            icon: 'ability_hunter_snipershot',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['debuff', 'tactical', 'damage-amplification', 'mark'],
+            effectTypes: ['debuff'],
+            damageTypes: [],
+
+            debuffConfig: {
+                duration: 8,
+                durationValue: 8,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [
+                    {
+                        name: 'marked_vulnerability',
+                        stat: 'armor_class',
+                        value: -3,
+                        magnitude: -3,
+                        magnitudeType: 'flat',
+                        isPercentage: false
+                    }
+                ],
+                statusEffects: [
+                    {
+                        id: 'marked_target',
+                        name: 'Marked Target',
+                        description: 'Weakness exploited, -3 AC, you deal 25% more damage to this target'
+                    }
+                ],
+                debuffs: [
+                    {
+                        name: 'Tactical Mark',
+                        description: 'Weakness exposed',
+                        duration: 8,
+                        effects: {
+                            armorPenalty: -3,
+                            damageTakenBonus: 25
+                        }
+                    }
+                ],
+                difficultyClass: 14,
+                savingThrow: 'agility',
+                saveOutcome: 'negates',
+                canBeDispelled: true,
+                concentrationRequired: false
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 60,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 10,
+                focus: 5,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 8,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: true
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'physical',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'precision_strike',
+            name: 'Precision Strike',
+            description: '"A perfect shot." Make a devastatingly precise attack that ignores armor.',
+            icon: 'ability_rogue_surpriseattack',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['damage', 'melee', 'precision', 'armor-piercing'],
+            effectTypes: ['damage'],
+            damageTypes: ['physical'],
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'physical',
+                formula: '4d8 + DEX',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                savingThrowConfig: {
+                    enabled: false
+                },
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 3,
+                    critDiceOnly: false
+                },
+                armorPiercing: true
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'melee',
+                rangeDistance: 5,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 15,
+                focus: 5,
+                actionPoints: 2
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'physical',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'tactical_retreat',
+            name: 'Tactical Retreat',
+            description: '"Live to fight another day." Quickly withdraw from danger while maintaining defenses.',
+            icon: 'ability_rogue_feint',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['utility', 'movement', 'tactical', 'defensive'],
+            effectTypes: ['utility'],
+            damageTypes: [],
+
+            utilityConfig: {
+                utilityType: 'movement',
+                utilitySubtype: 'retreat',
+                duration: 1,
+                durationUnit: 'instant',
+                selectedEffects: [
+                    {
+                        name: 'Tactical Withdrawal',
+                        description: 'Move up to 30 feet away from enemies, gaining +3 AC until end of turn',
+                        customName: 'Tactical Retreat'
+                    }
+                ],
+                difficultyClass: 0,
+                concentration: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 10,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'instant',
+                value: 0,
+                unit: 'seconds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'physical',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        }
+    ],
+
     subPaths: {
         tactician: {
             id: 'tactician',
-            name: 'Tactician',
-            description: 'Strategic fighters who exploit enemy weaknesses',
+            name: 'Tactical Discipline',
+            description: 'The practice of strategic combat and exploiting enemy weaknesses',
             theme: 'Tactical combat and exploitation',
             icon: 'fas fa-chess',
 
@@ -187,8 +403,8 @@ export const MERCENARY_PATH = {
 
         duelist: {
             id: 'duelist',
-            name: 'Duelist',
-            description: 'Masters of one-on-one combat',
+            name: 'Dueling Discipline',
+            description: 'The practice of mastering one-on-one combat',
             theme: 'Single combat and precision',
             icon: 'fas fa-fencing',
 
@@ -214,7 +430,7 @@ export const MERCENARY_PATH = {
                         formula: '4d6 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: false
                         },
                         criticalConfig: {
@@ -390,8 +606,8 @@ export const MERCENARY_PATH = {
 
         sharpshooter: {
             id: 'sharpshooter',
-            name: 'Sharpshooter',
-            description: 'Expert marksmen with deadly precision',
+            name: 'Marksmanship Discipline',
+            description: 'The practice of expert marksmanship with deadly precision',
             theme: 'Ranged combat and accuracy',
             icon: 'fas fa-crosshairs',
 
@@ -417,7 +633,7 @@ export const MERCENARY_PATH = {
                         formula: '6d8 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,
-                        savingThrow: {
+                        savingThrowConfig: {
                             enabled: false
                         },
                         criticalConfig: {

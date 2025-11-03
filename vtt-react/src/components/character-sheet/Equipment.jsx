@@ -959,7 +959,8 @@ export default function CharacterPanel() {
             });
 
             // Calculate fresh derived stats with current equipment bonuses
-            const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses);
+            const encumbranceState = useInventoryStore.getState().encumbranceState || 'normal';
+            const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel || 0);
 
             // Add derived stats (all rounded)
             totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || health.max);
@@ -967,7 +968,7 @@ export default function CharacterPanel() {
             totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
             totalStats.manaRegen = Math.round(freshDerivedStats.manaRegen || 0);
             totalStats.armor = Math.round(freshDerivedStats.armor || 0);
-            totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed || 30);
+            totalStats.movementSpeed = Math.round(freshDerivedStats.moveSpeed ?? 30);
             totalStats.carryingCapacity = Math.round(freshDerivedStats.carryingCapacity || 0);
             totalStats.damage = Math.round(freshDerivedStats.damage || 0);
             totalStats.spellDamage = Math.round(freshDerivedStats.spellDamage || 0);
@@ -1116,7 +1117,7 @@ export default function CharacterPanel() {
                 ))}
             </div>
 
-            <div className={`character-content-area ${activeSection === 'equipment' ? 'equipment-backdrop' : ''}`}>
+            <div className={`character-content-area ${activeSection === 'character' ? 'character-backdrop' : activeSection === 'equipment' ? 'equipment-backdrop' : ''}`}>
                 <div className="character-section-header">
                     <img
                         src={sections[activeSection].icon}

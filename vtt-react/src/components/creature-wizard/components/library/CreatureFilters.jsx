@@ -77,7 +77,16 @@ const CreatureFilters = () => {
 
   return (
     <div className="creature-filters">
-      <h2>Filters</h2>
+      <h2>
+        Filters
+        <button
+          className="clear-filters-button"
+          onClick={() => dispatch(libraryActionCreators.clearFilters())}
+          title="Clear all filters and sort options"
+        >
+          ×
+        </button>
+      </h2>
 
       <div className="creature-filters-content">
         {/* Type filters */}
@@ -162,14 +171,6 @@ const CreatureFilters = () => {
             </button>
           </div>
         </div>
-
-        {/* Clear filters button */}
-        <button
-          className="clear-filters-button"
-          onClick={() => dispatch(libraryActionCreators.clearFilters())}
-        >
-          Clear All Filters
-        </button>
       </div>
     </div>
   );

@@ -211,7 +211,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
     return bonuses;
 }
 
-export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal') {
+export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal', exhaustionLevel = 0) {
     // Apply skill bonuses to base stats first
     const modifiedStats = { ...totalStats };
 
@@ -293,6 +293,9 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         baseHealingPower = Math.floor(baseHealingPower * (1 + equipmentBonuses.healingPowerPercent / 100));
     }
 
+    // Base movement speed
+    const baseMoveSpeed = 30 + (skillBonuses.movementSpeed || 0);
+    
     let derivedStats = {
         maxHealth: baseMaxHealth,
         maxMana: baseMaxMana,
@@ -303,9 +306,9 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         healingPower: baseHealingPower,
         rangedDamage: Math.floor(modifiedStats.agility / 2) + (equipmentBonuses.rangedDamage || 0),
         armor: Math.floor(modifiedStats.agility / 2) + (equipmentBonuses.armor || 0) + (skillBonuses.armor || 0),
-        moveSpeed: 30 + (skillBonuses.movementSpeed || 0),
-        swimSpeed: 10 + (skillBonuses.swimSpeed || 0),
-        climbSpeed: 15 + (skillBonuses.climbSpeed || 0),
+        moveSpeed: baseMoveSpeed,
+        swimSpeed: 0, // Will be calculated based on moveSpeed after modifiers
+        climbSpeed: 0, // Will be calculated based on moveSpeed after modifiers
         carryingCapacity: calculateCarryingCapacity(modifiedStats.strength, equipmentBonuses.carryingCapacity || 0),
         encumbranceEffects: encumbranceEffects
     };
@@ -330,19 +333,94 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         case 'encumbered':
             // Speed -25% (specific penalty for movement)
             derivedStats.moveSpeed = Math.floor(derivedStats.moveSpeed * 0.75);
-            derivedStats.swimSpeed = Math.floor(derivedStats.swimSpeed * 0.95);
-            derivedStats.climbSpeed = Math.floor(derivedStats.climbSpeed * 0.95);
             break;
 
         case 'overencumbered':
             // Speed -75% (specific penalty for movement)
             derivedStats.moveSpeed = Math.floor(derivedStats.moveSpeed * 0.25);
-            derivedStats.swimSpeed = Math.floor(derivedStats.swimSpeed * 0.85);
-            derivedStats.climbSpeed = Math.floor(derivedStats.climbSpeed * 0.85);
             break;
     }
 
+    // Apply exhaustion effects (cumulative)
+    // Level 2: Speed halved (applies to movement speed, swim and climb will be calculated after)
+    if (exhaustionLevel >= 2) {
+        derivedStats.moveSpeed = Math.floor(derivedStats.moveSpeed * 0.5);
+    }
+
+    // Level 4: HP maximum halved (applied after all other HP calculations)
+    if (exhaustionLevel >= 4) {
+        derivedStats.maxHealth = Math.floor(derivedStats.maxHealth * 0.5);
+    }
+
+    // Level 5: Speed reduced to 0 (this overrides everything, including level 2's halving)
+    // This MUST happen after level 2's halving to override it
+    if (exhaustionLevel >= 5) {
+        derivedStats.moveSpeed = 0;
+    }
+
+    // Calculate swim and climb speeds based on final movement speed (after all exhaustion effects)
+    // Swim speed = 1/3 of movement speed
+    derivedStats.swimSpeed = Math.floor(derivedStats.moveSpeed / 3);
+    // Climb speed = 1/2 of movement speed
+    derivedStats.climbSpeed = Math.floor(derivedStats.moveSpeed / 2);
+    
+    // Apply skill bonuses to swim and climb if present (only if not exhausted to 0)
+    if (skillBonuses.swimSpeed && derivedStats.moveSpeed > 0) {
+        derivedStats.swimSpeed += skillBonuses.swimSpeed;
+    }
+    if (skillBonuses.climbSpeed && derivedStats.moveSpeed > 0) {
+        derivedStats.climbSpeed += skillBonuses.climbSpeed;
+    }
+
+    // Store exhaustion effects for reference
+    derivedStats.exhaustionEffects = {
+        hasDisadvantageOnAbilityChecks: exhaustionLevel >= 1,
+        hasDisadvantageOnAttackRolls: exhaustionLevel >= 3,
+        hasDisadvantageOnSavingThrows: exhaustionLevel >= 3,
+        isDead: exhaustionLevel >= 6
+    };
+
     return derivedStats;
+}
+
+/**
+ * Get exhaustion-based disadvantage flags
+ * @param {number} exhaustionLevel - Current exhaustion level (0-6)
+ * @returns {Object} Object with flags for disadvantage types
+ */
+export function getExhaustionDisadvantages(exhaustionLevel = 0) {
+    return {
+        abilityChecks: exhaustionLevel >= 1, // Level 1+
+        attackRolls: exhaustionLevel >= 3,    // Level 3+
+        savingThrows: exhaustionLevel >= 3    // Level 3+
+    };
+}
+
+/**
+ * Check if a character should have disadvantage on ability checks due to exhaustion
+ * @param {number} exhaustionLevel - Current exhaustion level
+ * @returns {boolean} True if disadvantage applies
+ */
+export function hasExhaustionDisadvantageOnAbilityChecks(exhaustionLevel = 0) {
+    return exhaustionLevel >= 1;
+}
+
+/**
+ * Check if a character should have disadvantage on attack rolls due to exhaustion
+ * @param {number} exhaustionLevel - Current exhaustion level
+ * @returns {boolean} True if disadvantage applies
+ */
+export function hasExhaustionDisadvantageOnAttackRolls(exhaustionLevel = 0) {
+    return exhaustionLevel >= 3;
+}
+
+/**
+ * Check if a character should have disadvantage on saving throws due to exhaustion
+ * @param {number} exhaustionLevel - Current exhaustion level
+ * @returns {boolean} True if disadvantage applies
+ */
+export function hasExhaustionDisadvantageOnSavingThrows(exhaustionLevel = 0) {
+    return exhaustionLevel >= 3;
 }
 
 export function rollDice(numberOfDice, diceType) {

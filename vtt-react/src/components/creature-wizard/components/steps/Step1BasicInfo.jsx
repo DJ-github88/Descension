@@ -243,13 +243,6 @@ const Step1BasicInfo = () => {
 
   return (
     <div className="wizard-step">
-      <div className="step-header">
-        <h2>Basic Information</h2>
-        <p className="step-description">
-          Define your creature's core identity, appearance, and classification.
-        </p>
-      </div>
-
       {/* Main content in improved layout */}
       <div className="form-section">
         <div className="basic-info-layout">

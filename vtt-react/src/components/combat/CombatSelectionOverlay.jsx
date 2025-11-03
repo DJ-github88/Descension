@@ -76,9 +76,10 @@ const CombatSelectionWindow = () => {
             isOpen={isSelectionMode}
             onClose={handleCancel}
             title="Combat Selection"
-            defaultSize={{ width: 420, height: 500 }}
+            defaultSize={{ width: 420, height: 600 }}
             defaultPosition={{ x: 200, y: 150 }}
             centered={false}
+            minConstraints={[300, 550]}
         >
             <div className="combat-window">
                 <div className="combat-header">

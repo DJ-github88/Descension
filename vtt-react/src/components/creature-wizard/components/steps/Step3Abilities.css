@@ -22,8 +22,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: var(--pf-space-4, 20px);
-  margin-top: 20px;
-  padding: var(--pf-space-3, 15px);
+  margin-top: var(--pf-space-2, 8px);
+  padding: 0;
 }
 
 /* Pathfinder-style ability cards */
@@ -262,18 +262,140 @@
   border: 1px solid rgba(139, 69, 19, 0.2);
 }
 
-/* No abilities message styling */
+/* Override wizard-step constraints for abilities step */
+.wizard-step:has(.creature-window-content) {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+/* Creature window content layout - scoped to wizard step only */
+/* Fallback for browsers that don't support :has() */
+.wizard-step .creature-window-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4, 16px);
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  padding: var(--pf-space-4, 16px) var(--pf-space-6, 24px);
+  box-sizing: border-box;
+}
+
+.abilities-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-4, 16px);
+  padding-bottom: var(--pf-space-4, 16px);
+  border-bottom: 2px solid var(--pf-brown-medium, #8B4513);
+}
+
+.abilities-header-section h2 {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--pf-text-primary, #2d1810);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Add from spell library button */
+.add-from-spell-library-btn {
+  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%) !important;
+  border: 2px solid var(--pf-brown-medium, #8B4513) !important;
+  color: var(--pf-text-primary, #2d1810) !important;
+  padding: 10px 20px !important;
+  border-radius: var(--pf-border-radius, 6px) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.add-from-spell-library-btn:hover {
+  background: linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%) !important;
+  border-color: var(--pf-brown-dark, #5a1e12) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(139, 69, 19, 0.3) !important;
+}
+
+.add-from-spell-library-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(139, 69, 19, 0.3) !important;
+}
+
+.add-from-spell-library-btn i {
+  font-size: 16px;
+}
+
+/* No abilities message styling - Pathfinder beige theme */
 .no-abilities-message {
   text-align: center;
-  padding: var(--pf-space-5);
-  color: var(--pf-brown-medium);
-  grid-column: 1 / -1;
+  padding: 40px 30px;
+  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+  border: 2px solid var(--pf-brown-medium, #8B4513);
+  border-radius: var(--pf-border-radius-lg, 12px);
+  color: var(--pf-text-primary, #2d1810);
+  margin-top: var(--pf-space-2, 8px);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -2px 0 rgba(139, 69, 19, 0.2),
+    0 0 0 1px rgba(139, 69, 19, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.no-abilities-message::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--pf-brown-medium, #8B4513) 20%,
+    var(--pf-brown-medium, #8B4513) 80%,
+    transparent
+  );
 }
 
 .no-abilities-icon {
-  font-size: 48px;
-  margin-bottom: var(--pf-space-3);
-  opacity: 0.6;
+  font-size: 56px;
+  margin-bottom: var(--pf-space-4);
+  color: var(--pf-brown-medium, #8B4513);
+  opacity: 0.7;
+  filter: drop-shadow(0 2px 4px rgba(139, 69, 19, 0.3));
+}
+
+.no-abilities-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--pf-text-primary, #2d1810);
+  margin: 0;
+  font-weight: 400;
 }
 
 /* Responsive design */
@@ -783,36 +905,6 @@
   border-color: #555555;
   color: #aaaaaa;
   cursor: not-allowed;
-}
-
-.no-abilities-message {
-  text-align: center;
-  padding: 40px 30px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
-  border-radius: 10px;
-  border: 1px dashed rgba(33, 150, 243, 0.4);
-  color: #bbb;
-  font-size: 16px;
-  margin-top: 20px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.no-abilities-message::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(to right, transparent, rgba(33, 150, 243, 0.6), transparent);
-}
-
-.no-abilities-icon {
-  font-size: 48px;
-  color: rgba(33, 150, 243, 0.4);
-  margin-bottom: 20px;
 }
 
 .spell-library-container {

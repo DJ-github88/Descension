@@ -385,6 +385,21 @@
     color: #2c2416;
     margin: 0 0 1rem 0;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Ability Count Badge */
+.ability-count-badge {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    margin-left: 0.5rem;
 }
 
 .step-description {
@@ -1431,29 +1446,155 @@
 
 .character-wizard-container .background-card {
     all: initial;
-    background: rgba(255, 255, 255, 0.8) !important;
-    border: 3px solid #d4af37 !important;
-    border-radius: 8px !important;
-    padding: 1rem !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 252, 248, 0.9) 100%) !important;
+    border: 2px solid #d4af37 !important;
+    border-radius: 16px !important;
+    padding: 2.25rem 2rem !important;
     cursor: pointer !important;
-    transition: all 0.3s ease !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.75rem !important;
-    min-height: 140px !important;
+    gap: 1.25rem !important;
+    min-height: 240px !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
+    box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12), 0 2px 4px rgba(139, 69, 19, 0.08) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.character-wizard-container .background-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent) !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+.character-wizard-container .background-card:hover::before {
+    opacity: 1 !important;
 }
 
 .character-wizard-container .background-card:hover {
-    background: rgba(212, 175, 55, 0.1) !important;
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3) !important;
+    background: linear-gradient(135deg, rgba(254, 252, 248, 0.98) 0%, rgba(244, 241, 232, 0.95) 100%) !important;
+    border-color: #b8941f !important;
+    box-shadow: 0 8px 24px rgba(139, 69, 19, 0.18), 0 4px 8px rgba(139, 69, 19, 0.12) !important;
+    transform: translateY(-4px) !important;
 }
 
 .character-wizard-container .background-card.selected {
-    background: rgba(212, 175, 55, 0.2) !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(244, 241, 232, 0.9) 100%) !important;
     border-color: #b8941f !important;
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    border-width: 3px !important;
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.35), 0 6px 12px rgba(212, 175, 55, 0.25) !important;
+    transform: translateY(-2px) !important;
+}
+
+.character-wizard-container .background-card.selected::before {
+    opacity: 1 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, transparent, #b8941f, #d4af37, #b8941f, transparent) !important;
+}
+
+.character-wizard-container .background-card-header-section {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    text-align: center !important;
+    padding-bottom: 0.75rem !important;
+}
+
+.character-wizard-container .background-card-icon {
+    font-size: 2.75rem !important;
+    color: #b8941f !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.22) 100%) !important;
+    border: 3px solid rgba(212, 175, 55, 0.25) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2) !important;
+}
+
+.character-wizard-container .background-card:hover .background-card-icon {
+    transform: scale(1.08) !important;
+    border-color: #d4af37 !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.3) 100%) !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3) !important;
+}
+
+.character-wizard-container .background-card.selected .background-card-icon {
+    border-color: #b8941f !important;
+    border-width: 3px !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.35) 100%) !important;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4) !important;
+}
+
+.character-wizard-container .background-card-title-section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    padding: 0 0.5rem !important;
+}
+
+.character-wizard-container .background-card-name {
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: #1a0f08 !important;
+    margin: 0 !important;
+    margin-top: 1.5rem !important;
+    text-align: center !important;
+    letter-spacing: 0.8px !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    line-height: 1.3 !important;
+}
+
+.character-wizard-container .background-card-description {
+    font-size: 1rem !important;
+    color: #5d4037 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    line-height: 1.65 !important;
+    font-weight: 500 !important;
+    font-style: italic !important;
+    padding: 0 0.5rem !important;
+    letter-spacing: 0.2px !important;
+}
+
+.character-wizard-container .background-card-overview-section {
+    margin-top: 0.75rem !important;
+    padding-top: 1.25rem !important;
+    border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+
+.character-wizard-container .background-card-overview-divider {
+    width: 80px !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), #d4af37, rgba(212, 175, 55, 0.4), transparent) !important;
+    margin: 0 auto 1.25rem auto !important;
+    border-radius: 2px !important;
+}
+
+.character-wizard-container .background-card-overview {
+    font-size: 0.95rem !important;
+    color: #4a3526 !important;
+    text-align: center !important;
+    margin: 0 !important;
+    line-height: 1.8 !important;
+    font-family: 'Crimson Text', serif !important;
+    font-weight: 400 !important;
+    padding: 0 0.75rem !important;
+    letter-spacing: 0.1px !important;
 }
 
 .background-icon {

@@ -3,7 +3,9 @@ import useItemStore from '../../store/itemStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useGameStore from '../../store/gameStore';
+import useLevelEditorStore from '../../store/levelEditorStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
+import { isPositionVisible } from '../../utils/VisibilityCalculations';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
@@ -36,9 +38,92 @@ const GridItem = ({ gridItem }) => {
   const zoomLevel = useGameStore(state => state.zoomLevel);
   const playerZoom = useGameStore(state => state.playerZoom);
   const gridSize = useGameStore(state => state.gridSize);
+  const gridOffsetX = useGameStore(state => state.gridOffsetX);
+  const gridOffsetY = useGameStore(state => state.gridOffsetY);
 
   const effectiveZoom = zoomLevel * playerZoom;
   const gridSystem = getGridSystem();
+  
+  // Get visibility data for FOV checks
+  const { viewingFromToken, visibleArea, dynamicFogEnabled } = useLevelEditorStore();
+  const { isGMMode } = useGameStore();
+  
+  // Get item position for visibility check
+  const itemPosition = useMemo(() => {
+    if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
+      return gridItem.position;
+    } else if (gridItem.gridPosition) {
+      const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
+      return worldPos;
+    }
+    return null;
+  }, [gridItem.position, gridItem.gridPosition, gridSystem]);
+  
+  // Convert visibleArea array back to Set for efficient lookup (if it's an array)
+  const visibleAreaSet = useMemo(() => {
+    if (!visibleArea) return null;
+    return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
+  }, [visibleArea]);
+  
+  // Check if this item is visible based on FOV (only if viewing from a token)
+  const isItemVisible = useMemo(() => {
+    // Debug: Log visibility check conditions
+    const debugInfo = {
+      itemId: gridItem.id,
+      itemName: gridItem.name,
+      viewingFromToken: !!viewingFromToken,
+      dynamicFogEnabled,
+      visibleAreaSetSize: visibleAreaSet?.size || 0,
+      itemPosition: itemPosition ? { x: itemPosition.x, y: itemPosition.y } : null
+    };
+    
+    // If viewing from a token AND dynamic fog is enabled, check FOV visibility
+    // This applies even in GM mode - when viewing from a token, we should only see what that token can see
+    if (viewingFromToken && dynamicFogEnabled) {
+      // If visibleArea hasn't been calculated yet or is empty, hide (waiting for calculation)
+      if (!visibleAreaSet || visibleAreaSet.size === 0) {
+        console.log('❌ GridItem hidden: visibleArea empty', debugInfo);
+        return false;
+      }
+      
+      // Check if item position is in visible area
+      if (!itemPosition || itemPosition.x === undefined || itemPosition.y === undefined) {
+        console.log('❌ GridItem hidden: no item position', debugInfo);
+        return false;
+      }
+      
+      const visible = isPositionVisible(itemPosition.x, itemPosition.y, visibleAreaSet, gridSize, gridOffsetX, gridOffsetY);
+      
+      // Debug: Log only when hidden (to reduce console spam)
+      if (!visible) {
+        const gridX = Math.floor((itemPosition.x - gridOffsetX) / gridSize);
+        const gridY = Math.floor((itemPosition.y - gridOffsetY) / gridSize);
+        const tileKey = `${gridX},${gridY}`;
+        console.log('❌ GridItem hidden:', {
+          item: gridItem.name || gridItem.id,
+          itemWorldPos: { x: itemPosition.x, y: itemPosition.y },
+          gridCoords: { gridX, gridY },
+          tileKey,
+          inVisibleArea: visibleAreaSet.has(tileKey),
+          visibleAreaSize: visibleAreaSet.size,
+          visibleAreaSample: Array.from(visibleAreaSet).slice(0, 20),
+          gridSize,
+          gridOffsetX,
+          gridOffsetY,
+          calculation: `Math.floor((${itemPosition.x} - ${gridOffsetX}) / ${gridSize}) = ${gridX}, Math.floor((${itemPosition.y} - ${gridOffsetY}) / ${gridSize}) = ${gridY}`
+        });
+      }
+      
+      return visible;
+    }
+    
+    // If not viewing from a token, always visible (normal view)
+    if (viewingFromToken && !dynamicFogEnabled) {
+      console.log('⚠️ GridItem visible: viewing from token but dynamicFog disabled', debugInfo);
+    }
+    
+    return true;
+  }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, itemPosition, gridSize, gridOffsetX, gridOffsetY, gridItem.id, gridItem.name]);
 
   // Get the original item from the item store - use a more specific selector
   const originalItem = useMemo(() => {
@@ -349,6 +434,11 @@ const GridItem = ({ gridItem }) => {
   }, [iconId]);
 
 
+
+  // Don't render if not visible (unless in GM mode or not viewing from a token)
+  if (!isItemVisible) {
+    return null;
+  }
 
   return (
     <>

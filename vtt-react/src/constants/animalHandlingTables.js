@@ -217,7 +217,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Animal responds instantly to your presence', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal eagerly follows your commands', type: 'success' },
             { roll: [3, 3], result: 'Animal anticipates your needs', type: 'success' },
             { roll: [4, 4], result: 'Animal shows deep affection and loyalty', type: 'critical' }
@@ -321,7 +321,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Animal obeys before you finish the command', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal performs with perfect precision', type: 'success' },
             { roll: [3, 3], result: 'Animal shows joy in serving you', type: 'critical' },
             { roll: [4, 4], result: 'Animal devotion is unmistakable', type: 'critical' }
@@ -333,7 +333,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Animal momentarily distracted by environment', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal executes flawlessly', type: 'success' },
             { roll: [3, 3], result: 'Animal adds its own clever twist', type: 'success' },
             { roll: [4, 4], result: 'Animal anticipates your next three commands', type: 'success' },
@@ -424,7 +424,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Animal responds to your mere thought', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal moves as extension of your will', type: 'critical' },
             { roll: [3, 3], result: 'Animal and you share single purpose', type: 'critical' },
             { roll: [4, 4], result: 'Animal bond transcends normal limits', type: 'critical' }
@@ -436,7 +436,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Animal performs with minimal guidance', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal executes with flawless precision', type: 'success' },
             { roll: [3, 3], result: 'Animal improves upon your plan', type: 'success' },
             { roll: [4, 4], result: 'Animal demonstrates tactical genius', type: 'critical' },
@@ -450,7 +450,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Animal pauses to assess situation', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal completes task smoothly', type: 'normal' },
             { roll: [3, 3], result: 'Animal handles challenge expertly', type: 'success' },
             { roll: [4, 4], result: 'Animal shows strategic thinking', type: 'success' },
@@ -527,7 +527,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Animal acts before you think the command', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal and you share consciousness', type: 'critical' },
             { roll: [3, 3], result: 'Animal becomes perfect mirror of intent', type: 'critical' },
             { roll: [4, 4], result: 'Animal transcends mortal understanding', type: 'critical' }
@@ -539,7 +539,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Animal performs with absolute mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal achieves flawless execution', type: 'critical' },
             { roll: [3, 3], result: 'Animal demonstrates supernatural skill', type: 'critical' },
             { roll: [4, 4], result: 'Animal defies natural limitations', type: 'critical' },
@@ -553,7 +553,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Animal completes task effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Animal handles complexity with ease', type: 'success' },
             { roll: [3, 3], result: 'Animal shows masterful technique', type: 'success' },
             { roll: [4, 4], result: 'Animal performs with legendary grace', type: 'critical' },
@@ -569,7 +569,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Animal requires brief concentration', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal succeeds with minor effort', type: 'success' },
             { roll: [3, 3], result: 'Animal handles challenge expertly', type: 'success' },
             { roll: [4, 4], result: 'Animal overcomes difficulty smoothly', type: 'success' },
@@ -587,7 +587,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Animal pushed to absolute limits', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal succeeds through sheer mastery', type: 'normal' },
             { roll: [3, 3], result: 'Animal overcomes natural boundaries', type: 'success' },
             { roll: [4, 4], result: 'Animal transcends species limits', type: 'success' },
@@ -630,7 +630,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Animal and you exist as single entity', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal transcends all mortal bounds', type: 'critical' },
             { roll: [3, 3], result: 'Animal becomes avatar of perfection', type: 'critical' },
             { roll: [4, 4], result: 'Animal achieves absolute unity with you', type: 'critical' }
@@ -642,7 +642,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Animal performs beyond comprehension', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal defies all natural law', type: 'critical' },
             { roll: [3, 3], result: 'Animal becomes living divinity', type: 'critical' },
             { roll: [4, 4], result: 'Animal transcends physical reality', type: 'critical' },
@@ -656,7 +656,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Animal executes with divine grace', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal performs impossible feat casually', type: 'critical' },
             { roll: [3, 3], result: 'Animal rewrites natural order', type: 'critical' },
             { roll: [4, 4], result: 'Animal transcends mortal understanding', type: 'critical' },
@@ -672,7 +672,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Animal handles challenge effortlessly', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Animal overcomes difficulty with ease', type: 'critical' },
             { roll: [3, 3], result: 'Animal defies impossible odds', type: 'critical' },
             { roll: [4, 4], result: 'Animal transcends natural limits', type: 'critical' },
@@ -690,7 +690,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Animal faces ultimate challenge', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Animal overcomes through mastery', type: 'success' },
             { roll: [3, 3], result: 'Animal transcends all boundaries', type: 'critical' },
             { roll: [4, 4], result: 'Animal defies cosmic forces', type: 'critical' },
@@ -710,7 +710,7 @@ export const ANIMAL_HANDLING_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastcall.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Animal confronts ultimate impossibility', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Animal struggles against cosmic will', type: 'success' },
             { roll: [4, 5], result: 'Animal overcomes through divine power', type: 'success' },
             { roll: [6, 7], result: 'Animal transcends all mortal limits', type: 'critical' },

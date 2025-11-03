@@ -272,6 +272,21 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
     return true;
   });
 
+  // Initialize targetingConfig with touch as default if not set
+  useEffect(() => {
+    // Only initialize if targetingConfig is empty or doesn't have rangeType set
+    // This ensures touch is set as default when the wizard first loads
+    if (!targetingConfig?.rangeType) {
+      const defaultConfig = {
+        ...targetingConfig,
+        rangeType: 'touch',
+        rangeDistance: 5
+      };
+      dispatch(actionCreators.updateTargetingConfig(defaultConfig));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount to set default
+
   // When targeting type changes, set appropriate defaults
   useEffect(() => {
     if (targetingType === 'self') {

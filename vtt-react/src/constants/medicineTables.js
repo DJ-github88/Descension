@@ -218,7 +218,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'You treat the wound efficiently', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You provide swift and effective care', type: 'success' },
             { roll: [3, 3], result: 'You treat with practiced precision', type: 'success' },
             { roll: [4, 4], result: 'You ensure rapid recovery', type: 'critical' }
@@ -321,7 +321,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You treat with practiced efficiency', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You ensure rapid and clean healing', type: 'success' },
             { roll: [3, 3], result: 'You achieve perfect treatment', type: 'critical' },
             { roll: [4, 4], result: 'You prevent any scarring or complications', type: 'critical' }
@@ -333,7 +333,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'You treat adequately with minor oversight', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You provide excellent care', type: 'success' },
             { roll: [3, 3], result: 'You ensure swift recovery', type: 'success' },
             { roll: [4, 4], result: 'You treat with expert precision', type: 'success' },
@@ -424,7 +424,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You treat with effortless precision', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You ensure perfect healing', type: 'critical' },
             { roll: [3, 3], result: 'You prevent any trace of injury', type: 'critical' },
             { roll: [4, 4], result: 'You achieve flawless recovery', type: 'critical' }
@@ -436,7 +436,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You treat with practiced ease', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You ensure rapid recovery', type: 'success' },
             { roll: [3, 3], result: 'You achieve perfect healing', type: 'success' },
             { roll: [4, 4], result: 'You prevent all complications', type: 'critical' },
@@ -450,7 +450,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'You face rare complication briefly', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You treat with expert skill', type: 'normal' },
             { roll: [3, 3], result: 'You diagnose and cure swiftly', type: 'success' },
             { roll: [4, 4], result: 'You ensure complete recovery', type: 'success' },
@@ -527,7 +527,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You treat with absolute mastery', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You achieve perfect healing instantly', type: 'critical' },
             { roll: [3, 3], result: 'You erase all trace of injury', type: 'critical' },
             { roll: [4, 4], result: 'You demonstrate legendary skill', type: 'critical' }
@@ -539,7 +539,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You treat with supreme precision', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You ensure flawless recovery', type: 'critical' },
             { roll: [3, 3], result: 'You achieve perfect healing', type: 'critical' },
             { roll: [4, 4], result: 'You prevent all complications effortlessly', type: 'critical' },
@@ -553,7 +553,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You treat with practiced mastery', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You ensure swift recovery', type: 'success' },
             { roll: [3, 3], result: 'You diagnose and cure expertly', type: 'success' },
             { roll: [4, 4], result: 'You achieve complete healing', type: 'critical' },
@@ -569,7 +569,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You face complex challenge briefly', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You treat with expert precision', type: 'success' },
             { roll: [3, 3], result: 'You diagnose rare condition swiftly', type: 'success' },
             { roll: [4, 4], result: 'You provide masterful care', type: 'success' },
@@ -587,7 +587,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'You encounter extreme challenge', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You stabilize through mastery', type: 'normal' },
             { roll: [3, 3], result: 'You treat life-threatening wounds', type: 'success' },
             { roll: [4, 4], result: 'You diagnose exotic disease', type: 'success' },
@@ -630,7 +630,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You treat with absolute perfection', type: 'critical' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You achieve instant flawless healing', type: 'critical' },
             { roll: [3, 3], result: 'You erase injury as if it never existed', type: 'critical' },
             { roll: [4, 4], result: 'You demonstrate ultimate mastery', type: 'critical' }
@@ -642,7 +642,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You treat with unmatched precision', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You ensure perfect recovery', type: 'critical' },
             { roll: [3, 3], result: 'You achieve flawless healing', type: 'critical' },
             { roll: [4, 4], result: 'You prevent all complications effortlessly', type: 'critical' },
@@ -656,7 +656,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You treat with absolute mastery', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You ensure rapid perfect recovery', type: 'critical' },
             { roll: [3, 3], result: 'You diagnose and cure instantly', type: 'critical' },
             { roll: [4, 4], result: 'You achieve complete healing', type: 'critical' },
@@ -672,7 +672,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You treat with practiced perfection', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'You handle challenge effortlessly', type: 'critical' },
             { roll: [3, 3], result: 'You diagnose rare condition instantly', type: 'critical' },
             { roll: [4, 4], result: 'You provide flawless care', type: 'critical' },
@@ -690,7 +690,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You face ultimate challenge calmly', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'You stabilize through supreme mastery', type: 'success' },
             { roll: [3, 3], result: 'You treat life-threatening wounds perfectly', type: 'critical' },
             { roll: [4, 4], result: 'You diagnose any disease instantly', type: 'critical' },
@@ -710,7 +710,7 @@ export const MEDICINE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'You face limits of mortal knowledge', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'You counter supernatural affliction', type: 'success' },
             { roll: [4, 5], result: 'You stabilize through ultimate skill', type: 'success' },
             { roll: [6, 7], result: 'You prevent death through mastery', type: 'critical' },

@@ -26,6 +26,280 @@ export const SENTINEL_PATH = {
         mechanicalIntegration: 'Protection, tanking, and defensive abilities.'
     },
 
+    // Top 3 abilities representing the discipline
+    abilities: [
+        {
+            id: 'shield_wall',
+            name: 'Shield Wall',
+            description: '"None shall pass!" Raise your shield, massively increasing your defenses.',
+            icon: 'ability_warrior_shieldwall',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['buff', 'defense', 'shield', 'damage-reduction'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            buffConfig: {
+                duration: 6,
+                durationValue: 6,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [
+                    {
+                        name: 'shield_defense',
+                        stat: 'armor',
+                        value: 5,
+                        magnitude: 5,
+                        magnitudeType: 'flat',
+                        isPercentage: false
+                    },
+                    {
+                        name: 'damage_reduction',
+                        stat: 'damage_reduction',
+                        value: 10,
+                        magnitude: 10,
+                        magnitudeType: 'flat',
+                        isPercentage: false
+                    }
+                ],
+                statusEffects: [
+                    {
+                        id: 'shield_wall',
+                        name: 'Shield Wall',
+                        description: '+5 AC, 10 damage reduction'
+                    }
+                ],
+                buffs: [
+                    {
+                        name: 'Defensive Stance',
+                        description: 'Enhanced defenses',
+                        duration: 6,
+                        effects: {
+                            armorBonus: 5,
+                            damageReduction: 10
+                        }
+                    }
+                ]
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 15,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 6,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'holy',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'taunt',
+            name: 'Taunt',
+            description: '"Face me!" Force enemies to attack you instead of allies.',
+            icon: 'spell_nature_reincarnation',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['control', 'taunt', 'aggro', 'forced'],
+            effectTypes: ['debuff'],
+            damageTypes: [],
+
+            debuffConfig: {
+                duration: 4,
+                durationValue: 4,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [],
+                statusEffects: [
+                    {
+                        id: 'taunted',
+                        name: 'Taunted',
+                        description: 'Forced to attack you'
+                    }
+                ],
+                debuffs: [
+                    {
+                        name: 'Forced Aggro',
+                        description: 'Must attack taunter',
+                        duration: 4,
+                        effects: {
+                            forcedTarget: 'self'
+                        }
+                    }
+                ],
+                difficultyClass: 14,
+                savingThrow: 'spirit',
+                saveOutcome: 'negates',
+                canBeDispelled: true,
+                concentrationRequired: false
+            },
+
+            targetingConfig: {
+                targetingType: 'area',
+                rangeType: 'self_centered',
+                rangeDistance: 0,
+                aoeShape: 'sphere',
+                aoeSize: 30,
+                targetRestrictions: ['enemy']
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 10,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 4,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: true
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 1,
+                charges: 2,
+                recovery: 2
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'holy',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        },
+        {
+            id: 'last_stand',
+            name: 'Last Stand',
+            description: '"Not while I draw breath!" When health drops critically low, become unkillable temporarily.',
+            icon: 'ability_warrior_defensivestance',
+            level: 2,
+            spellType: 'REACTION',
+            tags: ['defensive', 'survival', 'reaction', 'immortal'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            buffConfig: {
+                duration: 3,
+                durationValue: 3,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                statModifiers: [
+                    {
+                        name: 'unbreakable',
+                        stat: 'health_threshold',
+                        value: 1,
+                        magnitude: 1,
+                        magnitudeType: 'flat',
+                        isPercentage: false
+                    }
+                ],
+                statusEffects: [
+                    {
+                        id: 'last_stand',
+                        name: 'Last Stand',
+                        description: 'Cannot be reduced below 1 HP'
+                    }
+                ],
+                buffs: [
+                    {
+                        name: 'Unbreakable Will',
+                        description: 'Temporary immortality',
+                        duration: 3,
+                        effects: {
+                            healthFloor: 1
+                        }
+                    }
+                ]
+            },
+
+            targetingConfig: {
+                targetingType: 'self',
+                rangeType: 'self',
+                rangeDistance: 0,
+                targetRestrictions: ['self']
+            },
+
+            triggerConfig: {
+                global: {
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'health_threshold',
+                            name: 'When health drops below 25%',
+                            parameters: {
+                                perspective: 'self',
+                                threshold: 25,
+                                condition: 'below',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'REACTIVE',
+                    activationDelay: 0,
+                    requiresLOS: false
+                }
+            },
+
+            resourceCost: {
+                mana: 0,
+                health: 0,
+                stamina: 20,
+                focus: 0,
+                actionPoints: 1
+            },
+
+            durationConfig: {
+                type: 'timed',
+                value: 3,
+                unit: 'rounds',
+                concentration: false,
+                dispellable: false
+            },
+
+            cooldownConfig: {
+                type: 'long_rest',
+                value: 1,
+                charges: 1,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'holy',
+            effectMechanicsConfigs: {},
+            mechanicsConfig: []
+        }
+    ],
+
     subPaths: {
         bulwark: {
             id: 'bulwark',
@@ -209,8 +483,8 @@ export const SENTINEL_PATH = {
 
         protector: {
             id: 'protector',
-            name: 'Protector',
-            description: 'Selfless guardians who shield their allies',
+            name: 'Protection Discipline',
+            description: 'The practice of selflessly shielding and protecting allies',
             theme: 'Ally protection and intervention',
             icon: 'fas fa-hands-helping',
 
@@ -381,8 +655,8 @@ export const SENTINEL_PATH = {
 
         guardian: {
             id: 'guardian',
-            name: 'Guardian',
-            description: 'Battlefield controllers who lock down enemies',
+            name: 'Control Discipline',
+            description: 'The practice of controlling the battlefield and locking down enemies',
             theme: 'Crowd control and area denial',
             icon: 'fas fa-lock',
 

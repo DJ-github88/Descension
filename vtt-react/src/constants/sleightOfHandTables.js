@@ -88,7 +88,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 1], result: 'Observers notice something odd', type: 'normal' },
+            { roll: [1, 1], result: 'Slight fumble, observers notice something odd', type: 'failure' },
             { roll: [2, 2], result: 'Smooth execution, trick succeeds', type: 'success' },
             { roll: [3, 3], result: 'Flawless technique, no one notices', type: 'success' },
             { roll: [4, 4], result: 'Impossible feat, steal something valuable', type: 'critical' }
@@ -167,7 +167,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Flawless technique, no one notices', type: 'success' },
+            { roll: [1, 1], result: 'Minor slip, observers notice something', type: 'failure' },
             { roll: [2, 2], result: 'Impossible feat, steal something valuable', type: 'success' },
             { roll: [3, 3], result: 'Masterful trick, steal from multiple targets', type: 'critical' },
             { roll: [4, 4], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'critical' }
@@ -179,7 +179,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Smooth execution, trick succeeds', type: 'normal' },
+            { roll: [1, 1], result: 'Slight mishap, execution is clumsy', type: 'failure' },
             { roll: [2, 3], result: 'Flawless technique, no one notices', type: 'success' },
             { roll: [4, 5], result: 'Impossible feat, steal something valuable', type: 'success' },
             { roll: [6, 6], result: 'Masterful trick, steal from multiple targets', type: 'critical' }
@@ -238,7 +238,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [12, 15], result: 'Impossible feat, steal something valuable', type: 'normal' },
             { roll: [16, 18], result: 'Masterful trick, steal from multiple targets', type: 'success' },
             { roll: [19, 19], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [20, 20], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' }
+            { roll: [20, 20], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'critical' }
         ]
     },
 
@@ -249,10 +249,10 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Impossible feat, steal something valuable', type: 'success' },
+            { roll: [1, 1], result: 'Small error, attempt is noticed', type: 'failure' },
             { roll: [2, 2], result: 'Masterful trick, steal from multiple targets', type: 'success' },
             { roll: [3, 3], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'critical' },
-            { roll: [4, 4], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' }
+            { roll: [4, 4], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'critical' }
         ]
     },
     sleightOfHand_apprentice_d6: {
@@ -261,7 +261,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Flawless technique, no one notices', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 3], result: 'Impossible feat, steal something valuable', type: 'success' },
             { roll: [4, 5], result: 'Masterful trick, steal from multiple targets', type: 'success' },
             { roll: [6, 6], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'critical' }
@@ -291,7 +291,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [4, 5], result: 'Impossible feat, steal something valuable', type: 'normal' },
             { roll: [6, 7], result: 'Masterful trick, steal from multiple targets', type: 'success' },
             { roll: [8, 9], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [10, 10], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' }
+            { roll: [10, 10], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'critical' }
         ]
     },
     sleightOfHand_apprentice_d12: {
@@ -305,7 +305,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [5, 7], result: 'Impossible feat, steal something valuable', type: 'normal' },
             { roll: [8, 9], result: 'Masterful trick, steal from multiple targets', type: 'success' },
             { roll: [10, 11], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [12, 12], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' }
+            { roll: [12, 12], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'critical' }
         ]
     },
     sleightOfHand_apprentice_d20: {
@@ -319,8 +319,8 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [7, 10], result: 'Impossible feat, steal something valuable', type: 'normal' },
             { roll: [11, 14], result: 'Masterful trick, steal from multiple targets', type: 'normal' },
             { roll: [15, 17], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [18, 19], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [20, 20], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' }
+            { roll: [18, 19], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [20, 20], result: 'Masterful technique, steal from multiple targets undetected', type: 'critical' }
         ]
     },
 
@@ -331,10 +331,10 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Masterful trick, steal from multiple targets', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [3, 3], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' },
-            { roll: [4, 4], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' }
+            { roll: [3, 3], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'critical' },
+            { roll: [4, 4], result: 'Masterful technique, steal from multiple targets undetected', type: 'critical' }
         ]
     },
     sleightOfHand_adept_d6: {
@@ -343,10 +343,10 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Impossible feat, steal something valuable', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Masterful trick, steal from multiple targets', type: 'success' },
             { roll: [4, 5], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [6, 6], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' }
+            { roll: [6, 6], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'critical' }
         ]
     },
     sleightOfHand_adept_d8: {
@@ -359,7 +359,7 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [2, 3], result: 'Impossible feat, steal something valuable', type: 'normal' },
             { roll: [4, 5], result: 'Masterful trick, steal from multiple targets', type: 'success' },
             { roll: [6, 7], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [8, 8], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'critical' }
+            { roll: [8, 8], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'critical' }
         ]
     },
     sleightOfHand_adept_d10: {
@@ -372,8 +372,8 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [2, 3], result: 'Impossible feat, steal something valuable', type: 'normal' },
             { roll: [4, 5], result: 'Masterful trick, steal from multiple targets', type: 'normal' },
             { roll: [6, 7], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [8, 9], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [10, 10], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' }
+            { roll: [8, 9], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [10, 10], result: 'Masterful technique, steal from multiple targets undetected', type: 'critical' }
         ]
     },
     sleightOfHand_adept_d12: {
@@ -386,8 +386,8 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [2, 3], result: 'Impossible feat, steal something valuable', type: 'failure' },
             { roll: [4, 6], result: 'Masterful trick, steal from multiple targets', type: 'normal' },
             { roll: [7, 9], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [10, 11], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [12, 12], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' }
+            { roll: [10, 11], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [12, 12], result: 'Masterful technique, steal from multiple targets undetected', type: 'critical' }
         ]
     },
     sleightOfHand_adept_d20: {
@@ -400,9 +400,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
             { roll: [4, 5], result: 'You make minimal progress despite your skill', type: 'failure' },
             { roll: [6, 8], result: 'Masterful trick, steal from multiple targets', type: 'normal' },
             { roll: [9, 10], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'normal' },
-            { roll: [11, 13], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [14, 16], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [17, 19], result: 'Ultimate trickery, steal souls + swap identities', type: 'critical' },
+            { roll: [11, 13], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [14, 16], result: 'Masterful technique, steal from multiple targets undetected', type: 'success' },
+            { roll: [17, 19], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'critical' },
             { roll: [20, 20], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'critical' }
         ]
     },
@@ -414,10 +414,10 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [2, 2], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [3, 3], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' },
-            { roll: [4, 4], result: 'Ultimate trickery, steal souls + swap identities', type: 'critical' }
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
+            { roll: [2, 2], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [3, 3], result: 'Masterful technique, steal from multiple targets undetected', type: 'critical' },
+            { roll: [4, 4], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'critical' }
         ]
     },
     sleightOfHand_expert_d6: {
@@ -426,10 +426,10 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Impossible feat, valuable item stolen', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'success' },
-            { roll: [4, 5], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [6, 6], result: 'Divine fingers, steal abstract concepts + memories', type: 'critical' }
+            { roll: [4, 5], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [6, 6], result: 'Masterful technique, steal from multiple targets undetected', type: 'critical' }
         ]
     },
     sleightOfHand_expert_d8: {
@@ -440,9 +440,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         table: [
             { roll: [1, 1], result: 'Impossible feat, valuable item stolen', type: 'failure' },
             { roll: [2, 3], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'normal' },
-            { roll: [4, 5], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [6, 7], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [8, 8], result: 'Ultimate trickery, steal souls + swap identities', type: 'critical' }
+            { roll: [4, 5], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [6, 7], result: 'Masterful technique, steal from multiple targets undetected', type: 'success' },
+            { roll: [8, 8], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'critical' }
         ]
     },
     sleightOfHand_expert_d10: {
@@ -453,9 +453,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         table: [
             { roll: [1, 1], result: 'Impossible feat, valuable item stolen', type: 'failure' },
             { roll: [2, 3], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'normal' },
-            { roll: [4, 5], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'normal' },
-            { roll: [6, 7], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [8, 9], result: 'Ultimate trickery, steal souls + swap identities', type: 'success' },
+            { roll: [4, 5], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'normal' },
+            { roll: [6, 7], result: 'Masterful technique, steal from multiple targets undetected', type: 'success' },
+            { roll: [8, 9], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'success' },
             { roll: [10, 10], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'critical' }
         ]
     },
@@ -467,9 +467,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         table: [
             { roll: [1, 1], result: 'Impossible feat, valuable item stolen', type: 'failure' },
             { roll: [2, 3], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'failure' },
-            { roll: [4, 6], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'normal' },
-            { roll: [7, 9], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [10, 11], result: 'Ultimate trickery, steal souls + swap identities', type: 'success' },
+            { roll: [4, 6], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'normal' },
+            { roll: [7, 9], result: 'Masterful technique, steal from multiple targets undetected', type: 'success' },
+            { roll: [10, 11], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'success' },
             { roll: [12, 12], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'critical' }
         ]
     },
@@ -481,9 +481,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         table: [
             { roll: [1, 3], result: 'Even your legendary mastery is tested', type: 'failure' },
             { roll: [4, 5], result: 'You make slow progress', type: 'failure' },
-            { roll: [6, 8], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'normal' },
-            { roll: [9, 10], result: 'Divine fingers, steal abstract concepts + memories', type: 'normal' },
-            { roll: [11, 13], result: 'Ultimate trickery, steal souls + swap identities', type: 'success' },
+            { roll: [6, 8], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'normal' },
+            { roll: [9, 10], result: 'Masterful technique, steal from multiple targets undetected', type: 'normal' },
+            { roll: [11, 13], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'success' },
             { roll: [14, 16], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'success' },
             { roll: [17, 19], result: 'Absolute mastery, steal reality itself + reshape existence', type: 'critical' },
             { roll: [20, 20], result: 'Transcendent fingers, steal the concept of possession', type: 'critical' }
@@ -497,9 +497,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [2, 2], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [3, 3], result: 'Ultimate trickery, steal souls + swap identities', type: 'critical' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
+            { roll: [2, 2], result: 'Masterful technique, steal from multiple targets undetected', type: 'success' },
+            { roll: [3, 3], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'critical' },
             { roll: [4, 4], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'critical' }
         ]
     },
@@ -509,10 +509,10 @@ export const SLEIGHT_OF_HAND_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Legendary legerdemain, make object vanish + reappear elsewhere', type: 'normal' },
-            { roll: [2, 3], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'success' },
-            { roll: [4, 5], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [6, 6], result: 'Ultimate trickery, steal souls + swap identities', type: 'critical' }
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
+            { roll: [2, 3], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'success' },
+            { roll: [4, 5], result: 'Masterful technique, steal from multiple targets undetected', type: 'success' },
+            { roll: [6, 6], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'critical' }
         ]
     },
     sleightOfHand_master_d8: {
@@ -522,9 +522,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         requiredRank: 'MASTER',
         table: [
             { roll: [1, 1], result: 'Masterful trick, multiple targets', type: 'failure' },
-            { roll: [2, 3], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'normal' },
-            { roll: [4, 5], result: 'Divine fingers, steal abstract concepts + memories', type: 'success' },
-            { roll: [6, 7], result: 'Ultimate trickery, steal souls + swap identities', type: 'success' },
+            { roll: [2, 3], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'normal' },
+            { roll: [4, 5], result: 'Masterful technique, steal from multiple targets undetected', type: 'success' },
+            { roll: [6, 7], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'success' },
             { roll: [8, 8], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'critical' }
         ]
     },
@@ -535,9 +535,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         requiredRank: 'MASTER',
         table: [
             { roll: [1, 1], result: 'Masterful trick, multiple targets', type: 'failure' },
-            { roll: [2, 3], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'normal' },
-            { roll: [4, 5], result: 'Divine fingers, steal abstract concepts + memories', type: 'normal' },
-            { roll: [6, 7], result: 'Ultimate trickery, steal souls + swap identities', type: 'success' },
+            { roll: [2, 3], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'normal' },
+            { roll: [4, 5], result: 'Masterful technique, steal from multiple targets undetected', type: 'normal' },
+            { roll: [6, 7], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'success' },
             { roll: [8, 9], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'success' },
             { roll: [10, 10], result: 'Absolute mastery, steal reality itself + reshape existence', type: 'critical' }
         ]
@@ -549,9 +549,9 @@ export const SLEIGHT_OF_HAND_TABLES = {
         requiredRank: 'MASTER',
         table: [
             { roll: [1, 1], result: 'Masterful trick, multiple targets', type: 'failure' },
-            { roll: [2, 3], result: 'Mythic dexterity, steal equipped items + plant evidence', type: 'failure' },
-            { roll: [4, 6], result: 'Divine fingers, steal abstract concepts + memories', type: 'normal' },
-            { roll: [7, 9], result: 'Ultimate trickery, steal souls + swap identities', type: 'success' },
+            { roll: [2, 3], result: 'Exceptional dexterity, steal equipped items + plant evidence', type: 'failure' },
+            { roll: [4, 6], result: 'Masterful technique, steal from multiple targets undetected', type: 'normal' },
+            { roll: [7, 9], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'success' },
             { roll: [10, 11], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'success' },
             { roll: [12, 12], result: 'Absolute mastery, steal reality itself + reshape existence', type: 'critical' }
         ]
@@ -564,8 +564,8 @@ export const SLEIGHT_OF_HAND_TABLES = {
         table: [
             { roll: [1, 3], result: 'Even your ultimate mastery is challenged', type: 'failure' },
             { roll: [4, 5], result: 'You struggle with this impossible task', type: 'failure' },
-            { roll: [6, 8], result: 'Divine fingers, steal abstract concepts + memories', type: 'normal' },
-            { roll: [9, 10], result: 'Ultimate trickery, steal souls + swap identities', type: 'normal' },
+            { roll: [6, 8], result: 'Masterful technique, steal from multiple targets undetected', type: 'normal' },
+            { roll: [9, 10], result: 'Legendary sleight of hand, make object vanish + reappear elsewhere', type: 'normal' },
             { roll: [11, 13], result: 'Cosmic sleight, steal fate + rewrite destiny', type: 'success' },
             { roll: [14, 16], result: 'Absolute mastery, steal reality itself + reshape existence', type: 'success' },
             { roll: [17, 19], result: 'Transcendent fingers, steal the concept of possession', type: 'critical' },

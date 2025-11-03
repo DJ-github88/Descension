@@ -183,7 +183,7 @@ const ExternalRecipePreview = ({ recipeData, windowPosition, windowSize, isOpen 
           fontWeight: 'bold',
           marginBottom: '4px'
         }}>
-          {resultItem.name}
+          {recipeData.resultQuantity > 1 ? `${recipeData.resultQuantity}x ` : ''}{resultItem.name}
         </div>
 
         {/* Item Type/Slot - Match ItemTooltip format exactly */}

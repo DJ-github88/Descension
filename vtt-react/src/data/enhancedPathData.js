@@ -71,12 +71,264 @@ const ZEALOT_PATH = {
             mechanicalIntegration: 'Your path abilities are designed to work seamlessly with the Action Point system and complement any class choice.'
         },
 
+        // Top 3 abilities representing the discipline
+        abilities: [
+            {
+                id: 'martyrs_sacrifice',
+                name: "Martyr's Sacrifice",
+                description: '"Greater love hath no one than this, that one lay down their life for their friends." When an ally within 30 feet drops below 25% health, sacrifice your own vitality to heal them.',
+                icon: 'spell_holy_prayerofhealing',
+                level: 1,
+                spellType: 'REACTION',
+                tags: ['healing', 'divine', 'sacrifice', 'reaction'],
+                effectTypes: ['healing'],
+                damageTypes: [],
+
+                healingConfig: {
+                    healingType: 'direct',
+                    formula: '3d8 + 4',
+                    hasHotEffect: false,
+                    hasShieldEffect: false,
+                    criticalConfig: {
+                        enabled: true,
+                        critType: 'dice',
+                        critMultiplier: 2,
+                        critDiceOnly: false
+                    }
+                },
+
+                targetingConfig: {
+                    targetingType: 'single',
+                    rangeType: 'ranged',
+                    rangeDistance: 30,
+                    targetRestrictions: ['ally']
+                },
+
+                triggerConfig: {
+                    global: {
+                        logicType: 'OR',
+                        compoundTriggers: [
+                            {
+                                id: 'health_threshold',
+                                name: 'When ally drops below 25% health',
+                                parameters: {
+                                    perspective: 'ally',
+                                    threshold: 25,
+                                    condition: 'below',
+                                    triggerChance: 100
+                                }
+                            }
+                        ]
+                    },
+                    triggerRole: {
+                        mode: 'REACTIVE',
+                        activationDelay: 0,
+                        requiresLOS: true
+                    }
+                },
+
+                resourceCost: {
+                    mana: 0,
+                    health: 8,
+                    stamina: 0,
+                    focus: 0
+                },
+
+                durationConfig: {
+                    type: 'instant',
+                    value: 0,
+                    unit: 'seconds',
+                    concentration: false,
+                    dispellable: false
+                },
+
+                cooldownConfig: {
+                    type: 'long_rest',
+                    value: 1,
+                    charges: 2,
+                    recovery: 2
+                },
+
+                resolution: 'DICE',
+                visualTheme: 'holy'
+            },
+            {
+                id: 'faithful_intercession',
+                name: 'Faithful Intercession',
+                description: '"Stand behind me - my faith is shield enough for us both." When an ally within 5 feet takes damage, intercede and redirect the attack to yourself, reducing the damage taken.',
+                icon: 'spell_holy_divineshield',
+                level: 1,
+                spellType: 'REACTION',
+                tags: ['defensive', 'protection', 'reaction', 'divine'],
+                effectTypes: ['buff'],
+                damageTypes: [],
+
+                buffConfig: {
+                    duration: 1,
+                    durationValue: 1,
+                    durationType: 'instant',
+                    durationUnit: 'instant',
+                    statModifiers: [],
+                    statusEffects: [
+                        {
+                            id: 'divine_protection',
+                            name: 'Divine Protection',
+                            description: 'Intercept attack and reduce damage by 50%'
+                        }
+                    ],
+                    buffs: [
+                        {
+                            name: 'Divine Intercession',
+                            description: 'Redirects damage to yourself',
+                            duration: 1,
+                            effects: {
+                                damageReduction: 50
+                            }
+                        }
+                    ]
+                },
+
+                targetingConfig: {
+                    targetingType: 'single',
+                    rangeType: 'melee',
+                    rangeDistance: 5,
+                    targetRestrictions: ['ally']
+                },
+
+                triggerConfig: {
+                    global: {
+                        logicType: 'OR',
+                        compoundTriggers: [
+                            {
+                                id: 'ally_takes_damage',
+                                name: 'When ally takes damage',
+                                parameters: {
+                                    perspective: 'ally',
+                                    threshold: 0,
+                                    condition: 'above',
+                                    triggerChance: 100
+                                }
+                            }
+                        ]
+                    },
+                    triggerRole: {
+                        mode: 'REACTIVE',
+                        activationDelay: 0,
+                        requiresLOS: true
+                    }
+                },
+
+                resourceCost: {
+                    mana: 10,
+                    health: 0,
+                    stamina: 5,
+                    focus: 0
+                },
+
+                durationConfig: {
+                    type: 'instant',
+                    value: 0,
+                    unit: 'seconds',
+                    concentration: false,
+                    dispellable: false
+                },
+
+                cooldownConfig: {
+                    type: 'short_rest',
+                    value: 1,
+                    charges: 2,
+                    recovery: 2
+                },
+
+                resolution: 'DICE',
+                visualTheme: 'holy'
+            },
+            {
+                id: 'zealous_fervor',
+                name: 'Zealous Fervor',
+                description: '"For my faith, I fear nothing!" Inspire yourself and nearby allies with unshakeable faith.',
+                icon: 'spell_holy_innerfire',
+                level: 1,
+                spellType: 'ACTION',
+                tags: ['buff', 'inspiration', 'divine', 'aura'],
+                effectTypes: ['buff'],
+                damageTypes: [],
+
+                buffConfig: {
+                    duration: 10,
+                    durationValue: 10,
+                    durationType: 'rounds',
+                    durationUnit: 'rounds',
+                    statModifiers: [],
+                    statusEffects: [
+                        {
+                            id: 'inspired',
+                            name: 'Inspired',
+                            description: '+2 to attack rolls and saving throws'
+                        },
+                        {
+                            id: 'fearless',
+                            name: 'Fearless',
+                            description: 'Immune to fear effects'
+                        }
+                    ],
+                    buffs: [
+                        {
+                            name: 'Zealous Inspiration',
+                            description: 'Boost to combat effectiveness',
+                            duration: 10,
+                            effects: {
+                                attackBonus: 2,
+                                saveBonus: 2,
+                                fearImmunity: true
+                            }
+                        }
+                    ]
+                },
+
+                targetingConfig: {
+                    targetingType: 'area',
+                    rangeType: 'self_centered',
+                    rangeDistance: 0,
+                    aoeShape: 'sphere',
+                    aoeSize: 30,
+                    targetRestrictions: ['ally', 'self']
+                },
+
+                resourceCost: {
+                    mana: 15,
+                    health: 0,
+                    stamina: 0,
+                    focus: 5,
+                    actionPoints: 1
+                },
+
+                durationConfig: {
+                    type: 'timed',
+                    value: 10,
+                    unit: 'rounds',
+                    concentration: false,
+                    dispellable: true
+                },
+
+                cooldownConfig: {
+                    type: 'short_rest',
+                    value: 1,
+                    charges: 2,
+                    recovery: 2
+                },
+
+                resolution: 'DICE',
+                visualTheme: 'holy'
+            }
+        ],
+
         // Sub-paths (specializations)
         subPaths: {
             divineCrusader: {
                 id: 'divine_crusader',
-                name: 'Divine Crusader',
-                description: 'Warriors who fight in the name of their faith',
+                name: 'Crusade Discipline',
+                description: 'The practice of fighting in the name of faith with righteous fury',
                 theme: 'Combat prowess and righteous fury',
                 icon: 'fas fa-sword',
                 
@@ -361,12 +613,11 @@ const ZEALOT_PATH = {
                             elementType: 'radiant',
                             formula: '3d8 + 6',
                             hasDotEffect: false,
-                            savingThrow: {
+                            savingThrowConfig: {
                                 enabled: true,
-                                attribute: 'spirit',
-                                difficulty: 13,
-                                onSuccess: 'half_damage',
-                                onFailure: 'full_damage'
+                                savingThrowType: 'spirit',
+                                difficultyClass: 13,
+                                saveOutcome: 'halves'
                             },
                             criticalConfig: {
                                 enabled: true,
@@ -547,12 +798,11 @@ const ZEALOT_PATH = {
                             elementType: 'radiant',
                             formula: '4d6 + 8',
                             hasDotEffect: false,
-                            savingThrow: {
+                            savingThrowConfig: {
                                 enabled: true,
-                                attribute: 'constitution',
-                                difficulty: 14,
-                                onSuccess: 'half_damage',
-                                onFailure: 'full_damage'
+                                savingThrowType: 'constitution',
+                                difficultyClass: 14,
+                                saveOutcome: 'halves'
                             },
                             criticalConfig: {
                                 enabled: true,
@@ -706,8 +956,8 @@ const ZEALOT_PATH = {
 
             sacredHealer: {
                 id: 'sacred_healer',
-                name: 'Sacred Healer',
-                description: 'Compassionate souls who mend wounds and cure ailments',
+                name: 'Devotion Discipline',
+                description: 'The practice of compassionately mending wounds and curing ailments',
                 theme: 'Healing and protective magic',
                 icon: 'fas fa-hand-holding-heart',
 
@@ -924,8 +1174,8 @@ const ZEALOT_PATH = {
 
             faithInquisitor: {
                 id: 'faith_inquisitor',
-                name: 'Faith Inquisitor',
-                description: 'Investigators who root out corruption and heresy',
+                name: 'Inquisition Discipline',
+                description: 'The practice of investigating and rooting out corruption and heresy',
                 theme: 'Detection and purification',
                 icon: 'fas fa-eye',
 
@@ -947,7 +1197,7 @@ const ZEALOT_PATH = {
                             formula: '4d6 + SPI',
                             resolution: 'DICE',
                             hasDotEffect: false,
-                            savingThrow: {
+                            savingThrowConfig: {
                                 enabled: false
                             },
                             criticalConfig: {
@@ -1092,12 +1342,11 @@ const ZEALOT_PATH = {
                             formula: '2d8 + SPI',
                             resolution: 'DICE',
                             hasDotEffect: false,
-                            savingThrow: {
+                            savingThrowConfig: {
                                 enabled: true,
-                                attribute: 'spirit',
-                                difficulty: 15,
-                                onSuccess: 'half_damage',
-                                onFailure: 'full_damage'
+                                savingThrowType: 'spirit',
+                                difficultyClass: 15,
+                                saveOutcome: 'halves'
                             },
                             criticalConfig: {
                                 enabled: true,
@@ -1227,12 +1476,11 @@ const ZEALOT_PATH = {
                             formula: '3d8 + SPI',
                             resolution: 'DICE',
                             hasDotEffect: false,
-                            savingThrow: {
+                            savingThrowConfig: {
                                 enabled: true,
-                                attribute: 'agility',
-                                difficulty: 14,
-                                onSuccess: 'half_damage',
-                                onFailure: 'full_damage'
+                                savingThrowType: 'agility',
+                                difficultyClass: 14,
+                                saveOutcome: 'halves'
                             },
                             criticalConfig: {
                                 enabled: true,
@@ -1367,7 +1615,7 @@ const ZEALOT_PATH = {
 };
 
 // Combine all paths
-export const ENHANCED_PATHS = {
+const ENHANCED_PATHS = {
     mystic: MYSTIC_PATH,
     zealot: ZEALOT_PATH.zealot,
     trickster: TRICKSTER_PATH,
@@ -1379,6 +1627,8 @@ export const ENHANCED_PATHS = {
     sentinel: SENTINEL_PATH
 };
 
+export { ENHANCED_PATHS };
+
 // Helper functions
 export const getEnhancedPathData = (pathId) => {
     return ENHANCED_PATHS[pathId] || null;
@@ -1388,18 +1638,8 @@ export const getAllEnhancedPaths = () => {
     return Object.values(ENHANCED_PATHS);
 };
 
-export const getSubPaths = (pathId) => {
+export const getPathAbilities = (pathId) => {
     const path = getEnhancedPathData(pathId);
-    return path ? Object.values(path.subPaths) : [];
-};
-
-export const getSubPathData = (pathId, subPathId) => {
-    const path = getEnhancedPathData(pathId);
-    return path?.subPaths?.[subPathId] || null;
-};
-
-export const getSubPathAbilities = (pathId, subPathId) => {
-    const subPath = getSubPathData(pathId, subPathId);
-    return subPath?.abilities || [];
+    return path?.abilities || [];
 };
 

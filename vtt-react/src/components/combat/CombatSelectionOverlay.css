@@ -1,12 +1,23 @@
 /* Combat Selection Window */
+/* Ensure window-content is a flex container for combat window */
+.window-content:has(.combat-window) {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 .combat-window {
     padding: 24px;
+    min-height: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     gap: 20px;
     background: #f4f1e8;
     color: #2c1810;
+    box-sizing: border-box;
+    overflow: hidden;
+    flex: 1;
 }
 
 .combat-header {

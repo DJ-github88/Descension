@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } from '../../context/CreatureWizardContext';
 import { DAMAGE_TYPES } from '../../../spellcrafting-wizard/core/data/damageTypes';
+import { SKILL_DEFINITIONS, SKILL_CATEGORIES, SKILL_RANKS } from '../../../../constants/skillDefinitions';
+import { calculateStatModifier } from '../../../../utils/characterUtils';
 import '../../styles/WizardSteps.css';
 import './Step2Statistics.css';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
@@ -20,27 +22,33 @@ const Step2Statistics = () => {
     return mod >= 0 ? `+${mod}` : `${mod}`;
   };
 
-  // D&D skills with their associated ability
-  const SKILLS = [
-    { id: 'acrobatics', name: 'Acrobatics', ability: 'agility' },
-    { id: 'animalHandling', name: 'Animal Handling', ability: 'spirit' },
-    { id: 'arcana', name: 'Arcana', ability: 'intelligence' },
-    { id: 'athletics', name: 'Athletics', ability: 'strength' },
-    { id: 'deception', name: 'Deception', ability: 'charisma' },
-    { id: 'history', name: 'History', ability: 'intelligence' },
-    { id: 'insight', name: 'Insight', ability: 'spirit' },
-    { id: 'intimidation', name: 'Intimidation', ability: 'charisma' },
-    { id: 'investigation', name: 'Investigation', ability: 'intelligence' },
-    { id: 'medicine', name: 'Medicine', ability: 'spirit' },
-    { id: 'nature', name: 'Nature', ability: 'intelligence' },
-    { id: 'perception', name: 'Perception', ability: 'spirit' },
-    { id: 'performance', name: 'Performance', ability: 'charisma' },
-    { id: 'persuasion', name: 'Persuasion', ability: 'charisma' },
-    { id: 'religion', name: 'Religion', ability: 'intelligence' },
-    { id: 'sleightOfHand', name: 'Sleight of Hand', ability: 'agility' },
-    { id: 'stealth', name: 'Stealth', ability: 'agility' },
-    { id: 'survival', name: 'Survival', ability: 'spirit' }
-  ];
+  // Get all skills grouped by category
+  const skillsByCategory = Object.entries(SKILL_DEFINITIONS).reduce((acc, [skillId, skill]) => {
+    if (!acc[skill.category]) {
+      acc[skill.category] = [];
+    }
+    acc[skill.category].push({ id: skillId, ...skill });
+    return acc;
+  }, {});
+
+  // Get skill rank for a skill
+  const getSkillRank = (skillId) => {
+    const rankKey = (wizardState.stats.skillRanks && wizardState.stats.skillRanks[skillId]) || 'UNTRAINED';
+    return { key: rankKey, ...SKILL_RANKS[rankKey] };
+  };
+
+  // Calculate skill modifier
+  const calculateSkillModifier = (skill, skillId) => {
+    const skillIdToUse = skillId || (typeof skill === 'string' ? skill : skill.id);
+    const skillDef = typeof skill === 'object' ? skill : SKILL_DEFINITIONS[skillIdToUse];
+    
+    const primaryMod = calculateStatModifier(wizardState.stats[skillDef.primaryStat] || 10);
+    const secondaryMod = calculateStatModifier(wizardState.stats[skillDef.secondaryStat] || 10);
+    const rank = getSkillRank(skillIdToUse);
+    const rankBonus = rank.statBonus || 0;
+
+    return primaryMod + Math.floor(secondaryMod / 2) + rankBonus;
+  };
 
   // Handle stat change
   const handleStatChange = (statName, value) => {
@@ -52,21 +60,24 @@ const Step2Statistics = () => {
     }));
   };
 
-  // Handle skill bonus change
-  const handleSkillChange = (skillId, value) => {
-    const numValue = parseInt(value, 10) || 0;
-    const updatedSkills = {
-      ...(wizardState.stats.skills || {})
+  const [collapsedCategories, setCollapsedCategories] = useState({});
+
+  // Check if skill is selected (exists in creature's skill list)
+  const isSkillSelected = (skillId) => {
+    return wizardState.stats.skillRanks && wizardState.stats.skillRanks.hasOwnProperty(skillId);
+  };
+
+  // Handle skill rank change
+  const handleSkillRankChange = (skillId, rankKey) => {
+    const updatedSkillRanks = {
+      ...(wizardState.stats.skillRanks || {})
     };
 
-    if (numValue === 0) {
-      delete updatedSkills[skillId];
-    } else {
-      updatedSkills[skillId] = numValue;
-    }
+    // Always set the rank - checkbox controls whether skill is included
+    updatedSkillRanks[skillId] = rankKey;
 
     dispatch(wizardActionCreators.setStats({
-      skills: updatedSkills
+      skillRanks: updatedSkillRanks
     }));
   };
 
@@ -769,59 +780,110 @@ const Step2Statistics = () => {
     </div>
   );
 
+  // Toggle skill selection (add/remove from creature's skills)
+  const toggleSkillSelection = (skillId) => {
+    if (isSkillSelected(skillId)) {
+      // Remove skill
+      const updatedSkillRanks = { ...(wizardState.stats.skillRanks || {}) };
+      delete updatedSkillRanks[skillId];
+      dispatch(wizardActionCreators.setStats({
+        skillRanks: updatedSkillRanks
+      }));
+    } else {
+      // Add skill with default NOVICE rank
+      handleSkillRankChange(skillId, 'NOVICE');
+    }
+  };
+
+  // Toggle category collapse state
+  const toggleCategory = (categoryName) => {
+    setCollapsedCategories(prev => ({
+      ...prev,
+      [categoryName]: !prev[categoryName]
+    }));
+  };
+
   // Render skills tab
-  const renderSkillsTab = () => (
-    <div className="tab-content">
-      <div className="skills-container">
-        <div className="skills-header">
-          <h3>Skills & Proficiencies</h3>
-          <p className="skills-description">
-            Select which skills this creature is proficient or expert in.
-          </p>
-        </div>
+  const renderSkillsTab = () => {
+    return (
+      <div className="tab-content">
+        <div className="skills-container">
+          <div className="skills-header">
+            <h3>Skills & Proficiencies</h3>
+            <p className="skills-description">
+              Select which skills this creature knows and set their proficiency levels.
+            </p>
+          </div>
 
-        <div className="skills-grid">
-          {SKILLS.map(skill => {
-            const abilityScore = wizardState.stats[skill.ability] || 10;
-            const modifier = calculateModifier(abilityScore);
-            const skillBonus = (wizardState.stats.skills && wizardState.stats.skills[skill.id]) || 0;
-            const totalBonus = modifier + skillBonus;
+          <div className="skills-category-list">
+            {Object.entries(skillsByCategory).map(([categoryName, skills]) => {
+              const categoryData = Object.values(SKILL_CATEGORIES).find(cat => cat.name === categoryName);
+              const isCollapsed = collapsedCategories[categoryName];
 
-            return (
-              <div key={skill.id} className="skill-card">
-                <div className="skill-header">
-                  <div className="skill-name">
-                    {skill.name}
-                    <span className="skill-ability">({skill.ability.charAt(0).toUpperCase()})</span>
+              return (
+                <div key={categoryName} className="skill-category-section">
+                  <div
+                    className="skill-category-header"
+                    onClick={() => toggleCategory(categoryName)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <img src={categoryData?.icon} alt="" className="skill-category-icon" />
+                    <span className="skill-category-name">{categoryName}</span>
+                    <i className={`fas fa-chevron-${isCollapsed ? 'down' : 'up'} category-toggle-icon`}></i>
                   </div>
-                  <div className="skill-bonus">
-                    {formatModifier(totalBonus)}
-                  </div>
+                  {!isCollapsed && (
+                    <div className="skills-grid">
+                      {skills.map(skill => {
+                        const rank = getSkillRank(skill.id);
+                        const modifier = calculateSkillModifier(skill, skill.id);
+                        const isSelected = isSkillSelected(skill.id);
+
+                        return (
+                          <div key={skill.id} className={`skill-row ${isSelected ? 'selected' : ''}`}>
+                            <div className="skill-row-left">
+                              <input
+                                type="checkbox"
+                                checked={isSelected}
+                                onChange={() => toggleSkillSelection(skill.id)}
+                                className="skill-checkbox"
+                              />
+                              <img src={skill.icon} alt={skill.name} className="skill-row-icon" />
+                              <div className="skill-row-info">
+                                <div className="skill-row-name">{skill.name}</div>
+                                <div className="skill-row-stats">
+                                  <span className="skill-row-modifier">{formatModifier(modifier)}</span>
+                                  <span className="skill-row-stat">{skill.primaryStat.charAt(0).toUpperCase()}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="skill-row-right">
+                              <select
+                                value={rank.key}
+                                onChange={(e) => handleSkillRankChange(skill.id, e.target.value)}
+                                className={`skill-proficiency-select ${rank.key}`}
+                                disabled={!isSelected}
+                                style={{ borderColor: isSelected ? rank.color : '#d5cbb0' }}
+                              >
+                                {Object.entries(SKILL_RANKS).map(([rankKey, rankData]) => (
+                                  <option key={rankKey} value={rankKey}>
+                                    {rankData.name} (+{rankData.statBonus})
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
-
-                <div className="skill-controls">
-                  <label htmlFor={`skill-${skill.id}`}>Skill Bonus</label>
-                  <input
-                    id={`skill-${skill.id}`}
-                    type="number"
-                    min="0"
-                    max="20"
-                    value={skillBonus}
-                    onChange={(e) => handleSkillChange(skill.id, e.target.value)}
-                    className="skill-bonus-input"
-                    placeholder="0"
-                  />
-                  <div className="skill-breakdown">
-                    Base: {formatModifier(modifier)} + Bonus: +{skillBonus}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="wizard-step">

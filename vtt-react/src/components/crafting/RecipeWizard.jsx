@@ -262,8 +262,11 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                             <input
                                 type="number"
                                 className="spell-wizard-input"
-                                value={recipeData.resultQuantity}
-                                onChange={(e) => updateRecipeData({ resultQuantity: parseInt(e.target.value) })}
+                                value={recipeData.resultQuantity || 1}
+                                onChange={(e) => {
+                                    const value = parseInt(e.target.value) || 1;
+                                    updateRecipeData({ resultQuantity: value >= 1 ? value : 1 });
+                                }}
                                 min="1"
                             />
                         </div>
@@ -395,7 +398,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
 
                         <div className="spell-wizard-form-group">
                             <label className="spell-wizard-label">Crafting Time</label>
-                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%', minWidth: 0 }}>
                                 <input
                                     type="number"
                                     className="spell-wizard-input"
@@ -422,7 +425,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                                     }}
                                     min="0"
                                     step={craftingTimeUnit === 'days' ? '0.1' : '1'}
-                                    style={{ flex: 1, minWidth: '150px' }}
+                                    style={{ flex: 1, minWidth: 0 }}
                                 />
                                 <select
                                     className="spell-wizard-input"
@@ -447,7 +450,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                                             case 'days': updateRecipeData({ craftingTime: currentValue * 1000 * 60 * 60 * 24 }); break;
                                         }
                                     }}
-                                    style={{ width: '85px', flexShrink: 0 }}
+                                    style={{ width: '65px', flexShrink: 0, maxWidth: '65px' }}
                                 >
                                     <option value="seconds">Sec</option>
                                     <option value="minutes">Min</option>

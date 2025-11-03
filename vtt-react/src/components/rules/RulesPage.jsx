@@ -307,7 +307,7 @@ const RulesPage = () => {
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'character-backgrounds' && (
           <BackgroundsDisplay />
         )}
-        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'paths' && (
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'disciplines' && (
           <BackgroundSelector />
         )}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'skills' && (

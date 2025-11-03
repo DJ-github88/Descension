@@ -234,16 +234,20 @@
 /* Full-width content area for non-stats sections */
 .creature-content-area-full {
   width: 100%;
-  padding: 20px;
+  padding: 0;
   overflow-y: auto;
   background: transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .creature-section-header {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 0;
+  padding: 10px 20px;
   padding-bottom: 15px;
   border-bottom: 2px solid #8b7355;
 }
@@ -267,6 +271,11 @@
 
 .creature-section-content {
   /* Remove weird padding and gaps - let content flow naturally */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
 }
 
 /* Character Sheet Stats Layout - Exact Match */

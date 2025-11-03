@@ -163,7 +163,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'TRAINED',
         table: [
-            { roll: [1, 1], result: 'Successfully hidden, enemies unaware', type: 'normal' },
+            { roll: [1, 1], result: 'Small misstep, attempt fails', type: 'failure' },
             { roll: [2, 2], result: 'Perfectly concealed, can move freely', type: 'success' },
             { roll: [3, 3], result: 'Become invisible, gain surprise attack advantage', type: 'success' },
             { roll: [4, 4], result: 'Shadow form, pass through enemies undetected', type: 'critical' }
@@ -243,7 +243,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'APPRENTICE',
         table: [
-            { roll: [1, 1], result: 'Perfectly concealed, can move freely', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Become invisible, gain surprise attack advantage', type: 'success' },
             { roll: [3, 3], result: 'Shadow form, pass through enemies undetected', type: 'critical' },
             { roll: [4, 4], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'critical' }
@@ -326,7 +326,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Become invisible, gain surprise attack advantage', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Shadow form, pass through enemies undetected', type: 'success' },
             { roll: [3, 3], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'critical' },
             { roll: [4, 4], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'critical' }
@@ -338,7 +338,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Perfectly concealed, free movement', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Become invisible, gain surprise attack advantage', type: 'normal' },
             { roll: [3, 3], result: 'Shadow form, pass through enemies undetected', type: 'success' },
             { roll: [4, 5], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
@@ -351,7 +351,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Perfectly concealed, free movement', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Become invisible, gain surprise attack advantage', type: 'normal' },
             { roll: [3, 4], result: 'Shadow form, pass through enemies undetected', type: 'success' },
             { roll: [5, 6], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
@@ -365,7 +365,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Perfectly concealed, free movement', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Become invisible, gain surprise attack advantage', type: 'normal' },
             { roll: [3, 4], result: 'Shadow form, pass through enemies undetected', type: 'success' },
             { roll: [5, 7], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
@@ -379,7 +379,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Perfectly concealed, free movement', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Become invisible, gain surprise attack advantage', type: 'normal' },
             { roll: [3, 5], result: 'Shadow form, pass through enemies undetected', type: 'success' },
             { roll: [6, 8], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
@@ -393,7 +393,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'ADEPT',
         table: [
-            { roll: [1, 1], result: 'Perfectly concealed, free movement', type: 'normal' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 5], result: 'Become invisible, gain surprise attack advantage', type: 'normal' },
             { roll: [6, 11], result: 'Shadow form, pass through enemies undetected', type: 'success' },
             { roll: [12, 15], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
@@ -409,7 +409,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Shadow form, pass through enemies undetected', type: 'success' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
             { roll: [3, 3], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'critical' },
             { roll: [4, 4], result: 'Divine concealment, erase your existence from memory', type: 'critical' }
@@ -421,7 +421,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Invisible, surprise advantage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Shadow form, pass through enemies undetected', type: 'normal' },
             { roll: [3, 3], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
             { roll: [4, 4], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
@@ -434,7 +434,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Invisible, surprise advantage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Shadow form, pass through enemies undetected', type: 'normal' },
             { roll: [3, 4], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
             { roll: [5, 6], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
@@ -448,7 +448,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Invisible, surprise advantage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Shadow form, pass through enemies undetected', type: 'normal' },
             { roll: [3, 4], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
             { roll: [5, 7], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
@@ -462,7 +462,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Invisible, surprise advantage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Shadow form, pass through enemies undetected', type: 'normal' },
             { roll: [4, 6], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
             { roll: [7, 9], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
@@ -476,7 +476,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'EXPERT',
         table: [
-            { roll: [1, 1], result: 'Invisible, surprise advantage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 4], result: 'Shadow form, pass through enemies undetected', type: 'normal' },
             { roll: [5, 9], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
             { roll: [10, 14], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
@@ -492,7 +492,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'success' },
+            { roll: [1, 1], result: 'Minor mistake, brief setback', type: 'failure' },
             { roll: [2, 2], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
             { roll: [3, 3], result: 'Divine concealment, erase your existence from memory', type: 'critical' },
             { roll: [4, 4], result: 'Ultimate stealth, become undetectable by all means + instant kill', type: 'critical' }
@@ -504,7 +504,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Shadow form, undetected passage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'normal' },
             { roll: [3, 3], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
             { roll: [4, 5], result: 'Divine concealment, erase your existence from memory', type: 'success' },
@@ -517,7 +517,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Shadow form, undetected passage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'normal' },
             { roll: [3, 4], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
             { roll: [5, 6], result: 'Divine concealment, erase your existence from memory', type: 'success' },
@@ -531,7 +531,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Shadow form, undetected passage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'normal' },
             { roll: [3, 4], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
             { roll: [5, 7], result: 'Divine concealment, erase your existence from memory', type: 'success' },
@@ -545,7 +545,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Shadow form, undetected passage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 2], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'normal' },
             { roll: [3, 5], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
             { roll: [6, 8], result: 'Divine concealment, erase your existence from memory', type: 'success' },
@@ -559,7 +559,7 @@ export const STEALTH_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_stealth.jpg',
         requiredRank: 'MASTER',
         table: [
-            { roll: [1, 1], result: 'Shadow form, undetected passage', type: 'normal' },
+            { roll: [1, 1], result: 'Minor failure, brief complication', type: 'failure' },
             { roll: [2, 3], result: 'Perfect invisibility, leave no trace + gain 1 AP', type: 'normal' },
             { roll: [4, 8], result: 'Mythic stealth, phase through walls + teleport short distance', type: 'success' },
             { roll: [9, 13], result: 'Divine concealment, erase your existence from memory', type: 'success' },
