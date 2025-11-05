@@ -1,11 +1,11 @@
 /* Room Manager Styles - Modern Clean Theme */
 .room-manager {
-  padding: 20px;
+  padding: 12px;
   background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
   border-radius: 12px;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   color: #1f2937;
-  min-height: 500px;
+  min-height: 300px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -14,18 +14,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
   border-bottom: 2px solid #e5e7eb;
 }
 
 .room-manager-header h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 18px;
   color: #1f2937;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   font-weight: 600;
 }
@@ -36,7 +36,7 @@
 
 .header-actions {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 }
 
@@ -93,13 +93,13 @@
   background: #059669;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   transition: all 0.2s;
 }
 
@@ -122,13 +122,13 @@
   background: #4a90e2;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   transition: background-color 0.2s;
 }
 
@@ -143,7 +143,7 @@
 .room-limits {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .tier-info .tier-badge {
@@ -170,19 +170,19 @@
 .usage-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 120px;
+  gap: 2px;
+  min-width: 100px;
 }
 
 .usage-text {
-  font-size: 12px;
+  font-size: 11px;
   color: #5a1e12;
   font-weight: 600;
 }
 
 .usage-bar {
   width: 100%;
-  height: 6px;
+  height: 4px;
   background: rgba(139, 69, 19, 0.2);
   border-radius: 3px;
   overflow: hidden;
@@ -198,42 +198,46 @@
   background: #fee2e2;
   border: 1px solid #dc2626;
   color: #dc2626;
-  padding: 12px;
+  padding: 8px 12px;
   border-radius: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  font-size: 13px;
 }
 
 .room-actions {
   margin-bottom: 24px;
 }
 
-.create-room-btn {
+.create-room-btn,
+.create-local-room-btn {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   border: none;
-  padding: 14px 28px;
-  border-radius: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   transition: all 0.2s ease;
-  font-size: 15px;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  font-size: 12px;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
 }
 
-.create-room-btn:hover:not(:disabled) {
+.create-room-btn:hover:not(:disabled),
+.create-local-room-btn:hover:not(:disabled) {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
 }
 
-.create-room-btn:disabled {
+.create-room-btn:disabled,
+.create-local-room-btn:disabled {
   background: #9ca3af;
   cursor: not-allowed;
   transform: none;
@@ -241,56 +245,58 @@
 }
 
 .limit-message {
-  margin-top: 8px;
-  font-size: 12px;
+  margin-top: 4px;
+  font-size: 11px;
   color: #dc2626;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .limit-message-section {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .limit-message-section .limit-message {
   margin-top: 0;
-  padding: 8px 12px;
+  padding: 6px 10px;
   background: #fee2e2;
   border: 1px solid #dc2626;
   border-radius: 6px;
+  font-size: 11px;
 }
 
 .loading, .auth-required, .no-rooms, .no-local-rooms {
   text-align: center;
-  padding: 60px 20px;
+  padding: 30px 20px;
   color: #5a1e12;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
+  min-height: 120px;
 }
 
 .loading i, .auth-required i, .no-rooms i, .no-local-rooms i {
-  font-size: 48px;
+  font-size: 32px;
   color: #d4af37;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .auth-required h3, .no-rooms h3, .no-local-rooms h3 {
-  margin: 0 0 8px 0;
-  font-size: 20px;
+  margin: 0 0 4px 0;
+  font-size: 16px;
   color: #5a1e12;
 }
 
 .no-local-rooms p {
-  margin: 0 0 24px 0;
+  margin: 0 0 12px 0;
   color: #6b7280;
-  line-height: 1.5;
+  line-height: 1.4;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+  font-size: 13px;
 }
 
 .rooms-list {
@@ -825,7 +831,7 @@
 /* Rooms Sections */
 .local-rooms-section,
 .multiplayer-rooms-section {
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 /* Room Manager specific section headers - override global styles */
@@ -835,7 +841,7 @@
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  margin-bottom: 20px !important;
+  margin-bottom: 10px !important;
   padding: 0 !important;
   border: none !important;
   background: none !important;
@@ -855,11 +861,11 @@
 .room-manager .local-rooms-section .section-header h3,
 .room-manager .multiplayer-rooms-section .section-header h3 {
   margin: 0 !important;
-  font-size: 20px !important;
+  font-size: 16px !important;
   color: #1f2937 !important;
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
+  gap: 6px !important;
   font-weight: 600 !important;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
   background: none !important;
@@ -931,8 +937,8 @@
 .room-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 20px;
-  min-height: 200px;
+  gap: 12px;
+  min-height: 100px;
 }
 
 /* Ensure no-rooms messages are properly centered in the grid */

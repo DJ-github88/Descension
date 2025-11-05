@@ -236,12 +236,30 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
 
             {/* Show Account button if logged in, otherwise show Login and Dev Preview */}
             {isAuthenticated && user ? (
-              <button className="account-btn" onClick={() => navigate('/account')}>
+              <button 
+                type="button"
+                className="account-btn" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Account button clicked - navigating to /account');
+                  navigate('/account', { replace: false });
+                }}
+              >
                 <i className="fas fa-user-circle"></i>
                 Account
               </button>
             ) : isDevelopmentBypass ? (
-              <button className="account-btn" onClick={() => navigate('/account')}>
+              <button 
+                type="button"
+                className="account-btn" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Account button clicked (dev bypass) - navigating to /account');
+                  navigate('/account', { replace: false });
+                }}
+              >
                 <i className="fas fa-user-circle"></i>
                 Account
               </button>

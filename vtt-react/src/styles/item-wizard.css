@@ -1783,6 +1783,11 @@
     user-select: none;
 }
 
+.capacity-toggle span {
+    color: #000000;
+    font-weight: 500;
+}
+
 .capacity-toggle input[type="checkbox"] {
     width: 18px;
     height: 18px;
@@ -3053,7 +3058,7 @@ button:disabled {
     background: var(--pf-gradient-button) !important;
     border: 1px solid var(--pf-brown-medium) !important;
     border-radius: 4px !important;
-    color: var(--pf-text-on-dark) !important;
+    color: #000000 !important;
     font-family: var(--pf-font-display) !important;
     font-weight: var(--pf-font-bold) !important;
     font-size: var(--pf-text-xs) !important;
@@ -3305,7 +3310,7 @@ button:disabled {
     background: var(--pf-gradient-button) !important;
     border: 2px solid var(--pf-brown-medium) !important;
     border-radius: 6px !important;
-    color: var(--pf-text-on-dark) !important;
+    color: #000000 !important;
     font-family: var(--pf-font-display) !important;
     font-weight: var(--pf-font-semibold) !important;
     font-size: var(--pf-text-sm) !important;
@@ -3368,13 +3373,17 @@ button:disabled {
 
 /* Carrying Capacity Section */
 .item-wizard-modal .carrying-capacity-section {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-light) !important;
-    border-radius: 12px !important;
-    padding: var(--pf-space-5, 20px) !important;
-    box-shadow:
-        0 4px 8px rgba(139, 69, 19, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    background: var(--pf-gradient-button) !important;
+    border: 2px solid var(--pf-brown-medium) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    margin-top: 8px !important;
+}
+
+.item-wizard-modal .capacity-toggle span {
+    color: #000000 !important;
+    font-weight: 500 !important;
 }
 
 .item-wizard-modal .carrying-capacity-section h4 {
@@ -3712,24 +3721,26 @@ button:disabled {
     }
 
     /* Icon section mobile responsiveness */
-    .item-wizard-modal .wow-icon-categories {
-        max-height: 400px !important;
-    }
+    /* Removed max-height to prevent nested scrollbars - parent handles scrolling */
 
     .item-wizard-modal .wow-icon-grid {
-        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)) !important;
-        gap: var(--pf-space-2, 8px) !important;
-        padding: var(--pf-space-2, 8px) !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px !important;
+        padding: 12px !important;
     }
 
     .item-wizard-modal .wow-icon-button {
-        min-height: 70px !important;
-        padding: var(--pf-space-2, 8px) !important;
+        min-height: 90px !important;
+        padding: 8px 6px !important;
     }
 
     .item-wizard-modal .wow-item-icon {
-        width: 40px !important;
-        height: 40px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    .item-wizard-modal .wow-icon-name {
+        font-size: 10px !important;
     }
 
     .item-wizard-modal .wow-item-preview {
@@ -4009,7 +4020,7 @@ button:disabled {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
-    padding: 12px;
+    padding: 8px;
     transition: all 0.2s ease;
 }
 
@@ -4022,7 +4033,7 @@ button:disabled {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .stat-icon {
@@ -4225,7 +4236,7 @@ button:disabled {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
-    color: var(--wow-text-color);
+    color: #000000;
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -4297,7 +4308,7 @@ button:disabled {
 .item-wizard-modal .stat-item {
     background: #2c2c2c;
     border: 1px solid #404040;
-    padding: 12px;
+    padding: 8px;
     border-radius: 4px;
 }
 
@@ -4305,7 +4316,7 @@ button:disabled {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .stat-icon {
@@ -4401,13 +4412,13 @@ button:disabled {
     background: var(--pf-gradient-parchment) !important;
     border: 2px solid var(--pf-brown-light) !important;
     border-radius: 12px !important;
-    padding: var(--pf-space-6, 24px) !important;
+    padding: var(--pf-space-4, 16px) !important;
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-6, 24px) !important;
+    gap: var(--pf-space-3, 12px) !important;
 }
 
 .item-wizard-modal .currency-grid {
@@ -4604,6 +4615,28 @@ button:disabled {
     margin: var(--pf-space-4, 16px) 0 !important;
 }
 
+.item-wizard-modal .value-total .randomize-all-button {
+    background: var(--pf-gradient-button) !important;
+    border: 2px solid var(--pf-brown-medium) !important;
+    border-radius: 8px !important;
+    color: #000000 !important;
+    font-family: var(--pf-font-display) !important;
+    font-size: 12px !important;
+    font-weight: var(--pf-font-bold) !important;
+    padding: var(--pf-space-1, 4px) var(--pf-space-3, 12px) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--pf-space-1, 4px) !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+}
+
 .item-wizard-modal .randomize-all-button {
     background: var(--pf-gradient-button) !important;
     border: 2px solid var(--pf-brown-medium) !important;
@@ -4645,7 +4678,7 @@ button:disabled {
     background: var(--pf-gradient-header) !important;
     border: 2px solid var(--pf-brown-medium) !important;
     border-radius: 10px !important;
-    padding: var(--pf-space-4, 16px) !important;
+    padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
     text-align: center !important;
     font-family: var(--pf-font-display) !important;
     font-size: var(--pf-text-lg) !important;
@@ -4657,14 +4690,24 @@ button:disabled {
     box-shadow:
         0 3px 6px rgba(139, 69, 19, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-    margin-top: var(--pf-space-4, 16px) !important;
+    margin-top: var(--pf-space-5, 20px) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: var(--pf-space-3, 12px) !important;
+}
+
+.item-wizard-modal .value-total .total-content {
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--pf-space-2, 8px) !important;
+    align-items: center !important;
+    gap: var(--pf-space-1, 4px) !important;
+    flex: 1 !important;
 }
 
 .item-wizard-modal .value-total .total-label {
-    font-size: var(--pf-text-base) !important;
+    font-size: var(--pf-text-sm) !important;
     color: var(--pf-text-on-dark) !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
@@ -4673,8 +4716,8 @@ button:disabled {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: var(--pf-space-3, 12px) !important;
-    font-size: var(--pf-text-xl) !important;
+    gap: var(--pf-space-2, 8px) !important;
+    font-size: var(--pf-text-lg) !important;
     font-weight: var(--pf-font-bold) !important;
 }
 
@@ -5613,9 +5656,10 @@ h4 {
     flex-direction: column;
     gap: 12px;
     padding: 12px;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--pf-gradient-button);
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--pf-brown-medium);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .capacity-toggle {
@@ -5624,6 +5668,11 @@ h4 {
     gap: 8px;
     cursor: pointer;
     user-select: none;
+}
+
+.capacity-toggle span {
+    color: #000000;
+    font-weight: 500;
 }
 
 .capacity-toggle input[type="checkbox"] {
@@ -6263,7 +6312,7 @@ h4 {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
-    color: var(--wow-text-color);
+    color: #000000;
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -6563,153 +6612,262 @@ h4 {
     box-shadow:
         0 4px 8px rgba(139, 69, 19, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: var(--pf-space-6, 24px) !important;
-}
-
-.item-wizard-modal .wow-icon-categories {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: var(--pf-space-5, 20px) !important;
-    max-height: 600px !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+    max-height: 500px !important;
     overflow-y: auto !important;
-    padding-right: var(--pf-space-2, 8px) !important;
+    overflow-x: hidden !important;
+    padding-right: 12px !important;
+    min-height: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    align-items: start !important;
 }
 
-/* Custom scrollbar for icon categories */
-.item-wizard-modal .wow-icon-categories::-webkit-scrollbar {
-    width: 8px !important;
+/* Custom scrollbar for item appearance section */
+.item-wizard-modal .item-appearance-section::-webkit-scrollbar {
+    width: 10px !important;
 }
 
-.item-wizard-modal .wow-icon-categories::-webkit-scrollbar-track {
-    background: var(--pf-brown-light) !important;
-    border-radius: 4px !important;
+.item-wizard-modal .item-appearance-section::-webkit-scrollbar-track {
+    background: rgba(139, 69, 19, 0.1) !important;
+    border-radius: 5px !important;
 }
 
-.item-wizard-modal .wow-icon-categories::-webkit-scrollbar-thumb {
-    background: var(--pf-brown-medium) !important;
-    border-radius: 4px !important;
+.item-wizard-modal .item-appearance-section::-webkit-scrollbar-thumb {
+    background: rgba(139, 69, 19, 0.3) !important;
+    border-radius: 5px !important;
+    transition: background 0.2s ease !important;
 }
 
-.item-wizard-modal .wow-icon-categories::-webkit-scrollbar-thumb:hover {
-    background: var(--pf-brown-dark) !important;
+.item-wizard-modal .item-appearance-section::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 69, 19, 0.5) !important;
+}
+
+/* Responsive columns */
+@media (max-width: 1000px) {
+    .item-wizard-modal .item-appearance-section {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 .item-wizard-modal .wow-icon-category {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
-    border-radius: 10px !important;
-    padding: var(--pf-space-4, 16px) !important;
-    box-shadow:
-        0 3px 6px rgba(139, 69, 19, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-    transition: all 0.2s ease !important;
+    background: rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid rgba(139, 69, 19, 0.25) !important;
+    border-radius: 8px !important;
+    padding: 18px !important;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+    transition: none !important;
+    margin-bottom: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .item-wizard-modal .wow-icon-category:hover {
-    border-color: var(--pf-brown-dark) !important;
-    box-shadow:
-        0 4px 8px rgba(139, 69, 19, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
 }
 
 .item-wizard-modal .wow-category-title {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-lg) !important;
-    font-weight: var(--pf-font-bold) !important;
-    color: var(--pf-text-primary) !important;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+    font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #4a3420 !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9) !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
-    margin: 0 0 var(--pf-space-3, 12px) 0 !important;
-    text-align: center !important;
-    padding-bottom: var(--pf-space-2, 8px) !important;
-    border-bottom: 2px solid var(--pf-brown-light) !important;
+    margin: 0 0 16px 0 !important;
+    text-align: left !important;
+    padding-bottom: 10px !important;
+    border-bottom: 1.5px solid rgba(139, 69, 19, 0.25) !important;
+    padding-left: 0 !important;
+}
+
+.item-wizard-modal .wow-sub-category {
+    margin-bottom: 20px !important;
+    margin-top: 0 !important;
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.15) !important;
+}
+
+.item-wizard-modal .wow-sub-category:first-child {
+    margin-top: 0 !important;
+}
+
+.item-wizard-modal .wow-sub-category:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
 }
 
 .item-wizard-modal .wow-sub-category-title {
-    font-family: var(--pf-font-display) !important;
-    font-size: var(--pf-text-base) !important;
-    font-weight: var(--pf-font-semibold) !important;
-    color: var(--pf-text-secondary) !important;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
-    text-transform: capitalize !important;
-    margin: var(--pf-space-3, 12px) 0 var(--pf-space-2, 8px) 0 !important;
+    font-family: var(--pf-font-display, 'Cinzel', serif) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #5a4330 !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 0 12px 0 !important;
+    padding: 0 !important;
+    border: none !important;
 }
 
 .item-wizard-modal .wow-icon-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
-    gap: var(--pf-space-3, 12px) !important;
-    padding: var(--pf-space-3, 12px) !important;
-    background: var(--pf-gradient-parchment) !important;
-    border: 1px solid var(--pf-brown-light) !important;
-    border-radius: 8px !important;
-    box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    align-items: stretch !important;
+    overflow: visible !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Better spacing for grids within sub-categories */
+.item-wizard-modal .wow-sub-category .wow-icon-grid {
+    margin-top: 0 !important;
+}
+
+/* Responsive grid columns - adjust based on container */
+@media (max-width: 1200px) {
+    .item-wizard-modal .wow-icon-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .item-wizard-modal .wow-icon-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 700px) {
+    .item-wizard-modal .wow-icon-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
 }
 
 .item-wizard-modal .wow-icon-button {
-    background: var(--pf-gradient-parchment) !important;
-    border: 2px solid var(--pf-brown-medium) !important;
+    background: linear-gradient(145deg, #faf8f3 0%, #f5f1e8 100%) !important;
+    border: 1.5px solid rgba(139, 69, 19, 0.3) !important;
     border-radius: 8px !important;
-    padding: var(--pf-space-3, 12px) !important;
+    padding: 10px 8px !important;
     cursor: pointer !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.15s ease !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: var(--pf-space-2, 8px) !important;
+    justify-content: center !important;
+    gap: 8px !important;
     position: relative !important;
     overflow: hidden !important;
-    min-height: 80px !important;
-    box-shadow:
-        0 2px 4px rgba(139, 69, 19, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 95px !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+}
+
+.item-wizard-modal .wow-icon-button::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%) !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transition: opacity 0.15s ease !important;
 }
 
 .item-wizard-modal .wow-icon-button:hover {
-    border-color: var(--pf-brown-dark) !important;
-    transform: translateY(-2px) !important;
-    box-shadow:
-        0 4px 8px rgba(139, 69, 19, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    border-color: rgba(139, 69, 19, 0.5) !important;
+    background: linear-gradient(145deg, #fffef9 0%, #faf8f3 100%) !important;
+    box-shadow: 
+        0 2px 6px rgba(139, 69, 19, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    z-index: 10 !important;
+}
+
+.item-wizard-modal .wow-icon-button:hover::before {
+    opacity: 1 !important;
 }
 
 .item-wizard-modal .wow-icon-button.selected {
-    background: var(--pf-gradient-gold) !important;
-    border-color: var(--pf-gold-dark) !important;
-    box-shadow:
-        0 0 12px rgba(218, 165, 32, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+    background: linear-gradient(145deg, #f8e8a0 0%, #f5d86e 100%) !important;
+    border-color: rgba(218, 165, 32, 0.6) !important;
+    box-shadow: 
+        0 2px 8px rgba(218, 165, 32, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 0 0 2px rgba(218, 165, 32, 0.2) !important;
+}
+
+.item-wizard-modal .wow-icon-button.selected::before {
+    opacity: 1 !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%) !important;
 }
 
 .item-wizard-modal .wow-item-icon {
-    width: 48px !important;
-    height: 48px !important;
-    object-fit: cover !important;
+    width: 52px !important;
+    height: 52px !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
     border-radius: 6px !important;
-    border: 2px solid var(--pf-brown-light) !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    transition: all 0.2s ease !important;
+    border: 1px solid rgba(139, 69, 19, 0.15) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    padding: 4px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.15s ease !important;
+    flex-shrink: 0 !important;
 }
 
 .item-wizard-modal .wow-icon-button:hover .wow-item-icon {
-    border-color: var(--pf-brown-dark) !important;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(139, 69, 19, 0.3) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+.item-wizard-modal .wow-icon-button.selected .wow-item-icon {
+    border-color: rgba(218, 165, 32, 0.4) !important;
+    box-shadow: 0 2px 4px rgba(218, 165, 32, 0.2) !important;
 }
 
 .item-wizard-modal .wow-icon-name {
-    font-family: var(--pf-font-body) !important;
-    font-size: var(--pf-text-xs) !important;
-    font-weight: var(--pf-font-medium) !important;
-    color: var(--pf-text-secondary) !important;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6) !important;
+    font-family: var(--pf-font-body, 'Crimson Text', serif) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    color: #3a2917 !important;
     text-align: center !important;
     line-height: 1.2 !important;
     margin: 0 !important;
-    word-wrap: break-word !important;
-    max-width: 100% !important;
+    padding: 0 2px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+    max-height: 2.4em !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+}
+
+.item-wizard-modal .wow-icon-button.selected .wow-icon-name {
+    color: #5a3f1f !important;
+    font-weight: 600 !important;
 }
 
 /* Enhanced custom URL section */

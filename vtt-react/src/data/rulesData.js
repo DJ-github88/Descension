@@ -767,27 +767,45 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
                 },
                 {
                   title: 'Variant Comparison',
-                  content: `**Delver Grimheart** - Obsessive miners driven by deep earth whispers
-- Constitution +3, Strength +2, Agility -1, Intelligence +1, Spirit -1, Charisma -2
+                  content: `**Earthscar Grimheart** - Obsessive miners driven by deep earth whispers
+- Constitution +4, Strength +3, Agility -2, Intelligence +1, Spirit -2, Charisma -3
 - Focus: Durability, tunneling, mineral detection, obsessive digging
 
-**Forgemaster Grimheart** - Master craftsmen channeling obsession into creation
-- Constitution +2, Strength +2, Intelligence +2, Spirit -1, Charisma -1
+**Forgeborn Grimheart** - Master craftsmen channeling obsession into creation
+- Constitution +3, Strength +2, Agility -2, Intelligence +2, Spirit +2, Charisma -1
 - Focus: Crafting, smithing, item creation, durability
 
-**Stoneward Grimheart** - Guardians resisting the whispers to protect others
-- Constitution +3, Strength +1, Agility -1, Spirit +1, Charisma -1
+**Stoneblood Grimheart** - Guardians resisting the whispers to protect others
+- Constitution +3, Strength +1, Agility -2, Intelligence +0, Spirit +3, Charisma +1
 - Focus: Defense, protection, resistance to compulsion, tanking`
                 }
               ],
               tables: [
                 {
-                  title: 'Delver Grimheart Traits',
+                  title: 'Earthscar Grimheart Traits',
                   headers: ['Trait', 'Type', 'Description'],
                   rows: [
                     ['Earth Whispers', 'Detection', 'Can sense valuable minerals and hidden passages within 60 feet, but hear constant whispers that impose disadvantage on Wisdom saves.'],
                     ['Stone Skin', 'Defense', 'Natural armor provides +2 Armor, but movement speed reduced by 5 feet.'],
                     ['Deep Delving', 'Utility', 'Can tunnel through stone at half movement speed, but become obsessed with digging and must make Wisdom saves to stop.']
+                  ]
+                },
+                {
+                  title: 'Forgeborn Grimheart Traits',
+                  headers: ['Trait', 'Type', 'Description'],
+                  rows: [
+                    ['Earth\'s Forge', 'Crafting', 'Can shape metal and stone with bare hands, creating masterwork items with half the normal time and cost. However, you are COMPELLED to craft - must spend at least 4 hours per day creating items or suffer -2 to all rolls from restlessness.'],
+                    ['Stone Resilience', 'Defense', 'Resistant to fire and poison damage. Your stone-hardened flesh provides +1 Armor. However, you are vulnerable to acid damage.'],
+                    ['Master\'s Touch', 'Crafting', 'Items you craft gain +1 to attack rolls or armor bonus, but you feel their use and destruction. When an item you created is destroyed, you take 1d6 psychic damage.']
+                  ]
+                },
+                {
+                  title: 'Stoneblood Grimheart Traits',
+                  headers: ['Trait', 'Type', 'Description'],
+                  rows: [
+                    ['Guardian\'s Resolve', 'Protection', 'Can absorb damage intended for allies within 10 feet, but take +50% of the absorbed damage.'],
+                    ['Deep Sight', 'Perception', 'Darkvision 120 feet and can see through magical darkness, but bright light causes disadvantage on attack rolls.'],
+                    ['Stone Ward', 'Utility', 'Can create protective stone barriers, but each use drains 1 point of Constitution until long rest.']
                   ]
                 }
               ]
@@ -822,7 +840,7 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
   {
     id: 'combat-system',
     name: 'Combat System',
-    icon: 'fas fa-swords',
+    icon: 'fas fa-fist-raised',
     description: 'Tactical combat with AP management and streamlined mechanics',
     subcategories: [
       {
@@ -869,7 +887,7 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
       {
         id: 'attacks-damage',
         name: 'Attacks & Damage',
-        icon: 'fas fa-sword',
+        icon: 'fas fa-crosshairs',
         content: {
           title: 'Attacks & Damage',
           description: 'Unified attack/damage rolls, armor absorption, critical system',

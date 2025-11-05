@@ -71,49 +71,34 @@ const BackgroundsDisplay = () => {
                         <p>{backgroundData.description}</p>
                     </div>
 
-                    {/* Proficiencies Grid */}
+                    {/* Proficiencies & Languages */}
                     <div className="benefits-section">
                         <h4>Proficiencies & Languages</h4>
-                        <div className="benefits-grid">
+                        <ul className="equipment-items">
                             {/* Skill Proficiencies */}
                             {backgroundData.skillProficiencies.map((skill, index) => (
-                                <div key={`skill-${index}`} className="benefit-card">
-                                    <div className="benefit-icon">
-                                        <i className="fas fa-cogs"></i>
-                                    </div>
-                                    <div className="benefit-content">
-                                        <h5 className="benefit-name">{skill}</h5>
-                                        <p className="benefit-description">Skill Proficiency</p>
-                                    </div>
-                                </div>
+                                <li key={`skill-${index}`}>
+                                    <i className="fas fa-cogs"></i>
+                                    {skill} Skill Proficiency
+                                </li>
                             ))}
 
                             {/* Tool Proficiencies */}
                             {backgroundData.toolProficiencies && backgroundData.toolProficiencies.map((tool, index) => (
-                                <div key={`tool-${index}`} className="benefit-card">
-                                    <div className="benefit-icon">
-                                        <i className="fas fa-tools"></i>
-                                    </div>
-                                    <div className="benefit-content">
-                                        <h5 className="benefit-name">{tool}</h5>
-                                        <p className="benefit-description">Tool Proficiency</p>
-                                    </div>
-                                </div>
+                                <li key={`tool-${index}`}>
+                                    <i className="fas fa-tools"></i>
+                                    {tool} Tool Proficiency
+                                </li>
                             ))}
 
                             {/* Languages */}
                             {backgroundData.languages > 0 && (
-                                <div className="benefit-card">
-                                    <div className="benefit-icon">
-                                        <i className="fas fa-language"></i>
-                                    </div>
-                                    <div className="benefit-content">
-                                        <h5 className="benefit-name">{backgroundData.languages} Language{backgroundData.languages > 1 ? 's' : ''}</h5>
-                                        <p className="benefit-description">Choose additional language{backgroundData.languages > 1 ? 's' : ''}</p>
-                                    </div>
-                                </div>
+                                <li>
+                                    <i className="fas fa-language"></i>
+                                    {backgroundData.languages} Language{backgroundData.languages > 1 ? 's' : ''} - Choose additional language{backgroundData.languages > 1 ? 's' : ''}
+                                </li>
                             )}
-                        </div>
+                        </ul>
                     </div>
 
                     {/* Starting Equipment */}
@@ -133,17 +118,14 @@ const BackgroundsDisplay = () => {
 
                     {/* Special Feature */}
                     {backgroundData.feature && (
-                        <div className="benefits-section feature-section">
+                        <div className="benefits-section">
                             <h4>Special Feature</h4>
-                            <div className="feature-card">
-                                <div className="feature-header">
-                                    <div className="feature-icon">
-                                        <i className="fas fa-star"></i>
-                                    </div>
-                                    <h5 className="feature-name">{backgroundData.feature.name}</h5>
-                                </div>
-                                <p className="feature-description">{backgroundData.feature.description}</p>
-                            </div>
+                            <ul className="equipment-items feature-items">
+                                <li>
+                                    <i className="fas fa-star"></i>
+                                    <strong>{backgroundData.feature.name}</strong> {backgroundData.feature.description}
+                                </li>
+                            </ul>
                         </div>
                     )}
 

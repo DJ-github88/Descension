@@ -4149,7 +4149,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </button>
                                 </div>
                             </div>
-                            <div className="randomize-all-section">
+                            <div className="value-total">
                                 <button
                                     className="randomize-all-button"
                                     onClick={() => updateItemData({
@@ -4163,25 +4163,25 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     })}
                                     title="Randomize All Currencies (1-99 each)"
                                 >
-                                    🎲 Randomize All
+                                    🎲 RANDOMIZE ALL
                                 </button>
-                            </div>
-                            <div className="value-total">
-                                <span className="total-label">Total Value:</span>
-                                <span className="currency-display">
-                                    {(itemData.value.platinum || 0) > 0 && (
-                                        <>
-                                            <span className="platinum-amount">{itemData.value.platinum}</span>
-                                            <span className="platinum-symbol">p</span>
-                                        </>
-                                    )}
-                                    <span className="gold-amount">{itemData.value.gold || 0}</span>
-                                    <span className="gold-symbol">g</span>
-                                    <span className="silver-amount">{itemData.value.silver || 0}</span>
-                                    <span className="silver-symbol">s</span>
-                                    <span className="copper-amount">{itemData.value.copper || 0}</span>
-                                    <span className="copper-symbol">c</span>
-                                </span>
+                                <div className="total-content">
+                                    <span className="total-label">Total Value:</span>
+                                    <span className="currency-display">
+                                        {(itemData.value.platinum || 0) > 0 && (
+                                            <>
+                                                <span className="platinum-amount">{itemData.value.platinum}</span>
+                                                <span className="platinum-symbol">p</span>
+                                            </>
+                                        )}
+                                        <span className="gold-amount">{itemData.value.gold || 0}</span>
+                                        <span className="gold-symbol">g</span>
+                                        <span className="silver-amount">{itemData.value.silver || 0}</span>
+                                        <span className="silver-symbol">s</span>
+                                        <span className="copper-amount">{itemData.value.copper || 0}</span>
+                                        <span className="copper-symbol">c</span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -4192,60 +4192,37 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         <div className="wizard-step">
                             <h3 className="wow-heading quality-text">Item Appearance</h3>
                             <div className="item-appearance-section">
-                                <div className="wow-icon-categories">
-                                    {Object.entries(WOW_ICONS).map(([category, items]) => (
-                                        <div key={category} className="wow-icon-category">
-                                            <h4 className="wow-category-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
-                                            <div className="wow-icon-grid">
-                                                {Array.isArray(items)
-                                                    ? items.map(item => (
-                                                        <button
-                                                            key={item.id}
-                                                            className={`wow-icon-button ${itemData.iconId === item.id ? 'selected' : ''}`}
-                                                            onClick={() => updateItemData({
-                                                                iconId: item.id,
-                                                                imageUrl: getIconUrl(item.id)
-                                                            })}
-                                                        >
-                                                            <img
-                                                                src={getIconUrl(item.id)}
-                                                                alt={item.name}
-                                                                className="wow-item-icon"
-                                                            />
-                                                            <span className="wow-icon-name">{item.name}</span>
-                                                        </button>
-                                                    ))
-                                                    : Object.entries(items).map(([subCategory, subItems]) => (
-                                                        <div key={subCategory} className="wow-sub-category">
-                                                            <h5 className="wow-sub-category-title">
-                                                                {subCategory.charAt(0).toUpperCase() + subCategory.slice(1)}
-                                                            </h5>
-                                                            <div className="wow-icon-grid">
-                                                                {subItems.map(item => (
-                                                                    <button
-                                                                        key={item.id}
-                                                                        className={`wow-icon-button ${itemData.iconId === item.id ? 'selected' : ''}`}
-                                                                        onClick={() => updateItemData({
-                                                                            iconId: item.id,
-                                                                            imageUrl: getIconUrl(item.id)
-                                                                        })}
-                                                                    >
-                                                                        <img
-                                                                            src={getIconUrl(item.id)}
-                                                                            alt={item.name}
-                                                                            className="wow-item-icon"
-                                                                        />
-                                                                        <span className="wow-icon-name">{item.name}</span>
-                                                                    </button>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
+                                {Object.entries(WOW_ICONS).map(([category, items]) => (
+                                    <div key={category} className="wow-icon-category">
+                                        <h4 className="wow-category-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
+                                        <div className="wow-icon-grid">
+                                            {(() => {
+                                                // Flatten all items into a single array regardless of structure
+                                                const allItems = Array.isArray(items)
+                                                    ? items
+                                                    : Object.values(items).flat();
+                                                
+                                                return allItems.map(item => (
+                                                    <button
+                                                        key={item.id}
+                                                        className={`wow-icon-button ${itemData.iconId === item.id ? 'selected' : ''}`}
+                                                        onClick={() => updateItemData({
+                                                            iconId: item.id,
+                                                            imageUrl: getIconUrl(item.id)
+                                                        })}
+                                                    >
+                                                        <img
+                                                            src={getIconUrl(item.id)}
+                                                            alt={item.name}
+                                                            className="wow-item-icon"
+                                                        />
+                                                        <span className="wow-icon-name">{item.name}</span>
+                                                    </button>
+                                                ));
+                                            })()}
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                ))}
                                 <div className="wow-custom-url-section">
                                     <h4 className="wow-section-title">Custom Image URL</h4>
                                     <input

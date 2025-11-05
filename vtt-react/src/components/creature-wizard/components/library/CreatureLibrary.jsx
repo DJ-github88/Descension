@@ -88,7 +88,6 @@ const CreatureLibrary = ({ onEdit }) => {
   const windowScale = useGameStore(state => state.windowScale);
 
   const [contextMenu, setContextMenu] = useState(null);
-  const [isFiltersVisible, setIsFiltersVisible] = useState(true);
   const [viewMode, setViewMode] = useState('grid');
   const [hoveredCreature, setHoveredCreature] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -378,17 +377,13 @@ const CreatureLibrary = ({ onEdit }) => {
     >
       {/* Header with controls */}
       <div className="creature-library-header">
-        <div className="creature-library-title">
+        <div className="creature-library-title-row">
           <h1>Creature Library</h1>
+          <CreatureFilters 
+            filteredCount={filteredCreatures.length}
+            totalCount={library.creatures.length}
+          />
           <div className="creature-library-controls">
-            <button
-              className="toggle-filters-button"
-              onClick={() => setIsFiltersVisible(!isFiltersVisible)}
-              title={isFiltersVisible ? "Hide Filters" : "Show Filters"}
-            >
-              <i className={`fas fa-filter ${isFiltersVisible ? 'active' : ''}`}></i>
-            </button>
-
             <div className="view-mode-controls">
               <button
                 className={`view-mode-button ${viewMode === 'grid' ? 'active' : ''}`}
@@ -426,15 +421,8 @@ const CreatureLibrary = ({ onEdit }) => {
         </div>
       </div>
 
-      {/* Filters and content area */}
+      {/* Content area */}
       <div className="creature-library-content">
-        {/* Sidebar with filters */}
-        {isFiltersVisible && (
-          <aside className="creature-library-sidebar">
-            <CreatureFilters />
-          </aside>
-        )}
-
         {/* Main content area with creature cards */}
         <main className={`creature-library-creatures ${viewMode}-view`}>
           {filteredCreatures.length === 0 ? (
@@ -449,10 +437,6 @@ const CreatureLibrary = ({ onEdit }) => {
             </div>
           ) : (
             <>
-              <div className="creature-count-info">
-                Showing {filteredCreatures.length} of {library.creatures.length} creatures
-              </div>
-
               <div className="creature-cards-container">
                 {filteredCreatures.map(creature => {
                   // Create a memoized handler for each creature to prevent recreating functions on every render
