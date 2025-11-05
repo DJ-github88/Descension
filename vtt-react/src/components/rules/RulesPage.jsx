@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { RULES_CATEGORIES, getRuleContent } from '../../data/rulesData';
 import RaceSelector from './RaceSelector';
 import BackgroundSelector from './BackgroundSelector';
@@ -103,18 +103,11 @@ const RulesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('core-rules');
   const [selectedSubcategory, setSelectedSubcategory] = useState('game-overview');
   const [selectedClassDetail, setSelectedClassDetail] = useState(null); // For class detail pages
-  const [expandedCategories, setExpandedCategories] = useState(['core-rules']);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(null);
-
-  // Toggle category expansion
-  const toggleCategory = (categoryId) => {
-    setExpandedCategories(prev => 
-      prev.includes(categoryId)
-        ? prev.filter(id => id !== categoryId)
-        : [...prev, categoryId]
-    );
-  };
+  const [popoutCategory, setPopoutCategory] = useState(null);
+  const [popoutPosition, setPopoutPosition] = useState({ top: 0, left: 0 });
+  const buttonRefs = useRef({});
 
   // Handle subcategory selection
   const handleSubcategoryClick = (categoryId, subcategoryId) => {
@@ -122,11 +115,6 @@ const RulesPage = () => {
     setSelectedSubcategory(subcategoryId);
     setSelectedClassDetail(null); // Clear class detail when changing subcategory
     setActiveTab(null); // Reset tab when changing subcategory
-
-    // Ensure the category is expanded
-    if (!expandedCategories.includes(categoryId)) {
-      setExpandedCategories(prev => [...prev, categoryId]);
-    }
   };
 
   // Handle class detail selection
@@ -326,74 +314,190 @@ const RulesPage = () => {
     );
   };
 
+  // Close popout when clicking outside and recalculate position on scroll/resize
+  useEffect(() => {
+    if (!popoutCategory) return;
+
+    const handleClickOutside = (event) => {
+      // Don't close if clicking on the button that opened it or the popout itself
+      if (event.target.closest('.rules-nav-popout') || event.target.closest('.rules-nav-category-btn')) {
+        return;
+      }
+      setPopoutCategory(null);
+    };
+
+    const handleResize = () => {
+      // Recalculate position on resize to keep popout visible
+      const categoryId = popoutCategory;
+      const button = buttonRefs.current[categoryId];
+      if (button) {
+        const rect = button.getBoundingClientRect();
+        const popoutWidth = 300;
+        const popoutHeight = 500;
+        const gap = 12;
+        const padding = 10;
+        const headerHeight = 70; // Height of the header
+
+        let left = rect.right + gap;
+        let top = rect.top + rect.height / 2;
+
+        if (left + popoutWidth > window.innerWidth - padding) {
+          left = rect.left - popoutWidth - gap;
+        }
+        if (left < padding) {
+          left = padding;
+        }
+        if (left + popoutWidth > window.innerWidth - padding) {
+          left = window.innerWidth - popoutWidth - padding;
+        }
+
+        const halfHeight = popoutHeight / 2;
+        // Ensure popout doesn't go under the header
+        if (top - halfHeight < headerHeight + padding) {
+          top = halfHeight + headerHeight + padding;
+        } else if (top + halfHeight > window.innerHeight - padding) {
+          top = window.innerHeight - halfHeight - padding;
+        }
+
+        setPopoutPosition({ top, left });
+      }
+    };
+
+    // Delay to avoid immediate closure when opening
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('scroll', handleResize, true);
+    }, 10);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleResize, true);
+    };
+  }, [popoutCategory]);
+
+  // Back to top functionality for mobile
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="rules-page">
-      {/* Sidebar Navigation */}
-      <aside className="rules-sidebar">
-        {/* Search Bar */}
-        <div className="rules-search">
-          <i className="fas fa-search"></i>
-          <input
-            type="text"
-            placeholder="Search rules..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          {searchQuery && (
-            <button 
-              className="rules-search-clear"
-              onClick={() => setSearchQuery('')}
-            >
-              <i className="fas fa-times"></i>
-            </button>
-          )}
-        </div>
-
+      {/* Sidebar Navigation - Always Collapsed */}
+      <aside className="rules-sidebar collapsed">
         {/* Navigation Tree */}
-        <nav className="rules-nav">
+        <nav className="rules-nav collapsed">
           {filteredCategories.map(category => (
             <div key={category.id} className="rules-nav-category">
-              <button
-                className={`rules-nav-category-btn ${expandedCategories.includes(category.id) ? 'expanded' : ''}`}
-                onClick={() => toggleCategory(category.id)}
-              >
-                <i className={`${category.icon} rules-nav-icon`}></i>
-                <span>{category.name}</span>
-                <i className={`fas fa-chevron-${expandedCategories.includes(category.id) ? 'down' : 'right'} rules-nav-chevron`}></i>
-              </button>
+              <div style={{ position: 'relative' }}>
+                <button
+                  ref={(el) => (buttonRefs.current[category.id] = el)}
+                  className={`rules-nav-category-btn ${selectedCategory === category.id ? 'active-category' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const button = e.currentTarget;
+                    const rect = button.getBoundingClientRect();
+                    
+                    // Popout dimensions (approximate)
+                    const popoutWidth = 300; // max-width from CSS (240-300px)
+                    const popoutHeight = 500; // approximate max height for safety
+                    const gap = 12;
+                    const padding = 10; // minimum padding from screen edges
+                    const headerHeight = 70; // Height of the header
+                    
+                    // Calculate desired position (to the right of button)
+                    let left = rect.right + gap;
+                    let top = rect.top + rect.height / 2;
+                    
+                    // Check if popout would go off right edge
+                    if (left + popoutWidth > window.innerWidth) {
+                      // If it would go off-screen, position it to the left of the button instead
+                      left = rect.left - popoutWidth - gap;
+                    }
+                    
+                    // Ensure it doesn't go off left edge either
+                    if (left < padding) {
+                      left = padding;
+                    }
+                    
+                    // Ensure it doesn't go off right edge
+                    if (left + popoutWidth > window.innerWidth - padding) {
+                      left = window.innerWidth - popoutWidth - padding;
+                    }
+                    
+                    // Check vertical bounds - keep popout centered on button but within viewport
+                    // Ensure popout doesn't go under the header
+                    const halfHeight = popoutHeight / 2;
+                    if (top - halfHeight < headerHeight + padding) {
+                      // Too close to top (or would go under header), adjust down
+                      top = halfHeight + headerHeight + padding;
+                    } else if (top + halfHeight > window.innerHeight - padding) {
+                      // Too close to bottom, adjust up
+                      top = window.innerHeight - halfHeight - padding;
+                    }
+                    
+                    // Calculate position relative to viewport
+                    setPopoutPosition({
+                      top: top,
+                      left: left
+                    });
+                    // Always show popout menu
+                    setPopoutCategory(popoutCategory === category.id ? null : category.id);
+                  }}
+                  title={category.name}
+                  data-active={selectedCategory === category.id ? 'true' : 'false'}
+                >
+                  <i className={`${category.icon || 'fas fa-circle'} rules-nav-icon`}></i>
+                </button>
 
-              {expandedCategories.includes(category.id) && (
-                <div className="rules-nav-subcategories">
-                  {category.subcategories.map(sub => (
-                    <div key={sub.id}>
+                {/* Popout orb menu */}
+                {popoutCategory === category.id && (
+                  <div 
+                    className="rules-nav-popout"
+                    style={{
+                      top: `${popoutPosition.top}px`,
+                      left: `${popoutPosition.left}px`
+                    }}
+                  >
+                    <div className="rules-nav-popout-header">
+                      <i className={category.icon}></i>
+                      <span>{category.name}</span>
+                    </div>
+                    {category.subcategories.map(sub => (
                       <button
-                        className={`rules-nav-subcategory ${
+                        key={sub.id}
+                        className={`rules-nav-popout-item ${
                           selectedCategory === category.id && selectedSubcategory === sub.id && !selectedClassDetail
                             ? 'active'
                             : ''
                         }`}
-                        onClick={() => handleSubcategoryClick(category.id, sub.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSubcategoryClick(category.id, sub.id);
+                          setPopoutCategory(null);
+                        }}
                       >
-                        <i className={`${sub.icon} rules-nav-subicon`}></i>
+                        <i className={sub.icon}></i>
                         <span>{sub.name}</span>
                       </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-                      {/* Show indented class name when viewing class detail */}
-                      {sub.id === 'classes' && selectedSubcategory === 'classes' && selectedClassDetail && (
-                        <div className="rules-nav-class-detail">
-                          <button
-                            className="rules-nav-class-detail-btn active"
-                            onClick={() => {/* Already on this page */}}
-                          >
-                            <i className="fas fa-fire rules-nav-subicon"></i>
-                            <span>{selectedClassDetail}</span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
         </nav>
@@ -413,6 +517,15 @@ const RulesPage = () => {
         {/* Content */}
         {renderContent()}
       </main>
+
+      {/* Mobile Back to Top Button */}
+      <button
+        className={`rules-back-to-top ${showBackToTop ? 'show' : ''}`}
+        onClick={scrollToTop}
+        aria-label="Back to top"
+      >
+        <i className="fas fa-arrow-up"></i>
+      </button>
     </div>
   );
 };

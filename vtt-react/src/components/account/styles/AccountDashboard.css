@@ -1293,137 +1293,444 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .account-dashboard {
+    padding: 0;
+  }
+
   .account-header-new {
     flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
+    gap: var(--pf-space-mobile-4);
+    padding: var(--pf-space-mobile-6) var(--pf-space-mobile-4);
     min-height: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(244, 241, 232, 0.98) 0%, rgba(232, 224, 208, 0.98) 100%);
   }
 
   .account-icon-section {
     justify-content: center;
     text-align: center;
+    flex-direction: column;
+    gap: var(--pf-space-mobile-2);
+  }
+
+  .account-avatar-large {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+  }
+
+  .account-welcome .user-display-name {
+    font-size: var(--pf-font-size-mobile-lg);
+    margin-top: var(--pf-space-mobile-2);
+  }
+
+  .guest-notice {
+    margin-top: var(--pf-space-mobile-1);
+    font-size: var(--pf-font-size-mobile-xs);
   }
 
   .fan-container {
     flex-direction: row;
-    gap: 0.5rem;
+    gap: var(--pf-space-mobile-1);
     width: 100%;
-    padding: 0.3rem;
+    padding: var(--pf-space-mobile-2);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .fan-container::-webkit-scrollbar {
+    display: none;
   }
 
   .fan-tab {
     margin: 0;
-    min-width: 100px;
+    min-width: 120px;
     border-radius: 8px;
     width: 100%;
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
+    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-3);
+    font-size: var(--pf-font-size-mobile-base);
+    flex-shrink: 0;
+    min-height: var(--pf-touch-target-comfortable);
+    white-space: nowrap;
+  }
+
+  .header-actions-new {
+    justify-content: center;
+    gap: var(--pf-space-mobile-3);
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .action-btn {
+    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4);
+    font-size: var(--pf-font-size-mobile-sm);
+    gap: var(--pf-space-mobile-2);
+    min-height: var(--pf-touch-target-min);
+    flex: 1;
+    min-width: 120px;
+    max-width: 140px;
+  }
+
+  .home-btn,
+  .logout-btn {
+    min-width: 100px;
+  }
+
+  .account-main {
+    padding: var(--pf-space-mobile-4);
+    min-height: calc(100vh - 200px);
   }
 
   /* Mobile Overview Layout */
   .overview-layout {
-    gap: 2rem;
+    gap: var(--pf-space-mobile-8);
+  }
+
+  .home-layout {
+    gap: var(--pf-space-mobile-8);
   }
 
   /* Hero section mobile styles removed - not used in AccountDashboard component */
 
   .adventure-compass {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
 
   .adventure-compass i {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 
   .stats-overview {
-    padding: 2rem;
+    padding: var(--pf-space-mobile-6);
+    margin: 0 var(--pf-space-mobile-2);
+    border-radius: 16px;
+  }
+
+  .stats-header {
+    margin-bottom: var(--pf-space-mobile-6);
   }
 
   .stats-header h2 {
-    font-size: 2rem;
+    font-size: var(--pf-font-size-mobile-2xl);
+    margin-bottom: var(--pf-space-mobile-1);
+  }
+
+  .stats-header p {
+    font-size: var(--pf-font-size-mobile-base);
   }
 
   .stats-grid-enhanced {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--pf-space-mobile-4);
   }
 
   .stat-card {
-    padding: 1.5rem;
+    padding: var(--pf-space-mobile-6);
+    border-radius: 12px;
+    min-height: var(--pf-touch-target-comfortable);
+    cursor: pointer;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
   }
 
   .stat-icon {
     width: 50px;
     height: 50px;
-    font-size: 1.5rem;
+    font-size: var(--pf-font-size-mobile-lg);
   }
 
   .stat-number {
-    font-size: 2rem;
+    font-size: var(--pf-font-size-mobile-2xl);
   }
 
-  .header-actions-new {
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+  .stat-title {
+    font-size: var(--pf-font-size-mobile-base);
   }
 
-  .action-btn {
-    padding: 0.7rem 1.2rem;
-    font-size: 0.85rem;
-    gap: 0.4rem;
+  .stat-subtitle {
+    font-size: var(--pf-font-size-mobile-sm);
   }
 
   .dashboard-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: var(--pf-space-mobile-6);
   }
 
   .dashboard-card {
-    padding: 2rem;
+    padding: var(--pf-space-mobile-6);
+    border-radius: 12px;
+    margin: 0 var(--pf-space-mobile-2);
   }
 
-  .account-main {
-    padding: 1.5rem 1rem;
+  .card-header {
+    margin: calc(-1 * var(--pf-space-mobile-6)) calc(-1 * var(--pf-space-mobile-6)) var(--pf-space-mobile-4) calc(-1 * var(--pf-space-mobile-6));
+    padding: var(--pf-space-mobile-6);
+    border-radius: 12px 12px 0 0;
   }
 
+  .card-header h2 {
+    font-size: var(--pf-font-size-mobile-xl);
+  }
+
+  .card-header h3 {
+    font-size: var(--pf-font-size-mobile-lg);
+  }
+
+  .view-all-btn {
+    padding: var(--pf-space-mobile-2) var(--pf-space-mobile-4);
+    font-size: var(--pf-font-size-mobile-sm);
+    min-height: var(--pf-touch-target-min);
+  }
+
+  .card-content {
+    padding: 0;
+  }
+
+  /* Character cards mobile improvements */
+  .characters-grid-full {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-mobile-4);
+  }
+
+  .character-card-compact {
+    min-width: auto;
+    width: 100%;
+    margin: 0;
+  }
+
+  .character-card-compact .character-header {
+    padding: var(--pf-space-mobile-4);
+  }
+
+  .character-card-compact .character-name {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+  }
+
+  .character-card-compact .character-class-race {
+    gap: var(--pf-space-mobile-2);
+  }
+
+  .character-card-compact .race-tag,
+  .character-card-compact .class-tag {
+    font-size: var(--pf-font-size-mobile-xs);
+    padding: var(--pf-space-mobile-1) var(--pf-space-mobile-2);
+  }
+
+  .character-card-compact .character-resources-section {
+    padding: var(--pf-space-mobile-3);
+  }
+
+  .character-card-compact .resource-bar-item {
+    padding: var(--pf-space-mobile-2);
+  }
+
+  .character-card-compact .resource-label {
+    font-size: var(--pf-font-size-mobile-xs);
+  }
+
+  .character-card-compact .resource-value {
+    font-size: var(--pf-font-size-mobile-xs);
+  }
+
+  .character-card-compact .character-actions {
+    padding: var(--pf-space-mobile-2) var(--pf-space-mobile-3) var(--pf-space-mobile-3);
+  }
+
+  .character-card-compact .action-btn {
+    padding: var(--pf-space-mobile-1);
+    font-size: var(--pf-font-size-mobile-xs);
+    height: var(--pf-space-mobile-8);
+    max-width: 4rem;
+  }
+
+  .character-card-compact .action-btn i {
+    font-size: var(--pf-font-size-mobile-xs);
+  }
+
+  /* Stats grid improvements */
   .stats-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--pf-space-mobile-3);
   }
 
-  .characters-grid {
-    grid-template-columns: 1fr;
+  .stat-item {
+    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-3);
+    text-align: center;
+    min-height: 100px;
+  }
+
+  .stat-label {
+    font-size: var(--pf-font-size-mobile-sm);
+    margin-bottom: var(--pf-space-mobile-2);
+  }
+
+  .stat-value {
+    font-size: var(--pf-font-size-mobile-xl);
   }
 
   /* Home section responsive */
   .account-stats-section {
-    padding: 2rem;
-    margin: 0 1rem;
+    padding: var(--pf-space-mobile-6);
+    margin: 0 var(--pf-space-mobile-4);
+    border-radius: 16px;
+  }
+
+  .quick-actions-section h3 {
+    font-size: var(--pf-font-size-mobile-lg);
+    margin-bottom: var(--pf-space-mobile-4);
   }
 
   .quick-actions-grid {
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--pf-space-mobile-3);
     align-items: center;
   }
 
   .quick-action-btn {
     width: 100%;
-    max-width: 250px;
+    max-width: 280px;
     justify-content: center;
-    padding: 1rem 1.5rem;
+    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-6);
+    font-size: var(--pf-font-size-mobile-base);
+    min-height: var(--pf-touch-target-comfortable);
+  }
+
+  .quick-action-btn i {
+    font-size: var(--pf-font-size-mobile-lg);
+  }
+
+  /* Create character button improvements */
+  .create-character-btn,
+  .create-first-character-btn {
+    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-6);
+    font-size: var(--pf-font-size-mobile-base);
+    width: 100%;
+    margin: var(--pf-space-mobile-4) 0;
+  }
+
+  /* Empty state improvements */
+  .no-characters {
+    padding: var(--pf-space-mobile-6) var(--pf-space-mobile-4);
+    margin: var(--pf-space-mobile-4) 0;
+  }
+
+  .no-characters-icon i {
+    font-size: 3rem;
+    padding: var(--pf-space-mobile-4);
+    margin-bottom: var(--pf-space-mobile-3);
+  }
+
+  .no-characters h3 {
+    font-size: var(--pf-font-size-mobile-xl);
+    margin-bottom: var(--pf-space-mobile-2);
+  }
+
+  .no-characters p {
+    font-size: var(--pf-font-size-mobile-base);
+    margin-bottom: var(--pf-space-mobile-6);
+  }
+
+  .create-first-character-btn {
+    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-6);
+    font-size: var(--pf-font-size-mobile-base);
+    width: 100%;
+  }
+
+  /* Membership card mobile improvements */
+  .membership-card {
+    margin: 0 var(--pf-space-mobile-2);
+  }
+
+  .tier-badge {
+    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-6);
+    font-size: var(--pf-font-size-mobile-base);
+    margin-bottom: var(--pf-space-mobile-4);
+  }
+
+  .membership-benefits li {
+    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4);
+    font-size: var(--pf-font-size-mobile-base);
+  }
+
+  /* Features grid improvements */
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: var(--pf-space-mobile-2);
+  }
+
+  .feature-item {
+    padding: var(--pf-space-mobile-3);
+  }
+
+  .feature-item span {
+    font-size: var(--pf-font-size-mobile-sm);
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .account-header-new {
+    padding: var(--pf-space-mobile-4);
+  }
+
+  .fan-tab {
+    min-width: 100px;
+    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-2);
+    font-size: var(--pf-font-size-mobile-sm);
+  }
+
+  .header-actions-new {
+    gap: var(--pf-space-mobile-2);
+  }
+
+  .action-btn {
+    padding: var(--pf-space-mobile-2) var(--pf-space-mobile-3);
+    font-size: var(--pf-font-size-mobile-xs);
+    min-width: 100px;
+  }
+
+  .stats-overview {
+    padding: var(--pf-space-mobile-4);
+    margin: 0 var(--pf-space-mobile-1);
+  }
+
+  .stats-header h2 {
+    font-size: var(--pf-font-size-mobile-xl);
+  }
+
+  .stat-card {
+    padding: var(--pf-space-mobile-4);
+  }
+
+  .dashboard-card {
+    padding: var(--pf-space-mobile-4);
+    margin: 0 var(--pf-space-mobile-1);
   }
 
   .card-header {
-    margin: -2rem -2rem 1rem -2rem;
-    padding: 1.5rem 2rem 1rem 2rem;
+    margin: calc(-1 * var(--pf-space-mobile-4)) calc(-1 * var(--pf-space-mobile-4)) var(--pf-space-mobile-3) calc(-1 * var(--pf-space-mobile-4));
+    padding: var(--pf-space-mobile-4);
   }
 
-  .card-content {
-    padding: 0;
+  .card-header h2 {
+    font-size: var(--pf-font-size-mobile-lg);
+  }
+
+  .account-main {
+    padding: var(--pf-space-mobile-3);
+  }
+
+  .quick-action-btn {
+    max-width: 100%;
+    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4);
   }
 }
 
