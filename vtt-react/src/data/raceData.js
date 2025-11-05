@@ -30,8 +30,8 @@ export const RACE_DATA = {
         subraces: {
             berserker: {
                 id: 'berserker_nordmark',
-                name: 'Berserker Nordmark',
-                description: 'Fierce warriors who embrace the fury of battle above all else',
+                name: 'Bloodaxe',
+                description: 'Battle-hardened warriors from the frozen north, their axes stained with the blood of countless foes',
                 statModifiers: {
                     constitution: 3,
                     strength: 3,
@@ -62,8 +62,8 @@ export const RACE_DATA = {
             },
             skald: {
                 id: 'skald_nordmark',
-                name: 'Skald Nordmark',
-                description: 'Warrior-poets who preserve the ancient sagas and inspire others',
+                name: 'Runescar',
+                description: 'Scarred storytellers who carve runes into their flesh, using ancient tales to steel their comrades for battle',
                 statModifiers: {
                     constitution: 1,
                     strength: -1,
@@ -94,8 +94,8 @@ export const RACE_DATA = {
             },
             icewalker: {
                 id: 'icewalker_nordmark',
-                name: 'Icewalker Nordmark',
-                description: 'Hardy survivors who have adapted to the harshest frozen wastes',
+                name: 'Ironfrost',
+                description: 'Frost-bitten survivors whose skin has turned to iron from enduring endless winters, masters of the deadly cold',
                 statModifiers: {
                     constitution: 4,
                     strength: 0,
@@ -130,7 +130,7 @@ export const RACE_DATA = {
     corvani: {
         id: 'corvani',
         name: 'Corvani',
-        description: 'Raven-marked people from mist-shrouded highlands who walk between worlds',
+        description: 'Raven-marked folk from fog-choked mountains, their eyes seeing things others miss',
         icon: 'fas fa-crow',
         overview: 'The Corvani are a mysterious people marked by the raven, dwelling in the mist-shrouded highlands where the veil between worlds grows thin. They possess an uncanny connection to fate and the ethereal realm.',
         culturalBackground: `The Corvani are born with raven-black markings that shift and change with their moods and destinies. They dwell in the mist-shrouded highlands where reality blurs and the future whispers through the fog. Their culture values prophecy, wisdom, and the ability to navigate both the physical and spiritual worlds. They serve as messengers, seers, and guides between realms, though their gifts often come with a heavy price. The Corvani believe that fate is a tapestry they can glimpse but never fully control.`,
@@ -150,7 +150,7 @@ export const RACE_DATA = {
         subraces: {
             oracle: {
                 id: 'oracle_corvani',
-                name: 'Oracle Corvani',
+                name: 'Ravenmark',
                 description: 'Gifted seers who peer deep into fate\'s threads',
                 statModifiers: {
                     constitution: -2,
@@ -182,7 +182,7 @@ export const RACE_DATA = {
             },
             scout: {
                 id: 'scout_corvani',
-                name: 'Scout Corvani',
+                name: 'Fogbound',
                 description: 'Swift messengers navigating treacherous highland paths',
                 statModifiers: {
                     constitution: 0,
@@ -218,7 +218,7 @@ export const RACE_DATA = {
     grimheart: {
         id: 'grimheart',
         name: 'Grimheart',
-        description: 'Stone-souled miners who delved too deep and were forever changed',
+        description: 'Hardened miners whose bodies have grown unnaturally tough from years in the deep earth',
         icon: 'fas fa-hammer',
         overview: 'The Grimheart are a cursed people who delved too deep into the earth and awakened something ancient. Their bodies have become partially stone, and they hear the whispers of the deep earth calling them ever downward.',
         culturalBackground: `The Grimheart were once master miners and craftsmen, but their insatiable greed and curiosity led them to dig too deep. They breached ancient chambers and were cursed by what they found. Now their skin is hard as stone, their hearts beat slowly, and they hear constant whispers from the depths. Their culture is one of obsession and compulsion - they cannot stop digging, cannot stop seeking what lies beneath. Some embrace this curse as a gift, while others struggle against it. They are master craftsmen and engineers, but their obsessive nature makes them difficult companions.`,
@@ -238,7 +238,7 @@ export const RACE_DATA = {
         subraces: {
             delver: {
                 id: 'delver_grimheart',
-                name: 'Delver Grimheart',
+                name: 'Earthscar',
                 description: 'Obsessive miners driven by deep earth whispers',
                 statModifiers: {
                     constitution: 4,
@@ -270,7 +270,7 @@ export const RACE_DATA = {
             },
             warden: {
                 id: 'warden_grimheart',
-                name: 'Warden Grimheart',
+                name: 'Stoneblood',
                 description: 'Guardians who protect others from the depths',
                 statModifiers: {
                     constitution: 3,
@@ -302,7 +302,7 @@ export const RACE_DATA = {
             },
             mountaindwarf: {
                 id: 'mountaindwarf_grimheart',
-                name: 'Mountain Dwarf',
+                name: 'Forgeborn',
                 description: 'Hardy dwarves from high mountain peaks and deep halls',
                 statModifiers: {
                     constitution: 3,
@@ -338,7 +338,7 @@ export const RACE_DATA = {
     veilborn: {
         id: 'veilborn',
         name: 'Veilborn',
-        description: 'Pale folk from borderlands where reality grows thin and worlds overlap',
+        description: 'Pale wanderers from forgotten border regions, their skin never tanning no matter the sun',
         icon: 'fas fa-ghost',
         overview: 'The Veilborn exist between worlds, their bodies partially phased into the Ethereal Plane. They are pale, almost translucent beings who can see and interact with spirits and otherworldly entities.',
         culturalBackground: `The Veilborn come from the borderlands where the Material Plane and Ethereal Plane overlap. They are born with one foot in each world, able to perceive and interact with both. Their culture revolves around mediation between worlds, serving as guides for lost spirits and interpreters of otherworldly phenomena. They are often feared and misunderstood by those who cannot see what they see. Veilborn communities are quiet, contemplative places where the boundaries between life and death, real and unreal, are acknowledged and respected.`,
@@ -358,7 +358,7 @@ export const RACE_DATA = {
         subraces: {
             medium: {
                 id: 'medium_veilborn',
-                name: 'Medium Veilborn',
+                name: 'Whisperkin',
                 description: 'Gifted communicators with spirits of other realms',
                 statModifiers: {
                     constitution: -2,
@@ -390,7 +390,7 @@ export const RACE_DATA = {
             },
             walker: {
                 id: 'walker_veilborn',
-                name: 'Walker Veilborn',
+                name: 'Shadowstep',
                 description: 'Explorers who traverse the border between worlds',
                 statModifiers: {
                     constitution: -1,
@@ -426,7 +426,7 @@ export const RACE_DATA = {
     mirrorkin: {
         id: 'mirrorkin',
         name: 'Mirrorkin',
-        description: 'Shapeshifters who lost their original forms and now wear borrowed faces',
+        description: 'Wanderers with fluid identities, their features shifting with the shadows and light',
         icon: 'fas fa-mask',
         overview: 'The Mirrorkin are tragic shapeshifters who have lost their original forms. They exist as blank slates, able to copy others but never truly themselves. Each transformation chips away at their sense of self.',
         culturalBackground: `The Mirrorkin have no homeland, no original culture - they have forgotten what they once were. They exist as mirrors, reflecting those around them but never showing their own image. Some embrace this existence, becoming master spies and infiltrators. Others struggle against it, desperately seeking their lost identity. Mirrorkin communities are rare and strange, filled with beings wearing a thousand different faces, never quite sure who they really are. They are both pitied and feared, useful but never fully trusted.`,
@@ -446,7 +446,7 @@ export const RACE_DATA = {
         subraces: {
             doppel: {
                 id: 'doppel_mirrorkin',
-                name: 'Doppel Mirrorkin',
+                name: 'Facechanger',
                 description: 'Master impersonators perfecting deception arts',
                 statModifiers: {
                     constitution: -2,
@@ -478,7 +478,7 @@ export const RACE_DATA = {
             },
             broken: {
                 id: 'broken_mirrorkin',
-                name: 'Broken Mirrorkin',
+                name: 'Splintered',
                 description: 'Fragmented beings struggling with identity loss',
                 statModifiers: {
                     constitution: -2,
@@ -514,7 +514,7 @@ export const RACE_DATA = {
     thornkin: {
         id: 'thornkin',
         name: 'Thornkin',
-        description: 'Fae-touched beings bound by ancient pacts and supernatural rules',
+        description: 'Thorn-covered folk bound by unbreakable promises, their word carrying unnatural weight',
         icon: 'fas fa-leaf',
         overview: 'The Thornkin are fae-touched mortals bound by ancient bargains and supernatural contracts. Thorns grow from their skin, and they are compelled to follow strict codes of behavior dictated by their fae heritage.',
         culturalBackground: `The Thornkin are the result of ancient pacts between mortals and the fae courts. They are bound by supernatural rules and contracts that govern their behavior - they cannot lie, must honor bargains, and are compelled to follow strict codes of etiquette. Thorns grow from their skin as a mark of their fae heritage, beautiful but painful. Their culture revolves around contracts, bargains, and the careful navigation of supernatural obligations. They are master negotiators and diplomats, but their rigid adherence to rules makes them inflexible and sometimes frustrating allies.`,
@@ -534,7 +534,7 @@ export const RACE_DATA = {
         subraces: {
             courtly: {
                 id: 'courtly_thornkin',
-                name: 'Courtly Thornkin',
+                name: 'Oathbound',
                 description: 'Noble fae bound by supernatural bargains and rules',
                 statModifiers: {
                     constitution: -2,
@@ -566,7 +566,7 @@ export const RACE_DATA = {
             },
             wild: {
                 id: 'wild_thornkin',
-                name: 'Wild Thornkin',
+                name: 'Thornscar',
                 description: 'Untamed fae who rejected the courts for primal freedom',
                 statModifiers: {
                     constitution: 3,
@@ -598,7 +598,7 @@ export const RACE_DATA = {
             },
             dusk: {
                 id: 'dusk_thornkin',
-                name: 'Dusk Thornkin',
+                name: 'Duskblood',
                 description: 'Twilight fae who walk the boundary between light and shadow',
                 statModifiers: {
                     constitution: -2,
@@ -634,7 +634,7 @@ export const RACE_DATA = {
     wildkin: {
         id: 'wildkin',
         name: 'Wildkin',
-        description: 'Antlered forest dwellers bonded with primal wilderness and ancient groves',
+        description: 'Antlered forest folk whose bodies have adapted to the wilds in strange ways',
         icon: 'fas fa-tree',
         overview: 'The Wildkin are forest guardians with antlers growing from their heads and bark-like skin. They are bonded to ancient groves and the primal forces of nature, serving as protectors of the wild places.',
         culturalBackground: `The Wildkin are born from the union of mortals and nature spirits, marked by antlers and bark-like skin. They are deeply connected to the forests and wild places, able to communicate with plants and animals. Their culture revolves around protection of nature, seasonal cycles, and the balance between civilization and wilderness. They are fierce guardians who will defend their groves to the death, but also wise counselors who understand the interconnection of all living things. Wildkin rarely leave their forests, but when they do, they bring the wild with them.`,
@@ -654,7 +654,7 @@ export const RACE_DATA = {
         subraces: {
             guardian: {
                 id: 'guardian_wildkin',
-                name: 'Guardian Wildkin',
+                name: 'Woodwarden',
                 description: 'Fierce protectors of ancient forests and groves',
                 statModifiers: {
                     constitution: 3,
@@ -686,7 +686,7 @@ export const RACE_DATA = {
             },
             wanderer: {
                 id: 'wanderer_wildkin',
-                name: 'Wanderer Wildkin',
+                name: 'Trailborn',
                 description: 'Restless nomads following seasonal migrations',
                 statModifiers: {
                     constitution: 1,
@@ -718,7 +718,7 @@ export const RACE_DATA = {
             },
             shaman: {
                 id: 'shaman_wildkin',
-                name: 'Shaman Wildkin',
+                name: 'Bonecaller',
                 description: 'Wise druids communing with nature spirits',
                 statModifiers: {
                     constitution: 0,
@@ -750,7 +750,7 @@ export const RACE_DATA = {
             },
             lightfoot: {
                 id: 'lightfoot_wildkin',
-                name: 'Lightfoot Halfling',
+                name: 'Rootrunner',
                 description: 'Small, nimble folk who blend into crowds and move with supernatural stealth',
                 statModifiers: {
                     constitution: 1,
@@ -786,7 +786,7 @@ export const RACE_DATA = {
     ashmark: {
         id: 'ashmark',
         name: 'Ashmark',
-        description: 'Fire-touched people from volcanic wastelands where flames never die',
+        description: 'Ash-covered survivors from volcanic badlands, their skin marked by endless fire',
         icon: 'fas fa-fire',
         overview: 'The Ashmark are a fire-touched people who dwell in volcanic wastelands. Their bodies burn with inner heat, and they are immune to flames but vulnerable to cold. They are master smiths and fierce warriors.',
         culturalBackground: `The Ashmark come from the volcanic wastelands where the earth bleeds fire and ash falls like snow. They are born with inner flames that burn throughout their lives, making them immune to heat but vulnerable to cold. Their culture revolves around smithing, warfare, and the forge. They believe that all things are purified and strengthened through fire. Ashmark are passionate, quick to anger, and fiercely loyal. They value strength, craftsmanship, and the ability to endure hardship. Their settlements are built around great forges where they craft legendary weapons and armor.`,
@@ -806,7 +806,7 @@ export const RACE_DATA = {
         subraces: {
             forgeborn: {
                 id: 'forgeborn_ashmark',
-                name: 'Forgeborn Ashmark',
+                name: 'Fireheart',
                 description: 'Master smiths whose bodies burn with forge heat',
                 statModifiers: {
                     constitution: 3,
@@ -838,7 +838,7 @@ export const RACE_DATA = {
             },
             cinderborn: {
                 id: 'cinderborn_ashmark',
-                name: 'Cinderborn Ashmark',
+                name: 'Cinderfoot',
                 description: 'Swift scouts leaving trails of smoldering embers',
                 statModifiers: {
                     constitution: 1,
@@ -874,7 +874,7 @@ export const RACE_DATA = {
     skinwalker: {
         id: 'skinwalker',
         name: 'Skinwalker',
-        description: 'Cursed shamans who wear beast forms and walk between human and animal',
+        description: 'Tribal hunters whose rituals have left them changed, their eyes gleaming with animal cunning',
         icon: 'fas fa-paw',
         overview: 'The Skinwalkers are cursed shamans who can transform into beasts. They walk the line between human and animal, struggling to maintain their humanity while embracing their bestial nature.',
         culturalBackground: `The Skinwalkers are shamans who broke ancient taboos and were cursed to wear beast forms. They can transform into predatory animals, but each transformation risks losing their human consciousness to the beast within. Their culture is one of isolation and struggle - they are feared and shunned by normal society, yet they possess incredible power. Some embrace their curse and become savage hunters, while others seek redemption and fight to maintain their humanity. Skinwalker communities are rare, often consisting of outcasts helping each other resist the beast's call.`,
@@ -894,7 +894,7 @@ export const RACE_DATA = {
         subraces: {
             hunter: {
                 id: 'hunter_skinwalker',
-                name: 'Hunter Skinwalker',
+                name: 'Beastkin',
                 description: 'Predatory shapeshifters embracing bestial nature',
                 statModifiers: {
                     constitution: 3,
@@ -926,7 +926,7 @@ export const RACE_DATA = {
             },
             penitent: {
                 id: 'penitent_skinwalker',
-                name: 'Penitent Skinwalker',
+                name: 'Scarred',
                 description: 'Those seeking redemption from their curse',
                 statModifiers: {
                     constitution: 1,
@@ -962,7 +962,7 @@ export const RACE_DATA = {
     graveworn: {
         id: 'graveworn',
         name: 'Graveworn',
-        description: 'Undead warriors bound to guard ancient treasures for eternity',
+        description: 'Ancient guardians whose bodies refuse to decay, bound by oaths to protect what they watch over',
         icon: 'fas fa-skull',
         overview: 'The Graveworn are undead beings bound by ancient oaths to guard treasures and tombs. They are immortal but cursed, unable to rest until their duty is fulfilled or their oath is broken.',
         culturalBackground: `The Graveworn are the result of powerful oaths and curses that bind the dead to eternal service. They were once living warriors, scholars, or guardians who swore oaths so powerful that death could not release them. Now they exist as undead beings, compelled to guard treasures, tombs, or secrets for eternity. Their culture is one of duty, obsession, and slow decay. They remember their living days but are disconnected from mortal concerns. Some embrace their undeath and the power it brings, while others desperately seek release from their eternal burden. Graveworn are feared and avoided, but they possess ancient knowledge and unwavering dedication.`,
@@ -982,7 +982,7 @@ export const RACE_DATA = {
         subraces: {
             hoarder: {
                 id: 'hoarder_graveworn',
-                name: 'Hoarder Graveworn',
+                name: 'Vaultkeeper',
                 description: 'Ancient guardians consumed by insatiable greed',
                 statModifiers: {
                     constitution: 4,
@@ -1014,7 +1014,7 @@ export const RACE_DATA = {
             },
             scholar: {
                 id: 'scholar_graveworn',
-                name: 'Scholar Graveworn',
+                name: 'Dustscribe',
                 description: 'Undead academics obsessed with collecting knowledge',
                 statModifiers: {
                     constitution: 2,
@@ -1050,7 +1050,7 @@ export const RACE_DATA = {
     stormborn: {
         id: 'stormborn',
         name: 'Stormborn',
-        description: 'Lightning-touched people born during great tempests who carry the storm within',
+        description: 'Storm-battered survivors whose births coincided with terrible tempests, their hair forever wild',
         icon: 'fas fa-bolt',
         overview: 'The Stormborn are mortals born during catastrophic storms, struck by lightning in the womb and forever changed. They crackle with electrical energy and can call down thunder and lightning.',
         culturalBackground: `The Stormborn are born during the most violent storms, struck by lightning while still in the womb. They survive what should kill them and emerge changed - their eyes glow with electric light, their hair stands on end, and sparks dance across their skin. Their culture revolves around freedom, chaos, and the raw power of nature unleashed. They are wanderers and adventurers, unable to stay in one place for long. Stormborn are passionate, impulsive, and dangerous - both to their enemies and sometimes to their allies. They believe that civilization is a cage and that true power comes from embracing the chaos of the storm.`,
@@ -1070,7 +1070,7 @@ export const RACE_DATA = {
         subraces: {
             thundercaller: {
                 id: 'thundercaller_stormborn',
-                name: 'Thundercaller Stormborn',
+                name: 'Stormscar',
                 description: 'Masters of thunder and sonic devastation',
                 statModifiers: {
                     constitution: 3,
@@ -1102,7 +1102,7 @@ export const RACE_DATA = {
             },
             lightningborn: {
                 id: 'lightningborn_stormborn',
-                name: 'Lightningborn Stormborn',
+                name: 'Crackleborn',
                 description: 'Living conduits of pure electrical energy',
                 statModifiers: {
                     constitution: 1,
@@ -1134,7 +1134,7 @@ export const RACE_DATA = {
             },
             tempest: {
                 id: 'tempest_stormborn',
-                name: 'Tempest Stormborn',
+                name: 'Galeborn',
                 description: 'Embodiments of chaotic storm fury',
                 statModifiers: {
                     constitution: 3,
@@ -1170,7 +1170,7 @@ export const RACE_DATA = {
     deepkin: {
         id: 'deepkin',
         name: 'Deepkin',
-        description: 'Aquatic people from the lightless ocean depths with bioluminescent markings',
+        description: 'Deep-sea folk whose skin bears strange glowing patterns from lives spent in crushing darkness',
         icon: 'fas fa-water',
         overview: 'The Deepkin are aquatic beings from the deepest ocean trenches where sunlight never reaches. They have adapted to crushing pressure and total darkness, with bioluminescent patterns that glow across their skin.',
         culturalBackground: `The Deepkin dwell in the abyssal depths where the pressure would crush surface dwellers and no light penetrates. They have evolved bioluminescent markings that serve as communication, camouflage, and hunting tools. Their culture is alien and strange to surface dwellers - they think in three dimensions, communicate through light patterns and pressure changes, and view time differently in the timeless depths. Deepkin are patient, methodical, and utterly ruthless when threatened. They rarely come to the surface, but when they do, they bring the cold logic and predatory nature of the deep with them.`,
@@ -1190,7 +1190,7 @@ export const RACE_DATA = {
         subraces: {
             abyssal: {
                 id: 'abyssal_deepkin',
-                name: 'Abyssal Deepkin',
+                name: 'Deepscar',
                 description: 'Beings from the crushing depths, nearly indestructible',
                 statModifiers: {
                     constitution: 4,
@@ -1222,7 +1222,7 @@ export const RACE_DATA = {
             },
             trench: {
                 id: 'trench_deepkin',
-                name: 'Trench Deepkin',
+                name: 'Abysswalker',
                 description: 'Ambush predators from the ocean trenches',
                 statModifiers: {
                     constitution: 1,
@@ -1254,7 +1254,7 @@ export const RACE_DATA = {
             },
             twilight: {
                 id: 'twilight_deepkin',
-                name: 'Twilight Deepkin',
+                name: 'Pressureborn',
                 description: 'Adaptable beings who bridge deep and surface waters',
                 statModifiers: {
                     constitution: 2,
@@ -1290,7 +1290,7 @@ export const RACE_DATA = {
     starborn: {
         id: 'starborn',
         name: 'Starborn',
-        description: 'Celestial beings who fell from the stars with cosmic power and alien minds',
+        description: 'Strange wanderers bearing scars from a catastrophic fall, their eyes reflecting unfamiliar constellations',
         icon: 'fas fa-star',
         overview: 'The Starborn are beings who literally fell from the stars, crashing to earth in meteors and comets. They carry cosmic energy within them and possess knowledge of distant worlds and alien geometries.',
         culturalBackground: `The Starborn are not native to this world. They fell from the stars in meteors and comets, surviving impacts that would destroy mountains. They carry within them the light of distant suns and the cold of the void between worlds. Their minds work in alien ways, perceiving dimensions and concepts that mortals cannot comprehend. Starborn culture is incomprehensible to outsiders - they communicate in mathematical equations, see time non-linearly, and value concepts that have no translation. They are both wondrous and terrifying, bringing gifts of cosmic knowledge and the madness that comes with it.`,
@@ -1310,7 +1310,7 @@ export const RACE_DATA = {
         subraces: {
             voidwalker: {
                 id: 'voidwalker_starborn',
-                name: 'starborn voidwalker',
+                name: 'Voidscar',
                 description: 'Beings from the empty void between stars',
                 statModifiers: {
                     constitution: 0,
@@ -1342,7 +1342,7 @@ export const RACE_DATA = {
             },
             sunborn: {
                 id: 'sunborn_starborn',
-                name: 'Sunborn Starborn',
+                name: 'Sunborn',
                 description: 'Carriers of dying stellar fire',
                 statModifiers: {
                     constitution: 2,
@@ -1374,7 +1374,7 @@ export const RACE_DATA = {
             },
             constellation: {
                 id: 'constellation_starborn',
-                name: 'Constellation Starborn',
+                name: 'Constellation',
                 description: 'Living embodiments of celestial patterns',
                 statModifiers: {
                     constitution: -2,

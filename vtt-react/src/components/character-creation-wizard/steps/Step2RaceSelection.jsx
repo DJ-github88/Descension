@@ -250,7 +250,7 @@ const Step2RaceSelection = () => {
                                     {previewSubrace && (
                                         <>
                                             <div className="preview-section">
-                                                <h4>Subrace: {previewSubrace.name}</h4>
+                                                <h4>Subrace: {previewSubrace.name} {previewRace.name}</h4>
                                                 <p className="subrace-full-description">
                                                     {previewSubrace.description}
                                                 </p>
