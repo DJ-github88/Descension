@@ -103,7 +103,6 @@ const RulesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('core-rules');
   const [selectedSubcategory, setSelectedSubcategory] = useState('game-overview');
   const [selectedClassDetail, setSelectedClassDetail] = useState(null); // For class detail pages
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(null);
   const [popoutCategory, setPopoutCategory] = useState(null);
   const [popoutPosition, setPopoutPosition] = useState({ top: 0, left: 0 });
@@ -115,6 +114,17 @@ const RulesPage = () => {
     setSelectedSubcategory(subcategoryId);
     setSelectedClassDetail(null); // Clear class detail when changing subcategory
     setActiveTab(null); // Reset tab when changing subcategory
+  };
+
+  // Handle breadcrumb navigation
+  const handleBreadcrumbClick = (breadcrumbType) => {
+    if (breadcrumbType === 'rules') {
+      // Navigate to main rules overview
+      handleSubcategoryClick('core-rules', 'game-overview');
+    } else if (breadcrumbType === 'character-creation') {
+      // Navigate to character creation overview
+      handleSubcategoryClick('character-creation', 'creation-overview');
+    }
   };
 
   // Handle class detail selection
@@ -144,18 +154,9 @@ const RulesPage = () => {
 
   // Filter rules based on search
   const filteredCategories = useMemo(() => {
-    if (!searchQuery.trim()) return RULES_CATEGORIES;
-
-    const query = searchQuery.toLowerCase();
-    return RULES_CATEGORIES.map(category => ({
-      ...category,
-      subcategories: category.subcategories.filter(sub => {
-        const matchesName = sub.name.toLowerCase().includes(query);
-        const matchesContent = JSON.stringify(sub.content).toLowerCase().includes(query);
-        return matchesName || matchesContent;
-      })
-    })).filter(category => category.subcategories.length > 0);
-  }, [searchQuery]);
+    // For now, just return all categories since search is not implemented in UI
+    return RULES_CATEGORIES;
+  }, []);
 
   // Render a table
   const renderTable = (table) => {
@@ -507,9 +508,25 @@ const RulesPage = () => {
       <main className="rules-main">
         {/* Breadcrumbs */}
         <div className="rules-breadcrumbs">
-          <span className="rules-breadcrumb">Rules</span>
+          <button
+            className="rules-breadcrumb rules-breadcrumb-link"
+            onClick={() => handleBreadcrumbClick('rules')}
+            aria-label="Navigate to Rules overview"
+          >
+            Rules
+          </button>
           <i className="fas fa-chevron-right"></i>
-          <span className="rules-breadcrumb">{breadcrumbs.category}</span>
+          {breadcrumbs.category === 'Character Creation' ? (
+            <button
+              className="rules-breadcrumb rules-breadcrumb-link"
+              onClick={() => handleBreadcrumbClick('character-creation')}
+              aria-label="Navigate to Character Creation overview"
+            >
+              {breadcrumbs.category}
+            </button>
+          ) : (
+            <span className="rules-breadcrumb">{breadcrumbs.category}</span>
+          )}
           <i className="fas fa-chevron-right"></i>
           <span className="rules-breadcrumb active">{breadcrumbs.subcategory}</span>
         </div>

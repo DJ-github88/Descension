@@ -584,6 +584,41 @@
   font-weight: 600;
 }
 
+.rules-breadcrumb-link {
+  background: none;
+  border: none;
+  color: rgba(248, 244, 230, 0.8);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  position: relative;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rules-breadcrumb-link:hover {
+  color: #f8f4e6;
+  background: rgba(212, 175, 55, 0.1);
+  text-decoration: underline;
+  transform: translateY(-1px);
+}
+
+.rules-breadcrumb-link:active {
+  transform: translateY(0);
+  background: rgba(212, 175, 55, 0.2);
+}
+
+.rules-breadcrumb-link:focus {
+  outline: 2px solid #d4af37;
+  outline-offset: 2px;
+  color: #f8f4e6;
+}
+
 .rules-breadcrumbs i {
   font-size: 0.75rem;
   color: rgba(248, 244, 230, 0.5);
@@ -1053,6 +1088,21 @@
   .rules-breadcrumb.active {
     background: rgba(212, 175, 55, 0.2);
     font-weight: 700;
+  }
+
+  .rules-breadcrumb-link {
+    min-height: var(--pf-touch-target-min);
+    padding: var(--pf-space-mobile-2) var(--pf-space-mobile-3);
+    border-radius: 6px;
+  }
+
+  .rules-breadcrumb-link:hover {
+    background: rgba(212, 175, 55, 0.15);
+    transform: none;
+  }
+
+  .rules-breadcrumb-link:active {
+    background: rgba(212, 175, 55, 0.25);
   }
 
   .rules-breadcrumbs i {
