@@ -868,38 +868,6 @@ export const RACE_DATA = {
                 languages: ['Common', 'Ignan', 'Auran'],
                 speed: 35
             },
-            warorc: {
-                id: 'warorc_ashmark',
-                name: 'War Orc',
-                description: 'Fierce warriors from volcanic battlegrounds, tempered by fire and war',
-                statModifiers: {
-                    constitution: 3,
-                    strength: 4,
-                    agility: 1,
-                    intelligence: -2,
-                    spirit: 1,
-                    charisma: -2
-                },
-                traits: [
-                    {
-                        name: 'Savage Attacks',
-                        description: 'When you score a critical hit with a melee weapon attack, you can roll one of the weapon\'s damage dice one additional time.',
-                        type: 'combat'
-                    },
-                    {
-                        name: 'Relentless Endurance',
-                        description: 'When reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. Once per long rest.',
-                        type: 'survival'
-                    },
-                    {
-                        name: 'Volcanic Fury',
-                        description: 'Can channel inner fire to deal bonus fire damage on attacks, but take recoil damage from the heat.',
-                        type: 'combat'
-                    }
-                ],
-                languages: ['Common', 'Orcish', 'Ignan'],
-                speed: 30
-            }
         }
     },
 
@@ -1342,7 +1310,7 @@ export const RACE_DATA = {
         subraces: {
             voidwalker: {
                 id: 'voidwalker_starborn',
-                name: 'Voidwalker Starborn',
+                name: 'starborn voidwalker',
                 description: 'Beings from the empty void between stars',
                 statModifiers: {
                     constitution: 0,

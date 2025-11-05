@@ -194,7 +194,7 @@ const Step2RaceSelection = () => {
                             <div className="preview-card">
                                 <div className="preview-content">
                                     <div className="preview-section">
-                                        <h4>Overview</h4>
+                                        <h4>{previewRace.name}</h4>
                                         <p className="race-full-description">
                                             {previewRace.description}
                                         </p>
