@@ -1829,6 +1829,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 14px;
+    margin-bottom: 2rem;
 }
 
 .skill-compact-card {

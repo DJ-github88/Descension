@@ -379,21 +379,6 @@ const RulesPage = () => {
     };
   }, [popoutCategory]);
 
-  // Back to top functionality for mobile
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 300);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <div className="rules-page">
@@ -534,15 +519,6 @@ const RulesPage = () => {
         {/* Content */}
         {renderContent()}
       </main>
-
-      {/* Mobile Back to Top Button */}
-      <button
-        className={`rules-back-to-top ${showBackToTop ? 'show' : ''}`}
-        onClick={scrollToTop}
-        aria-label="Back to top"
-      >
-        <i className="fas fa-arrow-up"></i>
-      </button>
     </div>
   );
 };

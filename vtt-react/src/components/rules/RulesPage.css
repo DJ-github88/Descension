@@ -1293,36 +1293,6 @@
     font-size: 16px; /* Prevents zoom on iOS */
   }
 
-  /* Mobile back to top button */
-  .rules-back-to-top {
-    display: block;
-    position: fixed;
-    bottom: var(--pf-space-mobile-6);
-    right: var(--pf-space-mobile-6);
-    width: var(--pf-touch-target-comfortable);
-    height: var(--pf-touch-target-comfortable);
-    border-radius: 50%;
-    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-    border: none;
-    color: white;
-    font-size: var(--pf-font-size-mobile-lg);
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-    cursor: pointer;
-    z-index: 1000;
-    opacity: 0;
-    transform: translateY(100px);
-    transition: all 0.3s ease;
-  }
-
-  .rules-back-to-top.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .rules-back-to-top:hover {
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
-  }
 }
 
 /* Small mobile devices */
