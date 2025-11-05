@@ -85,9 +85,56 @@ body svg[data-icon] {
   background: linear-gradient(135deg, #e6c547, #c9a429);
 }
 
+/* Animated background map panning - comprehensive journey covering entire map */
+@keyframes mapPan {
+  0% {
+    background-position: 0% 0%, center, center; /* Top-left corner - Nordhalla */
+  }
+  8% {
+    background-position: 10% 5%, center, center; /* Frostfang Wastes */
+  }
+  16% {
+    background-position: 0% 20%, center, center; /* Far left - Iceheart Sea / Skyreach Castle */
+  }
+  24% {
+    background-position: 15% 25%, center, center; /* West-central area */
+  }
+  32% {
+    background-position: 30% 15%, center, center; /* Northwest region */
+  }
+  40% {
+    background-position: 50% 10%, center, center; /* Top center - Frostspire area */
+  }
+  48% {
+    background-position: 75% 5%, center, center; /* Top-right corner - Frostwood Reach */
+  }
+  56% {
+    background-position: 90% 20%, center, center; /* Far right - Cragjaw / Valley of Ymir */
+  }
+  64% {
+    background-position: 85% 45%, center, center; /* East-central - Thistledown Labs area */
+  }
+  72% {
+    background-position: 70% 60%, center, center; /* Southeast - Sundrift Vale / Ironjaw Port */
+  }
+  80% {
+    background-position: 50% 75%, center, center; /* South center - Various regions */
+  }
+  88% {
+    background-position: 25% 85%, center, center; /* Southwest - Doom Forest area */
+  }
+  96% {
+    background-position: 5% 70%, center, center; /* Far left-bottom - Sea regions */
+  }
+  100% {
+    background-position: 0% 0%, center, center; /* Return to top-left corner */
+  }
+}
+
 .landing-page {
   min-height: 100vh;
   height: auto;
+  position: relative;
   background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
   background-image:
     radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
@@ -98,6 +145,41 @@ body svg[data-icon] {
   overflow-y: auto;
   scroll-behavior: smooth;
   line-height: 1.6;
+}
+
+/* Map background layer - set via inline style to avoid webpack resolution issues */
+.landing-page.map-background {
+  /* Base gradient background */
+  background: linear-gradient(135deg, rgba(44, 24, 16, 0.3) 0%, rgba(26, 15, 8, 0.4) 100%);
+  /* Map image with gradients on top */
+  background-image:
+    var(--map-background-url),
+    radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+  background-size: 420% 420%, 100% 100%, 100% 100%; /* Much more zoomed in (420% = very close view) */
+  background-position: 0% 0%, center, center; /* Start at top-left corner */
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  animation: mapPan 240s ease-in-out infinite; /* 240 seconds for complete journey - slightly slower for zoomed view */
+  will-change: background-position; /* Optimize animation performance */
+}
+
+/* Overlay to maintain readability - much lighter so map is clearly visible */
+.landing-page.map-background::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(44, 24, 16, 0.2) 0%, rgba(26, 15, 8, 0.3) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing-page > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Header */
@@ -303,7 +385,7 @@ body svg[data-icon] {
   font-weight: 700;
   color: #d4af37;
   margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.5); /* Stronger shadow with glow */
 }
 
 .title-ornament {
@@ -311,8 +393,10 @@ body svg[data-icon] {
   align-items: center;
   gap: 1rem;
   color: #d4af37;
-  opacity: 0.8;
+  opacity: 1; /* Full opacity for visibility */
   margin-bottom: 1rem;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8), 0 0 10px rgba(212, 175, 55, 0.4); /* Strong shadow with glow */
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.6)); /* Additional glow effect */
 }
 
 .title-ornament i {
@@ -327,20 +411,20 @@ body svg[data-icon] {
 
 .game-subtitle {
   font-size: 1.5rem;
-  color: #2c1810;
+  color: #f0e6d2; /* Light color for readability */
   margin-bottom: 24px;
   opacity: 1;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 0, 0, 0.8), 1px 1px 2px rgba(0, 0, 0, 1); /* Strong dark shadow for readability */
   font-weight: 600;
 }
 
 .game-description {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #2c1810;
+  color: #f0e6d2; /* Light color for readability */
   margin-bottom: 32px;
   max-width: 500px;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(0, 0, 0, 0.8), 1px 1px 2px rgba(0, 0, 0, 1); /* Strong dark shadow for readability */
   font-weight: 500;
   opacity: 1;
 }

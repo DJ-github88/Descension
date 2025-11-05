@@ -194,8 +194,16 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     { id: 'membership', label: 'Membership', icon: 'fas fa-star' }
   ];
 
+  // Map background path
+  const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
+  
   return (
-    <div className="landing-page">
+    <div 
+      className="landing-page map-background"
+      style={{
+        '--map-background-url': `url("${mapImagePath}")`
+      }}
+    >
       <header className="landing-header">
         <div className="header-content">
           <div className="logo">
