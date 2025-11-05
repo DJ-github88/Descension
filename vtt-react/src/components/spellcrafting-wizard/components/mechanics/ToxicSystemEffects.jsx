@@ -336,9 +336,7 @@ const ToxicSystemEffects = ({
             duration: spellWizardState.buffConfig.duration,
             durationValue: spellWizardState.buffConfig.durationValue,
             durationType: spellWizardState.buffConfig.durationType,
-            durationUnit: spellWizardState.buffConfig.durationUnit,
-            stackingRule: spellWizardState.buffConfig.stackingRule,
-            maxStacks: spellWizardState.buffConfig.maxStacks
+            durationUnit: spellWizardState.buffConfig.durationUnit
           } : {}),
           ...(newEffectType === 'debuff' && spellWizardState?.debuffConfig ? {
             statPenalties: [...(spellWizardState.debuffConfig.statPenalties || [])],
@@ -346,9 +344,7 @@ const ToxicSystemEffects = ({
             duration: spellWizardState.debuffConfig.duration,
             durationValue: spellWizardState.debuffConfig.durationValue,
             durationType: spellWizardState.debuffConfig.durationType,
-            durationUnit: spellWizardState.debuffConfig.durationUnit,
-            stackingRule: spellWizardState.debuffConfig.stackingRule,
-            maxStacks: spellWizardState.debuffConfig.maxStacks
+            durationUnit: spellWizardState.debuffConfig.durationUnit
           } : {}),
           // For damage and healing, include critical hit and chance-on-hit configurations
           ...(newEffectType === 'damage' && spellWizardState?.damageConfig ? {

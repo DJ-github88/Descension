@@ -22,6 +22,12 @@
   font-family: var(--pf-font-ui);
 }
 
+/* Remove any blue color overrides */
+.spell-library-button,
+.spell-library-button * {
+  color: var(--pf-text-primary) !important;
+}
+
 .spell-library-button:hover {
   background: var(--pf-gradient-button-hover);
   border-color: var(--pf-brown-dark);

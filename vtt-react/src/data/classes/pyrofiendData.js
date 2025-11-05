@@ -915,6 +915,13 @@ Many players enhance the experience by adding thematic elements:
         scalingType: 'none'
       },
 
+      effectTypes: ['damage', 'control'],
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
       // Control effect for pull
       controlConfig: {
         instant: true,
@@ -922,10 +929,11 @@ Many players enhance the experience by adding thematic elements:
           {
             id: 'pull',
             name: 'Pull',
-            description: 'Instantaneous',
-            mechanicsText: '10 feet',
+            description: 'Pulls target 10 feet closer',
+            mechanicsText: '10 feet towards caster',
             config: {
-              distance: 10
+              distance: 10,
+              direction: 'towards_caster'
             }
           }
         ]
@@ -938,10 +946,11 @@ Many players enhance the experience by adding thematic elements:
             type: 'fire'
           }
         },
-        utility: {
+        control: {
           pull: {
             distance: 10,
-            unit: 'feet'
+            unit: 'feet',
+            direction: 'towards_caster'
           }
         }
       },
@@ -953,7 +962,7 @@ Many players enhance the experience by adding thematic elements:
         }
       },
 
-      tags: ['fire', 'damage', 'utility', 'pull', 'inferno-0', 'starter']
+      tags: ['fire', 'damage', 'control', 'pull', 'inferno-0', 'starter']
     },
 
     // ========================================

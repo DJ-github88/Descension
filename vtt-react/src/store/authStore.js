@@ -16,17 +16,54 @@ const useAuthStore = create(
       
       // Actions
       setUser: (user) => {
-        set({ 
-          user, 
+        set({
+          user,
           isAuthenticated: !!user,
-          error: null 
+          error: null
         });
-        
+
         // Load user data from Firestore if user exists
         if (user) {
           get().loadUserData();
         } else {
           set({ userData: null });
+        }
+      },
+
+      // Force refresh authentication state to ensure consistency
+      refreshAuthState: async () => {
+        if (!authService.isConfigured) return;
+
+        try {
+          // Force a re-evaluation of the current auth state
+          const currentUser = authService.getCurrentUser();
+          if (currentUser) {
+            // User is authenticated, ensure state is consistent
+            set({
+              user: currentUser,
+              isAuthenticated: true,
+              error: null
+            });
+            // Reload user data to ensure it's current
+            get().loadUserData();
+          } else {
+            // No authenticated user, clear state
+            set({
+              user: null,
+              userData: null,
+              isAuthenticated: false,
+              error: null
+            });
+          }
+        } catch (error) {
+          console.error('Error refreshing auth state:', error);
+          // On error, clear authentication state to be safe
+          set({
+            user: null,
+            userData: null,
+            isAuthenticated: false,
+            error: 'Authentication state refresh failed'
+          });
         }
       },
 

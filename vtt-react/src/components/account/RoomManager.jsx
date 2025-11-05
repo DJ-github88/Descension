@@ -706,39 +706,13 @@ const RoomManager = () => {
           </div>
         )}
 
-        {showCreateLocalRoom && (
-          <div className="create-local-room-form">
-            <div className="form-group">
-              <input
-                type="text"
-                placeholder="Enter room name..."
-                value={newLocalRoomName}
-                onChange={(e) => setNewLocalRoomName(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleCreateLocalRoom()}
-                autoFocus
-              />
-              <div className="form-actions">
-                <button onClick={handleCreateLocalRoom} className="create-btn">
-                  <i className="fas fa-check"></i>
-                  Create
-                </button>
-                <button onClick={() => {
-                  setShowCreateLocalRoom(false);
-                  setNewLocalRoomName('');
-                }} className="cancel-btn">
-                  <i className="fas fa-times"></i>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="room-cards-grid">
           {localRooms.length === 0 ? (
             <div className="no-local-rooms">
               <i className="fas fa-home"></i>
-              <p>No local rooms yet. Create one for offline play!</p>
+              <h3>No Local Rooms Yet</h3>
+              <p>Create one for offline play!</p>
             </div>
           ) : (
             localRooms.map(room => (
@@ -831,7 +805,7 @@ const RoomManager = () => {
               <span className="warning-text">This action cannot be undone and all room data will be lost.</span>
             </p>
             <div className="modal-actions">
-              <button 
+              <button
                 className="cancel-btn"
                 onClick={() => {
                   setShowDeleteConfirm(false);
@@ -840,12 +814,49 @@ const RoomManager = () => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 className="confirm-delete-btn"
                 onClick={confirmDeleteRoom}
               >
                 <i className="fas fa-trash"></i>
                 Delete Room
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Local Room Modal */}
+      {showCreateLocalRoom && (
+        <div className="modal-overlay">
+          <div className="create-local-room-modal">
+            <h3>Create Local Room</h3>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Enter room name..."
+                value={newLocalRoomName}
+                onChange={(e) => setNewLocalRoomName(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleCreateLocalRoom()}
+                autoFocus
+              />
+            </div>
+            <div className="modal-actions">
+              <button
+                className="cancel-btn"
+                onClick={() => {
+                  setShowCreateLocalRoom(false);
+                  setNewLocalRoomName('');
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="create-btn"
+                onClick={handleCreateLocalRoom}
+              >
+                <i className="fas fa-plus"></i>
+                Create Room
               </button>
             </div>
           </div>

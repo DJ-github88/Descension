@@ -1346,9 +1346,67 @@
   margin-bottom: var(--pf-space-2) !important;
 }
 
-/* Universal Pathfinder styling for effect suboption buttons */
+/* Universal Pathfinder styling for effect card buttons */
+.wow-effect-card-button {
+  display: flex !important;
+  flex-direction: column !important;
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  padding: var(--pf-space-3) !important;
+  cursor: pointer !important;
+  transition: all var(--pf-transition-normal) !important;
+  width: 100% !important;
+  font-family: var(--pf-font-body) !important;
+  box-shadow: var(--pf-shadow-sm) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+.wow-effect-card-button::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 3px !important;
+  background: var(--pf-gradient-gold) !important;
+  transform: scaleX(0) !important;
+  transition: transform var(--pf-transition-normal) !important;
+}
+
+.wow-effect-card-button:hover {
+  background: var(--pf-gradient-parchment) !important;
+  border-color: var(--pf-brown-dark) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: var(--pf-shadow-md) !important;
+}
+
+.wow-effect-card-button:hover::before {
+  transform: scaleX(1) !important;
+}
+
+.wow-effect-card-button.active {
+  background: var(--pf-gradient-parchment) !important;
+  border-color: var(--pf-gold-dark) !important;
+  border-width: 2px !important;
+  box-shadow: var(--pf-shadow-glow) !important;
+}
+
+.wow-effect-card-button.active::before {
+  transform: scaleX(1) !important;
+  height: 4px !important;
+}
+
+.wow-effect-suboption-card {
+  /* Inherits grid sizing from parent */
+}
+
+/* Legacy suboption button support */
 .wow-effect-suboption-button {
   display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
   background: var(--pf-gradient-button) !important;
   border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
@@ -1360,9 +1418,10 @@
   transition: all var(--pf-transition-normal) !important;
   margin: var(--pf-space-1) !important;
   font-size: var(--pf-text-sm) !important;
-  min-width: 80px !important;
+  min-width: 100px !important;
   text-align: center !important;
   box-shadow: var(--pf-shadow-sm) !important;
+  gap: 4px !important;
 }
 
 .wow-effect-suboption-button:hover {

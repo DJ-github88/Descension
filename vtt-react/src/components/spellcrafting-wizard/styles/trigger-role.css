@@ -193,36 +193,42 @@
 .wow-toggle-button {
   width: 50px;
   height: 24px;
-  background-color: #1a2f4a;
-  border: 1px solid #2c4c6e;
+  background: var(--pf-brown-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: 12px;
   position: relative;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--pf-transition-normal);
+}
+
+.wow-toggle-button:hover {
+  border-color: var(--pf-brown-dark);
 }
 
 .wow-toggle-button.active {
-  background-color: #2c4c6e;
-  border-color: #ffcc00;
+  background: var(--pf-gradient-gold);
+  border-color: var(--pf-gold-dark);
 }
 
 .wow-toggle-slider {
-  width: 18px;
-  height: 18px;
-  background-color: #8cb3d9;
+  width: 20px;
+  height: 20px;
+  background: white;
   border-radius: 50%;
   position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: all 0.2s ease;
+  top: 1px;
+  left: 1px;
+  transition: all var(--pf-transition-normal);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .wow-toggle-button.active .wow-toggle-slider {
-  left: 28px;
-  background-color: #ffcc00;
+  transform: translateX(26px);
+  background: var(--pf-brown-darkest);
 }
 
 .wow-toggle-value {
-  color: #c7d5e3;
-  font-size: 14px;
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-ui);
 }

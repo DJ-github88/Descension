@@ -192,13 +192,6 @@ const Step2RaceSelection = () => {
                     <div className="race-preview">
                         {previewRace ? (
                             <div className="preview-card">
-                                <div className="preview-header" style={{ '--race-color': previewRace.color }}>
-                                    <div className="preview-icon">
-                                        <i className={previewRace.icon}></i>
-                                    </div>
-                                    <h3 className="preview-title">{previewRace.name}</h3>
-                                </div>
-
                                 <div className="preview-content">
                                     <div className="preview-section">
                                         <h4>Overview</h4>

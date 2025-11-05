@@ -97,8 +97,6 @@ const EnhancedGraduatedRecipeEffects = ({
             durationValue: spellWizardState.buffConfig.durationValue,
             durationType: spellWizardState.buffConfig.durationType,
             durationUnit: spellWizardState.buffConfig.durationUnit,
-            stackingRule: spellWizardState.buffConfig.stackingRule,
-            maxStacks: spellWizardState.buffConfig.maxStacks
           } : {}),
           // For debuff effects, make sure statPenalties is set
           ...(effect.effectType === 'debuff' && !effect.statPenalties && spellWizardState.debuffConfig ? {
@@ -108,8 +106,6 @@ const EnhancedGraduatedRecipeEffects = ({
             durationValue: spellWizardState.debuffConfig.durationValue,
             durationType: spellWizardState.debuffConfig.durationType,
             durationUnit: spellWizardState.debuffConfig.durationUnit,
-            stackingRule: spellWizardState.debuffConfig.stackingRule,
-            maxStacks: spellWizardState.debuffConfig.maxStacks
           } : {})
         };
       });
@@ -146,8 +142,6 @@ const EnhancedGraduatedRecipeEffects = ({
           durationValue: spellWizardState.buffConfig.durationValue,
           durationType: spellWizardState.buffConfig.durationType,
           durationUnit: spellWizardState.buffConfig.durationUnit,
-          stackingRule: spellWizardState.buffConfig.stackingRule,
-          maxStacks: spellWizardState.buffConfig.maxStacks
         } : {}),
         ...(effectType === 'debuff' && spellWizardState.debuffConfig ? {
           statPenalties: [...(spellWizardState.debuffConfig.statPenalties || [])],
@@ -156,8 +150,6 @@ const EnhancedGraduatedRecipeEffects = ({
           durationValue: spellWizardState.debuffConfig.durationValue,
           durationType: spellWizardState.debuffConfig.durationType,
           durationUnit: spellWizardState.debuffConfig.durationUnit,
-          stackingRule: spellWizardState.debuffConfig.stackingRule,
-          maxStacks: spellWizardState.debuffConfig.maxStacks
         } : {}),
         // For damage and healing, include critical hit and chance-on-hit configurations
         ...(effectType === 'damage' && spellWizardState.damageConfig ? {
@@ -577,8 +569,6 @@ const EnhancedGraduatedRecipeEffects = ({
             durationValue: spellWizardState.buffConfig.durationValue,
             durationType: spellWizardState.buffConfig.durationType,
             durationUnit: spellWizardState.buffConfig.durationUnit,
-            stackingRule: spellWizardState.buffConfig.stackingRule,
-            maxStacks: spellWizardState.buffConfig.maxStacks
           } : {}),
           ...(effectType === 'debuff' && spellWizardState.debuffConfig ? {
             statPenalties: [...(spellWizardState.debuffConfig.statPenalties || [])],
@@ -587,8 +577,6 @@ const EnhancedGraduatedRecipeEffects = ({
             durationValue: spellWizardState.debuffConfig.durationValue,
             durationType: spellWizardState.debuffConfig.durationType,
             durationUnit: spellWizardState.debuffConfig.durationUnit,
-            stackingRule: spellWizardState.debuffConfig.stackingRule,
-            maxStacks: spellWizardState.debuffConfig.maxStacks
           } : {}),
           // For damage, include damage-specific properties based on damage type
           ...(effectType === 'damage' && spellWizardState.damageConfig ? {
@@ -953,8 +941,6 @@ const EnhancedGraduatedRecipeEffects = ({
           durationValue: spellWizardState.buffConfig.durationValue,
           durationType: spellWizardState.buffConfig.durationType,
           durationUnit: spellWizardState.buffConfig.durationUnit,
-          stackingRule: spellWizardState.buffConfig.stackingRule,
-          maxStacks: spellWizardState.buffConfig.maxStacks
         } : {}),
         ...(effectType === 'debuff' && spellWizardState.debuffConfig ? {
           statPenalties: scaledConfig.statPenalties || [],
@@ -963,8 +949,6 @@ const EnhancedGraduatedRecipeEffects = ({
           durationValue: spellWizardState.debuffConfig.durationValue,
           durationType: spellWizardState.debuffConfig.durationType,
           durationUnit: spellWizardState.debuffConfig.durationUnit,
-          stackingRule: spellWizardState.debuffConfig.stackingRule,
-          maxStacks: spellWizardState.debuffConfig.maxStacks
         } : {}),
         // For damage, include damage-specific properties based on damage type
         ...(effectType === 'damage' && spellWizardState.damageConfig ? {
@@ -1129,8 +1113,6 @@ const EnhancedGraduatedRecipeEffects = ({
         newEffect.durationValue = spellWizardState.buffConfig.durationValue;
         newEffect.durationType = spellWizardState.buffConfig.durationType;
         newEffect.durationUnit = spellWizardState.buffConfig.durationUnit;
-        newEffect.stackingRule = spellWizardState.buffConfig.stackingRule;
-        newEffect.maxStacks = spellWizardState.buffConfig.maxStacks;
       } else if (newEffectType === 'debuff' && spellWizardState.debuffConfig) {
         newEffect.statPenalties = [...(spellWizardState.debuffConfig.statPenalties || [])];
         newEffect.statusEffects = [...(spellWizardState.debuffConfig.statusEffects || [])];
@@ -1138,8 +1120,6 @@ const EnhancedGraduatedRecipeEffects = ({
         newEffect.durationValue = spellWizardState.debuffConfig.durationValue;
         newEffect.durationType = spellWizardState.debuffConfig.durationType;
         newEffect.durationUnit = spellWizardState.debuffConfig.durationUnit;
-        newEffect.stackingRule = spellWizardState.debuffConfig.stackingRule;
-        newEffect.maxStacks = spellWizardState.debuffConfig.maxStacks;
       } else if (newEffectType === 'damage' && spellWizardState.damageConfig) {
         // Create a complete damage configuration
         const damageConfig = {

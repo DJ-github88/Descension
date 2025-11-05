@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import ResourceThresholdSlider from '../common/ResourceThresholdSlider';
-import EnhancedEffectPreview from '../common/EnhancedEffectPreview';
 import { useSpellWizardState, useSpellWizardDispatch, ACTION_TYPES, validateStepCompletion } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
 import '../../styles/triggers.css';
 import '../../styles/pathfinder/steps/triggers.css';
 import '../../styles/buff-config.css';
 import '../../styles/conditional-effects.css';
-import '../../styles/effect-preview.css';
 import '../../styles/trigger-role.css';
 // Import trigger-related utilities
 import { getTriggerIconUrl } from '../../core/data/triggerIcons';
 import { getIconUrl } from '../../utils/iconUtils';
+import { formatEffectComponent } from '../common/SpellCardUtils';
 
 // Helper function to get effect icons
 const getEffectIconUrl = (effectType) => {
@@ -132,9 +131,17 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   const shouldShowStep = true; // Show for all spell types
 
   // Local trigger configuration
-  const [triggerConfig, setTriggerConfig] = useState(state.triggerConfig?.global || {
-    logicType: 'AND',
-    compoundTriggers: []
+  const [triggerConfig, setTriggerConfig] = useState(() => {
+    const global = state.triggerConfig?.global || {
+      logicType: 'AND',
+      compoundTriggers: [],
+      enabled: true
+    };
+    // Ensure enabled is set if not present
+    if (global.enabled === undefined) {
+      global.enabled = true;
+    }
+    return global;
   });
 
   // Effect-specific triggers
@@ -147,14 +154,28 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   // Simplified to just 'global' or 'effect' - conditional is now part of effect config
   const [editingMode, setEditingMode] = useState('global'); // 'global' or 'effect'
 
-  // Trigger role configuration
-  const [triggerRole, setTriggerRole] = useState(state.triggerConfig?.triggerRole?.mode || 'CONDITIONAL');
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
-  const [activationDelay, setActivationDelay] = useState(state.triggerConfig?.triggerRole?.activationDelay || 0);
-  const [requiresLOS, setRequiresLOS] = useState(state.triggerConfig?.triggerRole?.requiresLOS !== false);
-  const [maxRange, setMaxRange] = useState(state.triggerConfig?.triggerRole?.maxRange || null);
-  const [cooldownAfterTrigger, setCooldownAfterTrigger] = useState(state.triggerConfig?.triggerRole?.cooldownAfterTrigger || 0);
-  const [resourceModifier, setResourceModifier] = useState(state.triggerConfig?.triggerRole?.resourceModifier || 1.0);
+  // Whether we're configuring triggers or required state
+  // 'trigger' = when trigger is met, effect applies / spell activates
+  // 'required' = effect/spell only works if trigger is met
+  const [triggerMode, setTriggerMode] = useState(() => {
+    // Initialize based on existing config - if requiredConditions exist, default to 'required'
+    const hasRequiredConditions = state.triggerConfig?.requiredConditions?.enabled && 
+                                  state.triggerConfig?.requiredConditions?.conditions?.length > 0;
+    return hasRequiredConditions ? 'required' : 'trigger';
+  });
+
+  // Required conditions - conditions that must be met before the spell can be cast
+  // Now integrated into trigger config instead of separate section
+  const [requiredConditions, setRequiredConditions] = useState(() => {
+    return state.triggerConfig?.requiredConditions || {
+      enabled: false,
+      logicType: 'AND',
+      conditions: []
+    };
+  });
+
+  // Trigger role configuration - Always CONDITIONAL (auto-cast removed)
+  // Removed auto-cast functionality - triggers now only modify effects, spell must be manually cast
 
   // Conditional effect configuration
   const [conditionalEffects, setConditionalEffects] = useState(() => {
@@ -412,25 +433,22 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       type: ACTION_TYPES.UPDATE_TRIGGER_CONFIG,
       payload: {
         global: triggerConfig,
-        effectTriggers: effectTriggers
+        effectTriggers: effectTriggers,
+        buffDebuffTriggers: {}, // Remove buffDebuffTriggers - no longer used
+        requiredConditions: requiredConditions
       }
     });
-  }, [triggerConfig, effectTriggers, dispatch]);
+  }, [triggerConfig, effectTriggers, requiredConditions, dispatch]);
 
-  // Effect to update trigger role in context
+  // Effect to update trigger role in context - Always CONDITIONAL mode
   useEffect(() => {
     dispatch({
       type: ACTION_TYPES.UPDATE_TRIGGER_ROLE,
       payload: {
-        mode: triggerRole,
-        activationDelay,
-        requiresLOS,
-        maxRange,
-        cooldownAfterTrigger,
-        resourceModifier
+        mode: 'CONDITIONAL'
       }
     });
-  }, [triggerRole, activationDelay, requiresLOS, maxRange, cooldownAfterTrigger, resourceModifier, dispatch]);
+  }, [dispatch]);
 
   // Effect to update context when conditional effects change
   useEffect(() => {
@@ -488,16 +506,28 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
     });
 
     if (editingMode === 'global') {
-      // Add to global triggers
-      const updatedTriggers = [...(triggerConfig.compoundTriggers || [])];
-      updatedTriggers.push(triggerWithParams);
-      const newConfig = {
-        ...triggerConfig,
-        compoundTriggers: updatedTriggers
-      };
+      if (triggerMode === 'required') {
+        // Add to required conditions
+        const updatedConditions = [...(requiredConditions.conditions || [])];
+        updatedConditions.push(triggerWithParams);
+        const newRequiredConditions = {
+          ...requiredConditions,
+          enabled: true,
+          conditions: updatedConditions
+        };
+        setRequiredConditions(newRequiredConditions);
+      } else {
+        // Add to global triggers
+        const updatedTriggers = [...(triggerConfig.compoundTriggers || [])];
+        updatedTriggers.push(triggerWithParams);
+        const newConfig = {
+          ...triggerConfig,
+          compoundTriggers: updatedTriggers
+        };
 
-      setTriggerConfig(newConfig);
-      validateTriggerConfig(newConfig);
+        setTriggerConfig(newConfig);
+        validateTriggerConfig(newConfig);
+      }
     } else if (editingMode === 'effect' && selectedEffect) {
       // Add to effect-specific triggers
       const newEffectTriggers = { ...effectTriggers };
@@ -728,17 +758,24 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   // Remove a trigger from the configuration
   const removeTrigger = (index) => {
     if (editingMode === 'global') {
-      // Remove from global triggers
-      const updatedTriggers = [...(triggerConfig.compoundTriggers || [])];
-      updatedTriggers.splice(index, 1);
+      if (triggerMode === 'required') {
+        // Remove from required conditions
+        const updatedConditions = [...(requiredConditions.conditions || [])];
+        updatedConditions.splice(index, 1);
+        setRequiredConditions({ ...requiredConditions, conditions: updatedConditions });
+      } else {
+        // Remove from global triggers
+        const updatedTriggers = [...(triggerConfig.compoundTriggers || [])];
+        updatedTriggers.splice(index, 1);
 
-      const newConfig = {
-        ...triggerConfig,
-        compoundTriggers: updatedTriggers
-      };
+        const newConfig = {
+          ...triggerConfig,
+          compoundTriggers: updatedTriggers
+        };
 
-      setTriggerConfig(newConfig);
-      validateTriggerConfig(newConfig);
+        setTriggerConfig(newConfig);
+        validateTriggerConfig(newConfig);
+      }
     } else if (editingMode === 'effect' && selectedEffect && effectTriggers[selectedEffect]) {
       // Remove from effect-specific triggers
       const newEffectTriggers = { ...effectTriggers };
@@ -1362,36 +1399,6 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
       showHints={true}
     >
       <div className="spell-effects-container">
-        <div className="step-description mb-md">
-          <p>
-            Configure when your {state.spellType.toLowerCase()} spell will automatically trigger.
-            Define conditions that, when met, will cause your spell to activate without manual input.
-          </p>
-          <p className="mb-sm">{recommendationText}</p>
-          {state.spellType === 'REACTION' && (
-            <div className="effect-description">
-              <strong>Note:</strong> Reaction spells <strong>require</strong> trigger conditions as they activate automatically
-              in response to game events.
-            </div>
-          )}
-          {state.spellType === 'TRAP' && (
-            <div className="effect-description">
-              <strong>Note:</strong> Trap spells <strong>require</strong> trigger conditions that determine when the trap activates
-              after being placed in the environment.
-            </div>
-          )}
-          {state.spellType === 'STATE' && (
-            <div className="effect-description">
-              <strong>Note:</strong> State spells <strong>require</strong> trigger conditions that determine when the spell activates
-              automatically. These are typically resource-based or combat state conditions.
-            </div>
-          )}
-          {state.spellType === 'ACTION' && (
-            <div className="effect-description">
-              <strong>Note:</strong> For Action spells, triggers are <strong>optional</strong>. Adding triggers allows your spell to have additional effects that activate automatically when certain conditions are met, such as movement-based debuffs.
-            </div>
-          )}
-        </div>
 
         {errors.length > 0 && (
           <div className="pf-config-group mb-md">
@@ -1404,7 +1411,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           </div>
         )}
 
-        {/* Trigger Mode Selection - MOVED TO TOP */}
+        {/* Trigger Mode Selection - Integrated with Required Conditions */}
         <div className="pf-config-group mb-md">
           <h4 className="pf-config-label">Trigger Mode</h4>
           <p className="mb-sm">Choose whether to configure global triggers for the entire spell or effect-specific triggers.</p>
@@ -1444,199 +1451,154 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
               </div>
             </button>
           </div>
-        </div>
 
-        {/* Trigger Role Section */}
-        <div className="pf-config-group mb-md">
-          <h4 className="pf-config-label">Trigger Behavior</h4>
-          <p className="mb-sm">Define how triggers will affect your spell.</p>
-
-          <div className="wow-trigger-role-container">
-            {/* Main Role Selection */}
-            <div className="wow-trigger-role-options">
-              <div
-                className={`wow-trigger-role-option ${triggerRole === 'CONDITIONAL' ? 'active' : ''}`}
-                onClick={() => setTriggerRole('CONDITIONAL')}
+          {/* Trigger/Required State Selection - Integrated into Trigger Mode section */}
+          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+            <p className="mb-sm" style={{ fontSize: '14px', color: 'rgba(139, 115, 85, 0.8)' }}>
+              {editingMode === 'global' 
+                ? 'Choose how triggers work for the entire spell:' 
+                : 'Choose how triggers work for this effect:'}
+            </p>
+            <div className="pf-trigger-mode-selector" style={{ display: 'flex', gap: '12px' }}>
+              <button
+                className={`pf-trigger-mode-button ${triggerMode === 'trigger' ? 'active' : ''}`}
+                onClick={() => {
+                  setTriggerMode('trigger');
+                  // When switching to trigger mode, disable required conditions (only for global)
+                  if (editingMode === 'global') {
+                    setRequiredConditions({ ...requiredConditions, enabled: false });
+                  }
+                }}
+                style={{ flex: 1 }}
               >
-                <div className="wow-trigger-role-icon">
-                  <img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineillumination.jpg" alt="Conditional" />
-                </div>
-                <div className="wow-trigger-role-content">
-                  <div className="wow-trigger-role-title">Conditional Effects</div>
-                  <div className="wow-trigger-role-description">
-                    Triggers modify spell effects, but you must manually cast the spell
+                <div className="pf-trigger-mode-text">
+                  <div className="pf-trigger-mode-title">
+                    {editingMode === 'global' ? 'Triggers' : 'Effect Triggers'}
+                  </div>
+                  <div className="pf-trigger-mode-description">
+                    {editingMode === 'global' 
+                      ? 'When trigger is met, spell activates' 
+                      : 'When trigger is met, effect applies'}
                   </div>
                 </div>
-              </div>
-
-              <div
-                className={`wow-trigger-role-option ${triggerRole === 'AUTO_CAST' ? 'active' : ''}`}
-                onClick={() => setTriggerRole('AUTO_CAST')}
+              </button>
+              <button
+                className={`pf-trigger-mode-button ${triggerMode === 'required' ? 'active' : ''}`}
+                onClick={() => {
+                  setTriggerMode('required');
+                  // When switching to required mode, enable required conditions (only for global)
+                  if (editingMode === 'global') {
+                    setRequiredConditions({ ...requiredConditions, enabled: true });
+                  }
+                }}
+                style={{ flex: 1 }}
               >
-                <div className="wow-trigger-role-icon">
-                  <img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg" alt="Auto-Cast" />
-                </div>
-                <div className="wow-trigger-role-content">
-                  <div className="wow-trigger-role-title">Auto-Cast</div>
-                  <div className="wow-trigger-role-description">
-                    Spell automatically casts when trigger conditions are met
+                <div className="pf-trigger-mode-text">
+                  <div className="pf-trigger-mode-title">Required State</div>
+                  <div className="pf-trigger-mode-description">
+                    {editingMode === 'global' 
+                      ? 'Spell has no effect unless trigger is met' 
+                      : 'Effect only enabled if trigger is met'}
                   </div>
                 </div>
-              </div>
-
-              <div
-                className={`wow-trigger-role-option ${triggerRole === 'BOTH' ? 'active' : ''}`}
-                onClick={() => setTriggerRole('BOTH')}
-              >
-                <div className="wow-trigger-role-icon">
-                  <img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane04.jpg" alt="Both" />
-                </div>
-                <div className="wow-trigger-role-content">
-                  <div className="wow-trigger-role-title">Both</div>
-                  <div className="wow-trigger-role-description">
-                    Spell auto-casts AND has conditional effects based on triggers
-                  </div>
-                </div>
-              </div>
+              </button>
             </div>
 
-            {/* Role Description */}
-            <div className="wow-trigger-role-description-box">
-              {triggerRole === 'CONDITIONAL' && (
-                <div className="wow-trigger-role-info">
-                  <p><strong>Conditional Effects Mode:</strong> In this mode, triggers only modify how your spell works, but you still need to manually cast it.</p>
-                  <div className="wow-trigger-example">
-                    <span className="wow-example-label">Example:</span> A fireball that deals more damage to targets below 30% health, but you decide when to cast it.
-                  </div>
-                </div>
-              )}
-
-              {triggerRole === 'AUTO_CAST' && (
-                <div className="wow-trigger-role-info">
-                  <p><strong>Auto-Cast Mode:</strong> In this mode, your spell will automatically cast when trigger conditions are met, without requiring manual activation.</p>
-                  <div className="wow-trigger-example">
-                    <span className="wow-example-label">Example:</span> A healing spell that automatically activates when an ally's health falls below 30%.
-                  </div>
-                </div>
-              )}
-
-              {triggerRole === 'BOTH' && (
-                <div className="wow-trigger-role-info">
-                  <p><strong>Combined Mode:</strong> In this mode, your spell will both auto-cast when triggered AND have effects that change based on conditions.</p>
-                  <div className="wow-trigger-example">
-                    <span className="wow-example-label">Example:</span> A healing spell that auto-casts when allies are below 30% health, and provides a stronger heal the lower their health is.
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Advanced Options Toggle - Only show for AUTO_CAST or BOTH */}
-            {(triggerRole === 'AUTO_CAST' || triggerRole === 'BOTH') && (
-              <div className="pf-advanced-options-toggle">
-                <button
-                  className="pf-advanced-toggle-button"
-                  onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
-                >
-                  {showAdvancedOptions ? 'Hide Advanced Options' : 'Show Advanced Options'}
-                  <span className={`pf-toggle-arrow ${showAdvancedOptions ? 'open' : ''}`}>▼</span>
-                </button>
-              </div>
-            )}
-
-            {/* Advanced Options Panel */}
-            {showAdvancedOptions && (triggerRole === 'AUTO_CAST' || triggerRole === 'BOTH') && (
-              <div className="pf-advanced-options-panel">
-                <h5 className="pf-advanced-options-title">Advanced Trigger Options</h5>
-
-                {/* Activation Delay */}
-                <div className="pf-advanced-option">
-                  <label className="pf-option-label">Activation Delay (seconds):</label>
-                  <div className="pf-option-control">
-                    <input
-                      type="number"
-                      min="0"
-                      max="10"
-                      step="0.1"
-                      value={activationDelay}
-                      onChange={(e) => setActivationDelay(parseFloat(e.target.value) || 0)}
-                      className="pf-number-input"
-                    />
-                    <div className="pf-option-hint">Delay before spell activates after trigger conditions are met</div>
-                  </div>
-                </div>
-
-                {/* Line of Sight Requirement */}
-                <div className="pf-advanced-option">
-                  <label className="pf-option-label">Requires Line of Sight:</label>
-                  <div className="pf-option-control">
-                    <div className="pf-toggle-wrapper">
+            {/* Logic Type Selection - Show for Required State (global) or Triggers (both modes) */}
+            {((editingMode === 'global' && triggerMode === 'required') || 
+              (editingMode === 'global' && triggerMode === 'trigger' && triggerConfig?.enabled !== false) ||
+              (editingMode === 'effect' && selectedEffect)) && (
+              <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                <p className="mb-sm" style={{ fontSize: '14px', color: 'rgba(139, 115, 85, 0.8)' }}>
+                  {editingMode === 'global' && triggerMode === 'required'
+                    ? 'How should multiple required conditions be combined?'
+                    : editingMode === 'global' && triggerMode === 'trigger'
+                    ? 'How should multiple triggers be combined?'
+                    : 'How should multiple triggers be combined?'}
+                </p>
+                <div className="pf-logic-selector">
+                  {editingMode === 'global' && triggerMode === 'required' ? (
+                    <>
                       <button
-                        className={`pf-toggle-button ${requiresLOS ? 'active' : ''}`}
-                        onClick={() => setRequiresLOS(!requiresLOS)}
+                        className={`pf-logic-button ${requiredConditions.logicType === 'AND' ? 'active' : ''}`}
+                        onClick={() => setRequiredConditions({ ...requiredConditions, logicType: 'AND' })}
                       >
-                        <div className="pf-toggle-slider"></div>
+                        <div className="pf-logic-icon">
+                          <i className="fas fa-link"></i>
+                        </div>
+                        <div className="pf-logic-text">
+                          <div className="pf-logic-title">ALL CONDITIONS</div>
+                          <div className="pf-logic-description">All conditions must be met</div>
+                        </div>
                       </button>
-                      <span className="pf-toggle-value">
-                        {requiresLOS ? 'Yes' : 'No'}
-                      </span>
-                    </div>
-                    <div className="pf-option-hint">Whether target must be in line of sight for auto-cast</div>
-                  </div>
-                </div>
-
-                {/* Max Range Override */}
-                <div className="pf-advanced-option">
-                  <label className="pf-option-label">Max Range Override (feet):</label>
-                  <div className="pf-option-control">
-                    <input
-                      type="number"
-                      min="0"
-                      max="100"
-                      step="5"
-                      value={maxRange === null ? '' : maxRange}
-                      onChange={(e) => {
-                        const val = e.target.value.trim() === '' ? null : (parseInt(e.target.value) || 0);
-                        setMaxRange(val);
-                      }}
-                      className="pf-number-input"
-                      placeholder="Use spell range"
-                    />
-                    <div className="pf-option-hint">Maximum range for auto-cast (leave empty to use spell's range)</div>
-                  </div>
-                </div>
-
-                {/* Additional Cooldown */}
-                <div className="pf-advanced-option">
-                  <label className="pf-option-label">Additional Cooldown (seconds):</label>
-                  <div className="pf-option-control">
-                    <input
-                      type="number"
-                      min="0"
-                      max="60"
-                      step="1"
-                      value={cooldownAfterTrigger}
-                      onChange={(e) => setCooldownAfterTrigger(parseInt(e.target.value) || 0)}
-                      className="pf-number-input"
-                    />
-                    <div className="pf-option-hint">Extra cooldown applied when spell is auto-cast</div>
-                  </div>
-                </div>
-
-                {/* Resource Cost Modifier */}
-                <div className="pf-advanced-option">
-                  <label className="pf-option-label">Resource Cost Modifier:</label>
-                  <div className="pf-option-control">
-                    <input
-                      type="number"
-                      min="0"
-                      max="2"
-                      step="0.1"
-                      value={resourceModifier}
-                      onChange={(e) => setResourceModifier(parseFloat(e.target.value) || 1.0)}
-                      className="pf-number-input"
-                    />
-                    <div className="pf-option-hint">Multiplier for resource costs when auto-cast (1.0 = normal cost)</div>
-                  </div>
+                      <button
+                        className={`pf-logic-button ${requiredConditions.logicType === 'OR' ? 'active' : ''}`}
+                        onClick={() => setRequiredConditions({ ...requiredConditions, logicType: 'OR' })}
+                      >
+                        <div className="pf-logic-icon">
+                          <i className="fas fa-random"></i>
+                        </div>
+                        <div className="pf-logic-text">
+                          <div className="pf-logic-title">ANY CONDITION</div>
+                          <div className="pf-logic-description">Any condition can enable the spell</div>
+                        </div>
+                      </button>
+                    </>
+                  ) : editingMode === 'global' && triggerMode === 'trigger' ? (
+                    <>
+                      <button
+                        className={`pf-logic-button ${triggerConfig && triggerConfig.logicType === 'AND' ? 'active' : ''}`}
+                        onClick={() => setLogicType('AND')}
+                      >
+                        <div className="pf-logic-icon">
+                          <i className="fas fa-link"></i>
+                        </div>
+                        <div className="pf-logic-text">
+                          <div className="pf-logic-title">ALL CONDITIONS</div>
+                          <div className="pf-logic-description">Every trigger must be met</div>
+                        </div>
+                      </button>
+                      <button
+                        className={`pf-logic-button ${triggerConfig && triggerConfig.logicType === 'OR' ? 'active' : ''}`}
+                        onClick={() => setLogicType('OR')}
+                      >
+                        <div className="pf-logic-icon">
+                          <i className="fas fa-random"></i>
+                        </div>
+                        <div className="pf-logic-text">
+                          <div className="pf-logic-title">ANY CONDITION</div>
+                          <div className="pf-logic-description">Any single trigger can activate</div>
+                        </div>
+                      </button>
+                    </>
+                  ) : editingMode === 'effect' && selectedEffect && effectTriggers[selectedEffect] ? (
+                    <>
+                      <button
+                        className={`pf-logic-button ${effectTriggers[selectedEffect]?.logicType === 'AND' ? 'active' : ''}`}
+                        onClick={() => setLogicType('AND')}
+                      >
+                        <div className="pf-logic-icon">
+                          <i className="fas fa-link"></i>
+                        </div>
+                        <div className="pf-logic-text">
+                          <div className="pf-logic-title">ALL CONDITIONS</div>
+                          <div className="pf-logic-description">Every trigger must be met</div>
+                        </div>
+                      </button>
+                      <button
+                        className={`pf-logic-button ${effectTriggers[selectedEffect]?.logicType === 'OR' ? 'active' : ''}`}
+                        onClick={() => setLogicType('OR')}
+                      >
+                        <div className="pf-logic-icon">
+                          <i className="fas fa-random"></i>
+                        </div>
+                        <div className="pf-logic-text">
+                          <div className="pf-logic-title">ANY CONDITION</div>
+                          <div className="pf-logic-description">One trigger can activate</div>
+                        </div>
+                      </button>
+                    </>
+                  ) : null}
                 </div>
               </div>
             )}
@@ -1699,53 +1661,69 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 return (
                   <div key={effectType} className="wow-effect-group">
                     <div className="wow-effect-main">
-                      <button
-                        className={`wow-effect-button ${selectedEffect === effectType || (selectedEffect && selectedEffect.startsWith(effectType)) ? 'active' : ''}`}
-                        onClick={() => setSelectedEffect(effectType)}
-                      >
-                        <div className="wow-effect-icon">
-                          <img
-                            src={getEffectIconUrl(effectType)}
-                            alt={effectType}
-                            className="wow-effect-img"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
-                            }}
-                          />
-                        </div>
-                        <div className="wow-effect-text">
-                          <div className="wow-effect-title">{effectType.charAt(0).toUpperCase() + effectType.slice(1)}</div>
-                        </div>
-                      </button>
-
-                      {/* Show configured sub-options as buttons next to the main effect */}
-                      {hasConfiguredSubOptions && (
+                      {/* Show configured sub-options if available, otherwise show main effect button */}
+                      {hasConfiguredSubOptions ? (
                         <div className="wow-effect-suboptions-row">
-                          {configuredSubOptions.map(subOption => (
-                            <button
-                              key={subOption.id}
-                              className={`wow-effect-suboption-button ${selectedEffect === subOption.id ? 'active' : ''}`}
-                              onClick={() => setSelectedEffect(subOption.id)}
-                              title={subOption.name}
-                            >
+                          {configuredSubOptions.map(subOption => {
+                            const subEffectPreview = formatEffectComponent(state, effectType, subOption.id);
+                            return (
+                              <button
+                                key={subOption.id}
+                                className={`wow-effect-card-button wow-effect-suboption-card ${selectedEffect === subOption.id ? 'active' : ''}`}
+                                onClick={() => setSelectedEffect(subOption.id)}
+                                title={subOption.name}
+                              >
+                                <div className="wow-effect-card-header">
+                                  <div className="wow-effect-card-icon">
+                                    <img
+                                      src={`https://wow.zamimg.com/images/wow/icons/large/${subOption.icon}.jpg`}
+                                      alt={subOption.name}
+                                      className="wow-effect-img"
+                                      onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
+                                      }}
+                                    />
+                                  </div>
+                                  <div className="wow-effect-card-title">
+                                    {subOption.id === 'healing_hot' ? 'HoT' :
+                                     subOption.id === 'healing_shield' ? 'Shield' :
+                                     subOption.name.split(' ').pop()}
+                                  </div>
+                                </div>
+                                {subEffectPreview && (
+                                  <div className="wow-effect-card-preview">{subEffectPreview}</div>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <button
+                          className={`wow-effect-card-button ${selectedEffect === effectType ? 'active' : ''}`}
+                          onClick={() => setSelectedEffect(effectType)}
+                        >
+                          <div className="wow-effect-card-header">
+                            <div className="wow-effect-card-icon">
                               <img
-                                src={`https://wow.zamimg.com/images/wow/icons/large/${subOption.icon}.jpg`}
-                                alt={subOption.name}
-                                className="wow-suboption-icon"
+                                src={getEffectIconUrl(effectType)}
+                                alt={effectType}
+                                className="wow-effect-img"
                                 onError={(e) => {
                                   e.target.onerror = null;
                                   e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
                                 }}
                               />
-                              <span>
-                                {subOption.id === 'healing_hot' ? 'HoT' :
-                                 subOption.id === 'healing_shield' ? 'Shield' :
-                                 subOption.name.split(' ').pop()}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
+                            </div>
+                            <div className="wow-effect-card-title">{effectType.charAt(0).toUpperCase() + effectType.slice(1)}</div>
+                          </div>
+                          {(() => {
+                            const mainEffectPreview = formatEffectComponent(state, effectType);
+                            return mainEffectPreview ? (
+                              <div className="wow-effect-card-preview">{mainEffectPreview}</div>
+                            ) : null;
+                          })()}
+                        </button>
                       )}
                     </div>
                   </div>
@@ -1763,7 +1741,34 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 className="wow-effect-config-tab active"
                 onClick={() => {/* Tab is already active */}}
               >
-                {selectedEffect.charAt(0).toUpperCase() + selectedEffect.slice(1)} Configuration
+                {(() => {
+                  // Format the effect name nicely
+                  if (selectedEffect.includes('_')) {
+                    const parts = selectedEffect.split('_');
+                    const effectType = parts[0];
+                    const subType = parts.slice(1).join(' ');
+                    
+                    // Capitalize and format effect type
+                    const formattedEffectType = effectType.charAt(0).toUpperCase() + effectType.slice(1);
+                    
+                    // Handle special sub-type formatting
+                    let formattedSubType = subType.toLowerCase();
+                    if (formattedSubType === 'hot') {
+                      formattedSubType = 'HoT';
+                    } else if (formattedSubType === 'dot') {
+                      formattedSubType = 'DoT';
+                    } else {
+                      // Capitalize words normally
+                      formattedSubType = formattedSubType.split(' ').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ');
+                    }
+                    
+                    return `${formattedSubType} ${formattedEffectType} Configuration`;
+                  } else {
+                    return `${selectedEffect.charAt(0).toUpperCase() + selectedEffect.slice(1)} Configuration`;
+                  }
+                })()}
               </button>
             </div>
 
@@ -1773,113 +1778,78 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 <h5 className="wow-effect-subtitle">Base Effect Information</h5>
                 <div className="wow-effect-base-details">
                   {/* Damage effects */}
-                  {(selectedEffect === 'damage' || selectedEffect?.startsWith('damage_')) && state.damageConfig && (
-                    <>
-                      <div className="wow-effect-detail">
-                        <span className="wow-effect-detail-label">
-                          <img
-                            src="https://wow.zamimg.com/images/wow/icons/small/inv_elemental_primal_fire.jpg"
-                            alt="Type"
-                            className="wow-element-icon"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = "https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg";
-                            }}
-                          />Type:
-                        </span>
-                        <span className="wow-effect-detail-value">
-                          <img
-                            src={`https://wow.zamimg.com/images/wow/icons/small/spell_${state.damageConfig.elementType?.toLowerCase() || 'fire'}_fireball02.jpg`}
-                            alt={state.damageConfig.elementType || 'Fire'}
-                            className="wow-element-icon"
-                            onError={(e) => {
-                              e.target.onerror = null;
-                              e.target.src = "https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg";
-                            }}
-                          />
-                          {state.damageConfig.elementType || 'Fire'} ({state.damageConfig.damageType === 'dot' ? 'DoT' :
-                            state.damageConfig.damageType?.charAt(0).toUpperCase() + state.damageConfig.damageType?.slice(1) || 'Direct'})
-                        </span>
-                      </div>
-                      <div className="wow-effect-detail">
-                        <span className="wow-effect-detail-label">Formula:</span>
-                        <span className="wow-effect-detail-value">{state.damageConfig.formula || '1d6 + INT'}</span>
-                      </div>
-                      {selectedEffect === 'damage_dot' && (
-                        <div className="wow-effect-detail">
-                          <span className="wow-effect-detail-label">Duration:</span>
-                          <span className="wow-effect-detail-value">{state.damageConfig.dotDuration || '3'} {state.damageConfig.dotDurationUnit || 'rounds'}</span>
+                  {(selectedEffect === 'damage' || selectedEffect?.startsWith('damage_')) && state.damageConfig && (() => {
+                    const effectPreview = formatEffectComponent(state, 'damage', selectedEffect);
+                    return (
+                      <div className="wow-effect-card-preview">
+                        <div className="wow-effect-card-content">
+                          {effectPreview ? (
+                            <div className="wow-effect-formatted-text">{effectPreview}</div>
+                          ) : (
+                            <>
+                              <div className="wow-effect-detail">
+                                <span className="wow-effect-detail-label">
+                                  <img
+                                    src="https://wow.zamimg.com/images/wow/icons/small/inv_elemental_primal_fire.jpg"
+                                    alt="Type"
+                                    className="wow-element-icon"
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src = "https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg";
+                                    }}
+                                  />Type:
+                                </span>
+                                <span className="wow-effect-detail-value">
+                                  <img
+                                    src={`https://wow.zamimg.com/images/wow/icons/small/spell_${state.damageConfig.elementType?.toLowerCase() || 'fire'}_fireball02.jpg`}
+                                    alt={state.damageConfig.elementType || 'Fire'}
+                                    className="wow-element-icon"
+                                    onError={(e) => {
+                                      e.target.onerror = null;
+                                      e.target.src = "https://wow.zamimg.com/images/wow/icons/small/inv_misc_questionmark.jpg";
+                                    }}
+                                  />
+                                  {state.damageConfig.elementType || 'Fire'} ({state.damageConfig.damageType === 'dot' ? 'DoT' :
+                                    state.damageConfig.damageType?.charAt(0).toUpperCase() + state.damageConfig.damageType?.slice(1) || 'Direct'})
+                                </span>
+                              </div>
+                              <div className="wow-effect-detail">
+                                <span className="wow-effect-detail-label">Formula:</span>
+                                <span className="wow-effect-detail-value">{state.damageConfig.formula || '1d6 + INT'}</span>
+                              </div>
+                            </>
+                          )}
                         </div>
-                      )}
-                      {selectedEffect === 'damage_combined' && (
-                        <>
-                          <div className="wow-effect-detail">
-                            <span className="wow-effect-detail-label">DoT Formula:</span>
-                            <span className="wow-effect-detail-value">{state.damageConfig.dotFormula || '1d4 + INT/2'}</span>
-                          </div>
-                          <div className="wow-effect-detail">
-                            <span className="wow-effect-detail-label">DoT Duration:</span>
-                            <span className="wow-effect-detail-value">{state.damageConfig.dotDuration || '3'} {state.damageConfig.dotDurationUnit || 'rounds'}</span>
-                          </div>
-                        </>
-                      )}
-                    </>
-                  )}
+                      </div>
+                    );
+                  })()}
 
                   {/* Healing effects */}
-                  {(selectedEffect === 'healing' || selectedEffect?.startsWith('healing_')) && state.healingConfig && (
-                    <div className="wow-effect-details-container">
-                      <div className="wow-effect-detail">
-                        <span className="wow-effect-detail-label">Type:</span>
-                        <span className="wow-effect-detail-value">
-                          <span className="wow-healing-type">Holy (Healing)</span>
-                        </span>
-                      </div>
-                      <div className="wow-effect-detail">
-                        <span className="wow-effect-detail-label">Formula:</span>
-                        <span className="wow-effect-detail-value wow-formula">{state.healingConfig.formula || '2d8 + HEA'}</span>
-                      </div>
-                      {selectedEffect === 'healing_hot' && (
-                        <div className="wow-effect-detail">
-                          <span className="wow-effect-detail-label">Duration:</span>
-                          <span className="wow-effect-detail-value wow-duration">
-                            <span className="wow-duration-value">{state.healingConfig.hotDuration || '3'}</span>
-                            <span className="wow-duration-unit">{state.healingConfig.hotDurationUnit || 'rounds'}</span>
-                          </span>
+                  {(selectedEffect === 'healing' || selectedEffect?.startsWith('healing_')) && state.healingConfig && (() => {
+                    const effectPreview = formatEffectComponent(state, 'healing', selectedEffect);
+                    return (
+                      <div className="wow-effect-card-preview">
+                        <div className="wow-effect-card-content">
+                          {effectPreview ? (
+                            <div className="wow-effect-formatted-text">{effectPreview}</div>
+                          ) : (
+                            <div className="wow-effect-details-container">
+                              <div className="wow-effect-detail">
+                                <span className="wow-effect-detail-label">Type:</span>
+                                <span className="wow-effect-detail-value">
+                                  <span className="wow-healing-type">Holy (Healing)</span>
+                                </span>
+                              </div>
+                              <div className="wow-effect-detail">
+                                <span className="wow-effect-detail-label">Formula:</span>
+                                <span className="wow-effect-detail-value wow-formula">{state.healingConfig.formula || '2d8 + HEA'}</span>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {selectedEffect === 'healing_combined' && (
-                        <>
-                          <div className="wow-effect-detail">
-                            <span className="wow-effect-detail-label">HoT Formula:</span>
-                            <span className="wow-effect-detail-value wow-formula">{state.healingConfig.hotFormula || '1d6 + HEA/2'}</span>
-                          </div>
-                          <div className="wow-effect-detail">
-                            <span className="wow-effect-detail-label">HoT Duration:</span>
-                            <span className="wow-effect-detail-value wow-duration">
-                              <span className="wow-duration-value">{state.healingConfig.hotDuration || '3'}</span>
-                              <span className="wow-duration-unit">{state.healingConfig.hotDurationUnit || 'rounds'}</span>
-                            </span>
-                          </div>
-                        </>
-                      )}
-                      {selectedEffect === 'healing_shield' && (
-                        <>
-                          <div className="wow-effect-detail">
-                            <span className="wow-effect-detail-label">Shield Formula:</span>
-                            <span className="wow-effect-detail-value wow-formula">{state.healingConfig.shieldFormula || '2d6 + HEA'}</span>
-                          </div>
-                          <div className="wow-effect-detail">
-                            <span className="wow-effect-detail-label">Shield Duration:</span>
-                            <span className="wow-effect-detail-value wow-duration">
-                              <span className="wow-duration-value">{state.healingConfig.shieldDuration || '3'}</span>
-                              <span className="wow-duration-unit">rounds</span>
-                            </span>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  )}
+                      </div>
+                    );
+                  })()}
 
                   {/* Buff effects */}
                   {(selectedEffect === 'buff' || selectedEffect?.startsWith('buff_')) && state.buffConfig && (
@@ -2071,11 +2041,15 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                 </div>
               </div>
 
-              {/* Effect-Specific Triggers */}
+              {/* Effect-Specific Triggers/Required State */}
               <div className="wow-effect-triggers">
-                <h5 className="wow-effect-subtitle">Effect-Specific Triggers</h5>
+                <h5 className="wow-effect-subtitle">
+                  {triggerMode === 'required' ? 'Required State' : 'Effect-Specific Triggers'}
+                </h5>
                 <p className="wow-effect-description">
-                  Configure triggers that apply specifically to this effect.
+                  {triggerMode === 'required' 
+                    ? 'Configure conditions that must be met for this effect to be enabled.'
+                    : 'Configure triggers that apply specifically to this effect. When the trigger is met, the effect applies.'}
                 </p>
 
                 {/* Logic Type Selection */}
@@ -2168,273 +2142,13 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
                   </div>
                 ) : null}
               </div>
-
-              {/* Conditional Effect Settings */}
-              {conditionalEffects[selectedEffect]?.isConditional && (
-                <div className="wow-conditional-settings">
-                  <h5 className="wow-effect-subtitle">Conditional Effect Settings</h5>
-
-                  <div className="wow-conditional-default">
-                    <label className="wow-conditional-label">Default Behavior:</label>
-                    <div className="wow-toggle-wrapper">
-                      <button
-                        className={`wow-toggle-button ${conditionalEffects[selectedEffect]?.defaultEnabled ? 'active' : ''}`}
-                        onClick={() => {
-                          const newConditionalEffects = { ...conditionalEffects };
-                          newConditionalEffects[selectedEffect] = {
-                            ...newConditionalEffects[selectedEffect],
-                            defaultEnabled: !newConditionalEffects[selectedEffect]?.defaultEnabled
-                          };
-                          setConditionalEffects(newConditionalEffects);
-                        }}
-                      >
-                        <div className="wow-toggle-slider"></div>
-                      </button>
-                      <span className="wow-toggle-value">
-                        {conditionalEffects[selectedEffect]?.defaultEnabled ? 'Enabled by default' : 'Disabled by default'}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Default Configuration */}
-                  <div className="wow-conditional-default-formula">
-                    <h6 className="wow-conditional-subtitle">Default Configuration</h6>
-                    <p className="wow-conditional-description">
-                      This configuration will be used when no specific trigger condition is met.
-                    </p>
-
-                    {/* For damage and healing effects, show formula input */}
-                    {(selectedEffect === 'damage' || selectedEffect?.startsWith('damage_') ||
-                      selectedEffect === 'healing' || selectedEffect?.startsWith('healing_')) && (
-                      <div className="wow-conditional-formula-input">
-                        <label>Default formula:</label>
-                        <input
-                          type="text"
-                          value={conditionalEffects[selectedEffect]?.conditionalFormulas?.['default'] || ''}
-                          onChange={(e) => updateConditionalFormula(selectedEffect, 'default', e.target.value)}
-                          placeholder={conditionalEffects[selectedEffect]?.baseFormula || "e.g., 1d6 + INT/2"}
-                          className="wow-formula-input"
-                        />
-                      </div>
-                    )}
-
-                    {/* For buff effects, show stat modifiers */}
-                    {(selectedEffect === 'buff' || selectedEffect?.startsWith('buff_')) && (
-                      <div className="wow-buff-config-container">
-                        {/* Default Configuration Section */}
-                        <div className="wow-buff-config-section">
-                          <h6 className="wow-conditional-subtitle">Default Configuration</h6>
-                          <p className="wow-conditional-description">
-                            This configuration will be used when no specific trigger condition is met.
-                          </p>
-
-                          {/* Display the default stat modifiers (read-only) */}
-                          {state.buffConfig && state.buffConfig.statModifiers && state.buffConfig.statModifiers.length > 0 ? (
-                            <div className="wow-buff-stat-modifiers">
-                              {state.buffConfig.statModifiers.map((stat, statIndex) => (
-                                <div key={statIndex} className="wow-buff-stat-modifier">
-                                  <div className="wow-buff-stat-info">
-                                    <div className="wow-buff-stat-icon">
-                                      <img src={getIconUrl(stat.icon)} alt={stat.name} />
-                                    </div>
-                                    <div className="wow-buff-stat-name">{stat.name}</div>
-                                  </div>
-
-                                  <div className="wow-buff-stat-value-display">
-                                    <span className="wow-buff-stat-value">
-                                      {typeof stat.magnitude === 'string'
-                                        ? stat.magnitude
-                                        : (stat.magnitude >= 0 ? '+' : '') + stat.magnitude + (stat.magnitudeType === 'percentage' ? '%' : '')}
-                                    </span>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="wow-buff-no-stats">
-                              <p>No stat modifiers configured. Add stats in the Buff Effect step.</p>
-                            </div>
-                          )}
-
-                          {/* Display the default duration (read-only) */}
-                          <div className="wow-buff-duration-display">
-                            <span className="wow-buff-duration-label">Duration:</span>
-                            <span className="wow-buff-duration-value">
-                              {state.buffConfig?.durationType === 'permanent' ? 'Permanent' :
-                               `${state.buffConfig?.durationValue || state.buffConfig?.duration || 3} ${
-                                 state.buffConfig?.durationType === 'time' ?
-                                   (state.buffConfig?.durationUnit || 'minutes') :
-                                 state.buffConfig?.durationType === 'rest' ?
-                                   (state.buffConfig?.restType === 'short' ? 'Short Rest' : 'Long Rest') :
-                                 'rounds'
-                               }`}
-                            </span>
-                          </div>
-                        </div>
-
-
-                      </div>
-                    )}
-
-                    {/* For debuff effects, show stat penalties and saving throw */}
-                    {(selectedEffect === 'debuff' || selectedEffect?.startsWith('debuff_')) && (
-                      <div className="wow-debuff-config-container">
-                        <div className="wow-debuff-config-section">
-                          <h6 className="wow-conditional-subtitle">Default Configuration</h6>
-                          <p className="wow-conditional-description">
-                            This configuration will be used when no specific trigger condition is met.
-                          </p>
-
-                          {/* Display the default stat penalties (read-only) */}
-                          {(selectedEffect === 'debuff_stat' || selectedEffect === 'debuff') && state.debuffConfig && state.debuffConfig.statPenalties && state.debuffConfig.statPenalties.length > 0 ? (
-                            <div className="wow-debuff-stat-penalties">
-                              {state.debuffConfig.statPenalties.map((stat, statIndex) => (
-                                <div key={statIndex} className="wow-debuff-stat-penalty">
-                                  <div className="wow-debuff-stat-info">
-                                    <div className="wow-debuff-stat-icon">
-                                      <img src={getIconUrl(stat.icon)} alt={stat.name} />
-                                    </div>
-                                    <div className="wow-debuff-stat-name">{stat.name}</div>
-                                  </div>
-
-                                  <div className="wow-debuff-stat-value-display">
-                                    <span className="wow-debuff-stat-value">
-                                      {typeof stat.magnitude === 'string'
-                                        ? stat.magnitude
-                                        : (stat.magnitude >= 0 ? '+' : '') + stat.magnitude + (stat.magnitudeType === 'percentage' ? '%' : '')}
-                                    </span>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (selectedEffect === 'debuff_stat' || selectedEffect === 'debuff') && (
-                            <div className="wow-debuff-no-stats">
-                              <p>No stat penalties configured. Add stats in the Debuff Effect step.</p>
-                            </div>
-                          )}
-
-                          {/* Display the default duration and saving throw (read-only) */}
-                          <div className="wow-debuff-duration-display">
-                            <span className="wow-debuff-duration-label">Duration:</span>
-                            <span className="wow-debuff-duration-value">
-                              {state.debuffConfig?.durationType === 'permanent' ? 'Permanent' :
-                               `${state.debuffConfig?.durationValue || state.debuffConfig?.duration || 3} ${
-                                 state.debuffConfig?.durationType === 'time' ?
-                                   (state.debuffConfig?.durationUnit || 'minutes') :
-                                 state.debuffConfig?.durationType === 'rest' ?
-                                   (state.debuffConfig?.restType === 'short' ? 'Short Rest' : 'Long Rest') :
-                                 'rounds'
-                               }`}
-                            </span>
-                          </div>
-
-                          <div className="wow-debuff-save-display">
-                            <span className="wow-debuff-save-label">Saving Throw:</span>
-                            <span className="wow-debuff-save-value">
-                              DC {state.debuffConfig?.difficultyClass || 15} ({state.debuffConfig?.savingThrow || 'Constitution'})
-                            </span>
-                          </div>
-
-                          {/* Display control type for debuff_control */}
-                          {selectedEffect === 'debuff_control' && (
-                            <div className="wow-debuff-control-display">
-                              <span className="wow-debuff-control-label">Control Type:</span>
-                              <span className="wow-debuff-control-value">
-                                {state.debuffConfig?.controlType || 'Slow'}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-
-
-
-
-
-
-                      </div>
-                    )}
-
-
-                    {/* Examples section - only show for damage and healing */}
-                    {(selectedEffect === 'damage' || selectedEffect === 'healing') && (
-                      <div className="wow-conditional-examples mt-md">
-                        <h6 className="wow-conditional-subtitle">Examples</h6>
-                        <div className="wow-example-cards">
-                          {selectedEffect === 'damage' && (
-                            <>
-                              <div className="wow-example-card" onClick={() => updateConditionalFormula(selectedEffect, 'default', '1d6 + INT')}>
-                                <div className="wow-example-title">Standard Damage</div>
-                                <div className="wow-example-formula">1d6 + INT</div>
-                              </div>
-                              <div className="wow-example-card" onClick={() => updateConditionalFormula(selectedEffect, 'default', '2d4 + INT/2')}>
-                                <div className="wow-example-title">Reduced Damage</div>
-                                <div className="wow-example-formula">2d4 + INT/2</div>
-                              </div>
-                            </>
-                          )}
-                          {selectedEffect === 'healing' && (
-                            <>
-                              <div className="wow-example-card" onClick={() => updateConditionalFormula(selectedEffect, 'default', '2d8 + HEA')}>
-                                <div className="wow-example-title">Standard Healing</div>
-                                <div className="wow-example-formula">2d8 + HEA</div>
-                              </div>
-                              <div className="wow-example-card" onClick={() => updateConditionalFormula(selectedEffect, 'default', '1d8 + HEA/2')}>
-                                <div className="wow-example-title">Reduced Healing</div>
-                                <div className="wow-example-formula">1d8 + HEA/2</div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                        <p className="wow-conditional-tip mt-sm">
-                          <strong>Tip:</strong> Set different formulas for different triggers to create dynamic effects.
-                          For example, a spell might deal 1d6 damage normally, but 2d8 when the target is below 30% health.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         )}
 
-        {/* Logic Type Selection - Only shown in global mode */}
-        {editingMode === 'global' && (
-          <div className="pf-config-group mb-md pf-logic-group">
-            <h4 className="pf-config-label">Trigger Logic</h4>
-            <p className="mb-sm">How should multiple triggers be combined?</p>
 
-            <div className="pf-logic-selector">
-              <button
-                className={`pf-logic-button ${triggerConfig && triggerConfig.logicType === 'AND' ? 'active' : ''}`}
-                onClick={() => setLogicType('AND')}
-              >
-                <div className="pf-logic-icon">
-                  <i className="fas fa-link"></i>
-                </div>
-                <div className="pf-logic-text">
-                  <div className="pf-logic-title">ALL CONDITIONS</div>
-                  <div className="pf-logic-description">Every trigger must be met</div>
-                </div>
-              </button>
-              <button
-                className={`pf-logic-button ${triggerConfig && triggerConfig.logicType === 'OR' ? 'active' : ''}`}
-                onClick={() => setLogicType('OR')}
-              >
-                <div className="pf-logic-icon">
-                  <i className="fas fa-random"></i>
-                </div>
-                <div className="pf-logic-text">
-                  <div className="pf-logic-title">ANY CONDITION</div>
-                  <div className="pf-logic-description">Any single trigger can activate</div>
-                </div>
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Trigger Category Selection - Only shown in global mode */}
-        {editingMode === 'global' && (
+        {/* Trigger Category Selection - Shown based on triggerMode */}
+        {editingMode === 'global' && ((triggerMode === 'trigger' && triggerConfig?.enabled !== false) || triggerMode === 'required') && (
           <div className="pf-config-group mb-md">
             <h4 className="pf-config-label">Add Trigger Conditions</h4>
             <p className="mb-sm">Select a category, then choose triggers to add to your spell.</p>
@@ -2487,13 +2201,47 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
           </div>
         )}
 
-        {/* Selected Triggers */}
+        {/* Selected Triggers/Conditions */}
         <div className="pf-config-group mb-md">
           <h4 className="pf-config-label">
-            {editingMode === 'global' ? 'Selected Global Trigger Conditions' : `Selected Trigger Conditions for ${selectedEffect}`}
+            {editingMode === 'global' 
+              ? (triggerMode === 'required' ? 'Selected Required Conditions' : 'Selected Global Trigger Conditions')
+              : (() => {
+                  // Format the effect name nicely
+                  if (!selectedEffect) {
+                    return 'Selected Trigger Conditions';
+                  }
+                  
+                  if (selectedEffect.includes('_')) {
+                    const parts = selectedEffect.split('_');
+                    const effectType = parts[0];
+                    const subType = parts.slice(1).join(' ');
+                    
+                    // Capitalize and format
+                    const formattedEffectType = effectType.charAt(0).toUpperCase() + effectType.slice(1);
+                    let formattedSubType = subType.toLowerCase();
+                    if (formattedSubType === 'hot') {
+                      formattedSubType = 'HoT';
+                    } else if (formattedSubType === 'dot') {
+                      formattedSubType = 'DoT';
+                    } else {
+                      formattedSubType = formattedSubType.split(' ').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ');
+                    }
+                    
+                    return `Selected Trigger Conditions for ${formattedSubType} ${formattedEffectType}`;
+                  } else {
+                    return `Selected Trigger Conditions for ${selectedEffect.charAt(0).toUpperCase() + selectedEffect.slice(1)}`;
+                  }
+                })()}
           </h4>
 
-          {editingMode === 'global' && triggerConfig && triggerConfig.compoundTriggers && triggerConfig.compoundTriggers.length === 0 ? (
+          {editingMode === 'global' && triggerMode === 'required' && (!requiredConditions.conditions || requiredConditions.conditions.length === 0) ? (
+            <div className="pf-empty-abilities">
+              No required conditions selected. Please add conditions from the categories above.
+            </div>
+          ) : editingMode === 'global' && triggerMode === 'trigger' && triggerConfig && triggerConfig.compoundTriggers && triggerConfig.compoundTriggers.length === 0 ? (
             <div className="pf-empty-abilities">
               No trigger conditions selected. Please add triggers from the categories above.
             </div>
@@ -2503,7 +2251,208 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
             </div>
           ) : (
             <div className="pf-selected-triggers">
-              {editingMode === 'global' && triggerConfig && triggerConfig.compoundTriggers ? triggerConfig.compoundTriggers.map((trigger, index) => (
+              {editingMode === 'global' && triggerMode === 'required' && requiredConditions.conditions ? requiredConditions.conditions.map((trigger, index) => (
+                <div key={index} className="pf-selected-trigger">
+                  <div className="pf-selected-trigger-header">
+                    <div className="pf-selected-trigger-icon">
+                      <img
+                        src={getTriggerIconUrl(trigger.id)}
+                        alt={trigger.name}
+                        className="pf-selected-trigger-img"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
+                        }}
+                      />
+                    </div>
+                    <div className="pf-selected-trigger-info">
+                      <div className="pf-selected-trigger-name">{trigger.name}</div>
+                      <div className="pf-selected-trigger-description">
+                        {getTriggersByCategory(trigger.category).find(t => t.id === trigger.id)?.description}
+                      </div>
+                    </div>
+                    <button className="pf-remove-trigger" onClick={() => {
+                      const newConditions = requiredConditions.conditions.filter((_, i) => i !== index);
+                      setRequiredConditions({ ...requiredConditions, conditions: newConditions });
+                    }} title="Remove condition">
+                      <i className="fas fa-times"></i>
+                    </button>
+                  </div>
+
+                  {/* Parameter controls for this condition */}
+                  {Object.keys(trigger.parameters).length > 0 && (
+                    <div className="pf-trigger-parameters">
+                      {Object.keys(trigger.parameters).map(paramName => {
+                        const paramValue = trigger.parameters[paramName];
+                        // Handle parameters similar to regular triggers
+                        if (paramName === 'type' && (!paramValue || paramValue === '')) {
+                          return null;
+                        }
+                        if (trigger.id === 'resource_threshold' && paramName === 'threshold_type') {
+                          return null;
+                        }
+
+                        return (
+                          <div key={paramName} className="pf-trigger-parameter">
+                            {!(trigger.id === 'resource_threshold' && paramName === 'threshold_value') && (
+                              <div className="pf-parameter-label">
+                                {paramName === 'threshold_value'
+                                  ? `${trigger.parameters.threshold_type === 'percentage' ? 'Percentage' : 'Value'}:`
+                                  : paramName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:
+                              </div>
+                            )}
+                            <div className="pf-parameter-control">
+                              {/* Similar parameter controls as regular triggers */}
+                              {trigger.id === 'resource_threshold' && paramName === 'threshold_value' ? (
+                                <ResourceThresholdSlider
+                                  value={paramValue}
+                                  onChange={(value) => {
+                                    const newConditions = [...requiredConditions.conditions];
+                                    newConditions[index] = {
+                                      ...trigger,
+                                      parameters: { ...trigger.parameters, [paramName]: value }
+                                    };
+                                    setRequiredConditions({ ...requiredConditions, conditions: newConditions });
+                                  }}
+                                  resourceType={trigger.parameters.resource_type || 'health'}
+                                  comparison={trigger.parameters.comparison || 'less_than'}
+                                  thresholdType={trigger.parameters.threshold_type || 'percentage'}
+                                  onThresholdTypeChange={(type) => {
+                                    const newConditions = [...requiredConditions.conditions];
+                                    newConditions[index] = {
+                                      ...trigger,
+                                      parameters: { ...trigger.parameters, threshold_type: type }
+                                    };
+                                    setRequiredConditions({ ...requiredConditions, conditions: newConditions });
+                                  }}
+                                />
+                              ) : typeof paramValue === 'boolean' ? (
+                                <div className="pf-toggle-wrapper">
+                                  <button
+                                    className={`pf-toggle-button ${paramValue ? 'active' : ''}`}
+                                    onClick={() => {
+                                      const newConditions = [...requiredConditions.conditions];
+                                      newConditions[index] = {
+                                        ...trigger,
+                                        parameters: { ...trigger.parameters, [paramName]: !paramValue }
+                                      };
+                                      setRequiredConditions({ ...requiredConditions, conditions: newConditions });
+                                    }}
+                                  >
+                                    <div className="pf-toggle-slider"></div>
+                                  </button>
+                                  <span className="pf-toggle-value">{paramValue ? 'Yes' : 'No'}</span>
+                                </div>
+                              ) : typeof paramValue === 'number' ? (
+                                <div className="pf-number-input-wrapper">
+                                  <input
+                                    type="number"
+                                    value={paramValue}
+                                    onChange={(e) => {
+                                      const newConditions = [...requiredConditions.conditions];
+                                      newConditions[index] = {
+                                        ...trigger,
+                                        parameters: { ...trigger.parameters, [paramName]: parseInt(e.target.value) || 0 }
+                                      };
+                                      setRequiredConditions({ ...requiredConditions, conditions: newConditions });
+                                    }}
+                                    className="pf-number-input"
+                                  />
+                                  {paramName === 'percentage' && <span className="pf-input-suffix">%</span>}
+                                  {paramName === 'distance' && <span className="pf-input-suffix">ft</span>}
+                                  {paramName === 'amount' && <span className="pf-input-suffix">pts</span>}
+                                  {paramName === 'health_threshold' && <span className="pf-input-suffix">%</span>}
+                                  {paramName === 'threshold_value' && (
+                                    <span className="wow-input-suffix">
+                                      {trigger.parameters.threshold_type === 'percentage' ? '%' : 'pts'}
+                                    </span>
+                                  )}
+                                </div>
+                              ) : (
+                                <div className="pf-select-wrapper">
+                                  <select
+                                    value={paramValue}
+                                    onChange={(e) => {
+                                      const newConditions = [...requiredConditions.conditions];
+                                      newConditions[index] = {
+                                        ...trigger,
+                                        parameters: { ...trigger.parameters, [paramName]: e.target.value }
+                                      };
+                                      setRequiredConditions({ ...requiredConditions, conditions: newConditions });
+                                    }}
+                                    className="pf-select"
+                                  >
+                                    {/* Same options as regular triggers - simplified for brevity */}
+                                    {paramName === 'comparison' ? (
+                                      <>
+                                        <option value="less_than">Less than</option>
+                                        <option value="greater_than">Greater than</option>
+                                        <option value="equal">Equal to</option>
+                                      </>
+                                    ) : paramName === 'resource_type' ? (
+                                      <>
+                                        {RESOURCE_TYPES.map(resource => (
+                                          <option key={resource.id} value={resource.id}>{resource.name}</option>
+                                        ))}
+                                      </>
+                                    ) : paramName === 'threshold_type' ? (
+                                      <>
+                                        <option value="percentage">Percentage</option>
+                                        <option value="flat">Flat Value</option>
+                                      </>
+                                    ) : paramName === 'effect_type' ? (
+                                      <>
+                                        <option value="buff">Buff</option>
+                                        <option value="debuff">Debuff</option>
+                                        <option value="dot">DoT</option>
+                                        <option value="hot">HoT (Healing over Time)</option>
+                                        <option value="shield">Absorption Shield</option>
+                                      </>
+                                    ) : paramName === 'entity_type' || paramName === 'target_type' ? (
+                                      <>
+                                        <option value="self">Self</option>
+                                        <option value="ally">Ally</option>
+                                        <option value="enemy">Enemy</option>
+                                        <option value="any">Any</option>
+                                      </>
+                                    ) : paramName === 'perspective' ? (
+                                      <>
+                                        <option value="self">Self (When I...)</option>
+                                        <option value="target">Target (When my target...)</option>
+                                        <option value="ally">Ally (When an ally...)</option>
+                                        <option value="enemy">Enemy (When an enemy...)</option>
+                                        <option value="any">Any (When anyone...)</option>
+                                      </>
+                                    ) : paramName === 'damage_type' ? (
+                                      <>
+                                        <option value="any">Any Damage</option>
+                                        <option value="physical">Physical</option>
+                                        <option value="magical">Magical</option>
+                                        <option value="fire">Fire</option>
+                                        <option value="cold">Cold</option>
+                                        <option value="lightning">Lightning</option>
+                                        <option value="poison">Poison</option>
+                                        <option value="acid">Acid</option>
+                                        <option value="necrotic">Necrotic</option>
+                                        <option value="radiant">Radiant</option>
+                                        <option value="force">Force</option>
+                                        <option value="psychic">Psychic</option>
+                                        <option value="thunder">Thunder</option>
+                                      </>
+                                    ) : (
+                                      <option value="">Select a value</option>
+                                    )}
+                                  </select>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )) : editingMode === 'global' && triggerMode === 'trigger' && triggerConfig && triggerConfig.compoundTriggers ? triggerConfig.compoundTriggers.map((trigger, index) => (
                 <div key={index} className="pf-selected-trigger">
                   <div className="pf-selected-trigger-header">
                     <div className="pf-selected-trigger-icon">
@@ -5596,22 +5545,7 @@ const Step7Triggers = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
 
 
 
-        {/* Effect-specific Trigger Preview removed as it's redundant with Effect Configuration Preview */}
-
-        {/* Effect-specific Preview with Conditional Effects */}
-        {(editingMode === 'effect' && selectedEffect && (
-          (effectTriggers[selectedEffect] && effectTriggers[selectedEffect].compoundTriggers && effectTriggers[selectedEffect].compoundTriggers.length > 0) ||
-          (conditionalEffects[selectedEffect]?.isConditional)
-        )) && (
-          <EnhancedEffectPreview
-            selectedEffect={selectedEffect}
-            state={state}
-            effectTriggers={effectTriggers}
-            conditionalEffects={conditionalEffects}
-            triggerConfig={triggerConfig}
-            resourceTypes={RESOURCE_TYPES}
-          />
-        )}
+        {/* Effect-specific Preview removed - triggers now shown directly on spellcard */}
 
         {/* Examples */}
         <div className="pf-config-group mt-lg">

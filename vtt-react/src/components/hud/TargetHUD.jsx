@@ -872,7 +872,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     position={targetHUDPosition}
                     onDrag={handleDrag}
                     nodeRef={nodeRef}
-                    enableUserSelectHack={false} // Disable user select hack for better performance
+                    enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
                     scale={1} // Fixed scale to prevent transform calculations
                     disabled={false} // Ensure dragging is always enabled
                 >

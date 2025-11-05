@@ -21,12 +21,13 @@ const ChatTabs = () => {
   const isInParty = usePartyStore((state) => state.isInParty);
 
   // Check if in game session (local or multiplayer)
+  // Always show combat and loot tabs since dice rolls appear in combat tab
   const isInMultiplayer = useGameStore((state) => state.isInMultiplayer);
   const isInLocalRoom = () => {
     return localStorage.getItem('isLocalRoom') === 'true' &&
            localStorage.getItem('selectedLocalRoomId');
   };
-  const isInGame = isInMultiplayer || isInLocalRoom();
+  const isInGame = true; // Always show combat and loot tabs
 
   // Get unread counts for loot and combat tabs
   const lootUnreadCount = useChatStore((state) => state.unreadCounts?.loot || 0);

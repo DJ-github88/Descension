@@ -411,9 +411,24 @@ const EnhancedEffectPreview = ({
     if (!effectType) return '';
 
     if (effectType.includes('_')) {
-      return effectType.split('_').map(word =>
-        word.charAt(0).toUpperCase() + word.slice(1)
-      ).join(' ');
+      const parts = effectType.split('_');
+      const effectTypePart = parts[0];
+      const subType = parts.slice(1).join(' ');
+      
+      // Handle special sub-type formatting
+      let formattedSubType = subType.toLowerCase();
+      if (formattedSubType === 'hot') {
+        formattedSubType = 'HoT';
+      } else if (formattedSubType === 'dot') {
+        formattedSubType = 'DoT';
+      } else {
+        formattedSubType = formattedSubType.split(' ').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+      }
+      
+      const formattedEffectType = effectTypePart.charAt(0).toUpperCase() + effectTypePart.slice(1);
+      return `${formattedSubType} ${formattedEffectType}`;
     }
 
     return effectType.charAt(0).toUpperCase() + effectType.slice(1);
@@ -523,34 +538,58 @@ const EnhancedEffectPreview = ({
             )}
 
             {/* Healing effects */}
-            {(selectedEffect === 'healing' || selectedEffect?.startsWith('healing_')) && baseConfig && (
-              <>
-                <PropertyDisplay
-                  icon="property-icon-formula"
-                  label="Formula"
-                  value={<span className="effect-preview-formula">{baseConfig.formula || '2d8 + HEA'}</span>}
-                />
-                <PropertyDisplay
-                  icon="effect-icon-healing"
-                  label="Type"
-                  value={baseConfig.healingType || 'Direct'}
-                />
-                {selectedEffect === 'healing_hot' && (
+            {(selectedEffect === 'healing' || selectedEffect?.startsWith('healing_')) && baseConfig && (() => {
+              // Use formatEffectComponent for proper formatting - need to pass full spell context
+              const spell = { 
+                healingConfig: baseConfig, 
+                resolution: state?.resolution || 'DICE',
+                cardConfig: state?.cardConfig || baseConfig.cardConfig,
+                coinConfig: state?.coinConfig || baseConfig.coinConfig
+              };
+              const formattedEffect = formatEffectComponent(spell, 'healing', selectedEffect);
+              
+              if (formattedEffect) {
+                return (
                   <PropertyDisplay
-                    icon="property-icon-duration"
-                    label="Duration"
-                    value={`${baseConfig.hotDuration || '3'} ${baseConfig.hotDurationUnit || 'rounds'}`}
+                    icon="property-icon-formula"
+                    label="Effect"
+                    value={<span className="effect-preview-formula">{formattedEffect}</span>}
                   />
-                )}
-                {selectedEffect === 'healing_shield' && (
+                );
+              }
+              
+              // Fallback to detailed properties
+              return (
+                <>
                   <PropertyDisplay
-                    icon="property-icon-duration"
-                    label="Duration"
-                    value={`${baseConfig.shieldDuration || '3'} ${baseConfig.shieldDurationUnit || 'rounds'}`}
+                    icon="property-icon-formula"
+                    label="Formula"
+                    value={<span className="effect-preview-formula">{baseConfig.formula || '2d8 + HEA'}</span>}
                   />
-                )}
-              </>
-            )}
+                  <PropertyDisplay
+                    icon="effect-icon-healing"
+                    label="Type"
+                    value={baseConfig.healingType === 'hot' ? 'HoT' : 
+                           baseConfig.healingType === 'shield' ? 'Shield' :
+                           baseConfig.healingType?.charAt(0).toUpperCase() + baseConfig.healingType?.slice(1) || 'Direct'}
+                  />
+                  {selectedEffect === 'healing_hot' && (
+                    <PropertyDisplay
+                      icon="property-icon-duration"
+                      label="Duration"
+                      value={`${baseConfig.hotDuration || '3'} ${baseConfig.hotDurationUnit || 'rounds'}`}
+                    />
+                  )}
+                  {selectedEffect === 'healing_shield' && (
+                    <PropertyDisplay
+                      icon="property-icon-duration"
+                      label="Duration"
+                      value={`${baseConfig.shieldDuration || '3'} ${baseConfig.shieldDurationUnit || 'rounds'}`}
+                    />
+                  )}
+                </>
+              );
+            })()}
 
             {/* Buff effects */}
             {(selectedEffect === 'buff' || selectedEffect?.startsWith('buff_')) && baseConfig && (

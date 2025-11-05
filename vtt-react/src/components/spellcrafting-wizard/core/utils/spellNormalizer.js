@@ -143,25 +143,35 @@ function normalizeEffectTypes(spell) {
 function normalizeDamageTypes(spell) {
   const damageTypes = [];
 
-  // From typeConfig (Step 1 of wizard)
-  if (spell.typeConfig?.school) {
+  // From typeConfig (Step 1 of wizard) - but only if it's actually a damage type, not a magic school
+  const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
+  if (spell.typeConfig?.school && !magicSchools.includes(spell.typeConfig.school.toLowerCase())) {
     damageTypes.push(spell.typeConfig.school);
   }
   if (spell.typeConfig?.secondaryElement) {
     damageTypes.push(spell.typeConfig.secondaryElement);
   }
 
-  // From damageConfig
-  if (damageTypes.length === 0 && spell.damageConfig?.elementType) {
-    damageTypes.push(spell.damageConfig.elementType);
+  // From damageConfig - check both elementType and damageType
+  if (damageTypes.length === 0) {
+    if (spell.damageConfig?.elementType) {
+      damageTypes.push(spell.damageConfig.elementType);
+    } else if (spell.damageConfig?.damageType) {
+      // damageType in damageConfig (e.g., 'bludgeoning', 'piercing', 'slashing')
+      damageTypes.push(spell.damageConfig.damageType);
+    }
   }
 
-  // From legacy format
-  if (damageTypes.length === 0 && spell.effects?.damage?.damageType) {
-    damageTypes.push(spell.effects.damage.damageType);
+  // From legacy format - check both damageType and instant.type
+  if (damageTypes.length === 0) {
+    if (spell.effects?.damage?.damageType) {
+      damageTypes.push(spell.effects.damage.damageType);
+    } else if (spell.effects?.damage?.instant?.type) {
+      damageTypes.push(spell.effects.damage.instant.type);
+    }
   }
 
-  // From top-level damageTypes
+  // From top-level damageTypes array
   if (damageTypes.length === 0 && Array.isArray(spell.damageTypes)) {
     return spell.damageTypes;
   }

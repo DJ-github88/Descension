@@ -105,6 +105,9 @@
 
 .creature-filters {
   width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  flex-shrink: 0;
   padding: 0;
   border-right: var(--pf-border-width) solid var(--pf-brown-light);
   background: var(--pf-gradient-parchment-dark);
@@ -325,6 +328,8 @@
 
 .creature-grid {
   flex: 1;
+  min-width: 0;
+  flex-shrink: 1;
   padding: var(--pf-space-3);
   overflow-y: auto;
   display: grid;

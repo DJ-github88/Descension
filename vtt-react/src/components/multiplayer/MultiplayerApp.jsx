@@ -32,6 +32,7 @@ import CombatTimeline from "../combat/CombatTimeline";
 import { FloatingCombatTextManager } from "../combat/FloatingCombatText";
 import DialogueSystem from "../dialogue/DialogueSystem";
 import DialogueControls from "../dialogue/DialogueControls";
+import DiceRollingSystem from "../dice/DiceRollingSystem";
 
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [currentRoom, setCurrentRoom] = useState(null);
@@ -1470,6 +1471,7 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
         <AtmosphericEffectsManager />
         <DialogueSystem />
         <DialogueControls />
+        <DiceRollingSystem />
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
 
         {/* Performance monitor removed - was causing overhead */}

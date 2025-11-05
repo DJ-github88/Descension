@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { useCreatureLibrary } from '../../../creature-wizard/context/CreatureLibraryContext.js';
+import useCreatureStore from '../../../../store/creatureStore';
 import CompactCreatureCard from '../../../creature-wizard/components/common/CompactCreatureCard';
 import SimpleCreatureTooltip from '../../../creature-wizard/components/common/SimpleCreatureTooltip';
 import { FaSearch, FaTimes, FaCheck } from 'react-icons/fa';
@@ -39,6 +40,7 @@ const CreatureSelectionWindow = ({
   effectType = "summon" // "summon" or "transform"
 }) => {
   const library = useCreatureLibrary();
+  const creatureStore = useCreatureStore();
   const [filters, setFilters] = useState({
     query: '',
     types: [],
@@ -81,7 +83,12 @@ const CreatureSelectionWindow = ({
 
   if (!isOpen) return null;
 
-  const filteredCreatures = filterCreatures(library.creatures || [], filters);
+  // Use creatures from library context, fallback to store directly if library is empty
+  const creatures = library.creatures && library.creatures.length > 0 
+    ? library.creatures 
+    : (creatureStore.creatures || []);
+  
+  const filteredCreatures = filterCreatures(creatures, filters);
 
   const handleCreatureClick = (creature) => {
     if (multiSelect) {

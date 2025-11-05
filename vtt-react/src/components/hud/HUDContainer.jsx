@@ -89,7 +89,7 @@ const HUDContainer = () => {
     const [isInspectingSelf, setIsInspectingSelf] = useState(false);
 
     // Store data
-    const { hudSettings } = usePartyStore();
+    const { hudSettings, partyMembers } = usePartyStore();
     const { currentTarget } = useTargetingStore();
 
     // Listen for character sheet open events from tokens

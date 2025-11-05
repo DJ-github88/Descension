@@ -61,6 +61,23 @@
     padding: 0 !important;
 }
 
+/* Remove borders from nested effect boxes when wrapped together */
+.healing-effects .damage-effects,
+.healing-effects .healing-effects {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    margin-top: 8px !important; /* Add spacing between damage and healing when wrapped together */
+    box-shadow: none !important;
+}
+
+/* First nested effect should have no top margin */
+.healing-effects > .healing-effects-section > .damage-effects:first-child,
+.healing-effects > .healing-effects-section > .healing-effects:first-child {
+    margin-top: 0 !important;
+}
+
 /* Effect formula lines */
 .damage-formula-line,
 .healing-formula-line {
@@ -125,10 +142,25 @@
 .wow-spell-card-description,
 .spell-description,
 .item-description {
-    margin-bottom: 0 !important; /* Remove bottom margin to eliminate gap */
-    padding-bottom: 6px !important; /* Slightly more padding for visual separation */
-    border-bottom: 1px solid rgba(139, 105, 20, 0.3) !important; /* More visible beige border */
-    background: transparent !important;
+    margin: 8px 0 8px 0 !important;
+    padding: 10px 12px !important;
+    font-family: 'Bookman Old Style', 'Georgia', 'Times New Roman', serif !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    font-style: italic !important;
+    color: #3a3a3a !important;
+    background: linear-gradient(135deg, 
+      rgba(242, 237, 220, 0.95) 0%, 
+      rgba(235, 228, 208, 0.95) 50%, 
+      rgba(242, 237, 220, 0.95) 100%) !important;
+    border: 1px solid rgba(139, 105, 60, 0.3) !important;
+    border-radius: 4px !important;
+    box-shadow: 
+      inset 0 1px 2px rgba(255, 255, 255, 0.5),
+      inset 0 -1px 2px rgba(139, 69, 19, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    letter-spacing: 0.01em !important;
 }
 
 /* Minimal spacing after description before effects */
@@ -295,6 +327,61 @@
     font-style: italic !important;
 }
 
+/* Targeting/Range badges for effect items */
+.damage-effect-targeting,
+.healing-effect-targeting {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+    margin-top: 4px !important;
+    align-items: center !important;
+}
+
+.targeting-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 2px 6px !important;
+    border-radius: 3px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+}
+
+.range-badge {
+    background: rgba(139, 115, 85, 0.15) !important;
+    border: 1px solid rgba(139, 115, 85, 0.4) !important;
+    color: var(--pf-text-secondary, #5d4037) !important;
+}
+
+.targeting-info-badge {
+    background: rgba(212, 175, 55, 0.15) !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+    color: var(--pf-text-primary, #2d1810) !important;
+}
+
+.restrictions-badge {
+    background: rgba(139, 115, 85, 0.2) !important;
+    border: 1px solid rgba(139, 115, 85, 0.5) !important;
+    color: var(--pf-text-secondary, #5d4037) !important;
+}
+
+.propagation-badge {
+    background: rgba(212, 175, 55, 0.2) !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+    color: #000000 !important; /* Black text for better contrast */
+    font-weight: 600 !important;
+}
+
+.damage-effect {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    width: 100% !important;
+}
+
 .damage-effect-mechanics,
 .healing-effect-mechanics {
     color: var(--pf-text-primary, #2d1810) !important;
@@ -366,16 +453,25 @@
 
 /* Add bordered box around description in rules page */
 .rules-page .item-description {
-    background: linear-gradient(135deg, rgba(254, 252, 248, 0.6) 0%, rgba(248, 245, 232, 0.5) 100%) !important;
-    border: 2px solid rgba(139, 105, 20, 0.3) !important;
-    border-radius: 6px !important;
+    margin: 8px 0 8px 0 !important;
     padding: 10px 12px !important;
-    margin: 8px 0 0 0 !important; /* Remove bottom margin to eliminate gap */
-    font-family: 'Crimson Text', 'Times New Roman', serif !important;
-    font-size: 14px !important;
-    font-style: italic !important;
-    color: #5a1e12 !important;
+    font-family: 'Bookman Old Style', 'Georgia', 'Times New Roman', serif !important;
+    font-size: 13px !important;
     line-height: 1.5 !important;
+    font-style: italic !important;
+    color: #3a3a3a !important;
+    background: linear-gradient(135deg, 
+      rgba(242, 237, 220, 0.95) 0%, 
+      rgba(235, 228, 208, 0.95) 50%, 
+      rgba(242, 237, 220, 0.95) 100%) !important;
+    border: 1px solid rgba(139, 105, 60, 0.3) !important;
+    border-radius: 4px !important;
+    box-shadow: 
+      inset 0 1px 2px rgba(255, 255, 255, 0.5),
+      inset 0 -1px 2px rgba(139, 69, 19, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    letter-spacing: 0.01em !important;
 }
 
 /* Ensure footer has visible border-top in rules page */
@@ -392,16 +488,25 @@
 .spell-library-tab .item-description,
 .spellbook-layout .item-description,
 .wizard-view .item-description {
-    background: linear-gradient(135deg, rgba(254, 252, 248, 0.6) 0%, rgba(248, 245, 232, 0.5) 100%) !important;
-    border: 2px solid rgba(139, 105, 20, 0.3) !important;
-    border-radius: 6px !important;
+    margin: 8px 0 8px 0 !important;
     padding: 10px 12px !important;
-    margin: 8px 0 0 0 !important; /* Remove bottom margin to eliminate gap */
-    font-family: 'Crimson Text', 'Times New Roman', serif !important;
-    font-size: 14px !important;
-    font-style: italic !important;
-    color: #5a1e12 !important;
+    font-family: 'Bookman Old Style', 'Georgia', 'Times New Roman', serif !important;
+    font-size: 13px !important;
     line-height: 1.5 !important;
+    font-style: italic !important;
+    color: #3a3a3a !important;
+    background: linear-gradient(135deg, 
+      rgba(242, 237, 220, 0.95) 0%, 
+      rgba(235, 228, 208, 0.95) 50%, 
+      rgba(242, 237, 220, 0.95) 100%) !important;
+    border: 1px solid rgba(139, 105, 60, 0.3) !important;
+    border-radius: 4px !important;
+    box-shadow: 
+      inset 0 1px 2px rgba(255, 255, 255, 0.5),
+      inset 0 -1px 2px rgba(139, 69, 19, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    letter-spacing: 0.01em !important;
 }
 
 /* Ensure footer has visible border-top in spell library/wizard */

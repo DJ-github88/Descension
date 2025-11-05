@@ -5,6 +5,7 @@ import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/
 import { RoomProvider } from "./contexts/RoomContext";
 import useAuthStore from "./store/authStore";
 import useCharacterStore from "./store/characterStore";
+import usePartyStore from "./store/partyStore";
 import useIdleDetection from "./hooks/useIdleDetection";
 
 // Core components that are always needed
@@ -27,6 +28,7 @@ const AtmosphericEffectsManager = lazy(() => import("./components/level-editor/A
 const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
 const CombatTimeline = lazy(() => import("./components/combat/CombatTimeline"));
+const DiceRollingSystem = lazy(() => import("./components/dice/DiceRollingSystem"));
 import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 const LocalRoomIndicator = lazy(() => import("./components/local-room/LocalRoomIndicator"));
 import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
@@ -55,6 +57,7 @@ import './services/roomService';
 // Core styles that are always needed
 import './styles/player-notification.css';
 import './styles/wow-classic-tooltip.css';
+import './styles/skill-roll-notification.css';
 
 // Critical window styles - must be loaded immediately for production
 import './styles/wow-window.css';
@@ -202,6 +205,7 @@ function GameScreen() {
     const location = useLocation();
     const navigate = useNavigate();
     const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
+    const { createParty, leaveParty, updatePartyMember } = usePartyStore();
     const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Enable auto-save for local rooms
@@ -440,6 +444,10 @@ function GameScreen() {
                     const character = await setActiveCharacter(characterId);
                     if (character) {
                         console.log(`✅ Character loaded: ${character.name}`);
+                        // Clear any existing party and create a single-player party with this character
+                        localStorage.removeItem('party-store');
+                        leaveParty();
+                        createParty('Single Player Party', character.name);
                     } else {
                         console.error(`❌ Failed to load character: ${characterId}`);
                         // Fall back to loading any active character
@@ -451,8 +459,16 @@ function GameScreen() {
                     const activeCharacter = await loadActiveCharacter();
                     if (activeCharacter) {
                         console.log(`✅ Active character loaded: ${activeCharacter.name}`);
+                        // Clear any existing party and create a single-player party with this character
+                        localStorage.removeItem('party-store');
+                        leaveParty();
+                        createParty('Single Player Party', activeCharacter.name);
                     } else {
                         console.log('ℹ️ No active character found');
+                        // Create a basic single-player party even without a character
+                        localStorage.removeItem('party-store');
+                        leaveParty();
+                        createParty('Single Player Party', 'Player');
                     }
                 }
             } catch (error) {
@@ -479,6 +495,7 @@ function GameScreen() {
                     <AtmosphericEffectsManager />
                     <DialogueSystem />
                     <DialogueControls />
+                    <DiceRollingSystem />
 
                     {/* Local Room Indicator - only show when in a local room */}
                     {currentLocalRoomId && (
@@ -529,7 +546,7 @@ export default function App() {
     const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
 
     // Authentication store
-    const { initializeAuth, isAuthenticated, user } = useAuthStore();
+    const { initializeAuth, refreshAuthState, isAuthenticated, user } = useAuthStore();
 
     // Initialize authentication and stores
     useEffect(() => {
@@ -578,12 +595,15 @@ export default function App() {
         try {
             unsubscribe = initializeAuth();
 
-            // Initialize Firebase debugging in development
-            if (process.env.NODE_ENV === 'development') {
-                setTimeout(() => {
+            // Refresh auth state to ensure consistency after initialization
+            setTimeout(async () => {
+                await refreshAuthState();
+
+                // Initialize Firebase debugging in development
+                if (process.env.NODE_ENV === 'development') {
                     firebaseAuthDebugger.getAuthDebugInfo();
-                }, 1000); // Give auth time to initialize
-            }
+                }
+            }, 1000); // Give auth time to initialize
         } catch (error) {
             console.warn('Authentication initialization failed:', error);
         }

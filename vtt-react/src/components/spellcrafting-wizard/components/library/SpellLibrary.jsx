@@ -422,6 +422,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       aoeParameters: spell.targetingConfig?.aoeParameters || {},
       movementBehavior: spell.targetingConfig?.movementBehavior || 'static',
       targetingConfig: spell.targetingConfig || {},
+      targetingMode: spell.targetingMode || 'unified',
+      effectTargeting: spell.effectTargeting || {},
 
       // Damage/Healing information
       primaryDamage: spell.damageConfig ? {

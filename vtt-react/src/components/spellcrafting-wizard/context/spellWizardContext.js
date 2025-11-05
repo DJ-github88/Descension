@@ -218,14 +218,25 @@ const initialState = {
     //   }
     // }
 
+    // Triggers attached to effects created by this spell
+    // When a spell creates an effect (buff, debuff, restoration, etc.), triggers can be attached to it
+    buffDebuffTriggers: {
+      // Map of effect type to trigger configuration
+      // Example: { buff: { triggers: [...], triggersEffect: 'restoration' } }
+      //           { restoration: { triggers: [...], triggersEffect: null } }
+    },
+
+    // Required conditions - conditions that must be met before the spell can be cast
+    // Example: "I must have a shield buff" means spell can only be cast if caster has shield
+    requiredConditions: {
+      enabled: false,
+      logicType: 'AND', // 'AND' or 'OR'
+      conditions: [] // Array of trigger conditions
+    },
+
     // Trigger role configuration
     triggerRole: {
-      mode: 'CONDITIONAL', // 'CONDITIONAL', 'AUTO_CAST', 'BOTH'
-      activationDelay: 0, // Optional delay in seconds before auto-casting
-      requiresLOS: true, // Whether line of sight is required for auto-cast
-      maxRange: null, // Maximum range for auto-cast (null = use spell's range)
-      cooldownAfterTrigger: 0, // Additional cooldown when triggered automatically
-      resourceModifier: 1.0 // Resource cost modifier when triggered (1.0 = normal cost)
+      mode: 'CONDITIONAL' // Always CONDITIONAL - auto-cast removed
     }
   },
 
@@ -1045,7 +1056,16 @@ function spellWizardReducer(state, action) {
         ...state,
         triggerConfig: {
           ...state.triggerConfig,
-          ...action.payload
+          global: action.payload.global || state.triggerConfig.global,
+          effectTriggers: action.payload.effectTriggers || state.triggerConfig.effectTriggers,
+          buffDebuffTriggers: action.payload.buffDebuffTriggers !== undefined
+            ? action.payload.buffDebuffTriggers
+            : state.triggerConfig.buffDebuffTriggers,
+          requiredConditions: action.payload.requiredConditions !== undefined
+            ? action.payload.requiredConditions
+            : state.triggerConfig.requiredConditions,
+          conditionalEffects: state.triggerConfig.conditionalEffects,
+          triggerRole: state.triggerConfig.triggerRole
         },
         lastModified: new Date()
       };

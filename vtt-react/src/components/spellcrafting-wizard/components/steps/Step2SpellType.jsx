@@ -19,11 +19,6 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
 
     // Set type-specific defaults
     switch (type) {
-      case 'ACTION':
-        newConfig.castTime = 0;
-        newConfig.castTimeType = 'IMMEDIATE';
-        // Removed interruptible, castingVisibility, and partialEffectOnInterrupt
-        break;
       case 'CHANNELED':
         newConfig.maxChannelDuration = 3;
         newConfig.durationUnit = 'TURNS';
@@ -152,64 +147,14 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
         ))}
       </div>
 
-      {state.spellType && (
+      {state.spellType && state.spellType !== 'ACTION' && state.spellType !== 'ZONE' && (
         <div className="spell-type-config">
           <h4>{state.spellType} Configuration</h4>
 
-          {state.spellType === 'ACTION' && (
-            <>
-              <div className="spell-wizard-form-row">
-                <div className="spell-wizard-form-group spell-wizard-form-group-half">
-                  <label htmlFor="castTime" className="spell-wizard-label">
-                    Cast Time (turns)
-                  </label>
-                  <input
-                    id="castTime"
-                    name="castTime"
-                    type="number"
-                    min="0"
-                    max="5"
-                    className="spell-wizard-input"
-                    value={state.typeConfig.castTime ?? 0}
-                    onChange={handleConfigChange}
-                  />
-                  <small className="spell-wizard-help-text">
-                    How many turns it takes to cast the spell
-                  </small>
-                </div>
-
-                <div className="spell-wizard-form-group">
-                  <label htmlFor="castTimeType" className="spell-wizard-label">
-                    Cast Time Type
-                  </label>
-                  <select
-                    id="castTimeType"
-                    name="castTimeType"
-                    className="spell-wizard-select"
-                    value={state.typeConfig.castTimeType ?? 'IMMEDIATE'}
-                    onChange={handleConfigChange}
-                  >
-                    <option value="IMMEDIATE">Immediate</option>
-                    <option value="START_OF_TURN">Start of Turn</option>
-                    <option value="END_OF_TURN">End of Turn</option>
-                  </select>
-                </div>
-              </div>
-
-
-            </>
-          )}
 
           {state.spellType === 'CHANNELED' && (
-            <div style={{
-              display: 'block',
-              visibility: 'visible',
-              opacity: 1,
-              padding: '10px',
-              border: '1px solid #ccc',
-              backgroundColor: '#fff'
-            }}>
-              <p style={{ color: '#333', marginBottom: '15px' }}>
+            <div className="channeled-spell-config">
+              <p className="config-description">
                 Configure the channeled spell properties below:
               </p>
               <div className="spell-wizard-form-row">
@@ -439,43 +384,6 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
 
               <div className="spell-wizard-form-row">
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
-                  <label htmlFor="cooldownAfterTrigger" className="spell-wizard-label">
-                    Cooldown After Trigger
-                  </label>
-                  <div className="duration-config">
-                    <div className="duration-value">
-                      <input
-                        id="cooldownAfterTrigger"
-                        name="cooldownAfterTrigger"
-                        type="number"
-                        min="0"
-                        max="300"
-                        className="spell-wizard-input"
-                        value={state.typeConfig.cooldownAfterTrigger ?? 0}
-                        onChange={handleConfigChange}
-                      />
-                    </div>
-                    <div className="duration-unit">
-                      <select
-                        id="cooldownUnit"
-                        name="cooldownUnit"
-                        className="spell-wizard-select"
-                        value={state.typeConfig.cooldownUnit ?? 'seconds'}
-                        onChange={handleConfigChange}
-                      >
-                        <option value="seconds">Seconds</option>
-                        <option value="turns">Turns</option>
-                        <option value="rounds">Rounds</option>
-                        <option value="minutes">Minutes</option>
-                      </select>
-                    </div>
-                  </div>
-                  <small className="spell-wizard-help-text">
-                    Time before the trap can trigger again (0 for no cooldown)
-                  </small>
-                </div>
-
-                <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="maxTriggers" className="spell-wizard-label">
                     Maximum Triggers
                   </label>
@@ -501,162 +409,10 @@ const Step2SpellType = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
             </>
           )}
 
-          {state.spellType === 'ZONE' && (
-            <>
-              <div className="spell-wizard-form-row">
-                <div className="spell-wizard-form-group spell-wizard-form-group-half">
-                  <label htmlFor="zoneDuration" className="spell-wizard-label">
-                    Zone Duration
-                  </label>
-                  <div className="duration-config">
-                    <div className="duration-value">
-                      <input
-                        id="zoneDuration"
-                        name="zoneDuration"
-                        type="number"
-                        min="1"
-                        max="3600"
-                        className="spell-wizard-input"
-                        value={state.typeConfig.zoneDuration ?? 60}
-                        onChange={handleConfigChange}
-                      />
-                    </div>
-                    <div className="duration-unit">
-                      <select
-                        id="zoneDurationUnit"
-                        name="zoneDurationUnit"
-                        className="spell-wizard-select"
-                        value={state.typeConfig.zoneDurationUnit ?? 'seconds'}
-                        onChange={handleConfigChange}
-                      >
-                        <option value="seconds">Seconds</option>
-                        <option value="minutes">Minutes</option>
-                        <option value="hours">Hours</option>
-                        <option value="days">Days</option>
-                        <option value="weeks">Weeks</option>
-                        <option value="rounds">Rounds</option>
-                        <option value="turns">Turns</option>
-                      </select>
-                    </div>
-                  </div>
-                  <small className="spell-wizard-help-text">
-                    How long the zone persists
-                  </small>
-                </div>
-              </div>
-
-              <div className="spell-wizard-form-row">
-                <div className="spell-wizard-form-group">
-                  <div className="spell-wizard-checkbox-group">
-                    <input
-                      id="leaveTrail"
-                      name="leaveTrail"
-                      type="checkbox"
-                      className="spell-wizard-checkbox"
-                      checked={state.typeConfig.leaveTrail ?? false}
-                      onChange={handleConfigChange}
-                    />
-                    <label htmlFor="leaveTrail" className="spell-wizard-label">
-                      Leave Trail
-                    </label>
-                  </div>
-                  <small className="spell-wizard-help-text">
-                    Whether the zone leaves a trail of effects as it moves
-                  </small>
-                </div>
-              </div>
-
-              {/* Trail Duration - only show when leaveTrail is checked */}
-              {state.typeConfig.leaveTrail && (
-                <div className="spell-wizard-form-row">
-                  <div className="spell-wizard-form-group spell-wizard-form-group-half">
-                    <label htmlFor="trailDuration" className="spell-wizard-label">
-                      Trail Duration
-                    </label>
-                    <div className="duration-config">
-                      <div className="duration-value">
-                        <input
-                          id="trailDuration"
-                          name="trailDuration"
-                          type="number"
-                          min="1"
-                          max="3600"
-                          className="spell-wizard-input"
-                          value={state.typeConfig.trailDuration ?? 3}
-                          onChange={handleConfigChange}
-                        />
-                      </div>
-                      <div className="duration-unit">
-                        <select
-                          id="trailDurationUnit"
-                          name="trailDurationUnit"
-                          className="spell-wizard-select"
-                          value={state.typeConfig.trailDurationUnit ?? 'rounds'}
-                          onChange={handleConfigChange}
-                        >
-                          <option value="seconds">Seconds</option>
-                          <option value="minutes">Minutes</option>
-                          <option value="hours">Hours</option>
-                          <option value="days">Days</option>
-                          <option value="weeks">Weeks</option>
-                          <option value="rounds">Rounds</option>
-                          <option value="turns">Turns</option>
-                        </select>
-                      </div>
-                    </div>
-                    <small className="spell-wizard-help-text">
-                      How long each segment of the trail remains active after the caster moves
-                    </small>
-                  </div>
-                </div>
-              )}
-
-              <div className="spell-wizard-info-box">
-                <p>Configure the zone's shape, size, movement behavior, and targeting options in the Targeting step.</p>
-              </div>
-            </>
-          )}
 
           {state.spellType === 'STATE' && (
             <>
               <div className="spell-wizard-form-row">
-                <div className="spell-wizard-form-group spell-wizard-form-group-half">
-                  <label htmlFor="cooldownAfterTrigger" className="spell-wizard-label">
-                    Cooldown After Trigger
-                  </label>
-                  <div className="duration-config">
-                    <div className="duration-value">
-                      <input
-                        id="cooldownAfterTrigger"
-                        name="cooldownAfterTrigger"
-                        type="number"
-                        min="0"
-                        max="300"
-                        className="spell-wizard-input"
-                        value={state.typeConfig.cooldownAfterTrigger ?? 0}
-                        onChange={handleConfigChange}
-                      />
-                    </div>
-                    <div className="duration-unit">
-                      <select
-                        id="cooldownUnit"
-                        name="cooldownUnit"
-                        className="spell-wizard-select"
-                        value={state.typeConfig.cooldownUnit ?? 'seconds'}
-                        onChange={handleConfigChange}
-                      >
-                        <option value="seconds">Seconds</option>
-                        <option value="turns">Turns</option>
-                        <option value="rounds">Rounds</option>
-                        <option value="minutes">Minutes</option>
-                      </select>
-                    </div>
-                  </div>
-                  <small className="spell-wizard-help-text">
-                    Time before the state can trigger again (0 for no cooldown)
-                  </small>
-                </div>
-
                 <div className="spell-wizard-form-group spell-wizard-form-group-half">
                   <label htmlFor="maxTriggers" className="spell-wizard-label">
                     Max Triggers

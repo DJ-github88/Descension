@@ -287,6 +287,62 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount to set default
 
+  // Sync local state with selected effect's config when in effect-specific mode
+  useEffect(() => {
+    if (state.targetingMode === 'effect' && selectedEffect && state.effectTargeting?.[selectedEffect]) {
+      const effectConfig = state.effectTargeting[selectedEffect];
+      // Sync all state variables from the effect's config
+      if (effectConfig.targetingType) setTargetingType(effectConfig.targetingType);
+      if (effectConfig.rangeType) setRangeType(effectConfig.rangeType);
+      if (effectConfig.rangeDistance !== undefined) setRangeDistance(effectConfig.rangeDistance);
+      if (effectConfig.targetRestrictions) setTargetRestrictions(effectConfig.targetRestrictions);
+      if (effectConfig.maxTargets !== undefined) setMaxTargets(effectConfig.maxTargets);
+      if (effectConfig.targetSelectionMethod) setTargetSelectionMethod(effectConfig.targetSelectionMethod);
+      if (effectConfig.selectionMethod) setSelectionMethod(effectConfig.selectionMethod);
+      if (effectConfig.aoeShape) setAoeShape(effectConfig.aoeShape);
+      if (effectConfig.aoeParameters) setAoeParameters(effectConfig.aoeParameters);
+      if (effectConfig.movementBehavior) setMovementBehavior(effectConfig.movementBehavior);
+      // Sync propagation from effect-specific config
+      if (effectConfig.propagation) {
+        setSelectedPropagation(effectConfig.propagation.method || 'none');
+        setSelectedBehavior(effectConfig.propagation.behavior || '');
+        if (effectConfig.propagation.parameters) {
+          setPropagationCount(effectConfig.propagation.parameters.count || 3);
+          setPropagationRange(effectConfig.propagation.parameters.range || 20);
+          setPropagationDecay(effectConfig.propagation.parameters.decay || 20);
+          setSecondaryRadius(effectConfig.propagation.parameters.secondaryRadius || 10);
+          setSpreadRate(effectConfig.propagation.parameters.spreadRate || 5);
+          setForkCount(effectConfig.propagation.parameters.forkCount || 3);
+        }
+      }
+    } else if (state.targetingMode === 'unified') {
+      // Sync with unified targeting config
+      if (targetingConfig.targetingType) setTargetingType(targetingConfig.targetingType);
+      if (targetingConfig.rangeType) setRangeType(targetingConfig.rangeType);
+      if (targetingConfig.rangeDistance !== undefined) setRangeDistance(targetingConfig.rangeDistance);
+      if (targetingConfig.targetRestrictions) setTargetRestrictions(targetingConfig.targetRestrictions);
+      if (targetingConfig.maxTargets !== undefined) setMaxTargets(targetingConfig.maxTargets);
+      if (targetingConfig.targetSelectionMethod) setTargetSelectionMethod(targetingConfig.targetSelectionMethod);
+      if (targetingConfig.selectionMethod) setSelectionMethod(targetingConfig.selectionMethod);
+      if (targetingConfig.aoeShape) setAoeShape(targetingConfig.aoeShape);
+      if (targetingConfig.aoeParameters) setAoeParameters(targetingConfig.aoeParameters);
+      if (targetingConfig.movementBehavior) setMovementBehavior(targetingConfig.movementBehavior);
+      // Sync propagation from unified propagation config
+      if (propagation) {
+        setSelectedPropagation(propagation.method || 'none');
+        setSelectedBehavior(propagation.behavior || '');
+        if (propagation.parameters) {
+          setPropagationCount(propagation.parameters.count || 3);
+          setPropagationRange(propagation.parameters.range || 20);
+          setPropagationDecay(propagation.parameters.decay || 20);
+          setSecondaryRadius(propagation.parameters.secondaryRadius || 10);
+          setSpreadRate(propagation.parameters.spreadRate || 5);
+          setForkCount(propagation.parameters.forkCount || 3);
+        }
+      }
+    }
+  }, [selectedEffect, state.targetingMode, state.effectTargeting, targetingConfig, propagation]);
+
   // When targeting type changes, set appropriate defaults
   useEffect(() => {
     if (targetingType === 'self') {
@@ -463,6 +519,36 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
     }
   };
 
+  // Helper function to update propagation config (handles both unified and effect-specific)
+  const updatePropagationConfig = (updates) => {
+    const propagationConfig = {
+      method: selectedPropagation,
+      behavior: selectedBehavior,
+      parameters: {
+        count: propagationCount,
+        range: propagationRange,
+        decay: propagationDecay,
+        secondaryRadius: secondaryRadius,
+        spreadRate: spreadRate,
+        forkCount: forkCount,
+        ...updates
+      }
+    };
+
+    if (state.targetingMode === 'effect' && selectedEffect) {
+      // Update effect-specific targeting with propagation
+      const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+      const effectConfig = {
+        ...currentConfig,
+        propagation: propagationConfig
+      };
+      dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+    } else {
+      // Update unified propagation
+      dispatch(actionCreators.updatePropagation(propagationConfig));
+    }
+  };
+
   // Update a specific AoE parameter
   const updateAoeParameter = (paramName, value) => {
     setAoeParameters(prev => {
@@ -471,12 +557,22 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
         [paramName]: value
       };
 
-      // Update the global state immediately
-      const config = {
-        ...targetingConfig,
-        aoeParameters: updatedParams
-      };
-      dispatch(actionCreators.updateTargetingConfig(config));
+      if (state.targetingMode === 'effect' && selectedEffect) {
+        // Update effect-specific targeting
+        const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+        const effectConfig = {
+          ...currentConfig,
+          aoeParameters: updatedParams
+        };
+        dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+      } else {
+        // Update unified targeting
+        const config = {
+          ...targetingConfig,
+          aoeParameters: updatedParams
+        };
+        dispatch(actionCreators.updateTargetingConfig(config));
+      }
 
       return updatedParams;
     });
@@ -2331,6 +2427,13 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                 onClick={() => {
                   dispatch(actionCreators.setTargetingMode('unified'));
                   setSelectedEffect(null);
+                  // Clear all effect-specific targeting configurations when switching to unified mode
+                  // This ensures effects don't retain their individual configurations
+                  if (state.effectTypes && state.effectTypes.length > 0) {
+                    state.effectTypes.forEach(effectType => {
+                      dispatch(actionCreators.updateEffectTargeting(effectType, {}));
+                    });
+                  }
                 }}
               >
                 <div className="targeting-mode-icon">
@@ -2378,24 +2481,54 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
             <p className="targeting-section-description">Choose which effect to configure targeting for</p>
 
             <div className="effect-selector">
-              {(state.effectTypes || []).map(effectType => (
-                <div
-                  key={effectType}
-                  className={`effect-selector-item ${selectedEffect === effectType ? 'selected' : ''}`}
-                  onClick={() => setSelectedEffect(effectType)}
-                >
-                  <div className="effect-selector-icon">
-                    <img
-                      src={getEffectIconUrl(effectType)}
-                      alt={effectType}
-                      className="effect-icon"
-                    />
+              {(state.effectTypes || []).map(effectType => {
+                const effectConfig = state.effectTargeting?.[effectType];
+                // Only show config badge if config exists AND has actual targeting data (not empty/cleared)
+                const hasConfig = effectConfig && 
+                                 effectConfig.targetingType && 
+                                 (effectConfig.rangeType || effectConfig.targetingType || effectConfig.rangeDistance);
+                return (
+                  <div
+                    key={effectType}
+                    className={`effect-selector-item ${selectedEffect === effectType ? 'selected' : ''}`}
+                    onClick={() => {
+                      // Toggle selection - if clicking the same effect, deselect it
+                      if (selectedEffect === effectType) {
+                        setSelectedEffect(null);
+                        // Clear the effect-specific targeting configuration when deselected
+                        // This ensures no special rules are applied to this effect
+                        const clearedConfig = {};
+                        dispatch(actionCreators.updateEffectTargeting(effectType, clearedConfig));
+                      } else {
+                        setSelectedEffect(effectType);
+                      }
+                    }}
+                  >
+                    <div className="effect-selector-icon">
+                      <img
+                        src={getEffectIconUrl(effectType)}
+                        alt={effectType}
+                        className="effect-icon"
+                      />
+                    </div>
+                    <div className="effect-selector-content">
+                      <div className="effect-selector-name">
+                        {effectType.charAt(0).toUpperCase() + effectType.slice(1)}
+                      </div>
+                      {hasConfig && (
+                        <div className="effect-selector-badge">
+                          {effectConfig.targetingType === 'single' ? 'Single Target' :
+                           effectConfig.targetingType === 'multi' ? `${effectConfig.maxTargets || 3} Targets` :
+                           effectConfig.targetingType === 'area' || effectConfig.targetingType === 'ground' ? 'Area Effect' :
+                           effectConfig.targetingType === 'chain' ? 'Chain' :
+                           effectConfig.targetingType === 'self' || effectConfig.targetingType === 'self_centered' ? 'Self' :
+                           'Configured'}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div className="effect-selector-name">
-                    {effectType.charAt(0).toUpperCase() + effectType.slice(1)}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -2564,15 +2697,28 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                         className={`targeting-option-card ${rangeType === type.id ? 'selected' : ''}`}
                         onClick={() => {
                           setRangeType(type.id);
-                          // Update the global state immediately
-                          const config = {
-                            ...targetingConfig,
-                            rangeType: type.id,
-                            rangeDistance: type.id === 'ranged' ? rangeDistance :
-                                          type.id === 'touch' ? 5 :
-                                          type.id === 'sight' ? 60 : -1
-                          };
-                          dispatch(actionCreators.updateTargetingConfig(config));
+                          const newRangeDistance = type.id === 'ranged' ? rangeDistance :
+                                                  type.id === 'touch' ? 5 :
+                                                  type.id === 'sight' ? 60 : -1;
+                          
+                          if (state.targetingMode === 'effect' && selectedEffect) {
+                            // Update effect-specific targeting
+                            const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                            const effectConfig = {
+                              ...currentConfig,
+                              rangeType: type.id,
+                              rangeDistance: newRangeDistance
+                            };
+                            dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+                          } else {
+                            // Update unified targeting
+                            const config = {
+                              ...targetingConfig,
+                              rangeType: type.id,
+                              rangeDistance: newRangeDistance
+                            };
+                            dispatch(actionCreators.updateTargetingConfig(config));
+                          }
                         }}
                       >
                         <div className="targeting-option-header">
@@ -2602,12 +2748,23 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                           onChange={e => {
                             const newValue = Number(e.target.value);
                             setRangeDistance(newValue);
-                            // Update the global state immediately
-                            const config = {
-                              ...targetingConfig,
-                              rangeDistance: newValue
-                            };
-                            dispatch(actionCreators.updateTargetingConfig(config));
+                            
+                            if (state.targetingMode === 'effect' && selectedEffect) {
+                              // Update effect-specific targeting
+                              const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                              const effectConfig = {
+                                ...currentConfig,
+                                rangeDistance: newValue
+                              };
+                              dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+                            } else {
+                              // Update unified targeting
+                              const config = {
+                                ...targetingConfig,
+                                rangeDistance: newValue
+                              };
+                              dispatch(actionCreators.updateTargetingConfig(config));
+                            }
                           }}
                           className="param-input"
                         />
@@ -2654,12 +2811,22 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
 
                             setTargetRestrictions(newRestrictions);
 
-                            // Update the global state immediately
-                            const config = {
-                              ...targetingConfig,
-                              targetRestrictions: newRestrictions
-                            };
-                            dispatch(actionCreators.updateTargetingConfig(config));
+                            if (state.targetingMode === 'effect' && selectedEffect) {
+                              // Update effect-specific targeting
+                              const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                              const effectConfig = {
+                                ...currentConfig,
+                                targetRestrictions: newRestrictions
+                              };
+                              dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+                            } else {
+                              // Update unified targeting
+                              const config = {
+                                ...targetingConfig,
+                                targetRestrictions: newRestrictions
+                              };
+                              dispatch(actionCreators.updateTargetingConfig(config));
+                            }
                           }}
                         >
                           <div className="targeting-option-header">
@@ -2700,7 +2867,27 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                           min={2}
                           max={10}
                           value={maxTargets}
-                          onChange={e => setMaxTargets(Number(e.target.value))}
+                          onChange={e => {
+                            const newValue = Number(e.target.value);
+                            setMaxTargets(newValue);
+                            
+                            if (state.targetingMode === 'effect' && selectedEffect) {
+                              // Update effect-specific targeting
+                              const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                              const effectConfig = {
+                                ...currentConfig,
+                                maxTargets: newValue
+                              };
+                              dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+                            } else {
+                              // Update unified targeting
+                              const config = {
+                                ...targetingConfig,
+                                maxTargets: newValue
+                              };
+                              dispatch(actionCreators.updateTargetingConfig(config));
+                            }
+                          }}
                           className="param-input"
                         />
                         <span className="range-value">{maxTargets}</span>
@@ -2735,15 +2922,29 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                           className={`targeting-option-card ${aoeShape === shape.id ? 'selected' : ''}`}
                           onClick={() => {
                             setAoeShape(shape.id);
-                            // Update the global state immediately
-                            const config = {
-                              ...targetingConfig,
-                              aoeShape: shape.id,
-                              aoeParameters: {
-                                ...aoeParameters
-                              }
-                            };
-                            dispatch(actionCreators.updateTargetingConfig(config));
+                            
+                            if (state.targetingMode === 'effect' && selectedEffect) {
+                              // Update effect-specific targeting
+                              const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                              const effectConfig = {
+                                ...currentConfig,
+                                aoeShape: shape.id,
+                                aoeParameters: {
+                                  ...aoeParameters
+                                }
+                              };
+                              dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+                            } else {
+                              // Update unified targeting
+                              const config = {
+                                ...targetingConfig,
+                                aoeShape: shape.id,
+                                aoeParameters: {
+                                  ...aoeParameters
+                                }
+                              };
+                              dispatch(actionCreators.updateTargetingConfig(config));
+                            }
                           }}
                         >
                           <div className="targeting-option-header">
@@ -2996,7 +3197,18 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                             }
                           };
 
-                          dispatch(actionCreators.updatePropagation(propagationConfig));
+                          if (state.targetingMode === 'effect' && selectedEffect) {
+                            // Update effect-specific targeting with propagation
+                            const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                            const effectConfig = {
+                              ...currentConfig,
+                              propagation: propagationConfig
+                            };
+                            dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+                          } else {
+                            // Update unified propagation
+                            dispatch(actionCreators.updatePropagation(propagationConfig));
+                          }
                         }}
                       >
                         <div className="propagation-card-header">
@@ -3042,7 +3254,18 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 }
                               };
 
-                              dispatch(actionCreators.updatePropagation(propagationConfig));
+                              if (state.targetingMode === 'effect' && selectedEffect) {
+                                // Update effect-specific targeting with propagation
+                                const currentConfig = state.effectTargeting?.[selectedEffect] || {};
+                                const effectConfig = {
+                                  ...currentConfig,
+                                  propagation: propagationConfig
+                                };
+                                dispatch(actionCreators.updateEffectTargeting(selectedEffect, effectConfig));
+                              } else {
+                                // Update unified propagation
+                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                              }
                             }}
                           >
                             <div className="targeting-option-header">
@@ -3081,21 +3304,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 onChange={e => {
                                   const newCount = Number(e.target.value);
                                   setPropagationCount(newCount);
-
-                                  // Update global state immediately
-                                  const propagationConfig = {
-                                    method: selectedPropagation,
-                                    behavior: selectedBehavior,
-                                    parameters: {
-                                      count: newCount,
-                                      range: propagationRange,
-                                      decay: propagationDecay,
-                                      secondaryRadius: secondaryRadius,
-                                      spreadRate: spreadRate,
-                                      forkCount: forkCount
-                                    }
-                                  };
-                                  dispatch(actionCreators.updatePropagation(propagationConfig));
+                                  updatePropagationConfig({ count: newCount });
                                 }}
                                 className="param-input"
                               />
@@ -3114,21 +3323,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 onChange={e => {
                                   const newRange = Number(e.target.value);
                                   setPropagationRange(newRange);
-
-                                  // Update global state immediately
-                                  const propagationConfig = {
-                                    method: selectedPropagation,
-                                    behavior: selectedBehavior,
-                                    parameters: {
-                                      count: propagationCount,
-                                      range: newRange,
-                                      decay: propagationDecay,
-                                      secondaryRadius: secondaryRadius,
-                                      spreadRate: spreadRate,
-                                      forkCount: forkCount
-                                    }
-                                  };
-                                  dispatch(actionCreators.updatePropagation(propagationConfig));
+                                  updatePropagationConfig({ range: newRange });
                                 }}
                                 className="param-input"
                               />
@@ -3147,21 +3342,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                                 onChange={e => {
                                   const newDecay = Number(e.target.value);
                                   setPropagationDecay(newDecay);
-
-                                  // Update global state immediately
-                                  const propagationConfig = {
-                                    method: selectedPropagation,
-                                    behavior: selectedBehavior,
-                                    parameters: {
-                                      count: propagationCount,
-                                      range: propagationRange,
-                                      decay: newDecay,
-                                      secondaryRadius: secondaryRadius,
-                                      spreadRate: spreadRate,
-                                      forkCount: forkCount
-                                    }
-                                  };
-                                  dispatch(actionCreators.updatePropagation(propagationConfig));
+                                  updatePropagationConfig({ decay: newDecay });
                                 }}
                                 className="param-input"
                               />
@@ -3220,21 +3401,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               onChange={e => {
                                 const newRadius = Number(e.target.value);
                                 setSecondaryRadius(newRadius);
-
-                                // Update global state immediately
-                                const propagationConfig = {
-                                  method: selectedPropagation,
-                                  behavior: selectedBehavior,
-                                  parameters: {
-                                    count: propagationCount,
-                                    range: propagationRange,
-                                    decay: propagationDecay,
-                                    secondaryRadius: newRadius,
-                                    spreadRate: spreadRate,
-                                    forkCount: forkCount
-                                  }
-                                };
-                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                                updatePropagationConfig({ secondaryRadius: newRadius });
                               }}
                               className="param-input"
                             />
@@ -3255,21 +3422,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               onChange={e => {
                                 const newRate = Number(e.target.value);
                                 setSpreadRate(newRate);
-
-                                // Update global state immediately
-                                const propagationConfig = {
-                                  method: selectedPropagation,
-                                  behavior: selectedBehavior,
-                                  parameters: {
-                                    count: propagationCount,
-                                    range: propagationRange,
-                                    decay: propagationDecay,
-                                    secondaryRadius: secondaryRadius,
-                                    spreadRate: newRate,
-                                    forkCount: forkCount
-                                  }
-                                };
-                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                                updatePropagationConfig({ spreadRate: newRate });
                               }}
                               className="param-input"
                             />
@@ -3290,21 +3443,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                               onChange={e => {
                                 const newForkCount = Number(e.target.value);
                                 setForkCount(newForkCount);
-
-                                // Update global state immediately
-                                const propagationConfig = {
-                                  method: selectedPropagation,
-                                  behavior: selectedBehavior,
-                                  parameters: {
-                                    count: propagationCount,
-                                    range: propagationRange,
-                                    decay: propagationDecay,
-                                    secondaryRadius: secondaryRadius,
-                                    spreadRate: spreadRate,
-                                    forkCount: newForkCount
-                                  }
-                                };
-                                dispatch(actionCreators.updatePropagation(propagationConfig));
+                                updatePropagationConfig({ forkCount: newForkCount });
                               }}
                               className="param-input"
                             />

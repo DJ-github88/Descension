@@ -1578,22 +1578,30 @@
     justify-content: center;
     width: 100%;
     padding: 10px 16px;
-    background: linear-gradient(to bottom, #1e3a8a, #1e3a8a);
-    border: 1px solid #2563eb;
-    border-radius: 4px;
-    color: #ffffff;
+    background: var(--pf-gradient-button);
+    border: var(--pf-border-width) solid var(--pf-brown-medium);
+    border-radius: var(--pf-border-radius);
+    color: var(--pf-text-primary);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    transition: all var(--pf-transition-normal);
+    box-shadow: var(--pf-shadow-sm);
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+    font-family: var(--pf-font-ui);
 }
 
 .spell-library-button:hover {
-    background: linear-gradient(to bottom, #2563eb, #1e40af);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: var(--pf-gradient-button-hover);
+    border-color: var(--pf-brown-dark);
+    box-shadow: var(--pf-shadow-md);
     transform: translateY(-1px);
+}
+
+/* Remove any blue color overrides */
+.spell-library-button,
+.spell-library-button * {
+    color: var(--pf-text-primary) !important;
 }
 
 .selected-spell-display {

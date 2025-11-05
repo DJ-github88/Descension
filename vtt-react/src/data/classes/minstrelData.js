@@ -961,6 +961,11 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
       specialMechanics: {
         musicalCombo: {
           type: 'builder',

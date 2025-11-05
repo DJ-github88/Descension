@@ -1350,41 +1350,43 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                           </div>
                         </div>
                         <div className="stage-content">
-                          <div className="stage-timing">
-                            <label>Trigger at:</label>
-                            <div className="stage-timing-inputs">
-                              <input
-                                type="number"
-                                min="1"
-                                max={debuffConfig.durationValue || 3}
-                                value={stage.triggerAt || 1}
-                                onChange={(e) => {
+                          <div className="stage-top-row">
+                            <div className="stage-timing">
+                              <label>Trigger at:</label>
+                              <div className="stage-timing-inputs">
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max={debuffConfig.durationValue || 3}
+                                  value={stage.triggerAt || 1}
+                                  onChange={(e) => {
+                                    const updatedStages = [...debuffConfig.progressiveStages];
+                                    updatedStages[index] = {
+                                      ...updatedStages[index],
+                                      triggerAt: parseInt(e.target.value)
+                                    };
+                                    updateDebuffConfig('progressiveStages', updatedStages);
+                                  }}
+                                />
+                                <span className="unit-label">{debuffConfig.durationUnit || 'rounds'}</span>
+                              </div>
+                            </div>
+                            <div className="stage-spell-effect">
+                              <label>Trigger Spell (optional):</label>
+                              <SpellSelector
+                                selectedSpellId={stage.spellEffect || null}
+                                onSpellSelect={(spellId, spellData) => {
                                   const updatedStages = [...debuffConfig.progressiveStages];
                                   updatedStages[index] = {
                                     ...updatedStages[index],
-                                    triggerAt: parseInt(e.target.value)
+                                    spellEffect: spellId,
+                                    spellData: spellData // Store the full spell data
                                   };
                                   updateDebuffConfig('progressiveStages', updatedStages);
                                 }}
+                                label="Select a spell to trigger at this stage"
                               />
-                              <span className="unit-label">{debuffConfig.durationUnit || 'rounds'}</span>
                             </div>
-                          </div>
-                          <div className="stage-spell-effect">
-                            <label>Trigger Spell (optional):</label>
-                            <SpellSelector
-                              selectedSpellId={stage.spellEffect || null}
-                              onSpellSelect={(spellId, spellData) => {
-                                const updatedStages = [...debuffConfig.progressiveStages];
-                                updatedStages[index] = {
-                                  ...updatedStages[index],
-                                  spellEffect: spellId,
-                                  spellData: spellData // Store the full spell data
-                                };
-                                updateDebuffConfig('progressiveStages', updatedStages);
-                              }}
-                              label="Select a spell to trigger at this stage"
-                            />
                           </div>
 
                           {/* Saving throw configuration for this stage */}
@@ -1610,7 +1612,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                   {stat.category === 'resistance' ? (
                     <select
                       className={`pf-resistance-select ${getResistanceLevelClass(stat.resistanceLevel || stat.magnitude)}`}
-                      value={stat.resistanceLevel || stat.magnitude || 'none'}
+                      value={stat.magnitude !== undefined && stat.magnitude !== null ? stat.magnitude.toString() : 'none'}
                       onChange={(e) => {
                         const selectedOption = getResistanceScalingOptions(stat.resistanceType).find(opt => opt.value.toString() === e.target.value);
                         if (selectedOption) {
@@ -1629,7 +1631,7 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
                       {getResistanceScalingOptions(stat.resistanceType).map(option => (
                         <option
                           key={option.value}
-                          value={option.value}
+                          value={option.value.toString()}
                           style={{ color: option.color }}
                         >
                           {option.label}

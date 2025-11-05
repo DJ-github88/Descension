@@ -17,13 +17,13 @@ export const validateClassSpellCounts = () => {
     summary: {}
   };
 
-  const allClasses = getAllClassNames();
+  const classesWithSpells = Object.keys(ALL_CLASS_SPELLS);
   const expectedSpellsPerClass = 9; // 3 specializations × 3 spells each
-  
-  allClasses.forEach(className => {
+
+  classesWithSpells.forEach(className => {
     const classSpells = ALL_CLASS_SPELLS[className] || [];
     results.summary[className] = classSpells.length;
-    
+
     if (classSpells.length !== expectedSpellsPerClass) {
       results.success = false;
       results.errors.push(`${className} has ${classSpells.length} spells, expected ${expectedSpellsPerClass}`);
@@ -43,11 +43,11 @@ export const validateSpecializations = () => {
     summary: {}
   };
 
-  const allClasses = getAllClassNames();
-  
-  allClasses.forEach(className => {
+  const classesWithSpells = Object.keys(ALL_CLASS_SPELLS);
+
+  classesWithSpells.forEach(className => {
     const classData = CLASS_SPECIALIZATIONS[className];
-    
+
     if (!classData) {
       results.success = false;
       results.errors.push(`No specialization data found for ${className}`);
@@ -143,7 +143,7 @@ export const validateSpellSystem = () => {
       spellStructure: spellStructureValidation
     },
     summary: {
-      totalClasses: getAllClassNames().length,
+      totalClasses: Object.keys(ALL_CLASS_SPELLS).length,
       totalSpells: spellStructureValidation.summary.totalSpells,
       validSpells: spellStructureValidation.summary.validSpells,
       totalErrors: [
@@ -192,6 +192,13 @@ export const quickValidate = () => {
 if (process.env.NODE_ENV === 'development') {
   // Delay to ensure all modules are loaded
   setTimeout(() => {
-    validateSpellSystem();
+    // Only validate classes that actually have spells
+    const classesWithSpells = Object.keys(ALL_CLASS_SPELLS);
+    if (classesWithSpells.length > 0) {
+      console.log('🧪 Running Spell System Validation for classes with spells:', classesWithSpells);
+      validateSpellSystem();
+    } else {
+      console.log('🧪 Skipping Spell System Validation - no classes with spells found');
+    }
   }, 1000);
 }

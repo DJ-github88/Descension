@@ -394,7 +394,7 @@ const UtilityEffectConfigPopup = ({
 
           <div className="effect-config-section">
             <h4>Potency Level</h4>
-            <div className="effect-options">
+            <div className="effect-options potency-options">
               {POTENCY_OPTIONS.map(potency => (
                 <button
                   key={potency.id}
@@ -402,7 +402,9 @@ const UtilityEffectConfigPopup = ({
                   onClick={() => updateEffectConfigLocal('potency', potency.id)}
                   style={{ borderColor: potency.color }}
                 >
-                  <span style={{ color: potency.color }}>{potency.name}</span>
+                  <span style={{ color: effectData?.potency === potency.id ? 'inherit' : potency.color }}>
+                    {potency.name}
+                  </span>
                   <small>{potency.description}</small>
                 </button>
               ))}
@@ -461,7 +463,7 @@ const UtilityEffectConfigPopup = ({
 
           <div className="effect-config-section">
             <h4>Potency Level</h4>
-            <div className="effect-options">
+            <div className="effect-options potency-options">
               {POTENCY_OPTIONS.map(potency => (
                 <button
                   key={potency.id}
@@ -469,7 +471,9 @@ const UtilityEffectConfigPopup = ({
                   onClick={() => updateEffectConfigLocal('potency', potency.id)}
                   style={{ borderColor: potency.color }}
                 >
-                  <span style={{ color: potency.color }}>{potency.name}</span>
+                  <span style={{ color: effectData?.potency === potency.id ? 'inherit' : potency.color }}>
+                    {potency.name}
+                  </span>
                   <small>{potency.description}</small>
                 </button>
               ))}
@@ -490,6 +494,7 @@ const UtilityEffectConfigPopup = ({
               type="text"
               value={effectData?.customName || effect.name}
               onChange={(e) => updateEffectConfigLocal('customName', e.target.value)}
+              placeholder="Enter effect name..."
             />
           </div>
           <div className="effect-config-option">
@@ -497,14 +502,15 @@ const UtilityEffectConfigPopup = ({
             <textarea
               value={effectData?.customDescription || effect.description}
               onChange={(e) => updateEffectConfigLocal('customDescription', e.target.value)}
-              rows="3"
+              rows="4"
+              placeholder="Enter effect description..."
             />
           </div>
         </div>
 
         <div className="effect-config-section">
           <h4>Potency Level</h4>
-          <div className="effect-options">
+          <div className="effect-options potency-options">
             {POTENCY_OPTIONS.map(potency => (
               <button
                 key={potency.id}
@@ -512,7 +518,9 @@ const UtilityEffectConfigPopup = ({
                 onClick={() => updateEffectConfigLocal('potency', potency.id)}
                 style={{ borderColor: potency.color }}
               >
-                <span style={{ color: potency.color }}>{potency.name}</span>
+                <span style={{ color: effectData?.potency === potency.id ? 'inherit' : potency.color }}>
+                  {potency.name}
+                </span>
                 <small>{potency.description}</small>
               </button>
             ))}
@@ -573,8 +581,6 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
     duration: 3,
     durationUnit: 'minutes',
     concentration: false,
-    difficultyClass: 15,
-    abilitySave: 'spi',
     selectedEffects: []
   };
 
@@ -929,43 +935,6 @@ const UtilityEffects = ({ state, dispatch, actionCreators }) => {
             </div>
           </div>
 
-          <div className="config-group">
-            <label>Difficulty Class (DC)</label>
-            <div className="dc-config">
-              <input
-                type="number"
-                min="1"
-                max="50"
-                value={utilityConfig.difficultyClass}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value === '' || value === '0') {
-                    updateUtilityConfig('difficultyClass', 1);
-                  } else {
-                    const dc = Math.max(1, Math.min(50, parseInt(value) || 1));
-                    updateUtilityConfig('difficultyClass', dc);
-                  }
-                }}
-                className="dc-input"
-              />
-              <span className="dc-label">DC</span>
-            </div>
-          </div>
-
-          <div className="config-group">
-            <label>Saving Throw</label>
-            <select
-              value={utilityConfig.abilitySave || 'spi'}
-              onChange={(e) => updateUtilityConfig('abilitySave', e.target.value)}
-              className="save-select"
-            >
-              {ABILITY_SCORES.map(ability => (
-                <option key={ability.id} value={ability.id}>
-                  {ability.name}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
       </div>
 

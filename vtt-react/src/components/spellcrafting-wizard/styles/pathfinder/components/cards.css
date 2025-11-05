@@ -402,13 +402,13 @@
 .pf-action-type-badge {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  padding: 2px 6px;
+  gap: 2px;
+  padding: 1px 4px;
   border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-sm);
+  font-size: 11px;
   font-weight: var(--pf-font-bold);
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
   border: none;
   box-shadow: none;
   background: transparent;
@@ -509,10 +509,10 @@
 .pf-targeting-badge {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  padding: 2px 6px;
+  gap: 2px;
+  padding: 1px 4px;
   border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-sm);
+  font-size: 11px;
   font-weight: var(--pf-font-semibold);
   border: none;
   background: transparent;
@@ -607,10 +607,10 @@
 .pf-range-badge {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  padding: 2px 6px;
+  gap: 2px;
+  padding: 1px 4px;
   border-radius: var(--pf-border-radius-sm);
-  font-size: var(--pf-text-sm);
+  font-size: 11px;
   font-weight: var(--pf-font-semibold);
   border: none;
   background: transparent;
@@ -1567,11 +1567,12 @@
 }
 
 /* ===== UNIFIED SPELL MECHANICS SECTION ===== */
+/* Reuse the same CSS as healing-effect-mechanics for consistent styling */
 .unified-spell-mechanics {
-  background: var(--pf-gradient-parchment);
-  padding: var(--pf-space-2) var(--pf-space-3);
-  margin: var(--pf-space-2) 0;
-  border-top: var(--pf-border-width) solid var(--pf-brown-light);
+  background: transparent !important;
+  padding: 0 !important;
+  margin-top: 2px !important;
+  border: none !important;
   position: relative;
   z-index: 2;
 }
@@ -2107,29 +2108,47 @@
 
 /* Auto-sizing description for spell cards */
 .unified-spell-card .item-description {
-  margin: 6px 0 0 0; /* Remove bottom margin to eliminate gap */
-  padding: 6px 8px; /* Reduced padding */
-  font-family: 'Times New Roman', serif;
-  font-size: var(--pf-text-sm);
-  line-height: 1.4;
-  color: var(--pf-text-primary);
-  background: var(--pf-gradient-parchment-light);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  width: auto; /* Allow natural width */
+  margin: 8px 0 8px 0;
+  padding: 10px 12px;
+  font-family: 'Bookman Old Style', 'Georgia', 'Times New Roman', serif;
+  font-size: 13px;
+  line-height: 1.5;
+  font-style: italic;
+  color: #3a3a3a;
+  background: linear-gradient(135deg, 
+    rgba(242, 237, 220, 0.95) 0%, 
+    rgba(235, 228, 208, 0.95) 50%, 
+    rgba(242, 237, 220, 0.95) 100%);
+  border: 1px solid rgba(139, 105, 60, 0.3);
+  border-radius: 4px;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(139, 69, 19, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+  width: auto;
   max-width: 100%;
-  min-height: auto; /* Allow natural height */
-  max-height: none; /* No height restrictions */
-  overflow: visible; /* Ensure content is visible */
-  word-wrap: break-word; /* Handle long words */
-  hyphens: auto; /* Better text wrapping */
+  word-wrap: break-word;
   position: relative;
-  z-index: 2; /* Ensure description is above parent textures */
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.01em;
+}
+
+/* Remove quotes from description text if present */
+.unified-spell-card .item-description::before,
+.unified-spell-card .item-description::after {
+  content: '';
 }
 
 /* Hide description completely when empty */
 .unified-spell-card .item-description:empty {
   display: none;
+}
+
+/* Add decorative flourish for description */
+.unified-spell-card .item-description::first-letter {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--pf-brown-dark);
 }
 
 /* Triggers section - position at top with minimal spacing */
@@ -2401,10 +2420,10 @@
 .unified-spell-badges-row {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
+  gap: 6px;
   flex-wrap: wrap; /* Allow wrapping if needed */
   width: 100%;
-  min-height: 28px;
+  min-height: 22px;
 }
 
 /* Responsive badge wrapping */
@@ -2551,19 +2570,34 @@
 .unified-spell-bullets-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 8px;
   margin-left: var(--pf-space-1);
-  margin-top: 2px;
+  margin-top: 6px;
+  align-items: center;
 }
 
 .unified-spell-bullet {
-  font-size: 9px;
-  font-weight: var(--pf-font-normal);
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: var(--pf-font-medium);
+  color: rgba(255, 255, 255, 0.9);
   text-transform: none;
-  letter-spacing: 0;
-  font-style: italic;
-  opacity: 0.8;
+  letter-spacing: 0.2px;
+  font-style: normal;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(1px);
+  transition: all 0.2s ease;
+}
+
+.unified-spell-bullet:hover {
+  background: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Enhanced Buff/Debuff Effects Container */
@@ -3798,13 +3832,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--pf-space-2) var(--pf-space-4);
+  padding: 4px var(--pf-space-3);
   background: var(--pf-gradient-parchment-dark);
   border-top: var(--pf-border-width) solid var(--pf-brown-medium);
   font-family: var(--pf-font-body);
-  min-height: 28px;
+  min-height: 22px;
   margin-top: auto; /* Push to bottom of card */
-  gap: var(--pf-space-3);
+  gap: var(--pf-space-2);
 }
 
 /* Inferno Requirements */
@@ -3856,22 +3890,36 @@
 }
 
 .unified-spell-tag {
-  font-size: var(--pf-text-xs);
+  display: inline-block;
+  padding: 2px 6px;
+  background: var(--pf-gradient-button);
+  border: 1px solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  font-size: 9px;
   font-weight: var(--pf-font-semibold);
-  color: var(--pf-text-primary);
+  color: var(--pf-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  /* Remove all box styling - just plain text */
+  letter-spacing: 0.3px;
+  font-family: var(--pf-font-ui);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.unified-spell-tag:hover {
+  background: var(--pf-gradient-button-hover);
+  border-color: var(--pf-brown-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
 }
 
 .unified-spell-cooldown {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
-  font-size: var(--pf-text-sm);
+  gap: 3px;
+  font-size: 10px;
   white-space: nowrap;
   background: var(--pf-gradient-parchment-light);
-  padding: var(--pf-space-1) var(--pf-space-2);
+  padding: 2px 6px;
   border-radius: var(--pf-border-radius);
   border: 1px solid var(--pf-brown-light);
   box-shadow: var(--pf-shadow-sm);
@@ -3881,15 +3929,16 @@
   font-weight: var(--pf-font-semibold);
   color: var(--pf-text-secondary);
   font-family: var(--pf-font-ui);
-  font-size: var(--pf-text-xs);
+  font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .cooldown-value {
   font-weight: var(--pf-font-bold);
   color: var(--pf-brown-medium);
   font-family: var(--pf-font-ui);
+  font-size: 9px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
 }
 

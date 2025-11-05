@@ -386,6 +386,17 @@
   box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
 }
 
+.pf-config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-config-header .pf-config-label {
+  margin-bottom: 0;
+}
+
 .pf-toggle-wrapper {
   display: flex;
   align-items: center;
@@ -393,35 +404,67 @@
 }
 
 .pf-toggle-button {
-  width: 48px;
-  height: 24px;
-  background: var(--pf-brown-light);
-  border: 1px solid var(--pf-brown-medium);
-  border-radius: 12px;
-  position: relative;
-  cursor: pointer;
-  transition: all var(--pf-transition-normal);
+  width: 48px !important;
+  height: 24px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  padding: 0 !important;
+  background: var(--pf-brown-light) !important;
+  border: 1px solid var(--pf-brown-medium) !important;
+  border-radius: 12px !important;
+  position: relative !important;
+  cursor: pointer !important;
+  transition: all var(--pf-transition-normal) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow: visible !important;
+  box-shadow: none !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  flex-shrink: 0 !important;
+}
+
+.pf-toggle-button::before {
+  display: none !important;
+}
+
+.pf-toggle-button:hover {
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .pf-toggle-button.active {
-  background: var(--pf-gradient-gold);
-  border-color: var(--pf-gold-dark);
+  background: var(--pf-gradient-gold) !important;
+  border-color: var(--pf-gold-dark) !important;
 }
 
 .pf-toggle-slider {
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  transition: all var(--pf-transition-normal);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 20px !important;
+  height: 20px !important;
+  background: white !important;
+  border-radius: 50% !important;
+  position: absolute !important;
+  top: 1px !important;
+  left: 1px !important;
+  transition: all var(--pf-transition-normal) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  display: block !important;
+  border: none !important;
+  margin: 0 !important;
 }
 
 .pf-toggle-button.active .pf-toggle-slider {
-  transform: translateX(24px);
+  transform: translateX(24px) !important;
+}
+
+.pf-toggle-label {
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-semibold);
+  margin-left: var(--pf-space-1);
+  white-space: nowrap;
 }
 
 .pf-toggle-value {
@@ -806,10 +849,150 @@
 }
 
 .pf-trigger-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: var(--pf-space-2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-trigger-icon-img {
   width: 100%;
   height: 100%;
   border-radius: var(--pf-border-radius);
   border: var(--pf-border-width) solid var(--pf-brown-light);
+  object-fit: contain;
+  display: block;
+}
+
+.pf-trigger-list {
+  margin-top: var(--pf-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.pf-trigger-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--pf-gradient-parchment-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  gap: var(--pf-space-2);
+}
+
+.pf-trigger-content {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  flex: 1;
+}
+
+.pf-trigger-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+  flex: 1;
+}
+
+.pf-trigger-name {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-ui);
+}
+
+.pf-trigger-params {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-1);
+  margin-top: var(--pf-space-1);
+}
+
+.pf-trigger-param {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--pf-gradient-parchment-light, rgba(245, 241, 232, 0.5));
+  border: 1px solid var(--pf-brown-light, #d5cbb0);
+  border-radius: 4px;
+  font-size: var(--pf-text-xs, 11px);
+  font-family: var(--pf-font-body, 'Crimson Text', serif);
+  white-space: nowrap;
+}
+
+.pf-trigger-param .pf-trigger-param-label {
+  color: var(--pf-text-secondary, #5a4a3a);
+  font-weight: var(--pf-font-semibold, 600);
+}
+
+.pf-trigger-param .pf-trigger-param-value {
+  color: var(--pf-text-primary, #3d2817);
+  font-weight: var(--pf-font-medium, 500);
+}
+
+.pf-trigger-param-row {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+}
+
+.pf-trigger-param-label {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  font-family: var(--pf-font-body);
+  font-weight: var(--pf-font-semibold, 600);
+}
+
+.pf-trigger-param-value {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
+}
+
+.pf-trigger-param-input {
+  padding: 2px 6px;
+  border: 1px solid var(--pf-brown-medium, #c9b99b);
+  border-radius: 3px;
+  background: var(--pf-gradient-parchment, #f5f1e8);
+  color: var(--pf-text-primary, #3d2817);
+  font-size: var(--pf-text-xs, 11px);
+  font-family: var(--pf-font-body, 'Crimson Text', serif);
+  font-weight: var(--pf-font-medium, 500);
+  margin-left: 4px;
+  cursor: pointer;
+  min-width: 60px;
+}
+
+.pf-trigger-param-input:hover {
+  border-color: var(--pf-brown-dark, #8b6914);
+  background: var(--pf-gradient-parchment-light, rgba(245, 241, 232, 0.8));
+}
+
+.pf-trigger-param-input:focus {
+  outline: none;
+  border-color: var(--pf-gold-dark, #b8860b);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.pf-remove-trigger {
+  background: transparent;
+  border: none;
+  color: var(--pf-brown-dark);
+  font-size: 20px;
+  cursor: pointer;
+  padding: var(--pf-space-1);
+  line-height: 1;
+  transition: color var(--pf-transition-normal);
+}
+
+.pf-remove-trigger:hover {
+  color: var(--pf-brown-darkest);
 }
 
 .pf-trigger-category-name {

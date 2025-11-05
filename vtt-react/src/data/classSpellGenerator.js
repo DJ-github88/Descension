@@ -343,7 +343,19 @@ const generateDescription = (archetypeKey, elementType, archetype) => {
 export const generateAllClassSpells = () => {
   const spellsByClass = {};
 
-  Object.entries(CLASS_SPECIALIZATIONS).forEach(([className, classData]) => {
+  // Only generate spells for classes that have actual spell data files
+  Object.keys(CLASS_DATA_MAP).forEach(className => {
+    // Skip classes that don't have exampleSpells (they will be handled by real data later)
+    if (!CLASS_DATA_MAP[className]?.exampleSpells) {
+      return;
+    }
+
+    const classData = CLASS_SPECIALIZATIONS[className];
+    if (!classData) {
+      console.warn(`No specialization data found for class ${className}, skipping spell generation`);
+      return;
+    }
+
     const classSpells = [];
 
     classData.specializations.forEach((specialization, index) => {

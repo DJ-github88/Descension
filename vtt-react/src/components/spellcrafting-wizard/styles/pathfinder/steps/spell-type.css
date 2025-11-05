@@ -637,6 +637,11 @@
   display: flex;
   gap: var(--pf-space-3);
   align-items: center;
+  font-size: 0; /* Hide any direct text nodes */
+}
+
+.duration-config > * {
+  font-size: var(--pf-text-base); /* Restore font size for child elements */
 }
 
 .duration-value {

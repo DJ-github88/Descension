@@ -90,16 +90,6 @@ const Step4BackgroundSelection = () => {
                     <div className="background-preview">
                         {previewBackground ? (
                             <div className="preview-card">
-                                <div className="preview-header">
-                                    <div className="preview-icon">
-                                        <i className="fas fa-book"></i>
-                                    </div>
-                                    <div className="preview-title-section">
-                                        <h2 className="preview-title">{previewBackground.name}</h2>
-                                        <p className="preview-subtitle">Character Background</p>
-                                    </div>
-                                </div>
-
                                 <div className="preview-content">
                                     <div className="preview-section">
                                         <h4>Description</h4>

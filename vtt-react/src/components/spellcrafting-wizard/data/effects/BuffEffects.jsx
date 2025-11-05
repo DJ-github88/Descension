@@ -1398,48 +1398,8 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           )}
         </div>
 
-        <div className="pf-config-group">
-          <h4 className="pf-config-title">Stacking</h4>
-          <div className="pf-config-option">
-            <label className="pf-label">Stacking Rule</label>
-            <select
-              value={buffConfig.stackingRule || 'replace'}
-              onChange={(e) => {
-                const newStackingRule = e.target.value;
-                updateBuffConfig('stackingRule', newStackingRule);
-
-                // Initialize progressiveStages array when selecting progressive stacking rule
-                if (newStackingRule === 'progressive' && !buffConfig.progressiveStages) {
-                  updateBuffConfig('progressiveStages', []);
-                }
-              }}
-              className="pf-select"
-            >
-              {BUFF_STACKING_RULES.map(rule => (
-                <option key={rule.value} value={rule.value}>
-                  {rule.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="pf-config-option">
-            <label className="pf-label">Max Stacks</label>
-            <input
-              type="number"
-              value={buffConfig.maxStacks || 1}
-              min="1"
-              max="10"
-              onChange={(e) => updateBuffConfig('maxStacks', parseInt(e.target.value))}
-              disabled={buffConfig.stackingRule !== 'selfStacking' && buffConfig.stackingRule !== 'cumulative'}
-              className="pf-input"
-            />
-          </div>
-        </div>
-
         {/* Progressive buff configuration */}
-        {buffConfig.stackingRule === 'progressive' && (
-          <div className="progressive-buff-config">
+        <div className="progressive-buff-config">
             <div className="config-option">
               <div className="toggle-options">
                 <div className="toggle-option">
@@ -1482,48 +1442,49 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                           </div>
                         </div>
                         <div className="stage-content">
-                          <div className="stage-timing">
-                            <label>Trigger at:</label>
-                            <div className="stage-timing-inputs">
-                              <input
-                                type="number"
-                                min="1"
-                                max={buffConfig.durationValue || 3}
-                                value={stage.triggerAt || 1}
-                                onChange={(e) => {
+                          <div className="stage-top-row">
+                            <div className="stage-timing">
+                              <label>Trigger at:</label>
+                              <div className="stage-timing-inputs">
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max={buffConfig.durationValue || 3}
+                                  value={stage.triggerAt || 1}
+                                  onChange={(e) => {
+                                    const updatedStages = [...buffConfig.progressiveStages];
+                                    updatedStages[index] = {
+                                      ...updatedStages[index],
+                                      triggerAt: parseInt(e.target.value)
+                                    };
+                                    updateBuffConfig('progressiveStages', updatedStages);
+                                  }}
+                                />
+                                <span className="unit-label">
+                                  {buffConfig.durationType === 'time' ? buffConfig.durationUnit || 'minutes' :
+                                   buffConfig.durationType === 'rest' ? (buffConfig.restType === 'short' ? 'short rest' : 'long rest') :
+                                   buffConfig.durationType === 'permanent' ? 'permanent' : 'rounds'}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="stage-spell-effect">
+                              <label>Trigger Spell (optional):</label>
+                              <SpellSelector
+                                selectedSpellId={stage.spellEffect || null}
+                                onSpellSelect={(spellId, spellData) => {
+                                  console.log('BuffEffects - Received spell data:', spellId, spellData);
                                   const updatedStages = [...buffConfig.progressiveStages];
                                   updatedStages[index] = {
                                     ...updatedStages[index],
-                                    triggerAt: parseInt(e.target.value)
+                                    spellEffect: spellId,
+                                    spellData: spellData // Store the full spell data
                                   };
                                   updateBuffConfig('progressiveStages', updatedStages);
                                 }}
+                                label="Select a spell to trigger at this stage"
                               />
-                              <span className="unit-label">
-                                {buffConfig.durationType === 'time' ? buffConfig.durationUnit || 'minutes' :
-                                 buffConfig.durationType === 'rest' ? (buffConfig.restType === 'short' ? 'short rest' : 'long rest') :
-                                 buffConfig.durationType === 'permanent' ? 'permanent' : 'rounds'}
-                              </span>
                             </div>
                           </div>
-                          <div className="stage-spell-effect">
-                            <label>Trigger Spell (optional):</label>
-                            <SpellSelector
-                              selectedSpellId={stage.spellEffect || null}
-                              onSpellSelect={(spellId, spellData) => {
-                                console.log('BuffEffects - Received spell data:', spellId, spellData);
-                                const updatedStages = [...buffConfig.progressiveStages];
-                                updatedStages[index] = {
-                                  ...updatedStages[index],
-                                  spellEffect: spellId,
-                                  spellData: spellData // Store the full spell data
-                                };
-                                updateBuffConfig('progressiveStages', updatedStages);
-                              }}
-                              label="Select a spell to trigger at this stage"
-                            />
-                          </div>
-
                           <div className="stage-stats">
                             <label>Stats Affected:</label>
                             <div className="stage-stats-selector">
@@ -1667,8 +1628,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                 </button>
               </div>
             )}
-          </div>
-        )}
+        </div>
 
         {/* Contextual Dice Formula Examples - Only show when there are stats that can use formulas */}
         {buffConfig.statModifiers && buffConfig.statModifiers.length > 0 && (
@@ -1711,7 +1671,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                     <>
                       <select
                         className={`pf-resistance-select ${getResistanceLevelClass(stat.resistanceLevel || stat.magnitude)}`}
-                        value={stat.resistanceLevel || stat.magnitude || 'none'}
+                        value={stat.magnitude !== undefined && stat.magnitude !== null ? stat.magnitude.toString() : 'none'}
                         onChange={(e) => {
                           const selectedOption = getResistanceScalingOptions(stat.resistanceType).find(opt => opt.value.toString() === e.target.value);
                           if (selectedOption) {
@@ -1732,7 +1692,7 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
                         {getResistanceScalingOptions(stat.resistanceType).map(option => (
                           <option
                             key={option.value}
-                            value={option.value}
+                            value={option.value.toString()}
                             style={{ color: option.color }}
                           >
                             {option.label}

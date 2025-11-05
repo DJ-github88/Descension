@@ -1024,19 +1024,44 @@ input[type="checkbox"]:hover {
   padding: var(--pf-space-4);
   box-shadow: var(--pf-shadow-sm);
   margin-bottom: var(--pf-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
 }
 
 .mechanics-popup-body .config-header h3 {
   font-family: var(--pf-font-ui);
   font-weight: var(--pf-font-bold);
   color: var(--pf-text-primary) !important;
-  margin: 0 0 var(--pf-space-3) 0;
+  margin: 0 !important;
   font-size: var(--pf-text-base);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 2px solid var(--pf-brown-light);
   padding-bottom: var(--pf-space-2);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Grid layout for toggle containers - equal size */
+.mechanics-popup-body .config-header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--pf-space-3);
+}
+
+/* Make h3 span full width */
+.mechanics-popup-body .config-header > h3 {
+  grid-column: 1 / -1;
+}
+
+/* When both toggles exist, show them side by side in equal columns */
+.mechanics-popup-body .config-header > .config-toggle:not(:only-child) ~ .crit-only-toggle {
+  grid-column: span 1;
+}
+
+/* Two-column layout when both toggles are present */
+.mechanics-popup-body .config-header:has(> .crit-only-toggle) {
+  grid-template-columns: 1fr 1fr;
 }
 
 /* ===== BULLETPROOF CHECKBOX STYLING ===== */
@@ -1046,8 +1071,12 @@ input[type="checkbox"]:hover {
   border: var(--pf-border-width) solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius-lg);
   padding: var(--pf-space-3);
-  margin-bottom: var(--pf-space-3);
+  margin-bottom: 0;
   transition: all var(--pf-transition-normal);
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .mechanics-popup-body .config-toggle:hover,
@@ -1096,8 +1125,7 @@ input[type="checkbox"]:hover {
 }
 
 /* ELIMINATE ALL CONFLICTING PSEUDO-ELEMENTS */
-.mechanics-popup-body .wow-checkbox-custom::before,
-.mechanics-popup-body .wow-checkbox-custom::after {
+.mechanics-popup-body .wow-checkbox-custom::before {
   display: none !important;
   content: none !important;
 }
@@ -1108,20 +1136,48 @@ input[type="checkbox"]:hover {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* ONLY ONE CHECKMARK - OVERRIDE ALL OTHERS */
+
+/* Remove any conflicting styles that might add "J" character or other content */
+.mechanics-popup-body .wow-checkbox-custom {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+}
+
+/* Ensure ::before has no content */
+.mechanics-popup-body .wow-checkbox-custom::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Only ::after should have the checkmark - default hidden */
+.mechanics-popup-body .wow-checkbox-custom::after {
+  font-family: Arial, sans-serif !important;
+  content: "" !important;
+  display: none !important;
+}
+
+/* Only show checkmark when checked - this overrides the default */
 .mechanics-popup-body .wow-checkbox:checked + .wow-checkbox-custom::after {
-  content: "✓" !important;
   display: block !important;
+  content: "✓" !important;
   position: absolute !important;
   left: 50% !important;
   top: 50% !important;
   transform: translate(-50%, -50%) !important;
   color: var(--pf-text-light) !important;
   font-weight: bold !important;
-  font-size: 14px !important;
+  font-size: 16px !important;
   line-height: 1 !important;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
   z-index: 10 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  border: none !important;
+  background: none !important;
 }
 
 /* DISABLE ALL OTHER CHECKBOX STYLES IN POPUP - COMPREHENSIVE OVERRIDE */
@@ -1312,7 +1368,7 @@ input[type="checkbox"]:hover {
 
 .mechanics-popup-body .icon-selection-card {
   background: var(--pf-gradient-parchment-light);
-  border: 2px solid var(--pf-brown-light);
+  border: 2px solid var(--pf-brown-medium) !important;
   border-radius: var(--pf-border-radius-lg);
   padding: var(--pf-space-4);
   text-align: center;
@@ -1326,6 +1382,13 @@ input[type="checkbox"]:hover {
   gap: var(--pf-space-3);
   position: relative;
   overflow: hidden;
+  box-shadow: var(--pf-shadow-sm);
+}
+
+/* Override inline border: none styles */
+.mechanics-popup-body .icon-selection-card[style*="border: none"],
+.mechanics-popup-body .icon-selection-card[style*="border:none"] {
+  border: 2px solid var(--pf-brown-medium) !important;
 }
 
 .mechanics-popup-body .icon-selection-card::before {
@@ -1358,15 +1421,27 @@ input[type="checkbox"]:hover {
   transform: translateY(-2px);
 }
 
-.mechanics-popup-body .icon-selection-card .icon {
+.mechanics-popup-body .icon-selection-card .icon,
+.mechanics-popup-body .icon-selection-card .icon * {
   font-size: 32px;
   margin-bottom: var(--pf-space-2);
-  color: var(--pf-brown-medium);
+  color: #ffffff !important;
   transition: color var(--pf-transition-normal);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-.mechanics-popup-body .icon-selection-card.selected .icon {
-  color: var(--pf-brown-darkest);
+.mechanics-popup-body .icon-selection-card.selected .icon,
+.mechanics-popup-body .icon-selection-card.selected .icon * {
+  color: #ffffff !important;
+  filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.5));
+}
+
+/* Override any pathfinder brown/red icon colors */
+.mechanics-popup-body .icon-selection-card .icon svg,
+.mechanics-popup-body .icon-selection-card .icon path {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 .mechanics-popup-body .icon-selection-card h5 {
@@ -1586,10 +1661,96 @@ input[type="checkbox"]:hover {
 .mechanics-popup-body .config-section,
 .mechanics-popup-body .section {
   background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
   border-radius: var(--pf-border-radius-lg);
+  padding: var(--pf-space-5);
+  margin-bottom: var(--pf-space-4);
+  box-shadow: var(--pf-shadow-sm);
+}
+
+.mechanics-popup-body .section .section-title,
+.mechanics-popup-body .section h3 {
+  font-family: var(--pf-font-ui);
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary) !important;
+  margin: 0 0 var(--pf-space-3) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--pf-text-base);
+  border-bottom: 2px solid var(--pf-brown-light);
+  padding-bottom: var(--pf-space-2);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.mechanics-popup-body .section p {
+  font-family: var(--pf-font-body);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  margin-bottom: var(--pf-space-4);
+  line-height: 1.5;
+}
+
+.mechanics-popup-body .section .spell-wizard-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--pf-space-4);
+  margin-top: var(--pf-space-4);
+}
+
+.mechanics-popup-body .section .spell-wizard-card-grid.small {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--pf-space-3);
+}
+
+/* Ensure spell-wizard-card icons are white */
+.mechanics-popup-body .section .spell-wizard-card-icon .icon,
+.mechanics-popup-body .section .spell-wizard-card-icon .icon *,
+.mechanics-popup-body .section .spell-wizard-card-icon svg,
+.mechanics-popup-body .section .spell-wizard-card-icon path {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  font-size: 24px;
+}
+
+.mechanics-popup-body .section .spell-wizard-card.selected .spell-wizard-card-icon .icon,
+.mechanics-popup-body .section .spell-wizard-card.selected .spell-wizard-card-icon .icon *,
+.mechanics-popup-body .section .spell-wizard-card.selected .spell-wizard-card-icon svg,
+.mechanics-popup-body .section .spell-wizard-card.selected .spell-wizard-card-icon path {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+  filter: drop-shadow(0 2px 6px rgba(212, 175, 55, 0.5));
+}
+
+/* Ensure spell-wizard-card has proper borders and improved styling */
+.mechanics-popup-body .section .spell-wizard-card {
+  border: 2px solid var(--pf-brown-medium) !important;
+  box-shadow: var(--pf-shadow-sm);
+  background: var(--pf-gradient-button);
   padding: var(--pf-space-4);
-  margin-bottom: var(--pf-space-3);
+  transition: all var(--pf-transition-normal);
+}
+
+.mechanics-popup-body .section .spell-wizard-card:hover {
+  border-color: var(--pf-brown-dark) !important;
+  box-shadow: var(--pf-shadow-md);
+  transform: translateY(-2px);
+  background: var(--pf-gradient-button-hover);
+}
+
+.mechanics-popup-body .section .spell-wizard-card.selected {
+  border-color: var(--pf-gold-dark) !important;
+  box-shadow: var(--pf-shadow-glow);
+  background: var(--pf-gradient-gold) !important;
+  color: var(--pf-brown-darkest) !important;
+}
+
+.mechanics-popup-body .section .spell-wizard-card.selected h4,
+.mechanics-popup-body .section .spell-wizard-card.selected p {
+  color: var(--pf-brown-darkest) !important;
+  font-weight: var(--pf-font-semibold);
 }
 
 /* Selected spell panel styling */

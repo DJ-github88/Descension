@@ -146,25 +146,18 @@
   background: rgba(248, 244, 230, 0.6);
   border: 2px solid var(--pf-brown-light, #a08c70);
   border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
-}
-
-.effect-config-section h4 {
-  font-family: var(--pf-font-display, 'Cinzel', serif);
-  font-size: var(--pf-text-lg, 18px);
-  font-weight: var(--pf-font-semibold, 600);
-  color: var(--pf-text-primary, #2d1810);
-  margin: 0 0 var(--pf-space-3, 12px) 0;
-  padding-bottom: var(--pf-space-2, 8px);
-  border-bottom: 1px solid var(--pf-brown-light, #a08c70);
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 /* Configuration Options */
 .effect-config-option {
-  margin-bottom: var(--pf-space-3, 12px);
+  margin-bottom: 18px;
+}
+
+.effect-config-option:last-child {
+  margin-bottom: 0;
 }
 
 .effect-config-option label {
@@ -173,7 +166,7 @@
   font-size: var(--pf-text-sm, 14px);
   font-weight: var(--pf-font-semibold, 600);
   color: var(--pf-text-primary, #2d1810);
-  margin-bottom: var(--pf-space-2, 8px);
+  margin-bottom: 10px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
@@ -213,8 +206,9 @@
 /* Button Groups */
 .effect-options {
   display: flex;
-  gap: var(--pf-space-2, 8px);
+  gap: 12px;
   flex-wrap: wrap;
+  margin-top: 8px;
 }
 
 .effect-option-button {
@@ -230,6 +224,11 @@
   transition: all var(--pf-transition-normal, 0.25s ease);
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
   box-shadow: var(--pf-shadow-sm, 0 2px 4px rgba(45, 24, 16, 0.1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
 }
 
 .effect-option-button:hover {
@@ -239,15 +238,31 @@
 }
 
 .effect-option-button.active {
-  background: var(--pf-gradient-button-active, linear-gradient(135deg, #8B4513 0%, #654321 100%)) !important;
-  border-color: var(--pf-brown-dark, #654321) !important;
-  color: var(--pf-text-light, #f8f4e6) !important;
-  box-shadow:
-    var(--pf-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.2)),
-    0 0 0 2px rgba(139, 69, 19, 0.4) !important;
+  background: #1a1a1a !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
   font-weight: var(--pf-font-semibold, 600) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
-  transform: translateY(1px);
+  text-shadow: none !important;
+}
+
+.effect-option-button.active > span {
+  color: #ffffff !important;
+}
+
+.effect-option-button.active > small {
+  color: #e0e0e0 !important;
+}
+
+.effect-config-section h4 {
+  font-family: var(--pf-font-display, 'Cinzel', serif);
+  font-size: var(--pf-text-lg, 18px);
+  font-weight: var(--pf-font-semibold, 600);
+  color: var(--pf-text-primary, #2d1810);
+  margin: 0 0 16px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--pf-brown-light, #a08c70);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 /* Toggle Options */

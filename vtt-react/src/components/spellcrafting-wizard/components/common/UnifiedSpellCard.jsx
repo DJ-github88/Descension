@@ -6,7 +6,7 @@ import {
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
   faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
-  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle, faShield, faRandom, faScroll
+  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle, faShield, faRandom, faScroll, faDice
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
@@ -54,7 +54,27 @@ const UnifiedSpellCard = ({
         return {};
       }
       if (typeof normalizeSpell === 'function') {
-        return normalizeSpell(spellProp) || spellProp || {};
+        const normalized = normalizeSpell(spellProp) || spellProp || {};
+        
+        // DEBUG: Log spell data for Harmonic Strike
+        if (normalized.name === 'Harmonic Strike') {
+          console.log('🎵 Harmonic Strike DEBUG:', {
+            name: normalized.name,
+            variant,
+            showDescription,
+            showStats,
+            showTags,
+            effectTypes: normalized.effectTypes,
+            damageTypes: normalized.damageTypes,
+            damageConfig: normalized.damageConfig,
+            resourceCost: normalized.resourceCost,
+            targetingConfig: normalized.targetingConfig,
+            tags: normalized.tags,
+            cooldownConfig: normalized.cooldownConfig
+          });
+        }
+        
+        return normalized;
       } else {
         console.warn('normalizeSpell is not available, using spellProp directly');
         return spellProp || {};
@@ -610,6 +630,13 @@ const UnifiedSpellCard = ({
   const formatRange = () => {
     if (!spell) return 'Self';
 
+    // If in effect-specific targeting mode, don't show unified range in header
+    // Individual effects will show their own range badges
+    if (spell.targetingMode === 'effect' && spell.effectTargeting && Object.keys(spell.effectTargeting).length > 0) {
+      // Show a generic indicator or nothing when using effect-specific targeting
+      return 'Varies';
+    }
+
     // Handle different range formats
     if (spell.targetingMode === 'self') return 'Self';
     if (spell.targetingConfig?.targetingType === 'self') return 'Self';
@@ -720,7 +747,257 @@ const UnifiedSpellCard = ({
     }
   };
 
+  // Format targeting/range info for individual effects
+  const formatEffectTargeting = (effectType, effectSubType = null) => {
+    // In unified mode, don't show targeting badges on individual effects
+    // Unified targeting is shown in the header only
+    if (spell?.targetingMode === 'unified') {
+      return null;
+    }
+    
+    // Only proceed if we're in effect-specific mode
+    if (spell?.targetingMode !== 'effect') {
+      return null;
+    }
+    
+    let effectConfig = null;
+    
+    // First, try to get effect-specific targeting
+    if (spell?.effectTargeting && spell.effectTargeting[effectType]) {
+      const effectSpecificConfig = spell.effectTargeting[effectType];
+      // Only use effect-specific config if it has actual targeting data
+      // If it's an empty object (cleared), don't use it
+      if (effectSpecificConfig && typeof effectSpecificConfig === 'object' && 
+          (effectSpecificConfig.rangeType || effectSpecificConfig.targetingType || effectSpecificConfig.rangeDistance)) {
+        effectConfig = effectSpecificConfig;
+      }
+    }
+    
+    // If still no config, return null
+    if (!effectConfig || typeof effectConfig !== 'object') {
+      return null;
+    }
+    
+    // Return config if it has ANY targeting info (rangeType OR targetingType)
+    // Don't require both - user might set range before targeting type
+    if (!effectConfig.rangeType && !effectConfig.targetingType && !effectConfig.rangeDistance) {
+      return null;
+    }
+
+    const { targetingType, rangeType, rangeDistance, aoeShape, aoeParameters, maxTargets, targetSelectionMethod, selectionMethod, targetRestrictions } = effectConfig;
+    
+    // Build range string - always show range if rangeType exists
+    let rangeStr = '';
+    if (rangeType) {
+      switch (rangeType) {
+        case 'touch':
+          rangeStr = 'Touch';
+          break;
+        case 'ranged':
+          rangeStr = `${rangeDistance || 30} ft`;
+          break;
+        case 'sight':
+          rangeStr = 'Sight';
+          break;
+        case 'unlimited':
+          rangeStr = 'Unlimited';
+          break;
+        case 'self_centered':
+          rangeStr = 'Self';
+          break;
+        default:
+          if (rangeDistance && rangeDistance > 0) {
+            rangeStr = `${rangeDistance} ft`;
+          } else {
+            // Fallback: capitalize the rangeType
+            rangeStr = rangeType.charAt(0).toUpperCase() + rangeType.slice(1);
+          }
+      }
+    } else if (rangeDistance && rangeDistance > 0) {
+      // If no rangeType but we have rangeDistance, show it
+      rangeStr = `${rangeDistance} ft`;
+    }
+
+    // Add targeting type info
+    let targetingInfo = '';
+    if (targetingType === 'area' || targetingType === 'ground' || targetingType === 'cone' || targetingType === 'line') {
+      const shape = aoeShape || effectConfig.aoeType;
+      const params = aoeParameters || (effectConfig.aoeSize ? { radius: effectConfig.aoeSize, length: effectConfig.aoeSize } : {});
+      
+      // Always show area effect info if targeting type is area-based
+      if (shape) {
+        const shapeInfo = formatAoeShape(shape, params);
+        if (shapeInfo && shapeInfo.trim() !== '') {
+          targetingInfo = shapeInfo;
+        } else {
+          // If shape formatting failed, show generic area with shape name
+          const shapeName = shape.charAt(0).toUpperCase() + shape.slice(1).replace(/_/g, ' ');
+          targetingInfo = `${shapeName} Area`;
+        }
+      } else {
+        // No shape configured, show generic area effect
+        if (targetingType === 'cone') {
+          targetingInfo = 'Cone Area';
+        } else if (targetingType === 'line') {
+          targetingInfo = 'Line Area';
+        } else {
+          targetingInfo = 'Area Effect';
+        }
+      }
+    } else if (targetingType === 'multi') {
+      const method = targetSelectionMethod || selectionMethod;
+      if (method && method !== 'manual') {
+        const methodName = method === 'random' ? 'Random' :
+                          method === 'closest' || method === 'nearest' ? 'Nearest' :
+                          method === 'furthest' || method === 'farthest' ? 'Farthest' :
+                          method === 'lowest_health' ? 'Lowest HP' :
+                          method === 'highest_health' ? 'Highest HP' : '';
+        targetingInfo = `${maxTargets || 3} ${methodName}`;
+      } else {
+        targetingInfo = `${maxTargets || 3} Targets`;
+      }
+    } else if (targetingType === 'chain') {
+      targetingInfo = 'Chain Effect';
+    } else if (targetingType === 'single') {
+      const method = targetSelectionMethod || selectionMethod;
+      if (method && method !== 'manual') {
+        const methodName = method === 'random' ? 'Random' :
+                          method === 'closest' || method === 'nearest' ? 'Nearest' :
+                          method === 'furthest' || method === 'farthest' ? 'Farthest' :
+                          method === 'lowest_health' ? 'Lowest HP' :
+                          method === 'highest_health' ? 'Highest HP' : '';
+        targetingInfo = `Single Target (${methodName})`;
+      } else {
+        targetingInfo = 'Single Target';
+      }
+    } else if (targetingType === 'self' || targetingType === 'self_centered') {
+      targetingInfo = 'Self';
+    } else if (rangeType === 'self_centered' && !targetingInfo) {
+      // If range is self-centered but targetingType wasn't set, show Self
+      targetingInfo = 'Self';
+    }
+
+    // Add target restrictions if they exist and are meaningful
+    let restrictionsInfo = '';
+    if (targetRestrictions && targetRestrictions.length > 0 && !targetRestrictions.includes('any')) {
+      const restrictionNames = targetRestrictions.map(r => {
+        return r === 'enemy' ? 'Enemies' :
+               r === 'ally' ? 'Allies' :
+               r === 'self' ? 'Self' :
+               r === 'creature' ? 'Creatures' :
+               r === 'object' ? 'Objects' :
+               r.charAt(0).toUpperCase() + r.slice(1);
+      });
+      restrictionsInfo = restrictionNames.join(', ');
+    }
+
+    // Add propagation info if it exists (check both effect-specific and unified)
+    let propagationInfo = '';
+    const propagation = effectConfig.propagation || (spell?.targetingMode === 'unified' ? spell?.propagation : null);
+    if (propagation && propagation.method && propagation.method !== 'none') {
+      const { method, behavior, parameters } = propagation;
+      
+      // Define propagation method names
+      const propagationMethods = {
+        'chain': 'Chain Effect',
+        'bounce': 'Bounce Effect',
+        'seeking': 'Seeking Effect',
+        'explosion': 'Explosion on Impact',
+        'spreading': 'Spreading Effect',
+        'forking': 'Forking Effect'
+      };
+
+      // Define behavior names
+      const behaviorNames = {
+        'nearest': 'Nearest',
+        'farthest': 'Farthest',
+        'random': 'Random',
+        'lowest_health': 'Lowest HP',
+        'highest_health': 'Highest HP',
+        'ricocheting': 'Ricocheting',
+        'accelerating': 'Accelerating',
+        'decelerating': 'Decelerating',
+        'smart': 'Smart Seeking',
+        'persistent': 'Persistent',
+        'phase_through': 'Phase Through',
+        'delayed': 'Delayed',
+        'instant': 'Instant',
+        'chain_reaction': 'Chain Reaction',
+        'radial': 'Radial',
+        'directional': 'Directional',
+        'viral': 'Viral',
+        'equal_power': 'Equal Power',
+        'diminishing': 'Diminishing',
+        'focused': 'Focused'
+      };
+
+      // Get method name, with fallback capitalization
+      let methodName = propagationMethods[method];
+      if (!methodName) {
+        // Capitalize and format method name if not in map
+        methodName = method.split('_').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ') + ' Effect';
+      }
+      
+      // Build the result string
+      let result = methodName;
+      
+      // Add behavior if present (show behavior prominently)
+      if (behavior && behaviorNames[behavior]) {
+        result = `${methodName} (${behaviorNames[behavior]})`;
+      } else if (behavior) {
+        // Fallback if behavior not in map
+        const behaviorName = behavior.split('_').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        result = `${methodName} (${behaviorName})`;
+      }
+      
+      // Add parameter information
+      if (parameters) {
+        const parts = [];
+        if (method === 'chain' || method === 'bounce') {
+          if (parameters.count) parts.push(`x${parameters.count}`);
+          if (parameters.range) parts.push(`${parameters.range}ft`);
+          if (parameters.decay && parameters.decay > 0) parts.push(`${parameters.decay}% decay`);
+        } else if (method === 'seeking') {
+          if (parameters.range) parts.push(`${parameters.range}ft`);
+        } else if (method === 'explosion') {
+          if (parameters.secondaryRadius) parts.push(`${parameters.secondaryRadius}ft radius`);
+        } else if (method === 'spreading') {
+          if (parameters.spreadRate) parts.push(`${parameters.spreadRate}ft/s`);
+        } else if (method === 'forking') {
+          if (parameters.forkCount) parts.push(`x${parameters.forkCount}`);
+        }
+        if (parts.length > 0) {
+          result += ` - ${parts.join(', ')}`;
+        }
+      }
+      
+      propagationInfo = result;
+    }
+
+    // Only return if we have at least one piece of info to display
+    if (!rangeStr && !targetingInfo && !restrictionsInfo && !propagationInfo) {
+      return null;
+    }
+
+    return {
+      range: rangeStr || null,
+      targeting: targetingInfo || null,
+      restrictions: restrictionsInfo || null,
+      propagation: propagationInfo || null
+    };
+  };
+
   const formatTargetingType = () => {
+    // If in effect-specific targeting mode, don't show unified targeting in header
+    // Individual effects will show their own targeting badges
+    if (spell?.targetingMode === 'effect' && spell.effectTargeting && Object.keys(spell.effectTargeting).length > 0) {
+      return '';
+    }
+
     if (!spell?.targetingConfig) return '';
 
     const {
@@ -833,6 +1110,12 @@ const UnifiedSpellCard = ({
   // ===== PROPAGATION FORMATTING =====
 
   const formatPropagation = () => {
+    // If in effect-specific targeting mode, don't show unified propagation in header
+    // Individual effects will show their own propagation badges
+    if (spell?.targetingMode === 'effect' && spell.effectTargeting && Object.keys(spell.effectTargeting).length > 0) {
+      return '';
+    }
+    
     if (!spell?.propagation || spell.propagation.method === 'none') {
       return '';
     }
@@ -2049,6 +2332,37 @@ const UnifiedSpellCard = ({
       });
     }
 
+    // Add Chaos Weaver Mayhem Modifiers - supports both generation and consumption
+    const mayhemGenerate = spell.mayhemGenerate || spell.resourceFormulas?.mayhem_generate;
+    const mayhemCost = spell.mayhemCost || spell.resourceValues?.mayhem_spend || spell.resourceValues?.mayhem_cost;
+
+    if (mayhemGenerate !== undefined && mayhemGenerate !== null) {
+      // Mayhem Modifier generation - uses dice icon with compact format
+      resources.push({
+        type: 'mayhem-generate',
+        amount: `+${mayhemGenerate}`,
+        name: 'Mayhem Modifiers',
+        icon: faDice,
+        color: '#FF6B35',
+        isChaosWeaver: true,
+        isGenerate: true
+      });
+    }
+
+    if (mayhemCost !== undefined && mayhemCost > 0) {
+      // Mayhem Modifier consumption - uses dice icon with compact format
+      const displayText = mayhemCost > 1 ? `-${mayhemCost}` : '-1';
+      resources.push({
+        type: 'mayhem-cost',
+        amount: displayText,
+        name: 'Mayhem Modifiers',
+        icon: faDice,
+        color: '#FF6B35',
+        isChaosWeaver: true,
+        isConsume: true
+      });
+    }
+
     // Add Chronarch Temporal Strain resources - supports both gain and reduction
     const temporalStrainGain = spell.temporalStrainGain || spell.temporalStrainGained || spell.specialMechanics?.temporalFlux?.strainGained;
     const temporalStrainReduce = spell.temporalStrainReduce || spell.specialMechanics?.temporalFlux?.strainReduced;
@@ -2204,7 +2518,6 @@ const UnifiedSpellCard = ({
   // Format spell components for display below spell name
   const formatSpellComponents = () => {
     if (!spell || !spell.resourceCost) {
-      console.log('[formatSpellComponents] No spell or resourceCost:', { spell: !!spell, resourceCost: !!spell?.resourceCost });
       return null;
     }
 
@@ -2212,7 +2525,6 @@ const UnifiedSpellCard = ({
 
     // Check for spell components in resourceCost
     if (spell.resourceCost.components && spell.resourceCost.components.length > 0) {
-      console.log('[formatSpellComponents] Found components:', spell.resourceCost.components);
       spell.resourceCost.components.forEach(component => {
         switch(component) {
           case 'verbal':
@@ -2247,11 +2559,9 @@ const UnifiedSpellCard = ({
     }
 
     if (components.length === 0) {
-      console.log('[formatSpellComponents] No components found');
       return null;
     }
 
-    console.log('[formatSpellComponents] Returning components:', components.length);
     return (
       <div className="pf-spell-components">
         {components.map((component, index) => (
@@ -2812,8 +3122,41 @@ const UnifiedSpellCard = ({
     return procText;
   };
   // ===== TRIGGER FORMATTING HELPER =====
+  // Helper to format trigger ID when trigger object isn't available
+  const formatTriggerId = (triggerId) => {
+    if (!triggerId || triggerId === 'default') return 'Default';
+    
+    // Handle common trigger IDs with plain English formatting
+    const triggerIdMap = {
+      'spell_interrupt': 'a spell is interrupted',
+      'spell_interrupted': 'a spell is interrupted',
+      'last_ally_standing': 'I am the last ally standing',
+      'last_stand': 'I am the last ally standing',
+      'movement_end': 'movement stops',
+      'movement_start': 'movement starts',
+      'health_threshold': 'health threshold is reached',
+      'damage_taken': 'damage is taken',
+      'damage_dealt': 'damage is dealt',
+      'critical_hit': 'a critical hit lands',
+      'turn_start': 'turn starts',
+      'turn_end': 'turn ends',
+      'combat_start': 'combat starts',
+      'combat_end': 'combat ends'
+    };
+    
+    // Check if we have a mapping
+    if (triggerIdMap[triggerId]) {
+      return triggerIdMap[triggerId];
+    }
+    
+    // Convert snake_case to readable text
+    return triggerId
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase());
+  };
+
   const formatTriggerText = (trigger) => {
-    if (!trigger) return trigger?.name || 'Unknown trigger';
+    if (!trigger) return 'Unknown trigger';
 
     let displayText = trigger.name;
 
@@ -2986,6 +3329,16 @@ const UnifiedSpellCard = ({
       } else {
         displayText += ' a spell';
       }
+    } else if (trigger.id === 'spell_interrupt' || trigger.id === 'spell_interrupted') {
+      const perspective = trigger.parameters?.perspective || 'self';
+      const whoMap = {
+        'self': 'a spell I cast is interrupted',
+        'target': 'a spell my target casts is interrupted',
+        'ally': 'a spell an ally casts is interrupted',
+        'enemy': 'a spell an enemy casts is interrupted',
+        'any': 'a spell is interrupted'
+      };
+      displayText = `When ${whoMap[perspective] || 'a spell is interrupted'}`;
     } else if (trigger.id === 'turn_start') {
       const perspective = trigger.parameters?.perspective || 'self';
       const whoMap = {
@@ -3026,13 +3379,13 @@ const UnifiedSpellCard = ({
     } else if (trigger.id === 'movement_end') {
       const perspective = trigger.parameters?.perspective || 'self';
       const whoMap = {
-        'self': 'When I stop moving',
-        'target': 'When my target stops moving',
-        'ally': 'When an ally stops moving',
-        'enemy': 'When an enemy stops moving',
-        'any': 'When anyone stops moving'
+        'self': 'movement stops',
+        'target': 'my target\'s movement stops',
+        'ally': 'an ally\'s movement stops',
+        'enemy': 'an enemy\'s movement stops',
+        'any': 'movement stops'
       };
-      displayText = whoMap[perspective] || 'When I stop moving';
+      displayText = `When ${whoMap[perspective] || 'movement stops'}`;
     } else if (trigger.id === 'effect_applied') {
       const perspective = trigger.parameters?.perspective || 'self';
       const effectType = trigger.parameters?.effect_type || 'effect';
@@ -3130,7 +3483,7 @@ const UnifiedSpellCard = ({
       };
       displayText = `When ${entityMap[entityType] || 'anyone'} exits ${distance} ft range`;
     } else if (trigger.id === 'last_ally_standing') {
-      displayText = "When I'm the last ally standing";
+      displayText = "I am the last ally standing";
     } else if (trigger.id === 'outnumbered') {
       const ratio = trigger.parameters?.ratio || 2;
       displayText = `When outnumbered ${ratio}:1`;
@@ -3184,7 +3537,7 @@ const UnifiedSpellCard = ({
       };
       displayText = `When ${whoMap[perspective] || 'I make the first attack'}`;
     } else if (trigger.id === 'last_stand' || trigger.id === 'last_ally_standing') {
-      displayText = 'When I am the last ally standing';
+      displayText = 'I am the last ally standing';
     } else if (trigger.id === 'outnumbered') {
       const ratio = trigger.parameters?.ratio || 2;
       displayText = `When outnumbered ${ratio}:1`;
@@ -3292,6 +3645,61 @@ const UnifiedSpellCard = ({
     // Handle any remaining triggers with fallback logic
 
     return displayText;
+  };
+
+  // Helper function to get damage type suffix for conditional formulas
+  const getDamageTypeSuffix = () => {
+    // Get damage types for appending to formulas
+    // Priority: use damageTypes array (from Step 1), then fallback to single damageType
+    let damageTypesArray = spell.damageTypes || spell.damageConfig?.damageTypes;
+    
+    // If no array, try to get from typeConfig (Step 1)
+    if (!damageTypesArray || damageTypesArray.length === 0) {
+      damageTypesArray = [];
+      if (spell.typeConfig?.school) {
+        damageTypesArray.push(spell.typeConfig.school);
+      }
+      if (spell.typeConfig?.secondaryElement) {
+        damageTypesArray.push(spell.typeConfig.secondaryElement);
+      }
+    }
+    
+    // If still no array, try single damageType (for DoT spells, use elementType; for instant damage, use damageType)
+    const singleDamageType = spell.damageConfig?.damageType ||
+                  spell.effects?.damage?.instant?.type ||
+                  null;
+
+    // For DoT spells (damageType === 'dot'), use elementType for the suffix
+    // For instant damage spells, use damageType
+    const effectiveSingleType = singleDamageType === 'dot'
+      ? (spell.damageConfig?.elementType || spell.effects?.damage?.dot?.type)
+      : singleDamageType;
+
+    // If we have an array, use it; otherwise use single type
+    const effectiveDamageTypes = (damageTypesArray && damageTypesArray.length > 0) 
+      ? damageTypesArray 
+      : (effectiveSingleType ? [effectiveSingleType] : []);
+
+    // Format damage type suffix - handle multiple types
+    if (effectiveDamageTypes.length > 0) {
+      const formattedTypes = effectiveDamageTypes
+        .filter(type => type && type !== 'dot') // Filter out 'dot' as it's not a damage type
+        .map(type => {
+          // Capitalize first letter and handle special cases
+          const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
+          return capitalized;
+        });
+      
+      if (formattedTypes.length > 0) {
+        if (formattedTypes.length === 1) {
+          return ` ${formattedTypes[0]} Damage`;
+        } else {
+          // Join with "and" for multiple types: "Cold and Lightning Damage"
+          return ` ${formattedTypes.join(' and ')} Damage`;
+        }
+      }
+    }
+    return '';
   };
 
   // ===== CRITICAL HIT FORMATTING =====
@@ -3975,13 +4383,6 @@ const UnifiedSpellCard = ({
 
     // Priority order: damageTypes array first (check both top-level and damageConfig), then other sources
     const damageTypesArray = spell.damageTypes || spell.damageConfig?.damageTypes;
-    console.log('[getDamageTypes] Checking damage types:', {
-      spellName: spell.name,
-      topLevel: spell.damageTypes,
-      damageConfig: spell.damageConfig?.damageTypes,
-      damageConfigSingular: spell.damageConfig?.damageType,
-      final: damageTypesArray
-    });
     if (damageTypesArray && Array.isArray(damageTypesArray) && damageTypesArray.length > 0) {
       damageTypesArray.forEach(type => {
         if (type && type.trim()) {
@@ -3991,8 +4392,17 @@ const UnifiedSpellCard = ({
     }
 
     // Also check for singular damageType if no array found
+    // Check damageConfig.damageType (e.g., 'bludgeoning', 'piercing', 'slashing')
     if (damageTypesSet.size === 0 && spell.damageConfig?.damageType) {
       const damageType = spell.damageConfig.damageType;
+      if (damageType && damageType.trim()) {
+        damageTypesSet.add(damageType.toLowerCase().trim());
+      }
+    }
+    
+    // Also check effects.damage.instant.type as fallback
+    if (damageTypesSet.size === 0 && spell.effects?.damage?.instant?.type) {
+      const damageType = spell.effects.damage.instant.type;
       if (damageType && damageType.trim()) {
         damageTypesSet.add(damageType.toLowerCase().trim());
       }
@@ -6105,15 +6515,6 @@ const UnifiedSpellCard = ({
           mechanicsParts.push(saveText);
         }
 
-        // Add stacking information
-        if (effectData.canStack) {
-          let stackText = 'can stack';
-          if (effectData.maxStacks && effectData.maxStacks > 1) {
-            stackText += ` (max ${effectData.maxStacks})`;
-          }
-          mechanicsParts.push(stackText);
-        }
-
         // Add dispel information
         if (effectData.canBeDispelled === false) {
           mechanicsParts.push('cannot be dispelled');
@@ -6986,28 +7387,6 @@ const UnifiedSpellCard = ({
       }
     }
 
-    // Add stacking rule information
-    if (debuffConfig.stackingRule && debuffConfig.stackingRule !== 'replace') {
-      const stackingRules = {
-        'selfStacking': 'Self-stacking',
-        'cumulative': 'Cumulative',
-        'progressive': 'Progressive',
-        'diminishing': 'Diminishing returns'
-      };
-      const stackingName = stackingRules[debuffConfig.stackingRule] || debuffConfig.stackingRule;
-
-      let stackingDescription = stackingName;
-      if (debuffConfig.maxStacks && debuffConfig.maxStacks > 1) {
-        stackingDescription += ` (max ${debuffConfig.maxStacks} stacks)`;
-      }
-
-      effects.push({
-        name: 'Stacking Rules',
-        description: stackingDescription,
-        mechanicsText: ''
-      });
-    }
-
     // Add dispellable information for permanent effects
     if (debuffConfig.durationType === 'permanent') {
       if (debuffConfig.canBeDispelled === false) {
@@ -7309,8 +7688,8 @@ const UnifiedSpellCard = ({
           <div className="unified-spell-info">
             <h3 className="pf-spell-name">{spell?.name || 'Unnamed Spell'}</h3>
 
-            {/* Resource costs below title for wizard, library, and collection variants */}
-            {(variant === 'wizard' || variant === 'library' || variant === 'collection') && (formatResourceCosts() || spell?.musicalCombo || spell?.specialMechanics?.musicalCombo) && (
+            {/* Resource costs below title for wizard, library, collection, spellbook, and rules variants */}
+            {(variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (formatResourceCosts() || spell?.musicalCombo || spell?.specialMechanics?.musicalCombo) && (
               <div className="unified-spell-wizard-meta">
                 <div className="unified-spell-resource-costs">
                   {formatResourceCosts()}
@@ -7336,14 +7715,7 @@ const UnifiedSpellCard = ({
             {(() => {
               const damageTypes = getDamageTypes();
               const spellComponents = formatSpellComponents();
-              const shouldShow = (variant === 'wizard' || variant === 'library' || variant === 'collection') && (damageTypes.length > 0 || spellComponents);
-
-              console.log('[Damage/Component Box]', {
-                variant,
-                damageTypesCount: damageTypes.length,
-                hasComponents: !!spellComponents,
-                shouldShow
-              });
+              const shouldShow = (variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (damageTypes.length > 0 || spellComponents);
 
               return shouldShow && (
                 <div className="pf-damage-spell-box">
@@ -7388,7 +7760,7 @@ const UnifiedSpellCard = ({
         </div>
 
         {/* Header Details Row - Action Type, Range, Targeting */}
-        {(variant === 'library' || variant === 'wizard' || variant === 'collection') && (
+        {(variant === 'library' || variant === 'wizard' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (
           <div className="unified-spell-header-details">
             {/* Main badges row - action type, range, targeting */}
             <div className="unified-spell-badges-row">
@@ -7460,373 +7832,1453 @@ const UnifiedSpellCard = ({
           {/* Description - First element in body */}
           {spell?.description && (
             <div className="item-description">
-              "{spell.description}"
+              {spell.description}
             </div>
           )}
 
-          {/* Global Triggers - Positioned after description */}
-          {(() => {
+          {/* Global Triggers/Required Conditions - Will wrap effects below */}
+
+          {/* Stats (varies by variant) - Only show if step 3 (Effects) has been completed */}
+          {showStats && spell?.effectTypes && spell.effectTypes.length > 0 && (() => {
+            // Check for global triggers or required conditions
             const hasTriggerConfig = spell?.triggerConfig;
+            const globalTriggersEnabled = hasTriggerConfig?.global?.enabled !== false;
             const hasGlobalTriggers = hasTriggerConfig?.global?.compoundTriggers?.length > 0;
-            const hasTriggerRole = hasTriggerConfig?.triggerRole?.mode && hasTriggerConfig.triggerRole.mode !== 'CONDITIONAL';
+            const hasRequiredConditions = hasTriggerConfig?.requiredConditions?.enabled && 
+                                         hasTriggerConfig.requiredConditions.conditions?.length > 0;
+            const hasGlobalTriggerOrRequired = (globalTriggersEnabled && hasGlobalTriggers) || hasRequiredConditions;
 
-            const shouldShowGlobalTriggers = hasGlobalTriggers || hasTriggerRole ||
-              (hasTriggerConfig && ['REACTION', 'PASSIVE', 'TRAP', 'STATE'].includes(spell?.spellType));
+            // Check for effect-specific triggers
+            const damageEffectTriggers = spell?.triggerConfig?.effectTriggers?.damage;
+            const healingEffectTriggers = spell?.triggerConfig?.effectTriggers?.healing;
+            const isDamageConditional = spell?.triggerConfig?.conditionalEffects?.damage?.isConditional;
+            const isHealingConditional = spell?.triggerConfig?.conditionalEffects?.healing?.isConditional;
+            const hasDamageEffectTriggers = damageEffectTriggers?.compoundTriggers?.length > 0 && isDamageConditional;
+            const hasHealingEffectTriggers = healingEffectTriggers?.compoundTriggers?.length > 0 && isHealingConditional;
 
-            console.log('[Trigger Display]', {
-              spellName: spell?.name,
-              spellType: spell?.spellType,
-              hasTriggerConfig: !!hasTriggerConfig,
-              hasGlobalTriggers,
-              hasTriggerRole,
-              shouldShowGlobalTriggers,
-              triggerConfigFull: hasTriggerConfig,
-              compoundTriggersLength: hasTriggerConfig?.global?.compoundTriggers?.length,
-              triggers: hasTriggerConfig?.global?.compoundTriggers
-            });
-
-            if (!shouldShowGlobalTriggers) {
-              console.log('[Trigger Display] NOT showing triggers for', spell?.name);
-              return null;
-            }
-
-            console.log('[Trigger Display] SHOWING triggers for', spell?.name);
-
-            // Build logic badge text
-            let logicBadge = '';
-            if (hasGlobalTriggers && hasTriggerConfig.global.compoundTriggers.length > 1) {
-              logicBadge = hasTriggerConfig.global.logicType === 'AND' ? 'ALL' : 'ANY';
-            }
-
-            // Build trigger conditions as array for proper rendering
-            let triggerTexts = [];
-            if (hasGlobalTriggers) {
-              triggerTexts = hasTriggerConfig.global.compoundTriggers.map(trigger => formatTriggerText(trigger));
-              console.log('🔍 Formatted trigger texts:', triggerTexts);
-            } else {
-              triggerTexts = ['When on desert terrain'];
-            }
-
-            return (
-              <div className="healing-effects" style={{ marginTop: '8px', marginBottom: '4px' }}>
-                <div className="healing-effects-section">
-                  <div className="healing-formula-line">
-                    <div className="healing-effects-list">
-                      <div className="healing-effect-item">
-                        <div className="healing-effect">
-                          <span className="healing-effect-name">Triggers</span>
-                          {logicBadge && (
-                            <span className="healing-effect-description"> - {logicBadge}</span>
-                          )}
-                        </div>
-                        <div className="healing-effect-details">
-                          <div className="healing-effect-mechanics">
-                            {triggerTexts.map((text, index) => (
-                              <div key={index}>
-                                {text}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
+            // Build trigger/required state header if needed
+            let triggerHeader = null;
+            if (hasGlobalTriggerOrRequired) {
+              if (hasRequiredConditions) {
+                const logicBadge = hasTriggerConfig.requiredConditions.conditions.length > 1
+                  ? (hasTriggerConfig.requiredConditions.logicType === 'AND' ? 'ALL' : 'ANY')
+                  : '';
+                triggerHeader = (
+                  <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
+                    <div className="healing-effect">
+                      <span className="healing-effect-name">Required</span>
+                      {logicBadge && (
+                        <span className="healing-effect-description">
+                          {' '}- {logicBadge}
+                        </span>
+                      )}
+                    </div>
+                    <div className="healing-effect-details">
+                      <div className="healing-effect-mechanics">
+                        {hasTriggerConfig.requiredConditions.conditions.map((condition, index) => {
+                          const conditionText = formatTriggerText(condition);
+                          return (
+                            <div key={index}>
+                              {conditionText}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            );
-          })()}
-
-          {/* Stats (varies by variant) - Only show if step 3 (Effects) has been completed */}
-          {showStats && spell?.effectTypes && spell.effectTypes.length > 0 && (
-            <div className="pf-spell-stats wow-spell-stats">
-              {/* Damage Display - Only show if damage is actually configured */}
-              {(() => {
-                // Check if there's actual damage configuration (not healing)
-                const hasPrimaryDamage = spell?.primaryDamage?.dice && spell.primaryDamage.dice !== '6d6';
-                const hasDamageFormula = spell?.damageConfig?.formula && spell.damageConfig.formula.trim();
-                // Only check for card/coin damage if there's actual damage config AND damage effect type
-                const hasCardDamage = spell?.resolution === 'CARDS' && spell?.cardConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
-                const hasCoinDamage = spell?.resolution === 'COINS' && spell?.coinConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
-                const hasDiceDamage = spell?.resolution === 'DICE' && spell?.diceConfig?.formula && spell.diceConfig.formula.trim() && spell?.damageConfig && spell?.effectTypes?.includes('damage');
-                const hasDamageEffect = spell?.effectTypes?.includes('damage');
-
-                return hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage || hasDamageEffect;
-              })() && (
-                <div className="damage-effects">
-                  <div className="damage-effects-section">
-                    {(() => {
-                      const damageData = spell?.damageConfig;
-                      if (!damageData) return null;
-
-                      const effects = [];
-
-                      // Main instant damage effect
-                      const damageResult = formatDamage();
-                      if (damageResult) {
-                        if (typeof damageResult === 'object' && damageResult.instant && damageResult.dot) {
-                          // Instant damage
-                          effects.push({
-                            name: 'Instant Damage',
-                            description: '',
-                            mechanicsText: damageResult.instant
-                          });
-
-                          // DoT damage
-                          effects.push({
-                            name: 'Damage Over Time',
-                            description: '',
-                            mechanicsText: damageResult.dot
-                          });
-                        } else {
-                          // Single damage effect
-                          const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
-                          effects.push({
-                            name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
-                            description: '',
-                            mechanicsText: damageResult
-                          });
-                        }
-                      }
-
-                      // Add saving throw info
-                      if (damageData?.savingThrowConfig?.enabled) {
-                        const saveInfo = formatSavingThrow(damageData.savingThrowConfig, 'damage');
-                        if (saveInfo) {
-                          effects.push({
-                            name: 'Saving Throw',
-                            description: `${saveInfo.saveType} save DC ${saveInfo.dc}`,
-                            mechanicsText: saveInfo.outcome
-                          });
-                        }
-                      }
-
-                      // Add critical hit info
-                      if (damageData?.criticalConfig?.enabled) {
-                        const critInfo = formatCriticalHit();
-                        if (critInfo) {
-                          effects.push({
-                            name: 'Critical Hit',
-                            description: critInfo,
-                            mechanicsText: 'Enhanced damage on critical'
-                          });
-                        }
-                      }
-
-                      // Add effect-specific triggers for damage (only if conditional activation is enabled)
-                      const damageEffectTriggers = spell?.triggerConfig?.effectTriggers?.damage;
-                      const isDamageConditional = spell?.conditionalEffects?.damage?.isConditional;
-                      if (damageEffectTriggers?.compoundTriggers?.length > 0 && isDamageConditional) {
-                        // Format trigger names with natural, flowing text
-                        const triggerTexts = damageEffectTriggers.compoundTriggers.map(trigger => {
-                          return formatTriggerText(trigger);
-                        });
-
-                        const logicType = damageEffectTriggers.logicType || 'AND';
-                        const triggerText = triggerTexts.length === 1
-                          ? triggerTexts[0]
-                          : `${triggerTexts.slice(0, -1).join(', ')} ${logicType.toLowerCase()} ${triggerTexts[triggerTexts.length - 1]}`;
-
-                        effects.push({
-                          name: 'Damage Triggers',
-                          description: triggerText,
-                          mechanicsText: `Damage activates ${triggerText.toLowerCase()}`
-                        });
-                      }
-
-                      // Add chance on hit info
-                      if (damageData?.chanceOnHitConfig?.enabled) {
-                        const chanceInfo = formatChanceOnHit();
-                        if (chanceInfo) {
-                          effects.push({
-                            name: 'Chance Effect',
-                            description: chanceInfo,
-                            mechanicsText: 'Additional effect on trigger'
-                          });
-                        }
-                      }
-
-                      return effects.length > 0 ? (
-                        <div className="damage-formula-line">
-                          <div className="damage-effects-list">
-                            {effects.map((effect, index) => (
-                              <div key={`damage-${index}`} className="damage-effect-item">
-                                <div className="damage-effect">
-                                  <span className="damage-effect-name">
-                                    {effect.name}
-                                  </span>
-                                  {effect.description && effect.description !== effect.name && (
-                                    <span className="damage-effect-description">
-                                      {" - "}{effect.description}
-                                    </span>
-                                  )}
-                                </div>
-                                {effect.mechanicsText && (
-                                  <div className="damage-effect-details">
-                                    <div className="damage-effect-mechanics">
-                                      {effect.mechanicsText}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
+                );
+              } else if (hasGlobalTriggers) {
+                const logicBadge = hasTriggerConfig.global.compoundTriggers.length > 1
+                  ? (hasTriggerConfig.global.logicType === 'AND' ? 'ALL' : 'ANY')
+                  : '';
+                const triggerTexts = hasTriggerConfig.global.compoundTriggers.map(trigger => formatTriggerText(trigger));
+                triggerHeader = (
+                  <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
+                    <div className="healing-effect">
+                      <span className="healing-effect-name">Triggers</span>
+                      {logicBadge && (
+                        <span className="healing-effect-description">
+                          {' '}- {logicBadge}
+                        </span>
+                      )}
+                    </div>
+                    <div className="healing-effect-details">
+                      <div className="healing-effect-mechanics">
+                        {triggerTexts.map((text, index) => (
+                          <div key={index}>
+                            {text}
                           </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            }
+
+            // Check if damage should be rendered
+            const hasPrimaryDamage = spell?.primaryDamage?.dice && spell.primaryDamage.dice !== '6d6';
+            const hasDamageFormula = spell?.damageConfig?.formula && spell.damageConfig.formula.trim();
+            const hasCardDamage = spell?.resolution === 'CARDS' && spell?.cardConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
+            const hasCoinDamage = spell?.resolution === 'COINS' && spell?.coinConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
+            const hasDiceDamage = spell?.resolution === 'DICE' && spell?.diceConfig?.formula && spell.diceConfig.formula.trim() && spell?.damageConfig && spell?.effectTypes?.includes('damage');
+            const hasDamageEffect = spell?.effectTypes?.includes('damage');
+            const shouldRenderDamage = hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage || hasDamageEffect;
+
+            // Check if healing should be rendered
+            const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
+              formula: spell.effects.healing.instant?.formula || spell.effects.healing.hot?.formula,
+              healingType: spell.effects.healing.hot ? 'hot' : 'instant'
+            } : null);
+            const shouldRenderHealing = !!healingData;
+
+            // Build effect-specific trigger headers
+            const buildEffectTriggerHeader = (effectTriggers, effectType) => {
+              if (!effectTriggers?.compoundTriggers?.length) return null;
+              const logicBadge = effectTriggers.compoundTriggers.length > 1
+                ? (effectTriggers.logicType === 'AND' ? 'ALL' : 'ANY')
+                : '';
+              const triggerTexts = effectTriggers.compoundTriggers.map(trigger => formatTriggerText(trigger));
+              return (
+                <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
+                  <div className="healing-effect">
+                    <span className="healing-effect-name">Triggers</span>
+                    {logicBadge && (
+                      <span className="healing-effect-description">
+                        {' '}- {logicBadge}
+                      </span>
+                    )}
+                  </div>
+                  <div className="healing-effect-details">
+                    <div className="healing-effect-mechanics">
+                      {triggerTexts.map((text, index) => (
+                        <div key={index}>
+                          {text}
                         </div>
-                      ) : null;
-                    })()}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              )}
+              );
+            };
 
-              {/* Note Generation Display - Removed (now shown in header as resource cost) */}
+            const damageTriggerHeader = hasDamageEffectTriggers ? buildEffectTriggerHeader(damageEffectTriggers, 'damage') : null;
+            const healingTriggerHeader = hasHealingEffectTriggers ? buildEffectTriggerHeader(healingEffectTriggers, 'healing') : null;
 
-              {/* Healing Display - Only show if healing is actually configured */}
-              {(() => {
-                // Support both healingConfig and effects.healing structures
-                const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
-                  formula: spell.effects.healing.instant?.formula || spell.effects.healing.hot?.formula,
-                  healingType: spell.effects.healing.hot ? 'hot' : 'instant'
-                } : null);
-                if (!healingData) return null;
+            // Determine if we need to wrap effects in a border container
+            // Wrap together if there are global triggers/required that affect multiple effects
+            // Otherwise, wrap individually if effect-specific triggers exist
+            const hasEffectsToWrap = hasGlobalTriggerOrRequired && (triggerHeader || shouldRenderDamage || shouldRenderHealing);
+            const shouldWrapDamageIndividually = hasDamageEffectTriggers && !hasGlobalTriggerOrRequired;
+            const shouldWrapHealingIndividually = hasHealingEffectTriggers && !hasGlobalTriggerOrRequired;
 
-                const effects = [];
+            return (
+              <div className="pf-spell-stats wow-spell-stats">
+                {hasEffectsToWrap ? (
+                  <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
+                    <div className="healing-effects-section">
+                      {/* Global trigger/required state header */}
+                      {hasGlobalTriggerOrRequired && triggerHeader && (
+                        <div className="healing-formula-line">
+                          <div className="healing-effects-list">
+                            {triggerHeader}
+                          </div>
+                        </div>
+                      )}
 
-                      // Main healing effect
-                      const healingResult = formatHealing();
-                      if (healingResult) {
-                        if (typeof healingResult === 'object' && healingResult.description) {
-                          // Shield healing
-                          effects.push({
-                            name: 'Shield Absorption',
-                            description: 'Absorbs damage',
-                            mechanicsText: healingResult.description
-                          });
+                      {/* Damage Display - Only show if damage is actually configured */}
+                      {shouldRenderDamage && (
+                        <div className="damage-effects">
+                          <div className="damage-effects-section">
+                            {(() => {
+                              const damageData = spell?.damageConfig;
+                              if (!damageData) return null;
 
-                          // Add shield properties as separate effects
-                          if (healingResult.bullets && healingResult.bullets.length > 0) {
-                            healingResult.bullets.forEach((bullet, index) => {
-                              effects.push({
-                                name: `  └ Shield Property`,
-                                description: bullet,
-                                mechanicsText: 'Special shield behavior'
+                              const effects = [];
+
+                              // Helper to get effect-specific triggers and conditional formulas
+                              const getEffectTriggersAndFormulas = (effectSubType) => {
+                                // Check both the specific subtype (e.g., damage_direct) and the base type (e.g., damage)
+                                const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                                const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                       spell?.triggerConfig?.effectTriggers?.[baseType];
+                                const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                           spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                                const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                                
+                                // Only return if we have conditional formulas (triggers are shown via conditional formulas)
+                                if (!hasConditionals) return null;
+                                
+                                const formulas = Object.entries(conditionalFormulas)
+                                  .filter(([triggerId]) => triggerId !== 'default')
+                                  .map(([triggerId, formula]) => {
+                                    const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                                    const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              return { triggerId, formula, triggerName };
+                                  });
+                                
+                                return { formulas };
+                              };
+
+                              // Main instant damage effect
+                              const damageResult = formatDamage();
+                              if (damageResult) {
+                                if (typeof damageResult === 'object' && damageResult.instant && damageResult.dot) {
+                                  // Instant damage
+                                  const instantTriggers = getEffectTriggersAndFormulas('damage_direct');
+                                  const instantTargeting = formatEffectTargeting('damage', 'damage_direct');
+                                  effects.push({
+                                    name: 'Instant Damage',
+                                    description: '',
+                                    mechanicsText: damageResult.instant,
+                                    conditionalFormulas: instantTriggers?.formulas || [],
+                                    targeting: instantTargeting
+                                  });
+
+                                  // DoT damage
+                                  const dotTriggers = getEffectTriggersAndFormulas('damage_dot');
+                                  const dotTargeting = formatEffectTargeting('damage', 'damage_dot');
+                                  effects.push({
+                                    name: 'Damage Over Time',
+                                    description: '',
+                                    mechanicsText: damageResult.dot,
+                                    conditionalFormulas: dotTriggers?.formulas || [],
+                                    targeting: dotTargeting
+                                  });
+                                } else {
+                                  // Single damage effect
+                                  const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
+                                  const effectSubType = isDotOnly ? 'damage_dot' : 'damage_direct';
+                                  const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
+                                  const effectTargeting = formatEffectTargeting('damage', effectSubType);
+                                  effects.push({
+                                    name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
+                                    description: '',
+                                    mechanicsText: damageResult,
+                                    conditionalFormulas: effectTriggers?.formulas || [],
+                                    targeting: effectTargeting
+                                  });
+                                }
+                              }
+
+                              // Add saving throw info
+                              if (damageData?.savingThrowConfig?.enabled) {
+                                const saveInfo = formatSavingThrow(damageData.savingThrowConfig, 'damage');
+                                if (saveInfo) {
+                                  effects.push({
+                                    name: 'Saving Throw',
+                                    description: `${saveInfo.saveType} save DC ${saveInfo.dc}`,
+                                    mechanicsText: saveInfo.outcome
+                                  });
+                                }
+                              }
+
+                              // Add critical hit info
+                              if (damageData?.criticalConfig?.enabled) {
+                                const critInfo = formatCriticalHit();
+                                if (critInfo) {
+                                  effects.push({
+                                    name: 'Critical Hit',
+                                    description: critInfo,
+                                    mechanicsText: 'Enhanced damage on critical'
+                                  });
+                                }
+                              }
+
+                              // Note: Effect-specific triggers are shown as headers when wrapped, not in the effects list
+
+                              // Add chance on hit info
+                              if (damageData?.chanceOnHitConfig?.enabled) {
+                                const chanceInfo = formatChanceOnHit();
+                                if (chanceInfo) {
+                                  effects.push({
+                                    name: 'Chance Effect',
+                                    description: chanceInfo,
+                                    mechanicsText: 'Additional effect on trigger'
+                                  });
+                                }
+                              }
+
+                              return effects.length > 0 ? (
+                                <div className="damage-formula-line">
+                                  <div className="damage-effects-list">
+                                    {effects.map((effect, index) => (
+                                      <div key={`damage-${index}`} className="damage-effect-item">
+                                        <div className="damage-effect">
+                                          <span className="damage-effect-name">
+                                            {effect.name}
+                                          </span>
+                                          {effect.description && effect.description !== effect.name && (
+                                            <span className="damage-effect-description">
+                                              {" - "}{effect.description}
+                                            </span>
+                                          )}
+                                          {/* Targeting/Range badges */}
+                                          {effect.targeting && (
+                                            <div className="damage-effect-targeting">
+                                              {effect.targeting.range && (
+                                                <span className="targeting-badge range-badge">
+                                                  {effect.targeting.range}
+                                                </span>
+                                              )}
+                                              {effect.targeting.targeting && (
+                                                <span className="targeting-badge targeting-info-badge">
+                                                  {effect.targeting.targeting}
+                                                </span>
+                                              )}
+                                              {effect.targeting.restrictions && (
+                                                <span className="targeting-badge restrictions-badge">
+                                                  {effect.targeting.restrictions}
+                                                </span>
+                                              )}
+                                              {effect.targeting.propagation && (
+                                                <span className="targeting-badge propagation-badge">
+                                                  {effect.targeting.propagation}
+                                                </span>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                        {effect.mechanicsText && (
+                                          <div className="damage-effect-details">
+                                            <div className="damage-effect-mechanics">
+                                              {effect.mechanicsText}
+                                            </div>
+                                          </div>
+                                        )}
+                                        {/* Conditional formulas */}
+                                        {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                                          <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                            {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                              const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
+                                              const damageTypeSuffix = getDamageTypeSuffix();
+                                              // Convert "When" to "If" for conditional display
+                                              const triggerText = cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`;
+                                              return (
+                                                <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                                  <strong>{triggerText}:</strong> {formattedFormula}{damageTypeSuffix}
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : null;
+                            })()}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Healing Display - Only show if healing is actually configured */}
+                      {shouldRenderDamage && shouldRenderHealing && (
+                        <div style={{ marginTop: '8px' }}></div>
+                      )}
+                      {shouldRenderHealing && (() => {
+                        if (!healingData) return null;
+
+                        const effects = [];
+
+                        // Helper to get effect-specific triggers and conditional formulas for healing
+                        const getHealingTriggersAndFormulas = (effectSubType) => {
+                          // Check both the specific subtype (e.g., healing_direct) and the base type (e.g., healing)
+                          const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                          const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                 spell?.triggerConfig?.effectTriggers?.[baseType];
+                          const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                     spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                          const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                          
+                          // Only return if we have conditional formulas (triggers are shown via conditional formulas)
+                          if (!hasConditionals) return null;
+                          
+                          const formulas = Object.entries(conditionalFormulas)
+                            .filter(([triggerId]) => triggerId !== 'default')
+                            .map(([triggerId, formula]) => {
+                              const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              return { triggerId, formula, triggerName };
+                            });
+                          
+                          return { formulas };
+                        };
+
+                        // Main healing effect
+                        const healingResult = formatHealing();
+                        if (healingResult) {
+                          if (typeof healingResult === 'object' && healingResult.description) {
+                            // Shield healing
+                            const shieldTriggers = getHealingTriggersAndFormulas('healing_shield');
+                            effects.push({
+                              name: 'Shield Absorption',
+                              description: 'Absorbs damage',
+                              mechanicsText: healingResult.description,
+                              conditionalFormulas: shieldTriggers?.formulas || []
+                            });
+
+                            // Add shield properties as separate effects
+                            if (healingResult.bullets && healingResult.bullets.length > 0) {
+                              healingResult.bullets.forEach((bullet, index) => {
+                                effects.push({
+                                  name: `  └ Shield Property`,
+                                  description: bullet,
+                                  mechanicsText: 'Special shield behavior'
+                                });
                               });
+                            }
+                          } else {
+                            // Regular healing
+                            const healingType = healingData.healingType;
+                            const effectSubType = healingType === 'hot' ? 'healing_hot' : 
+                                                   healingType === 'shield' ? 'healing_shield' : 'healing_direct';
+                            const healingTriggers = getHealingTriggersAndFormulas(effectSubType);
+                            const healingTargeting = formatEffectTargeting('healing', effectSubType);
+
+                            // Determine description based on formula type
+                            effects.push({
+                              name: healingType === 'hot' ? 'Healing Over Time' :
+                                    healingType === 'shield' ? 'Shield Absorption' : 'Healing',
+                              description: '',
+                              mechanicsText: healingResult,
+                              conditionalFormulas: healingTriggers?.formulas || [],
+                              targeting: healingTargeting
                             });
                           }
-                        } else {
-                          // Regular healing
-                          const healingType = healingData.healingType;
+                        }
 
-                          // Determine description based on formula type
+                        // Add HoT effect if it's an additional effect
+                        if (healingData.hasHotEffect && healingData.hotFormula && healingData.healingType !== 'hot') {
+                          const duration = healingData.hotDuration || 3;
+                          const tickFrequency = healingData.hotTickType || 'round';
+                          const durationText = duration === 1 ? `1 ${tickFrequency}` : `${duration} ${tickFrequency}s`;
                           effects.push({
-                            name: healingType === 'hot' ? 'Healing Over Time' :
-                                  healingType === 'shield' ? 'Shield Absorption' : 'Healing',
+                            name: 'Healing Over Time',
                             description: '',
-                            mechanicsText: healingResult
+                            mechanicsText: `${cleanFormula(healingData.hotFormula)} hit points restored per ${tickFrequency} for ${durationText}`
                           });
                         }
-                      }
 
-                      // Add HoT effect if it's an additional effect
-                      if (healingData.hasHotEffect && healingData.hotFormula && healingData.healingType !== 'hot') {
-                        const duration = healingData.hotDuration || 3;
-                        const tickFrequency = healingData.hotTickType || 'round';
-                        const durationText = duration === 1 ? `1 ${tickFrequency}` : `${duration} ${tickFrequency}s`;
-                        effects.push({
-                          name: 'Healing Over Time',
-                          description: '',
-                          mechanicsText: `${cleanFormula(healingData.hotFormula)} hit points restored per ${tickFrequency} for ${durationText}`
-                        });
-                      }
-
-                      // Add shield effect if it's an additional effect
-                      if (healingData.hasShieldEffect && healingData.shieldFormula && healingData.healingType !== 'shield') {
-                        const duration = healingData.shieldDuration || 3;
-                        effects.push({
-                          name: 'Shield Absorption',
-                          description: `For ${duration} rounds`,
-                          mechanicsText: `${cleanFormula(healingData.shieldFormula)} absorption`
-                        });
-                      }
-
-                      // Add critical healing info
-                      if (healingData?.criticalConfig?.enabled) {
-                        const critInfo = formatCriticalHit();
-                        if (critInfo) {
+                        // Add shield effect if it's an additional effect
+                        if (healingData.hasShieldEffect && healingData.shieldFormula && healingData.healingType !== 'shield') {
+                          const duration = healingData.shieldDuration || 3;
                           effects.push({
-                            name: 'Critical Healing',
-                            description: critInfo,
-                            mechanicsText: 'Enhanced healing on critical'
+                            name: 'Shield Absorption',
+                            description: `For ${duration} rounds`,
+                            mechanicsText: `${cleanFormula(healingData.shieldFormula)} absorption`
                           });
                         }
-                      }
 
-                      // Add chance on heal info
-                      if (healingData?.chanceOnHitConfig?.enabled) {
-                        const chanceInfo = formatChanceOnHit();
-                        if (chanceInfo) {
-                          effects.push({
-                            name: 'Chance Effect',
-                            description: chanceInfo,
-                            mechanicsText: 'Additional effect on trigger'
-                          });
+                        // Add critical healing info
+                        if (healingData?.criticalConfig?.enabled) {
+                          const critInfo = formatCriticalHit();
+                          if (critInfo) {
+                            effects.push({
+                              name: 'Critical Healing',
+                              description: critInfo,
+                              mechanicsText: 'Enhanced healing on critical'
+                            });
+                          }
                         }
-                      }
 
-                      // Add effect-specific triggers for healing (only if conditional activation is enabled)
-                      const healingEffectTriggers = spell?.triggerConfig?.effectTriggers?.healing;
-                      const isHealingConditional = spell?.conditionalEffects?.healing?.isConditional;
-                      if (healingEffectTriggers?.compoundTriggers?.length > 0 && isHealingConditional) {
-                        // Format trigger names with natural, flowing text
-                        const triggerTexts = healingEffectTriggers.compoundTriggers.map(trigger => {
-                          return formatTriggerText(trigger);
-                        });
+                        // Add chance on heal info
+                        if (healingData?.chanceOnHitConfig?.enabled) {
+                          const chanceInfo = formatChanceOnHit();
+                          if (chanceInfo) {
+                            effects.push({
+                              name: 'Chance Effect',
+                              description: chanceInfo,
+                              mechanicsText: 'Additional effect on trigger'
+                            });
+                          }
+                        }
 
-                        const logicType = healingEffectTriggers.logicType || 'AND';
-                        const triggerText = triggerTexts.length === 1
-                          ? triggerTexts[0]
-                          : `${triggerTexts.slice(0, -1).join(', ')} ${logicType.toLowerCase()} ${triggerTexts[triggerTexts.length - 1]}`;
+                        // Check for effect-specific triggers or required states for healing
+                        const healingEffectTriggers = spell?.triggerConfig?.effectTriggers?.healing;
+                        const healingHasTriggers = healingEffectTriggers?.compoundTriggers?.length > 0;
+                        const healingHasRequiredState = false; // TODO: Add support for effect-specific required state
 
-                        effects.push({
-                          name: 'Healing Triggers',
-                          description: triggerText,
-                          mechanicsText: `Healing activates ${triggerText.toLowerCase()}`
-                        });
-                      }
+                        // Early return if no effects to render - prevents empty blocks
+                        if (effects.length === 0) return null;
 
-                      // Early return if no effects to render - prevents empty blocks
-                      if (effects.length === 0) return null;
-
-                      return (
-                        <div className="healing-effects">
-                          <div className="healing-effects-section">
-                            <div className="healing-formula-line">
-                              <div className="healing-effects-list">
-                                {effects.map((effect, index) => (
-                                  <div key={`healing-${index}`} className="healing-effect-item">
-                                    <div className="healing-effect">
-                                      <span className="healing-effect-name">
-                                        {effect.name}
+                        return (
+                          <div className="healing-effects">
+                            <div className="healing-effects-section">
+                              {/* Show trigger/required state header if applicable */}
+                              {(healingHasTriggers || healingHasRequiredState) && (
+                                <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
+                                  <div className="healing-effect">
+                                    <span className="healing-effect-name">
+                                      {healingHasRequiredState ? 'Required' : 'Triggers'}
+                                    </span>
+                                    {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
+                                      <span className="healing-effect-description">
+                                        {' '}- {healingEffectTriggers.logicType === 'AND' ? 'ALL' : 'ANY'}
                                       </span>
-                                      {effect.description && effect.description !== effect.name && (
-                                        <span className="healing-effect-description">
-                                          {" - "}{effect.description}
-                                        </span>
-                                      )}
-                                    </div>
-                                    {effect.mechanicsText && (
-                                      <div className="healing-effect-details">
-                                        <div className="healing-effect-mechanics">
-                                          {effect.mechanicsText}
-                                        </div>
-                                      </div>
                                     )}
                                   </div>
-                                ))}
+                                  {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
+                                    <div className="healing-effect-details">
+                                      <div className="healing-effect-mechanics">
+                                        {healingEffectTriggers.compoundTriggers.map((trigger, idx) => (
+                                          <div key={idx}>
+                                            {formatTriggerText(trigger)}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              <div className="healing-formula-line">
+                                <div className="healing-effects-list">
+                                  {effects.map((effect, index) => (
+                                    <div key={`healing-${index}`} className="healing-effect-item">
+                                      <div className="healing-effect">
+                                        <span className="healing-effect-name">
+                                          {effect.name}
+                                        </span>
+                                        {effect.description && effect.description !== effect.name && (
+                                          <span className="healing-effect-description">
+                                            {" - "}{effect.description}
+                                          </span>
+                                        )}
+                                        {/* Targeting/Range badges */}
+                                        {effect.targeting && (
+                                          <div className="healing-effect-targeting">
+                                            {effect.targeting.range && (
+                                              <span className="targeting-badge range-badge">
+                                                {effect.targeting.range}
+                                              </span>
+                                            )}
+                                            {effect.targeting.targeting && (
+                                              <span className="targeting-badge targeting-info-badge">
+                                                {effect.targeting.targeting}
+                                              </span>
+                                            )}
+                                            {effect.targeting.restrictions && (
+                                              <span className="targeting-badge restrictions-badge">
+                                                {effect.targeting.restrictions}
+                                              </span>
+                                            )}
+                                            {effect.targeting.propagation && (
+                                              <span className="targeting-badge propagation-badge">
+                                                {effect.targeting.propagation}
+                                              </span>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                      {effect.mechanicsText && (
+                                        <div className="healing-effect-details">
+                                          <div className="healing-effect-mechanics">
+                                            {effect.mechanicsText}
+                                          </div>
+                                        </div>
+                                      )}
+                                      {/* Conditional formulas */}
+                                      {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                                        <div className="healing-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                          {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                            const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'healing');
+                                            // Convert "When" to "If" for conditional display, and handle plain text triggers
+                                            let triggerText = cf.triggerName;
+                                            if (triggerText.startsWith('When ')) {
+                                              triggerText = triggerText.replace('When ', 'If ');
+                                            } else if (!triggerText.startsWith('If ')) {
+                                              triggerText = `If ${triggerText}`;
+                                            }
+                                            return (
+                                              <div key={cfIndex} className="healing-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                                <strong>{triggerText}:</strong> {formattedFormula} Healing
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()}
+
+                      {/* Mechanics Display - Same section as damage/healing */}
+                      {(() => {
+                        const mechanics = formatMechanics();
+                        return mechanics && mechanics.length > 0 ? (
+                          <>
+                            {(shouldRenderDamage || shouldRenderHealing) && (
+                              <div style={{ marginTop: '8px' }}></div>
+                            )}
+                            <div className="damage-formula-line">
+                              <div className="damage-effects-list">
+                                {mechanics.map((mechanic, index) => {
+                                  // Determine which effect class to use based on effect name
+                                  const isHealingEffect = mechanic.effectName === 'Healing';
+                                  const effectClass = isHealingEffect ? 'healing-effect' : 'damage-effect';
+                                  const effectItemClass = isHealingEffect ? 'healing-effect-item' : 'damage-effect-item';
+                                  const effectNameClass = isHealingEffect ? 'healing-effect-name' : 'damage-effect-name';
+                                  const effectDetailsClass = isHealingEffect ? 'healing-effect-details' : 'damage-effect-details';
+                                  const effectMechanicsClass = isHealingEffect ? 'healing-effect-mechanics' : 'damage-effect-mechanics';
+                                  
+                                  return (
+                                    <div key={index} className={effectItemClass}>
+                                      <div className={effectClass}>
+                                        <span className={effectNameClass}>
+                                          {mechanic.systemType}
+                                        </span>
+                                      </div>
+                                      {mechanic.mechanicsText && (
+                                        <div className={effectDetailsClass}>
+                                          <div className={effectMechanicsClass}>
+                                            {mechanic.mechanicsText}
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </>
+                        ) : null;
+                      })()}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {/* Render trigger header separately if no effects to wrap */}
+                    {hasGlobalTriggerOrRequired && triggerHeader && (
+                      <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
+                        <div className="healing-effects-section">
+                          <div className="healing-formula-line">
+                            <div className="healing-effects-list">
+                              {triggerHeader}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Damage Display - Wrap individually if it has effect-specific triggers */}
+                    {shouldRenderDamage && (shouldWrapDamageIndividually ? (
+                      <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
+                        <div className="healing-effects-section">
+                          {/* Effect-specific trigger header */}
+                          {damageTriggerHeader && (
+                            <div className="healing-formula-line">
+                              <div className="healing-effects-list">
+                                {damageTriggerHeader}
+                              </div>
+                            </div>
+                          )}
+                          <div className="damage-effects">
+                            <div className="damage-effects-section">
+                              {(() => {
+                                const damageData = spell?.damageConfig;
+                                if (!damageData) return null;
+
+                                const effects = [];
+
+                                // Helper to get effect-specific triggers and conditional formulas
+                                const getEffectTriggersAndFormulas = (effectSubType) => {
+                                  // Check both the specific subtype (e.g., damage_direct) and the base type (e.g., damage)
+                                  const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                                  const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                         spell?.triggerConfig?.effectTriggers?.[baseType];
+                                  const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                             spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                                  const hasTriggers = effectTriggers?.compoundTriggers?.length > 0;
+                                  const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                                  
+                                  // Return triggers even if no conditionals - just need one or the other
+                                  if (!hasTriggers && !hasConditionals) return null;
+                                  
+                                  // If we have triggers, always return them (even without conditionals)
+                                  const triggerTexts = hasTriggers ? effectTriggers.compoundTriggers.map(t => formatTriggerText(t)) : [];
+                                  const formulas = hasConditionals ? Object.entries(conditionalFormulas)
+                                    .filter(([triggerId]) => triggerId !== 'default')
+                                    .map(([triggerId, formula]) => {
+                                      const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                                      const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                                      return { triggerId, formula, triggerName };
+                                    }) : [];
+                                  
+                                  return { triggerTexts, formulas };
+                                };
+
+                                // Main instant damage effect
+                                const damageResult = formatDamage();
+                                if (damageResult) {
+                                  if (typeof damageResult === 'object' && damageResult.instant && damageResult.dot) {
+                                    // Instant damage
+                                    const instantTriggers = getEffectTriggersAndFormulas('damage_direct');
+                                    const instantTargeting = formatEffectTargeting('damage', 'damage_direct');
+                                    effects.push({
+                                      name: 'Instant Damage',
+                                      description: '',
+                                      mechanicsText: damageResult.instant,
+                                      conditionalFormulas: instantTriggers?.formulas || [],
+                                      targeting: instantTargeting
+                                    });
+
+                                    // DoT damage
+                                    const dotTriggers = getEffectTriggersAndFormulas('damage_dot');
+                                    const dotTargeting = formatEffectTargeting('damage', 'damage_dot');
+                                    effects.push({
+                                      name: 'Damage Over Time',
+                                      description: '',
+                                      mechanicsText: damageResult.dot,
+                                      conditionalFormulas: dotTriggers?.formulas || [],
+                                      targeting: dotTargeting
+                                    });
+                                  } else {
+                                    // Single damage effect
+                                    const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
+                                    const effectSubType = isDotOnly ? 'damage_dot' : 'damage_direct';
+                                    const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
+                                    const effectTargeting = formatEffectTargeting('damage', effectSubType);
+                                    effects.push({
+                                      name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
+                                      description: '',
+                                      mechanicsText: damageResult,
+                                      conditionalFormulas: effectTriggers?.formulas || [],
+                                      targeting: effectTargeting
+                                    });
+                                  }
+                                }
+
+                                // Add saving throw info
+                                if (damageData?.savingThrowConfig?.enabled) {
+                                  const saveInfo = formatSavingThrow(damageData.savingThrowConfig, 'damage');
+                                  if (saveInfo) {
+                                    effects.push({
+                                      name: 'Saving Throw',
+                                      description: `${saveInfo.saveType} save DC ${saveInfo.dc}`,
+                                      mechanicsText: saveInfo.outcome
+                                    });
+                                  }
+                                }
+
+                                // Add critical hit info
+                                if (damageData?.criticalConfig?.enabled) {
+                                  const critInfo = formatCriticalHit();
+                                  if (critInfo) {
+                                    effects.push({
+                                      name: 'Critical Hit',
+                                      description: critInfo,
+                                      mechanicsText: 'Enhanced damage on critical'
+                                    });
+                                  }
+                                }
+
+                                // Note: Effect-specific triggers are shown as headers when wrapped individually, not in the effects list
+
+                                // Add chance on hit info
+                                if (damageData?.chanceOnHitConfig?.enabled) {
+                                  const chanceInfo = formatChanceOnHit();
+                                  if (chanceInfo) {
+                                    effects.push({
+                                      name: 'Chance Effect',
+                                      description: chanceInfo,
+                                      mechanicsText: 'Additional effect on trigger'
+                                    });
+                                  }
+                                }
+
+                                return effects.length > 0 ? (
+                                  <div className="damage-formula-line">
+                                    <div className="damage-effects-list">
+                                      {effects.map((effect, index) => (
+                                        <div key={`damage-${index}`} className="damage-effect-item">
+                                          <div className="damage-effect">
+                                            <span className="damage-effect-name">
+                                              {effect.name}
+                                            </span>
+                                            {effect.description && effect.description !== effect.name && (
+                                              <span className="damage-effect-description">
+                                                {" - "}{effect.description}
+                                              </span>
+                                            )}
+                                            {/* Targeting/Range badges */}
+                                            {effect.targeting && (
+                                              <div className="damage-effect-targeting">
+                                                {effect.targeting.range && (
+                                                  <span className="targeting-badge range-badge">
+                                                    {effect.targeting.range}
+                                                  </span>
+                                                )}
+                                                {effect.targeting.targeting && (
+                                                  <span className="targeting-badge targeting-info-badge">
+                                                    {effect.targeting.targeting}
+                                                  </span>
+                                                )}
+                                                {effect.targeting.restrictions && (
+                                                  <span className="targeting-badge restrictions-badge">
+                                                    {effect.targeting.restrictions}
+                                                  </span>
+                                                )}
+                                              </div>
+                                            )}
+                                          </div>
+                                          {effect.mechanicsText && (
+                                            <div className="damage-effect-details">
+                                              <div className="damage-effect-mechanics">
+                                                {effect.mechanicsText}
+                                              </div>
+                                            </div>
+                                          )}
+                                          {/* Conditional formulas */}
+                                          {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                                            <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                              {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                                const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
+                                                const damageTypeSuffix = getDamageTypeSuffix();
+                                                return (
+                                                  <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                                    <strong>If {cf.triggerName}:</strong> {formattedFormula}{damageTypeSuffix}
+                                                  </div>
+                                                );
+                                              })}
+                                            </div>
+                                          )}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ) : null;
+                              })()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="damage-effects">
+                        <div className="damage-effects-section">
+                          {(() => {
+                            const damageData = spell?.damageConfig;
+                            if (!damageData) return null;
+
+                            const effects = [];
+
+                            // Helper to get effect-specific triggers and conditional formulas
+                            const getEffectTriggersAndFormulas = (effectSubType) => {
+                              // Check both the specific subtype (e.g., damage_direct) and the base type (e.g., damage)
+                              const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                              const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                     spell?.triggerConfig?.effectTriggers?.[baseType];
+                              const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                         spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                                  const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                                  
+                                  if (!hasConditionals) return null;
+                                  
+                                  const formulas = Object.entries(conditionalFormulas)
+                                    .filter(([triggerId]) => triggerId !== 'default')
+                                    .map(([triggerId, formula]) => {
+                                      const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                                      const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                                      return { triggerId, formula, triggerName };
+                                    });
+                                  
+                                  return { formulas };
+                            };
+
+                            // Main instant damage effect
+                            const damageResult = formatDamage();
+                            if (damageResult) {
+                              if (typeof damageResult === 'object' && damageResult.instant && damageResult.dot) {
+                                // Instant damage
+                                const instantTriggers = getEffectTriggersAndFormulas('damage_direct');
+                                const instantTargeting = formatEffectTargeting('damage', 'damage_direct');
+                                effects.push({
+                                  name: 'Instant Damage',
+                                  description: '',
+                                  mechanicsText: damageResult.instant,
+                                  conditionalFormulas: instantTriggers?.formulas || [],
+                                  targeting: instantTargeting
+                                });
+
+                                // DoT damage
+                                const dotTriggers = getEffectTriggersAndFormulas('damage_dot');
+                                const dotTargeting = formatEffectTargeting('damage', 'damage_dot');
+                                effects.push({
+                                  name: 'Damage Over Time',
+                                  description: '',
+                                  mechanicsText: damageResult.dot,
+                                  conditionalFormulas: dotTriggers?.formulas || [],
+                                  targeting: dotTargeting
+                                });
+                              } else {
+                                // Single damage effect
+                                const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
+                                const effectSubType = isDotOnly ? 'damage_dot' : 'damage_direct';
+                                const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
+                                const effectTargeting = formatEffectTargeting('damage', effectSubType);
+                                effects.push({
+                                  name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
+                                  description: '',
+                                  mechanicsText: damageResult,
+                                  conditionalFormulas: effectTriggers?.formulas || [],
+                                  targeting: effectTargeting
+                                });
+                              }
+                            }
+
+                            // Add saving throw info
+                            if (damageData?.savingThrowConfig?.enabled) {
+                              const saveInfo = formatSavingThrow(damageData.savingThrowConfig, 'damage');
+                              if (saveInfo) {
+                                effects.push({
+                                  name: 'Saving Throw',
+                                  description: `${saveInfo.saveType} save DC ${saveInfo.dc}`,
+                                  mechanicsText: saveInfo.outcome
+                                });
+                              }
+                            }
+
+                            // Add critical hit info
+                            if (damageData?.criticalConfig?.enabled) {
+                              const critInfo = formatCriticalHit();
+                              if (critInfo) {
+                                effects.push({
+                                  name: 'Critical Hit',
+                                  description: critInfo,
+                                  mechanicsText: 'Enhanced damage on critical'
+                                });
+                              }
+                            }
+
+                            // Note: Effect-specific triggers are shown as headers when wrapped individually, not in the effects list
+
+                            // Add chance on hit info
+                            if (damageData?.chanceOnHitConfig?.enabled) {
+                              const chanceInfo = formatChanceOnHit();
+                              if (chanceInfo) {
+                                effects.push({
+                                  name: 'Chance Effect',
+                                  description: chanceInfo,
+                                  mechanicsText: 'Additional effect on trigger'
+                                });
+                              }
+                            }
+
+                            return effects.length > 0 ? (
+                              <div className="damage-formula-line">
+                                <div className="damage-effects-list">
+                                  {effects.map((effect, index) => (
+                                    <div key={`damage-${index}`} className="damage-effect-item">
+                                      <div className="damage-effect">
+                                        <span className="damage-effect-name">
+                                          {effect.name}
+                                        </span>
+                                        {effect.description && effect.description !== effect.name && (
+                                          <span className="damage-effect-description">
+                                            {" - "}{effect.description}
+                                          </span>
+                                        )}
+                                        {/* Targeting/Range badges */}
+                                        {effect.targeting && (
+                                          <div className="damage-effect-targeting">
+                                            {effect.targeting.range && (
+                                              <span className="targeting-badge range-badge">
+                                                {effect.targeting.range}
+                                              </span>
+                                            )}
+                                            {effect.targeting.targeting && (
+                                              <span className="targeting-badge targeting-info-badge">
+                                                {effect.targeting.targeting}
+                                              </span>
+                                            )}
+                                            {effect.targeting.restrictions && (
+                                              <span className="targeting-badge restrictions-badge">
+                                                {effect.targeting.restrictions}
+                                              </span>
+                                            )}
+                                            {effect.targeting.propagation && (
+                                              <span className="targeting-badge propagation-badge">
+                                                {effect.targeting.propagation}
+                                              </span>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                      {effect.mechanicsText && (
+                                        <div className="damage-effect-details">
+                                          <div className="damage-effect-mechanics">
+                                            {effect.mechanicsText}
+                                          </div>
+                                        </div>
+                                      )}
+                                      {/* Conditional formulas */}
+                                      {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                                        <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                          {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                            const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'damage');
+                                            const damageTypeSuffix = getDamageTypeSuffix();
+                                            return (
+                                              <div key={cfIndex} className="damage-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                                <strong>If {cf.triggerName}:</strong> {formattedFormula}{damageTypeSuffix}
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ) : null;
+                          })()}
+                        </div>
+                      </div>
+                    ))}
+
+                    {/* Note Generation Display - Removed (now shown in header as resource cost) */}
+
+                    {/* Healing Display - Wrap individually if it has effect-specific triggers */}
+                    {shouldRenderHealing && (shouldWrapHealingIndividually ? (
+                      <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
+                        <div className="healing-effects-section">
+                          {/* Effect-specific trigger header */}
+                          {healingTriggerHeader && (
+                            <div className="healing-formula-line">
+                              <div className="healing-effects-list">
+                                {healingTriggerHeader}
+                              </div>
+                            </div>
+                          )}
+                          {/* Healing effects content */}
+                          <div className="healing-formula-line">
+                            <div className="healing-effects-list">
+                              {(() => {
+                                if (!healingData) return null;
+
+                                const effects = [];
+
+                                // Helper to get effect-specific triggers and conditional formulas for healing
+                                const getHealingTriggersAndFormulas = (effectSubType) => {
+                                  // Check both the specific subtype (e.g., healing_direct) and the base type (e.g., healing)
+                                  const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                                  const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                         spell?.triggerConfig?.effectTriggers?.[baseType];
+                                  const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                             spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                                  const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                                  
+                                  // Only return if we have conditional formulas (triggers are shown via conditional formulas)
+                                  if (!hasConditionals) return null;
+                                  
+                                  const formulas = Object.entries(conditionalFormulas)
+                                    .filter(([triggerId]) => triggerId !== 'default')
+                                    .map(([triggerId, formula]) => {
+                                      const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                                      const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                                      return { triggerId, formula, triggerName };
+                                    });
+                                  
+                                  return { formulas };
+                                };
+
+                                // Main healing effect
+                                const healingResult = formatHealing();
+                                if (healingResult) {
+                                  if (typeof healingResult === 'object' && healingResult.description) {
+                                    // Shield healing
+                                    const shieldTriggers = getHealingTriggersAndFormulas('healing_shield');
+                                    effects.push({
+                                      name: 'Shield Absorption',
+                                      description: 'Absorbs damage',
+                                      mechanicsText: healingResult.description,
+                                      conditionalFormulas: shieldTriggers?.formulas || []
+                                    });
+
+                                    // Add shield properties as separate effects
+                                    if (healingResult.bullets && healingResult.bullets.length > 0) {
+                                      healingResult.bullets.forEach((bullet, index) => {
+                                        effects.push({
+                                          name: `  └ Shield Property`,
+                                          description: bullet,
+                                          mechanicsText: 'Special shield behavior'
+                                        });
+                                      });
+                                    }
+                                  } else {
+                                    // Regular healing
+                                    const healingType = healingData.healingType;
+                                    const effectSubType = healingType === 'hot' ? 'healing_hot' : 
+                                                           healingType === 'shield' ? 'healing_shield' : 'healing_direct';
+                                    const healingTriggers = getHealingTriggersAndFormulas(effectSubType);
+                                    const healingTargeting = formatEffectTargeting('healing', effectSubType);
+
+                                    // Determine description based on formula type
+                                    effects.push({
+                                      name: healingType === 'hot' ? 'Healing Over Time' :
+                                            healingType === 'shield' ? 'Shield Absorption' : 'Healing',
+                                      description: '',
+                                      mechanicsText: healingResult,
+                                      conditionalFormulas: healingTriggers?.formulas || [],
+                                      targeting: healingTargeting
+                                    });
+                                  }
+                                }
+
+                                // Add HoT effect if it's an additional effect
+                                if (healingData.hasHotEffect && healingData.hotFormula && healingData.healingType !== 'hot') {
+                                  const duration = healingData.hotDuration || 3;
+                                  const tickFrequency = healingData.hotTickType || 'round';
+                                  const durationText = duration === 1 ? `1 ${tickFrequency}` : `${duration} ${tickFrequency}s`;
+                                  effects.push({
+                                    name: 'Healing Over Time',
+                                    description: '',
+                                    mechanicsText: `${cleanFormula(healingData.hotFormula)} hit points restored per ${tickFrequency} for ${durationText}`
+                                  });
+                                }
+
+                                // Add shield effect if it's an additional effect
+                                if (healingData.hasShieldEffect && healingData.shieldFormula && healingData.healingType !== 'shield') {
+                                  const duration = healingData.shieldDuration || 3;
+                                  effects.push({
+                                    name: 'Shield Absorption',
+                                    description: `For ${duration} rounds`,
+                                    mechanicsText: `${cleanFormula(healingData.shieldFormula)} absorption`
+                                  });
+                                }
+
+                                // Add critical healing info
+                                if (healingData?.criticalConfig?.enabled) {
+                                  const critInfo = formatCriticalHit();
+                                  if (critInfo) {
+                                    effects.push({
+                                      name: 'Critical Healing',
+                                      description: critInfo,
+                                      mechanicsText: 'Enhanced healing on critical'
+                                    });
+                                  }
+                                }
+
+                                // Add chance on heal info
+                                if (healingData?.chanceOnHitConfig?.enabled) {
+                                  const chanceInfo = formatChanceOnHit();
+                                  if (chanceInfo) {
+                                    effects.push({
+                                      name: 'Chance Effect',
+                                      description: chanceInfo,
+                                      mechanicsText: 'Additional effect on trigger'
+                                    });
+                                  }
+                                }
+
+                                // Early return if no effects to render - prevents empty blocks
+                                if (effects.length === 0) return null;
+
+                                return (
+                                  <>
+                                    {effects.map((effect, index) => (
+                                      <div key={`healing-${index}`} className="healing-effect-item">
+                                        <div className="healing-effect">
+                                          <span className="healing-effect-name">
+                                            {effect.name}
+                                          </span>
+                                          {effect.description && effect.description !== effect.name && (
+                                            <span className="healing-effect-description">
+                                              {" - "}{effect.description}
+                                            </span>
+                                          )}
+                                        </div>
+                                        {effect.mechanicsText && (
+                                          <div className="healing-effect-details">
+                                            <div className="healing-effect-mechanics">
+                                              {effect.mechanicsText}
+                                            </div>
+                                          </div>
+                                        )}
+                                        {/* Conditional formulas with trigger display */}
+                                        {/* Conditional formulas */}
+                                        {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                                          <div className="healing-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                            {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                              const formattedFormula = formatFormulaToPlainEnglish(cf.formula, 'healing');
+                                              // Convert "When" to "If" for conditional display, and handle plain text triggers
+                                              let triggerText = cf.triggerName;
+                                              if (triggerText.startsWith('When ')) {
+                                                triggerText = triggerText.replace('When ', 'If ');
+                                              } else if (!triggerText.startsWith('If ')) {
+                                                triggerText = `If ${triggerText}`;
+                                              }
+                                              return (
+                                                <div key={cfIndex} className="healing-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                                  <strong>{triggerText}:</strong> {formattedFormula} Healing
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </>
+                                );
+                              })()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      (() => {
+                        if (!healingData) return null;
+
+                        const effects = [];
+
+                        // Helper to get effect-specific triggers and conditional formulas for healing
+                        const getHealingTriggersAndFormulas = (effectSubType) => {
+                          const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                          const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                 spell?.triggerConfig?.effectTriggers?.[baseType];
+                          const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                     spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                          const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                          
+                          if (!hasConditionals) return null;
+                          
+                          const formulas = Object.entries(conditionalFormulas)
+                            .filter(([triggerId]) => triggerId !== 'default')
+                            .map(([triggerId, formula]) => {
+                              const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              return { triggerId, formula, triggerName };
+                            });
+                          
+                          return { formulas };
+                        };
+
+                        // Main healing effect
+                        const healingResult = formatHealing();
+                        if (healingResult) {
+                          if (typeof healingResult === 'object' && healingResult.description) {
+                            // Shield healing
+                            const shieldTriggers = getHealingTriggersAndFormulas('healing_shield');
+                            effects.push({
+                              name: 'Shield Absorption',
+                              description: 'Absorbs damage',
+                              mechanicsText: healingResult.description,
+                              conditionalFormulas: shieldTriggers?.formulas || []
+                            });
+
+                            // Add shield properties as separate effects
+                            if (healingResult.bullets && healingResult.bullets.length > 0) {
+                              healingResult.bullets.forEach((bullet, index) => {
+                                effects.push({
+                                  name: `  └ Shield Property`,
+                                  description: bullet,
+                                  mechanicsText: 'Special shield behavior'
+                                });
+                              });
+                            }
+                          } else {
+                            // Regular healing
+                            const healingType = healingData.healingType;
+                            const effectSubType = healingType === 'hot' ? 'healing_hot' : 
+                                                   healingType === 'shield' ? 'healing_shield' : 'healing_direct';
+                            const healingTriggers = getHealingTriggersAndFormulas(effectSubType);
+                            const healingTargeting = formatEffectTargeting('healing', effectSubType);
+
+                            // Determine description based on formula type
+                            effects.push({
+                              name: healingType === 'hot' ? 'Healing Over Time' :
+                                    healingType === 'shield' ? 'Shield Absorption' : 'Healing',
+                              description: '',
+                              mechanicsText: healingResult,
+                              conditionalFormulas: healingTriggers?.formulas || [],
+                              targeting: healingTargeting
+                            });
+                          }
+                        }
+
+                        // Add HoT effect if it's an additional effect
+                        if (healingData.hasHotEffect && healingData.hotFormula && healingData.healingType !== 'hot') {
+                          const duration = healingData.hotDuration || 3;
+                          const tickFrequency = healingData.hotTickType || 'round';
+                          const durationText = duration === 1 ? `1 ${tickFrequency}` : `${duration} ${tickFrequency}s`;
+                          effects.push({
+                            name: 'Healing Over Time',
+                            description: '',
+                            mechanicsText: `${cleanFormula(healingData.hotFormula)} hit points restored per ${tickFrequency} for ${durationText}`
+                          });
+                        }
+
+                        // Add shield effect if it's an additional effect
+                        if (healingData.hasShieldEffect && healingData.shieldFormula && healingData.healingType !== 'shield') {
+                          const duration = healingData.shieldDuration || 3;
+                          effects.push({
+                            name: 'Shield Absorption',
+                            description: `For ${duration} rounds`,
+                            mechanicsText: `${cleanFormula(healingData.shieldFormula)} absorption`
+                          });
+                        }
+
+                        // Add critical healing info
+                        if (healingData?.criticalConfig?.enabled) {
+                          const critInfo = formatCriticalHit();
+                          if (critInfo) {
+                            effects.push({
+                              name: 'Critical Healing',
+                              description: critInfo,
+                              mechanicsText: 'Enhanced healing on critical'
+                            });
+                          }
+                        }
+
+                        // Add chance on heal info
+                        if (healingData?.chanceOnHitConfig?.enabled) {
+                          const chanceInfo = formatChanceOnHit();
+                          if (chanceInfo) {
+                            effects.push({
+                              name: 'Chance Effect',
+                              description: chanceInfo,
+                              mechanicsText: 'Additional effect on trigger'
+                            });
+                          }
+                        }
+
+                        // Check for effect-specific triggers or required states for healing
+                        const healingEffectTriggers = spell?.triggerConfig?.effectTriggers?.healing;
+                        const healingHasTriggers = healingEffectTriggers?.compoundTriggers?.length > 0;
+                        const healingHasRequiredState = false; // TODO: Add support for effect-specific required state
+
+                        // Early return if no effects to render - prevents empty blocks
+                        if (effects.length === 0) return null;
+
+                        return (
+                          <div className="healing-effects">
+                            <div className="healing-effects-section">
+                              {/* Show trigger/required state header if applicable */}
+                              {(healingHasTriggers || healingHasRequiredState) && (
+                                <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
+                                  <div className="healing-effect">
+                                    <span className="healing-effect-name">
+                                      {healingHasRequiredState ? 'Required' : 'Triggers'}
+                                    </span>
+                                    {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
+                                      <span className="healing-effect-description">
+                                        {' '}- {healingEffectTriggers.logicType === 'AND' ? 'ALL' : 'ANY'}
+                                      </span>
+                                    )}
+                                  </div>
+                                  {healingHasTriggers && healingEffectTriggers.compoundTriggers.length > 0 && (
+                                    <div className="healing-effect-details">
+                                      <div className="healing-effect-mechanics">
+                                        {healingEffectTriggers.compoundTriggers.map((trigger, idx) => (
+                                          <div key={idx}>
+                                            {formatTriggerText(trigger)}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                              <div className="healing-formula-line">
+                                <div className="healing-effects-list">
+                                  {effects.map((effect, index) => (
+                                    <div key={`healing-${index}`} className="healing-effect-item">
+                                      <div className="healing-effect">
+                                        <span className="healing-effect-name">
+                                          {effect.name}
+                                        </span>
+                                        {effect.description && effect.description !== effect.name && (
+                                          <span className="healing-effect-description">
+                                            {" - "}{effect.description}
+                                          </span>
+                                        )}
+                                        {/* Targeting/Range badges */}
+                                        {effect.targeting && (
+                                          <div className="healing-effect-targeting">
+                                            {effect.targeting.range && (
+                                              <span className="targeting-badge range-badge">
+                                                {effect.targeting.range}
+                                              </span>
+                                            )}
+                                            {effect.targeting.targeting && (
+                                              <span className="targeting-badge targeting-info-badge">
+                                                {effect.targeting.targeting}
+                                              </span>
+                                            )}
+                                            {effect.targeting.restrictions && (
+                                              <span className="targeting-badge restrictions-badge">
+                                                {effect.targeting.restrictions}
+                                              </span>
+                                            )}
+                                            {effect.targeting.propagation && (
+                                              <span className="targeting-badge propagation-badge">
+                                                {effect.targeting.propagation}
+                                              </span>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                      {effect.mechanicsText && (
+                                        <div className="healing-effect-details">
+                                          <div className="healing-effect-mechanics">
+                                            {effect.mechanicsText}
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()
+                    ))}
+
+                    {/* Mechanics Display - Same section as damage/healing (for unwrapped case) */}
+                    {(() => {
+                      const mechanics = formatMechanics();
+                      return mechanics && mechanics.length > 0 ? (
+                        <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
+                          <div className="healing-effects-section">
+                            <div className="damage-formula-line">
+                              <div className="damage-effects-list">
+                                {mechanics.map((mechanic, index) => {
+                                  // Determine which effect class to use based on effect name
+                                  const isHealingEffect = mechanic.effectName === 'Healing';
+                                  const effectClass = isHealingEffect ? 'healing-effect' : 'damage-effect';
+                                  const effectItemClass = isHealingEffect ? 'healing-effect-item' : 'damage-effect-item';
+                                  const effectNameClass = isHealingEffect ? 'healing-effect-name' : 'damage-effect-name';
+                                  const effectDetailsClass = isHealingEffect ? 'healing-effect-details' : 'damage-effect-details';
+                                  const effectMechanicsClass = isHealingEffect ? 'healing-effect-mechanics' : 'damage-effect-mechanics';
+                                  
+                                  return (
+                                    <div key={index} className={effectItemClass}>
+                                      <div className={effectClass}>
+                                        <span className={effectNameClass}>
+                                          {mechanic.systemType}
+                                        </span>
+                                      </div>
+                                      {mechanic.mechanicsText && (
+                                        <div className={effectDetailsClass}>
+                                          <div className={effectMechanicsClass}>
+                                            {mechanic.mechanicsText}
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
                               </div>
                             </div>
                           </div>
                         </div>
-                      );
+                      ) : null;
                     })()}
+                  </>
+                )}
 
 
 
@@ -7876,10 +9328,31 @@ const UnifiedSpellCard = ({
                 // Only render if we have buff type OR actual buff configuration OR legacy buff data
                 if (!hasBuffType && !hasAnyBuffConfiguration && !hasLegacyBuff) return null;
 
+                // Helper functions for triggers and formulas (accessible to both buff and debuff processing)
+                const getBuffTriggersAndFormulas = (effectSubType) => {
+                  const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                  const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] ||
+                                         spell?.triggerConfig?.effectTriggers?.[baseType];
+                  const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                             spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                  const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+
+                  if (!hasConditionals) return null;
+
+                  const formulas = Object.entries(conditionalFormulas)
+                    .filter(([triggerId]) => triggerId !== 'default')
+                    .map(([triggerId, formula]) => {
+                      const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                      return { triggerId, formula, triggerName: trigger ? formatTriggerText(trigger) : triggerId };
+                    });
+
+                  return { formulas };
+                };
+
                 // Process buff effects first to check if we have anything to show
                 const buffData = spell?.buffConfig;
                 const legacyBuffData = spell?.effects?.buff || spellProp?.effects?.buff;
-                
+
                 // Early return if no buff data at all
                 if (!buffData && !hasBuffType && !legacyBuffData) return null;
 
@@ -8185,13 +9658,79 @@ const UnifiedSpellCard = ({
                               }
                             }
 
-                  buffEffectsToRender.push({
-                    name: `Stat Enhancement`,
-                    description: durationText || 'Stat bonus',
-                    mechanicsText: mechanicsText
-                  });
+                            // Check if this is a progressive buff
+                            const isProgressive = buffData.isProgressive && buffData.progressiveStages && buffData.progressiveStages.length > 0;
+
+                            // For progressive effects, format description and mechanics
+                            let finalDescription = durationText || 'Stat bonus';
+                            // For progressive effects, include stat modifiers in description (e.g., "3 Rounds +2 Strength")
+                            if (isProgressive && statModifierTexts.length > 0) {
+                              finalDescription = durationText ? `${durationText} ${statModifierTexts.join(' ')}` : statModifierTexts.join(' ');
+                            }
+                            
+                            let finalMechanicsText = mechanicsText;
+                            
+                            if (isProgressive && buffData.progressiveStages && buffData.progressiveStages.length > 0) {
+                              // Format progressive stages as compact text (similar to progressive HoT)
+                              const getTriggerUnit = () => {
+                                const durationType = buffData?.durationType || 'rounds';
+                                if (durationType === 'time') {
+                                  return buffData?.durationUnit || 'rounds';
+                                } else if (durationType === 'rest') {
+                                  return buffData?.restType === 'short' ? 'short rest' : 'long rest';
+                                } else if (durationType === 'permanent') {
+                                  return 'permanent';
+                                }
+                                return 'round';
+                              };
+
+                              const triggerUnit = getTriggerUnit();
+                              const unitLabel = triggerUnit === 'round' ? 'Round' :
+                                               triggerUnit === 'turn' ? 'Turn' :
+                                               triggerUnit.charAt(0).toUpperCase() + triggerUnit.slice(1);
+
+                              // Format each stage with stat modifiers
+                              const statMap = {
+                                'strength': 'Strength',
+                                'agility': 'Agility',
+                                'constitution': 'Constitution',
+                                'intelligence': 'Intelligence',
+                                'spirit': 'Spirit',
+                                'charisma': 'Charisma',
+                                'str': 'Strength',
+                                'agi': 'Agility',
+                                'con': 'Constitution',
+                                'int': 'Intelligence',
+                                'spi': 'Spirit',
+                                'spir': 'Spirit',
+                                'cha': 'Charisma'
+                              };
+
+                              const progressiveStagesText = buffData.progressiveStages.map((stage, stageIndex) => {
+                                const triggerAt = stage.triggerAt || 1;
+                                
+                                // Format stat modifiers with actual numbers for this stage
+                                const stageStatTexts = stage.statModifiers?.map(stat => {
+                                  const statName = stat.name || statMap[stat.id?.toLowerCase()] || stat.id?.charAt(0).toUpperCase() + stat.id?.slice(1) || 'Stat';
+                                  const value = stat.magnitude || stat.value || 0;
+                                  const sign = value >= 0 ? '+' : '';
+                                  const typeText = stat.magnitudeType === 'percentage' ? '%' : '';
+                                  return `${sign}${value}${typeText} ${statName}`;
+                                }).join(', ') || 'None';
+
+                                return `${unitLabel} ${triggerAt}: ${stageStatTexts}`;
+                              }).join(' → ');
+
+                              finalMechanicsText = progressiveStagesText;
+                            }
+
+                            buffEffectsToRender.push({
+                              name: `Stat Enhancement`,
+                              description: finalDescription,
+                              mechanicsText: finalMechanicsText
+                            });
+                          }
                 }
-              }
 
               // Handle status effects with enhanced formatting
               if (buffData?.statusEffects?.length > 0) {
@@ -8264,13 +9803,52 @@ const UnifiedSpellCard = ({
                   mechanicsText: mechanicsText
                 });
               }
-              
+
+              // Attach conditional formulas and targeting to buff effects
+              const buffTriggers = getBuffTriggersAndFormulas('buff');
+              const buffTargeting = formatEffectTargeting('buff');
+              buffEffectsToRender.forEach(effect => {
+                effect.conditionalFormulas = buffTriggers?.formulas || [];
+                effect.targeting = buffTargeting;
+              });
+
               // Early return if no effects to render - prevents empty blocks
               if (buffEffectsToRender.length === 0) return null;
+
+              // Check for effect-specific triggers or required states for buffs
+              const buffEffectTriggers = spell?.triggerConfig?.effectTriggers?.buff;
+              const buffHasTriggers = buffEffectTriggers?.compoundTriggers?.length > 0;
+              const buffHasRequiredState = false; // TODO: Add support for effect-specific required state
 
               return (
                 <div className="healing-effects">
                   <div className="healing-effects-section">
+                    {/* Show trigger/required state header if applicable */}
+                    {(buffHasTriggers || buffHasRequiredState) && (
+                      <div className="healing-effect-item" style={{ marginBottom: '8px', borderBottom: '1px solid rgba(139, 115, 85, 0.3)', paddingBottom: '8px' }}>
+                        <div className="healing-effect">
+                          <span className="healing-effect-name">
+                            {buffHasRequiredState ? 'Required' : 'Triggers'}
+                          </span>
+                          {buffHasTriggers && buffEffectTriggers.compoundTriggers.length > 0 && (
+                            <span className="healing-effect-description">
+                              {' '}- {buffEffectTriggers.logicType === 'AND' ? 'ALL' : 'ANY'}
+                            </span>
+                          )}
+                        </div>
+                        {buffHasTriggers && buffEffectTriggers.compoundTriggers.length > 0 && (
+                          <div className="healing-effect-details">
+                            <div className="healing-effect-mechanics">
+                              {buffEffectTriggers.compoundTriggers.map((trigger, idx) => (
+                                <div key={idx}>
+                                  {formatTriggerText(trigger)}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                     <div className="healing-formula-line">
                       <div className="healing-effects-list">
                         {buffEffectsToRender.map((effect, index) => (
@@ -8284,12 +9862,50 @@ const UnifiedSpellCard = ({
                                   {" - "}{effect.description}
                                 </span>
                               )}
+                              {/* Targeting/Range badges */}
+                              {effect.targeting && (
+                                <div className="healing-effect-targeting">
+                                  {effect.targeting.range && (
+                                    <span className="targeting-badge range-badge">
+                                      {effect.targeting.range}
+                                    </span>
+                                  )}
+                                  {effect.targeting.targeting && (
+                                    <span className="targeting-badge targeting-info-badge">
+                                      {effect.targeting.targeting}
+                                    </span>
+                                  )}
+                                  {effect.targeting.restrictions && (
+                                    <span className="targeting-badge restrictions-badge">
+                                      {effect.targeting.restrictions}
+                                    </span>
+                                  )}
+                                  {effect.targeting.propagation && (
+                                    <span className="targeting-badge propagation-badge">
+                                      {effect.targeting.propagation}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </div>
                             {effect.mechanicsText && (
                               <div className="healing-effect-details">
                                 <div className="healing-effect-mechanics">
                                   {effect.mechanicsText}
                                 </div>
+                              </div>
+                            )}
+                            {/* Conditional formulas */}
+                            {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                              <div className="healing-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                  const triggerText = cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`;
+                                  return (
+                                    <div key={cfIndex} className="healing-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                      <strong>{triggerText}:</strong> Enhanced effect
+                                    </div>
+                                  );
+                                })}
                               </div>
                             )}
                           </div>
@@ -8320,6 +9936,27 @@ const UnifiedSpellCard = ({
                       {(() => {
                         const debuffData = spell?.debuffConfig;
                         if (!debuffData && !hasDebuffType) return null;
+
+                        // Helper function for debuff triggers and formulas
+                        const getDebuffTriggersAndFormulas = (effectSubType) => {
+                          const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                          const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] ||
+                                                 spell?.triggerConfig?.effectTriggers?.[baseType];
+                          const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                     spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                          const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+
+                          if (!hasConditionals) return null;
+
+                          const formulas = Object.entries(conditionalFormulas)
+                            .filter(([triggerId]) => triggerId !== 'default')
+                            .map(([triggerId, formula]) => {
+                              const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                              return { triggerId, formula, triggerName: trigger ? formatTriggerText(trigger) : triggerId };
+                            });
+
+                          return { formulas };
+                        };
 
                         const effects = [];
 
@@ -8547,10 +10184,12 @@ const UnifiedSpellCard = ({
                           if (durationText) descriptionParts.push(durationText);
                           const descriptionText = descriptionParts.length > 0 ? descriptionParts.join(' | ') : 'Stat reduction';
 
+                          const debuffTargeting = formatEffectTargeting('debuff');
                           effects.push({
                             name: `Stat Penalty`,
                             description: descriptionText,
-                            mechanicsText: mechanicsText
+                            mechanicsText: mechanicsText,
+                            targeting: debuffTargeting
                           });
                         }
 
@@ -8560,11 +10199,13 @@ const UnifiedSpellCard = ({
                             // Format status effect based on its configuration
                             const formattedEffect = formatStatusEffectDetails(status, 'debuff', debuffData);
 
-                            effects.push({
-                              name: formattedEffect.name,
-                              description: formattedEffect.description,
-                              mechanicsText: formattedEffect.mechanicsText
-                            });
+                          const debuffTargeting = formatEffectTargeting('debuff');
+                          effects.push({
+                            name: formattedEffect.name,
+                            description: formattedEffect.description,
+                            mechanicsText: formattedEffect.mechanicsText,
+                            targeting: debuffTargeting
+                          });
                           });
                         }
 
@@ -8634,19 +10275,25 @@ const UnifiedSpellCard = ({
                           if (durationText) descriptionParts.push(durationText);
                           const descriptionText = descriptionParts.length > 0 ? descriptionParts.join(' | ') : 'Provides harmful effects';
 
+                          const debuffTriggers = getDebuffTriggersAndFormulas('debuff');
+                          const debuffTargeting = formatEffectTargeting('debuff');
                           effects.push({
                             name: 'Debuff Effect',
                             description: descriptionText,
-                            mechanicsText: 'Configure stat penalties or status effects below'
+                            mechanicsText: 'Configure stat penalties or status effects below',
+                            conditionalFormulas: debuffTriggers?.formulas || [],
+                            targeting: debuffTargeting
                           });
                         }
 
                         // Fallback if spell has debuff effect type but absolutely no config
                         if (hasDebuffType && effects.length === 0) {
+                          const debuffTriggers = getDebuffTriggersAndFormulas('debuff');
                           effects.push({
                             name: 'Debuff Effect',
                             description: 'Provides harmful effects',
-                            mechanicsText: 'Effect details not configured'
+                            mechanicsText: 'Effect details not configured',
+                            conditionalFormulas: debuffTriggers?.formulas || []
                           });
                         }
 
@@ -8664,12 +10311,50 @@ const UnifiedSpellCard = ({
                                         {" - "}{effect.description}
                                       </span>
                                     )}
+                                    {/* Targeting/Range badges */}
+                                    {effect.targeting && (
+                                      <div className="healing-effect-targeting">
+                                        {effect.targeting.range && (
+                                          <span className="targeting-badge range-badge">
+                                            {effect.targeting.range}
+                                          </span>
+                                        )}
+                                        {effect.targeting.targeting && (
+                                          <span className="targeting-badge targeting-info-badge">
+                                            {effect.targeting.targeting}
+                                          </span>
+                                        )}
+                                        {effect.targeting.restrictions && (
+                                          <span className="targeting-badge restrictions-badge">
+                                            {effect.targeting.restrictions}
+                                          </span>
+                                        )}
+                                        {effect.targeting.propagation && (
+                                          <span className="targeting-badge propagation-badge">
+                                            {effect.targeting.propagation}
+                                          </span>
+                                        )}
+                                      </div>
+                                    )}
                                   </div>
                                   {effect.mechanicsText && (
                                     <div className="healing-effect-details">
                                       <div className="healing-effect-mechanics">
                                         {effect.mechanicsText}
                                       </div>
+                                    </div>
+                                  )}
+                                  {/* Conditional formulas */}
+                                  {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                                    <div className="healing-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                      {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                        const triggerText = cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`;
+                                        return (
+                                          <div key={cfIndex} className="healing-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                            <strong>{triggerText}:</strong> Enhanced effect
+                                          </div>
+                                        );
+                                      })}
                                     </div>
                                   )}
                                 </div>
@@ -8721,11 +10406,9 @@ const UnifiedSpellCard = ({
                 // Handle selected effects
                 if (utilityData?.selectedEffects?.length > 0) {
                   utilityData.selectedEffects.forEach(effect => {
-                    // Build effect name with duration, DC, and save info
+                    // Build effect name with duration info
                     const duration = utilityData.duration || 3;
                     const durationUnit = utilityData.durationUnit || 'minutes';
-                    const dc = utilityData.difficultyClass || 15;
-                    const savingThrow = utilityData.abilitySave || 'spi';
                     const concentration = utilityData.concentration;
 
                     // Format duration unit for display
@@ -8740,23 +10423,10 @@ const UnifiedSpellCard = ({
                       return unitMap[unit] || unit;
                     };
 
-                    // Format ability name
-                    const formatAbility = (abilityId) => {
-                      const abilityMap = {
-                        'str': 'STR',
-                        'agi': 'AGI',
-                        'con': 'CON',
-                        'int': 'INT',
-                        'spi': 'SPI',
-                        'cha': 'CHA'
-                      };
-                      return abilityMap[abilityId] || abilityId.toUpperCase();
-                    };
-
-                    // Build the effect name line with all info
+                    // Build the effect name line
                     let effectName = effect.customName || effect.name || effect;
 
-                    // Add duration and save info on same line
+                    // Add duration info
                     let durationText = '';
                     if (durationUnit !== 'instant') {
                       durationText = `${duration} ${formatDurationUnit(durationUnit)}`;
@@ -8764,8 +10434,6 @@ const UnifiedSpellCard = ({
                         durationText += ' (Concentration)';
                       }
                     }
-
-                    const saveText = `DC ${dc} ${formatAbility(savingThrow)}`;
 
                     // Build mechanics text from effect configuration
                     let mechanicsText = '';
@@ -8814,17 +10482,15 @@ const UnifiedSpellCard = ({
                       }
                     }
 
-                    // Build inline description with duration and save
-                    const inlineDetails = [];
-                    if (durationText) inlineDetails.push(durationText);
-                    if (saveText) inlineDetails.push(saveText);
+                    // Build inline description with duration
+                    const inlineDescription = durationText || (effect.customDescription || '');
 
-                    const inlineDescription = inlineDetails.length > 0 ? inlineDetails.join(' - ') : (effect.customDescription || '');
-
+                    const utilityTargeting = formatEffectTargeting('utility');
                     effects.push({
                       name: effectName,
                       description: inlineDescription,
-                      mechanicsText: mechanicsText || 'Provides utility effects'
+                      mechanicsText: mechanicsText || 'Provides utility effects',
+                      targeting: utilityTargeting
                     });
                   });
                 }
@@ -8835,10 +10501,12 @@ const UnifiedSpellCard = ({
                     .split(' ')
                     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(' ');
+                  const utilityTargeting = formatEffectTargeting('utility');
                   effects.push({
                     name: `${enhancementName} Enhancement`,
                     description: `+${utilityData.enhancementValue}`,
-                    mechanicsText: `Increases ${enhancementName} by ${utilityData.enhancementValue}`
+                    mechanicsText: `Increases ${enhancementName} by ${utilityData.enhancementValue}`,
+                    targeting: utilityTargeting
                   });
                 }
 
@@ -8848,19 +10516,85 @@ const UnifiedSpellCard = ({
                     .split(' ')
                     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(' ');
+                  
+                  // Format duration info from utilityConfig
+                  const duration = utilityData.duration || 3;
+                  const durationUnit = utilityData.durationUnit || 'minutes';
+                  const concentration = utilityData.concentration;
+
+                  // Format duration unit for display
+                  const formatDurationUnit = (unit) => {
+                    const unitMap = {
+                      'instant': 'Instantaneous',
+                      'rounds': 'rounds',
+                      'minutes': 'min',
+                      'hours': 'hrs',
+                      'days': 'days'
+                    };
+                    return unitMap[unit] || unit;
+                  };
+
+                  // Build duration info
+                  let durationText = '';
+                  if (durationUnit !== 'instant') {
+                    durationText = `${duration} ${formatDurationUnit(durationUnit)}`;
+                    if (concentration) {
+                      durationText += ' (Concentration)';
+                    }
+                  }
+
+                  // Build inline description with duration
+                  const inlineDescription = durationText || 'Utility effect';
+
+                  const utilityTargeting = formatEffectTargeting('utility');
                   effects.push({
                     name: utilityName,
-                    description: 'Utility effect',
-                    mechanicsText: 'Provides utility benefits'
+                    description: inlineDescription,
+                    mechanicsText: 'Provides utility benefits',
+                    targeting: utilityTargeting
                   });
                 }
 
                 // If spell has utility effect type but no config or legacy details, show a basic effect
                 if (hasUtilityType && effects.length === 0) {
+                  // Still try to show duration if utilityConfig exists
+                  let inlineDescription = 'Provides utility benefits';
+                  
+                  if (utilityData) {
+                    const duration = utilityData.duration || 3;
+                    const durationUnit = utilityData.durationUnit || 'minutes';
+                    const concentration = utilityData.concentration;
+
+                    // Format duration unit for display
+                    const formatDurationUnit = (unit) => {
+                      const unitMap = {
+                        'instant': 'Instantaneous',
+                        'rounds': 'rounds',
+                        'minutes': 'min',
+                        'hours': 'hrs',
+                        'days': 'days'
+                      };
+                      return unitMap[unit] || unit;
+                    };
+
+                    // Build duration info
+                    let durationText = '';
+                    if (durationUnit !== 'instant') {
+                      durationText = `${duration} ${formatDurationUnit(durationUnit)}`;
+                      if (concentration) {
+                        durationText += ' (Concentration)';
+                      }
+                    }
+
+                    inlineDescription = durationText || 'Provides utility benefits';
+                  }
+
+                  const utilityTargeting = formatEffectTargeting('utility');
                   effects.push({
                     name: 'Utility Effect',
-                    description: 'Provides utility benefits',
-                    mechanicsText: 'Effect details not configured'
+                    description: inlineDescription,
+                    mechanicsText: 'Effect details not configured',
+                    targeting: utilityTargeting
                   });
                 }
 
@@ -8875,6 +10609,31 @@ const UnifiedSpellCard = ({
                                 <span className="healing-effect-name">{effect.name}</span>
                                 {effect.description && effect.description !== effect.name && (
                                   <span className="healing-effect-description"> - {effect.description}</span>
+                                )}
+                                {/* Targeting/Range badges */}
+                                {effect.targeting && (
+                                  <div className="healing-effect-targeting">
+                                    {effect.targeting.range && (
+                                      <span className="targeting-badge range-badge">
+                                        {effect.targeting.range}
+                                      </span>
+                                    )}
+                                    {effect.targeting.targeting && (
+                                      <span className="targeting-badge targeting-info-badge">
+                                        {effect.targeting.targeting}
+                                      </span>
+                                    )}
+                                    {effect.targeting.restrictions && (
+                                      <span className="targeting-badge restrictions-badge">
+                                        {effect.targeting.restrictions}
+                                      </span>
+                                    )}
+                                    {effect.targeting.propagation && (
+                                      <span className="targeting-badge propagation-badge">
+                                        {effect.targeting.propagation}
+                                      </span>
+                                    )}
+                                  </div>
                                 )}
                               </div>
                               {effect.mechanicsText && (
@@ -8922,19 +10681,17 @@ const UnifiedSpellCard = ({
 
                         // Build duration text to append to effect descriptions
                         let durationText = '';
-                        if (controlData?.instant) {
-                          durationText = 'Instantaneous';
-                        } else if (controlData?.duration) {
+                        if (controlData?.duration !== null && controlData?.duration !== undefined) {
                           const durationUnit = controlData.durationUnit || 'rounds';
                           durationText = `${controlData.duration} ${durationUnit}`;
-                          if (controlData.concentration) {
+                          if (controlData.concentration === true) {
                             durationText += ' (Concentration)';
                           }
                         }
 
                         // Build saving throw text to append to effect descriptions
                         let saveText = '';
-                        if (controlData?.savingThrowType && controlData?.difficultyClass) {
+                        if (controlData?.savingThrow !== null && controlData?.savingThrow !== false && controlData?.savingThrowType && controlData?.difficultyClass) {
                           const saveType = controlData.savingThrowType.charAt(0).toUpperCase() + controlData.savingThrowType.slice(1);
                           saveText = `DC ${controlData.difficultyClass} ${saveType}`;
                         }
@@ -8942,15 +10699,56 @@ const UnifiedSpellCard = ({
                         // Handle selected effects with their individual configurations
                         if (controlData?.effects?.length > 0) {
                           controlData.effects.forEach(effect => {
-                            let mechanicsText = effect.mechanicsText || effect.flavorText || '';
+                            // Start with empty mechanicsText - only add effect-specific details, NOT duration/save/DC
+                            let mechanicsText = '';
 
-                            // Add effect-specific configuration details
+                            // Use individual effect config if available, otherwise use top-level control config
+                            const effectConfig = effect.config || {};
+                            const effectDuration = effectConfig.duration !== null && effectConfig.duration !== undefined ? effectConfig.duration : controlData.duration;
+                            const effectDurationUnit = effectConfig.durationUnit || controlData.durationUnit || 'rounds';
+                            const effectConcentration = effectConfig.concentration !== undefined ? effectConfig.concentration : (controlData.concentration !== undefined ? controlData.concentration : false);
+                            const effectSavingThrowType = effectConfig.savingThrowType || controlData.savingThrowType || 'strength';
+                            const effectDifficultyClass = effectConfig.difficultyClass !== null && effectConfig.difficultyClass !== undefined ? effectConfig.difficultyClass : controlData.difficultyClass;
+                            const effectSavingThrow = effectConfig.savingThrow !== undefined ? effectConfig.savingThrow : (controlData.savingThrow !== null && controlData.savingThrow !== false ? controlData.savingThrow : true);
+
+                            // Build duration text for this effect
+                            let effectDurationText = '';
+                            if (effectDuration !== null && effectDuration !== undefined) {
+                              effectDurationText = `${effectDuration} ${effectDurationUnit}`;
+                              if (effectConcentration === true) {
+                                effectDurationText += ' (Concentration)';
+                              }
+                            } else if (durationText) {
+                              effectDurationText = durationText;
+                            }
+
+                            // Build saving throw text for this effect
+                            let effectSaveText = '';
+                            if (effectSavingThrow && effectSavingThrow !== false && effectSavingThrowType && effectDifficultyClass) {
+                              const saveType = effectSavingThrowType.charAt(0).toUpperCase() + effectSavingThrowType.slice(1);
+                              effectSaveText = `DC ${effectDifficultyClass} ${saveType}`;
+                            } else if (saveText) {
+                              effectSaveText = saveText;
+                            }
+
+                            // Add effect-specific configuration details (NOT duration/save/DC)
                             const configDetails = [];
 
                             if (effect.config) {
                               // Distance for forced movement
                               if (effect.config.distance) {
                                 configDetails.push(`${effect.config.distance} feet`);
+                              }
+
+                              // Movement type for forced movement
+                              if (effect.config.movementType) {
+                                const movementTypeNames = {
+                                  'push': 'Push',
+                                  'pull': 'Pull',
+                                  'slide': 'Slide',
+                                  'teleport': 'Teleport'
+                                };
+                                configDetails.push(movementTypeNames[effect.config.movementType] || effect.config.movementType);
                               }
 
                               // Stat modifiers
@@ -8967,34 +10765,63 @@ const UnifiedSpellCard = ({
                               }
                             }
 
+                            // Only set mechanicsText if we have config details (NOT duration/save/DC)
                             if (configDetails.length > 0) {
                               mechanicsText = configDetails.join(' • ');
                             }
 
                             // Build the inline description with duration and save
-                            let inlineDescription = effect.description || '';
+                            let baseDescription = effect.customDescription || effect.description || '';
                             const inlineDetails = [];
-                            if (durationText) inlineDetails.push(durationText);
-                            if (saveText) inlineDetails.push(saveText);
+                            if (effectDurationText) inlineDetails.push(effectDurationText);
+                            if (effectSaveText) inlineDetails.push(effectSaveText);
 
+                            // Combine base description with duration/save info
+                            let inlineDescription = '';
                             if (inlineDetails.length > 0) {
-                              inlineDescription = inlineDetails.join(' - ');
+                              if (baseDescription) {
+                                inlineDescription = baseDescription + ' - ' + inlineDetails.join(' - ');
+                              } else {
+                                inlineDescription = inlineDetails.join(' - ');
+                              }
+                            } else {
+                              inlineDescription = baseDescription;
                             }
 
+                            const controlTargeting = formatEffectTargeting('control');
                             effects.push({
-                              name: effect.name || 'Control Effect',
+                              name: effect.customName || effect.name || 'Control Effect',
                               description: inlineDescription,
-                              mechanicsText: mechanicsText || 'Provides control effects'
+                              // Only show mechanicsText if we have config details, otherwise leave empty (don't show DC/save here)
+                              mechanicsText: mechanicsText,
+                              targeting: controlTargeting
                             });
                           });
                         }
 
-                        // If spell has control effect type but no config, show a basic effect
+                        // If spell has control effect type but no effects configured, show config if available
                         if (hasControlType && effects.length === 0) {
+                          const inlineDetails = [];
+                          if (durationText) inlineDetails.push(durationText);
+                          if (saveText) inlineDetails.push(saveText);
+                          
+                          let description = 'Provides control over targets';
+                          if (inlineDetails.length > 0) {
+                            description = description + ' - ' + inlineDetails.join(' - ');
+                          } else if (controlData && (controlData.duration || controlData.difficultyClass || controlData.concentration)) {
+                            // Has some config but no effects - show basic config
+                            description = 'Provides control over targets';
+                          } else {
+                            description = 'Effect details not configured';
+                          }
+
+                          const controlTargeting = formatEffectTargeting('control');
                           effects.push({
                             name: 'Control Effect',
-                            description: 'Provides control over targets',
-                            mechanicsText: 'Effect details not configured'
+                            description: description,
+                            // Don't put duration/save in mechanicsText - it's already in description
+                            mechanicsText: '',
+                            targeting: controlTargeting
                           });
                         }
 
@@ -9011,6 +10838,31 @@ const UnifiedSpellCard = ({
                                       <span className="healing-effect-description">
                                         {" - "}{effect.description}
                                       </span>
+                                    )}
+                                    {/* Targeting/Range badges */}
+                                    {effect.targeting && (
+                                      <div className="healing-effect-targeting">
+                                        {effect.targeting.range && (
+                                          <span className="targeting-badge range-badge">
+                                            {effect.targeting.range}
+                                          </span>
+                                        )}
+                                        {effect.targeting.targeting && (
+                                          <span className="targeting-badge targeting-info-badge">
+                                            {effect.targeting.targeting}
+                                          </span>
+                                        )}
+                                        {effect.targeting.restrictions && (
+                                          <span className="targeting-badge restrictions-badge">
+                                            {effect.targeting.restrictions}
+                                          </span>
+                                        )}
+                                        {effect.targeting.propagation && (
+                                          <span className="targeting-badge propagation-badge">
+                                            {effect.targeting.propagation}
+                                          </span>
+                                        )}
+                                      </div>
                                     )}
                                   </div>
                                   {effect.mechanicsText && (
@@ -9124,6 +10976,7 @@ const UnifiedSpellCard = ({
                               mechanicsText = creature.description + (stats.length > 0 ? ' • ' + mechanicsText : '');
                             }
 
+                            // Will attach conditional formulas after helper is defined
                             effects.push({
                               name: `Summon ${creature.name}${quantityText}`,
                               description: inlineDetails.join(' - '),
@@ -9131,6 +10984,34 @@ const UnifiedSpellCard = ({
                             });
                           });
                         }
+
+                        // Helper to get effect-specific triggers and conditional formulas for summoning
+                        const getSummoningTriggersAndFormulas = (effectSubType) => {
+                          const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                          const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                 spell?.triggerConfig?.effectTriggers?.[baseType];
+                          const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                     spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                          const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                          
+                          if (!hasConditionals) return null;
+                          
+                          const formulas = Object.entries(conditionalFormulas)
+                            .filter(([triggerId]) => triggerId !== 'default')
+                            .map(([triggerId, formula]) => {
+                              const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              return { triggerId, formula, triggerName };
+                            });
+                          
+                          return { formulas };
+                        };
+
+                        // Attach conditional formulas to all summoning effects
+                        const summoningTriggers = getSummoningTriggersAndFormulas('summoning');
+                        effects.forEach(effect => {
+                          effect.conditionalFormulas = summoningTriggers?.formulas || [];
+                        });
 
                         // Handle flat structure (legacy format with creatureName, creatureStats, etc.)
                         if (effects.length === 0 && summoningData?.creatureName) {
@@ -9189,19 +11070,23 @@ const UnifiedSpellCard = ({
                             mechanicsText = mechanicsText ? `${mechanicsText} • ${abilitiesText}` : abilitiesText;
                           }
 
+                          const summoningTriggers = getSummoningTriggersAndFormulas('summoning');
                           effects.push({
                             name: `Summon ${summoningData.creatureName}${quantityText}`,
                             description: inlineDetails.join(' - '),
-                            mechanicsText: mechanicsText || 'Summoned creature'
+                            mechanicsText: mechanicsText || 'Summoned creature',
+                            conditionalFormulas: summoningTriggers?.formulas || []
                           });
                         }
 
                         // If spell has summoning effect type but no config, show a basic effect
                         if (hasSummoningType && effects.length === 0) {
+                          const summoningTriggers = getSummoningTriggersAndFormulas('summoning');
                           effects.push({
                             name: 'Summoning Effect',
                             description: 'Summons creatures or objects',
-                            mechanicsText: 'Effect details not configured'
+                            mechanicsText: 'Effect details not configured',
+                            conditionalFormulas: summoningTriggers?.formulas || []
                           });
                         }
 
@@ -9219,12 +11104,50 @@ const UnifiedSpellCard = ({
                                         {" - "}{effect.description}
                                       </span>
                                     )}
+                                    {/* Targeting/Range badges */}
+                                    {effect.targeting && (
+                                      <div className="healing-effect-targeting">
+                                        {effect.targeting.range && (
+                                          <span className="targeting-badge range-badge">
+                                            {effect.targeting.range}
+                                          </span>
+                                        )}
+                                        {effect.targeting.targeting && (
+                                          <span className="targeting-badge targeting-info-badge">
+                                            {effect.targeting.targeting}
+                                          </span>
+                                        )}
+                                        {effect.targeting.restrictions && (
+                                          <span className="targeting-badge restrictions-badge">
+                                            {effect.targeting.restrictions}
+                                          </span>
+                                        )}
+                                        {effect.targeting.propagation && (
+                                          <span className="targeting-badge propagation-badge">
+                                            {effect.targeting.propagation}
+                                          </span>
+                                        )}
+                                      </div>
+                                    )}
                                   </div>
                                   {effect.mechanicsText && (
                                     <div className="healing-effect-details">
                                       <div className="healing-effect-mechanics">
                                         {effect.mechanicsText}
                                       </div>
+                                    </div>
+                                  )}
+                                  {/* Conditional formulas */}
+                                  {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
+                                    <div className="healing-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
+                                      {effect.conditionalFormulas.map((cf, cfIndex) => {
+                                        const triggerText = cf.triggerName.startsWith('When ') ? cf.triggerName.replace('When ', 'If ') : `If ${cf.triggerName}`;
+                                        return (
+                                          <div key={cfIndex} className="healing-effect-mechanics" style={{ fontSize: '0.9em', marginTop: cfIndex > 0 ? '4px' : '0' }}>
+                                            <strong>{triggerText}:</strong> Enhanced effect
+                                          </div>
+                                        );
+                                      })}
                                     </div>
                                   )}
                                 </div>
@@ -9254,6 +11177,28 @@ const UnifiedSpellCard = ({
                         if (!transformationData && !hasTransformationType) return null;
 
                         const effects = [];
+
+                        // Helper to get effect-specific triggers and conditional formulas for transformation
+                        const getTransformationTriggersAndFormulas = (effectSubType) => {
+                          const baseType = effectSubType.includes('_') ? effectSubType.split('_')[0] : effectSubType;
+                          const effectTriggers = spell?.triggerConfig?.effectTriggers?.[effectSubType] || 
+                                                 spell?.triggerConfig?.effectTriggers?.[baseType];
+                          const conditionalFormulas = spell?.triggerConfig?.conditionalEffects?.[effectSubType]?.conditionalFormulas ||
+                                                     spell?.triggerConfig?.conditionalEffects?.[baseType]?.conditionalFormulas;
+                          const hasConditionals = conditionalFormulas && Object.keys(conditionalFormulas).length > 0 && Object.keys(conditionalFormulas).some(k => k !== 'default');
+                          
+                          if (!hasConditionals) return null;
+                          
+                          const formulas = Object.entries(conditionalFormulas)
+                            .filter(([triggerId]) => triggerId !== 'default')
+                            .map(([triggerId, formula]) => {
+                              const trigger = effectTriggers?.compoundTriggers?.find(t => t.id === triggerId);
+                              const triggerName = trigger ? formatTriggerText(trigger) : formatTriggerId(triggerId);
+                              return { triggerId, formula, triggerName };
+                            });
+                          
+                          return { formulas };
+                        };
 
                         // Build inline details for duration, target type, and saving throw
                         const inlineDetails = [];
@@ -9346,10 +11291,12 @@ const UnifiedSpellCard = ({
                           const formName = creature?.name || (targetForm ? targetForm.charAt(0).toUpperCase() + targetForm.slice(1) : 'creature');
                           const formType = creature ? `${creature.size} ${creature.type}` : transformationType;
 
+                          const transformationTriggers = getTransformationTriggersAndFormulas('transformation');
                           effects.push({
                             name: `Transform into ${formName}`,
                             description: `${formType}${inlineDetails.length > 0 ? ' - ' + inlineDetails.join(' - ') : ''}`,
-                            mechanicsText: mechanicsText || 'Transform into creature'
+                            mechanicsText: mechanicsText || 'Transform into creature',
+                            conditionalFormulas: transformationTriggers?.formulas || []
                           });
                         }
 
@@ -9366,10 +11313,12 @@ const UnifiedSpellCard = ({
 
                         // If spell has transformation effect type but no config, show a basic effect
                         if (hasTransformationType && effects.length === 0) {
+                          const transformationTriggers = getTransformationTriggersAndFormulas('transformation');
                           effects.push({
                             name: 'Transformation Effect',
                             description: 'Changes form or shape',
-                            mechanicsText: 'Effect details not configured'
+                            mechanicsText: 'Effect details not configured',
+                            conditionalFormulas: transformationTriggers?.formulas || []
                           });
                         }
 
@@ -9440,8 +11389,10 @@ const UnifiedSpellCard = ({
                           inlineDetails.push('Instantaneous');
                         }
 
-                        // Add difficulty class if present
-                        if (purificationData?.difficultyClass) {
+                        // Add difficulty class if present, but only if no effects are selected and no resurrection is configured
+                        const hasSelectedEffects = purificationData?.selectedEffects?.length > 0;
+                        const hasResurrection = !!purificationData?.resurrectionFormula;
+                        if (purificationData?.difficultyClass && !hasSelectedEffects && !hasResurrection) {
                           const saveType = purificationData.abilitySave || 'spirit';
                           const saveTypeMap = {
                             'str': 'Strength',
@@ -9707,81 +11658,68 @@ const UnifiedSpellCard = ({
                 );
               })()}
 
-          {/* Rollable Table Summary */}
-          {(() => {
-            // Extract rollable table data from spell if not provided as prop
-            const tableData = rollableTableData || spell?.mechanicsConfig?.rollableTable || spell?.rollableTable;
+              {/* Display triggers attached to effects on the spell card - Removed, now shown inline with effects */}
 
-            console.log('UnifiedSpellCard - rollableTableData prop:', rollableTableData);
-            console.log('UnifiedSpellCard - spell?.mechanicsConfig?.rollableTable:', spell?.mechanicsConfig?.rollableTable);
-            console.log('UnifiedSpellCard - spell?.rollableTable:', spell?.rollableTable);
-            console.log('UnifiedSpellCard - final tableData:', tableData);
+              {/* Rollable Table Summary */}
+              {(() => {
+                // Extract rollable table data from spell if not provided as prop
+                const tableData = rollableTableData || spell?.mechanicsConfig?.rollableTable || spell?.rollableTable;
 
-            if (!tableData || !tableData.enabled) return null;
+                if (!tableData || !tableData.enabled) return null;
 
-            return (
-              <div className="healing-effects">
-                <div className="healing-effects-section">
-                  <RollableTableSummary
-                    rollableTableData={tableData}
-                    variant="compact"
-                    showExpandButton={true}
-                  />
-                </div>
+                return (
+                  <div className="healing-effects">
+                    <div className="healing-effects-section">
+                      <RollableTableSummary
+                        rollableTableData={tableData}
+                        variant="compact"
+                        showExpandButton={true}
+                      />
+                    </div>
+                  </div>
+                );
+              })()}
+
+
               </div>
             );
           })()}
-
-            </div>
-          )}
         </div>
       )}
-
-      {/* Mechanics Display */}
-      {(() => {
-        const mechanics = formatMechanics();
-        return mechanics && mechanics.length > 0 ? (
-          <div className="unified-spell-mechanics">
-            <div className="mechanics-list">
-              {mechanics.map((mechanic, index) => (
-                <div key={index} className={`pf-mechanic-line ${mechanic.system.toLowerCase().replace('_', '-')}`}>
-                  <span className="pf-mechanic-system">{mechanic.systemType}:</span>
-                  <span className="pf-mechanic-text">{mechanic.mechanicsText}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null;
-      })()}
 
       {/* Tags and Cooldown (at bottom of card) */}
       {(() => {
         const tags = getSpellTags();
-        const shouldShowTags = (variant === 'spellbook' || variant === 'wizard') && showTags;
+        const shouldShowTags = (variant === 'spellbook' || variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'rules') && showTags;
         const cooldownText = formatCooldown();
-        const shouldShowCooldown = (variant === 'spellbook' || variant === 'wizard') && cooldownText;
+        const shouldShowCooldown = (variant === 'spellbook' || variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'rules') && cooldownText;
 
         return (shouldShowTags && tags.length > 0) || shouldShowCooldown ? (
-          <div className="unified-spell-tags-footer">
-            {/* Tags on the left */}
-            {shouldShowTags && tags.length > 0 && (
-              <div className="unified-spell-tags">
-                {tags.map((tag, index) => (
-                  <span key={index} className="unified-spell-tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
+          <>
+            {/* Divider bar before tags */}
+            <div className="spell-divider"></div>
+            
+            <div className="unified-spell-tags-footer">
+              {/* Tags on the left */}
+              {shouldShowTags && tags.length > 0 && (
+                <div className="unified-spell-tags">
+                  {tags.map((tag, index) => (
+                    <span key={index} className="unified-spell-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
 
-            {/* Cooldown on the right */}
-            {shouldShowCooldown && (
-              <div className="unified-spell-cooldown">
-                <span className="cooldown-label">Cooldown:</span>
-                <span className="cooldown-value">{cooldownText}</span>
-              </div>
-            )}
-          </div>
+              {/* Cooldown on the right */}
+              {shouldShowCooldown && (
+                <div className="unified-spell-cooldown">
+                  <span className="cooldown-label">Cooldown:</span>
+                  <span className="cooldown-value">{cooldownText}</span>
+                </div>
+              )}
+            </div>
+          </>
         ) : null;
       })()}
 

@@ -794,8 +794,9 @@
 }
 
 .variable-button.resolution-specific {
-  border-color: #4caf50;
-  background: linear-gradient(145deg, #e8f5e8 0%, #c8e6c9 100%);
+  border-color: #2e7d32;
+  background: linear-gradient(145deg, #e8f5e8 0%, #d4e6d4 100%);
+  color: #1b5e20;
 }
 
 /* Primary Attributes Section */
@@ -1210,21 +1211,25 @@
 
 /* ===== CARD EXAMPLES SECTION STYLING ===== */
 
-.card-examples-section {
-  background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
-  border: 2px solid rgba(139, 69, 19, 0.4);
+.card-examples-section,
+.dice-examples-section,
+.coin-examples-section {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(248, 245, 232, 0.3) 100%);
+  border: 2px solid rgba(46, 125, 50, 0.3);
   border-radius: 8px;
   padding: 16px;
-  margin: 16px 0;
+  margin-bottom: 20px;
 }
 
-.card-examples-section h5 {
-  color: #2c1810;
-  margin: 0 0 12px 0;
-  font-size: 16px;
-  text-align: center;
+.card-examples-section h5,
+.dice-examples-section h5,
+.coin-examples-section h5 {
   font-family: 'Cinzel', serif;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2e7d32;
+  margin: 0 0 16px 0;
+  text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -1236,20 +1241,24 @@
 }
 
 .example-card {
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
-  border: 2px solid #8b6914;
+  background: linear-gradient(145deg, #e8f5e8 0%, #d4e6d4 100%);
+  color: #1b5e20;
+  border: 2px solid #2e7d32;
   border-radius: 6px;
   padding: 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
   min-height: fit-content;
+  font-family: 'Times New Roman', serif;
+  font-weight: 600;
 }
 
 .example-card:hover {
-  background: linear-gradient(135deg, #f8f5f0 0%, #ede4d3 100%);
+  background: linear-gradient(145deg, #f1f8e9 0%, #e8f5e8 100%);
+  color: #1b5e20;
   transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .example-card.active {

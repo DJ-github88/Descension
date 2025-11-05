@@ -14,17 +14,15 @@ const GlobalChatWindowWrapper = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen && !GlobalChatWindow && !isLoading) {
-      console.log('🎭 Loading GlobalChatWindow component...');
       setIsLoading(true);
 
       import('./GlobalChatWindow')
         .then((module) => {
-          console.log('✅ GlobalChatWindow loaded successfully');
           setGlobalChatWindow(() => module.default);
           setIsLoading(false);
         })
         .catch((err) => {
-          console.error('❌ Failed to load GlobalChatWindow:', err);
+          console.error('Failed to load GlobalChatWindow:', err);
           setError(err);
           setIsLoading(false);
         });
@@ -32,7 +30,6 @@ const GlobalChatWindowWrapper = ({ isOpen, onClose }) => {
   }, [isOpen, GlobalChatWindow, isLoading]);
 
   if (!isOpen) {
-    console.log('🎭 GlobalChatWindowWrapper: isOpen is false');
     return null;
   }
 
@@ -60,7 +57,6 @@ const GlobalChatWindowWrapper = ({ isOpen, onClose }) => {
   }
 
   if (isLoading || !GlobalChatWindow) {
-    console.log('🎭 GlobalChatWindowWrapper: Loading...');
     return (
       <div style={{
         position: 'fixed',
@@ -78,7 +74,6 @@ const GlobalChatWindowWrapper = ({ isOpen, onClose }) => {
     );
   }
 
-  console.log('🎭 GlobalChatWindowWrapper: Rendering GlobalChatWindow');
   return <GlobalChatWindow isOpen={isOpen} onClose={onClose} />;
 };
 

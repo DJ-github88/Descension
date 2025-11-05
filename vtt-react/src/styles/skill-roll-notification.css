@@ -37,6 +37,11 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
+    /* Reserve space for crit/fail animations to prevent layout shift */
+    position: relative;
+    overflow: visible; /* Allow animations to extend beyond */
+    min-height: 150px; /* Minimum height to prevent size flicker */
+    padding: 10px 0; /* Extra padding to prevent scrollbar flicker */
 }
 
 .roll-header {

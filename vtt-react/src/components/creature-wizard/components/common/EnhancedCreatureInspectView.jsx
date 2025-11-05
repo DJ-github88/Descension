@@ -24,7 +24,6 @@ import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../../../styles/skills.css';
-import '../../../../styles/skill-roll-notification.css';
 import './EnhancedCreatureInspectView.css';
 
 // Helper function to calculate ability modifier

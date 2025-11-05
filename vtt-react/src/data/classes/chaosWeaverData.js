@@ -6,229 +6,212 @@ export const CHAOS_WEAVER_DOCS = {
   icon: 'spell_shadow_possession',
   specializations: ['reality_bending', 'entropy_control', 'chaos_dice'],
 
-  // Five starter spells (level 1) designed around chaos_sphere and rollable tables
+  // Five starter spells (level 1) - Simple spells that generate mayhem modifiers, no rollable tables
   exampleSpells: [
     {
-      id: 'chaos_weaver-chaos_dice-wild_surge',
-      name: 'Wild Surge',
-      description: 'Unleash chaotic energies whose effects depend on the whims of fate.',
+      id: 'chaos_weaver-chaos_dice-chaos_bolt',
+      name: 'Chaos Bolt',
+      description: 'Launch a bolt of pure chaotic energy that deals force damage to a target.',
       level: 1,
-      icon: 'spell_arcane_polymorphchicken',
+      icon: 'spell_arcane_arcanepower',
       spellType: 'ACTION',
-      effectTypes: ['damage', 'utility'],
-      typeConfig: { school: 'chaos', icon: 'spell_arcane_polymorphchicken', tags: ['chaos', 'random', 'damage'] },
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_arcane_arcanepower',
+        tags: ['chaos', 'damage']
+      },
       damageTypes: ['force'],
-      damageConfig: { damageType: 'direct', formula: '2d6 + intelligence', elementType: 'force', canCrit: true },
-      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+      damageConfig: {
+        formula: '1d8 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
       resourceCost: {
-        resourceTypes: ['mayhem_generate', 'action_points'],
-        resourceValues: { action_points: 1 },
-        resourceFormulas: { mayhem_generate: '2d4' },
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 3, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d3' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      resolution: 'DICE',
+      tags: ['chaos', 'damage', 'chaos_dice'],
+      specialization: 'chaos_dice'
+    },
+    {
+      id: 'chaos_weaver-reality_bending-reality_flicker',
+      name: 'Reality Flicker',
+      description: 'Briefly phase out of reality, making yourself incorporeal for a moment.',
+      level: 1,
+      icon: 'spell_arcane_blink',
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_arcane_blink',
+        tags: ['chaos', 'defense']
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{ id: 'incorporeal', name: 'Incorporeal', description: 'You become incorporeal until the start of your next turn. You can move through objects and are immune to non-magical attacks.' }],
+        durationType: 'rounds',
+        durationValue: 1,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 2, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d2' },
         useFormulas: { mayhem_generate: true },
         components: ['V', 'S']
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
-      rollableTable: {
-        enabled: true,
-        name: 'Wild Surge Outcomes',
-        description: 'Roll for a chaotic outcome.',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd6', diceCount: 1 },
-        entries: [
-          { id: 'ws1', range: { min: 1, max: 2 }, customName: 'Backfire', effect: 'Take 1d4 damage, target takes half of normal damage', modifiesBaseSpell: true, effectModifications: { damageModifier: '0.5x' } },
-          { id: 'ws2', range: { min: 3, max: 4 }, customName: 'Stable', effect: 'Resolve as normal', modifiesBaseSpell: false },
-          { id: 'ws3', range: { min: 5, max: 6 }, customName: 'Overload', effect: 'Deal +1d6 bonus damage and push target 10 ft', modifiesBaseSpell: true, effectModifications: { bonusDice: '1d6', control: { type: 'push', distance: 10 } } }
-        ]
-      },
-      tags: ['chaos', 'random', 'damage', 'chaos_dice'],
-      specialization: 'chaos_dice'
+      resolution: 'DICE',
+      tags: ['chaos', 'defense', 'reality_bending'],
+      specialization: 'reality_bending'
     },
     {
-      id: 'chaos_weaver-entropy_control-entropic_burst',
-      name: 'Entropic Burst',
-      description: 'Channel entropic decay into a focused burst that weakens defenses.',
+      id: 'chaos_weaver-entropy_control-entropic_touch',
+      name: 'Entropic Touch',
+      description: 'Infuse a target with entropic decay, dealing necrotic damage and reducing their armor.',
       level: 1,
       icon: 'spell_shadow_antishadow',
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
-      typeConfig: { school: 'chaos', icon: 'spell_shadow_antishadow', tags: ['entropy', 'debuff'] },
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_shadow_antishadow',
+        tags: ['entropy', 'debuff', 'necrotic']
+      },
       damageTypes: ['necrotic'],
-      damageConfig: { damageType: 'direct', formula: '1d8 + intelligence', elementType: 'necrotic', canCrit: true },
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{ id: 'armor_sunder', name: 'Armor Sunder', description: '-1 AC until end of your next turn' }],
-        durationType: 'rounds', durationValue: 1
+      damageConfig: {
+        formula: '1d6 + intelligence',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false
       },
-      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+      debuffConfig: {
+        debuffType: 'statReduction',
+        statPenalties: [{ stat: 'armor', value: -1, magnitudeType: 'flat' }],
+        durationType: 'rounds',
+        durationValue: 3,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy']
+      },
       resourceCost: {
-        resourceTypes: ['chaos_sphere', 'action_points'],
-        resourceValues: { chaos_sphere: 1, action_points: 1 },
-        useFormulas: {},
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 4, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d3' },
+        useFormulas: { mayhem_generate: true },
         components: ['V', 'S']
       },
       cooldownConfig: { type: 'turn_based', value: 1 },
-      tags: ['chaos', 'entropy', 'debuff', 'damage'],
+      resolution: 'DICE',
+      tags: ['chaos', 'entropy', 'debuff', 'damage', 'entropy_control'],
       specialization: 'entropy_control'
     },
     {
-      id: 'chaos_weaver-entropy_control-probability_twist',
-      name: 'Probability Twist',
-      description: 'Skew probabilities to your favor, sometimes to your detriment.',
+      id: 'chaos_weaver-chaos_dice-chaotic_infusion',
+      name: 'Chaotic Infusion',
+      description: 'Infuse your magic with chaotic energy, generating 1d4 Mayhem Modifiers.',
       level: 1,
-      icon: 'spell_shadow_possession',
+      icon: 'spell_shadow_charm',
       spellType: 'ACTION',
-      effectTypes: ['control'],
-      typeConfig: { school: 'chaos', icon: 'spell_shadow_possession', tags: ['chaos', 'control'] },
-      controlConfig: { controlType: 'forcedMovement', strength: 'moderate', duration: 1, saveDC: 13, saveType: 'charisma' },
-      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_shadow_charm',
+        tags: ['chaos', 'utility', 'resource']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
       resourceCost: {
-        resourceTypes: ['action_points'],
-        resourceValues: { action_points: 1 },
-        useFormulas: {},
-        components: ['V']
-      },
-      cooldownConfig: { type: 'turn_based', value: 2 },
-      rollableTable: {
-        enabled: true,
-        name: 'Twist Outcomes',
-        description: 'Chance to reverse motion or amplify it.',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd4', diceCount: 1 },
-        entries: [
-          { id: 'pt1', range: { min: 1, max: 1 }, customName: 'Reversal', effect: 'You are pulled 5 ft toward the target as well' },
-          { id: 'pt2', range: { min: 2, max: 3 }, customName: 'As Expected', effect: 'Normal forced movement' },
-          { id: 'pt3', range: { min: 4, max: 4 }, customName: 'Amplify', effect: 'Increase push/pull distance by 5 ft' }
-        ]
-      },
-      tags: ['chaos', 'control', 'random'],
-      specialization: 'entropy_control'
-    },
-    {
-      id: 'chaos_weaver-reality_bending-schrodingers_bolt',
-      name: "Schrödinger's Bolt",
-      description: 'A bolt that exists in multiple states until observed: damage or heal.',
-      level: 1,
-      icon: 'spell_arcane_arcanepower',
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'healing'],
-      typeConfig: { school: 'chaos', icon: 'spell_arcane_arcanepower', tags: ['chaos', 'reality'] },
-      damageTypes: ['force'],
-      damageConfig: { damageType: 'direct', formula: '1d8 + intelligence', elementType: 'force', canCrit: true },
-      healingConfig: { formula: '1d6 + spirit', healingType: 'direct' },
-      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['creature'] },
-      resourceCost: {
-        resourceTypes: ['action_points'],
-        resourceValues: { action_points: 1 },
-        useFormulas: {},
-        components: ['S']
-      },
-      cooldownConfig: { type: 'turn_based', value: 1 },
-      rollableTable: {
-        enabled: true,
-        name: 'Observation Outcome',
-        description: 'Even results heal, odd results harm.',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd6', diceCount: 1 },
-        entries: [
-          { id: 'sb1', range: { min: 1, max: 1 }, customName: 'Harm', effect: 'Deal damage' },
-          { id: 'sb2', range: { min: 2, max: 2 }, customName: 'Heal', effect: 'Heal instead' },
-          { id: 'sb3', range: { min: 3, max: 3 }, customName: 'Harm', effect: 'Deal damage' },
-          { id: 'sb4', range: { min: 4, max: 4 }, customName: 'Heal', effect: 'Heal instead' },
-          { id: 'sb5', range: { min: 5, max: 5 }, customName: 'Harm', effect: 'Deal damage' },
-          { id: 'sb6', range: { min: 6, max: 6 }, customName: 'Heal', effect: 'Heal instead' }
-        ]
-      },
-      tags: ['chaos', 'random', 'hybrid'],
-      specialization: 'reality_bending'
-    },
-    {
-      id: 'chaos_weaver-entropy_control-chaotic_shield',
-      name: 'Chaotic Shield',
-      description: 'A volatile barrier that sometimes helps, sometimes harms.',
-      level: 1,
-      icon: 'spell_arcane_prismaticcloak',
-      spellType: 'ACTION',
-      effectTypes: ['healing', 'buff'],
-      typeConfig: { school: 'chaos', icon: 'spell_arcane_prismaticcloak', tags: ['shield', 'chaos'] },
-      healingConfig: { shieldFormula: '2d6 + spirit', shieldDuration: 3, shieldDamageTypes: 'all', healingType: 'shield', hasShieldEffect: true },
-      buffConfig: { buffType: 'custom', effects: [], durationType: 'rounds', durationValue: 3, canBeDispelled: true },
-      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['ally', 'self'] },
-      resourceCost: {
-        resourceTypes: ['action_points'],
-        resourceValues: { action_points: 1 },
-        useFormulas: {},
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 4, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d4' },
+        useFormulas: { mayhem_generate: true },
         components: ['V', 'S']
       },
-      cooldownConfig: { type: 'turn_based', value: 2 },
-      rollableTable: {
-        enabled: true,
-        name: 'Shield Flux',
-        description: 'Randomized shield behavior.',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd6', diceCount: 1 },
-        entries: [
-          { id: 'cs1', range: { min: 1, max: 2 }, customName: 'Fragile', effect: 'Shield fades 1 round earlier' },
-          { id: 'cs2', range: { min: 3, max: 4 }, customName: 'Stable', effect: 'Normal duration' },
-          { id: 'cs3', range: { min: 5, max: 6 }, customName: 'Voltaic', effect: 'On break, deal 1d4 lightning to nearby enemies' }
-        ]
-      },
-      tags: ['chaos', 'defense', 'random'],
-      specialization: 'entropy_control'
-    },
-    {
-      id: 'chaos_weaver-chaos_dice-maddening_whispers',
-      name: 'Maddening Whispers',
-      description: 'Whispers of chaos assault the mind—outcomes vary each cast.',
-      level: 1,
-      icon: 'spell_shadow_mindtwisting',
-      spellType: 'ACTION',
-      effectTypes: ['debuff', 'damage'],
-      typeConfig: { school: 'chaos', icon: 'spell_shadow_mindtwisting', tags: ['psychic', 'chaos'] },
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{ id: 'frightened', name: 'Frightened', description: 'Reduced effectiveness while terrified.' }],
-        durationType: 'rounds', durationValue: 2, savingThrow: 'wisdom', difficultyClass: 13, saveOutcome: 'negates'
-      },
-      damageConfig: { damageType: 'direct', formula: '1d6 + intelligence', elementType: 'psychic', canCrit: false },
-      targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
-      resourceCost: {
-        resourceTypes: ['action_points'],
-        resourceValues: { action_points: 1 },
-        useFormulas: {},
-        components: ['V']
-      },
-      cooldownConfig: { type: 'turn_based', value: 2 },
-      rollableTable: {
-        enabled: true,
-        name: 'Whisper Outcomes',
-        description: 'Different mental effects occur.',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd6', diceCount: 1 },
-        entries: [
-          { id: 'mw1', range: { min: 1, max: 2 }, customName: 'Echo', effect: 'Target has disadvantage on next save' },
-          { id: 'mw2', range: { min: 3, max: 4 }, customName: 'Static', effect: 'No additional effect' },
-          { id: 'mw3', range: { min: 5, max: 6 }, customName: 'Discordance', effect: 'Target is silenced until end of its next turn' }
-        ]
-      },
-      tags: ['chaos', 'random', 'debuff'],
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      resolution: 'DICE',
+      tags: ['chaos', 'utility', 'resource-generation', 'chaos_dice'],
       specialization: 'chaos_dice'
+    },
+    {
+      id: 'chaos_weaver-reality_bending-reality_step',
+      name: 'Reality Step',
+      description: 'Take a brief step through alternate realities, teleporting yourself up to 30 feet.',
+      level: 1,
+      icon: 'spell_arcane_blink',
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_arcane_blink',
+        tags: ['chaos', 'movement', 'teleport']
+      },
+      utilityConfig: {
+        utilityType: 'movement',
+        subtype: 'teleport',
+        description: 'Teleport yourself up to 30 feet to a location you can see',
+        power: 'minor'
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 3, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d2' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      resolution: 'DICE',
+      tags: ['chaos', 'movement', 'teleport', 'reality_bending'],
+      specialization: 'reality_bending'
     }
   ],
 
   // Pools of spell IDs available at specific levels
-  // Level 1: all five starter spells are candidates for assignment; Level 2: same pool for learn-on-level
+  // Level 1: five starter spells - simple spells that generate mayhem modifiers
   spellPools: {
     1: [
-      'chaos_weaver-entropy_control-probability_twist',
-      'chaos_weaver-entropy_control-chaotic_shield',
-      'chaos_weaver-entropy_control-entropic_burst'
+      'chaos_weaver-chaos_dice-chaos_bolt',
+      'chaos_weaver-reality_bending-reality_flicker',
+      'chaos_weaver-entropy_control-entropic_touch',
+      'chaos_weaver-chaos_dice-chaotic_infusion',
+      'chaos_weaver-reality_bending-reality_step'
     ],
     2: [
-      'chaos_weaver-chaos_dice-wild_surge',
-      'chaos_weaver-entropy_control-probability_twist',
-      'chaos_weaver-reality_bending-schrodingers_bolt',
-      'chaos_weaver-entropy_control-chaotic_shield',
-      'chaos_weaver-chaos_dice-maddening_whispers'
+      'chaos_weaver-chaos_dice-chaos_bolt',
+      'chaos_weaver-reality_bending-reality_flicker',
+      'chaos_weaver-entropy_control-entropic_touch',
+      'chaos_weaver-chaos_dice-chaotic_infusion',
+      'chaos_weaver-reality_bending-reality_step'
     ]
   }
 };
@@ -245,6 +228,314 @@ export const CHAOS_WEAVER_DATA = {
   name: 'Chaos Weaver',
   icon: 'fas fa-dice',
   role: 'Damage',
+
+  // Spell Pools - organized by character level
+  spellPools: {
+    1: [
+      'chaos_weaver-chaos_dice-chaos_bolt',
+      'chaos_weaver-reality_bending-reality_flicker',
+      'chaos_weaver-entropy_control-entropic_touch',
+      'chaos_weaver-chaos_dice-chaotic_infusion',
+      'chaos_weaver-reality_bending-reality_step'
+    ],
+    2: [
+      'chaos_weaver-chaos_dice-chaos_bolt',
+      'chaos_weaver-reality_bending-reality_flicker',
+      'chaos_weaver-entropy_control-entropic_touch',
+      'chaos_weaver-chaos_dice-chaotic_infusion',
+      'chaos_weaver-reality_bending-reality_step'
+    ]
+  },
+
+  // Example Spells - Five starter spells (level 1) - Chaos Weaver spells with rollable tables
+  exampleSpells: [
+    {
+      id: 'chaos_weaver-chaos_dice-chaos_bolt',
+      name: 'Chaos Bolt',
+      description: 'Launch a bolt of pure chaos that deals damage of a random type, determined by a rollable table.',
+      level: 1,
+      icon: 'spell_arcane_arcanepower',
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_arcane_arcanepower',
+        tags: ['chaos', 'damage', 'random']
+      },
+      damageTypes: ['force'],
+      damageConfig: {
+        formula: '1d8 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 3, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d3' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      resolution: 'DICE',
+      rollableTable: {
+        enabled: true,
+        name: 'Chaos Bolt Damage Types',
+        description: 'Roll to determine the damage type of the chaos bolt.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { id: 'cb1', range: { min: 1, max: 1 }, customName: 'Fire', effect: 'Fire damage - ignites flammable objects in area' },
+          { id: 'cb2', range: { min: 2, max: 2 }, customName: 'Cold', effect: 'Cold damage - freezes water and creates difficult terrain' },
+          { id: 'cb3', range: { min: 3, max: 3 }, customName: 'Lightning', effect: 'Lightning damage - arcs to nearby metallic objects' },
+          { id: 'cb4', range: { min: 4, max: 4 }, customName: 'Acid', effect: 'Acid damage - corrodes non-magical armor and weapons' },
+          { id: 'cb5', range: { min: 5, max: 5 }, customName: 'Thunder', effect: 'Thunder damage - deafens target for 1 round' },
+          { id: 'cb6', range: { min: 6, max: 6 }, customName: 'Force', effect: 'Force damage - pushes target 10 feet away' }
+        ]
+      },
+      specialMechanics: {
+        mayhemModifiers: {
+          canSpend: true,
+          adjustsTable: true,
+          description: 'Spend Mayhem Modifiers to adjust the damage type result by ±1 per modifier'
+        }
+      },
+      tags: ['chaos', 'damage', 'random', 'chaos_dice'],
+      specialization: 'chaos_dice'
+    },
+    {
+      id: 'chaos_weaver-reality_bending-reality_flicker',
+      name: 'Reality Flicker',
+      description: 'Cause the target to briefly flicker between realities, creating unpredictable spatial effects.',
+      level: 1,
+      icon: 'spell_arcane_blink',
+      spellType: 'ACTION',
+      effectTypes: ['control', 'utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_arcane_blink',
+        tags: ['chaos', 'teleport', 'control']
+      },
+      controlConfig: {
+        controlType: 'forcedMovement',
+        strength: 'weak',
+        duration: 1,
+        saveDC: 13,
+        saveType: 'dexterity'
+      },
+      utilityConfig: {
+        utilityType: 'movement',
+        subtype: 'teleport',
+        description: 'Teleports target to random location',
+        power: 'minor'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['creature']
+      },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 2, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d2' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      resolution: 'DICE',
+      rollableTable: {
+        enabled: true,
+        name: 'Reality Flicker Effects',
+        description: 'Roll to determine the spatial effect of the reality flicker.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { id: 'rf1', range: { min: 1, max: 1 }, customName: 'Short Blink', effect: 'Target teleports 5 feet in random direction' },
+          { id: 'rf2', range: { min: 2, max: 2 }, customName: 'Phase Out', effect: 'Target becomes incorporeal until start of next turn' },
+          { id: 'rf3', range: { min: 3, max: 3 }, customName: 'Swap', effect: 'Swap positions with random nearby creature' },
+          { id: 'rf4', range: { min: 4, max: 4 }, customName: 'Upside Down', effect: 'Target is flung 10 feet upward (falls normally)' },
+          { id: 'rf5', range: { min: 5, max: 5 }, customName: 'Mirror Image', effect: 'Create 1d4 illusory duplicates of target' },
+          { id: 'rf6', range: { min: 6, max: 6 }, customName: 'Reality Shear', effect: 'Target takes 1d6 psychic damage and is confused for 1 round' }
+        ]
+      },
+      specialMechanics: {
+        mayhemModifiers: {
+          canSpend: true,
+          adjustsTable: true,
+          description: 'Spend Mayhem Modifiers to adjust the spatial effect result by ±1 per modifier'
+        }
+      },
+      tags: ['chaos', 'teleport', 'control', 'reality_bending'],
+      specialization: 'reality_bending'
+    },
+    {
+      id: 'chaos_weaver-entropy_control-entropic_touch',
+      name: 'Entropic Touch',
+      description: 'Infuse a target with entropic decay, weakening their defenses and vitality.',
+      level: 1,
+      icon: 'spell_shadow_antishadow',
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_shadow_antishadow',
+        tags: ['entropy', 'debuff', 'necrotic']
+      },
+      damageTypes: ['necrotic'],
+      damageConfig: {
+        formula: '1d8 + intelligence',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false
+      },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{ id: 'entropy_weakness', name: 'Entropic Weakness', description: 'Target has vulnerability to chaos damage for 1 minute' }],
+        durationType: 'rounds',
+        durationValue: 10,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy']
+      },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 4, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d3' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      resolution: 'DICE',
+      rollableTable: {
+        enabled: true,
+        name: 'Entropic Decay Effects',
+        description: 'Roll to determine additional entropic effects.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { id: 'et1', range: { min: 1, max: 1 }, customName: 'Armor Crack', effect: 'Target\'s AC reduced by 1 for 1 minute' },
+          { id: 'et2', range: { min: 2, max: 2 }, customName: 'Vitality Drain', effect: 'Target\'s maximum HP reduced by 1d6 for 1 minute' },
+          { id: 'et3', range: { min: 3, max: 3 }, customName: 'Resistance Break', effect: 'Target loses resistance to one random damage type' },
+          { id: 'et4', range: { min: 4, max: 4 }, customName: 'Weapon Decay', effect: 'Target\'s weapon attacks deal 1 less damage for 1 minute' },
+          { id: 'et5', range: { min: 5, max: 5 }, customName: 'Speed Rot', effect: 'Target\'s movement speed reduced by 10 feet for 1 minute' },
+          { id: 'et6', range: { min: 6, max: 6 }, customName: 'Critical Decay', effect: 'Target cannot score critical hits for 1 minute' }
+        ]
+      },
+      specialMechanics: {
+        mayhemModifiers: {
+          canSpend: true,
+          adjustsTable: true,
+          description: 'Spend Mayhem Modifiers to adjust the entropic decay effect result by ±1 per modifier'
+        }
+      },
+      tags: ['chaos', 'entropy', 'debuff', 'damage', 'entropy_control'],
+      specialization: 'entropy_control'
+    },
+    {
+      id: 'chaos_weaver-chaos_dice-chaotic_infusion',
+      name: 'Chaotic Infusion',
+      description: 'Infuse your magic with chaotic energy, generating 1d4 Mayhem Modifiers.',
+      level: 1,
+      icon: 'spell_shadow_charm',
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_shadow_charm',
+        tags: ['chaos', 'utility', 'resource']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 4, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d4' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      resolution: 'DICE',
+      specialMechanics: {
+        mayhemModifiers: {
+          generated: '1d4',
+          description: 'Roll 1d4 and gain that many Mayhem Modifiers (max 20 total)'
+        }
+      },
+      tags: ['chaos', 'utility', 'resource-generation', 'chaos_dice'],
+      specialization: 'chaos_dice'
+    },
+    {
+      id: 'chaos_weaver-reality_bending-reality_step',
+      name: 'Reality Step',
+      description: 'Take a brief step through alternate realities, with unpredictable teleportation effects.',
+      level: 1,
+      icon: 'spell_arcane_blink',
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_arcane_blink',
+        tags: ['chaos', 'movement', 'teleport']
+      },
+      utilityConfig: {
+        utilityType: 'movement',
+        subtype: 'teleport',
+        description: 'Teleport with random effects',
+        power: 'minor'
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+      resourceCost: {
+        resourceTypes: ['mayhem_generate', 'mana', 'action_points'],
+        resourceValues: { mana: 3, action_points: 1 },
+        resourceFormulas: { mayhem_generate: '1d2' },
+        useFormulas: { mayhem_generate: true },
+        components: ['V', 'S']
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      resolution: 'DICE',
+      rollableTable: {
+        enabled: true,
+        name: 'Reality Step Effects',
+        description: 'Roll to determine the teleportation effect.',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd4', diceCount: 1 },
+        entries: [
+          { id: 'rs1', range: { min: 1, max: 1 }, customName: 'Short Step', effect: 'Teleport 15 feet to a location you can see' },
+          { id: 'rs2', range: { min: 2, max: 2 }, customName: 'Long Step', effect: 'Teleport 30 feet to a location you can see' },
+          { id: 'rs3', range: { min: 3, max: 3 }, customName: 'Phase Through', effect: 'Teleport 20 feet, passing through walls and obstacles' },
+          { id: 'rs4', range: { min: 4, max: 4 }, customName: 'Dimensional Rift', effect: 'Teleport 25 feet and leave a portal that lasts 1 round, allowing allies to follow' }
+        ]
+      },
+      specialMechanics: {
+        mayhemModifiers: {
+          canSpend: true,
+          adjustsTable: true,
+          description: 'Spend Mayhem Modifiers to adjust the teleportation effect result by ±1 per modifier'
+        }
+      },
+      tags: ['chaos', 'movement', 'teleport', 'reality_bending'],
+      specialization: 'reality_bending'
+    }
+  ],
 
   // Overview section
   overview: {
@@ -892,782 +1183,11 @@ TABLE SAFETY GUIDELINES:
         ]
       }
     ]
-  },
-
-  // Example Spells - showcasing the spell wizard system with rollable tables
-  exampleSpells: [
-    // Basic Chaos Spells
-    {
-      id: 'chaos_burst',
-      name: 'Chaos Burst',
-      description: 'Send forth a burst of chaotic energy that deals 2d6 damage of a random type to a target.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
-      school: 'Evocation',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Chaos!',
-        somaticText: 'Thrust hand forward with crackling energy'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '2d6',
-        damageType: 'random',
-        scalingType: 'none'
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: 'Random Damage Type',
-        description: 'Roll to determine the damage type',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd6'
-        },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Acid', effect: 'Acid damage - corrodes armor' },
-          { range: { min: 2, max: 2 }, customName: 'Fire', effect: 'Fire damage - ignites flammables' },
-          { range: { min: 3, max: 3 }, customName: 'Cold', effect: 'Cold damage - slows target' },
-          { range: { min: 4, max: 4 }, customName: 'Lightning', effect: 'Lightning damage - chains to nearby enemies' },
-          { range: { min: 5, max: 5 }, customName: 'Thunder', effect: 'Thunder damage - deafens target' },
-          { range: { min: 6, max: 6 }, customName: 'Force', effect: 'Force damage - pushes target back 5 feet' }
-        ]
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d6',
-            type: 'random',
-            primaryTarget: true
-          }
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          canSpend: true,
-          adjustsTable: true,
-          description: 'Spend Mayhem Modifiers to adjust the damage type result by ±1 per modifier'
-        }
-      },
-
-      tags: ['chaos', 'damage', 'random', 'basic'],
-      flavorText: 'The most basic chaos spell - unpredictable, but reliable in its unpredictability.'
-    },
-
-    // Mayhem Modifier Generation
-    {
-      id: 'chaotic_infusion',
-      name: 'Chaotic Infusion',
-      description: 'Infuse your magic with chaotic energy, generating 1d4 Mayhem Modifiers.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
-      school: 'Transmutation',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Embrace chaos!',
-        somaticText: 'Draw chaotic energy into yourself'
-      },
-
-      resolution: 'DICE',
-
-      effects: {
-        resource: {
-          type: 'mayhemModifiers',
-          formula: '1d4',
-          description: 'Generate 1d4 Mayhem Modifiers'
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          generated: '1d4',
-          description: 'Roll 1d4 and gain that many Mayhem Modifiers (max 20 total)'
-        }
-      },
-
-      tags: ['chaos', 'utility', 'resource-generation'],
-      flavorText: 'Channel the raw energy of chaos to fuel your unpredictable magic.'
-    },
-
-    {
-      id: 'wild_conduit',
-      name: 'Wild Conduit',
-      description: 'Channel the raw power of chaos through yourself, generating 2d4 Mayhem Modifiers.',
-      spellType: 'ACTION',
-      icon: 'spell_fire_felrainoffire',
-      school: 'Transmutation',
-      level: 3,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 6,
-        components: ['verbal', 'somatic'],
-        verbalText: 'I am the conduit of chaos!',
-        somaticText: 'Spread arms wide as chaotic energy flows through you'
-      },
-
-      resolution: 'DICE',
-
-      effects: {
-        resource: {
-          type: 'mayhemModifiers',
-          formula: '2d4',
-          description: 'Generate 2d4 Mayhem Modifiers'
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          generated: '2d4',
-          description: 'Roll 2d4 and gain that many Mayhem Modifiers (max 20 total)'
-        }
-      },
-
-      tags: ['chaos', 'utility', 'resource-generation'],
-      flavorText: 'Become a living conduit for chaotic forces, storing their power for later use.'
-    },
-
-    // Rollable Table Showcase - Arcane Roulette
-    {
-      id: 'arcane_roulette',
-      name: 'Arcane Roulette',
-      description: 'Spin the wheel of magic and unleash an unpredictable spell effect. Roll a d10 to determine the outcome.',
-      spellType: 'ACTION',
-      icon: 'spell_arcane_arcane04',
-      school: 'Evocation',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'varies',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'varies'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'mayhem_spend'],
-        resourceValues: { mana: 5, mayhem_spend: 1 },
-        useFormulas: {},
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Let fate decide!',
-        somaticText: 'Spin an imaginary wheel',
-        materialText: 'A small die or coin'
-      },
-
-      resolution: 'DICE',
-
-      rollableTable: {
-        enabled: true,
-        name: 'Arcane Roulette Effects',
-        description: 'Spin the wheel of magic - roll d10 for random spell effect',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd10'
-        },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Fireball', effect: '3d6 fire damage in 20-foot radius' },
-          { range: { min: 2, max: 2 }, customName: 'Healing Wave', effect: 'Heal target for 2d8 HP' },
-          { range: { min: 3, max: 3 }, customName: 'Blink', effect: 'Teleport target 30 feet in random direction' },
-          { range: { min: 4, max: 4 }, customName: 'Polymorph', effect: 'Transform target into a sheep for 1 round' },
-          { range: { min: 5, max: 5 }, customName: 'Chain Lightning', effect: '2d8 lightning damage, chains to 2 targets' },
-          { range: { min: 6, max: 6 }, customName: 'Time Slow', effect: 'Target moves at half speed for 2 rounds' },
-          { range: { min: 7, max: 7 }, customName: 'Haste', effect: 'Target gains extra action for 2 rounds' },
-          { range: { min: 8, max: 8 }, customName: 'Summon', effect: '1d4 random creatures appear (neutral alignment)' },
-          { range: { min: 9, max: 9 }, customName: 'Dispel Magic', effect: 'Remove all magical effects from target' },
-          { range: { min: 10, max: 10 }, customName: 'Wild Magic Surge', effect: 'Roll on Wild Magic Surge table' }
-        ]
-      },
-
-      effects: {
-        random: {
-          tableRoll: true,
-          description: 'Effect varies based on d10 roll'
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          canSpend: true,
-          adjustsTable: true,
-          description: 'Spend Mayhem Modifiers to adjust the result by ±1 per modifier spent'
-        }
-      },
-
-      tags: ['chaos', 'random', 'utility', 'damage', 'table'],
-      flavorText: 'Why choose one spell when you can let chaos choose for you?'
-    },
-
-    // Pandemonic Pulse - d20 Table
-    {
-      id: 'pandemonic_pulse',
-      name: 'Pandemonic Pulse',
-      description: 'Unleash a chaotic bolt of energy that changes its properties based on the roll of a d20. The bolt\'s damage type and additional effects vary dramatically with the roll.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
-      school: 'Evocation',
-      level: 4,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 90
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'mayhem_spend'],
-        resourceValues: { mana: 12, mayhem_spend: 1 },
-        useFormulas: {},
-        components: ['verbal', 'somatic'],
-        verbalText: 'Pandemonium!',
-        somaticText: 'Hurl a bolt of swirling chaotic energy'
-      },
-
-      resolution: 'DICE',
-
-      // Omit base damage config; effects are defined by the rollable table
-
-      rollableTable: {
-        enabled: true,
-        name: 'Pandemonic Pulse Effects',
-        description: 'Roll d20 to determine the chaotic bolt\'s damage type and power',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd20'
-        },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Backfire', effect: 'You take 3d6 force damage' },
-          { range: { min: 2, max: 2 }, customName: 'Weak Fire', effect: '2d6 fire damage' },
-          { range: { min: 3, max: 3 }, customName: 'Smoke', effect: 'Target has disadvantage on next attack' },
-          { range: { min: 4, max: 4 }, customName: 'Cold Blast', effect: '3d6 cold damage, slows target' },
-          { range: { min: 5, max: 5 }, customName: 'Frostbite', effect: 'Target speed halved for 1 round' },
-          { range: { min: 6, max: 6 }, customName: 'Lightning', effect: '3d6 lightning damage' },
-          { range: { min: 7, max: 7 }, customName: 'Static Charge', effect: 'Next melee hit deals +1d6 lightning' },
-          { range: { min: 8, max: 8 }, customName: 'Acid', effect: '3d6 acid damage, -2 AC for 2 rounds' },
-          { range: { min: 9, max: 9 }, customName: 'Corrosion', effect: 'Weapon/armor penalty -1 (1 round)' },
-          { range: { min: 10, max: 10 }, customName: 'Force', effect: '4d6 force damage' },
-          { range: { min: 11, max: 11 }, customName: 'Repel', effect: 'Push target 10 feet' },
-          { range: { min: 12, max: 12 }, customName: 'Necrotic', effect: '4d6 necrotic damage, heal for half' },
-          { range: { min: 13, max: 13 }, customName: 'Decay', effect: 'Target suffers -1 to saves (1 round)' },
-          { range: { min: 14, max: 14 }, customName: 'Radiant', effect: '4d6 radiant damage, blinds for 1 round' },
-          { range: { min: 15, max: 15 }, customName: 'Gleam', effect: 'Ally in 10 feet gains +1 AC (1 round)' },
-          { range: { min: 16, max: 16 }, customName: 'Psychic', effect: '5d6 psychic damage, confuses target' },
-          { range: { min: 17, max: 17 }, customName: 'Rattle', effect: 'Target has disadvantage on next save' },
-          { range: { min: 18, max: 18 }, customName: 'Pure Chaos', effect: '6d6 chaos damage, ignores resistance' },
-          { range: { min: 19, max: 19 }, customName: 'Cascade', effect: 'Roll again and add 1d6 damage' },
-          { range: { min: 20, max: 20 }, customName: 'Critical Chaos', effect: '8d6 damage of all types combined' }
-        ]
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: 'varies',
-            type: 'varies',
-            primaryTarget: true
-          }
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          canSpend: true,
-          adjustsTable: true,
-          description: 'Spend Mayhem Modifiers to adjust the d20 result by ±1 per modifier'
-        }
-      },
-
-      tags: ['chaos', 'damage', 'random', 'high-power', 'table'],
-      flavorText: 'A bolt of pure pandemonium - it could fizzle, or it could devastate.'
-    },
-
-    // Mist of Mayhem - Wild Magic Surge Table Showcase
-    {
-      id: 'mist_of_mayhem',
-      name: 'Mist of Mayhem',
-      description: 'Release a swirling mist in a 30-foot radius. Each creature within the mist must roll on the Wild Magic Surge table, potentially receiving buffs, debuffs, or whimsical effects.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_twilight',
-      school: 'Conjuration',
-      level: 5,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'aoe',
-        aoeType: 'sphere',
-        aoeSize: 30,
-        rangeType: 'centered',
-        validTargets: ['enemy', 'ally', 'self']
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 8,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Let chaos reign!',
-        somaticText: 'Sweep arms in a circle',
-        materialText: 'A vial of swirling mist'
-      },
-
-      resolution: 'DICE',
-
-      rollableTable: {
-        enabled: true,
-        name: 'Wild Magic Surge',
-        description: 'Each creature in the mist rolls separately on this table',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd33'
-        },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Ethereal Instability', effect: 'Disadvantage on all rolls for 1 minute' },
-          { range: { min: 2, max: 2 }, customName: 'Chaotic Asphyxiation', effect: 'Muted and suffocating, 1d4 damage/round (DC 18 Int save to end)' },
-          { range: { min: 3, max: 3 }, customName: 'Spatial Displacement', effect: 'All creatures teleport randomly within 60 yards' },
-          { range: { min: 4, max: 4 }, customName: 'Life Flux', effect: 'HP randomly redistributed among allies within 60 feet' },
-          { range: { min: 5, max: 5 }, customName: 'Chaos Nova', effect: 'Random polymorph, blind, deaf, or ethereal for 1d4 rounds' },
-          { range: { min: 6, max: 6 }, customName: 'Chicken Flock', effect: '1d4 chickens appear and scatter' },
-          { range: { min: 7, max: 7 }, customName: 'Arcane Amplification', effect: 'All spells within 40 feet deal +1 dice tier until next turn' },
-          { range: { min: 8, max: 8 }, customName: 'Winged Mutation', effect: 'Random creature gains flight for 1 minute' },
-          { range: { min: 9, max: 9 }, customName: 'Vampiric Surge', effect: 'Next attack drains HP equal to damage dealt' },
-          { range: { min: 10, max: 10 }, customName: 'Confetti Explosion', effect: 'Harmless colorful confetti everywhere' },
-          { range: { min: 11, max: 11 }, customName: 'Gravity Well', effect: 'Half speed in 50-foot radius (DC 12 Str save)' },
-          { range: { min: 12, max: 12 }, customName: 'Mysterious Box', effect: 'A box appears with random contents (roll d4)' },
-          { range: { min: 13, max: 13 }, customName: 'Dance Fever', effect: 'Must dance until DC 12 Wis save' },
-          { range: { min: 14, max: 14 }, customName: 'Banana Summoning', effect: 'A banana appears and falls' },
-          { range: { min: 15, max: 15 }, customName: 'Wolf Summoning', effect: '2 neutral wolves attack nearest target' },
-          { range: { min: 16, max: 16 }, customName: 'Vulnerability Roulette', effect: 'Gain vulnerability to random damage type for 1 minute' },
-          { range: { min: 17, max: 17 }, customName: 'Resistance Roulette', effect: 'Gain resistance to random damage type for 1 minute' },
-          { range: { min: 18, max: 18 }, customName: 'Spontaneous Growth', effect: 'Plants double in size for 1 minute' },
-          { range: { min: 19, max: 19 }, customName: 'Boulder Barrage', effect: 'Boulder falls at random location, 3d6 bludgeoning damage' },
-          { range: { min: 20, max: 20 }, customName: 'Speed Surge', effect: '+10 feet movement until end of next turn' },
-          { range: { min: 21, max: 21 }, customName: 'Gravitational Pull', effect: 'Restrained until DC 12 Str check (1d4 damage/round)' },
-          { range: { min: 22, max: 22 }, customName: 'Gravitational Attraction', effect: 'Pulled 5 feet toward caster (DC 12 Str resist)' },
-          { range: { min: 23, max: 23 }, customName: 'Healing Rain', effect: 'Heal 1d6 HP at start of turn for 3 rounds' },
-          { range: { min: 24, max: 24 }, customName: 'Fire Bolt Barrage', effect: '2d6 fire damage (DC 12 Dex save)' },
-          { range: { min: 25, max: 25 }, customName: 'Llama Shower', effect: 'Llamas rain down, 2d8 bludgeoning damage (DC 15 Dex save)' },
-          { range: { min: 26, max: 26 }, customName: 'Deep Freeze', effect: 'Encased in ice, stunned, +5 AC, heal 1d6/turn until ice melts' },
-          { range: { min: 27, max: 27 }, customName: 'Gravity Toss', effect: 'Flung 20 feet up, 1d6 falling damage (2d6 if hit ceiling)' },
-          { range: { min: 28, max: 28 }, customName: 'Elemental Flux', effect: 'All spells change to random magical damage type for 1 minute' },
-          { range: { min: 29, max: 29 }, customName: 'Realm of Death', effect: 'Transported to Death Realm, play Death\'s game (d6 rolls)' },
-          { range: { min: 30, max: 30 }, customName: 'Rabbit\'s Wrath', effect: '2d4 rabbits appear, explode for 4d8 lightning if damaged' },
-          { range: { min: 31, max: 31 }, customName: 'Toxic Miasma', effect: 'Poison gas spreads, 1d6 poison damage/turn' },
-          { range: { min: 32, max: 32 }, customName: 'Mystical Mist', effect: 'Random effect (heal 1d8, +10 speed, +1d8 melee, or blind)' },
-          { range: { min: 33, max: 33 }, customName: 'Ghostly Blade', effect: 'Summon spectral weapon with necrotic damage' }
-        ]
-      },
-
-      effects: {
-        aoe: {
-          radius: 30,
-          affectsAllies: true,
-          affectsEnemies: true,
-          affectsSelf: true,
-          description: 'Each creature rolls separately on Wild Magic Surge table'
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          canSpend: true,
-          adjustsTable: true,
-          perCreature: true,
-          description: 'You can spend Mayhem Modifiers to adjust the result for each creature individually'
-        }
-      },
-
-      tags: ['chaos', 'aoe', 'wild-magic', 'random', 'ultimate', 'table'],
-      flavorText: 'Pure chaos incarnate - anything can happen when the mist descends.'
-    },
-
-    // Fractured Realms - Terrain Transformation
-    {
-      id: 'fractured_realms',
-      name: 'Fractured Realms',
-      description: 'Tear open multiple small rifts to other planes around you. Enemies stepping within 5 feet of a rift must roll on the Terrain Transformation table for random effects.',
-      spellType: 'ACTION',
-      icon: 'spell_arcane_portalorgrimmar',
-      school: 'Conjuration',
-      level: 6,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'aoe',
-        aoeType: 'sphere',
-        aoeSize: 50,
-        rangeType: 'centered',
-        validTargets: ['ground']
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 3
-      },
-
-      resourceCost: {
-        mana: 10,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Realms fracture!',
-        somaticText: 'Tear the air with both hands',
-        materialText: 'A shard of planar crystal'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'negates'
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: 'Terrain Transformation',
-        description: 'Creatures entering rift zones trigger this table',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd10'
-        },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Brimstone Cracks', effect: 'Difficult terrain, DC 15 Con save or 1d4 damage and prone' },
-          { range: { min: 2, max: 2 }, customName: 'Thicket Growth', effect: 'Dense underbrush, DC 12 Dex check or restrained (DC 12 Str to escape)' },
-          { range: { min: 3, max: 3 }, customName: 'Quicksand Pits', effect: 'DC 15 Str save or sink (DC 15 Str each turn to escape)' },
-          { range: { min: 4, max: 4 }, customName: 'Crystal Shards', effect: '1d6 piercing damage when moving through (DC 15 Dex negates)' },
-          { range: { min: 5, max: 5 }, customName: 'Frozen Glaze', effect: 'DC 12 Dex check or slip prone and take 1d4 bludgeoning' },
-          { range: { min: 6, max: 6 }, customName: 'Ground Uprising', effect: 'DC 14 Dex save or knocked prone, 2d4 wall dimensions' },
-          { range: { min: 7, max: 7 }, customName: 'Arcane Resonance', effect: 'DC 13 Dex save or lifted off ground for 1 round (disadvantage on actions)' },
-          { range: { min: 8, max: 8 }, customName: 'Mystic Mists', effect: 'Visibility 5 feet, DC 15 Wis check to see through (disadvantage until end of turn)' },
-          { range: { min: 9, max: 9 }, customName: 'Ethereal Echoes', effect: 'Ghostly images flicker, DC 14 Wis save or paranoia' },
-          { range: { min: 10, max: 10 }, customName: 'Chaos Conduit', effect: 'Roll twice on this table for simultaneous transformations' }
-        ]
-      },
-
-      effects: {
-        zone: {
-          duration: 3,
-          radius: 50,
-          triggersOnEntry: true,
-          description: 'Creates multiple rift zones that trigger terrain transformations'
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          canSpend: true,
-          adjustsTable: true,
-          description: 'Spend Mayhem Modifiers to adjust terrain transformation results'
-        }
-      },
-
-      tags: ['chaos', 'terrain', 'zone', 'control', 'table'],
-      flavorText: 'Reality itself fractures, bringing pieces of other planes into this one.'
-    },
-
-    // Reality Swap
-    {
-      id: 'reality_swap',
-      name: 'Reality Swap',
-      description: 'Swap places with a random creature within 30 feet. If the rolled creature is an ally, both gain advantage on their next attack. If an enemy, both are stunned for 1 round.',
-      spellType: 'ACTION',
-      icon: 'spell_arcane_blink',
-      school: 'Conjuration',
-      level: 4,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'random',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        validTargets: ['creature']
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 8,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Switch!',
-        somaticText: 'Point at random direction'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        teleport: {
-          swapPositions: true,
-          randomTarget: true,
-          range: 30
-        },
-        conditional: {
-          ifAlly: {
-            buff: {
-              advantage: 'next_attack',
-              duration: 1
-            }
-          },
-          ifEnemy: {
-            debuff: {
-              stunned: true,
-              duration: 1,
-              affectsBoth: true
-            }
-          }
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          canSpend: true,
-          influenceTarget: true,
-          description: 'Spend 5 Mayhem Modifiers to choose the target instead of it being random'
-        }
-      },
-
-      tags: ['chaos', 'teleport', 'utility', 'random'],
-      flavorText: 'Who needs to choose targets when reality can choose for you?'
-    },
-
-    // Entropic Blast
-    {
-      id: 'entropic_blast',
-      name: 'Entropic Blast',
-      description: 'Release a blast of entropic energy that deals 3d6 necrotic damage to a target and reduces their AC by 2 for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_antishadow',
-      school: 'Necromancy',
-      level: 5,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 11,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Decay!',
-        somaticText: 'Thrust palm forward with dark energy'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '3d6',
-        damageType: 'necrotic',
-        scalingType: 'none'
-      },
-
-      debuffConfig: {
-        stats: {
-          armorClass: '-2'
-        },
-        duration: 10,
-        description: 'Target\'s armor decays, reducing AC by 2'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d6',
-            type: 'necrotic',
-            primaryTarget: true
-          }
-        },
-        debuff: {
-          duration: 10,
-          stats: {
-            ac: -2
-          },
-          description: 'Entropic decay weakens armor'
-        }
-      },
-
-      specialMechanics: {
-        entropy: {
-          armorReduction: 2,
-          stacksWith: 'entropic_decay_passive',
-          description: 'Works with Entropy spec passive for additional armor shredding'
-        }
-      },
-
-      tags: ['chaos', 'damage', 'necrotic', 'debuff', 'entropy'],
-      flavorText: 'The forces of entropy break down matter itself, weakening defenses.'
-    },
-
-    // Chaotic Vortex - Ultimate
-    {
-      id: 'chaotic_vortex',
-      name: 'Chaotic Vortex',
-      description: 'Draw upon the raw power of chaos to create a fluctuating vortex of energy that affects all creatures within a 30-foot radius. The nature of the vortex changes each round, providing a mix of beneficial and detrimental effects.',
-      spellType: 'ACTION',
-      icon: 'spell_fire_felrainoffire',
-      school: 'Evocation',
-      level: 8,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'aoe',
-        aoeType: 'sphere',
-        aoeSize: 30,
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        validTargets: ['all']
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 3
-      },
-
-      resourceCost: {
-        mana: 15,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Chaos eternal!',
-        somaticText: 'Spin in a circle with arms outstretched',
-        materialText: 'A vial of pure chaos essence'
-      },
-
-      resolution: 'DICE',
-
-      rollableTable: {
-        enabled: true,
-        name: 'Chaotic Vortex Effects',
-        description: 'Roll at the start of each round to determine the vortex\'s effect',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd6'
-        },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Damage All', effect: '4d6 random damage type to all creatures' },
-          { range: { min: 2, max: 2 }, customName: 'Heal All', effect: '2d8 healing to all creatures' },
-          { range: { min: 3, max: 3 }, customName: 'Teleport Random', effect: 'All creatures teleport randomly within the vortex' },
-          { range: { min: 4, max: 4 }, customName: 'Buff/Debuff', effect: 'Allies gain +2 AC, enemies get -2 AC' },
-          { range: { min: 5, max: 5 }, customName: 'Speed Change', effect: 'Random creatures gain haste, others get slowed' },
-          { range: { min: 6, max: 6 }, customName: 'Wild Surge', effect: 'Each creature rolls on Wild Magic Surge table' }
-        ]
-      },
-
-      effects: {
-        zone: {
-          duration: 3,
-          radius: 30,
-          changesEachRound: true,
-          affectsAll: true
-        }
-      },
-
-      specialMechanics: {
-        mayhemModifiers: {
-          canSpend: true,
-          adjustsTable: true,
-          perRound: true,
-          description: 'Spend Mayhem Modifiers each round to adjust the vortex effect'
-        }
-      },
-
-      tags: ['chaos', 'aoe', 'ultimate', 'zone', 'random', 'table'],
-      flavorText: 'The ultimate expression of chaos - a vortex of pure unpredictability.'
-    }
-  ]
+  }
+
+  // NOTE: Example spells are defined at the top of CHAOS_WEAVER_DATA (line 251)
+  // The duplicate exampleSpells array below has been removed to prevent conflicts
+  // All starting spells are now properly defined in the first exampleSpells array
 };
 
 

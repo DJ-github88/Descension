@@ -314,8 +314,8 @@ const ExternalLivePreview = () => {
       })(),
       rangeType: spellState.targetingConfig?.rangeType || 'ranged',
 
-      // Targeting information
-      targetingMode: spellState.targetingConfig?.targetingType || 'single',
+      // Targeting information - NOTE: targetingMode is the mode ('unified' or 'effect'), not the targeting type
+      // This was incorrectly set to targetingType before - keeping for backward compatibility but will be overridden below
       targetRestriction: spellState.targetingConfig?.targetRestrictions && spellState.targetingConfig.targetRestrictions.length > 0 ?
                          spellState.targetingConfig.targetRestrictions[0] :
                          spellState.targetingConfig?.targetRestriction || null,
@@ -344,6 +344,9 @@ const ExternalLivePreview = () => {
         rangeType: spellState.targetingConfig?.rangeType || 'ranged',
         rangeDistance: spellState.targetingConfig?.rangeDistance || 30
       } || {},
+      // CRITICAL: Include targetingMode and effectTargeting for effect-specific targeting
+      targetingMode: spellState.targetingMode || 'unified',
+      effectTargeting: spellState.effectTargeting || {},
 
       // Damage/Healing information
       primaryDamage: spellState.damageConfig ? {
@@ -562,7 +565,6 @@ const ExternalLivePreview = () => {
         `}
       </style>
       {(() => {
-        console.log('ExternalLivePreview - state.rollableTable:', state.rollableTable);
         return (
           <SpellCardWithProcs
             key={`preview-${state.lastModified?.getTime() || Date.now()}`}

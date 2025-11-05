@@ -8,7 +8,6 @@ import { calculateStatModifier } from '../../utils/characterUtils';
 import { showSkillRollNotification } from '../../utils/skillRollNotification';
 
 import '../../styles/skills.css';
-import '../../styles/skill-roll-notification.css';
 
 export default function Skills() {
     // Use inspection context if available, otherwise use regular character store

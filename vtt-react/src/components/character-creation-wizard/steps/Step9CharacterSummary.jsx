@@ -189,12 +189,6 @@ const Step9CharacterSummary = () => {
                     {/* Right side - Character summary preview */}
                     <div className="summary-preview">
                         <div className="preview-card">
-                            <div className="preview-header">
-                                <div className="preview-icon">
-                                    <i className="fas fa-scroll"></i>
-                                </div>
-                                <h3 className="preview-title">Character Summary</h3>
-                            </div>
                             <div className="preview-content">
                                 <div className="preview-section">
                                     <h4>Character Portrait</h4>

@@ -331,6 +331,68 @@ export const CHRONARCH_ITEMS = [
         availableFor: {
             classes: ['Chronarch']
         }
+    },
+    {
+        id: 'chronarch-time-crystal',
+        name: 'Time Crystal',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A crystal that pulses with temporal energy, storing moments in time.',
+        iconId: 'inv_misc_gem_azuredraenite_01',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Chronarch']
+        }
+    },
+    {
+        id: 'chronarch-temporal-robes',
+        name: 'Temporal Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes that seem to phase in and out of existence, never quite fully present.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Chronarch']
+        }
+    },
+    {
+        id: 'chronarch-pocket-watch',
+        name: 'Pocket Watch of Chronos',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'An ornate pocket watch that can stop time for brief moments.',
+        iconId: 'inv_misc_pocketwatch_01',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Chronarch']
+        }
     }
 ];
 
@@ -377,6 +439,69 @@ export const CHAOS_WEAVER_ITEMS = [
         iconId: 'inv_misc_dice_01',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 0.5,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Chaos Weaver']
+        }
+    },
+    {
+        id: 'chaos-weaver-shifting-robes',
+        name: 'Shifting Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes that constantly shift colors and patterns, never appearing the same twice.',
+        iconId: 'inv_chest_cloth_50',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            charisma: { value: 1, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Chaos Weaver']
+        }
+    },
+    {
+        id: 'chaos-weaver-entropy-orb',
+        name: 'Orb of Entropy',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A swirling orb of chaotic energy that pulses with unpredictable power.',
+        iconId: 'inv_misc_orb_05',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            charisma: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Chaos Weaver']
+        }
+    },
+    {
+        id: 'chaos-weaver-reality-anchor',
+        name: 'Reality Anchor',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A small device that helps stabilize chaotic magic effects.',
+        iconId: 'inv_misc_enggizmos_19',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 1,
         width: 1,
         height: 1,
         rotation: 0,
@@ -457,6 +582,48 @@ export const GAMBLER_ITEMS = [
         availableFor: {
             classes: ['Gambler']
         }
+    },
+    {
+        id: 'gambler-vest',
+        name: 'Gambler\'s Vest',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A stylish vest with hidden pockets perfect for storing cards and coins.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            charisma: { value: 1, isPercentage: false },
+            agility: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Gambler']
+        }
+    },
+    {
+        id: 'gambler-loaded-dice',
+        name: 'Loaded Dice',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Dice weighted to favor certain outcomes, for when luck needs a push.',
+        iconId: 'inv_misc_dice_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.2,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Gambler']
+        }
     }
 ];
 
@@ -526,6 +693,239 @@ export const MARTYR_ITEMS = [
     }
 ];
 
+// Exorcist - Holy warrior banishing evil spirits
+export const EXORCIST_ITEMS = [
+    {
+        id: 'exorcist-holy-symbol',
+        name: 'Exorcist\'s Holy Symbol',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'A blessed holy symbol that glows with divine light when near evil spirits.',
+        iconId: 'inv_jewelry_talisman_07',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Exorcist']
+        }
+    },
+    {
+        id: 'exorcist-banishment-staff',
+        name: 'Banishment Staff',
+        type: 'weapon',
+        subtype: 'STAFF',
+        quality: 'uncommon',
+        description: 'A staff engraved with banishment runes, pulsing with holy energy.',
+        iconId: 'inv_staff_18',
+        value: { platinum: 0, gold: 13, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 6,
+                damageType: 'radiant'
+            }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Exorcist']
+        }
+    },
+    {
+        id: 'exorcist-holy-water',
+        name: 'Vial of Holy Water',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Blessed water that burns evil creatures and purifies corruption.',
+        iconId: 'inv_flask_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: true,
+        maxStackSize: 5,
+        availableFor: {
+            classes: ['Exorcist']
+        }
+    },
+    {
+        id: 'exorcist-purification-robe',
+        name: 'Purification Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'White robes embroidered with protective symbols against evil spirits.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Exorcist']
+        }
+    },
+    {
+        id: 'exorcist-warding-rings',
+        name: 'Warding Rings',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'Silver rings engraved with protective runes that glow near evil.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Exorcist']
+        }
+    }
+];
+
+// Oracle - Seer with prophetic visions
+export const ORACLE_ITEMS = [
+    {
+        id: 'oracle-divination-staff',
+        name: 'Oracle\'s Divination Staff',
+        type: 'weapon',
+        subtype: 'STAFF',
+        quality: 'uncommon',
+        description: 'A staff topped with a crystal sphere that reflects glimpses of the future.',
+        iconId: 'inv_staff_13',
+        value: { platinum: 0, gold: 14, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 6,
+                damageType: 'psychic'
+            }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Oracle']
+        }
+    },
+    {
+        id: 'oracle-scrying-orb',
+        name: 'Scrying Orb',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A crystal orb that swirls with visions of what is to come.',
+        iconId: 'inv_misc_orb_05',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Oracle']
+        }
+    },
+    {
+        id: 'oracle-prophetic-robe',
+        name: 'Prophetic Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Flowing robes covered in symbols and patterns that shift to reveal glimpses of the future.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Oracle']
+        }
+    },
+    {
+        id: 'oracle-tarot-deck',
+        name: 'Oracle\'s Tarot Deck',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A deck of divination cards that reveal hidden truths and future possibilities.',
+        iconId: 'inv_misc_ticket_tarot_01',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Oracle']
+        }
+    },
+    {
+        id: 'oracle-fate-necklace',
+        name: 'Necklace of Fate',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'A necklace with crystal beads that pulse with prophetic energy.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Oracle']
+        }
+    }
+];
+
 // False Prophet - Deception-based divine caster
 export const FALSE_PROPHET_ITEMS = [
     {
@@ -573,6 +973,97 @@ export const FALSE_PROPHET_ITEMS = [
         slots: ['trinket1', 'trinket2'],
         baseStats: {
             charisma: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['False Prophet']
+        }
+    },
+    {
+        id: 'false-prophet-deception-robe',
+        name: 'Deception Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes that appear holy but are woven with threads of shadow and lies.',
+        iconId: 'inv_chest_cloth_50',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            charisma: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['False Prophet']
+        }
+    },
+    {
+        id: 'false-prophet-whisper-blade',
+        name: 'Whisper Blade',
+        type: 'weapon',
+        subtype: 'DAGGER',
+        quality: 'common',
+        description: 'A hidden dagger perfect for eliminating those who see through your lies.',
+        iconId: 'inv_weapon_shortblade_25',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 2,
+        slots: ['mainHand', 'offHand'],
+        weaponSlot: 'ONE_HANDED',
+        hand: 'ONE_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 4,
+                damageType: 'piercing'
+            }
+        },
+        baseStats: {
+            charisma: { value: 1, isPercentage: false },
+            agility: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['False Prophet']
+        }
+    },
+    {
+        id: 'false-prophet-corruption-tome',
+        name: 'Tome of Corruption',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book filled with false prophecies and corrupted scripture.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['False Prophet']
+        }
+    },
+    {
+        id: 'false-prophet-shadow-amulet',
+        name: 'Shadow Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet that shrouds you in shadows, perfect for deception.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            charisma: { value: 2, isPercentage: false }
         },
         availableFor: {
             classes: ['False Prophet']
@@ -632,6 +1123,69 @@ export const FACTIONIST_ITEMS = [
         availableFor: {
             classes: ['Factionist']
         }
+    },
+    {
+        id: 'factionist-uniform',
+        name: 'Faction Uniform',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Standard uniform bearing your faction\'s colors and insignia.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 3,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            charisma: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Factionist']
+        }
+    },
+    {
+        id: 'factionist-seal-ring',
+        name: 'Faction Seal Ring',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'A ring bearing your faction\'s seal, granting authority and influence.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            charisma: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Factionist']
+        }
+    },
+    {
+        id: 'factionist-medallion',
+        name: 'Faction Medallion',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'common',
+        description: 'A medallion that identifies you as a member of your faction.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            charisma: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Factionist']
+        }
     }
 ];
 
@@ -666,6 +1220,204 @@ export const PLAGUEBRINGER_ITEMS = [
         availableFor: {
             classes: ['Plaguebringer']
         }
+    },
+    {
+        id: 'plaguebringer-contaminated-robes',
+        name: 'Contaminated Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Filthy robes that carry disease and plague spores.',
+        iconId: 'inv_chest_cloth_50',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            constitution: { value: 2, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Plaguebringer']
+        }
+    },
+    {
+        id: 'plaguebringer-plague-vial',
+        name: 'Plague Vial',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A vial containing concentrated plague essence for spreading disease.',
+        iconId: 'inv_flask_01',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: true,
+        maxStackSize: 5,
+        availableFor: {
+            classes: ['Plaguebringer']
+        }
+    },
+    {
+        id: 'plaguebringer-pestilence-mask',
+        name: 'Pestilence Mask',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'common',
+        description: 'A plague doctor\'s mask that protects from disease while spreading it.',
+        iconId: 'inv_misc_head_dragon_01',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Plaguebringer']
+        }
+    },
+    {
+        id: 'plaguebringer-rotten-tome',
+        name: 'Tome of Rot',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A decaying book containing recipes for creating and spreading plagues.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Plaguebringer']
+        }
+    }
+];
+
+// Lichborne - Undead spellcaster with phylactery power
+export const LICHBORNE_ITEMS = [
+    {
+        id: 'lichborne-phylactery',
+        name: 'Phylactery',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'rare',
+        description: 'An ancient artifact containing your bound soul. Grants immortality and resurrection.',
+        iconId: 'inv_jewelry_talisman_11',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            spirit: { value: 3, isPercentage: false },
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lichborne']
+        }
+    },
+    {
+        id: 'lichborne-frost-staff',
+        name: 'Frost Staff',
+        type: 'weapon',
+        subtype: 'STAFF',
+        quality: 'uncommon',
+        description: 'A staff made of ice that never melts, pulsing with undead frost energy.',
+        iconId: 'inv_staff_25',
+        value: { platinum: 0, gold: 13, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 6,
+                damageType: 'cold'
+            }
+        },
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lichborne']
+        }
+    },
+    {
+        id: 'lichborne-undead-robes',
+        name: 'Undead Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Tattered robes that seem to move on their own, pulsating with necromantic energy.',
+        iconId: 'inv_chest_cloth_50',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lichborne']
+        }
+    },
+    {
+        id: 'lichborne-soul-gem',
+        name: 'Soul Gem',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A gem that captures and stores souls to power necromantic abilities.',
+        iconId: 'inv_misc_gem_azuredraenite_01',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lichborne']
+        }
+    },
+    {
+        id: 'lichborne-necromantic-tome',
+        name: 'Necromantic Tome',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'An ancient book bound in flesh, containing forbidden necromantic knowledge.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Lichborne']
+        }
     }
 ];
 
@@ -697,7 +1449,7 @@ export const DEATH_CALLER_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Death Caller']
+            classes: ['Deathcaller']
         }
     },
 
@@ -718,17 +1470,80 @@ export const DEATH_CALLER_ITEMS = [
             spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Death Caller']
+            classes: ['Deathcaller']
+        }
+    },
+    {
+        id: 'death-caller-necromancer-robes',
+        name: 'Necromancer\'s Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Dark robes adorned with bones and symbols of death.',
+        iconId: 'inv_chest_cloth_50',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Deathcaller']
+        }
+    },
+    {
+        id: 'death-caller-skull-amulet',
+        name: 'Skull Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet made from a human skull, pulsing with dark energy.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Deathcaller']
+        }
+    },
+    {
+        id: 'death-caller-soul-catcher',
+        name: 'Soul Catcher',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A mystical device used to capture and contain souls from the recently deceased.',
+        iconId: 'inv_misc_enggizmos_19',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Deathcaller']
         }
     }
 ];
 
 export const ZEALOT_PATH_ITEMS = [
     ...MARTYR_ITEMS,
+    ...EXORCIST_ITEMS,
     ...FALSE_PROPHET_ITEMS,
-    ...FACTIONIST_ITEMS,
-    ...PLAGUEBRINGER_ITEMS,
-    ...DEATH_CALLER_ITEMS
+    ...ORACLE_ITEMS,
+    ...FACTIONIST_ITEMS
 ];
 
 // ===== ARCANIST PATH CLASSES =====
@@ -763,6 +1578,89 @@ export const SPELLGUARD_ITEMS = [
         combatStats: {
             armor: { value: 1, isPercentage: false }
         },
+        availableFor: {
+            classes: ['Spellguard']
+        }
+    },
+    {
+        id: 'spellguard-protective-robes',
+        name: 'Protective Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes woven with protective wards that shimmer with defensive magic.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Spellguard']
+        }
+    },
+    {
+        id: 'spellguard-warding-amulet',
+        name: 'Warding Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet that pulses with protective energy, deflecting hostile magic.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Spellguard']
+        }
+    },
+    {
+        id: 'spellguard-ward-stone',
+        name: 'Ward Stone',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A crystal that stores ward charges for defensive spells.',
+        iconId: 'inv_misc_gem_azuredraenite_01',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Spellguard']
+        }
+    },
+    {
+        id: 'spellguard-protection-tome',
+        name: 'Tome of Protection',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing defensive spells and ward formulas.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
         availableFor: {
             classes: ['Spellguard']
         }
@@ -818,6 +1716,67 @@ export const INSCRIPTOR_ITEMS = [
         availableFor: {
             classes: ['Inscriptor']
         }
+    },
+    {
+        id: 'inscriptor-runic-robes',
+        name: 'Runic Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes covered in glowing runic patterns that enhance spell effects.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Inscriptor']
+        }
+    },
+    {
+        id: 'inscriptor-rune-pouch',
+        name: 'Rune Pouch',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A pouch containing various runic materials and inks for inscribing.',
+        iconId: 'inv_misc_bag_11',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Inscriptor']
+        }
+    },
+    {
+        id: 'inscriptor-glyph-amulet',
+        name: 'Glyph Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet covered in active runes that pulse with arcane energy.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Inscriptor']
+        }
     }
 ];
 
@@ -842,6 +1801,97 @@ export const ARCANOPHAGE_ITEMS = [
             intelligence: { value: 2, isPercentage: false },
             spirit: { value: 1, isPercentage: false }
         },
+        availableFor: {
+            classes: ['Arcanophage']
+        }
+    },
+    {
+        id: 'arcanophage-magic-staff',
+        name: 'Magic Absorption Staff',
+        type: 'weapon',
+        subtype: 'STAFF',
+        quality: 'uncommon',
+        description: 'A staff that channels absorbed magic into powerful spells.',
+        iconId: 'inv_staff_30',
+        value: { platinum: 0, gold: 13, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 6,
+                damageType: 'arcane'
+            }
+        },
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Arcanophage']
+        }
+    },
+    {
+        id: 'arcanophage-void-robes',
+        name: 'Void Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes that seem to absorb light and magic, creating a void-like appearance.',
+        iconId: 'inv_chest_cloth_50',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Arcanophage']
+        }
+    },
+    {
+        id: 'arcanophage-absorption-ring',
+        name: 'Absorption Ring',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'A ring that passively absorbs stray magical energy.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Arcanophage']
+        }
+    },
+    {
+        id: 'arcanophage-magic-tome',
+        name: 'Tome of Absorption',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing techniques for absorbing and redirecting magic.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
         availableFor: {
             classes: ['Arcanophage']
         }
@@ -875,6 +1925,85 @@ export const WITCH_DOCTOR_ITEMS = [
         baseStats: {
             spirit: { value: 2, isPercentage: false }
         },
+        availableFor: {
+            classes: ['Witch Doctor']
+        }
+    },
+    {
+        id: 'witch-doctor-tribal-robes',
+        name: 'Tribal Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Colorful robes decorated with feathers, bones, and spiritual symbols.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Witch Doctor']
+        }
+    },
+    {
+        id: 'witch-doctor-spirit-mask',
+        name: 'Spirit Mask',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A ritual mask that allows communication with loa spirits.',
+        iconId: 'inv_misc_head_dragon_01',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Witch Doctor']
+        }
+    },
+    {
+        id: 'witch-doctor-voodoo-doll',
+        name: 'Voodoo Doll',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A doll used for curses and blessings, connecting you to spirits.',
+        iconId: 'inv_misc_doll_01',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Witch Doctor']
+        }
+    },
+    {
+        id: 'witch-doctor-herb-pouch',
+        name: 'Herb Pouch',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A pouch filled with various herbs and ingredients for spiritual rituals.',
+        iconId: 'inv_misc_bag_11',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
         availableFor: {
             classes: ['Witch Doctor']
         }
@@ -930,6 +2059,76 @@ export const FORMBENDER_ITEMS = [
         baseStats: {
             agility: { value: 1, isPercentage: false }
         },
+        availableFor: {
+            classes: ['Formbender']
+        }
+    },
+    {
+        id: 'formbender-primal-leathers',
+        name: 'Primal Leathers',
+        type: 'armor',
+        subtype: 'LEATHER',
+        quality: 'common',
+        description: 'Leather armor that stretches and adapts when you shapeshift.',
+        iconId: 'inv_chest_leather_05',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 10,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            agility: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Formbender']
+        }
+    },
+    {
+        id: 'formbender-beast-claw',
+        name: 'Beast Claw',
+        type: 'weapon',
+        subtype: 'DAGGER',
+        quality: 'common',
+        description: 'A weapon shaped like a beast\'s claw, perfect for primal combat.',
+        iconId: 'inv_weapon_shortblade_25',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 2,
+        slots: ['mainHand', 'offHand'],
+        weaponSlot: 'ONE_HANDED',
+        hand: 'ONE_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 4,
+                damageType: 'slashing'
+            }
+        },
+        baseStats: {
+            agility: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Formbender']
+        }
+    },
+    {
+        id: 'formbender-shape-totem',
+        name: 'Shape Totem',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A totem that stores the essence of various animal forms.',
+        iconId: 'inv_misc_bone_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
         availableFor: {
             classes: ['Formbender']
         }
@@ -1000,6 +2199,73 @@ export const BERSERKER_ITEMS = [
         availableFor: {
             classes: ['Berserker']
         }
+    },
+    {
+        id: 'berserker-rage-totem',
+        name: 'Rage Totem',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A totem that channels your fury into physical power.',
+        iconId: 'inv_misc_bone_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            strength: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Berserker']
+        }
+    },
+    {
+        id: 'berserker-battle-axe',
+        name: 'Battle Axe',
+        type: 'weapon',
+        subtype: 'AXE',
+        quality: 'common',
+        description: 'A one-handed axe perfect for dual-wielding when rage takes over.',
+        iconId: 'inv_axe_09',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 2,
+        slots: ['mainHand', 'offHand'],
+        weaponSlot: 'ONE_HANDED',
+        hand: 'ONE_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 8,
+                damageType: 'slashing'
+            }
+        },
+        baseStats: {
+            strength: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Berserker']
+        }
+    },
+    {
+        id: 'berserker-war-paint',
+        name: 'War Paint',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Paint used to mark yourself for battle, enhancing your rage.',
+        iconId: 'inv_misc_paint_01',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Berserker']
+        }
     }
 ];
 
@@ -1055,6 +2321,82 @@ export const DREADNAUGHT_ITEMS = [
         availableFor: {
             classes: ['Dreadnaught']
         }
+    },
+    {
+        id: 'dreadnaught-fortress-plate',
+        name: 'Fortress Plate',
+        type: 'armor',
+        subtype: 'PLATE',
+        quality: 'uncommon',
+        description: 'Heavy plate armor designed to make you an immovable fortress.',
+        iconId: 'inv_chest_plate_03',
+        value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
+        weight: 35,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 6, isPercentage: false }
+        },
+        baseStats: {
+            constitution: { value: 2, isPercentage: false },
+            strength: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Dreadnaught']
+        }
+    },
+    {
+        id: 'dreadnaught-bastion-helmet',
+        name: 'Bastion Helmet',
+        type: 'armor',
+        subtype: 'HELMET',
+        quality: 'common',
+        description: 'A heavy helmet that provides maximum protection.',
+        iconId: 'inv_helmet_plate_03',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 5,
+        width: 1,
+        height: 1,
+        slots: ['head'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Dreadnaught']
+        }
+    },
+    {
+        id: 'dreadnaught-siege-ram',
+        name: 'Siege Ram',
+        type: 'weapon',
+        subtype: 'MACE',
+        quality: 'uncommon',
+        description: 'A massive ramming weapon for breaking through enemy lines.',
+        iconId: 'inv_hammer_13',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 8,
+        width: 2,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 2,
+                diceType: 6,
+                damageType: 'bludgeoning'
+            }
+        },
+        baseStats: {
+            strength: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Dreadnaught']
+        }
     }
 ];
 
@@ -1085,6 +2427,88 @@ export const TITAN_ITEMS = [
         baseStats: {
             strength: { value: 3, isPercentage: false }
         },
+        availableFor: {
+            classes: ['Titan']
+        }
+    },
+    {
+        id: 'titan-gravity-plate',
+        name: 'Gravity Plate',
+        type: 'armor',
+        subtype: 'PLATE',
+        quality: 'uncommon',
+        description: 'Heavy plate armor that manipulates gravity around you.',
+        iconId: 'inv_chest_plate_03',
+        value: { platinum: 0, gold: 18, silver: 0, copper: 0 },
+        weight: 40,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 5, isPercentage: false }
+        },
+        baseStats: {
+            strength: { value: 2, isPercentage: false },
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Titan']
+        }
+    },
+    {
+        id: 'titan-gravity-core',
+        name: 'Gravity Core',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A dark crystal that pulses with gravitational energy.',
+        iconId: 'inv_misc_gem_azuredraenite_01',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            strength: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Titan']
+        }
+    },
+    {
+        id: 'titan-strain-brace',
+        name: 'Strain Brace',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'common',
+        description: 'A ring that helps manage gravitational strain.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Titan']
+        }
+    },
+    {
+        id: 'titan-gravity-tome',
+        name: 'Tome of Gravity',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing techniques for manipulating gravitational forces.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
         availableFor: {
             classes: ['Titan']
         }
@@ -1151,6 +2575,87 @@ export const TOXICOLOGIST_ITEMS = [
         availableFor: {
             classes: ['Toxicologist']
         }
+    },
+    {
+        id: 'toxicologist-poison-robes',
+        name: 'Poison-Resistant Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes treated to resist poison, allowing safe handling of toxic materials.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Toxicologist']
+        }
+    },
+    {
+        id: 'toxicologist-poison-vial',
+        name: 'Poison Vial Set',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A set of empty vials ready to be filled with various poisons.',
+        iconId: 'inv_flask_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: true,
+        maxStackSize: 10,
+        availableFor: {
+            classes: ['Toxicologist']
+        }
+    },
+    {
+        id: 'toxicologist-alchemy-tome',
+        name: 'Alchemy Tome',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing recipes for crafting various poisons and toxins.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Toxicologist']
+        }
+    },
+    {
+        id: 'toxicologist-toxic-ring',
+        name: 'Toxic Ring',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'A ring that enhances your ability to craft and apply poisons.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Toxicologist']
+        }
     }
 ];
 
@@ -1181,6 +2686,89 @@ export const COVENBANE_ITEMS = [
         baseStats: {
             intelligence: { value: 1, isPercentage: false },
             spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Covenbane']
+        }
+    },
+    {
+        id: 'covenbane-anti-magic-armor',
+        name: 'Anti-Magic Armor',
+        type: 'armor',
+        subtype: 'PLATE',
+        quality: 'uncommon',
+        description: 'Armor enchanted to resist and nullify magical effects.',
+        iconId: 'inv_chest_plate_03',
+        value: { platinum: 0, gold: 16, silver: 0, copper: 0 },
+        weight: 25,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 4, isPercentage: false }
+        },
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Covenbane']
+        }
+    },
+    {
+        id: 'covenbane-hexbreaker-seal',
+        name: 'Hexbreaker Seal',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'A ring that enhances your ability to break magical hexes and curses.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Covenbane']
+        }
+    },
+    {
+        id: 'covenbane-witch-hunter-tome',
+        name: 'Witch Hunter\'s Tome',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing techniques for hunting and neutralizing magic users.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Covenbane']
+        }
+    },
+    {
+        id: 'covenbane-null-amulet',
+        name: 'Null Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet that creates a zone of magic suppression around you.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
             classes: ['Covenbane']
@@ -1242,6 +2830,64 @@ export const BLADEDANCER_ITEMS = [
         availableFor: {
             classes: ['Bladedancer']
         }
+    },
+    {
+        id: 'bladedancer-grace-ring',
+        name: 'Ring of Grace',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'A ring that enhances your grace and precision in combat.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            agility: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Bladedancer']
+        }
+    },
+    {
+        id: 'bladedancer-flourish-cloak',
+        name: 'Flourish Cloak',
+        type: 'armor',
+        subtype: 'CLOAK',
+        quality: 'common',
+        description: 'A flowing cloak that enhances your elegant movements.',
+        iconId: 'inv_misc_cape_06',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 2,
+        slots: ['back'],
+        baseStats: {
+            agility: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Bladedancer']
+        }
+    },
+    {
+        id: 'bladedancer-dance-manual',
+        name: 'Dance Manual',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A manual containing combat techniques that blend dance and swordplay.',
+        iconId: 'inv_misc_book_11',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Bladedancer']
+        }
     }
 ];
 
@@ -1273,6 +2919,86 @@ export const ARCANONEER_ITEMS = [
             agility: { value: 1, isPercentage: false },
             intelligence: { value: 2, isPercentage: false }
         },
+        availableFor: {
+            classes: ['Arcanoneer']
+        }
+    },
+    {
+        id: 'arcanoneer-magical-leathers',
+        name: 'Magical Leathers',
+        type: 'armor',
+        subtype: 'LEATHER',
+        quality: 'common',
+        description: 'Light armor with pockets for arcane components and ammunition.',
+        iconId: 'inv_chest_leather_05',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 10,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            agility: { value: 1, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Arcanoneer']
+        }
+    },
+    {
+        id: 'arcanoneer-arcane-ammo-pouch',
+        name: 'Arcane Ammo Pouch',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A pouch containing magical crystals used as ammunition.',
+        iconId: 'inv_misc_bag_11',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Arcanoneer']
+        }
+    },
+    {
+        id: 'arcanoneer-precision-sight',
+        name: 'Precision Sight',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A magical sight that enhances your aim and accuracy.',
+        iconId: 'inv_misc_enggizmos_19',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            agility: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Arcanoneer']
+        }
+    },
+    {
+        id: 'arcanoneer-gunslinger-manual',
+        name: 'Gunslinger\'s Manual',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A manual containing techniques for wielding arcane firearms.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
         availableFor: {
             classes: ['Arcanoneer']
         }
@@ -1322,6 +3048,235 @@ export const MERCENARY_PATH_ITEMS = [
 ];
 
 // ===== SENTINEL PATH CLASSES =====
+
+// Lunarch - Lunar mage with phase-based energy
+export const LUNARCH_ITEMS = [
+    {
+        id: 'lunarch-lunar-bow',
+        name: 'Lunar Bow',
+        type: 'weapon',
+        subtype: 'BOW',
+        quality: 'uncommon',
+        description: 'A bow crafted from moonstone that glows with the power of lunar phases.',
+        iconId: 'inv_weapon_bow_08',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 8,
+                damageType: 'radiant'
+            }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lunarch']
+        }
+    },
+    {
+        id: 'lunarch-moonstone-amulet',
+        name: 'Moonstone Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet containing a piece of the moon itself, pulsing with lunar energy.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lunarch']
+        }
+    },
+    {
+        id: 'lunarch-lunar-robes',
+        name: 'Lunar Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Robes that shimmer like moonlight and shift with lunar phases.',
+        iconId: 'inv_chest_cloth_17',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 1, isPercentage: false }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lunarch']
+        }
+    },
+    {
+        id: 'lunarch-phase-crystal',
+        name: 'Phase Crystal',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A crystal that tracks lunar phases and enhances lunar magic.',
+        iconId: 'inv_misc_gem_azuredraenite_01',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Lunarch']
+        }
+    },
+    {
+        id: 'lunarch-lunar-tome',
+        name: 'Lunar Tome',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing lunar magic and phase-based techniques.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Lunarch']
+        }
+    }
+];
+
+// Huntress - Ranged tracker with quarry marks
+export const HUNTRESS_ITEMS = [
+    {
+        id: 'huntress-shadow-glaive',
+        name: 'Shadow Glaive',
+        type: 'weapon',
+        subtype: 'POLEARM',
+        quality: 'uncommon',
+        description: 'A deadly glaive that can chain strikes between multiple enemies, favored by hunters.',
+        iconId: 'inv_spear_07',
+        value: { platinum: 0, gold: 16, silver: 0, copper: 0 },
+        weight: 6,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 10,
+                damageType: 'slashing'
+            }
+        },
+        baseStats: {
+            agility: { value: 2, isPercentage: false },
+            strength: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Huntress']
+        }
+    },
+    {
+        id: 'huntress-tracking-gear',
+        name: 'Tracker\'s Gear',
+        type: 'armor',
+        subtype: 'LEATHER',
+        quality: 'common',
+        description: 'Light armor designed for tracking prey and remaining hidden.',
+        iconId: 'inv_chest_leather_05',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 10,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            agility: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Huntress']
+        }
+    },
+    {
+        id: 'huntress-tracking-kit',
+        name: 'Tracking Kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A kit containing tools for tracking and marking quarry.',
+        iconId: 'inv_misc_bag_11',
+        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Huntress']
+        }
+    },
+    {
+        id: 'huntress-prey-mark',
+        name: 'Prey Mark',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A trinket that enhances your ability to mark and track targets.',
+        iconId: 'inv_misc_enggizmos_19',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            agility: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Huntress']
+        }
+    },
+    {
+        id: 'huntress-ranger-manual',
+        name: 'Ranger\'s Manual',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A manual containing tracking and hunting techniques.',
+        iconId: 'inv_misc_book_11',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Huntress']
+        }
+    }
+];
 
 // Warden - Guardian protector
 export const WARDEN_ITEMS = [
@@ -1374,6 +3329,70 @@ export const WARDEN_ITEMS = [
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Warden']
+        }
+    },
+    {
+        id: 'warden-guardian-shield',
+        name: 'Guardian Shield',
+        type: 'armor',
+        subtype: 'SHIELD',
+        quality: 'common',
+        description: 'A shield designed to protect allies behind you.',
+        iconId: 'inv_shield_06',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 8,
+        width: 2,
+        height: 2,
+        slots: ['offHand'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Warden']
+        }
+    },
+    {
+        id: 'warden-protection-amulet',
+        name: 'Protection Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet that enhances your ability to protect allies.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            constitution: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Warden']
+        }
+    },
+    {
+        id: 'warden-barrier-stone',
+        name: 'Barrier Stone',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A stone that stores barrier energy for protecting allies.',
+        iconId: 'inv_misc_gem_azuredraenite_01',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            constitution: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Warden']
@@ -1434,6 +3453,69 @@ export const JUSTICAR_ITEMS = [
         availableFor: {
             classes: ['Justicar']
         }
+    },
+    {
+        id: 'justicar-holy-plate',
+        name: 'Holy Plate',
+        type: 'armor',
+        subtype: 'PLATE',
+        quality: 'uncommon',
+        description: 'Plate armor blessed with divine protection.',
+        iconId: 'inv_chest_plate_03',
+        value: { platinum: 0, gold: 18, silver: 0, copper: 0 },
+        weight: 30,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 5, isPercentage: false }
+        },
+        baseStats: {
+            strength: { value: 1, isPercentage: false },
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Justicar']
+        }
+    },
+    {
+        id: 'justicar-righteous-amulet',
+        name: 'Righteous Amulet',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'An amulet that enhances your righteous judgment.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            strength: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Justicar']
+        }
+    },
+    {
+        id: 'justicar-holy-tome',
+        name: 'Tome of Justice',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing holy laws and techniques of judgment.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Justicar']
+        }
     }
 ];
 
@@ -1468,10 +3550,95 @@ export const OATHKEEPER_ITEMS = [
         availableFor: {
             classes: ['Oathkeeper']
         }
+    },
+    {
+        id: 'oathkeeper-vow-plate',
+        name: 'Vow Plate',
+        type: 'armor',
+        subtype: 'PLATE',
+        quality: 'uncommon',
+        description: 'Plate armor inscribed with sacred vows and oaths.',
+        iconId: 'inv_chest_plate_03',
+        value: { platinum: 0, gold: 17, silver: 0, copper: 0 },
+        weight: 30,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 5, isPercentage: false }
+        },
+        baseStats: {
+            strength: { value: 1, isPercentage: false },
+            charisma: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Oathkeeper']
+        }
+    },
+    {
+        id: 'oathkeeper-oath-ring',
+        name: 'Oath Ring',
+        type: 'accessory',
+        subtype: 'RING',
+        quality: 'uncommon',
+        description: 'A ring that binds you to your oaths and enhances their power.',
+        iconId: 'inv_jewelry_ring_07',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        slots: ['ring1', 'ring2'],
+        baseStats: {
+            charisma: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Oathkeeper']
+        }
+    },
+    {
+        id: 'oathkeeper-vow-tome',
+        name: 'Tome of Vows',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'uncommon',
+        description: 'A book containing sacred oaths and vow-binding techniques.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        rotation: 0,
+        stackable: false,
+        availableFor: {
+            classes: ['Oathkeeper']
+        }
+    },
+    {
+        id: 'oathkeeper-oath-seal',
+        name: 'Oath Seal',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'A seal that represents your bound oaths and enhances their power.',
+        iconId: 'inv_jewelry_necklace_07',
+        value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        baseStats: {
+            charisma: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Oathkeeper']
+        }
     }
 ];
 
 export const SENTINEL_PATH_ITEMS = [
+    ...LUNARCH_ITEMS,
+    ...HUNTRESS_ITEMS,
     ...WARDEN_ITEMS,
     ...JUSTICAR_ITEMS,
     ...OATHKEEPER_ITEMS
@@ -1540,8 +3707,11 @@ export const HEXER_PATH_ITEMS = [
 
 // ===== HARROW PATH CLASSES =====
 
-// Primalist is already in Mercenary path, so Harrow needs other classes
+// Harrow Path Classes
 export const HARROW_PATH_ITEMS = [
+    ...LICHBORNE_ITEMS,
+    ...PLAGUEBRINGER_ITEMS,
+    ...DEATH_CALLER_ITEMS,
     {
         id: 'harrow-hunting-bow',
         name: 'Hunter\'s Bow',

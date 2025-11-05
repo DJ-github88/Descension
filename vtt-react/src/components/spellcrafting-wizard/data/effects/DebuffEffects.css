@@ -687,54 +687,82 @@
   display: flex;
   flex-direction: column;
   gap: var(--pf-space-2, 8px);
+  width: 100%;
 }
 
 .pf-toggle-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2, 8px);
-  background: var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%));
-  border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 8px);
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px);
-  font-family: var(--pf-font-ui, 'Crimson Text', serif);
-  font-size: var(--pf-text-sm, 14px);
-  color: var(--pf-text-primary, #2d1810);
+  gap: var(--pf-space-2, 10px);
+  padding: var(--pf-space-2, 10px) var(--pf-space-3, 14px);
+  background: linear-gradient(145deg, #f5f1e8 0%, #ebe6d8 100%);
+  border: 1.5px solid #c9b99b;
+  border-radius: 6px;
+  color: #3d2817;
   cursor: pointer;
-  transition: all var(--pf-transition-normal, 0.25s ease);
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  font-family: var(--pf-font-ui, 'Crimson Text', serif);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.pf-toggle-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.3s ease;
+}
+
+.pf-toggle-button:hover::before {
+  left: 100%;
 }
 
 .pf-toggle-button:hover {
-  background: var(--pf-gradient-button-hover, linear-gradient(145deg, #ede4d3 0%, #e8dcc6 50%, #d5cbb0 100%));
   transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-color: #b8a085;
 }
 
 .pf-toggle-button.pf-toggle-active {
-  background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(139, 0, 0, 0.1) 100%);
-  border-color: var(--pf-fire, #8B0000);
-  color: var(--pf-fire, #8B0000);
-  box-shadow: var(--pf-shadow-inset, inset 0 2px 4px rgba(0, 0, 0, 0.1));
+  background: linear-gradient(145deg, #dc2626 0%, #b91c1c 100%);
+  border-color: #991b1b;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(139, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+}
+
+.pf-toggle-button.pf-toggle-active:hover {
+  box-shadow: 0 3px 6px rgba(139, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .pf-toggle-icon {
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--pf-brown-medium, #8B4513);
-  border-radius: 3px;
-  background: var(--pf-gradient-parchment, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 30%, #e8dcc6 70%, #f0ead6 100%));
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  color: var(--pf-success, #2e7d32);
+  font-size: 11px;
   font-weight: bold;
+  background: rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
 .pf-toggle-button.pf-toggle-active .pf-toggle-icon {
-  background: var(--pf-fire, #8B0000);
-  color: white;
-  border-color: var(--pf-fire, #8B0000);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+  color: #ffffff;
 }
 
 /* Pathfinder Selected Stats */
@@ -950,6 +978,8 @@
   border-radius: var(--pf-border-radius, 8px);
   overflow: hidden;
   border: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513);
+  align-items: stretch;
+  min-width: 100px;
 }
 
 .pf-toggle-btn {
@@ -962,6 +992,12 @@
   color: var(--pf-text-primary, #2d1810);
   cursor: pointer;
   transition: all var(--pf-transition-normal, 0.25s ease);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pf-toggle-btn:last-child {

@@ -268,13 +268,12 @@ export function CreatureLibraryProvider({ children }) {
 
   // Then load creatures from store using useEffect to avoid render-time issues
   useEffect(() => {
-    if (creatureStore.creatures && creatureStore.creatures.length > 0) {
-      dispatch(libraryActionCreators.loadLibrary({
-        creatures: creatureStore.creatures,
-        categories: creatureStore.categories || initialState.categories
-      }));
-    }
-  }, []);
+    // Always sync with store, even if it's empty initially
+    dispatch(libraryActionCreators.loadLibrary({
+      creatures: creatureStore.creatures || [],
+      categories: creatureStore.categories || initialState.categories
+    }));
+  }, [creatureStore.creatures, creatureStore.categories]);
 
 
 

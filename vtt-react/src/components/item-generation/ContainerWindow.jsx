@@ -1131,7 +1131,7 @@ const ContainerWindow = ({ container, onClose }) => {
                 onDrag={handleDrag}
                 nodeRef={draggableNodeRef}
                 scale={1}
-                enableUserSelectHack={false}
+                enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
             >
                 <div
                     className="container-window"

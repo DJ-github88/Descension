@@ -213,3 +213,10 @@
   font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-bold);
 }
+
+/* Progressive buff config toggle button styling */
+.progressive-buff-config .toggle-button.active {
+  background: #F5F5DC !important;
+  color: #2d1810 !important;
+  border-color: #8B4513 !important;
+}

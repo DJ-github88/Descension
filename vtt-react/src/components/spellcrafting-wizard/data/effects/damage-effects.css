@@ -327,27 +327,33 @@
 }
 
 .primary-attributes-section,
+/* This rule is overridden by unified-effects.css and later rules - keeping for reference */
 .dice-examples-section,
 .card-examples-section,
 .coin-examples-section {
-  background: var(--pf-gradient-parchment-light);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  padding: var(--pf-space-1);
+  background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
+  border: 2px solid rgba(139, 69, 19, 0.4);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
 }
 
 .primary-attributes-section h5,
 .dice-examples-section h5,
 .card-examples-section h5,
 .coin-examples-section h5 {
-  color: #5a1e12;
-  margin: 0 0 12px 0;
-  font-size: 14px;
+  color: #2c1810;
+  margin: 0 0 15px 0;
+  font-size: 16px;
   font-family: 'Cinzel', serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .compact-buttons-grid {
@@ -686,14 +692,14 @@
 
 /* Resolution-specific variable buttons */
 .variable-button.resolution-specific {
-  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
-  color: #f4f1e8;
-  border-color: #5a1e12;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #2d1810;
+  border-color: #8b6914;
 }
 
 .variable-button.resolution-specific:hover {
-  background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #e6c547 0%, #d4af37 100%);
+  color: #2d1810;
 }
 
 .variable-button.spell-damage-type:hover {
@@ -726,15 +732,15 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
-/* Examples Sections */
+/* Examples Sections - Match character-variables-section exactly */
 .dice-examples-section,
 .card-examples-section,
 .coin-examples-section {
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(237, 228, 211, 0.6) 100%);
   border: 2px solid rgba(139, 69, 19, 0.4);
   border-radius: 8px;
-  padding: 20px;
-  margin: 20px 0;
+  padding: 15px;
+  margin: 15px 0;
 }
 
 .dice-examples-section h5,
@@ -748,28 +754,36 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .examples-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
 }
 
 .example-card {
-  background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%);
-  border: 2px solid #8b6914;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #2d1810;
+  border: 1px solid #8b6914;
+  border-radius: 4px;
   padding: 15px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
 }
 
 .example-card:hover {
-  background: linear-gradient(135deg, #f8f5f0 0%, #ede4d3 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #e6c547 0%, #d4af37 100%);
+  color: #2d1810;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 .example-card.active {

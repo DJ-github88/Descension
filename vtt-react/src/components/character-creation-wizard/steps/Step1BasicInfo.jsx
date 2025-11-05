@@ -221,12 +221,6 @@ const Step1BasicInfo = () => {
 
                     {/* Right side - Character preview */}
                     <div className="preview-card">
-                        <div className="preview-header">
-                            <div className="preview-icon">
-                                <i className="fas fa-user"></i>
-                            </div>
-                            <h3 className="preview-title">Character Preview</h3>
-                        </div>
                         <div className="preview-content">
                             <div className="preview-image-container">
                                 {imagePreview || characterData.characterImage ? (

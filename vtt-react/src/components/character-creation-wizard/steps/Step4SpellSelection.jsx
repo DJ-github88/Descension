@@ -12,6 +12,7 @@ import { PYROFIEND_DATA } from '../../../data/classes/pyrofiendData';
 import { MINSTREL_DATA } from '../../../data/classes/minstrelData';
 import { CHRONARCH_DATA } from '../../../data/classes/chronarchData';
 import { MARTYR_DATA } from '../../../data/classes/martyrData';
+import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverData';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
 import './Step4SpellSelection.css';
@@ -26,7 +27,7 @@ const Step4SpellSelection = () => {
     const characterClass = state.characterData.class;
 
     // Classes that require spell selection
-    const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr'];
+    const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Chaos Weaver'];
 
     // Get Level 1 spell pool based on class
     const level1SpellPool = useMemo(() => {
@@ -43,6 +44,8 @@ const Step4SpellSelection = () => {
             classData = CHRONARCH_DATA;
         } else if (characterClass === 'Martyr') {
             classData = MARTYR_DATA;
+        } else if (characterClass === 'Chaos Weaver') {
+            classData = CHAOS_WEAVER_DATA;
         }
 
         if (!classData) return [];
@@ -66,6 +69,9 @@ const Step4SpellSelection = () => {
                 timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
                 temporalStrainGain: spell.specialMechanics?.temporalFlux?.strainGained,
                 temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced,
+                // Mayhem mechanics for Chaos Weaver spell cards (both generation and consumption)
+                mayhemGenerate: spell.resourceFormulas?.mayhem_generate,
+                mayhemCost: spell.resourceValues?.mayhem_spend || spell.resourceValues?.mayhem_cost,
                 // Devotion Level mechanics for Martyr spell cards
                 devotionRequired: spell.specialMechanics?.devotionLevel?.required,
                 devotionCost: spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
@@ -325,8 +331,11 @@ const Step4SpellSelection = () => {
                         <>
                             <UnifiedSpellCard
                                 spell={currentSpell}
-                                variant="rules"
+                                variant="wizard"
                                 showActions={false}
+                                showDescription={true}
+                                showStats={true}
+                                showTags={true}
                             />
                             <div className="spell-action-buttons">
                                 <button

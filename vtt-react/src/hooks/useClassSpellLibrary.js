@@ -175,29 +175,14 @@ export const useClassSpellLibrary = () => {
       allSpells.push(...category.spells);
     });
 
-    console.log('📚 getAllSpells Debug:', {
-      totalSpellsInCategories: allSpells.length,
-      knownSpellsCount: knownSpells.length,
-      knownSpells: knownSpells,
-      allSpellIds: allSpells.map(s => s.id)
-    });
-
     // Filter to only show spells the character has learned
     // The spellbook should only display spells the character knows
     if (knownSpells.length > 0) {
       const filtered = allSpells.filter(spell => knownSpells.includes(spell.id));
-      console.log('📚 Filtered to known spells for spellbook:', {
-        filteredCount: filtered.length,
-        filteredSpells: filtered.map(s => ({ id: s.id, name: s.name })),
-        knownSpellIds: knownSpells,
-        allSpellIds: allSpells.map(s => s.id),
-        missingSpells: knownSpells.filter(id => !allSpells.some(s => s.id === id))
-      });
       return filtered;
     }
 
     // If no known spells, return empty array (character hasn't learned any spells yet)
-    console.log('📚 No known spells, returning empty array for spellbook');
     return [];
   }, [spellCategories, knownSpells]);
 

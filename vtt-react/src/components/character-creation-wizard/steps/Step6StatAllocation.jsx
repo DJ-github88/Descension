@@ -180,12 +180,6 @@ const Step6StatAllocation = () => {
                     {/* Right side - Character summary */}
                     <div className="character-summary-panel">
                         <div className="preview-card">
-                            <div className="preview-header">
-                                <div className="preview-icon">
-                                    <i className="fas fa-dice-d20"></i>
-                                </div>
-                                <h3 className="preview-title">Stat Allocation</h3>
-                            </div>
                             <div className="preview-content">
                                 <div className="preview-section">
                                     <h4>Basic Information</h4>

@@ -450,22 +450,6 @@ export const formatDebuffEffects = (spell) => {
       effects.push(`${saveType} save DC ${spell.debuffConfig.difficultyClass} ${outcomeText}`);
     }
 
-    // Add stacking rule information
-    if (spell.debuffConfig.stackingRule && spell.debuffConfig.stackingRule !== 'replace') {
-      const stackingRules = {
-        'selfStacking': 'Self-stacking',
-        'cumulative': 'Cumulative',
-        'progressive': 'Progressive',
-        'diminishing': 'Diminishing returns'
-      };
-      const stackingName = stackingRules[spell.debuffConfig.stackingRule] || spell.debuffConfig.stackingRule;
-
-      if (spell.debuffConfig.maxStacks && spell.debuffConfig.maxStacks > 1) {
-        effects.push(`${stackingName} (max ${spell.debuffConfig.maxStacks} stacks)`);
-      } else {
-        effects.push(stackingName);
-      }
-    }
 
     // Add dispellable information for permanent effects
     if (spell.debuffConfig.durationType === 'permanent') {

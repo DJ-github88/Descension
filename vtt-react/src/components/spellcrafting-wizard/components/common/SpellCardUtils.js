@@ -646,6 +646,180 @@ export const ensureReadableFormat = (text) => {
   return formattedText;
 };
 
+// Format a single effect component for display (similar to spellcard format)
+// Used in triggers step to show effect previews
+export const formatEffectComponent = (spell, effectType, subType = null) => {
+  if (!spell) return null;
+
+  // Helper function to clean formulas (similar to UnifiedSpellCard)
+  const cleanFormula = (formula) => {
+    if (!formula || typeof formula !== 'string') return '';
+    
+    let cleanedFormula = formula
+      .replace(/\s*\+\s*/g, ' + ')
+      .replace(/\s*\-\s*/g, ' - ')
+      .replace(/\s*\*\s*/g, ' * ')
+      .replace(/\s*\/\s*/g, ' / ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Replace resource variables
+    const resourceVariableMap = {
+      'action_points': 'Action Points',
+      'astral_power': 'Astral Power',
+      'strength': 'Strength',
+      'agility': 'Agility',
+      'constitution': 'Constitution',
+      'intelligence': 'Intelligence',
+      'spirit': 'Spirit',
+      'charisma': 'Charisma',
+      'str': 'Strength',
+      'agi': 'Agility',
+      'con': 'Constitution',
+      'int': 'Intelligence',
+      'spi': 'Spirit',
+      'cha': 'Charisma'
+    };
+
+    Object.entries(resourceVariableMap).forEach(([variable, properName]) => {
+      const regex = new RegExp(`\\b${variable}\\b`, 'gi');
+      cleanedFormula = cleanedFormula.replace(regex, properName);
+    });
+
+    cleanedFormula = cleanedFormula.replace(/_/g, ' ');
+    cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1 $2');
+
+    return cleanedFormula;
+  };
+
+  // Format damage component
+  if (effectType === 'damage' || effectType?.startsWith('damage_')) {
+    const damageConfig = spell.damageConfig;
+    if (!damageConfig) return null;
+
+    const damageType = damageConfig.damageType || 'direct';
+    const elementType = damageConfig.elementType || 'fire';
+    const elementName = elementType.charAt(0).toUpperCase() + elementType.slice(1);
+    
+    // Get damage types array
+    let damageTypesArray = spell.damageTypes || damageConfig.damageTypes;
+    if (!damageTypesArray || damageTypesArray.length === 0) {
+      damageTypesArray = [];
+      if (spell.typeConfig?.school) damageTypesArray.push(spell.typeConfig.school);
+      if (spell.typeConfig?.secondaryElement) damageTypesArray.push(spell.typeConfig.secondaryElement);
+    }
+    if (damageTypesArray.length === 0) {
+      damageTypesArray = [elementType];
+    }
+
+    const formattedTypes = damageTypesArray
+      .filter(type => type && type !== 'dot')
+      .map(type => type.charAt(0).toUpperCase() + type.slice(1));
+    
+    const damageTypeText = formattedTypes.length > 0 
+      ? (formattedTypes.length === 1 ? ` ${formattedTypes[0]}` : ` ${formattedTypes.join(' and ')}`)
+      : '';
+
+    // Handle specific damage sub-types
+    if (subType === 'damage_direct' || (subType === null && damageType === 'direct')) {
+      let formula = damageConfig.formula || '1d6 + INT';
+      
+      if (spell.resolution === 'CARDS') {
+        const cardConfig = spell.cardConfig || damageConfig.cardConfig;
+        const drawCount = cardConfig?.drawCount !== undefined ? cardConfig.drawCount : 3;
+        const cardFormula = cardConfig?.formula || formula;
+        return `Draw ${drawCount} cards: ${cleanFormula(cardFormula)}${damageTypeText} (Direct)`;
+      } else if (spell.resolution === 'COINS') {
+        const coinConfig = spell.coinConfig || damageConfig.coinConfig;
+        const flipCount = coinConfig?.flipCount !== undefined ? coinConfig.flipCount : 4;
+        const coinFormula = coinConfig?.formula || formula;
+        return `Flip ${flipCount} coins: ${cleanFormula(coinFormula)}${damageTypeText} (Direct)`;
+      } else {
+        return `${cleanFormula(formula)}${damageTypeText} (Direct)`;
+      }
+    } else if (subType === 'damage_dot' || (subType === null && damageType === 'dot')) {
+      const dotFormula = damageConfig.dotConfig?.dotFormula || damageConfig.formula || '1d4 + INT/2';
+      const duration = damageConfig.dotConfig?.duration || damageConfig.dotDuration || 3;
+      const tickFrequency = damageConfig.dotConfig?.tickFrequency || damageConfig.dotDurationUnit || 'round';
+      const durationText = duration === 1 ? `1 ${tickFrequency}` : `${duration} ${tickFrequency}s`;
+      
+      if (spell.resolution === 'CARDS') {
+        const cardConfig = damageConfig.dotConfig?.cardConfig || spell.cardConfig;
+        const drawCount = cardConfig?.drawCount !== undefined ? cardConfig.drawCount : 3;
+        const cardFormula = cardConfig?.formula || dotFormula;
+        return `Draw ${drawCount} cards: ${cleanFormula(cardFormula)}${damageTypeText} per ${tickFrequency} for ${durationText} (DoT)`;
+      } else if (spell.resolution === 'COINS') {
+        const coinConfig = damageConfig.dotConfig?.coinConfig || spell.coinConfig;
+        const flipCount = coinConfig?.flipCount !== undefined ? coinConfig.flipCount : 4;
+        const coinFormula = coinConfig?.formula || dotFormula;
+        return `Flip ${flipCount} coins: ${cleanFormula(coinFormula)}${damageTypeText} per ${tickFrequency} for ${durationText} (DoT)`;
+      } else {
+        return `${cleanFormula(dotFormula)}${damageTypeText} per ${tickFrequency} for ${durationText} (DoT)`;
+      }
+    } else if (subType === 'damage_combined' || (subType === null && damageType === 'combined')) {
+      const instantFormula = damageConfig.formula || '1d6 + INT';
+      const dotFormula = damageConfig.dotConfig?.dotFormula || damageConfig.formula || '1d4 + INT/2';
+      return `${cleanFormula(instantFormula)}${damageTypeText} (Instant + DoT)`;
+    }
+  }
+
+  // Format healing component
+  if (effectType === 'healing' || effectType?.startsWith('healing_')) {
+    const healingConfig = spell.healingConfig;
+    if (!healingConfig) return null;
+
+    const healingType = healingConfig.healingType || 'direct';
+
+    if (subType === 'healing_direct' || (subType === null && (healingType === 'direct' || healingType === 'instant'))) {
+      let formula = healingConfig.formula || '2d8 + HEA';
+      
+      if (spell.resolution === 'CARDS' && healingConfig.cardConfig?.formula) {
+        const drawCount = healingConfig.cardConfig.drawCount !== undefined ? healingConfig.cardConfig.drawCount : 3;
+        return `Draw ${drawCount} cards: ${cleanFormula(healingConfig.cardConfig.formula)} Healing (Direct)`;
+      } else if (spell.resolution === 'COINS' && healingConfig.coinConfig?.formula) {
+        const flipCount = healingConfig.coinConfig.flipCount !== undefined ? healingConfig.coinConfig.flipCount : 4;
+        return `Flip ${flipCount} coins: ${cleanFormula(healingConfig.coinConfig.formula)} Healing (Direct)`;
+      } else {
+        return `${cleanFormula(formula)} Healing (Direct)`;
+      }
+    } else if (subType === 'healing_hot' || (subType === null && healingType === 'hot')) {
+      const hotFormula = healingConfig.hotFormula || '1d6 + HEA/2';
+      const duration = healingConfig.hotDuration || 3;
+      const tickFrequency = healingConfig.hotTickType || 'round';
+      const durationText = duration === 1 ? `1 ${tickFrequency}` : `${duration} ${tickFrequency}s`;
+      
+      if (spell.resolution === 'CARDS' && healingConfig.hotCardConfig?.formula) {
+        const drawCount = healingConfig.hotCardConfig.drawCount !== undefined ? healingConfig.hotCardConfig.drawCount : 3;
+        return `Draw ${drawCount} cards: ${cleanFormula(healingConfig.hotCardConfig.formula)} per ${tickFrequency} for ${durationText} (HoT)`;
+      } else if (spell.resolution === 'COINS' && healingConfig.hotCoinConfig?.formula) {
+        const flipCount = healingConfig.hotCoinConfig.flipCount !== undefined ? healingConfig.hotCoinConfig.flipCount : 4;
+        return `Flip ${flipCount} coins: ${cleanFormula(healingConfig.hotCoinConfig.formula)} per ${tickFrequency} for ${durationText} (HoT)`;
+      } else {
+        return `${cleanFormula(hotFormula)} per ${tickFrequency} for ${durationText} (HoT)`;
+      }
+    } else if (subType === 'healing_shield' || (subType === null && healingConfig.hasShieldEffect)) {
+      const shieldFormula = healingConfig.shieldFormula || '2d6 + HEA';
+      const duration = healingConfig.shieldDuration || 3;
+      
+      if (spell.resolution === 'CARDS' && healingConfig.shieldCardConfig?.formula) {
+        const drawCount = healingConfig.shieldCardConfig.drawCount !== undefined ? healingConfig.shieldCardConfig.drawCount : 3;
+        return `Draw ${drawCount} cards: ${cleanFormula(healingConfig.shieldCardConfig.formula)} absorption for ${duration} rounds (Shield)`;
+      } else if (spell.resolution === 'COINS' && healingConfig.shieldCoinConfig?.formula) {
+        const flipCount = healingConfig.shieldCoinConfig.flipCount !== undefined ? healingConfig.shieldCoinConfig.flipCount : 4;
+        return `Flip ${flipCount} coins: ${cleanFormula(healingConfig.shieldCoinConfig.formula)} absorption for ${duration} rounds (Shield)`;
+      } else {
+        return `${cleanFormula(shieldFormula)} absorption for ${duration} rounds (Shield)`;
+      }
+    } else if (subType === 'healing_combined' || (subType === null && healingType === 'combined')) {
+      const instantFormula = healingConfig.formula || '2d8 + HEA';
+      return `${cleanFormula(instantFormula)} Healing (Combined)`;
+    }
+  }
+
+  // Fallback for other effect types
+  return effectType.charAt(0).toUpperCase() + effectType.slice(1);
+};
+
 // Get color for damage type
 export const getDamageTypeColor = (type) => {
   const typeColors = {

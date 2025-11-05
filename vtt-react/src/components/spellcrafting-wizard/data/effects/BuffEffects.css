@@ -310,53 +310,89 @@
   display: flex;
   flex-direction: column;
   gap: var(--pf-space-2);
+  width: 100%;
 }
 
 .pf-toggle-option {
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .pf-toggle-button {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-3) var(--pf-space-4);
-  background: var(--pf-gradient-button);
-  border: var(--pf-border-width) solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius);
-  color: var(--pf-text-primary);
+  gap: var(--pf-space-2, 10px);
+  padding: var(--pf-space-2, 10px) var(--pf-space-3, 14px);
+  background: linear-gradient(145deg, #f5f1e8 0%, #ebe6d8 100%);
+  border: 1.5px solid #c9b99b;
+  border-radius: 6px;
+  color: #3d2817;
   cursor: pointer;
-  font-size: var(--pf-text-sm);
-  font-family: var(--pf-font-display);
-  font-weight: var(--pf-font-medium);
-  transition: all var(--pf-transition-normal);
-  min-width: 180px;
+  font-size: 13px;
+  font-family: var(--pf-font-display, 'Cinzel', serif);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
   justify-content: flex-start;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.pf-toggle-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.3s ease;
+}
+
+.pf-toggle-button:hover::before {
+  left: 100%;
 }
 
 .pf-toggle-active {
-  background: var(--pf-gradient-gold);
-  color: var(--pf-brown-darkest);
-  border-color: var(--pf-gold-dark);
-  box-shadow: var(--pf-shadow-sm);
+  background: linear-gradient(145deg, #d4af37 0%, #b8941f 100%);
+  color: #1a0f05;
+  border-color: #8b6914;
+  box-shadow: 0 2px 4px rgba(139, 105, 20, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 600;
 }
 
 .pf-toggle-button:hover {
   transform: translateY(-1px);
-  box-shadow: var(--pf-shadow-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-color: #b8a085;
+}
+
+.pf-toggle-active:hover {
+  box-shadow: 0 3px 6px rgba(139, 105, 20, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .pf-toggle-icon {
-  width: 16px;
-  height: 16px;
-  border: var(--pf-border-width) solid currentColor;
-  border-radius: var(--pf-border-radius-sm);
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
+  font-size: 11px;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.pf-toggle-active .pf-toggle-icon {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: #1a0f05;
+  color: #1a0f05;
 }
 
 /* Help Section */
@@ -479,6 +515,8 @@
   border: var(--pf-border-width) solid var(--pf-brown-light);
   border-radius: var(--pf-border-radius);
   overflow: hidden;
+  align-items: stretch;
+  min-width: 100px;
 }
 
 .pf-toggle-btn {
@@ -491,7 +529,12 @@
   font-weight: var(--pf-font-medium);
   cursor: pointer;
   transition: all var(--pf-transition-normal);
-  min-width: 40px;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pf-toggle-btn:not(:last-child) {
@@ -758,40 +801,76 @@
   transform: scale(1.1);
 }
 
-/* Stat Indicator */
+/* Stat Indicator - Pathfinder Aesthetic */
 .stat-indicator {
   position: absolute;
   top: var(--pf-space-1);
   right: var(--pf-space-1);
-  padding: 2px var(--pf-space-1);
-  background: var(--pf-gradient-gold);
-  border: var(--pf-border-width) solid var(--pf-gold-dark);
-  border-radius: var(--pf-border-radius-sm);
-  color: var(--pf-brown-darkest);
-  font-size: var(--pf-text-xs);
-  font-weight: var(--pf-font-bold);
-  font-family: var(--pf-font-display);
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  width: auto;
+  max-width: none;
+  padding: var(--pf-space-1) var(--pf-space-2);
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.12) 50%, rgba(212, 175, 55, 0.1) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 6px;
+  color: var(--pf-brown-darkest, #2d1810);
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--pf-font-display, 'Cinzel', serif);
+  line-height: 1.2;
+  letter-spacing: 0.3px;
   z-index: 1;
-  box-shadow: var(--pf-shadow-sm);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all var(--pf-transition-normal, 0.25s ease);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.stat-indicator:hover {
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.17) 50%, rgba(212, 175, 55, 0.15) 100%);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .stat-indicator.formula {
-  background: var(--pf-gradient-purple);
-  border-color: var(--pf-purple-dark);
-  color: var(--pf-text-on-dark);
+  background: linear-gradient(145deg, rgba(147, 112, 219, 0.15) 0%, rgba(147, 112, 219, 0.12) 50%, rgba(147, 112, 219, 0.1) 100%);
+  border-color: rgba(147, 112, 219, 0.4);
+  color: var(--pf-brown-darkest, #2d1810);
+}
+
+.stat-indicator.formula:hover {
+  background: linear-gradient(145deg, rgba(147, 112, 219, 0.2) 0%, rgba(147, 112, 219, 0.17) 50%, rgba(147, 112, 219, 0.15) 100%);
+  border-color: rgba(147, 112, 219, 0.55);
 }
 
 .stat-indicator.positive {
-  background: var(--pf-gradient-success);
-  border-color: var(--pf-success-dark);
-  color: var(--pf-text-on-dark);
+  background: linear-gradient(145deg, rgba(34, 139, 34, 0.12) 0%, rgba(34, 139, 34, 0.1) 50%, rgba(34, 139, 34, 0.08) 100%);
+  border-color: rgba(34, 139, 34, 0.35);
+  color: var(--pf-brown-darkest, #2d1810);
+}
+
+.stat-indicator.positive:hover {
+  background: linear-gradient(145deg, rgba(34, 139, 34, 0.17) 0%, rgba(34, 139, 34, 0.15) 50%, rgba(34, 139, 34, 0.12) 100%);
+  border-color: rgba(34, 139, 34, 0.5);
 }
 
 .stat-indicator.negative {
-  background: var(--pf-gradient-danger);
-  border-color: var(--pf-danger-dark);
-  color: var(--pf-text-on-dark);
+  background: linear-gradient(145deg, rgba(220, 20, 60, 0.12) 0%, rgba(220, 20, 60, 0.1) 50%, rgba(220, 20, 60, 0.08) 100%);
+  border-color: rgba(220, 20, 60, 0.35);
+  color: #8b0000;
+}
+
+.stat-indicator.negative:hover {
+  background: linear-gradient(145deg, rgba(220, 20, 60, 0.17) 0%, rgba(220, 20, 60, 0.15) 50%, rgba(220, 20, 60, 0.12) 100%);
+  border-color: rgba(220, 20, 60, 0.5);
 }
 
 /* Resistance Select Dropdown Styling - Enhanced Visibility */

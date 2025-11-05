@@ -178,18 +178,20 @@
 .effect-preview-stat {
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  padding: 4px 8px;
-  border-left: 2px solid #3e6a99;
+  background: var(--pf-gradient-parchment);
+  border-radius: var(--pf-border-radius-sm);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-left: 2px solid var(--pf-gold);
+  font-family: var(--pf-font-body);
 }
 
 .effect-preview-stat-icon {
   width: 20px;
   height: 20px;
-  border-radius: 2px;
+  border-radius: var(--pf-border-radius-sm);
   overflow: hidden;
-  margin-right: 6px;
+  margin-right: var(--pf-space-1);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .effect-preview-stat-icon img {
@@ -199,70 +201,78 @@
 }
 
 .effect-preview-stat-name {
-  font-weight: 500;
-  color: #8cb3d9;
-  margin-right: 6px;
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-secondary);
+  margin-right: var(--pf-space-1);
+  font-family: var(--pf-font-ui);
 }
 
 .effect-preview-stat-value {
-  font-weight: bold;
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-body);
 }
 
 .effect-preview-stat-value.positive {
-  color: #33cc33;
+  color: var(--pf-green);
 }
 
 .effect-preview-stat-value.negative {
-  color: #cc3333;
+  color: var(--pf-red);
 }
 
 .effect-preview-stat-value.formula {
-  color: #ffcc00;
-  font-family: monospace;
+  color: var(--pf-gold);
+  font-family: var(--pf-font-mono);
 }
 
 /* Property Display */
 .effect-preview-property {
   display: flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  padding: 4px 8px;
+  background: var(--pf-gradient-parchment);
+  border-radius: var(--pf-border-radius-sm);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  font-family: var(--pf-font-body);
 }
 
 .effect-preview-property-icon {
   width: 20px;
   height: 20px;
-  margin-right: 6px;
+  margin-right: var(--pf-space-1);
   opacity: 0.8;
 }
 
 .effect-preview-property-label {
-  color: #8cb3d9;
-  margin-right: 6px;
-  font-weight: 500;
+  color: var(--pf-text-secondary);
+  margin-right: var(--pf-space-1);
+  font-weight: var(--pf-font-semibold);
+  font-family: var(--pf-font-ui);
 }
 
 .effect-preview-property-value {
-  color: #c7d5e3;
-  font-weight: bold;
+  color: var(--pf-text-primary);
+  font-weight: var(--pf-font-bold);
+  font-family: var(--pf-font-body);
 }
 
 /* Trigger List */
 .effect-preview-trigger-list {
   list-style-type: none;
   padding: 0;
-  margin: 8px 0 0 0;
+  margin: var(--pf-space-2) 0 0 0;
 }
 
 .effect-preview-trigger-item {
   display: flex;
   align-items: center;
-  margin-bottom: 6px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  padding: 6px 10px;
-  border-left: 2px solid #3e6a99;
+  margin-bottom: var(--pf-space-1);
+  background: var(--pf-gradient-parchment);
+  border-radius: var(--pf-border-radius-sm);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-left: 2px solid var(--pf-gold);
+  font-family: var(--pf-font-body);
 }
 
 .effect-preview-trigger-item:last-child {
@@ -274,7 +284,7 @@
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin-right: 8px;
+  margin-right: var(--pf-space-2);
   background-image: url('https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwrath.jpg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -283,41 +293,45 @@
 }
 
 .effect-preview-trigger-name {
-  font-weight: bold;
-  color: #c7d5e3;
-  margin-right: 6px;
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  margin-right: var(--pf-space-1);
+  font-family: var(--pf-font-ui);
 }
 
 .effect-preview-trigger-params {
-  color: #8cb3d9;
-  font-size: 12px;
+  color: var(--pf-text-secondary);
+  font-size: var(--pf-text-sm);
+  font-family: var(--pf-font-body);
 }
 
 /* Trigger perspective parameter styling */
 .trigger-perspective {
   display: inline-block;
-  background: rgba(62, 106, 153, 0.3);
-  border-radius: 4px;
-  padding: 2px 6px;
-  margin-left: 6px;
-  font-size: 11px;
-  color: #a8c7e6;
-  border: 1px solid rgba(62, 106, 153, 0.5);
+  background: var(--pf-gradient-parchment);
+  border-radius: var(--pf-border-radius-sm);
+  padding: 2px var(--pf-space-1);
+  margin-left: var(--pf-space-1);
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  font-family: var(--pf-font-ui);
 }
 
 /* Conditional Effect Cards */
 .effect-preview-conditional-list {
   list-style-type: none;
   padding: 0;
-  margin: 8px 0 0 0;
+  margin: var(--pf-space-2) 0 0 0;
 }
 
 .effect-preview-conditional-item {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-left: 3px solid #3e6a99;
+  background: var(--pf-gradient-parchment);
+  border-radius: var(--pf-border-radius);
+  padding: var(--pf-space-2);
+  margin-bottom: var(--pf-space-2);
+  border-left: 3px solid var(--pf-gold);
+  font-family: var(--pf-font-body);
 }
 
 .effect-preview-conditional-item:last-child {
@@ -327,15 +341,15 @@
 .effect-preview-conditional-header {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: var(--pf-space-2);
+  padding-bottom: var(--pf-space-1);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
 }
 
 .effect-preview-conditional-icon {
   width: 24px;
   height: 24px;
-  margin-right: 8px;
+  margin-right: var(--pf-space-2);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -343,35 +357,39 @@
 }
 
 .effect-preview-conditional-title {
-  font-weight: bold;
-  color: #c7d5e3;
+  font-weight: var(--pf-font-bold);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-ui);
 }
 
 .effect-preview-conditional-content {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: var(--pf-space-1);
 }
 
 /* Formula Display */
 .effect-preview-formula {
-  font-family: monospace;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 4px 8px;
-  border-radius: 4px;
-  color: #ffcc00;
-  border: 1px solid rgba(255, 204, 0, 0.2);
+  color: var(--pf-text-primary);
+  font-family: var(--pf-font-mono);
+  font-weight: var(--pf-font-normal);
+  background: var(--pf-gradient-parchment);
+  padding: var(--pf-space-1) var(--pf-space-2);
+  border-radius: var(--pf-border-radius-sm);
+  border: var(--pf-border-width) solid var(--pf-brown-light);
   display: inline-block;
 }
 
 /* Empty State */
 .effect-preview-empty {
-  color: #8cb3d9;
+  color: var(--pf-text-secondary);
   font-style: italic;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  padding: var(--pf-space-2);
+  background: var(--pf-gradient-parchment);
+  border-radius: var(--pf-border-radius-sm);
   text-align: center;
+  border: var(--pf-border-width) solid var(--pf-brown-light);
+  font-family: var(--pf-font-body);
 }
 
 /* Icons for different effect types */

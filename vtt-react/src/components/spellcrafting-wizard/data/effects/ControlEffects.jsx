@@ -213,10 +213,22 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
     savingThrowType: 'strength',
     difficultyClass: 15,
     concentration: false,
-    instant: false, // New instant effect option
     distance: 10, // for forced movement
     // other configs as needed
   });
+
+  // Sync local controlConfig with global state on mount and when state changes
+  useEffect(() => {
+    if (state.controlConfig) {
+      setControlConfig(prev => ({
+        ...prev,
+        ...state.controlConfig,
+        // Preserve effects array if it exists in state
+        effects: state.controlConfig.effects || prev.effects
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.controlConfig?.duration, state.controlConfig?.durationUnit, state.controlConfig?.savingThrow, state.controlConfig?.savingThrowType, state.controlConfig?.difficultyClass, state.controlConfig?.concentration, state.controlConfig?.controlType, state.controlConfig?.effects?.length]);
 
   // State for the currently selected effect for configuration
   const [selectedEffectForConfig, setSelectedEffectForConfig] = useState(null);
@@ -541,7 +553,6 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
               strength: 'moderate',
               customName: effectData.name,
               customDescription: effectData.description,
-              instant: isInstantEffect(activeControlType, effectId),
               statModifiers: [], // Add stat modifiers array
               // Add default configurations for specific control types
               ...(activeControlType === 'forced_movement' && {
@@ -976,17 +987,12 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
             className={`control-effect-card ${activeControlType === controlType.id ? 'selected' : ''}`}
             onClick={() => handleControlTypeChange(controlType.id)}
           >
-            <div className="control-effect-header">
-              <img
-                src={getIconUrl(controlType.icon)}
-                alt={controlType.name}
-                className="control-effect-icon"
-              />
-              <div className="control-effect-info">
-                <h6>{controlType.name}</h6>
-                <p>{controlType.description}</p>
-              </div>
-            </div>
+            <img
+              src={getIconUrl(controlType.icon)}
+              alt={controlType.name}
+              className="control-effect-icon"
+            />
+            <div className="control-effect-name">{controlType.name}</div>
             {activeControlType === controlType.id && (
               <div className="control-effect-selected">
                 <span className="control-effect-checkmark">✓</span>
@@ -1025,17 +1031,12 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
               className={`control-effect-card ${isEffectSelected(type.id) ? 'selected' : ''}`}
               onClick={() => handleEffectToggle(type.id)}
             >
-              <div className="control-effect-header">
-                <img
-                  src={getIconUrl(type.icon)}
-                  alt={type.name}
-                  className="control-effect-icon"
-                />
-                <div className="control-effect-info">
-                  <h6>{type.name}</h6>
-                  <p>{type.description}</p>
-                </div>
-              </div>
+              <img
+                src={getIconUrl(type.icon)}
+                alt={type.name}
+                className="control-effect-icon"
+              />
+              <div className="control-effect-name">{type.name}</div>
               {isEffectSelected(type.id) && (
                 <div className="control-effect-selected">
                   <span className="control-effect-checkmark">✓</span>
@@ -1346,22 +1347,6 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
           </>
         )}
 
-        <div className="effect-toggle">
-          <div className="effect-toggle-label">
-            Instant Effect
-            <button
-              className={`effect-toggle-switch ${controlConfig.instant ? 'active' : ''}`}
-              onClick={() => handleControlConfigChange('instant', !controlConfig.instant)}
-            >
-              <span className="effect-toggle-slider"></span>
-            </button>
-          </div>
-          {controlConfig.instant && (
-            <p className="effect-toggle-description">
-              Effect happens immediately, ignoring duration
-            </p>
-          )}
-        </div>
       </div>
     );
   };
@@ -1454,9 +1439,8 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                 type="number"
                 min="1"
                 max="100"
-                value={controlConfig.instant ? 0 : (controlConfig.duration || 2)}
+                value={controlConfig.duration || 2}
                 onChange={(e) => {
-                  if (controlConfig.instant) return; // Don't allow changes when instant
                   const value = e.target.value;
                   if (value === '' || value === '0') {
                     handleControlConfigChange('duration', 1);
@@ -1465,20 +1449,15 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
                     handleControlConfigChange('duration', duration);
                   }
                 }}
-                className={`duration-value ${controlConfig.instant ? 'disabled' : ''}`}
-                disabled={controlConfig.instant}
-                placeholder={controlConfig.instant ? "Instant" : ""}
+                className="duration-value"
               />
               <select
-                value={controlConfig.instant ? 'instant' : (controlConfig.durationUnit || 'rounds')}
+                value={controlConfig.durationUnit || 'rounds'}
                 onChange={(e) => {
-                  if (controlConfig.instant) return; // Don't allow changes when instant
                   handleControlConfigChange('durationUnit', e.target.value);
                 }}
-                className={`duration-unit ${controlConfig.instant ? 'disabled' : ''}`}
-                disabled={controlConfig.instant}
+                className="duration-unit"
               >
-                {controlConfig.instant && <option value="instant">Instant</option>}
                 <option value="rounds">Rounds</option>
                 <option value="minutes">Minutes</option>
                 <option value="hours">Hours</option>
@@ -1546,25 +1525,6 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
             </select>
           </div>
 
-          <div className="config-group">
-            <label>Instant Effect</label>
-            <div className="instant-toggle">
-              <button
-                type="button"
-                className={`toggle-btn ${controlConfig.instant === true ? 'active' : ''}`}
-                onClick={() => handleControlConfigChange('instant', true)}
-              >
-                Yes
-              </button>
-              <button
-                type="button"
-                className={`toggle-btn ${controlConfig.instant === false ? 'active' : ''}`}
-                onClick={() => handleControlConfigChange('instant', false)}
-              >
-                No
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 

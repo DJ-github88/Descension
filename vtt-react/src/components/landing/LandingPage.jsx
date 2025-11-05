@@ -32,22 +32,10 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Debug: Log user state
-  useEffect(() => {
-    console.log('LandingPage - User state:', user);
-  }, [user]);
-
   // Handle community button click
   const handleCommunityClick = () => {
-    console.log('🎭 Community button clicked, user:', user);
-    console.log('🎭 Opening community chat...');
     setShowCommunity(true);
   };
-
-  // Debug: Log showCommunity state changes
-  useEffect(() => {
-    console.log('🎭 showCommunity state changed:', showCommunity);
-  }, [showCommunity]);
 
 
 
@@ -239,7 +227,12 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
             </button>
 
             {/* Show Account button if logged in, otherwise show Login and Dev Preview */}
-            {isAuthenticated || isDevelopmentBypass ? (
+            {isAuthenticated && user ? (
+              <button className="account-btn" onClick={() => navigate('/account')}>
+                <i className="fas fa-user-circle"></i>
+                Account
+              </button>
+            ) : isDevelopmentBypass ? (
               <button className="account-btn" onClick={() => navigate('/account')}>
                 <i className="fas fa-user-circle"></i>
                 Account

@@ -261,22 +261,36 @@
   border-radius: 6px;
 }
 
-.loading, .auth-required, .no-rooms {
+.loading, .auth-required, .no-rooms, .no-local-rooms {
   text-align: center;
   padding: 60px 20px;
   color: #5a1e12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
 }
 
-.loading i, .auth-required i, .no-rooms i {
+.loading i, .auth-required i, .no-rooms i, .no-local-rooms i {
   font-size: 48px;
   color: #d4af37;
   margin-bottom: 16px;
 }
 
-.auth-required h3, .no-rooms h3 {
+.auth-required h3, .no-rooms h3, .no-local-rooms h3 {
   margin: 0 0 8px 0;
   font-size: 20px;
   color: #5a1e12;
+}
+
+.no-local-rooms p {
+  margin: 0 0 24px 0;
+  color: #6b7280;
+  line-height: 1.5;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .rooms-list {
@@ -500,6 +514,44 @@
 
 .confirm-delete-btn:hover {
   background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+}
+
+/* Create Local Room Modal */
+.create-local-room-modal {
+  background: #f8f4e6;
+  border: 2px solid #8B4513;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  font-family: 'Cinzel', serif;
+}
+
+.create-local-room-modal h3 {
+  margin: 0 0 16px 0;
+  color: #5a1e12;
+  font-size: 18px;
+}
+
+.create-local-room-modal .form-group {
+  margin-bottom: 20px;
+}
+
+.create-local-room-modal input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #8B4513;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  background: #ffffff;
+  color: #2d1810;
+}
+
+.create-local-room-modal input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
 /* Responsive Design */
@@ -880,6 +932,14 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 20px;
+  min-height: 200px;
+}
+
+/* Ensure no-rooms messages are properly centered in the grid */
+.room-cards-grid .no-rooms,
+.room-cards-grid .no-local-rooms {
+  grid-column: 1 / -1;
+  place-self: center;
 }
 
 /* Legacy support for existing multiplayer-rooms-grid */

@@ -210,18 +210,28 @@ const useDiceStore = create(
       startRoll: () => set({ isRolling: true, rollResults: [] }),
 
       finishRoll: (results) => set(state => {
-        const rollEntry = {
-          id: `roll_${Date.now()}`,
-          timestamp: new Date().toISOString(),
-          dice: state.selectedDice.map(d => ({ ...d })),
-          results: results,
-          total: results.reduce((sum, result) => sum + result.value, 0)
-        };
+        // Don't add to history if results is empty or invalid
+        const validResults = Array.isArray(results) ? results.filter(r => r && r.value !== undefined && r.value !== null && r.value > 0) : [];
+        
+        // Only add to history if we have valid results
+        const shouldAddToHistory = validResults.length > 0 && state.selectedDice.length > 0;
+        
+        let newHistory = state.rollHistory;
+        if (shouldAddToHistory) {
+          const rollEntry = {
+            id: `roll_${Date.now()}`,
+            timestamp: new Date().toISOString(),
+            dice: state.selectedDice.map(d => ({ ...d })),
+            results: validResults,
+            total: validResults.reduce((sum, result) => sum + result.value, 0)
+          };
+          newHistory = [rollEntry, ...state.rollHistory.slice(0, 49)]; // Keep last 50 rolls
+        }
 
         return {
           isRolling: false,
-          rollResults: results,
-          rollHistory: [rollEntry, ...state.rollHistory.slice(0, 49)] // Keep last 50 rolls
+          rollResults: validResults.length > 0 ? validResults : results,
+          rollHistory: newHistory
         };
       }),
 

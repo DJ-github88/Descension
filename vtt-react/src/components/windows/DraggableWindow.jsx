@@ -301,7 +301,7 @@ const DraggableWindow = forwardRef(({
             onDrag={handleDrag}
             onStop={handleDragStop}
             scale={1} // Fixed scale to prevent double scaling - CSS handles visual scaling
-            enableUserSelectHack={false} // Disable user select hack for better performance
+            enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
         >
             <div
                 ref={nodeRef}
