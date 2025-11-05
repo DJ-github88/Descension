@@ -31,7 +31,7 @@ export const RACE_DATA = {
             berserker: {
                 id: 'berserker_nordmark',
                 name: 'Bloodaxe',
-                description: 'Bloodaxe Nordmark are the storm-bringers of the frozen wastes, their battle-rage fueled by the endless winters that claim the weak and forge the strong. Their axes are extensions of their very souls, stained with the blood of beasts, bandits, and brothers alike. In the depths of winter, when the aurora dances like the blood of fallen gods across the sky, a Bloodaxe\'s fury can turn the tide of any battle. But this power comes at a cost - the rage that saves them in combat often destroys them afterward, leaving them hollow shells haunted by the faces of those they\'ve slain. They speak of ancient pacts with the winter winds themselves, bargains that grant unholy strength but demand pieces of the warrior\'s humanity in return. A Bloodaxe\'s eyes burn with an inner fire that never truly goes out, even in sleep.',
+                description: 'Named for axes stained with the blood of endless battles, these warriors channel the relentless fury of northern winters into combat prowess that borders on the supernatural.',
                 statModifiers: {
                     constitution: 3,
                     strength: 3,
@@ -63,7 +63,7 @@ export const RACE_DATA = {
             skald: {
                 id: 'skald_nordmark',
                 name: 'Runescar',
-                description: 'Runescar Nordmark bear the weight of their people\'s history carved into their very flesh, each rune a story of blood and betrayal etched with bone needles during vision quests in the endless night. Their voices carry the echo of ancient kings and forgotten gods, tales that can rally the hopeless or break the strongest will. But the runes demand payment - visions of futures that should never be seen, memories of lives never lived. A Runescar\'s scars glow faintly during the long winter nights, pulsing like heartbeats as they recite the sagas that hold their people together. They are both blessed and cursed, for the words they speak can inspire legends or awaken nightmares that haunt the listener\'s dreams. Many Runescar vanish into blizzards seeking visions that consume them entirely, their final runes telling stories no one else can bear to hear.',
+                description: 'Known for runes carved into flesh during brutal vision quests, these scarred lore-keepers preserve ancient sagas that echo with the voices of forgotten gods and doomed kings.',
                 statModifiers: {
                     constitution: 1,
                     strength: -1,
@@ -95,7 +95,7 @@ export const RACE_DATA = {
             icewalker: {
                 id: 'icewalker_nordmark',
                 name: 'Ironfrost',
-                description: 'Ironfrost Nordmark have been claimed by the endless cold, their flesh hardening like the permafrost that never thaws, their breath carrying the chill of ancient glaciers. They walk where others perish, surviving on frost-rimed berries and the flesh of creatures that froze mid-stride. Their skin cracks and bleeds in summer\'s false warmth, revealing the blue-black ice beneath. They speak of the Deep Frost, an ancient entity that offers survival at the cost of warmth itself. An Ironfrost\'s touch can freeze water in summer, their footsteps leave patterns of frost that linger for days. But they dream of fire, of warmth that will never come again, waking with screams that echo through ice-bound huts. They are the true children of winter, beautiful and terrible, belonging more to the storm than to their own kind.',
+                description: 'Their flesh hardened by endless cold like living permafrost, these survivors of the deepest winters carry the chill of ancient glaciers in their very blood and breath.',
                 statModifiers: {
                     constitution: 4,
                     strength: 0,
@@ -151,7 +151,7 @@ export const RACE_DATA = {
             oracle: {
                 id: 'oracle_corvani',
                 name: 'Ravenmark',
-                description: 'Ravenmark Corvani bear the raven\'s gift of foresight, their black markings shifting like smoke as they glimpse futures that claw at their sanity. They see the threads of fate tangled in the mist, visions that come unbidden during storms or in the quiet hours before dawn. A Ravenmark\'s eyes darken to pure black when the sight takes them, their voices carrying echoes of things that haven\'t happened yet. They trade in prophecies and warnings, but each vision chips away at their grip on reality. Children born with the ravenmark are feared and revered, for they might predict a village\'s doom or guide a lost caravan to safety. But the gift demands payment - nightmares of alternate lives, the weight of choices never made. Many Ravenmark lose themselves to the mist, becoming wandering prophets who speak only in riddles and raven calls.',
+                description: 'Marked by shifting raven-black patterns that foretell futures, these seers glimpse fate\'s threads in mist and storm, their visions both blessing and curse.',
                 statModifiers: {
                     constitution: -2,
                     strength: -2,
@@ -183,7 +183,7 @@ export const RACE_DATA = {
             scout: {
                 id: 'scout_corvani',
                 name: 'Fogbound',
-                description: 'Fogbound Corvani move like shadows through the mist-shrouded peaks, their footsteps silent on stone that should echo, their forms blurring at the edges where the world grows thin. They carry messages through territories where maps fail and compasses spin madly, guided by instincts that border on the uncanny. A Fogbound\'s eyes can pierce fog that blinds others, seeing paths that shouldn\'t exist and hearing whispers that carry for miles. But the mist takes its toll - prolonged exposure leaves them disoriented, seeing ghosts in the fog or hearing voices that aren\'t there. They serve as messengers and guides, but their reliability is questioned, for who can trust someone who walks between worlds? Many Fogbound vanish into particularly thick banks of mist, leaving behind only raven feathers and the echo of footsteps that fade into nothing.',
+                description: 'Bound to eternal mist that guides their steps through impossible paths, these guides navigate fog-shrouded peaks where the world grows thin and strange.',
                 statModifiers: {
                     constitution: 0,
                     strength: -1,
@@ -239,7 +239,7 @@ export const RACE_DATA = {
             delver: {
                 id: 'delver_grimheart',
                 name: 'Earthscar',
-                description: 'Earthscar Grimheart are consumed by the endless hunger to dig deeper, their stone-hardened flesh cracking as they burrow into forbidden depths where the earth\'s ancient secrets lie buried. They hear the whispers constantly - promises of veins of precious ore, of caverns filled with forgotten treasures, of things that sleep in the dark. Their tools are extensions of their own bodies, fused with stone that grows from their flesh. But the deeper they go, the more the earth claims them - skin turning to granite, eyes adapting to darkness that blinds surface dwellers. An Earthscar\'s dreams are filled with tunnels that go on forever, of being buried alive in the rock they love. They\'re master miners because the earth itself teaches them, but they can never stop digging, never return to the surface for long. Many vanish into sinkholes that appear overnight, following whispers that lead to places no one returns from.',
+                description: 'Scarred by endless digging into forbidden depths, these miners hear the earth\'s ancient whispers promising treasures and secrets buried in stone.',
                 statModifiers: {
                     constitution: 4,
                     strength: 3,
@@ -271,7 +271,7 @@ export const RACE_DATA = {
             warden: {
                 id: 'warden_grimheart',
                 name: 'Stoneblood',
-                description: 'Stoneblood Grimheart stand as living fortifications against the horrors they helped awaken, their flesh as unyielding as the mountains they guard. They bear the weight of their people\'s sins, protecting settlements from the things that crawl up from the deep places. Their blood runs thick and slow like magma cooling in a forge, their hearts beating with the rhythm of distant earthquakes. A Stoneblood can stand unmoving for days, their stone skin resisting blades and claws that would fell lesser warriors. But they hear the same whispers as their Earthscar kin - calls to return to the depths, to abandon the surface world entirely. They serve as wardens and protectors, but their presence is a constant reminder of what lies beneath. Many Stoneblood eventually succumb to the call, walking into caves that collapse behind them, becoming part of the very earth they once protected others from.',
+                description: 'Their blood runs thick as cooling magma through stone-hardened veins, these guardians stand as living fortifications against the horrors awakened by their kin.',
                 statModifiers: {
                     constitution: 3,
                     strength: 1,
@@ -303,7 +303,7 @@ export const RACE_DATA = {
             mountaindwarf: {
                 id: 'mountaindwarf_grimheart',
                 name: 'Forgeborn',
-                description: 'Forgeborn Grimheart channel their stone curse into creation rather than destruction, their hardened flesh becoming living forges that shape metal with unnatural precision. They work tirelessly in volcanic caverns where the earth\'s heat meets their own inner fire, crafting weapons and armor that carry echoes of the deep places. A Forgeborn\'s touch can heat metal to impossible temperatures, their stone skin conducting geothermal energies that lesser smiths can only dream of. But the fire within demands constant feeding - they must create or be consumed by it. Their workshops are places of wonder and terror, filled with glowing runes that shouldn\'t exist and tools that seem to move on their own. Many Forgeborn disappear during particularly ambitious projects, their bodies eventually indistinguishable from the masterworks they leave behind. They are both blessed and cursed artisans, their creations carrying pieces of the makers\' souls.',
+                description: 'Born of volcanic forges where stone curse meets geothermal fire, these artisans shape metal with precision that borders on the unnatural, their creations echoing the deep earth.',
                 statModifiers: {
                     constitution: 3,
                     strength: 2,
@@ -359,7 +359,7 @@ export const RACE_DATA = {
             medium: {
                 id: 'medium_veilborn',
                 name: 'Whisperkin',
-                description: 'Whisperkin Veilborn hear the voices that drift through the thin places between worlds, their pale forms acting as conduits for entities that most mortals never glimpse. They speak with the restless dead and wandering spirits, negotiating bargains that leave both sides changed. A Whisperkin\'s voice carries unnatural echoes, making normal conversation unsettling to those who listen. They serve as mediators between the living and the unseen, but each conversation chips away at their own humanity. Children born as Whisperkin often speak to empty rooms for hours, learning the names of things that don\'t exist in our world. Their pale skin grows paler with each spirit they converse with, their eyes darkening until they reflect only what lies beyond. Many Whisperkin eventually fade entirely, becoming bridges rather than people, their forms lingering as warnings to those who would bargain with the other side.',
+                description: 'They hear whispers from beyond the veil, their pale forms serving as conduits for restless spirits and entities that drift through thin places between worlds.',
                 statModifiers: {
                     constitution: -2,
                     strength: -2,
