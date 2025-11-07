@@ -1294,6 +1294,38 @@ io.on('connection', (socket) => {
     console.log(`Map updated by ${player.isGM ? 'GM' : 'Player'} ${player.name}`);
   });
 
+  // Handle area remove operations
+  socket.on('area_remove', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Only GM can remove objects
+    if (!player.isGM) {
+      socket.emit('error', { message: 'Only the GM can remove objects' });
+      return;
+    }
+
+    // Broadcast area remove to all players in the room
+    io.to(player.roomId).emit('area_remove', {
+      removeType: data.removeType,
+      selectedObjects: data.selectedObjects,
+      removedBy: player.id,
+      removedByName: player.name,
+      timestamp: new Date()
+    });
+
+    console.log(`Area remove by GM ${player.name}: ${data.removeType}`);
+  });
+
   // Handle combat state changes
   socket.on('combat_updated', async (data) => {
     const player = players.get(socket.id);
@@ -2059,13 +2091,17 @@ io.on('connection', (socket) => {
     if (targetPlayer && targetPlayer.socketId) {
       // Get sender's character data for the whisper
       const senderCharacter = player.character || room.gm.character;
+      const recipientCharacter = targetPlayer.character || room.gm.character;
       
-      // Send to target user with full sender information
+      // Send to target user with full sender and recipient information
       io.to(targetPlayer.socketId).emit('whisper_received', {
         ...message,
         senderName: player.name,
         senderClass: senderCharacter?.class || 'Unknown',
         senderLevel: senderCharacter?.level || 1,
+        recipientName: targetPlayer.name,
+        recipientClass: recipientCharacter?.class || 'Unknown',
+        recipientLevel: recipientCharacter?.level || 1,
         serverTimestamp: new Date().toISOString()
       });
 

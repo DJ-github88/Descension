@@ -1022,6 +1022,60 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // Listen for area remove operations from GM
+    socket.on('area_remove', (data) => {
+      // Only process removals from other players (not our own)
+      if (data.removedBy !== currentPlayer?.id) {
+        import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+          const levelEditorStore = useLevelEditorStore.getState();
+          const { removeToken } = require('../../store/creatureStore').default.getState();
+          const { removeCharacterToken } = require('../../store/characterTokenStore').default.getState();
+          const { removeItemFromGrid } = require('../../store/gridItemStore').default.getState();
+          const { removeEnvironmentalObject, removeDrawingPath, removeWall, clearTerrain } = levelEditorStore;
+
+          const { removeType, selectedObjects } = data;
+
+          if (removeType === 'all') {
+            selectedObjects.tokens?.forEach(token => removeToken(token.id));
+            selectedObjects.characterTokens?.forEach(token => removeCharacterToken(token.id));
+            selectedObjects.items?.forEach(item => removeItemFromGrid(item.id));
+            selectedObjects.environmentalObjects?.forEach(obj => removeEnvironmentalObject(obj.id));
+            selectedObjects.walls?.forEach(({ key }) => {
+              const [x1, y1, x2, y2] = key.split(',').map(Number);
+              removeWall(x1, y1, x2, y2);
+            });
+            selectedObjects.drawings?.forEach(path => removeDrawingPath(path.id));
+            selectedObjects.terrainTiles?.forEach(({ gridX, gridY }) => {
+              clearTerrain(gridX, gridY);
+            });
+          } else if (removeType === 'tokens') {
+            selectedObjects.tokens?.forEach(token => removeToken(token.id));
+          } else if (removeType === 'characterTokens') {
+            selectedObjects.characterTokens?.forEach(token => removeCharacterToken(token.id));
+          } else if (removeType === 'items') {
+            selectedObjects.items?.forEach(item => removeItemFromGrid(item.id));
+          } else if (removeType === 'environmentalObjects') {
+            selectedObjects.environmentalObjects?.forEach(obj => removeEnvironmentalObject(obj.id));
+          } else if (removeType === 'walls') {
+            selectedObjects.walls?.forEach(({ key }) => {
+              const [x1, y1, x2, y2] = key.split(',').map(Number);
+              removeWall(x1, y1, x2, y2);
+            });
+          } else if (removeType === 'drawings') {
+            selectedObjects.drawings?.forEach(path => removeDrawingPath(path.id));
+          } else if (removeType === 'terrainTiles') {
+            selectedObjects.terrainTiles?.forEach(({ gridX, gridY }) => {
+              clearTerrain(gridX, gridY);
+            });
+          }
+
+          console.log('📥 Received area remove from GM:', removeType);
+        }).catch(error => {
+          console.error('Failed to process area remove:', error);
+        });
+      }
+    });
+
     // Listen for dialogue messages from other players
     socket.on('dialogue_message', (data) => {
       // Only process dialogue from other players (not our own)
@@ -1057,7 +1111,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           senderClass: message.senderClass || 'Unknown',
           senderLevel: message.senderLevel || 1,
           recipientId: message.recipientId || currentPlayer?.id,
-          recipientName: message.recipientName,
+          recipientName: message.recipientName || currentPlayer?.name || 'Unknown',
           content: message.content,
           timestamp: message.timestamp || message.serverTimestamp || new Date().toISOString(),
           type: 'whisper_received'
@@ -1269,24 +1323,33 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             const inventoryStore = useInventoryStore.getState();
 
             // Load character's inventory into the inventory store
-            if (activeCharacter.inventory) {
-              // Clear current inventory
-              inventoryStore.clearInventory();
+            // Ensure inventory exists, default to empty if not present
+            const characterInventory = activeCharacter.inventory || {
+              items: [],
+              currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+              encumbranceState: 'normal'
+            };
 
-              // Load character's items
-              if (activeCharacter.inventory.items) {
-                activeCharacter.inventory.items.forEach(item => {
+            // Clear current inventory
+            inventoryStore.clearInventory();
+
+            // Load character's items
+            if (characterInventory.items && Array.isArray(characterInventory.items)) {
+              characterInventory.items.forEach(item => {
+                try {
                   inventoryStore.addItem(item);
-                });
-              }
-
-              // Load character's currency
-              if (activeCharacter.inventory.currency) {
-                inventoryStore.updateCurrency(activeCharacter.inventory.currency);
-              }
-
-              console.log(`✅ Character inventory synced: ${activeCharacter.inventory.items?.length || 0} items`);
+                } catch (itemError) {
+                  console.warn('Failed to add item to inventory:', itemError, item);
+                }
+              });
             }
+
+            // Load character's currency
+            if (characterInventory.currency) {
+              inventoryStore.updateCurrency(characterInventory.currency);
+            }
+
+            console.log(`✅ Character inventory synced: ${characterInventory.items?.length || 0} items, currency:`, characterInventory.currency);
           });
         } catch (inventoryError) {
           console.warn('Failed to sync character inventory:', inventoryError);
@@ -1308,7 +1371,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               mana: activeCharacter.mana,
               actionPoints: activeCharacter.actionPoints,
               equipment: activeCharacter.equipment,
-              inventory: activeCharacter.inventory,
+              inventory: activeCharacter.inventory || { items: [], currency: { platinum: 0, gold: 0, silver: 0, copper: 0 } },
               experience: activeCharacter.experience,
               exhaustionLevel: activeCharacter.exhaustionLevel,
               tokenSettings: activeCharacter.tokenSettings, // Include token settings
@@ -1424,6 +1487,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           health: room.gm.character?.health || { current: 100, max: 100 },
           mana: room.gm.character?.mana || { current: 50, max: 50 },
           actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 },
+          race: room.gm.character?.race || 'Unknown',
+          subrace: room.gm.character?.subrace || '',
+          raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
           tokenSettings: room.gm.character?.tokenSettings || {}, // Include token settings, default to empty object
           lore: room.gm.character?.lore || {} // Include lore (which contains characterImage), default to empty object
         }

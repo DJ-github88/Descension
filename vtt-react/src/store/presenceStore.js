@@ -359,6 +359,19 @@ const usePresenceStore = create((set, get) => ({
       // Ignore if game store not available
     });
 
+    // Try to get recipient name from party store if in multiplayer
+    let recipientName = targetUser?.characterName || targetUser?.name || 'Unknown';
+    try {
+      const partyStore = require('./partyStore').default;
+      const partyState = partyStore.getState();
+      const partyMember = partyState.partyMembers.find(m => m.id === targetUserId);
+      if (partyMember) {
+        recipientName = partyMember.name;
+      }
+    } catch (e) {
+      // Party store not available, continue
+    }
+
     const message = {
       id: uuidv4(),
       senderId: senderId,
@@ -366,7 +379,7 @@ const usePresenceStore = create((set, get) => ({
       senderClass: senderClass,
       senderLevel: senderLevel,
       recipientId: targetUserId,
-      recipientName: targetUser?.characterName || targetUser?.name || 'Unknown',
+      recipientName: recipientName,
       content: content.trim(),
       timestamp: new Date().toISOString(),
       type: 'whisper_sent'

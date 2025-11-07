@@ -661,51 +661,102 @@ const ProfessionalVTTEditor = () => {
     const handleAreaRemove = useCallback((removeType) => {
         if (!selectedAreaObjects) return;
 
-        if (removeType === 'all') {
-            // Remove all objects entirely
-            selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
-            selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
-            selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
-            selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
-            selectedAreaObjects.walls.forEach(({ key }) => {
-                // Remove wall by key
-                const [x1, y1, x2, y2] = key.split(',').map(Number);
-                setWall(x1, y1, x2, y2, null); // Setting to null should remove it
-            });
-            selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
-            selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
-                clearTerrain(gridX, gridY);
-            });
-        } else if (removeType === 'tokens') {
-            // Remove only creature tokens
-            selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
-        } else if (removeType === 'characterTokens') {
-            // Remove only character tokens
-            selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
-        } else if (removeType === 'items') {
-            // Remove only items
-            selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
-        } else if (removeType === 'environmentalObjects') {
-            // Remove only environmental objects (GM Notes, etc.)
-            selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
-        } else if (removeType === 'walls') {
-            // Remove only walls
-            selectedAreaObjects.walls.forEach(({ key }) => {
-                const [x1, y1, x2, y2] = key.split(',').map(Number);
-                setWall(x1, y1, x2, y2, null);
-            });
-        } else if (removeType === 'drawings') {
-            // Remove only drawings
-            selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
-        } else if (removeType === 'terrainTiles') {
-            // Remove only terrain tiles
-            selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
-                clearTerrain(gridX, gridY);
-            });
-        }
+        // Check if in multiplayer and sync removals
+        import('../../store/gameStore').then(({ default: useGameStore }) => {
+            const gameStore = useGameStore.getState();
+            const isInMultiplayer = gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected;
 
-        // Reset state
-        setSelectedAreaObjects(null);
+            if (removeType === 'all') {
+                // Remove all objects entirely
+                selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
+                selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
+                selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
+                selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
+                selectedAreaObjects.walls.forEach(({ key }) => {
+                    // Remove wall by key
+                    const [x1, y1, x2, y2] = key.split(',').map(Number);
+                    setWall(x1, y1, x2, y2, null); // Setting to null should remove it
+                });
+                selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
+                selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
+                    clearTerrain(gridX, gridY);
+                });
+            } else if (removeType === 'tokens') {
+                // Remove only creature tokens
+                selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
+            } else if (removeType === 'characterTokens') {
+                // Remove only character tokens
+                selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
+            } else if (removeType === 'items') {
+                // Remove only items
+                selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
+            } else if (removeType === 'environmentalObjects') {
+                // Remove only environmental objects (GM Notes, etc.)
+                selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
+            } else if (removeType === 'walls') {
+                // Remove only walls
+                selectedAreaObjects.walls.forEach(({ key }) => {
+                    const [x1, y1, x2, y2] = key.split(',').map(Number);
+                    setWall(x1, y1, x2, y2, null);
+                });
+            } else if (removeType === 'drawings') {
+                // Remove only drawings
+                selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
+            } else if (removeType === 'terrainTiles') {
+                // Remove only terrain tiles
+                selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
+                    clearTerrain(gridX, gridY);
+                });
+            }
+
+            // Sync area remove to other players in multiplayer
+            if (isInMultiplayer) {
+                gameStore.multiplayerSocket.emit('area_remove', {
+                    removeType,
+                    selectedObjects: selectedAreaObjects
+                });
+                console.log('📤 Emitted area remove to server:', removeType);
+            }
+
+            // Reset state
+            setSelectedAreaObjects(null);
+        }).catch(() => {
+            // If not in multiplayer, just remove locally
+            if (removeType === 'all') {
+                selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
+                selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
+                selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
+                selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
+                selectedAreaObjects.walls.forEach(({ key }) => {
+                    const [x1, y1, x2, y2] = key.split(',').map(Number);
+                    setWall(x1, y1, x2, y2, null);
+                });
+                selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
+                selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
+                    clearTerrain(gridX, gridY);
+                });
+            } else if (removeType === 'tokens') {
+                selectedAreaObjects.tokens.forEach(token => removeToken(token.id));
+            } else if (removeType === 'characterTokens') {
+                selectedAreaObjects.characterTokens.forEach(token => removeCharacterToken(token.id));
+            } else if (removeType === 'items') {
+                selectedAreaObjects.items.forEach(item => removeItemFromGrid(item.id));
+            } else if (removeType === 'environmentalObjects') {
+                selectedAreaObjects.environmentalObjects.forEach(obj => removeEnvironmentalObject(obj.id));
+            } else if (removeType === 'walls') {
+                selectedAreaObjects.walls.forEach(({ key }) => {
+                    const [x1, y1, x2, y2] = key.split(',').map(Number);
+                    setWall(x1, y1, x2, y2, null);
+                });
+            } else if (removeType === 'drawings') {
+                selectedAreaObjects.drawings.forEach(path => removeDrawingPath(path.id));
+            } else if (removeType === 'terrainTiles') {
+                selectedAreaObjects.terrainTiles.forEach(({ gridX, gridY }) => {
+                    clearTerrain(gridX, gridY);
+                });
+            }
+            setSelectedAreaObjects(null);
+        });
     }, [selectedAreaObjects, removeToken, removeCharacterToken, removeItemFromGrid, removeEnvironmentalObject, removeDrawingPath, setWall, clearTerrain]);
 
     // Handle mouse events for drawing

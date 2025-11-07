@@ -1653,7 +1653,13 @@ const useCharacterStore = create((set, get) => ({
                 tokenSettings: character.tokenSettings || get().tokenSettings,
                 skillRanks: character.skillRanks || {},
                 class_spells: character.class_spells || { known_spells: [] },
-                levelUpHistory: character.levelUpHistory || {}
+                levelUpHistory: character.levelUpHistory || {},
+                // Ensure inventory is preserved in character state
+                inventory: character.inventory || {
+                    items: [],
+                    currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+                    encumbranceState: 'normal'
+                }
             });
 
             // Load character's inventory into the inventory store

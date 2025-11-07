@@ -768,6 +768,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         alignment: activeCharacter.alignment,
         background: activeCharacter.background,
         classResource: activeCharacter.classResource,
+        inventory: activeCharacter.inventory,
+        equipment: activeCharacter.equipment,
+        stats: activeCharacter.stats,
         lore: activeCharacter.lore,
         tokenSettings: activeCharacter.tokenSettings
       } : null

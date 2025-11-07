@@ -798,6 +798,23 @@ const useLevelEditorStore = create((set, get) => ({
                 const newWallData = { ...state.wallData };
                 delete newWallData[key];
                 set({ wallData: newWallData });
+                
+                // Emit wall removal to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    wallData: newWallData
+                                }
+                            });
+                            console.log('📤 Emitted wall removal to server');
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             // D&D element operations

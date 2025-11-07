@@ -128,6 +128,7 @@ const CanvasWallSystem = () => {
         // 2. We have a visible area set
         // 3. We're NOT in GM mode
         // 4. We're NOT in editor mode (walls should always be visible when editing)
+        // Note: In multiplayer, players should see walls even if not in visible area (greyed out)
         const shouldFilterByFOV = viewingFromToken && visibleAreaSet && !isGMMode && !isEditorMode;
         
         // Render walls
@@ -290,8 +291,12 @@ const CanvasWallSystem = () => {
                     }
                 }
                 
-                if (!isWallVisible && !isWallInExploredArea) {
-                    return; // Skip wall - not in visible area, not in explored area, and not blocking visible tiles
+                // In multiplayer, always show walls to players (even if not in visible area) - they'll be greyed out
+                // Only skip walls if they're not in visible area AND not in explored area AND we're filtering by FOV
+                // But in multiplayer, players should see all walls (greyed out if not visible)
+                if (shouldFilterByFOV && !isWallVisible && !isWallInExploredArea) {
+                    // Don't skip - show all walls to players, they'll be greyed out if not visible
+                    // This ensures players can see walls even if they're not in the visible area
                 }
             }
 
@@ -305,8 +310,9 @@ const CanvasWallSystem = () => {
             // Get wall material style
             const materialStyle = getWallMaterialStyle(wallType);
 
-            // Check if wall should be greyed out (in explored area but not visible)
-            const isGreyedOut = shouldFilterByFOV && !isWallVisible && isWallInExploredArea && !isGMMode;
+            // Check if wall should be greyed out (in explored area but not visible, or not in visible area at all for players)
+            // In multiplayer, players should see all walls (greyed out if not visible)
+            const isGreyedOut = shouldFilterByFOV && !isWallVisible && !isGMMode;
             
             // Set drawing style - parse color for greyed out state
             let strokeColor = materialStyle.color;
