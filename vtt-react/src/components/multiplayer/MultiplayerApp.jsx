@@ -1412,8 +1412,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     handleLeaveRoom();
 
     // Immediately transition to single player view
-    // Navigation happens instantly while cleanup runs in background
-    onReturnToSinglePlayer();
+    // Use requestAnimationFrame to ensure UI updates happen before navigation
+    requestAnimationFrame(() => {
+      onReturnToSinglePlayer();
+    });
   };
 
   // If not in a room, show the lobby

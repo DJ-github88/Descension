@@ -738,11 +738,8 @@ const AppContent = ({
 
     // Updated handleReturnToLanding to use React Router navigation
     const handleReturnToLandingWithNavigation = () => {
-        if (isAuthenticated) {
-            navigate('/account');
-        } else {
-            navigate('/');
-        }
+        // For faster GM to player transitions, go directly to game view instead of account dashboard
+        navigate('/game');
     };
 
     return (
