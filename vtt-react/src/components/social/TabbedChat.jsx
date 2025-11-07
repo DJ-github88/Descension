@@ -8,6 +8,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import usePresenceStore from '../../store/presenceStore';
 import usePartyStore from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
+import useGameStore from '../../store/gameStore';
 import LootTab from './LootTab';
 import CombatTab from './CombatTab';
 
@@ -129,6 +130,19 @@ const TabbedChat = () => {
 
       console.log('💬 Sending party message:', message);
       console.log('📊 Party chat messages before:', partyChatMessages.length);
+      
+      // Check if in multiplayer mode and send through socket
+      const { multiplayerSocket, sendMultiplayerMessage } = useGameStore.getState();
+      if (multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
+        console.log('💬 Sending party message through multiplayer socket');
+        // Send party message through multiplayer socket
+        sendMultiplayerMessage(content);
+        // Don't add locally - it will come back through the socket
+        setMessageInput('');
+        return;
+      }
+      
+      // Single-player mode: add locally
       addPartyChatMessage(message);
 
       // Verify message was added
@@ -137,8 +151,6 @@ const TabbedChat = () => {
         console.log('📊 Party chat messages after:', updatedMessages.length);
         console.log('✅ Party message added successfully');
       }, 100);
-
-      // TODO: Emit to socket for multiplayer party chat
     } else if (activeTab.startsWith('whisper_')) {
       // Send whisper
       const userId = activeTab.replace('whisper_', '');

@@ -134,18 +134,33 @@ const useDialogueStore = create(
     handleMultiplayerDialogue: (dialogueData) => {
       const state = get();
 
-      // Don't show our own messages again
-      if (dialogueData.playerId === state.currentPlayerId) {
-        return;
-      }
+      // Get current player ID from game store if available
+      import('./gameStore').then(({ default: useGameStore }) => {
+        const gameStore = useGameStore.getState();
+        const currentPlayerId = gameStore.multiplayerRoom?.gm?.id || gameStore.currentPlayer?.id;
+        
+        // Don't show our own messages again
+        if (dialogueData.playerId === currentPlayerId) {
+          return;
+        }
 
-      // Show the dialogue with multiplayer flag to prevent duplicate chat messages
-      set({
-        activeDialogue: { ...dialogueData, isFromMultiplayer: true },
-        currentText: '',
-        textIndex: 0,
-        isTyping: true,
-        currentCharacter: dialogueData.character
+        // Show the dialogue with multiplayer flag to prevent duplicate chat messages
+        set({
+          activeDialogue: { ...dialogueData, isFromMultiplayer: true },
+          currentText: '',
+          textIndex: 0,
+          isTyping: true,
+          currentCharacter: dialogueData.character
+        });
+      }).catch(() => {
+        // If we can't get current player ID, show the dialogue anyway
+        set({
+          activeDialogue: { ...dialogueData, isFromMultiplayer: true },
+          currentText: '',
+          textIndex: 0,
+          isTyping: true,
+          currentCharacter: dialogueData.character
+        });
       });
     },
     

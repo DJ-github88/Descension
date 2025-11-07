@@ -801,18 +801,31 @@ const useLevelEditorStore = create((set, get) => ({
             setFogOfWar: (x, y, hasFog) => {
                 const state = get();
                 const key = `${x},${y}`;
+                let newFogData;
                 if (hasFog) {
-                    set({
-                        fogOfWarData: {
-                            ...state.fogOfWarData,
-                            [key]: true
-                        }
-                    });
+                    newFogData = {
+                        ...state.fogOfWarData,
+                        [key]: true
+                    };
                 } else {
-                    const newFogData = { ...state.fogOfWarData };
+                    newFogData = { ...state.fogOfWarData };
                     delete newFogData[key];
-                    set({ fogOfWarData: newFogData });
                 }
+                set({ fogOfWarData: newFogData });
+                
+                // Emit fog of war update to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        gameStore.multiplayerSocket.emit('map_update', {
+                            mapUpdates: {
+                                fogOfWar: newFogData
+                            }
+                        });
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             getFogOfWar: (x, y) => {
@@ -830,6 +843,20 @@ const useLevelEditorStore = create((set, get) => ({
                 const newFogData = { ...state.fogOfWarData };
                 delete newFogData[key];
                 set({ fogOfWarData: newFogData });
+                
+                // Emit fog of war update to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        gameStore.multiplayerSocket.emit('map_update', {
+                            mapUpdates: {
+                                fogOfWar: newFogData
+                            }
+                        });
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             // Clear fog of war from multiple tiles (for brush/area clearing)
@@ -841,6 +868,20 @@ const useLevelEditorStore = create((set, get) => ({
                     delete newFogData[key];
                 });
                 set({ fogOfWarData: newFogData });
+                
+                // Emit fog of war update to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        gameStore.multiplayerSocket.emit('map_update', {
+                            mapUpdates: {
+                                fogOfWar: newFogData
+                            }
+                        });
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             // Enhanced fog of war operations for dynamic visibility
@@ -1398,6 +1439,23 @@ const useLevelEditorStore = create((set, get) => ({
 
             setFogOfWarData: (fogOfWarData) => {
                 set({ fogOfWarData: fogOfWarData || {} });
+                
+                // Emit fog of war update to multiplayer server (only if in multiplayer and not from server)
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        // Only emit if this is a local change, not a server sync
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    fogOfWar: fogOfWarData || {}
+                                }
+                            });
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             setDrawingPaths: (drawingPaths) => {
@@ -1406,6 +1464,22 @@ const useLevelEditorStore = create((set, get) => ({
 
             setDrawingLayers: (drawingLayers) => {
                 set({ drawingLayers: drawingLayers || initialState.drawingLayers });
+                
+                // Emit drawing layers update to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    drawingLayers: drawingLayers || initialState.drawingLayers
+                                }
+                            });
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             setLightSources: (lightSources) => {
@@ -1433,9 +1507,27 @@ const useLevelEditorStore = create((set, get) => ({
                     layer: state.activeLayer,
                     timestamp: Date.now()
                 };
+                const newDrawingPaths = [...state.drawingPaths, newPath];
                 set({
-                    drawingPaths: [...state.drawingPaths, newPath]
+                    drawingPaths: newDrawingPaths
                 });
+                
+                // Emit drawing update to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    drawingPaths: newDrawingPaths
+                                }
+                            });
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
+                
                 return newPath.id;
             },
 

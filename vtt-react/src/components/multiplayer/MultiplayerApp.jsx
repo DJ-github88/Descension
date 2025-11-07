@@ -432,6 +432,25 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         playerId: message.playerId, // Include player ID for future reference
         isGM: message.isGM
       });
+      
+      // Also add to party chat if message type is 'party' or if in party
+      if (message.type === 'party' || message.type === 'chat') {
+        import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+          const { addPartyChatMessage } = usePresenceStore.getState();
+          addPartyChatMessage({
+            id: message.id || `msg_${Date.now()}`,
+            senderId: message.playerId,
+            senderName: message.playerName,
+            senderClass: message.isGM ? 'GM' : 'Player',
+            senderLevel: 1,
+            content: message.content,
+            timestamp: message.timestamp || new Date().toISOString(),
+            type: 'party'
+          });
+        }).catch(error => {
+          console.error('Failed to add party chat message:', error);
+        });
+      }
     });
 
     // Listen for token movements from other players
@@ -771,7 +790,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           subrace: data.character.subrace || '',
           raceDisplayName: raceDisplayName,
           exhaustionLevel: data.character.exhaustionLevel || 0,
-          classResource: data.character.classResource || { current: 0, max: 0 }
+          classResource: data.character.classResource || { current: 0, max: 0 },
+          tokenSettings: data.character.tokenSettings, // Include token settings
+          lore: data.character.lore // Include lore (which contains characterImage)
         };
 
         if (data.character.race && data.character.subrace) {
@@ -911,6 +932,53 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           Object.values(data.gridItems).forEach(gridItem => {
             addItemToGrid(gridItem, gridItem.position, false);
           });
+        });
+      }
+    });
+
+    // Listen for map updates (fog of war, drawing, tiles)
+    socket.on('map_updated', (data) => {
+      // Only process updates from other players (not our own)
+      if (data.updatedBy !== currentPlayer?.id) {
+        window._isReceivingMapUpdate = true;
+        
+        import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+          const levelEditorStore = useLevelEditorStore.getState();
+          
+          // Update fog of war if provided
+          if (data.mapData?.fogOfWar !== undefined) {
+            levelEditorStore.setFogOfWarData(data.mapData.fogOfWar);
+          }
+          
+          // Update drawing layers if provided
+          if (data.mapData?.drawingLayers !== undefined) {
+            levelEditorStore.setDrawingLayers(data.mapData.drawingLayers);
+          }
+          
+          // Update drawing paths if provided
+          if (data.mapData?.drawingPaths !== undefined) {
+            levelEditorStore.setDrawingPaths(data.mapData.drawingPaths);
+          }
+        }).catch(error => {
+          console.error('Failed to update map data:', error);
+        }).finally(() => {
+          // Clear flag after a short delay to allow updates to complete
+          setTimeout(() => {
+            window._isReceivingMapUpdate = false;
+          }, 100);
+        });
+      }
+    });
+
+    // Listen for dialogue messages from other players
+    socket.on('dialogue_message', (data) => {
+      // Only process dialogue from other players (not our own)
+      if (data.dialogueData?.playerId !== currentPlayer?.id) {
+        import('../../store/dialogueStore').then(({ default: useDialogueStore }) => {
+          const { handleMultiplayerDialogue } = useDialogueStore.getState();
+          handleMultiplayerDialogue(data.dialogueData);
+        }).catch(error => {
+          console.error('Failed to handle multiplayer dialogue:', error);
         });
       }
     });
@@ -1153,6 +1221,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               inventory: activeCharacter.inventory,
               experience: activeCharacter.experience,
               exhaustionLevel: activeCharacter.exhaustionLevel,
+              tokenSettings: activeCharacter.tokenSettings, // Include token settings
+              lore: activeCharacter.lore, // Include lore (which contains characterImage)
               playerId: currentPlayerData?.id
             }
           });

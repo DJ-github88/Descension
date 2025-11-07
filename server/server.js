@@ -1190,12 +1190,31 @@ io.on('connection', (socket) => {
     }
 
     // Update map data in room game state
-    room.gameState.mapData = {
-      ...room.gameState.mapData,
-      ...data.mapData,
-      lastUpdatedBy: player.id,
-      lastUpdatedAt: new Date()
-    };
+    if (data.mapUpdates) {
+      if (data.mapUpdates.fogOfWar !== undefined) {
+        room.gameState.fogOfWar = data.mapUpdates.fogOfWar;
+      }
+      if (data.mapUpdates.drawingLayers !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.drawingLayers = data.mapUpdates.drawingLayers;
+      }
+      if (data.mapUpdates.drawingPaths !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.drawingPaths = data.mapUpdates.drawingPaths;
+      }
+    } else if (data.mapData) {
+      // Legacy support for old format
+      room.gameState.mapData = {
+        ...room.gameState.mapData,
+        ...data.mapData,
+        lastUpdatedBy: player.id,
+        lastUpdatedAt: new Date()
+      };
+    }
 
     // Persist to Firebase
     try {
@@ -1204,9 +1223,13 @@ io.on('connection', (socket) => {
       console.error('Failed to persist map update:', error);
     }
 
-    // Broadcast map update to all players in the room
-    socket.to(player.roomId).emit('map_updated', {
-      mapData: data.mapData,
+    // Broadcast map update to all players in the room (including sender for confirmation)
+    io.to(player.roomId).emit('map_updated', {
+      mapData: {
+        ...room.gameState.mapData,
+        fogOfWar: room.gameState.fogOfWar,
+        ...(data.mapUpdates || data.mapData || {})
+      },
       updatedBy: player.id,
       updatedByName: player.name,
       timestamp: new Date()

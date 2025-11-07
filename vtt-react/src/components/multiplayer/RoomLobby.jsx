@@ -662,7 +662,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // Get active character name - this should be the primary player name
     const activeCharacter = getActiveCharacter();
     const characterName = activeCharacter?.name || activeCharacter?.baseName;
-    const finalPlayerName = characterName || playerNameRef.current.trim() || 'Anonymous Adventurer';
+    // Check if character name is the default "Character Name" and use a better fallback
+    const isDefaultName = characterName === 'Character Name' || characterName === 'Character Name (Room Name)';
+    const finalPlayerName = (!isDefaultName && characterName) ? characterName : (playerNameRef.current.trim() || 'Anonymous Adventurer');
 
     // Sync player name ref with character name for GM detection
     if (characterName) {
@@ -714,7 +716,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // Get active character name - this should be the primary player name
     const activeCharacter = getActiveCharacter();
     const characterName = activeCharacter?.name || activeCharacter?.baseName;
-    const finalPlayerName = characterName || playerNameRef.current.trim();
+    // Check if character name is the default "Character Name" and use a better fallback
+    const isDefaultName = characterName === 'Character Name' || characterName === 'Character Name (Room Name)';
+    const finalPlayerName = (!isDefaultName && characterName) ? characterName : (playerNameRef.current.trim() || 'Anonymous Adventurer');
 
     if (!finalPlayerName || !finalRoomId.trim()) {
       if (!finalPlayerName) {
@@ -980,7 +984,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                         <h3 className="room-name">{room.name}</h3>
                         <div className="room-role">
                           <i className="fas fa-crown" style={{ color: '#FFD700' }}></i>
-                          <span>GM: {room.gm}</span>
+                          <span>GM: {room.gm} (GM)</span>
                         </div>
                       </div>
 
