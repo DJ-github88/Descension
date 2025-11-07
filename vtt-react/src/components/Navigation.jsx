@@ -1044,9 +1044,18 @@ export default function Navigation({ onReturnToLanding }) {
                                                 e.stopPropagation();
                                                 handleButtonClick(button.id);
                                             }}
+                                            onTouchStart={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                            }}
+                                            onTouchEnd={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                handleButtonClick(button.id);
+                                            }}
                                             className={`wow-nav-button ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
                                             title={`${button.title || button.id || 'Button'} (${button.shortcut || ''})${button.premium ? ' - Premium Feature' : ''}`}
-                                            style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+                                            style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
                                         >
                                         <svg
                                             viewBox="0 0 24 24"
@@ -1070,8 +1079,18 @@ export default function Navigation({ onReturnToLanding }) {
                                 {onReturnToLanding && (
                                     <button
                                         onClick={onReturnToLanding}
+                                        onTouchStart={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }}
+                                        onTouchEnd={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            onReturnToLanding();
+                                        }}
                                         className="wow-nav-button back-button"
                                         title="Return to Main Menu (ESC)"
+                                        style={{ pointerEvents: 'auto', cursor: 'pointer', touchAction: 'manipulation' }}
                                     >
                                         <svg
                                             viewBox="0 0 24 24"

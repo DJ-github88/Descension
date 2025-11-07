@@ -46,6 +46,10 @@ const ProfessionalVTTEditor = () => {
     const hoverPreviewRef = useRef({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
     const hoverPreviewRafId = useRef(null);
     
+    // Throttle fog painting calls using RAF for smooth painting
+    const fogPaintThrottleRef = useRef(null);
+    const pendingFogPaintRef = useRef(null); // Store pending paint call
+    
     // Throttled function to update hover preview state
     const updateHoverPreviewState = useCallback(() => {
         setHoverPreview({ ...hoverPreviewRef.current });
@@ -92,6 +96,7 @@ const ProfessionalVTTEditor = () => {
         finishFogErasePath,
         clearAllFog,
         coverEntireMapWithFog,
+        consolidateFogPaths,
         addEnvironmentalObject,
         removeEnvironmentalObject,
         updateEnvironmentalObject,
@@ -283,14 +288,6 @@ const ProfessionalVTTEditor = () => {
             const viewport = gridSystem.getViewportDimensions();
             const worldPos = gridSystem.screenToWorld(x, y, viewport.width, viewport.height);
             const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
-
-            console.log('🧱 SCREEN TO GRID DEBUG:', {
-                clientX, clientY,
-                rectLeft: rect.left, rectTop: rect.top,
-                localX: x, localY: y,
-                viewportWidth: viewport.width, viewportHeight: viewport.height,
-                worldPos, gridCoords
-            });
 
             return {
                 gridX: gridCoords.x,
@@ -894,6 +891,10 @@ const ProfessionalVTTEditor = () => {
                 // Clear all fog - NO DRAWING STATE
                 clearAllFog();
                 return;
+            case 'fog_consolidate':
+                // Consolidate fog paths - NO DRAWING STATE
+                consolidateFogPaths();
+                return;
             case 'fog_cover_map':
                 // Cover entire map with fog - NO DRAWING STATE
                 coverEntireMapWithFog(gridSize);
@@ -1117,16 +1118,63 @@ const ProfessionalVTTEditor = () => {
                 break;
             case 'fog_paint':
                 // Continue fog painting - smooth brush-based painting
+                // PERFORMANCE: Use RAF-only throttling for maximum smoothness
                 const fogCoords = screenToGrid(e.clientX, e.clientY);
                 if (fogCoords) {
-                    paintFogBrush(fogCoords.worldX, fogCoords.worldY, toolSettings.brushSize || 1, gridSize);
+                    // Store the latest paint call
+                    pendingFogPaintRef.current = {
+                        worldX: fogCoords.worldX,
+                        worldY: fogCoords.worldY,
+                        brushSize: toolSettings.brushSize || 1
+                    };
+                    
+                    // Schedule paint using RAF for smooth 60fps+ painting
+                    if (fogPaintThrottleRef.current === null) {
+                        fogPaintThrottleRef.current = requestAnimationFrame(() => {
+                            if (pendingFogPaintRef.current) {
+                                paintFogBrush(
+                                    pendingFogPaintRef.current.worldX,
+                                    pendingFogPaintRef.current.worldY,
+                                    pendingFogPaintRef.current.brushSize,
+                                    gridSize
+                                );
+                                pendingFogPaintRef.current = null;
+                            }
+                            fogPaintThrottleRef.current = null;
+                        });
+                    }
                 }
                 break;
             case 'fog_erase':
                 // Continue fog erasing - smooth brush-based erasing
+                // PERFORMANCE: Use RAF-only throttling for maximum smoothness
                 const fogEraseCoords = screenToGrid(e.clientX, e.clientY);
                 if (fogEraseCoords) {
-                    removeFogAtPosition(fogEraseCoords.worldX, fogEraseCoords.worldY, toolSettings.brushSize || 1, gridSize);
+                    // Store the latest erase call
+                    pendingFogPaintRef.current = {
+                        worldX: fogEraseCoords.worldX,
+                        worldY: fogEraseCoords.worldY,
+                        brushSize: toolSettings.brushSize || 1,
+                        isErase: true
+                    };
+                    
+                    // Schedule erase using RAF for smooth 60fps+ erasing
+                    if (fogPaintThrottleRef.current === null) {
+                        fogPaintThrottleRef.current = requestAnimationFrame(() => {
+                            if (pendingFogPaintRef.current) {
+                                if (pendingFogPaintRef.current.isErase) {
+                                    removeFogAtPosition(
+                                        pendingFogPaintRef.current.worldX,
+                                        pendingFogPaintRef.current.worldY,
+                                        pendingFogPaintRef.current.brushSize,
+                                        gridSize
+                                    );
+                                }
+                                pendingFogPaintRef.current = null;
+                            }
+                            fogPaintThrottleRef.current = null;
+                        });
+                    }
                 }
                 break;
             case 'wall_draw':
@@ -1415,6 +1463,15 @@ const ProfessionalVTTEditor = () => {
                 <div className="vtt-editor-content">
                     {/* Tool Settings - Full Width */}
                     <div className="vtt-tool-settings">
+                        {/* Layer Panel Toggle Overlay Button */}
+                        <button
+                            className="layer-panel-overlay-toggle"
+                            onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
+                            title={isLayersPanelCollapsed ? 'Show Layers Panel' : 'Hide Layers Panel'}
+                        >
+                            {isLayersPanelCollapsed ? '◀' : '▶'}
+                        </button>
+
                         {/* Render tool-specific components */}
                         {activeTab === 'drawing' && (
                             <DrawingTools
@@ -1476,6 +1533,8 @@ const ProfessionalVTTEditor = () => {
 
 
 
+                </div>
+
                     {/* Layer Management - Right Side */}
                     <div className={`vtt-layer-panel ${isLayersPanelCollapsed ? 'collapsed' : ''}`}>
                         <div className="layer-panel-header">
@@ -1527,18 +1586,18 @@ const ProfessionalVTTEditor = () => {
                                                 }}
                                                 title={isVisible ? 'Hide Layer' : 'Show Layer'}
                                             >
-                                                {isVisible ? 'Show' : 'Hide'}
+                                                <i className={`fas ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></i>
                                             </button>
-                                        <button
-                                            className={`layer-lock ${layer.locked ? 'locked' : 'unlocked'}`}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                toggleLayerLock(layer.id);
-                                            }}
-                                            title={layer.locked ? 'Unlock Layer' : 'Lock Layer'}
-                                        >
-                                            {layer.locked ? 'Lock' : 'Unlock'}
-                                        </button>
+                                            <button
+                                                className={`layer-lock ${layer.locked ? 'locked' : 'unlocked'}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    toggleLayerLock(layer.id);
+                                                }}
+                                                title={layer.locked ? 'Unlock Layer' : 'Lock Layer'}
+                                            >
+                                                <i className={`fas ${layer.locked ? 'fa-lock' : 'fa-unlock'}`}></i>
+                                            </button>
                                         </div>
                                     </div>
                                 );
@@ -1587,8 +1646,6 @@ const ProfessionalVTTEditor = () => {
                             </>
                         )}
                     </div>
-                </div>
-
 
             </WowWindow>
 

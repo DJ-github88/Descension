@@ -2715,6 +2715,7 @@ const Step10Review = ({
           <div className="review-spell-preview">
             {/* Display spell card in wizard style */}
             <UnifiedSpellCard
+              key={`wizard-preview-${spellState.name || 'unnamed'}`}
               spell={previewSpellData}
               variant="wizard"
               showActions={false}

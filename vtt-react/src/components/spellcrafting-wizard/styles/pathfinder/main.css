@@ -2528,7 +2528,6 @@
 .wizard-main-content {
   flex: 1 !important;
   overflow-y: auto !important;
-  padding: 0 0 30px 0 !important;
   margin: 0 !important;
 }
 

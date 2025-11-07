@@ -25,7 +25,10 @@ export const RACE_DATA = {
             languages: ['Common', 'Old Nord', 'Runic'],
             lifespan: '80-120 years',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '6\'0" - 7\'0"',
+            weight: '180-280 lbs',
+            build: 'Tall and muscular'
         },
         subraces: {
             berserker: {
@@ -34,28 +37,168 @@ export const RACE_DATA = {
                 description: 'Muscle built from swinging hammers through bone. Brands burned into forearms during weapon rites. Scars map every fight they\'ve survived. Eyes burn red when the fury takes them. Hair braided with leather strips and old iron rings. Every warrior forges their own weapon before adulthood, hammer or axe marked with their blood, then an enemy\'s.',
                 culturalBackground: `The sagas tell of the first warrior-king who stood alone against the endless white and carved his name into glacier ice with a hammer stained red. That hammer still hangs in the oldest Bloodhammer longhouse, handle wrapped in leather from his enemies' hides, metal dark with the rust of centuries. The Bloodhammer claim direct descent. Their blood carries the fury that birthed kingdoms from frozen waste. Before your sixteenth winter, you forge your own weapon. Not a sword. Hammer or axe. It becomes your life. The forging happens in silence under the aurora. When the steel cools, you mark it with your own blood. Then it goes to battle. Only when it tastes an enemy's life does the ritual complete. The weapon becomes you. Every notch in the handle is a memory. Every chip is a story for the longhouse fire. Bloodhammer longhouses are armories. Walls lined with hammers and axes from warriors long dead. Each weapon tells a story. The hammer with wolf-fur handle belonged to someone who fought three days through a blizzard. The axe with the broken haft marks the weapon of one who held a pass alone against fifty. Old warriors say these weapons still hunger. Sometimes in deep winter you hear them whisper of battles yet to come. Or maybe that's just the wind through old steel. The berserker rituals pass down through generations. Secret rites that change you. Trance states where you enter a fury so complete that wounds that would kill others become nothing. Pain becomes fuel. When the rage takes hold, muscles swell, veins stand out like cords, breathing turns to a growl. But when it breaks, you return to yourself hollowed out. Your humanity burned away, left pale and shaking. Many Bloodhammer die young. Not from enemy steel but from the rage itself. Hearts give out. Honor's measured in kills counted, enemies crushed, songs sung about your deeds where the ancestors listen. Blood feuds settle in dawn duels. Weapons that've never lost. Insults get answered with steel, not words. They're the shield-wall. First line against whatever threatens the clans. Fight beside one and you'll see something that unsettles you. Their fury knows no bounds. Their honor demands death before retreat. When a Bloodhammer dies in true battle-fury, their spirit joins the warrior-ancestors. Their weapon takes its place among the honored dead, ready for the next war.`,
                 statModifiers: {
-                    constitution: 3,
                     strength: 3,
-                    agility: -1,
-                    intelligence: -2,
-                    spirit: 1,
-                    charisma: -2
+                    constitution: 2,
+                    charisma: -3
                 },
                 traits: [
                     {
+                        id: 'frostborn_nordmark',
                         name: 'Frostborn',
-                        description: 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. You can survive in arctic conditions without shelter, but your breath creates visible frost even in warm climates, making stealth difficult.',
-                        type: 'environmental'
+                        description: 'Born of the eternal winter, you are resistant to cold and thrive in arctic conditions.',
+                        level: 1,
+                        icon: 'spell_frost_frostarmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'cold',
+                            icon: 'spell_frost_frostarmor',
+                            tags: ['resistance', 'cold', 'environmental', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Cold Resistance',
+                                    description: 'Resistance to cold damage (take half damage)',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Take half damage from cold sources'
+                                    }
+                                },
+                                {
+                                    name: 'Exhaustion Resistance',
+                                    description: 'Advantage on saves against exhaustion from harsh weather',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        saveType: 'constitution',
+                                        saveDC: 0,
+                                        saveOutcome: 'negates'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'survival',
+                            subtype: 'arctic',
+                            description: 'Can survive in arctic conditions indefinitely without shelter.',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'battle_fury_nordmark',
                         name: 'Battle Fury',
-                        description: 'When reduced to half hit points, enter a berserker rage (1 AP). Gain +3 damage to all attacks but take -3 to Armor and cannot cast spells for 1 minute. Once per long rest.',
-                        type: 'combat'
+                        description: 'When bloodied, unleash the ancestral fury that birthed your people from the endless white.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'REACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'combat',
+                            secondaryElement: 'rage',
+                            icon: 'ability_warrior_rampage',
+                            tags: ['rage', 'combat', 'berserker']
+                        },
+                        buffConfig: {
+                            statModifiers: [
+                                {
+                                    id: 'berserker_damage',
+                                    name: 'Attack Damage Bonus',
+                                    magnitude: 2,
+                                    magnitudeType: 'flat',
+                                    category: 'combat'
+                                },
+                                {
+                                    id: 'berserker_defense',
+                                    name: 'Armor Class Penalty',
+                                    magnitude: -2,
+                                    magnitudeType: 'flat',
+                                    category: 'combat'
+                                },
+                                {
+                                    id: 'berserker_saves',
+                                    name: 'Saving Throw Penalty',
+                                    magnitude: -2,
+                                    magnitudeType: 'flat',
+                                    category: 'combat'
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    {
+                                        triggerType: 'health_threshold',
+                                        conditions: {
+                                            healthPercentage: 50,
+                                            comparison: 'less_than'
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'long_rest',
+                            value: 1
+                        }
                     },
                     {
-                        name: 'Reckless Courage',
-                        description: 'Immunity to fear effects, but you must make a Spirit save (DC 15) to retreat from combat or avoid a direct challenge. Your bloodlust makes tactical withdrawal nearly impossible.',
-                        type: 'combat'
+                        id: 'rage_burn_nordmark',
+                        name: 'Rage Burn',
+                        description: 'Your burning fury leaves you vulnerable to opposing forces that can extinguish or shatter your rage.',
+                        level: 1,
+                        icon: 'spell_fire_soulburn',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'fire',
+                            icon: 'spell_fire_soulburn',
+                            tags: ['vulnerability', 'rage', 'passive']
+                        },
+                        debuffConfig: {
+                            statModifiers: [
+                                {
+                                    id: 'fire_vulnerability',
+                                    name: 'Fire Vulnerability',
+                                    magnitude: 50,
+                                    magnitudeType: 'percentage',
+                                    category: 'vulnerability'
+                                },
+                                {
+                                    id: 'psychic_vulnerability',
+                                    name: 'Psychic Vulnerability',
+                                    magnitude: 50,
+                                    magnitudeType: 'percentage',
+                                    category: 'vulnerability'
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
@@ -63,32 +206,166 @@ export const RACE_DATA = {
             },
             skald: {
                 id: 'skald_nordmark',
-                name: 'Rune-Keepers',
+                name: 'Rune Keeper',
                 description: 'Skin scarred with runes carved by bone needles in frozen caves. Eyes that look through you, not at you, seeing threads others can\'t. Hair streaked white before its time. When the ancestors speak, their eyes glow faintly and their breath forms patterns in the cold air that match the scars on their flesh.',
                 culturalBackground: `The oldest sagas speak of the first shaman-king who walked alone into the deepest winter and returned changed. Their eyes saw not the present but threads of past and future woven together. That first keeper learned to read omens in ice patterns on glass, to hear dead ancestors in the aurora's dance, to carve runes that hold memory itself. The Rune-Keepers trace their bloodline to this ancestor. Same gift. Or curse. Before your eighteenth winter, you do the vision quest. Not a rite of passage. A breaking. A remaking. They take you to frozen caves deep in the wastes, places where ice has never melted, where cold burns with an intensity that sears. Here, alone in darkness broken only by aurora-light through cracks in the ice, you spend days without food or fire. Sustained only by visions granted by the ancestors. When they come, and they always come, the runes get carved into your flesh with needles made from the bones of previous keepers. Each rune marks a story learned, a secret kept, a debt owed to the dead. The carving's slow. Deliberate. Each mark is permanent. Knowledge that cannot be unlearned. These runes don't fade. They grow deeper with age, scars piling up like pages in a book written in flesh. Sometimes overlapping, creating new patterns. New meanings. Rune-Keeper longhouses are libraries. Walls lined with shelves of carved bone tablets. Floors marked with runic circles that glow faintly in firelight. Here, sagas are preserved not just in words but in memory-stones that whisper if you know how to listen. They're historians keeping records spanning millennia. Judges whose rulings carry the weight of ancestral precedent. Mediators who see disputes through dead eyes. Rituals let them commune with spirits bound to ice and storm, speaking with ancestors who haven't passed on but linger in the spaces between breaths, in the silence of deep winter. But it costs. Every time you peer into fate, commune with the dead, you lose a piece of yourself to the cold. The runes on your flesh aren't decoration. They're anchors, binding your soul to keep it from fracturing. Many keepers die from seeing too much. Minds splinter under the weight of futures witnessed, secrets that weren't meant for mortal understanding. Those who survive become something both more and less than Nordmark. Still of the clans, but touched by knowledge that sets them apart. Eyes see things others can't. Words carry echoes of voices from ages past. Knowledge matters most. Traditions bring hardship but preserve truth. Disputes settle through prophecy and mediation, judgments backed by ancestors watching from beyond. Memory-keepers. Revered for wisdom, feared for what they know. Knowledge is power. Power in hands that see all paths makes even warriors hesitate. When a keeper dies, their runes don't fade but glow brighter. Knowledge passes to the next generation through touch, shared blood, dreams in deep winter. Sometimes, on nights when the aurora burns brightest, you hear them still. Speaking secrets that were never meant for the living.`,
                 statModifiers: {
-                    constitution: 1,
-                    strength: -1,
-                    agility: -1,
-                    intelligence: 2,
                     spirit: 3,
-                    charisma: 2
+                    intelligence: 2,
+                    strength: -2
                 },
                 traits: [
                     {
+                        id: 'frostborn_rune_keeper',
                         name: 'Frostborn',
-                        description: 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. You can survive in arctic conditions without shelter, but your breath creates visible frost even in warm climates, making stealth impossible in warm areas. You take +50% damage from fire attacks due to your frozen nature.',
-                        type: 'environmental'
+                        description: 'Born of the eternal winter, you are resistant to cold and thrive in arctic conditions.',
+                        level: 1,
+                        icon: 'spell_frost_frostarmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'cold',
+                            icon: 'spell_frost_frostarmor',
+                            tags: ['resistance', 'cold', 'environmental', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Cold Resistance',
+                                    description: 'Resistance to cold damage (take half damage)',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Take half damage from cold sources'
+                                    }
+                                },
+                                {
+                                    name: 'Exhaustion Resistance',
+                                    description: 'Advantage on saves against exhaustion from harsh weather',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        saveType: 'constitution',
+                                        saveDC: 0,
+                                        saveOutcome: 'negates'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'survival',
+                            subtype: 'arctic',
+                            description: 'Can survive in arctic conditions indefinitely without shelter.',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
-                        name: 'Inspiring Saga',
-                        description: 'You can recite ancient sagas to inspire allies (2 AP). All allies within 30 feet gain advantage on their next attack or save. Once per short rest, but you MUST speak loudly (alerting all enemies within 120 feet) and cannot stop mid-recitation - if interrupted, you take 1d6 psychic damage from the broken saga.',
-                        type: 'support'
+                        id: 'ancestral_whispers_nordmark',
+                        name: 'Ancestral Whispers',
+                        description: 'Commune with ancestor spirits for guidance, gaining insight but owing them stories in return.',
+                        level: 1,
+                        icon: 'spell_shadow_coneofsilence',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'spirit',
+                            secondaryElement: 'ancestral',
+                            icon: 'spell_shadow_coneofsilence',
+                            tags: ['spirit', 'guidance', 'ancestral']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
+                            effects: [
+                                {
+                                    name: 'Ancestral Guidance',
+                                    description: 'Advantage on one Intelligence or Spirit check',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ancestral spirits provide insight and wisdom'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'hours',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            subtype: 'prediction',
+                            description: 'Communicate with ancestor spirits for guidance and wisdom.',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
-                        name: 'Ancestral Memory',
-                        description: 'You have advantage on History checks and can recall ancient lore, but you are COMPELLED to share these stories at length whenever the topic arises. You cannot make brief responses - must tell the full story (taking at least 1 minute), giving disadvantage on stealth group checks and often revealing information you meant to keep secret.',
-                        type: 'knowledge'
+                        id: 'vision_vulnerability_nordmark',
+                        name: 'Vision Vulnerability',
+                        description: 'Your connection to the ancestral realm leaves you vulnerable to energies that disrupt the veil between worlds.',
+                        level: 1,
+                        icon: 'spell_fire_soulburn',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'necrotic',
+                            icon: 'spell_fire_soulburn',
+                            tags: ['vulnerability', 'spirit', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Fire Vulnerability',
+                                    description: 'Take +50% damage from fire sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Necrotic Vulnerability',
+                                    description: 'Take +50% damage from necrotic sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Veil Weakness',
+                                    description: 'Connection to the dead makes you susceptible to energies that disrupt reality',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Spiritual connection leaves you vulnerable to planar disruptions'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
@@ -100,28 +377,142 @@ export const RACE_DATA = {
                 description: 'Skin pale as ice, bluish underneath, cracked like frozen glass. Eyes nearly white, stare fixed and unblinking. Breath hangs thick as mist even in the coldest dark. Hair brittle and white, breaks easy. Touch them and their skin feels like stone that\'s been left out in winter.',
                 culturalBackground: `The sagas tell of scouts who went too far into the eternal winter, into places where cold doesn't just kill but transforms. They didn't return as they left. They came back changed, flesh hardened, breath no longer visible because their lungs learned to breathe the cold itself. The Frostbound claim descent from those altered scouts. Their bloodline carries the mark. Their tradition's one of the harshest. Before you can take your place in the longhouse, you spend three winters alone in the deepest wastes. Places even Rune-Keepers won't go. Not survival tests. Initiations. Communion with cold so absolute it remakes your body. Through generations of this rite, the bloodline adapted in ways that border on unnatural. Flesh grows harder each winter. Cold tolerance becomes legendary. Bodies shaped by the land itself. Some say the eternal winter recognizes them. The cold welcomes them home. Frostbound longhouses rise in the worst places. Glacier peaks where wind never stops. Valleys the sun barely reaches. Places other Nordmark won't build. Outposts. They scout ahead, guide paths that only exist in winter, guard borders most can't even see. Survival arts passed down. Not from books—from the land. How to read ice stories as they form. How to find food in frozen ground. How to endure cold that'd shatter steel. Endurance matters most. Honor measured in winters survived, paths found through terrain that kills. Independence matters. In the deepest cold, relying on others means death. But it costs. Each generation tolerates warmth less. Hardened flesh cracks in temperatures others find comfortable. Skin splits wider. Bodies betray them in summer lands. Many Frostbound can't leave the north. Transformation's too complete. Warmth becomes poison. Skin cracks and bleeds. Lungs struggle with air that holds heat. Some say their blood runs cold as ice. Hearts beat with glacier rhythm. Edge-dwellers. Respected for resilience, kept at distance. Something between Nordmark and winter itself. Other clans honor them but don't understand. How could they? Remade by cold. Humanity preserved but tempered by something you can't name. When a Frostbound dies, the body doesn't decay. Freezes perfectly. Preserved in ice. Becomes part of the landscape. Sometimes, in the deepest winter, travelers see figures moving through blizzards. Half-visible in snow. Guides that appear when hope's lost, vanish when the path is found. Frostbound themselves or echoes? None can say.`,
                 statModifiers: {
-                    constitution: 4,
-                    strength: 0,
-                    agility: -1,
-                    intelligence: -1,
+                    constitution: 3,
                     spirit: 2,
                     charisma: -3
                 },
                 traits: [
                     {
+                        id: 'deep_frost_nordmark',
                         name: 'Deep Frost',
-                        description: 'Immunity to cold damage and exhaustion from harsh weather. You can survive in arctic conditions indefinitely, but you take vulnerability to fire damage and have disadvantage on saves against heat effects.',
-                        type: 'environmental'
+                        description: 'Your body has become one with the eternal winter, granting complete immunity to cold and endless endurance in arctic conditions.',
+                        level: 1,
+                        icon: 'spell_frost_frozenorb',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'deep_cold',
+                            icon: 'spell_frost_frozenorb',
+                            tags: ['immunity', 'cold', 'environmental', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Cold Immunity',
+                                    description: 'Complete immunity to cold damage',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Take no damage from cold sources'
+                                    }
+                                },
+                                {
+                                    name: 'Exhaustion Immunity',
+                                    description: 'Immunity to exhaustion from harsh weather',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Never suffer exhaustion from cold weather'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'survival',
+                            subtype: 'arctic',
+                            description: 'Can survive in arctic conditions indefinitely without any shelter or supplies.',
+                            power: 'major'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
-                        name: 'Ice Walk',
-                        description: 'You can walk on ice and snow without slipping and leave no tracks in frozen terrain. However, you move at half speed on warm ground and take 1 point of damage per hour in temperatures above 70°F.',
-                        type: 'mobility'
+                        id: 'winters_guidance_nordmark',
+                        name: 'Winter\'s Guidance',
+                        description: 'The eternal winter speaks to you, revealing safe paths through blizzards and predicting weather changes.',
+                        level: 1,
+                        icon: 'spell_nature_naturetouchgrow',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'winter',
+                            icon: 'spell_nature_naturetouchgrow',
+                            tags: ['guidance', 'weather', 'survival']
+                        },
+                        utilityConfig: {
+                            utilityType: 'environment',
+                            subtype: 'weather',
+                            description: 'Can sense safe paths through blizzards and predict weather changes within 24 hours.',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
-                        name: 'Frozen Heart',
-                        description: 'You have advantage on saves against charm and emotion effects, but you have disadvantage on all Charisma-based social interactions due to your cold, distant demeanor.',
-                        type: 'mental'
+                        id: 'heat_frailty_nordmark',
+                        name: 'Heat Frailty',
+                        description: 'Your frozen body cannot withstand heat, becoming vulnerable to fire and suffering damage in warm climates.',
+                        level: 1,
+                        icon: 'spell_fire_fire',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'heat',
+                            icon: 'spell_fire_fire',
+                            tags: ['vulnerability', 'heat', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Fire Vulnerability',
+                                    description: 'Take +50% damage from fire sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Heat Damage',
+                                    description: 'Take 1d4 fire damage per hour in temperatures above 60°F',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Warm climates cause continuous fire damage'
+                                    }
+                                },
+                                {
+                                    name: 'Warm Climate Disorientation',
+                                    description: 'Disadvantage on checks and saves in warm climates',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Difficulty functioning in warm environments'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
@@ -148,37 +539,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Corvid'],
             lifespan: '90-110 years',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'6" - 6\'2"',
+            weight: '130-190 lbs',
+            build: 'Slender and agile'
         },
         subraces: {
             oracle: {
                 id: 'oracle_corvani',
-                name: 'Raven-Seers',
+                name: 'Raven Seer',
                 description: 'Skin marked by deep raven-black patterns that shift and writhe like living shadows. Eyes glazed from seeing too many futures. Markings darken with each prophecy spoken, skin becoming a map of fates seen. Premature gray hair, faces marked by the weight of visions. When they scry, their eyes go blank white and their breath forms mist patterns.',
                 culturalBackground: `The Raven-Seers trace their lineage to the first seers who learned to read the future in mist patterns and hear prophecies in raven calls. Their tradition requires that every member undergo initiation rites during their sixteenth year. Nights alone in the fog where their markings deepen and their sight awakens. Raven-Seer markings shift and darken with each prophecy spoken, each future glimpsed. Their skin becomes a map of fates seen and warnings given. Members serve as seers, advisors, mediators. Reading omens for other bloodlines and lowland folk who seek their counsel. They practice ancient divination rituals passed down through generations. Scrying in mist pools. Reading patterns in fog. Interpreting the calls of ravens. But the sight exacts a price. Each vision chips away at their grip on reality. Minds fractured by too many futures seen. Children born with deep markings are trained from youth. Their education balances learning control and accepting the inevitable madness that comes with the gift. The bloodline values foresight and guidance. Honor measured in prophecies fulfilled and disasters prevented. They are the vision-keepers of Corvani society. Revered and feared for what they see.`,
                 statModifiers: {
-                    constitution: -2,
-                    strength: -2,
-                    agility: 1,
-                    intelligence: 3,
-                    spirit: 4,
-                    charisma: 2
+                    spirit: 3,
+                    intelligence: 2,
+                    constitution: -3
                 },
                 traits: [
                     {
-                        name: 'Prophetic Vision',
-                        description: 'Once per long rest, can glimpse the future to reroll any d20 roll (yours or an ally\'s) within 60 feet. However, seeing the future is physically taxing - you take 1d4 psychic damage and gain disadvantage on Constitution saves for 1 hour after using this ability.',
+                        name: 'Prophetic Glimpse',
+                        description: 'Can peer into possible futures (2 AP). Gain advantage on one attack, save, or ability check, but take 1d6 psychic damage from temporal strain.',
                         type: 'divination'
                     },
                     {
                         name: 'Raven Sight',
-                        description: 'Can see through illusions and detect hidden creatures within 30 feet, but you suffer -2 to Constitution saves against disease and poison. Your eyes are constantly strained from seeing multiple layers of reality - you have disadvantage on Perception checks in bright light.',
+                        description: 'Advantage on Perception checks and can detect illusions within 30 feet. However, you have disadvantage on saves against psychic damage.',
                         type: 'perception'
                     },
                     {
-                        name: 'Fate\'s Warning',
-                        description: 'Allies within 30 feet gain +1 Armor against the first attack each round, but you take 2 psychic damage (not 1) when they\'re hit. You feel their pain as your own - when an ally is critically hit, you must make a Spirit save (DC 15) or be stunned for 1 round.',
-                        type: 'protection'
+                        name: 'Fate\'s Burden',
+                        description: 'Vulnerable to necrotic and psychic damage (+50% damage) due to your connection to the threads of fate. Your visions make you susceptible to energies that unravel reality.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Corvid', 'Ethereal'],
@@ -186,32 +577,155 @@ export const RACE_DATA = {
             },
             scout: {
                 id: 'scout_corvani',
-                name: 'Mist-Runners',
+                name: 'Mist Runner',
                 description: 'Lean and wiry from constant movement through treacherous paths. Skin pale from endless fog, markings lighter than seers but still visible. Feet calloused from rock and ice. Eyes adapted to low light, pupils wider than normal. Many develop a habit of talking to themselves or the mist. Hair often damp with condensation.',
                 culturalBackground: `The Mist-Runners claim descent from the first messengers who learned to walk paths through the mist that others cannot see. Their tradition requires that every member spend years training as runners. Learning to navigate fog-shrouded peaks where maps fail and compasses spin madly. Mist-Runners are raised from childhood to read the mist. Their instincts honed by generations of mountain navigation. They serve as messengers between isolated Corvani settlements. Guides for those who dare the highland paths. Members learn ancient techniques passed down through generations. How to read wind patterns. How to find paths in impenetrable fog. How to carry messages through territories where normal navigation fails. But the mist takes its toll. Prolonged exposure to the thick fog leaves them disoriented. Minds filled with whispers and shadows that may or may not be real. Many Mist-Runners develop strange habits. Speaking to the mist. Following paths that lead nowhere. The bloodline values duty and reliability. Honor measured in messages delivered and travelers guided safely. They are the pathfinders of Corvani society. Trusted messengers whose service keeps the isolated settlements connected.`,
                 statModifiers: {
-                    constitution: 0,
-                    strength: -1,
                     agility: 4,
                     intelligence: 2,
-                    spirit: 2,
-                    charisma: -1
+                    constitution: -2
                 },
                 traits: [
                     {
+                        id: 'highland_navigation_corvani',
                         name: 'Highland Navigation',
-                        description: 'Cannot become lost in natural terrain and can move at full speed through difficult terrain.',
-                        type: 'movement'
+                        description: 'Your ancestral knowledge of the highlands grants unparalleled navigation abilities in natural terrain.',
+                        level: 1,
+                        icon: 'ability_druid_dash',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'terrain',
+                            icon: 'ability_druid_dash',
+                            tags: ['navigation', 'movement', 'terrain', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Perfect Navigation',
+                                    description: 'Cannot become lost in natural terrain',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Always know your exact location in natural environments'
+                                    }
+                                },
+                                {
+                                    name: 'Difficult Terrain Mastery',
+                                    description: 'Move at full speed through difficult terrain',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Difficult terrain costs no extra movement'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            subtype: 'navigation',
+                            description: 'Perfect knowledge of natural terrain and unhindered movement.',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'raven_messenger_corvani',
                         name: 'Raven Messenger',
-                        description: 'Can send messages via ravens to any location you\'ve visited, but messages can be intercepted by those who speak Corvid.',
-                        type: 'communication'
+                        description: 'Send messages through ravens to any location you have personally visited.',
+                        level: 1,
+                        icon: 'spell_nature_ravenform',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'raven',
+                            icon: 'spell_nature_ravenform',
+                            tags: ['communication', 'messenger', 'raven']
+                        },
+                        utilityConfig: {
+                            utilityType: 'communication',
+                            subtype: 'messenger',
+                            description: 'Send messages via ravens to any location you have visited.',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'mist_walker_corvani',
                         name: 'Mist Walker',
-                        description: 'Can become partially incorporeal for 1 round (resistant to bludgeoning, piercing, and slashing damage - takes half damage), but become vulnerable to radiant damage (takes double damage) for 1 minute.',
-                        type: 'defense'
+                        description: 'Step partially into the mists, becoming resistant to physical damage but vulnerable to radiant energies.',
+                        level: 1,
+                        icon: 'spell_nature_invisibilty',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'mist',
+                            icon: 'spell_nature_invisibilty',
+                            tags: ['mist', 'defense', 'vulnerability']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Physical Resistance',
+                                    description: 'Resistance to bludgeoning, piercing, and slashing damage',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Take half damage from physical attacks'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take double damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 100,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     }
                 ],
                 languages: ['Common', 'Corvid', 'Sylvan'],
@@ -238,37 +752,150 @@ export const RACE_DATA = {
             languages: ['Common', 'Terran'],
             lifespan: '180-220 years',
             baseSpeed: 25,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'2" - 5\'10"',
+            weight: '160-240 lbs',
+            build: 'Stocky and durable'
         },
         subraces: {
             delver: {
                 id: 'delver_grimheart',
-                name: 'Deep-Delvers',
+                name: 'Deep Delver',
                 description: 'Flesh hardest of all Grimheart, gray as granite and rough to the touch. Eyes fully adapted to darkness, nearly blind in bright light. Hands permanently stained with mineral dust. Constant twitching and muttering from the whispers they hear. Many bear scars from cave-ins and collapses. They move with a hunched posture, as if always ready to dig.',
                 culturalBackground: `The Deep-Delvers trace their founding to the first miners who broke through into the deep places where the mountain's blood flows. Their tradition demands that every member learn to mine the deepest veins. Apprenticeships spent in caverns where surface folk would perish. Deep-Delver halls are built in the deepest mines. Members living in darkness that would blind others. Through generations of deep mining, their bloodline has adapted. Stone-hardened flesh allowing them to work where others cannot. Eyes seeing in darkness that blinds surface dwellers. Members practice ancient mining techniques passed down through generations. How to read stone patterns. How to find veins that shouldn't exist. How to navigate tunnels that go deeper than any map. But the deep earth whispers to those who work it. Many Deep-Delvers find themselves unable to stay on the surface. Drawn back to dig ever deeper. The bloodline values skill and courage. Honor measured in depths reached and treasures unearthed. They are the deep-miners of Grimheart society. Unmatched in their craft but forever marked by what they awaken below.`,
                 statModifiers: {
-                    constitution: 4,
-                    strength: 3,
-                    agility: -2,
-                    intelligence: 1,
-                    spirit: -2,
+                    constitution: 3,
+                    strength: 2,
                     charisma: -3
                 },
                 traits: [
                     {
-                        name: 'Earth Whispers',
-                        description: 'Can sense valuable minerals and hidden passages within 60 feet, but hear constant whispers that impose disadvantage on Wisdom saves.',
-                        type: 'detection'
-                    },
-                    {
+                        id: 'stone_skin_grimheart',
                         name: 'Stone Skin',
-                        description: 'Natural armor provides +2 Armor, but movement speed reduced by 5 feet.',
-                        type: 'defense'
+                        description: 'Your flesh has hardened into living stone, providing natural armor but slowing your movement.',
+                        level: 1,
+                        icon: 'inv_misc_stonetablet_04',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'earth',
+                            secondaryElement: 'stone',
+                            icon: 'inv_misc_stonetablet_04',
+                            tags: ['armor', 'stone', 'defense', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    statModifier: {
+                                        stat: 'armor_class',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    statModifier: {
+                                        stat: 'movement_speed',
+                                        magnitude: -5,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
-                        name: 'Deep Delving',
-                        description: 'Can tunnel through stone at half movement speed, but become obsessed with digging and must make Wisdom saves to stop.',
-                        type: 'utility'
+                        id: 'earth_sense_grimheart',
+                        name: 'Earth Sense',
+                        description: 'Sense minerals, passages, and underground features within range.',
+                        level: 1,
+                        icon: 'spell_nature_earthquake',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'earth',
+                            secondaryElement: 'detection',
+                            icon: 'spell_nature_earthquake',
+                            tags: ['detection', 'earth', 'minerals']
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            subtype: 'detection',
+                            description: 'Detect minerals and underground passages within 60 feet.',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'ranged',
+                            rangeDistance: 60,
+                            aoeShape: 'sphere',
+                            aoeParameters: {
+                                radius: 60
+                            }
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
+                    },
+                    {
+                        id: 'stone_frailty_grimheart',
+                        name: 'Stone Frailty',
+                        description: 'Your stone-hardened flesh is vulnerable to acids that dissolve mineral matter.',
+                        level: 1,
+                        icon: 'spell_nature_acid_01',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'acid',
+                            icon: 'spell_nature_acid_01',
+                            tags: ['vulnerability', 'acid', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Acid Vulnerability',
+                                    description: 'Take +50% damage from acid sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Stone Dissolution',
+                                    description: 'Acid damage reduces your natural armor temporarily',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Acid damage can weaken your stone-hardened defenses'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Terran', 'Undercommon'],
@@ -276,32 +903,160 @@ export const RACE_DATA = {
             },
             warden: {
                 id: 'warden_grimheart',
-                name: 'Earth-Wardens',
+                name: 'Earth Warden',
                 description: 'Broad-shouldered and wide-set, built like living walls. Stone-hardened flesh forms natural plates across chest and shoulders. Eyes constantly scanning, pupils contracted even in darkness. Many stand in rigid postures, having held positions for days. Hands often clenched into fists, ready to strike or guard. The whispers affect them less, but the strain shows in their faces.',
                 culturalBackground: `The Earth-Wardens were founded by guardians who swore to protect surface settlements from what their kin awakened in the deep places. Their tradition requires that every member take vows of protection. Dedicating their lives to guarding against the things that crawl up from below. Earth-Warden halls are built at mine entrances and settlement borders. Members serving as watchful sentinels. Through generations of standing guard, their bloodline has adapted. Stone-hardened flesh making them living fortifications. Their patience legendary. Members practice ancient defensive techniques passed down through generations. How to read ground tremors. How to detect deep-earth movement. How to stand unmoving for days if needed. The bloodline values duty and sacrifice. Honor measured in threats prevented and lives protected. But they hear the same whispers as their mining kin. The deep earth calls to all Grimheart. Many Earth-Wardens eventually succumb, walking into caves that collapse behind them. They are the guardians of Grimheart society. Their sacrifice keeping others safe from what they themselves awakened.`,
                 statModifiers: {
                     constitution: 3,
-                    strength: 1,
-                    agility: -2,
-                    intelligence: 0,
-                    spirit: 3,
-                    charisma: 1
+                    spirit: 2,
+                    agility: -2
                 },
                 traits: [
                     {
+                        id: 'guardians_resolve_grimheart',
                         name: 'Guardian\'s Resolve',
-                        description: 'Can absorb damage intended for allies within 10 feet, but take +50% of the absorbed damage.',
-                        type: 'protection'
+                        description: 'Sacrifice yourself to protect allies, absorbing damage but taking extra harm from the effort.',
+                        level: 1,
+                        icon: 'spell_holy_powerwordshield',
+                        spellType: 'REACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'protection',
+                            secondaryElement: 'guardian',
+                            icon: 'spell_holy_powerwordshield',
+                            tags: ['protection', 'sacrifice', 'damage_absorption']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Absorb damage for allies within 10 feet',
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Sacrificial Strain',
+                                    description: 'Take +50% of absorbed damage as extra harm',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Protecting others causes additional damage to yourself'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'multi',
+                            rangeType: 'ranged',
+                            rangeDistance: 10,
+                            maxTargets: 5,
+                            targetRestrictions: ['ally']
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'deep_sight_grimheart',
                         name: 'Deep Sight',
-                        description: 'Darkvision 120 feet and can see through magical darkness, but bright light causes disadvantage on attack rolls.',
-                        type: 'perception'
+                        description: 'Enhanced vision adapted to the darkness of the deep earth.',
+                        level: 1,
+                        icon: 'ability_rogue_findweakness',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'earth',
+                            secondaryElement: 'darkness',
+                            icon: 'ability_rogue_findweakness',
+                            tags: ['darkvision', 'perception', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Superior Darkvision',
+                                    description: 'Darkvision extends to 120 feet',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'See in darkness up to 120 feet'
+                                    }
+                                },
+                                {
+                                    name: 'Magical Darkness Penetration',
+                                    description: 'Can see through magical darkness',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Magical darkness does not impede vision'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
-                        name: 'Stone Ward',
-                        description: 'Can create protective stone barriers, but each use drains 1 point of Constitution until long rest.',
-                        type: 'utility'
+                        id: 'stone_vulnerability_grimheart',
+                        name: 'Stone Vulnerability',
+                        description: 'Your stone-hardened body conducts electricity dangerously and can be shattered by lightning.',
+                        level: 1,
+                        icon: 'spell_nature_lightning',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'lightning',
+                            icon: 'spell_nature_lightning',
+                            tags: ['vulnerability', 'lightning', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Lightning Vulnerability',
+                                    description: 'Take +50% damage from lightning sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Conductive Body',
+                                    description: 'Lightning damage can chain to nearby allies',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Lightning strikes may arc to nearby creatures'
+                                    }
+                                },
+                                {
+                                    name: 'Stone Shattering',
+                                    description: 'Massive lightning damage can temporarily reduce armor',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Electrical forces can crack stone-hardened defenses'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
@@ -309,32 +1064,158 @@ export const RACE_DATA = {
             },
             forgemaster: {
                 id: 'forgemaster_grimheart',
-                name: 'Stone-Smiths',
+                name: 'Stone Smith',
                 description: 'Hands permanently marked by forge burns and metal work, fingertips calloused into patterns. Forearms scarred from sparks and hot metal. Eyes squinted from years staring into forge fire. Skin shows a reddish tint from constant heat exposure mixed with the gray stone-hardening. Many have missing fingers or fused joints from accidents. They move with purpose, every gesture precise from years of craft.',
                 culturalBackground: `The Stone-Smiths claim descent from the first smiths who learned to work metal in volcanic forges deep beneath the mountains. Their tradition requires that every member apprentice for years in the heat of geothermal workshops. Learning techniques passed down through generations. Stone-Smith halls are built around volcanic vents. Forges fueled by the earth's inner fire. Through generations of working with stone and metal, their bloodline has adapted. Stone-hardened skin allowing them to handle materials that would burn others. Hands shaped by years of precise craft. Members practice ancient smithing techniques. How to read metal grain. How to forge weapons that never break. How to shape stone with tools that seem to move on their own. The bloodline values perfection and mastery. Honor measured in items crafted and techniques mastered. But the forge demands constant work. Many Stone-Smiths find themselves unable to rest. Driven to create until their bodies become one with their masterworks. They are the master craftsmen of Grimheart society. Their creations legendary but their obsession consuming.`,
                 statModifiers: {
                     constitution: 3,
                     strength: 2,
-                    agility: -2,
-                    intelligence: 2,
-                    spirit: 2,
-                    charisma: -1
+                    agility: -2
                 },
                 traits: [
                     {
-                        name: 'Earth\'s Forge',
-                        description: 'Can shape metal and stone with bare hands, creating masterwork items with half the normal time and cost. However, you are COMPELLED to craft - must spend at least 4 hours per day creating items or suffer -2 to all rolls from restlessness. Items you create carry faint whispers from the deep earth that unsettle those who use them.',
-                        type: 'crafting'
-                    },
-                    {
+                        id: 'stone_resilience_grimheart',
                         name: 'Stone Resilience',
-                        description: 'Resistant to fire and poison damage (takes half damage). Your stone-hardened flesh provides +1 Armor. However, you are vulnerable to acid damage (takes double damage) as your stone body dissolves more easily than flesh.',
-                        type: 'defense'
+                        description: 'Your stone-hardened flesh resists fire and poison, providing natural protection.',
+                        level: 1,
+                        icon: 'spell_fire_fire',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'earth',
+                            secondaryElement: 'stone',
+                            icon: 'spell_fire_fire',
+                            tags: ['resistance', 'fire', 'poison', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Fire Resistance',
+                                    description: 'Resistance to fire damage (take half damage)',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Take half damage from fire sources'
+                                    }
+                                },
+                                {
+                                    name: 'Poison Resistance',
+                                    description: 'Resistance to poison damage (take half damage)',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Take half damage from poison sources'
+                                    }
+                                },
+                                {
+                                    name: 'Stone Armor',
+                                    description: 'Natural armor provides +1 to AC',
+                                    statModifier: {
+                                        stat: 'armor_class',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
-                        name: 'Master\'s Touch',
-                        description: 'Items you craft gain +1 to attack rolls or armor bonus, but you feel their use and destruction. When an item you created is destroyed, you take 1d6 psychic damage. You cannot create more than one item per long rest due to the spiritual investment required.',
-                        type: 'crafting'
+                        id: 'forge_craft_grimheart',
+                        name: 'Forge Craft',
+                        description: 'Channel the power of the earth to temporarily enhance weapons and armor with stone-hardening.',
+                        level: 1,
+                        icon: 'inv_hammer_20',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'earth',
+                            secondaryElement: 'crafting',
+                            icon: 'inv_hammer_20',
+                            tags: ['enhancement', 'weapons', 'armor', 'crafting']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    statModifier: {
+                                        stat: 'weapon_damage',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    statModifier: {
+                                        stat: 'armor_class',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'hours',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'touch',
+                            targetRestrictions: ['object']
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
+                    },
+                    {
+                        id: 'stone_frailty_forgemaster',
+                        name: 'Stone Frailty',
+                        description: 'Your stone-hardened flesh is vulnerable to acids that dissolve mineral matter.',
+                        level: 1,
+                        icon: 'spell_nature_acid_01',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'acid',
+                            icon: 'spell_nature_acid_01',
+                            tags: ['vulnerability', 'acid', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Acid Vulnerability',
+                                    description: 'Take +50% damage from acid sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Stone Dissolution',
+                                    description: 'Acid damage reduces your natural armor temporarily',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Acid damage can weaken your stone-hardened defenses'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
@@ -361,37 +1242,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Ethereal'],
             lifespan: '130-170 years',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'4" - 6\'0"',
+            weight: '110-160 lbs',
+            build: 'Slender and ethereal'
         },
         subraces: {
             medium: {
                 id: 'medium_vheil',
-                name: 'Spirit-Talkers',
+                name: 'Spirit Talker',
                 description: 'Palest of all Vheil, skin nearly translucent. Eyes completely black, reflecting only the other side. Voices carry unnatural echoes, layers of sound as if multiple voices speak at once. Skin grows colder with each spirit communed. Many develop a habit of speaking to empty air. Fingers often show signs of frostbite despite never being in cold weather.',
                 culturalBackground: `The Spirit-Talkers trace their lineage to the first mediums who learned to speak with the dead and commune with wandering spirits. Their tradition requires that every member undergo initiation rites during their fifteenth year. Nights spent in graveyards and thin places where their connection to the other side awakens. Spirit-Talker voices carry unnatural echoes. Normal conversation unsettles those who listen. A sign that spirits speak through them. Members serve as mediators, negotiators, guides. Helping the dead find peace and the living understand what lies beyond. They practice ancient rituals passed down through generations. How to call spirits. How to negotiate with the restless. How to sever connections before they consume you. But each conversation chips away at their humanity. Pale skin grows paler with each spirit they commune with. Eyes darkening until they reflect only what lies beyond. The bloodline values service and mediation. Honor measured in spirits laid to rest and connections severed before they consume. They are the bridge-builders of Vheil society. Both necessary and feared for what they become.`,
                 statModifiers: {
-                    constitution: -2,
-                    strength: -2,
-                    agility: 1,
+                    spirit: 3,
                     intelligence: 2,
-                    spirit: 4,
-                    charisma: 3
+                    constitution: -2
                 },
                 traits: [
                     {
-                        name: 'Spirit Communication',
-                        description: 'Can speak with spirits and undead, gaining valuable information, but spirits may demand favors or become hostile. You cannot refuse a spirit\'s request once communication begins - failing to complete their task causes 2d6 psychic damage and disadvantage on all rolls for 24 hours. Spirits are drawn to you - random encounters with undead/spirits are 3x more likely.',
+                        name: 'Spirit Communion',
+                        description: 'Can commune with spirits for information (2 AP). Gain advantage on one Intelligence or Spirit check.',
                         type: 'communication'
                     },
                     {
                         name: 'Ethereal Sight',
-                        description: 'Can see into the Ethereal Plane and detect invisible creatures, but suffer constant visions that impose -2 to Perception in combat and -1 to all attack rolls (you see too many layers of reality). In areas with strong spiritual activity, you must make Spirit saves (DC 12) each round or be frightened by the overwhelming visions.',
+                        description: 'Can see into the Ethereal Plane and detect invisible creatures within 30 feet.',
                         type: 'perception'
                     },
                     {
-                        name: 'Spiritual Guidance',
-                        description: 'Once per day, can ask spirits for guidance on a decision, gaining advantage on next ability check, but you MUST follow their advice exactly or suffer a curse that causes disadvantage on all rolls of that type for 1 week. The spirits are not always benevolent - their advice may lead you into danger.',
-                        type: 'divination'
+                        name: 'Radiant Vulnerability',
+                        description: 'Vulnerable to radiant damage (+50% damage) as your connection to the spirit realm makes you susceptible to purifying holy energies.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Ethereal', 'Celestial'],
@@ -399,32 +1280,29 @@ export const RACE_DATA = {
             },
             walker: {
                 id: 'walker_vheil',
-                name: 'Between-Walkers',
+                name: 'Between Walker',
                 description: 'Forms blur at the edges, as if not fully present. Skin sometimes semi-transparent in certain light. Eyes flicker between normal and seeing through reality. Many have a habit of phasing slightly, their outline wavering. Hands sometimes pass through objects without meaning to. Movement is fluid, gliding rather than walking. Their presence feels unstable, like they could vanish at any moment.',
                 culturalBackground: `The Between-Walkers claim descent from the first explorers who learned to step through the spaces between worlds. Their tradition requires that every member spend years training in the thin places. Learning to navigate boundaries where reality grows unstable. Between-Walkers are raised from childhood to sense planar rifts. Their instincts honed by generations of walking between worlds. They serve as messengers, guides, explorers. Traveling paths that exist only in the spaces between. Members learn ancient techniques passed down through generations. How to find gaps in reality. How to step through shadows that shouldn't exist. How to navigate the liminal spaces without getting lost. But walking between worlds takes its toll. Prolonged exposure leaves them disoriented. Forms blurring at the edges. Connection to any single reality weakening. Many Between-Walkers develop strange habits. Speaking to shadows. Following paths that lead nowhere. The bloodline values exploration and service. Honor measured in messages delivered and travelers guided safely through dangerous boundaries. They are the pathfinders of Vheil society. Trusted with tasks that require traversing impossible spaces.`,
                 statModifiers: {
-                    constitution: -1,
-                    strength: -1,
                     agility: 3,
-                    intelligence: 3,
-                    spirit: 3,
-                    charisma: -1
+                    intelligence: 2,
+                    constitution: -3
                 },
                 traits: [
                     {
-                        name: 'Plane Shift',
-                        description: 'Can briefly step into the Ethereal Plane to avoid attacks (once per short rest), but risk getting lost between planes.',
+                        name: 'Ethereal Step',
+                        description: 'Can briefly step into the Ethereal Plane to avoid attacks (2 AP). Once per short rest.',
                         type: 'movement'
                     },
                     {
                         name: 'Reality Anchor',
-                        description: 'Immune to forced planar travel and can stabilize dimensional rifts, but you are vulnerable to force damage (take double damage from force attacks).',
+                        description: 'Immune to forced planar travel and can stabilize dimensional rifts.',
                         type: 'utility'
                     },
                     {
-                        name: 'Veil Walker',
-                        description: 'Can phase through walls for 1 round (once per long rest), but become vulnerable to all damage types (take double damage from all sources) for 1 minute afterward as your form struggles to fully rematerialize.',
-                        type: 'movement'
+                        name: 'Force Vulnerability',
+                        description: 'Vulnerable to force damage (+50% damage) as your tenuous connection to reality makes you susceptible to energies that disrupt planar boundaries.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Ethereal', 'Abyssal'],
@@ -451,37 +1329,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Changeling'],
             lifespan: '70-90 years',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'6" - 6\'2"',
+            weight: '140-200 lbs',
+            build: 'Variable and adaptable'
         },
         subraces: {
             doppel: {
                 id: 'doppel_mimir',
-                name: 'Face-Thieves',
+                name: 'Face Thief',
                 description: 'Features shift constantly, never settling. Skin ripples like water when they transform. Hands adept at copying gestures, voice mimics perfectly. Eyes that study faces with predatory intensity. Many keep collections of stolen faces in small mirrors. Their own reflection shows multiple overlapping faces. Some develop twitches from holding forms too long.',
                 culturalBackground: `The Face-Thieves trace their lineage to the first Mimir who mastered perfect impersonation. Learning to reshape their flesh like living clay. Their tradition requires that every member apprentice as spies and infiltrators. Learning to copy faces, voices, mannerisms with flawless precision. Face-Thief communities are hidden networks of deception. Members serving as spies, assassins, information brokers. They practice ancient techniques passed down through generations. How to read a face to copy it perfectly. How to adopt mannerisms and speech patterns. How to become anyone they touch. But each transformation costs a piece of their original self. Memories fade. Habits change. Until they wonder if any face is truly theirs. Prolonged disguise leads to personality bleed. Copied person's traits overwrite their own. Many Face-Thieves lose themselves entirely. Becoming permanent copies of others. Original identity shattered like a dropped mirror. The bloodline values skill and perfection. Honor measured in identities stolen and secrets extracted. They are the master deceivers of Mimir society. Their infiltration unmatched but their own identity forever lost.`,
                 statModifiers: {
-                    constitution: -2,
-                    strength: -2,
                     agility: 3,
-                    intelligence: 2,
-                    spirit: 0,
-                    charisma: 4
+                    charisma: 2,
+                    spirit: -2
                 },
                 traits: [
                     {
                         name: 'Perfect Mimicry',
-                        description: 'Can perfectly copy appearance and voice of observed creatures, but each use causes you to lose 1 point of your original identity permanently. After 5 uses without resting, you must make a Spirit save (DC 15) or forget who you originally were for 1d4 hours, believing yourself to be the last person you copied.',
+                        description: 'Can copy appearance and voice of observed creatures (2 AP). Gain advantage on disguise checks.',
                         type: 'illusion'
                     },
                     {
                         name: 'Adaptive Form',
-                        description: 'Can alter physical features to gain advantage on disguise checks, but suffer severe identity confusion - you have -2 to Wisdom saves and cannot remember your own original appearance without looking in a mirror. Extended use (more than 4 hours in a single form) risks becoming permanently stuck in that form.',
+                        description: 'Can alter physical features for disguise or advantage on social checks (1 AP).',
                         type: 'utility'
                     },
                     {
-                        name: 'Mirror Memory',
-                        description: 'Can access surface memories of copied forms, but risk personality bleed that affects decision-making. Each memory you access has a 20% chance to overwrite one of your own memories permanently. You may forget important personal details, loyalties, or goals.',
-                        type: 'mental'
+                        name: 'Silver Vulnerability',
+                        description: 'Vulnerable to silver weapons and radiant damage (+50% damage) due to your shapeshifting curse. Silver weapons ignore your damage resistance.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Thieves\' Cant'],
@@ -493,28 +1371,25 @@ export const RACE_DATA = {
                 description: 'Features shift randomly, never fully settling on one form. Eyes show multiple colors at once, fractured like stained glass. Movements are jerky, as if controlled by different minds. Many keep journals of memories they are trying to preserve. Speech patterns change mid-sentence. Some have physical fractures visible on their skin, lines where their form breaks apart. They avoid all reflective surfaces.',
                 culturalBackground: `The Shattered trace their lineage to Mimir whose sense of self broke under the weight of too many transformations. Their tradition is one of recovery and memory-keeping. Communities built around preserving what fragments of identity remain. Shattered communities are quiet places of reflection. Members avoiding mirrors and focusing on the few memories they can hold onto. They practice ancient memory-keeping techniques. How to preserve identity fragments. How to resist personality bleed. How to piece together who they might have been. But their minds are kaleidoscopes of stolen memories and fading recollections. Personalities shifting with the light. A Shattered might act like a child one moment and a sage the next. Fractured mind making them unpredictable. They hoard shards of identity like precious gems. Desperately trying to piece together who they were before the breaking. The bloodline values memory and stability. Honor measured in fragments preserved and identities remembered. They are the memory-keepers of Mimir society. Pitied for their broken state but respected for what they remember.`,
                 statModifiers: {
-                    constitution: -2,
-                    strength: -2,
-                    agility: 2,
                     intelligence: 3,
                     spirit: 2,
-                    charisma: 1
+                    agility: 1
                 },
                 traits: [
                     {
                         name: 'Fractured Mind',
-                        description: 'Resistance to charm and fear effects due to mental fragmentation, but suffer random personality shifts during stress.',
+                        description: 'Resistance to charm and fear effects due to mental fragmentation.',
                         type: 'mental'
                     },
                     {
-                        name: 'Identity Crisis',
-                        description: 'Can temporarily adopt aspects of nearby allies\' abilities, but lose access to own racial traits while doing so.',
-                        type: 'adaptive'
+                        name: 'Memory Fragments',
+                        description: 'Can access random knowledge or skills from fragmented memories (1 AP). Gain advantage on one Intelligence or Spirit check.',
+                        type: 'mental'
                     },
                     {
-                        name: 'Shattered Reflection',
-                        description: 'Can split into multiple illusory copies for 1 round, but each copy shares damage taken.',
-                        type: 'illusion'
+                        name: 'Psychic Vulnerability',
+                        description: 'Vulnerable to psychic damage (+50% damage) as your fractured mind is susceptible to mental intrusions and manipulations.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Deep Speech'],
@@ -541,7 +1416,10 @@ export const RACE_DATA = {
             languages: ['Common', 'Sylvan'],
             lifespan: '250-350 years',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'8" - 6\'4"',
+            weight: '140-220 lbs',
+            build: 'Graceful and elegant'
         },
         subraces: {
             courtly: {
@@ -550,28 +1428,25 @@ export const RACE_DATA = {
                 description: 'Thorns bloom beautifully, often growing flowers alongside the barbs. Skin marked by elegant thorn patterns that shift when contracts are made. Hands precise and careful, many bear small puncture wounds from thorns testing their own honesty. Eyes carry the weight of unbreakable promises. Speech patterns formal, every word chosen carefully. Their thorns serve as living lie detectors, drawing blood from their own hands when they speak false.',
                 culturalBackground: `The Oathbound trace their lineage to the first Briaran who bound themselves to the noble fae courts. Bloodline marked by thorns that bloom with every promise made. Their tradition requires that every member learn the ancient art of contract-making. Apprenticeships spent studying the complex etiquette of fae courts. Oathbound courts are built around negotiation halls where bargains are made. Members serving as diplomats, mediators, deal-makers. They practice ancient techniques passed down through generations. How to craft binding promises. How to read intent in words. How to enforce contracts through thorn and pain. Their thorns serve as living lie detectors. An Oathbound's handshake can draw blood if intentions are false. But they pay dearly. Breaking their own promises causes their thorns to turn inward. Tearing at their flesh from within. The bloodline values honor and precision. Worth measured in contracts fulfilled and promises kept. They are the diplomats of Briaran society. Their word law but their freedom forever bound by the thorns that enforce it.`,
                 statModifiers: {
-                    constitution: -2,
-                    strength: -2,
-                    agility: 2,
-                    intelligence: 3,
-                    spirit: 1,
-                    charisma: 4
+                    charisma: 3,
+                    intelligence: 2,
+                    constitution: -2
                 },
                 traits: [
                     {
-                        name: 'Fae Bargain',
-                        description: 'Can make magical contracts that compel truth and compliance, but you are MAGICALLY BOUND to honor every agreement you make or witness. Breaking a bargain causes 2d6 psychic damage and you cannot regain HP until you fulfill your obligation. You cannot lie under any circumstances - attempting to do so causes physical pain.',
+                        name: 'Binding Oath',
+                        description: 'Can create magical contracts (2 AP). Targets must succeed on Spirit save (DC 14) or be bound by terms. You are also bound by your own contracts.',
                         type: 'social'
                     },
                     {
                         name: 'Court Etiquette',
-                        description: 'Advantage on social interactions with nobility and fae, but you MUST follow strict behavioral codes (no direct insults, proper titles, formal greetings). Violating etiquette causes disadvantage on all social rolls for 24 hours and thorns grow from your skin dealing 1d4 damage per violation.',
+                        description: 'Advantage on social interactions with nobility and fae creatures.',
                         type: 'social'
                     },
                     {
-                        name: 'Thorn Crown',
-                        description: 'Can command plant growth and entangle enemies, but each use causes thorns to grow from your skin dealing 1d4 damage and giving you -1 to Constitution saves for 1 hour. In combat, this stacks quickly.',
-                        type: 'nature'
+                        name: 'Iron Vulnerability',
+                        description: 'Vulnerable to iron weapons and cold iron damage (+50% damage) due to your fae heritage. Iron disrupts your magical nature.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Sylvan', 'Celestial'],
@@ -583,28 +1458,25 @@ export const RACE_DATA = {
                 description: 'Skin covered in scars where thorns turned inward. Thorns grow twisted and jagged, broken from attempts to remove them. Hands calloused from fighting and survival. Eyes fierce and untamed. Many have thorns still embedded in old wounds, causing constant low pain. They move with primal grace, muscles built from living wild. Hair often tangled with briars and thorns they refuse to remove.',
                 culturalBackground: `The Thornscar trace their lineage to Briaran who broke their fae contracts. Thorns turning inward and scarring their flesh as punishment. Their tradition is one of rejection and freedom. Communities built away from fae courts in wild groves where thorns grow wild. Thornscar settlements are primal places where nature magic runs free. Members serving as warriors, hunters, protectors of the wild. They practice ancient survival arts passed down through generations. How to fight with thorns. How to channel nature's fury. How to live free despite the scars. Their skin is a tapestry of old wounds. Each scar telling a story of obligation rejected and freedom won. But freedom comes at a cost. Their thorns still grow. Still bind. Still cause pain when promises are made. The bloodline values independence and strength. Honor measured in scars earned and chains broken. They are the wild ones of Briaran society. Free from court etiquette but forever marked by the thorns that turned against them.`,
                 statModifiers: {
-                    constitution: 3,
                     strength: 3,
-                    agility: 3,
-                    intelligence: -2,
-                    spirit: 1,
-                    charisma: -3
+                    constitution: 2,
+                    agility: 2
                 },
                 traits: [
                     {
                         name: 'Briar Form',
-                        description: 'Can transform into a mass of thorny vines, gaining resistance to bludgeoning and slashing damage (takes half damage), but becoming completely immobile and vulnerable to fire damage (takes double damage). Costs 3 AP, lasts 1 minute.',
+                        description: 'Can transform into thorny vines (2 AP). Gain resistance to bludgeoning/slashing damage but become immobile.',
                         type: 'transformation'
                     },
                     {
-                        name: 'Savage Growth',
-                        description: 'Your attacks cause bleeding damage over time, but you cannot use healing magic on yourself.',
+                        name: 'Thorn Strike',
+                        description: 'Natural weapons deal +1 damage and cause bleeding (1d4 damage per round for 3 rounds).',
                         type: 'combat'
                     },
                     {
-                        name: 'Untamed',
-                        description: 'Immune to charm and compulsion effects, but disadvantage on all social interactions in civilized settings.',
-                        type: 'mental'
+                        name: 'Iron Vulnerability',
+                        description: 'Vulnerable to iron weapons and fire damage (+50% damage) due to your broken fae contracts. Iron severs your connection to nature magic.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Sylvan'],
@@ -612,32 +1484,29 @@ export const RACE_DATA = {
             },
             dusk: {
                 id: 'dusk_briaran',
-                name: 'Dusk-Walkers',
+                name: 'Dusk Walker',
                 description: 'Thorns glow faintly in twilight, dimming in daylight and darkness. Skin changes tone with the time of day, darker at dusk. Eyes reflect both day and night, pupils that adjust unnaturally. They seem to fade slightly in bright light and deep dark. Movement is fluid, existing between moments. Their presence feels transient, like they could slip into shadow or light at any moment.',
                 culturalBackground: `The Dusk-Walkers trace their lineage to Briaran who made bargains during the twilight hours. Binding themselves to the boundary between day and night. Their tradition requires that every member learn to navigate liminal spaces. Apprenticeships spent mastering the art of existing between worlds. Dusk-Walker communities are built in places where day meets night. Settlements thriving in the twilight hours when the fae courts are closest. They practice ancient boundary-walking techniques passed down through generations. How to exist in two worlds. How to negotiate during transition. How to make bargains that span day and night. Their thorns glow faintly in twilight. Blood running darker as the sun sets. Marking them as creatures of transition. But this boundary existence comes at a cost. They are weakened by both pure daylight and deepest night. Thriving only in the liminal hours. The bloodline values balance and transition. Honor measured in boundaries navigated and worlds bridged. They are the mediators of Briaran society. Existing between court and wild, day and night. Forever bound to the twilight that birthed them.`,
                 statModifiers: {
-                    constitution: -2,
-                    strength: -2,
                     agility: 4,
-                    intelligence: 3,
-                    spirit: 3,
-                    charisma: 1
+                    intelligence: 2,
+                    spirit: 2
                 },
                 traits: [
                     {
                         name: 'Twilight Step',
-                        description: 'Can teleport short distances through shadows, but only during dawn or dusk hours. Costs 2 AP.',
+                        description: 'Can teleport short distances through shadows (2 AP). Only during dawn or dusk.',
                         type: 'movement'
                     },
                     {
                         name: 'Duality',
-                        description: 'Gain advantage on stealth and perception checks, but suffer disadvantage in bright light or total darkness.',
+                        description: 'Advantage on stealth and perception checks in low light.',
                         type: 'perception'
                     },
                     {
-                        name: 'Thorn Veil',
-                        description: 'Can create illusory duplicates made of shadow and thorns, but each use drains 2 HP.',
-                        type: 'illusion'
+                        name: 'Radiant Vulnerability',
+                        description: 'Vulnerable to radiant damage (+50% damage) during daylight and necrotic damage (+50% damage) in darkness due to your twilight nature.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Sylvan', 'Umbral'],
@@ -664,37 +1533,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Druidic'],
             lifespan: '180-220 years',
             baseSpeed: 35,
-            size: 'Medium'
+            size: 'Medium',
+            height: '6\'2" - 7\'2"',
+            weight: '200-350 lbs',
+            build: 'Tall and sturdy'
         },
         subraces: {
             guardian: {
                 id: 'guardian_groven',
-                name: 'Grove-Guardians',
+                name: 'Grove Guardian',
                 description: 'Bark grows in patches across their skin, thickest on arms and chest. Antlers largest of all Groven, branching like ancient trees. Skin shows grain patterns like wood. Roots sometimes visible beneath their feet when they stand still. Many have moss growing in the crevices of their bark. They move slowly but with purpose, their steps settling like roots.',
                 culturalBackground: `The Grove-Guardians trace their lineage to the first Groven who swore to protect ancient forests. Bloodline marked by deep bonds with specific groves. Their tradition requires that every member bond with a sacred grove during their sixteenth year. Flesh slowly growing bark as the bond deepens. Grove-Guardian settlements are built within the heart of ancient forests. Members serving as protectors, sentinels, living fortresses. They practice ancient guardian techniques passed down through generations. How to call roots from the earth. How to grow thorns as weapons. How to hear the forest warnings days before threats arrive. But this connection demands sacrifice. They cannot abide the cutting of living wood. Proximity to dead forests causes them physical pain. Many Grove-Guardians become hermits in their bonded groves. Bodies slowly becoming indistinguishable from the trees they protect. The bloodline values protection and duty. Honor measured in threats prevented and groves preserved. They are the shield-wall of Groven society. Their bond with nature unmatched but their freedom forever tied to the groves they guard.`,
                 statModifiers: {
                     constitution: 3,
-                    strength: 3,
-                    agility: 1,
-                    intelligence: -1,
-                    spirit: 3,
-                    charisma: -2
+                    strength: 2,
+                    agility: -2
                 },
                 traits: [
                     {
                         name: 'Forest Guardian',
-                        description: 'Can sense threats to natural areas within 1 mile and gain combat bonuses when defending nature, but become enraged when witnessing environmental destruction.',
+                        description: 'Sense threats to natural areas within 1 mile. Gain +1 AC when defending nature.',
                         type: 'nature'
                     },
                     {
-                        name: 'Antler Charge',
-                        description: 'Can make devastating charge attacks with antlers, but become stuck if you miss and hit a wall or tree.',
+                        name: 'Antler Strike',
+                        description: 'Natural weapons deal +1 damage. Can charge through difficult terrain.',
                         type: 'combat'
                     },
                     {
-                        name: 'Nature\'s Ally',
-                        description: 'Can communicate with and request aid from forest animals, but must provide favors in return.',
-                        type: 'communication'
+                        name: 'Fire Vulnerability',
+                        description: 'Vulnerable to fire damage (+50% damage) due to your deep connection to living wood and nature.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Beast Speech'],
@@ -702,32 +1571,29 @@ export const RACE_DATA = {
             },
             wanderer: {
                 id: 'wanderer_groven',
-                name: 'Trail-Walkers',
+                name: 'Trail Walker',
                 description: 'Lean and wiry from constant movement. Antlers smaller, often broken from travel. Feet heavily calloused, able to walk over rough terrain without pain. Eyes constantly scanning the horizon. Skin weathered by sun and wind. They carry the smell of distant places. Many have small scars from thorns and rocks. They seem to fade slightly when standing still, restless energy visible.',
                 culturalBackground: `The Trail-Walkers trace their lineage to Groven who rejected grove bonds for the freedom of endless wandering. Bloodline marked by the call of the horizon. Their tradition requires that every member learn the ancient migration routes. Apprenticeships spent following seasonal paths that their ancestors walked. Trail-Walker communities are nomadic. Following herds and seasons across vast territories. Members serving as guides, scouts, messengers between distant groves. They practice ancient pathfinding techniques passed down through generations. How to read ley lines. How to find water in deserts. How to navigate by the stars and the earth energy. Their bodies adapt to long travel. Feet becoming calloused and sure. Senses sharpening to detect threats miles away. But the call to wander never stops. They become restless in settlements. Dreaming of open skies and untamed lands. The bloodline values freedom and exploration. Honor measured in paths walked and messages delivered. They are the wanderers of Groven society. Free from grove bonds but forever bound to the endless trail.`,
                 statModifiers: {
-                    constitution: 1,
-                    strength: -1,
                     agility: 4,
-                    intelligence: 2,
-                    spirit: 3,
-                    charisma: -1
+                    spirit: 2,
+                    intelligence: 1
                 },
                 traits: [
                     {
-                        name: 'Seasonal Migration',
-                        description: 'Gain different bonuses based on current season, but suffer penalties when staying in one place too long.',
+                        name: 'Seasonal Adaptation',
+                        description: 'Gain advantage on Survival checks during current season. Disadvantage during opposite season.',
                         type: 'adaptive'
                     },
                     {
                         name: 'Pathfinder',
-                        description: 'Cannot become lost and can find the fastest route to any destination, but feel compelled to keep moving.',
+                        description: 'Cannot become lost in natural environments. Gain advantage on navigation.',
                         type: 'movement'
                     },
                     {
-                        name: 'Weather Sense',
-                        description: 'Can predict weather changes and natural disasters, but become restless and distracted during storms.',
-                        type: 'divination'
+                        name: 'Poison Vulnerability',
+                        description: 'Vulnerable to poison damage (+50% damage) due to your constant exposure to wild environments and toxins.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Primordial'],
@@ -735,32 +1601,29 @@ export const RACE_DATA = {
             },
             shaman: {
                 id: 'shaman_groven',
-                name: 'Spirit-Speakers',
+                name: 'Spirit Speaker',
                 description: 'Antlers decorated with bones and feathers. Eyes shift between normal and animal-like, pupils dilating unnaturally. Necklaces of animal teeth and bones clatter when they move. Skin marked with ritual scars from spirit-binding ceremonies. Many have animalistic mannerisms, twitches that mirror the spirits they commune with. Their voices sometimes carry animal sounds, growls or bird calls bleeding through.',
                 culturalBackground: `The Spirit-Speakers trace their lineage to the first Groven shamans who learned to commune with the spirits of beasts and ancestors. Bloodline marked by deep spiritual connections. Their tradition requires that every member undergo vision quests during their eighteenth year. Learning to hear the voices of every animal that ever died. Spirit-Speaker communities are built around sacred circles where the boundary between worlds grows thin. Members serving as shamans, mediators, spirit-callers. They practice ancient rituals passed down through generations. How to summon spirit beasts. How to divine from animal bones. How to channel primal energies through their antlers. They wear necklaces of animal teeth and bones. Each one a connection to the spirits they call upon. But this communion comes at a cost. They share the beasts primal instincts. Sometimes losing themselves to animal rage or cunning. Many Spirit-Speakers live in isolation. Minds filled with too many voices to maintain normal relationships. The bloodline values wisdom and spiritual connection. Honor measured in spirits communed with and knowledge gained. They are the spirit-keepers of Groven society. Their connection to the other side unmatched but their sanity forever fractured by too many voices.`,
                 statModifiers: {
-                    constitution: 0,
-                    strength: -2,
-                    agility: 1,
-                    intelligence: 3,
-                    spirit: 4,
-                    charisma: 2
+                    spirit: 3,
+                    intelligence: 2,
+                    constitution: -2
                 },
                 traits: [
                     {
                         name: 'Spirit Communion',
-                        description: 'Can speak with nature spirits for guidance and aid, but you MUST perform daily rituals and offerings (costing 50gp in materials per day) or the spirits become hostile. Neglecting spirits for more than 2 days causes them to curse you - disadvantage on all rolls until you make amends. Spirits often demand favors that may conflict with your goals.',
+                        description: 'Can commune with nature spirits (2 AP). Gain advantage on one Nature or Spirit check.',
                         type: 'spiritual'
                     },
                     {
                         name: 'Elemental Affinity',
-                        description: 'Can channel elemental forces for various effects, but you become VULNERABLE (take double damage) to opposing elements. Using fire magic makes you vulnerable to cold, water makes you vulnerable to lightning, etc. The vulnerability lasts for 1 hour after using elemental powers.',
+                        description: 'Can channel elemental forces for minor effects (1 AP).',
                         type: 'elemental'
                     },
                     {
-                        name: 'Ancestral Wisdom',
-                        description: 'Can access memories of previous shamans for knowledge, but risk being overwhelmed by ancient experiences. Each use requires a Spirit save (DC 15) or you become confused for 1d4 rounds, unable to distinguish between your memories and those of ancestors. Extended use can cause permanent personality shifts.',
-                        type: 'knowledge'
+                        name: 'Radiant Vulnerability',
+                        description: 'Vulnerable to radiant damage (+50% damage) due to your deep spiritual connection to nature and elemental forces.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Elemental'],
@@ -771,28 +1634,25 @@ export const RACE_DATA = {
                 name: 'Rootrunner',
                 description: 'Smallest of all Groven, standing shorter than most. Antlers small and delicate, often hidden. Skin smoother, less bark-like. Feet quick and light, making little sound. Eyes dart constantly, always aware of surroundings. They blend into natural environments easily, becoming hard to spot when still. Hair often braided with small plants and flowers.',
                 statModifiers: {
-                    constitution: 1,
-                    strength: -3,
-                    agility: 4,
-                    intelligence: 2,
-                    spirit: 2,
-                    charisma: 3
+                    agility: 3,
+                    charisma: 2,
+                    constitution: -2
                 },
                 traits: [
                     {
                         name: 'Naturally Stealthy',
-                        description: 'Can attempt to hide even when only obscured by a creature that is at least one size larger than you. However, your small size makes you vulnerable - you take +50% damage from Large or larger creatures and have disadvantage on Strength-based saves.',
+                        description: 'Advantage on Stealth checks in natural environments.',
                         type: 'stealth'
                     },
                     {
                         name: 'Lucky',
-                        description: 'When you roll a 1 on an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll. However, you cannot benefit from this again until you complete a short rest. Over-relying on luck leaves you exhausted.',
+                        description: 'Once per short rest, reroll a 1 on any d20 roll.',
                         type: 'luck'
                     },
                     {
-                        name: 'Brave',
-                        description: 'You have advantage on saving throws against being frightened, but your bravery can become recklessness - you must make a Spirit save (DC 12) to retreat from dangerous situations, often leading you into harm.',
-                        type: 'mental'
+                        name: 'Size Vulnerability',
+                        description: 'Vulnerable to damage from Large or larger creatures (+50% damage) due to your small stature.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Halfling', 'Druidic'],
@@ -819,7 +1679,10 @@ export const RACE_DATA = {
             languages: ['Common', 'Ignan'],
             lifespan: '100-140 years',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'6" - 6\'2"',
+            weight: '160-240 lbs',
+            build: 'Muscular and fiery'
         },
         subraces: {
             forgeborn: {
@@ -828,28 +1691,25 @@ export const RACE_DATA = {
                 description: 'Skin hottest of all Ashkar, sometimes glowing faintly red. Hands permanently marked by burns and calluses from working hot metal. Eyes glow brightest, like embers in darkness. Many have lost fingers or have fused joints from accidents. Their touch can ignite paper. Clothing often singed at the edges. They sweat constantly, but it evaporates immediately.',
                 culturalBackground: `The Forge-Hearth trace their lineage to the first Ashkar smiths who mastered working with volcanic fire. Bloodline marked by deep bonds with the forge. Their tradition requires that every member apprentice for years in the hottest forges. Learning to shape metal with bare hands heated to impossible temperatures. Forge-Hearth clans are built around master forges that burn day and night. Members serving as craftsmen, smiths, creators of legendary weapons. They practice ancient smithing techniques passed down through generations. How to channel the Fire Within. How to work metal without tools. How to craft weapons that remember their forging. Their skin burns hot to the touch. Eyes glowing like banked coals. Presence capable of warming rooms or igniting dry tinder. But the fire demands constant fuel. They must create or destroy. Or the flames consume them from within. Many Forge-Hearth become hermit smiths in volcanic caverns. Bodies slowly becoming one with the lava flows. The bloodline values mastery and creation. Honor measured in items crafted and techniques perfected. They are the master smiths of Ashkar society. Their craft unmatched but their bodies forever marked by the fire that powers them.`,
                 statModifiers: {
-                    constitution: 3,
                     strength: 4,
-                    agility: -2,
-                    intelligence: 3,
-                    spirit: 0,
-                    charisma: -2
+                    constitution: 2,
+                    intelligence: 1
                 },
                 traits: [
                     {
                         name: 'Forge Heart',
-                        description: 'Can heat metal with touch and work without tools, but body temperature damages equipment and allies.',
+                        description: 'Can work metal without tools (2 AP). Items gain +1 damage or AC.',
                         type: 'crafting'
                     },
                     {
                         name: 'Fire Immunity',
-                        description: 'Immune to fire damage (takes no damage) and can walk through lava unharmed, but you are vulnerable to cold damage (take double damage from cold attacks).',
+                        description: 'Immune to fire damage and can walk through lava unharmed.',
                         type: 'resistance'
                     },
                     {
-                        name: 'Molten Strike',
-                        description: 'Weapons become red-hot dealing extra fire damage, but have chance to break from heat stress.',
-                        type: 'combat'
+                        name: 'Cold Vulnerability',
+                        description: 'Vulnerable to cold damage (+50% damage) as your inner fire can be extinguished by extreme cold.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Terran'],
@@ -857,32 +1717,29 @@ export const RACE_DATA = {
             },
             cinderborn: {
                 id: 'cinderborn_emberth',
-                name: 'Ash-Runners',
+                name: 'Ash Runner',
                 description: 'Lean and fast, built for movement. Feet leave scorch marks when they run. Skin cooler than other Ashkar but still hot. Eyes constantly scanning for paths. Many have ash stains that never wash off. They move with fluid grace, steps leaving smoking embers. Their breath sometimes carries sparks.',
                 culturalBackground: `The Ash-Runners trace their lineage to Ashkar scouts who learned to navigate volcanic wastes. Bloodline marked by speed and endurance in the heat. Their tradition requires that every member spend years training as runners. Learning to dash across molten rock unharmed and read the paths through lava flows. Ash-Runner clans are nomadic. Following geothermal hotspots that shift with the earth moods. Members serving as scouts, messengers, guides across volcanic territories. They practice ancient pathfinding techniques passed down through generations. How to read ash patterns. How to find safe routes through lava flows. How to hide in smoke clouds and ash storms. Their footsteps scorch the earth behind them. Leaving trails of smoking embers that mark their passage for days. But this speed comes at a cost. Their feet are always hot. Leaving burns on anything they touch for too long. Many Ash-Runners become solitary wanderers. Bodies adapted to endless travel across burning lands. The bloodline values speed and duty. Honor measured in messages delivered and paths found. They are the messengers of Ashkar society. Their mobility unmatched but their bodies forever marked by the heat they traverse.`,
                 statModifiers: {
-                    constitution: 1,
-                    strength: 0,
                     agility: 4,
                     intelligence: 2,
-                    spirit: 2,
-                    charisma: -1
+                    spirit: 1
                 },
                 traits: [
                     {
                         name: 'Ember Trail',
-                        description: 'Leave a trail of harmless embers that can be followed or used for signaling, but also makes you easy to track.',
+                        description: 'Leave a trail of embers for tracking or signaling (1 AP).',
                         type: 'movement'
                     },
                     {
                         name: 'Ash Cloud',
-                        description: 'Can create concealing ash clouds for escape, but the ash irritates allies\' eyes and breathing.',
+                        description: 'Create concealing ash cloud (2 AP). Grants advantage on Stealth.',
                         type: 'utility'
                     },
                     {
-                        name: 'Heat Dash',
-                        description: 'Can move at double speed leaving fire damage in your wake, but become exhausted afterward.',
-                        type: 'movement'
+                        name: 'Cold Vulnerability',
+                        description: 'Vulnerable to cold damage (+50% damage) as extreme cold can quench your inner heat.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Auran'],
@@ -890,32 +1747,29 @@ export const RACE_DATA = {
             },
             warborn: {
                 id: 'warborn_emberth',
-                name: 'War-Forged',
+                name: 'War Forged',
                 description: 'Largest and most muscular of Ashkar. Skin covered in battle scars and burn marks. Eyes burn brightest when enraged. Many have weapons fused to their hands from heat. Their war cries sound like volcanic eruptions. In battle, their strikes leave trails of cinders. They smell of blood and smoke.',
                 culturalBackground: `The War-Forged trace their lineage to Ashkar warriors who chose battle over craft. Bloodline marked by endless conflict and volcanic fury. Their tradition requires that every member prove themselves in fighting pits. Apprenticeships spent in endless duels where the weak fall to fuel the strong. War-Forged clans are built around arenas and training grounds. Members serving as warriors, mercenaries, protectors. They practice ancient combat techniques passed down through generations. How to channel rage into strength. How to fight with fire-forged weapons. How to become living weapons in battle. Their skin is a map of old wounds and burn marks. Each scar telling a story of violence survived. In battle, they become living weapons. Strikes leaving trails of cinders. War cries like the roar of erupting volcanoes. But the rage consumes them. They must fight regularly or become restless and irritable. Inner fire turning against them. Many War-Forged become mercenaries or raiders. Following wars like carrion birds follow death. The bloodline values strength and glory. Honor measured in scars earned and battles won. They are the warriors of Ashkar society. Their ferocity unmatched but their souls forever marked by the rage that drives them.`,
                 statModifiers: {
-                    constitution: 3,
                     strength: 4,
-                    agility: 1,
-                    intelligence: -2,
-                    spirit: 2,
-                    charisma: -2
+                    constitution: 2,
+                    spirit: 1
                 },
                 traits: [
                     {
                         name: 'Battle Rage',
-                        description: 'When you reduce an enemy to 0 HP, enter a battle rage (1 AP). Gain +2 to attack rolls and +1d6 fire damage to all attacks for 1 minute. However, you MUST attack the nearest enemy each turn (cannot choose targets) and have disadvantage on Intelligence and Wisdom saves while raging. Once per short rest.',
+                        description: 'Enter battle rage when reducing enemy to 0 HP (1 AP). +2 attack, +1d6 fire damage for 1 minute.',
                         type: 'combat'
                     },
                     {
                         name: 'Scarred Hide',
-                        description: 'Your skin toughened by fire and battle provides +1 Armor. You have advantage on saves against fear effects due to countless battles survived. However, your intimidating appearance gives disadvantage on all Charisma-based social interactions except Intimidation.',
+                        description: '+1 Armor from toughened skin. Advantage on saves against fear.',
                         type: 'defense'
                     },
                     {
-                        name: 'Volcanic Fury',
-                        description: 'Your blood runs hot with inner fire. When below half HP, your unarmed strikes deal 1d4 fire damage. However, you take +50% damage from cold attacks and become sluggish in cold weather (move at half speed in temperatures below 50°F).',
-                        type: 'combat'
+                        name: 'Cold Vulnerability',
+                        description: 'Vulnerable to cold damage (+50% damage) as your inner fire can be quenched by extreme cold.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Ignan'],
@@ -942,37 +1796,166 @@ export const RACE_DATA = {
             languages: ['Common', 'Beast Speech'],
             lifespan: '130-170 years',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'8" - 6\'4"',
+            weight: '170-260 lbs',
+            build: 'Athletic and feral'
         },
         subraces: {
             hunter: {
                 id: 'hunter_vreken',
-                name: 'Beast-Bound',
+                name: 'Beast Bound',
                 description: 'Most bestial of all Vreken. Eyes brightest yellow, pupils slitted like cats. Hands show permanent claw-like nails. Fur visible on arms and legs. Teeth noticeably sharp. They move with predatory grace, always ready to hunt. Many keep animal trophies. Their transformation is smooth, practiced.',
                 culturalBackground: `The Beast-Bound trace their lineage to Vreken who embraced their inner beast completely. Bloodline marked by perfect mastery of the transformation. Their tradition requires that every member learn to call upon their beast form at will. Apprenticeships spent mastering the predatory instincts that come with the curse. Beast-Bound packs serve as hunters and protectors. Members able to transform into perfect predators capable of tracking prey for days. They practice ancient hunting techniques passed down through generations. How to control the transformation. How to channel animal strength. How to hunt with perfect precision. Their eyes gleam with animal cunning. Movements fluid and predatory. But the beast demands tribute. They must hunt regularly. Or the animal rage consumes their remaining humanity. Many Beast-Bound become solitary predators. Living in the wild and only visiting settlements to trade pelts for necessities. The bloodline values strength and mastery. Honor measured in hunts completed and beasts mastered. They are the hunters of Vreken society. Their transformation unmatched but their humanity forever thin over animal instinct.`,
                 statModifiers: {
-                    constitution: 3,
                     strength: 3,
-                    agility: 3,
-                    intelligence: -2,
-                    spirit: 1,
+                    agility: 2,
                     charisma: -3
                 },
                 traits: [
                     {
+                        id: 'beast_form_vreken',
                         name: 'Beast Form',
-                        description: 'Can transform into a predatory animal gaining its abilities, but risk losing human consciousness.',
-                        type: 'transformation'
+                        description: 'Transform into a predatory animal form, gaining enhanced physical abilities and natural weapons.',
+                        level: 1,
+                        icon: 'ability_druid_primaltenacity',
+                        spellType: 'ACTION',
+                        effectTypes: ['transformation', 'buff'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'beast',
+                            icon: 'ability_druid_primaltenacity',
+                            tags: ['transformation', 'beast', 'combat']
+                        },
+                        transformationConfig: {
+                            transformationType: 'animal',
+                            targetType: 'self',
+                            duration: 10,
+                            durationUnit: 'minutes',
+                            power: 'moderate',
+                            specialEffects: ['natural_weapons', 'enhanced_senses', 'animal_traits']
+                        },
+                        buffConfig: {
+                            statModifiers: [
+                                {
+                                    id: 'beast_strength',
+                                    name: 'Strength Enhancement',
+                                    magnitude: 2,
+                                    magnitudeType: 'flat',
+                                    category: 'stat'
+                                },
+                                {
+                                    id: 'beast_agility',
+                                    name: 'Agility Enhancement',
+                                    magnitude: 2,
+                                    magnitudeType: 'flat',
+                                    category: 'stat'
+                                },
+                                {
+                                    id: 'beast_constitution',
+                                    name: 'Constitution Enhancement',
+                                    magnitude: 1,
+                                    magnitudeType: 'flat',
+                                    category: 'stat'
+                                }
+                            ],
+                            durationValue: 10,
+                            durationType: 'minutes',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'predators_instinct_vreken',
                         name: 'Predator\'s Instinct',
-                        description: 'Can track creatures by scent and sense fear, but become aggressive toward weak or injured beings.',
-                        type: 'hunting'
+                        description: 'Enhanced senses allow you to track prey and sense emotional states, but the beast within may take control.',
+                        level: 1,
+                        icon: 'ability_hunter_mastermarksman',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'beast',
+                            icon: 'ability_hunter_mastermarksman',
+                            tags: ['senses', 'tracking', 'passive']
+                        },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            subtype: 'scent',
+                            description: 'Can detect creatures within 60 feet by scent, even through walls. Advantage on tracking checks.',
+                            power: 'minor',
+                            range: 60,
+                            duration: 10,
+                            durationUnit: 'minutes'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    {
+                                        triggerType: 'combat_start',
+                                        conditions: {
+                                            healthPercentage: 50,
+                                            comparison: 'less_than'
+                                        }
+                                    }
+                                ]
+                            }
+                        }
                     },
                     {
-                        name: 'Pack Bond',
-                        description: 'Gain bonuses when fighting alongside beast companions, but suffer penalties when alone.',
-                        type: 'social'
+                        id: 'cursed_vulnerability_vreken',
+                        name: 'Cursed Vulnerability',
+                        description: 'Your shapeshifting curse makes you vulnerable to silver weapons and radiant damage.',
+                        level: 1,
+                        icon: 'spell_holy_harmundeadaura',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'radiant',
+                            icon: 'spell_holy_harmundeadaura',
+                            tags: ['vulnerability', 'curse', 'passive']
+                        },
+                        debuffConfig: {
+                            statModifiers: [
+                                {
+                                    id: 'silver_vulnerability',
+                                    name: 'Silver Vulnerability',
+                                    magnitude: 50,
+                                    magnitudeType: 'percentage',
+                                    category: 'vulnerability'
+                                },
+                                {
+                                    id: 'radiant_vulnerability',
+                                    name: 'Radiant Vulnerability',
+                                    magnitude: 50,
+                                    magnitudeType: 'percentage',
+                                    category: 'vulnerability'
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Primal'],
@@ -980,32 +1963,155 @@ export const RACE_DATA = {
             },
             penitent: {
                 id: 'penitent_vreken',
-                name: 'Chain-Bound',
+                name: 'Chain Bound',
                 description: 'Scars from chains and restraints cover their bodies. Eyes show less animal gleam, more human struggle. Hands bear marks from self-binding. Many wear restraining items even in human form. Their transformation is painful, bones cracking audibly. They show visible strain when resisting the change. Some have permanent partial transformations, stuck between forms.',
                 culturalBackground: `The Chain-Bound trace their lineage to Vreken who fought to maintain control against the beast. Bloodline marked by constant struggle against the transformation. Their tradition requires that every member learn restraint techniques. Apprenticeships spent mastering chains and rituals that prevent the change. Chain-Bound packs serve as teachers and protectors. Members teaching others how to recognize and resist the transformation curse. They practice ancient control techniques passed down through generations. How to chain the beast. How to resist the change. How to maintain humanity despite the curse. Their bodies are covered in self-inflicted wounds from chains and restraints. Reminders of battles won against their inner beast. But their control is fragile. Stress or injury can cause partial transformations. Leaving them stuck between forms. Many Chain-Bound become healers and teachers. Using their experience to help others through their first changes. The bloodline values control and humanity. Honor measured in transformations resisted and humans saved. They are the guardians of Vreken society. Their control unmatched but their bodies forever marked by the chains that bind the beast.`,
                 statModifiers: {
-                    constitution: 1,
-                    strength: -1,
-                    agility: 2,
-                    intelligence: 2,
+                    strength: -2,
                     spirit: 3,
-                    charisma: 2
+                    intelligence: 2
                 },
                 traits: [
                     {
+                        id: 'controlled_transformation_vreken',
                         name: 'Controlled Transformation',
-                        description: 'Can partially transform for specific abilities while maintaining control, but transformations cause pain.',
-                        type: 'transformation'
+                        description: 'Temporarily access beast abilities while maintaining control, but the internal struggle takes its toll.',
+                        level: 1,
+                        icon: 'ability_druid_supriseattack',
+                        spellType: 'ACTION',
+                        effectTypes: ['transformation', 'utility'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'beast',
+                            icon: 'ability_druid_supriseattack',
+                            tags: ['transformation', 'control', 'utility']
+                        },
+                        transformationConfig: {
+                            transformationType: 'physical',
+                            targetType: 'self',
+                            duration: 1,
+                            durationUnit: 'minutes',
+                            power: 'minor',
+                            specialEffects: ['enhanced_senses', 'healing_factor']
+                        },
+                        utilityConfig: {
+                            utilityType: 'utility',
+                            subtype: 'transformation',
+                            description: 'Gain enhanced senses or rapid healing for 1 minute.',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        savingThrow: {
+                            enabled: true,
+                            savingThrowType: 'spirit',
+                            difficultyClass: 14,
+                            saveOutcome: 'partial_immunity'
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'curse_resistance_vreken',
                         name: 'Curse Resistance',
-                        description: 'Resistant to curses and lycanthropy due to existing curse, but you are vulnerable to radiant damage (take double damage from radiant attacks) due to your cursed nature.',
-                        type: 'resistance'
+                        description: 'Your struggle against the beast curse grants resistance to supernatural afflictions.',
+                        level: 1,
+                        icon: 'spell_holy_removecurse',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'protection',
+                            secondaryElement: 'curse',
+                            icon: 'spell_holy_removecurse',
+                            tags: ['resistance', 'curse', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Curse Resistance',
+                                    description: 'Advantage on saves against curses and lycanthropy',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        saveType: 'spirit',
+                                        saveDC: 0,
+                                        saveOutcome: 'negates'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            subtype: 'detection',
+                            description: 'Can sense supernatural afflictions within 30 feet.',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
-                        name: 'Redemptive Sacrifice',
-                        description: 'Can take on others\' curses or afflictions to help them, but worsen your own condition.',
-                        type: 'sacrifice'
+                        id: 'iron_vulnerability_vreken',
+                        name: 'Iron Vulnerability',
+                        description: 'Iron weapons and cold damage exploit your chained nature, weakening your connection to the beast.',
+                        level: 1,
+                        icon: 'inv_ingot_iron',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'cold',
+                            icon: 'inv_ingot_iron',
+                            tags: ['vulnerability', 'iron', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Iron Vulnerability',
+                                    description: 'Take +50% damage from iron weapons',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Cold Vulnerability',
+                                    description: 'Take +50% damage from cold sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Transformation Block',
+                                    description: 'Iron shackles prevent transformation abilities',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Cannot use transformation abilities while bound by iron'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Celestial'],
@@ -1032,37 +2138,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Necril'],
             lifespan: 'Immortal (cursed)',
             baseSpeed: 25,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'6" - 6\'2"',
+            weight: '120-180 lbs',
+            build: 'Gaunt and preserved'
         },
         subraces: {
             hoarder: {
                 id: 'hoarder_neth',
-                name: 'Vault-Keepers',
+                name: 'Vault Keeper',
                 description: 'Bodies most preserved of all Graveworn, decay slowed by proximity to treasures. Eyes constantly scanning, always watching. Hands often show wear from handling coins and gems. Many develop a habit of counting and organizing. Their gaze seems to follow anyone near their guarded items. They move stiffly, joints protesting after centuries of standing guard.',
                 culturalBackground: `The Vault-Keepers trace their lineage to Graveworn who swore oaths to guard treasures until death. Bloodline marked by eternal guardianship of hoards and vaults. Their tradition requires that every member learn to appraise and protect treasures. Apprenticeships spent mastering the art of guarding what was sworn to protect. Vault-Keeper tombs are built around the treasures they guard. Members serving as eternal sentinels in forgotten vaults. They practice ancient guardianship techniques passed down through generations. How to ward against thieves. How to sense the worth of treasures. How to maintain vigilance for centuries. Their presence wards against thieves. Mere gaze causing shadows to deepen and locks to strengthen. But their obsession grows. They begin to see people as potential thieves. Protective instincts turning paranoid. Many Vault-Keepers live in isolation. Tombs becoming prisons of their own making. The bloodline values protection and dedication. Honor measured in treasures guarded and oaths kept. They are the guardians of Graveworn society. Their vigilance unmatched but their souls forever bound by vows that cannot be broken.`,
                 statModifiers: {
-                    constitution: 4,
-                    strength: 3,
-                    agility: -3,
-                    intelligence: 1,
-                    spirit: -2,
-                    charisma: -2
+                    constitution: 3,
+                    strength: 2,
+                    intelligence: 1
                 },
                 traits: [
                     {
                         name: 'Treasure Sense',
-                        description: 'Can detect valuable items within 120 feet and know their approximate worth, but become obsessed with acquiring them.',
+                        description: 'Detect valuable items within 120 feet and know their worth (1 AP).',
                         type: 'detection'
                     },
                     {
                         name: 'Undead Resilience',
-                        description: 'Immune to poison and disease damage, and immune to exhaustion. However, you are vulnerable to radiant damage (take double damage from radiant attacks) and vulnerable to turn undead effects (disadvantage on saves).',
+                        description: 'Immune to poison, disease, and exhaustion.',
                         type: 'undead'
                     },
                     {
-                        name: 'Hoard Guardian',
-                        description: 'Gain combat bonuses when protecting treasure, but suffer penalties when separated from valuables.',
-                        type: 'combat'
+                        name: 'Radiant Vulnerability',
+                        description: 'Vulnerable to radiant damage (+50% damage) as your undead nature is susceptible to holy energies.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Necril', 'Draconic'],
@@ -1070,32 +2176,29 @@ export const RACE_DATA = {
             },
             scholar: {
                 id: 'scholar_neth',
-                name: 'Dust-Scribes',
+                name: 'Dust Scribe',
                 description: 'Bodies covered in dust from handling ancient texts. Fingers stained with ink that never washes off. Eyes glow with accumulated knowledge. They move slowly, carefully, as if afraid to damage something fragile. Many have quills and scrolls always at hand. Their speech sometimes references ancient events as if they happened yesterday.',
                 culturalBackground: `The Dust-Scribes trace their lineage to Graveworn who swore oaths to protect scrolls and secrets until the end of time. Bloodline marked by eternal preservation of knowledge. Their tradition requires that every member learn to preserve and archive knowledge. Apprenticeships spent mastering the art of maintaining perfect memory across centuries. Dust-Scribe tombs are built around libraries and archives. Members serving as eternal scholars in forgotten repositories. They practice ancient preservation techniques passed down through generations. How to maintain perfect memory. How to preserve texts through undeath. How to guard secrets that must never be lost. Their minds are vast repositories of forgotten lore. Capable of recalling any text they have read. They are patient researchers. Capable of spending centuries deciphering ancient mysteries. But this knowledge comes at a cost. They lose touch with current events. Minds filled with too many voices from the past. Many Dust-Scribes become reclusive scholars in forgotten libraries. Bodies slowly crumbling like the pages they protect. The bloodline values knowledge and preservation. Honor measured in secrets guarded and wisdom preserved. They are the archivists of Graveworn society. Their memory unmatched but their souls forever bound by oaths to preserve what others have forgotten.`,
                 statModifiers: {
-                    constitution: 2,
-                    strength: -2,
-                    agility: -2,
-                    intelligence: 4,
+                    intelligence: 3,
                     spirit: 2,
-                    charisma: 0
+                    strength: -2
                 },
                 traits: [
                     {
-                        name: 'Eternal Study',
-                        description: 'Perfect memory and can learn any language or skill given time, but become obsessed with acquiring knowledge.',
+                        name: 'Perfect Memory',
+                        description: 'Perfect recall of everything you\'ve read. Can learn languages and skills permanently.',
                         type: 'knowledge'
                     },
                     {
                         name: 'Deathless Vigil',
-                        description: 'Don\'t need sleep and can work continuously, but lose connection to living world and emotions.',
+                        description: 'No need for sleep. Can work continuously for days.',
                         type: 'undead'
                     },
                     {
-                        name: 'Forbidden Lore',
-                        description: 'Access to dangerous knowledge that can solve problems, but using it risks corruption or madness.',
-                        type: 'knowledge'
+                        name: 'Radiant Vulnerability',
+                        description: 'Vulnerable to radiant damage (+50% damage) as your undead nature is susceptible to purifying holy energies.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Necril', 'All Ancient Languages'],
@@ -1122,37 +2225,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Auran', 'Primordial'],
             lifespan: '60-90 years',
             baseSpeed: 35,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'4" - 6\'0"',
+            weight: '120-180 lbs',
+            build: 'Jittery and energetic'
         },
         subraces: {
             thundercaller: {
                 id: 'thundercaller_volketh',
-                name: 'Lightning-Struck',
+                name: 'Lightning Struck',
                 description: 'Scars form branching patterns like lightning across their skin. These scars glow during storms. Skin feels warm to the touch, like banked electricity. Eyes flash with electrical light when agitated. Their hair stands on end constantly. Many have burns where lightning entered and exited. Their scars ache before storms arrive.',
                 culturalBackground: `The Lightning-Struck trace their lineage to Volketh who survived direct lightning strikes. Bloodline marked by scars that conduct electrical charge. Their tradition requires that every member learn to read storm signs from their own scars. Apprenticeships spent understanding how their damaged flesh reacts to atmospheric pressure. Lightning-Struck bands serve as weather-readers and storm-warners. Members acting as living lightning rods that can sense approaching tempests. They practice ancient survival techniques passed down through generations. How to ground themselves during strikes. How to read scar-pain as weather prediction. How to warn others before storms arrive. Their scars ache before storms. Damaged nerves reacting to atmospheric pressure changes. But this is not a gift. It is nerve damage that makes them suffer. The scars sometimes discharge static. Shocking those who touch them. During calm weather, the damaged nerves settle. But storms bring agony as their scars burn with phantom electricity. The bloodline values warning and protection. Honor measured in storms predicted and lives saved. They are the storm-readers of Volketh society. Their knowledge valuable but their bodies forever marked by the lightning that shaped them.`,
                 statModifiers: {
-                    constitution: 3,
-                    strength: 3,
-                    agility: 1,
-                    intelligence: -1,
-                    spirit: 2,
-                    charisma: 3
+                    charisma: 3,
+                    constitution: 2,
+                    strength: 1
                 },
                 traits: [
                     {
                         name: 'Thunder Voice',
-                        description: 'Your voice carries the power of thunder, dealing sonic damage and stunning enemies. Costs 2 AP, but deafens you temporarily.',
+                        description: 'Voice carries thunder power (2 AP). Deal sonic damage and stun enemies.',
                         type: 'combat'
                     },
                     {
                         name: 'Storm Presence',
-                        description: 'Allies within 30 feet gain bonus to intimidation, but you cannot use stealth effectively.',
+                        description: 'Allies within 30 feet gain intimidation bonus.',
                         type: 'social'
                     },
                     {
-                        name: 'Resonance',
-                        description: 'Can shatter objects and barriers with sonic vibrations, but suffer damage from loud noises.',
-                        type: 'utility'
+                        name: 'Grounding Vulnerability',
+                        description: 'Vulnerable to effects that ground electricity (+50% damage from non-magical metal weapons and water-based attacks).',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Auran', 'Primordial'],
@@ -1160,32 +2263,29 @@ export const RACE_DATA = {
             },
             lightningborn: {
                 id: 'lightningborn_stormborn',
-                name: 'Nerve-Wracked',
+                name: 'Nerve Wracked',
                 description: 'Constant twitches and spasms mark their movement. Eyes dart erratically, unable to focus long. Hands shake, making precise work difficult. Their reflexes are hyperactive, movements jerky. Skin shows burn marks from electrical exposure. Many have trouble speaking clearly, words interrupted by spasms. They move fast but uncontrolled.',
                 culturalBackground: `The Nerve-Wracked trace their lineage to Volketh who were exposed to continuous electrical storms during childhood. Bloodline marked by permanently damaged nervous systems. Their tradition requires that every member learn to function despite neurological damage. Apprenticeships spent mastering control over twitchy reflexes. Nerve-Wracked bands serve as messengers and scouts. Members hyperactive reflexes allowing them to move quickly despite the damage. They practice ancient coping techniques passed down through generations. How to channel twitches into movement. How to think clearly despite electrical interference. How to function when nerves misfire. Their reflexes are hyperactive. Not fast by choice, but twitchy and uncontrolled. Muscles responding to phantom electrical signals. During calm weather, the damage settles and they can think clearly. But storms bring mental chaos as their damaged nerves short-circuit. Many Nerve-Wracked struggle with basic tasks. Nervous systems too damaged for precision work. The bloodline values adaptation and resilience. Honor measured in tasks completed despite the damage. They are the survivors of Volketh society. Their resilience unmatched but their bodies forever marked by currents that flowed through them too long.`,
                 statModifiers: {
-                    constitution: 1,
-                    strength: -1,
                     agility: 4,
-                    intelligence: 3,
-                    spirit: 3,
-                    charisma: -1
+                    intelligence: 2,
+                    spirit: 1
                 },
                 traits: [
                     {
                         name: 'Lightning Reflexes',
-                        description: 'Can move at lightning speed in short bursts, but become exhausted after use. Costs 3 AP.',
+                        description: 'Move at lightning speed in bursts (2 AP), but become exhausted.',
                         type: 'movement'
                     },
                     {
-                        name: 'Chain Lightning',
-                        description: 'Your attacks can arc to nearby enemies, but also risk hitting allies.',
+                        name: 'Chain Reaction',
+                        description: 'Attacks can arc to nearby enemies, but may hit allies.',
                         type: 'combat'
                     },
                     {
-                        name: 'Grounded',
-                        description: 'Immune to lightning damage (takes no damage). However, you are vulnerable to cold damage when wet (take double damage from cold attacks). Additionally, you take 1d4 lightning damage per round when standing in water or during rain.',
-                        type: 'resistance'
+                        name: 'Water Vulnerability',
+                        description: 'Vulnerable to water-based effects (+50% damage from water attacks) as your electrical nature shorts out in conductive fluids.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Auran', 'Primordial'],
@@ -1193,32 +2293,29 @@ export const RACE_DATA = {
             },
             tempest: {
                 id: 'tempest_stormborn',
-                name: 'Wind-Broken',
+                name: 'Wind Broken',
                 description: 'Breathing is labored, audible even at rest. Lungs scarred from pressure damage show in their chest movements. Skin sometimes shows signs of oxygen deprivation, bluish tint around lips. Their breath creates strange air currents when they exert themselves. Many have coughs that never fully heal. They tire easily but push through with determination.',
                 culturalBackground: `The Wind-Broken trace their lineage to Volketh who survived hurricanes and tornadoes that destroyed everything they knew. Bloodline marked by damaged lungs from pressure changes and debris. Their tradition requires that every member learn to function despite respiratory damage. Apprenticeships spent mastering breathing techniques that compensate for scarred lung tissue. Wind-Broken bands serve as fighters and protectors. Members damaged breathing creating unintended air disturbances that confuse enemies. They practice ancient survival techniques passed down through generations. How to breathe despite damage. How to channel panic into strength. How to fight when lungs do not work properly. Their breathing creates strange air currents. Not from power but from scarred lung tissue that does not expand properly. Strong emotions trigger panic attacks that manifest as irregular breathing patterns. Which superstitious folk mistake for weather control. But this is not control. It is trauma response. Their bodies reacting to memories of wind and destruction. Many Wind-Broken develop severe anxiety disorders. Unable to cope with the sounds of wind or approaching storms. The bloodline values strength and survival. Honor measured in battles fought despite the damage. They are the fighters of Volketh society. Their resilience unmatched but their bodies forever marked by the storms that took their homes.`,
                 statModifiers: {
-                    constitution: 3,
                     strength: 4,
-                    agility: 3,
-                    intelligence: -2,
-                    spirit: 2,
-                    charisma: 1
+                    constitution: 2,
+                    agility: 1
                 },
                 traits: [
                     {
                         name: 'Storm Rage',
-                        description: 'Enter a berserk state gaining +3 to attack rolls and +2d6 lightning damage to all attacks, plus resistance to bludgeoning, piercing, and slashing damage (takes half damage). However, you must attack the nearest creature each turn (friend or foe) - you cannot choose targets. Lasts 1 minute or until unconscious. Once per long rest.',
+                        description: 'Enter berserk rage (1 AP). +3 attack, +2d6 lightning damage, resistance to physical damage.',
                         type: 'combat'
                     },
                     {
                         name: 'Eye of the Storm',
-                        description: 'Create a zone of calm around you that protects allies, but you cannot move while maintaining it.',
+                        description: 'Create zone of calm protecting allies (2 AP), but cannot move.',
                         type: 'protection'
                     },
                     {
-                        name: 'Unpredictable',
-                        description: 'Your actions have random bonus effects, but also random penalties.',
-                        type: 'chaos'
+                        name: 'Pressure Vulnerability',
+                        description: 'Vulnerable to pressure effects (+50% damage from crushing/bludgeoning attacks) due to your damaged lungs.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Auran'],
@@ -1245,37 +2342,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Aquan', 'Deep Speech'],
             lifespan: '150-200 years',
             baseSpeed: 25,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'8" - 6\'4"',
+            weight: '180-280 lbs',
+            build: 'Deformed and bulky'
         },
         subraces: {
             abyssal: {
                 id: 'abyssal_drennar',
-                name: 'Crush-Scarred',
+                name: 'Crush Scarred',
                 description: 'Most deformed of all Drennar. Bodies twisted by pressure, bones visibly warped. Movement is slow and painful. Skin glows brightest, patterns marking old injuries. Many have permanently hunched postures. Their joints crack audibly when they move. They struggle to walk on land, their bodies shaped for the deep.',
                 culturalBackground: `The Crush-Scarred trace their lineage to Drennar who survived depths that should have pulverized their bones. Bloodline marked by permanent deformities from crushing pressure. Their tradition requires that every member learn to function despite severe physical damage. Apprenticeships spent mastering movement with deformed skeletons and crushed organs. Crush-Scarred communities serve as deep-miners and abyss-explorers. Members able to survive depths that would kill others because their bodies are already broken. They practice ancient survival techniques passed down through generations. How to move with crushed vertebrae. How to function with damaged joints. How to survive what has already broken them. Their bodies are maps of injuries that never healed properly. Bones warped by forces that reshaped them. They can survive in the deep not from adaptation but because their bodies are already broken. What would kill others has already happened to them. Many Crush-Scarred become reclusive hermits. Unable to interact normally due to their deformities. The bloodline values endurance and survival. Honor measured in depths reached despite the damage. They are the deep-explorers of Drennar society. Their resilience unmatched but their bodies forever marked by the pressure that broke them.`,
                 statModifiers: {
                     constitution: 4,
-                    strength: 2,
-                    agility: -3,
-                    intelligence: 0,
-                    spirit: 2,
-                    charisma: -3
+                    strength: 1,
+                    spirit: 1
                 },
                 traits: [
                     {
                         name: 'Pressure Adaptation',
-                        description: 'Resistant to bludgeoning damage (takes half damage) due to deep-sea adaptation. Can survive at any ocean depth without pressure effects. However, you move at HALF speed on land (10 feet base) and have disadvantage on all agility-based rolls when not in water. Extended time on land (more than 4 hours) causes 1d4 bludgeoning damage per hour from gravity strain.',
+                        description: 'Resistant to bludgeoning damage. Can survive any ocean depth.',
                         type: 'defense'
                     },
                     {
                         name: 'Abyssal Resilience',
-                        description: 'Resistant to cold and acid damage (takes half damage). High Constitution grants substantial HP. However, bright light (sunlight or magical light) causes you to take 1d4 radiant damage per minute and gives disadvantage on all rolls while exposed. You must make Constitution saves (DC 12) each hour in bright light or become exhausted.',
+                        description: 'Resistant to cold and acid damage.',
                         type: 'defense'
                     },
                     {
-                        name: 'Deep Sight',
-                        description: 'Perfect vision in darkness and can see through murky water up to 120 feet. However, you are BLINDED by daylight (treat as blind condition). In bright light, all Perception checks are made with disadvantage and you cannot see creatures more than 30 feet away.',
-                        type: 'perception'
+                        name: 'Light Sensitivity',
+                        description: 'Vulnerable to radiant damage (+50% damage) and blinded by daylight.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Aquan', 'Deep Speech'],
@@ -1283,32 +2380,29 @@ export const RACE_DATA = {
             },
             trench: {
                 id: 'trench_drennar',
-                name: 'Abyss-Walkers',
+                name: 'Abyss Walker',
                 description: 'Bodies compressed from years in the deep. Bones denser, shorter stature. Eyes adapted to absolute darkness, pupils huge. Skin glows with bacterial patterns. They move awkwardly on land, their bodies shaped for pressure. Many have developed webbing between fingers and toes. Their senses are tuned to the deep, struggling on the surface.',
                 culturalBackground: `The Abyss-Walkers trace their lineage to Drennar who were trapped in deep-sea environments for extended periods. Bloodline marked by slow adaptation to crushing pressure through generations. Their tradition requires that every member spend years in the deepest trenches. Learning to function in permanent darkness and crushing pressure. Abyss-Walker communities serve as deep-sea traders and abyss-guides. Members able to navigate crushing depths where others cannot survive. They practice ancient adaptation techniques passed down through generations. How to function with compressed bones. How to see in absolute darkness. How to survive through slow change. Their bodies changed through suffering. Bones compressing. Organs shifting. Senses rewiring to function in permanent darkness. Their bioluminescence is not control but infection. Glowing bacteria that colonized their pressure wounds. Making them visible targets in the dark. Many Abyss-Walkers become solitary because normal interaction is too painful. Deformed bodies making them outcasts. The bloodline values adaptation and endurance. Honor measured in depths survived and changes endured. They are the deep-navigators of Drennar society. Their adaptation unmatched but their bodies forever marked by the slow crushing that shaped them.`,
                 statModifiers: {
-                    constitution: 1,
-                    strength: 2,
                     agility: 4,
-                    intelligence: 3,
-                    spirit: 2,
-                    charisma: -2
+                    intelligence: 2,
+                    constitution: 1
                 },
                 traits: [
                     {
                         name: 'Bioluminescent Lure',
-                        description: 'Can create hypnotic light patterns to lure and confuse prey, but reveals your position.',
+                        description: 'Create hypnotic light patterns (1 AP) to lure and confuse enemies.',
                         type: 'illusion'
                     },
                     {
                         name: 'Ambush Predator',
-                        description: 'Deal double damage on surprise attacks and attacks from hiding, but you have disadvantage on attack rolls and damage rolls in direct, face-to-face combat. This represents your reliance on ambush tactics rather than frontal assaults.',
+                        description: 'Double damage on surprise attacks, but disadvantage in direct combat.',
                         type: 'combat'
                     },
                     {
-                        name: 'Pressure Sense',
-                        description: 'Can detect movement through water pressure changes, but overwhelmed in crowded areas.',
-                        type: 'perception'
+                        name: 'Surface Frailty',
+                        description: 'Vulnerable to radiant damage (+50% damage) and take damage in bright light.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Aquan', 'Deep Speech'],
@@ -1316,32 +2410,29 @@ export const RACE_DATA = {
             },
             twilight: {
                 id: 'twilight_drennar',
-                name: 'Pressure-Torn',
+                name: 'Pressure Torn',
                 description: 'Bodies show signs of violent pressure shifts. Eardrums often burst, hearing damaged. Lungs scarred, breathing labored. Skin shows patterns from pressure damage. They move carefully, as if every movement causes pain. Many have trouble with balance. Their bodies cannot settle in one environment for long.',
                 culturalBackground: `The Pressure-Torn trace their lineage to Drennar who survived rapid pressure changes. Submarine disasters. Diving accidents. Sudden decompression. Bloodline marked by bodies damaged by violent shifts. Their tradition requires that every member learn to function despite constant pain. Apprenticeships spent mastering adaptation to pressure changes that cause agony. Pressure-Torn communities serve as boundary-walkers and pressure-mediators. Members able to move between depths that would kill others. They practice ancient survival techniques passed down through generations. How to function with burst eardrums. How to breathe with scarred lungs. How to survive despite blood vessel damage. Their bodies were damaged by the violent shifts. Eardrums burst. Lungs scarred. Blood vessels permanently damaged. They can function in different environments not from adaptation but because their bodies are already broken. They feel pain everywhere. Belonging nowhere. Many Pressure-Torn become wanderers not by choice but because they cannot stay anywhere long. The pressure changes cause them constant pain. The bloodline values resilience and boundary-walking. Honor measured in transitions survived despite the pain. They are the mediators of Drennar society. Their versatility unmatched but their bodies forever marked by the violent shifts that broke them.`,
                 statModifiers: {
-                    constitution: 2,
-                    strength: 0,
                     agility: 3,
-                    intelligence: 3,
-                    spirit: 2,
-                    charisma: -1
+                    intelligence: 2,
+                    spirit: 1
                 },
                 traits: [
                     {
                         name: 'Adaptive Gills',
-                        description: 'Can breathe both water and air, but need to stay moist or suffer penalties.',
+                        description: 'Can breathe both water and air.',
                         type: 'utility'
                     },
                     {
                         name: 'Chromatic Display',
-                        description: 'Can change bioluminescent patterns for communication and camouflage, costs 1 AP.',
+                        description: 'Change bioluminescent patterns for communication (1 AP).',
                         type: 'utility'
                     },
                     {
-                        name: 'Depth Diver',
-                        description: 'Can rapidly change depth without injury, but sudden pressure changes disorient you.',
-                        type: 'movement'
+                        name: 'Pressure Instability',
+                        description: 'Vulnerable to thunder damage (+50% damage) from pressure waves that worsen your injuries.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Aquan'],
@@ -1368,37 +2459,37 @@ export const RACE_DATA = {
             languages: ['Common', 'Celestial', 'Cosmic'],
             lifespan: 'Unknown',
             baseSpeed: 30,
-            size: 'Medium'
+            size: 'Medium',
+            height: '5\'6" - 6\'2"',
+            weight: '130-190 lbs',
+            build: 'Slender and otherworldly'
         },
         subraces: {
             voidwalker: {
                 id: 'voidwalker_astren',
-                name: 'Void-Walkers',
+                name: 'Void Walker',
                 description: 'Coldest touch of all Astren. Skin pale as starlight, eyes dark like the void. Their presence makes air feel thin. They seem to fade slightly at the edges. Many have trouble staying in one place. Their movements sometimes leave trails of shadow. They speak rarely, voices carrying echoes of empty space.',
                 culturalBackground: `The Void-Walkers trace their lineage to Astren who fell from the empty spaces between stars. Bloodline marked by the cold void that birthed them. Their tradition requires that every member learn to navigate the spaces between reality. Apprenticeships spent mastering the art of walking paths that others cannot see. Void-Walker craters are built in places where the void touches earth. Members serving as navigators and seekers of hidden knowledge. They practice ancient void-walking techniques passed down through generations. How to step through shadows that are not there. How to hear the void whispers. How to find lost places in the emptiness. They claim the void speaks to them in the silence between heartbeats. Showing them paths through reality that others cannot see. But the void hungers. Prolonged use of their gifts leaves them feeling empty and disconnected. Many Void-Walkers become reclusive seekers of hidden knowledge. Minds filled with too much cosmic silence. The bloodline values knowledge and navigation. Honor measured in paths found and voids traversed. They are the navigators of Astren society. Their void-walking unmatched but their souls forever marked by the emptiness that birthed them.`,
                 statModifiers: {
-                    constitution: 0,
-                    strength: -2,
-                    agility: 3,
-                    intelligence: 4,
                     spirit: 4,
-                    charisma: -2
+                    intelligence: 3,
+                    agility: 1
                 },
                 traits: [
                     {
                         name: 'Void Step',
-                        description: 'Can teleport through the void between spaces, but risk getting lost in the emptiness. Costs 3 AP.',
+                        description: 'Teleport through void between spaces (2 AP).',
                         type: 'movement'
                     },
                     {
                         name: 'Cosmic Isolation',
-                        description: 'Immune to mind-affecting effects and fear, but cannot form emotional bonds.',
+                        description: 'Immune to mind-affecting effects and fear.',
                         type: 'mental'
                     },
                     {
-                        name: 'Gravity Manipulation',
-                        description: 'Can alter gravity in small areas, but affects yourself as well.',
-                        type: 'utility'
+                        name: 'Void Hunger',
+                        description: 'Vulnerable to necrotic damage (+50% damage) as the void within you draws in death energies.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Celestial', 'Cosmic', 'Deep Speech'],
@@ -1406,32 +2497,29 @@ export const RACE_DATA = {
             },
             sunborn: {
                 id: 'sunborn_astren',
-                name: 'Sun-Bound',
+                name: 'Sun Bound',
                 description: 'Skin warm to the touch, sometimes glowing faintly. Eyes bright like captured starlight. Their presence warms the air around them. Many have hair that seems to flicker like flame. They glow slightly, especially in darkness. Their touch can leave warmth behind. They move with radiant energy, never fully still.',
                 culturalBackground: `The Sun-Bound trace their lineage to Astren who fell from dying stars. Bloodline marked by the stellar fire that birthed them. Their tradition requires that every member learn to channel solar energy. Apprenticeships spent mastering the art of controlling the stellar fire within. Sun-Bound craters are built in places where solar energy collects. Members serving as healers, warriors, beacons of light. They practice ancient solar techniques passed down through generations. How to ignite flames with a glance. How to heal with solar warmth. How to channel stellar radiance. Their skin burns warm to the touch even in winter. Presence inspiring hope in dark times. They claim the sun death screams taught them the value of light and warmth. Making them radiant beacons. But the stellar fire consumes them. They must rest in darkness to avoid burning out completely. Many Sun-Bound become wandering healers or warriors of light. Inner fire both blessing and burden. The bloodline values light and warmth. Honor measured in darkness dispelled and wounds healed. They are the beacons of Astren society. Their solar fire unmatched but their bodies forever marked by the dying stars that birthed them.`,
                 statModifiers: {
-                    constitution: 2,
-                    strength: 3,
-                    agility: 0,
-                    intelligence: 2,
-                    spirit: 2,
-                    charisma: 2
+                    strength: 2,
+                    charisma: 3,
+                    spirit: -2
                 },
                 traits: [
                     {
                         name: 'Stellar Radiance',
-                        description: 'Emit intense light and heat, damaging nearby enemies (including allies!) but also revealing your position. The heat damages equipment and causes exhaustion in extended exposure. You glow brightly, making stealth impossible.',
+                        description: 'Emit intense light and heat (1 AP). Damage nearby enemies.',
                         type: 'combat'
                     },
                     {
-                        name: 'Solar Flare',
-                        description: 'Release devastating bursts of stellar energy, but you take HALF the damage dealt (minimum 2d6) as backlash. Each use reduces your maximum HP by 1 until long rest. Costs 4 AP.',
-                        type: 'combat'
-                    },
-                    {
-                        name: 'Photosynthesis',
-                        description: 'Regenerate health in sunlight, but you WEAKEN in darkness - take -2 to all stats and cannot regenerate HP when not in direct sunlight. In darkness for more than 4 hours, you begin taking 1d4 damage per hour.',
+                        name: 'Solar Healing',
+                        description: 'Regenerate health in sunlight.',
                         type: 'utility'
+                    },
+                    {
+                        name: 'Shadow Frailty',
+                        description: 'Vulnerable to necrotic damage (+50% damage) as darkness extinguishes your stellar fire.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Celestial', 'Ignan'],
@@ -1439,32 +2527,29 @@ export const RACE_DATA = {
             },
             constellation: {
                 id: 'constellation_astren',
-                name: 'Star-Mapped',
+                name: 'Star Mapped',
                 description: 'Skin marked with patterns like constellations. These patterns sometimes glow faintly at night. Eyes reflect star patterns when they focus. Many have trouble focusing on immediate things. They move with purpose that seems driven by unseen forces. Their presence makes you feel watched by distant stars. Many wear robes that reveal their patterns.',
                 culturalBackground: `The Star-Mapped trace their lineage to Astren who fell bearing the patterns of constellations. Bloodline marked by star-maps etched into their very essence. Their tradition requires that every member learn to read the patterns written in the heavens. Apprenticeships spent mastering the art of navigating by stars and reading fate in constellations. Star-Mapped craters are built under open skies where the stars are clearest. Members serving as astronomers, prophets, counselors. They practice ancient star-reading techniques passed down through generations. How to read fate in star patterns. How to navigate by the night sky. How to see the grand patterns in random events. Their skin bears the patterns of constellations. Souls mapped by the stars themselves. They claim the stars guide their fates. Showing them destinies written in the heavens. But this cosmic awareness overwhelms them. They struggle to focus on immediate concerns. Minds always reaching for the bigger picture. Many Star-Mapped become astronomers or prophets. Living under open skies. The bloodline values knowledge and prophecy. Honor measured in patterns read and fates understood. They are the seers of Astren society. Their star-reading unmatched but their minds forever fractured by patterns that cannot be unseen.`,
                 statModifiers: {
-                    constitution: -2,
-                    strength: -3,
-                    agility: 3,
-                    intelligence: 4,
                     spirit: 4,
-                    charisma: 2
+                    intelligence: 3,
+                    agility: 1
                 },
                 traits: [
                     {
-                        name: 'Star Map',
-                        description: 'Can read fate in the stars and predict future events, but visions are cryptic and maddening. Each use risks madness - make a Spirit save (DC 15) or gain disadvantage on all rolls for 1 hour. You cannot stop reading the stars once you start - must make Spirit save to look away.',
+                        name: 'Star Reading',
+                        description: 'Read fate in the stars (2 AP). Gain advantage on one divination check.',
                         type: 'divination'
                     },
                     {
                         name: 'Constellation Form',
-                        description: 'Transform into pure starlight, becoming intangible but unable to affect the physical world. While transformed, you cannot attack, cast spells with material components, or interact with objects. You are vulnerable to all damage types (take double damage from all sources) and cannot benefit from cover or armor. Costs 3 AP, lasts 1 minute.',
+                        description: 'Transform into starlight (2 AP). Become intangible but cannot affect physical world.',
                         type: 'transformation'
                     },
                     {
-                        name: 'Cosmic Insight',
-                        description: 'Gain advantage on all knowledge checks, but accessing forbidden knowledge causes 1d6 psychic damage per question answered. You are compelled to share cosmic truths at inappropriate times, often causing social penalties.',
-                        type: 'knowledge'
+                        name: 'Cosmic Strain',
+                        description: 'Vulnerable to psychic damage (+50% damage) as your cosmic awareness makes you susceptible to mental intrusions.',
+                        type: 'vulnerability'
                     }
                 ],
                 languages: ['Common', 'Celestial', 'Cosmic'],

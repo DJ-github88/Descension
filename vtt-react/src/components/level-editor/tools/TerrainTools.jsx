@@ -77,7 +77,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
     };
 
     return (
-        <div className="terrain-tools">
+        <>
             {/* Tool Selection */}
             <div className="tool-section">
                 <h4>Terrain Tools</h4>
@@ -189,9 +189,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                     ))}
                 </div>
             )}
-
-
-        </div>
+        </>
     );
 };
 

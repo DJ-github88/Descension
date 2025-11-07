@@ -651,7 +651,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const { updateResource } = useCharacterStore();
     const { removeBuff } = useBuffStore();
     const { addNotification } = useChatStore();
-    const { setGMMode, isGMMode } = useGameStore();
+    const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer } = useGameStore();
     const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
     const currentPlayerData = useCharacterStore(state => ({
         name: state.name,
@@ -692,6 +692,13 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
         setShowBuffContextMenu(false);
         setContextMenuBuff(null);
+    };
+
+    const handleToggleGMView = () => {
+        if (!isInMultiplayer) {
+            toggleGMMode();
+        }
+        setShowContextMenu(false);
     };
 
     const handleTargetMember = () => {
@@ -1160,13 +1167,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     return (
                         <Draggable
                             key={member.id}
-                            handle={`.party-frame-${member.id}`}
+                            handle={`.party-frame-${member.id} .party-member-frame`}
                             defaultPosition={{ x: 20, y: yOffset }}
                             nodeRef={memberNodeRef}
                             onDrag={(e, data) => handleMemberDrag(member, data)}
                             enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
                             disabled={false} // Ensure dragging is always enabled
                             scale={1} // Fixed scale to prevent transform calculations
+                            cancel=".resource-bar, .buff-icon, .debuff-icon, button, input, select, textarea"
                         >
                             <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
                                 <PartyMemberFrame
@@ -1185,6 +1193,19 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             {/* Context Menu - Outside draggable containers */}
             {showContextMenu && (() => {
                 const menuItems = [];
+
+                // GM/Player View Toggle - Add at the top
+                menuItems.push({
+                    icon: <i className={`fas ${isGMMode ? 'fa-crown' : 'fa-user'}`}></i>,
+                    label: isGMMode ? 'Switch to Player View' : 'Switch to GM View',
+                    onClick: handleToggleGMView,
+                    disabled: isInMultiplayer,
+                    title: isInMultiplayer
+                        ? 'GM mode determined by room creator status'
+                        : (isGMMode ? 'Switch to Player View (fog blocks visibility)' : 'Switch to GM View (see through fog)')
+                });
+
+                menuItems.push({ type: 'separator' });
 
                 // Target/Clear Target
                 menuItems.push({

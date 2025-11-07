@@ -212,7 +212,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const effectiveZoom = zoomLevel * playerZoom;
   
   // Check if this token is being viewed from and get visibility data
-  const { viewingFromToken, visibleArea, dynamicFogEnabled, fovAngle, getTokenFacingDirection, setTokenFacingDirection } = useLevelEditorStore();
+  const { viewingFromToken, visibleArea, dynamicFogEnabled, fovAngle, getTokenFacingDirection, setTokenFacingDirection, getExploredArea } = useLevelEditorStore();
   const [isHovering, setIsHovering] = useState(false);
   const { gridOffsetX, gridOffsetY, gridSize: tokenGridSize } = gameState;
   const isViewingFrom = viewingFromToken && (
@@ -227,33 +227,52 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   }, [visibleArea]);
   
   // Check if this token is visible based on FOV (only if viewing from a token)
-  const isTokenVisible = React.useMemo(() => {
+  // Returns: true = fully visible, false = hidden
+  // Note: Afterimages handle showing tokens at their remembered positions in explored areas
+  // Tokens should only be visible if they're currently in the visible area
+  const tokenVisibilityState = React.useMemo(() => {
     // If this is the viewing token, always visible
     if (isViewingFrom) return true;
     
     // If viewing from a token AND dynamic fog is enabled, check FOV visibility
     // This applies even in GM mode - when viewing from a token, we should only see what that token can see
-    if (viewingFromToken && dynamicFogEnabled) {
+    if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
       // Check if token position is in visible area
-      if (!position || position.x === undefined || position.y === undefined) return false;
+      if (!position || position.x === undefined || position.y === undefined) {
+        return false; // No position - hide token
+      }
       
       // Get visibility polygon from store for accurate point-in-polygon check
       const levelEditorStore = useLevelEditorStore.getState();
       const visibilityPolygon = levelEditorStore.visibilityPolygon;
       
+      let visible = false;
+      
       // If polygon is available, use it for accurate visibility (raycast-based)
       if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length > 0) {
-        return isPositionVisible(position.x, position.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
+        visible = isPositionVisible(position.x, position.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
+      } else if (visibleAreaSet && visibleAreaSet.size > 0) {
+        // Fallback to tile-based visibility if polygon not available
+        visible = isPositionVisible(position.x, position.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
       }
       
-      // Fallback to tile-based visibility if polygon not available
-      if (!visibleAreaSet || visibleAreaSet.size === 0) return false;
-      return isPositionVisible(position.x, position.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
+      // Only show token if it's currently visible
+      // Afterimages will show tokens at their remembered positions in explored areas
+      return visible;
     }
     
-    // If not viewing from a token, always visible (normal view)
+    // If not viewing from a token or in GM mode, always visible (normal view)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY]);
+  }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
+  
+  // Legacy compatibility - check if token should be visible at all
+  const isTokenVisible = React.useMemo(() => {
+    return tokenVisibilityState === true;
+  }, [tokenVisibilityState]);
+  
+  // Tokens are never greyed out - they're either fully visible or hidden
+  // Afterimages show tokens at their remembered positions
+  const isGreyedOut = false;
 
   // Handle mouse move and up for dragging with pure immediate feedback
   useEffect(() => {
@@ -410,6 +429,17 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       const finalWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
       // Removed excessive logging for performance
+
+      // Capture afterimage and explored area from old position before moving
+      const levelEditorStore = useLevelEditorStore.getState();
+      if (dragStartPosition && token && creature) {
+        levelEditorStore.captureTokenMovementAfterimage(
+          token.creatureId || tokenId,
+          { ...creature, ...token },
+          dragStartPosition,
+          finalWorldPos
+        );
+      }
 
       // Update token position to snapped grid center (with multiplayer sync)
       updateTokenPositionWithSync(tokenId, finalWorldPos);
@@ -1366,6 +1396,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           borderRadius: '50%',
           border: `3px solid ${isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder)}`,
           overflow: 'hidden',
+          opacity: isGreyedOut ? 0.4 : 1, // Greyed out when in explored but not visible
+          filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas
           boxShadow: isViewingFrom
             ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
             : isMyTurn

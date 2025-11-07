@@ -3,10 +3,19 @@ import WowWindow from './WowWindow';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import ProfessionSelection from '../crafting/ProfessionSelection';
 import AlchemyInterface from '../crafting/AlchemyInterface';
+import useInventoryStore from '../../store/inventoryStore';
+import useChatStore from '../../store/chatStore';
 import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
-    const { selectedProfession, setSelectedProfession } = useCraftingStore();
+    const {
+        selectedProfession,
+        setSelectedProfession,
+        getProfessionLevel,
+        getRecipesForProfession,
+        learnRecipe
+    } = useCraftingStore();
+    const { addLootNotification } = useChatStore();
 
     const handleProfessionSelect = (professionId) => {
         setSelectedProfession(professionId);
@@ -49,9 +58,28 @@ function CraftingWindow({ isOpen, onClose }) {
     const getCurrentTabLabel = () => {
         if (selectedProfession) {
             const profession = PROFESSIONS[selectedProfession];
-            return profession ? profession.name : 'Profession';
+            const professionLevel = getProfessionLevel(selectedProfession);
+            const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
+            const skillName = skillLevelInfo?.name || 'Untrained';
+            return profession ? `${profession.name} (${skillName})` : 'Profession';
         }
         return 'Overview';
+    };
+
+    // Handle learning all recipes for current profession
+    const handleLearnAllRecipes = () => {
+        if (!selectedProfession) return;
+
+        const allRecipes = getRecipesForProfession(selectedProfession);
+        allRecipes.forEach(recipe => {
+            learnRecipe(selectedProfession, recipe.id);
+        });
+
+        addLootNotification({
+            type: 'crafting_success',
+            message: `Learned ${allRecipes.length} ${PROFESSIONS[selectedProfession]?.name} recipes!`,
+            timestamp: Date.now()
+        });
     };
 
     // Single tab that changes label based on context

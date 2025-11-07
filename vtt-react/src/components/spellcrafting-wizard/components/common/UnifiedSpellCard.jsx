@@ -45,6 +45,7 @@ const UnifiedSpellCard = ({
   // Get library context for proc system spell lookup
   const library = useSpellLibrary();
 
+
   // NORMALIZE SPELL DATA - Transform from any format into complete wizard format
   // This ensures spells from class data, manual JSON, or legacy formats all work
   // All references to 'spell' in this component will now use the normalized version
@@ -7702,7 +7703,6 @@ const UnifiedSpellCard = ({
               {variant === 'spellbook' && (
                 <>
                   <span className="spell-cast-time">{formatCastTime()}</span>
-                  <span className="spell-range">{formatRange()}</span>
                 </>
               )}
 
@@ -7827,7 +7827,7 @@ const UnifiedSpellCard = ({
 
 
       {/* Card Body */}
-      {showDescription && (
+      {(showDescription || (showStats && spell?.effectTypes && spell.effectTypes.length > 0)) && (
         <div className="pf-spell-card-body wow-spell-card-body">
           {/* Description - First element in body */}
           {spell?.description && (

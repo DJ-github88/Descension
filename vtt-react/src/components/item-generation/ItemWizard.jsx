@@ -37,17 +37,17 @@ const STEP_INFO = {
     [STEPS.ITEM_TYPE]: {
         name: 'Item Type',
         icon: 'inv_misc_book_08',
-        description: 'Choose the fundamental nature of your item. Will it be a mighty weapon, protective armor, a mystical accessory, or perhaps something else entirely?'
+        description: 'Choose the fundamental nature of your item.'
     },
     [STEPS.BASIC_INFO]: {
         name: 'Basic Info',
         icon: 'inv_misc_bandage_07',
-        description: 'Name your creation and give it a compelling description. Every legendary item has a story - what\'s yours?'
+        description: 'Name your creation and give it a compelling description.'
     },
     [STEPS.SLOT_AND_SIZE]: {
         name: 'Slot & Size',
         icon: 'inv_misc_desecrated_platehelm',
-        description: 'Determine where this item is worn or held. The right placement can mean the difference between a useful tool and a masterpiece.'
+        description: 'Determine where this item is worn or held.'
     },
 
     [STEPS.STATS]: {
@@ -55,38 +55,38 @@ const STEP_INFO = {
         getMiscInfo: () => ({
             name: 'Details',
             icon: 'inv_misc_note_05',
-            description: 'Define the specific properties and characteristics of this miscellaneous item.'
+            description: 'Define the specific properties of this item.'
         }),
         getRegularInfo: () => ({
             name: 'Stats',
             icon: 'spell_holy_prayeroffortitude',
-            description: 'Enhance the bearer\'s core attributes. Will they become stronger, more agile, or perhaps wiser through its use?'
+            description: 'Enhance the bearer\'s core attributes.'
         })
     },
     [STEPS.COMBAT_STATS]: {
         name: 'Combat',
         icon: 'achievement_pvp_p_14',
-        description: 'Define the item\'s combat capabilities. From devastating damage to impenetrable defenses, make it worthy of battle.'
+        description: 'Define the item\'s combat capabilities.'
     },
     [STEPS.CHANCE_ON_HIT]: {
         name: 'On Being Hit',
         icon: 'ability_warrior_revenge',
-        description: 'Configure effects that trigger when the wearer is struck in battle. Create defensive mechanisms that punish attackers or protect the bearer.'
+        description: 'Configure effects that trigger when struck in battle.'
     },
     [STEPS.UTILITY]: {
         name: 'Utility',
         icon: 'trade_engineering',
-        description: 'Add special features and utilities. Sometimes the most valuable items aren\'t the ones that deal damage, but those that solve problems.'
+        description: 'Add special features and utilities.'
     },
     [STEPS.VALUE]: {
         name: 'Value',
         icon: 'inv_misc_coin_17',
-        description: 'Set the item\'s worth in gold, silver, and copper. What price would a merchant pay for such a treasure?'
+        description: 'Set the item\'s worth in gold, silver, and copper.'
     },
     [STEPS.APPEARANCE]: {
         name: 'Appearance',
         icon: 'inv_misc_bag_28_halloween',
-        description: 'Design the item\'s visual appearance. The finest items are as magnificent to behold as they are powerful to use.'
+        description: 'Design the item\'s visual appearance.'
     }
 };
 const getStepInfo = (step, itemType) => {
@@ -1225,6 +1225,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     });
 
     const [availableSlots, setAvailableSlots] = useState([]);
+    const [openCategories, setOpenCategories] = useState(new Set()); // Track which icon categories are open
 
     useEffect(() => {
         // Update available slots based on item type
@@ -1267,11 +1268,41 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         });
     };
 
+    const renderStepNavigation = () => {
+        const isLastStep = currentStep === Object.keys(STEPS).length - 1;
+        return (
+            <div className="wizard-step-navigation">
+                <button
+                    className="wizard-nav-btn"
+                    onClick={prevStep}
+                    disabled={currentStep === 0}
+                >
+                    Previous
+                </button>
+                {isLastStep ? (
+                    <button
+                        className="wizard-nav-btn wizard-nav-create"
+                        onClick={() => handleClose(itemData)}
+                    >
+                        Create Item
+                    </button>
+                ) : (
+                    <button
+                        className="wizard-nav-btn"
+                        onClick={nextStep}
+                    >
+                        Next
+                    </button>
+                )}
+            </div>
+        );
+    };
+
     const renderStep = () => {
         switch (currentStep) {
             case STEPS.ITEM_TYPE:
                 return (
-                    <div className="wizard-step">
+                    <>
                         <h3 className="wow-heading quality-text">Choose Item Type</h3>
                         <div className="item-type-grid">
                             {Object.keys(ITEM_TYPES).map(type => (
@@ -1290,12 +1321,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 </button>
                             ))}
                         </div>
-                    </div>
+                    </>
                 );
 
                 case STEPS.BASIC_INFO:
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading quality-text">Basic Information</h3>
                             <div className="form-group">
                                 <label>Name:</label>
@@ -1382,12 +1413,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     rows={4}
                                 />
                             </div>
-                        </div>
+                        </>
                     );
 
             case STEPS.SLOT_AND_SIZE:
                 return (
-                    <div className="wizard-step">
+                    <>
                         <h3>Equipment Slot</h3>
 
                         {itemData.type === 'weapon' && (
@@ -1664,14 +1695,14 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 )}
                             </>
                         )}
-                    </div>
+                    </>
                 );
 
 
             case STEPS.STATS:
                 if (itemData.type === 'currency') {
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading quality-text">Currency Amount</h3>
                             <div className="currency-amount-section">
                                 <div className="currency-amount-display">
@@ -1723,13 +1754,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </>
                     );
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'QUEST') {
                     return (
-
-<div className="wizard-step">
-    <h3 className="wow-heading">Quest Properties</h3>
+                        <>
+                            <h3 className="wow-heading">Quest Properties</h3>
     <div className="misc-properties quest-properties">
         {/* Quest Giver Section */}
         <div className="property-section">
@@ -1866,10 +1896,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     </button>
                 </div>
                 <span className="time-unit">minutes (0 for no limit)</span>
-            </div>
-        </div>
-    </div>
-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
                     );
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'REAGENT') {
                     // Define the magic types within the scope
@@ -1970,7 +2000,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     };
 
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading">Reagent Properties</h3>
                             <div className="misc-properties">
                                 {/* Magic Type Section */}
@@ -2134,7 +2164,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </>
                     );
 
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'CRAFTING') {
@@ -2267,7 +2297,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     };
 
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading">Crafting Material Properties</h3>
                             <div className="misc-properties">
                                 {/* Material Type Section */}
@@ -2431,7 +2461,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </>
                     );
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'TRADE_GOODS') {
                     const TRADE_CATEGORIES = {
@@ -2534,7 +2564,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     };
 
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading">Trade Goods Properties</h3>
                             <div className="misc-properties">
                                 {/* Trade Category Section */}
@@ -2670,7 +2700,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </>
                     );
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'KEY') {
                     const KEY_TYPES = {
@@ -2735,7 +2765,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     };
 
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading">Key Properties</h3>
                             <div className="misc-properties">
                                 {/* Key Type Section */}
@@ -2894,7 +2924,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </>
                     );
                 } else if (itemData.type === 'miscellaneous' && itemData.subtype === 'JUNK') {
                     const JUNK_TYPES = {
@@ -2972,7 +3002,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     };
 
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading">Junk Properties</h3>
                             <div className="misc-properties">
                                 {/* Junk Type Section */}
@@ -3040,11 +3070,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </>
                     );
                 }
                 return (
-                    <div className="wizard-step">
+                    <>
                         <h3 className="wow-heading quality-text">Base Stats</h3>
                         <div className="stats-grid">
                             {Object.entries(BASE_STATS).map(([stat, info]) => (
@@ -3111,12 +3141,12 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </>
                 );
 
             case STEPS.COMBAT_STATS:
                 return (
-                    <div className="wizard-step">
+                    <>
                         <h3 className="wow-heading quality-text">Combat Stats</h3>
                         <div className="combat-stats-grid">
 
@@ -3361,18 +3391,22 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </>
                 );
 
             case STEPS.CHANCE_ON_HIT:
-                return <StepChanceOnHit itemData={itemData} updateItemData={updateItemData} />;
+                return (
+                    <>
+                        <StepChanceOnHit itemData={itemData} updateItemData={updateItemData} />
+                    </>
+                );
 
             case STEPS.UTILITY:
                 return (
-                    <div className="wizard-step">
+                    <>
                         <h3 className="wow-heading quality-text">Utility Stats</h3>
                         {itemData.type === 'weapon' && (
-                            <div className="damage-properties-section">
+                            <>
                                 <h4 className="wow-heading">Damage Properties</h4>
                                 <div className="damage-grid">
                                     {/* Base Damage Controls Row */}
@@ -3649,9 +3683,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </>
                         )}
-                        <div className="utility-stats-grid">
+                        <div className="utility-section">
+                            <h5 className="wow-heading">Utility Stats</h5>
+                            <div className="utility-stats-grid">
                             <div className="stat-item">
                                 <div className="stat-header">
                                     <img src={UTILITY_STATS.movementSpeed.icon} alt="Movement Speed" className="stat-icon" />
@@ -3800,7 +3836,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                 });
                                             }}
                                             className="stat-input wow-input"
-                                            style={{ width: '100%' }}
                                         >
                                             {Object.entries(DURATION_TYPES).map(([key, value]) => (
                                                 <option key={key} value={key}>{value.name}</option>
@@ -3944,17 +3979,17 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     )}
                                 </div>
                             </div>
+                        </div>
 
                         </div>
-                    </div>
+                    </>
                 );
 
             case STEPS.VALUE:
                 return (
-                    <div className="wizard-step">
+                    <>
                         <h3 className="wow-heading quality-text">Item Value</h3>
-                        <div className="value-section">
-                            <div className="currency-grid">
+                        <div className="currency-grid">
                                 <div className="currency-item">
                                     <div className="currency-header">
                                         <img
@@ -4183,19 +4218,35 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     </span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                    </>
                 );
 
                 case STEPS.APPEARANCE: {
                     return (
-                        <div className="wizard-step">
+                        <>
                             <h3 className="wow-heading quality-text">Item Appearance</h3>
-                            <div className="item-appearance-section">
-                                {Object.entries(WOW_ICONS).map(([category, items]) => (
-                                    <div key={category} className="wow-icon-category">
-                                        <h4 className="wow-category-title">{category.charAt(0).toUpperCase() + category.slice(1)}</h4>
-                                        <div className="wow-icon-grid">
+                            {Object.entries(WOW_ICONS).map(([category, items]) => {
+                                    const isOpen = openCategories.has(category);
+                                    return (
+                                        <div key={category} className="wow-icon-category">
+                                            <h4
+                                                className="wow-category-title"
+                                                onClick={() => {
+                                                    const newOpenCategories = new Set(openCategories);
+                                                    if (isOpen) {
+                                                        newOpenCategories.delete(category);
+                                                    } else {
+                                                        newOpenCategories.add(category);
+                                                    }
+                                                    setOpenCategories(newOpenCategories);
+                                                }}
+                                                style={{ cursor: 'pointer', userSelect: 'none' }}
+                                            >
+                                                {category.charAt(0).toUpperCase() + category.slice(1)}
+                                                <span className="category-toggle">{isOpen ? ' ▲' : ' ▼'}</span>
+                                            </h4>
+                                            {isOpen && (
+                                                <div className="wow-icon-grid">
                                             {(() => {
                                                 // Flatten all items into a single array regardless of structure
                                                 const allItems = Array.isArray(items)
@@ -4220,9 +4271,11 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                                     </button>
                                                 ));
                                             })()}
+                                                </div>
+                                            )}
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                                 <div className="wow-custom-url-section">
                                     <h4 className="wow-section-title">Custom Image URL</h4>
                                     <input
@@ -4246,8 +4299,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         />
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                        </>
                     );
                 }
 
@@ -4295,6 +4347,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         y: Math.max(50, (window.innerHeight - 600) / 2)
     }));
     const [windowSize, setWindowSize] = useState({ width: 800, height: 600 });
+    const [tooltipPosition, setTooltipPosition] = useState({ visible: false, x: 0, y: 0, stepName: '' });
 
     const handleMouseDown = (e) => {
         // Allow dragging from anywhere on the window, but not from interactive elements
@@ -4366,6 +4419,24 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         setCurrentStep(newStep);
     };
 
+    const handleStepMouseEnter = (e, stepName, stepInfo) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        // Account for window scaling - getBoundingClientRect already accounts for transforms
+        const tooltipX = rect.left + rect.width / 2; // Center horizontally
+        const tooltipY = rect.top - 12; // Position above the button (12px gap)
+        setTooltipPosition({
+            visible: true,
+            x: tooltipX,
+            y: tooltipY,
+            stepName,
+            stepInfo
+        });
+    };
+
+    const handleStepMouseLeave = () => {
+        setTooltipPosition({ visible: false, x: 0, y: 0, stepName: '' });
+    };
+
     const renderProgressBar = () => {
         // Filter out combat, chance-on-hit, and utility steps for miscellaneous and currency items
         const relevantSteps = Object.entries(STEPS).filter(([_, stepIndex]) => {
@@ -4394,25 +4465,14 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                     stepIndex < currentStep ? 'completed' : ''
                                 } ${stepIndex === currentStep ? 'active' : ''}`}
                                 onClick={() => setCurrentStep(stepIndex)}
+                                onMouseEnter={(e) => handleStepMouseEnter(e, stepName, stepInfo)}
+                                onMouseLeave={handleStepMouseLeave}
                             >
                                 <img
                                     src={`https://wow.zamimg.com/images/wow/icons/large/${stepInfo.icon}.jpg`}
                                     alt={stepInfo.name}
                                     className="step-icon"
                                 />
-                                <div className="step-tooltip">
-                                    <div className="tooltip-header">
-                                        <img
-                                            src={`https://wow.zamimg.com/images/wow/icons/large/${stepInfo.icon}.jpg`}
-                                            alt={stepInfo.name}
-                                            className="tooltip-icon"
-                                        />
-                                        <span className="tooltip-title">{stepInfo.name}</span>
-                                    </div>
-                                    <div className="tooltip-description">
-                                        {stepInfo.description}
-                                    </div>
-                                </div>
                             </div>
                         );
                     })}
@@ -4462,6 +4522,9 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 <div className="item-wizard-content spellbook-wizard-layout">
                     <div className="wizard-header">
                         <h2>Item Editor</h2>
+                        <div className="wizard-progress-container">
+                            {renderProgressBar()}
+                        </div>
                         <button className="close-button" onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -4471,53 +4534,10 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     </div>
                     {/* Single column layout - Preview is now external */}
                     <div className="wizard-main-content">
-                        <div className="spell-wizard-step">
-                            <div className="spell-wizard-step-content">
-                                <div className="spell-wizard-form">
-                                    {renderStep()}
-                                </div>
-                            </div>
+                        <div className="spell-wizard-step-content">
+                            {renderStep()}
+                            {renderStepNavigation()}
                         </div>
-                    </div>
-                    <div className="wizard-footer">
-                        {currentStep === Object.keys(STEPS).length - 1 ? (
-                            <div className="wizard-nav-controls">
-                                <button
-                                    className="wizard-nav-btn"
-                                    onClick={prevStep}
-                                >
-                                    Previous
-                                </button>
-                                <div className="wizard-progress-container">
-                                    {renderProgressBar()}
-                                </div>
-                                <button
-                                    className="wizard-nav-btn wizard-nav-create"
-                                    onClick={() => handleClose(itemData)}
-                                >
-                                    Create Item
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="wizard-nav-controls">
-                                <button
-                                    className="wizard-nav-btn"
-                                    onClick={prevStep}
-                                    disabled={currentStep === 0}
-                                >
-                                    Previous
-                                </button>
-                                <div className="wizard-progress-container">
-                                    {renderProgressBar()}
-                                </div>
-                                <button
-                                    className="wizard-nav-btn"
-                                    onClick={nextStep}
-                                >
-                                    Next
-                                </button>
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
@@ -4529,6 +4549,33 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 windowSize={windowSize}
                 isOpen={true}
             />
+
+            {/* Progress Bar Tooltip - Rendered outside modal to escape clipping */}
+            {tooltipPosition.visible && tooltipPosition.stepInfo && (
+                <div
+                    className="step-tooltip-fixed"
+                    style={{
+                        position: 'fixed',
+                        left: `${tooltipPosition.x}px`,
+                        top: `${tooltipPosition.y}px`,
+                        transform: 'translateX(-50%) translateY(-100%)',
+                        zIndex: 99999,
+                        pointerEvents: 'none'
+                    }}
+                >
+                    <div className="tooltip-header">
+                        <img
+                            src={`https://wow.zamimg.com/images/wow/icons/large/${tooltipPosition.stepInfo.icon}.jpg`}
+                            alt={tooltipPosition.stepInfo.name}
+                            className="tooltip-icon"
+                        />
+                        <span className="tooltip-title">{tooltipPosition.stepInfo.name}</span>
+                    </div>
+                    <div className="tooltip-description">
+                        {tooltipPosition.stepInfo.description}
+                    </div>
+                </div>
+            )}
         </SpellLibraryProvider>,
         portalTarget
     );

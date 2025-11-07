@@ -233,17 +233,6 @@ const MovementVisualization = ({
                     strokeLinecap="round"
                 />
                 
-                {/* Start position marker */}
-                <circle
-                    cx={relativeStartX}
-                    cy={relativeStartY}
-                    r={6}
-                    fill={movementData.lineColor}
-                    fillOpacity={0.8}
-                    stroke="white"
-                    strokeWidth={2}
-                />
-                
                 {/* Current position marker */}
                 <circle
                     cx={relativeCurrentX}

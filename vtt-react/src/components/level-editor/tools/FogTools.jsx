@@ -28,6 +28,12 @@ const FogTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =>
             description: 'Remove all fog from map'
         },
         {
+            id: 'fog_consolidate',
+            name: 'Consolidate Fog',
+            icon: 'spell_holy_purify',
+            description: 'Merge overlapping fog paths to improve performance'
+        },
+        {
             id: 'fog_cover_map',
             name: 'Cover Entire Map',
             icon: 'spell_shadow_nethercloak',

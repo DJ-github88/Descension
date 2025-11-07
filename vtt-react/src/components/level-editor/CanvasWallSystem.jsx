@@ -24,8 +24,11 @@ const CanvasWallSystem = () => {
         showWallLayer,
         isEditorMode,
         viewingFromToken,
-        visibleArea
+        visibleArea,
+        getExploredArea
     } = useLevelEditorStore();
+    
+    const { isGMMode } = useGameStore();
 
     // Calculate effective zoom
     const effectiveZoom = zoomLevel * playerZoom;
@@ -250,8 +253,45 @@ const CanvasWallSystem = () => {
                     }
                 }
                 
-                if (!isWallVisible) {
-                    return; // Skip wall - not in visible area and not blocking visible tiles
+                // Check if wall is in explored area (for greyed out state)
+                let isWallInExploredArea = false;
+                if (!isWallVisible && !isGMMode && getExploredArea) {
+                    // Check if any tile the wall passes through is in explored area
+                    if (x1 === x2) {
+                        // Vertical wall
+                        for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+                            if (getExploredArea(x1, y)) {
+                                isWallInExploredArea = true;
+                                break;
+                            }
+                        }
+                    } else if (y1 === y2) {
+                        // Horizontal wall
+                        for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+                            if (getExploredArea(x, y1)) {
+                                isWallInExploredArea = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        // Diagonal wall
+                        const dx = x2 > x1 ? 1 : -1;
+                        const dy = y2 > y1 ? 1 : -1;
+                        let x = x1;
+                        let y = y1;
+                        while (x !== x2 || y !== y2) {
+                            if (getExploredArea(x, y)) {
+                                isWallInExploredArea = true;
+                                break;
+                            }
+                            if (x !== x2) x += dx;
+                            if (y !== y2) y += dy;
+                        }
+                    }
+                }
+                
+                if (!isWallVisible && !isWallInExploredArea) {
+                    return; // Skip wall - not in visible area, not in explored area, and not blocking visible tiles
                 }
             }
 
@@ -265,17 +305,35 @@ const CanvasWallSystem = () => {
             // Get wall material style
             const materialStyle = getWallMaterialStyle(wallType);
 
-            // Set drawing style
-            ctx.strokeStyle = materialStyle.color;
+            // Check if wall should be greyed out (in explored area but not visible)
+            const isGreyedOut = shouldFilterByFOV && !isWallVisible && isWallInExploredArea && !isGMMode;
+            
+            // Set drawing style - parse color for greyed out state
+            let strokeColor = materialStyle.color;
+            if (isGreyedOut) {
+                // Extract RGB values from color string (handles hex, rgb, and named colors)
+                const colorMatch = materialStyle.color.match(/\d+/g);
+                if (colorMatch && colorMatch.length >= 3) {
+                    strokeColor = `rgba(${colorMatch[0]}, ${colorMatch[1]}, ${colorMatch[2]}, 0.4)`;
+                } else {
+                    // Fallback for named colors or hex without rgb
+                    strokeColor = 'rgba(139, 69, 19, 0.4)'; // Brown with low opacity
+                }
+            }
+            ctx.strokeStyle = strokeColor;
             ctx.lineWidth = wallThickness;
             ctx.lineCap = 'square';
             ctx.lineJoin = 'miter';
+            ctx.globalAlpha = isGreyedOut ? 0.4 : 1.0;
 
             // Draw the wall
             ctx.beginPath();
             ctx.moveTo(screenPos1.x, screenPos1.y);
             ctx.lineTo(screenPos2.x, screenPos2.y);
             ctx.stroke();
+            
+            // Reset global alpha
+            ctx.globalAlpha = 1.0;
 
             // Wall rendered (logging removed for performance)
         });

@@ -454,7 +454,6 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 0 30px 0; /* Minimal bottom padding for progress bar */
   background: var(--pf-gradient-parchment);
   position: relative;
   display: flex;

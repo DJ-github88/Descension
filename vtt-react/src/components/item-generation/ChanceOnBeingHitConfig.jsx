@@ -73,7 +73,7 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
   };
 
   return (
-    <div className="chance-on-being-hit-config">
+    <>
       {/* Enable/Disable Toggle */}
       <div className="config-toggle">
         <label className="wow-checkbox-label">
@@ -379,7 +379,7 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

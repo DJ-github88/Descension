@@ -45,7 +45,7 @@ const GridItem = ({ gridItem }) => {
   const gridSystem = getGridSystem();
   
   // Get visibility data for FOV checks
-  const { viewingFromToken, visibleArea, dynamicFogEnabled } = useLevelEditorStore();
+  const { viewingFromToken, visibleArea, dynamicFogEnabled, exploredAreas, getExploredArea } = useLevelEditorStore();
   const { isGMMode } = useGameStore();
   
   // Get item position for visibility check
@@ -66,7 +66,8 @@ const GridItem = ({ gridItem }) => {
   }, [visibleArea]);
   
   // Check if this item is visible based on FOV (only if viewing from a token)
-  const isItemVisible = useMemo(() => {
+  // Returns: true = fully visible, false = hidden, 'explored' = in explored area but not visible (greyed out)
+  const itemVisibilityState = useMemo(() => {
     // Debug: Log visibility check conditions
     const debugInfo = {
       itemId: gridItem.id,
@@ -79,51 +80,49 @@ const GridItem = ({ gridItem }) => {
     
     // If viewing from a token AND dynamic fog is enabled, check FOV visibility
     // This applies even in GM mode - when viewing from a token, we should only see what that token can see
-    if (viewingFromToken && dynamicFogEnabled) {
-      // If visibleArea hasn't been calculated yet or is empty, hide (waiting for calculation)
+    if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
+      // If visibleArea hasn't been calculated yet or is empty, check explored areas
       if (!visibleAreaSet || visibleAreaSet.size === 0) {
-        console.log('❌ GridItem hidden: visibleArea empty', debugInfo);
-        return false;
+        // Check if in explored area
+        if (itemPosition && itemPosition.x !== undefined && itemPosition.y !== undefined) {
+          const gridX = Math.floor((itemPosition.x - gridOffsetX) / gridSize);
+          const gridY = Math.floor((itemPosition.y - gridOffsetY) / gridSize);
+          if (getExploredArea && getExploredArea(gridX, gridY)) {
+            return 'explored'; // Show greyed out
+          }
+        }
+        return false; // Hide if not explored
       }
       
       // Check if item position is in visible area
       if (!itemPosition || itemPosition.x === undefined || itemPosition.y === undefined) {
-        console.log('❌ GridItem hidden: no item position', debugInfo);
         return false;
       }
       
       const visible = isPositionVisible(itemPosition.x, itemPosition.y, visibleAreaSet, gridSize, gridOffsetX, gridOffsetY);
       
-      // Debug: Log only when hidden (to reduce console spam)
-      if (!visible) {
-        const gridX = Math.floor((itemPosition.x - gridOffsetX) / gridSize);
-        const gridY = Math.floor((itemPosition.y - gridOffsetY) / gridSize);
-        const tileKey = `${gridX},${gridY}`;
-        console.log('❌ GridItem hidden:', {
-          item: gridItem.name || gridItem.id,
-          itemWorldPos: { x: itemPosition.x, y: itemPosition.y },
-          gridCoords: { gridX, gridY },
-          tileKey,
-          inVisibleArea: visibleAreaSet.has(tileKey),
-          visibleAreaSize: visibleAreaSet.size,
-          visibleAreaSample: Array.from(visibleAreaSet).slice(0, 20),
-          gridSize,
-          gridOffsetX,
-          gridOffsetY,
-          calculation: `Math.floor((${itemPosition.x} - ${gridOffsetX}) / ${gridSize}) = ${gridX}, Math.floor((${itemPosition.y} - ${gridOffsetY}) / ${gridSize}) = ${gridY}`
-        });
+      if (visible) {
+        return true; // Fully visible
       }
       
-      return visible;
+      // Not visible, but check if in explored area (for greyed out state)
+      const gridX = Math.floor((itemPosition.x - gridOffsetX) / gridSize);
+      const gridY = Math.floor((itemPosition.y - gridOffsetY) / gridSize);
+      if (getExploredArea && getExploredArea(gridX, gridY)) {
+        return 'explored'; // Show greyed out
+      }
+      
+      return false; // Hide
     }
     
-    // If not viewing from a token, always visible (normal view)
-    if (viewingFromToken && !dynamicFogEnabled) {
-      console.log('⚠️ GridItem visible: viewing from token but dynamicFog disabled', debugInfo);
-    }
-    
+    // If not viewing from a token or in GM mode, always visible (normal view)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, itemPosition, gridSize, gridOffsetX, gridOffsetY, gridItem.id, gridItem.name]);
+  }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, itemPosition, gridSize, gridOffsetX, gridOffsetY, gridItem.id, gridItem.name, isGMMode, getExploredArea]);
+  
+  // Legacy compatibility - check if item should be visible at all
+  const isItemVisible = useMemo(() => {
+    return itemVisibilityState !== false;
+  }, [itemVisibilityState]);
 
   // Get the original item from the item store - use a more specific selector
   const originalItem = useMemo(() => {
@@ -439,6 +438,9 @@ const GridItem = ({ gridItem }) => {
   if (!isItemVisible) {
     return null;
   }
+  
+  // Determine if item should be greyed out (in explored area but not currently visible)
+  const isGreyedOut = itemVisibilityState === 'explored';
 
   return (
     <>
@@ -460,7 +462,8 @@ const GridItem = ({ gridItem }) => {
           pointerEvents: 'all',
           boxSizing: 'border-box',
           borderRadius: '50%',
-          opacity: isDragging ? 0.9 : 1, // Slightly less transparent when dragging
+          opacity: isDragging ? 0.9 : (isGreyedOut ? 0.4 : 1), // Greyed out when in explored but not visible
+          filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas
           boxShadow: isDragging
             ? '0 8px 16px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.8)'
             : '0 2px 4px rgba(0, 0, 0, 0.2)',

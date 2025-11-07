@@ -559,6 +559,17 @@ const CharacterToken = ({
             // Snap to grid center in world coordinates
             const snappedWorldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
+            // Capture afterimage and explored area from old position before moving
+            const levelEditorStore = useLevelEditorStore.getState();
+            if (dragStartPosition && characterData) {
+                levelEditorStore.captureTokenMovementAfterimage(
+                    tokenId,
+                    characterData,
+                    dragStartPosition,
+                    snappedWorldPos
+                );
+            }
+
             // Update final position with grid snapping
             updateCharacterTokenPosition(tokenId, { x: snappedWorldPos.x, y: snappedWorldPos.y });
 

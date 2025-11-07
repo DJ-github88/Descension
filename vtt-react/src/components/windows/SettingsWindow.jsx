@@ -125,245 +125,157 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const renderInterfaceTab = () => (
         <div className="settings-content-clean">
             <div style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
-                {/* Interface Overview */}
+
+                {/* Window Scaling Section */}
                 <div style={{
-                    marginBottom: '24px',
-                    padding: '20px',
-                    background: 'linear-gradient(135deg, rgba(122, 59, 46, 0.1), rgba(122, 59, 46, 0.05))',
-                    border: '2px solid rgba(122, 59, 46, 0.2)',
-                    borderRadius: '12px',
-                    textAlign: 'center'
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '16px',
+                    gap: '12px'
                 }}>
-                    <h2 style={{
-                        margin: '0 0 8px 0',
-                        color: '#7a3b2e',
-                        fontSize: '24px',
-                        fontFamily: 'Cinzel, serif'
-                    }}>
-                        Interface Configuration
-                    </h2>
-                    <p style={{
-                        margin: '0',
-                        color: '#8b6f47',
-                        fontSize: '16px',
-                        fontStyle: 'italic'
-                    }}>
-                        Customize window scaling and display preferences
-                    </p>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gap: '24px',
-                        marginTop: '16px',
-                        flexWrap: 'wrap'
-                    }}>
-                        <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: '20px', fontWeight: '600', color: '#7a3b2e' }}>
-                                {scaleToDisplayPercent(windowScale)}%
-                            </div>
-                            <div style={{ fontSize: '12px', color: '#8b6f47' }}>Window Scale</div>
-                        </div>
-                        <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: '20px', fontWeight: '600', color: '#7a3b2e' }}>
-                                <i className="fas fa-desktop"></i>
-                            </div>
-                            <div style={{ fontSize: '12px', color: '#8b6f47' }}>Display</div>
-                        </div>
-                        <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: '20px', fontWeight: '600', color: hasScaleChanges ? '#4a934a' : '#7a3b2e' }}>
-                                {hasScaleChanges ? 'PREVIEW' : 'CURRENT'}
-                            </div>
-                            <div style={{ fontSize: '12px', color: '#8b6f47' }}>Status</div>
-                        </div>
+                    <i className="fas fa-expand-arrows-alt" style={{
+                        fontSize: '20px',
+                        color: '#7a3b2e'
+                    }}></i>
+                    <div>
+                        <h3 style={{
+                            margin: '0 0 4px 0',
+                            color: '#7a3b2e',
+                            fontSize: '18px',
+                            fontFamily: 'Cinzel, serif'
+                        }}>
+                            Window Scaling
+                        </h3>
+                        <p style={{
+                            margin: '0',
+                            color: '#8b6f47',
+                            fontSize: '14px',
+                            fontStyle: 'italic'
+                        }}>
+                            Adjust window sizes to fit your screen perfectly
+                        </p>
                     </div>
                 </div>
 
-                {/* Window Scaling Card */}
-                <div className="settings-card">
-                    <div className="settings-card-header">
-                        <h3>
-                            <i className="fas fa-expand-arrows-alt" style={{ marginRight: '8px' }}></i>
-                            Window Scaling
-                        </h3>
-                        <p>Adjust the size of all windows without losing sharpness</p>
-                    </div>
-                    <div className="settings-card-body">
-                        <div className="settings-group">
-                            <div className="settings-group-title">Scale Adjustment</div>
-                            <div className="settings-group-description">Make windows larger or smaller to fit your display</div>
-
-                            <div className="control-group">
-                                <label className="control-label" style={{ textAlign: 'center', display: 'block' }}>
-                                    Current Size: <span className="control-value">{scaleToDisplayPercent(windowScale)}%</span>
-                                    {hasScaleChanges && (
-                                        <span className="control-preview">
-                                            → <span className="control-value preview">{scaleToDisplayPercent(previewWindowScale)}%</span>
-                                        </span>
-                                    )}
-                                </label>
-
-                                <div className="control-row" style={{ marginBottom: '16px', marginTop: '16px' }}>
-                                    <button
-                                        className="control-button secondary"
-                                        onClick={previewScaleDown}
-                                        disabled={previewWindowScale <= 0.6}
-                                        style={{ minWidth: '80px' }}
-                                    >
-                                        <i className="fas fa-minus" style={{ marginRight: '6px' }}></i>
-                                        Smaller
-                                    </button>
-                                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <span className="range-label">60%</span>
-                                        <input
-                                            type="range"
-                                            min="0.6"
-                                            max="1.5"
-                                            step="0.05"
-                                            value={previewWindowScale}
-                                            onChange={handleWindowScalePreviewChange}
-                                            className="control-slider"
-                                        />
-                                        <span className="range-label">150%</span>
-                                    </div>
-                                    <button
-                                        className="control-button secondary"
-                                        onClick={previewScaleUp}
-                                        disabled={previewWindowScale >= 1.5}
-                                        style={{ minWidth: '80px' }}
-                                    >
-                                        <i className="fas fa-plus" style={{ marginRight: '6px' }}></i>
-                                        Larger
-                                    </button>
-                                </div>
-
-                                <div className="control-actions" style={{ justifyContent: 'center', gap: '16px' }}>
-                                    <button
-                                        className="control-button secondary"
-                                        onClick={resetWindowScalePreview}
-                                        style={{ minWidth: '120px' }}
-                                    >
-                                        <i className="fas fa-undo" style={{ marginRight: '6px' }}></i>
-                                        Reset to 100%
-                                    </button>
-                                    <button
-                                        className={`control-button primary ${hasScaleChanges ? 'pulse' : ''}`}
-                                        onClick={applyWindowScale}
-                                        disabled={!hasScaleChanges}
-                                        style={{ minWidth: '120px' }}
-                                    >
-                                        <i className="fas fa-check" style={{ marginRight: '6px' }}></i>
-                                        {hasScaleChanges ? 'Apply Changes' : 'No Changes'}
-                                    </button>
-                                </div>
-
-                                <div className="control-help">
-                                    <p><strong>Purpose:</strong> Scale all windows uniformly for better visibility on high-resolution displays or to fit more content on smaller screens.</p>
-                                    <p><strong>Tip:</strong> Use 125-150% for 4K displays, or 60-90% to fit more windows on screen.</p>
-                                </div>
-
-                                {/* Window Scale Preview */}
-                                <div style={{
-                                    marginTop: '16px',
-                                    padding: '16px',
-                                    background: 'rgba(255, 255, 255, 0.6)',
-                                    border: '1px solid #d5cbb0',
-                                    borderRadius: '6px',
-                                    textAlign: 'center'
-                                }}>
-                                    <div style={{ fontSize: '14px', color: '#7a3b2e', marginBottom: '12px', fontWeight: '600' }}>
-                                        Window Scale Preview
-                                    </div>
-                                    <div style={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        gap: '16px',
-                                        marginBottom: '12px'
-                                    }}>
-                                        {/* Current window preview */}
-                                        <div style={{ textAlign: 'center' }}>
-                                            <div style={{
-                                                width: `${60 * (windowScale * 0.8)}px`,
-                                                height: `${40 * (windowScale * 0.8)}px`,
-                                                border: '2px solid #a08c70',
-                                                borderRadius: '4px',
-                                                background: 'linear-gradient(135deg, #f0e6d2, #e8dcc0)',
-                                                position: 'relative',
-                                                margin: '0 auto 4px',
-                                                transition: 'all 0.3s ease'
-                                            }}>
-                                                <div style={{
-                                                    position: 'absolute',
-                                                    top: '2px',
-                                                    left: '2px',
-                                                    right: '2px',
-                                                    height: '8px',
-                                                    background: 'linear-gradient(135deg, #7a3b2e, #5e2e23)',
-                                                    borderRadius: '2px'
-                                                }}></div>
-                                                <div style={{
-                                                    position: 'absolute',
-                                                    bottom: '4px',
-                                                    left: '4px',
-                                                    right: '4px',
-                                                    height: '2px',
-                                                    background: '#d5cbb0',
-                                                    borderRadius: '1px'
-                                                }}></div>
-                                            </div>
-                                            <div style={{ fontSize: '10px', color: '#8b6f47' }}>Current</div>
-                                        </div>
-
-                                        <div style={{ color: '#7a3b2e', fontSize: '16px' }}>→</div>
-
-                                        {/* Preview window */}
-                                        <div style={{ textAlign: 'center' }}>
-                                            <div style={{
-                                                width: `${60 * (previewWindowScale * 0.8)}px`,
-                                                height: `${40 * (previewWindowScale * 0.8)}px`,
-                                                border: hasScaleChanges ? '2px solid #7a3b2e' : '2px solid #a08c70',
-                                                borderRadius: '4px',
-                                                background: hasScaleChanges ?
-                                                    'linear-gradient(135deg, rgba(122, 59, 46, 0.1), rgba(122, 59, 46, 0.05))' :
-                                                    'linear-gradient(135deg, #f0e6d2, #e8dcc0)',
-                                                position: 'relative',
-                                                margin: '0 auto 4px',
-                                                transition: 'all 0.3s ease',
-                                                boxShadow: hasScaleChanges ? '0 0 8px rgba(122, 59, 46, 0.3)' : 'none'
-                                            }}>
-                                                <div style={{
-                                                    position: 'absolute',
-                                                    top: '2px',
-                                                    left: '2px',
-                                                    right: '2px',
-                                                    height: '8px',
-                                                    background: 'linear-gradient(135deg, #7a3b2e, #5e2e23)',
-                                                    borderRadius: '2px'
-                                                }}></div>
-                                                <div style={{
-                                                    position: 'absolute',
-                                                    bottom: '4px',
-                                                    left: '4px',
-                                                    right: '4px',
-                                                    height: '2px',
-                                                    background: '#d5cbb0',
-                                                    borderRadius: '1px'
-                                                }}></div>
-                                            </div>
-                                            <div style={{ fontSize: '10px', color: hasScaleChanges ? '#7a3b2e' : '#8b6f47', fontWeight: hasScaleChanges ? '600' : 'normal' }}>
-                                                {hasScaleChanges ? 'Preview' : 'Same'}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style={{ fontSize: '12px', color: '#8b6f47' }}>
-                                        {hasScaleChanges ?
-                                            `Scaling from ${Math.round(windowScale * 100)}% to ${Math.round(previewWindowScale * 100)}%` :
-                                            `Current scale: ${Math.round(windowScale * 100)}%`
-                                        }
-                                    </div>
-                                </div>
-                            </div>
+                <div className="control-group">
+                    {/* Current Scale Display */}
+                    <div style={{
+                        textAlign: 'center',
+                        marginBottom: '20px',
+                        padding: '12px',
+                        background: 'rgba(255, 255, 255, 0.7)',
+                        borderRadius: '6px',
+                        border: '1px solid #e8dcc0'
+                    }}>
+                        <div style={{ fontSize: '12px', color: '#8b6f47', marginBottom: '8px' }}>
+                            Current Window Scale
                         </div>
+                        <div style={{ fontSize: '24px', fontWeight: '600', color: '#7a3b2e' }}>
+                            {scaleToDisplayPercent(windowScale)}%
+                        </div>
+                        {hasScaleChanges && (
+                            <div style={{
+                                marginTop: '8px',
+                                fontSize: '14px',
+                                color: '#4a934a',
+                                fontWeight: '500'
+                            }}>
+                                → {scaleToDisplayPercent(previewWindowScale)}%
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Scale Controls */}
+                    <div style={{
+                        marginBottom: '20px',
+                        padding: '16px',
+                        background: 'rgba(255, 255, 255, 0.5)',
+                        borderRadius: '6px',
+                        border: '1px solid #e8dcc0'
+                    }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '16px',
+                            marginBottom: '12px'
+                        }}>
+                            <span style={{ fontSize: '12px', color: '#8b6f47' }}>Smaller</span>
+                            <div style={{
+                                width: '200px',
+                                height: '4px',
+                                background: 'linear-gradient(to right, #a08c70, #7a3b2e, #a08c70)',
+                                borderRadius: '2px',
+                                opacity: 0.3
+                            }}></div>
+                            <span style={{ fontSize: '12px', color: '#8b6f47' }}>Larger</span>
+                        </div>
+
+                        <div className="control-row" style={{ justifyContent: 'center', gap: '12px' }}>
+                            <button
+                                className="control-button secondary"
+                                onClick={previewScaleDown}
+                                disabled={previewWindowScale <= 0.6}
+                                style={{ minWidth: '80px' }}
+                                title="Make windows smaller"
+                            >
+                                <i className="fas fa-minus" style={{ marginRight: '6px' }}></i>
+                                Smaller
+                            </button>
+
+                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '12px', maxWidth: '300px' }}>
+                                <span className="range-label">60%</span>
+                                <input
+                                    type="range"
+                                    min="0.6"
+                                    max="1.5"
+                                    step="0.05"
+                                    value={previewWindowScale}
+                                    onChange={handleWindowScalePreviewChange}
+                                    className="control-slider"
+                                    style={{ flex: 1 }}
+                                />
+                                <span className="range-label">150%</span>
+                            </div>
+
+                            <button
+                                className="control-button secondary"
+                                onClick={previewScaleUp}
+                                disabled={previewWindowScale >= 1.5}
+                                style={{ minWidth: '80px' }}
+                                title="Make windows larger"
+                            >
+                                <i className="fas fa-plus" style={{ marginRight: '6px' }}></i>
+                                Larger
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="control-actions" style={{
+                        justifyContent: 'center',
+                        gap: '12px',
+                        flexWrap: 'wrap'
+                    }}>
+                        <button
+                            className="control-button secondary"
+                            onClick={resetWindowScalePreview}
+                            style={{ minWidth: '120px' }}
+                            title="Reset to default 100% scale"
+                        >
+                            <i className="fas fa-undo" style={{ marginRight: '6px' }}></i>
+                            Reset to 100%
+                        </button>
+                        <button
+                            className={`control-button primary ${hasScaleChanges ? 'pulse' : ''}`}
+                            onClick={applyWindowScale}
+                            disabled={!hasScaleChanges}
+                            style={{ minWidth: '120px' }}
+                            title={hasScaleChanges ? 'Apply your scale changes' : 'No changes to apply'}
+                        >
+                            <i className="fas fa-check" style={{ marginRight: '6px' }}></i>
+                            {hasScaleChanges ? 'Apply Changes' : 'No Changes'}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -377,70 +289,189 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     // Gameplay tab content
     const renderGameplayTab = () => (
         <div className="settings-content-clean">
-            <div style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
-                {/* Gameplay Overview */}
+            <div style={{ padding: '24px', maxWidth: '900px', margin: '0 auto' }}>
+                {/* Gameplay Configuration Header */}
                 <div style={{
-                    marginBottom: '24px',
-                    padding: '20px',
-                    background: 'linear-gradient(135deg, rgba(122, 59, 46, 0.1), rgba(122, 59, 46, 0.05))',
-                    border: '2px solid rgba(122, 59, 46, 0.2)',
-                    borderRadius: '12px',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    marginBottom: '32px',
+                    padding: '24px',
+                    background: 'linear-gradient(135deg, rgba(122, 59, 46, 0.08), rgba(122, 59, 46, 0.04))',
+                    border: '1px solid rgba(122, 59, 46, 0.15)',
+                    borderRadius: '12px'
                 }}>
-                    <h2 style={{
-                        margin: '0 0 8px 0',
-                        color: '#7a3b2e',
-                        fontSize: '24px',
-                        fontFamily: 'Cinzel, serif'
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '16px',
+                        marginBottom: '16px'
                     }}>
-                        Gameplay Configuration
-                    </h2>
+                        <i className="fas fa-dungeon" style={{
+                            fontSize: '28px',
+                            color: '#7a3b2e'
+                        }}></i>
+                        <h2 style={{
+                            margin: '0',
+                            color: '#7a3b2e',
+                            fontSize: '28px',
+                            fontFamily: 'Cinzel, serif',
+                            fontWeight: '600'
+                        }}>
+                            Gameplay Configuration
+                        </h2>
+                        <i className="fas fa-dungeon" style={{
+                            fontSize: '28px',
+                            color: '#7a3b2e'
+                        }}></i>
+                    </div>
                     <p style={{
                         margin: '0',
                         color: '#8b6f47',
                         fontSize: '16px',
-                        fontStyle: 'italic'
+                        fontStyle: 'italic',
+                        maxWidth: '600px',
+                        margin: '0 auto'
                     }}>
-                        Configure grid measurements, movement mechanics, and character management options
+                        Master your campaign with precise grid measurements, intuitive movement mechanics, and comprehensive character management
                     </p>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        gap: '24px',
-                        marginTop: '16px',
-                        flexWrap: 'wrap'
+                </div>
+
+                {/* Current Campaign Status */}
+                <div style={{
+                    marginBottom: '32px',
+                    padding: '20px',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    border: '1px solid #e8dcc0',
+                    borderRadius: '8px'
+                }}>
+                    <h3 style={{
+                        margin: '0 0 16px 0',
+                        color: '#7a3b2e',
+                        fontSize: '18px',
+                        fontFamily: 'Cinzel, serif',
+                        textAlign: 'center'
                     }}>
-                        <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: '20px', fontWeight: '600', color: '#7a3b2e' }}>{feetPerTile}ft</div>
-                            <div style={{ fontSize: '12px', color: '#8b6f47' }}>Grid Scale</div>
+                        <i className="fas fa-eye" style={{ marginRight: '8px' }}></i>
+                        Current Campaign Status
+                    </h3>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                        gap: '20px',
+                        textAlign: 'center'
+                    }}>
+                        <div style={{
+                            padding: '16px',
+                            background: 'rgba(122, 59, 46, 0.05)',
+                            borderRadius: '6px',
+                            border: '1px solid rgba(122, 59, 46, 0.1)'
+                        }}>
+                            <div style={{ fontSize: '24px', fontWeight: '600', color: '#7a3b2e', marginBottom: '4px' }}>
+                                {feetPerTile}ft
+                            </div>
+                            <div style={{ fontSize: '12px', color: '#8b6f47', fontWeight: '500' }}>
+                                Grid Scale
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#a08c70', marginTop: '4px' }}>
+                                Distance per tile
+                            </div>
                         </div>
-                        <div style={{ textAlign: 'center' }}>
-                            <div style={{ fontSize: '20px', fontWeight: '600', color: showMovementVisualization ? '#4a934a' : '#c74545' }}>
+                        <div style={{
+                            padding: '16px',
+                            background: showMovementVisualization ? 'rgba(74, 147, 74, 0.1)' : 'rgba(199, 69, 69, 0.1)',
+                            borderRadius: '6px',
+                            border: `1px solid ${showMovementVisualization ? 'rgba(74, 147, 74, 0.2)' : 'rgba(199, 69, 69, 0.2)'}`
+                        }}>
+                            <div style={{
+                                fontSize: '24px',
+                                fontWeight: '600',
+                                color: showMovementVisualization ? '#4a934a' : '#c74545',
+                                marginBottom: '4px'
+                            }}>
                                 {showMovementVisualization ? 'ON' : 'OFF'}
                             </div>
-                            <div style={{ fontSize: '12px', color: '#8b6f47' }}>Movement Viz</div>
+                            <div style={{ fontSize: '12px', color: '#8b6f47', fontWeight: '500' }}>
+                                Movement Visualization
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#a08c70', marginTop: '4px' }}>
+                                Path preview
+                            </div>
+                        </div>
+                        <div style={{
+                            padding: '16px',
+                            background: 'rgba(122, 59, 46, 0.05)',
+                            borderRadius: '6px',
+                            border: '1px solid rgba(122, 59, 46, 0.1)'
+                        }}>
+                            <div style={{ fontSize: '24px', fontWeight: '600', color: '#7a3b2e', marginBottom: '4px' }}>
+                                {characterLevel || 1}
+                            </div>
+                            <div style={{ fontSize: '12px', color: '#8b6f47', fontWeight: '500' }}>
+                                Character Level
+                            </div>
+                            <div style={{ fontSize: '11px', color: '#a08c70', marginTop: '4px' }}>
+                                Current level
+                            </div>
                         </div>
                         {isInMultiplayer && (
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: '20px', fontWeight: '600', color: '#7a3b2e' }}>
-                                    <i className={`fas ${isGMMode ? 'fa-crown' : 'fa-user'}`}></i>
+                            <div style={{
+                                padding: '16px',
+                                background: 'rgba(122, 59, 46, 0.05)',
+                                borderRadius: '6px',
+                                border: '1px solid rgba(122, 59, 46, 0.1)'
+                            }}>
+                                <div style={{ fontSize: '24px', fontWeight: '600', color: '#7a3b2e', marginBottom: '4px' }}>
+                                    <i className={`fas ${isGMMode ? 'fa-crown' : 'fa-user'}`} style={{ fontSize: '20px' }}></i>
                                 </div>
-                                <div style={{ fontSize: '12px', color: '#8b6f47' }}>{isGMMode ? 'GM' : 'Player'}</div>
+                                <div style={{ fontSize: '12px', color: '#8b6f47', fontWeight: '500' }}>
+                                    {isGMMode ? 'Game Master' : 'Player'}
+                                </div>
+                                <div style={{ fontSize: '11px', color: '#a08c70', marginTop: '4px' }}>
+                                    Your role
+                                </div>
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* Character Progression Card */}
-                <div className="settings-card" style={{ marginBottom: '24px' }}>
-                    <div className="settings-card-header">
-                        <h3>
-                            <i className="fas fa-level-up-alt" style={{ marginRight: '8px' }}></i>
-                            Character Progression
-                        </h3>
-                        <p>Manage character level, experience, and spell progression</p>
+                {/* Character Progression Section */}
+                <div style={{
+                    marginBottom: '24px',
+                    padding: '20px',
+                    background: 'linear-gradient(135deg, rgba(74, 147, 74, 0.08), rgba(74, 147, 74, 0.04))',
+                    border: '1px solid rgba(74, 147, 74, 0.15)',
+                    borderRadius: '8px'
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '16px',
+                        gap: '12px'
+                    }}>
+                        <i className="fas fa-level-up-alt" style={{
+                            fontSize: '20px',
+                            color: '#4a934a'
+                        }}></i>
+                        <div>
+                            <h3 style={{
+                                margin: '0 0 4px 0',
+                                color: '#4a934a',
+                                fontSize: '20px',
+                                fontFamily: 'Cinzel, serif',
+                                fontWeight: '600'
+                            }}>
+                                Character Progression
+                            </h3>
+                            <p style={{
+                                margin: '0',
+                                color: '#8b6f47',
+                                fontSize: '14px',
+                                fontStyle: 'italic'
+                            }}>
+                                Level up your character and track experience progression
+                            </p>
+                        </div>
                     </div>
-                    <div className="settings-card-body">
                         {/* Character Info Section */}
                         <div className="settings-group" style={{ marginBottom: '24px' }}>
                             <div className="settings-group-title">Current Character</div>
@@ -583,19 +614,46 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 </div>
                             )}
                         </div>
-                    </div>
                 </div>
 
-                {/* Grid & Movement Card */}
-                <div className="settings-card" style={{ marginBottom: '24px' }}>
-                    <div className="settings-card-header">
-                        <h3>
-                            <i className="fas fa-th" style={{ marginRight: '8px' }}></i>
-                            Grid & Movement
-                        </h3>
-                        <p>Configure grid measurements and movement mechanics for tactical gameplay</p>
+                {/* Grid & Movement Section */}
+                <div style={{
+                    marginBottom: '24px',
+                    padding: '20px',
+                    background: 'linear-gradient(135deg, rgba(160, 140, 112, 0.08), rgba(160, 140, 112, 0.04))',
+                    border: '1px solid rgba(160, 140, 112, 0.15)',
+                    borderRadius: '8px'
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '16px',
+                        gap: '12px'
+                    }}>
+                        <i className="fas fa-th" style={{
+                            fontSize: '20px',
+                            color: '#a08c70'
+                        }}></i>
+                        <div>
+                            <h3 style={{
+                                margin: '0 0 4px 0',
+                                color: '#a08c70',
+                                fontSize: '20px',
+                                fontFamily: 'Cinzel, serif',
+                                fontWeight: '600'
+                            }}>
+                                Grid & Movement
+                            </h3>
+                            <p style={{
+                                margin: '0',
+                                color: '#8b6f47',
+                                fontSize: '14px',
+                                fontStyle: 'italic'
+                            }}>
+                                Set grid scale and movement visualization for tactical combat
+                            </p>
+                        </div>
                     </div>
-                    <div className="settings-card-body">
                         {/* Grid Scale Section */}
                         <div className="settings-group" style={{ marginBottom: '24px' }}>
                             <div className="settings-group-title">Grid Scale</div>
@@ -777,19 +835,46 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 </div>
                             )}
                         </div>
-                    </div>
                 </div>
 
-                {/* Character Management Card */}
-                <div className="settings-card" style={{ marginBottom: '24px' }}>
-                    <div className="settings-card-header">
-                        <h3>
-                            <i className="fas fa-user-shield" style={{ marginRight: '8px' }}></i>
-                            Character Management
-                        </h3>
-                        <p>Manage character resources and recovery options</p>
+                {/* Character Management Section */}
+                <div style={{
+                    marginBottom: '24px',
+                    padding: '20px',
+                    background: 'linear-gradient(135deg, rgba(199, 69, 69, 0.08), rgba(199, 69, 69, 0.04))',
+                    border: '1px solid rgba(199, 69, 69, 0.15)',
+                    borderRadius: '8px'
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '16px',
+                        gap: '12px'
+                    }}>
+                        <i className="fas fa-user-shield" style={{
+                            fontSize: '20px',
+                            color: '#c74545'
+                        }}></i>
+                        <div>
+                            <h3 style={{
+                                margin: '0 0 4px 0',
+                                color: '#c74545',
+                                fontSize: '20px',
+                                fontFamily: 'Cinzel, serif',
+                                fontWeight: '600'
+                            }}>
+                                Character Management
+                            </h3>
+                            <p style={{
+                                margin: '0',
+                                color: '#8b6f47',
+                                fontSize: '14px',
+                                fontStyle: 'italic'
+                            }}>
+                                Restore resources and manage character recovery
+                            </p>
+                        </div>
                     </div>
-                    <div className="settings-card-body">
                         <div className="settings-group">
                             <div className="settings-group-title">Rest & Recovery</div>
                             <div className="settings-group-description">Restore character resources and health</div>
@@ -826,20 +911,48 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
 
                 {/* Multiplayer Session Card - only show when in multiplayer */}
                 {isInMultiplayer && (
-                    <div className="settings-card">
-                        <div className="settings-card-header">
-                            <h3>
-                                <i className="fas fa-users" style={{ marginRight: '8px' }}></i>
-                                Multiplayer Session
-                            </h3>
-                            <p>Manage your current multiplayer session</p>
+                    <div style={{
+                        marginBottom: '24px',
+                        padding: '20px',
+                        background: 'linear-gradient(135deg, rgba(52, 152, 219, 0.08), rgba(52, 152, 219, 0.04))',
+                        border: '1px solid rgba(52, 152, 219, 0.15)',
+                        borderRadius: '8px'
+                    }}>
+                        {/* Multiplayer Session Section */}
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            gap: '12px'
+                        }}>
+                            <i className="fas fa-users" style={{
+                                fontSize: '20px',
+                                color: '#3498db'
+                            }}></i>
+                            <div>
+                                <h3 style={{
+                                    margin: '0 0 4px 0',
+                                    color: '#3498db',
+                                    fontSize: '20px',
+                                    fontFamily: 'Cinzel, serif',
+                                    fontWeight: '600'
+                                }}>
+                                    Multiplayer Session
+                                </h3>
+                                <p style={{
+                                    margin: '0',
+                                    color: '#8b6f47',
+                                    fontSize: '14px',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Manage your multiplayer session and room settings
+                                </p>
+                            </div>
                         </div>
-                        <div className="settings-card-body">
                             {/* Room Information Section */}
                             <div className="settings-group" style={{ marginBottom: '24px' }}>
                                 <div className="settings-group-title">Room Information</div>
@@ -885,7 +998,6 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 )}
             </div>

@@ -25,6 +25,7 @@ const GridItemsManager = lazy(() => import("./components/grid/GridItemsManager")
 const DynamicFogManager = lazy(() => import("./components/level-editor/DynamicFogManager"));
 const DynamicLightingManager = lazy(() => import("./components/level-editor/DynamicLightingManager"));
 const AtmosphericEffectsManager = lazy(() => import("./components/level-editor/AtmosphericEffectsManager"));
+const MemorySnapshotManager = lazy(() => import("./components/level-editor/MemorySnapshotManager"));
 const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
 const CombatTimeline = lazy(() => import("./components/combat/CombatTimeline"));
@@ -493,6 +494,7 @@ function GameScreen() {
                     <DynamicFogManager />
                     <DynamicLightingManager />
                     <AtmosphericEffectsManager />
+                    <MemorySnapshotManager />
                     <DialogueSystem />
                     <DialogueControls />
                     <DiceRollingSystem />

@@ -23,10 +23,7 @@
   display: flex !important;
   flex-direction: column !important;
   position: relative !important;
-  padding: 0 !important;
   margin: 0 !important;
-  /* Minimal bottom padding for progress bar */
-  padding-bottom: 30px !important;
 }
 
 /* Make wizard footer always stick to bottom */

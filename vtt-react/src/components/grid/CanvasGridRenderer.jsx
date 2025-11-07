@@ -14,12 +14,18 @@ const CanvasGridRenderer = ({
     gridLineColor = 'rgba(77, 155, 230, 0.3)', // Increased opacity for better visibility
     gridLineThickness = 1,
     isDraggingItem = false,
-    isDraggingCharacterToken = false
+    isDraggingCharacterToken = false,
+    isDraggingCamera = false
 }) => {
     const canvasRef = useRef(null);
     const interactionCanvasRef = useRef(null);
     const animationFrameRef = useRef(null);
     const lastRenderParams = useRef(null);
+    const renderRafRef = useRef(null);
+    const isRenderingRef = useRef(false);
+    // PERFORMANCE FIX: Throttle zoom renders to prevent excessive re-renders
+    const zoomRenderRafRef = useRef(null);
+    const lastZoomRenderRef = useRef(0);
     
 
     
@@ -69,32 +75,38 @@ const CanvasGridRenderer = ({
         }
     }, []);
     
-    // Optimized grid rendering function
+    // Optimized grid rendering function - reads camera position directly from store for real-time updates
     const renderGrid = useCallback(() => {
         const canvas = canvasRef.current;
         if (!canvas || !showGrid || !globalShowGrid) return;
         
-
+        // Read current camera position directly from store to avoid stale values during drag
+        const currentState = useGameStore.getState();
+        const currentCameraX = currentState.cameraX;
+        const currentCameraY = currentState.cameraY;
+        const currentEffectiveZoom = currentState.zoomLevel * currentState.playerZoom;
         
         const ctx = canvas.getContext('2d');
         const { width, height } = canvas;
         
-        // Clear canvas
-        ctx.clearRect(0, 0, width, height);
-        
-        const lodLevel = getLODLevel(effectiveZoom);
-        const gridProps = getGridProperties(lodLevel, gridSize * effectiveZoom, effectiveZoom);
+        // Decide whether we will draw BEFORE clearing to avoid blinking to blank
+        const lodLevel = getLODLevel(currentEffectiveZoom);
+        const gridProps = getGridProperties(lodLevel, gridSize * currentEffectiveZoom, currentEffectiveZoom);
 
         if (lodLevel === 0 || gridProps.spacing < 1) {
-            return; // Don't render grid at very low zoom or if spacing is too small
+            // Keep previous frame visible instead of clearing to prevent invisibility during drag
+            return; // Skip drawing at very low zoom or tiny spacing
         }
+
+        // Clear canvas only when we're about to draw
+        ctx.clearRect(0, 0, width, height);
         
-        // Calculate viewport bounds in world coordinates
+        // Calculate viewport bounds in world coordinates using current camera position
         const viewportBounds = {
-            left: cameraX - (width / 2) / effectiveZoom,
-            right: cameraX + (width / 2) / effectiveZoom,
-            top: cameraY - (height / 2) / effectiveZoom,
-            bottom: cameraY + (height / 2) / effectiveZoom
+            left: currentCameraX - (width / 2) / currentEffectiveZoom,
+            right: currentCameraX + (width / 2) / currentEffectiveZoom,
+            top: currentCameraY - (height / 2) / currentEffectiveZoom,
+            bottom: currentCameraY + (height / 2) / currentEffectiveZoom
         };
 
         // Calculate grid bounds
@@ -196,10 +208,7 @@ const CanvasGridRenderer = ({
     }, [
         showGrid,
         globalShowGrid,
-        effectiveZoom,
         gridSize,
-        cameraX,
-        cameraY,
         gridOffsetX,
         gridOffsetY,
         finalGridLineColor,
@@ -209,15 +218,46 @@ const CanvasGridRenderer = ({
         viewportSize.height,
         getLODLevel,
         getGridProperties,
-
         gridSystem
     ]);
     
+    // Track drag state in ref for use in render loop
+    const isDraggingCameraRef = useRef(false);
+    useEffect(() => {
+        isDraggingCameraRef.current = isDraggingCamera;
+    }, [isDraggingCamera]);
+    
+    // Continuous animation loop during drag for smooth rendering
+    const startDragRenderLoop = useCallback(() => {
+        if (renderRafRef.current !== null) return; // Already running
+        
+        const renderLoop = () => {
+            renderGrid();
+            // Check current drag state from ref
+            if (isDraggingCameraRef.current) {
+                renderRafRef.current = requestAnimationFrame(renderLoop);
+            } else {
+                renderRafRef.current = null;
+            }
+        };
+        
+        renderRafRef.current = requestAnimationFrame(renderLoop);
+    }, [renderGrid]);
+    
     // Real-time render function for smooth grid movement
     const realtimeRender = useCallback(() => {
-        // Use requestAnimationFrame for smooth rendering
-        requestAnimationFrame(renderGrid);
-    }, [renderGrid]);
+        // During camera drag, use continuous animation loop
+        if (isDraggingCamera) {
+            startDragRenderLoop();
+        } else {
+            // Normal rendering when not dragging - cancel loop if running
+            if (renderRafRef.current !== null) {
+                cancelAnimationFrame(renderRafRef.current);
+                renderRafRef.current = null;
+            }
+            requestAnimationFrame(renderGrid);
+        }
+    }, [renderGrid, isDraggingCamera, startDragRenderLoop]);
     
     // Setup canvas and handle resize
     useEffect(() => {
@@ -246,10 +286,59 @@ const CanvasGridRenderer = ({
 
     }, [viewportSize, realtimeRender]);
 
-    // Render when grid parameters change
+    // Start/stop continuous render loop when drag state changes
     useEffect(() => {
-        realtimeRender();
-    }, [realtimeRender]);
+        if (isDraggingCamera) {
+            startDragRenderLoop();
+        } else {
+            // Stop the loop when drag ends
+            if (renderRafRef.current !== null) {
+                cancelAnimationFrame(renderRafRef.current);
+                renderRafRef.current = null;
+            }
+            // Final render to ensure grid is up to date
+            requestAnimationFrame(renderGrid);
+        }
+        
+        return () => {
+            // Cleanup on unmount
+            if (renderRafRef.current !== null) {
+                cancelAnimationFrame(renderRafRef.current);
+                renderRafRef.current = null;
+            }
+        };
+    }, [isDraggingCamera, startDragRenderLoop, renderGrid]);
+    
+    // Render when grid parameters change (only when not dragging - drag loop handles updates)
+    useEffect(() => {
+        if (!isDraggingCamera) {
+            // Throttle zoom renders to max 60fps (16ms between renders)
+            const now = performance.now();
+            const timeSinceLastRender = now - lastZoomRenderRef.current;
+            
+            if (timeSinceLastRender >= 16) {
+                // Render immediately if enough time has passed
+                lastZoomRenderRef.current = now;
+                realtimeRender();
+            } else {
+                // Schedule render for next frame if too soon
+                if (zoomRenderRafRef.current === null) {
+                    zoomRenderRafRef.current = requestAnimationFrame(() => {
+                        lastZoomRenderRef.current = performance.now();
+                        realtimeRender();
+                        zoomRenderRafRef.current = null;
+                    });
+                }
+            }
+        }
+        
+        return () => {
+            if (zoomRenderRafRef.current !== null) {
+                cancelAnimationFrame(zoomRenderRafRef.current);
+                zoomRenderRafRef.current = null;
+            }
+        };
+    }, [realtimeRender, isDraggingCamera, cameraX, cameraY, effectiveZoom, gridSize, gridOffsetX, gridOffsetY, showGrid, globalShowGrid]);
     
     // Handle mouse interactions on the interaction canvas
     const handleCanvasInteraction = useCallback((event) => {

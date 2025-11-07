@@ -1838,6 +1838,7 @@
   box-shadow: var(--pf-shadow-sm);
   font-family: var(--pf-font-ui);
   letter-spacing: 0.5px;
+  z-index: 10;
 }
 
 /* Spell Info */

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../components/level-editor/terrain/TerrainSystem';
+import { getGridSystem } from '../utils/InfiniteGridSystem';
 
 // Terrain categories for organization
 export const TERRAIN_CATEGORIES = {
@@ -521,6 +522,12 @@ const initialState = {
     viewingFromToken: null, // Current token being viewed from (for highlighting and camera locking)
     visibleArea: null, // Array of visible tile keys for FOV-based visibility (stored as array for React reactivity)
     visibilityPolygon: null, // Array of {x, y} points forming the raycast visibility polygon for accurate point-in-polygon checks
+    
+    // Memory/Afterimage system for previously explored areas
+    exploredAreas: {}, // { "x,y": boolean } - Areas that have been explored (permanently revealed)
+    memorySnapshots: {}, // { "x,y": { terrain, walls, objects, dndElements, timestamp } } - Snapshots of what was visible when last seen
+    tokenAfterimages: {}, // { tokenId: { position: {x, y}, data: tokenData, lastSeenTimestamp } } - Afterimages of tokens that moved out of view
+    afterimageEnabled: true, // Enable/disable afterimage system
 
     // Dynamic fog settings
     dynamicFogEnabled: true,
@@ -858,6 +865,229 @@ const useLevelEditorStore = create((set, get) => ({
                 const state = get();
                 const key = `${x},${y}`;
                 return state.revealedAreas[key] || false;
+            },
+
+            // Memory/Afterimage system functions
+            setExploredArea: (x, y, explored = true) => {
+                const state = get();
+                const key = `${x},${y}`;
+                if (explored) {
+                    set({
+                        exploredAreas: {
+                            ...state.exploredAreas,
+                            [key]: true
+                        }
+                    });
+                } else {
+                    const newExploredAreas = { ...state.exploredAreas };
+                    delete newExploredAreas[key];
+                    set({ exploredAreas: newExploredAreas });
+                }
+            },
+
+            getExploredArea: (x, y) => {
+                const state = get();
+                const key = `${x},${y}`;
+                return state.exploredAreas[key] || false;
+            },
+
+            // Create a memory snapshot of what's visible at a location
+            createMemorySnapshot: (x, y, snapshotData) => {
+                const state = get();
+                const key = `${x},${y}`;
+                set({
+                    memorySnapshots: {
+                        ...state.memorySnapshots,
+                        [key]: {
+                            ...snapshotData,
+                            timestamp: Date.now()
+                        }
+                    },
+                    exploredAreas: {
+                        ...state.exploredAreas,
+                        [key]: true
+                    }
+                });
+            },
+
+            getMemorySnapshot: (x, y) => {
+                const state = get();
+                const key = `${x},${y}`;
+                return state.memorySnapshots[key] || null;
+            },
+
+            // Update token afterimage when token moves out of view
+            updateTokenAfterimage: (tokenId, tokenData, position) => {
+                const state = get();
+                set({
+                    tokenAfterimages: {
+                        ...state.tokenAfterimages,
+                        [tokenId]: {
+                            position: { ...position },
+                            data: { ...tokenData },
+                            lastSeenTimestamp: Date.now()
+                        }
+                    }
+                });
+            },
+
+            removeTokenAfterimage: (tokenId) => {
+                const state = get();
+                const newAfterimages = { ...state.tokenAfterimages };
+                delete newAfterimages[tokenId];
+                set({ tokenAfterimages: newAfterimages });
+            },
+
+            getTokenAfterimage: (tokenId) => {
+                const state = get();
+                return state.tokenAfterimages[tokenId] || null;
+            },
+
+            // Capture afterimage and explored area when a player token moves
+            captureTokenMovementAfterimage: (tokenId, tokenData, oldPosition, newPosition) => {
+                const state = get();
+                
+                // Only capture if afterimage is enabled and not in GM mode
+                if (!state.afterimageEnabled || state.isGMMode || !state.dynamicFogEnabled) {
+                    return;
+                }
+                
+                // Only capture if this is the player's own token (viewing from this token)
+                const isViewingFromThisToken = state.viewingFromToken && (
+                    (state.viewingFromToken.type === 'character' && state.viewingFromToken.characterId === tokenId) ||
+                    (state.viewingFromToken.type === 'creature' && state.viewingFromToken.creatureId === tokenId) ||
+                    state.viewingFromToken.id === tokenId
+                );
+                
+                if (!isViewingFromThisToken) {
+                    return;
+                }
+                
+                // Import visibility calculations dynamically to avoid circular dependencies
+                Promise.all([
+                    import('../utils/VisibilityCalculations'),
+                    import('./gameStore'),
+                    import('./gridItemStore')
+                ]).then(([
+                    { calculateVisibleTiles },
+                    gameStoreModule,
+                    itemStoreModule
+                ]) => {
+                    const gameStore = gameStoreModule.default.getState();
+                    const { gridSize, gridOffsetX, gridOffsetY } = gameStore;
+                    
+                    // Convert old position to grid coordinates
+                    const oldGridX = Math.floor((oldPosition.x - gridOffsetX) / gridSize);
+                    const oldGridY = Math.floor((oldPosition.y - gridOffsetY) / gridSize);
+                    
+                    // Get vision range and type for this token
+                    let visionRange = 6; // Default vision range
+                    let visionType = 'normal';
+                    let fovAngle = state.fovAngle || 360;
+                    let facingAngle = state.getTokenFacingDirection ? state.getTokenFacingDirection(tokenId) : null;
+                    
+                    if (state.tokenVisionRanges[tokenId]) {
+                        visionRange = state.tokenVisionRanges[tokenId].range ?? visionRange;
+                        visionType = state.tokenVisionRanges[tokenId].type || visionType;
+                    }
+                    
+                    // Calculate what was visible from the old position
+                    const visibleTiles = calculateVisibleTiles(
+                        oldGridX,
+                        oldGridY,
+                        visionRange,
+                        visionType,
+                        state.respectLineOfSight ? state.wallData : {},
+                        {},
+                        fovAngle,
+                        facingAngle
+                    );
+                    
+                    // Create memory snapshots for all visible tiles
+                    const itemStore = itemStoreModule.default.getState();
+                    const { gridItems } = itemStore;
+                    
+                    visibleTiles.forEach(tileKey => {
+                        const [x, y] = tileKey.split(',').map(Number);
+                        
+                        // Get current state of this tile
+                        const snapshotData = {
+                            terrain: state.terrainData[tileKey] || null,
+                            // Get walls that touch this tile
+                            walls: Object.entries(state.wallData || {}).filter(([wallKey]) => {
+                                const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+                                // Check if wall touches this tile
+                                return (x1 === x || x2 === x || y1 === y || y2 === y);
+                            }).map(([wallKey, wallData_item]) => ({ key: wallKey, data: wallData_item })),
+                            // Get objects at this tile
+                            objects: (state.environmentalObjects || []).filter(obj => {
+                                if (!obj.position) return false;
+                                const objGridX = Math.floor((obj.position.x - gridOffsetX) / gridSize);
+                                const objGridY = Math.floor((obj.position.y - gridOffsetY) / gridSize);
+                                return objGridX === x && objGridY === y;
+                            }),
+                            // Get D&D elements at this tile
+                            dndElements: (state.dndElements || []).filter(elem => {
+                                if (!elem.position) return false;
+                                const elemGridX = Math.floor((elem.position.x - gridOffsetX) / gridSize);
+                                const elemGridY = Math.floor((elem.position.y - gridOffsetY) / gridSize);
+                                return elemGridX === x && elemGridY === y;
+                            }),
+                            // Get grid items at this tile
+                            gridItems: gridItems.filter(item => {
+                                if (!item.position) return false;
+                                const itemGridX = Math.floor((item.position.x - gridOffsetX) / gridSize);
+                                const itemGridY = Math.floor((item.position.y - gridOffsetY) / gridSize);
+                                return itemGridX === x && itemGridY === y;
+                            })
+                        };
+                        
+                        // Create memory snapshot and mark as explored
+                        const currentState = get();
+                        const key = `${x},${y}`;
+                        set({
+                            memorySnapshots: {
+                                ...currentState.memorySnapshots,
+                                [key]: {
+                                    ...snapshotData,
+                                    timestamp: Date.now()
+                                }
+                            },
+                            exploredAreas: {
+                                ...currentState.exploredAreas,
+                                [key]: true
+                            }
+                        });
+                    });
+                    
+                    // Create afterimage at the old position
+                    const currentState = get();
+                    set({
+                        tokenAfterimages: {
+                            ...currentState.tokenAfterimages,
+                            [tokenId]: {
+                                position: { x: oldGridX, y: oldGridY },
+                                data: { ...tokenData },
+                                lastSeenTimestamp: Date.now()
+                            }
+                        }
+                    });
+                }).catch(error => {
+                    console.error('Failed to capture token movement afterimage:', error);
+                });
+            },
+
+            // Clear all memory snapshots and afterimages
+            clearMemorySnapshots: () => {
+                set({ 
+                    exploredAreas: {},
+                    memorySnapshots: {},
+                    tokenAfterimages: {}
+                });
+            },
+
+            setAfterimageEnabled: (enabled) => {
+                set({ afterimageEnabled: enabled });
             },
 
             // Token vision management
@@ -1413,17 +1643,20 @@ const useLevelEditorStore = create((set, get) => ({
                 set({ terrainData: newTerrainData });
             },
 
-            // Fog of War functions - Free-form path-based painting
+            // Fog of War functions - Free-form path-based painting (NOT grid-bound)
             paintFogBrush: (worldX, worldY, brushRadius, gridSize = 50) => {
                 const state = get();
                 const fogPaths = [...state.fogOfWarPaths];
+                
+                // Keep fog free-form - do NOT snap to grid (fog should be smooth and continuous)
                 
                 // Ensure brush radius is valid and positive
                 const validBrushRadius = Math.max(0.5, brushRadius || 1);
                 
                 // Convert brush size (1-5) to pixel radius in world space
                 // Use consistent calculation for all points
-                const actualRadius = validBrushRadius * gridSize * 0.5;
+                // Increased multiplier for thicker fog (0.5 -> 0.7)
+                const actualRadius = validBrushRadius * gridSize * 0.7;
                 
                 // Ensure minimum radius to avoid rendering issues
                 if (actualRadius <= 0 || !Number.isFinite(actualRadius)) {
@@ -1435,21 +1668,25 @@ const useLevelEditorStore = create((set, get) => ({
                 
                 if (currentPath && currentPath.points.length > 0) {
                     const lastPoint = currentPath.points[currentPath.points.length - 1];
-                    const distance = Math.sqrt(
-                        Math.pow(worldX - lastPoint.worldX, 2) + 
-                        Math.pow(worldY - lastPoint.worldY, 2)
-                    );
+                    // Use squared distance for performance (avoid Math.sqrt)
+                    const dx = worldX - lastPoint.worldX;
+                    const dy = worldY - lastPoint.worldY;
+                    const distanceSquared = dx * dx + dy * dy;
                     
-                    // Use the same radius calculation for continuity check
-                    const continuationRadius = actualRadius * 2;
+                    // Use the same radius calculation for continuity check (squared for comparison)
+                    // Increase continuation radius for smoother drawing (less gaps)
+                    const continuationRadius = actualRadius * 2.5; // Increased from 2.0 for smoother drawing
+                    const continuationRadiusSquared = continuationRadius * continuationRadius;
                     
                     // If close enough, add to existing path with consistent radius
-                    if (distance <= continuationRadius) {
+                    if (distanceSquared <= continuationRadiusSquared) {
+                        // Mutate the path directly for better performance (we'll create new array on set)
                         currentPath.points.push({
                             worldX,
                             worldY,
                             brushRadius: actualRadius
                         });
+                        // Create new array reference for React reactivity
                         set({ fogOfWarPaths: [...fogPaths] });
                         return;
                     }
@@ -1464,12 +1701,26 @@ const useLevelEditorStore = create((set, get) => ({
                 };
                 
                 fogPaths.push(newPath);
+                
+                // Auto-consolidate if too many paths (performance optimization)
+                const MAX_PATHS_BEFORE_CONSOLIDATION = 100;
+                if (fogPaths.length > MAX_PATHS_BEFORE_CONSOLIDATION) {
+                    // Consolidate paths automatically
+                    const state = get();
+                    if (state.consolidateFogPaths) {
+                        state.consolidateFogPaths();
+                        return; // Consolidate will update the paths
+                    }
+                }
+                
                 set({ fogOfWarPaths: fogPaths });
             },
 
             removeFogAtPosition: (worldX, worldY, brushRadius, gridSize = 50) => {
                 const state = get();
                 const fogErasePaths = [...state.fogErasePaths];
+                
+                // Keep fog free-form - do NOT snap to grid (fog should be smooth and continuous)
                 
                 // Ensure brush radius is valid and positive
                 const validBrushRadius = Math.max(0.5, brushRadius || 1);
@@ -1488,21 +1739,25 @@ const useLevelEditorStore = create((set, get) => ({
                 
                 if (currentErasePath && currentErasePath.points.length > 0) {
                     const lastPoint = currentErasePath.points[currentErasePath.points.length - 1];
-                    const distance = Math.sqrt(
-                        Math.pow(worldX - lastPoint.worldX, 2) + 
-                        Math.pow(worldY - lastPoint.worldY, 2)
-                    );
+                    // Use squared distance for performance (avoid Math.sqrt)
+                    const dx = worldX - lastPoint.worldX;
+                    const dy = worldY - lastPoint.worldY;
+                    const distanceSquared = dx * dx + dy * dy;
                     
-                    // Use the same radius calculation for continuity check
-                    const continuationRadius = actualRadius * 2;
+                    // Use the same radius calculation for continuity check (squared for comparison)
+                    // Increase continuation radius for smoother erasing (less gaps)
+                    const continuationRadius = actualRadius * 2.5; // Increased from 2.0 for smoother erasing
+                    const continuationRadiusSquared = continuationRadius * continuationRadius;
                     
                     // If close enough, add to existing erase path with consistent radius
-                    if (distance <= continuationRadius) {
+                    if (distanceSquared <= continuationRadiusSquared) {
+                        // Mutate the path directly for better performance (we'll create new array on set)
                         currentErasePath.points.push({
                             worldX,
                             worldY,
                             brushRadius: actualRadius
                         });
+                        // Create new array reference for React reactivity
                         set({ fogErasePaths: [...fogErasePaths] });
                         return;
                     }
@@ -1540,43 +1795,223 @@ const useLevelEditorStore = create((set, get) => ({
                 set({ fogOfWarPaths: [], fogErasePaths: [], fogOfWarData: {} });
             },
 
-            coverEntireMapWithFog: (gridSize = 50) => {
-                // Create a single large fog path covering the entire map
-                // This makes erasing much easier - one path instead of hundreds
-                const mapBounds = 200;
-                const mapMin = -mapBounds * gridSize;
-                const mapMax = mapBounds * gridSize;
+            // Helper function to get bounding box of a path
+            getPathBounds: (points) => {
+                if (!points || points.length === 0) return null;
+                let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+                for (const point of points) {
+                    const radius = point.brushRadius || 0;
+                    minX = Math.min(minX, point.worldX - radius);
+                    minY = Math.min(minY, point.worldY - radius);
+                    maxX = Math.max(maxX, point.worldX + radius);
+                    maxY = Math.max(maxY, point.worldY + radius);
+                }
+                return { minX, minY, maxX, maxY };
+            },
+
+            // Helper function to check if two path bounds overlap
+            pathsOverlap: (bounds1, bounds2) => {
+                if (!bounds1 || !bounds2) return false;
+                return !(bounds1.maxX < bounds2.minX || bounds1.minX > bounds2.maxX ||
+                        bounds1.maxY < bounds2.minY || bounds1.minY > bounds2.maxY);
+            },
+
+            // Consolidate fog paths to reduce performance issues
+            // Merges overlapping paths and limits total path count
+            consolidateFogPaths: () => {
+                const state = get();
+                const MAX_PATHS = 50; // Limit total paths
+                const MAX_POINTS_PER_PATH = 2000; // Limit points per path
                 
-                // Create a dense grid of overlapping points for complete coverage
-                // But keep them in a single path so they can be erased together
-                const fogPaths = [];
-                const brushRadius = gridSize * 2.5; // Brush radius for each point
-                const spacing = brushRadius * 0.8; // Overlap for complete coverage
+                let fogPaths = [...state.fogOfWarPaths];
+                let erasePaths = [...state.fogErasePaths];
                 
-                // Create a single path with many points for unified fog coverage
-                const points = [];
-                for (let x = mapMin; x <= mapMax; x += spacing) {
-                    for (let y = mapMin; y <= mapMax; y += spacing) {
-                        points.push({
-                            worldX: x,
-                            worldY: y,
-                            brushRadius: brushRadius
-                        });
+                // Sort by timestamp (oldest first)
+                fogPaths.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                erasePaths.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                
+                // Keep full-coverage paths (cover entire map) - these are important
+                const fullCoveragePaths = fogPaths.filter(path => 
+                    path.points && path.points.length > 5000
+                );
+                const regularPaths = fogPaths.filter(path => 
+                    !path.points || path.points.length <= 5000
+                );
+                
+                // Limit regular paths - keep most recent ones
+                const limitedRegularPaths = regularPaths.slice(-MAX_PATHS);
+                
+                // Merge small paths that are close together
+                const mergedPaths = [];
+                const processed = new Set();
+                
+                for (let i = 0; i < limitedRegularPaths.length; i++) {
+                    if (processed.has(i)) continue;
+                    
+                    const path1 = limitedRegularPaths[i];
+                    if (!path1.points || path1.points.length === 0) continue;
+                    
+                    const mergedPath = {
+                        ...path1,
+                        points: [...path1.points]
+                    };
+                    processed.add(i);
+                    
+                    // Try to merge with nearby paths
+                    for (let j = i + 1; j < limitedRegularPaths.length; j++) {
+                        if (processed.has(j)) continue;
+                        
+                        const path2 = limitedRegularPaths[j];
+                        if (!path2.points || path2.points.length === 0) continue;
+                        
+                        // Check if paths are close in time (within 5 seconds)
+                        const timeDiff = Math.abs((path1.timestamp || 0) - (path2.timestamp || 0));
+                        if (timeDiff < 5000) {
+                            // Check if paths overlap spatially
+                            const path1Bounds = state.getPathBounds(path1.points);
+                            const path2Bounds = state.getPathBounds(path2.points);
+                            
+                            if (state.pathsOverlap(path1Bounds, path2Bounds)) {
+                                // Merge paths
+                                mergedPath.points.push(...path2.points);
+                                mergedPath.timestamp = Math.max(mergedPath.timestamp || 0, path2.timestamp || 0);
+                                processed.add(j);
+                            }
+                        }
                     }
+                    
+                    // Limit points per merged path
+                    if (mergedPath.points.length > MAX_POINTS_PER_PATH) {
+                        // Sample points evenly
+                        const step = Math.floor(mergedPath.points.length / MAX_POINTS_PER_PATH);
+                        mergedPath.points = mergedPath.points.filter((_, idx) => idx % step === 0);
+                    }
+                    
+                    mergedPaths.push(mergedPath);
                 }
                 
-                // Create single unified path instead of many individual paths
-                fogPaths.push({
-                    id: `fog_cover_entire_map_${Date.now()}`,
-                    points: points,
-                    timestamp: Date.now(),
-                    isDrawing: false
+                // Combine: full-coverage first, then merged regular paths
+                const consolidatedFogPaths = [...fullCoveragePaths, ...mergedPaths];
+                
+                // Limit erase paths similarly
+                const limitedErasePaths = erasePaths.slice(-MAX_PATHS);
+                
+                set({ 
+                    fogOfWarPaths: consolidatedFogPaths,
+                    fogErasePaths: limitedErasePaths
                 });
                 
-                // Clear erase paths when covering entire map
-                // Old erase paths were meant for old fog paths that no longer exist
-                // New erase paths will be created for the new "cover entire map" fog path
-                set({ fogOfWarPaths: fogPaths, fogErasePaths: [] });
+                console.log('🌫️ Consolidated fog paths:', {
+                    before: { fog: fogPaths.length, erase: erasePaths.length },
+                    after: { fog: consolidatedFogPaths.length, erase: limitedErasePaths.length }
+                });
+            },
+
+            coverEntireMapWithFog: (gridSize = 50) => {
+                // Cover a much larger area of the grid - significantly beyond the viewport
+                // This ensures fog covers the entire map area that players might explore
+                try {
+                    const gridSystem = getGridSystem();
+                    const viewport = gridSystem.getViewportDimensions();
+                    const bounds = gridSystem.getVisibleGridBounds(viewport.width, viewport.height);
+                    
+                    // Get world coordinates for the visible area
+                    const { cameraX, cameraY, effectiveZoom } = gridSystem.getGridState();
+                    
+                    // Calculate visible world area with much larger padding
+                    const visibleWorldWidth = viewport.width / effectiveZoom;
+                    const visibleWorldHeight = viewport.height / effectiveZoom;
+                    // Use much larger padding to cover a significant area of the grid
+                    // Cover approximately 20 viewport widths/heights in each direction
+                    const padding = Math.max(visibleWorldWidth * 20, visibleWorldHeight * 20, 10000);
+                    
+                    // Get world bounds of visible area (camera is at center of view)
+                    // Extend far beyond the viewport to cover the entire map
+                    const worldLeft = cameraX - (visibleWorldWidth / 2) - padding;
+                    const worldTop = cameraY - (visibleWorldHeight / 2) - padding;
+                    const worldRight = cameraX + (visibleWorldWidth / 2) + padding;
+                    const worldBottom = cameraY + (visibleWorldHeight / 2) + padding;
+                    
+                    // Create a dense grid of overlapping points for complete coverage
+                    // But keep them in a single path so they can be erased together
+                    const state = get();
+                    const existingFogPaths = [...state.fogOfWarPaths];
+                    
+                    // Remove any existing "cover entire map" paths to avoid duplicates
+                    const filteredPaths = existingFogPaths.filter(path => 
+                        !path.id || !path.id.startsWith('fog_cover_entire_map_')
+                    );
+                    
+                    const brushRadius = gridSize * 2.5; // Brush radius for each point
+                    const spacing = brushRadius * 0.75; // Slightly more overlap for complete coverage
+                    
+                    // Create a single path with points only for the visible area
+                    const points = [];
+                    for (let x = worldLeft; x <= worldRight; x += spacing) {
+                        for (let y = worldTop; y <= worldBottom; y += spacing) {
+                            points.push({
+                                worldX: x,
+                                worldY: y,
+                                brushRadius: brushRadius
+                            });
+                        }
+                    }
+                    
+                    // Create single unified path for the visible area
+                    const newFogPath = {
+                        id: `fog_cover_entire_map_${Date.now()}`,
+                        points: points,
+                        timestamp: Date.now(),
+                        isDrawing: false
+                    };
+                    
+                    // Add the new path to existing paths (preserving manually painted fog)
+                    filteredPaths.push(newFogPath);
+                    
+                    // Clear erase paths when covering entire map
+                    // Old erase paths were meant for old fog paths that no longer exist
+                    // New erase paths will be created for the new "cover entire map" fog path
+                    set({ fogOfWarPaths: filteredPaths, fogErasePaths: [] });
+                    
+                    console.log('🌫️ coverEntireMapWithFog called', {
+                        gridSize,
+                        visibleArea: { worldLeft, worldTop, worldRight, worldBottom },
+                        pointsCreated: points.length,
+                        existingFogPaths: existingFogPaths.length,
+                        newFogPaths: filteredPaths.length
+                    });
+                } catch (error) {
+                    console.error('🌫️ Error in coverEntireMapWithFog:', error);
+                    // Fallback to cover a much larger area if grid system fails
+                    // Cover approximately 400x400 grid tiles (much larger than before)
+                    const mapBounds = 400;
+                    const mapMin = -mapBounds * gridSize;
+                    const mapMax = mapBounds * gridSize;
+                    
+                    const fogPaths = [];
+                    const brushRadius = gridSize * 2.5;
+                    const spacing = brushRadius * 0.75; // Slightly more overlap for complete coverage
+                    
+                    const points = [];
+                    for (let x = mapMin; x <= mapMax; x += spacing) {
+                        for (let y = mapMin; y <= mapMax; y += spacing) {
+                            points.push({
+                                worldX: x,
+                                worldY: y,
+                                brushRadius: brushRadius
+                            });
+                        }
+                    }
+                    
+                    fogPaths.push({
+                        id: `fog_cover_entire_map_${Date.now()}`,
+                        points: points,
+                        timestamp: Date.now(),
+                        isDrawing: false
+                    });
+                    
+                    set({ fogOfWarPaths: fogPaths, fogErasePaths: [] });
+                }
             },
 
             // Deterministic pseudo-random function based on tile coordinates
