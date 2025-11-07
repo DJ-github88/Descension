@@ -932,13 +932,21 @@
     padding: 0 15px;
 }
 
-.crafting-actions {
+.spellbook-tab-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.crafting-tab-actions {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-left: auto;
 }
 
-.crafting-actions .wow-button {
+.crafting-tab-actions .wow-button {
     font-size: 12px;
     padding: 6px 12px;
     min-height: 28px;

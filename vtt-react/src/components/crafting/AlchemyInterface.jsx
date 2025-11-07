@@ -156,38 +156,6 @@ function AlchemyInterface({ onBack }) {
         setHoveredRecipe(null);
     };
 
-    const renderHeader = () => (
-        <div className="alchemy-header">
-            <div className="alchemy-title">
-                <div className="profession-icon">
-                    <img
-                        src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg"
-                        alt="Alchemy"
-                        onError={(e) => {
-                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
-                        }}
-                    />
-                </div>
-                <div className="profession-info">
-                    <h2>Alchemy</h2>
-                    <div className="skill-info">
-                        <span
-                            className="skill-level"
-                            style={{ color: getSkillLevelColor(alchemyLevel) }}
-                        >
-                            {skillLevelInfo?.name || 'Untrained'}
-                        </span>
-                        {alchemyLevel > 0 && (
-                            <span className="skill-bonus">
-                                (+{alchemyLevel} crafting bonus)
-                            </span>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    );
 
     const renderTabs = () => (
         <div className="alchemy-tabs">
@@ -366,7 +334,6 @@ function AlchemyInterface({ onBack }) {
 
     return (
         <div className="alchemy-interface">
-            {renderHeader()}
             {renderTabs()}
             <div className="alchemy-content">
                 {renderContent()}

@@ -106,21 +106,21 @@ function CraftingWindow({ isOpen, onClose }) {
                                 <span>{tab.label}</span>
                             </button>
                         ))}
+                        {selectedProfession && (
+                            <div className="crafting-tab-actions">
+                                <button
+                                    className="wow-button"
+                                    onClick={handleLearnAllRecipes}
+                                    style={{ marginRight: '10px' }}
+                                >
+                                    Learn All Recipes
+                                </button>
+                                <button className="wow-button" onClick={handleBackToProfessions}>
+                                    Back to Professions
+                                </button>
+                            </div>
+                        )}
                     </div>
-                    {selectedProfession && (
-                        <div className="crafting-actions">
-                            <button
-                                className="wow-button"
-                                onClick={handleLearnAllRecipes}
-                                style={{ marginRight: '10px' }}
-                            >
-                                Learn All Recipes
-                            </button>
-                            <button className="wow-button" onClick={handleBackToProfessions}>
-                                Back to Professions
-                            </button>
-                        </div>
-                    )}
                 </div>
             }
         >
