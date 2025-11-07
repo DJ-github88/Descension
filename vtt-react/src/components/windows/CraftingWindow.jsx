@@ -97,15 +97,14 @@ function CraftingWindow({ isOpen, onClose }) {
             className="crafting-window"
             customHeader={
                 <div className="crafting-header">
-                    <div className="spellbook-tab-container">
-                        {tabs.map(tab => (
-                            <button
-                                key={tab.id}
-                                className="spellbook-tab-button active"
-                            >
-                                <span>{tab.label}</span>
-                            </button>
-                        ))}
+                    <div className="crafting-tab-header">
+                        <div className="profession-tab-info">
+                            {tabs.map(tab => (
+                                <span key={tab.id} className="profession-tab-label">
+                                    {tab.label}
+                                </span>
+                            ))}
+                        </div>
                         {selectedProfession && (
                             <div className="crafting-tab-actions">
                                 <button
