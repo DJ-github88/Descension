@@ -91,17 +91,10 @@ const LanguagesDisplay = () => {
                                     onClick={() => handleCategoryClick(categoryId)}
                                 >
                                     <div className="background-card-header">
-                                        <div className="language-category-icon">
-                                            <i className={`fas ${categoryData.icon}`}></i>
-                                        </div>
                                         <h3>{categoryData.name}</h3>
+                                        <span className="language-count">{languages.length}</span>
                                     </div>
                                     <p className="background-description">{categoryData.description}</p>
-                                    <div className="info-badges">
-                                        <span className="info-badge language-count-badge">
-                                            <i className={`fas ${categoryData.icon}`}></i> {languages.length} Languages
-                                        </span>
-                                    </div>
                                 </div>
                             );
                         })}
@@ -200,10 +193,14 @@ const LanguagesDisplay = () => {
                     {/* Category */}
                     <div className="benefits-section">
                         <h4>Language Type</h4>
-                        <div className="language-type-badge">
-                            <i className={`fas ${categoryData.icon}`}></i>
-                            <span>{categoryData.name}</span>
-                        </div>
+                        <ul className="equipment-items">
+                            {languagesByCategory[selectedLanguage.category].map((language, index) => (
+                                <li key={index}>
+                                    <i className="fas fa-language"></i>
+                                    <span>{language.name}</span>
+                                </li>
+                            ))}
+                        </ul>
                         <p className="language-type-description">{categoryData.description}</p>
                     </div>
 

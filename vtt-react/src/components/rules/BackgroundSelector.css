@@ -48,7 +48,7 @@
 /* Background Grid */
 .background-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
     margin-bottom: 2rem;
 }
@@ -241,16 +241,18 @@
 /* Language Card Specific Styling */
 .background-card-header {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: center;
+    gap: 0.5rem;
     text-align: center;
     margin-bottom: 0.5rem;
+    padding-top: 0.75rem;
+    flex-wrap: wrap;
 }
 
 .background-card-header h3 {
     font-family: 'Cinzel', serif;
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #1a0f08;
     margin: 0;
@@ -287,21 +289,36 @@
 
 .language-category-card,
 .language-card {
-    min-height: 220px;
-    padding: 1.5rem 1.25rem;
+    min-height: 120px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
 }
 
 .language-category-card .background-description,
 .language-card .background-description {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: #5d4037;
     text-align: center;
-    margin: 0.5rem 0;
-    line-height: 1.6;
+    margin: 0.375rem 0;
+    line-height: 1.5;
     font-weight: 500;
     font-style: normal;
     padding: 0;
     flex: 1;
+}
+
+.language-count {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #b8941f;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    display: inline-block;
+    margin-left: 0.375rem;
+    vertical-align: middle;
 }
 
 .language-count-badge {
