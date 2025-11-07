@@ -26,6 +26,7 @@ import GridItemsManager from "../grid/GridItemsManager";
 import DynamicFogManager from "../level-editor/DynamicFogManager";
 import DynamicLightingManager from "../level-editor/DynamicLightingManager";
 import AtmosphericEffectsManager from "../level-editor/AtmosphericEffectsManager";
+import MemorySnapshotManager from "../level-editor/MemorySnapshotManager";
 import ActionBar from "../ui/ActionBar";
 import CombatSelectionWindow from "../combat/CombatSelectionOverlay";
 import CombatTimeline from "../combat/CombatTimeline";
@@ -147,7 +148,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     return process.env.REACT_APP_SOCKET_URL ||
       (process.env.NODE_ENV === 'production'
         ? 'https://descension-mythrill.up.railway.app' // Your Railway URL
-        : 'http://localhost:3001');
+        : 'http://localhost:3002');
   }, []); // Empty dependency array since environment variables don't change
 
   // Environment check logs removed for performance
@@ -1469,6 +1470,7 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
         <DynamicFogManager />
         <DynamicLightingManager />
         <AtmosphericEffectsManager />
+        <MemorySnapshotManager />
         <DialogueSystem />
         <DialogueControls />
         <DiceRollingSystem />
