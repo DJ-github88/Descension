@@ -110,8 +110,16 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
             characterImage: characterData.characterImage || null,
             imageTransformations: characterData.imageTransformations || null
           },
-          // Add empty inventory and equipment
-          inventory: [],
+          // Add inventory with selected equipment and remaining currency
+          inventory: {
+            items: characterData.selectedEquipment || [],
+            currency: characterData.remainingCurrency || {
+              platinum: 0,
+              gold: 0,
+              silver: 0,
+              copper: 0
+            }
+          },
           equipment: {
             weapon: null,
             armor: null,

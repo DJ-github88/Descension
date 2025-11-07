@@ -225,6 +225,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player join/leave events
     socket.on('player_joined', (data) => {
+      // Debug: Log received player data
+      console.log('📥 Received player_joined event:', {
+        playerName: data.player?.name,
+        hasCharacter: !!data.player?.character,
+        hasTokenSettings: !!data.player?.character?.tokenSettings,
+        hasLore: !!data.player?.character?.lore,
+        hasCharacterImage: !!data.player?.character?.lore?.characterImage,
+        fullPlayer: data.player
+      });
+      
       // Update actual player count from server
       setActualPlayerCount(data.playerCount);
 
@@ -278,10 +288,20 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             race: data.player.character?.race || 'Unknown',
             subrace: data.player.character?.subrace || '',
             raceDisplayName: raceDisplayName,
-            tokenSettings: data.player.character?.tokenSettings, // Include token settings
-            lore: data.player.character?.lore // Include lore (which contains characterImage)
+            tokenSettings: data.player.character?.tokenSettings || {}, // Include token settings
+            lore: data.player.character?.lore || {} // Include lore (which contains characterImage)
           }
         };
+        
+        // Debug: Log party member data
+        console.log('👥 Adding party member:', {
+          name: newPartyMember.name,
+          hasTokenSettings: !!newPartyMember.character.tokenSettings,
+          hasLore: !!newPartyMember.character.lore,
+          hasCharacterImage: !!newPartyMember.character.lore?.characterImage,
+          tokenSettings: newPartyMember.character.tokenSettings,
+          lore: newPartyMember.character.lore
+        });
 
         addPartyMember(newPartyMember);
 
@@ -439,6 +459,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (message.type === 'party' || message.type === 'chat') {
         import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
           const { addPartyChatMessage } = usePresenceStore.getState();
+          // Convert timestamp to ISO string if it's a Date object
+          const timestamp = message.timestamp instanceof Date 
+            ? message.timestamp.toISOString() 
+            : (message.timestamp || new Date().toISOString());
           addPartyChatMessage({
             id: message.id || `msg_${Date.now()}`,
             senderId: message.playerId,
@@ -446,7 +470,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             senderClass: message.isGM ? 'GM' : 'Player',
             senderLevel: 1,
             content: message.content,
-            timestamp: message.timestamp || new Date().toISOString(),
+            timestamp: timestamp,
             type: 'party'
           });
         }).catch(error => {
@@ -793,8 +817,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           raceDisplayName: raceDisplayName,
           exhaustionLevel: data.character.exhaustionLevel || 0,
           classResource: data.character.classResource || { current: 0, max: 0 },
-          tokenSettings: data.character.tokenSettings, // Include token settings
-          lore: data.character.lore // Include lore (which contains characterImage)
+          tokenSettings: data.character.tokenSettings || {}, // Include token settings, default to empty object
+          lore: data.character.lore || {} // Include lore (which contains characterImage), default to empty object
         };
 
         if (data.character.race && data.character.subrace) {
@@ -940,8 +964,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for map updates (fog of war, drawing, tiles)
     socket.on('map_updated', (data) => {
-      // Only process updates from other players (not our own)
-      if (data.updatedBy !== currentPlayer?.id) {
+      // Process updates from other players (not our own)
+      // Use playerId comparison instead of currentPlayer?.id for better reliability
+      const isOwnUpdate = data.updatedBy === currentPlayer?.id;
+      
+      if (!isOwnUpdate) {
         window._isReceivingMapUpdate = true;
         
         import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
@@ -1315,7 +1342,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         mana: activeCharacter?.mana || { current: 50, max: 50 },
         actionPoints: activeCharacter?.actionPoints || { current: 3, max: 3 },
         race: activeCharacter?.race || 'Unknown',
-        raceDisplayName: activeCharacter?.raceDisplayName || 'Unknown'
+        raceDisplayName: activeCharacter?.raceDisplayName || 'Unknown',
+        tokenSettings: activeCharacter?.tokenSettings || {}, // Include token settings, default to empty object
+        lore: activeCharacter?.lore || {} // Include lore (which contains characterImage), default to empty object
       }
     };
 
@@ -1357,8 +1386,8 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           health: room.gm.character?.health || { current: 100, max: 100 },
           mana: room.gm.character?.mana || { current: 50, max: 50 },
           actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 },
-          tokenSettings: room.gm.character?.tokenSettings, // Include token settings
-          lore: room.gm.character?.lore // Include lore (which contains characterImage)
+          tokenSettings: room.gm.character?.tokenSettings || {}, // Include token settings, default to empty object
+          lore: room.gm.character?.lore || {} // Include lore (which contains characterImage), default to empty object
         }
       });
 
@@ -1380,7 +1409,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const playerCharacterName = player.character?.name || player.name;
           console.log(`👥 Adding other player: ${playerCharacterName}`);
 
-          addPartyMember({
+          const playerMember = {
             id: player.id,
             name: playerCharacterName,
             isGM: false, // Regular players are not GM
@@ -1390,10 +1419,26 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               health: player.character?.health || { current: 100, max: 100 },
               mana: player.character?.mana || { current: 50, max: 50 },
               actionPoints: player.character?.actionPoints || { current: 3, max: 3 },
-              tokenSettings: player.character?.tokenSettings, // Include token settings
-              lore: player.character?.lore // Include lore (which contains characterImage)
+              race: player.character?.race || 'Unknown',
+              subrace: player.character?.subrace || '',
+              raceDisplayName: player.character?.raceDisplayName || 'Unknown',
+              tokenSettings: player.character?.tokenSettings || {}, // Include token settings, default to empty object
+              lore: player.character?.lore || {} // Include lore (which contains characterImage), default to empty object
             }
+          };
+          
+          // Debug: Log player member data
+          console.log('👥 Adding other player to party:', {
+            name: playerMember.name,
+            hasTokenSettings: !!playerMember.character.tokenSettings,
+            hasLore: !!playerMember.character.lore,
+            hasCharacterImage: !!playerMember.character.lore?.characterImage,
+            tokenSettings: playerMember.character.tokenSettings,
+            lore: playerMember.character.lore,
+            fullPlayerCharacter: player.character
           });
+          
+          addPartyMember(playerMember);
 
           addUser({
             id: player.id,
@@ -1414,10 +1459,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Set up chat integration for multiplayer
     const sendChatMessage = (message) => {
       if (socketConnection && socketConnection.connected) {
+        // Get current player data for the message
+        const activeCharacter = getActiveCharacter();
+        const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
+        
         socketConnection.emit('chat_message', {
           message: message,
-          type: 'chat'
+          type: 'chat' // This will be handled as party chat on the server
         });
+        console.log('💬 Sent chat message through socket:', message);
       } else {
         console.error('No socket connection for chat or socket disconnected');
         // Show error to user

@@ -334,6 +334,16 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     if (playerColor) {
       room.gm.color = playerColor; // Update GM color if new one provided
     }
+    
+    // Update GM's character data if provided
+    if (character) {
+      room.gm.character = character;
+      console.log(`👑 Updated GM character data:`, {
+        hasTokenSettings: !!character.tokenSettings,
+        hasLore: !!character.lore,
+        hasCharacterImage: !!character.lore?.characterImage
+      });
+    }
 
     // Only add to players tracking if not already there
     if (!players.has(socketId)) {
@@ -662,10 +672,22 @@ io.on('connection', (socket) => {
       const totalPlayerCount = room.players.size + 1; // +1 for GM
 
       // Broadcast to ALL players in the room (including the new player)
+      // Include full character data in the broadcast
       io.to(roomId).emit('player_joined', {
-        player: player,
+        player: {
+          ...player,
+          character: player.character || null // Ensure character data is included
+        },
         playerCount: totalPlayerCount,
         playerName: player.name
+      });
+      
+      // Log character data for debugging
+      console.log(`📤 Broadcasting player_joined for ${player.name}:`, {
+        hasCharacter: !!player.character,
+        hasTokenSettings: !!player.character?.tokenSettings,
+        hasLore: !!player.character?.lore,
+        hasCharacterImage: !!player.character?.lore?.characterImage
       });
 
       // Also send a separate player count update to ensure all clients have the correct count
@@ -1180,10 +1202,10 @@ io.on('connection', (socket) => {
   });
 
   // Handle map/background changes
-  socket.on('map_updated', async (data) => {
+  socket.on('map_update', async (data) => {
     const player = players.get(socket.id);
-    if (!player || !player.isGM) {
-      socket.emit('error', { message: 'Only GM can update the map' });
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
       return;
     }
 
@@ -1232,6 +1254,8 @@ io.on('connection', (socket) => {
       mapData: {
         ...room.gameState.mapData,
         fogOfWar: room.gameState.fogOfWar,
+        drawingLayers: room.gameState.mapData?.drawingLayers,
+        drawingPaths: room.gameState.mapData?.drawingPaths,
         ...(data.mapUpdates || data.mapData || {})
       },
       updatedBy: player.id,
@@ -1239,7 +1263,7 @@ io.on('connection', (socket) => {
       timestamp: new Date()
     });
 
-    console.log(`Map updated by GM ${player.name}`);
+    console.log(`Map updated by ${player.isGM ? 'GM' : 'Player'} ${player.name}`);
   });
 
   // Handle combat state changes

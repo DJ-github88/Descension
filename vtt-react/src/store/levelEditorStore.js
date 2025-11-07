@@ -1451,6 +1451,9 @@ const useLevelEditorStore = create((set, get) => ({
                                     fogOfWar: fogOfWarData || {}
                                 }
                             });
+                            console.log('📤 Emitted fog of war update to server');
+                        } else {
+                            console.log('🚫 Skipped fog of war update (receiving from server)');
                         }
                     }
                 }).catch(() => {
@@ -1475,6 +1478,9 @@ const useLevelEditorStore = create((set, get) => ({
                                     drawingLayers: drawingLayers || initialState.drawingLayers
                                 }
                             });
+                            console.log('📤 Emitted drawing layers update to server');
+                        } else {
+                            console.log('🚫 Skipped drawing layers update (receiving from server)');
                         }
                     }
                 }).catch(() => {
@@ -1522,6 +1528,9 @@ const useLevelEditorStore = create((set, get) => ({
                                     drawingPaths: newDrawingPaths
                                 }
                             });
+                            console.log('📤 Emitted drawing paths update to server');
+                        } else {
+                            console.log('🚫 Skipped drawing paths update (receiving from server)');
                         }
                     }
                 }).catch(() => {

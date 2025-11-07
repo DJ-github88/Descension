@@ -9,6 +9,7 @@ import usePresenceStore from '../../store/presenceStore';
 import usePartyStore from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
 import useGameStore from '../../store/gameStore';
+import useChatStore from '../../store/chatStore';
 import LootTab from './LootTab';
 import CombatTab from './CombatTab';
 
@@ -132,7 +133,8 @@ const TabbedChat = () => {
       console.log('📊 Party chat messages before:', partyChatMessages.length);
       
       // Check if in multiplayer mode and send through socket
-      const { multiplayerSocket, sendMultiplayerMessage } = useGameStore.getState();
+      const { multiplayerSocket } = useGameStore.getState();
+      const { sendMultiplayerMessage } = useChatStore.getState();
       if (multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
         console.log('💬 Sending party message through multiplayer socket');
         // Send party message through multiplayer socket
