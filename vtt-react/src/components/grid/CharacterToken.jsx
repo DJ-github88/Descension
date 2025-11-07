@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
+import usePartyStore from '../../store/partyStore';
 import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
@@ -46,6 +47,11 @@ const CharacterToken = ({
     const lastMoveUpdateRef = useRef(null);
     const lastPositionUpdateRef = useRef(Date.now());
 
+    // Get character token data to find playerId
+    const characterTokens = useCharacterTokenStore(state => state.characterTokens);
+    const token = characterTokens.find(t => t.id === tokenId);
+    const tokenPlayerId = token?.playerId;
+
     // Update local position when prop position changes (but not during dragging or shortly after)
     useEffect(() => {
         // CRITICAL FIX: NEVER update position from props while dragging
@@ -67,8 +73,8 @@ const CharacterToken = ({
         }
     }, [position, isDragging]);
 
-    // Get character data
-    const characterData = useCharacterStore(state => ({
+    // Get character data - use party member data if this is another player's token
+    const currentCharacterData = useCharacterStore(state => ({
         name: state.name,
         race: state.race,
         class: state.class,
@@ -98,6 +104,25 @@ const CharacterToken = ({
         feetPerTile,
         setCameraPosition
     } = useGameStore();
+
+    // In multiplayer, if this token belongs to another player, get their character data from party store
+    const partyMembers = usePartyStore(state => state.partyMembers);
+    const partyMember = tokenPlayerId && isInMultiplayer 
+        ? partyMembers.find(m => m.id === tokenPlayerId)
+        : null;
+
+    // Use party member's character data if available, otherwise use current player's data
+    const characterData = partyMember?.character ? {
+        name: partyMember.name,
+        race: partyMember.character.race || currentCharacterData.race,
+        class: partyMember.character.class || currentCharacterData.class,
+        level: partyMember.character.level || currentCharacterData.level,
+        health: partyMember.character.health || currentCharacterData.health,
+        mana: partyMember.character.mana || currentCharacterData.mana,
+        actionPoints: partyMember.character.actionPoints || currentCharacterData.actionPoints,
+        lore: partyMember.character.lore || currentCharacterData.lore,
+        tokenSettings: partyMember.character.tokenSettings || currentCharacterData.tokenSettings
+    } : currentCharacterData;
     
     // Check if this token is being viewed from and get visibility data
     const { viewingFromToken, visibleArea, dynamicFogEnabled, fovAngle, getTokenFacingDirection, setTokenFacingDirection } = useLevelEditorStore();

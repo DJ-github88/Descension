@@ -782,14 +782,32 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     socket.emit('join_room', joinData);
   };
 
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [passwordInput, setPasswordInput] = useState('');
+
   const handleQuickJoin = (room) => {
-    // For quick join, we need to prompt for password
-    const password = prompt(`Enter password for room "${room.name}":`);
-    if (password !== null) {
-      setRoomId(room.id);
-      setJoinPassword(password);
-      handleJoinRoom(room.id, password);
+    // Show password modal instead of using prompt
+    setSelectedRoom(room);
+    setPasswordInput('');
+    setShowPasswordModal(true);
+  };
+
+  const handlePasswordSubmit = () => {
+    if (selectedRoom && passwordInput !== null) {
+      setRoomId(selectedRoom.id);
+      setJoinPassword(passwordInput);
+      handleJoinRoom(selectedRoom.id, passwordInput);
+      setShowPasswordModal(false);
+      setSelectedRoom(null);
+      setPasswordInput('');
     }
+  };
+
+  const handlePasswordCancel = () => {
+    setShowPasswordModal(false);
+    setSelectedRoom(null);
+    setPasswordInput('');
   };
 
   return (
@@ -1194,6 +1212,48 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
           </div>
         )}
       </div>
+
+      {/* Password Modal */}
+      {showPasswordModal && selectedRoom && (
+        <div className="password-modal-overlay" onClick={handlePasswordCancel}>
+          <div className="password-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="password-modal-header">
+              <h3>Enter Room Password</h3>
+              <p>Room: {selectedRoom.name}</p>
+            </div>
+            <input
+              type="password"
+              className="password-modal-input"
+              placeholder="Enter room password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handlePasswordSubmit();
+                } else if (e.key === 'Escape') {
+                  handlePasswordCancel();
+                }
+              }}
+              autoFocus
+            />
+            <div className="password-modal-actions">
+              <button
+                className="password-modal-btn secondary"
+                onClick={handlePasswordCancel}
+              >
+                Cancel
+              </button>
+              <button
+                className="password-modal-btn primary"
+                onClick={handlePasswordSubmit}
+                disabled={!passwordInput.trim()}
+              >
+                Join Room
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

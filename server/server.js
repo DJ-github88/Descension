@@ -1106,9 +1106,13 @@ io.on('connection', (socket) => {
     }
 
     // Broadcast character update to all players in the room
+    // Include playerId so clients know which player's character was updated
     io.to(player.roomId).emit('character_updated', {
       characterId: data.characterId,
-      character: data.character,
+      character: {
+        ...data.character,
+        playerId: player.id // Include playerId for client-side identification
+      },
       updatedBy: player.id,
       updatedByName: player.name,
       timestamp: new Date()
@@ -1980,16 +1984,34 @@ io.on('connection', (socket) => {
 
   // Whisper message to specific user
   socket.on('whisper_message', (message) => {
-    const targetUser = onlineUsers.get(message.targetUserId);
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
 
-    if (targetUser && targetUser.socketId) {
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Find target player in the room
+    let targetPlayer = null;
+    if (room.gm && room.gm.id === message.recipientId) {
+      targetPlayer = room.gm;
+    } else {
+      targetPlayer = Array.from(room.players.values()).find(p => p.id === message.recipientId);
+    }
+
+    if (targetPlayer && targetPlayer.socketId) {
       // Send to target user
-      io.to(targetUser.socketId).emit('whisper_received', {
+      io.to(targetPlayer.socketId).emit('whisper_received', {
         ...message,
         serverTimestamp: new Date().toISOString()
       });
 
-      console.log('🤫 Whisper:', message.senderName, '->', targetUser.characterName);
+      console.log('🤫 Whisper:', message.senderName, '->', targetPlayer.name);
     } else {
       // User not online, send error back
       socket.emit('error', {

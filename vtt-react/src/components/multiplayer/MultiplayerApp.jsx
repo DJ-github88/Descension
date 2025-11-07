@@ -277,7 +277,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             actionPoints: data.player.character?.actionPoints || { current: 3, max: 3 },
             race: data.player.character?.race || 'Unknown',
             subrace: data.player.character?.subrace || '',
-            raceDisplayName: raceDisplayName
+            raceDisplayName: raceDisplayName,
+            tokenSettings: data.player.character?.tokenSettings, // Include token settings
+            lore: data.player.character?.lore // Include lore (which contains characterImage)
           }
         };
 
@@ -983,6 +985,29 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // Listen for whisper messages
+    socket.on('whisper_received', (message) => {
+      // Import presence store dynamically to avoid circular dependencies
+      import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+        const { addWhisperMessage } = usePresenceStore.getState();
+        // Add whisper message to the appropriate tab
+        // The recipientId should be the current player's ID
+        const recipientId = currentPlayer?.id || message.recipientId || message.senderId;
+        addWhisperMessage(recipientId, {
+          id: message.id || `whisper_${Date.now()}`,
+          senderId: message.senderId,
+          senderName: message.senderName,
+          recipientId: message.recipientId || recipientId,
+          recipientName: message.recipientName,
+          content: message.content,
+          timestamp: message.timestamp || message.serverTimestamp || new Date().toISOString(),
+          type: 'whisper_received'
+        });
+      }).catch(error => {
+        console.error('Failed to handle whisper message:', error);
+      });
+    });
+
     // Handle synchronization errors
     socket.on('sync_error', (data) => {
       console.error('Synchronization error:', data);
@@ -1331,7 +1356,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           level: room.gm.character?.level || 1,
           health: room.gm.character?.health || { current: 100, max: 100 },
           mana: room.gm.character?.mana || { current: 50, max: 50 },
-          actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 }
+          actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 },
+          tokenSettings: room.gm.character?.tokenSettings, // Include token settings
+          lore: room.gm.character?.lore // Include lore (which contains characterImage)
         }
       });
 
@@ -1362,7 +1389,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               level: player.character?.level || 1,
               health: player.character?.health || { current: 100, max: 100 },
               mana: player.character?.mana || { current: 50, max: 50 },
-              actionPoints: player.character?.actionPoints || { current: 3, max: 3 }
+              actionPoints: player.character?.actionPoints || { current: 3, max: 3 },
+              tokenSettings: player.character?.tokenSettings, // Include token settings
+              lore: player.character?.lore // Include lore (which contains characterImage)
             }
           });
 

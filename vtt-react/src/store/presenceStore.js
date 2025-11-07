@@ -368,6 +368,17 @@ const usePresenceStore = create((set, get) => ({
     } else if (socket && socket.connected) {
       // Real user - send via socket
       socket.emit('whisper_message', message);
+    } else {
+      // Check if we're in multiplayer mode and use multiplayer socket
+      import('./gameStore').then(({ default: useGameStore }) => {
+        const gameStore = useGameStore.getState();
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+          // Use multiplayer socket for whispers
+          gameStore.multiplayerSocket.emit('whisper_message', message);
+        }
+      }).catch(() => {
+        // Ignore errors if gameStore not available
+      });
     }
 
     return true;
