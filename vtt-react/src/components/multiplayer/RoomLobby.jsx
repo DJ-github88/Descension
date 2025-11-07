@@ -156,7 +156,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
 
     // Development fallback
-    return 'http://localhost:3001';
+    return 'http://localhost:3002';
   }, []); // Empty dependency array since environment variables don't change
 
   // Reduced logging for production performance - only log once
