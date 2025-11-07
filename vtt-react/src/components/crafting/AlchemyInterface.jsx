@@ -186,28 +186,6 @@ function AlchemyInterface({ onBack }) {
                 </div>
             </div>
 
-            <div className="alchemy-actions">
-                <button
-                    className="wow-button"
-                    onClick={() => {
-                        // Learn all alchemy recipes
-                        allAlchemyRecipes.forEach(recipe => {
-                            learnRecipe('alchemy', recipe.id);
-                        });
-                        addLootNotification({
-                            type: 'crafting_success',
-                            message: `Learned ${allAlchemyRecipes.length} alchemy recipes!`,
-                            timestamp: Date.now()
-                        });
-                    }}
-                    style={{ marginRight: '10px' }}
-                >
-                    Learn All Recipes
-                </button>
-                <button className="wow-button" onClick={onBack}>
-                    Back to Professions
-                </button>
-            </div>
         </div>
     );
 

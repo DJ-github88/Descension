@@ -96,15 +96,31 @@ function CraftingWindow({ isOpen, onClose }) {
             defaultPosition={{ x: 200, y: 100 }}
             className="crafting-window"
             customHeader={
-                <div className="spellbook-tab-container">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.id}
-                            className="spellbook-tab-button active"
-                        >
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
+                <div className="crafting-header">
+                    <div className="spellbook-tab-container">
+                        {tabs.map(tab => (
+                            <button
+                                key={tab.id}
+                                className="spellbook-tab-button active"
+                            >
+                                <span>{tab.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                    {selectedProfession && (
+                        <div className="crafting-actions">
+                            <button
+                                className="wow-button"
+                                onClick={handleLearnAllRecipes}
+                                style={{ marginRight: '10px' }}
+                            >
+                                Learn All Recipes
+                            </button>
+                            <button className="wow-button" onClick={handleBackToProfessions}>
+                                Back to Professions
+                            </button>
+                        </div>
+                    )}
                 </div>
             }
         >

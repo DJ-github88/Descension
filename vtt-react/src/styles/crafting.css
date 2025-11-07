@@ -922,3 +922,25 @@
     margin: 10px 0;
     line-height: 1.5;
 }
+
+/* Crafting Header Layout */
+.crafting-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.crafting-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.crafting-actions .wow-button {
+    font-size: 12px;
+    padding: 6px 12px;
+    min-height: 28px;
+    white-space: nowrap;
+}
