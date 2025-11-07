@@ -458,7 +458,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Also add to party chat if message type is 'party' or if in party
       if (message.type === 'party' || message.type === 'chat') {
         import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
-          const { addPartyChatMessage } = usePresenceStore.getState();
+          const { addPartyChatMessage, activeTab, setActiveTab } = usePresenceStore.getState();
           // Convert timestamp to ISO string if it's a Date object
           const timestamp = message.timestamp instanceof Date 
             ? message.timestamp.toISOString() 
@@ -473,6 +473,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             timestamp: timestamp,
             type: 'party'
           });
+          
+          // If not on party tab, switch to it to show the message
+          if (activeTab !== 'party') {
+            setActiveTab('party');
+          }
         }).catch(error => {
           console.error('Failed to add party chat message:', error);
         });
@@ -979,6 +984,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             levelEditorStore.setFogOfWarData(data.mapData.fogOfWar);
           }
           
+          // Update fog paths if provided
+          if (data.mapData?.fogOfWarPaths !== undefined) {
+            levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
+          }
+          if (data.mapData?.fogErasePaths !== undefined) {
+            levelEditorStore.setFogErasePaths(data.mapData.fogErasePaths);
+          }
+          
+          // Update terrain data if provided
+          if (data.mapData?.terrainData !== undefined) {
+            levelEditorStore.setTerrainData(data.mapData.terrainData);
+          }
+          
+          // Update wall data if provided
+          if (data.mapData?.wallData !== undefined) {
+            levelEditorStore.setWallData(data.mapData.wallData);
+          }
+          
           // Update drawing layers if provided
           if (data.mapData?.drawingLayers !== undefined) {
             levelEditorStore.setDrawingLayers(data.mapData.drawingLayers);
@@ -1016,20 +1039,35 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('whisper_received', (message) => {
       // Import presence store dynamically to avoid circular dependencies
       import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
-        const { addWhisperMessage } = usePresenceStore.getState();
+        const { addWhisperMessage, setActiveTab } = usePresenceStore.getState();
         // Add whisper message to the appropriate tab
-        // The recipientId should be the current player's ID
-        const recipientId = currentPlayer?.id || message.recipientId || message.senderId;
-        addWhisperMessage(recipientId, {
+        // Use senderId to create/update the whisper tab (tab is for the sender)
+        const senderId = message.senderId;
+        if (!senderId) {
+          console.error('Whisper message missing senderId:', message);
+          return;
+        }
+        
+        // Create tab if it doesn't exist and switch to it
+        const whisperTabId = `whisper_${senderId}`;
+        addWhisperMessage(senderId, {
           id: message.id || `whisper_${Date.now()}`,
           senderId: message.senderId,
-          senderName: message.senderName,
-          recipientId: message.recipientId || recipientId,
+          senderName: message.senderName || 'Unknown',
+          senderClass: message.senderClass || 'Unknown',
+          senderLevel: message.senderLevel || 1,
+          recipientId: message.recipientId || currentPlayer?.id,
           recipientName: message.recipientName,
           content: message.content,
           timestamp: message.timestamp || message.serverTimestamp || new Date().toISOString(),
           type: 'whisper_received'
         });
+        
+        // Switch to whisper tab if not already on it
+        const { activeTab } = usePresenceStore.getState();
+        if (activeTab !== whisperTabId) {
+          setActiveTab(whisperTabId);
+        }
       }).catch(error => {
         console.error('Failed to handle whisper message:', error);
       });

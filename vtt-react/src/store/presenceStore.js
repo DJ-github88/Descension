@@ -333,20 +333,40 @@ const usePresenceStore = create((set, get) => ({
     const targetUser = onlineUsers.get(targetUserId);
     const isMockUser = targetUserId.startsWith('mock_user_');
 
-    // For testing without login, use a default user
-    const senderData = currentUserPresence || {
-      userId: 'test_user',
-      characterName: 'Yad',
-      class: 'Adventurer',
-      level: 1
-    };
+    // Get sender data - try character store first, then presence, then fallback
+    let senderData = currentUserPresence;
+    let senderName = senderData?.characterName || senderData?.name || 'Unknown';
+    let senderClass = senderData?.class || 'Unknown';
+    let senderLevel = senderData?.level || 1;
+    let senderId = senderData?.userId || 'test_user';
+    
+    // Try to get from character store if in multiplayer
+    import('./gameStore').then(({ default: useGameStore }) => {
+      const gameStore = useGameStore.getState();
+      if (gameStore.isInMultiplayer) {
+        import('./characterStore').then(({ default: useCharacterStore }) => {
+          const characterState = useCharacterStore.getState();
+          if (characterState.name) {
+            senderName = characterState.name;
+            senderClass = characterState.class || 'Unknown';
+            senderLevel = characterState.level || 1;
+          }
+        }).catch(() => {
+          // Ignore if character store not available
+        });
+      }
+    }).catch(() => {
+      // Ignore if game store not available
+    });
 
     const message = {
       id: uuidv4(),
-      senderId: senderData.userId,
-      senderName: senderData.characterName,
+      senderId: senderId,
+      senderName: senderName,
+      senderClass: senderClass,
+      senderLevel: senderLevel,
       recipientId: targetUserId,
-      recipientName: targetUser?.characterName || 'Unknown',
+      recipientName: targetUser?.characterName || targetUser?.name || 'Unknown',
       content: content.trim(),
       timestamp: new Date().toISOString(),
       type: 'whisper_sent'
@@ -559,7 +579,42 @@ const usePresenceStore = create((set, get) => ({
 
     // Create tab if it doesn't exist
     if (!tab) {
-      const user = onlineUsers.get(userId);
+      let user = onlineUsers.get(userId);
+      
+      // If user not found in onlineUsers, try to create from message data or party store
+      if (!user) {
+        // Try to get from party store synchronously (if already imported)
+        try {
+          const partyStore = require('../store/partyStore').default;
+          const partyState = partyStore.getState();
+          const partyMember = partyState.partyMembers.find(m => m.id === userId);
+          if (partyMember) {
+            user = {
+              userId: partyMember.id,
+              characterName: partyMember.name,
+              name: partyMember.name,
+              displayName: partyMember.name,
+              class: partyMember.character?.class || 'Unknown',
+              level: partyMember.character?.level || 1
+            };
+          }
+        } catch (e) {
+          // Party store not available, continue
+        }
+        
+        // If still no user, create from message data
+        if (!user) {
+          user = {
+            userId: message.senderId === userId ? message.senderId : userId,
+            characterName: message.senderName || 'Unknown',
+            name: message.senderName || 'Unknown',
+            displayName: message.senderName || 'Unknown',
+            class: message.senderClass || 'Unknown',
+            level: message.senderLevel || 1
+          };
+        }
+      }
+      
       if (user) {
         tab = {
           user,

@@ -229,14 +229,14 @@ const CharacterToken = ({
 
     // Get character image or use default
     const getCharacterImage = () => {
-        if (characterData.tokenSettings.customIcon) {
+        if (characterData.tokenSettings?.customIcon) {
             return characterData.tokenSettings.customIcon;
         }
-        if (characterData.lore.characterImage) {
+        if (characterData.lore?.characterImage) {
             return characterData.lore.characterImage;
         }
-        // Default character icon
-        return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
+        // Return null instead of default icon - let CSS handle the default
+        return null;
     };
 
     // Handle mouse enter (show tooltip with delay)
@@ -822,7 +822,9 @@ const CharacterToken = ({
     // Handle inspect
     const handleInspectCharacter = () => {
         if (onInspect) {
-            onInspect(characterData, true); // true indicates it's the player's own character
+            // Check if this is another player's token
+            const isOtherPlayer = tokenPlayerId && tokenPlayerId !== 'current-player' && isInMultiplayer;
+            onInspect(characterData, !isOtherPlayer); // false if it's another player's token
         }
         setShowContextMenu(false);
     };
@@ -1148,18 +1150,18 @@ const CharacterToken = ({
                 <div
                     className="token-icon"
                     style={{
-                        backgroundImage: `url(${getCharacterImage()})`,
+                        backgroundImage: getCharacterImage() ? `url(${getCharacterImage()})` : 'none',
                         width: '100%',
                         height: '100%',
-                        backgroundSize: characterData.lore.imageTransformations
+                        backgroundSize: characterData.lore?.imageTransformations
                             ? `${(characterData.lore.imageTransformations.scale || 1) * 120}%`
                             : 'cover',
-                        backgroundPosition: characterData.lore.imageTransformations
+                        backgroundPosition: characterData.lore?.imageTransformations
                             ? `${50 + (characterData.lore.imageTransformations.positionX || 0) / 2}% ${50 - (characterData.lore.imageTransformations.positionY || 0) / 2}%`
                             : 'center center',
                         backgroundRepeat: 'no-repeat',
                         borderRadius: '50%',
-                        transform: characterData.lore.imageTransformations
+                        transform: characterData.lore?.imageTransformations
                             ? `rotate(${characterData.lore.imageTransformations.rotation || 0}deg)`
                             : 'none'
                     }}
@@ -1615,10 +1617,10 @@ const CharacterToken = ({
                                 width: '24px',
                                 height: '24px',
                                 borderRadius: '50%',
-                                backgroundImage: `url(${getCharacterImage()})`,
+                                backgroundImage: getCharacterImage() ? `url(${getCharacterImage()})` : 'none',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
-                                border: `2px solid ${characterData.tokenSettings.borderColor}`
+                                border: `2px solid ${characterData.tokenSettings?.borderColor || '#8b4513'}`
                             }}
                         />
                         <div>

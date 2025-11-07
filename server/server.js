@@ -1220,6 +1220,30 @@ io.on('connection', (socket) => {
       if (data.mapUpdates.fogOfWar !== undefined) {
         room.gameState.fogOfWar = data.mapUpdates.fogOfWar;
       }
+      if (data.mapUpdates.fogOfWarPaths !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.fogOfWarPaths = data.mapUpdates.fogOfWarPaths;
+      }
+      if (data.mapUpdates.fogErasePaths !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.fogErasePaths = data.mapUpdates.fogErasePaths;
+      }
+      if (data.mapUpdates.terrainData !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.terrainData = data.mapUpdates.terrainData;
+      }
+      if (data.mapUpdates.wallData !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.wallData = data.mapUpdates.wallData;
+      }
       if (data.mapUpdates.drawingLayers !== undefined) {
         if (!room.gameState.mapData) {
           room.gameState.mapData = {};
@@ -1254,6 +1278,10 @@ io.on('connection', (socket) => {
       mapData: {
         ...room.gameState.mapData,
         fogOfWar: room.gameState.fogOfWar,
+        fogOfWarPaths: room.gameState.mapData?.fogOfWarPaths,
+        fogErasePaths: room.gameState.mapData?.fogErasePaths,
+        terrainData: room.gameState.mapData?.terrainData,
+        wallData: room.gameState.mapData?.wallData,
         drawingLayers: room.gameState.mapData?.drawingLayers,
         drawingPaths: room.gameState.mapData?.drawingPaths,
         ...(data.mapUpdates || data.mapData || {})
@@ -2029,13 +2057,19 @@ io.on('connection', (socket) => {
     }
 
     if (targetPlayer && targetPlayer.socketId) {
-      // Send to target user
+      // Get sender's character data for the whisper
+      const senderCharacter = player.character || room.gm.character;
+      
+      // Send to target user with full sender information
       io.to(targetPlayer.socketId).emit('whisper_received', {
         ...message,
+        senderName: player.name,
+        senderClass: senderCharacter?.class || 'Unknown',
+        senderLevel: senderCharacter?.level || 1,
         serverTimestamp: new Date().toISOString()
       });
 
-      console.log('🤫 Whisper:', message.senderName, '->', targetPlayer.name);
+      console.log('🤫 Whisper:', message.senderName || player.name, '->', targetPlayer.name);
     } else {
       // User not online, send error back
       socket.emit('error', {

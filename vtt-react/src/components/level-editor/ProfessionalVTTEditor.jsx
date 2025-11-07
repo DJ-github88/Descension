@@ -1325,10 +1325,15 @@ const ProfessionalVTTEditor = () => {
             addDrawingPath(pathData);
         }
 
+        // Reset drawing state
         setIsDrawing(false);
         setCurrentPath([]);
         clearCurrentDrawing();
-    }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogPath, finishFogErasePath]);
+        
+        // Ensure drawing state is fully reset
+        setIsCurrentlyDrawing(false);
+        setCurrentDrawingTool('');
+    }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogPath, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
     // Keyboard shortcuts
     useEffect(() => {
