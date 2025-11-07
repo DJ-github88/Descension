@@ -62,7 +62,7 @@ cd ..
 REM Show deployment instructions
 echo.
 echo 🎯 DEPLOYMENT READY!
-echo Go to https://app.netlify.com/sites/windtunnel/deploys
+echo Go to https://app.netlify.com/sites/mythrill/deploys
 echo Click 'Trigger deploy' -^> 'Deploy site'
 echo.
 echo Or drag the 'vtt-react\build' folder to Netlify dashboard for instant deploy

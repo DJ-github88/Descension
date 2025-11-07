@@ -33,7 +33,7 @@ if ($LASTEXITCODE -eq 0) {
 
     # Show deployment instructions
     Write-Host "`n🎯 DEPLOYMENT READY!" -ForegroundColor Green
-    Write-Host "Go to https://app.netlify.com/sites/windtunnel/deploys" -ForegroundColor Cyan
+    Write-Host "Go to https://app.netlify.com/sites/mythrill/deploys" -ForegroundColor Cyan
     Write-Host "Click 'Trigger deploy' -> 'Deploy site'" -ForegroundColor Cyan
     Write-Host "`nOr drag the 'build' folder to Netlify dashboard for instant deploy" -ForegroundColor Cyan
 
