@@ -662,7 +662,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     // Get active character name - this should be the primary player name
     const activeCharacter = getActiveCharacter();
     const characterName = activeCharacter?.name || activeCharacter?.baseName;
-    const finalPlayerName = characterName || playerNameRef.current.trim();
+    const finalPlayerName = characterName || playerNameRef.current.trim() || 'Anonymous Adventurer';
 
     // Sync player name ref with character name for GM detection
     if (characterName) {
@@ -670,12 +670,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       setPlayerName(characterName);
     }
 
-    if (!finalPlayerName || !roomName.trim()) {
-      if (!finalPlayerName) {
-        setError('No champion has been chosen. Journey to your account and select a character to represent you in these halls.');
-      } else {
-        setError('Please enter a room name');
-      }
+    if (!roomName.trim()) {
+      setError('Please enter a room name');
       return;
     }
 
@@ -1087,7 +1083,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             <div className="create-buttons">
               <button
                 onClick={handleCreateRoom}
-                disabled={isConnecting || !getActiveCharacter() || !roomName.trim()}
+                disabled={isConnecting || !roomName.trim()}
                 className="create-button"
               >
                 {isConnecting ? 'Creating...' : 'Create Temporary Room'}
