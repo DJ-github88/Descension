@@ -733,13 +733,12 @@ const StaticFogOverlay = () => {
                     // Currently visible - very light fog so GM can see through it
                     return 'rgba(25, 25, 50, 0.1)'; // Very light midnight blue
                 case 'explored':
-                    // Previously explored - darker than viewable but lighter than covered
-                    // Make it noticeably darker than viewable areas
-                    return isGMMode ? 'rgba(25, 25, 50, 0.5)' : 'rgba(25, 25, 50, 0.6)'; // Darker midnight blue tint
+                    // Previously explored - slightly see-through dark blue (as per user request)
+                    return isGMMode ? 'rgba(25, 25, 50, 0.4)' : 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue
                 case 'covered':
                 default:
-                    // Never explored - darker midnight blue fog
-                    return isGMMode ? 'rgba(15, 15, 40, 0.6)' : 'rgba(15, 15, 40, 0.75)'; // Darker midnight blue
+                    // Never explored - solid dark blue (as per user request)
+                    return isGMMode ? 'rgba(15, 15, 40, 0.85)' : 'rgba(15, 15, 40, 0.95)'; // Solid dark blue
             }
         };
         
@@ -1417,13 +1416,13 @@ const StaticFogOverlay = () => {
                     fillColor = isGMMode ? 'rgba(25, 25, 50, 0.1)' : 'rgba(25, 25, 50, 0.1)'; // Very light midnight blue
                     break;
                 case 'explored':
-                    // Previously explored - darker than viewable but lighter than covered
-                    fillColor = isGMMode ? 'rgba(25, 25, 50, 0.5)' : 'rgba(25, 25, 50, 0.6)'; // Darker midnight blue tint
+                    // Previously explored - slightly see-through dark blue (as per user request)
+                    fillColor = isGMMode ? 'rgba(25, 25, 50, 0.4)' : 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue
                     break;
                 case 'covered':
                 default:
-                    // Never explored - darker midnight blue fog
-                    fillColor = isGMMode ? 'rgba(15, 15, 40, 0.6)' : 'rgba(15, 15, 40, 0.75)'; // Darker midnight blue
+                    // Never explored - solid dark blue (as per user request)
+                    fillColor = isGMMode ? 'rgba(15, 15, 40, 0.85)' : 'rgba(15, 15, 40, 0.95)'; // Solid dark blue
                     break;
             }
             ctx.fillStyle = fillColor;

@@ -617,13 +617,27 @@ const usePresenceStore = create((set, get) => ({
         
         // If still no user, create from message data
         if (!user) {
+          // Determine which name to use based on whether this is a sent or received message
+          // If userId matches senderId, this is a received message, use senderName
+          // If userId matches recipientId, this is a sent message, use recipientName
+          const isReceivedMessage = message.senderId === userId;
+          const displayName = isReceivedMessage 
+            ? (message.senderName || 'Unknown')
+            : (message.recipientName || 'Unknown');
+          const displayClass = isReceivedMessage
+            ? (message.senderClass || 'Unknown')
+            : (message.recipientClass || 'Unknown');
+          const displayLevel = isReceivedMessage
+            ? (message.senderLevel || 1)
+            : (message.recipientLevel || 1);
+          
           user = {
-            userId: message.senderId === userId ? message.senderId : userId,
-            characterName: message.senderName || 'Unknown',
-            name: message.senderName || 'Unknown',
-            displayName: message.senderName || 'Unknown',
-            class: message.senderClass || 'Unknown',
-            level: message.senderLevel || 1
+            userId: userId,
+            characterName: displayName,
+            name: displayName,
+            displayName: displayName,
+            class: displayClass,
+            level: displayLevel
           };
         }
       }

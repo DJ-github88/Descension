@@ -1632,11 +1632,53 @@ const useLevelEditorStore = create((set, get) => ({
             // Drawing tools
             addDrawingPath: (path) => {
                 const state = get();
+                
+                // Check for duplicate paths (same tool, similar points, recent timestamp)
+                const now = Date.now();
+                const duplicateThreshold = 1000; // 1 second threshold for duplicate detection
+                const pointSimilarityThreshold = 5; // 5 pixels threshold for point similarity
+                
+                const isDuplicate = state.drawingPaths.some(existingPath => {
+                    // Check if same tool and layer
+                    if (existingPath.tool !== path.tool || existingPath.layer !== state.activeLayer) {
+                        return false;
+                    }
+                    
+                    // Check if timestamp is very recent (within threshold)
+                    const timeDiff = now - (existingPath.timestamp || 0);
+                    if (timeDiff > duplicateThreshold) {
+                        return false;
+                    }
+                    
+                    // Check if points are similar (within threshold)
+                    if (!path.points || !existingPath.points || path.points.length !== existingPath.points.length) {
+                        return false;
+                    }
+                    
+                    // Check if all points are within similarity threshold
+                    const allPointsSimilar = path.points.every((point, index) => {
+                        const existingPoint = existingPath.points[index];
+                        if (!existingPoint) return false;
+                        
+                        const dx = Math.abs(point.x - existingPoint.x);
+                        const dy = Math.abs(point.y - existingPoint.y);
+                        return dx <= pointSimilarityThreshold && dy <= pointSimilarityThreshold;
+                    });
+                    
+                    return allPointsSimilar;
+                });
+                
+                // Skip adding if duplicate
+                if (isDuplicate) {
+                    console.log('🚫 Skipped duplicate drawing path');
+                    return null;
+                }
+                
                 const newPath = {
                     id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
                     ...path,
                     layer: state.activeLayer,
-                    timestamp: Date.now()
+                    timestamp: now
                 };
                 const newDrawingPaths = [...state.drawingPaths, newPath];
                 set({

@@ -288,6 +288,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             race: data.player.character?.race || 'Unknown',
             subrace: data.player.character?.subrace || '',
             raceDisplayName: raceDisplayName,
+            classResource: data.player.character?.classResource || { current: 0, max: 0 }, // Include class resource
             tokenSettings: data.player.character?.tokenSettings || {}, // Include token settings
             lore: data.player.character?.lore || {} // Include lore (which contains characterImage)
           }
@@ -404,8 +405,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Show player leave notification
       showPlayerLeaveNotification(data.player.name, currentRoom?.name || 'Room');
 
-      // Remove from party system
-      removePartyMember(data.player.id);
+      // Remove from party system (ensure it's removed)
+      try {
+        removePartyMember(data.player.id);
+        // Also remove from party store directly if needed
+        import('../../store/partyStore').then(({ default: usePartyStore }) => {
+          const { removePartyMember: removeFromStore } = usePartyStore.getState();
+          removeFromStore(data.player.id);
+        }).catch(() => {
+          // Ignore if party store not available
+        });
+      } catch (error) {
+        console.error('Error removing party member:', error);
+      }
 
       // Remove from chat system
       removeUser(data.player.id);
@@ -821,7 +833,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           subrace: data.character.subrace || '',
           raceDisplayName: raceDisplayName,
           exhaustionLevel: data.character.exhaustionLevel || 0,
-          classResource: data.character.classResource || { current: 0, max: 0 },
+          classResource: data.character.classResource || { current: 0, max: 0 }, // Include class resource
           tokenSettings: data.character.tokenSettings || {}, // Include token settings, default to empty object
           lore: data.character.lore || {} // Include lore (which contains characterImage), default to empty object
         };
@@ -1317,43 +1329,54 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Set room name for multiplayer context (this will format the display name)
       setRoomName(room.name);
 
-        // Sync character inventory with inventory store
-        try {
-          import('../../store/inventoryStore').then(({ default: useInventoryStore }) => {
-            const inventoryStore = useInventoryStore.getState();
+      // Ensure character is fully loaded before syncing inventory
+      // Reload character from store to ensure we have the latest data including inventory
+      const { loadCharacter } = useCharacterStore.getState();
+      const fullyLoadedCharacter = loadCharacter(activeCharacter.id);
+      
+      // Use fully loaded character if available, otherwise use activeCharacter
+      const characterToUse = fullyLoadedCharacter || activeCharacter;
 
-            // Load character's inventory into the inventory store
-            // Ensure inventory exists, default to empty if not present
-            const characterInventory = activeCharacter.inventory || {
-              items: [],
-              currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
-              encumbranceState: 'normal'
-            };
+      // Sync character inventory with inventory store
+      try {
+        import('../../store/inventoryStore').then(({ default: useInventoryStore }) => {
+          const inventoryStore = useInventoryStore.getState();
 
-            // Clear current inventory
-            inventoryStore.clearInventory();
+          // Load character's inventory into the inventory store
+          // Ensure inventory exists, default to empty if not present
+          const characterInventory = characterToUse.inventory || {
+            items: [],
+            currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+            encumbranceState: 'normal'
+          };
 
-            // Load character's items
-            if (characterInventory.items && Array.isArray(characterInventory.items)) {
-              characterInventory.items.forEach(item => {
-                try {
-                  inventoryStore.addItem(item);
-                } catch (itemError) {
-                  console.warn('Failed to add item to inventory:', itemError, item);
-                }
-              });
-            }
+          // Clear current inventory
+          inventoryStore.clearInventory();
 
-            // Load character's currency
-            if (characterInventory.currency) {
-              inventoryStore.updateCurrency(characterInventory.currency);
-            }
+          // Load character's items
+          if (characterInventory.items && Array.isArray(characterInventory.items)) {
+            console.log(`📦 Loading ${characterInventory.items.length} items into inventory`);
+            characterInventory.items.forEach(item => {
+              try {
+                inventoryStore.addItem(item);
+              } catch (itemError) {
+                console.warn('Failed to add item to inventory:', itemError, item);
+              }
+            });
+          } else {
+            console.warn('⚠️ Character inventory items is not an array:', characterInventory.items);
+          }
 
-            console.log(`✅ Character inventory synced: ${characterInventory.items?.length || 0} items, currency:`, characterInventory.currency);
-          });
-        } catch (inventoryError) {
-          console.warn('Failed to sync character inventory:', inventoryError);
-        }
+          // Load character's currency
+          if (characterInventory.currency) {
+            inventoryStore.updateCurrency(characterInventory.currency);
+          }
+
+          console.log(`✅ Character inventory synced: ${characterInventory.items?.length || 0} items, currency:`, characterInventory.currency);
+        });
+      } catch (inventoryError) {
+        console.warn('Failed to sync character inventory:', inventoryError);
+      }
 
         // Send character data to server for synchronization
         if (socketConnection && socketConnection.connected) {
@@ -1374,6 +1397,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               inventory: activeCharacter.inventory || { items: [], currency: { platinum: 0, gold: 0, silver: 0, copper: 0 } },
               experience: activeCharacter.experience,
               exhaustionLevel: activeCharacter.exhaustionLevel,
+              classResource: activeCharacter.classResource || { current: 0, max: 0 }, // Include class resource
               tokenSettings: activeCharacter.tokenSettings, // Include token settings
               lore: activeCharacter.lore, // Include lore (which contains characterImage)
               playerId: currentPlayerData?.id
@@ -1490,6 +1514,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           race: room.gm.character?.race || 'Unknown',
           subrace: room.gm.character?.subrace || '',
           raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
+          classResource: room.gm.character?.classResource || { current: 0, max: 0 }, // Include class resource
           tokenSettings: room.gm.character?.tokenSettings || {}, // Include token settings, default to empty object
           lore: room.gm.character?.lore || {} // Include lore (which contains characterImage), default to empty object
         }
@@ -1516,7 +1541,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const playerMember = {
             id: player.id,
             name: playerCharacterName,
-            isGM: false, // Regular players are not GM
+            isGM: player.isGM || false, // Check if player is GM (for GM reconnecting)
             character: {
               class: player.character?.class || 'Unknown',
               level: player.character?.level || 1,
@@ -1526,6 +1551,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               race: player.character?.race || 'Unknown',
               subrace: player.character?.subrace || '',
               raceDisplayName: player.character?.raceDisplayName || 'Unknown',
+              classResource: player.character?.classResource || { current: 0, max: 0 }, // Include class resource
               tokenSettings: player.character?.tokenSettings || {}, // Include token settings, default to empty object
               lore: player.character?.lore || {} // Include lore (which contains characterImage), default to empty object
             }
@@ -1664,10 +1690,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Start cleanup process (non-blocking)
     handleLeaveRoom();
 
-    // Immediately transition to single player view
+    // Navigate to landing page (leave game entirely)
     // Use requestAnimationFrame to ensure UI updates happen before navigation
     requestAnimationFrame(() => {
-      onReturnToSinglePlayer();
+      // Use window.location to navigate to landing page
+      window.location.href = '/';
     });
   };
 

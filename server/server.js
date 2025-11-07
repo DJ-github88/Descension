@@ -722,6 +722,26 @@ io.on('connection', (socket) => {
       });
     }
 
+    // Send map data (terrain, fog, walls, etc.) to the newly joined player
+    if (room.gameState.mapData && Object.keys(room.gameState.mapData).length > 0) {
+      console.log(`🗺️ Sending map data to ${playerName}`);
+      socket.emit('map_updated', {
+        mapData: {
+          ...room.gameState.mapData,
+          fogOfWar: room.gameState.fogOfWar,
+          fogOfWarPaths: room.gameState.mapData?.fogOfWarPaths,
+          fogErasePaths: room.gameState.mapData?.fogErasePaths,
+          terrainData: room.gameState.mapData?.terrainData,
+          wallData: room.gameState.mapData?.wallData,
+          drawingLayers: room.gameState.mapData?.drawingLayers,
+          drawingPaths: room.gameState.mapData?.drawingPaths
+        },
+        updatedBy: room.gm.id,
+        updatedByName: room.gm.name,
+        timestamp: new Date()
+      });
+    }
+
     // Removed: Duplicate token syncing code
 
     // Broadcast room list update to all connected clients
