@@ -1352,59 +1352,67 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   };
 
   const handleLeaveRoom = async () => {
-    try {
-      // End character session to save all changes
-      const activeCharacter = getActiveCharacter();
-      if (activeCharacter) {
-        console.log(`🔄 Ending character session for: ${activeCharacter.name}`);
-        const sessionEnded = await endCharacterSession(activeCharacter.id);
-        if (sessionEnded) {
-          console.log(`✅ Character session ended and changes saved`);
-        } else {
-          console.warn('⚠️ Failed to end character session properly');
-        }
-      }
-
-      // Cleanup game state manager first (saves final state)
-      gameStateManager.cleanup().then(() => {
-        // Game state manager cleaned up successfully
-      }).catch((error) => {
-        console.error('❌ Error cleaning up game state manager:', error);
-      });
-
-      if (socket) {
-        // Emit leave room event to server before disconnecting
-        socket.emit('leave_room');
-        // Disconnect the socket
-        socket.disconnect();
-      }
-
-      // Clear multiplayer players from chat system
-      connectedPlayers.forEach(player => {
-        removeUser(player.id);
-      });
-
-      // Clear chat multiplayer integration
-      clearMultiplayerIntegration();
-    } catch (error) {
-      console.error('Error in handleLeaveRoom:', error);
-    }
-
-    // Room name is not set on character, so no need to clear
-
+    // Immediately update UI state for instant response
     setCurrentRoom(null);
-    setSocket(null);
     setCurrentPlayer(null);
     setIsGM(false);
     setConnectedPlayers([]);
 
-    // Reset to single player GM mode
+    // Clear multiplayer players from chat system immediately
+    connectedPlayers.forEach(player => {
+      removeUser(player.id);
+    });
+
+    // Clear chat multiplayer integration
+    clearMultiplayerIntegration();
+
+    // Reset to single player GM mode immediately
     setGMMode(true);
     setMultiplayerState(false, null, null);
+
+    // Perform cleanup operations in background (non-blocking)
+    try {
+      // End character session to save all changes (async, non-blocking)
+      const activeCharacter = getActiveCharacter();
+      if (activeCharacter) {
+        console.log(`🔄 Ending character session for: ${activeCharacter.name} (background)`);
+        // Don't await - let it complete in background
+        endCharacterSession(activeCharacter.id).then((sessionEnded) => {
+          if (sessionEnded) {
+            console.log(`✅ Character session ended and changes saved`);
+          } else {
+            console.warn('⚠️ Failed to end character session properly');
+          }
+        }).catch((error) => {
+          console.error('Error ending character session:', error);
+        });
+      }
+
+      // Cleanup game state manager (async, non-blocking)
+      gameStateManager.cleanup().then(() => {
+        console.log('✅ Game state manager cleaned up');
+      }).catch((error) => {
+        console.error('❌ Error cleaning up game state manager:', error);
+      });
+
+      // Disconnect socket immediately
+      if (socket) {
+        socket.emit('leave_room');
+        socket.disconnect();
+        // Set socket to null immediately for instant UI response
+        setSocket(null);
+      }
+    } catch (error) {
+      console.error('Error in background cleanup:', error);
+    }
   };
 
   const handleReturnToSinglePlayer = () => {
+    // Start cleanup process (non-blocking)
     handleLeaveRoom();
+
+    // Immediately transition to single player view
+    // Navigation happens instantly while cleanup runs in background
     onReturnToSinglePlayer();
   };
 
