@@ -923,13 +923,29 @@
     line-height: 1.5;
 }
 
-/* Crafting Header Actions in Window Header */
+/* Crafting Full Header - Title and Actions in Window Header */
+.crafting-full-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 40px 0 12px; /* Right padding accounts for close button */
+}
+
+.crafting-header-title {
+    color: #f4e4bc;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    white-space: nowrap;
+}
+
 .crafting-header-actions {
     display: flex;
     gap: 8px;
     align-items: center;
     margin-left: auto;
-    margin-right: 40px; /* Space for close button */
 }
 
 .crafting-action-button {

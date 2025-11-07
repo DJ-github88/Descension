@@ -70,43 +70,46 @@ function CraftingWindow({ isOpen, onClose }) {
         });
     };
 
-    // Create dynamic title that includes profession info
-    const getWindowTitle = () => {
-        if (selectedProfession) {
-            const profession = PROFESSIONS[selectedProfession];
-            const professionLevel = getProfessionLevel(selectedProfession);
-            const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
-            const skillName = skillLevelInfo?.name || 'Untrained';
-            return `${profession?.name || 'Profession'} (${skillName})`;
-        }
-        return 'Crafting';
-    };
-
     return (
         <WowWindow
-            title={getWindowTitle()}
+            title="Crafting"
             isOpen={isOpen}
             onClose={onClose}
             defaultSize={{ width: 1000, height: 700 }}
             defaultPosition={{ x: 200, y: 100 }}
             className="crafting-window"
             customHeader={
-                selectedProfession ? (
-                    <div className="crafting-header-actions">
-                        <button
-                            className="wow-button crafting-action-button"
-                            onClick={handleLearnAllRecipes}
-                        >
-                            Learn All Recipes
-                        </button>
-                        <button
-                            className="wow-button crafting-action-button"
-                            onClick={handleBackToProfessions}
-                        >
-                            Back to Professions
-                        </button>
+                <div className="crafting-full-header">
+                    <div className="crafting-header-title">
+                        {selectedProfession ? (
+                            (() => {
+                                const profession = PROFESSIONS[selectedProfession];
+                                const professionLevel = getProfessionLevel(selectedProfession);
+                                const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
+                                const skillName = skillLevelInfo?.name || 'Untrained';
+                                return `${profession?.name || 'Profession'} (${skillName})`;
+                            })()
+                        ) : (
+                            'Crafting'
+                        )}
                     </div>
-                ) : null
+                    {selectedProfession && (
+                        <div className="crafting-header-actions">
+                            <button
+                                className="wow-button crafting-action-button"
+                                onClick={handleLearnAllRecipes}
+                            >
+                                Learn All Recipes
+                            </button>
+                            <button
+                                className="wow-button crafting-action-button"
+                                onClick={handleBackToProfessions}
+                            >
+                                Back to Professions
+                            </button>
+                        </div>
+                    )}
+                </div>
             }
         >
             <div className="crafting-window-content">
