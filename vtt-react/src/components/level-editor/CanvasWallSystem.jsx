@@ -156,9 +156,10 @@ const CanvasWallSystem = () => {
             // 1. At least one of its endpoint tiles or tiles it crosses are in visibleArea, OR
             // 2. The wall blocks line of sight to any visible tile (walls obstructing vision should be visible)
             // Note: In GM mode or editor mode, walls should always be visible regardless of FOV
+            let isWallVisible = true; // Default to visible (for GM mode or when not filtering)
             if (shouldFilterByFOV) {
                 // Check if any tile the wall passes through is in the visible area
-                let isWallVisible = false;
+                isWallVisible = false;
                 
                 // Check endpoint tiles
                 const tile1Key = `${x1},${y1}`;
