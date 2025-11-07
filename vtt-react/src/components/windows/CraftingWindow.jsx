@@ -54,18 +54,6 @@ function CraftingWindow({ isOpen, onClose }) {
         );
     };
 
-    // Get the current tab label based on selected profession
-    const getCurrentTabLabel = () => {
-        if (selectedProfession) {
-            const profession = PROFESSIONS[selectedProfession];
-            const professionLevel = getProfessionLevel(selectedProfession);
-            const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
-            const skillName = skillLevelInfo?.name || 'Untrained';
-            return profession ? `${profession.name} (${skillName})` : 'Profession';
-        }
-        return 'Overview';
-    };
-
     // Handle learning all recipes for current profession
     const handleLearnAllRecipes = () => {
         if (!selectedProfession) return;
@@ -82,45 +70,43 @@ function CraftingWindow({ isOpen, onClose }) {
         });
     };
 
-    // Single tab that changes label based on context
-    const tabs = [
-        { id: 'main', label: getCurrentTabLabel() }
-    ];
+    // Create dynamic title that includes profession info
+    const getWindowTitle = () => {
+        if (selectedProfession) {
+            const profession = PROFESSIONS[selectedProfession];
+            const professionLevel = getProfessionLevel(selectedProfession);
+            const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
+            const skillName = skillLevelInfo?.name || 'Untrained';
+            return `${profession?.name || 'Profession'} (${skillName})`;
+        }
+        return 'Crafting';
+    };
 
     return (
         <WowWindow
-            title="Crafting"
+            title={getWindowTitle()}
             isOpen={isOpen}
             onClose={onClose}
             defaultSize={{ width: 1000, height: 700 }}
             defaultPosition={{ x: 200, y: 100 }}
             className="crafting-window"
             customHeader={
-                <div className="crafting-header">
-                    <div className="crafting-tab-header">
-                        <div className="profession-tab-info">
-                            {tabs.map(tab => (
-                                <span key={tab.id} className="profession-tab-label">
-                                    {tab.label}
-                                </span>
-                            ))}
-                        </div>
-                        {selectedProfession && (
-                            <div className="crafting-tab-actions">
-                                <button
-                                    className="wow-button"
-                                    onClick={handleLearnAllRecipes}
-                                    style={{ marginRight: '10px' }}
-                                >
-                                    Learn All Recipes
-                                </button>
-                                <button className="wow-button" onClick={handleBackToProfessions}>
-                                    Back to Professions
-                                </button>
-                            </div>
-                        )}
+                selectedProfession ? (
+                    <div className="crafting-header-actions">
+                        <button
+                            className="wow-button crafting-action-button"
+                            onClick={handleLearnAllRecipes}
+                        >
+                            Learn All Recipes
+                        </button>
+                        <button
+                            className="wow-button crafting-action-button"
+                            onClick={handleBackToProfessions}
+                        >
+                            Back to Professions
+                        </button>
                     </div>
-                </div>
+                ) : null
             }
         >
             <div className="crafting-window-content">

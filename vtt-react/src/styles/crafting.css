@@ -923,66 +923,31 @@
     line-height: 1.5;
 }
 
-/* Crafting Header Layout */
-.crafting-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 0 15px;
-}
-
-.crafting-tab-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    background: linear-gradient(135deg, #2d1810 0%, #3d2518 50%, #2d1810 100%);
-    border: 2px solid #8b4513;
-    border-radius: 8px;
-    padding: 8px 12px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.profession-tab-info {
-    display: flex;
-    align-items: center;
-}
-
-.profession-tab-label {
-    color: #f4e4bc;
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    padding: 4px 8px;
-    background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(160, 82, 45, 0.3) 100%);
-    border-radius: 4px;
-    border: 1px solid rgba(139, 69, 19, 0.5);
-}
-
-.crafting-tab-actions {
+/* Crafting Header Actions in Window Header */
+.crafting-header-actions {
     display: flex;
     gap: 8px;
     align-items: center;
+    margin-left: auto;
+    margin-right: 40px; /* Space for close button */
 }
 
-.crafting-tab-actions .wow-button {
-    font-size: 11px;
-    padding: 4px 8px;
-    min-height: 24px;
+.crafting-action-button {
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    min-height: 24px !important;
     white-space: nowrap;
-    background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #8b4513 100%);
-    border: 1px solid #654321;
-    color: #f4e4bc;
-    font-weight: bold;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    transition: all 0.2s ease;
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #8b4513 100%) !important;
+    border: 1px solid #654321 !important;
+    color: #f4e4bc !important;
+    font-weight: bold !important;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.2s ease !important;
 }
 
-.crafting-tab-actions .wow-button:hover {
-    background: linear-gradient(135deg, #a0522d 0%, #b8651a 50%, #a0522d 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+.crafting-action-button:hover {
+    background: linear-gradient(135deg, #a0522d 0%, #b8651a 50%, #a0522d 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
