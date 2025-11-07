@@ -6,8 +6,7 @@ import useChatStore from '../../store/chatStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 
-function AlchemyInterface({ onBack }) {
-    const [activeTab, setActiveTab] = useState('recipes');
+function AlchemyInterface({ onBack, activeTab }) {
     const [hoveredRecipe, setHoveredRecipe] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const {
@@ -156,25 +155,6 @@ function AlchemyInterface({ onBack }) {
         setHoveredRecipe(null);
     };
 
-
-    const renderTabs = () => (
-        <div className="alchemy-tabs">
-            <button
-                className={`alchemy-tab ${activeTab === 'recipes' ? 'active' : ''}`}
-                onClick={() => setActiveTab('recipes')}
-            >
-                <span>Recipes</span>
-                <span className="tab-count">({knownRecipes.length})</span>
-            </button>
-            <button
-                className={`alchemy-tab ${activeTab === 'queue' ? 'active' : ''}`}
-                onClick={() => setActiveTab('queue')}
-            >
-                <span>Queue</span>
-                <span className="tab-count">({craftingQueue.length})</span>
-            </button>
-        </div>
-    );
 
     const renderRecipes = () => (
         <div className="recipes-content">
@@ -334,7 +314,6 @@ function AlchemyInterface({ onBack }) {
 
     return (
         <div className="alchemy-interface">
-            {renderTabs()}
             <div className="alchemy-content">
                 {renderContent()}
             </div>

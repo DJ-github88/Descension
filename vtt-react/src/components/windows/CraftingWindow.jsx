@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import WowWindow from './WowWindow';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import ProfessionSelection from '../crafting/ProfessionSelection';
 import AlchemyInterface from '../crafting/AlchemyInterface';
-import useInventoryStore from '../../store/inventoryStore';
 import useChatStore from '../../store/chatStore';
 import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
+    const [activeTab, setActiveTab] = useState('recipes');
     const {
         selectedProfession,
         setSelectedProfession,
@@ -30,7 +30,7 @@ function CraftingWindow({ isOpen, onClose }) {
         if (selectedProfession) {
             switch (selectedProfession) {
                 case 'alchemy':
-                    return <AlchemyInterface onBack={handleBackToProfessions} />;
+                    return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} />;
                 // Add other profession interfaces here as they're implemented
                 default:
                     return (
@@ -80,17 +80,37 @@ function CraftingWindow({ isOpen, onClose }) {
             className="crafting-window"
             customHeader={
                 <div className="crafting-full-header">
-                    <div className="crafting-header-title">
-                        {selectedProfession ? (
-                            (() => {
-                                const profession = PROFESSIONS[selectedProfession];
-                                const professionLevel = getProfessionLevel(selectedProfession);
-                                const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
-                                const skillName = skillLevelInfo?.name || 'Untrained';
-                                return `${profession?.name || 'Profession'} (${skillName})`;
-                            })()
-                        ) : (
-                            'Crafting'
+                    <div className="crafting-header-left">
+                        <div className="crafting-header-title">
+                            {selectedProfession ? (
+                                (() => {
+                                    const profession = PROFESSIONS[selectedProfession];
+                                    const professionLevel = getProfessionLevel(selectedProfession);
+                                    const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
+                                    const skillName = skillLevelInfo?.name || 'Untrained';
+                                    return `${profession?.name || 'Profession'} (${skillName})`;
+                                })()
+                            ) : (
+                                'Crafting'
+                            )}
+                        </div>
+                        {selectedProfession && (
+                            <div className="crafting-header-tabs">
+                                <button
+                                    className={`crafting-overlay-tab ${activeTab === 'recipes' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('recipes')}
+                                >
+                                    <span>Recipes</span>
+                                    <span className="tab-count">({getRecipesForProfession(selectedProfession).length})</span>
+                                </button>
+                                <button
+                                    className={`crafting-overlay-tab ${activeTab === 'queue' ? 'active' : ''}`}
+                                    onClick={() => setActiveTab('queue')}
+                                >
+                                    <span>Queue</span>
+                                    <span className="tab-count">(0)</span>
+                                </button>
+                            </div>
                         )}
                     </div>
                     {selectedProfession && (

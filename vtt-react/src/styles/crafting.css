@@ -10,11 +10,8 @@
     display: flex;
     flex-direction: column;
     background: var(--pf-gradient-parchment, #ede4d3);
-    border: 3px solid var(--pf-brown-medium, #8B4513);
-    border-radius: var(--pf-border-radius-lg, 12px);
     overflow: hidden;
     position: relative;
-    box-shadow: var(--pf-shadow-parchment, 0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 /* Add parchment texture */
@@ -923,13 +920,19 @@
     line-height: 1.5;
 }
 
-/* Crafting Full Header - Title and Actions in Window Header */
+/* Crafting Full Header - Title, Tabs and Actions in Window Header */
 .crafting-full-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 0 40px 0 12px; /* Right padding accounts for close button */
+}
+
+.crafting-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .crafting-header-title {
@@ -939,6 +942,43 @@
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     white-space: nowrap;
+}
+
+.crafting-header-tabs {
+    display: flex;
+    gap: 4px;
+}
+
+.crafting-overlay-tab {
+    background: rgba(139, 69, 19, 0.2);
+    border: 1px solid rgba(139, 69, 19, 0.4);
+    color: #d4af37;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.crafting-overlay-tab:hover {
+    background: rgba(139, 69, 19, 0.4);
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
+.crafting-overlay-tab.active {
+    background: rgba(139, 69, 19, 0.6);
+    border-color: #d4af37;
+    color: #f4e4bc;
+}
+
+.crafting-overlay-tab .tab-count {
+    font-size: 10px;
+    opacity: 0.8;
 }
 
 .crafting-header-actions {
