@@ -97,6 +97,7 @@ const initialState = {
         gender: 'male',
         characterImage: null,
         imageTransformations: null,
+        characterIcon: null,
 
         // Race and subrace
         race: '',
@@ -408,6 +409,7 @@ const characterWizardReducer = (state, action) => {
                     gender: existingChar.gender || 'male',
                     characterImage: existingChar.lore?.characterImage || existingChar.characterImage || null,
                     imageTransformations: existingChar.lore?.imageTransformations || existingChar.imageTransformations || null,
+                    characterIcon: existingChar.lore?.characterIcon || existingChar.characterIcon || null,
 
                     // Race and subrace
                     race: existingChar.race || '',

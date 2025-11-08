@@ -6,6 +6,35 @@
 // Sample character image URL (you can replace with actual image URLs)
 const PLACEHOLDER_IMAGE_URL = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
 
+// Available icons for placeholder characters
+const AVAILABLE_ICONS = [
+  'ability_warrior_savageblow', 'ability_druid_catform', 'ability_hunter_beasttaming',
+  'ability_rogue_shadowstrike', 'ability_mage_firebolt', 'ability_priest_shadowword',
+  'ability_paladin_shieldoftemplar', 'ability_warlock_demonbolt', 'ability_shaman_stormstrike',
+  'spell_shadow_raisedead', 'spell_fire_fireball', 'spell_frost_frostbolt',
+  'spell_nature_lightning', 'spell_holy_heal', 'spell_arcane_arcanetorrent',
+  'inv_misc_bone_skull_01', 'inv_misc_bone_skull_02', 'inv_misc_head_dragon_01',
+  'inv_misc_head_dragon_blue', 'inv_misc_head_dragon_bronze', 'inv_misc_head_dragon_green',
+  'inv_misc_head_dragon_red', 'inv_misc_head_dragon_black', 'inv_misc_head_centaur_01',
+  'inv_misc_head_murloc_01', 'inv_misc_head_orc_01', 'inv_misc_head_human_01',
+  'inv_misc_head_elf_01', 'inv_misc_head_dwarf_01', 'inv_misc_head_gnome_01',
+  'inv_misc_head_tauren_01', 'inv_misc_head_troll_01', 'inv_misc_head_undead_01',
+  'inv_misc_head_bloodelf_male', 'inv_misc_head_draenei_male', 'inv_misc_head_worgen_male',
+  'inv_misc_head_goblin_01', 'inv_misc_head_pandaren_male', 'inv_misc_head_nightelf_male',
+  'achievement_boss_lichking', 'achievement_boss_ragnaros', 'achievement_boss_cthun',
+  'achievement_boss_illidan', 'achievement_boss_kiljaedan', 'achievement_boss_archimonde',
+  'achievement_boss_nefarian', 'achievement_boss_onyxia', 'achievement_boss_deathwing',
+  'achievement_boss_algalon_01', 'achievement_boss_yoggsaron_01', 'achievement_boss_mimiron_01',
+  'inv_misc_head_dragon_nether', 'inv_misc_head_dragon_twilight', 'inv_misc_head_dragon_infinite'
+];
+
+/**
+ * Get a random icon from available icons
+ */
+function getRandomIcon() {
+  return AVAILABLE_ICONS[Math.floor(Math.random() * AVAILABLE_ICONS.length)];
+}
+
 /**
  * Gets proper race display name from race data
  * Note: This is a synchronous version that works at character creation time
@@ -134,7 +163,7 @@ export function createPlaceholderCharacter(name, options = {}) {
       max: 0
     },
     
-    // Lore with character image
+    // Lore with character image and icon
     lore: {
       background: 'A seasoned adventurer',
       personalityTraits: 'Brave and determined',
@@ -155,7 +184,8 @@ export function createPlaceholderCharacter(name, options = {}) {
         positionX: 0,
         positionY: 0,
         rotation: 0
-      }
+      },
+      characterIcon: getRandomIcon()
     },
     
     // Token settings

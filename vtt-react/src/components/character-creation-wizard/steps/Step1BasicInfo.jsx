@@ -7,12 +7,14 @@
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import ImageEditor from '../components/ImageEditor';
+import CharacterIconSelector from '../components/CharacterIconSelector';
 
 const Step1BasicInfo = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
     const [imagePreview, setImagePreview] = useState(null);
     const [showImageEditor, setShowImageEditor] = useState(false);
+    const [showIconSelector, setShowIconSelector] = useState(false);
     const [imageTransformations, setImageTransformations] = useState({
         scale: 1.2,
         rotation: 0,
@@ -93,6 +95,21 @@ const Step1BasicInfo = () => {
         if (fileInput) {
             fileInput.value = '';
         }
+    };
+
+    // Handle icon selection
+    const handleIconSelect = (icon) => {
+        dispatch(wizardActionCreators.updateBasicInfo({
+            characterIcon: icon
+        }));
+        setShowIconSelector(false);
+    };
+
+    // Remove icon
+    const handleRemoveIcon = () => {
+        dispatch(wizardActionCreators.updateBasicInfo({
+            characterIcon: null
+        }));
     };
 
     // Open image editor
@@ -217,6 +234,60 @@ const Step1BasicInfo = () => {
                                 />
                             </div>
                         </div>
+
+                        {/* Character Icon Selection */}
+                        <div className="form-group">
+                            <label className="form-label">Character Icon</label>
+                            <p className="form-description">
+                                Select an icon to represent your character in the HUD and on tokens (optional)
+                            </p>
+                            
+                            <div className="icon-selection-area">
+                                {characterData.characterIcon ? (
+                                    <div className="icon-preview" onClick={() => setShowIconSelector(true)}>
+                                        <img 
+                                            src={`https://wow.zamimg.com/images/wow/icons/large/${characterData.characterIcon}.jpg`}
+                                            alt="Character icon" 
+                                            className="preview-icon"
+                                            onError={(e) => {
+                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                            }}
+                                        />
+                                        <div className="icon-edit-overlay">
+                                            <button
+                                                type="button"
+                                                className="edit-icon-btn"
+                                                title="Change icon"
+                                            >
+                                                <i className="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                        <div className="icon-overlay">
+                                            <button
+                                                type="button"
+                                                className="remove-icon-btn"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleRemoveIcon();
+                                                }}
+                                                title="Remove icon"
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        className="select-icon-btn"
+                                        onClick={() => setShowIconSelector(true)}
+                                    >
+                                        <i className="fas fa-image"></i>
+                                        <span>Select Icon</span>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
                     {/* Right side - Character preview */}
@@ -230,6 +301,22 @@ const Step1BasicInfo = () => {
                                             alt="Character"
                                             className="character-portrait"
                                             style={getImageStyle()}
+                                        />
+                                        <div className="portrait-edit-overlay">
+                                            <button className="edit-portrait-btn" type="button">
+                                                <i className="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : characterData.characterIcon ? (
+                                    <div className="character-portrait-container" onClick={() => setShowIconSelector(true)}>
+                                        <img
+                                            src={`https://wow.zamimg.com/images/wow/icons/large/${characterData.characterIcon}.jpg`}
+                                            alt="Character icon"
+                                            className="character-portrait"
+                                            onError={(e) => {
+                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                            }}
                                         />
                                         <div className="portrait-edit-overlay">
                                             <button className="edit-portrait-btn" type="button">
@@ -271,6 +358,14 @@ const Step1BasicInfo = () => {
                     onApply={handleApplyTransformations}
                     initialTransformations={characterData.imageTransformations || imageTransformations}
                 />
+
+            {/* Icon Selector Modal */}
+            <CharacterIconSelector
+                isOpen={showIconSelector}
+                onClose={() => setShowIconSelector(false)}
+                onSelect={handleIconSelect}
+                currentIcon={characterData.characterIcon}
+            />
         </div>
     );
 };

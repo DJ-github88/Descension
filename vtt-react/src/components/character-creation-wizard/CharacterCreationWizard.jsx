@@ -101,6 +101,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 lore: state.characterData.lore,
                 characterImage: state.characterData.characterImage,
                 imageTransformations: state.characterData.imageTransformations,
+                characterIcon: state.characterData.characterIcon,
                 class_spells: state.characterData.class_spells
             };
             onComplete(characterData);

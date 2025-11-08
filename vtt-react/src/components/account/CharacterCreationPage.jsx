@@ -104,11 +104,12 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
             spirit: 10,
             charisma: 10
           },
-          // Add lore section with character image and transformations
+          // Add lore section with character image, transformations, and icon
           lore: {
             ...(characterData.lore || {}),
             characterImage: characterData.characterImage || null,
-            imageTransformations: characterData.imageTransformations || null
+            imageTransformations: characterData.imageTransformations || null,
+            characterIcon: characterData.characterIcon || null
           },
           // Add inventory with selected equipment and remaining currency
           inventory: {

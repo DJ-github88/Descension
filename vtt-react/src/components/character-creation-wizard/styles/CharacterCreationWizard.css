@@ -636,6 +636,154 @@ button.gender-option.selected {
     transform: scale(1.1);
 }
 
+/* Icon Selection Area */
+.icon-selection-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+}
+
+.select-icon-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 1.5rem;
+    border: 3px dashed #d4af37;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    width: 100%;
+    min-height: 120px;
+    font-family: 'Cinzel', serif;
+    color: #2c2416;
+}
+
+.select-icon-btn:hover {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: #b8941f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.select-icon-btn i {
+    font-size: 2.5rem;
+    color: #d4af37;
+}
+
+.select-icon-btn span {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.icon-preview {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-preview:hover {
+    transform: translateY(-4px);
+}
+
+.icon-preview:hover .preview-icon {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    border-color: #b8941f;
+}
+
+.icon-preview:hover .icon-edit-overlay {
+    opacity: 1;
+}
+
+.preview-icon {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 3px solid #d4af37;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    background: #2d1810;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.icon-edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.edit-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.9);
+    color: #2d1810;
+    border: 2px solid #b8941f;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-size: 1rem;
+    pointer-events: auto;
+}
+
+.edit-icon-btn:hover {
+    background: rgba(212, 175, 55, 1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5);
+}
+
+.icon-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    z-index: 10;
+}
+
+.remove-icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #d32f2f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.remove-icon-btn:hover {
+    background: #b71c1c;
+    transform: scale(1.1);
+}
+
 /* Footer navigation */
 .character-wizard-container .wizard-footer {
     all: initial;
