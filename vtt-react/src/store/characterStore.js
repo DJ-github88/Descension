@@ -1316,14 +1316,26 @@ const useCharacterStore = create((set, get) => ({
             const userId = getCurrentUserId();
             const useFirebase = shouldUseFirebase();
             
-            // CRITICAL FIX: Ensure character isolation between guest and authenticated users
-            // Clear characters if switching between guest and authenticated
+            // CRITICAL FIX: Ensure character isolation between guest, dev, and authenticated users
+            // Clear characters if switching between account types or users
             const isGuest = isGuestUser();
             const storageKey = getCharactersStorageKey();
             
+            // Get current user ID to determine account type
+            const currentUserId = getCurrentUserId();
+            const isDevUser = currentUserId?.startsWith('dev-user-') || currentUserId === 'dev-user-123';
+            
+            // Determine current account type
+            let currentAccountType = 'guest';
+            if (isDevUser) {
+                currentAccountType = 'dev';
+            } else if (!isGuest && userId) {
+                currentAccountType = 'authenticated';
+            }
+            
             // If switching account types, clear the old storage
             const lastAccountType = localStorage.getItem('mythrill-last-account-type');
-            const currentAccountType = isGuest ? 'guest' : 'authenticated';
+            const lastUserId = localStorage.getItem('mythrill-last-user-id');
             
             if (lastAccountType && lastAccountType !== currentAccountType) {
                 console.log(`🔄 Account type changed from ${lastAccountType} to ${currentAccountType} - clearing old characters`);
@@ -1334,7 +1346,22 @@ const useCharacterStore = create((set, get) => ({
                 }
             }
             
+            // CRITICAL FIX: Also check if userId changed (dev vs Google login)
+            // This ensures dev preview and Google login have separate character storage
+            if (lastUserId && lastUserId !== currentUserId) {
+                console.log(`🔄 User ID changed from ${lastUserId} to ${currentUserId} - clearing old characters`);
+                // Clear characters when switching between different users (dev vs Google login)
+                if (lastAccountType === 'guest') {
+                    localStorage.removeItem('mythrill-guest-characters');
+                } else {
+                    localStorage.removeItem('mythrill-characters');
+                }
+            }
+            
             localStorage.setItem('mythrill-last-account-type', currentAccountType);
+            if (currentUserId) {
+                localStorage.setItem('mythrill-last-user-id', currentUserId);
+            }
 
             if (userId && useFirebase) {
                 // Skip migration in development mode to avoid Firebase permission issues
