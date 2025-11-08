@@ -397,7 +397,8 @@ const AccountDashboard = ({ user }) => {
 
                     // Helper function to get proper race display name
                     const getRaceDisplayName = (character) => {
-                      if (character.raceDisplayName) {
+                      // Use stored raceDisplayName if available and valid
+                      if (character.raceDisplayName && character.raceDisplayName !== 'Unknown Race' && character.raceDisplayName !== 'Unknown') {
                         return character.raceDisplayName;
                       }
 
@@ -405,10 +406,25 @@ const AccountDashboard = ({ user }) => {
                       if (character.subrace && character.race) {
                         const raceData = RACE_DATA[character.race];
                         if (raceData && raceData.subraces) {
-                          // Find the subrace by ID
-                          const subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
-                          if (subraceData) {
-                            return subraceData.name;
+                          // Find the subrace by ID - check both object keys and subrace.id
+                          let subraceData = null;
+                          // First try finding by ID in values
+                          subraceData = Object.values(raceData.subraces).find(sr => sr.id === character.subrace);
+                          // If not found, try finding by object key
+                          if (!subraceData && raceData.subraces[character.subrace]) {
+                            subraceData = raceData.subraces[character.subrace];
+                          }
+                          // Also try finding by key that matches subrace ID pattern
+                          if (!subraceData) {
+                            for (const [key, subraceObj] of Object.entries(raceData.subraces)) {
+                              if (subraceObj.id === character.subrace || key === character.subrace) {
+                                subraceData = subraceObj;
+                                break;
+                              }
+                            }
+                          }
+                          if (subraceData && subraceData.name) {
+                            return subraceData.name; // Return subrace name (e.g., "Bloodhammer")
                           }
                         }
                         // Fallback to race name if subrace not found
@@ -460,11 +476,16 @@ const AccountDashboard = ({ user }) => {
                       <div key={character.id} className={`character-card-compact ${currentCharacterId === character.id ? 'active-character' : ''}`}>
                         {/* Character Header - Reorganized Layout */}
                         <div className="character-header">
-                          {/* Portrait and Resources Row */}
-                          <div className="character-main-row">
-                            {/* Portrait Section with Name Above */}
-                            <div className="character-portrait-section">
+                          {/* Header Top: Name, Tags, and Portrait (portrait on right) */}
+                          <div className="character-header-top">
+                            <div className="character-name-tags-section">
                               <h3 className="character-name">{character.name}</h3>
+                              <div className="character-class-race">
+                                <span className="race-tag">{getRaceDisplayName(character)}</span>
+                                <span className="class-tag">{getClassDisplayName(character)}</span>
+                              </div>
+                            </div>
+                            <div className="character-portrait-section">
                               <div className="character-portrait">
                                 {getCharacterImage(character) ? (
                                   <img
@@ -487,13 +508,9 @@ const AccountDashboard = ({ user }) => {
                                 </div>
                               </div>
                             </div>
-
-                            {/* Resources Section with Class/Race Above */}
-                            <div className="character-resources-section">
-                              <div className="character-class-race">
-                                <span className="race-tag">{getRaceDisplayName(character)}</span>
-                                <span className="class-tag">{getClassDisplayName(character)}</span>
-                              </div>
+                          </div>
+                          {/* Resources Section - Full Width */}
+                          <div className="character-resources-section">
                               <div className="character-resources">
                               <div className="resource-bar-item health-resource">
                                 <div className="resource-header">
@@ -561,8 +578,7 @@ const AccountDashboard = ({ user }) => {
                                   </div>
                                 );
                               })()}
-                            </div>
-                            </div>
+                              </div>
                           </div>
                         </div>
 

@@ -7,6 +7,65 @@
 const PLACEHOLDER_IMAGE_URL = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
 
 /**
+ * Gets proper race display name from race data
+ * Note: This is a synchronous version that works at character creation time
+ */
+function getRaceDisplayName(race, subrace) {
+  try {
+    // Import race data synchronously
+    const raceDataModule = require('../data/raceData');
+    const { getFullRaceData, getRaceData, RACE_DATA } = raceDataModule;
+    
+    if (race && subrace) {
+      // Try getFullRaceData first
+      const fullRaceData = getFullRaceData(race, subrace);
+      if (fullRaceData && fullRaceData.subrace && fullRaceData.subrace.name) {
+        return fullRaceData.subrace.name; // Use subrace name (e.g., "Bloodhammer")
+      }
+      
+      // Fallback: Look up directly in RACE_DATA
+      if (RACE_DATA && RACE_DATA[race] && RACE_DATA[race].subraces) {
+        // Try to find subrace by ID in the subraces object
+        const raceObj = RACE_DATA[race];
+        for (const [key, subraceObj] of Object.entries(raceObj.subraces)) {
+          if (subraceObj.id === subrace || key === subrace) {
+            if (subraceObj.name) {
+              return subraceObj.name;
+            }
+          }
+        }
+      }
+    }
+    
+    if (race) {
+      const raceData = getRaceData(race);
+      if (raceData && raceData.name) {
+        return raceData.name; // Fallback to race name
+      }
+      
+      // Fallback: Look up directly in RACE_DATA
+      if (RACE_DATA && RACE_DATA[race] && RACE_DATA[race].name) {
+        return RACE_DATA[race].name;
+      }
+    }
+    
+    return 'Unknown Race';
+  } catch (error) {
+    console.warn('Failed to get race display name:', error);
+    // Return a fallback based on the IDs
+    if (subrace) {
+      // Convert subrace ID to readable name (e.g., "berserker_nordmark" -> "Berserker Nordmark")
+      const parts = subrace.split('_');
+      return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    }
+    if (race) {
+      return race.charAt(0).toUpperCase() + race.slice(1);
+    }
+    return 'Unknown Race';
+  }
+}
+
+/**
  * Creates a complete placeholder character with all data filled out
  */
 export function createPlaceholderCharacter(name, options = {}) {
@@ -37,6 +96,9 @@ export function createPlaceholderCharacter(name, options = {}) {
 
   const characterId = `char_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   
+  // Get proper race display name from race data
+  const raceDisplayName = getRaceDisplayName(race, subrace);
+  
   return {
     id: characterId,
     name: name,
@@ -44,7 +106,7 @@ export function createPlaceholderCharacter(name, options = {}) {
     roomName: '',
     race: race,
     subrace: subrace,
-    raceDisplayName: `${subrace.charAt(0).toUpperCase() + subrace.slice(1)} ${race.charAt(0).toUpperCase() + race.slice(1)}`,
+    raceDisplayName: raceDisplayName,
     class: characterClass,
     level: level,
     experience: 0,
@@ -156,8 +218,8 @@ export function createGuestPlaceholderCharacters() {
       level: 3
     }),
     createPlaceholderCharacter('Guest Arcanoneer', {
-      race: 'mirrorkin',
-      subrace: 'doppel_mirrorkin',
+      race: 'mimir',
+      subrace: 'doppel_mimir',
       class: 'Arcanoneer',
       level: 2,
       stats: {
@@ -194,8 +256,8 @@ export function createDevPlaceholderCharacters() {
       level: 5
     }),
     createPlaceholderCharacter('Dev Arcanoneer', {
-      race: 'mirrorkin',
-      subrace: 'doppel_mirrorkin',
+      race: 'mimir',
+      subrace: 'doppel_mimir',
       class: 'Arcanoneer',
       level: 4,
       stats: {
@@ -208,8 +270,8 @@ export function createDevPlaceholderCharacters() {
       }
     }),
     createPlaceholderCharacter('Dev Bladedancer', {
-      race: 'wildkin',
-      subrace: 'guardian_wildkin',
+      race: 'groven',
+      subrace: 'guardian_groven',
       class: 'Bladedancer',
       level: 3,
       stats: {
@@ -255,8 +317,8 @@ export async function createAuthenticatedPlaceholderCharacters(userId) {
         level: 5
       }),
       createPlaceholderCharacter('Test Arcanoneer', {
-        race: 'mirrorkin',
-        subrace: 'doppel_mirrorkin',
+        race: 'mimir',
+        subrace: 'doppel_mimir',
         class: 'Arcanoneer',
         level: 4,
         stats: {
