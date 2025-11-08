@@ -388,6 +388,17 @@ const CharacterToken = ({
 
         // Removed excessive logging for performance
 
+        // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
+        if (isInMultiplayer && !isGMMode) {
+            const { currentPlayer } = useGameStore.getState();
+            const isOwnToken = tokenPlayerId === currentPlayer?.id || tokenPlayerId === 'current-player';
+            if (!isOwnToken) {
+                console.log('Cannot move character token - not your token');
+                setShowTooltip(false);
+                return;
+            }
+        }
+
         // If in combat and not this token's turn, prevent movement
         if (isInCombat && !isMyTurn) {
             console.log('Cannot move character token - not your turn in combat');

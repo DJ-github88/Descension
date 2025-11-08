@@ -725,20 +725,24 @@ const StaticFogOverlay = () => {
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
 
+        // CRITICAL FIX: Consistent fog appearance between GM and players
         // Get fog color based on state (solid midnight blue - no gradient)
         // Works in both GM and player mode to show explored areas
         const getFogColor = (fogState = 'covered') => {
             switch (fogState) {
                 case 'viewable':
                     // Currently visible - very light fog so GM can see through it
+                    // CRITICAL FIX: Same opacity for both GM and players
                     return 'rgba(25, 25, 50, 0.1)'; // Very light midnight blue
                 case 'explored':
-                    // Previously explored - slightly see-through dark blue (as per user request)
-                    return isGMMode ? 'rgba(25, 25, 50, 0.4)' : 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue
+                    // Previously explored - slightly see-through dark blue
+                    // CRITICAL FIX: Same opacity for both GM and players for consistency
+                    return 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue (consistent)
                 case 'covered':
                 default:
-                    // Never explored - solid dark blue (as per user request)
-                    return isGMMode ? 'rgba(15, 15, 40, 0.85)' : 'rgba(15, 15, 40, 0.95)'; // Solid dark blue
+                    // Never explored - solid dark blue
+                    // CRITICAL FIX: Same opacity for both GM and players for consistency
+                    return 'rgba(15, 15, 40, 0.95)'; // Solid dark blue (consistent)
             }
         };
         
@@ -1408,21 +1412,25 @@ const StaticFogOverlay = () => {
             // Determine fog state for this tile (works in both GM and player mode)
             const fogState = getFogState(worldX, worldY);
             
+            // CRITICAL FIX: Consistent fog appearance between GM and players
             // Render fog with different opacity based on state
             let fillColor;
             switch (fogState) {
                 case 'viewable':
                     // Currently visible - very light fog so GM can see through it
-                    fillColor = isGMMode ? 'rgba(25, 25, 50, 0.1)' : 'rgba(25, 25, 50, 0.1)'; // Very light midnight blue
+                    // CRITICAL FIX: Same opacity for both GM and players
+                    fillColor = 'rgba(25, 25, 50, 0.1)'; // Very light midnight blue (consistent)
                     break;
                 case 'explored':
-                    // Previously explored - slightly see-through dark blue (as per user request)
-                    fillColor = isGMMode ? 'rgba(25, 25, 50, 0.4)' : 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue
+                    // Previously explored - slightly see-through dark blue
+                    // CRITICAL FIX: Same opacity for both GM and players for consistency
+                    fillColor = 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue (consistent)
                     break;
                 case 'covered':
                 default:
-                    // Never explored - solid dark blue (as per user request)
-                    fillColor = isGMMode ? 'rgba(15, 15, 40, 0.85)' : 'rgba(15, 15, 40, 0.95)'; // Solid dark blue
+                    // Never explored - solid dark blue
+                    // CRITICAL FIX: Same opacity for both GM and players for consistency
+                    fillColor = 'rgba(15, 15, 40, 0.95)'; // Solid dark blue (consistent)
                     break;
             }
             ctx.fillStyle = fillColor;

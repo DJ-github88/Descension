@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import LocalhostMultiplayerSimulator from './LocalhostMultiplayerSimulator';
@@ -36,6 +37,10 @@ import DialogueControls from "../dialogue/DialogueControls";
 import DiceRollingSystem from "../dice/DiceRollingSystem";
 
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
+  // CRITICAL FIX: Get room code from URL params for room code routing
+  const { roomCode } = useParams();
+  const navigate = useNavigate();
+  
   const [currentRoom, setCurrentRoom] = useState(null);
   const [socket, setSocket] = useState(null);
   const [currentPlayer, setCurrentPlayer] = useState(null);
@@ -1023,6 +1028,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           if (data.mapData?.drawingPaths !== undefined) {
             levelEditorStore.setDrawingPaths(data.mapData.drawingPaths);
           }
+          
+          // CRITICAL FIX: Update explored areas if provided (for fog of war memory)
+          if (data.mapData?.exploredAreas !== undefined) {
+            levelEditorStore.setExploredAreas(data.mapData.exploredAreas);
+          }
         }).catch(error => {
           console.error('Failed to update map data:', error);
         }).finally(() => {
@@ -1136,6 +1146,38 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }).catch(error => {
         console.error('Failed to handle whisper message:', error);
+      });
+    });
+
+    // CRITICAL FIX: Listen for whisper_sent confirmation from server to update recipient name
+    socket.on('whisper_sent', (message) => {
+      // Import presence store dynamically to avoid circular dependencies
+      import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+        const { addWhisperMessage } = usePresenceStore.getState();
+        // Use recipientId to create/update the whisper tab (tab is for the recipient)
+        const recipientId = message.recipientId;
+        if (!recipientId) {
+          console.error('Whisper sent confirmation missing recipientId:', message);
+          return;
+        }
+        
+        // Add message to whisper tab with correct recipient name
+        addWhisperMessage(recipientId, {
+          id: message.id || `whisper_${Date.now()}`,
+          senderId: message.senderId,
+          senderName: message.senderName || 'Unknown',
+          senderClass: message.senderClass || 'Unknown',
+          senderLevel: message.senderLevel || 1,
+          recipientId: message.recipientId,
+          recipientName: message.recipientName || 'Unknown',
+          recipientClass: message.recipientClass || 'Unknown',
+          recipientLevel: message.recipientLevel || 1,
+          content: message.content,
+          timestamp: message.timestamp || message.serverTimestamp || new Date().toISOString(),
+          type: 'whisper_sent'
+        });
+      }).catch(error => {
+        console.error('Failed to handle whisper sent confirmation:', error);
       });
     });
 
@@ -1329,13 +1371,49 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // Set room name for multiplayer context (this will format the display name)
       setRoomName(room.name);
 
-      // Ensure character is fully loaded before syncing inventory
-      // Reload character from store to ensure we have the latest data including inventory
-      const { loadCharacter } = useCharacterStore.getState();
-      const fullyLoadedCharacter = loadCharacter(activeCharacter.id);
+      // CRITICAL FIX: Ensure character is fully loaded before syncing inventory
+      // Try to refresh from Firebase first to get the latest data including inventory
+      let characterToUse = activeCharacter;
       
-      // Use fully loaded character if available, otherwise use activeCharacter
-      const characterToUse = fullyLoadedCharacter || activeCharacter;
+      try {
+        // Try to refresh character from Firebase to get latest inventory
+        const { loadCharacters } = useCharacterStore.getState();
+        await loadCharacters(); // Refresh characters from Firebase
+        
+        // Get updated character from store after refresh
+        const { characters } = useCharacterStore.getState();
+        const refreshedCharacter = characters.find(c => c.id === activeCharacter.id);
+        
+        if (refreshedCharacter && refreshedCharacter.inventory) {
+          characterToUse = refreshedCharacter;
+          console.log('📦 Loaded character from Firebase with inventory:', {
+            itemsCount: refreshedCharacter.inventory.items?.length || 0,
+            currency: refreshedCharacter.inventory.currency
+          });
+        } else {
+          // Fallback to store character
+          const { loadCharacter } = useCharacterStore.getState();
+          const storeCharacter = loadCharacter(activeCharacter.id);
+          if (storeCharacter && storeCharacter.inventory) {
+            characterToUse = storeCharacter;
+            console.log('📦 Using character from store with inventory:', {
+              itemsCount: storeCharacter.inventory.items?.length || 0,
+              currency: storeCharacter.inventory.currency
+            });
+          } else {
+            console.warn('⚠️ Character does not have inventory saved. This may be a new character or inventory was not saved during creation.');
+            characterToUse = activeCharacter;
+          }
+        }
+      } catch (error) {
+        console.warn('⚠️ Could not refresh character from Firebase, using store:', error);
+        // Fallback to store character
+        const { loadCharacter } = useCharacterStore.getState();
+        const storeCharacter = loadCharacter(activeCharacter.id);
+        if (storeCharacter && storeCharacter.inventory) {
+          characterToUse = storeCharacter;
+        }
+      }
 
       // Sync character inventory with inventory store
       try {
@@ -1690,12 +1768,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Start cleanup process (non-blocking)
     handleLeaveRoom();
 
-    // Navigate to landing page (leave game entirely)
-    // Use requestAnimationFrame to ensure UI updates happen before navigation
-    requestAnimationFrame(() => {
-      // Use window.location to navigate to landing page
-      window.location.href = '/';
-    });
+    // CRITICAL FIX: Properly navigate to landing page using React Router
+    // Use navigate from useNavigate hook (already imported)
+    setTimeout(() => {
+      // Navigate to landing page and clear room code from URL
+      navigate('/', { replace: true });
+    }, 100);
   };
 
   // If not in a room, show the lobby

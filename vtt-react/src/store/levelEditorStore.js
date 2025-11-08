@@ -961,18 +961,39 @@ const useLevelEditorStore = create((set, get) => ({
             setExploredArea: (x, y, explored = true) => {
                 const state = get();
                 const key = `${x},${y}`;
+                let newExploredAreas;
                 if (explored) {
-                    set({
-                        exploredAreas: {
-                            ...state.exploredAreas,
-                            [key]: true
-                        }
-                    });
+                    newExploredAreas = {
+                        ...state.exploredAreas,
+                        [key]: true
+                    };
                 } else {
-                    const newExploredAreas = { ...state.exploredAreas };
+                    newExploredAreas = { ...state.exploredAreas };
                     delete newExploredAreas[key];
-                    set({ exploredAreas: newExploredAreas });
                 }
+                set({ exploredAreas: newExploredAreas });
+                
+                // CRITICAL FIX: Emit explored areas update to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    exploredAreas: newExploredAreas
+                                }
+                            });
+                            console.log('📤 Emitted explored areas update to server');
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
+            },
+
+            // CRITICAL FIX: Bulk setter for explored areas (for syncing from server)
+            setExploredAreas: (exploredAreas) => {
+                set({ exploredAreas: exploredAreas || {} });
             },
 
             getExploredArea: (x, y) => {
@@ -1588,6 +1609,25 @@ const useLevelEditorStore = create((set, get) => ({
 
             setDrawingPaths: (drawingPaths) => {
                 set({ drawingPaths: drawingPaths || [] });
+                
+                // CRITICAL FIX: Emit drawing paths update to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    drawingPaths: drawingPaths || []
+                                }
+                            });
+                            console.log('📤 Emitted drawing paths update to server');
+                        } else {
+                            console.log('🚫 Skipped drawing paths update (receiving from server)');
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             setDrawingLayers: (drawingLayers) => {

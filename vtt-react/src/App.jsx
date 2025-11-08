@@ -836,6 +836,19 @@ const AppContent = ({
                                 />
                             </Suspense>
                         } />
+                        
+                        {/* CRITICAL FIX: Room code routing - allows /multiplayer/room-code */}
+                        <Route path="/multiplayer/:roomCode" element={
+                            <Suspense fallback={<LoadingFallback message="Loading multiplayer room..." />}>
+                                <MultiplayerApp
+                                    onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
+                                    onShowLogin={handleShowLogin}
+                                    onShowUserProfile={handleShowUserProfile}
+                                    isAuthenticated={isAuthenticated}
+                                    user={user}
+                                />
+                            </Suspense>
+                        } />
 
                         {/* Test routes */}
                         <Route path="/test/triggers" element={

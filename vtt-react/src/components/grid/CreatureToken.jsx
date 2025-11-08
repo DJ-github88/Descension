@@ -1298,6 +1298,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // Removed excessive logging for performance
 
+    // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
+    // For creature tokens, check if token has a playerId and if it matches current player
+    if (isInMultiplayer && !isGMMode && token) {
+      const { currentPlayer } = useGameStore.getState();
+      // Check if token has a playerId (character tokens have this)
+      const tokenPlayerId = token.playerId;
+      if (tokenPlayerId && tokenPlayerId !== currentPlayer?.id && tokenPlayerId !== 'current-player') {
+        console.log('Cannot move creature token - not your token');
+        setShowTooltip(false);
+        return;
+      }
+    }
+
     // If in selection mode, toggle selection instead of dragging
     if (isSelectionMode) {
       toggleTokenSelection(tokenId);

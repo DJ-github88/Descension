@@ -734,7 +734,8 @@ io.on('connection', (socket) => {
           terrainData: room.gameState.mapData?.terrainData,
           wallData: room.gameState.mapData?.wallData,
           drawingLayers: room.gameState.mapData?.drawingLayers,
-          drawingPaths: room.gameState.mapData?.drawingPaths
+          drawingPaths: room.gameState.mapData?.drawingPaths,
+          exploredAreas: room.gameState.mapData?.exploredAreas || {} // CRITICAL FIX: Include explored areas for fog memory
         },
         updatedBy: room.gm.id,
         updatedByName: room.gm.name,
@@ -1140,6 +1141,44 @@ io.on('connection', (socket) => {
       lastUpdatedAt: new Date()
     };
 
+    // CRITICAL FIX: If this is the GM updating their character, also update room.gm.character
+    if (player.isGM && room.gm && room.gm.id === player.id) {
+      room.gm.character = {
+        ...room.gm.character,
+        ...data.character,
+        // Preserve GM-specific fields
+        name: data.character.name || room.gm.character?.name || room.gm.name
+      };
+      console.log(`👑 Updated GM character data in room:`, {
+        hasTokenSettings: !!room.gm.character.tokenSettings,
+        hasLore: !!room.gm.character.lore,
+        hasCharacterImage: !!room.gm.character.lore?.characterImage,
+        health: room.gm.character.health,
+        mana: room.gm.character.mana,
+        actionPoints: room.gm.character.actionPoints
+      });
+    }
+
+    // CRITICAL FIX: If this is a regular player updating their character, also update room.players
+    if (!player.isGM && room.players) {
+      const roomPlayer = room.players.get(player.id);
+      if (roomPlayer) {
+        roomPlayer.character = {
+          ...roomPlayer.character,
+          ...data.character,
+          // Preserve player-specific fields
+          name: data.character.name || roomPlayer.character?.name || roomPlayer.name
+        };
+        console.log(`👥 Updated player character data in room:`, {
+          playerId: player.id,
+          playerName: roomPlayer.name,
+          health: roomPlayer.character.health,
+          mana: roomPlayer.character.mana,
+          actionPoints: roomPlayer.character.actionPoints
+        });
+      }
+    }
+
     // Persist to Firebase
     try {
       await firebaseService.updateRoomGameState(player.roomId, room.gameState);
@@ -1276,6 +1315,13 @@ io.on('connection', (socket) => {
         }
         room.gameState.mapData.drawingPaths = data.mapUpdates.drawingPaths;
       }
+      // CRITICAL FIX: Handle explored areas sync for fog of war memory
+      if (data.mapUpdates.exploredAreas !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.exploredAreas = data.mapUpdates.exploredAreas;
+      }
     } else if (data.mapData) {
       // Legacy support for old format
       room.gameState.mapData = {
@@ -1304,6 +1350,7 @@ io.on('connection', (socket) => {
         wallData: room.gameState.mapData?.wallData,
         drawingLayers: room.gameState.mapData?.drawingLayers,
         drawingPaths: room.gameState.mapData?.drawingPaths,
+        exploredAreas: room.gameState.mapData?.exploredAreas || {}, // CRITICAL FIX: Include explored areas for fog memory
         ...(data.mapUpdates || data.mapData || {})
       },
       updatedBy: player.id,
@@ -2110,22 +2157,42 @@ io.on('connection', (socket) => {
 
     if (targetPlayer && targetPlayer.socketId) {
       // Get sender's character data for the whisper
-      const senderCharacter = player.character || room.gm.character;
-      const recipientCharacter = targetPlayer.character || room.gm.character;
+      const senderCharacter = player.isGM ? room.gm.character : (player.character || room.gm.character);
+      const recipientCharacter = targetPlayer.isGM ? room.gm.character : (targetPlayer.character || room.gm.character);
+      
+      // CRITICAL FIX: Get proper names from character data or player data
+      const senderName = senderCharacter?.name || player.name;
+      const recipientName = recipientCharacter?.name || targetPlayer.name;
       
       // Send to target user with full sender and recipient information
       io.to(targetPlayer.socketId).emit('whisper_received', {
         ...message,
-        senderName: player.name,
+        senderId: player.id,
+        senderName: senderName,
         senderClass: senderCharacter?.class || 'Unknown',
         senderLevel: senderCharacter?.level || 1,
-        recipientName: targetPlayer.name,
+        recipientId: targetPlayer.id,
+        recipientName: recipientName,
         recipientClass: recipientCharacter?.class || 'Unknown',
         recipientLevel: recipientCharacter?.level || 1,
         serverTimestamp: new Date().toISOString()
       });
 
-      console.log('🤫 Whisper:', message.senderName || player.name, '->', targetPlayer.name);
+      // CRITICAL FIX: Also send confirmation back to sender with correct recipient name
+      socket.emit('whisper_sent', {
+        ...message,
+        senderId: player.id,
+        senderName: senderName,
+        senderClass: senderCharacter?.class || 'Unknown',
+        senderLevel: senderCharacter?.level || 1,
+        recipientId: targetPlayer.id,
+        recipientName: recipientName,
+        recipientClass: recipientCharacter?.class || 'Unknown',
+        recipientLevel: recipientCharacter?.level || 1,
+        serverTimestamp: new Date().toISOString()
+      });
+
+      console.log('🤫 Whisper:', senderName, '->', recipientName);
     } else {
       // User not online, send error back
       socket.emit('error', {

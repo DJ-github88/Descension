@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { auth } from '../../config/firebase';
 import { getUserRooms, createPersistentRoom } from '../../services/roomService';
@@ -57,6 +58,9 @@ const translateErrorToFantasy = (errorMessage) => {
 };
 
 const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
+  // CRITICAL FIX: Get navigate function for room code URL routing
+  const navigate = useNavigate();
+  
   const { getActiveCharacter } = useCharacterStore();
   const { isInParty, partyMembers } = usePartyStore();
   const [playerName, setPlayerName] = useState('');
@@ -328,6 +332,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       console.log('Room created successfully:', data);
       setIsConnecting(false);
 
+      // CRITICAL FIX: Update URL with room code for shareable links
+      const roomCode = data.room.persistentRoomId || data.room.id;
+      if (roomCode) {
+        navigate(`/multiplayer/${roomCode}`, { replace: true });
+      }
+
       // Store the room password and player name for auto-join BEFORE clearing form
       const createdRoomPassword = roomPasswordRef.current.trim();
       const createdPlayerName = playerNameRef.current.trim();
@@ -370,6 +380,12 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       console.log('Room GM name:', data.room.gm?.name);
       console.log('Is GM reconnect:', data.isGMReconnect);
       setIsConnecting(false);
+
+      // CRITICAL FIX: Update URL with room code for shareable links
+      const roomCode = data.room.persistentRoomId || data.room.id;
+      if (roomCode) {
+        navigate(`/multiplayer/${roomCode}`, { replace: true });
+      }
 
       // Set flag to refresh room data when returning to account page
       if (data.room.persistentRoomId) {
