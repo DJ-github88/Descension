@@ -41,20 +41,23 @@ const AccountDashboard = ({ user }) => {
     const loadUserData = async () => {
       setIsLoading(true);
       try {
-        await loadCharacters();
+        // Load characters and get the result
+        const loadedCharacters = await loadCharacters();
+        const currentCharacterCount = loadedCharacters?.length || characters.length || 0;
 
         // Load subscription status and character limits (works for both guest and authenticated users)
         const status = await subscriptionService.getSubscriptionStatus(user?.uid);
         setSubscriptionStatus(status);
 
-        const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+        // Use the loaded character count instead of stale characters.length
+        const limitInfo = await subscriptionService.canCreateCharacter(currentCharacterCount, user?.uid);
         setCharacterLimitInfo(limitInfo);
 
         console.log('📊 Account Dashboard loaded:', {
           isGuest: user?.isGuest,
           tier: status?.tier?.name,
           characterLimit: limitInfo?.limit,
-          currentCharacters: characters.length
+          currentCharacters: currentCharacterCount
         });
       } catch (error) {
         console.error('Error loading user data:', error);

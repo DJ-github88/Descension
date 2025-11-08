@@ -738,8 +738,8 @@ const AppContent = ({
 
     // Updated handleReturnToLanding to use React Router navigation
     const handleReturnToLandingWithNavigation = () => {
-        // For faster GM to player transitions, go directly to game view instead of account dashboard
-        navigate('/game');
+        // Navigate to landing page when escape key is pressed or leave button is clicked
+        navigate('/', { replace: true });
     };
 
     return (

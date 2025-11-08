@@ -162,10 +162,10 @@ class LocalStorageManager {
    * Emergency cleanup - more aggressive than regular cleanup
    */
   performEmergencyCleanup() {
-
-
-    // Remove all backup data
+    console.log('🚨 Performing emergency localStorage cleanup...');
     const keysToRemove = [];
+    
+    // 1. Remove all backup, temp, and cache data
     for (let key in localStorage) {
       if (key.startsWith('mythrill-backup-') ||
           key.startsWith('mythrill-temp-') ||
@@ -177,11 +177,59 @@ class LocalStorageManager {
       }
     }
 
+    // 2. Remove old character data (keep only most recent 10 characters per user)
+    // This helps when localStorage is full of old character data
+    const characterKeys = [];
+    for (let key in localStorage) {
+      if (key === 'mythrill-characters' || key === 'mythrill-guest-characters') {
+        try {
+          const data = JSON.parse(localStorage[key]);
+          if (Array.isArray(data) && data.length > 10) {
+            // Sort by updatedAt (most recent first) and keep only 10
+            const sorted = data.sort((a, b) => {
+              const aTime = new Date(a.updatedAt || a.createdAt || 0).getTime();
+              const bTime = new Date(b.updatedAt || b.createdAt || 0).getTime();
+              return bTime - aTime;
+            });
+            const kept = sorted.slice(0, 10);
+            localStorage.setItem(key, JSON.stringify(kept));
+            console.log(`📦 Reduced ${key} from ${data.length} to ${kept.length} characters`);
+          }
+        } catch (error) {
+          // If we can't parse it, it might be corrupted - remove it
+          keysToRemove.push(key);
+        }
+      }
+    }
+
+    // 3. Remove other large stores that might be taking up space
+    const largeStoreKeys = ['mythrill-map', 'mythrill-game', 'mythrill-chat'];
+    for (let key in localStorage) {
+      if (largeStoreKeys.some(storeKey => key.includes(storeKey))) {
+        // Try to compress these stores by removing old data
+        try {
+          const data = JSON.parse(localStorage[key]);
+          if (data && typeof data === 'object') {
+            // Remove old chat messages, old map history, etc.
+            if (data.messages && Array.isArray(data.messages) && data.messages.length > 100) {
+              data.messages = data.messages.slice(-100); // Keep only last 100 messages
+              localStorage.setItem(key, JSON.stringify(data));
+              console.log(`📦 Compressed ${key} messages`);
+            }
+          }
+        } catch (error) {
+          // If we can't parse it, remove it
+          keysToRemove.push(key);
+        }
+      }
+    }
+
+    // Remove all identified keys
     keysToRemove.forEach(key => {
       localStorage.removeItem(key);
     });
 
-
+    console.log(`🧹 Emergency cleanup removed ${keysToRemove.length} items`);
     return keysToRemove.length;
   }
 

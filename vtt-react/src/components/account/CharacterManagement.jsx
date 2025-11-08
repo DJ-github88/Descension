@@ -40,13 +40,16 @@ const CharacterManagement = ({ user }) => {
     const loadData = async () => {
       setIsLoading(true);
       try {
-        await loadCharacters();
+        // Load characters and get the result
+        const loadedCharacters = await loadCharacters();
+        const currentCharacterCount = loadedCharacters?.length || characters.length || 0;
 
         // Load subscription status and character limits
         const status = await subscriptionService.getSubscriptionStatus(user?.uid);
         setSubscriptionStatus(status);
 
-        const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+        // Use the loaded character count instead of stale characters.length
+        const limitInfo = await subscriptionService.canCreateCharacter(currentCharacterCount, user?.uid);
         setCharacterLimitInfo(limitInfo);
       } catch (error) {
         console.error('Error loading characters:', error);
@@ -62,7 +65,9 @@ const CharacterManagement = ({ user }) => {
 
   const handleCreateCharacter = async () => {
     // Check character limits before allowing creation
-    const limitInfo = await subscriptionService.canCreateCharacter(characters.length, user?.uid);
+    // Use current characters from store to ensure accurate count
+    const currentCharacterCount = characters.length || 0;
+    const limitInfo = await subscriptionService.canCreateCharacter(currentCharacterCount, user?.uid);
 
     if (!limitInfo.canCreate) {
       const tierName = limitInfo.tierName;

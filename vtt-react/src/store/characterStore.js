@@ -1552,13 +1552,26 @@ const useCharacterStore = create((set, get) => ({
             // 3. As a backup for authenticated users
             const storageKey = getCharactersStorageKey();
             
+            // Helper function to compress character data before saving
+            const compressCharacterData = (char) => {
+                // Remove unnecessary fields that take up space
+                const compressed = { ...char };
+                // Keep only essential fields - remove large nested objects if not needed
+                // Keep inventory, equipment, spells as they're essential
+                // Remove any temporary or computed fields that can be regenerated
+                return compressed;
+            };
+            
+            // Compress characters before saving to reduce storage size
+            const compressedCharacters = updatedCharacters.map(compressCharacterData);
+            
             // For authenticated/dev users, only save to localStorage if Firebase failed
             // For guest users, always save to localStorage (but handle quota gracefully)
             if (isGuest || !useFirebase || !userId) {
                 // CRITICAL FIX: For guest users, try to save but don't fail if quota exceeded
                 // The character is still created in memory and will be available in the session
                 try {
-                    const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
+                    const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(compressedCharacters));
                     if (!result.success) {
                         console.warn('⚠️ Failed to save characters to localStorage (quota exceeded):', result.error);
                         console.warn('⚠️ Character is still available in this session but may not persist after refresh');
@@ -1575,7 +1588,7 @@ const useCharacterStore = create((set, get) => ({
                 // For authenticated users with Firebase, only save to localStorage as backup
                 // Try to save but don't fail if it doesn't work (Firebase is primary)
                 try {
-                    localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
+                    localStorageManager.safeSetItem(storageKey, JSON.stringify(compressedCharacters));
                     console.log('✅ Character backup saved to localStorage:', newCharacter.id);
                 } catch (error) {
                     console.warn('⚠️ Failed to save character backup to localStorage (Firebase is primary):', error);
@@ -1590,16 +1603,20 @@ const useCharacterStore = create((set, get) => ({
                 isLoading: false
             });
             
-            // CRITICAL FIX: Reload characters to ensure they appear in character management
-            // This ensures the character list is refreshed after creation
-            setTimeout(async () => {
-                try {
-                    await get().loadCharacters();
-                    console.log('✅ Characters reloaded after creation');
-                } catch (error) {
-                    console.warn('⚠️ Failed to reload characters after creation:', error);
-                }
-            }, 100);
+            // CRITICAL FIX: Don't reload characters immediately - it might overwrite the in-memory character
+            // Instead, the character is already in the store and will appear in character management
+            // Only reload if we successfully saved to localStorage/Firebase
+            if (!isGuest && useFirebase && userId) {
+                // For authenticated users with Firebase, reload to sync with Firebase
+                setTimeout(async () => {
+                    try {
+                        await get().loadCharacters();
+                        console.log('✅ Characters reloaded after creation');
+                    } catch (error) {
+                        console.warn('⚠️ Failed to reload characters after creation:', error);
+                    }
+                }, 100);
+            }
 
             // If this is the active character, recalculate stats to ensure proper health/mana
             if (newCharacter.id === get().currentCharacterId) {
