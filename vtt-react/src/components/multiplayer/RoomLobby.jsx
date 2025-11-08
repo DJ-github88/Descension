@@ -975,20 +975,20 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               </div>
 
               <div className="form-input-group">
-                <label htmlFor="joinPassword">Room Password:</label>
+                <label htmlFor="joinPassword">Room Password (Optional):</label>
                 <div className="password-input-with-button">
                   <input
                     id="joinPassword"
                     type="password"
                     value={joinPassword}
                     onChange={(e) => setJoinPassword(e.target.value)}
-                    placeholder="Enter room password"
+                    placeholder="Leave empty if room has no password"
                     disabled={isConnecting}
                     className="form-input"
                   />
                   <button
                     onClick={() => handleJoinRoom()}
-                    disabled={isConnecting || !playerNameRef.current.trim() || !roomId.trim() || !joinPassword.trim()}
+                    disabled={isConnecting || !playerNameRef.current.trim() || !roomId.trim()}
                     className="join-button"
                   >
                     {isConnecting ? 'Joining...' : 'Join'}

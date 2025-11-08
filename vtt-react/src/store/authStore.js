@@ -244,6 +244,8 @@ const useAuthStore = create(
 
           // If guest user, just clear localStorage
           if (user?.isGuest) {
+            // CRITICAL FIX: Clear all guest data when signing out
+            console.log('🧹 Clearing guest data on sign out');
             // Clear guest user data
             localStorage.removeItem('mythrill-guest-user');
             localStorage.removeItem('mythrill-guest-user-data');
@@ -388,44 +390,66 @@ const useAuthStore = create(
 
       // Initialize auth state listener
       initializeAuth: () => {
-        // Check if there's a guest user in localStorage on app initialization
+        // CRITICAL FIX: Don't auto-restore guest users on page load
+        // Only restore authenticated users from Firebase
+        // Guest users should only be restored when explicitly clicking "Continue as Guest"
+        
+        // Check if there's a guest user with explicit login flag
         const guestUser = localStorage.getItem('mythrill-guest-user');
-        if (guestUser) {
+        const explicitLogin = localStorage.getItem('mythrill-guest-explicit-login');
+        
+        if (guestUser && explicitLogin === 'true') {
           try {
             const parsedGuestUser = JSON.parse(guestUser);
             if (parsedGuestUser.isGuest) {
-              // Check if this is a fresh guest session (no initialization flag)
-              const guestInitialized = localStorage.getItem('mythrill-guest-initialized');
-
-              if (!guestInitialized) {
-                // First time loading this guest session - clear all rooms and characters
-                console.log('🧹 Initializing fresh guest session - clearing all rooms and characters');
-
-                // Clear local rooms
-                localStorage.removeItem('mythrill_local_rooms');
-
-                // Clear room state data
-                Object.keys(localStorage).forEach(key => {
-                  if (key.startsWith('mythrill_local_room_state_')) {
-                    localStorage.removeItem(key);
-                  }
-                });
-
-                // Clear guest characters
-                localStorage.removeItem('mythrill-guest-characters');
-
-                // Mark guest as initialized
-                localStorage.setItem('mythrill-guest-initialized', 'true');
-                console.log('✅ Guest session initialized with 0 rooms and 0 characters');
+              // Only restore if explicitly logged in (not on page load)
+              console.log('✅ Restoring explicit guest login');
+              const guestUserData = localStorage.getItem('mythrill-guest-user-data');
+              if (guestUserData) {
+                try {
+                  const parsedUserData = JSON.parse(guestUserData);
+                  get().setUser(parsedGuestUser);
+                  get().setUserData(parsedUserData);
+                  get().setIsAuthenticated(true);
+                } catch (error) {
+                  console.error('Error parsing guest user data:', error);
+                }
               }
             }
           } catch (error) {
             console.error('Error checking guest user on init:', error);
           }
+        } else if (guestUser) {
+          // Guest user exists but no explicit login flag - clear it (prevent auto-login)
+          console.log('🧹 Clearing guest user on page load to prevent auto-login');
+          localStorage.removeItem('mythrill-guest-user');
+          localStorage.removeItem('mythrill-guest-user-data');
+          localStorage.removeItem('mythrill-guest-initialized');
+          localStorage.removeItem('mythrill-guest-explicit-login');
+          localStorage.removeItem('mythrill-guest-characters');
+          localStorage.removeItem('mythrill-guest-joined-room');
+          
+          // Clear local rooms
+          localStorage.removeItem('mythrill_local_rooms');
+          
+          // Clear room state data
+          Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('mythrill_local_room_state_')) {
+              localStorage.removeItem(key);
+            }
+          });
         }
 
+        // Restore authenticated users from Firebase
         return authService.onAuthStateChange((user) => {
-          get().setUser(user);
+          // CRITICAL FIX: Only restore authenticated Firebase users
+          // Guest users are handled above with explicit login flag
+          if (user && !user.isGuest) {
+            get().setUser(user);
+          } else if (!user) {
+            // No authenticated user - clear state
+            get().setUser(null);
+          }
         });
       }
     }),

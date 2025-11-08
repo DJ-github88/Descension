@@ -1315,6 +1315,26 @@ const useCharacterStore = create((set, get) => ({
         try {
             const userId = getCurrentUserId();
             const useFirebase = shouldUseFirebase();
+            
+            // CRITICAL FIX: Ensure character isolation between guest and authenticated users
+            // Clear characters if switching between guest and authenticated
+            const isGuest = isGuestUser();
+            const storageKey = getCharactersStorageKey();
+            
+            // If switching account types, clear the old storage
+            const lastAccountType = localStorage.getItem('mythrill-last-account-type');
+            const currentAccountType = isGuest ? 'guest' : 'authenticated';
+            
+            if (lastAccountType && lastAccountType !== currentAccountType) {
+                console.log(`🔄 Account type changed from ${lastAccountType} to ${currentAccountType} - clearing old characters`);
+                if (lastAccountType === 'guest') {
+                    localStorage.removeItem('mythrill-guest-characters');
+                } else {
+                    localStorage.removeItem('mythrill-characters');
+                }
+            }
+            
+            localStorage.setItem('mythrill-last-account-type', currentAccountType);
 
             if (userId && useFirebase) {
                 // Skip migration in development mode to avoid Firebase permission issues

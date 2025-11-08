@@ -399,6 +399,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('player_left', (data) => {
+      // CRITICAL FIX: Check if the leaving player is the current player
+      // If so, navigate to landing page (they were disconnected)
+      if (data.player.id === currentPlayer?.id) {
+        console.log('Current player left room - navigating to landing page');
+        handleLeaveRoom();
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 200);
+        return;
+      }
+
       // Update actual player count from server
       setActualPlayerCount(data.playerCount);
 
@@ -437,22 +448,38 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('room_closed', (data) => {
-      alert(data.message);
+      // CRITICAL FIX: Properly handle room closure with navigation
+      console.log('Room closed:', data.message);
       handleLeaveRoom();
+      
+      // Navigate to landing page after cleanup
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 200);
     });
 
     // Handle being kicked/removed from room
     socket.on('player_kicked', (data) => {
-      alert(`You have been removed from the room: ${data.reason || 'No reason provided'}`);
-      // Redirect to homepage when removed
-      window.location.href = '/';
+      // CRITICAL FIX: Properly handle player kick with navigation
+      console.log('Player kicked:', data.reason);
+      handleLeaveRoom();
+      
+      // Navigate to landing page after cleanup
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 200);
     });
 
     // Handle room access revoked
     socket.on('access_revoked', (data) => {
-      alert(`Your access to this room has been revoked: ${data.reason || 'No reason provided'}`);
-      // Redirect to homepage when uninvited
-      window.location.href = '/';
+      // CRITICAL FIX: Properly handle access revocation with navigation
+      console.log('Access revoked:', data.reason);
+      handleLeaveRoom();
+      
+      // Navigate to landing page after cleanup
+      setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 200);
     });
 
     // Listen for chat messages

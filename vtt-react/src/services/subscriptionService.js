@@ -280,14 +280,51 @@ class SubscriptionService {
    * @returns {Promise<Object>} - Object with canCreate boolean and limit info
    */
   async canCreateCharacter(currentCharacterCount, userId = null) {
-    const tier = await this.getUserTier(userId);
+    // CRITICAL FIX: Check for guest user FIRST before checking Firebase
+    // This ensures guest users always get the correct limit (1 character)
+    const guestUser = localStorage.getItem('mythrill-guest-user');
+    let tier;
+    
+    if (guestUser) {
+      try {
+        const parsedGuestUser = JSON.parse(guestUser);
+        if (parsedGuestUser.isGuest) {
+          console.log('👤 Guest user detected in canCreateCharacter - using guest tier (1 character)');
+          tier = SUBSCRIPTION_TIERS.GUEST;
+        } else {
+          tier = await this.getUserTier(userId);
+        }
+      } catch (error) {
+        console.warn('Could not parse guest user:', error);
+        tier = await this.getUserTier(userId);
+      }
+    } else {
+      tier = await this.getUserTier(userId);
+    }
+    
+    // CRITICAL FIX: Also check userId for guest prefix
+    const checkUserId = userId || auth.currentUser?.uid;
+    if (checkUserId && checkUserId.startsWith('guest-')) {
+      console.log('👤 Guest user detected (from userId) - using guest tier (1 character)');
+      tier = SUBSCRIPTION_TIERS.GUEST;
+    }
+    
     const characterLimit = tier.characterLimit;
+    const remaining = Math.max(0, characterLimit - currentCharacterCount);
+    
+    console.log('📊 Character limit check:', {
+      tier: tier.name,
+      limit: characterLimit,
+      current: currentCharacterCount,
+      remaining: remaining,
+      canCreate: currentCharacterCount < characterLimit
+    });
 
     return {
       canCreate: currentCharacterCount < characterLimit,
       currentCount: currentCharacterCount,
       limit: characterLimit,
-      remaining: Math.max(0, characterLimit - currentCharacterCount),
+      remaining: remaining,
       tierName: tier.name,
       isUnlimited: characterLimit >= 999
     };
