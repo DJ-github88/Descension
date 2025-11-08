@@ -139,6 +139,9 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
         const savedCharacter = await createCharacter(completeCharacterData);
         console.log('Character created successfully:', savedCharacter);
 
+        // CRITICAL FIX: Reload characters after creation to ensure they appear in character management
+        await loadCharacters();
+
         navigate('/account', {
           state: {
             message: `${characterData.name} has been created successfully!`,

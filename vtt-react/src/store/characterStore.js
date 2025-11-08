@@ -1520,20 +1520,29 @@ const useCharacterStore = create((set, get) => ({
             const updatedCharacters = [...state.characters, newCharacter];
 
             // CRITICAL FIX: Only save to localStorage if:
-            // 1. Guest user (always use localStorage)
+            // 1. Guest user (always use localStorage, but handle quota issues)
             // 2. Firebase save failed or Firebase not enabled
             // 3. As a backup for authenticated users
             const storageKey = getCharactersStorageKey();
             
             // For authenticated/dev users, only save to localStorage if Firebase failed
-            // For guest users, always save to localStorage
+            // For guest users, always save to localStorage (but handle quota gracefully)
             if (isGuest || !useFirebase || !userId) {
-                const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
-                if (!result.success) {
-                    console.error('Failed to save characters to localStorage:', result.error);
-                    // Still continue with the operation, just log the error
-                } else {
-                    console.log('✅ Character saved to localStorage:', newCharacter.id);
+                // CRITICAL FIX: For guest users, try to save but don't fail if quota exceeded
+                // The character is still created in memory and will be available in the session
+                try {
+                    const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
+                    if (!result.success) {
+                        console.warn('⚠️ Failed to save characters to localStorage (quota exceeded):', result.error);
+                        console.warn('⚠️ Character is still available in this session but may not persist after refresh');
+                        // Still continue with the operation - character is in memory
+                    } else {
+                        console.log('✅ Character saved to localStorage:', newCharacter.id);
+                    }
+                } catch (error) {
+                    console.warn('⚠️ localStorage quota exceeded for guest character:', error);
+                    console.warn('⚠️ Character is still available in this session but may not persist after refresh');
+                    // Don't fail the operation - character is still in memory
                 }
             } else {
                 // For authenticated users with Firebase, only save to localStorage as backup
@@ -1546,11 +1555,24 @@ const useCharacterStore = create((set, get) => ({
                     // Don't fail the operation - Firebase is the primary storage
                 }
             }
-
+            
+            // CRITICAL FIX: Ensure character is in the store even if localStorage save failed
+            // This ensures the character appears in character management immediately
             set({
                 characters: updatedCharacters,
                 isLoading: false
             });
+            
+            // CRITICAL FIX: Reload characters to ensure they appear in character management
+            // This ensures the character list is refreshed after creation
+            setTimeout(async () => {
+                try {
+                    await get().loadCharacters();
+                    console.log('✅ Characters reloaded after creation');
+                } catch (error) {
+                    console.warn('⚠️ Failed to reload characters after creation:', error);
+                }
+            }, 100);
 
             // If this is the active character, recalculate stats to ensure proper health/mana
             if (newCharacter.id === get().currentCharacterId) {
