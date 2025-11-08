@@ -7,6 +7,7 @@ import useCharacterStore from '../../store/characterStore';
 import usePartyStore from '../../store/partyStore';
 import useAuthStore from '../../store/authStore';
 import './styles/RoomLobby.css';
+import './styles/RoomCardModern.css';
 import '../account/styles/RoomManager.css';
 
 // Translate technical errors into fantasy-themed messages
@@ -1007,54 +1008,116 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                 Refresh
               </button>
               
+              {/* PLACEHOLDER ROOM FOR CSS TESTING - Remove when done */}
               {availableRooms.length === 0 ? (
-                <div className="no-rooms">
-                  <i className="fas fa-dungeon"></i>
-                  <h3>No Public Rooms Available</h3>
-                  <p>No public rooms are currently available. Create your own room to get started!</p>
+                <div className="room-card-modern-grid">
+                  {/* Placeholder room for CSS testing */}
+                  <div className="room-card-modern" style={{ pointerEvents: 'none' }}>
+                    <div className="room-card-modern-top">
+                      <div className="room-card-modern-title-section">
+                        <h3 className="room-card-modern-title">Placeholder Room (CSS Test)</h3>
+                        <div className="room-card-modern-badge">
+                          <i className="fas fa-crown"></i>
+                          <span>GM: Test GM</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="room-card-modern-stats">
+                      <div className="room-card-modern-stat">
+                        <div className="room-card-modern-stat-icon status-online">
+                          <i className="fas fa-circle"></i>
+                        </div>
+                        <div className="room-card-modern-stat-content">
+                          <div className="room-card-modern-stat-label">Status</div>
+                          <div className="room-card-modern-stat-value">Online</div>
+                        </div>
+                      </div>
+                      <div className="room-card-modern-stat">
+                        <div className="room-card-modern-stat-icon">
+                          <i className="fas fa-users"></i>
+                        </div>
+                        <div className="room-card-modern-stat-content">
+                          <div className="room-card-modern-stat-label">Players</div>
+                          <div className="room-card-modern-stat-value">2 / 6</div>
+                        </div>
+                      </div>
+                      <div className="room-card-modern-stat">
+                        <div className="room-card-modern-stat-icon">
+                          <i className="fas fa-clock"></i>
+                        </div>
+                        <div className="room-card-modern-stat-content">
+                          <div className="room-card-modern-stat-label">Created</div>
+                          <div className="room-card-modern-stat-value">{new Date().toLocaleTimeString()}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="room-card-modern-action">
+                      <button
+                        disabled={true}
+                        className="room-card-modern-button"
+                        title="Placeholder room for CSS testing"
+                      >
+                        <i className="fas fa-play"></i>
+                        Join Room
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <div className="multiplayer-rooms-grid">
+                <div className="room-card-modern-grid">
                   {availableRooms.map(room => (
-                    <div key={room.id} className="multiplayer-room-card">
-                      <div className="room-header">
-                        <h3 className="room-name">{room.name}</h3>
-                        <div className="room-role">
-                          <i className="fas fa-crown" style={{ color: '#FFD700' }}></i>
-                          <span>GM: {room.gm} (GM)</span>
+                    <div key={room.id} className="room-card-modern">
+                      <div className="room-card-modern-top">
+                        <div className="room-card-modern-title-section">
+                          <h3 className="room-card-modern-title">{room.name}</h3>
+                          <div className="room-card-modern-badge">
+                            <i className="fas fa-crown"></i>
+                            <span>GM: {room.gm}</span>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="room-status">
-                        <div className="status-indicator">
-                          <i className="fas fa-circle" style={{ color: room.gmOnline !== false ? '#4CAF50' : '#757575' }}></i>
-                          <span>{room.gmOnline !== false ? 'Online' : 'Offline'}</span>
+                      <div className="room-card-modern-stats">
+                        <div className="room-card-modern-stat">
+                          <div className={`room-card-modern-stat-icon ${room.gmOnline !== false ? 'status-online' : 'status-offline'}`}>
+                            <i className="fas fa-circle"></i>
+                          </div>
+                          <div className="room-card-modern-stat-content">
+                            <div className="room-card-modern-stat-label">Status</div>
+                            <div className="room-card-modern-stat-value">{room.gmOnline !== false ? 'Online' : 'Offline'}</div>
+                          </div>
                         </div>
-                        <div className="member-count">
-                          <i className="fas fa-users"></i>
-                          <span>{room.playerCount}/{room.maxPlayers}</span>
+                        <div className="room-card-modern-stat">
+                          <div className="room-card-modern-stat-icon">
+                            <i className="fas fa-users"></i>
+                          </div>
+                          <div className="room-card-modern-stat-content">
+                            <div className="room-card-modern-stat-label">Players</div>
+                            <div className="room-card-modern-stat-value">{room.playerCount} / {room.maxPlayers}</div>
+                          </div>
+                        </div>
+                        <div className="room-card-modern-stat">
+                          <div className="room-card-modern-stat-icon">
+                            <i className="fas fa-clock"></i>
+                          </div>
+                          <div className="room-card-modern-stat-content">
+                            <div className="room-card-modern-stat-label">Created</div>
+                            <div className="room-card-modern-stat-value">{new Date(room.createdAt).toLocaleTimeString()}</div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="room-stats">
-                        <div className="stat-item">
-                          <i className="fas fa-clock"></i>
-                          <span>Created</span>
-                          <span className="stat-value">
-                            {new Date(room.createdAt).toLocaleTimeString()}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="room-actions">
+                      <div className="room-card-modern-action">
                         <button
                           onClick={() => handleQuickJoin(room)}
                           disabled={isConnecting || !playerNameRef.current.trim() || room.playerCount >= room.maxPlayers}
-                          className="join-btn primary"
+                          className="room-card-modern-button"
                           title={room.playerCount >= room.maxPlayers ? 'Room is full' : 'Join this room'}
                         >
                           <i className={room.playerCount >= room.maxPlayers ? 'fas fa-ban' : 'fas fa-play'}></i>
-                          {room.playerCount >= room.maxPlayers ? 'Full' : 'Join'}
+                          {room.playerCount >= room.maxPlayers ? 'Room Full' : 'Join Room'}
                         </button>
                       </div>
                     </div>

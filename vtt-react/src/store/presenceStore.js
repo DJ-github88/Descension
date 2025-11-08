@@ -385,11 +385,26 @@ const usePresenceStore = create((set, get) => ({
       type: 'whisper_sent'
     };
 
-    // Add to whisper tab instead of global chat
-    get().addWhisperMessage(targetUserId, message);
+    // CRITICAL FIX: Only add message locally for mock users or single-player mode
+    // In multiplayer mode, wait for server confirmation to avoid duplication
+    let isInMultiplayer = false;
+    try {
+      const gameStore = require('./gameStore').default.getState();
+      isInMultiplayer = gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected;
+    } catch (e) {
+      // Ignore if gameStore not available
+    }
+
+    // Only add locally if NOT in multiplayer mode (server will send confirmation)
+    if (!isInMultiplayer && !isMockUser) {
+      // Single-player mode or no socket - add locally
+      get().addWhisperMessage(targetUserId, message);
+    }
 
     // If mock user, simulate response
     if (isMockUser) {
+      // Add message locally for mock users
+      get().addWhisperMessage(targetUserId, message);
       mockPresenceService.simulateWhisperResponse(
         targetUserId,
         senderData.characterName,
@@ -399,18 +414,22 @@ const usePresenceStore = create((set, get) => ({
         }
       );
     } else if (socket && socket.connected) {
-      // Real user - send via socket
+      // Real user - send via socket (server will send confirmation)
       socket.emit('whisper_message', message);
     } else {
       // Check if we're in multiplayer mode and use multiplayer socket
       import('./gameStore').then(({ default: useGameStore }) => {
         const gameStore = useGameStore.getState();
         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-          // Use multiplayer socket for whispers
+          // Use multiplayer socket for whispers (server will send confirmation)
           gameStore.multiplayerSocket.emit('whisper_message', message);
+        } else {
+          // Not in multiplayer and no socket - add locally
+          get().addWhisperMessage(targetUserId, message);
         }
       }).catch(() => {
-        // Ignore errors if gameStore not available
+        // Ignore errors if gameStore not available - add locally as fallback
+        get().addWhisperMessage(targetUserId, message);
       });
     }
 
@@ -653,6 +672,13 @@ const usePresenceStore = create((set, get) => ({
         console.warn('Cannot add whisper message: user not found', userId);
         return;
       }
+    }
+
+    // CRITICAL FIX: Check for duplicate messages by ID to prevent duplication
+    const existingMessage = tab.messages.find(m => m.id === message.id);
+    if (existingMessage) {
+      // Message already exists, don't add again
+      return;
     }
 
     // Add message to tab

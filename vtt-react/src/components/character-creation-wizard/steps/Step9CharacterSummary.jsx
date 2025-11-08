@@ -16,6 +16,14 @@ const Step9CharacterSummary = () => {
     const state = useCharacterWizardState();
     const { characterData } = state;
 
+    // Helper function to format values (replace underscores with spaces, capitalize)
+    const formatValue = (value) => {
+        if (!value) return '';
+        return value
+            .replace(/_/g, ' ')
+            .replace(/\b\w/g, l => l.toUpperCase());
+    };
+
     // Get modifiers for stat breakdown
     const pathModifiers = characterData.path ? getPathStatModifiers(characterData.path) : {};
     const racialModifiers = characterData.race && characterData.subrace ? applyRacialModifiers({}, characterData.race, characterData.subrace) : {};
@@ -53,19 +61,19 @@ const Step9CharacterSummary = () => {
                                 </div>
                                 <div className="detail-item">
                                     <span className="detail-label">Subrace:</span>
-                                    <span className="detail-value">{characterData.subrace}</span>
+                                    <span className="detail-value">{formatValue(characterData.subrace)}</span>
                                 </div>
                                 <div className="detail-item">
                                     <span className="detail-label">Class:</span>
-                                    <span className="detail-value">{characterData.class}</span>
+                                    <span className="detail-value">{formatValue(characterData.class)}</span>
                                 </div>
                                 <div className="detail-item">
                                     <span className="detail-label">Background:</span>
-                                    <span className="detail-value">{backgroundData?.name || characterData.background}</span>
+                                    <span className="detail-value">{backgroundData?.name || formatValue(characterData.background)}</span>
                                 </div>
                                 <div className="detail-item">
                                     <span className="detail-label">Path:</span>
-                                    <span className="detail-value">{pathData?.name || characterData.path}</span>
+                                    <span className="detail-value">{pathData?.name || formatValue(characterData.path)}</span>
                                 </div>
                             </div>
                         </div>

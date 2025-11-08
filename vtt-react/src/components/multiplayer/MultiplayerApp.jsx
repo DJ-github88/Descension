@@ -532,73 +532,91 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('token_moved', (data) => {
       const isDragging = data.isDragging;
 
+      // CRITICAL FIX: Use creatureId as primary identifier (not tokenId)
+      // This ensures GM moving player tokens shows the correct token moving
       const targetId = data.creatureId || data.tokenId;
 
       // Enhanced check to prevent processing our own movements with improved conflict detection
-      const isOwnMovement = data.playerId === currentPlayer?.id ||
-                           data.playerId === socket.id ||
+      // CRITICAL FIX: Only skip if it's our own movement AND we're the one who moved it
+      // If GM moves our token, we should still see it move
+      const isOwnMovement = (data.playerId === currentPlayer?.id || data.playerId === socket.id) &&
                            (window.multiplayerDragState && window.multiplayerDragState.has(`token_${targetId}`));
 
       // Additional check for recent local movements to prevent race conditions
+      // CRITICAL FIX: Only skip if we recently moved this token ourselves
       const recentMovementKey = `recent_move_${targetId}`;
       const recentMovementTime = window[recentMovementKey];
-      const hasRecentLocalMovement = recentMovementTime && (Date.now() - recentMovementTime) < 1000;
+      const hasRecentLocalMovement = recentMovementTime && (Date.now() - recentMovementTime) < 1000 &&
+                                     data.playerId === currentPlayer?.id;
 
       if (isOwnMovement || hasRecentLocalMovement) {
         return;
       }
 
-      // Only update if it's not our own movement (to avoid double updates and feedback loops)
-      if (!isOwnMovement) {
-        // Smart throttling based on current player role
-        const throttleKey = `${targetId}_${data.playerId}`;
-        const now = Date.now();
-        const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
-        const throttleMs = isGM ? GM_THROTTLE_MS : PLAYER_THROTTLE_MS;
+      // CRITICAL FIX: Always update token position when receiving movement from server
+      // This ensures GM moving player tokens shows the correct token moving
+      // Smart throttling based on current player role
+      const throttleKey = `${targetId}_${data.playerId}`;
+      const now = Date.now();
+      const lastUpdate = tokenUpdateThrottleRef.current.get(throttleKey) || 0;
+      const throttleMs = isGM ? GM_THROTTLE_MS : PLAYER_THROTTLE_MS;
 
-        if (now - lastUpdate >= throttleMs) {
-          tokenUpdateThrottleRef.current.set(throttleKey, now);
+      if (now - lastUpdate >= throttleMs) {
+        tokenUpdateThrottleRef.current.set(throttleKey, now);
 
-          // Batch updates for better performance
-          const updateData = {
-            type: 'token',
-            targetId,
-            position: data.position,
-            timestamp: now
-          };
+        // Batch updates for better performance
+        const updateData = {
+          type: 'token',
+          targetId: data.creatureId || targetId, // CRITICAL FIX: Use creatureId to find correct token
+          position: data.position,
+          timestamp: now
+        };
 
-          updateBatchRef.current.push(updateData);
+        updateBatchRef.current.push(updateData);
 
-          // Process batch after a short delay to group updates
-          if (batchTimeoutRef.current) {
-            clearTimeout(batchTimeoutRef.current);
-          }
+        // Process batch after a short delay to group updates
+        if (batchTimeoutRef.current) {
+          clearTimeout(batchTimeoutRef.current);
+        }
 
-          batchTimeoutRef.current = setTimeout(() => {
-            const batch = updateBatchRef.current.splice(0);
-            if (batch.length > 0) {
-              requestAnimationFrame(() => {
-                batch.forEach(update => {
-                  if (update.type === 'token') {
-                    const currentTokens = useCreatureStore.getState().tokens;
-                    const token = currentTokens.find(t => t.creatureId === update.targetId);
-                    if (token) {
-                      updateCreatureTokenPosition(token.id, update.position);
-                    }
+        batchTimeoutRef.current = setTimeout(() => {
+          const batch = updateBatchRef.current.splice(0);
+          if (batch.length > 0) {
+            requestAnimationFrame(() => {
+              batch.forEach(update => {
+                if (update.type === 'token') {
+                  // CRITICAL FIX: Find token by creatureId (not tokenId) to ensure correct token is updated
+                  const currentTokens = useCreatureStore.getState().tokens;
+                  const token = currentTokens.find(t => t.creatureId === update.targetId);
+                  if (token) {
+                    console.log('🔄 Updating token position from server:', {
+                      creatureId: token.creatureId,
+                      tokenId: token.id,
+                      position: update.position,
+                      movedBy: data.playerId,
+                      isGM: isGM
+                    });
+                    updateCreatureTokenPosition(token.id, update.position);
+                  } else {
+                    console.warn('⚠️ Token not found for movement update:', {
+                      targetId: update.targetId,
+                      creatureId: data.creatureId,
+                      tokenId: data.tokenId
+                    });
                   }
-                });
+                }
               });
-            }
-          }, 33); // Increased delay to reduce frequency and prevent performance issues
-        }
+            });
+          }
+        }, 33); // Increased delay to reduce frequency and prevent performance issues
+      }
 
-        // Clean up throttle entry immediately when dragging stops
-        if (!data.isDragging) {
-          // Small delay to allow final position update, then clean up
-          setTimeout(() => {
-            tokenUpdateThrottleRef.current.delete(throttleKey);
-          }, 100);
-        }
+      // Clean up throttle entry immediately when dragging stops
+      if (!data.isDragging) {
+        // Small delay to allow final position update, then clean up
+        setTimeout(() => {
+          tokenUpdateThrottleRef.current.delete(throttleKey);
+        }, 100);
       }
     });
 
@@ -1013,62 +1031,80 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for map updates (fog of war, drawing, tiles)
     socket.on('map_updated', (data) => {
-      // Process updates from other players (not our own)
-      // Use playerId comparison instead of currentPlayer?.id for better reliability
-      const isOwnUpdate = data.updatedBy === currentPlayer?.id;
+      // CRITICAL FIX: Always process map updates from server (even if it's our own update)
+      // This ensures all players see terrain, fog, and drawings correctly
+      // The server broadcasts to all players including the sender for confirmation
+      window._isReceivingMapUpdate = true;
       
-      if (!isOwnUpdate) {
-        window._isReceivingMapUpdate = true;
+      import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+        const levelEditorStore = useLevelEditorStore.getState();
         
-        import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
-          const levelEditorStore = useLevelEditorStore.getState();
-          
-          // Update fog of war if provided
-          if (data.mapData?.fogOfWar !== undefined) {
-            levelEditorStore.setFogOfWarData(data.mapData.fogOfWar);
-          }
-          
-          // Update fog paths if provided
-          if (data.mapData?.fogOfWarPaths !== undefined) {
-            levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
-          }
-          if (data.mapData?.fogErasePaths !== undefined) {
-            levelEditorStore.setFogErasePaths(data.mapData.fogErasePaths);
-          }
-          
-          // Update terrain data if provided
-          if (data.mapData?.terrainData !== undefined) {
-            levelEditorStore.setTerrainData(data.mapData.terrainData);
-          }
-          
-          // Update wall data if provided
-          if (data.mapData?.wallData !== undefined) {
-            levelEditorStore.setWallData(data.mapData.wallData);
-          }
-          
-          // Update drawing layers if provided
-          if (data.mapData?.drawingLayers !== undefined) {
-            levelEditorStore.setDrawingLayers(data.mapData.drawingLayers);
-          }
-          
-          // Update drawing paths if provided
-          if (data.mapData?.drawingPaths !== undefined) {
-            levelEditorStore.setDrawingPaths(data.mapData.drawingPaths);
-          }
-          
-          // CRITICAL FIX: Update explored areas if provided (for fog of war memory)
-          if (data.mapData?.exploredAreas !== undefined) {
-            levelEditorStore.setExploredAreas(data.mapData.exploredAreas);
-          }
-        }).catch(error => {
-          console.error('Failed to update map data:', error);
-        }).finally(() => {
-          // Clear flag after a short delay to allow updates to complete
-          setTimeout(() => {
-            window._isReceivingMapUpdate = false;
-          }, 100);
+        console.log('🗺️ Received map update from server:', {
+          updatedBy: data.updatedBy,
+          currentPlayerId: currentPlayer?.id,
+          hasTerrainData: data.mapData?.terrainData !== undefined,
+          hasFogData: data.mapData?.fogOfWarPaths !== undefined,
+          hasDrawingData: data.mapData?.drawingPaths !== undefined
         });
-      }
+        
+        // Update fog of war if provided
+        if (data.mapData?.fogOfWar !== undefined) {
+          levelEditorStore.setFogOfWarData(data.mapData.fogOfWar);
+          console.log('✅ Updated fog of war data');
+        }
+        
+        // Update fog paths if provided
+        if (data.mapData?.fogOfWarPaths !== undefined) {
+          levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
+          console.log('✅ Updated fog of war paths:', Object.keys(data.mapData.fogOfWarPaths).length, 'paths');
+        }
+        if (data.mapData?.fogErasePaths !== undefined) {
+          levelEditorStore.setFogErasePaths(data.mapData.fogErasePaths);
+          console.log('✅ Updated fog erase paths');
+        }
+        
+        // CRITICAL FIX: Update terrain data if provided (this is the key fix for terrain tiles)
+        if (data.mapData?.terrainData !== undefined) {
+          // Merge terrain data instead of replacing to preserve existing tiles
+          const currentTerrainData = levelEditorStore.getState().terrainData || {};
+          const mergedTerrainData = { ...currentTerrainData, ...data.mapData.terrainData };
+          levelEditorStore.setTerrainData(mergedTerrainData);
+          console.log('✅ Updated terrain data:', Object.keys(mergedTerrainData).length, 'tiles');
+        }
+        
+        // Update wall data if provided
+        if (data.mapData?.wallData !== undefined) {
+          levelEditorStore.setWallData(data.mapData.wallData);
+          console.log('✅ Updated wall data');
+        }
+        
+        // Update drawing layers if provided
+        if (data.mapData?.drawingLayers !== undefined) {
+          levelEditorStore.setDrawingLayers(data.mapData.drawingLayers);
+          console.log('✅ Updated drawing layers');
+        }
+        
+        // Update drawing paths if provided
+        if (data.mapData?.drawingPaths !== undefined) {
+          levelEditorStore.setDrawingPaths(data.mapData.drawingPaths);
+          console.log('✅ Updated drawing paths');
+        }
+        
+        // CRITICAL FIX: Update explored areas if provided (for fog of war memory)
+        if (data.mapData?.exploredAreas !== undefined) {
+          levelEditorStore.setExploredAreas(data.mapData.exploredAreas);
+          console.log('✅ Updated explored areas');
+        }
+        
+        // CRITICAL FIX: Reset flag after processing to allow future updates
+        setTimeout(() => {
+          window._isReceivingMapUpdate = false;
+        }, 100);
+      }).catch(error => {
+        console.error('Failed to update map data:', error);
+        // Reset flag even on error
+        window._isReceivingMapUpdate = false;
+      });
     });
 
     // Listen for area remove operations from GM

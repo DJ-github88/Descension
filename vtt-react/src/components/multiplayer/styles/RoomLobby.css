@@ -1048,204 +1048,488 @@
   margin-top: 20px;
 }
 
-/* CRITICAL FIX: Complete CSS rework for multiplayer room cards */
+/* COMPLETE REWORK: Modern, polished multiplayer room cards */
+/* Override any conflicting styles from other CSS files */
+.multiplayer-rooms-grid .multiplayer-room-card,
+.available-rooms .multiplayer-room-card,
 .multiplayer-room-card {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border: 2px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 235, 0.98) 100%) !important;
+  border: 2px solid rgba(212, 175, 55, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.04);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: relative;
-  overflow: hidden;
+    0 4px 12px rgba(139, 69, 19, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  font-family: 'Cinzel', serif !important;
 }
 
+.multiplayer-rooms-grid .multiplayer-room-card::before,
+.available-rooms .multiplayer-room-card::before,
 .multiplayer-room-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4682b4 0%, #5a9fd4 50%, #4682b4 100%);
+  height: 3px;
+  background: linear-gradient(90deg, #d4af37 0%, #b8941f 50%, #d4af37 100%);
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease;
 }
 
+.multiplayer-rooms-grid .multiplayer-room-card:hover,
+.available-rooms .multiplayer-room-card:hover,
 .multiplayer-room-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px) !important;
   box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.12),
-    0 0 0 1px rgba(70, 130, 180, 0.2);
-  border-color: #4682b4;
+    0 8px 20px rgba(139, 69, 19, 0.15),
+    0 4px 8px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 245, 235, 1) 100%) !important;
 }
 
+.multiplayer-rooms-grid .multiplayer-room-card:hover::before,
+.available-rooms .multiplayer-room-card:hover::before,
 .multiplayer-room-card:hover::before {
   opacity: 1;
 }
 
-.room-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #e8e8e8;
+.multiplayer-rooms-grid .room-header,
+.available-rooms .room-header,
+.multiplayer-room-card .room-header {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.2) !important;
+  margin: 0 !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
 }
 
-.room-name {
-  color: #1a1a1a;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0;
-  flex: 1;
-  word-break: break-word;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
+.multiplayer-rooms-grid .room-name,
+.available-rooms .room-name,
+.multiplayer-room-card .room-name {
+  color: #2c2416 !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.3px !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.1) !important;
+  font-family: 'Cinzel', serif !important;
 }
 
-.room-role {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #666;
-  font-size: 0.875rem;
-  font-weight: 500;
-  white-space: nowrap;
-  background: #f5f5f5;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
+.multiplayer-rooms-grid .room-role,
+.available-rooms .room-role,
+.multiplayer-room-card .room-role {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #5d4037 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 148, 31, 0.1) 100%) !important;
+  padding: 5px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  align-self: flex-start !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-family: 'Cinzel', serif !important;
 }
 
-.room-role i {
-  font-size: 0.875rem;
-  color: #ffa500;
+.multiplayer-rooms-grid .room-role i,
+.available-rooms .room-role i,
+.multiplayer-room-card .room-role i {
+  font-size: 0.7rem !important;
+  color: #b8941f !important;
 }
 
-.room-status {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 0;
+.multiplayer-rooms-grid .room-status,
+.available-rooms .room-status,
+.multiplayer-room-card .room-status {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 0 !important;
+  flex-wrap: wrap !important;
+  margin: 0 !important;
 }
 
-.status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #666;
-  font-size: 0.875rem;
-  font-weight: 500;
+.multiplayer-rooms-grid .status-indicator,
+.available-rooms .status-indicator,
+.multiplayer-room-card .status-indicator {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #5d4037 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(139, 69, 19, 0.2) !important;
+  font-family: 'Cinzel', serif !important;
 }
 
-.status-indicator i {
-  font-size: 0.625rem;
+.multiplayer-rooms-grid .status-indicator i,
+.available-rooms .status-indicator i,
+.multiplayer-room-card .status-indicator i {
+  font-size: 0.5rem !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  display: inline-block !important;
 }
 
-.member-count {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #666;
-  font-size: 0.875rem;
-  font-weight: 500;
+.multiplayer-rooms-grid .member-count,
+.available-rooms .member-count,
+.multiplayer-room-card .member-count {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #5d4037 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(139, 69, 19, 0.2) !important;
+  font-family: 'Cinzel', serif !important;
 }
 
-.member-count i {
-  font-size: 0.875rem;
-  color: #4682b4;
+.multiplayer-rooms-grid .member-count i,
+.available-rooms .member-count i,
+.multiplayer-room-card .member-count i {
+  font-size: 0.7rem !important;
+  color: #8b4513 !important;
 }
 
-.room-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px 0;
-  border-top: 1px solid #e8e8e8;
-  border-bottom: 1px solid #e8e8e8;
+.multiplayer-rooms-grid .room-stats,
+.available-rooms .room-stats,
+.multiplayer-room-card .room-stats {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  padding: 10px 0 !important;
+  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+  margin: 0 !important;
 }
 
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #666;
-  font-size: 0.875rem;
-  padding: 4px 0;
+.multiplayer-rooms-grid .stat-item,
+.available-rooms .stat-item,
+.multiplayer-room-card .stat-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: #5d4037 !important;
+  font-size: 0.7rem !important;
+  padding: 3px 0 !important;
+  font-weight: 500 !important;
+  font-family: 'Cinzel', serif !important;
 }
 
-.stat-item i {
-  font-size: 0.875rem;
-  color: #999;
-  width: 16px;
-  text-align: center;
+.multiplayer-rooms-grid .stat-item i,
+.available-rooms .stat-item i,
+.multiplayer-room-card .stat-item i {
+  font-size: 0.7rem !important;
+  color: #8b4513 !important;
+  width: 14px !important;
+  text-align: center !important;
+  flex-shrink: 0 !important;
 }
 
-.stat-item span:not(.stat-value) {
-  color: #666;
-  font-weight: 500;
+.multiplayer-rooms-grid .stat-item span:not(.stat-value),
+.available-rooms .stat-item span:not(.stat-value),
+.multiplayer-room-card .stat-item span:not(.stat-value) {
+  color: #5d4037 !important;
+  font-weight: 500 !important;
+  flex-shrink: 0 !important;
 }
 
-.stat-value {
-  margin-left: auto;
-  font-weight: 600;
-  color: #1a1a1a;
-  background: #f5f5f5;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8125rem;
+.multiplayer-rooms-grid .stat-value,
+.available-rooms .stat-value,
+.multiplayer-room-card .stat-value {
+  margin-left: auto !important;
+  font-weight: 600 !important;
+  color: #2c2416 !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 148, 31, 0.05) 100%) !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  font-size: 0.7rem !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  white-space: nowrap !important;
+  font-family: 'Cinzel', serif !important;
 }
 
-.room-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 8px;
+.multiplayer-rooms-grid .room-actions,
+.available-rooms .room-actions,
+.multiplayer-room-card .room-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  padding-top: 4px !important;
+  margin: 0 !important;
+  gap: 0 !important;
 }
 
-.join-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: #4682b4;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(70, 130, 180, 0.2);
+.multiplayer-rooms-grid .join-btn,
+.available-rooms .join-btn,
+.multiplayer-room-card .join-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 10px 18px !important;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%) !important;
+  border: 2px solid #b8941f !important;
+  border-radius: 8px !important;
+  color: #2c2416 !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 
+    0 2px 6px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-family: 'Cinzel', serif !important;
+  min-width: 90px !important;
 }
 
-.join-btn:hover:not(:disabled) {
-  background: #357abd;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(70, 130, 180, 0.3);
+.multiplayer-rooms-grid .join-btn:hover:not(:disabled),
+.available-rooms .join-btn:hover:not(:disabled),
+.multiplayer-room-card .join-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f0c040 0%, #d4af37 100%) !important;
+  border-color: #d4af37 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 
+    0 4px 12px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
-.join-btn:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(70, 130, 180, 0.2);
+.multiplayer-rooms-grid .join-btn:active:not(:disabled),
+.available-rooms .join-btn:active:not(:disabled),
+.multiplayer-room-card .join-btn:active:not(:disabled) {
+  transform: translateY(0) !important;
+  box-shadow: 
+    0 2px 6px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
-.join-btn:disabled {
-  background: #e0e0e0;
-  color: #999;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
+.multiplayer-rooms-grid .join-btn:disabled,
+.available-rooms .join-btn:disabled,
+.multiplayer-room-card .join-btn:disabled {
+  background: linear-gradient(135deg, #cccccc 0%, #999999 100%) !important;
+  border-color: #999999 !important;
+  color: #666666 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+  opacity: 0.6 !important;
 }
 
-.join-btn i {
-  font-size: 0.875rem;
+.multiplayer-rooms-grid .join-btn i,
+.available-rooms .join-btn i,
+.multiplayer-room-card .join-btn i {
+  font-size: 0.75rem !important;
+}
+
+/* ULTRA-SPECIFIC OVERRIDES - Must be at the end to override RoomManager.css */
+/* These selectors are more specific than anything in RoomManager.css */
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card,
+.multiplayer-rooms-grid .multiplayer-room-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 245, 235, 0.98) 100%) !important;
+  border: 2px solid rgba(212, 175, 55, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  box-shadow: 
+    0 4px 12px rgba(139, 69, 19, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  font-family: 'Cinzel', serif !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  width: auto !important;
+  height: auto !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .room-header,
+.multiplayer-rooms-grid .multiplayer-room-card .room-header {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.2) !important;
+  margin: 0 !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .room-name,
+.multiplayer-rooms-grid .multiplayer-room-card .room-name {
+  color: #2c2416 !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.3px !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  text-shadow: 0 1px 2px rgba(212, 175, 55, 0.1) !important;
+  font-family: 'Cinzel', serif !important;
+  text-transform: none !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .room-role,
+.multiplayer-rooms-grid .multiplayer-room-card .room-role {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #5d4037 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(184, 148, 31, 0.1) 100%) !important;
+  padding: 5px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  align-self: flex-start !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .room-status,
+.multiplayer-rooms-grid .multiplayer-room-card .room-status {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 0 !important;
+  flex-wrap: wrap !important;
+  margin: 0 !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .status-indicator,
+.multiplayer-rooms-grid .multiplayer-room-card .status-indicator {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #5d4037 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(139, 69, 19, 0.2) !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .member-count,
+.multiplayer-rooms-grid .multiplayer-room-card .member-count {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #5d4037 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(139, 69, 19, 0.2) !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .room-stats,
+.multiplayer-rooms-grid .multiplayer-room-card .room-stats {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  padding: 10px 0 !important;
+  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+  margin: 0 !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .stat-item,
+.multiplayer-rooms-grid .multiplayer-room-card .stat-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: #5d4037 !important;
+  font-size: 0.7rem !important;
+  padding: 3px 0 !important;
+  font-weight: 500 !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .stat-value,
+.multiplayer-rooms-grid .multiplayer-room-card .stat-value {
+  margin-left: auto !important;
+  font-weight: 600 !important;
+  color: #2c2416 !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 148, 31, 0.05) 100%) !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  font-size: 0.7rem !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  white-space: nowrap !important;
+  font-family: 'Cinzel', serif !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .room-actions,
+.multiplayer-rooms-grid .multiplayer-room-card .room-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  padding-top: 4px !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+
+.available-rooms .multiplayer-rooms-grid .multiplayer-room-card .join-btn,
+.multiplayer-rooms-grid .multiplayer-room-card .join-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  padding: 10px 18px !important;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%) !important;
+  border: 2px solid #b8941f !important;
+  border-radius: 8px !important;
+  color: #2c2416 !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 
+    0 2px 6px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-family: 'Cinzel', serif !important;
+  min-width: 90px !important;
 }
 
 /* Password Popup/Modal */

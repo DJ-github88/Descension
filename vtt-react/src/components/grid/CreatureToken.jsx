@@ -8,6 +8,7 @@ import useCombatStore from '../../store/combatStore';
 import useBuffStore from '../../store/buffStore';
 import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
+import useCharacterStore from '../../store/characterStore';
 import { isPositionVisible } from '../../utils/VisibilityCalculations';
 // Removed useEnhancedMultiplayer import - hook was removed
 import TurnTimer from '../combat/TurnTimer';
@@ -1304,10 +1305,38 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       const { currentPlayer } = useGameStore.getState();
       // Check if token has a playerId (character tokens have this)
       const tokenPlayerId = token.playerId;
+      
+      // Allow movement if:
+      // 1. Token has no playerId (creature token that doesn't belong to anyone)
+      // 2. Token's playerId matches current player's ID
+      // 3. Token's playerId is 'current-player'
+      // Block movement if token has a playerId that doesn't match
       if (tokenPlayerId && tokenPlayerId !== currentPlayer?.id && tokenPlayerId !== 'current-player') {
-        console.log('Cannot move creature token - not your token');
+        console.log('Cannot move creature token - not your token', {
+          tokenPlayerId,
+          currentPlayerId: currentPlayer?.id,
+          tokenId: token.id,
+          creatureId: token.creatureId
+        });
         setShowTooltip(false);
         return;
+      }
+      
+      // CRITICAL FIX: Also check if this is a character token by checking creatureId
+      // Character tokens have creatureId that matches the character's ID
+      if (token.creatureId) {
+        // Check if this creatureId belongs to the current player's character
+        const { currentCharacterId } = useCharacterStore.getState();
+        if (token.creatureId !== currentCharacterId && tokenPlayerId && tokenPlayerId !== currentPlayer?.id) {
+          console.log('Cannot move creature token - creature does not belong to you', {
+            creatureId: token.creatureId,
+            currentCharacterId,
+            tokenPlayerId,
+            currentPlayerId: currentPlayer?.id
+          });
+          setShowTooltip(false);
+          return;
+        }
       }
     }
 

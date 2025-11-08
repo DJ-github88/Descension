@@ -588,9 +588,11 @@ const Step7SkillsLanguages = () => {
                                                             <div className="quest-preview-info">
                                                                 <strong>{quest.name}</strong>
                                                                 <p>{quest.description}</p>
-                                                                <div className="quest-unlocks">
-                                                                    <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
-                                                                </div>
+                                                                {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
+                                                                    <div className="quest-unlocks">
+                                                                        <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     ))}
@@ -674,9 +676,11 @@ const Step7SkillsLanguages = () => {
                                                             <div className="quest-preview-info">
                                                                 <strong>{quest.name}</strong>
                                                                 <p>{quest.description}</p>
-                                                                <div className="quest-unlocks">
-                                                                    <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
-                                                                </div>
+                                                                {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
+                                                                    <div className="quest-unlocks">
+                                                                        <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     ))}
