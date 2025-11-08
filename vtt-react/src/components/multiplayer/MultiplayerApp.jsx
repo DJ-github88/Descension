@@ -891,18 +891,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // Calculate proper race display name from race and subrace data
         let raceDisplayName = data.character.raceDisplayName || 'Unknown';
 
-        // Create the base character data first
+        // CRITICAL FIX: Use actual character data, not fallback defaults
+        // Only use defaults if the data is truly missing (null/undefined), not if it's 0 or empty object
         const baseCharacterData = {
           class: data.character.class || 'Unknown',
           level: data.character.level || 1,
-          health: data.character.health || { current: 100, max: 100 },
-          mana: data.character.mana || { current: 50, max: 50 },
-          actionPoints: data.character.actionPoints || { current: 3, max: 3 },
+          // CRITICAL FIX: Use actual health/mana/AP values, not defaults
+          health: data.character.health !== undefined && data.character.health !== null 
+            ? data.character.health 
+            : { current: 100, max: 100 },
+          mana: data.character.mana !== undefined && data.character.mana !== null 
+            ? data.character.mana 
+            : { current: 50, max: 50 },
+          actionPoints: data.character.actionPoints !== undefined && data.character.actionPoints !== null 
+            ? data.character.actionPoints 
+            : { current: 3, max: 3 },
           race: data.character.race || 'Unknown',
           subrace: data.character.subrace || '',
           raceDisplayName: raceDisplayName,
-          exhaustionLevel: data.character.exhaustionLevel || 0,
-          classResource: data.character.classResource || { current: 0, max: 0 }, // Include class resource
+          exhaustionLevel: data.character.exhaustionLevel !== undefined ? data.character.exhaustionLevel : 0,
+          classResource: data.character.classResource !== undefined && data.character.classResource !== null 
+            ? data.character.classResource 
+            : { current: 0, max: 0 },
           tokenSettings: data.character.tokenSettings || {}, // Include token settings, default to empty object
           lore: data.character.lore || {} // Include lore (which contains characterImage), default to empty object
         };
@@ -1069,29 +1079,29 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         // CRITICAL FIX: Temporarily disable emit check, then use setters to update state
         // This ensures updates are applied and synced properly
         
+        // CRITICAL FIX: Use store methods directly, not getState().method()
+        // getState() returns the state object, not the store methods
+        
         // Update fog of war if provided
         if (data.mapData?.fogOfWar !== undefined) {
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false; // Temporarily disable to allow setter to work
-          levelEditorStore.getState().setFogOfWarData(data.mapData.fogOfWar);
+          levelEditorStore.setFogOfWarData(data.mapData.fogOfWar);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated fog of war data');
         }
         
         // Update fog paths if provided
         if (data.mapData?.fogOfWarPaths !== undefined) {
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false;
-          levelEditorStore.getState().setFogOfWarPaths(data.mapData.fogOfWarPaths);
+          levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated fog of war paths:', Object.keys(data.mapData.fogOfWarPaths).length, 'paths');
         }
         if (data.mapData?.fogErasePaths !== undefined) {
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false;
-          levelEditorStore.getState().setFogErasePaths(data.mapData.fogErasePaths);
+          levelEditorStore.setFogErasePaths(data.mapData.fogErasePaths);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated fog erase paths');
         }
         
         // CRITICAL FIX: Update terrain data if provided (this is the key fix for terrain tiles)
@@ -1101,45 +1111,40 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const mergedTerrainData = { ...currentTerrainData, ...data.mapData.terrainData };
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false;
-          levelEditorStore.getState().setTerrainData(mergedTerrainData);
+          levelEditorStore.setTerrainData(mergedTerrainData);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated terrain data:', Object.keys(mergedTerrainData).length, 'tiles');
         }
         
         // Update wall data if provided
         if (data.mapData?.wallData !== undefined) {
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false;
-          levelEditorStore.getState().setWallData(data.mapData.wallData);
+          levelEditorStore.setWallData(data.mapData.wallData);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated wall data');
         }
         
         // Update drawing layers if provided
         if (data.mapData?.drawingLayers !== undefined) {
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false;
-          levelEditorStore.getState().setDrawingLayers(data.mapData.drawingLayers);
+          levelEditorStore.setDrawingLayers(data.mapData.drawingLayers);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated drawing layers');
         }
         
         // Update drawing paths if provided
         if (data.mapData?.drawingPaths !== undefined) {
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false;
-          levelEditorStore.getState().setDrawingPaths(data.mapData.drawingPaths);
+          levelEditorStore.setDrawingPaths(data.mapData.drawingPaths);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated drawing paths');
         }
         
         // CRITICAL FIX: Update explored areas if provided (for fog of war memory)
         if (data.mapData?.exploredAreas !== undefined) {
           const wasReceiving = window._isReceivingMapUpdate;
           window._isReceivingMapUpdate = false;
-          levelEditorStore.getState().setExploredAreas(data.mapData.exploredAreas);
+          levelEditorStore.setExploredAreas(data.mapData.exploredAreas);
           window._isReceivingMapUpdate = wasReceiving;
-          console.log('✅ Updated explored areas');
         }
         
         // CRITICAL FIX: Reset flag after processing to allow future updates
