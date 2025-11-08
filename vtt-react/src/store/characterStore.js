@@ -1554,11 +1554,38 @@ const useCharacterStore = create((set, get) => ({
             
             // Helper function to compress character data before saving
             const compressCharacterData = (char) => {
-                // Remove unnecessary fields that take up space
                 const compressed = { ...char };
-                // Keep only essential fields - remove large nested objects if not needed
-                // Keep inventory, equipment, spells as they're essential
-                // Remove any temporary or computed fields that can be regenerated
+                
+                // CRITICAL FIX: Remove or compress large image data
+                // Base64 images can be hundreds of KB to MB in size
+                if (compressed.lore?.characterImage) {
+                    // Check if image is base64 and larger than 50KB
+                    const imageData = compressed.lore.characterImage;
+                    if (typeof imageData === 'string' && imageData.startsWith('data:image')) {
+                        const sizeInBytes = (imageData.length * 3) / 4; // Approximate base64 size
+                        if (sizeInBytes > 50 * 1024) { // Larger than 50KB
+                            // Remove image for localStorage (keep URL reference if exists)
+                            compressed.lore = {
+                                ...compressed.lore,
+                                characterImage: null,
+                                imageTransformations: null
+                            };
+                            console.log(`📦 Removed large image from character ${char.id} to save space`);
+                        }
+                    }
+                }
+                
+                // Remove custom icons that might be large
+                if (compressed.tokenSettings?.customIcon) {
+                    const iconData = compressed.tokenSettings.customIcon;
+                    if (typeof iconData === 'string' && iconData.startsWith('data:image')) {
+                        compressed.tokenSettings = {
+                            ...compressed.tokenSettings,
+                            customIcon: null
+                        };
+                    }
+                }
+                
                 return compressed;
             };
             

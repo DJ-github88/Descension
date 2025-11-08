@@ -1260,7 +1260,7 @@ io.on('connection', (socket) => {
     console.log(`Equipment updated for character ${data.characterId} by ${player.name}: ${data.slot} -> ${data.item?.name || 'unequipped'}`);
   });
 
-  // Handle map/background changes
+  // Handle map/background changes (GM only for live updates)
   socket.on('map_update', async (data) => {
     const player = players.get(socket.id);
     if (!player) {
@@ -1271,6 +1271,12 @@ io.on('connection', (socket) => {
     const room = rooms.get(player.roomId);
     if (!room) {
       socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // CRITICAL FIX: Only GM can update map state for live synchronization
+    if (!player.isGM) {
+      socket.emit('error', { message: 'Only GM can update map state' });
       return;
     }
 
@@ -1339,7 +1345,8 @@ io.on('connection', (socket) => {
       console.error('Failed to persist map update:', error);
     }
 
-    // Broadcast map update to all players in the room (including sender for confirmation)
+    // CRITICAL FIX: Broadcast map update to ALL players in the room immediately for live updates
+    // This ensures players see GM's tiles, fog, and drawings in real-time
     io.to(player.roomId).emit('map_updated', {
       mapData: {
         ...room.gameState.mapData,
@@ -1358,7 +1365,7 @@ io.on('connection', (socket) => {
       timestamp: new Date()
     });
 
-    console.log(`Map updated by ${player.isGM ? 'GM' : 'Player'} ${player.name}`);
+    console.log(`🗺️ Map updated by GM ${player.name} - broadcasted to all players in room ${player.roomId}`);
   });
 
   // Handle area remove operations
@@ -1928,39 +1935,9 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Handle map state updates (GM only)
-  socket.on('map_update', async (data) => {
-    const player = players.get(socket.id);
-    if (!player) {
-      socket.emit('error', { message: 'You are not in a room' });
-      return;
-    }
-
-    const room = rooms.get(player.roomId);
-    if (!room) {
-      socket.emit('error', { message: 'Room not found' });
-      return;
-    }
-
-    // Only GM can update map state
-    if (!player.isGM) {
-      socket.emit('error', { message: 'Only GM can update map state' });
-      return;
-    }
-
-    // Update map via real-time sync
-    const success = realtimeSync.updateMap(
-      player.roomId,
-      data.mapUpdates,
-      player.id
-    );
-
-    if (success) {
-      console.log(`🗺️ Map updated by GM ${player.name}`);
-    } else {
-      socket.emit('error', { message: 'Failed to update map state' });
-    }
-  });
+  // REMOVED: Duplicate map_update handler - the first handler (line 1264) already handles
+  // immediate broadcasting to all players. The realtimeSync service was causing delays.
+  // Live map updates (tiles, fog, drawings) are now broadcast immediately via the first handler.
 
   // Handle UI state synchronization
   socket.on('ui_update', async (data) => {

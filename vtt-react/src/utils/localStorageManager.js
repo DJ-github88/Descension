@@ -159,10 +159,32 @@ class LocalStorageManager {
   }
 
   /**
+   * Remove image data from character to save space
+   */
+  removeCharacterImages(character) {
+    const cleaned = { ...character };
+    if (cleaned.lore) {
+      cleaned.lore = {
+        ...cleaned.lore,
+        characterImage: null, // Remove base64 image data
+        imageTransformations: null // Remove image transformations
+      };
+    }
+    if (cleaned.tokenSettings) {
+      cleaned.tokenSettings = {
+        ...cleaned.tokenSettings,
+        customIcon: null // Remove custom icon
+      };
+    }
+    return cleaned;
+  }
+
+  /**
    * Emergency cleanup - more aggressive than regular cleanup
    */
   performEmergencyCleanup() {
     console.log('🚨 Performing emergency localStorage cleanup...');
+    let totalRemoved = 0;
     const keysToRemove = [];
     
     // 1. Remove all backup, temp, and cache data
@@ -177,27 +199,68 @@ class LocalStorageManager {
       }
     }
 
-    // 2. Remove old character data (keep only most recent 10 characters per user)
-    // This helps when localStorage is full of old character data
-    const characterKeys = [];
+    // Remove backup/temp keys immediately
+    keysToRemove.forEach(key => {
+      try {
+        localStorage.removeItem(key);
+        totalRemoved++;
+      } catch (e) {
+        console.warn(`Failed to remove ${key}:`, e);
+      }
+    });
+    keysToRemove.length = 0; // Clear array
+
+    // 2. Compress character data by removing images and keeping only recent characters
     for (let key in localStorage) {
       if (key === 'mythrill-characters' || key === 'mythrill-guest-characters') {
         try {
           const data = JSON.parse(localStorage[key]);
-          if (Array.isArray(data) && data.length > 10) {
-            // Sort by updatedAt (most recent first) and keep only 10
-            const sorted = data.sort((a, b) => {
-              const aTime = new Date(a.updatedAt || a.createdAt || 0).getTime();
-              const bTime = new Date(b.updatedAt || b.createdAt || 0).getTime();
-              return bTime - aTime;
-            });
-            const kept = sorted.slice(0, 10);
-            localStorage.setItem(key, JSON.stringify(kept));
-            console.log(`📦 Reduced ${key} from ${data.length} to ${kept.length} characters`);
+          if (Array.isArray(data)) {
+            // Remove images from all characters to save space
+            const cleanedData = data.map(char => this.removeCharacterImages(char));
+            
+            // If still too many characters, keep only most recent 5
+            let finalData = cleanedData;
+            if (cleanedData.length > 5) {
+              const sorted = [...cleanedData].sort((a, b) => {
+                const aTime = new Date(a.updatedAt || a.createdAt || 0).getTime();
+                const bTime = new Date(b.updatedAt || b.createdAt || 0).getTime();
+                return bTime - aTime;
+              });
+              finalData = sorted.slice(0, 5);
+              console.log(`📦 Reduced ${key} from ${cleanedData.length} to ${finalData.length} characters`);
+            }
+            
+            // Try to save compressed data
+            try {
+              const compressedJson = JSON.stringify(finalData);
+              localStorage.setItem(key, compressedJson);
+              console.log(`✅ Compressed ${key} (removed images from all characters)`);
+            } catch (saveError) {
+              // If still too large, remove oldest characters
+              if (saveError.name === 'QuotaExceededError') {
+                const minimalData = finalData.slice(0, 3).map(char => {
+                  const minimal = { ...char };
+                  // Remove even more data
+                  delete minimal.inventory;
+                  delete minimal.equipment;
+                  delete minimal.spells;
+                  return minimal;
+                });
+                localStorage.setItem(key, JSON.stringify(minimalData));
+                console.log(`📦 Further reduced ${key} to ${minimalData.length} minimal characters`);
+              }
+            }
           }
         } catch (error) {
           // If we can't parse it, it might be corrupted - remove it
-          keysToRemove.push(key);
+          console.warn(`⚠️ Corrupted character data in ${key}, removing...`);
+          try {
+            localStorage.removeItem(key);
+            totalRemoved++;
+          } catch (e) {
+            console.error(`Failed to remove corrupted ${key}:`, e);
+          }
         }
       }
     }
@@ -211,26 +274,33 @@ class LocalStorageManager {
           const data = JSON.parse(localStorage[key]);
           if (data && typeof data === 'object') {
             // Remove old chat messages, old map history, etc.
-            if (data.messages && Array.isArray(data.messages) && data.messages.length > 100) {
-              data.messages = data.messages.slice(-100); // Keep only last 100 messages
+            if (data.messages && Array.isArray(data.messages) && data.messages.length > 50) {
+              data.messages = data.messages.slice(-50); // Keep only last 50 messages
               localStorage.setItem(key, JSON.stringify(data));
               console.log(`📦 Compressed ${key} messages`);
+            }
+            // Remove large map data
+            if (data.maps && Array.isArray(data.maps)) {
+              data.maps = data.maps.slice(-3); // Keep only last 3 maps
+              localStorage.setItem(key, JSON.stringify(data));
+              console.log(`📦 Compressed ${key} maps`);
             }
           }
         } catch (error) {
           // If we can't parse it, remove it
-          keysToRemove.push(key);
+          try {
+            localStorage.removeItem(key);
+            totalRemoved++;
+            console.log(`🗑️ Removed corrupted ${key}`);
+          } catch (e) {
+            console.error(`Failed to remove ${key}:`, e);
+          }
         }
       }
     }
 
-    // Remove all identified keys
-    keysToRemove.forEach(key => {
-      localStorage.removeItem(key);
-    });
-
-    console.log(`🧹 Emergency cleanup removed ${keysToRemove.length} items`);
-    return keysToRemove.length;
+    console.log(`🧹 Emergency cleanup removed ${totalRemoved} items and compressed character data`);
+    return totalRemoved;
   }
 
   /**

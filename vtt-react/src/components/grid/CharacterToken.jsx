@@ -391,9 +391,25 @@ const CharacterToken = ({
         // CRITICAL FIX: Check token ownership - players can only move their own tokens, GM can move any
         if (isInMultiplayer && !isGMMode) {
             const { currentPlayer } = useGameStore.getState();
-            const isOwnToken = tokenPlayerId === currentPlayer?.id || tokenPlayerId === 'current-player';
+            const { name: characterName } = useCharacterStore.getState();
+            
+            // Check multiple ways the token could be identified as the player's token:
+            // 1. tokenPlayerId matches currentPlayer.id
+            // 2. tokenPlayerId matches characterName (used when placing from HUD)
+            // 3. tokenPlayerId is 'current-player'
+            // 4. token.isPlayerToken is true (single-player compatibility)
+            const isOwnToken = tokenPlayerId === currentPlayer?.id || 
+                              tokenPlayerId === characterName ||
+                              tokenPlayerId === 'current-player' ||
+                              token?.isPlayerToken === true;
+            
             if (!isOwnToken) {
-                console.log('Cannot move character token - not your token');
+                console.log('Cannot move character token - not your token', {
+                    tokenPlayerId,
+                    currentPlayerId: currentPlayer?.id,
+                    characterName,
+                    isPlayerToken: token?.isPlayerToken
+                });
                 setShowTooltip(false);
                 return;
             }

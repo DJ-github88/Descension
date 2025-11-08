@@ -1047,19 +1047,31 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           hasDrawingData: data.mapData?.drawingPaths !== undefined
         });
         
+        // CRITICAL FIX: Temporarily disable emit check, then use setters to update state
+        // This ensures updates are applied and synced properly
+        
         // Update fog of war if provided
         if (data.mapData?.fogOfWar !== undefined) {
-          levelEditorStore.setFogOfWarData(data.mapData.fogOfWar);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false; // Temporarily disable to allow setter to work
+          levelEditorStore.getState().setFogOfWarData(data.mapData.fogOfWar);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated fog of war data');
         }
         
         // Update fog paths if provided
         if (data.mapData?.fogOfWarPaths !== undefined) {
-          levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.getState().setFogOfWarPaths(data.mapData.fogOfWarPaths);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated fog of war paths:', Object.keys(data.mapData.fogOfWarPaths).length, 'paths');
         }
         if (data.mapData?.fogErasePaths !== undefined) {
-          levelEditorStore.setFogErasePaths(data.mapData.fogErasePaths);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.getState().setFogErasePaths(data.mapData.fogErasePaths);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated fog erase paths');
         }
         
@@ -1068,31 +1080,46 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           // Merge terrain data instead of replacing to preserve existing tiles
           const currentTerrainData = levelEditorStore.getState().terrainData || {};
           const mergedTerrainData = { ...currentTerrainData, ...data.mapData.terrainData };
-          levelEditorStore.setTerrainData(mergedTerrainData);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.getState().setTerrainData(mergedTerrainData);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated terrain data:', Object.keys(mergedTerrainData).length, 'tiles');
         }
         
         // Update wall data if provided
         if (data.mapData?.wallData !== undefined) {
-          levelEditorStore.setWallData(data.mapData.wallData);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.getState().setWallData(data.mapData.wallData);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated wall data');
         }
         
         // Update drawing layers if provided
         if (data.mapData?.drawingLayers !== undefined) {
-          levelEditorStore.setDrawingLayers(data.mapData.drawingLayers);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.getState().setDrawingLayers(data.mapData.drawingLayers);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated drawing layers');
         }
         
         // Update drawing paths if provided
         if (data.mapData?.drawingPaths !== undefined) {
-          levelEditorStore.setDrawingPaths(data.mapData.drawingPaths);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.getState().setDrawingPaths(data.mapData.drawingPaths);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated drawing paths');
         }
         
         // CRITICAL FIX: Update explored areas if provided (for fog of war memory)
         if (data.mapData?.exploredAreas !== undefined) {
-          levelEditorStore.setExploredAreas(data.mapData.exploredAreas);
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.getState().setExploredAreas(data.mapData.exploredAreas);
+          window._isReceivingMapUpdate = wasReceiving;
           console.log('✅ Updated explored areas');
         }
         
