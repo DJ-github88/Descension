@@ -13,7 +13,7 @@ export function createPlaceholderCharacter(name, options = {}) {
   const {
     race = 'nordmark',
     subrace = 'berserker_nordmark',
-    class: characterClass = 'Fighter',
+    class: characterClass = 'Berserker',
     level = 3,
     stats = {
       strength: 16,
@@ -149,16 +149,16 @@ export function createPlaceholderCharacter(name, options = {}) {
  */
 export function createGuestPlaceholderCharacters() {
   const characters = [
-    createPlaceholderCharacter('Guest Warrior', {
+    createPlaceholderCharacter('Guest Berserker', {
       race: 'nordmark',
       subrace: 'berserker_nordmark',
-      class: 'Fighter',
+      class: 'Berserker',
       level: 3
     }),
-    createPlaceholderCharacter('Guest Mage', {
+    createPlaceholderCharacter('Guest Arcanoneer', {
       race: 'mirrorkin',
       subrace: 'doppel_mirrorkin',
-      class: 'Wizard',
+      class: 'Arcanoneer',
       level: 2,
       stats: {
         strength: 10,
@@ -187,16 +187,16 @@ export function createGuestPlaceholderCharacters() {
  */
 export function createDevPlaceholderCharacters() {
   const characters = [
-    createPlaceholderCharacter('Dev Fighter', {
+    createPlaceholderCharacter('Dev Berserker', {
       race: 'nordmark',
       subrace: 'berserker_nordmark',
-      class: 'Fighter',
+      class: 'Berserker',
       level: 5
     }),
-    createPlaceholderCharacter('Dev Wizard', {
+    createPlaceholderCharacter('Dev Arcanoneer', {
       race: 'mirrorkin',
       subrace: 'doppel_mirrorkin',
-      class: 'Wizard',
+      class: 'Arcanoneer',
       level: 4,
       stats: {
         strength: 10,
@@ -207,10 +207,10 @@ export function createDevPlaceholderCharacters() {
         charisma: 12
       }
     }),
-    createPlaceholderCharacter('Dev Rogue', {
+    createPlaceholderCharacter('Dev Bladedancer', {
       race: 'wildkin',
       subrace: 'guardian_wildkin',
-      class: 'Rogue',
+      class: 'Bladedancer',
       level: 3,
       stats: {
         strength: 12,
@@ -248,16 +248,16 @@ export async function createAuthenticatedPlaceholderCharacters(userId) {
     const { default: characterPersistenceService } = await import('../services/firebase/characterPersistenceService');
     
     const characters = [
-      createPlaceholderCharacter('Test Fighter', {
+      createPlaceholderCharacter('Test Berserker', {
         race: 'nordmark',
         subrace: 'berserker_nordmark',
-        class: 'Fighter',
+        class: 'Berserker',
         level: 5
       }),
-      createPlaceholderCharacter('Test Wizard', {
+      createPlaceholderCharacter('Test Arcanoneer', {
         race: 'mirrorkin',
         subrace: 'doppel_mirrorkin',
-        class: 'Wizard',
+        class: 'Arcanoneer',
         level: 4,
         stats: {
           strength: 10,
