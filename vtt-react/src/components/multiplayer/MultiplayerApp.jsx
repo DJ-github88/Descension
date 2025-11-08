@@ -589,14 +589,33 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                   const currentTokens = useCreatureStore.getState().tokens;
                   const token = currentTokens.find(t => t.creatureId === update.targetId);
                   if (token) {
-                    console.log('🔄 Updating token position from server:', {
-                      creatureId: token.creatureId,
-                      tokenId: token.id,
-                      position: update.position,
-                      movedBy: data.playerId,
-                      isGM: isGM
-                    });
-                    updateCreatureTokenPosition(token.id, update.position);
+                    // CRITICAL FIX: Only update position if it's significantly different to prevent micro-jumps
+                    // This prevents position jumps when GM starts dragging player tokens
+                    const currentTokenPosition = token.state.position || { x: 0, y: 0 };
+                    const distance = Math.sqrt(
+                      Math.pow(update.position.x - currentTokenPosition.x, 2) +
+                      Math.pow(update.position.y - currentTokenPosition.y, 2)
+                    );
+                    
+                    // Only update if position change is significant (more than 1 pixel) or if dragging
+                    if (distance > 1 || data.isDragging) {
+                      console.log('🔄 Updating token position from server:', {
+                        creatureId: token.creatureId,
+                        tokenId: token.id,
+                        position: update.position,
+                        currentPosition: currentTokenPosition,
+                        distance: distance,
+                        movedBy: data.playerId,
+                        isGM: isGM,
+                        isDragging: data.isDragging
+                      });
+                      updateCreatureTokenPosition(token.id, update.position);
+                    } else {
+                      console.log('🚫 Skipping token position update - change too small:', {
+                        creatureId: token.creatureId,
+                        distance: distance
+                      });
+                    }
                   } else {
                     console.warn('⚠️ Token not found for movement update:', {
                       targetId: update.targetId,

@@ -649,6 +649,26 @@ io.on('connection', (socket) => {
         message: 'The GM has reconnected!'
       });
 
+      // CRITICAL FIX: Send all existing player character data to GM when they reconnect
+      // This ensures GM sees correct stats, images, and character data immediately
+      if (room.players && room.players.size > 0) {
+        room.players.forEach((roomPlayer) => {
+          if (roomPlayer.character) {
+            console.log(`👥 Sending player character data to GM ${playerName}:`, roomPlayer.name);
+            socket.emit('character_updated', {
+              characterId: roomPlayer.character.id || roomPlayer.id,
+              character: {
+                ...roomPlayer.character,
+                playerId: roomPlayer.id
+              },
+              updatedBy: roomPlayer.id,
+              updatedByName: roomPlayer.name,
+              timestamp: new Date()
+            });
+          }
+        });
+      }
+
       console.log(`GM ${playerName} reconnected to room: ${room.name}`);
     } else {
       // Regular player join
@@ -740,6 +760,41 @@ io.on('connection', (socket) => {
         updatedBy: room.gm.id,
         updatedByName: room.gm.name,
         timestamp: new Date()
+      });
+    }
+
+    // CRITICAL FIX: Send all existing character data to the newly joined player
+    // This ensures they see correct stats, images, and character data immediately
+    if (room.gm && room.gm.character) {
+      console.log(`👑 Sending GM character data to ${playerName}`);
+      socket.emit('character_updated', {
+        characterId: room.gm.character.id || room.gm.id,
+        character: {
+          ...room.gm.character,
+          playerId: room.gm.id
+        },
+        updatedBy: room.gm.id,
+        updatedByName: room.gm.name,
+        timestamp: new Date()
+      });
+    }
+
+    // Send all other players' character data
+    if (room.players && room.players.size > 0) {
+      room.players.forEach((roomPlayer) => {
+        if (roomPlayer.character) {
+          console.log(`👥 Sending player character data to ${playerName}:`, roomPlayer.name);
+          socket.emit('character_updated', {
+            characterId: roomPlayer.character.id || roomPlayer.id,
+            character: {
+              ...roomPlayer.character,
+              playerId: roomPlayer.id
+            },
+            updatedBy: roomPlayer.id,
+            updatedByName: roomPlayer.name,
+            timestamp: new Date()
+          });
+        }
       });
     }
 

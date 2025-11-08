@@ -343,13 +343,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Send real-time position updates to multiplayer server during drag (reduced throttling for smoother experience)
       if (isInMultiplayer && token && multiplayerSocket) {
         if (now - lastNetworkUpdate > 33) { // Increased to 30fps for smoother experience
+          // CRITICAL FIX: Use the token's actual current position, not the calculated world position
+          // This prevents position jumps when GM starts dragging player tokens
+          // The token's position prop is the source of truth
+          const currentTokenPosition = position || { x: worldPos.x, y: worldPos.y };
+          
           // Snap to grid during drag to ensure consistency with final position
-          const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
+          const gridCoords = gridSystem.worldToGrid(currentTokenPosition.x, currentTokenPosition.y);
           const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
           multiplayerSocket.emit('token_moved', {
             tokenId: token.creatureId,
-            position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position
+            position: { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) }, // Use grid-snapped position from token's actual position
             isDragging: true
           });
           lastNetworkUpdate = now;
