@@ -80,37 +80,34 @@ class SubscriptionService {
     const checkUserId = userId || auth.currentUser?.uid;
     console.log('🔍 getUserTier called with userId:', checkUserId);
 
-    // Check if user is a guest FIRST (before demo mode check)
-    // This ensures guest users get the correct tier (1 character, 1 room)
-    const guestUser = localStorage.getItem('mythrill-guest-user');
-    if (guestUser) {
-      try {
-        const parsedGuestUser = JSON.parse(guestUser);
-        if (parsedGuestUser.isGuest) {
-          console.log('👤 Guest user detected: Returning guest tier');
-          return SUBSCRIPTION_TIERS.GUEST;
-        }
-      } catch (error) {
-        console.warn('Could not parse guest user:', error);
+    // CRITICAL FIX: Check for dev/demo mode FIRST (before guest check)
+    // This ensures dev users get the correct tier (50 characters) even if guest user exists in localStorage
+    
+    // Check for development bypass (dev mode)
+    try {
+      const { default: useAuthStore } = await import('../store/authStore');
+      const authState = useAuthStore.getState();
+      if (authState.isDevelopmentBypass || checkUserId === 'dev-user-123' || checkUserId?.startsWith('dev-user-')) {
+        console.log('🔧 Dev mode detected: Returning demo tier (50 characters)');
+        return {
+          id: 'demo',
+          name: 'Demo Mode',
+          roomLimit: 999,
+          characterLimit: 50,
+          features: ['Unlimited rooms', '50 character slots', 'All features unlocked', 'Demo mode'],
+          price: 0,
+          description: 'Demo mode with extensive access for testing'
+        };
       }
+    } catch (error) {
+      console.warn('Could not check dev bypass:', error);
     }
 
-    // Check if the userId indicates a guest user
-    if (checkUserId && checkUserId.startsWith('guest-')) {
-      console.log('👤 Guest user detected (from userId): Returning guest tier');
-      return SUBSCRIPTION_TIERS.GUEST;
-    }
-
-    // If not logged in, return guest tier
-    if (!auth.currentUser && !userId) {
-      return SUBSCRIPTION_TIERS.GUEST;
-    }
-
-    // Check for demo mode (after guest check to avoid giving guests demo tier)
+    // Check for demo mode
     try {
       const { isDemoMode } = await import('../config/firebase');
       if (isDemoMode) {
-        console.log('🔧 Demo mode: Returning demo tier');
+        console.log('🔧 Demo mode: Returning demo tier (50 characters)');
         return {
           id: 'demo',
           name: 'Demo Mode',
@@ -123,6 +120,31 @@ class SubscriptionService {
       }
     } catch (error) {
       console.warn('Could not check demo mode:', error);
+    }
+
+    // Check if the userId indicates a guest user (check userId FIRST before localStorage)
+    if (checkUserId && checkUserId.startsWith('guest-')) {
+      console.log('👤 Guest user detected (from userId): Returning guest tier (1 character)');
+      return SUBSCRIPTION_TIERS.GUEST;
+    }
+
+    // Check if user is a guest in localStorage (only if not dev/demo mode)
+    const guestUser = localStorage.getItem('mythrill-guest-user');
+    if (guestUser) {
+      try {
+        const parsedGuestUser = JSON.parse(guestUser);
+        if (parsedGuestUser.isGuest) {
+          console.log('👤 Guest user detected (from localStorage): Returning guest tier (1 character)');
+          return SUBSCRIPTION_TIERS.GUEST;
+        }
+      } catch (error) {
+        console.warn('Could not parse guest user:', error);
+      }
+    }
+
+    // If not logged in, return guest tier
+    if (!auth.currentUser && !userId) {
+      return SUBSCRIPTION_TIERS.GUEST;
     }
 
     // If Firebase not configured, return appropriate tier
@@ -280,34 +302,9 @@ class SubscriptionService {
    * @returns {Promise<Object>} - Object with canCreate boolean and limit info
    */
   async canCreateCharacter(currentCharacterCount, userId = null) {
-    // CRITICAL FIX: Check for guest user FIRST before checking Firebase
-    // This ensures guest users always get the correct limit (1 character)
-    const guestUser = localStorage.getItem('mythrill-guest-user');
-    let tier;
-    
-    if (guestUser) {
-      try {
-        const parsedGuestUser = JSON.parse(guestUser);
-        if (parsedGuestUser.isGuest) {
-          console.log('👤 Guest user detected in canCreateCharacter - using guest tier (1 character)');
-          tier = SUBSCRIPTION_TIERS.GUEST;
-        } else {
-          tier = await this.getUserTier(userId);
-        }
-      } catch (error) {
-        console.warn('Could not parse guest user:', error);
-        tier = await this.getUserTier(userId);
-      }
-    } else {
-      tier = await this.getUserTier(userId);
-    }
-    
-    // CRITICAL FIX: Also check userId for guest prefix
-    const checkUserId = userId || auth.currentUser?.uid;
-    if (checkUserId && checkUserId.startsWith('guest-')) {
-      console.log('👤 Guest user detected (from userId) - using guest tier (1 character)');
-      tier = SUBSCRIPTION_TIERS.GUEST;
-    }
+    // CRITICAL FIX: Use getUserTier which now checks dev/demo mode FIRST
+    // This ensures dev users get 50 characters, guest users get 1 character
+    const tier = await this.getUserTier(userId);
     
     const characterLimit = tier.characterLimit;
     const remaining = Math.max(0, characterLimit - currentCharacterCount);
@@ -317,7 +314,8 @@ class SubscriptionService {
       limit: characterLimit,
       current: currentCharacterCount,
       remaining: remaining,
-      canCreate: currentCharacterCount < characterLimit
+      canCreate: currentCharacterCount < characterLimit,
+      userId: userId || auth.currentUser?.uid
     });
 
     return {

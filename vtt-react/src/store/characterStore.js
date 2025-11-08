@@ -1499,14 +1499,18 @@ const useCharacterStore = create((set, get) => ({
             };
 
             const useFirebase = shouldUseFirebase();
+            const isGuest = isGuestUser();
 
-            if (userId && useFirebase) {
+            // CRITICAL FIX: For authenticated/dev users, try Firebase first
+            // For guest users, only use localStorage
+            if (userId && useFirebase && !isGuest) {
                 // Save to Firebase if user is authenticated and Firebase is enabled
                 try {
                     const characterId = await characterPersistenceService.createCharacter(newCharacter, userId);
                     newCharacter.id = characterId;
+                    console.log('✅ Character saved to Firebase:', characterId);
                 } catch (firebaseError) {
-                    console.error('Error creating character:', firebaseError);
+                    console.error('Error creating character in Firebase:', firebaseError);
                     console.warn('Failed to save to Firebase, saving locally:', firebaseError);
                     // Continue with local save if Firebase fails
                 }
@@ -1515,12 +1519,32 @@ const useCharacterStore = create((set, get) => ({
             const state = get();
             const updatedCharacters = [...state.characters, newCharacter];
 
-            // Always save to localStorage as backup with quota management
+            // CRITICAL FIX: Only save to localStorage if:
+            // 1. Guest user (always use localStorage)
+            // 2. Firebase save failed or Firebase not enabled
+            // 3. As a backup for authenticated users
             const storageKey = getCharactersStorageKey();
-            const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
-            if (!result.success) {
-                console.error('Failed to save characters to localStorage:', result.error);
-                // Still continue with the operation, just log the error
+            
+            // For authenticated/dev users, only save to localStorage if Firebase failed
+            // For guest users, always save to localStorage
+            if (isGuest || !useFirebase || !userId) {
+                const result = localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
+                if (!result.success) {
+                    console.error('Failed to save characters to localStorage:', result.error);
+                    // Still continue with the operation, just log the error
+                } else {
+                    console.log('✅ Character saved to localStorage:', newCharacter.id);
+                }
+            } else {
+                // For authenticated users with Firebase, only save to localStorage as backup
+                // Try to save but don't fail if it doesn't work (Firebase is primary)
+                try {
+                    localStorageManager.safeSetItem(storageKey, JSON.stringify(updatedCharacters));
+                    console.log('✅ Character backup saved to localStorage:', newCharacter.id);
+                } catch (error) {
+                    console.warn('⚠️ Failed to save character backup to localStorage (Firebase is primary):', error);
+                    // Don't fail the operation - Firebase is the primary storage
+                }
             }
 
             set({
