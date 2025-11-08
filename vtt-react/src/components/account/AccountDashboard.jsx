@@ -8,6 +8,7 @@ import { RACE_DATA } from '../../data/raceData';
 import { getClassResourceConfig, initializeClassResource } from '../../data/classResources';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
+import { ensurePlaceholderCharacters } from '../../utils/createPlaceholderCharacters';
 import RoomManager from './RoomManager';
 import ClassResourceBar from '../hud/ClassResourceBar';
 import './styles/AccountDashboard.css';
@@ -89,6 +90,22 @@ const AccountDashboard = ({ user }) => {
 
   const handleManageCharacters = () => {
     navigate('/account/characters');
+  };
+
+  const handleCreatePlaceholderCharacters = async () => {
+    try {
+      const created = await ensurePlaceholderCharacters();
+      if (created && created.length > 0) {
+        // Reload characters to show the new ones
+        await loadCharacters();
+        alert(`✅ Created ${created.length} placeholder character(s) for testing!`);
+      } else {
+        alert('ℹ️ Placeholder characters already exist or could not be created.');
+      }
+    } catch (error) {
+      console.error('Error creating placeholder characters:', error);
+      alert('❌ Failed to create placeholder characters: ' + error.message);
+    }
   };
 
   const handleCreateCharacter = async () => {
@@ -354,6 +371,14 @@ const AccountDashboard = ({ user }) => {
                 >
                   <i className="fas fa-plus"></i>
                   Create Character
+                </button>
+                <button
+                  className="btn-secondary"
+                  onClick={handleCreatePlaceholderCharacters}
+                  title="Create placeholder characters for testing (with all data filled out)"
+                >
+                  <i className="fas fa-magic"></i>
+                  Create Placeholder Characters
                 </button>
               </div>
 
