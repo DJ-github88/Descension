@@ -883,6 +883,66 @@ const useLevelEditorStore = create((set, get) => ({
                 return state.fogOfWarData[key] || false;
             },
 
+            getFogState: (worldX, worldY) => {
+                const state = get();
+                // Convert world coordinates to grid coordinates
+                const gridX = Math.floor((worldX - state.gridOffsetX) / state.gridSize);
+                const gridY = Math.floor((worldY - state.gridOffsetY) / state.gridSize);
+                const tileKey = `${gridX},${gridY}`;
+
+                // PERFORMANCE FIX: Read revealedAreas/exploredAreas from state
+                const revealedAreas = state.revealedAreas || {};
+                const exploredAreas = state.exploredAreas || {};
+
+                // Convert visibleArea array back to Set if needed
+                const visibleAreaSet = state.visibleArea ?
+                    (state.visibleArea instanceof Set ? state.visibleArea : new Set(state.visibleArea)) :
+                    null;
+
+                // Get GM mode from game store
+                const gameStore = require('./gameStore').default.getState();
+                const isGMMode = gameStore.isGMMode;
+
+                // CRITICAL FIX: When viewing from a token in PLAYER mode, ONLY use current visibleAreaSet
+                // In GM mode, still show explored areas so GM can see what's been explored
+                // Don't check exploredAreas/revealedAreas in player mode as they create a hard boundary
+                // The visibility mask will handle erasing fog for the current visible area
+                if (state.viewingFromToken && state.dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
+                    // If tile is in current visible area, it's viewable
+                    if (visibleAreaSet.has(tileKey)) {
+                        return 'viewable'; // Currently visible - visibility mask will erase fog
+                    }
+                    // In GM mode, still show explored areas even when viewing from token
+                    // This allows GM to see what's been explored while still restricting to token vision
+                    if (isGMMode && exploredAreas[tileKey]) {
+                        return 'explored'; // Previously explored - dimmed but visible to GM
+                    }
+                    // In player mode, don't show explored areas - only current visible area
+                    // This prevents the hard boundary effect for players
+                    return 'covered'; // Not currently visible - fully covered fog
+                }
+
+                // Normal mode (not viewing from token): use explored/revealed areas
+                // Check if currently visible (only if dynamic fog is enabled)
+                if (state.dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
+                    // If tile is in current visible area, it's viewable
+                    if (visibleAreaSet.has(tileKey)) {
+                        return 'viewable'; // Currently visible - very light fog so GM can see through it
+                    }
+                    // Also check revealedAreas for areas that were visible but token moved away
+                    if (revealedAreas[tileKey]) {
+                        return 'viewable'; // Previously revealed and still in revealed areas
+                    }
+                }
+
+                // Check if previously explored (works in both GM and player mode)
+                if (exploredAreas[tileKey]) {
+                    return 'explored'; // Previously explored but currently fogged
+                }
+
+                return 'covered'; // Never explored - fully covered fog
+            },
+
             setFogMode: (mode) => set({ fogMode: mode }),
 
             // Clear fog of war from specific tiles (GM only)
@@ -1882,6 +1942,7 @@ const useLevelEditorStore = create((set, get) => ({
                     wallData: mapData.wallData || {},
                     dndElements: mapData.dndElements || [],
                     fogOfWarData: mapData.fogOfWarData || {},
+                    exploredAreas: mapData.exploredAreas || {},
                     drawingPaths: mapData.drawingPaths || [],
                     drawingLayers: mapData.drawingLayers || initialState.drawingLayers,
                     lightSources: mapData.lightSources || {}

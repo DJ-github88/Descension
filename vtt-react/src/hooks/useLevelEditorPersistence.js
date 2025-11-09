@@ -19,6 +19,9 @@ export const useLevelEditorPersistence = () => {
   const autoSaveTimerRef = useRef(null);
   const lastSaveTimeRef = useRef(0);
   const isLoadingRef = useRef(false);
+  
+  // CRITICAL FIX: Track last state to prevent unnecessary auto-saves during scrolling/dragging
+  const lastStateRef = useRef(null);
 
   /**
    * Collect current level editor state for saving
@@ -37,6 +40,7 @@ export const useLevelEditorPersistence = () => {
       
       // Fog of war
       fogOfWarData: levelEditorState.fogOfWarData,
+      exploredAreas: levelEditorState.exploredAreas,
       
       // Drawing system
       drawingPaths: levelEditorState.drawingPaths,
@@ -203,11 +207,66 @@ export const useLevelEditorPersistence = () => {
     }
   }, [currentRoomId, isInRoom, loadLevelEditorState]);
 
-  // Auto-save when level editor state changes
+  // CRITICAL FIX: Auto-save when level editor state changes, but with aggressive throttling
+  // Only monitor actual content changes, not UI state changes that occur during scrolling/dragging
+  // IMPORTANT: This is for LOCAL room persistence only. Multiplayer sync is handled separately via socket.emit
   useEffect(() => {
-    if (isInRoom && currentRoomId && currentRoomId !== 'global') {
-      scheduleAutoSave();
+    if (!isInRoom || !currentRoomId || currentRoomId === 'global') {
+      return;
     }
+
+    // CRITICAL FIX: Skip if we're receiving a map update from multiplayer (prevents echo loops)
+    if (window._isReceivingMapUpdate) {
+      return;
+    }
+
+    // CRITICAL FIX: Skip if we're actively scrolling/dragging to prevent lag
+    // Check if camera is being dragged or if we're scrolling
+    const gameStore = useGameStore.getState();
+    const isDraggingCamera = gameStore.isDraggingCamera || false;
+    const isScrolling = window._isScrolling || false;
+    
+    if (isDraggingCamera || isScrolling) {
+      // Skip persistence during active scrolling/dragging
+      return;
+    }
+
+    // CRITICAL FIX: Only trigger auto-save if actual content changed
+    // Skip if this is just a re-render from camera/zoom changes
+    const currentState = {
+      terrainData: levelEditorState.terrainData,
+      wallData: levelEditorState.wallData,
+      environmentalObjects: levelEditorState.environmentalObjects,
+      dndElements: levelEditorState.dndElements,
+      fogOfWarData: levelEditorState.fogOfWarData,
+      exploredAreas: levelEditorState.exploredAreas,
+      drawingPaths: levelEditorState.drawingPaths,
+      lightSources: levelEditorState.lightSources
+    };
+
+    // Compare with previous state
+    if (lastStateRef.current) {
+      const stateChanged = JSON.stringify(lastStateRef.current) !== JSON.stringify(currentState);
+      if (!stateChanged) {
+        // State hasn't actually changed, skip auto-save
+        return;
+      }
+    }
+
+    // Update last state
+    lastStateRef.current = currentState;
+
+    // CRITICAL FIX: Only save for local rooms, not multiplayer rooms
+    // Multiplayer sync is handled via socket.emit in levelEditorStore
+    // This persistence service is only for local room caching
+    const isLocalRoom = currentRoomId.startsWith('local_');
+    if (!isLocalRoom) {
+      // Skip persistence for multiplayer rooms (they sync via socket)
+      return;
+    }
+
+    // Schedule auto-save with debouncing (only for local rooms)
+    scheduleAutoSave();
   }, [
     // Monitor key level editor state changes
     levelEditorState.terrainData,
@@ -215,6 +274,7 @@ export const useLevelEditorPersistence = () => {
     levelEditorState.environmentalObjects,
     levelEditorState.dndElements,
     levelEditorState.fogOfWarData,
+    levelEditorState.exploredAreas,
     levelEditorState.drawingPaths,
     levelEditorState.lightSources,
     isInRoom,

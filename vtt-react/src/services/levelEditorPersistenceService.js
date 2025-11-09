@@ -78,10 +78,27 @@ class LevelEditorPersistenceService {
         version: '1.0'
       };
 
+      // CRITICAL FIX: Skip caching during active scrolling/dragging to prevent lag
+      // Check if we're actively scrolling/dragging
+      const isDraggingCamera = typeof window !== 'undefined' && (window._isDraggingCamera || false);
+      const isScrolling = typeof window !== 'undefined' && (window._isScrolling || false);
+      
+      if (isDraggingCamera || isScrolling) {
+        // Skip caching during active scrolling/dragging - will cache when scrolling stops
+        return true; // Return true to indicate success, but don't actually cache
+      }
+
+      // CRITICAL FIX: Only log if state actually changed to reduce console spam
+      const previousState = this.cache.get(roomId);
+      const stateChanged = !previousState || JSON.stringify(previousState.levelEditorData) !== JSON.stringify(stateData);
+      
       // Update in-memory cache only
       this.cache.set(roomId, stateData);
 
-      console.log(`💾 Level editor state cached for room ${roomId} (database sync handles persistence)`);
+      // Only log if state actually changed (reduces console spam during scrolling/dragging)
+      if (stateChanged) {
+        console.log(`💾 Level editor state cached for room ${roomId} (database sync handles persistence)`);
+      }
       return true;
     } catch (error) {
       console.error('Error caching level editor state:', error);

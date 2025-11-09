@@ -33,11 +33,14 @@ export const RoomProvider = ({ children }) => {
       const isLocalRoom = localStorage.getItem('isLocalRoom') === 'true';
       const selectedLocalRoomId = localStorage.getItem('selectedLocalRoomId');
       
+      // CRITICAL FIX: Only update state if values actually changed
       if (isLocalRoom && selectedLocalRoomId) {
-        setCurrentRoomId(selectedLocalRoomId);
-        setRoomType('local');
-        setIsInRoom(true);
-        console.log('🏠 Room context: Local room detected:', selectedLocalRoomId);
+        if (currentRoomId !== selectedLocalRoomId || roomType !== 'local' || !isInRoom) {
+          setCurrentRoomId(selectedLocalRoomId);
+          setRoomType('local');
+          setIsInRoom(true);
+          console.log('🏠 Room context: Local room detected:', selectedLocalRoomId);
+        }
       } else if (currentRoomId !== 'global' && roomType === 'local') {
         // Local room was cleared
         setCurrentRoomId('global');
@@ -60,14 +63,15 @@ export const RoomProvider = ({ children }) => {
 
     window.addEventListener('storage', handleStorageChange);
     
-    // Also check periodically in case localStorage changes don't trigger events
-    const interval = setInterval(checkLocalRoom, 1000);
+    // CRITICAL FIX: Reduce interval frequency from 1000ms to 5000ms to prevent excessive re-renders
+    // This prevents performance issues during scrolling/dragging
+    const interval = setInterval(checkLocalRoom, 5000);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       clearInterval(interval);
     };
-  }, [currentRoomId, roomType]);
+  }, [currentRoomId, roomType, isInRoom]);
 
   // Methods to update room context
   const enterLocalRoom = (roomId, roomData = null) => {

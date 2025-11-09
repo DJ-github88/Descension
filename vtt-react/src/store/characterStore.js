@@ -75,13 +75,17 @@ const getCharactersStorageKey = () => {
 const shouldUseFirebase = () => {
     // In development on localhost, disable Firebase to avoid permission issues
     if (process.env.NODE_ENV === 'development' && window.location.hostname === 'localhost') {
+        console.log('🔥 [Firebase] shouldUseFirebase: false (localhost in development)');
         return false;
     }
 
     // Check for demo mode - always use localStorage in demo mode
+    let isDemoMode = false;
     try {
-        const { isDemoMode } = require('../config/firebase');
+        const firebaseConfig = require('../config/firebase');
+        isDemoMode = firebaseConfig.isDemoMode;
         if (isDemoMode) {
+            console.log('🔥 [Firebase] shouldUseFirebase: false (demo mode enabled)');
             return false;
         }
     } catch (error) {
@@ -90,7 +94,19 @@ const shouldUseFirebase = () => {
 
     // Check if Firebase is properly configured and user is authenticated
     const userId = getCurrentUserId();
-    return !!(userId && characterPersistenceService.isConfigured);
+    const canUseFirebase = !!(userId && characterPersistenceService.isConfigured);
+    
+    // CRITICAL FIX: Log Firebase usage decision for debugging
+    console.log('🔥 [Firebase] shouldUseFirebase:', {
+        result: canUseFirebase,
+        userId: userId || 'none',
+        isConfigured: characterPersistenceService.isConfigured,
+        hostname: window.location.hostname,
+        nodeEnv: process.env.NODE_ENV,
+        isDemoMode: isDemoMode
+    });
+    
+    return canUseFirebase;
 };
 
 const useCharacterStore = create((set, get) => ({

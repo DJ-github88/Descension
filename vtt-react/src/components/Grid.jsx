@@ -107,8 +107,9 @@ export default function Grid() {
     const gridLineThickness = useGameStore(state => state.gridLineThickness);
     const gridMovesWithBackground = useGameStore(state => state.gridMovesWithBackground);
     const backgroundSticksToGrid = useGameStore(state => state.backgroundSticksToGrid);
-    const cameraX = useGameStore(state => state.cameraX);
-    const cameraY = useGameStore(state => state.cameraY);
+    // CRITICAL PERFORMANCE FIX: Don't subscribe to camera position!
+    // Subscribing causes entire Grid to re-render on every camera movement
+    // Instead, read directly from store when needed
     const zoomLevel = useGameStore(state => state.zoomLevel);
     const playerZoom = useGameStore(state => state.playerZoom);
     const showGrid = useGameStore(state => state.showGrid);
@@ -364,100 +365,130 @@ export default function Grid() {
     const [gridTiles, setGridTiles] = useState([]);
 
     // Debounced camera position for grid updates to reduce lag during movement
-    const [debouncedCameraX, setDebouncedCameraX] = useState(cameraX);
-    const [debouncedCameraY, setDebouncedCameraY] = useState(cameraY);
+    // CRITICAL PERFORMANCE FIX: Read camera from store in effect to avoid Grid re-renders
+    const [debouncedCameraX, setDebouncedCameraX] = useState(() => useGameStore.getState().cameraX);
+    const [debouncedCameraY, setDebouncedCameraY] = useState(() => useGameStore.getState().cameraY);
     const [debouncedZoom, setDebouncedZoom] = useState(effectiveZoom);
 
     // Debounce camera position updates
+    // Subscribe to store changes in effect, not at component level
     useEffect(() => {
         const debounceDelay = effectiveZoom < 0.3 ? 150 : effectiveZoom < 0.5 ? 100 : effectiveZoom < 1.0 ? 50 : 25;
 
-        const timeoutId = setTimeout(() => {
-            setDebouncedCameraX(cameraX);
-            setDebouncedCameraY(cameraY);
-            setDebouncedZoom(effectiveZoom);
-        }, debounceDelay);
+        // Subscribe to store changes
+        const unsubscribe = useGameStore.subscribe((state, prevState) => {
+            // Only update if camera actually changed
+            if (state.cameraX !== prevState.cameraX || state.cameraY !== prevState.cameraY) {
+                const timeoutId = setTimeout(() => {
+                    setDebouncedCameraX(state.cameraX);
+                    setDebouncedCameraY(state.cameraY);
+                }, debounceDelay);
 
-        return () => clearTimeout(timeoutId);
-    }, [cameraX, cameraY, effectiveZoom]);
+                return () => clearTimeout(timeoutId);
+            }
+        });
+
+        return () => unsubscribe();
+    }, [effectiveZoom]);
 
     // Automatically set player's view to their token (fog of war viewable) when not in GM mode
     // Use ref to track if we've already set the view to prevent infinite loops
     const hasSetPlayerViewRef = useRef(false);
     const playerViewSetupTimeoutRef = useRef(null);
+    const previousGMModeRef = useRef(isGMMode);
     
-    useEffect(() => {
-        // Clear any pending setup
-        if (playerViewSetupTimeoutRef.current) {
-            clearTimeout(playerViewSetupTimeoutRef.current);
-            playerViewSetupTimeoutRef.current = null;
-        }
-        
-        // Only do this for players (not GM)
-        if (isGMMode) {
-            hasSetPlayerViewRef.current = false; // Reset when switching to GM mode
-            return;
-        }
-        
-        // Only set if viewing token is not already set and we haven't set it before
-        if (viewingFromToken || hasSetPlayerViewRef.current) return;
-        
-        // Debounce the setup to prevent lag when switching to player view
-        // Increase delay when switching from GM to player to prevent performance spike
-        const delay = hasSetPlayerViewRef.current ? 100 : 300; // Longer delay on first switch
-        playerViewSetupTimeoutRef.current = setTimeout(() => {
-            // Find the player's character token
-            const gameStore = useGameStore.getState();
-            let playerToken = null;
-            
-            if (isInMultiplayer && multiplayerRoom) {
-                // In multiplayer, find token by current player's ID
-                // Try to find the current player's token by matching playerId
-                const currentPlayerId = multiplayerRoom.gm?.id || 
-                                       (multiplayerRoom.players && 
-                                        Array.from(multiplayerRoom.players.values())[0]?.id);
-                
-                if (currentPlayerId) {
-                    playerToken = characterTokens.find(token => 
-                        token.playerId === currentPlayerId || token.id === currentPlayerId
-                    );
-                }
-            } else {
-                // In single player, look for isPlayerToken
-                playerToken = characterTokens.find(token => token.isPlayerToken);
-            }
-            
-            if (playerToken && playerToken.position) {
-                // Mark that we've set the view to prevent re-running
-                hasSetPlayerViewRef.current = true;
-                
-                // Enable dynamic fog if not already enabled
-                if (!dynamicFogEnabled) {
-                    setDynamicFogEnabled(true);
-                }
-                
-                // Set viewing token to player's token (enables fog of war view from token perspective)
-                const tokenData = {
-                    type: 'character',
-                    id: playerToken.id,
-                    characterId: playerToken.id,
-                    playerId: playerToken.playerId,
-                    position: playerToken.position
-                };
-                setViewingFromToken(tokenData);
-                
-                // Center camera on token initially
-                gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
-            }
-        }, delay); // Variable delay to prevent lag on mode switch
-        
-        return () => {
-            if (playerViewSetupTimeoutRef.current) {
-                clearTimeout(playerViewSetupTimeoutRef.current);
-                playerViewSetupTimeoutRef.current = null;
-            }
-        };
-    }, [characterTokens, isGMMode, isInMultiplayer, multiplayerRoom, viewingFromToken, dynamicFogEnabled]);
+    // TEMPORARILY DISABLE ENTIRE PLAYER VIEW SETUP TO TEST
+    // // PERFORMANCE FIX: Only run player view setup when actually switching from GM to Player mode
+    // // Remove characterTokens from dependencies to prevent constant re-runs
+    // useEffect(() => {
+    //     // Detect if we just switched from GM to Player mode
+    //     const justSwitchedToPlayerMode = previousGMModeRef.current && !isGMMode;
+    //     previousGMModeRef.current = isGMMode;
+    //
+    //     // Clear any pending setup
+    //     if (playerViewSetupTimeoutRef.current) {
+    //         clearTimeout(playerViewSetupTimeoutRef.current);
+    //         playerViewSetupTimeoutRef.current = null;
+    //     }
+    //
+    //     // Reset tracking when switching to GM mode
+    //     if (isGMMode) {
+    //         hasSetPlayerViewRef.current = false;
+    //         return;
+    //     }
+    //
+    //     // Only set if viewing token is not already set and we haven't set it before
+    //     // OR if we just switched from GM to Player mode (force refresh)
+    //     if (!justSwitchedToPlayerMode && (viewingFromToken || hasSetPlayerViewRef.current)) {
+    //         return;
+    //     }
+    //
+    //     // Use startTransition to make this update non-blocking and prevent UI freeze
+    //     // Delay slightly to allow the mode switch UI to update first
+    //     playerViewSetupTimeoutRef.current = setTimeout(() => {
+    //         React.startTransition(() => {
+    //             // Get fresh token data from stores
+    //             const gameStore = useGameStore.getState();
+    //             const characterStore = useCharacterTokenStore.getState();
+    //             const currentCharacterTokens = characterStore.characterTokens;
+    //             let playerToken = null;
+    //
+    //             if (isInMultiplayer && multiplayerRoom) {
+    //                 // In multiplayer, find token by current player's ID
+    //                 const currentPlayerId = multiplayerRoom.gm?.id ||
+    //                                        (multiplayerRoom.players &&
+    //                                         Array.from(multiplayerRoom.players.values())[0]?.id);
+    //
+    //                 if (currentPlayerId) {
+    //                     playerToken = currentCharacterTokens.find(token =>
+    //                         token.playerId === currentPlayerId || token.id === currentPlayerId
+    //                     );
+    //                 }
+    //             } else {
+    //                 // In single player, look for isPlayerToken
+    //                 playerToken = currentCharacterTokens.find(token => token.isPlayerToken);
+    //             }
+    //
+    //             if (playerToken && playerToken.position) {
+    //                 // Mark that we've set the view to prevent re-running
+    //                 hasSetPlayerViewRef.current = true;
+    //
+    //                 // Batch all state updates together using requestAnimationFrame
+    //                 // This prevents multiple re-renders and improves performance
+    //                 requestAnimationFrame(() => {
+    //                     const editorStore = useLevelEditorStore.getState();
+    //
+    //                     // TEMPORARILY DISABLED: Enable dynamic fog if not already enabled
+    //                     // if (!editorStore.dynamicFogEnabled) {
+    //                     //     editorStore.setDynamicFogEnabled(true);
+    //                     // }
+    //
+    //                     // TEMPORARILY DISABLED: Set viewing token to player's token (enables fog of war view from token perspective)
+    //                     // const tokenData = {
+    //                     //     type: 'character',
+    //                     //     id: playerToken.id,
+    //                     //     characterId: playerToken.id,
+    //                     //     playerId: playerToken.playerId,
+    //                     //     position: playerToken.position
+    //                     // };
+    //                     // editorStore.setViewingFromToken(tokenData);
+    //
+    //                     // TEMPORARILY DISABLED: Center camera on token initially (in next frame to avoid conflict)
+    //                     // requestAnimationFrame(() => {
+    //                     //     gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
+    //                     // });
+    //                 });
+    //             }
+    //         });
+    //     }, 100); // Reduced delay since we're using startTransition for non-blocking updates
+    //
+    //     return () => {
+    //         if (playerViewSetupTimeoutRef.current) {
+    //             clearTimeout(playerViewSetupTimeoutRef.current);
+    //             playerViewSetupTimeoutRef.current = null;
+    //         }
+    //     };
+    // }, [isGMMode, isInMultiplayer, multiplayerRoom, viewingFromToken]);
 
     // Optimized grid tile generation with memoization
     const gridTilesGeneration = useMemo(() => {
@@ -790,7 +821,10 @@ export default function Grid() {
         if (e.button === 1) { // Middle mouse button
             e.preventDefault();
             e.stopPropagation();
+            console.log('🎯 [GRID] Middle mouse drag START - setting window._isDraggingCamera = true');
             setIsDraggingCamera(true);
+            useGameStore.setState({ isDraggingCamera: true }); // Update global state
+            window._isDraggingCamera = true; // PERFORMANCE FIX: Window flag for non-reactive reads
             setShouldEnableCameraDrag(true);
             lastMousePosRef.current = { x: e.clientX, y: e.clientY };
             pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
@@ -801,7 +835,10 @@ export default function Grid() {
         if (e.button === 0 && e.ctrlKey) {
             e.preventDefault();
             e.stopPropagation();
+            console.log('🎯 [GRID] Ctrl+Left drag START - setting window._isDraggingCamera = true');
             setIsDraggingCamera(true);
+            useGameStore.setState({ isDraggingCamera: true }); // Update global state
+            window._isDraggingCamera = true; // PERFORMANCE FIX: Window flag for non-reactive reads
             setShouldEnableCameraDrag(true);
             lastMousePosRef.current = { x: e.clientX, y: e.clientY };
             pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
@@ -868,6 +905,12 @@ export default function Grid() {
     }, [isGridAlignmentMode, isBackgroundManipulationMode, backgrounds, activeBackgroundId]);
 
     const handleMouseMove = useCallback((e) => {
+        // PERFORMANCE OPTIMIZATION: In player mode, only process mouse moves when actively interacting
+        // This prevents constant function calls when mouse is just hovering over the grid
+        if (!isGMMode && !isGridAlignmentDragging && !isDraggingBackground && !isResizingBackground && !isRotatingBackground && !isDraggingCamera && !isDraggingCharacterToken) {
+            return;
+        }
+
         // Check if any token is being dragged - if so, ignore this event
         if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
             return;
@@ -959,8 +1002,10 @@ export default function Grid() {
                 if (activeBackground) {
                     const viewportCenterX = viewportSize.width / 2;
                     const viewportCenterY = viewportSize.height / 2;
-                    const backgroundCenterX = viewportCenterX + (activeBackground.position.x - cameraX) * effectiveZoom;
-                    const backgroundCenterY = viewportCenterY + (activeBackground.position.y - cameraY) * effectiveZoom;
+                    // Read camera from store to avoid re-renders
+                    const currentState = useGameStore.getState();
+                    const backgroundCenterX = viewportCenterX + (activeBackground.position.x - currentState.cameraX) * effectiveZoom;
+                    const backgroundCenterY = viewportCenterY + (activeBackground.position.y - currentState.cameraY) * effectiveZoom;
 
                     const startAngle = Math.atan2(
                         backgroundRotateStart.y - backgroundCenterY,
@@ -1013,6 +1058,7 @@ export default function Grid() {
             setMousePosition({ x: e.clientX, y: e.clientY });
         }
     }, [
+        isGMMode,
         isGridAlignmentDragging,
         isDraggingBackground,
         isResizingBackground,
@@ -1050,7 +1096,10 @@ export default function Grid() {
                 pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
             }
             
+            console.log('🎯 [GRID] Drag END (handleMouseUp) - setting window._isDraggingCamera = false');
             setIsDraggingCamera(false);
+            useGameStore.setState({ isDraggingCamera: false }); // Update global state
+            window._isDraggingCamera = false; // PERFORMANCE FIX: Clear window flag
             setShouldEnableCameraDrag(false);
         }
 
@@ -1140,7 +1189,10 @@ export default function Grid() {
         }
         
         // Simply stop camera dragging - no momentum
+        console.log('🎯 [GRID] Drag END (handleGlobalMouseUp) - setting window._isDraggingCamera = false');
         setIsDraggingCamera(false);
+        useGameStore.setState({ isDraggingCamera: false }); // Update global state
+        window._isDraggingCamera = false; // PERFORMANCE FIX: Clear window flag
         setShouldEnableCameraDrag(false);
     }, [
         isGridAlignmentDragging,
@@ -1212,51 +1264,99 @@ export default function Grid() {
                 return;
             }
 
-            // PERFORMANCE FIX: Batch zoom updates using RAF throttling
+            // PERFORMANCE FIX: Optimized zoom updates with immediate processing for better responsiveness
             // Accumulate zoom deltas and mouse position
             pendingZoomDeltaRef.current.deltaY += e.deltaY;
             pendingZoomDeltaRef.current.mouseX = e.clientX;
             pendingZoomDeltaRef.current.mouseY = e.clientY;
 
-            // Throttle zoom updates using requestAnimationFrame
-            if (zoomRafRef.current === null) {
-                zoomRafRef.current = requestAnimationFrame(() => {
-                    const { deltaY: totalDeltaY, mouseX, mouseY } = pendingZoomDeltaRef.current;
-                    
-                    // Read current state from store
-                    const currentState = useGameStore.getState();
-                    const currentZoom = currentState.playerZoom;
-                    const currentZoomLevel = currentState.zoomLevel;
-                    const currentMaxZoom = currentState.maxPlayerZoom;
-                    const currentMinZoom = currentState.minPlayerZoom;
+            // CRITICAL FIX: Process zoom immediately instead of waiting for RAF to reduce lag
+            // This makes zoom feel more responsive, especially for players
+            const now = Date.now();
+            const timeSinceLastZoom = now - lastZoomTimeRef.current;
+            
+            // Process zoom immediately if enough time has passed, or queue for RAF if too frequent
+            if (timeSinceLastZoom > 16 || zoomRafRef.current === null) {
+                // Process zoom immediately for better responsiveness
+                const { deltaY: totalDeltaY, mouseX, mouseY } = pendingZoomDeltaRef.current;
+                
+                // Read current state from store
+                const currentState = useGameStore.getState();
+                const currentZoom = currentState.playerZoom;
+                const currentZoomLevel = currentState.zoomLevel;
+                const currentMaxZoom = currentState.maxPlayerZoom;
+                const currentMinZoom = currentState.minPlayerZoom;
 
-                    // Calculate target zoom based on accumulated delta
-                    // Use exponential scaling for smoother zoom
-                    const zoomFactor = 1.15;
-                    const zoomSteps = Math.abs(totalDeltaY) / 100; // Normalize delta
-                    const zoomMultiplier = totalDeltaY < 0 ? 
-                        Math.pow(zoomFactor, zoomSteps) : 
-                        Math.pow(1 / zoomFactor, zoomSteps);
-                    
-                    let targetZoom = currentZoom * zoomMultiplier;
-                    targetZoom = Math.max(currentMinZoom, Math.min(currentMaxZoom, targetZoom));
+                // Calculate target zoom based on accumulated delta
+                // Use exponential scaling for smoother zoom
+                const zoomFactor = 1.15;
+                const zoomSteps = Math.abs(totalDeltaY) / 100; // Normalize delta
+                const zoomMultiplier = totalDeltaY < 0 ? 
+                    Math.pow(zoomFactor, zoomSteps) : 
+                    Math.pow(1 / zoomFactor, zoomSteps);
+                
+                let targetZoom = currentZoom * zoomMultiplier;
+                targetZoom = Math.max(currentMinZoom, Math.min(currentMaxZoom, targetZoom));
 
-                    // Additional safety check: prevent effective zoom from going too low
-                    const effectiveTargetZoom = currentZoomLevel * targetZoom;
-                    const minEffectiveZoom = 0.6;
-                    if (effectiveTargetZoom < minEffectiveZoom) {
-                        targetZoom = Math.max(targetZoom, minEffectiveZoom / currentZoomLevel);
-                    }
+                // Additional safety check: prevent effective zoom from going too low
+                const effectiveTargetZoom = currentZoomLevel * targetZoom;
+                const minEffectiveZoom = 0.6;
+                if (effectiveTargetZoom < minEffectiveZoom) {
+                    targetZoom = Math.max(targetZoom, minEffectiveZoom / currentZoomLevel);
+                }
 
-                    // Apply zoom if it actually changed
-                    if (Math.abs(targetZoom - currentZoom) > 0.001) {
-                        instantZoom(targetZoom, mouseX, mouseY);
-                    }
+                // Apply zoom if it actually changed
+                if (Math.abs(targetZoom - currentZoom) > 0.001) {
+                    instantZoom(targetZoom, mouseX, mouseY);
+                    lastZoomTimeRef.current = now;
+                }
 
-                    // Reset pending deltas
-                    pendingZoomDeltaRef.current = { deltaY: 0, mouseX: 0, mouseY: 0 };
+                // Reset pending deltas
+                pendingZoomDeltaRef.current = { deltaY: 0, mouseX: 0, mouseY: 0 };
+                
+                // Cancel any pending RAF since we processed immediately
+                if (zoomRafRef.current !== null) {
+                    cancelAnimationFrame(zoomRafRef.current);
                     zoomRafRef.current = null;
-                });
+                }
+            } else {
+                // Queue for RAF if too frequent (throttle to ~60fps)
+                if (zoomRafRef.current === null) {
+                    zoomRafRef.current = requestAnimationFrame(() => {
+                        const { deltaY: totalDeltaY, mouseX, mouseY } = pendingZoomDeltaRef.current;
+                        
+                        // Read current state from store
+                        const currentState = useGameStore.getState();
+                        const currentZoom = currentState.playerZoom;
+                        const currentZoomLevel = currentState.zoomLevel;
+                        const currentMaxZoom = currentState.maxPlayerZoom;
+                        const currentMinZoom = currentState.minPlayerZoom;
+
+                        // Calculate target zoom based on accumulated delta
+                        const zoomFactor = 1.15;
+                        const zoomSteps = Math.abs(totalDeltaY) / 100;
+                        const zoomMultiplier = totalDeltaY < 0 ? 
+                            Math.pow(zoomFactor, zoomSteps) : 
+                            Math.pow(1 / zoomFactor, zoomSteps);
+                        
+                        let targetZoom = currentZoom * zoomMultiplier;
+                        targetZoom = Math.max(currentMinZoom, Math.min(currentMaxZoom, targetZoom));
+
+                        const effectiveTargetZoom = currentZoomLevel * targetZoom;
+                        const minEffectiveZoom = 0.6;
+                        if (effectiveTargetZoom < minEffectiveZoom) {
+                            targetZoom = Math.max(targetZoom, minEffectiveZoom / currentZoomLevel);
+                        }
+
+                        if (Math.abs(targetZoom - currentZoom) > 0.001) {
+                            instantZoom(targetZoom, mouseX, mouseY);
+                            lastZoomTimeRef.current = Date.now();
+                        }
+
+                        pendingZoomDeltaRef.current = { deltaY: 0, mouseX: 0, mouseY: 0 };
+                        zoomRafRef.current = null;
+                    });
+                }
             }
 
             return false;
@@ -1764,8 +1864,10 @@ export default function Grid() {
                     // Fallback calculation
                     const canvasWidth = window.innerWidth;
                     const canvasHeight = window.innerHeight;
-                    const screenObjX = (obj.worldX - cameraX) * effectiveZoom + canvasWidth / 2;
-                    const screenObjY = (obj.worldY - cameraY) * effectiveZoom + canvasHeight / 2;
+                    // Read camera from store to avoid re-renders
+                    const currentState = useGameStore.getState();
+                    const screenObjX = (obj.worldX - currentState.cameraX) * effectiveZoom + canvasWidth / 2;
+                    const screenObjY = (obj.worldY - currentState.cameraY) * effectiveZoom + canvasHeight / 2;
                     screenPos = { x: screenObjX, y: screenObjY };
                 }
             } else {
@@ -2270,8 +2372,10 @@ export default function Grid() {
                 const viewportCenterX = viewportSize.width / 2;
                 const viewportCenterY = viewportSize.height / 2;
 
-                const backgroundX = viewportCenterX + (bg.position.x - cameraX) * effectiveZoom;
-                const backgroundY = viewportCenterY + (bg.position.y - cameraY) * effectiveZoom;
+                // Read camera from store to avoid re-renders
+                const currentState = useGameStore.getState();
+                const backgroundX = viewportCenterX + (bg.position.x - currentState.cameraX) * effectiveZoom;
+                const backgroundY = viewportCenterY + (bg.position.y - currentState.cameraY) * effectiveZoom;
 
                 // Use viewport-based sizing that scales properly with zoom
                 // This ensures the background covers a reasonable area
@@ -2546,7 +2650,9 @@ export default function Grid() {
                     left: 0,
                     width: "100vw",
                     height: "100vh",
-                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCamera || shouldEnableCameraDrag) ? "all" : "none",
+                    // CRITICAL FIX: Enable pointer events for players so they can drag the grid
+                    // GM mode has isGridAlignmentMode/isBackgroundManipulationMode, but players need pointer events too
+                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCamera || shouldEnableCameraDrag || !isGMMode) ? "all" : "none",
                     overflow: "hidden",
                     zIndex: 0,
                     cursor: isGridAlignmentMode ? 'crosshair' :
@@ -2557,6 +2663,7 @@ export default function Grid() {
                     WebkitUserSelect: 'none', // Prevent text selection on webkit browsers
                     MozUserSelect: 'none', // Prevent text selection on Firefox
                     msUserSelect: 'none', // Prevent text selection on IE/Edge
+                    // TEMPORARILY DISABLE: transform: 'translateZ(0)', // Force hardware acceleration
                     ...getLegacyBackgroundStyle()
                 }}
             >
@@ -2622,12 +2729,12 @@ export default function Grid() {
                                 pointerEvents: "all",
                                 zIndex: tileWalls.length > 0 ? 10 : 1, // Higher z-index for tiles with walls to ensure walls appear above terrain
                                 background: 'transparent', // Ensure no background patterns or dots
-                                // Enhanced performance optimizations
-                                willChange: effectiveZoom < 0.5 ? 'auto' : 'transform', // Reduce willChange at low zoom
-                                backfaceVisibility: 'hidden',
-                                transform: 'translateZ(0)', // Force hardware acceleration
-                                contain: 'layout style paint', // CSS containment for better performance
-                                isolation: 'isolate' // Create new stacking context
+                                // TEMPORARILY DISABLE PERFORMANCE OPTIMIZATIONS
+                                // willChange: effectiveZoom < 0.5 ? 'auto' : 'transform', // Reduce willChange at low zoom
+                                // backfaceVisibility: 'hidden',
+                                // transform: 'translateZ(0)', // Force hardware acceleration
+                                // contain: 'layout style paint', // CSS containment for better performance
+                                // isolation: 'isolate' // Create new stacking context
                             }}
                             onDragOver={(e) => handleDragOver(e, tile)}
                             onDragLeave={handleDragLeave}

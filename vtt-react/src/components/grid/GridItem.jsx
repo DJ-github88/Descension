@@ -32,7 +32,7 @@ const GridItem = ({ gridItem }) => {
     }
   }, [gridItem.id]);
 
-  // Get current game state for reactive updates - use specific selectors to avoid unnecessary re-renders
+  // Camera subscriptions needed for proper positioning when grid moves
   const cameraX = useGameStore(state => state.cameraX);
   const cameraY = useGameStore(state => state.cameraY);
   const zoomLevel = useGameStore(state => state.zoomLevel);
@@ -138,6 +138,8 @@ const GridItem = ({ gridItem }) => {
 
 
   // Convert coordinates to screen coordinates using the same system as CreatureToken
+  // PERFORMANCE FIX: Read camera from store when calculating, don't subscribe to avoid 60fps re-renders during drag
+
   const screenPosition = useMemo(() => {
     // Use world coordinates if available (like creature tokens), otherwise fall back to grid coordinates
     if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
@@ -161,9 +163,11 @@ const GridItem = ({ gridItem }) => {
     gridItem.position?.y,
     gridItem.gridPosition?.col,
     gridItem.gridPosition?.row,
+    gridSystem,
     cameraX,
     cameraY,
-    effectiveZoom
+    zoomLevel,
+    playerZoom
   ]);
 
   // Calculate orb size based on grid size and zoom

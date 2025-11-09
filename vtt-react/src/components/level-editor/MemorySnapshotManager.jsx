@@ -40,63 +40,60 @@ const MemorySnapshotManager = () => {
     // Game settings
     const { isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
 
-    // Track previous visible areas to detect when areas become unexplored
-    const previousVisibleAreasRef = useRef(new Set());
+    // Track token positions for afterimage management
     const previousTokenPositionsRef = useRef(new Map());
 
     // Create memory snapshots for newly explored areas
     const updateMemorySnapshots = useCallback(() => {
         // Only run for players (not GM) and when viewing from a token
-        if (!afterimageEnabled || isGMMode || !dynamicFogEnabled || !viewingFromToken) return;
+        if (!afterimageEnabled || isGMMode || !dynamicFogEnabled || !viewingFromToken) {
+            return;
+        }
 
         const currentVisibleAreas = new Set(visibleArea || []);
-        const previousVisibleAreas = previousVisibleAreasRef.current;
 
-        // Find newly explored areas (areas that are now visible but weren't before)
+        // Mark ALL currently visible areas as explored
+        // This ensures that wherever the player has vision, it stays explored
         currentVisibleAreas.forEach(tileKey => {
-            if (!previousVisibleAreas.has(tileKey)) {
-                // This area is newly visible - create a memory snapshot
-                const [x, y] = tileKey.split(',').map(Number);
-                
-                // Get current state of this tile
-                const snapshotData = {
-                    terrain: terrainData[tileKey] || null,
-                    // Get walls that touch this tile
-                    walls: Object.entries(wallData).filter(([wallKey]) => {
-                        const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-                        // Check if wall touches this tile
-                        return (x1 === x || x2 === x || y1 === y || y2 === y);
-                    }).map(([wallKey, wallData_item]) => ({ key: wallKey, data: wallData_item })),
-                    // Get objects at this tile
-                    objects: environmentalObjects.filter(obj => {
-                        if (!obj.position) return false;
-                        const objGridX = Math.floor((obj.position.x - gridOffsetX) / gridSize);
-                        const objGridY = Math.floor((obj.position.y - gridOffsetY) / gridSize);
-                        return objGridX === x && objGridY === y;
-                    }),
-                    // Get D&D elements at this tile
-                    dndElements: dndElements.filter(elem => {
-                        if (!elem.position) return false;
-                        const elemGridX = Math.floor((elem.position.x - gridOffsetX) / gridSize);
-                        const elemGridY = Math.floor((elem.position.y - gridOffsetY) / gridSize);
-                        return elemGridX === x && elemGridY === y;
-                    }),
-                    // Get grid items at this tile
-                    gridItems: gridItems.filter(item => {
-                        if (!item.position) return false;
-                        const itemGridX = Math.floor((item.position.x - gridOffsetX) / gridSize);
-                        const itemGridY = Math.floor((item.position.y - gridOffsetY) / gridSize);
-                        return itemGridX === x && itemGridY === y;
-                    })
-                };
+            const [x, y] = tileKey.split(',').map(Number);
 
-                createMemorySnapshot(x, y, snapshotData);
-                setExploredArea(x, y, true);
-            }
+            // Get current state of this tile for memory snapshot
+            const snapshotData = {
+                terrain: terrainData[tileKey] || null,
+                // Get walls that touch this tile
+                walls: Object.entries(wallData).filter(([wallKey]) => {
+                    const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+                    // Check if wall touches this tile
+                    return (x1 === x || x2 === x || y1 === y || y2 === y);
+                }).map(([wallKey, wallData_item]) => ({ key: wallKey, data: wallData_item })),
+                // Get objects at this tile
+                objects: environmentalObjects.filter(obj => {
+                    if (!obj.position) return false;
+                    const objGridX = Math.floor((obj.position.x - gridOffsetX) / gridSize);
+                    const objGridY = Math.floor((obj.position.y - gridOffsetY) / gridSize);
+                    return objGridX === x && objGridY === y;
+                }),
+                // Get D&D elements at this tile
+                dndElements: dndElements.filter(elem => {
+                    if (!elem.position) return false;
+                    const elemGridX = Math.floor((elem.position.x - gridOffsetX) / gridSize);
+                    const elemGridY = Math.floor((elem.position.y - gridOffsetY) / gridSize);
+                    return elemGridX === x && elemGridY === y;
+                }),
+                // Get grid items at this tile
+                gridItems: gridItems.filter(item => {
+                    if (!item.position) return false;
+                    const itemGridX = Math.floor((item.position.x - gridOffsetX) / gridSize);
+                    const itemGridY = Math.floor((item.position.y - gridOffsetY) / gridSize);
+                    return itemGridX === x && itemGridY === y;
+                })
+            };
+
+            createMemorySnapshot(x, y, snapshotData);
+            setExploredArea(x, y, true);
         });
 
-        // Update previous visible areas
-        previousVisibleAreasRef.current = currentVisibleAreas;
+        // Note: No need to track previous visible areas since we mark all visible areas as explored
     }, [
         afterimageEnabled,
         isGMMode,
@@ -154,8 +151,8 @@ const MemorySnapshotManager = () => {
 
             // If token was previously visible but is now out of view, create afterimage
             if (previousPosition && previousPosition.wasVisible && !isCurrentlyVisible) {
-                // Token moved out of view - create afterimage at the position where it was FIRST seen
-                // This ensures the token appears in the fog where it was discovered
+                // Token moved out of view - create afterimage at its LAST visible position
+                // This ensures the player remembers where they last saw the token
                 // Include full token data with state and creature/character data merged
                 const fullTokenData = {
                     ...token, // This already includes merged creature data with tokenIcon
@@ -170,19 +167,19 @@ const MemorySnapshotManager = () => {
                     ...(token.creatureId ? { creature: token } : {}),
                     ...(token.characterId ? { character: token } : {})
                 };
-                // Use the firstSeenPosition if available, otherwise use the previous position
-                const afterimagePosition = previousPosition.firstSeenPosition || previousPosition.position;
+                // Use the position where the token was last visible to the player
+                const afterimagePosition = previousPosition.position;
                 // Check if afterimage already exists at this position - if so, don't create duplicate
                 const levelEditorStore = useLevelEditorStore.getState();
                 const existingAfterimage = levelEditorStore.tokenAfterimages[token.id];
                 if (!existingAfterimage || existingAfterimage.position.x !== afterimagePosition.x || existingAfterimage.position.y !== afterimagePosition.y) {
                     updateTokenAfterimage(token.id, fullTokenData, afterimagePosition);
                 }
-                
-                // Keep tracking the first seen position even though it's not visible now
+
+                // Keep tracking the last visible position
                 previousTokenPositions.set(token.id, {
                     position: previousPosition.position,
-                    firstSeenPosition: previousPosition.firstSeenPosition || previousPosition.position,
+                    lastVisiblePosition: previousPosition.position,
                     tileKey: previousPosition.tileKey,
                     wasVisible: false
                 });
@@ -209,33 +206,19 @@ const MemorySnapshotManager = () => {
                     // This ensures that when a GM moves a token, players still see the afterimage until they revisit that location
                 }
                 
-                // IMPORTANT: Track the position when token FIRST becomes visible
-                // Only update if this is the first time we're seeing this token (wasn't visible before)
-                // OR if the token just moved to a new position while visible (but keep firstSeenPosition)
-                if (!previousPosition || !previousPosition.wasVisible) {
-                    // Token just became visible for the first time - track this as the first seen position
-                    previousTokenPositions.set(token.id, {
-                        position: { x: tokenGridX, y: tokenGridY },
-                        firstSeenPosition: { x: tokenGridX, y: tokenGridY },
-                        tileKey: tokenTileKey,
-                        wasVisible: true
-                    });
-                } else if (previousPosition.wasVisible) {
-                    // Token was already visible - update current position but keep firstSeenPosition
-                    // This allows the afterimage to stay at the first discovered position
-                    previousTokenPositions.set(token.id, {
-                        position: { x: tokenGridX, y: tokenGridY },
-                        firstSeenPosition: previousPosition.firstSeenPosition || previousPosition.position,
-                        tileKey: tokenTileKey,
-                        wasVisible: true
-                    });
-                }
+                // Track the current visible position of the token
+                // This allows us to create afterimages at the last position where the token was visible
+                previousTokenPositions.set(token.id, {
+                    position: { x: tokenGridX, y: tokenGridY },
+                    tileKey: tokenTileKey,
+                    wasVisible: true
+                });
             } else if (previousPosition?.wasVisible) {
                 // Token was previously visible but is now out of view
-                // Make sure we have an afterimage at the position where it was FIRST seen
+                // Create afterimage at the position where it was last visible
                 const levelEditorStore = useLevelEditorStore.getState();
                 const existingAfterimage = levelEditorStore.tokenAfterimages[token.id];
-                
+
                 if (!existingAfterimage) {
                     // Create afterimage if it doesn't exist yet
                     // Include full token data with state and creature/character data merged
@@ -252,27 +235,17 @@ const MemorySnapshotManager = () => {
                         ...(token.creatureId ? { creature: token } : {}),
                         ...(token.characterId ? { character: token } : {})
                     };
-                    // Use the firstSeenPosition if available, otherwise use the previous position
-                    const afterimagePosition = previousPosition.firstSeenPosition || previousPosition.position;
-                    // Check if afterimage already exists at this position - if so, don't create duplicate
-                    const levelEditorStore2 = useLevelEditorStore.getState();
-                    const existingAfterimage2 = levelEditorStore2.tokenAfterimages[token.id];
-                    if (!existingAfterimage2 || existingAfterimage2.position.x !== afterimagePosition.x || existingAfterimage2.position.y !== afterimagePosition.y) {
-                        updateTokenAfterimage(token.id, fullTokenData, afterimagePosition);
-                    }
-                } else {
-                    // Afterimage exists - NEVER move it, even if the token position changes
-                    // The afterimage should stay at the position where the player first saw it
-                    // This ensures that when a GM moves a token, players still see the afterimage
-                    // at the old position until they actually revisit that location
-                    // DO NOT update the afterimage position - it should remain fixed
+                    // Use the position where the token was last visible to the player
+                    const afterimagePosition = previousPosition.position;
+                    updateTokenAfterimage(token.id, fullTokenData, afterimagePosition);
                 }
-                
-                // Keep tracking the first seen position even though it's not visible now
-                // This ensures the afterimage persists at the correct position
+                // If afterimage already exists, keep it at its current position
+                // The afterimage represents where the player last saw this token
+
+                // Keep tracking the last visible position
                 previousTokenPositions.set(token.id, {
                     position: previousPosition.position,
-                    firstSeenPosition: previousPosition.firstSeenPosition || previousPosition.position,
+                    lastVisiblePosition: previousPosition.position,
                     tileKey: previousPosition.tileKey,
                     wasVisible: false
                 });

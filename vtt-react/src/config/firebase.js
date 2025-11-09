@@ -27,13 +27,24 @@ const isFirebaseConfigured = !!(
 // Demo mode for development - use demo auth when Firebase is not properly configured
 const isDemoMode = true; // Enabled for development testing
 
-// Debug logging
-console.log('Firebase Configuration Debug:');
+// CRITICAL FIX: Enhanced debug logging for Firebase configuration tracking
+console.log('🔥 Firebase Configuration Debug:');
 console.log('- NODE_ENV:', process.env.NODE_ENV);
-console.log('- API_KEY:', firebaseConfig.apiKey);
-console.log('- PROJECT_ID:', firebaseConfig.projectId);
+console.log('- API_KEY:', firebaseConfig.apiKey ? `${firebaseConfig.apiKey.substring(0, 10)}...` : 'MISSING');
+console.log('- PROJECT_ID:', firebaseConfig.projectId || 'MISSING');
+console.log('- AUTH_DOMAIN:', firebaseConfig.authDomain || 'MISSING');
+console.log('- DATABASE_URL:', firebaseConfig.databaseURL || 'MISSING');
+console.log('- STORAGE_BUCKET:', firebaseConfig.storageBucket || 'MISSING');
+console.log('- MESSAGING_SENDER_ID:', firebaseConfig.messagingSenderId || 'MISSING');
+console.log('- APP_ID:', firebaseConfig.appId || 'MISSING');
+console.log('- MEASUREMENT_ID:', firebaseConfig.measurementId || 'MISSING');
 console.log('- isFirebaseConfigured:', isFirebaseConfigured);
 console.log('- isDemoMode:', isDemoMode);
+console.log('- Using env vars:', {
+  apiKey: !!process.env.REACT_APP_FIREBASE_API_KEY,
+  projectId: !!process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  authDomain: !!process.env.REACT_APP_FIREBASE_AUTH_DOMAIN
+});
 
 // Initialize Firebase only if configured
 let app = null;
@@ -63,8 +74,14 @@ export let googleProvider = null;
 
 if (app) {
   try {
+    console.log('🔥 Initializing Firebase services...');
+    
     // Initialize Firebase Authentication and get a reference to the service
     auth = getAuth(app);
+    console.log('✅ Firebase Auth initialized', { 
+      appName: app.name,
+      authDomain: firebaseConfig.authDomain 
+    });
 
     // Set auth persistence to LOCAL (persists across browser sessions)
     setPersistence(auth, browserLocalPersistence)
@@ -75,21 +92,26 @@ if (app) {
         console.error('❌ Failed to set auth persistence:', error);
       });
 
-    console.log('✅ Firebase Auth initialized');
-
     // Initialize Cloud Firestore and get a reference to the service
     db = getFirestore(app);
-    console.log('✅ Firestore initialized');
+    console.log('✅ Firestore initialized', { 
+      projectId: firebaseConfig.projectId,
+      databaseURL: firebaseConfig.databaseURL 
+    });
 
     // Initialize Realtime Database for presence tracking
     realtimeDb = getDatabase(app);
-    console.log('✅ Realtime Database initialized');
+    console.log('✅ Realtime Database initialized', { 
+      databaseURL: firebaseConfig.databaseURL 
+    });
 
     // Initialize Analytics (optional)
     if (typeof window !== 'undefined') {
       try {
         analytics = getAnalytics(app);
-        console.log('✅ Firebase Analytics initialized');
+        console.log('✅ Firebase Analytics initialized', { 
+          measurementId: firebaseConfig.measurementId 
+        });
       } catch (analyticsError) {
         console.warn('⚠️ Firebase Analytics initialization failed:', analyticsError);
       }
@@ -106,6 +128,19 @@ if (app) {
     googleProvider.addScope('profile');
 
     console.log('✅ Google Auth Provider initialized');
+    
+    // CRITICAL FIX: Log final Firebase status for debugging
+    console.log('🔥 Firebase Services Status:', {
+      app: !!app,
+      auth: !!auth,
+      db: !!db,
+      realtimeDb: !!realtimeDb,
+      analytics: !!analytics,
+      googleProvider: !!googleProvider,
+      isConfigured: isFirebaseConfigured,
+      isDemoMode: isDemoMode,
+      canUseFirebase: isFirebaseConfigured && !isDemoMode
+    });
 
     // Development emulator setup (uncomment for local development)
     // if (process.env.NODE_ENV === 'development') {

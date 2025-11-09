@@ -23,8 +23,11 @@ const GridContainer = ({ gridItem }) => {
   const contextMenuRef = useRef(null);
 
   // Get current game state for reactive updates
-  const gameState = useGameStore();
-  const { cameraX, cameraY, zoomLevel, playerZoom, gridSize } = gameState;
+  const cameraX = useGameStore(state => state.cameraX);
+  const cameraY = useGameStore(state => state.cameraY);
+  const zoomLevel = useGameStore(state => state.zoomLevel);
+  const playerZoom = useGameStore(state => state.playerZoom);
+  const gridSize = useGameStore(state => state.gridSize);
   const effectiveZoom = zoomLevel * playerZoom;
   const gridSystem = getGridSystem();
 

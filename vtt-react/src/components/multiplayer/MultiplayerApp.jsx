@@ -51,7 +51,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [actualPlayerCount, setActualPlayerCount] = useState(1); // Track actual player count from server
 
   // Get stores for state synchronization
-  const { setGMMode, setMultiplayerState } = useGameStore();
+  const { setGMMode, setMultiplayerState, isGMMode } = useGameStore();
   const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
   const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore();
   const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
@@ -597,8 +597,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                       Math.pow(update.position.y - currentTokenPosition.y, 2)
                     );
                     
-                    // Only update if position change is significant (more than 1 pixel) or if dragging
-                    if (distance > 1 || data.isDragging) {
+                    // CRITICAL FIX: Always update position when dragging starts or when distance is significant
+                    // When GM starts dragging a player token, accept the first position update even if distance is small
+                    // This prevents the player from seeing the token start from the wrong position
+                    const shouldUpdate = data.isDragging || distance > 1 || distance === 0; // Accept dragging, significant changes, or exact matches
+                    
+                    if (shouldUpdate) {
                       console.log('🔄 Updating token position from server:', {
                         creatureId: token.creatureId,
                         tokenId: token.id,
@@ -1949,10 +1953,11 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
         <CombatSelectionWindow />
         <CombatTimeline />
         <FloatingCombatTextManager />
-        <DynamicFogManager />
-        <DynamicLightingManager />
-        <AtmosphericEffectsManager />
-        <MemorySnapshotManager />
+        {/* Disable expensive background managers in player mode for performance */}
+        {isGMMode && <DynamicFogManager />}
+        {isGMMode && <DynamicLightingManager />}
+        {isGMMode && <AtmosphericEffectsManager />}
+        {!isGMMode && <MemorySnapshotManager />}
         <DialogueSystem />
         <DialogueControls />
         <DiceRollingSystem />

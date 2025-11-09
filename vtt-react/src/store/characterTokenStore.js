@@ -41,6 +41,31 @@ const useCharacterTokenStore = create((set, get) => ({
 
                 console.log('🎭 Created new character token:', newToken);
 
+                // 🎯 AUTOMATICALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
+                console.log('🎯 Setting up player view for new character token');
+                Promise.all([
+                    import('../store/gameStore'),
+                    import('../store/levelEditorStore')
+                ]).then(([{ default: useGameStore }, { default: useLevelEditorStore }]) => {
+                    const gameStore = useGameStore.getState();
+                    const levelEditorStore = useLevelEditorStore.getState();
+
+                    // Switch to player mode
+                    gameStore.setGMMode(false);
+                    // Enable view from this character token
+                    levelEditorStore.setViewingFromToken({
+                        id: newToken.id,
+                        type: 'character',
+                        characterId: playerId || 'local_player',
+                        position: position // Include position for visibility calculations
+                    });
+                    // Center camera on the token position
+                    gameStore.setCameraPosition(position.x, position.y);
+                    console.log('🎯 Player view activated for token:', newToken.id, 'at position:', position);
+                }).catch(error => {
+                    console.error('Failed to setup player view:', error);
+                });
+
                 // Send to multiplayer server if in multiplayer mode and sendToServer is true
                 if (playerId && sendToServer) {
                     import('../store/gameStore').then(({ default: useGameStore }) => {

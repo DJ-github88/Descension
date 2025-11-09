@@ -13,12 +13,16 @@ const useLocalRoomAutoSave = () => {
   const saveTimeoutRef = useRef(null);
   const lastSaveRef = useRef(0);
   const isLoadingRef = useRef(false);
+  const cameraChangeTimeoutRef = useRef(null);
+  const lastCameraSaveRef = useRef(0);
+  const cameraChangeCountRef = useRef(0);
 
   // Manual save function that can be called externally
   const forceSave = () => {
     if (isInLocalRoom() && !isLoadingRef.current) {
       localRoomService.autoSaveCurrentRoom();
       lastSaveRef.current = Date.now();
+      lastCameraSaveRef.current = Date.now();
       console.log('💾 Manual save triggered for local room');
     }
   };
@@ -33,16 +37,39 @@ const useLocalRoomAutoSave = () => {
     }
   };
   
-  // Debounced save function to prevent excessive saves
-  const debouncedSave = () => {
+  // CRITICAL FIX: Debounced save function with aggressive throttling for camera changes
+  // Camera changes are throttled heavily to prevent lag during dragging/zooming
+  const debouncedSave = (isCameraChange = false) => {
     if (isLoadingRef.current) {
-      console.log('🚫 Auto-save skipped - room is loading');
       return;
     }
 
     const now = Date.now();
 
-    // Don't save more than once every 2 seconds
+    // CRITICAL FIX: For camera changes, use very aggressive debouncing (10 seconds)
+    // This prevents auto-save from firing during active dragging/zooming
+    if (isCameraChange) {
+      cameraChangeCountRef.current += 1;
+      
+      // Clear any existing timeout
+      if (cameraChangeTimeoutRef.current) {
+        clearTimeout(cameraChangeTimeoutRef.current);
+      }
+      
+      // Save camera position only after 10 seconds of no camera changes
+      // This ensures we only save when the user stops moving/zooming
+      cameraChangeTimeoutRef.current = setTimeout(() => {
+        if (!isLoadingRef.current) {
+          localRoomService.autoSaveCurrentRoom();
+          lastSaveRef.current = Date.now();
+          lastCameraSaveRef.current = Date.now();
+          cameraChangeCountRef.current = 0;
+        }
+      }, 10000); // 10 second debounce for camera changes
+      return;
+    }
+
+    // For non-camera changes, use shorter debounce (2 seconds)
     if (now - lastSaveRef.current < 2000) {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
@@ -50,11 +77,8 @@ const useLocalRoomAutoSave = () => {
 
       saveTimeoutRef.current = setTimeout(() => {
         if (!isLoadingRef.current) {
-          console.log('⏰ Delayed auto-save triggered');
           localRoomService.autoSaveCurrentRoom();
           lastSaveRef.current = Date.now();
-        } else {
-          console.log('🚫 Delayed auto-save skipped - still loading');
         }
       }, 2000);
       return;
@@ -62,6 +86,9 @@ const useLocalRoomAutoSave = () => {
 
     localRoomService.autoSaveCurrentRoom();
     lastSaveRef.current = now;
+    if (isCameraChange) {
+      lastCameraSaveRef.current = now;
+    }
   };
 
   // Check if we're in a local room
@@ -77,23 +104,25 @@ const useLocalRoomAutoSave = () => {
     const unsubscribeGame = useGameStore.subscribe((state, prevState) => {
       if (!isInLocalRoom()) return;
 
-      // Check for background changes
-      if (state.backgrounds !== prevState.backgrounds ||
+      // Check for background changes (non-camera changes)
+      const backgroundChanged = state.backgrounds !== prevState.backgrounds ||
           state.activeBackgroundId !== prevState.activeBackgroundId ||
           state.backgroundImageUrl !== prevState.backgroundImageUrl ||
-          state.backgroundImage !== prevState.backgroundImage ||
-          state.cameraX !== prevState.cameraX ||
+          state.backgroundImage !== prevState.backgroundImage;
+
+      // Check for camera changes (camera position/zoom)
+      const cameraChanged = state.cameraX !== prevState.cameraX ||
           state.cameraY !== prevState.cameraY ||
-          state.zoomLevel !== prevState.zoomLevel) {
-        console.log('🎨 Local room: Background or camera changed, auto-saving...', {
-          backgroundsChanged: state.backgrounds !== prevState.backgrounds,
-          activeIdChanged: state.activeBackgroundId !== prevState.activeBackgroundId,
-          backgroundUrlChanged: state.backgroundImageUrl !== prevState.backgroundImageUrl,
-          backgroundImageChanged: state.backgroundImage !== prevState.backgroundImage,
-          backgroundsCount: state.backgrounds?.length || 0,
-          activeBackgroundId: state.activeBackgroundId
-        });
-        debouncedSave();
+          state.zoomLevel !== prevState.zoomLevel;
+
+      if (backgroundChanged || cameraChanged) {
+        // Only log for background changes, not camera changes (reduces spam)
+        if (backgroundChanged) {
+          console.log('🎨 Local room: Background changed, auto-saving...');
+        }
+        // CRITICAL FIX: Pass isCameraChange flag to use aggressive throttling
+        // Camera changes use 10 second debounce to prevent lag during dragging/zooming
+        debouncedSave(cameraChanged && !backgroundChanged);
       }
     });
 
@@ -143,6 +172,10 @@ const useLocalRoomAutoSave = () => {
         clearTimeout(saveTimeoutRef.current);
       }
       
+      if (cameraChangeTimeoutRef.current) {
+        clearTimeout(cameraChangeTimeoutRef.current);
+      }
+      
       console.log('🔄 Local room auto-save disabled');
     };
   }, []); // Empty dependency array - we check isInLocalRoom() inside the effect
@@ -152,6 +185,9 @@ const useLocalRoomAutoSave = () => {
     return () => {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
+      }
+      if (cameraChangeTimeoutRef.current) {
+        clearTimeout(cameraChangeTimeoutRef.current);
       }
     };
   }, []);

@@ -125,7 +125,14 @@ const CharacterToken = ({
     } : currentCharacterData;
     
     // Check if this token is being viewed from and get visibility data
-    const { viewingFromToken, visibleArea, dynamicFogEnabled, fovAngle, getTokenFacingDirection, setTokenFacingDirection } = useLevelEditorStore();
+    // PERFORMANCE FIX: Only subscribe to what we actually need to prevent re-renders
+    const viewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
+    const visibleArea = useLevelEditorStore(state => state.visibleArea);
+    const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
+    const fovAngle = useLevelEditorStore(state => state.fovAngle);
+    const getTokenFacingDirection = useLevelEditorStore(state => state.getTokenFacingDirection);
+    const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
+    const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
     const [isHovering, setIsHovering] = useState(false);
     const { gridOffsetX, gridOffsetY, gridSize: tokenGridSize } = useGameStore();
     const isViewingFrom = viewingFromToken && (
@@ -140,33 +147,84 @@ const CharacterToken = ({
     }, [visibleArea]);
     
     // Check if this token is visible based on FOV (only if viewing from a token)
+    // PERFORMANCE FIX: Cache visibility result and only recalculate when token actually moves
+    const lastVisibilityCheckRef = useRef({ position: null, result: true });
     const isTokenVisible = useMemo(() => {
         // If this is the viewing token, always visible
         if (isViewingFrom) return true;
-        
+
         // If viewing from a token AND dynamic fog is enabled, check FOV visibility
-        // This applies even in GM mode - when viewing from a token, we should only see what that token can see
-        if (viewingFromToken && dynamicFogEnabled) {
+        // Only apply visibility checks in player mode - GM should always see tokens
+        if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
             // Check if token position is in visible area
-            if (!localPosition || localPosition.x === undefined || localPosition.y === undefined) return false;
-            
+            // Use position (stored position) for visibility, not localPosition (drag position)
+            // This ensures consistent visibility behavior
+            if (!position || position.x === undefined || position.y === undefined) return false;
+
+            // PERFORMANCE: Only recalculate if position actually changed
+            // During camera drag, position stays the same so we can return cached result
+            const posKey = `${Math.floor(position.x)},${Math.floor(position.y)}`;
+            if (lastVisibilityCheckRef.current.position === posKey) {
+                return lastVisibilityCheckRef.current.result;
+            }
+
             // Get visibility polygon from store for accurate point-in-polygon check
             const levelEditorStore = useLevelEditorStore.getState();
             const visibilityPolygon = levelEditorStore.visibilityPolygon;
-            
+
+            let visible = false;
+
             // If polygon is available, use it for accurate visibility (raycast-based)
             if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length > 0) {
-                return isPositionVisible(localPosition.x, localPosition.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
+                visible = isPositionVisible(position.x, position.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
+            } else if (visibleAreaSet && visibleAreaSet.size > 0) {
+                // Fallback to tile-based visibility if polygon not available
+                visible = isPositionVisible(position.x, position.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
             }
-            
-            // Fallback to tile-based visibility if polygon not available
-            if (!visibleAreaSet || visibleAreaSet.size === 0) return false;
-            return isPositionVisible(localPosition.x, localPosition.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
+
+            // If not visible yet, check if token is within viewing token's vision range as fallback
+            // This helps when visible area calculation hasn't completed or is incomplete
+            if (!visible && viewingFromToken && viewingFromToken.position) {
+                const viewingPos = viewingFromToken.position;
+                const dx = position.x - viewingPos.x;
+                const dy = position.y - viewingPos.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // Get vision range for viewing token
+                const viewingTokenId = viewingFromToken.type === 'creature'
+                    ? (viewingFromToken.creatureId || viewingFromToken.id)
+                    : (viewingFromToken.characterId || viewingFromToken.id || viewingFromToken.playerId);
+                const viewingTokenVision = levelEditorStore.tokenVisionRanges[viewingTokenId];
+                const visionRange = viewingTokenVision?.range || 6; // Default 6 tiles (30ft)
+                const visionRangeInWorld = visionRange * tokenGridSize;
+
+                // If token is within vision range, show it
+                if (distance <= visionRangeInWorld) {
+                    visible = true;
+                }
+            }
+
+            // CRITICAL: Tokens outside view range should be COMPLETELY HIDDEN
+            // The memory/afterimage system handles showing "memories" of where tokens were last seen
+            // Real tokens should only be visible when actually in the player's field of view
+            // No fog check needed - if not in view range, hide completely
+
+            // If visible area hasn't been calculated yet, hide tokens to be safe
+            // This prevents players from seeing tokens they shouldn't see during initialization
+            // Visible areas should be calculated quickly after the viewing token is set
+            // if (!visible && (!visibleAreaSet || visibleAreaSet.size === 0) && (!visibilityPolygon || visibilityPolygon.length === 0)) {
+            //     visible = true; // DISABLED: This was causing tokens to be visible when they shouldn't be
+            // }
+
+            // Cache the result
+            lastVisibilityCheckRef.current = { position: posKey, result: visible };
+
+            return visible;
         }
-        
+
         // If not viewing from a token, always visible (normal view)
         return true;
-    }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, localPosition, tokenGridSize, gridOffsetX, gridOffsetY]);
+    }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = tokenGridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
@@ -199,16 +257,16 @@ const CharacterToken = ({
     // Removed enhanced multiplayer hook - was causing conflicts
 
     // Calculate screen position from grid position (use local position during dragging)
+    // PERFORMANCE FIX: Read camera from store when calculating, don't subscribe to avoid 60fps re-renders during drag
+    const currentPosForScreen = isDragging ? localPosition : position;
     const screenPosition = useMemo(() => {
-        const currentPos = isDragging ? localPosition : position;
-        if (!gridSystem) return currentPos;
-
-        // Get viewport dimensions for proper coordinate conversion
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-
-        return gridSystem.worldToScreen(currentPos.x, currentPos.y, viewportWidth, viewportHeight);
-    }, [position, localPosition, isDragging, cameraX, cameraY, effectiveZoom]);
+        return currentPosForScreen && gridSystem ? gridSystem.worldToScreen(
+            currentPosForScreen.x, 
+            currentPosForScreen.y, 
+            window.innerWidth, 
+            window.innerHeight
+        ) : currentPosForScreen || { x: 0, y: 0 };
+    }, [currentPosForScreen, gridSystem, cameraX, cameraY, effectiveZoom]);
 
     // Check if this token is targeted (use consistent ID for current player)
     const isTargeted = currentTarget?.id === 'current-player' && (currentTarget?.type === 'party_member' || currentTarget?.type === 'player');
@@ -234,6 +292,10 @@ const CharacterToken = ({
         }
         if (characterData.lore?.characterImage) {
             return characterData.lore.characterImage;
+        }
+        // CRITICAL FIX: Check for characterIcon and convert to URL
+        if (characterData.lore?.characterIcon) {
+            return `https://wow.zamimg.com/images/wow/icons/large/${characterData.lore.characterIcon}.jpg`;
         }
         // Return null instead of default icon - let CSS handle the default
         return null;
@@ -627,6 +689,18 @@ const CharacterToken = ({
 
             // Update local position immediately to prevent visual jumps
             setLocalPosition({ x: snappedWorldPos.x, y: snappedWorldPos.y });
+
+            // If this is the viewing token, update its position in the level editor store for vision calculations
+            if (isViewingFrom) {
+                const levelEditorStore = useLevelEditorStore.getState();
+                const currentViewingToken = levelEditorStore.viewingFromToken;
+                if (currentViewingToken) {
+                    levelEditorStore.setViewingFromToken({
+                        ...currentViewingToken,
+                        position: { x: snappedWorldPos.x, y: snappedWorldPos.y }
+                    });
+                }
+            }
 
             // Track when we last updated position (for grace period in useEffect)
             lastPositionUpdateRef.current = Date.now();

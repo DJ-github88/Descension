@@ -10,36 +10,37 @@ import { rafThrottle, isRectInViewport } from '../../utils/performanceUtils';
 const StaticFogOverlay = () => {
     const canvasRef = useRef(null);
 
-    const {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY,
-        cameraX,
-        cameraY,
-        zoomLevel,
-        playerZoom,
-        isGMMode
-    } = useGameStore();
+    // CRITICAL PERFORMANCE FIX: Don't subscribe to camera, zoom, or entire stores!
+    // StaticFogOverlay is expensive - only subscribe to what actually needs to trigger re-renders
+    const gridSize = useGameStore(state => state.gridSize);
+    const gridOffsetX = useGameStore(state => state.gridOffsetX);
+    const gridOffsetY = useGameStore(state => state.gridOffsetY);
+    // NOTE: NO zoomLevel, playerZoom subscription - causes re-renders during zoom/drag
+    // NOTE: cameraX, cameraY needed for fog positioning when grid moves
+    const cameraX = useGameStore(state => state.cameraX);
+    const cameraY = useGameStore(state => state.cameraY);
+    const isGMMode = useGameStore(state => state.isGMMode);
 
-    const {
-        fogOfWarPaths,
-        fogErasePaths,
-        fogOfWarData, // Legacy support
-        fogOfWarEnabled,
-        drawingLayers,
-        wallData,
-        dynamicFogEnabled,
-        respectLineOfSight,
-        revealedAreas,
-        exploredAreas,
-        tokenVisionRanges,
-        viewingFromToken: storeViewingFromToken,
-        setViewingFromToken,
-        setVisibleArea,
-        fovAngle,
-        tokenFacingDirections,
-        getTokenFacingDirection
-    } = useLevelEditorStore();
+    // CRITICAL: Subscribe selectively, not to entire levelEditorStore
+    const fogOfWarPaths = useLevelEditorStore(state => state.fogOfWarPaths);
+    const fogErasePaths = useLevelEditorStore(state => state.fogErasePaths);
+    const fogOfWarData = useLevelEditorStore(state => state.fogOfWarData);
+    const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
+    const drawingLayers = useLevelEditorStore(state => state.drawingLayers);
+    const wallData = useLevelEditorStore(state => state.wallData);
+    const dynamicFogEnabled = useLevelEditorStore(state => state.dynamicFogEnabled);
+    const respectLineOfSight = useLevelEditorStore(state => state.respectLineOfSight);
+    // PERFORMANCE FIX: Don't subscribe to revealedAreas/exploredAreas - they change constantly!
+    // Read them directly in render callback when needed (like camera/zoom)
+    // const revealedAreas = useLevelEditorStore(state => state.revealedAreas);
+    // const exploredAreas = useLevelEditorStore(state => state.exploredAreas);
+    const tokenVisionRanges = useLevelEditorStore(state => state.tokenVisionRanges);
+    const storeViewingFromToken = useLevelEditorStore(state => state.viewingFromToken);
+    const setViewingFromToken = useLevelEditorStore(state => state.setViewingFromToken);
+    const setVisibleArea = useLevelEditorStore(state => state.setVisibleArea);
+    const fovAngle = useLevelEditorStore(state => state.fovAngle);
+    const tokenFacingDirections = useLevelEditorStore(state => state.tokenFacingDirections);
+    const getTokenFacingDirection = useLevelEditorStore(state => state.getTokenFacingDirection);
 
     // Get tokens for vision calculation
     const { tokens: creatureTokens } = useCreatureStore();
@@ -51,6 +52,24 @@ const StaticFogOverlay = () => {
     
     // Track the current token with updated position when it moves (for vision calculation)
     const [currentViewingToken, setCurrentViewingToken] = React.useState(null);
+    
+    // PERFORMANCE FIX: Track mode transitions to skip expensive calculations during switch
+    const [isTransitioning, setIsTransitioning] = React.useState(false);
+    const previousGMModeRef = useRef(isGMMode);
+    
+    // Detect mode changes and set transitioning state
+    useEffect(() => {
+        if (previousGMModeRef.current !== isGMMode) {
+            setIsTransitioning(true);
+            // Clear transitioning flag after UI has settled
+            const timeoutId = setTimeout(() => {
+                setIsTransitioning(false);
+            }, 300); // Wait for mode transition to complete
+            
+            previousGMModeRef.current = isGMMode;
+            return () => clearTimeout(timeoutId);
+        }
+    }, [isGMMode]);
     
     // Update the viewing token's position when the token moves (for vision calculation)
     useEffect(() => {
@@ -90,90 +109,52 @@ const StaticFogOverlay = () => {
         }
     }, [viewingFromToken, creatureTokens, characterTokens]);
 
-    const effectiveZoom = zoomLevel * playerZoom;
+    // PERFORMANCE FIX: Don't compute effectiveZoom reactively - read from store in callbacks
+    // This prevents re-renders when user scrolls mouse wheel
+    // Callbacks will read zoom directly when they execute
 
-    // Track if camera is being dragged for performance optimizations
-    const [isDraggingCamera, setIsDraggingCamera] = React.useState(false);
+    // DEBUG: Removed render tracking - issue was in CreatureToken/GridItem camera subscriptions
+
+    // CRITICAL PERFORMANCE FIX: Use ref to read isDraggingCamera from window flag
+    // This prevents re-renders and useMemo recalculations when drag state changes
+    // Grid sets window._isDraggingCamera directly
+    const isDraggingCameraRef = useRef(false);
     const dragStartRef = useRef(null);
+    
+    // CRITICAL FIX: Track if we're actively scrolling/zooming to throttle expensive calculations
+    const isScrollingRef = useRef(false);
+    const scrollTimeoutRef = useRef(null);
+    const lastVisibleAreaUpdateRef = useRef(0);
+    
+    // PERFORMANCE FIX: Poll window._isDraggingCamera flag set by Grid
+    // Using ref instead of state prevents re-renders and useMemo recalculations
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            isDraggingCameraRef.current = window._isDraggingCamera || false;
+        }, 16); // Poll at 60fps
+        
+        return () => clearInterval(interval);
+    }, []);
+    
+    // CRITICAL FIX: Update scrolling state globally whenever it changes
+    React.useEffect(() => {
+        const updateScrollingState = () => {
+            if (typeof window !== 'undefined') {
+                window._isScrolling = isScrollingRef.current;
+            }
+        };
+        
+        // Update immediately
+        updateScrollingState();
+        
+        // Also update periodically to catch changes
+        const interval = setInterval(updateScrollingState, 100);
+        
+        return () => clearInterval(interval);
+    }, []);
 
-    // Detect camera dragging state - use immediate mouse event detection
-    // Listen for middle mouse button or Ctrl+Left click to detect drag immediately
-    useEffect(() => {
-        let dragTimeout = null;
-        let isMouseDown = false;
-        let mouseButton = null;
-        
-        const handleMouseDown = (e) => {
-            // Check for middle mouse button (button 1) or Ctrl+Left click
-            if (e.button === 1 || (e.button === 0 && e.ctrlKey)) {
-                isMouseDown = true;
-                mouseButton = e.button;
-                setIsDraggingCamera(true);
-            }
-        };
-        
-        const handleMouseUp = (e) => {
-            // Check if the released button matches the one that started drag
-            if ((e.button === 1 && mouseButton === 1) || 
-                (e.button === 0 && mouseButton === 0)) {
-                isMouseDown = false;
-                mouseButton = null;
-                // Clear any pending timeout
-                if (dragTimeout) {
-                    clearTimeout(dragTimeout);
-                }
-                // Set drag to false immediately
-                setIsDraggingCamera(false);
-            }
-        };
-        
-        // Also detect camera movement as backup (for scroll-based dragging)
-        let lastCameraX = cameraX;
-        let lastCameraY = cameraY;
-        const checkCameraMovement = () => {
-            const currentCameraX = cameraX;
-            const currentCameraY = cameraY;
-            
-            // Detect significant camera movement (likely dragging or scrolling)
-            const deltaX = Math.abs(currentCameraX - lastCameraX);
-            const deltaY = Math.abs(currentCameraY - lastCameraY);
-            const threshold = 0.1; // Small threshold to detect movement
-            
-            if (deltaX > threshold || deltaY > threshold) {
-                if (!isDraggingCamera && !isMouseDown) {
-                    setIsDraggingCamera(true);
-                }
-                lastCameraX = currentCameraX;
-                lastCameraY = currentCameraY;
-                
-                // Clear existing timeout
-                if (dragTimeout) {
-                    clearTimeout(dragTimeout);
-                }
-                
-                // Set timeout to detect when dragging stops (for scroll-based dragging)
-                dragTimeout = setTimeout(() => {
-                    if (!isMouseDown) {
-                        setIsDraggingCamera(false);
-                    }
-                }, 200); // Wait 200ms after last movement to consider drag stopped
-            }
-        };
-        
-        // Listen for mouse events for immediate drag detection
-        document.addEventListener('mousedown', handleMouseDown);
-        document.addEventListener('mouseup', handleMouseUp);
-        
-        // Also check camera movement periodically (for scroll-based dragging)
-        const intervalId = setInterval(checkCameraMovement, 16); // Check every frame (60fps)
-        
-        return () => {
-            document.removeEventListener('mousedown', handleMouseDown);
-            document.removeEventListener('mouseup', handleMouseUp);
-            clearInterval(intervalId);
-            if (dragTimeout) clearTimeout(dragTimeout);
-        };
-    }, [cameraX, cameraY, isDraggingCamera]);
+    // REMOVED: Flaky drag detection logic - now reading isDraggingCamera from gameStore
+    // Grid component manages this state reliably
 
     // Optimized viewport bounds calculation - cache world coordinates
     const viewportBounds = useMemo(() => {
@@ -186,23 +167,18 @@ const StaticFogOverlay = () => {
             maxX: viewport.x + viewport.width + padding,
             maxY: viewport.y + viewport.height + padding
         };
-    }, [cameraX, cameraY, effectiveZoom, window.innerWidth, window.innerHeight]);
+    }, [window.innerWidth, window.innerHeight]); // PERFORMANCE FIX: Removed effectiveZoom - read from store when needed
 
     // PERFORMANCE FIX: Cache viewport bounds during drag/zoom to avoid expensive recalculations
     const cachedViewportWorldBoundsRef = useRef(null);
-    const lastViewportBoundsParamsRef = useRef({ cameraX: 0, cameraY: 0, effectiveZoom: 0 });
+    const lastViewportBoundsParamsRef = useRef({ effectiveZoom: 0 });
     
     // Cached viewport bounds in world coordinates - only recalculate when viewport changes
-    // PERFORMANCE FIX: Skip recalculation during drag/zoom, use cached value
+    // PERFORMANCE FIX: Read zoom from store when needed, don't subscribe
     const viewportWorldBounds = useMemo(() => {
-        // During drag, use cached bounds to avoid expensive recalculations
-        if (isDraggingCamera && cachedViewportWorldBoundsRef.current) {
-            const lastParams = lastViewportBoundsParamsRef.current;
-            // Only recalculate if zoom changed significantly (more than 5%)
-            const zoomChanged = Math.abs(effectiveZoom - lastParams.effectiveZoom) > (lastParams.effectiveZoom * 0.05);
-            if (!zoomChanged) {
-                return cachedViewportWorldBoundsRef.current;
-            }
+        // 🛑 PERFORMANCE: Return cached value during drag
+        if (window._isDraggingCamera && cachedViewportWorldBoundsRef.current) {
+            return cachedViewportWorldBoundsRef.current;
         }
         
         // Use grid system for consistency
@@ -210,20 +186,20 @@ const StaticFogOverlay = () => {
         const viewport = gridSystem.getViewportDimensions();
         const padding = 200;
         
+        // Read camera and zoom directly from store
+        const state = useGameStore.getState();
+        const cameraX = state.cameraX;
+        const cameraY = state.cameraY;
+        const effectiveZoom = state.zoomLevel * state.playerZoom;
+        
         // Convert screen bounds to world coordinates using grid system
         const minWorldX = ((viewportBounds.minX - viewport.width / 2) / effectiveZoom) + cameraX;
         const minWorldY = ((viewportBounds.minY - viewport.height / 2) / effectiveZoom) + cameraY;
         const maxWorldX = ((viewportBounds.maxX - viewport.width / 2) / effectiveZoom) + cameraX;
         const maxWorldY = ((viewportBounds.maxY - viewport.height / 2) / effectiveZoom) + cameraY;
         
-        const bounds = { minX: minWorldX, minY: minWorldY, maxX: maxWorldX, maxY: maxWorldY };
-        
-        // Cache the bounds
-        cachedViewportWorldBoundsRef.current = bounds;
-        lastViewportBoundsParamsRef.current = { cameraX, cameraY, effectiveZoom };
-        
-        return bounds;
-    }, [viewportBounds, cameraX, cameraY, effectiveZoom, isDraggingCamera]);
+        return { minX: minWorldX, minY: minWorldY, maxX: maxWorldX, maxY: maxWorldY };
+    }, [viewportBounds]); // PERFORMANCE FIX: Removed effectiveZoom and isDraggingCamera - read zoom from store when this runs
 
     // Convert world coordinates to screen coordinates - optimized
     // Use grid system for consistency with other elements (tiles, tokens, etc.)
@@ -233,15 +209,20 @@ const StaticFogOverlay = () => {
         const gridSystem = getGridSystem();
         const viewport = gridSystem.getViewportDimensions();
         return gridSystem.worldToScreen(worldX, worldY, viewport.width, viewport.height);
-    }, [cameraX, cameraY, effectiveZoom]);
+    }, [cameraX, cameraY]); // Depend on camera values so fog positions update when grid moves
 
     // Convert screen coordinates to world coordinates - optimized
     const screenToWorld = useCallback((screenX, screenY) => {
+        // Read camera and zoom directly from store
+        const state = useGameStore.getState();
+        const effectiveZoom = state.zoomLevel * state.playerZoom;
+        const cameraX = state.cameraX;
+        const cameraY = state.cameraY;
         // Use direct calculation for better performance
         const worldX = (screenX - window.innerWidth / 2) / effectiveZoom + cameraX;
         const worldY = (screenY - window.innerHeight / 2) / effectiveZoom + cameraY;
         return { x: worldX, y: worldY };
-    }, [cameraX, cameraY, effectiveZoom]);
+    }, []); // PERFORMANCE FIX: No dependencies - read camera/zoom from store when called
 
     // PERFORMANCE FIX: Optimized path visibility check with aggressive viewport culling
     const isPathVisible = useCallback((path) => {
@@ -309,8 +290,8 @@ const StaticFogOverlay = () => {
     // PERFORMANCE FIX: Memoize sorted fog paths with visibility culling
     // During drag, skip expensive filtering - render all paths but let canvas culling handle it
     const visibleFogPaths = useMemo(() => {
-        // PERFORMANCE FIX: Skip all processing during drag/zoom, use cached paths
-        if (isDraggingCamera) {
+        // 🛑 PERFORMANCE: Return cached value during drag
+        if (window._isDraggingCamera && cachedVisibleFogPathsRef.current) {
             return cachedVisibleFogPathsRef.current;
         }
         
@@ -325,15 +306,15 @@ const StaticFogOverlay = () => {
         // Cache the result for use during drag
         cachedVisibleFogPathsRef.current = filtered;
         return filtered;
-    }, [fogOfWarPaths, isPathVisible, isDraggingCamera]);
+    }, [fogOfWarPaths, isPathVisible]); // PERFORMANCE FIX: Removed isDraggingCamera - now uses ref
 
     // PERFORMANCE FIX: Cache visible erase paths during drag
     const cachedVisibleErasePathsRef = useRef([]);
     
     // PERFORMANCE FIX: Memoize sorted erase paths with visibility culling
     const visibleErasePaths = useMemo(() => {
-        // PERFORMANCE FIX: Skip all processing during drag/zoom, use cached paths
-        if (isDraggingCamera) {
+        // 🛑 PERFORMANCE: Return cached value during drag
+        if (window._isDraggingCamera && cachedVisibleErasePathsRef.current) {
             return cachedVisibleErasePathsRef.current;
         }
         
@@ -345,15 +326,15 @@ const StaticFogOverlay = () => {
         // Cache the result for use during drag
         cachedVisibleErasePathsRef.current = filtered;
         return filtered;
-    }, [fogErasePaths, isPathVisible, isDraggingCamera]);
+    }, [fogErasePaths, isPathVisible]); // PERFORMANCE FIX: Removed isDraggingCamera - now uses ref
 
     // PERFORMANCE FIX: Cache visible fog tiles during drag
     const cachedVisibleFogTilesRef = useRef([]);
     
     // PERFORMANCE FIX: Memoize visible legacy fog tiles with viewport culling
     const visibleFogTiles = useMemo(() => {
-        // PERFORMANCE FIX: Skip all processing during drag/zoom, use cached tiles
-        if (isDraggingCamera) {
+        // 🛑 PERFORMANCE: Return cached value during drag
+        if (window._isDraggingCamera && cachedVisibleFogTilesRef.current) {
             return cachedVisibleFogTilesRef.current;
         }
         
@@ -376,7 +357,7 @@ const StaticFogOverlay = () => {
         // Cache the result for use during drag
         cachedVisibleFogTilesRef.current = visible;
         return visible;
-    }, [fogOfWarData, viewportWorldBounds, gridSize, gridOffsetX, gridOffsetY, isDraggingCamera]);
+    }, [fogOfWarData, viewportWorldBounds, gridSize, gridOffsetX, gridOffsetY]); // PERFORMANCE FIX: Removed isDraggingCamera - now uses ref
 
     // Check if fog should be visible
     const fogLayer = drawingLayers.find(layer => layer.id === 'fog');
@@ -385,7 +366,16 @@ const StaticFogOverlay = () => {
     // Calculate visible area for ALL tokens (not just viewing token) - for GM mode only
     // Skip this expensive calculation in player mode for better performance
     // Keep calculations during drag to maintain fog position updates
+    const cachedAllTokensVisibleAreaRef = useRef(null);
     const allTokensVisibleArea = React.useMemo(() => {
+        // 🛑 PERFORMANCE: FIRST CHECK - Return cached value during drag before any processing
+        if (window._isDraggingCamera && cachedAllTokensVisibleAreaRef.current) {
+            return cachedAllTokensVisibleAreaRef.current;
+        }
+        
+        // PERFORMANCE FIX: Skip expensive calculations during mode transitions
+        if (isTransitioning) return null;
+        
         // Only calculate in GM mode - skip in player mode for performance
         // This is a very expensive calculation, so we skip it entirely in player mode
         if (!isGMMode || !dynamicFogEnabled) return null;
@@ -463,19 +453,48 @@ const StaticFogOverlay = () => {
             visibleTiles.forEach(tileKey => allVisibleTiles.add(tileKey));
         });
         
-        return allVisibleTiles.size > 0 ? Array.from(allVisibleTiles) : null;
-    }, [isGMMode, creatureTokens, characterTokens, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]);
+        const result = allVisibleTiles.size > 0 ? Array.from(allVisibleTiles) : null;
+        // Cache the result for use during drag
+        cachedAllTokensVisibleAreaRef.current = result;
+        return result;
+    }, [isTransitioning, isGMMode, creatureTokens, characterTokens, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]);
 
     // Calculate visible area if viewing from token (for player mode)
-    // Keep calculations during drag but use cached value for performance
+    // CRITICAL PERFORMANCE FIX: Cache visible area during drag to prevent freezing
+    const cachedVisibleAreaRef = useRef(null);
+    const lastTokenPositionRef = useRef(null);
+    
+    // Extract position key for dependency tracking
+    const tokenPositionKey = currentViewingToken?.position 
+        ? `${Math.floor(currentViewingToken.position.x)},${Math.floor(currentViewingToken.position.y)}`
+        : null;
+    
+    // Clear cache when token position changes (outside useMemo to ensure it runs)
+    React.useEffect(() => {
+        if (!window._isDraggingCamera && lastTokenPositionRef.current !== tokenPositionKey) {
+            cachedVisibleAreaRef.current = null;
+            lastTokenPositionRef.current = tokenPositionKey;
+        }
+    }, [tokenPositionKey]);
+    
     const visibleArea = React.useMemo(() => {
-        // In GM mode, always use all tokens' visible areas (even if empty)
-        if (isGMMode) {
+        // 🛑 PERFORMANCE: Return cached value during camera drag only
+        if (window._isDraggingCamera && cachedVisibleAreaRef.current) {
+            return cachedVisibleAreaRef.current;
+        }
+        
+        // PERFORMANCE FIX: Skip expensive calculations during mode transitions
+        if (isTransitioning) {
+            return cachedVisibleAreaRef.current;
+        }
+        
+        // In GM mode, use all tokens' visible areas UNLESS viewing from a token
+        // When viewing from a token, only show that token's vision (not all tokens' radii)
+        if (isGMMode && !viewingFromToken) {
             return allTokensVisibleArea || null;
         }
         
         // In player mode, use viewing token's visible area
-        // Note: We still calculate during drag to keep fog position updated
         if (!currentViewingToken || !dynamicFogEnabled) {
             return null;
         }
@@ -507,6 +526,7 @@ const StaticFogOverlay = () => {
         
         const facingAngle = tokenFacingDirections[tokenId] || null;
         
+        // EXPENSIVE CALCULATION - only run when not dragging
         const visibleTiles = calculateVisibleTiles(
             gridX,
             gridY,
@@ -518,13 +538,39 @@ const StaticFogOverlay = () => {
             facingAngle
         );
         
+        // Cache the result for use during drag
+        cachedVisibleAreaRef.current = visibleTiles;
         return visibleTiles;
-    }, [isGMMode, allTokensVisibleArea, currentViewingToken, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]);
+    }, [isTransitioning, isGMMode, allTokensVisibleArea, currentViewingToken, tokenPositionKey, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]); // Added tokenPositionKey to force recalculation
 
     // Calculate visibility polygon for accurate token visibility (separate from tile-based visibleArea)
-    // In GM mode, calculate polygons for all tokens; in player mode, only for viewing token
-    // Keep calculations during drag to maintain fog position updates
+    // CRITICAL PERFORMANCE FIX: Cache polygon during drag to prevent freezing
+    const cachedVisibilityPolygonRef = useRef(null);
+    const lastPolygonTokenPositionRef = useRef(null);
+    
+    // Determine which token to use for polygon calculation
+    const tokenToUse = currentViewingToken;
+    const polygonTokenPositionKey = tokenToUse?.position 
+        ? `${Math.floor(tokenToUse.position.x)},${Math.floor(tokenToUse.position.y)}`
+        : null;
+    
+    // Clear cache when token position changes (outside useMemo to ensure it runs)
+    React.useEffect(() => {
+        if (!window._isDraggingCamera && lastPolygonTokenPositionRef.current !== polygonTokenPositionKey) {
+            cachedVisibilityPolygonRef.current = null;
+            lastPolygonTokenPositionRef.current = polygonTokenPositionKey;
+        }
+    }, [polygonTokenPositionKey]);
+    
     const visibilityPolygon = React.useMemo(() => {
+        // 🛑 PERFORMANCE: Return cached value during camera drag only
+        if (window._isDraggingCamera && cachedVisibilityPolygonRef.current) {
+            return cachedVisibilityPolygonRef.current;
+        }
+        
+        // PERFORMANCE FIX: Skip expensive calculations during mode transitions
+        if (isTransitioning) return cachedVisibilityPolygonRef.current;
+        
         if (!dynamicFogEnabled) return null;
         
         // In GM mode, we'll create a combined mask from all tokens (handled in render function)
@@ -535,7 +581,6 @@ const StaticFogOverlay = () => {
         }
         
         // For player mode or GM mode viewing from token, use the viewing token
-        const tokenToUse = isGMMode && viewingFromToken ? viewingFromToken : currentViewingToken;
         if (!tokenToUse || !tokenToUse.position) {
             return null;
         }
@@ -553,8 +598,8 @@ const StaticFogOverlay = () => {
         // Get facing direction for this token (for directional FOV)
         const facingAngle = tokenFacingDirections[tokenId] || null;
         
-        // Calculate smooth visibility polygon using raycasting
-        return calculateVisibilityPolygon(
+        // EXPENSIVE CALCULATION - only run when not dragging
+        const polygon = calculateVisibilityPolygon(
             tokenPosition.x,
             tokenPosition.y,
             visionRange,
@@ -565,11 +610,24 @@ const StaticFogOverlay = () => {
             fovAngle,
             facingAngle
         );
-    }, [isGMMode, viewingFromToken, currentViewingToken, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]);
+        
+        // Cache the result for use during drag
+        cachedVisibilityPolygonRef.current = polygon;
+        return polygon;
+    }, [isTransitioning, isGMMode, viewingFromToken, currentViewingToken, tokenToUse, polygonTokenPositionKey, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]); // Added polygonTokenPositionKey to force recalculation
     
     // Calculate visibility polygons for ALL tokens in GM mode (for combined mask)
-    // Keep calculations during drag to maintain fog position updates
+    // CRITICAL PERFORMANCE FIX: Cache polygons during drag to prevent freezing
+    const cachedAllTokensPolygonsRef = useRef([]);
     const allTokensVisibilityPolygons = React.useMemo(() => {
+        // 🛑 PERFORMANCE: FIRST CHECK - Return cached value during drag before any processing
+        if (window._isDraggingCamera && cachedAllTokensPolygonsRef.current.length > 0) {
+            return cachedAllTokensPolygonsRef.current;
+        }
+        
+        // PERFORMANCE FIX: Skip expensive calculations during mode transitions
+        if (isTransitioning) return cachedAllTokensPolygonsRef.current;
+        
         if (!isGMMode || !dynamicFogEnabled) {
             return [];
         }
@@ -644,13 +702,40 @@ const StaticFogOverlay = () => {
             }
         });
         
+        // Cache the result for use during drag
+        cachedAllTokensPolygonsRef.current = polygons;
         return polygons;
-    }, [isGMMode, dynamicFogEnabled, creatureTokens, characterTokens, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]);
+    }, [isTransitioning, isGMMode, dynamicFogEnabled, creatureTokens, characterTokens, gridSize, gridOffsetX, gridOffsetY, wallData, respectLineOfSight, tokenVisionRanges, fovAngle, tokenFacingDirections]); // PERFORMANCE FIX: Removed isDraggingCamera - now uses ref
 
-    // Update visible area in store - store both tile-based and polygon for compatibility
+    // CRITICAL FIX: Update visible area in store with throttling during scrolling/dragging
+    // This prevents expensive fog of war calculations from running on every camera/zoom change
     useEffect(() => {
-        // Store tile-based visibleArea for backwards compatibility
+        // CRITICAL PERFORMANCE FIX: SKIP ALL UPDATES DURING DRAG!
+        // Even calling setVisibleArea triggers all token subscriptions causing re-renders
+        // Using ref to check drag state prevents this useEffect from re-running when drag state changes
+        if (isDraggingCameraRef.current || isScrollingRef.current) {
+            // During drag, just schedule an update for when it stops
+            if (scrollTimeoutRef.current) {
+                clearTimeout(scrollTimeoutRef.current);
+            }
+            isScrollingRef.current = true;
+            scrollTimeoutRef.current = setTimeout(() => {
+                setVisibleArea(visibleArea);
+                lastVisibleAreaUpdateRef.current = Date.now();
+                
+                const levelEditorStore = useLevelEditorStore.getState();
+                if (levelEditorStore.setVisibilityPolygon) {
+                    levelEditorStore.setVisibilityPolygon(visibilityPolygon);
+                }
+                
+                isScrollingRef.current = false;
+            }, 300); // Update 300ms after scrolling/dragging stops
+            return; // SKIP update during drag
+        }
+        
+        // Not dragging - update immediately
         setVisibleArea(visibleArea);
+        lastVisibleAreaUpdateRef.current = Date.now();
         
         // Also store the polygon for accurate point-in-polygon checks
         const levelEditorStore = useLevelEditorStore.getState();
@@ -658,14 +743,23 @@ const StaticFogOverlay = () => {
             levelEditorStore.setVisibilityPolygon(visibilityPolygon);
         }
         
-        // Visible area updated in store (logging removed for performance)
-    }, [visibleArea, visibilityPolygon, setVisibleArea, currentViewingToken, tokenVisionRanges, gridSize, gridOffsetX, gridOffsetY]);
+        // Cleanup timeout on unmount
+        return () => {
+            if (scrollTimeoutRef.current) {
+                clearTimeout(scrollTimeoutRef.current);
+            }
+        };
+    }, [visibleArea, visibilityPolygon, setVisibleArea, currentViewingToken, tokenVisionRanges, gridSize, gridOffsetX, gridOffsetY]); // PERFORMANCE FIX: Removed isDraggingCamera - now uses ref
 
     // Get visible area as a Set for fast lookup
     const visibleAreaSet = useMemo(() => {
         if (!visibleArea) return new Set();
         return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
     }, [visibleArea]);
+
+    // NOTE: When viewing from a token, we DON'T update exploredAreas
+    // This prevents creating a hard boundary at the initial position
+    // The visibility mask handles revealing areas dynamically as the token moves
 
     // Helper function to determine fog state for a world position
     // In player mode, check explored areas; in GM mode, check all states
@@ -675,10 +769,40 @@ const StaticFogOverlay = () => {
         const gridY = Math.floor((worldY - gridOffsetY) / gridSize);
         const tileKey = `${gridX},${gridY}`;
         
-        // Check if currently visible (only if dynamic fog is enabled and we have a viewing token)
+        // PERFORMANCE FIX: Read revealedAreas/exploredAreas from store when called
+        const levelEditorState = useLevelEditorStore.getState();
+        const revealedAreas = levelEditorState.revealedAreas || {};
+        const exploredAreas = levelEditorState.exploredAreas || {};
+        
+        // CRITICAL FIX: When viewing from a token in PLAYER mode, ONLY use current visibleAreaSet
+        // In GM mode, still show explored areas so GM can see what's been explored
+        // Don't check exploredAreas/revealedAreas in player mode as they create a hard boundary
+        // The visibility mask will handle erasing fog for the current visible area
+        if (viewingFromToken && dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
+            // If tile is in current visible area, it's viewable
+            if (visibleAreaSet.has(tileKey)) {
+                return 'viewable'; // Currently visible - visibility mask will erase fog
+            }
+            // In GM mode, still show explored areas even when viewing from token
+            // This allows GM to see what's been explored while still restricting to token vision
+            if (isGMMode && exploredAreas[tileKey]) {
+                return 'explored'; // Previously explored - dimmed but visible to GM
+            }
+            // In player mode, don't show explored areas - only current visible area
+            // This prevents the hard boundary effect for players
+            return 'covered'; // Not currently visible - fully covered fog
+        }
+        
+        // Normal mode (not viewing from token): use explored/revealed areas
+        // Check if currently visible (only if dynamic fog is enabled)
         if (dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
-            if (visibleAreaSet.has(tileKey) || revealedAreas[tileKey]) {
+            // If tile is in current visible area, it's viewable
+            if (visibleAreaSet.has(tileKey)) {
                 return 'viewable'; // Currently visible - very light fog so GM can see through it
+            }
+            // Also check revealedAreas for areas that were visible but token moved away
+            if (revealedAreas[tileKey]) {
+                return 'viewable'; // Previously revealed and still in revealed areas
             }
         }
         
@@ -688,7 +812,7 @@ const StaticFogOverlay = () => {
         }
         
         return 'covered'; // Never explored - fully covered fog
-    }, [visibleAreaSet, revealedAreas, exploredAreas, dynamicFogEnabled, gridSize, gridOffsetX, gridOffsetY]);
+    }, [visibleAreaSet, dynamicFogEnabled, viewingFromToken, isGMMode, gridSize, gridOffsetX, gridOffsetY]); // Added viewingFromToken and isGMMode to dependency
 
     // Convert grid coordinates to world coordinates
     const gridToWorld = useCallback((gridX, gridY) => {
@@ -706,13 +830,22 @@ const StaticFogOverlay = () => {
         const canvas = canvasRef.current;
         if (!canvas || !fogOfWarEnabled || !isFogLayerVisible) return;
 
-        // Render fog during drag - fog uses world coordinates so it stays aligned with grid
-        // Use optimized rendering during drag (skip expensive calculations but still render)
+        // PERFORMANCE FIX: Allow throttled rendering during drag for real-time fog updates
+        // The fog needs to follow the grid properly, so we render during drag but with throttling
+
+        // PERFORMANCE FIX: Read zoom from store when rendering, not from closure
+        const state = useGameStore.getState();
+        const effectiveZoom = state.zoomLevel * state.playerZoom;
 
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        
+        // PERFORMANCE: Only resize canvas if dimensions changed
+        const needsResize = canvas.width !== rect.width || canvas.height !== rect.height;
+        if (needsResize) {
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
 
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -903,7 +1036,8 @@ const StaticFogOverlay = () => {
             }
             
             // During drag, use simple bounds check before rendering
-            if (isDraggingCamera && path.points.length > 0) {
+            // Using ref to check drag state doesn't trigger re-renders
+            if (isDraggingCameraRef.current && path.points.length > 0) {
                 // Quick viewport cull check - only check first and last points for performance
                 const firstPoint = path.points[0];
                 const lastPoint = path.points[path.points.length - 1];
@@ -995,7 +1129,8 @@ const StaticFogOverlay = () => {
                 const brushRadius = point.brushRadius * effectiveZoom;
                 
                 // Canvas-based culling for single point
-                if (isDraggingCamera) {
+                // Using ref to check drag state doesn't trigger re-renders
+                if (isDraggingCameraRef.current) {
                     const padding = brushRadius;
                     if (screenPos.x + padding < 0 || screenPos.x - padding > canvas.width ||
                         screenPos.y + padding < 0 || screenPos.y - padding > canvas.height) {
@@ -1089,7 +1224,8 @@ const StaticFogOverlay = () => {
                 if (path.points.length === 0) return;
             
             // During drag, use simple bounds check before rendering
-            if (isDraggingCamera && path.points.length > 0) {
+            // Using ref to check drag state doesn't trigger re-renders
+            if (isDraggingCameraRef.current && path.points.length > 0) {
                 // Quick viewport cull check - only check first and last points
                 const firstPoint = path.points[0];
                 const lastPoint = path.points[path.points.length - 1];
@@ -1185,7 +1321,8 @@ const StaticFogOverlay = () => {
                     }
                     
                     // Canvas-based culling for erase points
-                    if (isDraggingCamera) {
+                    // Using ref to check drag state doesn't trigger re-renders
+                    if (isDraggingCameraRef.current) {
                         const padding = brushRadius;
                         if (screenPos.x + padding < 0 || screenPos.x - padding > canvas.width ||
                             screenPos.y + padding < 0 || screenPos.y - padding > canvas.height) {
@@ -1266,8 +1403,9 @@ const StaticFogOverlay = () => {
         let visibilityMask = null;
         
         // In GM mode, create combined mask from all tokens' vision polygons
+        // BUT: If viewing from a token, only show that token's vision (not all tokens' radii)
         // Update mask during drag to keep fog position synchronized
-        if (isGMMode && allTokensVisibilityPolygons.length > 0) {
+        if (isGMMode && !viewingFromToken && allTokensVisibilityPolygons.length > 0) {
             // Create combined visibility mask from all tokens
             visibilityMask = document.createElement('canvas');
             visibilityMask.width = canvas.width;
@@ -1366,6 +1504,8 @@ const StaticFogOverlay = () => {
                     visibilityMask.height = canvas.height;
                     const maskCtx = visibilityMask.getContext('2d');
                     
+                    // CRITICAL FIX: Fill the entire polygon with white (fully erase fog)
+                    // Fill the whole polygon to ensure all visible areas are revealed as the token moves
                     maskCtx.beginPath();
                     const firstPoint = worldToScreen(visibilityPolygon[0].x, visibilityPolygon[0].y);
                     maskCtx.moveTo(firstPoint.x, firstPoint.y);
@@ -1376,21 +1516,25 @@ const StaticFogOverlay = () => {
                     }
                     
                     maskCtx.closePath();
-                    maskCtx.clip();
                     
+                    // Use gradient fill to create soft-edged visibility (the one that moves with the token)
+                    // Clip to polygon to respect walls and line of sight, but use gradient for soft edges
+                    maskCtx.save();
+                    maskCtx.clip(); // Clip to polygon for gradient
                     const gradient = maskCtx.createRadialGradient(
                         tokenScreenPos.x, tokenScreenPos.y, 0,
                         tokenScreenPos.x, tokenScreenPos.y, visionRangeInPixels
                     );
-                    
+
                     gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                    gradient.addColorStop(0.65, 'rgba(255, 255, 255, 1)');
-                    gradient.addColorStop(0.8, 'rgba(255, 255, 255, 0.7)');
-                    gradient.addColorStop(0.9, 'rgba(255, 255, 255, 0.4)');
+                    gradient.addColorStop(0.7, 'rgba(255, 255, 255, 1)'); // Keep full opacity longer
+                    gradient.addColorStop(0.85, 'rgba(255, 255, 255, 0.8)');
+                    gradient.addColorStop(0.95, 'rgba(255, 255, 255, 0.4)');
                     gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                    
+
                     maskCtx.fillStyle = gradient;
                     maskCtx.fillRect(0, 0, visibilityMask.width, visibilityMask.height);
+                    maskCtx.restore();
                     
                     // Apply visibility mask to path-based fog
                     ctx.globalCompositeOperation = 'destination-out';
@@ -1452,10 +1596,12 @@ const StaticFogOverlay = () => {
         
         // Draw stars on fog (player mode only, optimized for performance)
         // Only draw stars if not dragging camera for better performance
-        if (!isGMMode && !isDraggingCamera) {
+        // Using ref to check drag state doesn't trigger re-renders
+        if (!isGMMode && !isDraggingCameraRef.current) {
             drawStars(ctx, canvas.width, canvas.height);
         }
-        }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, isFogLayerVisible, effectiveZoom, gridSize, gridOffsetX, gridOffsetY, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, isDraggingCamera, getFogState, exploredAreas, revealedAreas, visibleAreaSet, screenToWorld, cameraX, cameraY]);
+        }, [visibleFogPaths, visibleErasePaths, visibleFogTiles, fogOfWarEnabled, isFogLayerVisible, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, isGMMode, worldToScreen, currentViewingToken, visibleArea, visibilityPolygon, allTokensVisibilityPolygons, viewingFromToken, tokenVisionRanges, getFogState, visibleAreaSet, screenToWorld]); // PERFORMANCE FIX: Removed effectiveZoom, isDraggingCamera, revealedAreas, exploredAreas
+    // NOTE: Added cameraX, cameraY back for real-time fog updates during drag with throttling
     
     // Throttle fog rendering with RAF for smooth performance during camera movement
     const throttledRenderFogRef = useRef(null);
@@ -1492,14 +1638,15 @@ const StaticFogOverlay = () => {
         } else {
             // Debounce fog rendering updates when not actively painting (wait 30ms for responsiveness)
             // During drag, render more frequently for smooth updates
-            const debounceTime = isDraggingCamera ? 16 : 30; // 60fps during drag, 33fps otherwise
+            // Using ref to check drag state doesn't trigger re-renders
+            const debounceTime = isDraggingCameraRef.current ? 16 : 30; // 60fps during drag, 33fps otherwise
             debounceTimeoutRef.current = setTimeout(() => {
                 if (throttledRenderFogRef.current) {
                     throttledRenderFogRef.current();
                 }
             }, debounceTime);
         }
-    }, [isDraggingCamera]);
+    }, []); // PERFORMANCE FIX: Removed isDraggingCamera - now uses ref, no dependencies needed
     
     // Star flickering animation timer (update every 1000ms for better performance)
     useEffect(() => {
@@ -1507,23 +1654,21 @@ const StaticFogOverlay = () => {
         
         const interval = setInterval(() => {
             // Trigger re-render for star flickering (skip during drag for performance)
-            if (throttledRenderFogRef.current && !isDraggingCamera) {
+            // Using ref to check drag state doesn't trigger re-renders
+            if (throttledRenderFogRef.current && !isDraggingCameraRef.current) {
                 throttledRenderFogRef.current();
             }
         }, 1000); // Update every 1000ms (reduced from 500ms) for better performance
         
         return () => clearInterval(interval);
-    }, [isGMMode, fogOfWarEnabled, isDraggingCamera]);
+    }, [isGMMode, fogOfWarEnabled]); // PERFORMANCE FIX: Removed isDraggingCamera - now uses ref
 
     // PERFORMANCE FIX: Trigger render when dependencies change with better throttling
     const lastRenderTimeRef = useRef(0);
     const pendingRenderRef = useRef(false);
     
-    // Track drag state in ref for use in render loop
-    const isDraggingCameraRef = useRef(false);
-    useEffect(() => {
-        isDraggingCameraRef.current = isDraggingCamera;
-    }, [isDraggingCamera]);
+    // REMOVED: Duplicate isDraggingCameraRef - already defined at top of component
+    // The ref is now populated by polling window._isDraggingCamera flag
     
     // Continuous render loop during drag for smooth fog updates
     const fogRenderRafRef = useRef(null);
@@ -1546,37 +1691,25 @@ const StaticFogOverlay = () => {
     }, []);
     
     // Start/stop render loop based on drag state
-    useEffect(() => {
-        if (isDraggingCamera) {
-            startDragRenderLoop();
-        } else {
-            // Stop render loop when drag ends
-            if (fogRenderRafRef.current !== null) {
-                cancelAnimationFrame(fogRenderRafRef.current);
-                fogRenderRafRef.current = null;
-            }
-        }
-    }, [isDraggingCamera, startDragRenderLoop]);
+    // REMOVED: This useEffect tracked isDraggingCamera but it's now a ref
+    // The polling interval already keeps the ref updated
+    // Fog rendering is handled by the main useEffect below
     
-    // Also render on camera position changes during drag (backup)
-    useEffect(() => {
-        if (isDraggingCamera && throttledRenderFogRef.current) {
-            // Render immediately when camera position changes during drag
-            throttledRenderFogRef.current();
-        }
-    }, [cameraX, cameraY, isDraggingCamera]);
+    // PERFORMANCE FIX: Allow throttled rendering during drag for real-time fog updates
+    // The fog needs to follow the grid properly, so we render during drag but throttle aggressively
     
     useEffect(() => {
-        // During camera drag, skip the normal throttling logic
-        if (isDraggingCamera) {
-            return; // Camera position changes are handled by the separate effect above
-        }
+        // PERFORMANCE FIX: During camera drag, allow throttled rendering for real-time fog updates
+        // The fog needs to follow the grid in real time, but we throttle to maintain performance
         
-        // PERFORMANCE FIX: Throttle renders to max 60fps (16ms between renders)
+        // PERFORMANCE FIX: Throttle renders based on drag state
+        // During drag: max 30fps (33ms) for real-time fog updates with performance
+        // During static: max 60fps (16ms) for responsiveness
+        const targetFrameTime = isDraggingCameraRef.current ? 33 : 16;
         const now = performance.now();
         const timeSinceLastRender = now - lastRenderTimeRef.current;
-        
-        if (timeSinceLastRender < 16) {
+
+        if (timeSinceLastRender < targetFrameTime) {
             // Too soon since last render, schedule for next frame
             if (!pendingRenderRef.current) {
                 pendingRenderRef.current = true;
@@ -1641,19 +1774,11 @@ const StaticFogOverlay = () => {
                 throttledRenderFogRef.current();
             }
         }
-    }, [fogOfWarPaths, fogErasePaths, fogOfWarData, fogOfWarEnabled, isFogLayerVisible, effectiveZoom, cameraX, cameraY, gridSize, gridOffsetX, gridOffsetY, currentViewingToken, visibleArea, tokenVisionRanges, isDraggingCamera, debouncedRenderFog]);
+        }, [fogOfWarPaths, fogErasePaths, fogOfWarData, fogOfWarEnabled, isFogLayerVisible, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, currentViewingToken, visibleArea, tokenVisionRanges, debouncedRenderFog]); // PERFORMANCE FIX: Removed effectiveZoom and isDraggingCamera - read from store
     
-    // PERFORMANCE FIX: Render fog when drag stops
-    useEffect(() => {
-        if (!isDraggingCamera && pendingRenderRef.current) {
-            // Drag just stopped, render fog now
-            pendingRenderRef.current = false;
-            lastRenderTimeRef.current = performance.now();
-            if (throttledRenderFogRef.current) {
-                throttledRenderFogRef.current();
-            }
-        }
-    }, [isDraggingCamera]);
+    // REMOVED: This useEffect tracked isDraggingCamera to trigger renders when drag stops
+    // But now isDraggingCamera is a ref, so it doesn't trigger effects
+    // Fog will be updated by the main render effect when dependencies change
     
     // Cleanup debounce timeout on unmount
     useEffect(() => {
@@ -1689,4 +1814,13 @@ const StaticFogOverlay = () => {
     );
 };
 
-export default StaticFogOverlay;
+// NUCLEAR PERFORMANCE FIX: Use React.memo with AGGRESSIVE prop comparison
+// StaticFogOverlay receives NO props, so we can block ALL parent-forced re-renders
+// Zustand subscriptions will still trigger re-renders when store values change (which is what we want)
+// But parent (Grid) re-renders won't force unnecessary re-renders
+export default React.memo(StaticFogOverlay, (prevProps, nextProps) => {
+    // StaticFogOverlay has NO props, so prevProps and nextProps are always {}
+    // Always block parent-forced re-renders (component has no props)
+    // Zustand subscriptions will still trigger re-renders when store values actually change
+    return true; // "Props are equal" - block parent-forced re-renders
+});

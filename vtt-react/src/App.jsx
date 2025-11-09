@@ -6,6 +6,7 @@ import { RoomProvider } from "./contexts/RoomContext";
 import useAuthStore from "./store/authStore";
 import useCharacterStore from "./store/characterStore";
 import usePartyStore from "./store/partyStore";
+import useGameStore from "./store/gameStore";
 import useIdleDetection from "./hooks/useIdleDetection";
 
 // Core components that are always needed
@@ -207,6 +208,7 @@ function GameScreen() {
     const navigate = useNavigate();
     const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
     const { createParty, leaveParty, updatePartyMember } = usePartyStore();
+    const { isGMMode } = useGameStore();
     const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Enable auto-save for local rooms
@@ -491,10 +493,11 @@ function GameScreen() {
                     <ActionBar />
                     <CombatSelectionWindow />
                     <CombatTimeline />
-                    <DynamicFogManager />
-                    <DynamicLightingManager />
-                    <AtmosphericEffectsManager />
-                    <MemorySnapshotManager />
+                    {/* Disable expensive background managers in player mode for performance */}
+                    {isGMMode && <DynamicFogManager />}
+                    {isGMMode && <DynamicLightingManager />}
+                    {isGMMode && <AtmosphericEffectsManager />}
+                    {!isGMMode && <MemorySnapshotManager />}
                     <DialogueSystem />
                     <DialogueControls />
                     <DiceRollingSystem />
@@ -724,6 +727,7 @@ const AppContent = ({
     handleReturnToLanding
 }) => {
     const navigate = useNavigate();
+    const { isGMMode } = useGameStore();
 
     // Initialize idle detection for automatic status updates
     useIdleDetection();

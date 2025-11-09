@@ -177,13 +177,42 @@ function transformFromStorage(firestoreData) {
 class CharacterPersistenceService {
   constructor() {
     this.isConfigured = isFirebaseConfigured && !isDemoMode;
+    
+    // CRITICAL FIX: Log configuration status for debugging
+    console.log('🔥 CharacterPersistenceService initialized:', {
+      isFirebaseConfigured,
+      isDemoMode,
+      isConfigured: this.isConfigured,
+      hasDb: !!db,
+      hasAuth: !!auth,
+      canUseFirebase: this.isConfigured && !!db
+    });
   }
 
   /**
    * Create a new character
    */
   async createCharacter(characterData, userId) {
+    // CRITICAL FIX: Enhanced logging for Firebase operation tracking
+    console.log('🔥 [Firebase] createCharacter called:', {
+      characterId: characterData.id,
+      characterName: characterData.name,
+      userId: userId,
+      isConfigured: this.isConfigured,
+      hasDb: !!db,
+      isDemoMode: isDemoMode,
+      isFirebaseConfigured: isFirebaseConfigured
+    });
+    
     if (!this.isConfigured || !db) {
+      const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
+      console.error('❌ [Firebase] createCharacter failed:', {
+        reason,
+        isConfigured: this.isConfigured,
+        hasDb: !!db,
+        isDemoMode: isDemoMode,
+        isFirebaseConfigured: isFirebaseConfigured
+      });
       throw new Error('Firebase not configured');
     }
 
@@ -250,7 +279,25 @@ class CharacterPersistenceService {
    * Load a character by ID
    */
   async loadCharacter(characterId, userId) {
+    // CRITICAL FIX: Enhanced logging for Firebase operation tracking
+    console.log('🔥 [Firebase] loadCharacter called:', {
+      characterId,
+      userId,
+      isConfigured: this.isConfigured,
+      hasDb: !!db,
+      isDemoMode: isDemoMode,
+      isFirebaseConfigured: isFirebaseConfigured
+    });
+    
     if (!this.isConfigured || !db) {
+      const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
+      console.error('❌ [Firebase] loadCharacter failed:', {
+        reason,
+        isConfigured: this.isConfigured,
+        hasDb: !!db,
+        isDemoMode: isDemoMode,
+        isFirebaseConfigured: isFirebaseConfigured
+      });
       throw new Error('Firebase not configured');
     }
 
@@ -322,7 +369,24 @@ class CharacterPersistenceService {
    * Load all characters for a user
    */
   async loadUserCharacters(userId) {
+    // CRITICAL FIX: Enhanced logging for Firebase operation tracking
+    console.log('🔥 [Firebase] loadUserCharacters called:', {
+      userId,
+      isConfigured: this.isConfigured,
+      hasDb: !!db,
+      isDemoMode: isDemoMode,
+      isFirebaseConfigured: isFirebaseConfigured
+    });
+    
     if (!this.isConfigured || !db) {
+      const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
+      console.error('❌ [Firebase] loadUserCharacters failed:', {
+        reason,
+        isConfigured: this.isConfigured,
+        hasDb: !!db,
+        isDemoMode: isDemoMode,
+        isFirebaseConfigured: isFirebaseConfigured
+      });
       throw new Error('Firebase not configured');
     }
 
@@ -379,7 +443,26 @@ class CharacterPersistenceService {
    * Save character data
    */
   async saveCharacter(characterData, userId) {
+    // CRITICAL FIX: Enhanced logging for Firebase operation tracking
+    console.log('🔥 [Firebase] saveCharacter called:', {
+      characterId: characterData.id,
+      characterName: characterData.name,
+      userId: userId,
+      isConfigured: this.isConfigured,
+      hasDb: !!db,
+      isDemoMode: isDemoMode,
+      isFirebaseConfigured: isFirebaseConfigured
+    });
+    
     if (!this.isConfigured || !db) {
+      const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
+      console.error('❌ [Firebase] saveCharacter failed:', {
+        reason,
+        isConfigured: this.isConfigured,
+        hasDb: !!db,
+        isDemoMode: isDemoMode,
+        isFirebaseConfigured: isFirebaseConfigured
+      });
       throw new Error('Firebase not configured');
     }
 

@@ -594,10 +594,7 @@ const useGridItemStore = create((set, get) => ({
             if (newInventoryItemId !== null) {
               const gameStore = useGameStore.getState();
 
-              // Remove the loot orb from the grid
-              removeItemFromGrid(gridItemId);
-
-              // Send to multiplayer server if needed
+              // Send to multiplayer server if needed (before removing from grid)
               if (sendToServer && gameStore.isInMultiplayer) {
                 if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
                   gameStore.multiplayerSocket.emit('item_looted', {
@@ -618,7 +615,8 @@ const useGridItemStore = create((set, get) => ({
                 looterName
               );
 
-              // Remove the grid item (this will also clean up temporary items)
+              // CRITICAL FIX: Remove the grid item only once (removed duplicate call)
+              // This prevents double-looting issues
               removeItemFromGrid(gridItemId);
 
               // Force a state update to trigger a re-render of the inventory UI
