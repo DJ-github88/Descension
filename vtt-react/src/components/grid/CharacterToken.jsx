@@ -11,7 +11,6 @@ import useDebuffStore from '../../store/debuffStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
-import { isPositionVisible } from '../../utils/VisibilityCalculations';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
@@ -46,6 +45,7 @@ const CharacterToken = ({
     // Throttle multiplayer updates during drag
     const lastMoveUpdateRef = useRef(null);
     const lastPositionUpdateRef = useRef(Date.now());
+    const lastViewingTokenUpdateRef = useRef(0);
 
     // Get character token data to find playerId
     const characterTokens = useCharacterTokenStore(state => state.characterTokens);
@@ -77,6 +77,7 @@ const CharacterToken = ({
     const currentCharacterData = useCharacterStore(state => ({
         name: state.name,
         race: state.race,
+        raceDisplayName: state.raceDisplayName,
         class: state.class,
         level: state.level,
         health: state.health,
@@ -115,6 +116,7 @@ const CharacterToken = ({
     const characterData = partyMember?.character ? {
         name: partyMember.name,
         race: partyMember.character.race || currentCharacterData.race,
+        raceDisplayName: partyMember.character.raceDisplayName || currentCharacterData.raceDisplayName,
         class: partyMember.character.class || currentCharacterData.class,
         level: partyMember.character.level || currentCharacterData.level,
         health: partyMember.character.health || currentCharacterData.health,
@@ -148,7 +150,7 @@ const CharacterToken = ({
     
     // Check if this token is visible based on FOV (only if viewing from a token)
     // PERFORMANCE FIX: Cache visibility result and only recalculate when token actually moves
-    const lastVisibilityCheckRef = useRef({ position: null, result: true });
+    const lastVisibilityCheckRef = useRef({ cacheKey: null, result: true });
     const isTokenVisible = useMemo(() => {
         // If this is the viewing token, always visible
         if (isViewingFrom) return true;
@@ -161,30 +163,39 @@ const CharacterToken = ({
             // This ensures consistent visibility behavior
             if (!position || position.x === undefined || position.y === undefined) return false;
 
-            // PERFORMANCE: Only recalculate if position actually changed
-            // During camera drag, position stays the same so we can return cached result
-            const posKey = `${Math.floor(position.x)},${Math.floor(position.y)}`;
-            if (lastVisibilityCheckRef.current.position === posKey) {
-                return lastVisibilityCheckRef.current.result;
-            }
-
             // Get visibility polygon from store for accurate point-in-polygon check
             const levelEditorStore = useLevelEditorStore.getState();
             const visibilityPolygon = levelEditorStore.visibilityPolygon;
 
-            let visible = false;
-
-            // If polygon is available, use it for accurate visibility (raycast-based)
-            if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length > 0) {
-                visible = isPositionVisible(position.x, position.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
-            } else if (visibleAreaSet && visibleAreaSet.size > 0) {
-                // Fallback to tile-based visibility if polygon not available
-                visible = isPositionVisible(position.x, position.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
+            // Create a comprehensive cache key that includes all factors affecting visibility
+            // Position alone is not enough - visibility depends on viewing token position and visibility area
+            const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
+            if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
+                return lastVisibilityCheckRef.current.result;
             }
 
-            // If not visible yet, check if token is within viewing token's vision range as fallback
+            let visible = false;
+
+            // Simplified visibility check - check if token is close to viewing token
+            if (viewingFromToken && viewingFromToken.position) {
+                const dx = position.x - viewingFromToken.position.x;
+                const dy = position.y - viewingFromToken.position.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const visionRange = 6; // Default vision range in tiles
+                const maxDistance = visionRange * tokenGridSize;
+
+                visible = distance <= maxDistance;
+            } else {
+                // If not viewing from a token, always visible (normal GM view)
+                visible = true;
+            }
+
+            // Distance-based fallback ONLY when proper visibility calculations are not available
             // This helps when visible area calculation hasn't completed or is incomplete
-            if (!visible && viewingFromToken && viewingFromToken.position) {
+            // Do NOT use this as a way to show tokens that are technically out of view but within range
+            if (!visible && viewingFromToken && viewingFromToken.position &&
+                (!visibilityPolygon || visibilityPolygon.length === 0) &&
+                (!visibleAreaSet || visibleAreaSet.size === 0)) {
                 const viewingPos = viewingFromToken.position;
                 const dx = position.x - viewingPos.x;
                 const dy = position.y - viewingPos.y;
@@ -198,7 +209,7 @@ const CharacterToken = ({
                 const visionRange = viewingTokenVision?.range || 6; // Default 6 tiles (30ft)
                 const visionRangeInWorld = visionRange * tokenGridSize;
 
-                // If token is within vision range, show it
+                // If token is within vision range, show it (only as fallback when no proper visibility data)
                 if (distance <= visionRangeInWorld) {
                     visible = true;
                 }
@@ -217,14 +228,14 @@ const CharacterToken = ({
             // }
 
             // Cache the result
-            lastVisibilityCheckRef.current = { position: posKey, result: visible };
+            lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: visible };
 
             return visible;
         }
 
         // If not viewing from a token, always visible (normal view)
         return true;
-    }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
+    }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = tokenGridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
@@ -580,6 +591,24 @@ const CharacterToken = ({
 
             // Update local position for React state (this will trigger re-render with new position)
             setLocalPosition({ x: worldPos.x, y: worldPos.y });
+
+            // CRITICAL FIX: If this is the viewing token, update its position for visibility calculations
+            // Use lighter throttling to keep visibility responsive during drag
+            if (isViewingFrom) {
+                const now = Date.now();
+                // Throttle lightly to prevent excessive updates but keep visibility responsive
+                if (now - lastViewingTokenUpdateRef.current > 16) { // Update every ~60fps during drag
+                    lastViewingTokenUpdateRef.current = now;
+                    const levelEditorStore = useLevelEditorStore.getState();
+                    const currentViewingToken = levelEditorStore.viewingFromToken;
+                    if (currentViewingToken) {
+                        levelEditorStore.setViewingFromToken({
+                            ...currentViewingToken,
+                            position: { x: worldPos.x, y: worldPos.y }
+                        });
+                    }
+                }
+            }
 
             // Handle expensive operations with simple time-based throttling (no RAF)
             const now = Date.now();
@@ -1729,7 +1758,7 @@ const CharacterToken = ({
                                 {characterData.name}
                             </div>
                             <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                                Level {characterData.level} {characterData.race} {characterData.class}
+                                Level {characterData.level} {characterData.raceDisplayName || characterData.race} {characterData.class}
                             </div>
                         </div>
                     </div>

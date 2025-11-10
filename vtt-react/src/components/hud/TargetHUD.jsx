@@ -279,6 +279,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 if (characterState.lore?.characterImage) {
                     return characterState.lore.characterImage;
                 }
+                // Check for characterIcon and convert to URL
+                if (characterState.lore?.characterIcon) {
+                    return `https://wow.zamimg.com/images/wow/icons/large/${characterState.lore.characterIcon}.jpg`;
+                }
                 // Default character icon
                 return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
             } else {
@@ -291,6 +295,10 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     }
                     if (member.character.lore?.characterImage) {
                         return member.character.lore.characterImage;
+                    }
+                    // Check for characterIcon and convert to URL
+                    if (member.character.lore?.characterIcon) {
+                        return `https://wow.zamimg.com/images/wow/icons/large/${member.character.lore.characterIcon}.jpg`;
                     }
                 }
                 // Default character icon

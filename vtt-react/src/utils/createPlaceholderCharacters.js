@@ -3,29 +3,45 @@
  * Creates characters for guest, dev, and authenticated account types
  */
 
+import { getAvailableStartingItems } from '../data/startingEquipmentData';
+
 // Sample character image URL (you can replace with actual image URLs)
 const PLACEHOLDER_IMAGE_URL = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
 
-// Available icons for placeholder characters
+// Available icons for placeholder characters - verified to exist on WoW icon database
 const AVAILABLE_ICONS = [
-  'ability_warrior_savageblow', 'ability_druid_catform', 'ability_hunter_beasttaming',
-  'ability_rogue_shadowstrike', 'ability_mage_firebolt', 'ability_priest_shadowword',
-  'ability_paladin_shieldoftemplar', 'ability_warlock_demonbolt', 'ability_shaman_stormstrike',
+  // Warrior abilities
+  'ability_warrior_battleshout', 'ability_warrior_savageblow', 'ability_warrior_charge',
+  
+  // Class abilities that definitely exist
+  'ability_druid_catform', 'ability_rogue_ambush', 'ability_rogue_shadowdance',
+  'ability_mage_firestarter', 'ability_priest_shadowfiend', 'ability_paladin_shieldofthetemplar',
+  'ability_warlock_demonicempowerment', 'ability_shaman_stormstrike',
+  
+  // Common spells
   'spell_shadow_raisedead', 'spell_fire_fireball', 'spell_frost_frostbolt',
-  'spell_nature_lightning', 'spell_holy_heal', 'spell_arcane_arcanetorrent',
-  'inv_misc_bone_skull_01', 'inv_misc_bone_skull_02', 'inv_misc_head_dragon_01',
-  'inv_misc_head_dragon_blue', 'inv_misc_head_dragon_bronze', 'inv_misc_head_dragon_green',
-  'inv_misc_head_dragon_red', 'inv_misc_head_dragon_black', 'inv_misc_head_centaur_01',
-  'inv_misc_head_murloc_01', 'inv_misc_head_orc_01', 'inv_misc_head_human_01',
-  'inv_misc_head_elf_01', 'inv_misc_head_dwarf_01', 'inv_misc_head_gnome_01',
-  'inv_misc_head_tauren_01', 'inv_misc_head_troll_01', 'inv_misc_head_undead_01',
-  'inv_misc_head_bloodelf_male', 'inv_misc_head_draenei_male', 'inv_misc_head_worgen_male',
-  'inv_misc_head_goblin_01', 'inv_misc_head_pandaren_male', 'inv_misc_head_nightelf_male',
+  'spell_nature_lightning', 'spell_holy_heal', 'spell_arcane_blast',
+  'spell_shadow_shadowbolt', 'spell_fire_flameshock', 'spell_frost_iceshock',
+  
+  // Skull/bone icons
+  'inv_misc_bone_skull_01', 'inv_misc_bone_skull_02',
+  
+  // Character head icons that exist
+  'inv_misc_head_human_01', 'inv_misc_head_orc_01', 'inv_misc_head_elf_02',
+  'inv_misc_head_dwarf_01', 'inv_misc_head_gnome_01', 'inv_misc_head_tauren_01',
+  'inv_misc_head_troll_01', 'inv_misc_head_undead_02',
+  
+  // Dragon heads
+  'inv_misc_head_dragon_01', 'inv_misc_head_dragon_blue', 'inv_misc_head_dragon_bronze',
+  'inv_misc_head_dragon_green', 'inv_misc_head_dragon_red', 'inv_misc_head_dragon_black',
+  
+  // Achievement boss icons that exist
   'achievement_boss_lichking', 'achievement_boss_ragnaros', 'achievement_boss_cthun',
   'achievement_boss_illidan', 'achievement_boss_kiljaedan', 'achievement_boss_archimonde',
-  'achievement_boss_nefarian', 'achievement_boss_onyxia', 'achievement_boss_deathwing',
-  'achievement_boss_algalon_01', 'achievement_boss_yoggsaron_01', 'achievement_boss_mimiron_01',
-  'inv_misc_head_dragon_nether', 'inv_misc_head_dragon_twilight', 'inv_misc_head_dragon_infinite'
+  
+  // Generic inventory icons
+  'inv_weapon_shortblade_05', 'inv_sword_27', 'inv_axe_02', 'inv_hammer_05',
+  'inv_staff_13', 'inv_shield_05', 'inv_misc_book_07', 'inv_misc_gem_sapphire_02'
 ];
 
 /**
@@ -48,8 +64,9 @@ function getRaceDisplayName(race, subrace) {
     if (race && subrace) {
       // Try getFullRaceData first
       const fullRaceData = getFullRaceData(race, subrace);
-      if (fullRaceData && fullRaceData.subrace && fullRaceData.subrace.name) {
-        return fullRaceData.subrace.name; // Use subrace name (e.g., "Bloodhammer")
+      if (fullRaceData && fullRaceData.subrace && fullRaceData.subrace.name && fullRaceData.race && fullRaceData.race.name) {
+        // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
+        return `${fullRaceData.subrace.name} (${fullRaceData.race.name})`;
       }
       
       // Fallback: Look up directly in RACE_DATA
@@ -58,8 +75,9 @@ function getRaceDisplayName(race, subrace) {
         const raceObj = RACE_DATA[race];
         for (const [key, subraceObj] of Object.entries(raceObj.subraces)) {
           if (subraceObj.id === subrace || key === subrace) {
-            if (subraceObj.name) {
-              return subraceObj.name;
+            if (subraceObj.name && raceObj.name) {
+              // Format as "Subrace (Race)"
+              return `${subraceObj.name} (${raceObj.name})`;
             }
           }
         }
@@ -82,10 +100,11 @@ function getRaceDisplayName(race, subrace) {
   } catch (error) {
     console.warn('Failed to get race display name:', error);
     // Return a fallback based on the IDs
-    if (subrace) {
-      // Convert subrace ID to readable name (e.g., "berserker_nordmark" -> "Berserker Nordmark")
-      const parts = subrace.split('_');
-      return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+    if (subrace && race) {
+      // Convert to readable name (e.g., "berserker_nordmark" and "nordmark" -> "Berserker (Nordmark)")
+      const subraceReadable = subrace.split('_').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+      const raceReadable = race.charAt(0).toUpperCase() + race.slice(1);
+      return `${subraceReadable} (${raceReadable})`;
     }
     if (race) {
       return race.charAt(0).toUpperCase() + race.slice(1);
@@ -103,6 +122,8 @@ export function createPlaceholderCharacter(name, options = {}) {
     subrace = 'berserker_nordmark',
     class: characterClass = 'Berserker',
     level = 3,
+    background = 'reaver',
+    path = 'reaver',
     stats = {
       strength: 16,
       agility: 14,
@@ -128,6 +149,49 @@ export function createPlaceholderCharacter(name, options = {}) {
   // Get proper race display name from race data
   const raceDisplayName = getRaceDisplayName(race, subrace);
   
+  // Get available starting equipment for this character
+  const availableItems = getAvailableStartingItems({
+    class: characterClass,
+    race: race,
+    subrace: subrace,
+    background: background,
+    path: path
+  });
+  
+  // Select some starter items (weapons, armor, and a few accessories)
+  const starterInventory = [];
+  
+  // Add a weapon (first available for the class)
+  const weapons = availableItems.filter(item => item.type === 'weapon');
+  if (weapons.length > 0) {
+    starterInventory.push({ ...weapons[0], quantity: 1, equipped: false });
+  }
+  
+  // Add armor (first available for the class)
+  const armors = availableItems.filter(item => item.type === 'armor');
+  if (armors.length > 0) {
+    starterInventory.push({ ...armors[0], quantity: 1, equipped: false });
+  }
+  
+  // Add some consumables
+  const consumables = availableItems.filter(item => item.type === 'consumable');
+  if (consumables.length > 0) {
+    // Add 2-3 different consumables
+    consumables.slice(0, 3).forEach(item => {
+      starterInventory.push({ ...item, quantity: Math.floor(Math.random() * 3) + 2, equipped: false });
+    });
+  }
+  
+  // Add some tools
+  const tools = availableItems.filter(item => item.type === 'tool');
+  if (tools.length > 0) {
+    starterInventory.push({ ...tools[0], quantity: 1, equipped: false });
+  }
+  
+  // Generate a random character icon
+  const randomIcon = getRandomIcon();
+  console.log(`🎨 Generated random icon for ${name}: ${randomIcon}`);
+  
   return {
     id: characterId,
     name: name,
@@ -141,6 +205,11 @@ export function createPlaceholderCharacter(name, options = {}) {
     experience: 0,
     alignment: 'Neutral Good',
     exhaustionLevel: 0,
+    background: background,
+    path: path,
+    
+    // Character icon at root level for display
+    characterIcon: randomIcon,
     
     // Stats
     stats: stats,
@@ -178,14 +247,14 @@ export function createPlaceholderCharacter(name, options = {}) {
       enemies: 'Evil forces',
       organizations: 'Adventurers Guild',
       notes: 'Placeholder character for testing',
-      characterImage: PLACEHOLDER_IMAGE_URL,
+      characterImage: null, // No custom image by default
       imageTransformations: {
         scale: 1.0,
         positionX: 0,
         positionY: 0,
         rotation: 0
       },
-      characterIcon: getRandomIcon()
+      characterIcon: randomIcon // Store in lore as well for consistency
     },
     
     // Token settings
@@ -203,9 +272,9 @@ export function createPlaceholderCharacter(name, options = {}) {
       accessories: []
     },
     
-    // Inventory
+    // Inventory with starter equipment
     inventory: {
-      items: [],
+      items: starterInventory,
       currency: {
         platinum: 0,
         gold: 50,
@@ -245,13 +314,17 @@ export function createGuestPlaceholderCharacters() {
       race: 'nordmark',
       subrace: 'berserker_nordmark',
       class: 'Berserker',
-      level: 3
+      level: 3,
+      background: 'reaver',
+      path: 'reaver'
     }),
     createPlaceholderCharacter('Guest Arcanoneer', {
       race: 'mimir',
       subrace: 'doppel_mimir',
       class: 'Arcanoneer',
       level: 2,
+      background: 'arcanist',
+      path: 'arcanist',
       stats: {
         strength: 10,
         agility: 12,
@@ -283,13 +356,17 @@ export function createDevPlaceholderCharacters() {
       race: 'nordmark',
       subrace: 'berserker_nordmark',
       class: 'Berserker',
-      level: 5
+      level: 5,
+      background: 'reaver',
+      path: 'reaver'
     }),
     createPlaceholderCharacter('Dev Arcanoneer', {
       race: 'mimir',
       subrace: 'doppel_mimir',
       class: 'Arcanoneer',
       level: 4,
+      background: 'arcanist',
+      path: 'arcanist',
       stats: {
         strength: 10,
         agility: 12,
@@ -344,13 +421,17 @@ export async function createAuthenticatedPlaceholderCharacters(userId) {
         race: 'nordmark',
         subrace: 'berserker_nordmark',
         class: 'Berserker',
-        level: 5
+        level: 5,
+        background: 'reaver',
+        path: 'reaver'
       }),
       createPlaceholderCharacter('Test Arcanoneer', {
         race: 'mimir',
         subrace: 'doppel_mimir',
         class: 'Arcanoneer',
         level: 4,
+        background: 'arcanist',
+        path: 'arcanist',
         stats: {
           strength: 10,
           agility: 12,

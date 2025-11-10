@@ -59,8 +59,7 @@ const useCharacterTokenStore = create((set, get) => ({
                         characterId: playerId || 'local_player',
                         position: position // Include position for visibility calculations
                     });
-                    // Center camera on the token position
-                    gameStore.setCameraPosition(position.x, position.y);
+                    // NOTE: Removed automatic camera centering on token creation to prevent unwanted camera resets
                     console.log('🎯 Player view activated for token:', newToken.id, 'at position:', position);
                 }).catch(error => {
                     console.error('Failed to setup player view:', error);

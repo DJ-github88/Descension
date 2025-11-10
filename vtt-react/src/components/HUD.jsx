@@ -3,6 +3,7 @@ import useGameStore from '../store/gameStore';
 
 export default function HUD() {
     const creatures = useGameStore(state => state.creatures);
+    const isGMMode = useGameStore(state => state.isGMMode);
     const player = creatures.find(c => c.type === 'PLAYER');
 
     if (!player) return null;
@@ -24,6 +25,24 @@ export default function HUD() {
             border: '1px solid rgba(255, 255, 255, 0.1)',
             zIndex: 1000
         }}>
+            {/* GM/Player Mode Indicator */}
+            <div style={{
+                position: 'absolute',
+                top: '-12px',
+                left: '15px',
+                backgroundColor: isGMMode ? '#FF6B35' : '#4CAF50',
+                color: 'white',
+                padding: '4px 12px',
+                borderRadius: '12px',
+                fontSize: '12px',
+                fontWeight: 'bold',
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                zIndex: 1001
+            }}>
+                {isGMMode ? 'GM MODE' : 'PLAYER MODE'}
+            </div>
+
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{
                     width: '40px',

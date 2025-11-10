@@ -10,52 +10,145 @@ const FAKE_CHARACTERS = [
   {
     name: "Kael Frostborn",
     class: "Pyrofiend",
-    race: "Berserker Nordmark",
+    race: "nordmark",
+    subrace: "berserker_nordmark",
+    raceDisplayName: "Berserker (Nordmark)",
     level: 5,
     health: { current: 95, max: 130 },
     mana: { current: 40, max: 60 },
     actionPoints: { current: 4, max: 4 },
-    color: "#FF4500"
+    color: "#FF4500",
+    lore: {
+      characterIcon: "ability_warrior_battleshout"
+    },
+    equipment: {
+      weapon: { name: "Greatsword", slot: "weapon" },
+      armor: { name: "Heavy Armor", slot: "armor" },
+      shield: null,
+      accessories: []
+    },
+    inventory: {
+      items: [
+        { name: "Health Potion", quantity: 3 },
+        { name: "Rations", quantity: 5 }
+      ],
+      currency: { platinum: 0, gold: 50, silver: 25, copper: 10 }
+    }
   },
   {
     name: "Lyralei Starweaver",
     class: "Chronarch",
-    race: "Doppel Mirrorkin",
+    race: "mirrorkin",
+    subrace: "doppel_mirrorkin",
+    raceDisplayName: "Doppel (Mirrorkin)",
     level: 4,
     health: { current: 55, max: 75 },
     mana: { current: 85, max: 110 },
     actionPoints: { current: 3, max: 3 },
-    color: "#4169E1"
+    color: "#4169E1",
+    lore: {
+      characterIcon: "spell_arcane_starfire"
+    },
+    equipment: {
+      weapon: { name: "Staff", slot: "weapon" },
+      armor: { name: "Robes", slot: "armor" },
+      shield: null,
+      accessories: [{ name: "Ring of Intelligence", slot: "accessory" }]
+    },
+    inventory: {
+      items: [
+        { name: "Mana Potion", quantity: 5 },
+        { name: "Spell Components", quantity: 10 }
+      ],
+      currency: { platinum: 1, gold: 75, silver: 50, copper: 0 }
+    }
   },
   {
     name: "Thane Ironward",
     class: "Warden",
-    race: "Guardian Wildkin",
+    race: "wildkin",
+    subrace: "guardian_wildkin",
+    raceDisplayName: "Guardian (Wildkin)",
     level: 6,
     health: { current: 120, max: 150 },
     mana: { current: 35, max: 50 },
     actionPoints: { current: 4, max: 4 },
-    color: "#228B22"
+    color: "#228B22",
+    lore: {
+      characterIcon: "ability_druid_catform"
+    },
+    equipment: {
+      weapon: { name: "Warhammer", slot: "weapon" },
+      armor: { name: "Plate Armor", slot: "armor" },
+      shield: { name: "Tower Shield", slot: "shield" },
+      accessories: []
+    },
+    inventory: {
+      items: [
+        { name: "Health Potion", quantity: 2 },
+        { name: "Rope", quantity: 1 },
+        { name: "Torch", quantity: 5 }
+      ],
+      currency: { platinum: 0, gold: 100, silver: 0, copper: 50 }
+    }
   },
   {
     name: "Zara Shadowdance",
     class: "Bladedancer",
-    race: "Doppel Mirrorkin",
+    race: "mirrorkin",
+    subrace: "doppel_mirrorkin",
+    raceDisplayName: "Doppel (Mirrorkin)",
     level: 3,
     health: { current: 45, max: 65 },
     mana: { current: 60, max: 80 },
     actionPoints: { current: 5, max: 6 },
-    color: "#8A2BE2"
+    color: "#8A2BE2",
+    lore: {
+      characterIcon: "ability_rogue_shadowdance"
+    },
+    equipment: {
+      weapon: { name: "Dual Daggers", slot: "weapon" },
+      armor: { name: "Leather Armor", slot: "armor" },
+      shield: null,
+      accessories: [{ name: "Cloak of Stealth", slot: "accessory" }]
+    },
+    inventory: {
+      items: [
+        { name: "Lockpicks", quantity: 1 },
+        { name: "Poison Vial", quantity: 3 },
+        { name: "Health Potion", quantity: 2 }
+      ],
+      currency: { platinum: 0, gold: 30, silver: 75, copper: 25 }
+    }
   },
   {
     name: "Grimjaw Bonecrusher",
     class: "Necromancer",
-    race: "Berserker Nordmark",
+    race: "nordmark",
+    subrace: "berserker_nordmark",
+    raceDisplayName: "Berserker (Nordmark)",
     level: 4,
     health: { current: 70, max: 90 },
     mana: { current: 75, max: 95 },
     actionPoints: { current: 3, max: 3 },
-    color: "#2F4F4F"
+    color: "#2F4F4F",
+    lore: {
+      characterIcon: "spell_shadow_raisedead"
+    },
+    equipment: {
+      weapon: { name: "Dark Staff", slot: "weapon" },
+      armor: { name: "Death Robes", slot: "armor" },
+      shield: null,
+      accessories: [{ name: "Skull Pendant", slot: "accessory" }]
+    },
+    inventory: {
+      items: [
+        { name: "Bone Dust", quantity: 10 },
+        { name: "Soul Gem", quantity: 2 },
+        { name: "Mana Potion", quantity: 3 }
+      ],
+      currency: { platinum: 0, gold: 60, silver: 15, copper: 5 }
+    }
   }
 ];
 
@@ -193,7 +286,11 @@ const LocalhostMultiplayerSimulator = ({ isVisible, currentRoom }) => {
         mana: newPlayer.mana,
         actionPoints: newPlayer.actionPoints,
         race: newPlayer.race,
-        raceDisplayName: newPlayer.race
+        subrace: newPlayer.subrace,
+        raceDisplayName: newPlayer.raceDisplayName,
+        lore: newPlayer.lore,
+        equipment: newPlayer.equipment,
+        inventory: newPlayer.inventory
       }
     };
 
@@ -256,7 +353,11 @@ const LocalhostMultiplayerSimulator = ({ isVisible, currentRoom }) => {
             mana: newPlayer.mana,
             actionPoints: newPlayer.actionPoints,
             race: newPlayer.race,
-            raceDisplayName: newPlayer.race
+            subrace: newPlayer.subrace,
+            raceDisplayName: newPlayer.raceDisplayName,
+            lore: newPlayer.lore,
+            equipment: newPlayer.equipment,
+            inventory: newPlayer.inventory
           }
         };
 

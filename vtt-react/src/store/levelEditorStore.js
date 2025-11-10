@@ -1307,7 +1307,14 @@ const useLevelEditorStore = create((set, get) => ({
 
             // Viewing from token management
             setViewingFromToken: (token) => {
-                set({ viewingFromToken: token });
+                // When changing viewing token OR disabling view from token (token = null),
+                // clear existing token afterimages to prevent tokens from getting "stuck"
+                // in their initial visibility state. This ensures tokens properly transition
+                // between interactive/memory states based on current visibility.
+                set({
+                    viewingFromToken: token,
+                    tokenAfterimages: {}
+                });
             },
 
             // Update visible area for FOV-based visibility

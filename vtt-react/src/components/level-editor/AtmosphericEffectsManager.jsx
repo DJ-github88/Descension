@@ -7,7 +7,7 @@ import './styles/AtmosphericEffectsManager.css';
  * AtmosphericEffectsManager - Handles weather and atmospheric effects
  * Creates visual overlays for rain, snow, fog, and other atmospheric conditions
  */
-const AtmosphericEffectsManager = () => {
+const AtmosphericEffectsManager = ({ disabled = false }) => {
     const canvasRef = useRef(null);
     const animationRef = useRef(null);
     const particlesRef = useRef([]);
@@ -202,7 +202,7 @@ const AtmosphericEffectsManager = () => {
 
     // Initialize weather effect
     useEffect(() => {
-        if (!atmosphericEffects || !weatherEffects.enabled || weatherEffects.type === 'none') {
+        if (disabled || !atmosphericEffects || !weatherEffects.enabled || weatherEffects.type === 'none') {
             particlesRef.current = [];
             return;
         }
@@ -225,7 +225,7 @@ const AtmosphericEffectsManager = () => {
 
     // Start/stop animation
     useEffect(() => {
-        if (atmosphericEffects && weatherEffects.enabled && weatherEffects.type !== 'none') {
+        if (!disabled && atmosphericEffects && weatherEffects.enabled && weatherEffects.type !== 'none') {
             animationRef.current = requestAnimationFrame(animate);
         } else {
             if (animationRef.current) {

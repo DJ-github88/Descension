@@ -212,6 +212,21 @@ const CharacterManagement = ({ user }) => {
                     <div className="character-portrait">
                       {character.image || character.lore?.characterImage ? (
                         <img src={character.image || character.lore?.characterImage} alt={character.name} />
+                      ) : character.characterIcon || character.lore?.characterIcon ? (
+                        <>
+                          <img 
+                            src={`https://wow.zamimg.com/images/wow/icons/large/${character.characterIcon || character.lore?.characterIcon}.jpg`} 
+                            alt={character.name}
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              const fallbackDiv = e.target.parentElement.querySelector('.default-portrait-text');
+                              if (fallbackDiv) fallbackDiv.style.display = 'flex';
+                            }}
+                          />
+                          <div className="default-portrait-text" style={{ display: 'none' }}>
+                            {character.name.charAt(0).toUpperCase()}
+                          </div>
+                        </>
                       ) : (
                         <div className="default-portrait-text">
                           {character.name.charAt(0).toUpperCase()}

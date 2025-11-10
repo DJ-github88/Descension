@@ -1600,12 +1600,23 @@
 
 .leader-crown {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    font-size: 16px;
+    top: -8px;
+    right: -8px;
+    font-size: 18px;
     color: #FFD700;
     filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
     z-index: 10;
+    transform: rotate(25deg);
+    animation: crownShine 2s ease-in-out infinite;
+}
+
+@keyframes crownShine {
+    0%, 100% {
+        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 8px rgba(255, 215, 0, 0.9));
+    }
 }
 
 .party-member-info {

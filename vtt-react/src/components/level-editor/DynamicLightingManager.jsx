@@ -7,7 +7,7 @@ import { calculateAreaLighting, isTileIlluminated } from '../../utils/LightingCa
  * DynamicLightingManager - Handles real-time lighting calculations and updates
  * This component runs in the background and manages lighting effects
  */
-const DynamicLightingManager = () => {
+const DynamicLightingManager = ({ disabled = false }) => {
     const lightingDataRef = useRef({});
     const lastUpdateRef = useRef(0);
     
@@ -126,12 +126,14 @@ const DynamicLightingManager = () => {
 
     // Update lighting when dependencies change
     useEffect(() => {
-        updateLighting();
-    }, [updateLighting]);
+        if (!disabled) {
+            updateLighting();
+        }
+    }, [disabled, updateLighting]);
 
     // Set up animation frame loop for flickering lights - OPTIMIZED for performance
     useEffect(() => {
-        if (!lightingEnabled) return;
+        if (disabled || !lightingEnabled) return;
 
         let animationId;
         let lastFlickerUpdate = 0;

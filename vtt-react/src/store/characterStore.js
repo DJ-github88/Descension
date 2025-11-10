@@ -75,17 +75,13 @@ const getCharactersStorageKey = () => {
 const shouldUseFirebase = () => {
     // In development on localhost, disable Firebase to avoid permission issues
     if (process.env.NODE_ENV === 'development' && window.location.hostname === 'localhost') {
-        console.log('🔥 [Firebase] shouldUseFirebase: false (localhost in development)');
         return false;
     }
 
     // Check for demo mode - always use localStorage in demo mode
-    let isDemoMode = false;
     try {
-        const firebaseConfig = require('../config/firebase');
-        isDemoMode = firebaseConfig.isDemoMode;
+        const { isDemoMode } = require('../config/firebase');
         if (isDemoMode) {
-            console.log('🔥 [Firebase] shouldUseFirebase: false (demo mode enabled)');
             return false;
         }
     } catch (error) {
@@ -94,19 +90,7 @@ const shouldUseFirebase = () => {
 
     // Check if Firebase is properly configured and user is authenticated
     const userId = getCurrentUserId();
-    const canUseFirebase = !!(userId && characterPersistenceService.isConfigured);
-    
-    // CRITICAL FIX: Log Firebase usage decision for debugging
-    console.log('🔥 [Firebase] shouldUseFirebase:', {
-        result: canUseFirebase,
-        userId: userId || 'none',
-        isConfigured: characterPersistenceService.isConfigured,
-        hostname: window.location.hostname,
-        nodeEnv: process.env.NODE_ENV,
-        isDemoMode: isDemoMode
-    });
-    
-    return canUseFirebase;
+    return !!(userId && characterPersistenceService.isConfigured);
 };
 
 const useCharacterStore = create((set, get) => ({
@@ -375,7 +359,8 @@ const useCharacterStore = create((set, get) => ({
         if (state.race && state.subrace) {
             const raceData = getFullRaceData(state.race, state.subrace);
             if (raceData) {
-                set({ raceDisplayName: raceData.subrace.name });
+                // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
+                set({ raceDisplayName: `${raceData.subrace.name} (${raceData.race.name})` });
             }
         } else if (state.race) {
             // If only race is selected, use the race's proper name
@@ -951,7 +936,8 @@ const useCharacterStore = create((set, get) => ({
                     newState.racialTraits = raceData.combinedTraits.traits;
                     newState.racialLanguages = raceData.combinedTraits.languages;
                     newState.racialSpeed = raceData.combinedTraits.speed;
-                    newState.raceDisplayName = raceData.subrace.name; // Set the full display name
+                    // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
+                    newState.raceDisplayName = `${raceData.subrace.name} (${raceData.race.name})`;
                 }
             }
 
@@ -1113,7 +1099,8 @@ const useCharacterStore = create((set, get) => ({
         const state = get();
 
         // Update race display name if race and subrace are set
-        if (state.race && state.subrace && !state.raceDisplayName) {
+        // Also update if the raceDisplayName doesn't contain parentheses (old format)
+        if (state.race && state.subrace && (!state.raceDisplayName || !state.raceDisplayName.includes('('))) {
             get().updateRaceDisplayName();
         }
 
@@ -1420,7 +1407,8 @@ const useCharacterStore = create((set, get) => ({
                             if (char.race && char.subrace) {
                                 const fullRaceData = getFullRaceData(char.race, char.subrace);
                                 if (fullRaceData?.subrace?.name) {
-                                    enriched.raceDisplayName = fullRaceData.subrace.name;
+                                    // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
+                                    enriched.raceDisplayName = `${fullRaceData.subrace.name} (${fullRaceData.race.name})`;
                                 }
                             } else if (char.race) {
                                 const raceData = getRaceData(char.race);
@@ -1477,7 +1465,8 @@ const useCharacterStore = create((set, get) => ({
                     if (char.race && char.subrace) {
                         const fullRaceData = getFullRaceData(char.race, char.subrace);
                         if (fullRaceData?.subrace?.name) {
-                            enriched.raceDisplayName = fullRaceData.subrace.name;
+                            // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
+                            enriched.raceDisplayName = `${fullRaceData.subrace.name} (${fullRaceData.race.name})`;
                         }
                     } else if (char.race) {
                         const raceData = getRaceData(char.race);
@@ -1877,7 +1866,8 @@ const useCharacterStore = create((set, get) => ({
                         if (!raceDisplayName && character.race && character.subrace) {
                             const raceData = getFullRaceData(character.race, character.subrace);
                             if (raceData) {
-                                raceDisplayName = raceData.subrace.name;
+                                // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
+                                raceDisplayName = `${raceData.subrace.name} (${raceData.race.name})`;
                             }
                         } else if (!raceDisplayName && character.race) {
                             const raceData = getRaceData(character.race);

@@ -1,21 +1,24 @@
 /* Local Room Indicator - Pathfinder Beige Style */
 .local-room-indicator {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc0 100%);
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  padding: 12px 16px;
+  border: 1px solid #8b4513;
+  border-radius: 6px;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.25);
-  backdrop-filter: blur(10px);
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.2);
+  backdrop-filter: blur(8px);
   z-index: 1000;
   font-family: 'Cinzel', serif;
   color: #5a1e12;
-  min-width: 300px;
+  min-width: 200px;
+  max-width: 90vw;
+  width: auto;
+  flex-wrap: wrap;
 }
 
 /* Removed leave room button styles - no longer needed */
@@ -28,13 +31,13 @@
 }
 
 .local-room-indicator .room-name {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #5a1e12;
 }
 
 .local-room-indicator .room-type {
-  font-size: 12px;
+  font-size: 11px;
   opacity: 0.7;
   font-weight: 400;
   color: #8b4513;
@@ -45,19 +48,20 @@
   background: linear-gradient(135deg, #8b4513 0%, #6d3410 100%);
   color: #f5f1e8;
   border: 1px solid rgba(139, 69, 19, 0.3);
-  padding: 10px 16px;
-  border-radius: 6px;
+  padding: 6px 10px;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 11px;
   font-family: 'Cinzel', serif;
   font-weight: 500;
   transition: all 0.3s ease;
   white-space: nowrap;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
 }
 
 .local-room-indicator .convert-room-btn:hover:not(:disabled) {
@@ -233,15 +237,31 @@
     position: relative;
     top: auto;
     right: auto;
-    margin: 16px;
-    min-width: auto;
+    margin: 8px;
+    min-width: 180px;
+    max-width: calc(100vw - 16px);
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     text-align: center;
+    padding: 6px 8px;
   }
 
   .local-room-indicator .room-info {
     text-align: center;
+  }
+
+  .local-room-indicator .room-name {
+    font-size: 12px;
+  }
+
+  .local-room-indicator .room-type {
+    font-size: 10px;
+  }
+
+  .local-room-indicator .convert-room-btn {
+    font-size: 10px;
+    padding: 4px 8px;
+    align-self: center;
   }
 
   .conversion-modal {
@@ -255,5 +275,28 @@
 
   .conversion-modal .modal-actions button {
     width: 100%;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .local-room-indicator {
+    min-width: 160px;
+    padding: 4px 6px;
+    gap: 6px;
+  }
+
+  .local-room-indicator .room-name {
+    font-size: 11px;
+  }
+
+  .local-room-indicator .room-type {
+    font-size: 9px;
+  }
+
+  .local-room-indicator .convert-room-btn {
+    font-size: 9px;
+    padding: 3px 6px;
+    gap: 4px;
   }
 }

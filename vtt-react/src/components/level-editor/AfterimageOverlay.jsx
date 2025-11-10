@@ -74,7 +74,8 @@ const AfterimageOverlay = () => {
             img.onerror = () => {
                 entry.loaded = false;
                 entry.image = null;
-                reject(new Error('Failed to load image'));
+                // Instead of rejecting with an error, resolve with null to handle gracefully
+                resolve(null);
             };
             img.src = url;
         });
@@ -205,45 +206,34 @@ const AfterimageOverlay = () => {
             // Check if this position is in an explored area - afterimages should show in fog
             const exploredTileKey = `${position.x},${position.y}`;
             const isExplored = exploredAreas[exploredTileKey];
+
+            // Simplified visibility check - check if afterimage position is close to viewing token
+            let isCurrentlyVisible = false;
+            const viewingFromToken = useLevelEditorStore.getState().viewingFromToken;
+
+            if (viewingFromToken && viewingFromToken.position) {
+                const dx = tokenWorldPos.x - viewingFromToken.position.x;
+                const dy = tokenWorldPos.y - viewingFromToken.position.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const visionRange = 6; // Default vision range in tiles
+                const maxDistance = visionRange * gridSize;
+
+                isCurrentlyVisible = distance <= maxDistance;
+            }
+
+
             if (!isExplored) {
                 // Not explored yet - don't show afterimage
                 return;
             }
-            
-            // Check if the actual token is currently visible at this position
-            // CRITICAL: Only skip afterimage if the token is BOTH at this position AND currently visible
-            // This ensures players only see afterimages (memories) when tokens are in fog
-            const allTokens = [
-                ...tokens.map(t => ({ ...t, type: 'creature', id: t.id, creatureId: t.creatureId })),
-                ...characterTokens.map(t => ({ ...t, type: 'character', id: t.id, characterId: t.characterId }))
-            ];
-            
-            // Find the actual token (regardless of position)
-            const actualToken = allTokens.find(t => 
-                t.id === tokenId || t.creatureId === tokenId || t.characterId === tokenId
-            );
-            
-            // Only skip afterimage if:
-            // 1. The actual token exists
-            // 2. The token is at this exact position (where the afterimage is)
-            // 3. The token is currently visible (in visible area)
-            // This ensures that when a GM drags a token from its memory position, players still see the afterimage
-            // until they actually see the token at that position again
-            if (actualToken && actualToken.position) {
-                const tGridX = Math.floor((actualToken.position.x - gridOffsetX) / gridSize);
-                const tGridY = Math.floor((actualToken.position.y - gridOffsetY) / gridSize);
-                const isAtAfterimagePosition = tGridX === position.x && tGridY === position.y;
-                
-                if (isAtAfterimagePosition) {
-                    // Token is at the afterimage position - check if it's visible
-                    const tokenTileKey = `${position.x},${position.y}`;
-                    if (visibleAreaSet.has(tokenTileKey)) {
-                        // Token is actually here AND visible - show real-time view instead of afterimage
-                        return;
-                    }
-                }
-                // If token is NOT at afterimage position, or NOT visible, show the afterimage (memory)
+
+            // CRITICAL: If the afterimage position is currently visible, don't render it
+            // This prevents showing afterimages in areas that are currently in view
+            if (isCurrentlyVisible) {
+                return;
             }
+
+            // Afterimages are managed by MemorySnapshotManager - only render if the area is explored but not currently visible
             
             // Show afterimage in fog (explored area) where token was last seen
             // This works even if the area is currently visible but token moved away

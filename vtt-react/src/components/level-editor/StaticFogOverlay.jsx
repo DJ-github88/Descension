@@ -537,7 +537,8 @@ const StaticFogOverlay = () => {
             fovAngle,
             facingAngle
         );
-        
+
+
         // Cache the result for use during drag
         cachedVisibleAreaRef.current = visibleTiles;
         return visibleTiles;
@@ -774,23 +775,23 @@ const StaticFogOverlay = () => {
         const revealedAreas = levelEditorState.revealedAreas || {};
         const exploredAreas = levelEditorState.exploredAreas || {};
         
-        // CRITICAL FIX: When viewing from a token in PLAYER mode, ONLY use current visibleAreaSet
-        // In GM mode, still show explored areas so GM can see what's been explored
-        // Don't check exploredAreas/revealedAreas in player mode as they create a hard boundary
-        // The visibility mask will handle erasing fog for the current visible area
+        // CRITICAL FIX: When viewing from a token, show both current vision AND explored areas
+        // This creates proper fog of war where players see explored areas plus current vision
         if (viewingFromToken && dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
             // If tile is in current visible area, it's viewable
             if (visibleAreaSet.has(tileKey)) {
                 return 'viewable'; // Currently visible - visibility mask will erase fog
+            }
+            // Show explored areas even when viewing from token - this is what the player has discovered
+            if (exploredAreas[tileKey]) {
+                return 'explored'; // Previously explored - dimmed but visible
             }
             // In GM mode, still show explored areas even when viewing from token
             // This allows GM to see what's been explored while still restricting to token vision
             if (isGMMode && exploredAreas[tileKey]) {
                 return 'explored'; // Previously explored - dimmed but visible to GM
             }
-            // In player mode, don't show explored areas - only current visible area
-            // This prevents the hard boundary effect for players
-            return 'covered'; // Not currently visible - fully covered fog
+            return 'covered'; // Not explored - fully covered fog
         }
         
         // Normal mode (not viewing from token): use explored/revealed areas

@@ -303,6 +303,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                                 ? `url(${member.character.tokenSettings.customIcon})`
                                 : member.character?.lore?.characterImage
                                 ? `url(${member.character.lore.characterImage})`
+                                : member.character?.lore?.characterIcon
+                                ? `url(https://wow.zamimg.com/images/wow/icons/large/${member.character.lore.characterIcon}.jpg)`
                                 : 'none',
                             backgroundSize: member.character?.lore?.imageTransformations
                                 ? `${(member.character.lore.imageTransformations.scale || 1) * 150}%`
@@ -317,7 +319,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                         }}
                     >
                         {/* Show default icon only if no character image */}
-                        {!member.character?.tokenSettings?.customIcon && !member.character?.lore?.characterImage && (
+                        {!member.character?.tokenSettings?.customIcon && !member.character?.lore?.characterImage && !member.character?.lore?.characterIcon && (
                             <i className="fas fa-user"></i>
                         )}
                     </div>

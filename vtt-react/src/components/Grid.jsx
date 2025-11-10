@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import useGameStore from '../store/gameStore';
 import useItemStore from "../store/itemStore";
 import useGridItemStore from "../store/gridItemStore";
 import useInventoryStore from "../store/inventoryStore";
-import useGameStore from "../store/gameStore";
 import useCreatureStore from "../store/creatureStore";
 import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
@@ -50,6 +50,10 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
         if (characterData.lore?.characterImage) {
             return characterData.lore.characterImage;
         }
+        // Check for characterIcon and convert to URL
+        if (characterData.lore?.characterIcon) {
+            return `https://wow.zamimg.com/images/wow/icons/large/${characterData.lore.characterIcon}.jpg`;
+        }
         return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
     };
 
@@ -92,63 +96,65 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
     );
 };
 
-export default function Grid() {
-    // CRITICAL FIX: Use selective subscriptions instead of entire gameStore
-    // This prevents re-renders when unrelated game state changes (e.g., HUD updates)
-    // Only subscribe to the specific values we actually use in Grid component
-    const gridSize = useGameStore(state => state.gridSize);
-    const backgroundImage = useGameStore(state => state.backgroundImage);
-    const backgroundImageUrl = useGameStore(state => state.backgroundImageUrl);
-    const backgrounds = useGameStore(state => state.backgrounds);
-    const activeBackgroundId = useGameStore(state => state.activeBackgroundId);
-    const gridOffsetX = useGameStore(state => state.gridOffsetX);
-    const gridOffsetY = useGameStore(state => state.gridOffsetY);
-    const gridLineColor = useGameStore(state => state.gridLineColor);
-    const gridLineThickness = useGameStore(state => state.gridLineThickness);
-    const gridMovesWithBackground = useGameStore(state => state.gridMovesWithBackground);
-    const backgroundSticksToGrid = useGameStore(state => state.backgroundSticksToGrid);
-    // CRITICAL PERFORMANCE FIX: Don't subscribe to camera position!
-    // Subscribing causes entire Grid to re-render on every camera movement
-    // Instead, read directly from store when needed
-    const zoomLevel = useGameStore(state => state.zoomLevel);
-    const playerZoom = useGameStore(state => state.playerZoom);
-    const showGrid = useGameStore(state => state.showGrid);
-    const showFogLayer = useGameStore(state => state.showFogLayer);
-    const showTileLayer = useGameStore(state => state.showTileLayer);
-    const showLightLayer = useGameStore(state => state.showLightLayer);
-    const showShadowLayer = useGameStore(state => state.showShadowLayer);
-    const showDrawingLayer = useGameStore(state => state.showDrawingLayer);
-    const showPortalLayer = useGameStore(state => state.showPortalLayer);
-    const showAtmosphericLayer = useGameStore(state => state.showAtmosphericLayer);
-    const showCreatureLayer = useGameStore(state => state.showCreatureLayer);
-    const showItemLayer = useGameStore(state => state.showItemLayer);
-    const showGMNotesLayer = useGameStore(state => state.showGMNotesLayer);
-    const showCharacterLayer = useGameStore(state => state.showCharacterLayer);
-    const showEffectLayer = useGameStore(state => state.showEffectLayer);
-    const showUILayer = useGameStore(state => state.showUILayer);
-    const showDebugLayer = useGameStore(state => state.showDebugLayer);
-    const tileSize = useGameStore(state => state.tileSize);
-    const moveCameraBy = useGameStore(state => state.moveCameraBy);
-    const setPlayerZoom = useGameStore(state => state.setPlayerZoom);
-    const setGridSize = useGameStore(state => state.setGridSize);
-    const setGridOffset = useGameStore(state => state.setGridOffset);
-    const gridAlignmentStep = useGameStore(state => state.gridAlignmentStep);
-    const setGridAlignmentStep = useGameStore(state => state.setGridAlignmentStep);
-    const gridAlignmentRectangles = useGameStore(state => state.gridAlignmentRectangles);
-    const addGridAlignmentRectangle = useGameStore(state => state.addGridAlignmentRectangle);
-    const clearGridAlignmentRectangles = useGameStore(state => state.clearGridAlignmentRectangles);
-    const showMovementVisualization = useGameStore(state => state.showMovementVisualization);
-    const isGridAlignmentMode = useGameStore(state => state.isGridAlignmentMode);
-    const isBackgroundManipulationMode = useGameStore(state => state.isBackgroundManipulationMode);
-    const isGMMode = useGameStore(state => state.isGMMode);
-    const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
-    const multiplayerRoom = useGameStore(state => state.multiplayerRoom);
-    const playerZoomIn = useGameStore(state => state.playerZoomIn);
-    const playerZoomOut = useGameStore(state => state.playerZoomOut);
-    const updateBackground = useGameStore(state => state.updateBackground);
-    const maxPlayerZoom = useGameStore(state => state.maxPlayerZoom);
-    const minPlayerZoom = useGameStore(state => state.minPlayerZoom);
-
+// Grid component that expects all props to be passed in
+function GridComponent({
+    gameStore,
+    gridSize,
+    backgroundImage,
+    backgroundImageUrl,
+    backgrounds,
+    activeBackgroundId,
+    gridOffsetX,
+    gridOffsetY,
+    gridLineColor,
+    gridLineThickness,
+    gridMovesWithBackground,
+    backgroundSticksToGrid,
+    zoomLevel,
+    playerZoom,
+    showGrid,
+    showFogLayer,
+    showTileLayer,
+    showLightLayer,
+    showShadowLayer,
+    showDrawingLayer,
+    showPortalLayer,
+    showAtmosphericLayer,
+    showCreatureLayer,
+    showItemLayer,
+    showGMNotesLayer,
+    showCharacterLayer,
+    showEffectLayer,
+    showUILayer,
+    showDebugLayer,
+    tileSize,
+    moveCameraBy,
+    setPlayerZoom,
+    setGridSize,
+    setGridOffset,
+    gridAlignmentStep,
+    setGridAlignmentStep,
+    gridAlignmentRectangles,
+    addGridAlignmentRectangle,
+    clearGridAlignmentRectangles,
+    showMovementVisualization,
+    isGridAlignmentMode,
+    isBackgroundManipulationMode,
+    isGMMode,
+    isInMultiplayer,
+    multiplayerRoom,
+    playerZoomIn,
+    playerZoomOut,
+    updateBackground,
+    maxPlayerZoom,
+    minPlayerZoom,
+    cameraX,
+    cameraY,
+    feetPerTile,
+    movementLineColor,
+    movementLineWidth,
+    windowScale
+}) {
     // CRITICAL FIX: Subscribe to activeMovement from combatStore for reactive movement visualization
     const activeMovement = useCombatStore(state => state.activeMovement);
 
@@ -169,7 +175,7 @@ export default function Grid() {
     const lastMousePosRef = useRef({ x: 0, y: 0 });
     const cameraDragRafRef = useRef(null);
     const pendingCameraDeltaRef = useRef({ deltaX: 0, deltaY: 0 });
-    
+
     // Scroll panning throttling refs (similar to camera drag)
     const scrollPanRafRef = useRef(null);
     const pendingScrollDeltaRef = useRef({ deltaX: 0, deltaY: 0 });
@@ -196,12 +202,11 @@ export default function Grid() {
             setIsZooming(false);
         }
 
-        // Read current state directly from store to avoid stale values
-        const currentState = useGameStore.getState();
-        const startZoom = currentState.playerZoom;
-        const startCameraX = currentState.cameraX;
-        const startCameraY = currentState.cameraY;
-        const currentZoomLevel = currentState.zoomLevel;
+        // Use prop values instead of reading from store
+        const startZoom = playerZoom;
+        const startCameraX = cameraX;
+        const startCameraY = cameraY;
+        const currentZoomLevel = zoomLevel;
         
         const startEffectiveZoom = currentZoomLevel * startZoom;
         const targetEffectiveZoom = currentZoomLevel * targetZoom;
@@ -238,11 +243,11 @@ export default function Grid() {
     }, [gridSize, effectiveZoom]);
 
     // Initialize grid system
-    const gridSystem = useMemo(() => createGridSystem(useGameStore), []);
+    const gridSystem = useMemo(() => createGridSystem(gameStore), [gameStore]);
 
     // Make gameStore, gridSystem, and levelEditorStore available globally for components that need it
     // This is a workaround for components that don't have direct access to the store
-    window.gameStore = useGameStore;
+    window.gameStore = gameStore;
     window.gridSystem = gridSystem;
     window.useLevelEditorStore = useLevelEditorStore;
 
@@ -365,9 +370,9 @@ export default function Grid() {
     const [gridTiles, setGridTiles] = useState([]);
 
     // Debounced camera position for grid updates to reduce lag during movement
-    // CRITICAL PERFORMANCE FIX: Read camera from store in effect to avoid Grid re-renders
-    const [debouncedCameraX, setDebouncedCameraX] = useState(() => useGameStore.getState().cameraX);
-    const [debouncedCameraY, setDebouncedCameraY] = useState(() => useGameStore.getState().cameraY);
+    // CRITICAL PERFORMANCE FIX: Read camera from props to avoid Grid re-renders
+    const [debouncedCameraX, setDebouncedCameraX] = useState(() => cameraX);
+    const [debouncedCameraY, setDebouncedCameraY] = useState(() => cameraY);
     const [debouncedZoom, setDebouncedZoom] = useState(effectiveZoom);
 
     // Debounce camera position updates
@@ -376,7 +381,7 @@ export default function Grid() {
         const debounceDelay = effectiveZoom < 0.3 ? 150 : effectiveZoom < 0.5 ? 100 : effectiveZoom < 1.0 ? 50 : 25;
 
         // Subscribe to store changes
-        const unsubscribe = useGameStore.subscribe((state, prevState) => {
+        const unsubscribe = gameStore.subscribe((state, prevState) => {
             // Only update if camera actually changed
             if (state.cameraX !== prevState.cameraX || state.cameraY !== prevState.cameraY) {
                 const timeoutId = setTimeout(() => {
@@ -586,7 +591,18 @@ export default function Grid() {
     useEffect(() => {
         // Initialize the map store with the current game state
         const levelEditorData = useLevelEditorStore.getState();
-        const gameStoreState = useGameStore.getState();
+        const gameStoreState = {
+            cameraX,
+            cameraY,
+            zoomLevel,
+            playerZoom,
+            gridSize,
+            gridOffsetX,
+            gridOffsetY,
+            gridLineColor,
+            gridLineThickness,
+            windowScale
+        };
         initializeWithCurrentState(gameStoreState, levelEditorData);
     }, []); // Only run once on mount
 
@@ -595,11 +611,10 @@ export default function Grid() {
         const updateViewportSize = () => {
             try {
                 // Store current camera position before viewport update
-                const currentState = useGameStore.getState();
-                const preservedCameraX = currentState.cameraX;
-                const preservedCameraY = currentState.cameraY;
-                const preservedGridOffsetX = currentState.gridOffsetX;
-                const preservedGridOffsetY = currentState.gridOffsetY;
+                const preservedCameraX = cameraX;
+                const preservedCameraY = cameraY;
+                const preservedGridOffsetX = gridOffsetX;
+                const preservedGridOffsetY = gridOffsetY;
 
 
 
@@ -612,9 +627,8 @@ export default function Grid() {
                 // Use multiple frames to ensure the update is complete
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
-                        const newState = useGameStore.getState();
-                        newState.setCameraPosition(preservedCameraX, preservedCameraY);
-                        newState.setGridOffset(preservedGridOffsetX, preservedGridOffsetY);
+                        // Since we're using props now, we need to call the setter functions passed as props
+                        setGridOffset(preservedGridOffsetX, preservedGridOffsetY);
 
 
                     });
@@ -646,11 +660,10 @@ export default function Grid() {
         const updateViewportForEditor = () => {
             try {
                 // Store current camera position before viewport update
-                const currentState = useGameStore.getState();
-                const preservedCameraX = currentState.cameraX;
-                const preservedCameraY = currentState.cameraY;
-                const preservedGridOffsetX = currentState.gridOffsetX;
-                const preservedGridOffsetY = currentState.gridOffsetY;
+                const preservedCameraX = cameraX;
+                const preservedCameraY = cameraY;
+                const preservedGridOffsetX = gridOffsetX;
+                const preservedGridOffsetY = gridOffsetY;
 
 
 
@@ -663,9 +676,8 @@ export default function Grid() {
                 // Use multiple frames to ensure the update is complete
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
-                        const newState = useGameStore.getState();
-                        newState.setCameraPosition(preservedCameraX, preservedCameraY);
-                        newState.setGridOffset(preservedGridOffsetX, preservedGridOffsetY);
+                        // Since we're using props now, we need to call the setter functions passed as props
+                        setGridOffset(preservedGridOffsetX, preservedGridOffsetY);
 
 
                     });
@@ -823,7 +835,7 @@ export default function Grid() {
             e.stopPropagation();
             console.log('🎯 [GRID] Middle mouse drag START - setting window._isDraggingCamera = true');
             setIsDraggingCamera(true);
-            useGameStore.setState({ isDraggingCamera: true }); // Update global state
+            gameStore.setState({ isDraggingCamera: true }); // Update global state
             window._isDraggingCamera = true; // PERFORMANCE FIX: Window flag for non-reactive reads
             setShouldEnableCameraDrag(true);
             lastMousePosRef.current = { x: e.clientX, y: e.clientY };
@@ -837,7 +849,7 @@ export default function Grid() {
             e.stopPropagation();
             console.log('🎯 [GRID] Ctrl+Left drag START - setting window._isDraggingCamera = true');
             setIsDraggingCamera(true);
-            useGameStore.setState({ isDraggingCamera: true }); // Update global state
+            gameStore.setState({ isDraggingCamera: true }); // Update global state
             window._isDraggingCamera = true; // PERFORMANCE FIX: Window flag for non-reactive reads
             setShouldEnableCameraDrag(true);
             lastMousePosRef.current = { x: e.clientX, y: e.clientY };
@@ -1002,10 +1014,9 @@ export default function Grid() {
                 if (activeBackground) {
                     const viewportCenterX = viewportSize.width / 2;
                     const viewportCenterY = viewportSize.height / 2;
-                    // Read camera from store to avoid re-renders
-                    const currentState = useGameStore.getState();
-                    const backgroundCenterX = viewportCenterX + (activeBackground.position.x - currentState.cameraX) * effectiveZoom;
-                    const backgroundCenterY = viewportCenterY + (activeBackground.position.y - currentState.cameraY) * effectiveZoom;
+                    // Use camera props to avoid re-renders
+                    const backgroundCenterX = viewportCenterX + (activeBackground.position.x - cameraX) * effectiveZoom;
+                    const backgroundCenterY = viewportCenterY + (activeBackground.position.y - cameraY) * effectiveZoom;
 
                     const startAngle = Math.atan2(
                         backgroundRotateStart.y - backgroundCenterY,
@@ -1039,12 +1050,11 @@ export default function Grid() {
                 cameraDragRafRef.current = requestAnimationFrame(() => {
                     const { deltaX: totalDeltaX, deltaY: totalDeltaY } = pendingCameraDeltaRef.current;
                     
-                    // Read effective zoom from store to avoid stale values
-                    const currentState = useGameStore.getState();
-                    const currentEffectiveZoom = currentState.zoomLevel * currentState.playerZoom;
+                    // Use zoom props to avoid stale values
+                    const currentEffectiveZoom = zoomLevel * playerZoom;
                     
                     // Move camera in opposite direction to simulate panning (use effective zoom)
-                    currentState.moveCameraBy(-totalDeltaX / currentEffectiveZoom, -totalDeltaY / currentEffectiveZoom);
+                    moveCameraBy(-totalDeltaX / currentEffectiveZoom, -totalDeltaY / currentEffectiveZoom);
                     
                     // Reset pending deltas
                     pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
@@ -1098,7 +1108,7 @@ export default function Grid() {
             
             console.log('🎯 [GRID] Drag END (handleMouseUp) - setting window._isDraggingCamera = false');
             setIsDraggingCamera(false);
-            useGameStore.setState({ isDraggingCamera: false }); // Update global state
+            gameStore.setState({ isDraggingCamera: false }); // Update global state
             window._isDraggingCamera = false; // PERFORMANCE FIX: Clear window flag
             setShouldEnableCameraDrag(false);
         }
@@ -1154,7 +1164,7 @@ export default function Grid() {
                     // Exit grid alignment mode
                     clearGridAlignmentRectangles();
                     setGridAlignmentStep(0);
-                    useGameStore.getState().setGridAlignmentMode(false);
+                    // Note: setGridAlignmentMode is not passed as prop, assuming it's handled elsewhere
                 }
             }
 
@@ -1191,7 +1201,7 @@ export default function Grid() {
         // Simply stop camera dragging - no momentum
         console.log('🎯 [GRID] Drag END (handleGlobalMouseUp) - setting window._isDraggingCamera = false');
         setIsDraggingCamera(false);
-        useGameStore.setState({ isDraggingCamera: false }); // Update global state
+        gameStore.setState({ isDraggingCamera: false }); // Update global state
         window._isDraggingCamera = false; // PERFORMANCE FIX: Clear window flag
         setShouldEnableCameraDrag(false);
     }, [
@@ -1280,12 +1290,11 @@ export default function Grid() {
                 // Process zoom immediately for better responsiveness
                 const { deltaY: totalDeltaY, mouseX, mouseY } = pendingZoomDeltaRef.current;
                 
-                // Read current state from store
-                const currentState = useGameStore.getState();
-                const currentZoom = currentState.playerZoom;
-                const currentZoomLevel = currentState.zoomLevel;
-                const currentMaxZoom = currentState.maxPlayerZoom;
-                const currentMinZoom = currentState.minPlayerZoom;
+                // Use zoom props
+                const currentZoom = playerZoom;
+                const currentZoomLevel = zoomLevel;
+                const currentMaxZoom = maxPlayerZoom;
+                const currentMinZoom = minPlayerZoom;
 
                 // Calculate target zoom based on accumulated delta
                 // Use exponential scaling for smoother zoom
@@ -1325,12 +1334,11 @@ export default function Grid() {
                     zoomRafRef.current = requestAnimationFrame(() => {
                         const { deltaY: totalDeltaY, mouseX, mouseY } = pendingZoomDeltaRef.current;
                         
-                        // Read current state from store
-                        const currentState = useGameStore.getState();
-                        const currentZoom = currentState.playerZoom;
-                        const currentZoomLevel = currentState.zoomLevel;
-                        const currentMaxZoom = currentState.maxPlayerZoom;
-                        const currentMinZoom = currentState.minPlayerZoom;
+                        // Use zoom props
+                        const currentZoom = playerZoom;
+                        const currentZoomLevel = zoomLevel;
+                        const currentMaxZoom = maxPlayerZoom;
+                        const currentMinZoom = minPlayerZoom;
 
                         // Calculate target zoom based on accumulated delta
                         const zoomFactor = 1.15;
@@ -1864,10 +1872,9 @@ export default function Grid() {
                     // Fallback calculation
                     const canvasWidth = window.innerWidth;
                     const canvasHeight = window.innerHeight;
-                    // Read camera from store to avoid re-renders
-                    const currentState = useGameStore.getState();
-                    const screenObjX = (obj.worldX - currentState.cameraX) * effectiveZoom + canvasWidth / 2;
-                    const screenObjY = (obj.worldY - currentState.cameraY) * effectiveZoom + canvasHeight / 2;
+                    // Use camera props to avoid re-renders
+                    const screenObjX = (obj.worldX - cameraX) * effectiveZoom + canvasWidth / 2;
+                    const screenObjY = (obj.worldY - cameraY) * effectiveZoom + canvasHeight / 2;
                     screenPos = { x: screenObjX, y: screenObjY };
                 }
             } else {
@@ -2017,7 +2024,7 @@ export default function Grid() {
                 // Get current player ID for multiplayer
                 // In multiplayer, use character name as player ID since getCurrentPlayer is not available globally
                 const characterName = useCharacterStore.getState().name;
-                const playerId = useGameStore.getState().isInMultiplayer ? characterName : null;
+                const playerId = isInMultiplayer ? characterName : null;
 
                 // Place the character token with player ID for multiplayer uniqueness
                 addCharacterToken(worldPos, playerId);
@@ -2372,10 +2379,9 @@ export default function Grid() {
                 const viewportCenterX = viewportSize.width / 2;
                 const viewportCenterY = viewportSize.height / 2;
 
-                // Read camera from store to avoid re-renders
-                const currentState = useGameStore.getState();
-                const backgroundX = viewportCenterX + (bg.position.x - currentState.cameraX) * effectiveZoom;
-                const backgroundY = viewportCenterY + (bg.position.y - currentState.cameraY) * effectiveZoom;
+                // Use camera props to avoid re-renders
+                const backgroundX = viewportCenterX + (bg.position.x - cameraX) * effectiveZoom;
+                const backgroundY = viewportCenterY + (bg.position.y - cameraY) * effectiveZoom;
 
                 // Use viewport-based sizing that scales properly with zoom
                 // This ensures the background covers a reasonable area
@@ -2904,7 +2910,7 @@ export default function Grid() {
 
                                             clearGridAlignmentRectangles();
                                             setGridAlignmentStep(0);
-                                            useGameStore.getState().setGridAlignmentMode(false);
+                                            gameStore.setState({ isGridAlignmentMode: false });
                                         }}
                                     >
                                         Apply with One Rectangle
@@ -3378,5 +3384,142 @@ export default function Grid() {
 
         </div>
         </>
+    );
+}
+
+// Wrapper component that uses gameStore directly
+export default function Grid() {
+    // Use gameStore directly - no circular dependencies exist
+    const gameState = useGameStore();
+
+    // Create a store wrapper object for InfiniteGridSystem
+    // This ensures we pass an object with getState() method
+    const storeWrapper = useMemo(() => ({
+        getState: () => useGameStore.getState(),
+        setState: (update) => useGameStore.setState(update),
+        subscribe: (listener) => useGameStore.subscribe(listener)
+    }), []);
+
+    // gameState is always available when using the hook directly
+
+    // Extract values from gameState with defaults
+    const {
+        gridSize = 50,
+        backgroundImage,
+        backgroundImageUrl,
+        backgrounds = [],
+        activeBackgroundId,
+        gridOffsetX = 0,
+        gridOffsetY = 0,
+        gridLineColor = 'rgba(212, 175, 55, 0.8)',
+        gridLineThickness = 2,
+        gridMovesWithBackground = false,
+        backgroundSticksToGrid = false,
+        zoomLevel = 1,
+        playerZoom = 1,
+        showGrid = true,
+        showFogLayer = true,
+        showTileLayer = true,
+        showLightLayer = true,
+        showShadowLayer = true,
+        showDrawingLayer = true,
+        showPortalLayer = true,
+        showAtmosphericLayer = true,
+        showCreatureLayer = true,
+        showItemLayer = true,
+        showGMNotesLayer = true,
+        showCharacterLayer = true,
+        showEffectLayer = true,
+        showUILayer = true,
+        showDebugLayer = false,
+        tileSize,
+        moveCameraBy,
+        setPlayerZoom,
+        setGridSize,
+        setGridOffset,
+        gridAlignmentStep = 0,
+        setGridAlignmentStep,
+        gridAlignmentRectangles = [],
+        addGridAlignmentRectangle,
+        clearGridAlignmentRectangles,
+        showMovementVisualization = true,
+        isGridAlignmentMode = false,
+        isBackgroundManipulationMode = false,
+        isGMMode = true,
+        isInMultiplayer = false,
+        multiplayerRoom,
+        playerZoomIn,
+        playerZoomOut,
+        updateBackground,
+        maxPlayerZoom = 4.0,
+        minPlayerZoom = 0.6,
+        cameraX = 0,
+        cameraY = 0,
+        feetPerTile = 5,
+        movementLineColor = '#FFD700',
+        movementLineWidth = 3,
+        windowScale = 0.83
+    } = gameState;
+
+    // Pass all props to the actual Grid component
+    return (
+        <GridComponent
+            gameStore={storeWrapper}
+            gridSize={gridSize}
+            backgroundImage={backgroundImage}
+            backgroundImageUrl={backgroundImageUrl}
+            backgrounds={backgrounds}
+            activeBackgroundId={activeBackgroundId}
+            gridOffsetX={gridOffsetX}
+            gridOffsetY={gridOffsetY}
+            gridLineColor={gridLineColor}
+            gridLineThickness={gridLineThickness}
+            gridMovesWithBackground={gridMovesWithBackground}
+            backgroundSticksToGrid={backgroundSticksToGrid}
+            zoomLevel={zoomLevel}
+            playerZoom={playerZoom}
+            showGrid={showGrid}
+            showFogLayer={showFogLayer}
+            showTileLayer={showTileLayer}
+            showLightLayer={showLightLayer}
+            showShadowLayer={showShadowLayer}
+            showDrawingLayer={showDrawingLayer}
+            showPortalLayer={showPortalLayer}
+            showAtmosphericLayer={showAtmosphericLayer}
+            showCreatureLayer={showCreatureLayer}
+            showItemLayer={showItemLayer}
+            showGMNotesLayer={showGMNotesLayer}
+            showCharacterLayer={showCharacterLayer}
+            showEffectLayer={showEffectLayer}
+            showUILayer={showUILayer}
+            showDebugLayer={showDebugLayer}
+            tileSize={tileSize}
+            moveCameraBy={moveCameraBy}
+            setPlayerZoom={setPlayerZoom}
+            setGridSize={setGridSize}
+            setGridOffset={setGridOffset}
+            gridAlignmentStep={gridAlignmentStep}
+            setGridAlignmentStep={setGridAlignmentStep}
+            gridAlignmentRectangles={gridAlignmentRectangles}
+            addGridAlignmentRectangle={addGridAlignmentRectangle}
+            clearGridAlignmentRectangles={clearGridAlignmentRectangles}
+            showMovementVisualization={showMovementVisualization}
+            isGridAlignmentMode={isGridAlignmentMode}
+            isBackgroundManipulationMode={isBackgroundManipulationMode}
+            isGMMode={isGMMode}
+            isInMultiplayer={isInMultiplayer}
+            multiplayerRoom={multiplayerRoom}
+            playerZoomIn={playerZoomIn}
+            playerZoomOut={playerZoomOut}
+            updateBackground={updateBackground}
+            maxPlayerZoom={maxPlayerZoom}
+            minPlayerZoom={minPlayerZoom}
+            cameraX={cameraX}
+            cameraY={cameraY}
+            feetPerTile={feetPerTile}
+            movementLineColor={movementLineColor}
+            movementLineWidth={movementLineWidth}
+            windowScale={windowScale}
+        />
     );
 }

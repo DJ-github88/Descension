@@ -98,13 +98,34 @@ const AccountDashboard = ({ user }) => {
       if (created && created.length > 0) {
         // Reload characters to show the new ones
         await loadCharacters();
-        alert(`✅ Created ${created.length} placeholder character(s) for testing!`);
+        console.log(`✅ Created ${created.length} placeholder character(s) for testing!`);
+        // Show success feedback without alert
+        const btn = document.querySelector('[title*="placeholder characters"]');
+        if (btn) {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-check"></i> Created!';
+          btn.style.backgroundColor = '#4CAF50';
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.backgroundColor = '';
+          }, 2000);
+        }
       } else {
-        alert('ℹ️ Placeholder characters already exist or could not be created.');
+        console.log('ℹ️ Placeholder characters already exist or could not be created.');
       }
     } catch (error) {
       console.error('Error creating placeholder characters:', error);
-      alert('❌ Failed to create placeholder characters: ' + error.message);
+      // Show error feedback without alert
+      const btn = document.querySelector('[title*="placeholder characters"]');
+      if (btn) {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-times"></i> Error!';
+        btn.style.backgroundColor = '#F44336';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.backgroundColor = '';
+        }, 2000);
+      }
     }
   };
 
@@ -452,6 +473,13 @@ const AccountDashboard = ({ user }) => {
                       }
                       if (character.image) {
                         return character.image;
+                      }
+                      // Check for characterIcon and convert to URL (check root level first, then lore)
+                      if (character.characterIcon) {
+                        return `https://wow.zamimg.com/images/wow/icons/large/${character.characterIcon}.jpg`;
+                      }
+                      if (character.lore?.characterIcon) {
+                        return `https://wow.zamimg.com/images/wow/icons/large/${character.lore.characterIcon}.jpg`;
                       }
                       return null;
                     };

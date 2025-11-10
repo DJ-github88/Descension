@@ -102,7 +102,14 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 characterImage: state.characterData.characterImage,
                 imageTransformations: state.characterData.imageTransformations,
                 characterIcon: state.characterData.characterIcon,
-                class_spells: state.characterData.class_spells
+                class_spells: state.characterData.class_spells,
+                selectedEquipment: state.characterData.selectedEquipment || [],
+                remainingCurrency: state.characterData.remainingCurrency || {
+                    platinum: 0,
+                    gold: 0,
+                    silver: 0,
+                    copper: 0
+                }
             };
             onComplete(characterData);
         }

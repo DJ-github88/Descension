@@ -9,7 +9,6 @@ import useBuffStore from '../../store/buffStore';
 import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCharacterStore from '../../store/characterStore';
-import { isPositionVisible } from '../../utils/VisibilityCalculations';
 // Removed useEnhancedMultiplayer import - hook was removed
 import TurnTimer from '../combat/TurnTimer';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
@@ -247,7 +246,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Note: Afterimages handle showing tokens at their remembered positions in explored areas
   // Tokens should only be visible if they're currently in the visible area
   // PERFORMANCE FIX: Cache visibility result and only recalculate when token actually moves
-  const lastVisibilityCheckRef = useRef({ position: null, result: true });
+  const lastVisibilityCheckRef = useRef({ cacheKey: null, result: true });
   const tokenVisibilityState = React.useMemo(() => {
     // If this is the viewing token, always visible
     if (isViewingFrom) return true;
@@ -260,30 +259,40 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           return false; // No position - hide token
         }
 
-        // PERFORMANCE: Only recalculate if position actually changed
-        // During camera drag, position stays the same so we can return cached result
-        const posKey = `${Math.floor(position.x)},${Math.floor(position.y)}`;
-        if (lastVisibilityCheckRef.current.position === posKey) {
-          return lastVisibilityCheckRef.current.result;
-        }
-
         // Get visibility polygon from store for accurate point-in-polygon check
         const levelEditorStore = useLevelEditorStore.getState();
         const visibilityPolygon = levelEditorStore.visibilityPolygon;
 
-        let visible = false;
-
-        // If polygon is available, use it for accurate visibility (raycast-based)
-        if (visibilityPolygon && Array.isArray(visibilityPolygon) && visibilityPolygon.length > 0) {
-          visible = isPositionVisible(position.x, position.y, visibilityPolygon, tokenGridSize, gridOffsetX, gridOffsetY);
-        } else if (visibleAreaSet && visibleAreaSet.size > 0) {
-          // Fallback to tile-based visibility if polygon not available
-          visible = isPositionVisible(position.x, position.y, visibleAreaSet, tokenGridSize, gridOffsetX, gridOffsetY);
+        // Create a comprehensive cache key that includes all factors affecting visibility
+        // Position alone is not enough - visibility depends on viewing token position and visibility area
+        const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
+        if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
+          return lastVisibilityCheckRef.current.result;
         }
 
-        // If not visible yet, check if token is within viewing token's vision range as fallback
+        let visible = false;
+
+        // Simplified visibility check - check if token is close to viewing token
+        if (viewingFromToken && viewingFromToken.position) {
+          const dx = position.x - viewingFromToken.position.x;
+          const dy = position.y - viewingFromToken.position.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const visionRange = 6; // Default vision range in tiles
+          const maxDistance = visionRange * tokenGridSize;
+
+          visible = distance <= maxDistance;
+          console.log(`🎯 CreatureToken ${token.creatureId || token.id} distance check: ${visible} (distance: ${distance.toFixed(1)}, max: ${maxDistance}) at ${position.x.toFixed(1)},${position.y.toFixed(1)}`);
+        } else {
+          // If not viewing from a token, always visible (normal GM view)
+          visible = true;
+        }
+
+        // Distance-based fallback ONLY when proper visibility calculations are not available
         // This helps when visible area calculation hasn't completed or is incomplete
-        if (!visible && viewingFromToken && viewingFromToken.position) {
+        // Do NOT use this as a way to show tokens that are technically out of view but within range
+        if (!visible && viewingFromToken && viewingFromToken.position &&
+            (!visibilityPolygon || visibilityPolygon.length === 0) &&
+            (!visibleAreaSet || visibleAreaSet.size === 0)) {
           const viewingPos = viewingFromToken.position;
           const dx = position.x - viewingPos.x;
           const dy = position.y - viewingPos.y;
@@ -297,7 +306,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           const visionRange = viewingTokenVision?.range || 6; // Default 6 tiles (30ft)
           const visionRangeInWorld = visionRange * tokenGridSize;
 
-          // If token is within vision range, show it
+          // If token is within vision range, show it (only as fallback when no proper visibility data)
           if (distance <= visionRangeInWorld) {
             visible = true;
           }
@@ -316,7 +325,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         // }
 
         // Cache the result
-        lastVisibilityCheckRef.current = { position: posKey, result: visible };
+        lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: visible };
 
         // Only show token if it's currently visible
         // Afterimages will show tokens at their remembered positions in explored areas
@@ -325,7 +334,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     
     // If not viewing from a token or in GM mode, always visible (normal view)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, visibleAreaSet, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
+  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
   
   // Legacy compatibility - check if token should be visible at all
   const isTokenVisible = React.useMemo(() => {

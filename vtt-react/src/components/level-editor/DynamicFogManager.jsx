@@ -8,7 +8,7 @@ import { updateRevealedAreas } from '../../utils/VisibilityCalculations';
  * DynamicFogManager - Handles real-time fog of war updates based on token movement
  * This component runs in the background and updates revealed areas when tokens move
  */
-const DynamicFogManager = () => {
+const DynamicFogManager = ({ disabled = false }) => {
     // Level editor store
     const {
         dynamicFogEnabled,
@@ -30,7 +30,7 @@ const DynamicFogManager = () => {
 
     // Calculate and update revealed areas based on current token positions
     const updateFogVisibility = useCallback(() => {
-        if (!dynamicFogEnabled) return;
+        if (disabled || !dynamicFogEnabled) return;
 
         // Prepare token data with vision information
         const tokensWithVision = tokens.map(token => {

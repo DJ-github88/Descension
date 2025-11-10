@@ -208,7 +208,7 @@ function GameScreen() {
     const navigate = useNavigate();
     const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
     const { createParty, leaveParty, updatePartyMember } = usePartyStore();
-    const { isGMMode } = useGameStore();
+    const { isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
     const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Enable auto-save for local rooms
@@ -451,6 +451,9 @@ function GameScreen() {
                         localStorage.removeItem('party-store');
                         leaveParty();
                         createParty('Single Player Party', character.name);
+                        // Update current player with GM status in single-player mode
+                        const { updatePartyMember } = usePartyStore.getState();
+                        updatePartyMember('current-player', { isGM: isGMMode });
                     } else {
                         console.error(`❌ Failed to load character: ${characterId}`);
                         // Fall back to loading any active character
@@ -466,12 +469,18 @@ function GameScreen() {
                         localStorage.removeItem('party-store');
                         leaveParty();
                         createParty('Single Player Party', activeCharacter.name);
+                        // Update current player with GM status in single-player mode
+                        const { updatePartyMember } = usePartyStore.getState();
+                        updatePartyMember('current-player', { isGM: isGMMode });
                     } else {
                         console.log('ℹ️ No active character found');
                         // Create a basic single-player party even without a character
                         localStorage.removeItem('party-store');
                         leaveParty();
                         createParty('Single Player Party', 'Player');
+                        // Update current player with GM status in single-player mode
+                        const { updatePartyMember } = usePartyStore.getState();
+                        updatePartyMember('current-player', { isGM: isGMMode });
                     }
                 }
             } catch (error) {
@@ -481,6 +490,15 @@ function GameScreen() {
 
         initializeCharacter();
     }, [location.state?.characterId, setActiveCharacter, loadActiveCharacter]);
+
+    // Update current player's GM status when GM mode changes
+    useEffect(() => {
+        const { updatePartyMember, partyMembers } = usePartyStore.getState();
+        const currentPlayer = partyMembers.find(m => m.id === 'current-player');
+        if (currentPlayer) {
+            updatePartyMember('current-player', { isGM: isGMMode });
+        }
+    }, [isGMMode]);
 
     return (
         <RoomProvider>
@@ -493,11 +511,11 @@ function GameScreen() {
                     <ActionBar />
                     <CombatSelectionWindow />
                     <CombatTimeline />
-                    {/* Disable expensive background managers in player mode for performance */}
-                    {isGMMode && <DynamicFogManager />}
-                    {isGMMode && <DynamicLightingManager />}
-                    {isGMMode && <AtmosphericEffectsManager />}
-                    {!isGMMode && <MemorySnapshotManager />}
+                    {/* Keep all managers mounted but conditionally active to prevent loading flashes */}
+                    <DynamicFogManager disabled={!isGMMode} />
+                    <DynamicLightingManager disabled={!isGMMode} />
+                    <AtmosphericEffectsManager disabled={!isGMMode} />
+                    <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
                     <DialogueSystem />
                     <DialogueControls />
                     <DiceRollingSystem />
