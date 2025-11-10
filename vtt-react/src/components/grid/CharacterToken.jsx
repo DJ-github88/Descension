@@ -37,7 +37,7 @@ const CharacterToken = ({
     const currentPosRef = useRef(position);
 
     // Drag threshold in pixels - token must move this distance before dragging starts
-    const DRAG_THRESHOLD = 4;
+    const DRAG_THRESHOLD = 1;
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
