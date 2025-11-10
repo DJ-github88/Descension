@@ -20,6 +20,9 @@ import Step9LoreDetails from './steps/Step8LoreDetails';
 import Step10EquipmentSelection from './steps/Step10EquipmentSelection';
 import Step11CharacterSummary from './steps/Step9CharacterSummary';
 
+// Import components
+import AnimatedChatBubble from './components/AnimatedChatBubble';
+
 // Import styles
 import './styles/CharacterCreationWizard.css';
 
@@ -177,10 +180,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 </div>
 
                 <div className="header-right">
-                    <div className="user-info">
-                        <i className="fas fa-user"></i>
-                        <span>{isEditing ? 'Editing Character' : 'Creating Character'}</span>
-                    </div>
+                    <AnimatedChatBubble currentStep={state.currentStep} isEditing={isEditing} />
                 </div>
             </div>
 
