@@ -1,8 +1,8 @@
 /* Animated RPG Chat Bubble - 16-bit Style */
 .animated-chat-bubble {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  bottom: 20px;
+  left: 20px;
   z-index: 1000;
   font-family: 'Cinzel', serif;
   animation: float 3s ease-in-out infinite;
