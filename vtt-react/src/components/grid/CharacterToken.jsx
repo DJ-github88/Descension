@@ -32,7 +32,7 @@ const CharacterToken = ({
     const [localPosition, setLocalPosition] = useState(position); // Local position for smooth dragging
 
     // Drag threshold in pixels - token must move this distance before dragging starts
-    const DRAG_THRESHOLD = 8;
+    const DRAG_THRESHOLD = 4;
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
@@ -548,7 +548,8 @@ const CharacterToken = ({
 
                     // Recalculate drag offset based on current mouse position and token's current screen position
                     // This ensures the token doesn't jump when dragging starts
-                    const currentScreenPos = gridSystem.worldToScreen(position.x, position.y, window.innerWidth, window.innerHeight);
+                    // Use localPosition for more accurate current visual position during drag
+                    const currentScreenPos = gridSystem.worldToScreen(localPosition.x, localPosition.y, window.innerWidth, window.innerHeight);
                     setDragOffset({
                         x: e.clientX - currentScreenPos.x,
                         y: e.clientY - currentScreenPos.y

@@ -148,7 +148,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
             isOpen={isOpen}
             onClose={onClose}
             title="Creature Library"
-            defaultSize={activeView === 'community' ? { width: 1300, height: 850 } : { width: 1200, height: 800 }}
+            defaultSize={activeView === 'community' ? { width: 1100, height: 700 } : { width: 900, height: 650 }}
             defaultPosition={getDefaultPosition()}
             centered={false}
             onDrag={handleWindowDrag}

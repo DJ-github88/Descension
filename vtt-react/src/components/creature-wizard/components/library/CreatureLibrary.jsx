@@ -96,6 +96,7 @@ const CreatureLibrary = ({ onEdit }) => {
   const [inspectingCreature, setInspectingCreature] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [creatureToDelete, setCreatureToDelete] = useState(null);
+  const tooltipTimeoutRef = useRef(null);
 
   // Recalculate tooltip position when tooltip content changes
   useEffect(() => {
@@ -242,8 +243,17 @@ const CreatureLibrary = ({ onEdit }) => {
   // Handle mouse enter for tooltip
   const handleMouseEnter = (creature, event) => {
     window.lastTooltipEvent = event; // Store for position recalculation
-    setHoveredCreature(creature);
-    updateTooltipPosition(event);
+
+    // Clear any existing timeout
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+
+    // Set a 3-second delay before showing the tooltip
+    tooltipTimeoutRef.current = setTimeout(() => {
+      setHoveredCreature(creature);
+      updateTooltipPosition(event);
+    }, 3000);
   };
 
   // Handle mouse move for tooltip
@@ -256,6 +266,11 @@ const CreatureLibrary = ({ onEdit }) => {
 
   // Handle mouse leave for tooltip
   const handleMouseLeave = () => {
+    // Clear the tooltip timeout if mouse leaves before 3 seconds
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+      tooltipTimeoutRef.current = null;
+    }
     setHoveredCreature(null);
   };
 
