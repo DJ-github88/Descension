@@ -34,7 +34,6 @@ const CharacterToken = ({
     // Refs to track current state in event handlers (like CreatureToken)
     const isMouseDownRef = useRef(false);
     const isDraggingRef = useRef(false);
-    const screenPositionRef = useRef(null);
     const currentPosRef = useRef(position);
 
     // Drag threshold in pixels - token must move this distance before dragging starts
@@ -274,17 +273,23 @@ const CharacterToken = ({
 
     // Removed enhanced multiplayer hook - was causing conflicts
 
-    // Calculate initial screen position (imperative approach like CreatureToken)
+    // Calculate screen position (imperative approach like CreatureToken)
+    // Use localPosition during dragging for immediate visual feedback
+    const currentPos = isDragging ? localPosition : position;
+
     const initialScreenPosition = useMemo(() => {
-        return position && gridSystem ? gridSystem.worldToScreen(
-            position.x,
-            position.y,
+        if (!currentPos) return { x: 0, y: 0 };
+        return gridSystem ? gridSystem.worldToScreen(
+            currentPos.x,
+            currentPos.y,
             window.innerWidth,
             window.innerHeight
-        ) : position || { x: 0, y: 0 };
-    }, [position, gridSystem]);
+        ) : { x: 0, y: 0 };
+    }, [currentPos, gridSystem]);
 
-    // Update screen position refs
+    const screenPositionRef = useRef(initialScreenPosition);
+    const cameraUpdateRafRef = useRef(null);
+
     const updateScreenPosition = useCallback((worldPosition) => {
         if (!worldPosition || !gridSystem) return;
 
@@ -306,14 +311,10 @@ const CharacterToken = ({
         }
     }, [gridSystem]);
 
-    // Initialize screen position ref
     useEffect(() => {
-        if (initialScreenPosition) {
-            screenPositionRef.current = initialScreenPosition;
-            currentPosRef.current = position;
-            updateScreenPosition(position);
-        }
-    }, [initialScreenPosition, position, updateScreenPosition]);
+        currentPosRef.current = currentPos;
+        updateScreenPosition(currentPos);
+    }, [currentPos, updateScreenPosition]);
 
     // Update screen position when camera changes (imperative like CreatureToken)
     useEffect(() => {
@@ -328,6 +329,7 @@ const CharacterToken = ({
                 state.zoomLevel !== prevState.zoomLevel ||
                 state.playerZoom !== prevState.playerZoom
             ) {
+                // Update immediately without RAF throttling for responsiveness
                 handleCameraChange();
             }
         });
@@ -563,12 +565,15 @@ const CharacterToken = ({
 
         // Calculate the offset from the cursor to the token's current screen position
         // This is the key to making the token follow the cursor correctly
-        if (screenPosition) {
-            setDragOffset({
-                x: e.clientX - screenPosition.x,
-                y: e.clientY - screenPosition.y
-            });
-        }
+        // Note: screenPosition is the center of the token (due to transform: translate(-50%, -50%))
+        const calculatedOffset = {
+            x: e.clientX - screenPosition.x,
+            y: e.clientY - screenPosition.y
+        };
+
+        // Removed excessive logging for performance
+
+        setDragOffset(calculatedOffset);
 
         // Store the starting position for potential movement
         setDragStartPosition({ x: position.x, y: position.y });
@@ -609,15 +614,6 @@ const CharacterToken = ({
                     // Removed excessive logging for performance
                     setIsDragging(true);
                     isDraggingRef.current = true;
-
-                    // Recalculate drag offset based on current mouse position and token's current screen position
-                    // This ensures the token doesn't jump when dragging starts
-                    // Use localPosition for more accurate current visual position during drag
-                    const currentScreenPos = gridSystem.worldToScreen(localPosition.x, localPosition.y, window.innerWidth, window.innerHeight);
-                    setDragOffset({
-                        x: e.clientX - currentScreenPos.x,
-                        y: e.clientY - currentScreenPos.y
-                    });
 
                     // Track drag state globally to prevent feedback loops in multiplayer
                     if (!window.multiplayerDragState) {
