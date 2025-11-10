@@ -225,6 +225,9 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
     <div className="animated-chat-bubble">
       <div className="chat-bubble-container">
         <div className="chat-bubble">
+          <div className="chat-speaker-icon">
+            <i className="fas fa-user-shield"></i>
+          </div>
           <div className="chat-content">
             <span
               ref={messageRef}

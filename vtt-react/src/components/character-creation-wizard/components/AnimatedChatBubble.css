@@ -34,9 +34,54 @@
   z-index: 10;
   overflow: hidden;
   pointer-events: auto; /* Re-enable pointer events for the bubble itself */
+  padding-left: 50px; /* Make room for the speaker icon */
 }
 
+.chat-speaker-icon {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: rotate(-8deg);
+  z-index: 11;
+  animation: speakerBob 4s ease-in-out infinite;
+}
 
+.chat-speaker-icon i {
+  font-size: 18px;
+  color: #f4f1e8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.chat-speaker-icon::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  animation: iconGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes speakerBob {
+  0%, 100% { transform: rotate(-8deg) translateY(0px); }
+  50% { transform: rotate(-8deg) translateY(-2px); }
+}
+
+@keyframes iconGlow {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.8; }
+}
 
 .chat-content {
   color: #2d1810;
