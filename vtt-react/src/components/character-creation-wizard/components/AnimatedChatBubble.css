@@ -32,22 +32,22 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(2px);
   z-index: 10;
-  overflow: hidden;
+  overflow: visible;
   pointer-events: auto; /* Re-enable pointer events for the bubble itself */
 }
 
 .chat-speaker-icon {
   position: absolute;
-  bottom: -8px;
-  left: 12px;
-  width: 36px;
-  height: 36px;
+  bottom: -12px;
+  left: -8px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #d4af37;
+  border: 3px solid #d4af37;
   border-radius: 50%;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   background: linear-gradient(135deg, #f8f4e6 0%, #e8dcc0 100%);
   transform: rotate(-8deg);
   z-index: 15;
@@ -72,7 +72,7 @@
 }
 
 .chat-speaker-icon .icon-fallback i {
-  font-size: 20px;
+  font-size: 24px;
   color: #f4f1e8;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
