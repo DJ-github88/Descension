@@ -631,24 +631,25 @@ const CharacterToken = ({
                 setIsDragging(true);
                 isDraggingRef.current = true;
 
-                // Track drag state globally to prevent feedback loops in multiplayer
-                if (!window.multiplayerDragState) {
-                    window.multiplayerDragState = new Map();
-                }
-                window.multiplayerDragState.set('character', true);
-
-                // Position token immediately at drag start to prevent jumping
-                // Keep it at its current position initially
-                if (tokenRef.current && screenPosition) {
-                    tokenRef.current.style.left = `${screenPosition.x}px`;
-                    tokenRef.current.style.top = `${screenPosition.y}px`;
+                // Position token immediately at current mouse position for instant responsiveness
+                if (tokenRef.current) {
+                    tokenRef.current.style.left = `${screenX}px`;
+                    tokenRef.current.style.top = `${screenY}px`;
                 }
 
-                // CRITICAL FIX: Start movement visualization when dragging starts
-                if (showMovementVisualization) {
-                    startMovementVisualization(tokenId, { x: position.x, y: position.y });
-                }
-                // Removed excessive logging for performance
+                // Do initialization asynchronously to not block the first drag update
+                setTimeout(() => {
+                    // Track drag state globally to prevent feedback loops in multiplayer
+                    if (!window.multiplayerDragState) {
+                        window.multiplayerDragState = new Map();
+                    }
+                    window.multiplayerDragState.set('character', true);
+
+                    // Start movement visualization
+                    if (showMovementVisualization) {
+                        startMovementVisualization(tokenId, { x: position.x, y: position.y });
+                    }
+                }, 0);
             }
 
             if (!isDraggingRef.current) return;
