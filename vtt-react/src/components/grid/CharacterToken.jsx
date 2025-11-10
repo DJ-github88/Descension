@@ -563,10 +563,12 @@ const CharacterToken = ({
 
         // Calculate the offset from the cursor to the token's current screen position
         // This is the key to making the token follow the cursor correctly
-        setDragOffset({
-            x: e.clientX - screenPosition.x,
-            y: e.clientY - screenPosition.y
-        });
+        if (screenPosition) {
+            setDragOffset({
+                x: e.clientX - screenPosition.x,
+                y: e.clientY - screenPosition.y
+            });
+        }
 
         // Store the starting position for potential movement
         setDragStartPosition({ x: position.x, y: position.y });
@@ -1067,7 +1069,7 @@ const CharacterToken = ({
         }
 
         // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText) {
+        if (window.showFloatingCombatText && screenPosition) {
             window.showFloatingCombatText(
                 amount.toString(),
                 'damage',
@@ -1104,7 +1106,7 @@ const CharacterToken = ({
         }
 
         // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText) {
+        if (window.showFloatingCombatText && screenPosition) {
             window.showFloatingCombatText(
                 amount.toString(),
                 'heal',
@@ -1169,7 +1171,7 @@ const CharacterToken = ({
         }
 
         // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText) {
+        if (window.showFloatingCombatText && screenPosition) {
             window.showFloatingCombatText(
                 amount.toString(),
                 'mana-damage',
@@ -1198,7 +1200,7 @@ const CharacterToken = ({
         useCharacterStore.getState().updateResource('mana', newMp, undefined);
 
         // Show floating combat text at token's screen position
-        if (window.showFloatingCombatText) {
+        if (window.showFloatingCombatText && screenPosition) {
             window.showFloatingCombatText(
                 amount.toString(),
                 'mana-heal',
@@ -1223,7 +1225,7 @@ const CharacterToken = ({
         useCharacterStore.getState().updateResource('mana', maxMp, undefined);
 
         // Show floating combat text
-        if (window.showFloatingCombatText) {
+        if (window.showFloatingCombatText && screenPosition) {
             window.showFloatingCombatText(
                 'FULL HEAL',
                 'heal',
@@ -1246,7 +1248,7 @@ const CharacterToken = ({
         useCharacterStore.getState().updateResource('health', 0, undefined);
 
         // Show floating combat text
-        if (window.showFloatingCombatText) {
+        if (window.showFloatingCombatText && screenPosition) {
             window.showFloatingCombatText(
                 'KILLED',
                 'damage',
@@ -1269,7 +1271,7 @@ const CharacterToken = ({
         useCharacterStore.getState().updateResource('mana', 0, undefined);
 
         // Show floating combat text
-        if (window.showFloatingCombatText) {
+        if (window.showFloatingCombatText && screenPosition) {
             window.showFloatingCombatText(
                 'DRAINED',
                 'mana-damage',
@@ -1311,8 +1313,8 @@ const CharacterToken = ({
                 ref={tokenRef}
                 className={`character-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isMyTurn ? 'my-turn' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
                 style={{
-                    left: screenPosition.x,
-                    top: screenPosition.y,
+                    left: screenPosition?.x || 0,
+                    top: screenPosition?.y || 0,
                     width: `${tokenSize}px`,
                     height: `${tokenSize}px`,
                     borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor),
