@@ -679,29 +679,27 @@ const CharacterToken = ({
             setLocalPosition({ x: worldPos.x, y: worldPos.y });
 
             // CRITICAL FIX: If this is the viewing token, update its position for visibility calculations
-            // Use lighter throttling to keep visibility responsive during drag
-            if (isViewingFrom) {
-                const now = Date.now();
-                // Throttle lightly to prevent excessive updates but keep visibility responsive
-                if (now - lastViewingTokenUpdateRef.current > 16) { // Update every ~60fps during drag
-                    lastViewingTokenUpdateRef.current = now;
-                    const levelEditorStore = useLevelEditorStore.getState();
-                    const currentViewingToken = levelEditorStore.viewingFromToken;
-                    if (currentViewingToken) {
-                        levelEditorStore.setViewingFromToken({
-                            ...currentViewingToken,
-                            position: { x: worldPos.x, y: worldPos.y }
-                        });
-                    }
+            // Throttle to reduce performance impact during fast dragging
+            if (isViewingFrom && now - lastViewingTokenUpdateRef.current > 100) { // Update every ~10fps during drag
+                lastViewingTokenUpdateRef.current = now;
+                const levelEditorStore = useLevelEditorStore.getState();
+                const currentViewingToken = levelEditorStore.viewingFromToken;
+                if (currentViewingToken) {
+                    levelEditorStore.setViewingFromToken({
+                        ...currentViewingToken,
+                        position: { x: worldPos.x, y: worldPos.y }
+                    });
                 }
             }
 
             // Handle expensive operations with simple time-based throttling (no RAF)
             const now = Date.now();
 
-            // CRITICAL FIX: Update timestamp on EVERY mousemove to keep grace period active during long drags
+            // CRITICAL FIX: Update timestamp periodically to keep grace period active during long drags
             // This prevents server echoes from slipping through during extended drag sessions
-            window[`recent_character_move_${tokenId}`] = now;
+            if (now - lastPositionUpdateRef.current > 1000) { // Only update every second
+                window[`recent_character_move_${tokenId}`] = now;
+            }
 
             // Send real-time position updates to multiplayer server during drag (throttled for performance)
             if (isInMultiplayer && multiplayerSocket && multiplayerSocket.connected) {
@@ -715,12 +713,12 @@ const CharacterToken = ({
                         isDragging: true
                     });
                     lastNetworkUpdate = now;
-                    console.log(`📡 Sent character drag position:`, { x: Math.round(snappedPos.x), y: Math.round(snappedPos.y) });
+                    // Removed logging for performance
                 }
             }
 
             // CRITICAL FIX: Update movement visualization and distance calculation during drag
-            if (dragStartPosition && now - lastCombatUpdate > 50) { // 20fps for combat updates
+            if (dragStartPosition && now - lastCombatUpdate > 100) { // 10fps for combat updates (reduced for performance)
                 // CRITICAL FIX: Snap position to tile center for clean distance display
                 // This makes the movement line point to tile centers and shows clean distance increments
                 const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
