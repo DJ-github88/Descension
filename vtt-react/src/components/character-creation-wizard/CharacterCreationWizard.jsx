@@ -180,7 +180,7 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 </div>
 
                 <div className="header-right">
-                    <AnimatedChatBubble currentStep={state.currentStep} isEditing={isEditing} />
+                    {/* Chat bubble moved to overlay */}
                 </div>
             </div>
 
@@ -253,6 +253,9 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                     </div>
                 </div>
             </div>
+
+            {/* Chat Bubble Overlay */}
+            <AnimatedChatBubble currentStep={state.currentStep} isEditing={isEditing} />
         </div>
     );
 };
