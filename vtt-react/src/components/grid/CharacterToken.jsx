@@ -639,9 +639,9 @@ const CharacterToken = ({
 
                 // Position token immediately at drag start to prevent jumping
                 // Keep it at its current position initially
-                if (tokenRef.current) {
-                    tokenRef.current.style.left = `${currentScreenPos.x}px`;
-                    tokenRef.current.style.top = `${currentScreenPos.y}px`;
+                if (tokenRef.current && screenPosition) {
+                    tokenRef.current.style.left = `${screenPosition.x}px`;
+                    tokenRef.current.style.top = `${screenPosition.y}px`;
                 }
 
                 // CRITICAL FIX: Start movement visualization when dragging starts
@@ -669,6 +669,9 @@ const CharacterToken = ({
             // Convert screen position back to world coordinates
             const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
+            // Handle expensive operations with simple time-based throttling (no RAF)
+            const now = Date.now();
+
             // Update DOM position immediately for smooth dragging (most important for responsiveness)
             if (tokenRef.current) {
                 tokenRef.current.style.left = `${screenX}px`;
@@ -691,9 +694,6 @@ const CharacterToken = ({
                     });
                 }
             }
-
-            // Handle expensive operations with simple time-based throttling (no RAF)
-            const now = Date.now();
 
             // CRITICAL FIX: Update timestamp periodically to keep grace period active during long drags
             // This prevents server echoes from slipping through during extended drag sessions
