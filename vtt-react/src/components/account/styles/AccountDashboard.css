@@ -3391,3 +3391,5 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
 }
+
+/* Use existing modal styles from RoomManager.css */

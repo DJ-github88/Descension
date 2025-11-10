@@ -13,6 +13,7 @@ import RoomManager from './RoomManager';
 import ClassResourceBar from '../hud/ClassResourceBar';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
+import './styles/RoomManager.css'; // Import existing modal styles
 
 const AccountDashboard = ({ user }) => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const AccountDashboard = ({ user }) => {
   const { userData, signOut, isDevelopmentBypass, disableDevelopmentBypass } = useAuthStore();
   const { characters, loadCharacters, currentCharacterId, deleteCharacter } = useCharacterStore();
   const [isLoading, setIsLoading] = useState(true);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   // Debug: Log all character data on component mount
   useEffect(() => {
@@ -162,26 +165,35 @@ const AccountDashboard = ({ user }) => {
     }
   };
 
-  const handleDeleteCharacter = async (characterId, characterName) => {
-    // Show confirmation dialog
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${characterName}"?\n\nThis action cannot be undone. All character data, including:\n• Stats and abilities\n• Inventory and equipment\n• Quest progress\n• Character history\n\nWill be permanently lost.`
-    );
+  const handleDeleteCharacter = (character) => {
+    setSelectedCharacter(character);
+    setShowDeleteConfirm(true);
+  };
 
-    if (!confirmed) {
-      return;
-    }
+  const confirmDeleteCharacter = async () => {
+    if (!selectedCharacter) return;
 
     try {
-      await deleteCharacter(characterId);
-      console.log(`✅ Character deleted: ${characterName}`);
+      await deleteCharacter(selectedCharacter.id);
+      console.log(`✅ Character deleted: ${selectedCharacter.name}`);
 
       // Reload characters to update the display
       await loadCharacters();
+
+      // Close modal
+      setShowDeleteConfirm(false);
+      setSelectedCharacter(null);
     } catch (error) {
       console.error('❌ Failed to delete character:', error);
       alert(`Failed to delete character: ${error.message}`);
+      setShowDeleteConfirm(false);
+      setSelectedCharacter(null);
     }
+  };
+
+  const cancelDeleteCharacter = () => {
+    setShowDeleteConfirm(false);
+    setSelectedCharacter(null);
   };
 
   // Calculate correct health and mana values for a character
@@ -673,7 +685,7 @@ const AccountDashboard = ({ user }) => {
                           </button>
                           <button
                             className="action-btn delete-btn"
-                            onClick={() => handleDeleteCharacter(character.id, character.name)}
+                            onClick={() => handleDeleteCharacter(character)}
                             title="Delete character permanently"
                           >
                             <i className="fas fa-trash"></i>
@@ -704,6 +716,32 @@ const AccountDashboard = ({ user }) => {
           </div>
         )}
       </main>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && selectedCharacter && (
+        <div className="modal-overlay">
+          <div className="delete-confirm-modal">
+            <h3>Delete Character</h3>
+            <p>Are you sure you want to delete <strong>{selectedCharacter.name}</strong>?</p>
+            <p className="warning-text">This action cannot be undone. All character data will be permanently lost.</p>
+            <div className="modal-actions">
+              <button
+                className="confirm-delete-btn"
+                onClick={confirmDeleteCharacter}
+              >
+                <i className="fas fa-trash"></i>
+                Delete
+              </button>
+              <button
+                className="cancel-btn"
+                onClick={cancelDeleteCharacter}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

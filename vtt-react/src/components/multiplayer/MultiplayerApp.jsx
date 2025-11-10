@@ -51,7 +51,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [actualPlayerCount, setActualPlayerCount] = useState(1); // Track actual player count from server
 
   // Get stores for state synchronization
-  const { setGMMode, setMultiplayerState, isGMMode } = useGameStore();
+  const { setGMMode, setMultiplayerState, isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
   const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
   const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore();
   const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
@@ -1957,7 +1957,7 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
         {isGMMode && <DynamicFogManager />}
         {isGMMode && <DynamicLightingManager />}
         {isGMMode && <AtmosphericEffectsManager />}
-        {!isGMMode && <MemorySnapshotManager />}
+        {!isGMMode && <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />}
         <DialogueSystem />
         <DialogueControls />
         <DiceRollingSystem />

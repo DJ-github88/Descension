@@ -1306,7 +1306,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
             <input
               type="password"
               className="password-modal-input"
-              placeholder="Enter room password"
+              placeholder="Enter room password (leave empty if none)"
               value={passwordInput}
               onChange={(e) => setPasswordInput(e.target.value)}
               onKeyDown={(e) => {
@@ -1328,7 +1328,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               <button
                 className="password-modal-btn primary"
                 onClick={handlePasswordSubmit}
-                disabled={!passwordInput.trim()}
               >
                 Join Room
               </button>

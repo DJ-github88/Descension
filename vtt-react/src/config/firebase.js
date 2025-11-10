@@ -25,7 +25,7 @@ const isFirebaseConfigured = !!(
 );
 
 // Demo mode for development - use demo auth when Firebase is not properly configured
-const isDemoMode = true; // Enabled for development testing
+const isDemoMode = process.env.NODE_ENV === 'development' || !isFirebaseConfigured;
 
 // CRITICAL FIX: Enhanced debug logging for Firebase configuration tracking
 console.log('🔥 Firebase Configuration Debug:');

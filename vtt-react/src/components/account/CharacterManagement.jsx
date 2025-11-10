@@ -495,8 +495,15 @@ const CharacterManagement = ({ user }) => {
               </button>
             </div>
             <div className="modal-body">
+              <div className="delete-warning">
+                <i className="fas fa-exclamation-triangle"></i>
+                <h4>Delete Character</h4>
+              </div>
               <p>Are you sure you want to delete <strong>{selectedCharacter.name}</strong>?</p>
-              <p className="warning-text">This action cannot be undone.</p>
+              <p className="warning-text">
+                <i className="fas fa-exclamation-circle"></i>
+                This action cannot be undone. All character data, including equipment, inventory, and progress will be permanently lost.
+              </p>
             </div>
             <div className="modal-footer">
               <button 
@@ -505,12 +512,12 @@ const CharacterManagement = ({ user }) => {
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={handleDeleteCharacter}
-                className="btn btn-danger"
+                className="btn btn-danger delete-confirm-btn"
               >
                 <i className="fas fa-trash"></i>
-                Delete Character
+                Yes, Delete Character
               </button>
             </div>
           </div>

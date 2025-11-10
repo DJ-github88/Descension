@@ -603,11 +603,13 @@ export default function App() {
             removeDuplicateCreatures();
         }, 1000); // Give stores time to initialize
 
-        // Clear old hardcoded spells from library
-        initializeCleanSpellLibrary();
+        // Clear old hardcoded spells from library (only if old spells exist)
+        const wasCleared = initializeCleanSpellLibrary();
 
-        // Force clear all spell data immediately for transition to user-only system
-        clearSpellLibraryNow();
+        // Only force clear if we detected old hardcoded spells
+        if (wasCleared) {
+            console.log('🔄 Cleared old hardcoded spells - users will start fresh');
+        }
 
         // Set initial landing mode class
         document.body.classList.add('landing-mode');
