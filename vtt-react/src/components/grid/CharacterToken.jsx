@@ -625,6 +625,10 @@ const CharacterToken = ({
                 totalDragDistanceRef.current = Math.max(totalDragDistanceRef.current, distance);
             }
 
+            // Calculate screen position for potential dragging
+            const screenX = e.clientX - dragOffset.x;
+            const screenY = e.clientY - dragOffset.y;
+
             // Start dragging immediately if mouse is down and we're not dragging yet
             if (isMouseDownRef.current && !isDraggingRef.current) {
                 // Removed excessive logging for performance
@@ -653,15 +657,6 @@ const CharacterToken = ({
             }
 
             if (!isDraggingRef.current) return;
-
-            // Prevent all default behaviors and stop propagation immediately
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-
-            // Calculate new screen position IMMEDIATELY for responsive visual feedback
-            const screenX = e.clientX - dragOffset.x;
-            const screenY = e.clientY - dragOffset.y;
 
             // Get viewport dimensions for proper coordinate conversion
             const viewportWidth = window.innerWidth;
