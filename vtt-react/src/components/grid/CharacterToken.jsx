@@ -35,9 +35,10 @@ const CharacterToken = ({
     const isMouseDownRef = useRef(false);
     const isDraggingRef = useRef(false);
     const currentPosRef = useRef(position);
+    const totalDragDistanceRef = useRef(0);
 
     // Drag threshold in pixels - token must move this distance before dragging starts
-    const DRAG_THRESHOLD = 1;
+    const DRAG_THRESHOLD = 0;
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [showTooltip, setShowTooltip] = useState(false);
@@ -561,6 +562,7 @@ const CharacterToken = ({
         setIsMouseDown(true);
         isMouseDownRef.current = true;
         setMouseDownPosition({ x: e.clientX, y: e.clientY });
+        totalDragDistanceRef.current = 0; // Reset drag distance tracking
         setShowTooltip(false);
 
         // Calculate the offset from the cursor to the token's current screen position
@@ -603,33 +605,31 @@ const CharacterToken = ({
         let dragTimeoutId = null;
 
         const handleMouseMove = (e) => {
-            // Check if mouse is down but not yet dragging (threshold check)
-            if (isMouseDownRef.current && !isDraggingRef.current && mouseDownPosition) {
+            // Track total drag distance for click vs drag detection
+            if (isMouseDownRef.current && mouseDownPosition) {
                 const deltaX = e.clientX - mouseDownPosition.x;
                 const deltaY = e.clientY - mouseDownPosition.y;
                 const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                totalDragDistanceRef.current = Math.max(totalDragDistanceRef.current, distance);
+            }
 
-                // Only start dragging if we've moved beyond the threshold
-                if (distance >= DRAG_THRESHOLD) {
-                    // Removed excessive logging for performance
-                    setIsDragging(true);
-                    isDraggingRef.current = true;
+            // Start dragging immediately if mouse is down and we're not dragging yet
+            if (isMouseDownRef.current && !isDraggingRef.current) {
+                // Removed excessive logging for performance
+                setIsDragging(true);
+                isDraggingRef.current = true;
 
-                    // Track drag state globally to prevent feedback loops in multiplayer
-                    if (!window.multiplayerDragState) {
-                        window.multiplayerDragState = new Map();
-                    }
-                    window.multiplayerDragState.set('character', true);
-
-                    // CRITICAL FIX: Start movement visualization when dragging starts
-                    if (showMovementVisualization) {
-                        startMovementVisualization(tokenId, { x: position.x, y: position.y });
-                    }
-                    // Removed excessive logging for performance
-                } else {
-                    // Still within threshold, don't start dragging yet
-                    return;
+                // Track drag state globally to prevent feedback loops in multiplayer
+                if (!window.multiplayerDragState) {
+                    window.multiplayerDragState = new Map();
                 }
+                window.multiplayerDragState.set('character', true);
+
+                // CRITICAL FIX: Start movement visualization when dragging starts
+                if (showMovementVisualization) {
+                    startMovementVisualization(tokenId, { x: position.x, y: position.y });
+                }
+                // Removed excessive logging for performance
             }
 
             if (!isDraggingRef.current) return;
@@ -725,23 +725,27 @@ const CharacterToken = ({
             // Handle mouse up for both dragging and non-dragging cases
             if (e.button !== 0) return; // Only handle left mouse button
 
-            // If we were just mouse down but never started dragging, this is a simple click
-            if (isMouseDown && !isDragging) {
-                // Removed excessive logging for performance
-                setIsMouseDown(false);
-                isMouseDownRef.current = false;
-                setMouseDownPosition(null);
-                setDragStartPosition(null);
-                return;
-            }
-
-            // If we're not dragging, nothing to do
+            // If we're not dragging, check if this should be treated as a click
             if (!isDragging) {
-                // Removed excessive logging for performance
-                setIsMouseDown(false);
-                setMouseDownPosition(null);
-                setDragStartPosition(null);
-                return;
+                // Check if this was a click (very little movement) vs a drag that never started
+                const wasClick = totalDragDistanceRef.current < 3; // 3 pixels threshold for click vs drag
+
+                if (wasClick) {
+                    // This was a click, not a drag
+                    // Removed excessive logging for performance
+                    setIsMouseDown(false);
+                    isMouseDownRef.current = false;
+                    setMouseDownPosition(null);
+                    setDragStartPosition(null);
+                    return;
+                } else {
+                    // Movement was significant but dragging never started - this shouldn't happen
+                    // but handle it gracefully by doing nothing (reset state)
+                    setIsMouseDown(false);
+                    setMouseDownPosition(null);
+                    setDragStartPosition(null);
+                    return;
+                }
             }
 
             e.preventDefault();
