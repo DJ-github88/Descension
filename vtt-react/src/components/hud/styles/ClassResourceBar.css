@@ -460,7 +460,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 8px;
     min-width: 160px;
-    z-index: 3050;
+    z-index: 3200;
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
 }
 
@@ -2513,26 +2513,28 @@ div[data-effect="chaotic-wave"],
 
 .rage-bar-container .bar-text {
     position: absolute;
-    top: -12px;
-    left: 0;
-    right: 0;
-    transform: none;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    color: #f8f4e6;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 1px 3px rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8),
+        -1px -1px 0 rgba(0, 0, 0, 0.8);
     pointer-events: none;
     z-index: 2;
+    letter-spacing: 0.5px;
 }
 
 .class-resource-bar.rage-bar.small .rage-bar-container .bar-text {
-    top: -10px;
     font-size: 10px;
 }
 
 .class-resource-bar.rage-bar.large .rage-bar-container .bar-text {
-    top: -16px;
     font-size: 14px;
 }
 
@@ -2645,7 +2647,7 @@ div[data-effect="chaotic-wave"],
     grid-template-columns: 1fr 1fr;
     gap: 8px;
     min-width: 200px;
-    z-index: 3050;
+    z-index: 3200;
     box-shadow: 0 10px 22px rgba(0,0,0,0.65);
 }
 .rage-menu-row {
@@ -2804,7 +2806,7 @@ div[data-effect="chaotic-wave"],
     position: relative;
     flex: 1;
     height: 100%;
-    background: rgba(26, 77, 109, 0.2);
+    background: rgba(26, 77, 109, 0.4);
     border-radius: 12px 0 0 12px;
     overflow: hidden;
     cursor: pointer;
@@ -2812,7 +2814,7 @@ div[data-effect="chaotic-wave"],
 }
 
 .momentum-bar-left:hover {
-    background: rgba(26, 77, 109, 0.3);
+    background: rgba(26, 77, 109, 0.5);
 }
 
 .momentum-fill {
@@ -2847,7 +2849,7 @@ div[data-effect="chaotic-wave"],
     position: relative;
     flex: 1;
     height: 100%;
-    background: rgba(52, 73, 94, 0.2);
+    background: rgba(52, 73, 94, 0.4);
     border-radius: 0 12px 12px 0;
     overflow: hidden;
     cursor: pointer;
@@ -2855,7 +2857,7 @@ div[data-effect="chaotic-wave"],
 }
 
 .flourish-bar-right:hover {
-    background: rgba(52, 73, 94, 0.3);
+    background: rgba(52, 73, 94, 0.5);
 }
 
 .flourish-fill {
@@ -2888,9 +2890,9 @@ div[data-effect="chaotic-wave"],
 /* Stance Icon (Center) */
 .stance-icon-center {
     position: relative;
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
     background: rgba(0, 0, 0, 0.4);
     border: 2px solid;
     border-radius: 50%;
@@ -2909,7 +2911,7 @@ div[data-effect="chaotic-wave"],
 }
 
 .stance-icon-center i {
-    font-size: 18px;
+    font-size: 14px;
     transition: all 0.2s ease;
 }
 
@@ -2921,7 +2923,7 @@ div[data-effect="chaotic-wave"],
     border: 2px solid rgba(139, 69, 19, 0.6);
     border-radius: 8px;
     padding: 10px;
-    z-index: 3000;
+    z-index: 3200;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
     min-width: 180px;
 }
@@ -3030,7 +3032,7 @@ div[data-effect="chaotic-wave"],
     border: 2px solid rgba(139, 69, 19, 0.6);
     border-radius: 8px;
     padding: 10px;
-    z-index: 3000;
+    z-index: 3200;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
     min-width: 180px;
 }

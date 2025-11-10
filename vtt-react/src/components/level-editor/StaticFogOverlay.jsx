@@ -79,7 +79,7 @@ const StaticFogOverlay = () => {
         }
         
         // Find the actual token with current position from all tokens
-        const allTokens = [...creatureTokens.map(t => ({ ...t, type: 'creature' })), ...characterTokens.map(t => ({ ...t, type: 'character' }))];
+        const allTokens = [...(creatureTokens || []).map(t => ({ ...t, type: 'creature' })), ...(characterTokens || []).map(t => ({ ...t, type: 'character' }))];
         
         // Get the token ID
         const tokenId = viewingFromToken.type === 'creature' 
@@ -419,7 +419,7 @@ const StaticFogOverlay = () => {
         });
         
         // Process all character tokens
-        characterTokens.forEach(token => {
+        (characterTokens || []).forEach(token => {
             if (!token.position) return;
             
             const gridX = Math.floor((token.position.x - gridOffsetX) / gridSize);
@@ -670,7 +670,7 @@ const StaticFogOverlay = () => {
         });
         
         // Process all character tokens
-        characterTokens.forEach(token => {
+        (characterTokens || []).forEach(token => {
             if (!token.position) return;
             
             let visionRange = 6;

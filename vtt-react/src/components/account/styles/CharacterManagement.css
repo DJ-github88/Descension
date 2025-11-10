@@ -895,18 +895,18 @@
 /* Character Actions */
 .character-actions {
   display: flex;
-  gap: 0.5rem;
-  justify-content: center;
+  gap: 0.25rem;
   margin-top: auto;
   padding-top: 0.6rem;
   border-top: 1px solid rgba(212, 175, 55, 0.3);
+  width: 100%;
 }
 
 /* Enhanced Button Styling */
 .character-actions .btn {
-  padding: 0.35rem 0.7rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 500;
   font-family: 'Cinzel', serif;
   border: 1px solid transparent;
@@ -916,7 +916,8 @@
   align-items: center;
   gap: 0.25rem;
   text-decoration: none;
-  min-width: 65px;
+  min-width: 0;
+  flex: 1;
   justify-content: center;
 }
 

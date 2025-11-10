@@ -569,7 +569,7 @@ export default function App() {
     const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
 
     // Authentication store
-    const { initializeAuth, refreshAuthState, isAuthenticated, user } = useAuthStore();
+    const { initializeAuth, refreshAuthState, isAuthenticated, user, isAuthInitialized } = useAuthStore();
 
     // Initialize authentication and stores
     useEffect(() => {
@@ -706,6 +706,24 @@ export default function App() {
     const handleCloseUserProfile = () => {
         setShowUserProfile(false);
     };
+
+    // Show loading screen until authentication is initialized
+    if (!isAuthInitialized) {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                background: 'var(--pf-gradient-parchment)',
+                color: 'var(--pf-text-primary)',
+                fontFamily: 'Cinzel, serif',
+                fontSize: '1.2rem'
+            }}>
+                Initializing authentication...
+            </div>
+        );
+    }
 
     return (
         <GameProvider>

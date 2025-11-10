@@ -38,6 +38,12 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
     // Track token positions for afterimage management
     const previousTokenPositionsRef = useRef(new Map());
 
+    // Track tokens that are becoming invisible to prevent flickering
+    const becomingInvisibleRef = useRef(new Map());
+
+    // Track tokens that are becoming visible again (for delayed afterimage removal)
+    const becomingVisibleRef = useRef(new Map());
+
     // Get visibility data (same as CharacterToken uses)
     const { visibilityPolygon } = useLevelEditorStore();
     const visibleArea = useLevelEditorStore(state => state.visibleArea);
@@ -125,17 +131,17 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         // Track all tokens (creatures and characters)
         // Merge creature data with token data for complete information
         const allTokens = [
-            ...tokens.map(t => {
+            ...(tokens || []).map(t => {
                 const creature = creatures.find(c => c.id === t.creatureId);
-                return { 
-                    ...t, 
+                return {
+                    ...t,
                     ...creature, // Merge creature data
-                    type: 'creature', 
-                    id: t.id, 
-                    creatureId: t.creatureId 
+                    type: 'creature',
+                    id: t.id,
+                    creatureId: t.creatureId
                 };
             }),
-            ...characterTokens.map(t => ({ ...t, type: 'character', id: t.id, characterId: t.characterId }))
+            ...(characterTokens || []).map(t => ({ ...t, type: 'character', id: t.id, characterId: t.characterId }))
         ];
 
         allTokens.forEach(token => {
@@ -146,15 +152,21 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
             let isCurrentlyVisible = false;
 
             // Simplified visibility check - check if token is close to viewing token
+            // Use the same logic as CreatureToken for consistency
             if (viewingFromToken && viewingFromToken.position) {
                 const dx = token.position.x - viewingFromToken.position.x;
                 const dy = token.position.y - viewingFromToken.position.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                const visionRange = 6; // Default vision range in tiles
-                const maxDistance = visionRange * gridSize;
+                const visionRange = 6; // Default vision range in tiles (same as CreatureToken)
+                const maxDistance = visionRange * gridSize; // Same formula as CreatureToken
 
                 isCurrentlyVisible = distance <= maxDistance;
-                console.log(`👁️ Token ${token.id} visibility check: distance=${distance.toFixed(1)}, max=${maxDistance}, visible=${isCurrentlyVisible}, viewingPos=${viewingFromToken.position.x.toFixed(1)},${viewingFromToken.position.y.toFixed(1)}, tokenPos=${token.position.x.toFixed(1)},${token.position.y.toFixed(1)}`);
+                // Reduce logging frequency to prevent spam
+                const now = Date.now();
+                if (!token.lastVisibilityLog || now - token.lastVisibilityLog > 1000) {
+                    console.log(`👁️ Token ${token.id} visibility check: distance=${distance.toFixed(1)}, max=${maxDistance}, visible=${isCurrentlyVisible}, viewingPos=${viewingFromToken.position.x.toFixed(1)},${viewingFromToken.position.y.toFixed(1)}, tokenPos=${token.position.x.toFixed(1)},${token.position.y.toFixed(1)}`);
+                    token.lastVisibilityLog = now;
+                }
             } else {
                 // If not viewing from a token, consider all tokens visible
                 isCurrentlyVisible = true;
@@ -171,13 +183,63 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
 
             // Handle token visibility changes for afterimage management
             if (isCurrentlyVisible) {
-                // Token is currently visible - update last seen position and remove afterimage
-                // The player can see this token right now, so no need for a memory
+                // Token is currently visible - cancel any pending afterimage creation timer
+                const becomingInvisible = becomingInvisibleRef.current;
+                if (becomingInvisible.has(token.id)) {
+                    console.log(`❌ Cancelling afterimage creation for token ${token.id} - became visible again`);
+                    clearTimeout(becomingInvisible.get(token.id));
+                    becomingInvisible.delete(token.id);
+                }
+
+                // Token is currently visible - schedule delayed removal of any existing afterimage
+                // This makes afterimages more "rigid" - they don't disappear immediately
                 const levelEditorStore = useLevelEditorStore.getState();
                 const existingAfterimage = levelEditorStore.tokenAfterimages[token.id];
+                const becomingVisible = becomingVisibleRef.current;
 
-                if (existingAfterimage) {
-                    removeTokenAfterimage(token.id);
+                if (existingAfterimage && !becomingVisible.has(token.id)) {
+                    console.log(`⏳ Token ${token.id} became visible - scheduling afterimage removal in 5 seconds`);
+                    const timerId = setTimeout(() => {
+                        // Double-check that token is still visible before removing afterimage
+                        const currentStore = useLevelEditorStore.getState();
+                        if (currentStore.tokenAfterimages[token.id]) {
+                            // Check if the token is still visible
+                            const allTokens = [
+                                ...(tokens || []).map(t => {
+                                    const creature = creatures.find(c => c.id === t.creatureId);
+                                    return {
+                                        ...t,
+                                        ...creature,
+                                        type: 'creature',
+                                        id: t.id,
+                                        creatureId: t.creatureId
+                                    };
+                                }),
+                                ...(characterTokens || []).map(t => ({ ...t, type: 'character', id: t.id, characterId: t.characterId }))
+                            ];
+                            const realToken = allTokens.find(t => t.id === token.id);
+
+                            if (realToken && realToken.position) {
+                                const viewingFromToken = useLevelEditorStore.getState().viewingFromToken;
+                                if (viewingFromToken && viewingFromToken.position) {
+                                    const dx = realToken.position.x - viewingFromToken.position.x;
+                                    const dy = realToken.position.y - viewingFromToken.position.y;
+                                    const distance = Math.sqrt(dx * dx + dy * dy);
+                                    const visionRange = 6;
+                                    const maxDistance = visionRange * gridSize;
+
+                                    const stillVisible = distance <= maxDistance;
+                                    if (stillVisible) {
+                                        console.log(`🗑️ Removing afterimage for token ${token.id} - token has been visible for 5 seconds`);
+                                        removeTokenAfterimage(token.id);
+                                    }
+                                }
+                            }
+                        }
+                        becomingVisible.delete(token.id);
+                    }, 5000); // 5 second delay before removing afterimage
+
+                    becomingVisible.set(token.id, timerId);
                 }
 
                 // Track the current visible position for future afterimage creation
@@ -190,26 +252,45 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                 // Token is not currently visible
                 const levelEditorStore = useLevelEditorStore.getState();
                 const existingAfterimage = levelEditorStore.tokenAfterimages[token.id];
+                const becomingInvisible = becomingInvisibleRef.current;
 
                 if (!existingAfterimage && previousPosition?.wasVisible) {
                     // Token was previously visible but is now out of view
-                    // Create afterimage at the position where it was last visible
-                    console.log(`🧠 Creating afterimage for token ${token.id} that moved out of view at position ${previousPosition.position.x},${previousPosition.position.y}`);
-                    const fullTokenData = {
-                        ...token, // This already includes merged creature data with tokenIcon
-                        state: token.state || {},
-                        // Ensure we have the creature/character data for image extraction
-                        creatureId: token.creatureId,
-                        characterId: token.characterId,
-                        // tokenIcon is already included from merged creature data via ...token
-                        customTokenImage: token.customTokenImage,
-                        tokenBorder: token.tokenBorder,
-                        // Include creature/character data if available
-                        ...(token.creatureId ? { creature: token } : {}),
-                        ...(token.characterId ? { character: token } : {})
-                    };
+                    // Start a timer to create afterimage after a delay to prevent flickering
+                    if (!becomingInvisible.has(token.id)) {
+                        console.log(`⏳ Token ${token.id} becoming invisible, starting timer...`);
+                        const timerId = setTimeout(() => {
+                            // Double-check that token is still invisible and no afterimage exists
+                            const currentStore = useLevelEditorStore.getState();
+                            if (!currentStore.tokenAfterimages[token.id]) {
+                                const currentToken = allTokens.find(t => t.id === token.id);
+                                if (currentToken && currentToken.position) {
+                                    // Recalculate current grid position
+                                    const currentGridX = Math.floor((currentToken.position.x - gridOffsetX) / gridSize);
+                                    const currentGridY = Math.floor((currentToken.position.y - gridOffsetY) / gridSize);
 
-                    updateTokenAfterimage(token.id, fullTokenData, previousPosition.position);
+                                    console.log(`🧠 Creating afterimage for token ${token.id} at position ${currentGridX},${currentGridY}`);
+                                    const fullTokenData = {
+                                        ...currentToken,
+                                        state: currentToken.state || {},
+                                        creatureId: currentToken.creatureId,
+                                        characterId: currentToken.characterId,
+                                        customTokenImage: currentToken.customTokenImage,
+                                        tokenBorder: currentToken.tokenBorder,
+                                        ...(currentToken.creatureId ? { creature: currentToken } : {}),
+                                        ...(currentToken.characterId ? { character: currentToken } : {})
+                                    };
+
+                                    updateTokenAfterimage(token.id, fullTokenData, { x: currentGridX, y: currentGridY });
+                                    // Ensure the afterimage position is marked as explored so it can be displayed
+                                    setExploredArea(currentGridX, currentGridY, true);
+                                }
+                            }
+                            becomingInvisible.delete(token.id);
+                        }, 500); // 500ms delay to prevent flickering
+
+                        becomingInvisible.set(token.id, timerId);
+                    }
                 } else if (!existingAfterimage && !previousPosition?.wasVisible) {
                     // Token was never visible but we're moving it into fog
                     // This shouldn't create an afterimage since the player never saw it
@@ -229,10 +310,22 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         // Only remove if the afterimage actually exists to prevent infinite loops
         // Access from store directly to get current value
         const levelEditorStore = useLevelEditorStore.getState();
+        const becomingInvisible = becomingInvisibleRef.current;
+
         Object.keys(levelEditorStore.tokenAfterimages).forEach(tokenId => {
             const tokenExists = allTokens.some(t => t.id === tokenId);
             if (!tokenExists && levelEditorStore.tokenAfterimages[tokenId]) {
                 removeTokenAfterimage(tokenId);
+                // Also cancel any pending timers for this token
+                const becomingVisible = becomingVisibleRef.current;
+                if (becomingInvisible.has(tokenId)) {
+                    clearTimeout(becomingInvisible.get(tokenId));
+                    becomingInvisible.delete(tokenId);
+                }
+                if (becomingVisible.has(tokenId)) {
+                    clearTimeout(becomingVisible.get(tokenId));
+                    becomingVisible.delete(tokenId);
+                }
             }
         });
 
@@ -251,6 +344,7 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         gridOffsetY,
         updateTokenAfterimage,
         removeTokenAfterimage,
+        setExploredArea,
         visibilityPolygon,
         visibleAreaSet
     ]);
@@ -305,6 +399,24 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
         updateTokenAfterimages,
         isModeSwitching
     ]);
+
+    // Cleanup all timers on unmount
+    useEffect(() => {
+        return () => {
+            const becomingInvisible = becomingInvisibleRef.current;
+            const becomingVisible = becomingVisibleRef.current;
+
+            becomingInvisible.forEach((timerId) => {
+                clearTimeout(timerId);
+            });
+            becomingInvisible.clear();
+
+            becomingVisible.forEach((timerId) => {
+                clearTimeout(timerId);
+            });
+            becomingVisible.clear();
+        };
+    }, []);
 
     // This component doesn't render anything - it just manages memory state
     return null;

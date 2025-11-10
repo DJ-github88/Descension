@@ -394,7 +394,7 @@ const AccountDashboard = ({ user }) => {
                   Create Character
                 </button>
                 <button
-                  className="btn-secondary"
+                  className="create-character-btn"
                   onClick={handleCreatePlaceholderCharacters}
                   title="Create placeholder characters for testing (with all data filled out)"
                 >

@@ -72,7 +72,7 @@ const MovementVisualization = ({
         // If not a creature token, check if it's a character token
         let isCharacterToken = false;
         if (!creature) {
-            const characterToken = characterTokens.find(t => t.id === tokenId);
+            const characterToken = (characterTokens || []).find(t => t.id === tokenId);
             if (characterToken) {
                 isCharacterToken = true;
                 // Create a mock creature object from character data

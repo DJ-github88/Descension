@@ -140,16 +140,16 @@ export const useLevelEditorPersistence = () => {
       clearTimeout(autoSaveTimerRef.current);
     }
 
-    // Don't auto-save too frequently
+    // Don't auto-save too frequently - increased to 15 seconds minimum
     const timeSinceLastSave = Date.now() - lastSaveTimeRef.current;
-    if (timeSinceLastSave < 5000) { // Minimum 5 seconds between saves
+    if (timeSinceLastSave < 15000) { // Minimum 15 seconds between saves
       return;
     }
 
-    // Schedule save after 3 seconds of inactivity
+    // Schedule save after 10 seconds of inactivity (increased from 3)
     autoSaveTimerRef.current = setTimeout(() => {
       saveLevelEditorState();
-    }, 3000);
+    }, 10000);
   }, [saveLevelEditorState]);
 
   /**

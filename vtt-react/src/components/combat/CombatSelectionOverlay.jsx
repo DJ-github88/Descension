@@ -30,7 +30,7 @@ const CombatSelectionWindow = () => {
 
         // Get selected creature and character tokens
         const selectedCreatureTokens = tokens.filter(token => selectedTokens.has(token.id));
-        const selectedCharacterTokens = characterTokens.filter(token => selectedTokens.has(token.id));
+        const selectedCharacterTokens = (characterTokens || []).filter(token => selectedTokens.has(token.id));
         const allSelectedTokens = [...selectedCreatureTokens, ...selectedCharacterTokens];
 
         // Add combat notification function
@@ -48,7 +48,7 @@ const CombatSelectionWindow = () => {
 
     const getSelectedTokenData = () => {
         const selectedCreatureTokens = tokens.filter(token => selectedTokens.has(token.id));
-        const selectedCharacterTokens = characterTokens.filter(token => selectedTokens.has(token.id));
+        const selectedCharacterTokens = (characterTokens || []).filter(token => selectedTokens.has(token.id));
 
         const creatureData = selectedCreatureTokens.map(token => {
             const creature = creatures.find(c => c.id === token.creatureId);

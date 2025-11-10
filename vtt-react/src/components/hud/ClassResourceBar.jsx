@@ -303,6 +303,11 @@ const ClassResourceBar = ({
     const finalConfig = config || defaultConfig;
     const finalClassResource = classResource || { current: 0, max: finalConfig.mechanics?.max || 20 };
 
+    // Define stance value for Bladedancer tooltips (needs to be accessible to renderTooltip)
+    const stanceValue = context === 'account'
+        ? (finalClassResource?.stance?.current ?? 'Flowing Water')
+        : currentStance;
+
     // Calculate percentage for progress bars
     const percentage = finalClassResource.max > 0 ? (finalClassResource.current / finalClassResource.max) * 100 : 0;
 
@@ -4617,8 +4622,13 @@ const ClassResourceBar = ({
 
     // Stance Flow display (Bladedancer) - Icon centered, bars on sides
     const renderStanceFlow = () => {
-        const momentumValue = localMomentum;
-        const flourishValue = localFlourish;
+        // Use actual character resource values for account context, local state for HUD
+        const momentumValue = context === 'account'
+            ? (finalClassResource?.momentum?.current ?? finalClassResource?.current ?? 0)
+            : localMomentum;
+        const flourishValue = context === 'account'
+            ? (finalClassResource?.flourish?.current ?? 0)
+            : localFlourish;
         const momentumMax = finalConfig.mechanics?.momentum?.max || 20;
         const flourishMax = finalConfig.mechanics?.flourish?.max || 5;
         const momentumPercentage = (momentumValue / momentumMax) * 100;
@@ -4629,7 +4639,7 @@ const ClassResourceBar = ({
         const transitionCosts = finalConfig.transitionCosts || {};
 
         // Get available transitions from current stance
-        let availableTransitions = stanceNetwork[currentStance] || [];
+        let availableTransitions = stanceNetwork[stanceValue] || [];
 
         // Shadow Dancer can enter Shadow Step from any stance
         if (selectedSpecialization === 'Shadow Dancer' && !availableTransitions.includes('Shadow Step')) {
@@ -4653,11 +4663,11 @@ const ClassResourceBar = ({
             return baseCost;
         };
 
-        // Handle stance transition
+        // Handle stance transition (only for HUD context)
         const transitionToStance = (targetStance) => {
-            if (!availableTransitions.includes(targetStance)) return;
+            if (context === 'account' || !availableTransitions.includes(targetStance)) return;
 
-            const cost = getTransitionCost(currentStance, targetStance);
+            const cost = getTransitionCost(stanceValue, targetStance);
             if (momentumValue >= cost) {
                 setLocalMomentum(momentumValue - cost);
                 setCurrentStance(targetStance);
@@ -4665,7 +4675,7 @@ const ClassResourceBar = ({
             }
         };
 
-        const currentStanceData = stances[currentStance] || {};
+        const currentStanceData = stances[stanceValue] || {};
 
         // Stance data with detailed bonuses/penalties
         const stanceDetails = {
@@ -4721,6 +4731,7 @@ const ClassResourceBar = ({
                     <div
                         className="momentum-bar-left"
                         onClick={(e) => {
+                            if (context === 'account') return;
                             e.stopPropagation();
                             setShowMomentumMenu(!showMomentumMenu);
                             setShowFlourishMenu(false);
@@ -4741,9 +4752,9 @@ const ClassResourceBar = ({
                         <div
                             className="momentum-fill"
                             style={{
-                                width: `${momentumPercentage}%`,
-                                backgroundColor: finalConfig.visual.momentum.activeColor,
-                                boxShadow: `0 0 6px ${finalConfig.visual.momentum.glowColor}`
+                                width: momentumValue > 0 ? `${momentumPercentage}%` : '4px',
+                                backgroundColor: momentumValue > 0 ? finalConfig.visual.momentum.activeColor : 'rgba(52, 152, 219, 0.3)',
+                                boxShadow: momentumValue > 0 ? `0 0 6px ${finalConfig.visual.momentum.glowColor}` : 'none'
                             }}
                         />
                         <span className="resource-value-left">{momentumValue}</span>
@@ -4753,6 +4764,7 @@ const ClassResourceBar = ({
                     <div
                         className="stance-icon-center"
                         onClick={(e) => {
+                            if (context === 'account') return;
                             e.stopPropagation();
                             setShowStanceMenu(!showStanceMenu);
                             setShowMomentumMenu(false);
@@ -4781,6 +4793,7 @@ const ClassResourceBar = ({
                     <div
                         className="flourish-bar-right"
                         onClick={(e) => {
+                            if (context === 'account') return;
                             e.stopPropagation();
                             setShowFlourishMenu(!showFlourishMenu);
                             setShowMomentumMenu(false);
@@ -4801,16 +4814,16 @@ const ClassResourceBar = ({
                         <div
                             className="flourish-fill"
                             style={{
-                                width: `${flourishPercentage}%`,
-                                backgroundColor: finalConfig.visual.flourish.activeColor,
-                                boxShadow: `0 0 6px ${finalConfig.visual.flourish.glowColor}`
+                                width: flourishValue > 0 ? `${flourishPercentage}%` : '4px',
+                                backgroundColor: flourishValue > 0 ? finalConfig.visual.flourish.activeColor : 'rgba(243, 156, 18, 0.3)',
+                                boxShadow: flourishValue > 0 ? `0 0 6px ${finalConfig.visual.flourish.glowColor}` : 'none'
                             }}
                         />
                         <span className="resource-value-right">{flourishValue}</span>
                     </div>
 
                     {/* Momentum Adjustment Menu */}
-                    {showMomentumMenu && (
+                    {showMomentumMenu && context !== 'account' && (
                         <div className="resource-adjust-menu momentum-menu-left">
                             <div className="menu-header">Adjust Momentum ({momentumValue}/{momentumMax})</div>
                             <div className="menu-buttons">
@@ -4848,7 +4861,7 @@ const ClassResourceBar = ({
                     )}
 
                     {/* Flourish Adjustment Menu */}
-                    {showFlourishMenu && (
+                    {showFlourishMenu && context !== 'account' && (
                         <div className="resource-adjust-menu flourish-menu-right">
                             <div className="menu-header">Adjust Flourish ({flourishValue}/{flourishMax})</div>
                             <div className="menu-buttons">
@@ -4894,7 +4907,7 @@ const ClassResourceBar = ({
                     )}
 
                     {/* Stance Transition Menu */}
-                    {showStanceMenu && (
+                    {showStanceMenu && context !== 'account' && (
                         <div className="stance-menu-compact">
                             <div className="menu-header">
                                 Change Stance (Costs Momentum)
@@ -4912,7 +4925,7 @@ const ClassResourceBar = ({
                             <div className="stance-grid">
                                 {availableTransitions.map((stanceName) => {
                                     const stanceData = stances[stanceName];
-                                    const cost = getTransitionCost(currentStance, stanceName);
+                                    const cost = getTransitionCost(stanceValue, stanceName);
                                     const canAfford = momentumValue >= cost;
 
                                     // Get stance details for tooltip
@@ -5209,7 +5222,7 @@ const ClassResourceBar = ({
 
                             {bladedancerHoverSection === 'stance' && (() => {
                                 const stances = finalConfig.visual?.stances || {};
-                                const currentStanceData = stances[currentStance] || {};
+                                const currentStanceData = stances[stanceValue] || {};
                                 const details = {
                                     'Flowing Water': {
                                         bonuses: ['+2 armor', '+10 ft movement', 'Reroll 1s on damage dice'],

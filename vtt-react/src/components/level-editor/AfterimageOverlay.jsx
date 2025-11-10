@@ -42,6 +42,7 @@ const AfterimageOverlay = () => {
 
     const { tokens } = useCreatureStore();
     const { characterTokens } = useCharacterTokenStore();
+    const { tokens: creatureTokens } = useCreatureStore();
 
     const effectiveZoom = zoomLevel * playerZoom;
     
@@ -207,30 +208,31 @@ const AfterimageOverlay = () => {
             const exploredTileKey = `${position.x},${position.y}`;
             const isExplored = exploredAreas[exploredTileKey];
 
-            // Simplified visibility check - check if afterimage position is close to viewing token
-            let isCurrentlyVisible = false;
-            const viewingFromToken = useLevelEditorStore.getState().viewingFromToken;
-
-            if (viewingFromToken && viewingFromToken.position) {
-                const dx = tokenWorldPos.x - viewingFromToken.position.x;
-                const dy = tokenWorldPos.y - viewingFromToken.position.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const visionRange = 6; // Default vision range in tiles
-                const maxDistance = visionRange * gridSize;
-
-                isCurrentlyVisible = distance <= maxDistance;
-            }
-
-
             if (!isExplored) {
                 // Not explored yet - don't show afterimage
                 return;
             }
 
-            // CRITICAL: If the afterimage position is currently visible, don't render it
-            // This prevents showing afterimages in areas that are currently in view
-            if (isCurrentlyVisible) {
-                return;
+            // Check if the real token corresponding to this afterimage is currently visible
+            // If the real token is visible anywhere, don't show its afterimage
+            const allTokens = [...creatureTokens, ...(characterTokens || [])];
+            const realToken = allTokens.find(t => t.id === tokenId);
+
+            if (realToken && realToken.position) {
+                // Check if the real token is currently in the player's vision
+                const viewingFromToken = useLevelEditorStore.getState().viewingFromToken;
+                if (viewingFromToken && viewingFromToken.position) {
+                    const dx = realToken.position.x - viewingFromToken.position.x;
+                    const dy = realToken.position.y - viewingFromToken.position.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const visionRange = 6; // Default vision range in tiles
+                    const maxDistance = visionRange * gridSize;
+
+                    const realTokenIsVisible = distance <= maxDistance;
+                    if (realTokenIsVisible) {
+                        return; // Don't show afterimage if the real token is currently visible
+                    }
+                }
             }
 
             // Afterimages are managed by MemorySnapshotManager - only render if the area is explored but not currently visible

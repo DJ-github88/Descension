@@ -555,7 +555,7 @@ const ProfessionalVTTEditor = () => {
         });
 
         // Check character tokens
-        characterTokens.forEach(token => {
+        (characterTokens || []).forEach(token => {
             if (token.position) {
                 const worldX = token.position.x || 0;
                 const worldY = token.position.y || 0;

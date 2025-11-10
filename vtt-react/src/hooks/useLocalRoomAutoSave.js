@@ -77,6 +77,14 @@ const useLocalRoomAutoSave = () => {
     const unsubscribeGame = useGameStore.subscribe((state, prevState) => {
       if (!isInLocalRoom()) return;
 
+      // Skip auto-save if we're actively dragging to prevent performance issues
+      const isDraggingCamera = state.isDraggingCamera || window._isDraggingCamera || false;
+      const isTokenDragging = window.tokenInteractionActive || false;
+
+      if (isDraggingCamera || isTokenDragging) {
+        return; // Skip saving during active dragging
+      }
+
       // Check for background changes
       if (state.backgrounds !== prevState.backgrounds ||
           state.activeBackgroundId !== prevState.activeBackgroundId ||

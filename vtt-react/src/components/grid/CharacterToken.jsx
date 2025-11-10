@@ -55,7 +55,7 @@ const CharacterToken = ({
 
     // Get character token data to find playerId
     const characterTokens = useCharacterTokenStore(state => state.characterTokens);
-    const token = characterTokens.find(t => t.id === tokenId);
+    const token = (characterTokens || []).find(t => t.id === tokenId);
     const tokenPlayerId = token?.playerId;
 
     // Update local position when prop position changes (but not during dragging or shortly after)
@@ -71,12 +71,12 @@ const CharacterToken = ({
 
         // After dragging ends, wait for grace period before accepting external position updates
         // This prevents server echoes and stale updates from causing jumps
-        if (timeSinceLastUpdate > 1000) {
+        if (timeSinceLastUpdate > 100) { // Reduced from 1000ms to 100ms
             console.log(`📍 Updating character token localPosition from prop (${timeSinceLastUpdate}ms since last update)`);
             setLocalPosition(position);
             currentPosRef.current = position;
         } else {
-            console.log(`🚫 Skipping position update - within grace period (${timeSinceLastUpdate}ms < 1000ms)`);
+            console.log(`🚫 Skipping position update - within grace period (${timeSinceLastUpdate}ms < 100ms)`);
         }
     }, [position, isDragging]);
 
@@ -155,6 +155,21 @@ const CharacterToken = ({
         return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
     }, [visibleArea]);
     
+    // Track viewing token movement to invalidate visibility cache
+    const viewingTokenMovementRef = useRef({ count: 0, lastPos: null });
+    useEffect(() => {
+        if (viewingFromToken?.position) {
+            const currentPos = viewingFromToken.position;
+            const lastPos = viewingTokenMovementRef.current.lastPos;
+            if (!lastPos ||
+                Math.abs(currentPos.x - lastPos.x) > 10 ||
+                Math.abs(currentPos.y - lastPos.y) > 10) {
+                viewingTokenMovementRef.current.count += 1;
+                viewingTokenMovementRef.current.lastPos = currentPos;
+            }
+        }
+    }, [viewingFromToken?.position]);
+
     // Check if this token is visible based on FOV (only if viewing from a token)
     // PERFORMANCE FIX: Cache visibility result and only recalculate when token actually moves
     const lastVisibilityCheckRef = useRef({ cacheKey: null, result: true });
@@ -176,7 +191,8 @@ const CharacterToken = ({
 
             // Create a comprehensive cache key that includes all factors affecting visibility
             // Position alone is not enough - visibility depends on viewing token position and visibility area
-            const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
+            const movementCount = viewingTokenMovementRef.current.count || 0;
+            const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
             if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
                 return lastVisibilityCheckRef.current.result;
             }
@@ -401,11 +417,11 @@ const CharacterToken = ({
 
         // Removed excessive logging for performance
 
-        // Show tooltip after 0.5 second delay
+        // Show tooltip after 1.5 second delay
         tooltipTimeoutRef.current = setTimeout(() => {
             // Removed excessive logging for performance
             setShowTooltip(true);
-        }, 500);
+        }, 1500);
     };
 
     // Handle mouse leave (hide tooltip)

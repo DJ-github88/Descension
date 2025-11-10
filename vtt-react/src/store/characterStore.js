@@ -649,6 +649,21 @@ const useCharacterStore = create((set, get) => ({
         // Update the equipment slot
         updateEquipment(slotName, equipmentItem);
 
+        // Record character change for persistence
+        if (state.currentCharacterId) {
+            get().recordCharacterChange(state.currentCharacterId, 'equipment_equip', {
+                slot: slotName,
+                itemId: equipmentItem.id,
+                itemName: equipmentItem.name,
+                timestamp: new Date()
+            });
+
+            // Save the character with updated equipment
+            setTimeout(() => {
+                get().saveCurrentCharacter();
+            }, 100); // Small delay to ensure state is updated
+        }
+
         return { equipmentItem, itemsToReturn };
     },
 
@@ -677,6 +692,20 @@ const useCharacterStore = create((set, get) => ({
         // Clear the equipment slot
         const { updateEquipment } = get();
         updateEquipment(slotName, null);
+
+        // Record character change for persistence
+        if (state.currentCharacterId) {
+            get().recordCharacterChange(state.currentCharacterId, 'equipment_unequip', {
+                slot: slotName,
+                itemId: item.id,
+                timestamp: new Date()
+            });
+
+            // Save the character with updated equipment
+            setTimeout(() => {
+                get().saveCurrentCharacter();
+            }, 100); // Small delay to ensure state is updated
+        }
 
         return inventoryItem;
     },

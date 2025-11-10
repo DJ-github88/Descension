@@ -96,8 +96,14 @@ class LevelEditorPersistenceService {
       this.cache.set(roomId, stateData);
 
       // Only log if state actually changed (reduces console spam during scrolling/dragging)
+      // Reduce logging frequency further - only log every 30 seconds for the same room
       if (stateChanged) {
-        console.log(`💾 Level editor state cached for room ${roomId} (database sync handles persistence)`);
+        const now = Date.now();
+        const timeSinceLastLog = now - (this.lastLogTime || 0);
+        if (timeSinceLastLog > 30000) { // 30 seconds
+          console.log(`💾 Level editor state cached for room ${roomId} (database sync handles persistence)`);
+          this.lastLogTime = now;
+        }
       }
       return true;
     } catch (error) {

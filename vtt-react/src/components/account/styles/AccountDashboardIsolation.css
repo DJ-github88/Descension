@@ -82,58 +82,9 @@
 
 
 
-/* ===== ACTION BUTTON ISOLATION ===== */
-.account-main .action-btn,
-.account-main .btn,
-.account-main button:not(.exit-preview-btn):not(.create-room-btn):not(.join-btn):not(.delete-btn) {
-  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%) !important;
-  border: 2px solid rgba(139, 115, 85, 0.6) !important;
-  border-radius: 8px !important;
-  color: #2d1810 !important;
-  font-family: 'Cinzel', 'Times New Roman', serif !important;
-  font-weight: 600 !important;
-  padding: 0.75rem 1.5rem !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
-  font-size: 0.9rem !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 0.5rem !important;
-  width: auto !important;
-  max-width: none !important;
-  min-width: auto !important;
-  height: auto !important;
-  min-height: auto !important;
-  position: relative !important;
-  overflow: visible !important;
-  text-decoration: none !important;
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.1),
-    0 2px 4px rgba(212, 175, 55, 0.2) !important;
-}
-
-.account-main .action-btn:hover,
-.account-main .btn:hover,
-.account-main button:not(.exit-preview-btn):not(.create-room-btn):not(.join-btn):not(.delete-btn):hover {
-  background: linear-gradient(135deg, rgba(232, 224, 208, 0.95) 0%, rgba(220, 210, 190, 0.95) 100%) !important;
-  border-color: rgba(139, 115, 85, 0.8) !important;
-  transform: translateY(-2px) !important;
-  box-shadow:
-    0 5px 10px rgba(0, 0, 0, 0.15),
-    0 3px 6px rgba(139, 115, 85, 0.3) !important;
-}
-
-.account-main .action-btn:active,
-.account-main .btn:active,
-.account-main button:not(.exit-preview-btn):not(.create-room-btn):not(.join-btn):not(.delete-btn):active {
-  transform: translateY(0) !important;
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 1px 2px rgba(212, 175, 55, 0.2) !important;
-}
+/* ===== BUTTON ISOLATION - Only override problematic game styles ===== */
+/* Remove overly broad button styling that conflicts with existing styles */
+/* Keep only essential isolation for cursor and basic interaction */
 
 /* ===== PREVENT GAME MODE OVERRIDES ===== */
 .account-main .character-stats::before,

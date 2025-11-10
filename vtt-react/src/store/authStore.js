@@ -11,6 +11,7 @@ const useAuthStore = create(
       userData: null,
       isLoading: false,
       isAuthenticated: false,
+      isAuthInitialized: false, // Track if auth state has been initialized
       error: null,
       isDevelopmentBypass: false, // Development bypass flag
       
@@ -19,6 +20,7 @@ const useAuthStore = create(
         set({
           user,
           isAuthenticated: !!user,
+          isAuthInitialized: true, // Mark auth as initialized
           error: null
         });
 
@@ -456,8 +458,14 @@ const useAuthStore = create(
     {
       name: 'mythrill-auth',
       partialize: (state) => ({
-        // Only persist non-sensitive data
-        isAuthenticated: state.isAuthenticated
+        // Only persist authentication state if there's an actual user
+        // This prevents stale authentication state when Firebase session expires
+        ...(state.user ? {
+          isAuthenticated: state.isAuthenticated,
+          isAuthInitialized: state.isAuthInitialized
+        } : {
+          isAuthInitialized: state.isAuthInitialized
+        })
       })
     }
   )

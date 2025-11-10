@@ -3059,7 +3059,7 @@ function GridComponent({
             )), [tokens, handleRemoveToken])}
 
             {/* Render character tokens - memoized for performance */}
-            {useMemo(() => characterTokens.map(token => (
+            {useMemo(() => (characterTokens || []).map(token => (
                 <CharacterToken
                     key={token.id}
                     tokenId={token.id}

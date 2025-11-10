@@ -240,7 +240,22 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (!visibleArea) return null;
     return visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
   }, [visibleArea]);
-  
+
+  // Track viewing token movement to invalidate visibility cache
+  const viewingTokenMovementRef = React.useRef({ count: 0, lastPos: null });
+  React.useEffect(() => {
+      if (viewingFromToken?.position) {
+          const currentPos = viewingFromToken.position;
+          const lastPos = viewingTokenMovementRef.current.lastPos;
+          if (!lastPos ||
+              Math.abs(currentPos.x - lastPos.x) > 10 ||
+              Math.abs(currentPos.y - lastPos.y) > 10) {
+              viewingTokenMovementRef.current.count += 1;
+              viewingTokenMovementRef.current.lastPos = currentPos;
+          }
+      }
+  }, [viewingFromToken?.position]);
+
   // Check if this token is visible based on FOV (only if viewing from a token)
   // Returns: true = fully visible, false = hidden
   // Note: Afterimages handle showing tokens at their remembered positions in explored areas
@@ -265,7 +280,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         // Create a comprehensive cache key that includes all factors affecting visibility
         // Position alone is not enough - visibility depends on viewing token position and visibility area
-        const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
+        const movementCount = viewingTokenMovementRef.current.count || 0;
+        const cacheKey = `${Math.floor(position.x)},${Math.floor(position.y)}_${viewingFromToken?.id || 'none'}_${movementCount}_${visibilityPolygon ? 'polygon' : 'tile'}_${visibleAreaSet?.size || 0}`;
         if (lastVisibilityCheckRef.current.cacheKey === cacheKey) {
           return lastVisibilityCheckRef.current.result;
         }
@@ -854,11 +870,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // Removed excessive logging for performance
 
-    // Show tooltip after 0.5 second delay (reduced for testing)
+    // Show tooltip after 1.5 second delay
     tooltipTimeoutRef.current = setTimeout(() => {
       // Removed excessive logging for performance
       setShowTooltip(true);
-    }, 500);
+    }, 1500);
   };
 
   // Handle mouse leave (hide tooltip)
