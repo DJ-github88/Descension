@@ -23,7 +23,7 @@ const STEP_MESSAGES = {
     "The moment of truth! What path shall you walk, young champion?",
     "Fighter: Smash first, ask questions later! Wizard: Knowledge is power!",
     "Rogue: Stealth and shadows, or Paladin: Light and honor?",
-    "Choose your class wisely - it defines how the bards will sing of you!",
+    "Choose your class wisely - it defines how the bards will sing of you.",
     "Every class has mastered different arts of survival and glory!",
     "Your profession shapes not just your skills, but your very worldview!",
     "Some fight with steel, others with magic, all fight for honor!"
@@ -115,12 +115,15 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
   // Typewriter effect
   useEffect(() => {
     if (!messages || !messages[currentMessageIndex] || typeof messages[currentMessageIndex] !== 'string') {
-      console.warn('Invalid message data:', { messages, currentMessageIndex, currentStep });
+      setDisplayedText('Welcome, adventurer!');
       return;
     }
 
-    const fullText = messages[currentMessageIndex];
-    if (!fullText) return;
+    const fullText = String(messages[currentMessageIndex]).trim();
+    if (!fullText) {
+      setDisplayedText('Welcome, adventurer!');
+      return;
+    }
 
     let charIndex = 0;
     setDisplayedText('');
