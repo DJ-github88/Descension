@@ -104,19 +104,6 @@
   font-weight: bold;
 }
 
-.step-indicator {
-  margin-top: 0.5rem;
-  font-size: 0.7rem;
-  color: #8b4513;
-  background: rgba(139, 69, 19, 0.1);
-  padding: 0.25rem 0.5rem;
-  border-radius: 8px;
-  border: 1px solid rgba(139, 69, 19, 0.2);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  animation: indicatorGlow 2s ease-in-out infinite alternate;
-}
 
 /* Animations */
 @keyframes float {
@@ -145,10 +132,6 @@
   51%, 100% { opacity: 0; }
 }
 
-@keyframes indicatorGlow {
-  0% { background: rgba(139, 69, 19, 0.1); border-color: rgba(139, 69, 19, 0.2); }
-  100% { background: rgba(139, 69, 19, 0.15); border-color: rgba(139, 69, 19, 0.3); }
-}
 
 /* Hover effects */
 .chat-bubble:hover {
@@ -185,11 +168,6 @@
 
   .chat-content {
     font-size: 0.75rem;
-  }
-
-  .step-indicator {
-    font-size: 0.6rem;
-    margin-top: 0.4rem;
   }
 }
 

@@ -141,9 +141,6 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
           </div>
           <div className="chat-tail"></div>
         </div>
-        <div className="step-indicator">
-          Step {currentStep}/11
-        </div>
       </div>
     </div>
   );
