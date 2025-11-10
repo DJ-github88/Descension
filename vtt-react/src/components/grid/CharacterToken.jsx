@@ -31,6 +31,12 @@ const CharacterToken = ({
     const [mouseDownPosition, setMouseDownPosition] = useState(null);
     const [localPosition, setLocalPosition] = useState(position); // Local position for smooth dragging
 
+    // Refs to track current state in event handlers (like CreatureToken)
+    const isMouseDownRef = useRef(false);
+    const isDraggingRef = useRef(false);
+    const screenPositionRef = useRef(null);
+    const currentPosRef = useRef(position);
+
     // Drag threshold in pixels - token must move this distance before dragging starts
     const DRAG_THRESHOLD = 4;
     const [showContextMenu, setShowContextMenu] = useState(false);
@@ -68,6 +74,7 @@ const CharacterToken = ({
         if (timeSinceLastUpdate > 1000) {
             console.log(`📍 Updating character token localPosition from prop (${timeSinceLastUpdate}ms since last update)`);
             setLocalPosition(position);
+            currentPosRef.current = position;
         } else {
             console.log(`🚫 Skipping position update - within grace period (${timeSinceLastUpdate}ms < 1000ms)`);
         }
@@ -267,17 +274,70 @@ const CharacterToken = ({
 
     // Removed enhanced multiplayer hook - was causing conflicts
 
-    // Calculate screen position from grid position (use local position during dragging)
-    // PERFORMANCE FIX: Read camera from store when calculating, don't subscribe to avoid 60fps re-renders during drag
-    const currentPosForScreen = isDragging ? localPosition : position;
-    const screenPosition = useMemo(() => {
-        return currentPosForScreen && gridSystem ? gridSystem.worldToScreen(
-            currentPosForScreen.x, 
-            currentPosForScreen.y, 
-            window.innerWidth, 
+    // Calculate initial screen position (imperative approach like CreatureToken)
+    const initialScreenPosition = useMemo(() => {
+        return position && gridSystem ? gridSystem.worldToScreen(
+            position.x,
+            position.y,
+            window.innerWidth,
             window.innerHeight
-        ) : currentPosForScreen || { x: 0, y: 0 };
-    }, [currentPosForScreen, gridSystem, cameraX, cameraY, effectiveZoom]);
+        ) : position || { x: 0, y: 0 };
+    }, [position, gridSystem]);
+
+    // Update screen position refs
+    const updateScreenPosition = useCallback((worldPosition) => {
+        if (!worldPosition || !gridSystem) return;
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const newPosition = gridSystem.worldToScreen(
+            worldPosition.x,
+            worldPosition.y,
+            viewportWidth,
+            viewportHeight
+        );
+
+        screenPositionRef.current = newPosition;
+
+        const element = tokenRef.current;
+        if (element) {
+            element.style.left = `${newPosition.x}px`;
+            element.style.top = `${newPosition.y}px`;
+        }
+    }, [gridSystem]);
+
+    // Initialize screen position ref
+    useEffect(() => {
+        if (initialScreenPosition) {
+            screenPositionRef.current = initialScreenPosition;
+            currentPosRef.current = position;
+            updateScreenPosition(position);
+        }
+    }, [initialScreenPosition, position, updateScreenPosition]);
+
+    // Update screen position when camera changes (imperative like CreatureToken)
+    useEffect(() => {
+        const handleCameraChange = () => {
+            updateScreenPosition(currentPosRef.current);
+        };
+
+        const unsubscribe = useGameStore.subscribe((state, prevState) => {
+            if (
+                state.cameraX !== prevState.cameraX ||
+                state.cameraY !== prevState.cameraY ||
+                state.zoomLevel !== prevState.zoomLevel ||
+                state.playerZoom !== prevState.playerZoom
+            ) {
+                handleCameraChange();
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, [updateScreenPosition]);
+
+    const screenPosition = screenPositionRef.current;
 
     // Check if this token is targeted (use consistent ID for current player)
     const isTargeted = currentTarget?.id === 'current-player' && (currentTarget?.type === 'party_member' || currentTarget?.type === 'player');
@@ -497,6 +557,7 @@ const CharacterToken = ({
 
         // Set mouse down state and store initial mouse position
         setIsMouseDown(true);
+        isMouseDownRef.current = true;
         setMouseDownPosition({ x: e.clientX, y: e.clientY });
         setShowTooltip(false);
 
@@ -536,7 +597,7 @@ const CharacterToken = ({
 
         const handleMouseMove = (e) => {
             // Check if mouse is down but not yet dragging (threshold check)
-            if (isMouseDown && !isDragging && mouseDownPosition) {
+            if (isMouseDownRef.current && !isDraggingRef.current && mouseDownPosition) {
                 const deltaX = e.clientX - mouseDownPosition.x;
                 const deltaY = e.clientY - mouseDownPosition.y;
                 const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -545,6 +606,7 @@ const CharacterToken = ({
                 if (distance >= DRAG_THRESHOLD) {
                     // Removed excessive logging for performance
                     setIsDragging(true);
+                    isDraggingRef.current = true;
 
                     // Recalculate drag offset based on current mouse position and token's current screen position
                     // This ensures the token doesn't jump when dragging starts
@@ -572,7 +634,7 @@ const CharacterToken = ({
                 }
             }
 
-            if (!isDragging) return;
+            if (!isDraggingRef.current) return;
 
             // Prevent all default behaviors and stop propagation immediately
             e.preventDefault();
@@ -669,6 +731,7 @@ const CharacterToken = ({
             if (isMouseDown && !isDragging) {
                 // Removed excessive logging for performance
                 setIsMouseDown(false);
+                isMouseDownRef.current = false;
                 setMouseDownPosition(null);
                 setDragStartPosition(null);
                 return;
@@ -731,6 +794,10 @@ const CharacterToken = ({
                     });
                 }
             }
+
+            // Reset drag refs
+            isDraggingRef.current = false;
+            isMouseDownRef.current = false;
 
             // Track when we last updated position (for grace period in useEffect)
             lastPositionUpdateRef.current = Date.now();
