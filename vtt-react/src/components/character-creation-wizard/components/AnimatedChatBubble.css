@@ -2,7 +2,7 @@
 .animated-chat-bubble {
   position: fixed;
   bottom: 20px;
-  right: 350px;
+  right: 420px;
   z-index: 1000;
   font-family: 'Cinzel', serif;
   animation: float 3s ease-in-out infinite;
