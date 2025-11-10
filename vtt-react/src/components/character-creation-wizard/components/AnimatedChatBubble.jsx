@@ -111,19 +111,53 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
   const intervalRef = useRef(null);
   const messageRef = useRef(null);
 
+  // Debug current step and messages
+  useEffect(() => {
+    console.log('ChatBubble Debug:', {
+      currentStep,
+      messagesAvailable: !!messages,
+      messageCount: messages ? messages.length : 0,
+      currentMessageIndex,
+      hasCurrentMessage: messages && messages[currentMessageIndex] ? true : false
+    });
+  }, [currentStep, messages, currentMessageIndex]);
 
   // Typewriter effect
   useEffect(() => {
-    if (!messages || !messages[currentMessageIndex] || typeof messages[currentMessageIndex] !== 'string') {
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+
+    // Validate inputs
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      console.error('Invalid messages array:', messages);
       setDisplayedText('Welcome, adventurer!');
+      setIsTyping(false);
+      setShowCursor(false);
       return;
     }
 
-    const fullText = String(messages[currentMessageIndex]).trim();
-    if (!fullText) {
+    const currentMessage = messages[currentMessageIndex];
+    if (!currentMessage || typeof currentMessage !== 'string') {
+      console.error('Invalid message at index', currentMessageIndex, ':', currentMessage);
       setDisplayedText('Welcome, adventurer!');
+      setIsTyping(false);
+      setShowCursor(false);
       return;
     }
+
+    const fullText = currentMessage.trim();
+    if (!fullText) {
+      console.error('Empty message text');
+      setDisplayedText('Welcome, adventurer!');
+      setIsTyping(false);
+      setShowCursor(false);
+      return;
+    }
+
+    console.log('Starting typewriter for:', fullText);
 
     let charIndex = 0;
     setDisplayedText('');
@@ -132,18 +166,28 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
 
     intervalRef.current = setInterval(() => {
       if (charIndex < fullText.length) {
-        setDisplayedText(prev => prev + fullText[charIndex]);
+        const nextChar = fullText[charIndex];
+        setDisplayedText(prev => {
+          const newText = prev + nextChar;
+          console.log('Adding char:', nextChar, '->', newText);
+          return newText;
+        });
         charIndex++;
       } else {
+        console.log('Finished typing:', fullText);
         setIsTyping(false);
         setShowCursor(true);
-        clearInterval(intervalRef.current);
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
       }
     }, 80); // Slower typing speed
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, [currentMessageIndex, currentStep, messages]);
@@ -182,9 +226,18 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
       <div className="chat-bubble-container">
         <div className="chat-bubble">
           <div className="chat-content">
-            <span ref={messageRef}>
-              {displayedText}
-              {showCursor && <span className="cursor">|</span>}
+            <span
+              ref={messageRef}
+              key={`text-${currentStep}-${currentMessageIndex}`}
+              style={{
+                display: 'inline-block',
+                minHeight: '1.2em',
+                whiteSpace: 'pre-wrap',
+                wordWrap: 'break-word'
+              }}
+            >
+              {displayedText || ''}
+              {showCursor && <span className="cursor" key="cursor">|</span>}
             </span>
           </div>
         </div>
