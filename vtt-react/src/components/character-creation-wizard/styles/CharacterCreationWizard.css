@@ -452,14 +452,19 @@
     border-radius: 8px;
     font-size: 1.1rem;
     font-family: 'Cinzel', serif;
-    background: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(248, 245, 235, 0.95) 100%);
+    color: #1a1a2e;
     transition: all 0.3s ease;
+}
+
+.form-input::placeholder {
+    color: rgba(26, 26, 46, 0.6);
 }
 
 .form-input:focus {
     outline: none;
     border-color: #b8941f;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
 }
 
 .form-input.error {
@@ -956,8 +961,8 @@ button.gender-option.selected {
 /* General Preview Card - Used by all wizard steps */
 .character-wizard-container .preview-card {
     all: initial;
+    padding: 1rem !important;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
-    border: 3px solid #d4af37 !important;
     border-radius: 16px !important;
     overflow: visible !important;
     box-shadow:
@@ -966,12 +971,38 @@ button.gender-option.selected {
         0 0 0 1px rgba(212, 175, 55, 0.3) !important;
     display: flex !important;
     flex-direction: column !important;
-    transition: all 0.3s ease !important;
+    transition: box-shadow 0.3s ease !important;
     backdrop-filter: blur(10px) !important;
-    height: fit-content !important;
+    min-height: 500px !important;
     width: 100% !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
+}
+
+/* Class preview container now uses subrace-info-section as the outer frame */
+.class-preview-container .subrace-info-section {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    min-height: 400px !important; /* Fixed height to prevent content shifts */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
+    border-radius: 16px !important;
+    overflow: visible !important;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 1px rgba(212, 175, 55, 0.3) !important;
+    transition: box-shadow 0.3s ease !important;
+    font-family: 'Cinzel', serif !important;
+    box-sizing: border-box !important;
+}
+
+/* Allow background preview to expand naturally */
+.background-preview .subrace-info-section {
+    min-height: auto !important;
+    height: auto !important;
 }
 
 /* Basic Info Layout specific positioning */
@@ -983,7 +1014,6 @@ button.gender-option.selected {
     max-width: none !important;
     align-self: start !important;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
-    border: 3px solid #d4af37 !important;
     border-radius: 16px !important;
     display: flex !important;
     flex-direction: column !important;
@@ -992,12 +1022,12 @@ button.gender-option.selected {
     width: 100% !important;
 }
 
-.preview-card:hover {
-    transform: translateY(-3px);
+.preview-card:hover,
+.class-preview-container .subrace-info-section:hover {
     box-shadow:
-        0 16px 50px rgba(0, 0, 0, 0.22),
+        0 14px 45px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        0 0 0 1px rgba(212, 175, 55, 0.4);
+        0 0 0 1px rgba(212, 175, 55, 0.45);
 }
 
 .preview-header {
@@ -1620,19 +1650,18 @@ button.gender-option.selected {
     all: initial;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 252, 248, 0.9) 100%) !important;
     border: 2px solid #d4af37 !important;
-    border-radius: 16px !important;
-    padding: 2.25rem 2rem !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1rem !important;
     cursor: pointer !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 1.25rem !important;
-    min-height: 240px !important;
+    gap: 0.5rem !important;
+    min-height: 200px !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
     box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12), 0 2px 4px rgba(139, 69, 19, 0.08) !important;
     position: relative !important;
-    overflow: hidden !important;
 }
 
 .character-wizard-container .background-card::before {
@@ -1676,22 +1705,22 @@ button.gender-option.selected {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 1.25rem !important;
+    gap: 0.5rem !important;
     text-align: center !important;
-    padding-bottom: 0.75rem !important;
+    padding-bottom: 0.5rem !important;
 }
 
 .character-wizard-container .background-card-icon {
-    font-size: 2.75rem !important;
+    font-size: 1.75rem !important;
     color: #b8941f !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 72px !important;
-    height: 72px !important;
+    width: 44px !important;
+    height: 44px !important;
     border-radius: 50% !important;
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.22) 100%) !important;
-    border: 3px solid rgba(212, 175, 55, 0.25) !important;
+    border: 2px solid rgba(212, 175, 55, 0.25) !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2) !important;
 }
@@ -1720,53 +1749,63 @@ button.gender-option.selected {
 
 .character-wizard-container .background-card-name {
     font-family: 'Cinzel', serif !important;
-    font-size: 1.4rem !important;
+    font-size: 1.1rem !important;
     font-weight: 700 !important;
     color: #1a0f08 !important;
     margin: 0 !important;
-    margin-top: 1.5rem !important;
+    margin-top: 0.5rem !important;
     text-align: center !important;
-    letter-spacing: 0.8px !important;
+    letter-spacing: 0.5px !important;
     text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
-    line-height: 1.3 !important;
+    line-height: 1.2 !important;
 }
 
 .character-wizard-container .background-card-description {
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
     color: #5d4037 !important;
     text-align: center !important;
     margin: 0 !important;
-    line-height: 1.65 !important;
+    line-height: 1.4 !important;
     font-weight: 500 !important;
     font-style: italic !important;
-    padding: 0 0.5rem !important;
-    letter-spacing: 0.2px !important;
+    padding: 0 0.25rem !important;
+    letter-spacing: 0.1px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .character-wizard-container .background-card-overview-section {
-    margin-top: 0.75rem !important;
-    padding-top: 1.25rem !important;
+    margin-top: 0.25rem !important;
+    padding-top: 0.5rem !important;
     border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
 }
 
 .character-wizard-container .background-card-overview-divider {
-    width: 80px !important;
-    height: 3px !important;
+    width: 60px !important;
+    height: 2px !important;
     background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), #d4af37, rgba(212, 175, 55, 0.4), transparent) !important;
-    margin: 0 auto 1.25rem auto !important;
+    margin: 0 auto 0.5rem auto !important;
     border-radius: 2px !important;
 }
 
 .character-wizard-container .background-card-overview {
-    font-size: 0.95rem !important;
+    font-size: 0.85rem !important;
     color: #4a3526 !important;
     text-align: center !important;
     margin: 0 !important;
-    line-height: 1.8 !important;
+    line-height: 1.4 !important;
     font-family: 'Crimson Text', serif !important;
     font-weight: 400 !important;
-    padding: 0 0.75rem !important;
+    padding: 0 0.5rem !important;
     letter-spacing: 0.1px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .background-icon {
@@ -1802,6 +1841,7 @@ button.gender-option.selected {
 
 .background-benefits {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     padding-top: 0.5rem;
     border-top: 1px solid rgba(212, 175, 55, 0.3);
@@ -1883,48 +1923,98 @@ button.gender-option.selected {
     font-family: 'Cinzel', serif;
 }
 
-/* Enhanced flavor text - more prominent and compelling */
+/* ==================== CLASS PREVIEW STYLING ==================== */
+
+/* Class preview title - Elegant and prominent */
+.class-preview-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 0.75rem 0;
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #d4af37;
+    position: relative;
+}
+
+.class-preview-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+/* Class flavor text - Sophisticated description box */
 .class-flavor-text {
     font-size: 0.9rem;
     line-height: 1.5;
-    color: #2c2416;
-    margin: 0;
+    color: #5d4037;
+    margin: 1rem 0;
     font-weight: 500;
     text-align: left;
-    padding: 0.65rem 0.75rem;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.08) 100%);
-    border-left: 3px solid #d4af37;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.25rem;
+    background: rgba(212, 175, 55, 0.08);
+    border-left: 3px solid rgba(212, 175, 55, 0.4);
+    border-radius: 0 4px 4px 0;
 }
 
-/* Compact meta badges - single line with inline labels */
+/* Meta information row - Clean badge layout */
 .class-meta-row {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.75rem;
     align-items: center;
+    margin: 1.25rem 0;
+    padding: 1rem 1.25rem;
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.15);
 }
 
+/* Elegant meta badges */
 .meta-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.6rem;
-    background: rgba(212, 175, 55, 0.1);
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
     border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 12px;
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
     color: #2c2416;
     white-space: nowrap;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(212, 175, 55, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.meta-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.5s ease;
 }
 
 .meta-badge:hover {
-    background: rgba(212, 175, 55, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
     border-color: rgba(212, 175, 55, 0.4);
-    transform: translateY(-1px);
+}
+
+.meta-badge:hover::before {
+    left: 100%;
 }
 
 .meta-badge .meta-label {
@@ -1932,106 +2022,180 @@ button.gender-option.selected {
     font-weight: 700;
     color: #8b7355;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    opacity: 0.8;
+    letter-spacing: 0.8px;
+    opacity: 0.9;
 }
 
 .meta-badge .meta-label::after {
     content: ':';
-    margin-left: 0.15rem;
+    margin: 0 0.25rem;
+    opacity: 0.6;
 }
 
-/* Ultra-compact feature list */
+/* Features section - Professional bullet list */
 .class-features-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-top: 0.15rem;
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, rgba(248, 245, 235, 0.8) 0%, rgba(240, 235, 220, 0.8) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 8px;
+    position: relative;
+}
+
+.class-features-list::before {
+    content: '⚡ Class Features';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .feature-bullet {
     position: relative;
-    padding-left: 1rem;
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: #5d4037;
+    padding: 0.5rem 0 0.5rem 2rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #3a3a4e;
     font-weight: 500;
+    border-left: 2px solid rgba(212, 175, 55, 0.3);
+    margin-left: 1rem;
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.02) 0%, transparent 2rem);
 }
 
 .feature-bullet::before {
-    content: '▸';
+    content: '✦';
     position: absolute;
-    left: 0;
+    left: -8px;
+    top: 0.5rem;
     color: #d4af37;
+    font-size: 0.9rem;
     font-weight: 700;
-    font-size: 0.85rem;
+    background: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Class preview title */
-.class-preview-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #2c2416;
-    margin: 0 0 0.75rem 0;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #d4af37;
-    font-family: 'Cinzel', serif;
-}
-
-/* Starting equipment section */
+/* Equipment section - Premium styling */
 .starting-equipment-section {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    margin: 2rem 0 1rem 0;
+    padding: 1.75rem 2rem;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.04) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.1);
 }
 
 .equipment-section-title {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #2c2416;
-    margin: 0 0 0.5rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    color: #1a1a2e;
+    margin: 0 0 1rem 0;
+    text-align: center;
     font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
 }
 
-.equipment-section-title i {
-    color: #d4af37;
-    font-size: 0.9rem;
+.equipment-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
 }
 
-.equipment-preview {
+/* Class preview equipment grid - uses equipment shop styling */
+.equipment-shop-grid {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-}
-
-.equipment-category {
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: #5d4037;
-    padding: 0.4rem 0.6rem;
-    background: rgba(212, 175, 55, 0.08);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 4px;
-    border-left: 3px solid #d4af37;
-}
-
-.equipment-category strong {
-    color: #2c2416;
-    font-weight: 600;
-    margin-right: 0.5rem;
-}
-
-.background-description {
-    font-size: 0.85rem;
-    color: #5d4037;
-    line-height: 1.5;
+    gap: 0px;
+    background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #8b7355;
+    box-shadow: 0 2px 6px rgba(139, 115, 85, 0.3);
+    width: 100%;
     margin: 0;
+    height: auto; /* Allow grid to expand naturally to fit items */
+    max-height: 700px; /* Increased maximum height for better fit */
+    overflow-y: auto; /* Add vertical scrolling when needed */
 }
+
+.equipment-shop-grid .inventory-row {
+    display: flex;
+    gap: 0px;
+    margin-bottom: 0px;
+}
+
+.equipment-shop-grid .inventory-cell {
+    flex: 1 1 0;
+    min-width: 0;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
+    border: 1px solid #4a934a;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    box-shadow: inset 0 0 3px rgba(139, 115, 85, 0.2);
+}
+
+.equipment-shop-grid .inventory-cell.occupied {
+    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
+}
+
+.equipment-shop-grid .inventory-cell.empty {
+    transition: none; /* Disable transitions on empty cells to prevent layout glitches */
+}
+
+.equipment-shop-grid .inventory-cell:hover {
+    border-color: #6b5010;
+    box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.3);
+    transition: border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+.equipment-shop-grid .item-icon-wrapper {
+    border: 2px solid #3a2a1a;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    box-sizing: border-box !important;
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.equipment-shop-grid .item-icon-wrapper:hover {
+    border-color: #d4af37;
+    box-shadow: 0 2px 7px rgba(212, 175, 55, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
 
 .stat-modifiers {
     display: flex;
@@ -2991,8 +3155,8 @@ button.gender-option.selected {
 /* Step 2 - Race Selection specific styles */
 .race-selection-layout {
     display: grid;
-    grid-template-columns: 1.3fr 0.7fr;
-    gap: 4rem;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 3rem;
     align-items: start;
     padding: 2rem 0;
 }
@@ -3028,7 +3192,7 @@ button.gender-option.selected {
 
 .race-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
 }
 
@@ -3036,15 +3200,15 @@ button.gender-option.selected {
     background: rgba(255, 255, 255, 0.9);
     border: 2px solid #d4af37;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.75rem;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.75rem;
-    min-height: 120px;
+    gap: 0.5rem;
+    min-height: 90px;
 }
 
 .race-card:hover {
@@ -3060,18 +3224,6 @@ button.gender-option.selected {
     box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
-.race-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--race-color, #d4af37) 0%, #e6c757 100%);
-    color: #2c2416;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    flex-shrink: 0;
-}
 
 .race-info {
     flex: 1;
@@ -3101,12 +3253,12 @@ button.gender-option.selected {
     background: rgba(255, 255, 255, 0.9);
     border: 2px solid #d4af37;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 0.75rem;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
 }
 
 .subrace-card:hover {
@@ -3321,7 +3473,7 @@ button.gender-option.selected {
 
 .class-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     max-width: 100%;
     margin-top: 1rem;
@@ -3861,8 +4013,9 @@ button.gender-option.selected {
 
 .damage-type-necrotic {
     background: rgba(33, 33, 33, 0.15);
-    color: #212121;
+    color: #666666;
     border-color: rgba(33, 33, 33, 0.3);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3), 0 0 4px rgba(255, 255, 255, 0.1);
 }
 
 .damage-type-necrotic:hover {
@@ -4072,6 +4225,7 @@ button.gender-option.selected {
 .character-wizard-container .wizard-top-header,
 .character-wizard-container .wizard-content,
 .character-wizard-container .preview-card,
+.class-preview-container .subrace-info-section,
 .character-wizard-container .preview-section,
 .character-wizard-container .detail-row,
 .character-wizard-container .detail-value,
@@ -4089,6 +4243,7 @@ button.gender-option.selected {
 
 /* Additional protection for preview and detail elements */
 .character-wizard-container .preview-card,
+.class-preview-container .subrace-info-section,
 .character-wizard-container .preview-section,
 .character-wizard-container .detail-row,
 .character-wizard-container .detail-value,
@@ -4262,6 +4417,263 @@ button.gender-option.selected {
     color: #d4af37;
     font-size: 1.1rem;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+}
+
+/* Enhanced section header styling */
+.section-header h3 {
+    color: #2c2416;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.5px;
+}
+
+.section-description {
+    color: #5d4037;
+    font-size: 0.95rem;
+    margin: 0.5rem 0 0 0;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* Skill preview collapsible functionality */
+.skill-detail-header.collapsible {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.skill-detail-header.collapsible:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.skill-toggle-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #d4af37;
+    transition: transform 0.2s ease;
+}
+
+.skill-toggle-icon.expanded {
+    transform: translateY(-50%) rotate(0deg);
+}
+
+.skill-expanded-content {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+    }
+    to {
+        opacity: 1;
+        max-height: 1000px;
+        overflow: visible;
+    }
+}
+
+/* Equipment Display Styling */
+.equipment-shop-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 1rem 0;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid #4a4a4a;
+    border-radius: 6px;
+    padding: 8px;
+    max-width: fit-content;
+    width: fit-content;
+    justify-self: center;
+}
+
+.inventory-row {
+    display: flex;
+    gap: 2px;
+}
+
+.inventory-cell {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-cell.occupied {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+.inventory-cell.background-item {
+    background: rgba(135, 206, 235, 0.1);
+    border-color: rgba(135, 206, 235, 0.3);
+}
+
+.item-icon-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.equipment-item-icon {
+    border-radius: 3px;
+    transition: transform 0.2s ease;
+}
+
+.equipment-item-icon:hover {
+    transform: scale(1.1);
+}
+
+.item-quantity-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: #d4af37;
+    color: #2c2416;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #2c2416;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    z-index: 3;
+}
+
+.item-source-badge {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background: #87ceeb;
+    color: #2c2416;
+    font-size: 8px;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #2c2416;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    z-index: 3;
+}
+
+.item-source-badge i {
+    font-size: 6px;
+}
+
+/* Starting Resources Styling */
+.starting-resources {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+}
+
+.starting-resources h4 {
+    color: #d4af37;
+    font-size: 1.2rem;
+    margin: 0 0 1rem 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.resource-item {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.resource-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resource-header i {
+    color: #d4af37;
+    font-size: 1.2rem;
+}
+
+.resource-label {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.resource-value {
+    color: #ffd700;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.resource-description {
+    color: #cccccc;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.currency-remaining {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.currency-remaining h5 {
+    color: #d4af37;
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.currency-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.currency-amount {
+    color: #ffd700;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Item Tooltip Overlay */
+.item-tooltip-overlay {
+    pointer-events: none;
 }
 
 .source-info {
@@ -5146,38 +5558,6 @@ button.gender-option.selected {
     text-align: justify;
 }
 
-.basic-info-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-}
-
-.basic-info-grid .info-item {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0.25rem !important;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%) !important;
-    padding: 0.75rem !important;
-    border-radius: 6px !important;
-    border: 2px solid #6b3e2a !important;
-    box-shadow: 0 2px 6px rgba(107, 62, 42, 0.25) !important;
-}
-
-.basic-info-grid .info-label {
-    font-size: 0.7rem !important;
-    font-weight: 700 !important;
-    color: #6b3e2a !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    font-family: 'Cinzel', serif !important;
-}
-
-.basic-info-grid .info-value {
-    font-size: 1.1rem !important;
-    color: #2c2416 !important;
-    font-weight: 700 !important;
-    font-family: 'Cinzel', serif !important;
-}
 
 .integration-notes {
     display: flex;
@@ -5332,4 +5712,653 @@ button.gender-option.selected {
 .no-skills-message p {
     margin: 0;
     font-size: 1rem;
+}
+
+/* ============================================
+   RACIAL TRAITS BROWSER LAYOUT
+   ============================================ */
+
+/* Racial Traits Browser Layout */
+.racial-traits-browser {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid #d4af37;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+}
+
+.traits-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+    padding-bottom: 1rem;
+}
+
+.traits-intro h3 {
+    color: #2c2416;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Cinzel', serif;
+}
+
+.traits-description {
+    color: #5d4037;
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0 0;
+    line-height: 1.4;
+    font-style: italic;
+}
+
+/* Single Column Layout: Trait Icons */
+.traits-browser-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Trait Icons Column */
+.traits-icons-column {
+    width: 100%;
+}
+
+.trait-category {
+    margin-bottom: 2rem;
+}
+
+.trait-category:last-child {
+    margin-bottom: 0;
+}
+
+.trait-category-title {
+    color: #2c2416;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Cinzel', serif;
+}
+
+.trait-icon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.trait-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trait-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+}
+
+.trait-icon.viewing {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4);
+    transform: scale(1.15);
+}
+
+.trait-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.2s ease;
+}
+
+.trait-icon.viewing img {
+    filter: brightness(1.1);
+}
+
+/* Race Info Display */
+.race-info-display {
+    padding: 1rem;
+    background: rgba(248, 245, 235, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.race-full-description {
+    color: #5d4037;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 1.5rem 0;
+}
+
+/* Section styling for race info */
+.cultural-background-section,
+.basic-info-section,
+.integration-section,
+.subrace-description-section {
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    color: #2c2416;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Cinzel', serif;
+}
+
+.cultural-background-text {
+    color: #5d4037;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.integration-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.integration-item {
+    color: #5d4037;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.integration-item strong {
+    color: #2c2416;
+    font-weight: 600;
+}
+
+/* Subrace Description */
+.subrace-description {
+    color: #5d4037;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Stat Modifiers Section */
+.stat-modifiers-section {
+    margin-bottom: 1.5rem;
+}
+
+.stat-modifiers-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.stat-modifier-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: 'Cinzel', serif;
+}
+
+.stat-modifier-preview.positive {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    color: #2e7d32;
+}
+
+.stat-modifier-preview.negative {
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    color: #c62828;
+}
+
+.stat-modifier-preview .stat-name {
+    font-weight: 700;
+    min-width: fit-content;
+}
+
+.stat-modifier-preview .stat-value {
+    font-weight: 800;
+}
+
+/* Equipment Section */
+.equipment-section {
+    margin-bottom: 1rem;
+}
+
+.equipment-preview-text {
+    color: #5d4037;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0 0 0.75rem 0;
+}
+
+.equipment-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.examples-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.examples-list {
+    font-size: 0.8rem;
+    color: #2c2416;
+    font-style: italic;
+}
+
+
+/* Right Column: Trait Detail */
+.trait-detail-column {
+    position: sticky;
+    top: 2rem;
+}
+
+.trait-detail-sticky {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+    overflow: hidden;
+}
+
+.empty-state {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: #666;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: rgba(212, 175, 55, 0.4);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.empty-state-inline {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    text-align: center;
+}
+
+.empty-state-inline i {
+    font-size: 2rem;
+    color: rgba(212, 175, 55, 0.6);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.empty-state-inline p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #5d4037;
+    font-weight: 500;
+}
+
+.race-info-inline {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(248, 245, 235, 0.9);
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.race-info-inline h4 {
+    color: #2c2416;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    font-family: 'Cinzel', serif;
+}
+
+.race-info-inline .race-full-description {
+    color: #5d4037;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Compact sections for racial traits browser */
+.stat-modifiers-compact {
+    margin: 1rem 0;
+}
+
+.stat-modifiers-compact h6 {
+    color: #2c2416;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Cinzel', serif;
+}
+
+.equipment-compact {
+    margin: 1rem 0;
+}
+
+.equipment-compact .section-title,
+.stat-modifiers-compact .section-title {
+    color: #2c2416;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Cinzel', serif;
+}
+
+.equipment-compact p {
+    color: #5d4037;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.traits-section {
+    margin: 1.5rem 0 0 0;
+}
+
+.traits-section h5 {
+    color: #2c2416;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    font-family: 'Cinzel', serif;
+}
+
+.subrace-info-section {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: rgba(248, 245, 235, 0.9);
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.subrace-info-section h5 {
+    color: #2c2416;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Cinzel', serif;
+}
+
+.subrace-info-section .subrace-description {
+    color: #5d4037;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 1rem 0;
+}
+
+/* Background preview grid layout */
+.background-details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.detail-section {
+    background: rgba(212, 175, 55, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.detail-section .section-title {
+    color: #2c2416;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Cinzel', serif;
+}
+
+.detail-section .section-title i {
+    color: #d4af37;
+    font-size: 0.9rem;
+}
+
+.skill-list, .tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.skill-tag, .tool-tag {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 20px;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2c2416;
+    white-space: nowrap;
+}
+
+.language-info {
+    color: #5d4037;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+}
+
+.equipment-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.equipment-list li {
+    color: #5d4037;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    padding: 0.25rem 0;
+    position: relative;
+    padding-left: 1.25rem;
+}
+
+.equipment-list li::before {
+    content: '•';
+    color: #d4af37;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+}
+
+.feature-description {
+    color: #5d4037;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.abilities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ability-item {
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 4px;
+    padding: 0.75rem;
+    background: rgba(212, 175, 55, 0.02);
+}
+
+.ability-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.ability-name {
+    color: #2c2416;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0;
+    font-family: 'Cinzel', serif;
+}
+
+.ability-meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.ability-type {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 12px;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #2c2416;
+    text-transform: uppercase;
+}
+
+.ability-usage {
+    color: #666;
+    font-size: 0.75rem;
+    font-style: italic;
+}
+
+.ability-description {
+    color: #5d4037;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .traits-browser-layout {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .racial-traits-browser {
+        padding: 1rem;
+    }
+
+    .traits-intro {
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .traits-intro h3 {
+        font-size: 1.2rem;
+    }
+
+    .trait-icon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .trait-icon-card {
+        padding: 0.375rem;
+        min-height: 70px;
+    }
+
+    .trait-icon-image {
+        width: 35px;
+        height: 35px;
+    }
+
+    .trait-icon-name {
+        font-size: 0.65rem;
+    }
+}
+
+/* Trait Modal */
+.trait-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+}
+
+.trait-modal-content {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 12px;
+    border: 2px solid #d4af37;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 2rem;
+}
+
+.trait-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #2c2416;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    z-index: 10001;
+}
+
+.trait-modal-close:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .trait-modal-content {
+        margin: 1rem;
+        padding: 1rem;
+        max-height: 95vh;
+    }
+
+    .trait-modal-close {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
 }

@@ -6,7 +6,7 @@
  */
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { getDefaultStats, validateStats, calculateFinalStats } from '../../../utils/pointBuySystem';
+import { getDefaultStats, validateStats, calculateFinalStats, getTotalBonusPoints } from '../../../utils/pointBuySystem';
 import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData';
 import { applyRacialModifiers } from '../../../data/raceData';
 
@@ -168,6 +168,7 @@ export const ACTION_TYPES = {
     SET_SUBRACE: 'SET_SUBRACE',
     SET_CLASS: 'SET_CLASS',
     SET_BACKGROUND: 'SET_BACKGROUND',
+    SET_SELECTED_ABILITY: 'SET_SELECTED_ABILITY',
     SET_SKILLS: 'SET_SKILLS',
     SET_LANGUAGES: 'SET_LANGUAGES',
     SET_SKILL_RANKS: 'SET_SKILL_RANKS',
@@ -266,6 +267,15 @@ const characterWizardReducer = (state, action) => {
                 characterData: {
                     ...state.characterData,
                     background: action.payload
+                }
+            };
+
+        case ACTION_TYPES.SET_SELECTED_ABILITY:
+            return {
+                ...state,
+                characterData: {
+                    ...state.characterData,
+                    selectedAbility: action.payload
                 }
             };
 
@@ -511,10 +521,8 @@ const validateCurrentStep = (state) => {
             break;
 
         case WIZARD_STEPS.STAT_ALLOCATION:
-            const pathStartingPoints = characterData.path
-                ? getPathStartingPoints(characterData.path)
-                : 0;
-            const statValidation = validateStats(characterData.baseStats, pathStartingPoints);
+            const bonusPoints = getTotalBonusPoints(characterData);
+            const statValidation = validateStats(characterData.baseStats, bonusPoints);
             if (!statValidation.isValid) {
                 errors.stats = statValidation.errors.join(', ');
             }
@@ -598,6 +606,7 @@ export const wizardActionCreators = {
     setSubrace: (subrace) => ({ type: ACTION_TYPES.SET_SUBRACE, payload: subrace }),
     setClass: (characterClass) => ({ type: ACTION_TYPES.SET_CLASS, payload: characterClass }),
     setBackground: (background) => ({ type: ACTION_TYPES.SET_BACKGROUND, payload: background }),
+    setSelectedAbility: (ability) => ({ type: ACTION_TYPES.SET_SELECTED_ABILITY, payload: ability }),
     setSkills: (skills) => ({ type: ACTION_TYPES.SET_SKILLS, payload: skills }),
     setLanguages: (languages) => ({ type: ACTION_TYPES.SET_LANGUAGES, payload: languages }),
     setSkillRanks: (skillRanks) => ({ type: ACTION_TYPES.SET_SKILL_RANKS, payload: skillRanks }),

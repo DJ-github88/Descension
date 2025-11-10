@@ -7,14 +7,19 @@
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { getAllBackgrounds, getBackgroundData } from '../../../data/backgroundData';
-import { getEquipmentPreview } from '../../../data/startingEquipmentData';
+import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
+import ItemTooltip from '../../item-generation/ItemTooltip';
 
 const Step4BackgroundSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
     const [selectedBackground, setSelectedBackground] = useState(state.characterData.background);
     const [hoveredBackground, setHoveredBackground] = useState(null);
+
+    // Tooltip state
+    const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+    const tooltipRef = React.useRef(null);
 
     const backgrounds = getAllBackgrounds() || [];
     const { validationErrors } = state;
@@ -33,6 +38,101 @@ const Step4BackgroundSelection = () => {
 
     const previewBackground = getPreviewBackground();
 
+    // Helper function to get full item objects from item names
+    const getFullItemObjects = (itemNames) => {
+        return itemNames.map(itemName => {
+            return STARTING_EQUIPMENT_LIBRARY.find(item =>
+                item.name.toLowerCase() === itemName.toLowerCase()
+            );
+        }).filter(item => item); // Remove undefined items
+    };
+
+    // Tooltip handlers
+    const handleItemMouseEnter = (e, item) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        const tooltipWidth = 280;
+        const tooltipHeight = 250;
+        const margin = 15;
+
+        let x = rect.right + margin;
+        let y = rect.top;
+
+        const fitsRight = (x + tooltipWidth) <= viewportWidth;
+        const fitsBelow = (y + tooltipHeight) <= viewportHeight;
+
+        if (!fitsRight) {
+            x = rect.left - tooltipWidth - margin;
+            if (x < margin) {
+                x = (viewportWidth - tooltipWidth) / 2;
+            }
+        }
+
+        if (!fitsBelow) {
+            y = rect.top - tooltipHeight - margin;
+            if (y < margin) {
+                y = Math.max(margin, viewportHeight - tooltipHeight - margin);
+            }
+        }
+
+        x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+        y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
+        setTooltip({
+            show: true,
+            item: item,
+            x: x,
+            y: y
+        });
+    };
+
+    const handleItemMouseMove = (e) => {
+        if (tooltip.show) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            const tooltipWidth = 280;
+            const tooltipHeight = 250;
+            const margin = 15;
+
+            let x = rect.right + margin;
+            let y = rect.top;
+
+            const fitsRight = (x + tooltipWidth) <= viewportWidth;
+            const fitsBelow = (y + tooltipHeight) <= viewportHeight;
+
+            if (!fitsRight) {
+                x = rect.left - tooltipWidth - margin;
+                if (x < margin) {
+                    x = (viewportWidth - tooltipWidth) / 2;
+                }
+            }
+
+            if (!fitsBelow) {
+                y = rect.top - tooltipHeight - margin;
+                if (y < margin) {
+                    y = Math.max(margin, viewportHeight - tooltipHeight - margin);
+                }
+            }
+
+            x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+            y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
+            setTooltip(prev => ({
+                ...prev,
+                x: x,
+                y: y
+            }));
+        }
+    };
+
+    const handleItemMouseLeave = () => {
+        setTooltip({ show: false, item: null, x: 0, y: 0 });
+    };
+
     return (
         <div className="wizard-step-content">
             <div className="background-selection-layout">
@@ -47,13 +147,10 @@ const Step4BackgroundSelection = () => {
                                     onMouseEnter={() => setHoveredBackground(background.id)}
                                     onMouseLeave={() => setHoveredBackground(null)}
                                 >
-                                    <div className="background-icon">
-                                        <i className="fas fa-book"></i>
-                                    </div>
                                     <div className="background-info">
                                         <h3 className="background-name">{background.name}</h3>
                                         <p className="background-summary">
-                                            {background.description.substring(0, 80)}...
+                                            {background.description.substring(0, 120)}...
                                         </p>
                                     </div>
                                     <div className="background-benefits">
@@ -89,76 +186,200 @@ const Step4BackgroundSelection = () => {
                     {/* Right side - Background preview */}
                     <div className="background-preview">
                         {previewBackground ? (
-                            <div className="preview-card">
-                                <div className="preview-content">
-                                    <div className="preview-section">
-                                        <h4>Description</h4>
-                                        <p className="background-description">
-                                            {previewBackground.description}
-                                        </p>
+                            <div className="subrace-info-section">
+                                    <h2 className="class-preview-title">{previewBackground.name}</h2>
+
+                                    <p className="class-flavor-text">
+                                        {previewBackground.description}
+                                    </p>
+
+                                    <div className="class-meta-row">
+                                        {previewBackground.skillProficiencies && previewBackground.skillProficiencies.length > 0 && (
+                                            <span className="meta-badge">
+                                                <span className="meta-label">Skills</span>
+                                                {previewBackground.skillProficiencies.length}
+                                            </span>
+                                        )}
+                                        {previewBackground.toolProficiencies && previewBackground.toolProficiencies.length > 0 && (
+                                            <span className="meta-badge">
+                                                <span className="meta-label">Tools</span>
+                                                {previewBackground.toolProficiencies.length}
+                                            </span>
+                                        )}
+                                        {previewBackground.languages > 0 && (
+                                            <span className="meta-badge">
+                                                <span className="meta-label">Languages</span>
+                                                +{previewBackground.languages}
+                                            </span>
+                                        )}
                                     </div>
 
-                                    <div className="preview-section">
-                                        <h4>Skill Proficiencies</h4>
-                                        <div className="skill-list">
-                                            {previewBackground.skillProficiencies.map((skill, index) => (
-                                                <span key={index} className="skill-tag">
-                                                    {skill}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    {previewBackground.toolProficiencies && previewBackground.toolProficiencies.length > 0 && (
-                                        <div className="preview-section">
-                                            <h4>Tool Proficiencies</h4>
-                                            <div className="tool-list">
-                                                {previewBackground.toolProficiencies.map((tool, index) => (
-                                                    <span key={index} className="tool-tag">
-                                                        {tool}
+                                    <div className="background-details-grid">
+                                        <div className="detail-section">
+                                            <h5 className="section-title">
+                                                <i className="fas fa-brain"></i> Skill Proficiencies
+                                            </h5>
+                                            <div className="skill-list">
+                                                {previewBackground.skillProficiencies.map((skill, index) => (
+                                                    <span key={index} className="skill-tag">
+                                                        {skill}
                                                     </span>
                                                 ))}
                                             </div>
                                         </div>
-                                    )}
 
-                                    {previewBackground.languages > 0 && (
-                                        <div className="preview-section">
-                                            <h4>Languages</h4>
-                                            <p className="language-info">
-                                                Choose {previewBackground.languages} additional language{previewBackground.languages > 1 ? 's' : ''}
-                                            </p>
-                                        </div>
-                                    )}
+                                        {previewBackground.toolProficiencies && previewBackground.toolProficiencies.length > 0 && (
+                                            <div className="detail-section">
+                                                <h5 className="section-title">
+                                                    <i className="fas fa-tools"></i> Tool Proficiencies
+                                                </h5>
+                                                <div className="tool-list">
+                                                    {previewBackground.toolProficiencies.map((tool, index) => (
+                                                        <span key={index} className="tool-tag">
+                                                            {tool}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {previewBackground.languages > 0 && (
+                                            <div className="detail-section">
+                                                <h5 className="section-title">
+                                                    <i className="fas fa-language"></i> Languages
+                                                </h5>
+                                                <p className="language-info">
+                                                    Choose {previewBackground.languages} additional language{previewBackground.languages > 1 ? 's' : ''}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
 
                                     {previewBackground.equipment && previewBackground.equipment.length > 0 && (
-                                        <div className="preview-section">
-                                            <h4>Starting Equipment</h4>
-                                            <ul className="equipment-list">
-                                                {previewBackground.equipment.map((item, index) => (
-                                                    <li key={index}>{item}</li>
-                                                ))}
-                                            </ul>
+                                        <div className="detail-section">
+                                            <h5 className="section-title">
+                                                <i className="fas fa-shopping-bag"></i> Starting Equipment
+                                            </h5>
+                                            <div className="equipment-shop-grid">
+                                                {(() => {
+                                                    const fullItems = getFullItemObjects(previewBackground.equipment);
+                                                    const COLS = 6;
+                                                    const occupiedCells = new Map();
+                                                    const gridRows = [];
+                                                    let totalRows = 0;
+
+                                                    // Place items in grid with proper dimensions
+                                                    fullItems.forEach((item, index) => {
+                                                        if (!item) return;
+
+                                                        const width = item.width || 1;
+                                                        const height = item.height || 1;
+
+                                                        // Find a spot for this item
+                                                        let placed = false;
+                                                        for (let row = 0; row < 10 && !placed; row++) {
+                                                            for (let col = 0; col < COLS && !placed; col++) {
+                                                                // Check if this position and area is free
+                                                                let canPlace = true;
+                                                                for (let dy = 0; dy < height && canPlace; dy++) {
+                                                                    for (let dx = 0; dx < width && canPlace; dx++) {
+                                                                        if (col + dx >= COLS || occupiedCells.has(`${row + dy},${col + dx}`)) {
+                                                                            canPlace = false;
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                if (canPlace) {
+                                                                    // Mark cells as occupied
+                                                                    for (let dy = 0; dy < height; dy++) {
+                                                                        for (let dx = 0; dx < width; dx++) {
+                                                                            occupiedCells.set(`${row + dy},${col + dx}`, true);
+                                                                        }
+                                                                    }
+
+                                                                    // Add item to this position
+                                                                    if (!gridRows[row]) gridRows[row] = [];
+                                                                    gridRows[row][col] = (
+                                                                        <div
+                                                                            key={index}
+                                                                            className="inventory-cell occupied"
+                                                                        >
+                                                                            <div
+                                                                                className="item-icon-wrapper"
+                                                                                style={{
+                                                                                    width: `calc(${width * 100}% + ${width - 1}px)`,
+                                                                                    height: `calc(${height * 100}% + ${height - 1}px)`
+                                                                                }}
+                                                                                onMouseEnter={(e) => handleItemMouseEnter(e, item)}
+                                                                                onMouseMove={handleItemMouseMove}
+                                                                                onMouseLeave={handleItemMouseLeave}
+                                                                            >
+                                                                                <div
+                                                                                    className="equipment-item-icon"
+                                                                                    style={{
+                                                                                        backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
+                                                                                        width: '100%',
+                                                                                        height: '100%',
+                                                                                        backgroundSize: 'cover',
+                                                                                        backgroundPosition: 'center',
+                                                                                        backgroundRepeat: 'no-repeat',
+                                                                                        position: 'absolute',
+                                                                                        top: 0,
+                                                                                        left: 0
+                                                                                    }}
+                                                                                    title={item.name}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                    placed = true;
+                                                                    totalRows = Math.max(totalRows, row + height);
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+
+                                                    // Ensure we have at least 3 rows for consistent layout
+                                                    const minRows = 3;
+                                                    while (gridRows.length < minRows) {
+                                                        gridRows.push(new Array(COLS).fill(null));
+                                                    }
+
+                                                    // Render grid rows
+                                                    return gridRows.map((rowCells, rowIndex) => (
+                                                        <div key={rowIndex} className="inventory-row">
+                                                            {Array.from({ length: COLS }, (_, colIndex) => (
+                                                                rowCells && rowCells[colIndex] ? rowCells[colIndex] : (
+                                                                    <div key={`empty-${rowIndex}-${colIndex}`} className="inventory-cell empty"></div>
+                                                                )
+                                                            ))}
+                                                        </div>
+                                                    ));
+                                                })()}
+                                            </div>
                                         </div>
                                     )}
 
-                                    <div className="preview-section">
-                                        <h4>Special Feature</h4>
-                                        <div className="feature-info">
-                                            <h5 className="feature-name">{previewBackground.feature.name}</h5>
+                                    {previewBackground.feature && (
+                                        <div className="detail-section">
+                                            <h5 className="section-title">
+                                                <i className="fas fa-star"></i> {previewBackground.feature.name}
+                                            </h5>
                                             <p className="feature-description">
                                                 {previewBackground.feature.description}
                                             </p>
                                         </div>
-                                    </div>
+                                    )}
 
                                     {/* Background Abilities */}
                                     {(() => {
                                         const abilities = getBackgroundAbilities(previewBackground.id);
                                         if (abilities && abilities.length > 0) {
                                             return (
-                                                <div className="preview-section">
-                                                    <h4>Background Abilities</h4>
+                                                <div className="detail-section">
+                                                    <h5 className="section-title">
+                                                        <i className="fas fa-magic"></i> Background Abilities
+                                                    </h5>
                                                     <div className="abilities-list">
                                                         {abilities.map((ability, index) => (
                                                             <div key={index} className="ability-item">
@@ -183,34 +404,7 @@ const Step4BackgroundSelection = () => {
                                         return null;
                                     })()}
 
-                                    {/* Starting Equipment Preview */}
-                                    {(() => {
-                                        const backgroundEquipment = getEquipmentPreview('background', previewBackground.id);
-
-                                        if (backgroundEquipment.count > 0) {
-                                            return (
-                                                <div className="preview-section">
-                                                    <h4>
-                                                        <i className="fas fa-shopping-bag"></i> Starting Equipment
-                                                    </h4>
-                                                    <p className="equipment-preview-text">
-                                                        Unlocks <strong>{backgroundEquipment.count}</strong> background-specific item{backgroundEquipment.count !== 1 ? 's' : ''} for purchase
-                                                    </p>
-                                                    {backgroundEquipment.examples.length > 0 && (
-                                                        <div className="equipment-examples">
-                                                            <span className="examples-label">Examples:</span>
-                                                            <span className="examples-list">
-                                                                {backgroundEquipment.examples.join(', ')}
-                                                            </span>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        }
-                                        return null;
-                                    })()}
                                 </div>
-                            </div>
                         ) : (
                             <div className="preview-placeholder">
                                 <i className="fas fa-book"></i>
@@ -220,6 +414,22 @@ const Step4BackgroundSelection = () => {
                         )}
                     </div>
                 </div>
+
+                {/* Item Tooltip */}
+                {tooltip.show && tooltip.item && (
+                    <div
+                        ref={tooltipRef}
+                        style={{
+                            position: 'fixed',
+                            left: tooltip.x,
+                            top: tooltip.y,
+                            zIndex: 1000,
+                            pointerEvents: 'none'
+                        }}
+                    >
+                        <ItemTooltip item={tooltip.item} />
+                    </div>
+                )}
         </div>
     );
 };

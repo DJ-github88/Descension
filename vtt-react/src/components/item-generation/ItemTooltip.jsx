@@ -311,6 +311,7 @@ const getMiscTypeInfo = (item) => {
                 }
             ].filter(Boolean);
 
+
         case 'recipe':
             // This will be handled in the main component where hooks can be used
             return [];
@@ -612,6 +613,7 @@ const renderTooltipEntry = (entry, index) => {
                 </div>
             );
         }
+
 
         if (entry.component === 'recipe-details') {
             return (
@@ -983,8 +985,10 @@ export default function ItemTooltip({ item }) {
 
 
 
-    // Get armor class value
-    const armorClassValue = getStatValue(item.armorClass) || getStatValue(item.combatStats?.armorClass) || 0;
+    // Get armor class value - check multiple possible locations
+    const armorClassValue = getStatValue(item.armorClass) ||
+                           getStatValue(item.combatStats?.armorClass) ||
+                           getStatValue(item.combatStats?.armor) || 0;
 
     // Get base stats
     const baseStats = Object.entries(item.baseStats || item.stats || {})
@@ -1001,6 +1005,7 @@ export default function ItemTooltip({ item }) {
             stat !== 'resistances' &&
             stat !== 'spellDamage' &&
             stat !== 'armorClass' &&
+            stat !== 'armor' &&
             stat !== 'healthRestore' &&
             stat !== 'manaRestore' &&
             getStatValue(data) !== 0
@@ -1281,6 +1286,7 @@ export default function ItemTooltip({ item }) {
                                 case 'CRAFTING': return 'Crafting';
                                 case 'TRADE_GOODS': return 'Trade';
                                 case 'JUNK': return 'Junk';
+                                case 'CONTAINER': return 'Container';
                                 case 'recipe': return 'Recipe';
                                 default: return 'Item';
                             }
@@ -1465,12 +1471,6 @@ export default function ItemTooltip({ item }) {
             )}
             {/* Miscellaneous Properties */}
             {item.type === 'miscellaneous' && renderMiscInfo(getMiscTypeInfo(item))}
-            {/* Armor */}
-            {armorClassValue > 0 && item.type !== 'consumable' && (
-                <div style={{ color: '#ffffff', marginBottom: '8px' }}>
-                    Armor {armorClassValue}
-                </div>
-            )}
 
 
 
@@ -1572,6 +1572,13 @@ export default function ItemTooltip({ item }) {
             {/* Non-Consumable Effects */}
             {item.type !== 'consumable' && (
                 <>
+                    {/* Armor - Display before base stats */}
+                    {armorClassValue > 0 && (
+                        <div style={{ color: '#ffffff', marginBottom: '8px', fontSize: '0.95em' }}>
+                            <strong>Armor {armorClassValue}</strong>
+                        </div>
+                    )}
+
                     {/* Base Stats */}
                     {baseStats.map(({ name, value, isPercentage }) => (
                         <div key={name} style={{ color: '#ffffff' }}>

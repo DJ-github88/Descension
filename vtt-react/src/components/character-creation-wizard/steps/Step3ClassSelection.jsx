@@ -4,15 +4,18 @@
  * Class selection step with layout matching the race selection
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { getEquipmentPreview } from '../../../data/startingEquipmentData';
+import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
+import ItemTooltip from '../../item-generation/ItemTooltip';
 
 const Step3ClassSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
     const [selectedClass, setSelectedClass] = useState(state.characterData.class);
     const [hoveredClass, setHoveredClass] = useState(null);
+    const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+    const tooltipRef = useRef(null);
 
     const { validationErrors } = state;
 
@@ -147,6 +150,138 @@ const Step3ClassSelection = () => {
         };
         return resources[className] || 'Class Energy';
     };
+
+    // Helper function to get full item objects from item names
+    const getFullItemObjects = (itemNames) => {
+        return itemNames.map(itemName => {
+            return STARTING_EQUIPMENT_LIBRARY.find(item =>
+                item.name.toLowerCase() === itemName.toLowerCase()
+            );
+        }).filter(item => item); // Remove undefined items
+    };
+
+    // Equipment hover handlers (same as equipment selection)
+    const handleItemMouseEnter = (e, item) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Use more conservative estimates and add buffer
+        const tooltipWidth = 280; // Increased estimate with buffer
+        const tooltipHeight = 250; // Increased estimate with buffer
+        const margin = 15; // Increased margin
+
+        // Preferred position: right of item, aligned to top
+        let x = rect.right + margin;
+        let y = rect.top;
+
+        // Check if preferred position fits
+        const fitsRight = (x + tooltipWidth) <= viewportWidth;
+        const fitsBelow = (y + tooltipHeight) <= viewportHeight;
+
+        if (!fitsRight) {
+            // Try left side
+            x = rect.left - tooltipWidth - margin;
+            if (x < margin) {
+                // Doesn't fit left either, center horizontally
+                x = (viewportWidth - tooltipWidth) / 2;
+            }
+        }
+
+        // Handle vertical positioning
+        if (!fitsBelow) {
+            // Try above the item
+            y = rect.top - tooltipHeight - margin;
+            if (y < margin) {
+                // Doesn't fit above, position below but clamp to viewport
+                y = Math.max(margin, viewportHeight - tooltipHeight - margin);
+            }
+        }
+
+        // Final clamping to ensure tooltip stays within viewport
+        x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+        y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
+        setTooltip({
+            show: true,
+            item: item,
+            x: x,
+            y: y
+        });
+    };
+
+    const handleItemMouseMove = (e) => {
+        if (tooltip.show) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Use more conservative estimates and add buffer
+            const tooltipWidth = 280; // Increased estimate with buffer
+            const tooltipHeight = 250; // Increased estimate with buffer
+            const margin = 15; // Increased margin
+
+            // Preferred position: right of item, aligned to top
+            let x = rect.right + margin;
+            let y = rect.top;
+
+            // Check if preferred position fits
+            const fitsRight = (x + tooltipWidth) <= viewportWidth;
+            const fitsBelow = (y + tooltipHeight) <= viewportHeight;
+
+            if (!fitsRight) {
+                // Try left side
+                x = rect.left - tooltipWidth - margin;
+                if (x < margin) {
+                    // Doesn't fit left either, center horizontally
+                    x = (viewportWidth - tooltipWidth) / 2;
+                }
+            }
+
+            // Handle vertical positioning
+            if (!fitsBelow) {
+                // Try above the item
+                y = rect.top - tooltipHeight - margin;
+                if (y < margin) {
+                    // Doesn't fit above, position below but clamp to viewport
+                    y = Math.max(margin, viewportHeight - tooltipHeight - margin);
+                }
+            }
+
+            // Final clamping to ensure tooltip stays within viewport
+            x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+            y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
+            setTooltip(prev => ({
+                ...prev,
+                x: x,
+                y: y
+            }));
+        }
+    };
+
+    const handleItemMouseLeave = () => {
+        setTooltip({ show: false, item: null, x: 0, y: 0 });
+    };
+
+    // Debug tooltip dimensions
+    useEffect(() => {
+        if (tooltip.show && tooltipRef.current) {
+            const rect = tooltipRef.current.getBoundingClientRect();
+            console.log('Tooltip dimensions:', {
+                width: rect.width,
+                height: rect.height,
+                x: rect.x,
+                y: rect.y,
+                right: rect.right,
+                bottom: rect.bottom,
+                viewport: {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                }
+            });
+        }
+    }, [tooltip.show]);
 
     const getClassFeatures = (className) => {
         const features = {
@@ -769,14 +904,13 @@ const Step3ClassSelection = () => {
                     {/* Right side - Class preview */}
                     <div className="class-preview-container">
                         {previewClass ? (
-                            <div className="preview-card">
-                                <div className="preview-content">
+                            <div className="subrace-info-section">
                                     <h2 className="class-preview-title">{previewClass.name}</h2>
-                                    
+
                                     <p className="class-flavor-text">
                                         {getClassFlavor(previewClass.name)}
                                     </p>
-                                    
+
                                     <div className="class-meta-row">
                                         <span className="meta-badge"><span className="meta-label">Theme</span>{previewClass.theme}</span>
                                         <span className="meta-badge"><span className="meta-label">Role</span>{getClassRole(previewClass.name)}</span>
@@ -801,38 +935,132 @@ const Step3ClassSelection = () => {
                                                 <h4 className="equipment-section-title">
                                                     <i className="fas fa-shopping-bag"></i> Starting Equipment Pool
                                                 </h4>
-                                                <div className="equipment-preview">
-                                                    {eq.weapons && eq.weapons.length > 0 && (
-                                                        <div className="equipment-category">
-                                                            <strong>Weapons:</strong> {eq.weapons.join(', ')}
-                                                        </div>
-                                                    )}
-                                                    {eq.armor && eq.armor.length > 0 && (
-                                                        <div className="equipment-category">
-                                                            <strong>Armor:</strong> {eq.armor.join(', ')}
-                                                        </div>
-                                                    )}
-                                                    {eq.tools && eq.tools.length > 0 && (
-                                                        <div className="equipment-category">
-                                                            <strong>Tools:</strong> {eq.tools.join(', ')}
-                                                        </div>
-                                                    )}
-                                                    {eq.accessories && eq.accessories.length > 0 && (
-                                                        <div className="equipment-category">
-                                                            <strong>Accessories:</strong> {eq.accessories.join(', ')}
-                                                        </div>
-                                                    )}
-                                                    {eq.consumables && eq.consumables.length > 0 && (
-                                                        <div className="equipment-category">
-                                                            <strong>Consumables:</strong> {eq.consumables.join(', ')}
-                                                        </div>
-                                                    )}
+                                                <div className="equipment-shop-grid">
+                                                    {(() => {
+                                                        // Get all item names and convert to full objects
+                                                        const allItemNames = [
+                                                            ...(eq.weapons || []),
+                                                            ...(eq.armor || []),
+                                                            ...(eq.tools || []),
+                                                            ...(eq.accessories || []),
+                                                            ...(eq.consumables || [])
+                                                        ];
+
+                                                        const fullItems = getFullItemObjects(allItemNames);
+
+                                                        // Equipment shop grid logic
+                                                        const COLS = 6; // Smaller grid for class preview
+                                                        const occupiedCells = new Map(); // Track occupied cells by "row,col" key
+
+                                                        let currentRow = 0;
+                                                        let currentCol = 0;
+
+                                                        // Place each item in the grid
+                                                        fullItems.forEach((item) => {
+                                                            const itemWidth = item.width || 1;
+                                                            const itemHeight = item.height || 1;
+
+                                                            // Find next available position
+                                                            let placed = false;
+                                                            while (!placed && currentRow < 6) { // Limit to 6 rows max
+                                                                // Check if item fits at current position
+                                                                let fits = true;
+                                                                for (let r = 0; r < itemHeight; r++) {
+                                                                    for (let c = 0; c < itemWidth; c++) {
+                                                                        const checkRow = currentRow + r;
+                                                                        const checkCol = currentCol + c;
+                                                                        if (checkCol >= COLS || occupiedCells.has(`${checkRow},${checkCol}`)) {
+                                                                            fits = false;
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    if (!fits) break;
+                                                                }
+
+                                                                if (fits) {
+                                                                    // Place the item
+                                                                    for (let r = 0; r < itemHeight; r++) {
+                                                                        for (let c = 0; c < itemWidth; c++) {
+                                                                            const placeRow = currentRow + r;
+                                                                            const placeCol = currentCol + c;
+                                                                            occupiedCells.set(`${placeRow},${placeCol}`, {
+                                                                                item,
+                                                                                isOrigin: r === 0 && c === 0
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                    placed = true;
+                                                                }
+
+                                                                // Move to next position
+                                                                currentCol++;
+                                                                if (currentCol >= COLS) {
+                                                                    currentCol = 0;
+                                                                    currentRow++;
+                                                                }
+                                                            }
+                                                        });
+
+                                                        // Calculate total rows needed
+                                                        const maxRow = Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])), -1);
+                                                        const totalRows = Math.max(maxRow + 1, 2); // Minimum 2 rows
+
+                                                        // Render the grid with rows
+                                                        const gridRows = [];
+                                                        for (let row = 0; row < totalRows; row++) {
+                                                            const rowCells = [];
+                                                            for (let col = 0; col < COLS; col++) {
+                                                                const cellData = occupiedCells.get(`${row},${col}`);
+                                                                const item = cellData?.item;
+                                                                const isOrigin = cellData?.isOrigin;
+
+                                                                rowCells.push(
+                                                                    <div
+                                                                        key={`${row}-${col}`}
+                                                                        className={`inventory-cell ${item ? 'occupied' : ''}`}
+                                                                        onMouseEnter={item && isOrigin ? (e) => handleItemMouseEnter(e, item) : undefined}
+                                                                        onMouseMove={item && isOrigin ? handleItemMouseMove : undefined}
+                                                                        onMouseLeave={item && isOrigin ? handleItemMouseLeave : undefined}
+                                                                    >
+                                                                        {item && isOrigin && (
+                                                                            <div
+                                                                                className="item-icon-wrapper"
+                                                                                style={{
+                                                                                    width: `calc(${(item.width || 1) * 100}% + ${(item.width || 1) - 1}px)`,
+                                                                                    height: `calc(${(item.height || 1) * 100}% + ${(item.height || 1) - 1}px)`,
+                                                                                    zIndex: 2
+                                                                                }}
+                                                                            >
+                                                                                <div
+                                                                                    className="equipment-item-icon"
+                                                                                    style={{
+                                                                                        backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
+                                                                                        width: '100%',
+                                                                                        height: '100%',
+                                                                                        backgroundSize: 'cover',
+                                                                                        backgroundPosition: 'center',
+                                                                                        backgroundRepeat: 'no-repeat'
+                                                                                    }}
+                                                                                />
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                );
+                                                            }
+                                                            gridRows.push(
+                                                                <div key={row} className="inventory-row">
+                                                                    {rowCells}
+                                                                </div>
+                                                            );
+                                                        }
+
+                                                        return gridRows;
+                                                    })()}
                                                 </div>
                                             </div>
                                         ) : null;
                                     })()}
                                 </div>
-                            </div>
                         ) : (
                             <div className="preview-placeholder">
                                 <i className="fas fa-sword"></i>
@@ -841,6 +1069,22 @@ const Step3ClassSelection = () => {
                             </div>
                         )}
                     </div>
+
+                    {/* Item Tooltip */}
+                    {tooltip.show && tooltip.item && (
+                        <div
+                            ref={tooltipRef}
+                            style={{
+                                position: 'fixed',
+                                left: tooltip.x,
+                                top: tooltip.y,
+                                zIndex: 1000,
+                                pointerEvents: 'none'
+                            }}
+                        >
+                            <ItemTooltip item={tooltip.item} />
+                        </div>
+                    )}
                 </div>
         </div>
     );

@@ -1,10 +1,10 @@
 /**
  * Starting Currency Data Module
- * 
+ *
  * Defines starting currency amounts for character creation based on:
  * - Background (primary determinant)
  * - Path (modifier/bonus)
- * 
+ *
  * Currency system: 100 copper = 1 silver, 100 silver = 1 gold, 100 gold = 1 platinum
  */
 
@@ -163,22 +163,22 @@ export const calculateStartingCurrency = (background, path) => {
         silver: 0,
         copper: 0
     };
-    
+
     const pathModifier = PATH_CURRENCY_MODIFIERS[path] || {
         platinum: 0,
         gold: 0,
         silver: 0,
         copper: 0
     };
-    
-    // Combine base and modifier
+
+    // Combine base and modifier currency
     const totalCurrency = {
         platinum: (baseCurrency.platinum || 0) + (pathModifier.platinum || 0),
         gold: (baseCurrency.gold || 0) + (pathModifier.gold || 0),
         silver: (baseCurrency.silver || 0) + (pathModifier.silver || 0),
         copper: (baseCurrency.copper || 0) + (pathModifier.copper || 0)
     };
-    
+
     // Auto-convert upward (100 copper = 1 silver, etc.)
     return convertCurrencyUpward(totalCurrency);
 };

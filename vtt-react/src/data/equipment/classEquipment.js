@@ -690,6 +690,95 @@ export const MARTYR_ITEMS = [
         availableFor: {
             classes: ['Martyr']
         }
+    },
+
+    {
+        id: 'martyr-sacrificial-blade',
+        name: 'Sacrificial Blade',
+        type: 'weapon',
+        subtype: 'SWORD',
+        quality: 'uncommon',
+        description: 'A curved blade etched with runes of sacrifice. Draws blood to fuel divine power.',
+        iconId: 'inv_sword_04',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        slots: ['mainHand', 'offHand'],
+        weaponSlot: 'ONE_HANDED',
+        hand: 'ONE_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 8,
+                damageType: 'radiant'
+            }
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            strength: { value: 1, isPercentage: false }
+        },
+        combatStats: {
+            spellDamage: {
+                radiant: { value: 15, isPercentage: true }
+            }
+        },
+        availableFor: {
+            classes: ['Martyr']
+        }
+    },
+
+    {
+        id: 'martyr-scarred-plate',
+        name: 'Scarred Plate',
+        type: 'armor',
+        subtype: 'PLATE',
+        quality: 'uncommon',
+        description: 'Heavy plate armor covered in self-inflicted scars from years of ritual sacrifice.',
+        iconId: 'inv_chest_plate_05',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 45,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 6, isPercentage: false },
+            resistances: {
+                necrotic: { value: 10, isPercentage: false }
+            }
+        },
+        baseStats: {
+            constitution: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Martyr']
+        }
+    },
+
+    {
+        id: 'martyr-tome-suffering',
+        name: 'Tome of Suffering',
+        type: 'tool',
+        subtype: 'BOOK',
+        quality: 'rare',
+        description: 'A leather-bound tome containing prayers of suffering and sacrifice. Grants insights into pain.',
+        iconId: 'inv_misc_book_02',
+        value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 1,
+        slots: ['tool1', 'tool2'],
+        combatStats: {
+            carryingCapacity: { slots: 2 }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            wisdom: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Martyr']
+        }
     }
 ];
 
@@ -3031,6 +3120,114 @@ export const PRIMALIST_ITEMS = [
         },
         baseStats: {
             intelligence: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Primalist']
+        }
+    },
+
+    {
+        id: 'primalist-natures-robes',
+        name: 'Nature\'s Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'uncommon',
+        description: 'Flowing robes woven from living vines and leaves that shift with the seasons.',
+        iconId: 'inv_chest_cloth_18',
+        value: { platinum: 0, gold: 18, silver: 0, copper: 0 },
+        weight: 8,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false },
+            resistances: {
+                fire: { value: 5, isPercentage: false },
+                cold: { value: 5, isPercentage: false }
+            }
+        },
+        baseStats: {
+            wisdom: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Primalist']
+        }
+    },
+
+    {
+        id: 'primalist-totem-pouch',
+        name: 'Totem Pouch',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A leather pouch containing carved elemental totems that resonate with primal forces.',
+        iconId: 'inv_misc_bag_08',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        combatStats: {
+            carryingCapacity: { slots: 3 }
+        },
+        baseStats: {
+            wisdom: { value: 1, isPercentage: false },
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Primalist']
+        }
+    },
+
+    {
+        id: 'primalist-totem-stone',
+        name: 'Totem Stone',
+        type: 'weapon',
+        subtype: 'TOTEM',
+        quality: 'rare',
+        description: 'A sacred stone carved with elemental runes, used to channel primal magic.',
+        iconId: 'inv_misc_stonetablet_01',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 1,
+        slots: ['mainHand', 'offHand'],
+        weaponSlot: 'ONE_HANDED',
+        hand: 'ONE_HAND',
+        combatStats: {
+            spellDamage: {
+                fire: { value: 10, isPercentage: true },
+                cold: { value: 10, isPercentage: true },
+                lightning: { value: 10, isPercentage: true }
+            }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Primalist']
+        },
+        craftable: true
+    },
+
+    {
+        id: 'primalist-elemental-crystal',
+        name: 'Elemental Crystal',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A multi-faceted crystal that shimmers with all four elemental colors.',
+        iconId: 'inv_misc_gem_02',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false },
+            wisdom: { value: 1, isPercentage: false },
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {

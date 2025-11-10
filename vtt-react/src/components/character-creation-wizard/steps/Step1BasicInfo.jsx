@@ -163,7 +163,6 @@ const Step1BasicInfo = () => {
                                 autoFocus
                             />
                             <div className="input-helper">
-                                <span className="character-count">{characterData.name.length}/50</span>
                                 {validationErrors.name && (
                                     <div className="error-text">
                                         <i className="fas fa-exclamation-triangle"></i>

@@ -30,7 +30,7 @@ const SkillRankUpgrade = ({
     const upgradeCost = getUpgradeCost(currentRank);
     const downgradeRefund = getDowngradeRefund(currentRank);
     const canUpgrade = nextRank && canUpgradeSkill(currentRank, availablePoints);
-    const canDowngrade = prevRank && !isGranted;
+    const canDowngrade = prevRank && currentRank !== 'UNTRAINED';
 
     return (
         <div className="skill-rank-upgrade">

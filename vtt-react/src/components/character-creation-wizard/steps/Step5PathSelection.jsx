@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { ENHANCED_PATHS } from '../../../data/enhancedPathData';
+import { calculateStartingCurrency, formatCurrency } from '../../../data/startingCurrencyData';
+import { getBackgroundData } from '../../../data/backgroundData';
 import { UnifiedSpellCard } from '../../spellcrafting-wizard/components/common';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/cards.css';
@@ -17,6 +19,7 @@ const Step5PathSelection = () => {
     const dispatch = useCharacterWizardDispatch();
 
     const [selectedPath, setSelectedPath] = useState(state.characterData.path);
+    const [selectedAbility, setSelectedAbility] = useState(state.characterData.selectedAbility);
     const [viewingAbility, setViewingAbility] = useState(null);
 
     const paths = Object.values(ENHANCED_PATHS);
@@ -27,8 +30,17 @@ const Step5PathSelection = () => {
 
     const handlePathSelect = (pathId) => {
         setSelectedPath(pathId);
+        setSelectedAbility(null); // Reset selected ability when changing paths
         setViewingAbility(null);
         dispatch(wizardActionCreators.setPath(pathId));
+        dispatch(wizardActionCreators.setSelectedAbility(null)); // Clear selected ability in state
+    };
+
+    const handleAbilitySelect = (abilityId) => {
+        const newSelectedAbility = selectedAbility === abilityId ? null : abilityId;
+        setSelectedAbility(newSelectedAbility);
+        setViewingAbility(newSelectedAbility); // Automatically show spell card when selecting
+        dispatch(wizardActionCreators.setSelectedAbility(newSelectedAbility));
     };
 
     const handleAbilityView = (abilityId) => {
@@ -112,6 +124,39 @@ const Step5PathSelection = () => {
                         </div>
                     )}
 
+                    {/* Starting Resources */}
+                    {state.characterData.background && selectedPath && (
+                        <div className="starting-resources">
+                            <h4>Starting Resources</h4>
+                            <div className="resources-grid">
+                                <div className="resource-item">
+                                    <div className="resource-header">
+                                        <i className="fas fa-coins"></i>
+                                        <span className="resource-label">Starting Currency</span>
+                                    </div>
+                                    <div className="resource-value">
+                                        {formatCurrency(calculateStartingCurrency(state.characterData.background, selectedPath))}
+                                    </div>
+                                    <div className="resource-description">
+                                        Available for purchasing equipment in the next step
+                                    </div>
+                                </div>
+                                <div className="resource-item">
+                                    <div className="resource-header">
+                                        <i className="fas fa-shopping-bag"></i>
+                                        <span className="resource-label">Starting Equipment</span>
+                                    </div>
+                                    <div className="resource-value">
+                                        Included Free
+                                    </div>
+                                    <div className="resource-description">
+                                        Your background provides essential starting gear automatically
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Discipline Abilities */}
                     <div className="ability-selection-section">
                         <h3 className="step-title">
@@ -123,7 +168,13 @@ const Step5PathSelection = () => {
 
                         {disciplineAbilities.length > 0 ? (
                             <div className="ability-selection-info">
-                                <p>These are the abilities granted by the {pathData.name} discipline. Click an ability to view details.</p>
+                                <p>Choose 1 ability from the {pathData.name} discipline. Click an ability to select it and view its spell card details.</p>
+                                {selectedAbility && (
+                                    <p className="selected-ability-notice">
+                                        <i className="fas fa-check-circle"></i>
+                                        Selected: <strong>{disciplineAbilities.find(a => a.id === selectedAbility)?.name}</strong>
+                                    </p>
+                                )}
                             </div>
                         ) : (
                             <div className="ability-selection-info">
@@ -136,13 +187,22 @@ const Step5PathSelection = () => {
                             <div className="ability-icon-grid">
                                 {disciplineAbilities.map(ability => {
                                     const isViewing = viewingAbility === ability.id;
+                                    const isSelected = selectedAbility === ability.id;
 
                                     return (
                                         <div
                                             key={ability.id}
-                                            className={`ability-icon-card ${isViewing ? 'viewing' : ''}`}
-                                            onClick={() => handleAbilityView(ability.id)}
-                                            title={ability.name}
+                                            className={`ability-icon-card ${isViewing ? 'viewing' : ''} ${isSelected ? 'selected' : ''}`}
+                                            onClick={() => {
+                                                if (isSelected && isViewing) {
+                                                    // If already selected and viewing, deselect it
+                                                    handleAbilitySelect(ability.id); // This will deselect and close viewing
+                                                } else {
+                                                    // Select this ability (will also start viewing)
+                                                    handleAbilitySelect(ability.id);
+                                                }
+                                            }}
+                                            title={`${ability.name}${isSelected ? ' (Selected)' : ''}`}
                                         >
                                             <div className="ability-icon-image">
                                                 <img

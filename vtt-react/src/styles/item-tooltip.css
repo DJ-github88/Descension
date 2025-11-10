@@ -852,7 +852,17 @@
 .magic-type[data-magic="lightning"] { color: #ffff00; }
 .magic-type[data-magic="acid"] { color: #00ff00; }
 .magic-type[data-magic="force"] { color: #ff66ff; }
-.magic-type[data-magic="necrotic"] { color: #4B0082; }
+.magic-type[data-magic="necrotic"] {
+    color: #4B0082;
+    text-shadow:
+        0 0 2px rgba(255, 255, 255, 0.8),
+        0 0 4px rgba(255, 255, 255, 0.6),
+        0 0 6px rgba(255, 255, 255, 0.4),
+        1px 1px 0px rgba(255, 255, 255, 0.8),
+        -1px -1px 0px rgba(255, 255, 255, 0.8),
+        1px -1px 0px rgba(255, 255, 255, 0.8),
+        -1px 1px 0px rgba(255, 255, 255, 0.8);
+}
 .magic-type[data-magic="radiant"] { color: #FFFACD; }
 .magic-type[data-magic="poison"] { color: #008000; }
 .magic-type[data-magic="psychic"] { color: #FF00FF; }

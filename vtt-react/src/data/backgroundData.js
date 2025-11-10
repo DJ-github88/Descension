@@ -18,7 +18,7 @@ export const BACKGROUND_DATA = {
             'Incense (5 sticks)',
             'Vestments',
             'Common clothes',
-            'Belt pouch with 15g'
+            'Temple Pouch with 15g'
         ],
         feature: {
             name: 'Shelter of the Faithful',
@@ -35,8 +35,9 @@ export const BACKGROUND_DATA = {
         languages: 1, // Underworld connections
         equipment: [
             'Crowbar',
-            'Dark common clothes with hood',
-            'Belt pouch with 15g'
+            'Dark Common Clothes',
+            'Lockpicks (5)',
+            'Ill-gotten Pouch with 15g'
         ],
         feature: {
             name: 'Criminal Contact',
@@ -56,7 +57,8 @@ export const BACKGROUND_DATA = {
             'Shovel',
             'Iron pot',
             'Common clothes',
-            'Belt pouch with 10g'
+            'Travel Rations (3 days)',
+            'Humble Pouch with 10g'
         ],
         feature: {
             name: 'Rustic Hospitality',
@@ -75,6 +77,7 @@ export const BACKGROUND_DATA = {
             'Fine clothes',
             'Signet ring',
             'Scroll of pedigree',
+            'Perfume (vial)',
             'Purse with 25g'
         ],
         feature: {
@@ -95,7 +98,7 @@ export const BACKGROUND_DATA = {
             'Small knife',
             'Letter from colleague',
             'Common clothes',
-            'Belt pouch with 10g'
+            'Scholarly Pouch with 10g'
         ],
         feature: {
             name: 'Researcher',
@@ -115,7 +118,8 @@ export const BACKGROUND_DATA = {
             'Trophy from fallen enemy',
             'Deck of cards',
             'Common clothes',
-            'Belt pouch with 10g'
+            'Military Rations (5 days)',
+            'Military Pouch with 10g'
         ],
         feature: {
             name: 'Military Rank',
@@ -135,6 +139,7 @@ export const BACKGROUND_DATA = {
             'Tools of con of choice',
             'Fine clothes',
             'Signet ring of imaginary person',
+            'Disguise accessories',
             'Belt pouch with 15g'
         ],
         feature: {
@@ -154,6 +159,7 @@ export const BACKGROUND_DATA = {
             'Musical instrument',
             'Favor of admirer',
             'Costume',
+            'Theatrical makeup',
             'Belt pouch with 15g'
         ],
         feature: {
@@ -192,6 +198,7 @@ export const BACKGROUND_DATA = {
             'Herbalism kit',
             'Scroll case with spiritual writings',
             'Winter blanket',
+            'Trail rations (5 days)',
             'Belt pouch with 5g'
         ],
         feature: {
@@ -211,6 +218,7 @@ export const BACKGROUND_DATA = {
             'Staff',
             'Hunting trap',
             'Traveler\'s clothes',
+            'Waterskin',
             'Belt pouch with 10g'
         ],
         feature: {
@@ -231,7 +239,7 @@ export const BACKGROUND_DATA = {
             'Silk rope (50 feet)',
             'Lucky charm',
             'Common clothes',
-            'Belt pouch with 10g'
+            'Seafarer Pouch with 10g'
         ],
         feature: {
             name: 'Ship\'s Passage',

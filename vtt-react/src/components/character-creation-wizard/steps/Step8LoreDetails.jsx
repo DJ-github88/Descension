@@ -157,9 +157,6 @@ const Step8LoreDetails = () => {
                                         onChange={(e) => handleLoreChange(field.key, e.target.value)}
                                         rows={field.rows}
                                     />
-                                    <div className="character-count">
-                                        {(loreData[field.key] || '').length} characters
-                                    </div>
                                 </div>
                             ))}
                         </div>

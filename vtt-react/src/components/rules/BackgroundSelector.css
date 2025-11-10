@@ -57,14 +57,14 @@
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 252, 248, 0.9) 100%);
     border: 2px solid #d4af37;
     border-radius: 16px;
-    padding: 1rem 1.25rem 3rem 1.25rem;
+    padding: 1.25rem 1.5rem 2rem 1.5rem;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
     box-shadow: 0 4px 12px rgba(139, 69, 19, 0.12), 0 2px 4px rgba(139, 69, 19, 0.08);
-    min-height: 200px;
+    min-height: 160px;
     position: relative;
 }
 
@@ -825,6 +825,30 @@
 
 .ability-icon-card.selected {
     border-color: #2d5016;
+    background: rgba(45, 80, 22, 0.15);
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.4), 0 4px 8px rgba(45, 80, 22, 0.2);
+    transform: scale(1.05);
+}
+
+.ability-icon-card.selected .ability-icon-image {
+    border-color: #2d5016;
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.selected-ability-notice {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(45, 80, 22, 0.1) 0%, rgba(45, 80, 22, 0.05) 100%);
+    border: 1px solid rgba(45, 80, 22, 0.3);
+    border-radius: 8px;
+    color: #2d5016;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.selected-ability-notice i {
+    margin-right: 0.5rem;
+    color: #2d5016;
 }
 
 .ability-icon-image {

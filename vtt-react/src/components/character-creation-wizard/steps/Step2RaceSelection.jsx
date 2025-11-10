@@ -5,9 +5,11 @@
  */
 
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { RACE_DATA, getFullRaceData } from '../../../data/raceData';
 import { getEquipmentPreview } from '../../../data/startingEquipmentData';
+import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 
 const Step2RaceSelection = () => {
     const state = useCharacterWizardState();
@@ -16,6 +18,8 @@ const Step2RaceSelection = () => {
     const [selectedSubrace, setSelectedSubrace] = useState(state.characterData.subrace);
     const [hoveredRace, setHoveredRace] = useState(null);
     const [hoveredSubrace, setHoveredSubrace] = useState(null);
+    const [viewingTrait, setViewingTrait] = useState(null);
+    const [showTraitModal, setShowTraitModal] = useState(false);
 
     const { validationErrors } = state;
 
@@ -131,9 +135,6 @@ const Step2RaceSelection = () => {
                                         onMouseLeave={() => setHoveredRace(null)}
                                         style={{ '--race-color': race.color }}
                                     >
-                                        <div className="race-icon">
-                                            <i className={race.icon}></i>
-                                        </div>
                                         <div className="race-info">
                                             <h4 className="race-name">{race.name}</h4>
                                             <p className="race-description">
@@ -191,167 +192,134 @@ const Step2RaceSelection = () => {
                     {/* Right side - Race/Subrace preview */}
                     <div className="race-preview">
                         {previewRace ? (
-                            <div className="preview-card">
-                                <div className="preview-content">
-                                    <div className="preview-section">
-                                        <h4>{previewRace.name}</h4>
-                                        <p className="race-full-description">
-                                            {previewRace.description}
-                                        </p>
-                                    </div>
+                            <div className="racial-traits-browser">
+                                <div className="traits-intro">
+                                    <h3>{previewSubrace ? `${previewSubrace.name} ${previewRace.name}` : previewRace.name} Racial Abilities</h3>
+                                </div>
 
-                                    {/* Cultural Background - Show for all races */}
-                                    {(() => {
-                                        const raceData = RACE_DATA[previewRace.id];
-                                        if (raceData?.culturalBackground) {
-                                            return (
-                                                <div className="preview-section">
-                                                    <h4><i className="fas fa-book"></i> Cultural Background</h4>
-                                                    <p className="cultural-background-text">
-                                                        {raceData.culturalBackground}
+                                <div className="traits-content">
+                                    <div className="race-info-section">
+                                        {/* Race Description - Always shown */}
+                                        <div className="subrace-info-section">
+                                            <p className="race-description">
+                                                {previewRace.description}
+                                            </p>
+                                        </div>
+
+                                        {/* Cultural Background */}
+                                        {(() => {
+                                            const raceData = RACE_DATA[previewRace.id];
+                                            if (raceData?.culturalBackground) {
+                                                return (
+                                                    <div className="subrace-info-section">
+                                                        <h5 className="section-title">
+                                                            <i className="fas fa-book"></i> Cultural Background
+                                                        </h5>
+                                                        <p className="cultural-background-text">
+                                                            {raceData.culturalBackground}
+                                                        </p>
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        })()}
+
+                                        {/* Basic Information */}
+                                        {(() => {
+                                            const raceData = RACE_DATA[previewRace.id];
+                                            if (raceData?.baseTraits) {
+                                                return (
+                                                    <div className="subrace-info-section">
+                                                        <h5 className="section-title">
+                                                            <i className="fas fa-info-circle"></i> Basic Information
+                                                        </h5>
+                                                        <p className="cultural-background-text">
+                                                            <strong>Size:</strong> {raceData.baseTraits.size} • <strong>Speed:</strong> {raceData.baseTraits.baseSpeed} feet • <strong>Lifespan:</strong> {raceData.baseTraits.lifespan} • <strong>Languages:</strong> {raceData.baseTraits.languages.join(', ')}
+                                                        </p>
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        })()}
+
+                                        {/* Subrace Information - Show when subrace is selected */}
+                                        {previewSubrace && (
+                                            <>
+                                                <div className="subrace-info-section">
+                                                    <h5 className="section-title">
+                                                        <i className="fas fa-user-tag"></i> {previewSubrace.name} Subrace
+                                                    </h5>
+                                                    <p className="subrace-description">
+                                                        {previewSubrace.description}
                                                     </p>
-                                                </div>
-                                            );
-                                        }
-                                        return null;
-                                    })()}
 
-                                    {/* Basic Information */}
-                                    {(() => {
-                                        const raceData = RACE_DATA[previewRace.id];
-                                        if (raceData?.baseTraits) {
-                                            return (
-                                                <div className="preview-section">
-                                                    <h4><i className="fas fa-info-circle"></i> Basic Information</h4>
-                                                    <div className="basic-info-grid">
-                                                        <div className="info-item">
-                                                            <span className="info-label">Size:</span>
-                                                            <span className="info-value">{raceData.baseTraits.size}</span>
+                                                    {/* Stat Modifiers */}
+                                                    <div className="stat-modifiers-compact">
+                                                        <h6 className="section-title">Stat Modifiers</h6>
+                                                        <div className="stat-modifiers-preview">
+                                                            {Object.entries(previewSubrace.statModifiers).map(([stat, modifier]) => (
+                                                                <div key={stat} className={`stat-modifier-preview ${modifier >= 0 ? 'positive' : 'negative'}`}>
+                                                                    <span className="stat-name">{stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
+                                                                    <span className="stat-value">
+                                                                        {modifier >= 0 ? '+' : ''}{modifier}
+                                                                    </span>
+                                                                </div>
+                                                            ))}
                                                         </div>
-                                                        <div className="info-item">
-                                                            <span className="info-label">Speed:</span>
-                                                            <span className="info-value">{raceData.baseTraits.baseSpeed} feet</span>
-                                                        </div>
-                                                        <div className="info-item">
-                                                            <span className="info-label">Lifespan:</span>
-                                                            <span className="info-value">{raceData.baseTraits.lifespan}</span>
-                                                        </div>
-                                                        <div className="info-item">
-                                                            <span className="info-label">Languages:</span>
-                                                            <span className="info-value">{raceData.baseTraits.languages.join(', ')}</span>
+                                                    </div>
+
+                                                    {/* Starting Equipment */}
+                                                    {(() => {
+                                                        const raceEquipment = getEquipmentPreview('race', previewRace.id);
+                                                        const subraceEquipment = getEquipmentPreview('subrace', previewSubrace.id);
+                                                        const totalCount = raceEquipment.count + subraceEquipment.count;
+
+                                                        if (totalCount > 0) {
+                                                            return (
+                                                                <div className="equipment-compact">
+                                                                    <h6 className="section-title">Starting Equipment</h6>
+                                                                    <p>Unlocks {totalCount} item{totalCount !== 1 ? 's' : ''} for purchase</p>
+                                                                </div>
+                                                            );
+                                                        }
+                                                        return null;
+                                                    })()}
+
+                                                    {/* Racial Traits */}
+                                                    <div className="traits-section">
+                                                        <h5 className="section-title">
+                                                            <i className="fas fa-dna"></i> Racial Traits
+                                                        </h5>
+                                                        <div className="trait-icon-grid">
+                                                            {previewSubrace.traits.map((trait) => {
+                                                                return (
+                                                                    <div
+                                                                        key={trait.id}
+                                                                        className="trait-icon"
+                                                                        onClick={() => {
+                                                                            setViewingTrait(trait.id);
+                                                                            setShowTraitModal(true);
+                                                                        }}
+                                                                        title={trait.name}
+                                                                    >
+                                                                        <img
+                                                                            src={`https://wow.zamimg.com/images/wow/icons/large/${trait.icon}.jpg`}
+                                                                            alt={trait.name}
+                                                                            onError={(e) => {
+                                                                                e.target.onerror = null;
+                                                                                e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
+                                                                            }}
+                                                                        />
+                                                                    </div>
+                                                                );
+                                                            })}
                                                         </div>
                                                     </div>
                                                 </div>
-                                            );
-                                        }
-                                        return null;
-                                    })()}
+                                            </>
+                                        )}
+                                    </div>
 
-                                    {previewSubrace && (
-                                        <>
-                                            <div className="preview-section">
-                                                <h4>Subrace: {previewSubrace.name} {previewRace.name}</h4>
-                                                <p className="subrace-full-description">
-                                                    {previewSubrace.description}
-                                                </p>
-                                            </div>
-
-                                            <div className="preview-section">
-                                                <h4>Stat Modifiers</h4>
-                                                <div className="stat-modifiers-preview">
-                                                    {Object.entries(previewSubrace.statModifiers).map(([stat, modifier]) => (
-                                                        <div key={stat} className={`stat-modifier-preview ${modifier >= 0 ? 'positive' : 'negative'}`}>
-                                                            <span className="stat-name">{stat.charAt(0).toUpperCase() + stat.slice(1)}</span>
-                                                            <span className="stat-value">
-                                                                {modifier >= 0 ? '+' : ''}{modifier}
-                                                            </span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div className="preview-section">
-                                                <h4>Racial Traits</h4>
-                                                <div className="traits-list">
-                                                    {previewSubrace.traits.map((trait, index) => (
-                                                        <div key={index} className="trait-item">
-                                                            <h5 className="trait-name">{trait.name}</h5>
-                                                            <p className="trait-description">{trait.description}</p>
-                                                            <span className="trait-type">{trait.type}</span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            {/* Integration Notes */}
-                                            {(() => {
-                                                const raceData = RACE_DATA[previewRace.id];
-                                                if (raceData?.integrationNotes) {
-                                                    return (
-                                                        <div className="preview-section">
-                                                            <h4><i className="fas fa-link"></i> Integration with Game Systems</h4>
-                                                            <div className="integration-notes">
-                                                                {raceData.integrationNotes.actionPointSystem && (
-                                                                    <div className="integration-item">
-                                                                        <strong>Action Points:</strong> {raceData.integrationNotes.actionPointSystem}
-                                                                    </div>
-                                                                )}
-                                                                {raceData.integrationNotes.backgroundSynergy && (
-                                                                    <div className="integration-item">
-                                                                        <strong>Background Synergy:</strong> {raceData.integrationNotes.backgroundSynergy}
-                                                                    </div>
-                                                                )}
-                                                                {raceData.integrationNotes.classCompatibility && (
-                                                                    <div className="integration-item">
-                                                                        <strong>Class Compatibility:</strong> {raceData.integrationNotes.classCompatibility}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                }
-                                                return null;
-                                            })()}
-
-                                            {/* Starting Equipment Preview */}
-                                            {(() => {
-                                                const raceEquipment = getEquipmentPreview('race', previewRace.id);
-                                                const subraceEquipment = getEquipmentPreview('subrace', previewSubrace.id);
-                                                const totalCount = raceEquipment.count + subraceEquipment.count;
-
-                                                if (totalCount > 0) {
-                                                    return (
-                                                        <div className="preview-section">
-                                                            <h4>
-                                                                <i className="fas fa-shopping-bag"></i> Starting Equipment
-                                                            </h4>
-                                                            <p className="equipment-preview-text">
-                                                                Unlocks <strong>{totalCount}</strong> item{totalCount !== 1 ? 's' : ''} for purchase during character creation
-                                                            </p>
-                                                            {[...raceEquipment.examples, ...subraceEquipment.examples].length > 0 && (
-                                                                <div className="equipment-examples">
-                                                                    <span className="examples-label">Examples:</span>
-                                                                    <span className="examples-list">
-                                                                        {[...raceEquipment.examples, ...subraceEquipment.examples].join(', ')}
-                                                                    </span>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    );
-                                                }
-                                                return null;
-                                            })()}
-                                        </>
-                                    )}
-
-                                    {!previewSubrace && selectedRace && (
-                                        <div className="preview-section">
-                                            <div className="subrace-prompt">
-                                                <i className="fas fa-arrow-down"></i>
-                                                <p>Select a subrace to see detailed traits and abilities</p>
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         ) : (
@@ -363,6 +331,42 @@ const Step2RaceSelection = () => {
                         )}
                     </div>
                 </div>
+
+                {/* Trait Modal */}
+                {showTraitModal && viewingTrait && previewSubrace && (() => {
+                    const currentTrait = previewSubrace.traits.find(t => t.id === viewingTrait);
+                    if (currentTrait) {
+                        return createPortal(
+                            <div
+                                className="trait-modal-overlay"
+                                onClick={() => setShowTraitModal(false)}
+                            >
+                                <div
+                                    className="trait-modal-content"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <button
+                                        className="trait-modal-close"
+                                        onClick={() => setShowTraitModal(false)}
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                    <UnifiedSpellCard
+                                        spell={currentTrait}
+                                        variant="wizard"
+                                        showActions={false}
+                                        showDescription={true}
+                                        showStats={true}
+                                        showTags={true}
+                                    />
+                                </div>
+                            </div>,
+                            document.body
+                        );
+                    }
+                    return null;
+                })()}
         </div>
     );
 };

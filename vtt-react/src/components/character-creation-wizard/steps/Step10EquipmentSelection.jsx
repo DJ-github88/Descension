@@ -13,10 +13,131 @@ import {
 } from '../../../data/startingCurrencyData';
 import {
     getAvailableStartingItems,
-    getItemsByCategory
+    getItemsByCategory,
+    STARTING_EQUIPMENT_LIBRARY
 } from '../../../data/startingEquipmentData';
+import { getBackgroundData } from '../../../data/backgroundData';
+import { ALL_BACKGROUND_EQUIPMENT } from '../../../data/equipment/backgroundEquipment';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 import '../styles/EquipmentSelection.css';
+
+// Helper function to get background equipment as selected items
+const getBackgroundEquipmentAsSelected = (characterData) => {
+    const backgroundData = characterData.background ? getBackgroundData(characterData.background) : null;
+    if (!backgroundData?.equipment) return [];
+
+    return backgroundData.equipment.map(itemName => {
+        // First try to find the item by its full original name (including quantity)
+        let foundItem = ALL_BACKGROUND_EQUIPMENT.find(item =>
+            item.name.toLowerCase() === itemName.toLowerCase()
+        );
+
+        let cleanName = itemName;
+        let quantity = 1;
+
+        if (foundItem) {
+            // Item found with full name, use its data
+            return {
+                ...foundItem, // Include all properties from the found item
+                quantity: 1, // Background items are typically single unless specified
+                isBackgroundItem: true, // Mark as background item
+                // No value since it's free background equipment
+            };
+        } else {
+            // Try some common name variations
+            const variations = [
+                itemName,
+                itemName.toLowerCase(),
+                itemName.charAt(0).toUpperCase() + itemName.slice(1).toLowerCase(),
+                itemName.replace(/\b\w/g, l => l.toUpperCase()) // Title case
+            ];
+
+            for (const variation of variations) {
+                foundItem = ALL_BACKGROUND_EQUIPMENT.find(item =>
+                    item.name === variation
+                );
+                if (foundItem) break;
+            }
+
+            if (foundItem) {
+                return {
+                    ...foundItem, // Include all properties from the found item
+                    quantity: 1,
+                    isBackgroundItem: true, // Mark as background item
+                    // No value since it's free background equipment
+                };
+            } else {
+                // Item not found, try parsing quantity from name
+                const quantityMatch = itemName.match(/(.+?)\s*\((\d+)\s*(?:feet?|lbs?|gp|sp|cp|gold|silver|copper)?\)/i);
+                if (quantityMatch) {
+                    cleanName = quantityMatch[1].trim();
+                    quantity = parseInt(quantityMatch[2]);
+
+                    // Try to find the base item without quantity with variations
+                    const cleanVariations = [
+                        cleanName,
+                        cleanName.toLowerCase(),
+                        cleanName.charAt(0).toUpperCase() + cleanName.slice(1).toLowerCase(),
+                        cleanName.replace(/\b\w/g, l => l.toUpperCase())
+                    ];
+
+                    for (const variation of cleanVariations) {
+                        foundItem = ALL_BACKGROUND_EQUIPMENT.find(item =>
+                            item.name === variation
+                        );
+                        if (foundItem) break;
+                    }
+
+                    if (foundItem) {
+                        return {
+                            ...foundItem, // Include all properties from the found item
+                            quantity: quantity,
+                            isBackgroundItem: true, // Mark as background item
+                            // Override name to use the clean name without quantity
+                            name: cleanName,
+                        };
+                    }
+                }
+
+                // Fallback: try STARTING_EQUIPMENT_LIBRARY as last resort
+                foundItem = STARTING_EQUIPMENT_LIBRARY.find(item =>
+                    item.name.toLowerCase() === itemName.toLowerCase()
+                );
+
+                if (foundItem) {
+                    return {
+                        ...foundItem,
+                        quantity: 1,
+                        isBackgroundItem: true, // Mark as background item
+                    };
+                }
+
+                // Parse gold amount from item name (e.g., "purse with 25g" -> 25 gold)
+                const goldMatch = itemName.match(/(\d+)\s*g/i);
+                const goldValue = goldMatch ? parseInt(goldMatch[1]) : 0;
+
+                // Final fallback: create minimal item object with tooltip-compatible properties
+                return {
+                    name: cleanName,
+                    quantity: quantity,
+                    type: 'miscellaneous',
+                    subtype: 'TOOL',
+                    quality: 'common',
+                    description: `${cleanName} - Included with your background`,
+                    iconId: 'inv_misc_questionmark',
+                    value: goldValue > 0
+                        ? { platinum: 0, gold: goldValue, silver: 0, copper: 0 }
+                        : { platinum: 0, gold: 0, silver: 45, copper: 75 }, // Default sell price
+                    weight: 1,
+                    width: 1,
+                    height: 1,
+                    requiredLevel: 1,
+                    isBackgroundItem: true, // Mark as background item
+                };
+            }
+        }
+    });
+};
 
 // Helper function to format item price with currency icons
 const formatItemPrice = (price) => {
@@ -118,36 +239,40 @@ const Step10EquipmentSelection = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
 
-    // Calculate starting currency on mount
+    // Calculate starting currency when relevant character data changes - reset completely
     useEffect(() => {
-        if (!currentCurrency && characterData.background && characterData.path) {
+        if (characterData.background && characterData.path) {
             const startingCurrency = calculateStartingCurrency(
                 characterData.background,
                 characterData.path
             );
             setCurrentCurrency(startingCurrency);
-            
-            // Load from character data if exists
-            if (characterData.remainingCurrency) {
-                setCurrentCurrency(characterData.remainingCurrency);
-            }
-            if (characterData.selectedEquipment) {
-                setSelectedEquipment(characterData.selectedEquipment);
-            }
+
+            // Only preserve remaining currency if it's from the same character build
+            // For now, we'll reset currency when any choice changes to ensure consistency
         }
-    }, [characterData.background, characterData.path]);
+    }, [characterData.background, characterData.path, characterData.class, characterData.race, characterData.subrace]);
+
+    // Handle equipment when relevant character data changes - reset completely
+    useEffect(() => {
+        if (characterData.background) {
+            // Add new background equipment - start fresh when any choice changes
+            const backgroundEquipment = getBackgroundEquipmentAsSelected(characterData);
+            setSelectedEquipment(backgroundEquipment);
+        }
+    }, [characterData.background, characterData.class, characterData.race, characterData.subrace, characterData.path]);
 
     // Get available items based on character selections (excluding containers)
     const availableItems = useMemo(() => {
         const items = getAvailableStartingItems(characterData);
         // Filter out containers - players shouldn't be able to purchase these
         return items.filter(item => item.type !== 'container');
-    }, [characterData]);
+    }, [characterData.class, characterData.race, characterData.subrace, characterData.path, characterData.background]);
 
     // Get items organized by category
     const itemsByCategory = useMemo(() => {
         return getItemsByCategory(characterData);
-    }, [characterData]);
+    }, [characterData.class, characterData.race, characterData.subrace, characterData.path, characterData.background]);
 
     // Filter items based on selected category and search
     const filteredItems = useMemo(() => {
@@ -168,6 +293,8 @@ const Step10EquipmentSelection = () => {
     // Calculate total cost of selected items (accounting for quantities)
     const totalCost = useMemo(() => {
         return selectedEquipment.reduce((total, item) => {
+            // Skip background equipment (free items) or items without value
+            if (!item.value) return total;
             const quantity = item.quantity || 1;
             return total + (calculateTotalCopper(item.value) * quantity);
         }, 0);
@@ -177,6 +304,12 @@ const Step10EquipmentSelection = () => {
     const handlePurchaseItem = (item) => {
         if (!currentCurrency) {
             alert('Currency not yet calculated!');
+            return;
+        }
+
+        // Check if item has a value (not free background equipment)
+        if (!item.value) {
+            alert('This item is already included with your background!');
             return;
         }
 
@@ -241,6 +374,13 @@ const Step10EquipmentSelection = () => {
         if (!currentCurrency) return;
 
         const item = selectedEquipment[index];
+
+        // Don't allow refunding background equipment (free items)
+        if (!item.value) {
+            alert('Background equipment cannot be refunded!');
+            return;
+        }
+
         const quantity = item.quantity || 1;
 
         // Refund only one item from the stack
@@ -265,25 +405,91 @@ const Step10EquipmentSelection = () => {
     // Check if item is affordable
     const canAfford = (item) => {
         if (!currentCurrency) return false;
+        // Free items (background equipment) are always "affordable"
+        if (!item.value) return false; // But don't show as purchasable
         return subtractCurrency(currentCurrency, item.value) !== null;
     };
 
     // Tooltip handlers
     const handleItemMouseEnter = (e, item) => {
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        const tooltipWidth = 300; // Item tooltip width
+        const tooltipHeight = 400; // Item tooltip height (approximate)
+        const margin = 15;
+
+        // Start at mouse position
+        let x = e.clientX + 15;
+        let y = e.clientY - 10;
+
+        // Check if tooltip fits at mouse position
+        const fitsRight = (x + tooltipWidth) <= viewportWidth;
+        const fitsBelow = (y + tooltipHeight) <= viewportHeight;
+
+        if (!fitsRight) {
+            x = e.clientX - tooltipWidth - 15;
+            if (x < margin) {
+                x = (viewportWidth - tooltipWidth) / 2;
+            }
+        }
+
+        if (!fitsBelow) {
+            y = e.clientY - tooltipHeight - 15;
+            if (y < margin) {
+                y = Math.max(margin, viewportHeight - tooltipHeight - margin);
+            }
+        }
+
+        x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+        y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
         setTooltip({
             show: true,
             item: item,
-            x: e.clientX + 15,
-            y: e.clientY - 10
+            x: x,
+            y: y
         });
     };
 
     const handleItemMouseMove = (e) => {
         if (tooltip.show) {
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            const tooltipWidth = 300; // Item tooltip width
+            const tooltipHeight = 400; // Item tooltip height (approximate)
+            const margin = 15;
+
+            // Start at mouse position
+            let x = e.clientX + 15;
+            let y = e.clientY - 10;
+
+            // Check if tooltip fits at mouse position
+            const fitsRight = (x + tooltipWidth) <= viewportWidth;
+            const fitsBelow = (y + tooltipHeight) <= viewportHeight;
+
+            if (!fitsRight) {
+                x = e.clientX - tooltipWidth - 15;
+                if (x < margin) {
+                    x = (viewportWidth - tooltipWidth) / 2;
+                }
+            }
+
+            if (!fitsBelow) {
+                y = e.clientY - tooltipHeight - 15;
+                if (y < margin) {
+                    y = Math.max(margin, viewportHeight - tooltipHeight - margin);
+                }
+            }
+
+            x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+            y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
             setTooltip(prev => ({
                 ...prev,
-                x: e.clientX + 15,
-                y: e.clientY - 10
+                x: x,
+                y: y
             }));
         }
     };
@@ -302,17 +508,6 @@ const Step10EquipmentSelection = () => {
 
     return (
         <div className="equipment-selection-container">
-            <div className="equipment-selection-header">
-                <h2>Select Starting Equipment</h2>
-                <p className="equipment-selection-subtitle">
-                    {currentCurrency ? (
-                        <>Choose your starting gear wisely. You have <strong>{formatCurrency(currentCurrency)}</strong> to spend.</>
-                    ) : (
-                        <>Calculating starting funds...</>
-                    )}
-                </p>
-            </div>
-
             <div className="equipment-selection-main">
                 {/* Left Panel - Available Items (Shop) */}
                 <div className="equipment-shop-panel">
@@ -372,7 +567,7 @@ const Step10EquipmentSelection = () => {
                     {/* Item Grid - Inventory Style */}
                     <div className="equipment-shop-grid">
                         {(() => {
-                            const COLS = 20;
+                            const COLS = 16; // Reduced from 20 to better fit the panel
                             const grid = [];
                             const occupiedCells = new Map(); // Track occupied cells by "row,col" key
 
@@ -501,10 +696,12 @@ const Step10EquipmentSelection = () => {
                     </div>
 
                     {/* Cart Grid - Inventory Style */}
-                    <div className="equipment-cart-grid">
+                    <div className={`equipment-cart-grid ${selectedEquipment.length === 0 ? 'empty' : ''}`}>
                         {selectedEquipment.length === 0 ? (
                             <div className="cart-empty-message">
-                                No items selected yet. Click items on the left to purchase them.
+                                <div style={{ fontSize: '2rem', marginBottom: '1rem', opacity: 0.7 }}>📦</div>
+                                <div style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>No items selected yet</div>
+                                <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>Click items on the left to purchase them</div>
                             </div>
                         ) : (
                             (() => {

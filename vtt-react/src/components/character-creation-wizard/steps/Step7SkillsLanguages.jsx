@@ -110,6 +110,7 @@ const Step7SkillsLanguages = () => {
     const [selectedSkills, setSelectedSkills] = useState(characterData.selectedSkills || []);
     const [selectedLanguages, setSelectedLanguages] = useState(characterData.selectedLanguages || []);
     const [skillRanks, setSkillRanks] = useState(characterData.skillRanks || {});
+    const [expandedSkills, setExpandedSkills] = useState(new Set());
 
     // Calculate skill points
     const totalSkillPoints = calculateTotalSkillPoints(characterData);
@@ -273,6 +274,19 @@ const Step7SkillsLanguages = () => {
         }).slice(0, 3); // Show first 3 quests
     };
 
+    // Toggle skill expansion
+    const toggleSkillExpansion = (skillId) => {
+        setExpandedSkills(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(skillId)) {
+                newSet.delete(skillId);
+            } else {
+                newSet.add(skillId);
+            }
+            return newSet;
+        });
+    };
+
     // Get current rollable table for skill
     const getCurrentRollableTable = (skillId) => {
         const skill = SKILL_DEFINITIONS[skillId];
@@ -280,8 +294,16 @@ const Step7SkillsLanguages = () => {
 
         const rank = getSkillRank(skillId);
         if (skill.rollableTables) {
-            const tableId = skill.rollableTables[rank.key] || skill.rollableTables.UNTRAINED;
-            return ROLLABLE_TABLES[tableId];
+            // Handle multi-dimensional table structure (rank -> die type -> tableId)
+            const rankTables = skill.rollableTables[rank.key] || skill.rollableTables.UNTRAINED;
+            if (typeof rankTables === 'object' && rankTables.d20) {
+                // Use d20 table as default for character creation preview
+                const tableId = rankTables.d20;
+                return ROLLABLE_TABLES[tableId];
+            } else if (typeof rankTables === 'string') {
+                // Handle old single table structure
+                return ROLLABLE_TABLES[rankTables];
+            }
         } else if (skill.rollableTable) {
             return ROLLABLE_TABLES[skill.rollableTable];
         }
@@ -339,6 +361,82 @@ const Step7SkillsLanguages = () => {
                                 );
                             })}
                         </div>
+                    </div>
+
+                    {/* Languages Section */}
+                    <div className="selection-section">
+                        <div className="section-header">
+                            <h3><i className="fas fa-language"></i> Languages</h3>
+                            {languageCount > 0 && (
+                                <div className="selection-info">
+                                    <span className={selectedLanguages.length === languageCount ? 'complete' : 'incomplete'}>
+                                        {selectedLanguages.length} / {languageCount} Selected
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Racial Languages */}
+                        {racialLanguages.length > 0 && (
+                            <div className="granted-section">
+                                <div className="granted-header">
+                                    <i className="fas fa-star"></i> Racial Languages
+                                </div>
+                                <div className="button-grid">
+                                    {racialLanguages.map((language) => {
+                                        const langData = COMMON_LANGUAGES.find(l => l.name === language);
+                                        return (
+                                            <button
+                                                key={language}
+                                                type="button"
+                                                className="selection-button granted"
+                                                onMouseEnter={handleMouseEnter(langData?.description || 'A racial language.')}
+                                                onMouseLeave={handleMouseLeave}
+                                                onMouseMove={handleMouseMove}
+                                                disabled
+                                            >
+                                                <i className={`fas ${langData?.icon || 'fa-language'}`}></i>
+                                                <span>{language}</span>
+                                                <i className="fas fa-star check-icon"></i>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Additional Languages */}
+                        {languageCount > 0 && (
+                            <div className="selectable-section">
+                                <div className="selectable-header">
+                                    <i className="fas fa-book"></i> Additional Languages ({selectedLanguages.length} / {languageCount} from background & path)
+                                </div>
+                                <div className="button-grid">
+                                    {COMMON_LANGUAGES.map((language) => {
+                                        const isSelected = selectedLanguages.includes(language.name);
+                                        const isRacial = racialLanguages.includes(language.name);
+                                        const isDisabled = isLanguageDisabled(language.name);
+
+                                        return (
+                                            <button
+                                                key={language.name}
+                                                type="button"
+                                                className={`selection-button ${isSelected ? 'selected' : ''} ${isRacial ? 'granted' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                                onClick={() => handleLanguageToggle(language.name)}
+                                                onMouseEnter={handleMouseEnter(language.description)}
+                                                onMouseLeave={handleMouseLeave}
+                                                onMouseMove={handleMouseMove}
+                                                disabled={isDisabled && !isSelected}
+                                            >
+                                                <i className={`fas ${language.icon}`}></i>
+                                                <span>{language.name}</span>
+                                                {(isSelected || isRacial) && <i className="fas fa-check check-icon"></i>}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Skill Point Allocation Section */}
@@ -565,9 +663,11 @@ const Step7SkillsLanguages = () => {
                                 const rollableTable = getCurrentRollableTable(skillId);
                                 const rank = getSkillRank(skillId);
 
+                                const isExpanded = expandedSkills.has(skillId);
+
                                 return (
                                     <div key={skillId} className="skill-detail-card granted-skill-card">
-                                        <div className="skill-detail-header">
+                                        <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
                                             <img src={skill.icon} alt={skill.name} className="skill-detail-icon" />
                                             <div className="skill-detail-info">
                                                 <h4>{skill.name} <span className="granted-badge">Granted</span></h4>
@@ -576,67 +676,74 @@ const Step7SkillsLanguages = () => {
                                                     {rank.name}
                                                 </span>
                                             </div>
+                                            <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
+                                                <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
+                                            </div>
                                         </div>
 
-                                        {quests.length > 0 ? (
-                                            <div className="quest-preview-section">
-                                                <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                <div className="quest-preview-list">
-                                                    {quests.map(quest => (
-                                                        <div key={quest.id} className="quest-preview-item">
-                                                            <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
-                                                            <div className="quest-preview-info">
-                                                                <strong>{quest.name}</strong>
-                                                                <p>{quest.description}</p>
-                                                                {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
-                                                                    <div className="quest-unlocks">
-                                                                        <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
+                                        {isExpanded && (
+                                            <div className="skill-expanded-content">
+                                                {quests.length > 0 ? (
+                                                    <div className="quest-preview-section">
+                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                        <div className="quest-preview-list">
+                                                            {quests.map(quest => (
+                                                                <div key={quest.id} className="quest-preview-item">
+                                                                    <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
+                                                                    <div className="quest-preview-info">
+                                                                        <strong>{quest.name}</strong>
+                                                                        <p>{quest.description}</p>
+                                                                        {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
+                                                                            <div className="quest-unlocks">
+                                                                                <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
+                                                                            </div>
+                                                                        )}
                                                                     </div>
-                                                                )}
-                                                            </div>
+                                                                </div>
+                                                            ))}
                                                         </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="quest-preview-section">
-                                                <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                <div className="no-quests-message">
-                                                    <i className="fas fa-info-circle"></i>
-                                                    <p>Quests for this skill are still being developed. Check back later!</p>
-                                                </div>
-                                            </div>
-                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <div className="quest-preview-section">
+                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                        <div className="no-quests-message">
+                                                            <i className="fas fa-info-circle"></i>
+                                                            <p>Quests for this skill are still being developed. Check back later!</p>
+                                                        </div>
+                                                    </div>
+                                                )}
 
-                                        {rollableTable ? (
-                                            <div className="table-preview-section">
-                                                <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
-                                                <p className="table-description">{rollableTable.description}</p>
-                                                <div className="table-preview-entries">
-                                                    {rollableTable.table.slice(0, 4).map((entry, index) => (
-                                                        <div key={index} className={`table-preview-entry ${entry.type}`}>
-                                                            <span className="roll-range">
-                                                                {entry.roll[0] === entry.roll[1]
-                                                                    ? entry.roll[0]
-                                                                    : `${entry.roll[0]}-${entry.roll[1]}`}
-                                                            </span>
-                                                            <span className="roll-result">{entry.result}</span>
+                                                {rollableTable ? (
+                                                    <div className="table-preview-section">
+                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
+                                                        <p className="table-description">{rollableTable.description}</p>
+                                                        <div className="table-preview-entries">
+                                                            {rollableTable.table.slice(0, 8).map((entry, index) => (
+                                                                <div key={index} className={`table-preview-entry ${entry.type}`}>
+                                                                    <span className="roll-range">
+                                                                        {entry.roll[0] === entry.roll[1]
+                                                                            ? entry.roll[0]
+                                                                            : `${entry.roll[0]}-${entry.roll[1]}`}
+                                                                    </span>
+                                                                    <span className="roll-result">{entry.result}</span>
+                                                                </div>
+                                                            ))}
+                                                            {rollableTable.table.length > 8 && (
+                                                                <div className="table-preview-more">
+                                                                    ... and {rollableTable.table.length - 8} more outcomes
+                                                                </div>
+                                                            )}
                                                         </div>
-                                                    ))}
-                                                    {rollableTable.table.length > 4 && (
-                                                        <div className="table-preview-more">
-                                                            ... and {rollableTable.table.length - 4} more outcomes
+                                                    </div>
+                                                ) : (
+                                                    <div className="table-preview-section">
+                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
+                                                        <div className="no-quests-message">
+                                                            <i className="fas fa-info-circle"></i>
+                                                            <p>Rollable table for this skill is still being developed. Check back later!</p>
                                                         </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="table-preview-section">
-                                                <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
-                                                <div className="no-quests-message">
-                                                    <i className="fas fa-info-circle"></i>
-                                                    <p>Rollable table for this skill is still being developed. Check back later!</p>
-                                                </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </div>
@@ -652,10 +759,11 @@ const Step7SkillsLanguages = () => {
                                 const quests = getAvailableQuests(skillId);
                                 const rollableTable = getCurrentRollableTable(skillId);
                                 const rank = getSkillRank(skillId);
+                                const isExpanded = expandedSkills.has(skillId);
 
                                 return (
                                     <div key={skillId} className="skill-detail-card">
-                                        <div className="skill-detail-header">
+                                        <div className="skill-detail-header collapsible" onClick={() => toggleSkillExpansion(skillId)}>
                                             <img src={skill.icon} alt={skill.name} className="skill-detail-icon" />
                                             <div className="skill-detail-info">
                                                 <h4>{skill.name}</h4>
@@ -664,67 +772,74 @@ const Step7SkillsLanguages = () => {
                                                     {rank.name}
                                                 </span>
                                             </div>
+                                            <div className={`skill-toggle-icon ${isExpanded ? 'expanded' : ''}`}>
+                                                <i className={`fas fa-chevron-${isExpanded ? 'down' : 'right'}`}></i>
+                                            </div>
                                         </div>
 
-                                        {quests.length > 0 ? (
-                                            <div className="quest-preview-section">
-                                                <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                <div className="quest-preview-list">
-                                                    {quests.map(quest => (
-                                                        <div key={quest.id} className="quest-preview-item">
-                                                            <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
-                                                            <div className="quest-preview-info">
-                                                                <strong>{quest.name}</strong>
-                                                                <p>{quest.description}</p>
-                                                                {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
-                                                                    <div className="quest-unlocks">
-                                                                        <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
+                                        {isExpanded && (
+                                            <div className="skill-expanded-content">
+                                                {quests.length > 0 ? (
+                                                    <div className="quest-preview-section">
+                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                        <div className="quest-preview-list">
+                                                            {quests.map(quest => (
+                                                                <div key={quest.id} className="quest-preview-item">
+                                                                    <img src={quest.icon} alt={quest.name} className="quest-preview-icon" />
+                                                                    <div className="quest-preview-info">
+                                                                        <strong>{quest.name}</strong>
+                                                                        <p>{quest.description}</p>
+                                                                        {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
+                                                                            <div className="quest-unlocks">
+                                                                                <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
+                                                                            </div>
+                                                                        )}
                                                                     </div>
-                                                                )}
-                                                            </div>
+                                                                </div>
+                                                            ))}
                                                         </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="quest-preview-section">
-                                                <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
-                                                <div className="no-quests-message">
-                                                    <i className="fas fa-info-circle"></i>
-                                                    <p>Quests for this skill are still being developed. Check back later!</p>
-                                                </div>
-                                            </div>
-                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <div className="quest-preview-section">
+                                                        <h5><i className="fas fa-tasks"></i> Starting Quests</h5>
+                                                        <div className="no-quests-message">
+                                                            <i className="fas fa-info-circle"></i>
+                                                            <p>Quests for this skill are still being developed. Check back later!</p>
+                                                        </div>
+                                                    </div>
+                                                )}
 
-                                        {rollableTable ? (
-                                            <div className="table-preview-section">
-                                                <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
-                                                <p className="table-description">{rollableTable.description}</p>
-                                                <div className="table-preview-entries">
-                                                    {rollableTable.table.slice(0, 4).map((entry, index) => (
-                                                        <div key={index} className={`table-preview-entry ${entry.type}`}>
-                                                            <span className="roll-range">
-                                                                {entry.roll[0] === entry.roll[1]
-                                                                    ? entry.roll[0]
-                                                                    : `${entry.roll[0]}-${entry.roll[1]}`}
-                                                            </span>
-                                                            <span className="roll-result">{entry.result}</span>
+                                                {rollableTable ? (
+                                                    <div className="table-preview-section">
+                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table: {rollableTable.name}</h5>
+                                                        <p className="table-description">{rollableTable.description}</p>
+                                                        <div className="table-preview-entries">
+                                                            {rollableTable.table.slice(0, 8).map((entry, index) => (
+                                                                <div key={index} className={`table-preview-entry ${entry.type}`}>
+                                                                    <span className="roll-range">
+                                                                        {entry.roll[0] === entry.roll[1]
+                                                                            ? entry.roll[0]
+                                                                            : `${entry.roll[0]}-${entry.roll[1]}`}
+                                                                    </span>
+                                                                    <span className="roll-result">{entry.result}</span>
+                                                                </div>
+                                                            ))}
+                                                            {rollableTable.table.length > 8 && (
+                                                                <div className="table-preview-more">
+                                                                    ... and {rollableTable.table.length - 8} more outcomes
+                                                                </div>
+                                                            )}
                                                         </div>
-                                                    ))}
-                                                    {rollableTable.table.length > 4 && (
-                                                        <div className="table-preview-more">
-                                                            ... and {rollableTable.table.length - 4} more outcomes
+                                                    </div>
+                                                ) : (
+                                                    <div className="table-preview-section">
+                                                        <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
+                                                        <div className="no-quests-message">
+                                                            <i className="fas fa-info-circle"></i>
+                                                            <p>Rollable table for this skill is still being developed. Check back later!</p>
                                                         </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="table-preview-section">
-                                                <h5><i className="fas fa-dice-d20"></i> Rollable Table</h5>
-                                                <div className="no-quests-message">
-                                                    <i className="fas fa-info-circle"></i>
-                                                    <p>Rollable table for this skill is still being developed. Check back later!</p>
-                                                </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </div>

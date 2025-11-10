@@ -531,9 +531,6 @@ const AccountDashboard = ({ user }) => {
                                 >
                                   {character.name.charAt(0).toUpperCase()}
                                 </div>
-                                <div className="character-level-badge">
-                                  {character.level || 1}
-                                </div>
                               </div>
                             </div>
                           </div>

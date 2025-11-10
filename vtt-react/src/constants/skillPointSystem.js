@@ -27,8 +27,8 @@ export const TOTAL_COST_TO_RANK = {
     MASTER: 21       // 1 + 2 + 3 + 4 + 5 + 6
 };
 
-// Base skill points available to all characters
-export const BASE_SKILL_POINTS = 15;
+// Base skill points available to all characters (reduced for gritty feel)
+export const BASE_SKILL_POINTS = 10;
 
 // Additional points from various sources
 export const SKILL_POINT_BONUSES = {

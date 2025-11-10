@@ -15,9 +15,10 @@ import {
     canDecreaseStat,
     calculateAvailablePoints,
     getStatBreakdown,
-    calculateAbilityModifier
+    calculateAbilityModifier,
+    getTotalBonusPoints
 } from '../../../utils/pointBuySystem';
-import { getPathStartingPoints, getPathStatModifiers } from '../../../data/pathData';
+import { getPathStatModifiers } from '../../../data/pathData';
 import { applyRacialModifiers } from '../../../data/raceData';
 
 const Step6StatAllocation = () => {
@@ -27,22 +28,22 @@ const Step6StatAllocation = () => {
     const { characterData, validationErrors } = state;
     const { baseStats, race, subrace, path } = characterData;
 
-    // Get modifiers
-    const pathStartingPoints = path ? getPathStartingPoints(path) : 0;
+    // Get modifiers and bonuses
+    const bonusPoints = getTotalBonusPoints(characterData);
     const pathModifiers = path ? getPathStatModifiers(path) : {};
     const racialModifiers = race && subrace ? applyRacialModifiers({}, race, subrace) : {};
 
     // Calculate available points
-    const availablePoints = calculateAvailablePoints(baseStats, pathStartingPoints);
-    const totalPoints = POINT_BUY_CONFIG.BASE_POINT_POOL + pathStartingPoints;
+    const availablePoints = calculateAvailablePoints(baseStats, bonusPoints);
+    const totalPoints = POINT_BUY_CONFIG.BASE_POINT_POOL + bonusPoints.total;
 
     // Get stat breakdown for display
     const statBreakdown = getStatBreakdown(baseStats, racialModifiers, pathModifiers);
 
     // Handle stat changes
     const handleIncreaseStat = (statId) => {
-        if (canIncreaseStat(baseStats, statId, pathStartingPoints)) {
-            const newStats = increaseStat(baseStats, statId, pathStartingPoints);
+        if (canIncreaseStat(baseStats, statId, bonusPoints)) {
+            const newStats = increaseStat(baseStats, statId, bonusPoints);
             dispatch(wizardActionCreators.updateBaseStats(newStats));
         }
     };
@@ -66,8 +67,17 @@ const Step6StatAllocation = () => {
                                 <h3>Point Pool</h3>
                                 <div className="pool-breakdown">
                                     <span className="base-points">Base: {POINT_BUY_CONFIG.BASE_POINT_POOL}</span>
-                                    {pathStartingPoints > 0 && (
-                                        <span className="bonus-points">Path: +{pathStartingPoints}</span>
+                                    {bonusPoints.race > 0 && (
+                                        <span className="bonus-points">Race: +{bonusPoints.race}</span>
+                                    )}
+                                    {bonusPoints.subrace > 0 && (
+                                        <span className="bonus-points">Subrace: +{bonusPoints.subrace}</span>
+                                    )}
+                                    {bonusPoints.background > 0 && (
+                                        <span className="bonus-points">Background: +{bonusPoints.background}</span>
+                                    )}
+                                    {bonusPoints.path > 0 && (
+                                        <span className="bonus-points">Path: +{bonusPoints.path}</span>
                                     )}
                                 </div>
                             </div>
@@ -89,7 +99,7 @@ const Step6StatAllocation = () => {
                         <div className="stat-controls">
                             {ABILITY_SCORES.map((ability) => {
                                 const breakdown = statBreakdown[ability.id];
-                                const canIncrease = canIncreaseStat(baseStats, ability.id, pathStartingPoints);
+                                const canIncrease = canIncreaseStat(baseStats, ability.id, bonusPoints);
                                 const canDecrease = canDecreaseStat(baseStats, ability.id);
 
                                 return (

@@ -1,34 +1,40 @@
 /**
  * Point-Buy Stat Allocation System
- * 
+ *
  * Implements a D&D 5e inspired point-buy system for character creation
  * with customizable point pools based on background selection.
  */
 
+import { getCustomBackgroundStartingPoints } from '../data/customBackgroundData';
+import { getPathStartingPoints } from '../data/pathData';
+
 // Base point-buy configuration
 export const POINT_BUY_CONFIG = {
-    // Base stats start at 8
-    BASE_STAT_VALUE: 8,
-    
+    // Base stats start at 5 for gritty vibe
+    BASE_STAT_VALUE: 5,
+
     // Maximum stat value before racial modifiers
     MAX_STAT_VALUE: 15,
-    
+
     // Minimum stat value
-    MIN_STAT_VALUE: 8,
+    MIN_STAT_VALUE: 5,
+
+    // Reduced base point pool for gritty feel
+    BASE_POINT_POOL: 15,
     
-    // Base point pool (standard D&D 5e)
-    BASE_POINT_POOL: 27,
-    
-    // Point costs for each stat level
+    // Point costs for each stat level (adjusted for base 5)
     POINT_COSTS: {
-        8: 0,   // Base value costs 0 points
-        9: 1,   // +1 costs 1 point
-        10: 2,  // +2 costs 2 points total
-        11: 3,  // +3 costs 3 points total
-        12: 4,  // +4 costs 4 points total
-        13: 5,  // +5 costs 5 points total
-        14: 7,  // +6 costs 7 points total (premium cost)
-        15: 9   // +7 costs 9 points total (premium cost)
+        5: 0,   // Base value costs 0 points
+        6: 1,   // +1 costs 1 point
+        7: 2,   // +2 costs 2 points total
+        8: 3,   // +3 costs 3 points total
+        9: 4,   // +4 costs 4 points total
+        10: 5,  // +5 costs 5 points total
+        11: 7,  // +6 costs 7 points total (premium cost)
+        12: 9,  // +7 costs 9 points total (premium cost)
+        13: 12, // +8 costs 12 points total (premium cost)
+        14: 15, // +9 costs 15 points total (premium cost)
+        15: 19  // +10 costs 19 points total (premium cost)
     }
 };
 
@@ -96,10 +102,11 @@ export const calculateTotalPointsSpent = (stats) => {
 };
 
 /**
- * Calculate available points based on background and total spent
+ * Calculate available points based on race, subrace, background, and path bonuses
  */
-export const calculateAvailablePoints = (stats, backgroundStartingPoints = 0) => {
-    const totalPool = POINT_BUY_CONFIG.BASE_POINT_POOL + backgroundStartingPoints;
+export const calculateAvailablePoints = (stats, bonuses = {}) => {
+    const { race = 0, subrace = 0, background = 0, path = 0 } = bonuses;
+    const totalPool = POINT_BUY_CONFIG.BASE_POINT_POOL + race + subrace + background + path;
     const spent = calculateTotalPointsSpent(stats);
     return totalPool - spent;
 };
@@ -107,22 +114,22 @@ export const calculateAvailablePoints = (stats, backgroundStartingPoints = 0) =>
 /**
  * Check if a stat can be increased
  */
-export const canIncreaseStat = (stats, statId, backgroundStartingPoints = 0) => {
+export const canIncreaseStat = (stats, statId, bonuses = {}) => {
     const currentValue = stats[statId] || POINT_BUY_CONFIG.BASE_STAT_VALUE;
-    
+
     // Check if at maximum
     if (currentValue >= POINT_BUY_CONFIG.MAX_STAT_VALUE) {
         return false;
     }
-    
+
     // Check if we have enough points
     const newValue = currentValue + 1;
     const currentCost = getStatPointCost(currentValue);
     const newCost = getStatPointCost(newValue);
     const additionalCost = newCost - currentCost;
-    
-    const availablePoints = calculateAvailablePoints(stats, backgroundStartingPoints);
-    
+
+    const availablePoints = calculateAvailablePoints(stats, bonuses);
+
     return availablePoints >= additionalCost;
 };
 
@@ -137,11 +144,11 @@ export const canDecreaseStat = (stats, statId) => {
 /**
  * Increase a stat by 1 if possible
  */
-export const increaseStat = (stats, statId, backgroundStartingPoints = 0) => {
-    if (!canIncreaseStat(stats, statId, backgroundStartingPoints)) {
+export const increaseStat = (stats, statId, bonuses = {}) => {
+    if (!canIncreaseStat(stats, statId, bonuses)) {
         return stats;
     }
-    
+
     const currentValue = stats[statId] || POINT_BUY_CONFIG.BASE_STAT_VALUE;
     return {
         ...stats,
@@ -224,9 +231,9 @@ export const getDefaultStats = () => {
 /**
  * Validate that stats are within legal bounds
  */
-export const validateStats = (stats, backgroundStartingPoints = 0) => {
+export const validateStats = (stats, bonuses = {}) => {
     const errors = [];
-    
+
     // Check each stat is within bounds
     ABILITY_SCORES.forEach(ability => {
         const value = stats[ability.id] || POINT_BUY_CONFIG.BASE_STAT_VALUE;
@@ -237,13 +244,13 @@ export const validateStats = (stats, backgroundStartingPoints = 0) => {
             errors.push(`${ability.name} cannot be above ${POINT_BUY_CONFIG.MAX_STAT_VALUE}`);
         }
     });
-    
+
     // Check point allocation
-    const availablePoints = calculateAvailablePoints(stats, backgroundStartingPoints);
+    const availablePoints = calculateAvailablePoints(stats, bonuses);
     if (availablePoints < 0) {
         errors.push(`You have spent ${Math.abs(availablePoints)} too many points`);
     }
-    
+
     return {
         isValid: errors.length === 0,
         errors
@@ -258,27 +265,106 @@ export const calculateAbilityModifier = (statValue) => {
 };
 
 /**
+ * Get bonus points from race selection
+ */
+export const getRaceBonusPoints = (raceId) => {
+    // Races that provide bonus points (can be expanded based on lore)
+    const raceBonuses = {
+        'nordmark': 1, // Nordmark get +1 point for their resilience and survival skills
+        'human': 2, // Humans get +2 points for their adaptability and ambition
+        'elf': 1, // Elves get +1 point for their long lifespan and magical affinity
+        'dwarf': 1, // Dwarves get +1 point for their craftsmanship and endurance
+        'halfling': 1, // Halflings get +1 point for their luck and resourcefulness
+        'halfelf': 1, // Half-elves get +1 point for their versatility
+        'halforc': 0, // Half-orcs start with standard points
+        'tiefling': 1, // Tieflings get +1 point for their infernal heritage
+        'dragonborn': 0, // Dragonborn start with standard points
+        'gnome': 2, // Gnomes get +2 points for their intelligence and ingenuity
+    };
+    return raceBonuses[raceId] || 0;
+};
+
+/**
+ * Get bonus points from subrace selection
+ */
+export const getSubraceBonusPoints = (raceId, subraceId) => {
+    // Subraces that provide bonus points (can be expanded based on lore)
+    const subraceBonuses = {
+        // Nordmark subraces
+        'nordmark_berserker': 1, // Bloodhammer get +1 point for their martial prowess
+        'nordmark_runekeeper': 1, // Rune-Keepers get +1 point for their magical knowledge
+        'nordmark_frostbound': 1, // Frostbound get +1 point for their survival expertise
+
+        // Human subraces
+        'human_variant': 1, // Variant humans get +1 point for their flexible nature
+
+        // Elf subraces
+        'elf_high': 1, // High elves get +1 point for their magical prowess
+        'elf_wood': 1, // Wood elves get +1 point for their natural connection
+        'elf_dark': 1, // Dark elves get +1 point for their cunning
+
+        // Dwarf subraces
+        'dwarf_hill': 1, // Hill dwarves get +1 point for their resilience
+        'dwarf_mountain': 1, // Mountain dwarves get +1 point for their strength
+
+        // Halfling subraces
+        'halfling_lightfoot': 1, // Lightfoot halflings get +1 point for their stealth
+        'halfling_stout': 1, // Stout halflings get +1 point for their hardiness
+
+        // Gnome subraces
+        'gnome_forest': 1, // Forest gnomes get +1 point for their natural magic
+        'gnome_rock': 1, // Rock gnomes get +1 point for their inventions
+
+        // Tiefling subraces
+        'tiefling_variant': 1, // Variant tieflings get +1 point for their adaptability
+    };
+    return subraceBonuses[`${raceId}_${subraceId}`] || 0;
+};
+
+/**
+ * Get all available bonus points from character choices
+ */
+export const getTotalBonusPoints = (characterData) => {
+    const raceBonus = getRaceBonusPoints(characterData.race);
+    const subraceBonus = getSubraceBonusPoints(characterData.race, characterData.subrace);
+    const backgroundBonus = characterData.background ?
+        getCustomBackgroundStartingPoints(characterData.background) : 0;
+    const pathBonus = characterData.path ?
+        getPathStartingPoints(characterData.path) : 0;
+
+    return {
+        race: raceBonus,
+        subrace: subraceBonus,
+        background: backgroundBonus,
+        path: pathBonus,
+        total: raceBonus + subraceBonus + backgroundBonus + pathBonus
+    };
+};
+
+/**
  * Get stat breakdown for display
  */
-export const getStatBreakdown = (baseStats, racialModifiers = {}, backgroundModifiers = {}) => {
+export const getStatBreakdown = (baseStats, racialModifiers = {}, backgroundModifiers = {}, pathModifiers = {}) => {
     const breakdown = {};
-    
+
     ABILITY_SCORES.forEach(ability => {
         const statId = ability.id;
         const base = baseStats[statId] || POINT_BUY_CONFIG.BASE_STAT_VALUE;
         const racial = racialModifiers[statId] || 0;
         const background = backgroundModifiers[statId] || 0;
-        const final = base + racial + background;
-        
+        const path = pathModifiers[statId] || 0;
+        const final = base + racial + background + path;
+
         breakdown[statId] = {
             base,
             racial,
             background,
+            path,
             final,
             modifier: calculateAbilityModifier(final),
             pointCost: getStatPointCost(base)
         };
     });
-    
+
     return breakdown;
 };
