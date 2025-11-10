@@ -226,7 +226,18 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
       <div className="chat-bubble-container">
         <div className="chat-bubble">
           <div className="chat-speaker-icon">
-            <i className="fas fa-user-shield"></i>
+            <img
+              src={`https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dwarf_01.jpg`}
+              alt="Dwarven Loremaster"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                const fallback = e.target.parentElement.querySelector('.icon-fallback');
+                if (fallback) fallback.style.display = 'flex';
+              }}
+            />
+            <div className="icon-fallback" style={{ display: 'none' }}>
+              <i className="fas fa-user-shield"></i>
+            </div>
           </div>
           <div className="chat-content">
             <span

@@ -34,29 +34,45 @@
   z-index: 10;
   overflow: hidden;
   pointer-events: auto; /* Re-enable pointer events for the bubble itself */
-  padding-left: 50px; /* Make room for the speaker icon */
 }
 
 .chat-speaker-icon {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
-  width: 32px;
-  height: 32px;
+  bottom: -8px;
+  left: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #f8f4e6 0%, #e8dcc0 100%);
+  transform: rotate(-8deg);
+  z-index: 15;
+  animation: speakerBob 4s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.chat-speaker-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.chat-speaker-icon .icon-fallback {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
-  border: 2px solid #d4af37;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transform: rotate(-8deg);
-  z-index: 11;
-  animation: speakerBob 4s ease-in-out infinite;
 }
 
-.chat-speaker-icon i {
-  font-size: 18px;
+.chat-speaker-icon .icon-fallback i {
+  font-size: 20px;
   color: #f4f1e8;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -68,7 +84,7 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.4);
   border-radius: 50%;
   animation: iconGlow 3s ease-in-out infinite alternate;
 }
