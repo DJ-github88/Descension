@@ -568,9 +568,21 @@ const CharacterToken = ({
         // Calculate the offset from the cursor to the token's current screen position
         // This is the key to making the token follow the cursor correctly
         // Note: screenPosition is the center of the token (due to transform: translate(-50%, -50%))
+
+        // Calculate screen position directly at drag start for accuracy
+        const currentScreenPos = gridSystem ? gridSystem.worldToScreen(
+            position.x,
+            position.y,
+            window.innerWidth,
+            window.innerHeight
+        ) : { x: 0, y: 0 };
+
+        // Calculate the offset from the cursor to the token's current screen position
+        // This is the key to making the token follow the cursor correctly
+        // Note: screenPosition is the center of the token (due to transform: translate(-50%, -50%))
         const calculatedOffset = {
-            x: e.clientX - screenPosition.x,
-            y: e.clientY - screenPosition.y
+            x: e.clientX - currentScreenPos.x,
+            y: e.clientY - currentScreenPos.y
         };
 
         // Removed excessive logging for performance
@@ -625,6 +637,13 @@ const CharacterToken = ({
                 }
                 window.multiplayerDragState.set('character', true);
 
+                // Position token immediately at drag start to prevent jumping
+                // Keep it at its current position initially
+                if (tokenRef.current) {
+                    tokenRef.current.style.left = `${currentScreenPos.x}px`;
+                    tokenRef.current.style.top = `${currentScreenPos.y}px`;
+                }
+
                 // CRITICAL FIX: Start movement visualization when dragging starts
                 if (showMovementVisualization) {
                     startMovementVisualization(tokenId, { x: position.x, y: position.y });
@@ -649,6 +668,12 @@ const CharacterToken = ({
 
             // Convert screen position back to world coordinates
             const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
+
+            // Update DOM position immediately for smooth dragging (most important for responsiveness)
+            if (tokenRef.current) {
+                tokenRef.current.style.left = `${screenX}px`;
+                tokenRef.current.style.top = `${screenY}px`;
+            }
 
             // Update local position for React state (this will trigger re-render with new position)
             setLocalPosition({ x: worldPos.x, y: worldPos.y });
