@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './AnimatedChatBubble.css';
 
 const STEP_MESSAGES = {
@@ -102,14 +102,24 @@ const STEP_MESSAGES = {
   ]
 };
 
-const AnimatedChatBubble = ({ currentStep, isEditing }) => {
+const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPositionChange }) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showCursor, setShowCursor] = useState(false);
+
+  // Drag state
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
+  const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
+
+  // Visibility state
+  const [isVisible, setIsVisible] = useState(true);
+
   const messages = STEP_MESSAGES[currentStep] || STEP_MESSAGES[1];
   const intervalRef = useRef(null);
   const messageRef = useRef(null);
+  const bubbleRef = useRef(null);
 
   // Debug current step and messages
   useEffect(() => {
@@ -169,12 +179,10 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
         const nextChar = fullText[charIndex];
         setDisplayedText(prev => {
           const newText = prev + nextChar;
-          console.log('Adding char:', nextChar, '->', newText);
           return newText;
         });
         charIndex++;
       } else {
-        console.log('Finished typing:', fullText);
         setIsTyping(false);
         setShowCursor(true);
         if (intervalRef.current) {
@@ -182,7 +190,7 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
           intervalRef.current = null;
         }
       }
-    }, 80); // Slower typing speed
+    }, 100); // Slightly faster typing speed
 
     return () => {
       if (intervalRef.current) {
@@ -192,9 +200,9 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
     };
   }, [currentMessageIndex, currentStep, messages]);
 
-  // Auto-advance to random message
+  // Auto-advance to random message (only after typing is complete)
   useEffect(() => {
-    if (!isTyping && messages && messages.length > 1) {
+    if (messages && messages.length > 1 && !isTyping) {
       const advanceTimer = setTimeout(() => {
         setCurrentMessageIndex(prev => {
           // Pick a random message different from current one
@@ -204,11 +212,11 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
           } while (newIndex === prev && messages.length > 1);
           return newIndex;
         });
-      }, 5000); // Show each message for 5 seconds (slightly longer for slower typing)
+      }, 5000); // Wait 5 seconds after typing completes
 
       return () => clearTimeout(advanceTimer);
     }
-  }, [isTyping, messages]);
+  }, [currentMessageIndex, messages, isTyping]);
 
   // Cursor blinking effect
   useEffect(() => {
@@ -221,10 +229,88 @@ const AnimatedChatBubble = ({ currentStep, isEditing }) => {
     }
   }, [showCursor, isTyping]);
 
+  // Mouse event handlers for dragging
+  const startDrag = useCallback((e) => {
+    e.preventDefault();
+
+    const containerElement = bubbleRef.current?.parentElement?.parentElement;
+    if (!containerElement) return;
+
+    const rect = containerElement.getBoundingClientRect();
+    const mousePos = { x: e.clientX, y: e.clientY };
+    const elementPos = { x: rect.left, y: rect.top };
+
+    setDragStartPos(mousePos);
+    setInitialPos(elementPos);
+
+    if (!customPosition) {
+      onPositionChange(elementPos);
+    }
+
+    setIsDragging(true);
+  }, [customPosition, onPositionChange]);
+
+  const handleMouseMove = useCallback((e) => {
+    if (!isDragging || !bubbleRef.current) return;
+
+    // Calculate how much the mouse has moved from the starting position
+    const deltaX = e.clientX - dragStartPos.x;
+    const deltaY = e.clientY - dragStartPos.y;
+
+    // Apply the movement to the initial position
+    const newX = initialPos.x + deltaX;
+    const newY = initialPos.y + deltaY;
+
+    // Direct DOM manipulation for immediate visual feedback
+    const container = bubbleRef.current.parentElement.parentElement;
+    container.style.left = `${newX}px`;
+    container.style.top = `${newY}px`;
+    container.style.transform = 'none';
+
+    // Update React state for persistence
+    onPositionChange({ x: newX, y: newY });
+  }, [isDragging, dragStartPos.x, dragStartPos.y, initialPos.x, initialPos.y, onPositionChange]);
+
+  const handleMouseUp = () => {
+    if (isDragging) {
+      setIsDragging(false);
+    }
+  };
+
+  // Global mouse event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragStartPos.x, dragStartPos.y, initialPos.x, initialPos.y]);
+
+  const bubbleContainerStyle = customPosition ? {
+    position: 'absolute',
+    left: `${customPosition.x}px`,
+    top: `${customPosition.y}px`,
+    cursor: isDragging ? 'grabbing' : 'grab'
+  } : {
+    cursor: isDragging ? 'grabbing' : 'grab'
+  };
+
   return (
-    <div className="animated-chat-bubble">
+    <div
+      className={`animated-chat-bubble ${customPosition ? 'custom-position' : ''}`}
+      style={customPosition ? bubbleContainerStyle : {}}
+    >
       <div className="chat-bubble-container">
-        <div className="chat-bubble">
+        <div
+          ref={bubbleRef}
+          className={`chat-bubble ${isDragging ? 'dragging' : ''}`}
+          onMouseDown={startDrag}
+          onContextMenu={(e) => e.preventDefault()}
+        >
           <div className="chat-speaker-icon">
             <img
               src={`https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dwarf_01.jpg`}

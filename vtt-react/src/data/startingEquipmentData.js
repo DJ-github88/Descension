@@ -1391,8 +1391,17 @@ export const getEquipmentPreview = (selectionType, selectionValue) => {
         return { count: 0, categories: {}, examples: [] };
     }
 
+    // Combine all equipment arrays directly to avoid circular dependency
+    const allEquipment = [
+        ...UNIVERSAL_STARTING_ITEMS,
+        ...ALL_CLASS_EQUIPMENT,
+        ...ALL_RACE_EQUIPMENT,
+        ...ALL_PATH_EQUIPMENT,
+        ...ALL_BACKGROUND_EQUIPMENT
+    ];
+
     // Filter items that match this specific selection
-    const matchingItems = STARTING_EQUIPMENT_LIBRARY.filter(item => {
+    const matchingItems = allEquipment.filter(item => {
         const availability = item.availableFor;
 
         // Skip universal items (they're always available)

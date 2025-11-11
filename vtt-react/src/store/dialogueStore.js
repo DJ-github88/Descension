@@ -10,6 +10,11 @@ const useDialogueStore = create(
     isTyping: false,
     currentText: '',
     textIndex: 0,
+
+    // Draggable position state
+    customPosition: null, // { x, y } - custom position when dragged
+    isDragging: false,
+    dragOffset: { x: 0, y: 0 },
     
     // Settings
     defaultSpeed: 50, // ms per character
@@ -26,10 +31,17 @@ const useDialogueStore = create(
     
     // Actions
     setDialogueMode: (enabled) => set({ isDialogueMode: enabled }),
-    
-    setMultiplayerSocket: (socket, isMultiplayer) => set({ 
+
+    setMultiplayerSocket: (socket, isMultiplayer) => set({
       multiplayerSocket: socket,
-      isInMultiplayer: isMultiplayer 
+      isInMultiplayer: isMultiplayer
+    }),
+
+    // Draggable position actions
+    setCustomPosition: (position) => set({ customPosition: position }),
+    setDragging: (isDragging, offset = null) => set({
+      isDragging,
+      dragOffset: offset || { x: 0, y: 0 }
     }),
     
     // Show dialogue message

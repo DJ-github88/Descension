@@ -9,6 +9,7 @@ import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreato
 import { getAllBackgrounds, getBackgroundData } from '../../../data/backgroundData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
+import { formatCurrency } from '../../../data/startingCurrencyData';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 
 const Step4BackgroundSelection = () => {
@@ -356,6 +357,30 @@ const Step4BackgroundSelection = () => {
                                                         </div>
                                                     ));
                                                 })()}
+                                            </div>
+
+                                            {/* Starting Currency Info */}
+                                            <div className="starting-resources-compact">
+                                                <div className="currency-info">
+                                                    <i className="fas fa-coins"></i>
+                                                    <span className="currency-label">Starting Currency:</span>
+                                                    <span className="currency-amount">
+                                                        {(() => {
+                                                            if (previewBackground?.startingCurrency) {
+                                                                return formatCurrency({
+                                                                    gold: previewBackground.startingCurrency.gold || 0,
+                                                                    silver: previewBackground.startingCurrency.silver || 0,
+                                                                    copper: previewBackground.startingCurrency.copper || 0
+                                                                });
+                                                            }
+                                                            return '15g'; // Default for backgrounds without specified currency
+                                                        })()}
+                                                    </span>
+                                                </div>
+                                                <div className="equipment-note">
+                                                    <i className="fas fa-info-circle"></i>
+                                                    <span>Background equipment included free</span>
+                                                </div>
                                             </div>
                                         </div>
                                     )}

@@ -695,6 +695,7 @@ const Step10EquipmentSelection = () => {
                         </div>
                     </div>
 
+
                     {/* Cart Grid - Inventory Style */}
                     <div className={`equipment-cart-grid ${selectedEquipment.length === 0 ? 'empty' : ''}`}>
                         {selectedEquipment.length === 0 ? (

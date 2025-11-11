@@ -31,6 +31,31 @@
   min-width: 400px;
   max-height: 60vh;
   pointer-events: auto;
+  cursor: grab;
+  user-select: none;
+}
+
+/* Custom positioned dialogue (when dragged) */
+.dialogue-container.custom-position {
+  position: absolute !important;
+  transform: none !important;
+  cursor: grab;
+}
+
+.dialogue-container.custom-position:active {
+  cursor: grabbing;
+}
+
+
+/* Dragging visual feedback */
+.dialogue-container.dragging {
+  opacity: 0.8;
+  box-shadow:
+    0 8px 32px rgba(139, 115, 85, 0.4),
+    0 2px 8px rgba(139, 115, 85, 0.3),
+    0 0 0 2px rgba(255, 215, 0, 0.3);
+  transform: scale(1.02) !important;
+  transition: none;
 }
 
 /* Positioning variants */

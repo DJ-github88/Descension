@@ -4,12 +4,13 @@
  * Integrated race selection with existing race data
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { RACE_DATA, getFullRaceData } from '../../../data/raceData';
-import { getEquipmentPreview } from '../../../data/startingEquipmentData';
+import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import ItemTooltip from '../../item-generation/ItemTooltip';
 
 const Step2RaceSelection = () => {
     const state = useCharacterWizardState();
@@ -20,8 +21,42 @@ const Step2RaceSelection = () => {
     const [hoveredSubrace, setHoveredSubrace] = useState(null);
     const [viewingTrait, setViewingTrait] = useState(null);
     const [showTraitModal, setShowTraitModal] = useState(false);
+    const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+    const tooltipRef = useRef(null);
 
     const { validationErrors } = state;
+
+    // Helper function to get full item objects from item names
+    const getFullItemObjects = (itemNames) => {
+        return itemNames.map(itemName => {
+            return STARTING_EQUIPMENT_LIBRARY.find(item => item.name === itemName);
+        }).filter(item => item != null);
+    };
+
+    // Equipment tooltip handlers
+    const handleItemMouseEnter = (e, item) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setTooltip({
+            show: true,
+            item: item,
+            x: rect.left + rect.width / 2,
+            y: rect.top - 10
+        });
+    };
+
+    const handleItemMouseMove = (e) => {
+        if (tooltip.show) {
+            setTooltip(prev => ({
+                ...prev,
+                x: e.clientX,
+                y: e.clientY - 10
+            }));
+        }
+    };
+
+    const handleItemMouseLeave = () => {
+        setTooltip({ show: false, item: null, x: 0, y: 0 });
+    };
 
     // Convert RACE_DATA to array format
     const getRaceList = () => {
@@ -242,6 +277,137 @@ const Step2RaceSelection = () => {
                                             return null;
                                         })()}
 
+                                        {/* Starting Equipment - Show when race is selected */}
+                                        {(() => {
+                                            if (previewRace) {
+                                                const raceEquipment = getEquipmentPreview('race', previewRace.id);
+                                                const subraceEquipment = previewSubrace ? getEquipmentPreview('subrace', previewSubrace.id) : { count: 0, examples: [] };
+                                                const totalCount = raceEquipment.count + subraceEquipment.count;
+
+                                                if (totalCount > 0) {
+                                                    const allItemNames = [
+                                                        ...(raceEquipment.examples || []),
+                                                        ...(subraceEquipment.examples || [])
+                                                    ];
+                                                    const fullItems = getFullItemObjects(allItemNames);
+
+                                                    if (fullItems.length > 0) {
+                                                        return (
+                                                            <div className="starting-equipment-section">
+                                                                <h5 className="section-title">
+                                                                    <i className="fas fa-shopping-bag"></i> Starting Equipment Pool
+                                                                </h5>
+                                                                <div className="equipment-shop-grid">
+                                                                    {(() => {
+                                                                        const COLS = 6;
+                                                                        const occupiedCells = new Map();
+                                                                        let currentRow = 0;
+                                                                        let currentCol = 0;
+
+                                                                        fullItems.forEach((item) => {
+                                                                            const itemWidth = item.width || 1;
+                                                                            const itemHeight = item.height || 1;
+                                                                            let placed = false;
+                                                                            while (!placed && currentRow < 6) {
+                                                                                let fits = true;
+                                                                                for (let r = 0; r < itemHeight; r++) {
+                                                                                    for (let c = 0; c < itemWidth; c++) {
+                                                                                        const checkRow = currentRow + r;
+                                                                                        const checkCol = currentCol + c;
+                                                                                        if (checkCol >= COLS || occupiedCells.has(`${checkRow},${checkCol}`)) {
+                                                                                            fits = false;
+                                                                                            break;
+                                                                                        }
+                                                                                    }
+                                                                                    if (!fits) break;
+                                                                                }
+                                                                                if (fits) {
+                                                                                    for (let r = 0; r < itemHeight; r++) {
+                                                                                        for (let c = 0; c < itemWidth; c++) {
+                                                                                            const placeRow = currentRow + r;
+                                                                                            const placeCol = currentCol + c;
+                                                                                            occupiedCells.set(`${placeRow},${placeCol}`, {
+                                                                                                item,
+                                                                                                isOrigin: r === 0 && c === 0
+                                                                                            });
+                                                                                        }
+                                                                                    }
+                                                                                    placed = true;
+                                                                                }
+                                                                                currentCol++;
+                                                                                if (currentCol >= COLS) {
+                                                                                    currentCol = 0;
+                                                                                    currentRow++;
+                                                                                }
+                                                                            }
+                                                                        });
+
+                                                                        const maxRow = Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])), -1);
+                                                                        const totalRows = Math.max(maxRow + 1, 2);
+                                                                        const gridRows = [];
+
+                                                                        for (let row = 0; row < totalRows; row++) {
+                                                                            const rowCells = [];
+                                                                            for (let col = 0; col < COLS; col++) {
+                                                                                const cellData = occupiedCells.get(`${row},${col}`);
+                                                                                const item = cellData?.item;
+                                                                                const isOrigin = cellData?.isOrigin;
+                                                                                rowCells.push(
+                                                                                    <div
+                                                                                        key={`${row}-${col}`}
+                                                                                        className={`inventory-cell ${item ? 'occupied' : ''}`}
+                                                                                        onMouseEnter={item && isOrigin ? (e) => handleItemMouseEnter(e, item) : undefined}
+                                                                                        onMouseMove={item && isOrigin ? handleItemMouseMove : undefined}
+                                                                                        onMouseLeave={item && isOrigin ? handleItemMouseLeave : undefined}
+                                                                                    >
+                                                                                        {item && isOrigin && (
+                                                                                            <div
+                                                                                                className="item-icon-wrapper"
+                                                                                                style={{
+                                                                                                    width: `calc(${(item.width || 1) * 100}% + ${(item.width || 1) - 1}px)`,
+                                                                                                    height: `calc(${(item.height || 1) * 100}% + ${(item.height || 1) - 1}px)`,
+                                                                                                    zIndex: 2
+                                                                                                }}
+                                                                                            >
+                                                                                                <div
+                                                                                                    className="equipment-item-icon"
+                                                                                                    style={{
+                                                                                                        backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
+                                                                                                        width: '100%',
+                                                                                                        height: '100%',
+                                                                                                        backgroundSize: 'cover',
+                                                                                                        backgroundPosition: 'center',
+                                                                                                        backgroundRepeat: 'no-repeat'
+                                                                                                    }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        )}
+                                                                                    </div>
+                                                                                );
+                                                                            }
+                                                                            gridRows.push(
+                                                                                <div key={row} className="inventory-row">
+                                                                                    {rowCells}
+                                                                                </div>
+                                                                            );
+                                                                        }
+                                                                        return gridRows;
+                                                                    })()}
+                                                                </div>
+                                                                <div className="equipment-pool-note">
+                                                                    <div className="note-content">
+                                                                        <i className="fas fa-info-circle"></i>
+                                                                        <span>These items are added to your starting equipment pool. You can purchase additional items like these in Step 10 among other equipment choices. Equipping happens during actual gameplay.</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    }
+                                                }
+                                            }
+                                            return null;
+                                        })()}
+
                                         {/* Subrace Information - Show when subrace is selected */}
                                         {previewSubrace && (
                                             <>
@@ -268,22 +434,6 @@ const Step2RaceSelection = () => {
                                                         </div>
                                                     </div>
 
-                                                    {/* Starting Equipment */}
-                                                    {(() => {
-                                                        const raceEquipment = getEquipmentPreview('race', previewRace.id);
-                                                        const subraceEquipment = getEquipmentPreview('subrace', previewSubrace.id);
-                                                        const totalCount = raceEquipment.count + subraceEquipment.count;
-
-                                                        if (totalCount > 0) {
-                                                            return (
-                                                                <div className="equipment-compact">
-                                                                    <h6 className="section-title">Starting Equipment</h6>
-                                                                    <p>Unlocks {totalCount} item{totalCount !== 1 ? 's' : ''} for purchase</p>
-                                                                </div>
-                                                            );
-                                                        }
-                                                        return null;
-                                                    })()}
 
                                                     {/* Racial Traits */}
                                                     <div className="traits-section">
@@ -330,6 +480,22 @@ const Step2RaceSelection = () => {
                             </div>
                         )}
                     </div>
+
+                    {/* Item Tooltip */}
+                    {tooltip.show && tooltip.item && (
+                        <div
+                            ref={tooltipRef}
+                            style={{
+                                position: 'fixed',
+                                left: tooltip.x,
+                                top: tooltip.y,
+                                zIndex: 1000,
+                                pointerEvents: 'none'
+                            }}
+                        >
+                            <ItemTooltip item={tooltip.item} />
+                        </div>
+                    )}
                 </div>
 
                 {/* Trait Modal */}

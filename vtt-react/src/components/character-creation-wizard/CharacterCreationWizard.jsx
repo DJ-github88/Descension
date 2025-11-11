@@ -4,7 +4,7 @@
  * Multi-step character creation wizard with background selection and stat allocation
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CharacterWizardProvider, useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators, WIZARD_STEPS, STEP_INFO } from './context/CharacterWizardContext';
 
 // Import wizard steps
@@ -29,6 +29,18 @@ import './styles/CharacterCreationWizard.css';
 const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, existingCharacter, isEditing }) => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
+
+    // Chat bubble state
+    const [chatBubblePosition, setChatBubblePosition] = useState(null);
+    const [chatBubbleVisible, setChatBubbleVisible] = useState(true);
+
+    const resetChatBubble = () => {
+        setChatBubblePosition(null);
+    };
+
+    const toggleChatBubble = () => {
+        setChatBubbleVisible(!chatBubbleVisible);
+    };
 
     // Load existing character data when editing
     useEffect(() => {
@@ -180,7 +192,24 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
                 </div>
 
                 <div className="header-right">
-                    {/* Chat bubble moved to overlay */}
+                    <div className="chat-control-bubble">
+                        <button
+                            className="chat-control-btn"
+                            onClick={toggleChatBubble}
+                            title={chatBubbleVisible ? "Hide chat bubble" : "Show chat bubble"}
+                        >
+                            💬 {chatBubbleVisible ? "Hide" : "Show"}
+                        </button>
+                        {chatBubbleVisible && (
+                            <button
+                                className="chat-control-btn chat-reset-btn"
+                                onClick={resetChatBubble}
+                                title="Reset chat bubble position"
+                            >
+                                ↺ Reset
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -255,7 +284,14 @@ const CharacterCreationWizardContent = ({ onComplete, onCancel, isLoading, exist
             </div>
 
             {/* Chat Bubble Overlay */}
-            <AnimatedChatBubble currentStep={state.currentStep} isEditing={isEditing} />
+            {chatBubbleVisible && (
+                <AnimatedChatBubble
+                    currentStep={state.currentStep}
+                    isEditing={isEditing}
+                    customPosition={chatBubblePosition}
+                    onPositionChange={setChatBubblePosition}
+                />
+            )}
         </div>
     );
 };

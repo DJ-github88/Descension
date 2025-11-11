@@ -1057,6 +1057,13 @@ const Step3ClassSelection = () => {
                                                         return gridRows;
                                                     })()}
                                                 </div>
+
+                                                <div className="equipment-pool-note">
+                                                    <div className="note-content">
+                                                        <i className="fas fa-info-circle"></i>
+                                                        <span>These items are added to your starting equipment pool. You can purchase additional items like these in Step 10 among other equipment choices. Equipping happens during actual gameplay.</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         ) : null;
                                     })()}

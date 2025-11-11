@@ -27,7 +27,13 @@ const DialogueSystem = () => {
     hideDialogue,
     showDialogue,
     handleMultiplayerDialogue,
-    setMultiplayerSocket
+    setMultiplayerSocket,
+    // Drag state
+    customPosition,
+    isDragging,
+    dragOffset,
+    setCustomPosition,
+    setDragging
   } = useDialogueStore();
   
   // Set up multiplayer socket integration
@@ -111,6 +117,69 @@ const DialogueSystem = () => {
       hideDialogue();
     }
   };
+
+  // Drag event handlers
+  const handleMouseDown = (e) => {
+    if (e.target.closest('.dialogue-content') || e.target.closest('.dialogue-name')) {
+      // Don't start drag if clicking on text content or name
+      return;
+    }
+
+    // Right-click to reset position
+    if (e.button === 2) {
+      e.preventDefault();
+      setCustomPosition(null);
+      return;
+    }
+
+    e.preventDefault();
+    const rect = dialogueRef.current.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
+
+    // If no custom position is set yet, set it to the current position
+    if (!customPosition) {
+      setCustomPosition({ x: rect.left, y: rect.top });
+    }
+
+    setDragging(true, { x: offsetX, y: offsetY });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+
+    const newX = e.clientX - dragOffset.x;
+    const newY = e.clientY - dragOffset.y;
+
+    // Constrain to viewport bounds
+    const rect = dialogueRef.current.getBoundingClientRect();
+    const maxX = window.innerWidth - rect.width;
+    const maxY = window.innerHeight - rect.height;
+
+    const constrainedX = Math.max(0, Math.min(newX, maxX));
+    const constrainedY = Math.max(0, Math.min(newY, maxY));
+
+    setCustomPosition({ x: constrainedX, y: constrainedY });
+  };
+
+  const handleMouseUp = () => {
+    if (isDragging) {
+      setDragging(false);
+    }
+  };
+
+  // Global mouse event listeners for dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragOffset.x, dragOffset.y]);
 
   // Get character portrait - match DialogueControls logic
   const getCharacterPortrait = (characterData) => {
@@ -411,12 +480,25 @@ const DialogueSystem = () => {
   const characterPortrait = getCharacterPortrait(activeDialogue.character);
   const dialogueCharacterName = activeDialogue.character?.name || activeDialogue.characterName || 'Unknown';
 
+  const containerStyle = customPosition ? {
+    position: 'absolute',
+    left: `${customPosition.x}px`,
+    top: `${customPosition.y}px`,
+    transform: 'none',
+    cursor: isDragging ? 'grabbing' : 'grab'
+  } : {
+    cursor: isDragging ? 'grabbing' : 'grab'
+  };
+
   return (
     <div className="dialogue-system-overlay" onClick={handleDialogueClick}>
-      <div 
+      <div
         ref={dialogueRef}
-        className={`dialogue-container ${activeDialogue.position || 'bottom'}`}
+        className={`dialogue-container ${customPosition ? 'custom-position' : (activeDialogue.position || 'bottom')} ${isDragging ? 'dragging' : ''}`}
+        style={containerStyle}
         onClick={(e) => e.stopPropagation()}
+        onMouseDown={handleMouseDown}
+        onContextMenu={(e) => e.preventDefault()}
       >
         {/* Character Portrait */}
         <div className="dialogue-portrait">

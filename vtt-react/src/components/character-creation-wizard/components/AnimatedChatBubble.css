@@ -9,6 +9,12 @@
   pointer-events: none; /* Allow clicks through the bubble */
 }
 
+/* Custom positioned chat bubble (when dragged) */
+.animated-chat-bubble.custom-position {
+  position: absolute !important;
+  animation: none !important;
+}
+
 .chat-bubble-container {
   position: relative;
   display: flex;
@@ -34,7 +40,24 @@
   z-index: 10;
   overflow: visible;
   pointer-events: auto; /* Re-enable pointer events for the bubble itself */
+  cursor: grab;
+  user-select: none;
 }
+
+.chat-bubble:active {
+  cursor: grabbing;
+}
+
+/* Dragging visual feedback */
+.chat-bubble.dragging {
+  opacity: 0.8;
+  box-shadow:
+    0 8px 16px rgba(139, 69, 19, 0.4),
+    0 0 0 3px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: scale(1.02) !important;
+}
+
 
 .chat-speaker-icon {
   position: absolute;
@@ -141,7 +164,7 @@
 
 
 /* Hover effects */
-.chat-bubble:hover {
+.chat-bubble:hover:not(.dragging) {
   animation: bubbleGlow 2s ease-in-out infinite alternate;
   transform: scale(1.01);
 }

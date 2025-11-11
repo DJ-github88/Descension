@@ -124,38 +124,7 @@ const Step5PathSelection = () => {
                         </div>
                     )}
 
-                    {/* Starting Resources */}
-                    {state.characterData.background && selectedPath && (
-                        <div className="starting-resources">
-                            <h4>Starting Resources</h4>
-                            <div className="resources-grid">
-                                <div className="resource-item">
-                                    <div className="resource-header">
-                                        <i className="fas fa-coins"></i>
-                                        <span className="resource-label">Starting Currency</span>
-                                    </div>
-                                    <div className="resource-value">
-                                        {formatCurrency(calculateStartingCurrency(state.characterData.background, selectedPath))}
-                                    </div>
-                                    <div className="resource-description">
-                                        Available for purchasing equipment in the next step
-                                    </div>
-                                </div>
-                                <div className="resource-item">
-                                    <div className="resource-header">
-                                        <i className="fas fa-shopping-bag"></i>
-                                        <span className="resource-label">Starting Equipment</span>
-                                    </div>
-                                    <div className="resource-value">
-                                        Included Free
-                                    </div>
-                                    <div className="resource-description">
-                                        Your background provides essential starting gear automatically
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+
 
                     {/* Discipline Abilities */}
                     <div className="ability-selection-section">
