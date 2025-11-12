@@ -202,39 +202,9 @@ function GridComponent({
             setIsZooming(false);
         }
 
-        // Use prop values instead of reading from store
-        const startZoom = playerZoom;
-        const startCameraX = cameraX;
-        const startCameraY = cameraY;
-        const currentZoomLevel = zoomLevel;
-        
-        const startEffectiveZoom = currentZoomLevel * startZoom;
-        const targetEffectiveZoom = currentZoomLevel * targetZoom;
-
-        // Get viewport dimensions for proper coordinate conversion
-        const viewportWidth = viewportSize.width;
-        const viewportHeight = viewportSize.height;
-
-        // Calculate the world position that the mouse is pointing to BEFORE zoom
-        // Convert mouse position to world coordinates using the current zoom
-        const worldPointX = ((mouseX - viewportWidth / 2) / startEffectiveZoom) + startCameraX;
-        const worldPointY = ((mouseY - viewportHeight / 2) / startEffectiveZoom) + startCameraY;
-
-        // Apply the new zoom instantly
-        currentState.setPlayerZoom(targetZoom);
-
-        // Calculate where the camera needs to be so that the same world point
-        // is still under the mouse cursor after the zoom change
-        const newCameraX = worldPointX - ((mouseX - viewportWidth / 2) / targetEffectiveZoom);
-        const newCameraY = worldPointY - ((mouseY - viewportHeight / 2) / targetEffectiveZoom);
-
-        // Calculate the camera movement needed
-        const deltaX = newCameraX - startCameraX;
-        const deltaY = newCameraY - startCameraY;
-
-        // Move camera to keep the exact world point under the mouse
-        currentState.moveCameraBy(deltaX, deltaY);
-    }, [viewportSize]);
+        // Simply set the zoom - keep camera centered for simplicity
+        setPlayerZoom(targetZoom);
+    }, [setPlayerZoom]);
 
     // Calculate token size for character token preview (same as CreatureToken)
     const tokenSize = useMemo(() => {
@@ -1227,36 +1197,34 @@ function GridComponent({
         const gridElement = gridRef.current;
         if (!gridElement) return;
 
-        // More permissive check - allow if over grid or any child element, or game screen
-        // This ensures it works in both GM and player mode
-        const isOverGrid = gridElement.contains(e.target) ||
-                          e.target.closest('.grid-overlay') ||
-                          e.target.closest('.grid-item') ||
-                          e.target.closest('.character-token') ||
-                          e.target.closest('.creature-token') ||
-                          e.target.closest('.grid-container') ||
-                          e.target.closest('.game-screen') ||
-                          e.target === gridElement ||
-                          e.target === document.body ||
-                          e.target === document.documentElement;
+        // Helper function to check if an element is potentially scrollable (has scrollable CSS)
+        const isPotentiallyScrollable = (element) => {
+            if (!element) return false;
+            const style = window.getComputedStyle(element);
+            const hasScrollableOverflow = style.overflow === 'auto' ||
+                                        style.overflow === 'scroll' ||
+                                        style.overflowY === 'auto' ||
+                                        style.overflowY === 'scroll' ||
+                                        style.overflowX === 'auto' ||
+                                        style.overflowX === 'scroll';
+            return hasScrollableOverflow;
+        };
 
-        // If not over the grid area, don't intercept the event - allow normal scrolling
-        // But be more permissive - if it's a wheel event on the document, handle it
-        if (!isOverGrid && e.target !== document.body && e.target !== document.documentElement) {
-            // Only skip if it's clearly not a game-related element (like a UI panel)
-            const isUIElement = e.target.closest('.hud') || 
-                               e.target.closest('.action-bar') ||
-                               e.target.closest('.context-menu') ||
-                               e.target.closest('input') ||
-                               e.target.closest('textarea') ||
-                               e.target.closest('select');
-            if (isUIElement) {
-                return; // Don't intercept UI element scrolling
+        // Check if the event target or any ancestor is potentially scrollable
+        let targetElement = e.target;
+        let hasScrollableAncestor = false;
+
+        while (targetElement && targetElement !== document.body) {
+            if (isPotentiallyScrollable(targetElement)) {
+                hasScrollableAncestor = true;
+                break;
             }
+            targetElement = targetElement.parentElement;
         }
 
-        // Always prevent browser zoom when Ctrl is held down
+        // Handle Ctrl+scroll: ALWAYS zoom the grid, everywhere on the page
         if (e.ctrlKey) {
+            // Prevent browser zoom and handle grid zoom
             e.preventDefault();
             e.stopPropagation();
 
@@ -1297,8 +1265,8 @@ function GridComponent({
                 const currentMinZoom = minPlayerZoom;
 
                 // Calculate target zoom based on accumulated delta
-                // Use exponential scaling for smoother zoom
-                const zoomFactor = 1.15;
+                // Use exponential scaling for smoother zoom (increased for extreme zoom ranges)
+                const zoomFactor = 1.25;
                 const zoomSteps = Math.abs(totalDeltaY) / 100; // Normalize delta
                 const zoomMultiplier = totalDeltaY < 0 ? 
                     Math.pow(zoomFactor, zoomSteps) : 
@@ -1341,7 +1309,7 @@ function GridComponent({
                         const currentMinZoom = minPlayerZoom;
 
                         // Calculate target zoom based on accumulated delta
-                        const zoomFactor = 1.15;
+                        const zoomFactor = 1.25;
                         const zoomSteps = Math.abs(totalDeltaY) / 100;
                         const zoomMultiplier = totalDeltaY < 0 ? 
                             Math.pow(zoomFactor, zoomSteps) : 
@@ -1374,7 +1342,8 @@ function GridComponent({
         // Editor can handle its own wheel events separately if needed
 
         // Background manipulation mode - scale background with scroll wheel
-        if (isBackgroundManipulationMode && activeBackgroundId) {
+        // Only intercept if not over a scrollable element
+        if (isBackgroundManipulationMode && activeBackgroundId && !hasScrollableAncestor) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -1387,8 +1356,29 @@ function GridComponent({
             return;
         }
 
-        // Regular wheel scrolling (without Ctrl) - do nothing
-        // Allow normal page scrolling behavior
+        // Regular wheel scrolling (without Ctrl) - pan the camera smoothly
+        // Only intercept if not over a scrollable element
+        if (!isEditorMode && !hasScrollableAncestor) {
+            // Prevent default page scrolling behavior
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Get current effective zoom for proper scaling
+            const currentEffectiveZoom = zoomLevel * playerZoom;
+
+            // Pan camera based on wheel delta for natural scrolling feel
+            // Scroll up = pan up (camera down), scroll down = pan down (camera up)
+            // Use moderate speed for smooth but responsive scrolling
+            const scrollSpeed = 2.0;
+            moveCameraBy(
+                (e.deltaX * scrollSpeed) / currentEffectiveZoom,
+                (e.deltaY * scrollSpeed) / currentEffectiveZoom
+            );
+
+            return;
+        }
+
+        // In editor mode, allow normal page scrolling
         return;
     }, [
         instantZoom,
@@ -1396,7 +1386,10 @@ function GridComponent({
         isBackgroundManipulationMode,
         activeBackgroundId,
         backgrounds,
-        updateBackground
+        updateBackground,
+        zoomLevel,
+        playerZoom,
+        moveCameraBy
     ]);
 
     // Handle wheel events for player zoom navigation and background scaling
@@ -1414,7 +1407,7 @@ function GridComponent({
         document.addEventListener('mouseup', handleMouseUp);
         // Add wheel event listener to prevent default scroll behavior
         // Use capture phase to catch Ctrl+wheel before browser zoom handler
-        // Attach to both gridElement and document to catch all Ctrl+scroll events
+        // Attach to both gridElement and document to catch all Ctrl+scroll events globally
         gridElement.addEventListener('wheel', handleWheel, { passive: false, capture: true });
         document.addEventListener('wheel', handleWheel, { passive: false, capture: true });
 
@@ -3451,8 +3444,8 @@ export default function Grid() {
         playerZoomIn,
         playerZoomOut,
         updateBackground,
-        maxPlayerZoom = 4.0,
-        minPlayerZoom = 0.6,
+        maxPlayerZoom = 10.0,
+        minPlayerZoom = 0.1,
         cameraX = 0,
         cameraY = 0,
         feetPerTile = 5,

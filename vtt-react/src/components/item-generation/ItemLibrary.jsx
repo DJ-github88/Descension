@@ -13,6 +13,7 @@ import CategoryContextMenu from './CategoryContextMenu';
 import CategorizeModal from './CategorizeModal';
 import QuickItemGeneratorModal from './QuickItemGeneratorModal';
 import ContainerWizard from './ContainerWizard';
+import UnlockContainerModal from './UnlockContainerModal';
 import CommunityItemsTab from './CommunityItemsTab';
 import ContainerWindow from './ContainerWindow';
 import ItemGeneration from './ItemGeneration';
@@ -222,7 +223,11 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const [editingItem, setEditingItem] = useState(null);
     const [showQuickItemGenerator, setShowQuickItemGenerator] = useState(false);
     const [showContainerWizard, setShowContainerWizard] = useState(false);
+    const [editingContainer, setEditingContainer] = useState(null);
+    const [editingContainerId, setEditingContainerId] = useState(null);
+    const [isDraggingGlobal, setIsDraggingGlobal] = useState(false);
     const [showRecipeWizard, setShowRecipeWizard] = useState(false);
+    const [editingRecipe, setEditingRecipe] = useState(null);
     const [recipeWizardPosition, setRecipeWizardPosition] = useState({ x: 150, y: 50 });
     const [recipeWizardSize, setRecipeWizardSize] = useState({ width: 800, height: 600 });
     const [recipeData, setRecipeData] = useState({});
@@ -231,6 +236,8 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const [typeFilter, setTypeFilter] = useState('');
     const [showCategorizeModal, setShowCategorizeModal] = useState(false);
     const [categorizeModalData, setCategorizeModalData] = useState(null);
+    const [showUnlockModal, setShowUnlockModal] = useState(false);
+    const [unlockModalItem, setUnlockModalItem] = useState(null);
 
     const {
         items,
@@ -250,6 +257,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         openContainers,
         toggleContainerOpen
     } = useItemStore();
+
 
     useEffect(() => {
         const handleClickOutside = () => setContextMenu(null);
@@ -384,6 +392,39 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
     const handleEditItem = (itemId) => {
         const itemToEdit = items.find(item => item.id === itemId);
         if (itemToEdit) {
+            // Check if this is a recipe - if so, open RecipeWizard instead
+            if (itemToEdit.type === 'recipe') {
+                setEditingRecipe(itemToEdit);
+                setShowRecipeWizard(true);
+                return;
+            }
+
+            // Check if this is a container - if so, open ContainerWizard instead
+            if (itemToEdit.type === 'container') {
+                // Format container data for editing in ContainerWizard
+                const containerData = {
+                    name: itemToEdit.name,
+                    quality: itemToEdit.quality,
+                    description: itemToEdit.description,
+                    iconId: itemToEdit.iconId,
+                    // Extract container properties
+                    isLocked: itemToEdit.containerProperties?.isLocked || false,
+                    lockType: itemToEdit.containerProperties?.lockType || 'none',
+                    lockDC: itemToEdit.containerProperties?.lockDC || 15,
+                    lockCode: itemToEdit.containerProperties?.lockCode || '',
+                    gridSize: itemToEdit.containerProperties?.gridSize || { rows: 4, cols: 6 },
+                    flavorText: itemToEdit.containerProperties?.flavorText || '',
+                    maxAttempts: itemToEdit.containerProperties?.maxAttempts || 3,
+                    failureAction: itemToEdit.containerProperties?.failureAction || 'none',
+                    failureActionDetails: itemToEdit.containerProperties?.failureActionDetails || {}
+                };
+
+                // Set editing state for ContainerWizard
+                setEditingContainer(containerData);
+                setEditingContainerId(itemToEdit.id);
+                setShowContainerWizard(true);
+                return;
+            }
             // Format weapon data for editing
             const formattedItem = {
                 ...itemToEdit,
@@ -486,14 +527,82 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
         setShowCategorizeModal(true);
     };
 
+    const handleShowUnlockModal = (item) => {
+        setUnlockModalItem(item);
+        setShowUnlockModal(true);
+    };
+
+    const handleUnlockSuccess = (item) => {
+        // Open the container after successful unlock
+        toggleContainerOpen(item.id);
+        setShowUnlockModal(false);
+        setUnlockModalItem(null);
+    };
+
+    const handleContainerWizardComplete = (containerData) => {
+        if (editingContainer && editingContainerId) {
+            // Update the existing container with new data
+            const updatedContainer = {
+                id: editingContainerId,
+                name: containerData.name,
+                quality: containerData.quality,
+                description: containerData.description,
+                type: 'container',
+                iconId: containerData.iconId,
+                containerProperties: {
+                    isLocked: containerData.isLocked,
+                    lockType: containerData.lockType,
+                    lockDC: containerData.lockDC,
+                    lockCode: containerData.lockCode,
+                    gridSize: containerData.gridSize,
+                    items: items.find(item => item.id === editingContainerId)?.containerProperties?.items || [],
+                    flavorText: containerData.flavorText,
+                    maxAttempts: containerData.maxAttempts,
+                    failureAction: containerData.failureAction,
+                    failureActionDetails: containerData.failureActionDetails
+                }
+            };
+
+            updateItem(editingContainerId, updatedContainer);
+            setEditingContainer(null);
+            setEditingContainerId(null);
+        } else {
+            // Create new container
+            const containerItem = {
+                id: Date.now().toString(),
+                name: containerData.name || 'Unnamed Container',
+                quality: containerData.quality,
+                description: containerData.description,
+                type: 'container',
+                iconId: containerData.iconId,
+                containerProperties: {
+                    isLocked: containerData.isLocked,
+                    lockType: containerData.lockType,
+                    lockDC: containerData.lockDC,
+                    lockCode: containerData.lockCode,
+                    gridSize: {
+                        rows: parseInt(containerData.rows) || 4,
+                        cols: parseInt(containerData.cols) || 6
+                    },
+                    items: [],
+                    flavorText: containerData.flavorText,
+                    maxAttempts: containerData.maxAttempts,
+                    failureAction: containerData.failureAction,
+                    failureActionDetails: containerData.failureActionDetails
+                }
+            };
+
+            // Add to library with appropriate categories
+            const baseCategory = categories.find(c => c.isBaseCategory)?.id;
+            addItem(containerItem, baseCategory ? [baseCategory] : []);
+        }
+
+        setShowContainerWizard(false);
+    };
+
     const handleItemWizardComplete = (newItemData) => {
-        console.log('=== ItemLibrary: handleItemWizardComplete called ===');
-        console.log('New item data:', newItemData);
-        console.log('Current categories:', categories);
-        console.log('Selected category:', selectedCategory);
 
         if (editingItem) {
-            console.log('Editing existing item:', editingItem.id);
             updateItem(editingItem.id, {
                 ...editingItem,
                 ...newItemData
@@ -723,6 +832,9 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                                             key={item.id}
                                             item={item}
                                             isSelected={selectedItem === item.id}
+                                            isDraggingGlobal={isDraggingGlobal}
+                                            onDragStartGlobal={() => setIsDraggingGlobal(true)}
+                                            onDragEndGlobal={() => setIsDraggingGlobal(false)}
                                             onClick={() => setSelectedItem(item.id)}
                                             onContextMenu={(e) => {
                                                 e.preventDefault();
@@ -757,8 +869,10 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                                                         if (draggedItem && draggedItem.type !== 'container') {
                                                             console.log('Adding item to container:', draggedItem.name);
 
-                                                            // Open the container if it's not already open
-                                                            if (!openContainers.has(containerItem.id)) {
+                                                            // Only auto-open the container if it's not locked and not already open
+                                                            // For locked containers, we want to add items without opening them
+                                                            const isContainerLocked = containerProps.isLocked;
+                                                            if (!isContainerLocked && !openContainers.has(containerItem.id)) {
                                                                 toggleContainerOpen(containerItem.id);
                                                             }
 
@@ -987,7 +1101,6 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             {showItemWizard && (
                 <ItemWizard
                     onComplete={(item) => {
-                        console.log('ItemWizard onComplete called with item:', item);
                         handleItemWizardComplete(item);
                         setShowItemWizard(false);
                         setEditingItem(null);
@@ -1005,18 +1118,13 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
 
             {showContainerWizard && createPortal(
                 <ContainerWizard
-                    onComplete={(containerData) => {
-                        console.log('ContainerWizard onComplete called with:', containerData);
-                        // Add to both the base category and the selected category if one exists
-                        const baseCategory = categories.find(c => c.isBaseCategory)?.id;
-                        const targetCategories = selectedCategory ? [baseCategory, selectedCategory] : [baseCategory];
-
-                        addItem(containerData, targetCategories);
-                        setShowContainerWizard(false);
-                    }}
+                    initialData={editingContainer}
+                    isEditing={!!editingContainer}
+                    onComplete={handleContainerWizardComplete}
                     onCancel={() => {
-                        console.log('ContainerWizard onCancel called');
                         setShowContainerWizard(false);
+                        setEditingContainer(null);
+                        setEditingContainerId(null);
                     }}
                 />,
                 document.body
@@ -1049,6 +1157,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     item={contextMenu.validatedItem || items.find(item => item.id === contextMenu.itemId)}
                     onEdit={handleEditItem}
                     onShowCategorizeModal={handleShowCategorizeModal}
+                    onShowUnlockModal={handleShowUnlockModal}
                 />,
                 document.body
             )}
@@ -1056,7 +1165,9 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
             {/* Container Windows - Each ContainerWindow component uses its own React Portal */}
             {Array.from(openContainers).map(containerId => {
                 const container = items.find(item => item.id === containerId);
-                if (!container) return null;
+                if (!container) {
+                    return null;
+                }
 
                 return (
                     <ContainerWindow
@@ -1067,27 +1178,50 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                 );
             })}
 
-            {showRecipeWizard && (
+            {showRecipeWizard && createPortal(
                 <RecipeWizard
                     isOpen={showRecipeWizard}
-                    onClose={() => setShowRecipeWizard(false)}
-                    onSave={(recipe) => {
-                        console.log('Recipe created:', recipe);
-                        // Recipe is automatically added to the crafting store
+                    onClose={() => {
                         setShowRecipeWizard(false);
+                        setEditingRecipe(null);
+                        setRecipeData({});
+                    }}
+                    onSave={(recipeData) => {
+                        // Handle saving the recipe
+                        console.log('Saving recipe:', recipeData);
+                        // For now, just close the wizard
+                        setShowRecipeWizard(false);
+                        setEditingRecipe(null);
+                        setRecipeData({});
                     }}
                     onWindowPositionChange={setRecipeWizardPosition}
                     onRecipeDataChange={setRecipeData}
-                />
+                    initialData={editingRecipe}
+                />,
+                document.body
             )}
 
             {/* External Recipe Preview - renders outside the wizard window */}
-            {showRecipeWizard && (
+            {showRecipeWizard && createPortal(
                 <ExternalRecipePreview
                     recipeData={recipeData}
                     windowPosition={recipeWizardPosition}
                     windowSize={recipeWizardSize}
-                    isOpen={showRecipeWizard}
+                    onWindowPositionChange={setRecipeWizardPosition}
+                    onWindowSizeChange={setRecipeWizardSize}
+                />,
+                document.body
+            )}
+
+            {/* Unlock Container Modal */}
+            {showUnlockModal && unlockModalItem && (
+                <UnlockContainerModal
+                    container={unlockModalItem}
+                    onSuccess={handleUnlockSuccess}
+                    onClose={() => {
+                        setShowUnlockModal(false);
+                        setUnlockModalItem(null);
+                    }}
                 />
             )}
 

@@ -308,27 +308,63 @@
 
 .range-input input {
   width: 100%;
-  background-color: #2d1b1b;
-  border: 2px solid #7a3b2e;
+  background-color: #ffffff;
+  border: 2px solid #a08c70;
   border-radius: 8px;
-  color: #f0e6d2;
-  padding: 12px;
+  color: #000000;
+  padding: 12px 12px 12px 40px;
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   font-family: 'Bookman Old Style', 'Garamond', serif;
+  position: relative;
+}
+
+/* Currency symbol indicators */
+.currency-indicators {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 4px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.currency-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.currency-indicator.platinum {
+  background-color: #e5e4e2;
+}
+
+.currency-indicator.gold {
+  background-color: #ffd700;
+}
+
+.currency-indicator.silver {
+  background-color: #c0c0c0;
+}
+
+.currency-indicator.copper {
+  background-color: #cd7f32;
 }
 
 .range-input input::placeholder {
-  color: #a08c70;
+  color: #666666;
 }
 
 .range-input input:focus {
-  border-color: #9a5b4e;
+  border-color: #7a3b2e;
   outline: none;
-  box-shadow: 0 0 12px rgba(154, 91, 78, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.3);
-  background-color: #3d2525;
+  box-shadow: 0 0 12px rgba(122, 59, 46, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 
 /* Loot actions */
@@ -806,7 +842,7 @@
   display: flex;
   gap: 8px;
   justify-content: center;
-  background: transparent;
+  background: transparent !important;
 }
 
 .item-actions button {

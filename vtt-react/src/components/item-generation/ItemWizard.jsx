@@ -811,12 +811,9 @@ const getResistances = (combatStats) => {
 const getResistanceDescription = (resistance) => resistance;
 
 
-export default function ItemWizard({ onClose, onComplete, onCancel, initialData = {} }) {
-    console.log('ItemWizard rendering with props:', { onClose, onComplete, onCancel, initialData });
+export default function ItemWizard({ onClose, onComplete, onCancel, initialData = {}, isEditing = false }) {
 
     const handleClose = (item = null) => {
-        console.log('handleClose called with item:', item);
-        console.log('Available callbacks:', { onComplete: !!onComplete, onCancel: !!onCancel, onClose: !!onClose });
         if (item) {
             const formattedItem = {
                 id: itemData.id || crypto.randomUUID(),
@@ -1263,6 +1260,82 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                 updatedData.quality = prevData.quality;
             }
 
+            // Ensure baseStats always exists and has proper structure
+            if (!updatedData.baseStats) {
+                updatedData.baseStats = {
+                    constitution: { value: 0, isPercentage: false },
+                    strength: { value: 0, isPercentage: false },
+                    agility: { value: 0, isPercentage: false },
+                    intelligence: { value: 0, isPercentage: false },
+                    spirit: { value: 0, isPercentage: false },
+                    charisma: { value: 0, isPercentage: false }
+                };
+            }
+
+            // Ensure combatStats always exists and has proper structure
+            if (!updatedData.combatStats) {
+                updatedData.combatStats = {
+                    healthRestore: { value: 0, isPercentage: false },
+                    manaRestore: { value: 0, isPercentage: false },
+                    piercingDamage: { value: 0, isPercentage: false },
+                    bludgeoningDamage: { value: 0, isPercentage: false },
+                    slashingDamage: { value: 0, isPercentage: false },
+                    healingReceived: { value: 0, isPercentage: false },
+                    healingPower: { value: 0, isPercentage: false },
+                    maxAP: { value: 0, isPercentage: false },
+                    maxHealth: { value: 0, isPercentage: false },
+                    healthRegen: { value: 0, isPercentage: false },
+                    maxMana: { value: 0, isPercentage: false },
+                    manaRegen: { value: 0, isPercentage: false },
+                    initiative: { value: 0, isPercentage: false },
+                    armorClass: { value: 0, isPercentage: false },
+                    spellDamage: { types: {} },
+                    resistances: {},
+                    onHitEffects: {
+                        enabled: false,
+                        procType: 'dice',
+                        procChance: 15,
+                        diceThreshold: 18,
+                        cardProcRule: 'face_cards',
+                        coinProcRule: 'all_heads',
+                        coinCount: 3,
+                        procSuit: 'hearts',
+                        spellEffect: null,
+                        customEffects: [],
+                        useRollableTable: false
+                    }
+                };
+            }
+
+            // Ensure utilityStats always exists and has proper structure
+            if (!updatedData.utilityStats) {
+                updatedData.utilityStats = {
+                    movementSpeed: { value: 0, isPercentage: false },
+                    swimSpeed: { value: 0, isPercentage: true },
+                    carryingCapacity: { enabled: false, slots: 1 },
+                    duration: {
+                        type: 'ROUNDS',
+                        value: 1
+                    }
+                };
+            }
+
+            // Ensure effects always exists and has proper structure
+            if (!updatedData.effects) {
+                updatedData.effects = {
+                    damage: 0,
+                    healing: 0,
+                    duration: 0,
+                    initiative: 0,
+                    resistances: Object.keys(DAMAGE_TYPES).reduce((acc, type) => {
+                        acc[type] = 0;
+                        return acc;
+                    }, {}),
+                    conditions: [],
+                    special: ''
+                };
+            }
+
             console.log('updateItemData result:', updatedData);
             return updatedData;
         });
@@ -1284,7 +1357,7 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         className="wizard-nav-btn wizard-nav-create"
                         onClick={() => handleClose(itemData)}
                     >
-                        Create Item
+                        {isEditing ? 'Update Item' : 'Create Item'}
                     </button>
                 ) : (
                     <button
@@ -1313,7 +1386,52 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         type,
                                         subtype: type === 'consumable' ? 'potion' : '',
                                         slots: [],
-                                        consumableType: type === 'consumable' ? 'POTION' : undefined
+                                        consumableType: type === 'consumable' ? 'POTION' : undefined,
+                                        // Clear combat/stats when switching to miscellaneous since they don't apply
+                                        ...(type === 'miscellaneous' && {
+                                            weaponStats: undefined,
+                                            combatStats: {
+                                                healthRestore: { value: 0, isPercentage: false },
+                                                manaRestore: { value: 0, isPercentage: false },
+                                                piercingDamage: { value: 0, isPercentage: false },
+                                                bludgeoningDamage: { value: 0, isPercentage: false },
+                                                slashingDamage: { value: 0, isPercentage: false },
+                                                healingReceived: { value: 0, isPercentage: false },
+                                                healingPower: { value: 0, isPercentage: false },
+                                                maxAP: { value: 0, isPercentage: false },
+                                                maxHealth: { value: 0, isPercentage: false },
+                                                healthRegen: { value: 0, isPercentage: false },
+                                                maxMana: { value: 0, isPercentage: false },
+                                                manaRegen: { value: 0, isPercentage: false },
+                                                initiative: { value: 0, isPercentage: false },
+                                                armorClass: { value: 0, isPercentage: false },
+                                                spellDamage: { types: {} },
+                                                resistances: {},
+                                                onHitEffects: {
+                                                    enabled: false,
+                                                    procType: 'dice',
+                                                    procChance: 15,
+                                                    diceThreshold: 18,
+                                                    cardProcRule: 'face_cards',
+                                                    coinProcRule: 'all_heads',
+                                                    coinCount: 3,
+                                                    procSuit: 'hearts',
+                                                    spellEffect: null,
+                                                    customEffects: [],
+                                                    useRollableTable: false
+                                                }
+                                            },
+                                            utilityStats: undefined,
+                                            effects: undefined,
+                                            baseStats: {
+                                                constitution: { value: 0, isPercentage: false },
+                                                strength: { value: 0, isPercentage: false },
+                                                agility: { value: 0, isPercentage: false },
+                                                intelligence: { value: 0, isPercentage: false },
+                                                spirit: { value: 0, isPercentage: false },
+                                                charisma: { value: 0, isPercentage: false }
+                                            }
+                                        })
                                     })}
                                 >
                                     <img src={`https://wow.zamimg.com/images/wow/icons/large/${ITEM_TYPES[type].icon}.jpg`} alt={ITEM_TYPES[type].name} />
@@ -3073,6 +3191,33 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                         </>
                     );
                 }
+                // Don't show base stats for miscellaneous items
+                if (itemData.type === 'miscellaneous') {
+                    return (
+                        <>
+                            <h3 className="wow-heading quality-text">Miscellaneous Details</h3>
+                            <div className="spell-wizard-step-content" style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                minHeight: '200px',
+                                padding: '2rem'
+                            }}>
+                                <p className="wow-text" style={{
+                                    fontSize: '1.2em',
+                                    lineHeight: '1.6',
+                                    color: '#d4af37',
+                                    textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Ah, a curious trinket of unknown origin and mysterious purpose. Choose a category above to imbue it with specific qualities, or proceed to determine its worth and visual splendor.
+                                </p>
+                            </div>
+                        </>
+                    );
+                }
                 return (
                     <>
                         <h3 className="wow-heading quality-text">Base Stats</h3>
@@ -4364,7 +4509,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
     // Listen for window scale changes
     useEffect(() => {
         const handleWindowScaleChange = (event) => {
-            console.log('ItemWizard: Window scale changed to', event.detail?.scale || 'unknown');
             // Force a re-render to apply the new scale
             setPosition(prev => ({ ...prev }));
         };
@@ -4481,7 +4625,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
         );
     };
 
-    console.log('ItemWizard about to render, position:', position, 'currentStep:', currentStep);
 
     // Get safe portal target
     const portalTarget = getSafePortalTarget();
@@ -4521,10 +4664,31 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
             >
                 <div className="item-wizard-content spellbook-wizard-layout">
                     <div className="wizard-header">
-                        <h2>Item Editor</h2>
+                        <button
+                            className="wizard-nav-btn wizard-nav-previous"
+                            onClick={prevStep}
+                            disabled={currentStep === 0}
+                        >
+                            Previous
+                        </button>
                         <div className="wizard-progress-container">
                             {renderProgressBar()}
                         </div>
+                        {currentStep === Object.keys(STEPS).length - 1 ? (
+                            <button
+                                className="wizard-nav-btn wizard-nav-create"
+                                onClick={() => handleClose(itemData)}
+                            >
+                                Create Item
+                            </button>
+                        ) : (
+                            <button
+                                className="wizard-nav-btn wizard-nav-next"
+                                onClick={nextStep}
+                            >
+                                Next
+                            </button>
+                        )}
                         <button className="close-button" onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -4536,7 +4700,6 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                     <div className="wizard-main-content">
                         <div className="spell-wizard-step-content">
                             {renderStep()}
-                            {renderStepNavigation()}
                         </div>
                     </div>
                 </div>

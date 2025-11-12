@@ -1232,15 +1232,12 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           {(debuffConfig.durationType === 'turns' || debuffConfig.durationType === 'time') && (
             <div className="pf-config-option">
               <div className="pf-toggle-group">
-                <button
-                  className={`pf-toggle-button ${debuffConfig.concentrationRequired ? 'pf-toggle-active' : ''}`}
-                  onClick={() => updateDebuffConfig('concentrationRequired', !debuffConfig.concentrationRequired)}
-                >
+                <div className={`pf-toggle-option ${debuffConfig.concentrationRequired ? 'pf-toggle-active' : ''}`} onClick={() => updateDebuffConfig('concentrationRequired', !debuffConfig.concentrationRequired)}>
                   <div className="pf-toggle-icon">
                     {debuffConfig.concentrationRequired ? '✓' : ''}
                   </div>
                   <span>Requires Concentration</span>
-                </button>
+                </div>
               </div>
             </div>
           )}

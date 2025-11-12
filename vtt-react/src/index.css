@@ -3,6 +3,10 @@
 /* Import consolidated form group styles */
 @import './styles/consolidated-form-groups.css';
 
+/* Import shared CSS variables and consolidated selectors */
+@import './styles/shared/variables.css';
+@import './styles/optimized/consolidated-selectors.css';
+
 /* ===== CSS VARIABLES - PATHFINDER THEME ===== */
 :root {
   /* Primary Parchment Colors */

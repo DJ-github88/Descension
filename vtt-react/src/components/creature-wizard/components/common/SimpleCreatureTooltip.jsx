@@ -1,5 +1,6 @@
 import React from 'react';
 import { getCreatureSizeMapping } from '../../../../store/creatureStore';
+import useItemStore from '../../../../store/itemStore';
 import '../../../../styles/creature-token.css';
 import '../../../../styles/wow-classic-tooltip.css';
 import './SimpleCreatureTooltip.css';
@@ -209,6 +210,8 @@ const formatResistanceValue = (value, damageType) => {
 
 const SimpleCreatureTooltip = ({ creature }) => {
   if (!creature) return null;
+
+  const { items: itemLibrary } = useItemStore();
 
   // Get size mapping for grid display
   const sizeMapping = getCreatureSizeMapping(creature.size);
@@ -740,16 +743,18 @@ const SimpleCreatureTooltip = ({ creature }) => {
               paddingBottom: '4px',
               lineHeight: '1.3'
             }}>
-              SHOPKEEPER
+              MERCHANT
             </div>
 
             <div style={{
-              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.2) 100%)',
-              border: '2px solid #8B4513',
+              background: 'linear-gradient(135deg, rgba(184, 134, 11, 0.15) 0%, rgba(139, 69, 19, 0.2) 50%, rgba(160, 82, 45, 0.15) 100%)',
+              border: '2px solid #daa520',
               borderRadius: '8px',
-              padding: '10px 12px',
+              padding: '12px 14px',
               fontSize: '12px',
               color: '#2d1810',
+              boxShadow: 'inset 0 1px 0 rgba(255, 215, 0, 0.1), 0 2px 8px rgba(139, 69, 19, 0.3)',
+              position: 'relative',
               lineHeight: '1.4',
               textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)'
             }}>
@@ -767,7 +772,79 @@ const SimpleCreatureTooltip = ({ creature }) => {
               )}
               {creature.shopInventory?.items?.length > 0 && (
                 <div style={{ fontSize: '11px', marginTop: '6px', opacity: 0.9 }}>
-                  {creature.shopInventory.items.length} items for sale
+                  {(() => {
+                    const shopItems = creature.shopInventory.items;
+                    const maxDisplay = 3;
+                    const displayedItems = shopItems.slice(0, maxDisplay);
+                    const remainingCount = shopItems.length - maxDisplay;
+
+                    // Get item names with quality colors
+                    const itemElements = displayedItems.map(shopItem => {
+                      const item = itemLibrary.find(i => i.id === shopItem.itemId);
+                      if (!item) return null;
+
+                      const qualityColor = (() => {
+                        const quality = item.quality || 'common';
+                        switch (quality.toLowerCase()) {
+                          case 'poor': return '#9d9d9d';
+                          case 'common': return '#ffffff';
+                          case 'uncommon': return '#1eff00';
+                          case 'rare': return '#0070dd';
+                          case 'epic': return '#a335ee';
+                          case 'legendary': return '#ff8000';
+                          default: return '#ffffff';
+                        }
+                      })();
+
+                      return (
+                        <span
+                          key={shopItem.itemId}
+                          style={{
+                            color: qualityColor,
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                            fontWeight: '600',
+                            WebkitTextStroke: '0.25px #000000',
+                            textStroke: '0.25px #000000'
+                          }}
+                        >
+                          [{item.name}]
+                        </span>
+                      );
+                    }).filter(Boolean);
+
+                    if (itemElements.length === 0) {
+                      return `${shopItems.length} wares for sale`;
+                    }
+
+                    // Create display with commas between items
+                    const displayElements = [];
+                    itemElements.forEach((element, index) => {
+                      if (index > 0) {
+                        displayElements.push(<span key={`comma-${index}`}> </span>);
+                      }
+                      displayElements.push(element);
+                    });
+
+                    if (remainingCount > 0) {
+                      displayElements.push(
+                        <span
+                          key="more"
+                          style={{
+                            color: '#daa520',
+                            fontStyle: 'italic',
+                            fontWeight: '500',
+                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                            WebkitTextStroke: '0.25px #000000',
+                            textStroke: '0.25px #000000'
+                          }}
+                        >
+                          ... and {remainingCount} more treasures
+                        </span>
+                      );
+                    }
+
+                    return displayElements;
+                  })()}
                 </div>
               )}
             </div>
@@ -817,38 +894,6 @@ const SimpleCreatureTooltip = ({ creature }) => {
         )}
       </div>
 
-      {/* Ornate Footer */}
-      <div
-        style={{
-          background: 'linear-gradient(145deg, #5a1e12 0%, #8B4513 50%, #5a1e12 100%)',
-          borderTop: '2px solid #8B4513',
-          height: '8px',
-          position: 'relative'
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: `
-              repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 3px,
-                rgba(139, 69, 19, 0.15) 3px,
-                rgba(139, 69, 19, 0.15) 6px
-              )
-            `,
-            pointerEvents: 'none'
-          }}
-        />
-      </div>
-
-      {/* Tooltip Footer */}
-      <div className="creature-tooltip-footer"></div>
     </div>
   );
 };

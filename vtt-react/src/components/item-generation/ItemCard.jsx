@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import { createPortal } from 'react-dom';
 import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -10,7 +10,7 @@ const getQualityColor = (quality) => {
     return RARITY_COLORS[qualityLower]?.text || RARITY_COLORS.common.text;
 };
 
-const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop }) => {
+const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop, isDraggingGlobal = false, onDragStartGlobal, onDragEndGlobal }) => {
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const cardRef = useRef(null);
@@ -18,65 +18,114 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     // State to track if we're currently dragging
     const [isDragging, setIsDragging] = useState(false);
 
+    // Animation frame ref for mouse move optimization
+    const mouseMoveAnimationRef = useRef(null);
+
+    // Tooltip delay timer to prevent rapid showing/hiding
+    const tooltipDelayRef = useRef(null);
+
     // State for quantity (for stackable items)
     const [quantity, setQuantity] = useState(item.quantity || 1);
+    const [showQuantityPopup, setShowQuantityPopup] = useState(false);
 
-    // Check drag support on mount (for production debugging)
-    useEffect(() => {
-        if (process.env.NODE_ENV === 'production' && cardRef.current) {
-            const element = cardRef.current;
-            const isDraggable = element.draggable;
-            const hasDataTransfer = 'DataTransfer' in window;
-            const hasDragEvents = 'ondragstart' in element;
+    // Quick quantity shortcuts
+    const quickQuantities = [1, 5, 10, 20, 50, 99];
 
-            console.log('🎯 Drag support check:', {
-                itemName: item.name,
-                isDraggable,
-                hasDataTransfer,
-                hasDragEvents,
-                userAgent: navigator.userAgent
-            });
-        }
-    }, [item.name]);
+    const handleQuantityClick = (newQuantity) => {
+        setQuantity(newQuantity);
+        setShowQuantityPopup(false);
+    };
 
-    // Simple tooltip handlers (matching character sheet pattern)
+    const toggleQuantityPopup = (e) => {
+        if (e) e.stopPropagation();
+        setShowQuantityPopup(!showQuantityPopup);
+    };
+
+
+    // Simple tooltip handlers (matching character sheet pattern) - optimized for drag performance
     const handleMouseEnter = (e) => {
-        if (!isDragging) {
-            setShowTooltip(true);
-            setTooltipPosition({
-                x: e.clientX + 15,
-                y: e.clientY - 10
-            });
+        if (!isDraggingGlobal) {
+            // Clear any existing delay
+            if (tooltipDelayRef.current) {
+                clearTimeout(tooltipDelayRef.current);
+            }
+
+            // Add delay before showing tooltip to prevent rapid showing/hiding
+            tooltipDelayRef.current = setTimeout(() => {
+                setShowTooltip(true);
+                setTooltipPosition({
+                    x: e.clientX + 15,
+                    y: e.clientY - 10
+                });
+            }, 150); // 150ms delay
         }
     };
 
     const handleMouseMove = (e) => {
-        if (showTooltip && !isDragging) {
-            setTooltipPosition({
-                x: e.clientX + 15,
-                y: e.clientY - 10
+        if (showTooltip && !isDraggingGlobal) {
+            // Use requestAnimationFrame for smoother performance
+            if (mouseMoveAnimationRef.current) {
+                cancelAnimationFrame(mouseMoveAnimationRef.current);
+            }
+            mouseMoveAnimationRef.current = requestAnimationFrame(() => {
+                setTooltipPosition({
+                    x: e.clientX + 15,
+                    y: e.clientY - 10
+                });
             });
         }
     };
 
     const handleMouseLeave = () => {
-        if (!isDragging) {
+        if (!isDraggingGlobal) {
             setShowTooltip(false);
+            // Clear any pending animation frame
+            if (mouseMoveAnimationRef.current) {
+                cancelAnimationFrame(mouseMoveAnimationRef.current);
+                mouseMoveAnimationRef.current = null;
+            }
+            // Clear any pending tooltip delay
+            if (tooltipDelayRef.current) {
+                clearTimeout(tooltipDelayRef.current);
+                tooltipDelayRef.current = null;
+            }
         }
     };
 
+    // Cleanup animation frame and tooltip delay on unmount
+    useEffect(() => {
+        return () => {
+            if (mouseMoveAnimationRef.current) {
+                cancelAnimationFrame(mouseMoveAnimationRef.current);
+            }
+            if (tooltipDelayRef.current) {
+                clearTimeout(tooltipDelayRef.current);
+            }
+        };
+    }, []);
+
     const handleDragStart = (e) => {
-        // Debug logging for production troubleshooting
-        if (process.env.NODE_ENV === 'production') {
-            console.log('🎯 Production drag start:', item.name, {
-                dataTransfer: !!e.dataTransfer,
-                setData: typeof e.dataTransfer?.setData,
-                effectAllowed: typeof e.dataTransfer?.effectAllowed
-            });
-        }
+        // Prevent event bubbling to avoid window drag conflicts
+        e.stopPropagation();
+
+        // Add dragging class to body to disable transitions for better performance
+        document.body.classList.add('dragging');
 
         setIsDragging(true);
         setShowTooltip(false); // Hide tooltip when dragging starts
+        onDragStartGlobal?.(); // Notify parent of drag start
+
+        // Clear any pending animation frame
+        if (mouseMoveAnimationRef.current) {
+            cancelAnimationFrame(mouseMoveAnimationRef.current);
+            mouseMoveAnimationRef.current = null;
+        }
+
+        // Clear any pending tooltip delay
+        if (tooltipDelayRef.current) {
+            clearTimeout(tooltipDelayRef.current);
+            tooltipDelayRef.current = null;
+        }
 
         try {
             // Ensure dataTransfer exists
@@ -111,7 +160,6 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                 rotation: item.rotation || 0
             };
 
-            console.log('📦 Item drag started:', item.name, 'Global flag set:', window.isDraggingItem);
 
             // Create a custom drag image if needed
             if (item.iconId && e.dataTransfer.setDragImage) {
@@ -128,7 +176,6 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
             e.dataTransfer.effectAllowed = 'copy';
 
             if (process.env.NODE_ENV === 'production') {
-                console.log('🎯 Production drag data set successfully');
             }
         } catch (error) {
             console.error('Error in handleDragStart:', error);
@@ -137,17 +184,23 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
 
     // Handle drag end to clean up any visual feedback
     const handleDragEnd = () => {
+        // Remove dragging class from body to re-enable transitions
+        document.body.classList.remove('dragging');
+
         setIsDragging(false);
         window.isDraggingItem = false;
-        console.log('🏁 Item drag ended, global flag cleared');
+        onDragEndGlobal?.(); // Notify parent of drag end
 
         // Clear global drag state
         if (window.draggedItemInfo) {
             window.draggedItemInfo = null;
         }
 
-        // Remove container-drag-over class from all item cards
-        document.querySelectorAll('.item-card').forEach(card => {
+        // Remove container-drag-over class from all item cards (optimized)
+        // Use getElementsByClassName for better performance than querySelectorAll
+        const dragOverCards = document.getElementsByClassName('container-drag-over');
+        // Convert HTMLCollection to array to avoid issues during iteration
+        Array.from(dragOverCards).forEach(card => {
             card.classList.remove('container-drag-over');
         });
     };
@@ -188,47 +241,81 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                         }}
                         onDragStart={(e) => e.preventDefault()}
                     />
+                    {/* Quantity circle on icon */}
+                    {isSelected && (item.type === 'consumable' || item.type === 'miscellaneous') && (
+                        <div
+                            className="item-quantity-circle"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                toggleQuantityPopup();
+                            }}
+                            title={`Quantity: ${quantity} - Click to change`}
+                        >
+                            {quantity}
+                        </div>
+                    )}
                 </div>
                 <div className="item-name" style={{ color: getQualityColor(item.quality) }}>
                     {item.name}
                 </div>
 
-                {/* Quantity selector for selected items */}
-                {isSelected && (item.type === 'consumable' || item.type === 'miscellaneous') && (
-                    <div className="item-quantity-selector" style={{
-                        position: 'absolute',
-                        bottom: '4px',
-                        right: '4px',
-                        background: 'rgba(0, 0, 0, 0.8)',
-                        borderRadius: '3px',
-                        padding: '2px 4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px'
-                    }}>
-                        <span style={{ color: 'white', fontSize: '10px' }}>Qty:</span>
-                        <input
-                            type="number"
-                            min="1"
-                            max="99"
-                            value={quantity}
-                            onChange={(e) => {
-                                const newQuantity = Math.max(1, Math.min(99, parseInt(e.target.value) || 1));
-                                setQuantity(newQuantity);
-                            }}
-                            onClick={(e) => e.stopPropagation()}
-                            style={{
-                                width: '30px',
-                                height: '16px',
-                                fontSize: '10px',
-                                textAlign: 'center',
-                                border: '1px solid #666',
-                                borderRadius: '2px',
-                                background: '#333',
-                                color: 'white'
-                            }}
+                {/* Quantity Modal */}
+                {showQuantityPopup && createPortal(
+                    <div className="quantity-modal-container">
+                        {/* Modal Backdrop */}
+                        <div
+                            className="quantity-modal-backdrop"
+                            onClick={() => setShowQuantityPopup(false)}
                         />
-                    </div>
+
+                        {/* Modal Content */}
+                        <div className="quantity-modal">
+                            <div className="quantity-modal-header">
+                                <h3>Set Quantity</h3>
+                                <button
+                                    className="quantity-modal-close"
+                                    onClick={() => setShowQuantityPopup(false)}
+                                    title="Close"
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <div className="quantity-modal-content">
+                                <div className="quantity-grid">
+                                    {quickQuantities.map(qty => (
+                                        <button
+                                            key={qty}
+                                            className={`quantity-option ${quantity === qty ? 'active' : ''}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleQuantityClick(qty);
+                                            }}
+                                        >
+                                            {qty}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="quantity-custom-section">
+                                    <label>Custom Quantity:</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="99"
+                                        value={quantity}
+                                        onChange={(e) => {
+                                            const newQuantity = Math.max(1, Math.min(99, parseInt(e.target.value) || 1));
+                                            setQuantity(newQuantity);
+                                        }}
+                                        onClick={(e) => e.stopPropagation()}
+                                        placeholder="Enter quantity"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>,
+                    document.body
                 )}
             </div>
             {showTooltip && (
@@ -251,4 +338,4 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
     );
 };
 
-export default ItemCard;
+export default memo(ItemCard);

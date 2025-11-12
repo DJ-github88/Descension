@@ -377,9 +377,7 @@
     color: #8b7355;
 }
 
-.context-menu-item:last-child {
-    border-bottom: none;
-}
+/* .context-menu-item:last-child consolidated to global styles */
 
 /* Delete item styling */
 .delete-item {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import '../../styles/item-tooltip.css';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import useCraftingStore, { SKILL_LEVELS } from '../../store/craftingStore';
@@ -144,7 +144,6 @@ const getMiscTypeInfo = (item) => {
             ].filter(Boolean);
 
         case 'CRAFTING':
-            console.log('CRAFTING tooltip data:', item);
             const craftingItems = [
                 item.materialType && {
                     label: 'Material',
@@ -672,7 +671,7 @@ const renderTooltipEntry = (entry, index) => {
     );
 };
 
-export default function ItemTooltip({ item }) {
+function ItemTooltip({ item }) {
     // Use hooks to get store data (hooks must be called before early returns)
     const { availableRecipes } = useCraftingStore();
     const { items: itemLibrary } = useItemStore();
@@ -682,7 +681,7 @@ export default function ItemTooltip({ item }) {
     }
 
     // Special handling for recipe items
-    if (item.subtype === 'recipe' && item.recipeId) {
+    if (item.type === 'recipe' && item.recipeId) {
         const recipeData = availableRecipes.find(recipe => recipe.id === item.recipeId);
         const resultItem = recipeData ? itemLibrary.find(i => i.id === recipeData.resultItemId) : null;
         const skillLevel = recipeData ? Object.values(SKILL_LEVELS).find(s => s.level === recipeData.requiredLevel) : null;
@@ -1810,3 +1809,5 @@ export default function ItemTooltip({ item }) {
         </div>
     );
 }
+
+export default memo(ItemTooltip);

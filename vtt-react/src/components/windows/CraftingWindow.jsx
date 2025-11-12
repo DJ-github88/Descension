@@ -12,10 +12,24 @@ function CraftingWindow({ isOpen, onClose }) {
         selectedProfession,
         setSelectedProfession,
         getProfessionLevel,
+        getProfessionExperience,
+        getExperienceForNextLevel,
         getRecipesForProfession,
         learnRecipe
     } = useCraftingStore();
     const { addLootNotification } = useChatStore();
+
+    // Note: Use the "Add Test Materials" button to populate inventory with crafting materials
+
+    const getSkillLevelColor = (level) => {
+        if (level === 0) return '#9d9d9d';
+        if (level <= 2) return '#ffffff';
+        if (level <= 4) return '#1eff00';
+        if (level <= 6) return '#0070dd';
+        if (level <= 8) return '#a335ee';
+        return '#ff8000';
+    };
+
 
     const handleProfessionSelect = (professionId) => {
         setSelectedProfession(professionId);
@@ -30,7 +44,7 @@ function CraftingWindow({ isOpen, onClose }) {
         if (selectedProfession) {
             switch (selectedProfession) {
                 case 'alchemy':
-                    return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} />;
+                    return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
                 // Add other profession interfaces here as they're implemented
                 default:
                     return (
@@ -94,24 +108,6 @@ function CraftingWindow({ isOpen, onClose }) {
                                 'Crafting'
                             )}
                         </div>
-                        {selectedProfession && (
-                            <div className="crafting-header-tabs">
-                                <button
-                                    className={`crafting-overlay-tab ${activeTab === 'recipes' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('recipes')}
-                                >
-                                    <span>Recipes</span>
-                                    <span className="tab-count">({getRecipesForProfession(selectedProfession).length})</span>
-                                </button>
-                                <button
-                                    className={`crafting-overlay-tab ${activeTab === 'queue' ? 'active' : ''}`}
-                                    onClick={() => setActiveTab('queue')}
-                                >
-                                    <span>Queue</span>
-                                    <span className="tab-count">(0)</span>
-                                </button>
-                            </div>
-                        )}
                     </div>
                     {selectedProfession && (
                         <div className="crafting-header-actions">

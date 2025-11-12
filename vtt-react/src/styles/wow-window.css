@@ -216,6 +216,22 @@
     background: transparent !important;
 }
 
+.wow-window:hover .react-resizable-handle-se {
+    opacity: 1 !important;
+    background: rgba(139, 69, 19, 0.8) !important;
+    border: 2px solid #8B4513 !important;
+    width: 20px !important;
+    height: 20px !important;
+    bottom: -10px !important;
+    right: -10px !important;
+    border-radius: 2px !important;
+    cursor: nw-resize !important;
+    z-index: 1000 !important;
+    position: absolute !important;
+    pointer-events: auto !important;
+}
+
+
 /* Disable transitions during dragging for better performance */
 .draggable-window.dragging .window-header-tab,
 .draggable-window.dragging .tab-button,
@@ -234,20 +250,15 @@
     will-change: auto !important;
 }
 
-/* Disable resizable during drag to prevent conflicts */
-.draggable-window.dragging .react-resizable-handle {
-    pointer-events: none !important;
-    display: none !important;
-}
-
-/* Prevent any size changes during drag */
-.draggable-window.dragging .react-resizable {
-    pointer-events: none !important;
+/* Allow resize handle to work regardless of drag state */
+.react-resizable-handle {
+    pointer-events: auto !important;
 }
 
 .wow-window .react-resizable-handle-se {
     opacity: 0 !important;
     background: transparent !important;
+    /* Keep functionality but hide until hover */
 }
 
 /* Legacy tab styles removed - all windows now use unified spellbook-tab-container system */

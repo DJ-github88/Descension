@@ -2601,33 +2601,6 @@ const COMPREHENSIVE_ITEMS = [
 
   // === ARCHMAGE LOOT ITEMS ===
   {
-    id: 'staff-of-the-archmage',
-    name: 'Staff of the Archmage',
-    type: 'weapon',
-    subtype: 'STAFF',
-    quality: 'epic',
-    description: 'An ancient staff crackling with arcane energy, passed down through generations of elven archmages.',
-    iconId: 'inv_staff_13',
-    value: { gold: 10, silver: 0, copper: 0 },
-    weight: 2,
-    slots: ['mainHand'],
-    weaponSlot: 'TWO_HANDED',
-    width: 1,
-    height: 4,
-    weaponStats: {
-      baseDamage: {
-        diceCount: 1,
-        diceType: 6,
-        damageType: 'arcane',
-        bonusDamage: 0
-      }
-    },
-    baseStats: {
-      intelligence: { value: 3, isPercentage: false },
-      spirit: { value: 2, isPercentage: false }
-    }
-  },
-  {
     id: 'archmages-spellbook',
     name: "Archmage's Spellbook",
     type: 'miscellaneous',
@@ -2978,38 +2951,6 @@ const COMPREHENSIVE_ITEMS = [
     resistances: {
       fire: 50
     },
-    width: 1,
-    height: 4
-  },
-  {
-    id: 'staff-of-the-archmage',
-    name: 'Staff of the Archmage',
-    type: 'weapon',
-    subtype: 'STAFF',
-    quality: 'legendary',
-    description: 'An ancient staff topped with a crystal that contains the essence of a fallen star. Pulses with immense magical power.',
-    iconId: 'inv_staff_13',
-    value: { gold: 100, silver: 0, copper: 0 },
-    weight: 4,
-    slots: ['mainHand'],
-    weaponSlot: 'TWO_HANDED',
-    weaponStats: {
-      baseDamage: {
-        diceCount: 1,
-        diceType: 6,
-        damageType: 'force'
-      }
-    },
-    baseStats: {
-      intelligence: { value: 8, isPercentage: false },
-      spirit: { value: 5, isPercentage: false }
-    },
-    effects: [
-      {
-        type: 'special',
-        description: 'All spells cost 25% less mana and deal 50% more damage'
-      }
-    ],
     width: 1,
     height: 4
   },
@@ -3445,8 +3386,7 @@ const COMPREHENSIVE_ITEMS = [
   {
     id: 'minor-healing-potion-recipe-scroll',
     name: 'Recipe: Minor Healing Potion',
-    type: 'miscellaneous',
-    subtype: 'recipe',
+    type: 'recipe',
     quality: 'uncommon',
     description: 'A scroll containing the formula for brewing Minor Healing Potions. Right-click to learn.',
     iconId: 'inv_scroll_03',
@@ -3465,8 +3405,7 @@ const COMPREHENSIVE_ITEMS = [
   {
     id: 'minor-mana-potion-recipe-scroll',
     name: 'Recipe: Minor Mana Potion',
-    type: 'miscellaneous',
-    subtype: 'recipe',
+    type: 'recipe',
     quality: 'uncommon',
     description: 'A scroll containing the formula for brewing Minor Mana Potions. Right-click to learn.',
     iconId: 'inv_scroll_03',
@@ -3485,8 +3424,7 @@ const COMPREHENSIVE_ITEMS = [
   {
     id: 'elixir-of-fortitude-recipe-scroll',
     name: 'Recipe: Elixir of Fortitude',
-    type: 'miscellaneous',
-    subtype: 'recipe',
+    type: 'recipe',
     quality: 'uncommon',
     description: 'A scroll containing the formula for brewing Elixirs of Fortitude. Right-click to learn.',
     iconId: 'inv_scroll_03',
@@ -3508,78 +3446,74 @@ const COMPREHENSIVE_ITEMS = [
   {
     id: 'recipe-greater-healing-potion',
     name: 'Recipe: Greater Healing Potion',
-    type: 'miscellaneous',
-    subtype: 'RECIPE',
+    type: 'recipe',
     quality: 'uncommon',
     description: 'A scroll containing the formula for brewing Greater Healing Potions. Right-click to learn.',
     iconId: 'inv_scroll_03',
     value: { gold: 0, silver: 25, copper: 0 },
-    weight: 0.1,
-    stackable: false,
     width: 1,
     height: 1,
+    maxStackSize: 1,
+    isConsumable: true,
     recipeId: 'greater-healing-potion-recipe',
     requiredProfession: 'alchemy',
     requiredLevel: 2,
-    consumable: true,
-    onUse: 'learnRecipe'
+    bindOnPickup: false,
+    unique: false
   },
   {
     id: 'recipe-elixir-of-agility',
     name: 'Recipe: Elixir of Agility',
-    type: 'miscellaneous',
-    subtype: 'RECIPE',
+    type: 'recipe',
     quality: 'rare',
     description: 'A scroll containing the formula for brewing Elixirs of Agility. Right-click to learn.',
     iconId: 'inv_scroll_05',
     value: { gold: 1, silver: 0, copper: 0 },
-    weight: 0.1,
-    stackable: false,
     width: 1,
     height: 1,
+    maxStackSize: 1,
+    isConsumable: true,
     recipeId: 'elixir-of-agility-recipe',
     requiredProfession: 'alchemy',
     requiredLevel: 3,
-    consumable: true,
-    onUse: 'learnRecipe'
+    bindOnPickup: false,
+    unique: false
   },
   {
     id: 'recipe-poison-antidote',
     name: 'Recipe: Poison Antidote',
-    type: 'miscellaneous',
-    subtype: 'RECIPE',
+    type: 'recipe',
     quality: 'uncommon',
     description: 'A scroll containing the formula for brewing Poison Antidotes. Right-click to learn.',
     iconId: 'inv_scroll_03',
     value: { gold: 0, silver: 30, copper: 0 },
-    weight: 0.1,
-    stackable: false,
     width: 1,
     height: 1,
+    maxStackSize: 1,
+    isConsumable: true,
     recipeId: 'poison-antidote-recipe',
     requiredProfession: 'alchemy',
     requiredLevel: 2,
-    consumable: true,
-    onUse: 'learnRecipe'
+    bindOnPickup: false,
+    unique: false
   },
   {
     id: 'recipe-elixir-of-intellect',
     name: 'Recipe: Elixir of Intellect',
-    type: 'miscellaneous',
-    subtype: 'RECIPE',
+    type: 'recipe',
     quality: 'epic',
     description: 'A scroll containing the formula for brewing Elixirs of Intellect. Right-click to learn.',
     iconId: 'inv_scroll_06',
     value: { gold: 2, silver: 0, copper: 0 },
-    weight: 0.1,
-    stackable: false,
     width: 1,
     height: 1,
+    maxStackSize: 1,
+    isConsumable: true,
     recipeId: 'elixir-of-intellect-recipe',
     requiredProfession: 'alchemy',
     requiredLevel: 4,
-    consumable: true,
-    onUse: 'learnRecipe'
+    bindOnPickup: false,
+    unique: false
   }
 ];
 

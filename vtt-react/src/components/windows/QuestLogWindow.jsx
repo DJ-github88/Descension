@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { createPortal } from 'react-dom';
 import WowWindow from './WowWindow';
 import useQuestStore from '../../store/questStore';
+import useGameStore from '../../store/gameStore';
 import QuestCreationForm from '../quest-log/QuestCreationForm';
 import QuestObjective from '../quest-log/QuestObjective';
 import QuestReward from '../quest-log/QuestReward';
@@ -24,6 +25,7 @@ import {
 
 const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActiveTab, contentOnly = false }) => {
   const [activeTab, setActiveTab] = useState(propActiveTab || 'active');
+  const { isGMMode } = useGameStore();
 
   // Update activeTab when prop changes
   useEffect(() => {
@@ -31,6 +33,13 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
       setActiveTab(propActiveTab);
     }
   }, [propActiveTab]);
+
+  // Redirect players away from create tab if they somehow access it
+  useEffect(() => {
+    if (!isGMMode && activeTab === 'create') {
+      setActiveTab('active');
+    }
+  }, [isGMMode, activeTab]);
   const [selectedQuest, setSelectedQuest] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -154,13 +163,13 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
     setSelectedQuest(questId);
   }, []);
 
-  // Define tabs for consistent formatting
+  // Define tabs for consistent formatting - conditionally show Create Quest tab only for GMs
   const tabs = [
     { id: 'active', label: 'Active Quests' },
     { id: 'completed', label: 'Completed Quests' },
     { id: 'failed', label: 'Failed Quests' },
     { id: 'all', label: 'All Quests' },
-    { id: 'create', label: 'Create Quest' }
+    ...(isGMMode ? [{ id: 'create', label: 'Create Quest' }] : [])
   ];
 
   // Context menu handlers (memoized)

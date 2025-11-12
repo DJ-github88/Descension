@@ -1578,21 +1578,28 @@
 /* Enhanced Basic Info Layout */
 .basic-info-layout {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 40px;
+  grid-template-columns: 1fr minmax(300px, 400px);
+  gap: clamp(20px, 4vw, 40px);
   align-items: start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .core-info-section {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: clamp(15px, 2.5vw, 25px);
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0; /* Allow flex shrinking */
 }
 
 .classification-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: clamp(15px, 2vw, 20px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group.half-width {
@@ -1602,8 +1609,8 @@
 .token-appearance-section {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  padding: 30px;
+  gap: clamp(15px, 3vw, 25px);
+  padding: clamp(15px, 3vw, 30px);
   background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.9) 0%,
     rgba(240, 230, 210, 0.7) 100%);
@@ -1612,6 +1619,9 @@
   box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0; /* Allow flex shrinking */
 }
 
 /* Enhanced Token Preview */
@@ -1918,6 +1928,48 @@
   .classification-row {
     grid-template-columns: 1fr;
     gap: 15px;
+  }
+}
+
+/* More responsive breakpoints for creature window resizing */
+@media (max-width: 950px) {
+  .basic-info-layout {
+    grid-template-columns: 1fr minmax(250px, 350px);
+    gap: clamp(15px, 3vw, 30px);
+  }
+
+  .token-appearance-section {
+    padding: clamp(12px, 2.5vw, 20px);
+    gap: clamp(12px, 2.5vw, 20px);
+  }
+}
+
+@media (max-width: 800px) {
+  .basic-info-layout {
+    grid-template-columns: 1fr;
+    gap: clamp(15px, 3vw, 25px);
+  }
+
+  .token-appearance-section {
+    order: -1;
+    padding: clamp(10px, 2vw, 15px);
+    gap: clamp(10px, 2vw, 15px);
+  }
+
+  .classification-row {
+    grid-template-columns: 1fr;
+    gap: clamp(10px, 2vw, 15px);
+  }
+}
+
+@media (max-width: 600px) {
+  .token-appearance-section {
+    padding: clamp(8px, 1.5vw, 12px);
+    gap: clamp(8px, 1.5vw, 12px);
+  }
+
+  .core-info-section {
+    gap: clamp(15px, 2.5vw, 20px);
   }
 }
 

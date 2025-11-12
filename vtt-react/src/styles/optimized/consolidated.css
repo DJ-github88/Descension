@@ -1,0 +1,91 @@
+/* Consolidated from 5 locations */
+90% {
+  opacity: 1;
+}
+
+/* Consolidated from 4 locations */
+.context-menu-item:last-child {
+  border-bottom: none;
+}
+
+/* Consolidated from 4 locations */
+.load-more-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Consolidated from 4 locations */
+.tooltip-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Consolidated from 3 locations */
+.additional-slots-grid {
+  display: grid;
+    grid-template-columns: repeat(5, 40px);
+    gap: 4px;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: fit-content;
+}
+
+/* Consolidated from 3 locations */
+.additional-slot {
+  width: 40px;
+    height: 40px;
+    background: var(--wow-accent-color);
+    opacity: 0.3;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+/* Consolidated from 3 locations */
+.additional-slot:hover {
+  opacity: 0.5;
+    transform: translateY(-1px);
+}
+
+/* Consolidated from 3 locations */
+.slot-plus {
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Consolidated from 3 locations */
+/* Load More */
+.load-more {
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Consolidated from 3 locations */
+.merchant-grid,
+  .shop-window .items-grid.inventory-grid {
+  grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+}
+
+/* Consolidated from 3 locations */
+.draw-count-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Consolidated from 3 locations */
+/* Resource Bar Row - Spec Button + Bar */
+.resource-bar-row {
+  display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}

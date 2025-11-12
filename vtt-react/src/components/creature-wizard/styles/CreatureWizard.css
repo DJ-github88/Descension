@@ -31,7 +31,35 @@
 
 /* Form styling */
 .form-section {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(240, 230, 210, 0.4) 100%);
+  border: 2px solid rgba(139, 115, 85, 0.3);
+  border-bottom: 2px solid rgba(139, 115, 85, 0.3) !important;
+  border-radius: 15px;
+  padding: 30px;
   margin-bottom: 30px;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+  backdrop-filter: blur(2px);
+}
+
+.form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right,
+    transparent,
+    rgba(122, 59, 46, 0.6),
+    rgba(122, 59, 46, 0.8),
+    rgba(122, 59, 46, 0.6),
+    transparent);
+  border-radius: 15px 15px 0 0;
 }
 
 .section-title {
@@ -61,11 +89,7 @@
   gap: 20px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+/* .form-group consolidated to global styles */
 
 .form-group.half-width {
   flex: 1;

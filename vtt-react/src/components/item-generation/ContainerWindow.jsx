@@ -6,6 +6,7 @@ import useInventoryStore from '../../store/inventoryStore';
 import useGameStore from '../../store/gameStore';
 import useWindowManagerStore from '../../store/windowManagerStore';
 import LockSettingsModal from './LockSettingsModal';
+import UnlockContainerModal from './UnlockContainerModal';
 import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
@@ -26,10 +27,12 @@ const ContainerWindow = ({ container, onClose }) => {
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPos, setContextMenuPos] = useState({ x: 0, y: 0 });
     const [showLockSettings, setShowLockSettings] = useState(false);
+    const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [isInitialized, setIsInitialized] = useState(false);
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, x: 0, y: 0, itemId: null });
     const [draggedItem, setDraggedItem] = useState(null);
     const [itemContextMenu, setItemContextMenu] = useState({ visible: false, x: 0, y: 0, itemId: null });
+    const [unlockItemId, setUnlockItemId] = useState(null);
     const [position, setPosition] = useState({ x: 100, y: 100 });
 
     // Generate unique window ID
@@ -57,7 +60,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Debug: Log window scale changes
     useEffect(() => {
-        console.log('ContainerWindow: Current window scale is', windowScale);
     }, [windowScale]);
 
     // Get store functions
@@ -79,7 +81,6 @@ const ContainerWindow = ({ container, onClose }) => {
     // Listen for window scale changes to force re-render
     useEffect(() => {
         const handleWindowScaleChange = (event) => {
-            console.log('ContainerWindow: Window scale changed to', event.detail?.scale || 'unknown');
             setForceRender(prev => prev + 1);
         };
 
@@ -204,7 +205,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Handle drag start for items
     const handleDragStart = (e, item) => {
-        console.log('Drag start with item:', item);
         setDraggedItem(item);
 
         // Create a copy of the item without the position property
@@ -248,7 +248,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Handle drag end
     const handleDragEnd = () => {
-        console.log('Drag end');
         setDraggedItem(null);
 
         // Clear all highlights
@@ -260,7 +259,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Remove item from container
     const removeItemFromContainer = (itemId) => {
-        console.log('Removing item from container:', itemId);
 
         // Make sure container properties exist
         if (!currentContainer.containerProperties || !currentContainer.containerProperties.items) {
@@ -272,7 +270,6 @@ const ContainerWindow = ({ container, onClose }) => {
         const item = currentContainer.containerProperties.items.find(item => item.id === itemId);
 
         if (item) {
-            console.log('Found item to remove:', item);
 
             // Create a deep copy of the item to return
             const itemCopy = JSON.parse(JSON.stringify(item));
@@ -280,7 +277,6 @@ const ContainerWindow = ({ container, onClose }) => {
             // Update the container by filtering out the removed item
             const updatedItems = currentContainer.containerProperties.items.filter(item => item.id !== itemId);
 
-            console.log('Updated items after removal:', updatedItems);
 
             // Create updated container properties
             const updatedContainerProps = {
@@ -294,11 +290,9 @@ const ContainerWindow = ({ container, onClose }) => {
                 containerProperties: updatedContainerProps
             });
 
-            console.log('Container updated, returning item copy');
             return itemCopy;
         }
 
-        console.log('Item not found in container');
         return null;
     };
 
@@ -1072,7 +1066,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Initialize the container window and ensure it's visible
     useEffect(() => {
-        console.log('ContainerWindow mounted for container:', currentContainer.id, currentContainer.name);
 
         // Force the container window to be visible after rendering
         const timeoutId = setTimeout(() => {
@@ -1094,7 +1087,6 @@ const ContainerWindow = ({ container, onClose }) => {
         }, 100);
 
         return () => {
-            console.log('ContainerWindow unmounted for container:', currentContainer.id, currentContainer.name);
             clearTimeout(timeoutId);
         };
     }, [currentContainer.id, currentContainer.name, container.id]);
@@ -1220,7 +1212,20 @@ const ContainerWindow = ({ container, onClose }) => {
                 const item = currentContainer.containerProperties?.items?.find(i => i.id === itemContextMenu.itemId);
                 if (!item) return null;
 
+                const isLocked = item?.containerProperties?.isLocked || false;
+
                 const menuItems = [
+                    // Unlock option for locked containers
+                    ...(isLocked ? [{
+                        icon: <i className="fas fa-unlock"></i>,
+                        label: 'Unlock Container',
+                        onClick: () => {
+                            console.log('Unlock clicked for container:', item.name);
+                            setUnlockItemId(itemContextMenu.itemId);
+                            setShowUnlockModal(true);
+                            setItemContextMenu({ ...itemContextMenu, visible: false });
+                        }
+                    }] : []),
                     {
                         icon: <i className="fas fa-arrow-right"></i>,
                         label: 'Move to Inventory',
@@ -1300,6 +1305,27 @@ const ContainerWindow = ({ container, onClose }) => {
                     </div>
                 </TooltipPortal>
             )}
+
+            {/* Unlock Container Modal */}
+            {showUnlockModal && unlockItemId && (() => {
+                const item = currentContainer.containerProperties?.items?.find(i => i.id === unlockItemId);
+                if (!item) return null;
+
+                return (
+                    <UnlockContainerModal
+                        container={item}
+                        onSuccess={() => {
+                            setShowUnlockModal(false);
+                            setUnlockItemId(null);
+                            // Optionally refresh or update the container
+                        }}
+                        onClose={() => {
+                            setShowUnlockModal(false);
+                            setUnlockItemId(null);
+                        }}
+                    />
+                );
+            })()}
         </>
     );
 };

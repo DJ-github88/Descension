@@ -437,40 +437,38 @@ export default function CharacterPanel() {
                         {/* Icon strip selector (similar to paths): click an icon to view its card */}
                         <div className="racial-trait-icon-strip">
                             {racialTraits.map((trait, idx) => {
-                                const type = (trait?.type || '').toString().toLowerCase();
-                                const iconByType = {
-                                  combat: 'ability_warrior_bloodfrenzy',
-                                  movement: 'ability_rogue_sprint',
-                                  resistance: 'spell_frost_frostarmor',
-                                  environmental: 'spell_frost_frostarmor',
-                                  transformation: 'ability_druid_catform',
-                                  divination: 'spell_holy_mindvision',
-                                  detection: 'inv_misc_spyglass_02',
-                                  protection: 'spell_holy_powerwordshield',
-                                  illusion: 'spell_shadow_haunting',
-                                  adaptive: 'ability_racial_naturalshapeshifter',
-                                  knowledge: 'inv_misc_book_09',
-                                  nature: 'spell_nature_protectionformnature',
-                                  spiritual: 'spell_holy_exorcism',
-                                  stealth: 'ability_stealth',
-                                  defense: 'inv_shield_06',
-                                  utility: 'inv_misc_bag_11'
-                                };
-                                const icon = iconByType[type] || 'spell_holy_holybolt';
+                                // Use the trait's icon directly, or derive from tags if not available
+                                const icon = trait?.icon || (() => {
+                                  const tags = trait?.typeConfig?.tags || [];
+                                  const iconByTag = {
+                                    combat: 'ability_warrior_bloodfrenzy',
+                                    movement: 'ability_rogue_sprint',
+                                    resistance: 'spell_frost_frostarmor',
+                                    environmental: 'spell_frost_frostarmor',
+                                    transformation: 'ability_druid_catform',
+                                    divination: 'spell_holy_mindvision',
+                                    detection: 'inv_misc_spyglass_02',
+                                    protection: 'spell_holy_powerwordshield',
+                                    illusion: 'spell_shadow_haunting',
+                                    adaptive: 'ability_racial_naturalshapeshifter',
+                                    knowledge: 'inv_misc_book_09',
+                                    nature: 'spell_nature_protectionformnature',
+                                    spiritual: 'spell_holy_exorcism',
+                                    stealth: 'ability_stealth',
+                                    defense: 'inv_shield_06',
+                                    utility: 'inv_misc_bag_11'
+                                  };
+                                  // Find first matching tag
+                                  for (const tag of tags) {
+                                    if (iconByTag[tag]) return iconByTag[tag];
+                                  }
+                                  return 'spell_holy_holybolt';
+                                })();
                                 const isSelected = idx === selectedTraitIndex;
-
-                                // Build a spell-like payload for dragging from the icon
-                                const spellLike = {
-                                  id: `racial-trait-${(trait.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-                                  name: trait.name,
-                                  description: trait.description,
-                                  icon,
-                                  spellType: 'PASSIVE'
-                                };
 
                                 const handleIconDragStart = (e) => {
                                   const spellData = {
-                                    ...spellLike,
+                                    ...trait,
                                     cooldown: 0,
                                     level: 1,
                                     type: 'spell'
@@ -501,44 +499,16 @@ export default function CharacterPanel() {
                         {/* Single-card view for the selected racial trait */}
                         {racialTraits[selectedTraitIndex] && (() => {
                             const trait = racialTraits[selectedTraitIndex];
-                            const type = (trait?.type || '').toString().toLowerCase();
-                            const iconByType = {
-                              combat: 'ability_warrior_bloodfrenzy',
-                              movement: 'ability_rogue_sprint',
-                              resistance: 'spell_frost_frostarmor',
-                              environmental: 'spell_frost_frostarmor',
-                              transformation: 'ability_druid_catform',
-                              divination: 'spell_holy_mindvision',
-                              detection: 'inv_misc_spyglass_02',
-                              protection: 'spell_holy_powerwordshield',
-                              illusion: 'spell_shadow_haunting',
-                              adaptive: 'ability_racial_naturalshapeshifter',
-                              knowledge: 'inv_misc_book_09',
-                              nature: 'spell_nature_protectionformnature',
-                              spiritual: 'spell_holy_exorcism',
-                              stealth: 'ability_stealth',
-                              defense: 'inv_shield_06',
-                              utility: 'inv_misc_bag_11'
-                            };
-                            const icon = iconByType[type] || 'spell_holy_holybolt';
-
-                            const spellLike = {
-                              id: `racial-trait-${(trait.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-                              name: trait.name,
-                              description: trait.description,
-                              icon,
-                              spellType: 'PASSIVE'
-                            };
                             return (
                               <div className="racial-trait-card">
                                 <UnifiedSpellCard
-                                  spell={spellLike}
+                                  spell={trait}
                                   variant="wizard"
                                   isDraggable={true}
                                   showActions={false}
                                   showDescription={true}
-                                  showStats={false}
-                                  showTags={false}
+                                  showStats={true}
+                                  showTags={true}
                                 />
                               </div>
                             );

@@ -6,12 +6,7 @@
 }
 
 /* Resource Bar Row - Spec Button + Bar */
-.resource-bar-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-}
+/* .resource-bar-row consolidated to global styles */
 
 /* Specialization Cycle Button */
 .spec-cycle-btn {
@@ -497,9 +492,7 @@
     line-height: 1.5;
 }
 
-.tooltip-section:last-child {
-    margin-bottom: 0;
-}
+/* .tooltip-section:last-child consolidated to global styles */
 
 .tooltip-section strong {
     color: #1a0a00;

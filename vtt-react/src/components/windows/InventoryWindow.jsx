@@ -360,7 +360,7 @@ export default function InventoryWindow() {
             console.log('Using item from inventory:', item.name);
 
             // Handle recipe scrolls
-            if (item.subtype === 'recipe' && item.recipeId) {
+            if (item.type === 'recipe' && item.recipeId) {
                 console.log('Learning recipe:', item.recipeId);
 
                 // Learn the recipe
@@ -1704,8 +1704,8 @@ export default function InventoryWindow() {
 
                                 // Equip/Use option - show based on item type
                 // Show "Use" for consumable items and recipe scrolls
-                if (item?.type === 'consumable' || item?.subtype === 'recipe') {
-                    const actionText = item?.subtype === 'recipe' ? 'Learn' : 'Use';
+                if (item?.type === 'consumable' || item?.type === 'recipe') {
+                    const actionText = item?.type === 'recipe' ? 'Learn' : 'Use';
                     menuItems.push({
                         icon: <i className="fas fa-hand-paper"></i>,
                         label: actionText,

@@ -1323,6 +1323,143 @@
   box-shadow: var(--pf-shadow-glow) !important;
 }
 
+/* ===== EFFECT CONFIGURATION FRAME ===== */
+/* Create a framed container for the entire effect configuration section */
+.spellbook-layout .pf-config-group {
+  background: var(--pf-gradient-parchment-light) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  padding: var(--pf-space-4) !important;
+  margin-bottom: var(--pf-space-4) !important;
+  box-shadow: var(--pf-shadow-sm) !important;
+}
+
+.spellbook-layout .wow-effect-config-content {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Base Effect Information Styling */
+.spellbook-layout .wow-effect-base-info {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  padding: var(--pf-space-3) !important;
+  margin-bottom: var(--pf-space-4) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.spellbook-layout .wow-effect-subtitle {
+  color: var(--pf-brown-darkest) !important;
+  font-family: var(--pf-font-display) !important;
+  font-weight: var(--pf-font-semibold) !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: var(--pf-space-3) !important;
+  border-bottom: 1px solid var(--pf-brown-light) !important;
+  padding-bottom: var(--pf-space-2) !important;
+}
+
+.spellbook-layout .wow-effect-base-details {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--pf-space-2) !important;
+}
+
+.spellbook-layout .wow-effect-detail-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: var(--pf-space-2) var(--pf-space-3) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-radius: 4px !important;
+  border: 1px solid var(--pf-brown-light) !important;
+}
+
+.spellbook-layout .wow-effect-detail-label {
+  font-weight: var(--pf-font-medium) !important;
+  color: var(--pf-brown-dark) !important;
+  font-size: 13px !important;
+}
+
+.spellbook-layout .wow-effect-detail-value {
+  font-weight: var(--pf-font-semibold) !important;
+  color: var(--pf-brown-darkest) !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Conditional Activation Toggle Styling */
+.spellbook-layout .wow-conditional-toggle {
+  background: var(--pf-gradient-parchment) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: var(--pf-border-radius) !important;
+  padding: var(--pf-space-3) !important;
+  margin-bottom: var(--pf-space-4) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.spellbook-layout .wow-conditional-label {
+  display: block !important;
+  font-weight: var(--pf-font-medium) !important;
+  color: var(--pf-brown-dark) !important;
+  font-size: 13px !important;
+  margin-bottom: var(--pf-space-2) !important;
+}
+
+.spellbook-layout .wow-toggle-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--pf-space-3) !important;
+}
+
+.spellbook-layout .wow-toggle-button {
+  position: relative !important;
+  width: 44px !important;
+  height: 24px !important;
+  background: var(--pf-brown-light) !important;
+  border-radius: 12px !important;
+  border: 2px solid var(--pf-brown-medium) !important;
+  cursor: pointer !important;
+  transition: all var(--pf-transition-normal) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+.spellbook-layout .wow-toggle-button.active {
+  background: var(--pf-gold) !important;
+  border-color: var(--pf-gold-dark) !important;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3) !important;
+}
+
+.spellbook-layout .wow-toggle-slider {
+  position: absolute !important;
+  top: 2px !important;
+  left: 2px !important;
+  width: 16px !important;
+  height: 16px !important;
+  background: white !important;
+  border-radius: 50% !important;
+  transition: all var(--pf-transition-normal) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.spellbook-layout .wow-toggle-button.active .wow-toggle-slider {
+  left: 24px !important;
+}
+
+.spellbook-layout .wow-toggle-value {
+  font-weight: var(--pf-font-semibold) !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: var(--pf-brown-darkest) !important;
+}
+
 /* Effect Selector Cleanup */
 .spellbook-layout .wow-effect-selector {
   background: var(--pf-gradient-parchment-light) !important;

@@ -690,7 +690,7 @@
   width: 100%;
 }
 
-.pf-toggle-button {
+.pf-toggle-option {
   display: flex;
   align-items: center;
   gap: var(--pf-space-2, 10px);
@@ -710,7 +710,7 @@
   overflow: hidden;
 }
 
-.pf-toggle-button::before {
+.pf-toggle-option::before {
   content: '';
   position: absolute;
   top: 0;
@@ -721,17 +721,17 @@
   transition: left 0.3s ease;
 }
 
-.pf-toggle-button:hover::before {
+.pf-toggle-option:hover::before {
   left: 100%;
 }
 
-.pf-toggle-button:hover {
+.pf-toggle-option:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-color: #b8a085;
 }
 
-.pf-toggle-button.pf-toggle-active {
+.pf-toggle-active {
   background: linear-gradient(145deg, #dc2626 0%, #b91c1c 100%);
   border-color: #991b1b;
   color: #ffffff;
@@ -739,7 +739,7 @@
   font-weight: 600;
 }
 
-.pf-toggle-button.pf-toggle-active:hover {
+.pf-toggle-active:hover {
   box-shadow: 0 3px 6px rgba(139, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
 }
@@ -759,7 +759,7 @@
   transition: all 0.2s ease;
 }
 
-.pf-toggle-button.pf-toggle-active .pf-toggle-icon {
+.pf-toggle-active .pf-toggle-icon {
   background: rgba(255, 255, 255, 0.25);
   border-color: #ffffff;
   color: #ffffff;
@@ -1040,7 +1040,6 @@
 /* Pathfinder Tab Groups */
 .pf-tab-group {
   display: flex;
-  gap: 0;
   margin-bottom: var(--pf-space-4, 16px);
   border-radius: var(--pf-border-radius, 8px);
   overflow: hidden;

@@ -67,6 +67,13 @@ const TARGETING_TYPES = [
 
 const AOE_SHAPES = [
     {
+      id: 'none',
+      name: 'None',
+      description: 'No area of effect - single point impact',
+      icon: 'inv_misc_questionmark',
+      parameterType: 'none'
+    },
+    {
       id: 'circle',
       name: 'Circle',
       description: 'Affects all targets within a circular area',

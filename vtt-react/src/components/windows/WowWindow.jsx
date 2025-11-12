@@ -23,6 +23,7 @@ const WowWindow = forwardRef(({
     centered = false,
     bounds = "body",
     onDrag = null,
+    onResize = null,
     className = "",
     resizable = true,
     minConstraints = [300, 400],
@@ -164,18 +165,25 @@ const WowWindow = forwardRef(({
         }
     }, [isDragging, windowId, bringToFront]);
 
-    // Handle resize - only when not dragging
+    // Handle resize
     const handleResize = (event, { size }) => {
-        if (!isDragging) {
-            setWindowSize({
-                width: size.width,
-                height: size.height
-            });
+        setWindowSize({
+            width: size.width,
+            height: size.height
+        });
+        // Notify parent component of resize
+        if (onResize) {
+            onResize(size);
         }
     };
 
     // Handle drag start/stop to prevent resize conflicts
     const handleDragStart = useCallback(() => {
+        // Don't allow window dragging if an item is being dragged
+        if (window.isDraggingItem) {
+            return;
+        }
+
         setIsDragging(true);
         // Bring window to front when drag starts
         const newZIndex = bringToFront(windowId);

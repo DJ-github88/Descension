@@ -144,6 +144,34 @@ const Step4LootTable = () => {
     }
   };
 
+  // Normalize currency amounts (100 = 1 of next currency)
+  const normalizeCurrency = (currency) => {
+    let { platinum, gold, silver, copper } = currency;
+
+    // Convert copper to silver if >= 100
+    if (copper >= 100) {
+      const silverFromCopper = Math.floor(copper / 100);
+      silver += silverFromCopper;
+      copper = copper % 100;
+    }
+
+    // Convert silver to gold if >= 100
+    if (silver >= 100) {
+      const goldFromSilver = Math.floor(silver / 100);
+      gold += goldFromSilver;
+      silver = silver % 100;
+    }
+
+    // Convert gold to platinum if >= 100
+    if (gold >= 100) {
+      const platinumFromGold = Math.floor(gold / 100);
+      platinum += platinumFromGold;
+      gold = gold % 100;
+    }
+
+    return { platinum, gold, silver, copper };
+  };
+
   // Handle currency preset randomization
   const handleCurrencyRandomize = (preset) => {
     const { min, max } = currencyPresets[preset];
@@ -151,10 +179,22 @@ const Step4LootTable = () => {
     dispatch(wizardActionCreators.setLootTable({
       ...wizardState.lootTable,
       currency: {
-        platinum: { min: min.platinum, max: max.platinum },
-        gold: { min: min.gold, max: max.gold },
-        silver: { min: min.silver, max: max.silver },
-        copper: { min: min.copper, max: max.copper }
+        platinum: {
+          min: normalizeCurrency(min).platinum,
+          max: normalizeCurrency(max).platinum
+        },
+        gold: {
+          min: normalizeCurrency(min).gold,
+          max: normalizeCurrency(max).gold
+        },
+        silver: {
+          min: normalizeCurrency(min).silver,
+          max: normalizeCurrency(max).silver
+        },
+        copper: {
+          min: normalizeCurrency(min).copper,
+          max: normalizeCurrency(max).copper
+        }
       }
     }));
   };
@@ -469,7 +509,6 @@ const Step4LootTable = () => {
         <div className="loot-section">
           <h3>Currency Drops</h3>
           <div className="currency-inputs">
-            <div className="currency-input-group">
               <label>Currency Range</label>
               <p className="currency-help">Format: "1p 3g 4s 52c" (platinum, gold, silver, copper)</p>
 
@@ -543,6 +582,12 @@ const Step4LootTable = () => {
                     )}
                     onChange={(e) => handleCurrencyChange('min', e.target.value)}
                   />
+                  <div className="currency-indicators">
+                    <div className="currency-indicator platinum" title="Platinum"></div>
+                    <div className="currency-indicator gold" title="Gold"></div>
+                    <div className="currency-indicator silver" title="Silver"></div>
+                    <div className="currency-indicator copper" title="Copper"></div>
+                  </div>
                 </div>
                 <div className="range-input">
                   <span>Max:</span>
@@ -557,9 +602,14 @@ const Step4LootTable = () => {
                     )}
                     onChange={(e) => handleCurrencyChange('max', e.target.value)}
                   />
+                  <div className="currency-indicators">
+                    <div className="currency-indicator platinum" title="Platinum"></div>
+                    <div className="currency-indicator gold" title="Gold"></div>
+                    <div className="currency-indicator silver" title="Silver"></div>
+                    <div className="currency-indicator copper" title="Copper"></div>
+                  </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
 

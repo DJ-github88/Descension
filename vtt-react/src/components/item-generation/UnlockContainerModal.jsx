@@ -4,6 +4,7 @@ import useItemStore from '../../store/itemStore';
 import '../../styles/unlock-container-modal.css';
 
 const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose }) => {
+
     const [input, setInput] = useState('');
     const [guessedLetters, setGuessedLetters] = useState(new Set());
     const [error, setError] = useState('');
@@ -59,6 +60,8 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     }, []);
 
     const handleKeyPress = (e) => {
+        if (!container?.containerProperties) return;
+
         if (container.containerProperties.lockType === 'code') {
             // For word-based locks, only accept letters
             if (/^[a-zA-Z]$/.test(e.key)) {
@@ -81,6 +84,8 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     };
 
     const handleNumericSubmit = () => {
+        if (!container?.containerProperties) return;
+
         const newAttempts = attempts + 1;
         setAttempts(newAttempts);
 
@@ -97,6 +102,8 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     };
 
     const checkWordProgress = (newLetter) => {
+        if (!container?.containerProperties) return;
+
         const targetWord = container.containerProperties.lockCode;
         const newGuessedLetters = new Set([...guessedLetters, newLetter]);
 
@@ -120,6 +127,8 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     };
 
     const handleFailure = () => {
+        if (!container?.containerProperties) return;
+
         const { failureAction, failureActionDetails } = container.containerProperties;
 
         switch (failureAction) {
@@ -163,6 +172,8 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     };
 
     const handleSubmit = () => {
+        if (!container?.containerProperties) return;
+
         if (container.containerProperties.lockType === 'thievery') {
             const newAttempts = attempts + 1;
             setAttempts(newAttempts);
@@ -185,6 +196,8 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     };
 
     const renderWordDisplay = () => {
+        if (!container?.containerProperties) return null;
+
         const word = container.containerProperties.lockCode;
         return (
             <div className="word-display">
@@ -205,6 +218,8 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
     };
 
     const renderGuessedLetters = () => {
+        if (!container?.containerProperties) return null;
+
         const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const uniqueLetters = new Set([...container.containerProperties.lockCode.replace(/\s/g, '')]);
 
@@ -237,6 +252,25 @@ const UnlockContainerModal = ({ container, onSuccess: originalOnSuccess, onClose
             </div>
         );
     };
+
+    // Guard against missing containerProperties
+    if (!container?.containerProperties) {
+        console.error('❌ UnlockContainerModal: containerProperties missing for:', container?.name);
+        return createPortal(
+            <div className="unlock-container-overlay" onClick={onClose}>
+                <div className="unlock-container-modal" onClick={e => e.stopPropagation()}>
+                    <div className="modal-header">
+                        <h3>Error</h3>
+                        <button className="close-button" onClick={onClose}>×</button>
+                    </div>
+                    <div className="modal-content">
+                        <p>Container properties are missing. Please try again.</p>
+                    </div>
+                </div>
+            </div>,
+            document.body
+        );
+    }
 
     return createPortal(
         <div className="unlock-container-overlay" onClick={onClose}>

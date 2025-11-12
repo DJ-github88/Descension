@@ -1382,16 +1382,11 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
           {(buffConfig.durationType === 'turns' || buffConfig.durationType === 'rounds' || buffConfig.durationType === 'time') && (
             <div className="pf-config-option">
               <div className="pf-toggle-group">
-                <div className="pf-toggle-option">
-                  <button
-                    className={`pf-toggle-button ${buffConfig.concentrationRequired ? 'pf-toggle-active' : ''}`}
-                    onClick={() => updateBuffConfig('concentrationRequired', !buffConfig.concentrationRequired)}
-                  >
-                    <div className="pf-toggle-icon">
-                      {buffConfig.concentrationRequired ? '✓' : ''}
-                    </div>
-                    <span>Requires Concentration</span>
-                  </button>
+                <div className={`pf-toggle-option ${buffConfig.concentrationRequired ? 'pf-toggle-active' : ''}`} onClick={() => updateBuffConfig('concentrationRequired', !buffConfig.concentrationRequired)}>
+                  <div className="pf-toggle-icon">
+                    {buffConfig.concentrationRequired ? '✓' : ''}
+                  </div>
+                  <span>Requires Concentration</span>
                 </div>
               </div>
             </div>

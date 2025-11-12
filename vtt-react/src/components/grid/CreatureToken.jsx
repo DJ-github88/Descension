@@ -1594,11 +1594,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           transform: 'translate(-50%, -50%)',
           pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
           borderRadius: '50%',
-          border: `3px solid ${isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder)}`,
+          border: `3px solid ${creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder)}`,
           overflow: 'hidden',
           opacity: isGreyedOut ? 0.4 : 1, // Greyed out when in explored but not visible
           filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas
-          boxShadow: isViewingFrom
+          boxShadow: creature.isShopkeeper
+            ? '0 0 20px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
+            : isViewingFrom
             ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
             : isMyTurn
             ? '0 0 20px rgba(255, 215, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
@@ -1626,12 +1628,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           }}
         ></div>
 
-        {/* Shop Indicator */}
-        {creature.isShopkeeper && (
-          <div className="shop-indicator" title="Shopkeeper">
-            <i className="fas fa-store"></i>
-          </div>
-        )}
 
         {/* Health bar removed - health is visible in HUD and hover tooltip */}
 

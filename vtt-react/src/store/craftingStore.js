@@ -1,18 +1,18 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// Pathfinder-style skill levels (10 levels)
+// Pathfinder-style skill levels (10 levels) with experience requirements
 export const SKILL_LEVELS = {
-  UNTRAINED: { name: 'Untrained', level: 0, bonus: 0 },
-  NOVICE: { name: 'Novice', level: 1, bonus: 1 },
-  APPRENTICE: { name: 'Apprentice', level: 2, bonus: 2 },
-  JOURNEYMAN: { name: 'Journeyman', level: 3, bonus: 3 },
-  EXPERT: { name: 'Expert', level: 4, bonus: 4 },
-  ADEPT: { name: 'Adept', level: 5, bonus: 5 },
-  MASTER: { name: 'Master', level: 6, bonus: 6 },
-  GRANDMASTER: { name: 'Grandmaster', level: 7, bonus: 7 },
-  LEGENDARY: { name: 'Legendary', level: 8, bonus: 8 },
-  MYTHIC: { name: 'Mythic', level: 9, bonus: 9 }
+  UNTRAINED: { name: 'Untrained', level: 0, bonus: 0, experienceRequired: 0 },
+  NOVICE: { name: 'Novice', level: 1, bonus: 1, experienceRequired: 50 },
+  APPRENTICE: { name: 'Apprentice', level: 2, bonus: 2, experienceRequired: 125 },
+  JOURNEYMAN: { name: 'Journeyman', level: 3, bonus: 3, experienceRequired: 225 },
+  EXPERT: { name: 'Expert', level: 4, bonus: 4, experienceRequired: 350 },
+  ADEPT: { name: 'Adept', level: 5, bonus: 5, experienceRequired: 500 },
+  MASTER: { name: 'Master', level: 6, bonus: 6, experienceRequired: 675 },
+  GRANDMASTER: { name: 'Grandmaster', level: 7, bonus: 7, experienceRequired: 875 },
+  LEGENDARY: { name: 'Legendary', level: 8, bonus: 8, experienceRequired: 1100 },
+  MYTHIC: { name: 'Mythic', level: 9, bonus: 9, experienceRequired: 1350 }
 };
 
 // Crafting professions
@@ -96,6 +96,12 @@ const initialState = {
     acc[professionId] = SKILL_LEVELS.UNTRAINED.level;
     return acc;
   }, {}),
+
+  // Player's profession experience points
+  professionExperience: Object.keys(PROFESSIONS).reduce((acc, professionId) => {
+    acc[professionId] = 0; // Start with 0 experience
+    return acc;
+  }, {}),
   
   // Known recipes by profession
   knownRecipes: Object.keys(PROFESSIONS).reduce((acc, professionId) => {
@@ -128,6 +134,7 @@ const initialState = {
       ],
       craftingTime: 5000, // 5 seconds
       experienceGained: 1,
+      craftingTimeDisplay: '5 sec',
       category: 'healing'
     },
     {
@@ -136,7 +143,7 @@ const initialState = {
       profession: 'alchemy',
       description: 'A basic mana potion that restores a small amount of mana.',
       requiredLevel: 1, // Apprentice level
-      resultItemId: 'minor-mana-potion',
+      resultItemId: 'mana-potion',
       resultIcon: 'inv_potion_76',
       resultQuantity: 1,
       materials: [
@@ -147,6 +154,7 @@ const initialState = {
       ],
       craftingTime: 5000, // 5 seconds
       experienceGained: 2,
+      craftingTimeDisplay: '5 sec',
       category: 'mana'
     },
     {
@@ -167,6 +175,7 @@ const initialState = {
       ],
       craftingTime: 8000, // 8 seconds
       experienceGained: 4,
+      craftingTimeDisplay: '8 sec',
       category: 'enhancement'
     },
     {
@@ -186,6 +195,7 @@ const initialState = {
       ],
       craftingTime: 8000, // 8 seconds
       experienceGained: 3,
+      craftingTimeDisplay: '8 sec',
       category: 'healing'
     },
     {
@@ -205,6 +215,7 @@ const initialState = {
       ],
       craftingTime: 10000, // 10 seconds
       experienceGained: 5,
+      craftingTimeDisplay: '10 sec',
       category: 'enhancement'
     },
     {
@@ -224,6 +235,7 @@ const initialState = {
       ],
       craftingTime: 7000, // 7 seconds
       experienceGained: 3,
+      craftingTimeDisplay: '7 sec',
       category: 'utility'
     },
     {
@@ -244,6 +256,7 @@ const initialState = {
       ],
       craftingTime: 12000, // 12 seconds
       experienceGained: 7,
+      craftingTimeDisplay: '12 sec',
       category: 'enhancement'
     }
   ],
@@ -271,8 +284,57 @@ const useCraftingStore = create(
         const { professionLevels } = get();
         return professionLevels[professionId] || SKILL_LEVELS.UNTRAINED.level;
       },
-      
-      // Set profession level
+
+      // Get profession experience
+      getProfessionExperience: (professionId) => {
+        const { professionExperience } = get();
+        return professionExperience[professionId] || 0;
+      },
+
+      // Get experience required for next level
+      getExperienceForNextLevel: (professionId) => {
+        const currentLevel = get().getProfessionLevel(professionId);
+        if (currentLevel >= 9) return null; // Max level reached
+
+        const nextLevel = currentLevel + 1;
+        const skillLevel = Object.values(SKILL_LEVELS).find(level => level.level === nextLevel);
+        return skillLevel ? skillLevel.experienceRequired : null;
+      },
+
+      // Gain experience and potentially level up
+      gainExperience: (professionId, experienceGained) => {
+        const currentLevel = get().getProfessionLevel(professionId);
+        const currentExperience = get().getProfessionExperience(professionId);
+
+        // If already at max level, don't gain experience
+        if (currentLevel >= 9) return;
+
+        const newExperience = currentExperience + experienceGained;
+
+        // Check if we leveled up
+        const nextLevelExpRequired = get().getExperienceForNextLevel(professionId);
+        let newLevel = currentLevel;
+
+        if (nextLevelExpRequired !== null && newExperience >= nextLevelExpRequired) {
+          newLevel = currentLevel + 1;
+        }
+
+        set(state => ({
+          professionExperience: {
+            ...state.professionExperience,
+            [professionId]: newExperience
+          },
+          professionLevels: {
+            ...state.professionLevels,
+            [professionId]: newLevel
+          }
+        }));
+
+        // Return the new level for notifications
+        return { newLevel, leveledUp: newLevel > currentLevel };
+      },
+
+      // Set profession level (legacy function, now uses experience)
       setProfessionLevel: (professionId, level) => {
         set(state => ({
           professionLevels: {
@@ -345,20 +407,31 @@ const useCraftingStore = create(
       
       // Add item to crafting queue
       addToCraftingQueue: (craftingItem) => {
+        const newId = Date.now().toString();
         set(state => ({
           craftingQueue: [...state.craftingQueue, {
             ...craftingItem,
-            id: Date.now().toString(),
-            startTime: Date.now(),
-            status: 'in_progress'
+            id: newId,
+            startTime: craftingItem.startTime || null,
+            status: craftingItem.status || 'queued'
           }]
         }));
+        return newId; // Return the new item ID
       },
       
       // Remove item from crafting queue
       removeFromCraftingQueue: (craftingId) => {
         set(state => ({
           craftingQueue: state.craftingQueue.filter(item => item.id !== craftingId)
+        }));
+      },
+
+      // Update crafting queue item status
+      updateCraftingQueueItem: (craftingId, updates) => {
+        set(state => ({
+          craftingQueue: state.craftingQueue.map(item =>
+            item.id === craftingId ? { ...item, ...updates } : item
+          )
         }));
       },
       

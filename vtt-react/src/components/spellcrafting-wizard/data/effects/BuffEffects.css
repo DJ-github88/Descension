@@ -316,12 +316,6 @@
 .pf-toggle-option {
   display: flex;
   align-items: center;
-  width: 100%;
-}
-
-.pf-toggle-button {
-  display: flex;
-  align-items: center;
   gap: var(--pf-space-2, 10px);
   padding: var(--pf-space-2, 10px) var(--pf-space-3, 14px);
   background: linear-gradient(145deg, #f5f1e8 0%, #ebe6d8 100%);
@@ -340,7 +334,7 @@
   overflow: hidden;
 }
 
-.pf-toggle-button::before {
+.pf-toggle-option::before {
   content: '';
   position: absolute;
   top: 0;
@@ -351,7 +345,7 @@
   transition: left 0.3s ease;
 }
 
-.pf-toggle-button:hover::before {
+.pf-toggle-option:hover::before {
   left: 100%;
 }
 
@@ -363,7 +357,7 @@
   font-weight: 600;
 }
 
-.pf-toggle-button:hover {
+.pf-toggle-option:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-color: #b8a085;

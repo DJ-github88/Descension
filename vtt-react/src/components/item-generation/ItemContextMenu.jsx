@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import useItemStore from '../../store/itemStore';
 import ConfirmationDialog from './ConfirmationDialog';
-import UnlockContainerModal from './UnlockContainerModal';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 
-const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item, onShowCategorizeModal }) => {
+const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item, onShowCategorizeModal, onShowUnlockModal }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [error, setError] = useState(null);
     const removeItem = useItemStore(state => state.removeItem);
+    const updateItem = useItemStore(state => state.updateItem);
     const toggleContainerOpen = useItemStore(state => state.toggleContainerOpen);
     const openContainers = useItemStore(state => state.openContainers);
     const items = useItemStore(state => state.items);
@@ -30,6 +29,7 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
         }
     }, [item, itemId, items]);
 
+
     // Close the context menu if there's an error
     useEffect(() => {
         if (error) {
@@ -50,6 +50,31 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
 
     const isOpen = item && item.id && openContainersSet.has(item.id);
     const isLocked = item?.containerProperties?.isLocked || false;
+
+    // Ensure container has proper containerProperties if it's a container
+    if (isContainer && !item.containerProperties) {
+        // Initialize default containerProperties to ensure proper functionality
+        const defaultContainerProperties = {
+            gridSize: { rows: 4, cols: 6 },
+            items: [],
+            isLocked: false,
+            lockType: 'none',
+            lockDC: 0,
+            lockCode: '',
+            flavorText: '',
+            maxAttempts: 3,
+            failureAction: 'none',
+            failureActionDetails: {}
+        };
+
+        // Update the item in the store with default containerProperties
+        updateItem(item.id, {
+            ...item,
+            containerProperties: defaultContainerProperties
+        });
+
+    }
+
 
     const handleDelete = () => {
         if (!item || !itemId) {
@@ -86,13 +111,18 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
             }
 
             if (isLocked) {
-                setShowUnlockModal(true);
+                onShowUnlockModal(item);
+                onClose(); // Close context menu immediately since modal is handled by parent
             } else {
                 // Safely toggle container open state
                 try {
                     toggleContainerOpen(item.id);
-                    onClose();
+                    // Delay closing the context menu slightly to allow container opening to complete
+                    setTimeout(() => {
+                        onClose();
+                    }, 100);
                 } catch (toggleError) {
+                    console.error('Error opening container:', toggleError);
                     // Fallback implementation if the store function fails
                     const newOpenContainers = new Set(
                         Array.isArray(openContainers) ? openContainers : Array.from(openContainersSet)
@@ -106,7 +136,10 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
 
                     // Update the store manually
                     useItemStore.setState({ openContainers: newOpenContainers });
-                    onClose();
+                    // Delay closing the context menu slightly to allow container opening to complete
+                    setTimeout(() => {
+                        onClose();
+                    }, 100);
                 }
             }
         } catch (err) {
@@ -115,41 +148,6 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
         }
     };
 
-    const handleUnlockSuccess = () => {
-        try {
-            if (!item || !item.id) {
-                throw new Error('Invalid item data');
-            }
-
-            // Safely toggle container open state
-            try {
-                toggleContainerOpen(item.id);
-                setShowUnlockModal(false);
-                onClose();
-            } catch (toggleError) {
-                console.error('Error toggling container after unlock:', toggleError);
-                // Fallback implementation if the store function fails
-                const newOpenContainers = new Set(
-                    Array.isArray(openContainers) ? openContainers : Array.from(openContainersSet)
-                );
-
-                if (newOpenContainers.has(item.id)) {
-                    newOpenContainers.delete(item.id);
-                } else {
-                    newOpenContainers.add(item.id);
-                }
-
-                // Update the store manually
-                useItemStore.setState({ openContainers: newOpenContainers });
-                setShowUnlockModal(false);
-                onClose();
-            }
-        } catch (err) {
-            console.error('Error unlocking container:', err);
-            setError('Error unlocking container');
-            setShowUnlockModal(false);
-        }
-    };
 
     // Build menu items array for UnifiedContextMenu
     const menuItems = [];
@@ -239,13 +237,6 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
                 />
             )}
 
-            {showUnlockModal && item && (
-                <UnlockContainerModal
-                    container={item}
-                    onSuccess={handleUnlockSuccess}
-                    onClose={() => setShowUnlockModal(false)}
-                />
-            )}
         </>
     );
 };

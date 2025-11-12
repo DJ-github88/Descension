@@ -6,6 +6,8 @@ import RulesPage from '../rules/RulesPage';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, isAuthenticated, user }) => {
+  console.log('🎯 LandingPage component rendered!', { isAuthenticated, user });
+
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
@@ -198,12 +200,13 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const mapImagePath = `${process.env.PUBLIC_URL || ''}/assets/images/backgrounds/Mythril.jpeg`;
   
   return (
-    <div 
-      className="landing-page map-background"
-      style={{
-        '--map-background-url': `url("${mapImagePath}")`
-      }}
-    >
+    <>
+      <div
+        className="landing-page map-background"
+        style={{
+          '--map-background-url': `url("${mapImagePath}")`
+        }}
+      >
       <header className="landing-header">
         <div className="header-content">
           <div className="logo">
@@ -301,7 +304,8 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         isOpen={showCommunity}
         onClose={() => setShowCommunity(false)}
       />
-    </div>
+      </div>
+    </>
   );
 };
 

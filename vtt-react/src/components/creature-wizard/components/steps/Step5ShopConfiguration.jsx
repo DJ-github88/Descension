@@ -124,22 +124,23 @@ const Step5ShopConfiguration = () => {
   // Helper function to calculate total copper value
   const calculateTotalCopper = (price) => {
     if (!price) return 0;
-    return (price.gold || 0) * 10000 + (price.silver || 0) * 100 + (price.copper || 0);
+    return (price.platinum || 0) * 1000000 + (price.gold || 0) * 10000 + (price.silver || 0) * 100 + (price.copper || 0);
   };
   
   // Calculate merchant markup price (175% of base value to prevent exploitation)
   const calculateMerchantPrice = (item, markupPercent = 175) => {
-    if (!item.value) return { gold: 0, silver: 1, copper: 0 };
+    if (!item.value) return { platinum: 0, gold: 0, silver: 1, copper: 0 };
 
     const calculateTotalCopper = (currency) => {
-      return (currency.gold || 0) * 10000 + (currency.silver || 0) * 100 + (currency.copper || 0);
+      return (currency.platinum || 0) * 1000000 + (currency.gold || 0) * 10000 + (currency.silver || 0) * 100 + (currency.copper || 0);
     };
 
     const totalCopper = calculateTotalCopper(item.value);
     const merchantCopper = Math.floor(totalCopper * (markupPercent / 100));
 
     return {
-      gold: Math.floor(merchantCopper / 10000),
+      platinum: Math.floor(merchantCopper / 1000000),
+      gold: Math.floor((merchantCopper % 1000000) / 10000),
       silver: Math.floor((merchantCopper % 10000) / 100),
       copper: merchantCopper % 100
     };
@@ -149,6 +150,7 @@ const Step5ShopConfiguration = () => {
   const handleAddItem = (item) => {
     const shopItem = {
       itemId: item.id,
+      iconId: item.iconId,
       customPrice: calculateMerchantPrice(item),
       quantity: 1
     };
@@ -173,6 +175,7 @@ const Step5ShopConfiguration = () => {
     selectedItems.forEach(item => {
       const shopItem = {
         itemId: item.id,
+        iconId: item.iconId,
         customPrice: calculateMerchantPrice(item),
         quantity: 1
       };
@@ -254,20 +257,28 @@ const Step5ShopConfiguration = () => {
 
   return (
     <div className="wizard-step shop-configuration-step">
-      <h2>Shop Configuration</h2>
-      <p>Configure this creature as a shopkeeper with items for sale.</p>
-      
+      <h2>Merchant Configuration</h2>
+      <p>Configure this creature as a merchant with wares for sale.</p>
+      <div style={{ marginBottom: '20px' }}></div>
+
       {/* Shopkeeper Toggle */}
       <div className="form-group">
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            checked={wizardState.isShopkeeper}
-            onChange={(e) => handleShopkeeperToggle(e.target.checked)}
-          />
-          <span className="checkmark"></span>
-          Make this creature a shopkeeper
-        </label>
+        <div style={{ marginBottom: '8px' }}>
+          <label className="checkbox-label" style={{ fontSize: '16px', fontWeight: '600', color: '#5a1e12' }}>
+            <input
+              type="checkbox"
+              checked={wizardState.isShopkeeper}
+              onChange={(e) => handleShopkeeperToggle(e.target.checked)}
+            />
+            <span className="checkbox-custom"></span>
+            Make this creature a merchant
+          </label>
+        </div>
+        <div style={{ marginLeft: '30px', marginBottom: '20px' }}>
+          <span style={{ fontSize: '14px', fontWeight: '400', color: '#6b5b47', lineHeight: '1.4' }}>
+            Enable merchant functionality to allow this creature to buy and sell items with players
+          </span>
+        </div>
       </div>
       
       {wizardState.isShopkeeper && (
@@ -331,7 +342,7 @@ const Step5ShopConfiguration = () => {
             </div>
 
             <div className="category-rates">
-              <h4>Category-Specific Rates</h4>
+              <h3>Category-Specific Rates</h3>
               <p>Set buy rates for each item category. These match the standard item types in the game.</p>
               <div className="form-row">
                 <div className="form-group">
@@ -412,10 +423,10 @@ const Step5ShopConfiguration = () => {
             </div>
           </div>
 
-          {/* Shop Inventory */}
+          {/* Merchant Wares */}
           <div className="shop-inventory-section">
             <div className="section-header">
-              <h3>Shop Inventory</h3>
+              <h3>Merchant Wares</h3>
               <button
                 type="button"
                 className="add-item-btn"
@@ -436,129 +447,114 @@ const Step5ShopConfiguration = () => {
                   if (!item) return null;
 
                   const qualityColor = getQualityColor(item.quality || 'common');
+                  const iconSrc = item.iconId || shopItem.iconId || 'inv_misc_questionmark';
 
                   return (
                     <div key={index} className="shop-item-row">
-                      <div
-                        className="item-icon-wrapper"
-                        onMouseEnter={(e) => handleMouseEnter(e, item)}
-                        onMouseMove={(e) => handleMouseMove(e, item)}
-                        onMouseLeave={handleMouseLeave}
-                      >
+                      <div className="item-left-section">
                         <div
-                          className="item-icon"
-                          style={{
-                            backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
-                            borderColor: qualityColor
-                          }}
-                        />
-                      </div>
-                      
-                      <div className="item-details">
-                        <span className="item-name" style={{ color: qualityColor }}>
-                          {item.name}
-                        </span>
-                        <span className="item-separator">•</span>
-                        <span className="item-type">{item.type}</span>
-                        {item.subtype && (
-                          <>
-                            <span className="item-separator">•</span>
-                            <span className="item-subtype">{item.subtype}</span>
-                          </>
-                        )}
-                        <span className="item-separator">•</span>
-                        <span className="item-quality" style={{ color: qualityColor }}>
-                          {item.quality || 'common'}
-                        </span>
-                      </div>
-                      
-                      <div className="item-right-section">
-                        <div className="price-control">
-                        <label>Price:</label>
-                        <div className="currency-inputs">
-                          <span className="currency-part">
-                            <input
-                              type="number"
-                              min="0"
-                              max="999999"
-                              className="currency-input gold-input"
-                              value={shopItem.customPrice.gold || 0}
-                              onChange={(e) => handlePriceChange(index, 'gold', e.target.value)}
-                              placeholder="0"
-                            />
-                            <img
-                              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_01.jpg"
-                              alt="Gold"
-                              className="currency-coin-small"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23ffd700"/></svg>';
-                              }}
-                            />
-                          </span>
-
-                          <span className="currency-part">
-                            <input
-                              type="number"
-                              min="0"
-                              max="999999"
-                              className="currency-input silver-input"
-                              value={shopItem.customPrice.silver || 0}
-                              onChange={(e) => handlePriceChange(index, 'silver', e.target.value)}
-                              placeholder="0"
-                            />
-                            <img
-                              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_03.jpg"
-                              alt="Silver"
-                              className="currency-coin-small"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23c0c0c0"/></svg>';
-                              }}
-                            />
-                          </span>
-
-                          <span className="currency-part">
-                            <input
-                              type="number"
-                              min="0"
-                              max="999999"
-                              className="currency-input copper-input"
-                              value={shopItem.customPrice.copper || 0}
-                              onChange={(e) => handlePriceChange(index, 'copper', e.target.value)}
-                              placeholder="0"
-                            />
-                            <img
-                              src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_coin_05.jpg"
-                              alt="Copper"
-                              className="currency-coin-small"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23cd7f32"/></svg>';
-                              }}
-                            />
-                          </span>
+                          className="item-icon-wrapper"
+                          onMouseEnter={(e) => handleMouseEnter(e, item)}
+                          onMouseMove={(e) => handleMouseMove(e, item)}
+                          onMouseLeave={handleMouseLeave}
+                        >
+                          <img
+                            className="item-icon"
+                            src={`https://wow.zamimg.com/images/wow/icons/large/${iconSrc}.jpg`}
+                            alt={item.name || 'Item'}
+                            style={{
+                              borderColor: qualityColor
+                            }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIGZpbGw9IiM5ZDlkOWQiIHJ4PSIzIi8+CiAgPHRleHQgeD0iMjUiIHk9IjMwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk88L3RleHQ+Cjwvc3ZnPgo=';
+                            }}
+                          />
                         </div>
+                        <div className="item-info">
+                          <div className="item-name-full">
+                            {item.name}
+                          </div>
+                          <div className="item-secondary-info">
+                            <span className="item-quality-badge" style={{ backgroundColor: qualityColor }}>
+                              {item.quality?.charAt(0).toUpperCase() + item.quality?.slice(1) || 'Common'}
+                            </span>
+                            <span className="item-type-badge">
+                              {item.type?.charAt(0).toUpperCase() + item.type?.slice(1) || 'Misc'}
+                            </span>
+                            {item.requiredLevel && item.requiredLevel > 1 && (
+                              <span className="item-level-badge">
+                                Lv.{item.requiredLevel}
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <div className="quantity-control">
-                          <label>Qty:</label>
+                      </div>
+
+                      <div className="item-controls">
+                        <div className="price-inputs">
+                          <input
+                            type="number"
+                            min="0"
+                            max="999999"
+                            className="currency-input platinum-input"
+                            value={shopItem.customPrice.platinum || 0}
+                            onChange={(e) => handlePriceChange(index, 'platinum', e.target.value)}
+                            placeholder="0"
+                            title="Platinum"
+                          />
+                          <input
+                            type="number"
+                            min="0"
+                            max="999999"
+                            className="currency-input gold-input"
+                            value={shopItem.customPrice.gold || 0}
+                            onChange={(e) => handlePriceChange(index, 'gold', e.target.value)}
+                            placeholder="0"
+                            title="Gold"
+                          />
+                          <input
+                            type="number"
+                            min="0"
+                            max="999999"
+                            className="currency-input silver-input"
+                            value={shopItem.customPrice.silver || 0}
+                            onChange={(e) => handlePriceChange(index, 'silver', e.target.value)}
+                            placeholder="0"
+                            title="Silver"
+                          />
+                          <input
+                            type="number"
+                            min="0"
+                            max="999999"
+                            className="currency-input copper-input"
+                            value={shopItem.customPrice.copper || 0}
+                            onChange={(e) => handlePriceChange(index, 'copper', e.target.value)}
+                            placeholder="0"
+                            title="Copper"
+                          />
+                        </div>
+
+                        <div className="quantity-input">
                           <input
                             type="number"
                             min="1"
                             value={shopItem.quantity}
                             onChange={(e) => handleUpdateShopItem(index, 'quantity', parseInt(e.target.value) || 1)}
+                            placeholder="Qty"
+                            title="Quantity"
                           />
                         </div>
+
+                        <button
+                          type="button"
+                          className="remove-item-btn"
+                          onClick={() => handleRemoveShopItem(index)}
+                          title="Remove item"
+                        >
+                          <i className="fas fa-times"></i>
+                        </button>
                       </div>
-                      
-                      <button
-                        type="button"
-                        className="remove-item-btn"
-                        onClick={() => handleRemoveShopItem(index)}
-                        title="Remove item"
-                      >
-                        <i className="fas fa-trash"></i>
-                      </button>
                     </div>
                   );
                 })}
@@ -677,11 +673,16 @@ const Step5ShopConfiguration = () => {
                     onMouseLeave={handleMouseLeave}
                     title={item.name}
                   >
-                    <div
+                    <img
                       className="item-icon-only"
+                      src={`https://wow.zamimg.com/images/wow/icons/large/${item.iconId || 'inv_misc_questionmark'}.jpg`}
+                      alt={item.name || 'Item'}
                       style={{
-                        backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
                         borderColor: qualityColor
+                      }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNTYiIHZpZXdCb3g9IjAgMCA1NiA1NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iNTYiIGhlaWdodD0iNTYiIGZpbGw9IiM5ZDlkOWQiIHJ4PSI2Ii8+CiAgPHRleHQgeD0iMjgiIHk9IjMzIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk88L3RleHQ+Cjwvc3ZnPgo=';
                       }}
                     />
                     {isSelected && (

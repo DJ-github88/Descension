@@ -129,6 +129,13 @@ const CreatureLibrary = ({ onEdit }) => {
     }
   }, [hoveredCreature]);
 
+  // Update tooltip position when window size changes (when window is resized)
+  useEffect(() => {
+    if (hoveredCreature && window.lastTooltipEvent) {
+      updateTooltipPosition(window.lastTooltipEvent);
+    }
+  }, [windowSize]);
+
   // Component mounted - no logging needed for production
 
   // Filter and sort creatures - memoize to prevent recalculation on every render
@@ -274,7 +281,7 @@ const CreatureLibrary = ({ onEdit }) => {
     setHoveredCreature(null);
   };
 
-  // Update tooltip position - position to the right of the window instead of following cursor
+  // Update tooltip position - position very close to the right of the window
   const updateTooltipPosition = (event) => {
     // Get viewport dimensions
     const viewportWidth = window.innerWidth;
@@ -308,7 +315,7 @@ const CreatureLibrary = ({ onEdit }) => {
       return;
     }
 
-    const margin = 15; // Smaller margin for closer positioning
+    const margin = 5; // Much closer positioning to the window
 
     // Get actual window position and size from store, accounting for scale
     const actualWindowWidth = (windowSize?.width || 1200) * windowScale;

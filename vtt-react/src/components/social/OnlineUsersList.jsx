@@ -21,7 +21,6 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [contextMenu, setContextMenu] = useState(null);
   const [activeTab, setActiveTab] = useState('online'); // 'online', 'friends', 'ignored', or 'party'
-  const [showStatusMenu, setShowStatusMenu] = useState(false);
   const [statusComment, setStatusComment] = useState('');
   const [statusCommentDraft, setStatusCommentDraft] = useState('');
   const [showAddFriendPopup, setShowAddFriendPopup] = useState(false);
@@ -488,137 +487,47 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
 
   // Handle clicks outside status menu to close it
   const handleOutsideClick = (e) => {
-    // Don't close if clicking inside the status menu
-    if (e.target.closest('.status-menu')) {
-      return;
-    }
-    // Close status menu if clicking outside of it
-    if (showStatusMenu && !e.target.closest('.status-setter')) {
-      setShowStatusMenu(false);
-    }
     // Close context menu
     closeContextMenu(e);
   };
 
   return (
     <div className="online-users-list" onClick={handleOutsideClick}>
-      {/* Header with Status Setter and Tabs */}
+      {/* Header with Tabs */}
       <div className="users-list-header">
-        {/* Status Setter */}
-        <div className="status-setter">
-          <button
-            className="status-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log('🖱️ Status button clicked, current status:', currentUserPresence?.status);
-              setShowStatusMenu(!showStatusMenu);
-            }}
-            title={statusComment || "Set your status"}
-          >
-            <span className="status-icon-display">{getStatusIcon(currentUserPresence?.status || 'online')}</span>
-            <span className="status-label">{currentUserPresence?.status || 'online'}</span>
-            <i className="fas fa-chevron-down"></i>
-          </button>
-
-          {showStatusMenu && (
-            <div className="status-menu" onClick={(e) => e.stopPropagation()}>
-              <div className="status-menu-header">Set Status</div>
-              <button
-                className="status-option"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleStatusChange('online');
-                }}
-              >
-                🟢 Online
-              </button>
-              <button
-                className="status-option"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleStatusChange('away');
-                }}
-              >
-                🟡 Away
-              </button>
-              <button
-                className="status-option"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleStatusChange('busy');
-                }}
-              >
-                🔴 Busy
-              </button>
-              <button
-                className="status-option"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleStatusChange('offline');
-                }}
-              >
-                ⚫ Appear Offline
-              </button>
-              <div className="status-comment-section">
-                <label>Status Comment:</label>
-                <input
-                  type="text"
-                  placeholder="Looking for campaign about zombies..."
-                  value={statusCommentDraft}
-                  onChange={(e) => setStatusCommentDraft(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSaveStatusComment();
-                    }
-                  }}
-                  maxLength={100}
-                />
-                <div className="status-comment-footer">
-                  <small>{statusCommentDraft.length}/100</small>
-                  <button
-                    className="save-comment-btn"
-                    onClick={handleSaveStatusComment}
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
 
         <div className="users-tabs">
           <button
             className={`users-tab ${activeTab === 'online' ? 'active' : ''}`}
             onClick={() => setActiveTab('online')}
+            title="Online Users"
           >
             <i className="fas fa-globe"></i>
-            <span>Online</span>
-            <span className="tab-count">({onlineUsers.length})</span>
+            <span className="tab-count">{onlineUsers.length}</span>
           </button>
           <button
             className={`users-tab ${activeTab === 'friends' ? 'active' : ''}`}
             onClick={() => setActiveTab('friends')}
+            title="Friends"
           >
             <i className="fas fa-user-friends"></i>
-            <span>Friends</span>
-            <span className="tab-count">({filteredFriends.length})</span>
+            <span className="tab-count">{filteredFriends.length}</span>
           </button>
           <button
             className={`users-tab ${activeTab === 'ignored' ? 'active' : ''}`}
             onClick={() => setActiveTab('ignored')}
+            title="Ignored Users"
           >
             <i className="fas fa-user-slash"></i>
-            <span>Ignored</span>
-            <span className="tab-count">({ignored.length})</span>
+            <span className="tab-count">{ignored.length}</span>
           </button>
           <button
             className={`users-tab ${activeTab === 'party' ? 'active' : ''}`}
             onClick={() => setActiveTab('party')}
+            title="Party Members"
           >
             <i className="fas fa-users"></i>
-            <span>Party</span>
-            <span className="tab-count">({isInParty ? partyMembers.length : 0})</span>
+            <span className="tab-count">{isInParty ? partyMembers.length : 0}</span>
           </button>
         </div>
       </div>
@@ -674,7 +583,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                     showSessionInfo={true}
                     sessionDisplay={getSessionDisplay(user)}
                     onClick={() => onUserClick?.(user)}
-                    onContextMenu={(e) => !isCurrentUser && handleContextMenu(e, user)}
+                    onContextMenu={(e) => handleContextMenu(e, user)}
                   />
                 );
               })
@@ -1040,6 +949,84 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
                 <i className="fas fa-user-check"></i>
                 Unignore
               </button>
+            </>
+          ) : contextMenu.user.userId === currentUserPresence?.userId ? (
+            <>
+              {/* Status Change Options for Current User */}
+              <div className="context-menu-section">
+                <div className="context-menu-section-header">Change Status</div>
+                <button
+                  className="context-menu-item"
+                  onClick={() => {
+                    handleStatusChange('online');
+                    closeContextMenu();
+                  }}
+                >
+                  <span className="status-icon">🟢</span>
+                  Online
+                </button>
+                <button
+                  className="context-menu-item"
+                  onClick={() => {
+                    handleStatusChange('away');
+                    closeContextMenu();
+                  }}
+                >
+                  <span className="status-icon">🟡</span>
+                  Away
+                </button>
+                <button
+                  className="context-menu-item"
+                  onClick={() => {
+                    handleStatusChange('busy');
+                    closeContextMenu();
+                  }}
+                >
+                  <span className="status-icon">🔴</span>
+                  Busy
+                </button>
+                <button
+                  className="context-menu-item"
+                  onClick={() => {
+                    handleStatusChange('offline');
+                    closeContextMenu();
+                  }}
+                >
+                  <span className="status-icon">⚫</span>
+                  Appear Offline
+                </button>
+              </div>
+
+              {/* Status Comment Section */}
+              <div className="context-menu-section">
+                <div className="context-menu-section-header">Status Comment</div>
+                <input
+                  type="text"
+                  className="context-menu-input"
+                  placeholder="Looking for campaign about zombies..."
+                  value={statusCommentDraft}
+                  onChange={(e) => setStatusCommentDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSaveStatusComment();
+                      closeContextMenu();
+                    }
+                  }}
+                  maxLength={100}
+                />
+                <div className="status-comment-footer">
+                  <small>{statusCommentDraft.length}/100</small>
+                  <button
+                    className="save-comment-btn"
+                    onClick={() => {
+                      handleSaveStatusComment();
+                      closeContextMenu();
+                    }}
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
             </>
           ) : (
             <>

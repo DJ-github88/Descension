@@ -7,9 +7,9 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import ExternalRecipePreview from './ExternalRecipePreview';
 import '../../styles/recipe-wizard.css';
 
-function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecipeDataChange }) {
+function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecipeDataChange, initialData }) {
     const { items: itemLibrary, addItem } = useItemStore();
-    const { addAvailableRecipe } = useCraftingStore();
+    const { addAvailableRecipe, availableRecipes } = useCraftingStore();
     
     const [recipeData, setRecipeData] = useState({
         name: '',
@@ -27,6 +27,9 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
     const [currentStep, setCurrentStep] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [showItemTooltip, setShowItemTooltip] = useState({ visible: false, x: 0, y: 0, item: null });
+
+    // Determine if we're editing an existing recipe
+    const isEditing = !!initialData;
     const [windowPosition, setWindowPosition] = useState({ x: 150, y: 50 });
     const [windowSize, setWindowSize] = useState({ width: 800, height: 600 }); // Smaller window size
     const [craftingTimeUnit, setCraftingTimeUnit] = useState('seconds'); // Time unit for crafting time
@@ -52,6 +55,62 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
             onRecipeDataChange(recipeData);
         }
     }, [isOpen, onRecipeDataChange, recipeData]);
+
+    // Initialize recipe data when editing an existing recipe
+    useEffect(() => {
+        if (initialData && isOpen) {
+            // Find the actual recipe data from the crafting store
+            const recipeId = initialData.recipeId;
+            const existingRecipe = availableRecipes.find(recipe => recipe.id === recipeId);
+
+            if (existingRecipe) {
+                // Load all recipe data from the stored recipe
+                setRecipeData({
+                    name: existingRecipe.name || '',
+                    profession: existingRecipe.profession || '',
+                    description: existingRecipe.description || '',
+                    requiredLevel: existingRecipe.requiredLevel || 0,
+                    resultItemId: existingRecipe.resultItemId || '',
+                    resultQuantity: existingRecipe.resultQuantity || 1,
+                    materials: existingRecipe.materials || [],
+                    craftingTime: existingRecipe.craftingTime || 5000,
+                    experienceGained: existingRecipe.experienceGained || 1,
+                    quality: existingRecipe.quality || initialData.quality || 'uncommon'
+                });
+            } else {
+                // Fallback: Convert item data to recipe data format (for recipes not found in store)
+                const recipeFromItem = {
+                    name: initialData.name?.replace('Recipe: ', '') || '',
+                    profession: initialData.requiredProfession || '',
+                    description: initialData.description || '',
+                    requiredLevel: initialData.requiredLevel || 0,
+                    resultItemId: initialData.recipeId || '',
+                    resultQuantity: 1,
+                    materials: [],
+                    craftingTime: 5000,
+                    experienceGained: 1,
+                    quality: initialData.quality || 'uncommon'
+                };
+                setRecipeData(recipeFromItem);
+            }
+            setCurrentStep(0); // Reset to first step when editing
+        } else if (!initialData && isOpen) {
+            // Reset to default when creating new recipe
+            setRecipeData({
+                name: '',
+                profession: '',
+                description: '',
+                requiredLevel: 0,
+                resultItemId: '',
+                resultQuantity: 1,
+                materials: [],
+                craftingTime: 5000,
+                experienceGained: 1,
+                quality: 'uncommon'
+            });
+            setCurrentStep(0);
+        }
+    }, [initialData, isOpen, availableRecipes]);
 
     // Tooltip handlers (matching item library pattern)
     const handleItemMouseEnter = (e, item) => {
@@ -129,8 +188,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
             id: `${recipeId}-scroll`,
             name: `Recipe: ${recipeData.name}`,
             description: `A scroll containing the formula for brewing ${resultItem?.name || 'Unknown Item'}. Right-click to learn.`,
-            type: 'miscellaneous',
-            subtype: 'recipe',
+            type: 'recipe',
             quality: recipeData.quality || 'uncommon',
             iconId: 'inv_scroll_03',
             value: {
@@ -632,7 +690,7 @@ function RecipeWizard({ isOpen, onClose, onSave, onWindowPositionChange, onRecip
                                 onClick={saveRecipe}
                                 disabled={!canProceed()}
                             >
-                                <span className="nav-btn-text">Create Recipe</span>
+                                <span className="nav-btn-text">{isEditing ? 'Update Recipe' : 'Create Recipe'}</span>
                                 <span className="nav-btn-icon">✓</span>
                             </button>
                         )}

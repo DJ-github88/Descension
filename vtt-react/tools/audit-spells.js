@@ -58,7 +58,7 @@ const VALID_TARGETING_TYPES = ['single', 'multi', 'area', 'ground', 'cone', 'lin
 const VALID_RANGE_TYPES = ['touch', 'ranged', 'sight', 'unlimited', 'self_centered'];
 
 // Expected AOE shapes
-const VALID_AOE_SHAPES = ['circle', 'square', 'rectangle', 'line', 'cone', 'cylinder', 'sphere', 'wall', 'cube'];
+const VALID_AOE_SHAPES = ['none', 'circle', 'square', 'rectangle', 'line', 'cone', 'cylinder', 'sphere', 'wall', 'cube'];
 
 // Expected effect types
 const VALID_EFFECT_TYPES = ['damage', 'healing', 'buff', 'debuff', 'utility', 'control', 'summoning', 'transformation', 'purification', 'restoration'];

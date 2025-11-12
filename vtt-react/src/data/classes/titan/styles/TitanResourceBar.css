@@ -495,9 +495,7 @@
     margin-bottom: 8px;
 }
 
-.tooltip-section:last-child {
-    margin-bottom: 0;
-}
+/* .tooltip-section:last-child consolidated to global styles */
 
 .tooltip-label {
     font-size: 11px;

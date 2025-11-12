@@ -198,18 +198,21 @@
     box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 15px rgba(139, 115, 85, 0.3);
     min-height: fit-content;
     flex: 1; /* Take up available space */
-    /* Removed padding-bottom to prevent excessive bottom space */
 }
 
 .inventory-section-headers {
     display: flex;
     width: 100%;
-    margin-bottom: 2px;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 /* Scope section-header to inventory context only */
 .inventory-section-headers .section-header {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     font-size: 0.9rem;
     font-weight: bold;
@@ -220,9 +223,11 @@
     text-shadow: 0 1px 2px rgba(58, 47, 26, 0.8);
     font-family: 'Bookman Old Style', 'Garamond', serif;
     background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc0 100%);
-    border-radius: 6px 6px 0 0;
+    border-radius: 0;
     border: 1px solid #8b7355;
     border-bottom: 2px solid;
+    margin-bottom: 0px;
+    box-sizing: border-box;
 }
 
 .inventory-section-headers .section-header.normal {
@@ -233,6 +238,7 @@
     flex-basis: calc(100% * 0.3333);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+    border-radius: 6px 0 0 0;
 }
 
 .inventory-section-headers .section-header.encumbered {
@@ -243,6 +249,7 @@
     flex-basis: calc(100% * 0.3333);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+    border-radius: 0;
 }
 
 .inventory-section-headers .section-header.overencumbered {
@@ -253,12 +260,19 @@
     flex-basis: calc(100% * 0.3333);
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+    border-radius: 0 6px 0 0;
 }
 
 .inventory-row {
     display: flex;
     gap: 0px;
     margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.inventory-row:first-of-type {
+    margin-top: -2px; /* Pull up to eliminate gap from header border-bottom */
+    border-top: none;
 }
 
 .inventory-cell {
@@ -506,7 +520,7 @@
     background: rgba(139, 115, 85, 0.1);
     border-radius: 6px;
     border: 1px solid rgba(139, 115, 85, 0.3);
-    margin-top: 8px; /* Reduced margin to prevent excessive spacing */
+    margin-top: 0px; /* Removed to match left/right padding spacing */
 }
 
 

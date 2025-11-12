@@ -82,9 +82,7 @@
   color: #8b7355;
 }
 
-.context-menu-item:last-child {
-  border-bottom: none;
-}
+/* .context-menu-item:last-child consolidated to global styles */
 
 .context-menu-item:hover {
   background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);

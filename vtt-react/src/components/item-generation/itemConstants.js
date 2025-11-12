@@ -29,6 +29,11 @@ export const ITEM_TYPES = {
         icon: 'inv_misc_questionmark',
         description: 'Quest items, reagents, crafting materials, and other special items'
     },
+    recipe: {
+        name: 'Recipe',
+        icon: 'inv_scroll_03',
+        description: 'Scrolls and tomes containing crafting formulas and instructions'
+    },
     currency: {
         name: 'Currency',
         icon: 'inv_misc_coin_04',

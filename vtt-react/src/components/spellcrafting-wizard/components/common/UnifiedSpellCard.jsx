@@ -743,6 +743,8 @@ const UnifiedSpellCard = ({
         return `${parameters.radius || 10}ft sphere`;
       case 'wall':
         return `${parameters.length || 60}ft wall`;
+      case 'none':
+        return '';
       default:
         return shape;
     }
@@ -1031,6 +1033,10 @@ const UnifiedSpellCard = ({
       case 'chain':
         baseText = 'Chain Effect';
         break;
+      case 'self_centered':
+        // For self-centered effects, show as Self with restrictions
+        baseText = 'Self';
+        break;
       case 'self':
         // Don't show "Self" here since it's already shown in the range badge
         // This prevents duplicate "Self" badges
@@ -1103,7 +1109,7 @@ const UnifiedSpellCard = ({
       result += ` (${methodText})`;
     }
     if (restrictionText && targetingType !== 'self') {
-      result += ` - ${restrictionText}`;
+      result += baseText ? ` - ${restrictionText}` : restrictionText;
     }
 
     return result;
@@ -1224,7 +1230,7 @@ const UnifiedSpellCard = ({
           durationText = `${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`;
         } else if (buffData.durationType === 'rest') {
           const restType = buffData.restType || 'long';
-          durationText = `until ${restType} rest`;
+          durationText = `Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`;
         } else if (buffData.durationType === 'minutes') {
           durationText = `${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'}`;
         } else if (buffData.durationType === 'hours') {
@@ -6471,7 +6477,7 @@ const UnifiedSpellCard = ({
             mechanicsParts.push('Permanent');
           } else if (effectData.durationType === 'rest') {
             const restType = effectData.restType || 'long';
-            mechanicsParts.push(`Until ${restType} rest`);
+            mechanicsParts.push(`Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`);
           } else if (effectData.durationType === 'time' && effectData.durationValue && effectData.durationUnit) {
             const unit = effectData.durationUnit === 'minutes' ? 'min' :
                         effectData.durationUnit === 'seconds' ? 'sec' :
@@ -7281,7 +7287,7 @@ const UnifiedSpellCard = ({
             mechanicsParts.push('Until used');
           } else if (effectData.durationType === 'rest') {
             const restType = effectData.restType || 'long';
-            mechanicsParts.push(`Until ${restType} rest`);
+            mechanicsParts.push(`Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`);
           } else if (effectData.durationType === 'time' && effectData.durationValue && effectData.durationUnit) {
             const unit = effectData.durationUnit === 'minutes' ? 'min' :
                         effectData.durationUnit === 'seconds' ? 'sec' :
@@ -9508,10 +9514,18 @@ const UnifiedSpellCard = ({
                     }
                   }
                   
+                  // Extract effect names/descriptions from effect objects
+                  const effectDescriptions = buffData.effects.map(effect => {
+                    if (typeof effect === 'string') return effect;
+                    const baseName = effect.name || 'Unknown effect';
+                    const desc = effect.description ? ` (${effect.description})` : '';
+                    return `${baseName}${desc}`;
+                  });
+
                   buffEffectsToRender.push({
-                    name: 'Buff Effect',
-                    description: durationText || 'Provides beneficial effects',
-                    mechanicsText: buffData.effects.join(' • ')
+                    name: effectDescriptions.join(' • ') + (durationText ? ` - ${durationText}` : ''),
+                    description: '',
+                    mechanicsText: ''
                   });
                 }
 
@@ -9725,8 +9739,8 @@ const UnifiedSpellCard = ({
                             }
 
                             buffEffectsToRender.push({
-                              name: `Stat Enhancement`,
-                              description: finalDescription,
+                              name: `Buff Effect${finalDescription ? ` - ${finalDescription}` : ''}`,
+                              description: '',
                               mechanicsText: finalMechanicsText
                             });
                           }
@@ -9749,6 +9763,7 @@ const UnifiedSpellCard = ({
               // If spell has buff effect type but no config, show a basic effect with duration if available
               if ((hasBuffType || legacyBuffData) && buffEffectsToRender.length === 0) {
                 let mechanicsText = 'Effect details not configured';
+                let effectName = 'Buff Effect';
 
                 // Add duration information if configured
                 if (buffData) {
@@ -9764,7 +9779,7 @@ const UnifiedSpellCard = ({
                       durationText = ` (${durationValue} ${durationValue === 1 ? 'turn' : 'turns'})`;
                     } else if (buffData.durationType === 'rest') {
                       const restType = buffData.restType || 'long';
-                      durationText = ` (until ${restType} rest)`;
+                      durationText = ` (Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest)`;
                     } else if (buffData.durationType === 'minutes') {
                       durationText = ` (${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'})`;
                     } else if (buffData.durationType === 'hours') {
@@ -9791,14 +9806,14 @@ const UnifiedSpellCard = ({
                     }
                   }
 
-                  // If we have duration info, show it instead of "not configured"
+                  // If we have duration info, include it in the name
                   if (durationText) {
-                    mechanicsText = `Duration${durationText}`;
+                    effectName = `Buff Effect - ${durationText.trim().replace(/^\(|\)$/g, '')}`;
                   }
                 }
 
                 buffEffectsToRender.push({
-                  name: 'Buff Effect',
+                  name: effectName,
                   description: 'Provides beneficial effects',
                   mechanicsText: mechanicsText
                 });

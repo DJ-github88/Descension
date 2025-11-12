@@ -185,23 +185,7 @@
   border-left: 4px solid #8b4513;
 }
 
-.retry-btn {
-  padding: 12px 24px;
-  background: linear-gradient(145deg, #d4c4a8 0%, #c4b49d 50%, #b8a082 100%);
-  border: 2px solid #a08c70;
-  border-radius: 8px;
-  color: #3a2f1a;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: 20px;
-}
-
-.retry-btn:hover {
-  background: linear-gradient(145deg, #c4b49d 0%, #b8a082 50%, #a08c70 100%);
-  transform: translateY(-2px);
-}
+/* .retry-btn and .retry-btn:hover consolidated to global styles */
 
 /* Main content areas */
 .community-content {
@@ -513,12 +497,7 @@
   justify-content: center;
 }
 
-.loading-state i {
-  font-size: 48px;
-  margin-bottom: 20px;
-  color: #a08c70;
-  animation: spin 1s linear infinite;
-}
+/* .loading-state i consolidated to global styles */
 
 .loading-state p {
   font-size: 18px;
@@ -543,11 +522,7 @@
   justify-content: center;
 }
 
-.empty-state i {
-  font-size: 48px;
-  margin-bottom: 20px;
-  color: #a08c70;
-}
+/* .empty-state i consolidated to global styles */
 
 .empty-state p {
   font-size: 18px;
@@ -624,28 +599,9 @@
   font-size: 14px;
 }
 
-/* Load More */
-.load-more {
-  text-align: center;
-  margin-top: 30px;
-}
+/* Load More - consolidated to global styles */
 
-.load-more-btn {
-  padding: 12px 24px;
-  background: linear-gradient(145deg, #d4c4a8 0%, #c4b49d 50%, #b8a082 100%);
-  border: 2px solid #a08c70;
-  border-radius: 8px;
-  color: #3a2f1a;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.load-more-btn:hover:not(:disabled) {
-  background: linear-gradient(145deg, #c4b49d 0%, #b8a082 50%, #a08c70 100%);
-  transform: translateY(-2px);
-}
+/* .load-more-btn and .load-more-btn:hover:not(:disabled) consolidated to global styles */
 
 .load-more-btn:disabled {
   opacity: 0.7;

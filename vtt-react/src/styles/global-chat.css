@@ -94,160 +94,7 @@
   z-index: 1000; /* Ensure header and its children appear above content */
 }
 
-/* Status Setter */
-.status-setter {
-  padding: 8px 12px;
-  border-bottom: 1px solid rgba(168, 153, 104, 0.3);
-  position: relative;
-  z-index: 1001; /* Ensure dropdown appears above other content */
-}
 
-.status-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(90, 74, 56, 0.3);
-  border-radius: 6px;
-  color: #3d2817;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.status-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(90, 74, 56, 0.5);
-}
-
-.status-icon-display {
-  font-size: 14px;
-}
-
-.status-label {
-  flex: 1;
-  text-align: left;
-  text-transform: capitalize;
-}
-
-.status-button .fa-chevron-down {
-  font-size: 10px;
-  color: #7a6a54;
-}
-
-.status-menu {
-  position: absolute;
-  top: 100%;
-  left: 12px;
-  right: 12px;
-  margin-top: 4px;
-  background: #fff;
-  border: 2px solid #a89968;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 10000; /* Very high z-index to appear above all other content */
-  overflow: hidden;
-}
-
-.status-menu-header {
-  padding: 10px 12px;
-  background: linear-gradient(to bottom, #f0e6d2, #e8dcc8);
-  border-bottom: 1px solid #d4c4a8;
-  font-weight: 600;
-  font-size: 13px;
-  color: #5a4a38;
-}
-
-.status-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 10px 12px;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #f0e6d2;
-  color: #3d2817;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-align: left;
-}
-
-.status-option:hover {
-  background: #fffef8;
-}
-
-.status-option:last-of-type {
-  border-bottom: none;
-}
-
-.status-comment-section {
-  padding: 12px;
-  background: #faf8f3;
-  border-top: 1px solid #d4c4a8;
-}
-
-.status-comment-section label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #5a4a38;
-}
-
-.status-comment-section input {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #d4c4a8;
-  border-radius: 4px;
-  font-size: 12px;
-  background: #fff;
-  color: #3d2817;
-  font-family: inherit;
-}
-
-.status-comment-section input:focus {
-  outline: none;
-  border-color: #a89968;
-  box-shadow: 0 0 0 2px rgba(168, 153, 104, 0.1);
-}
-
-.status-comment-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 6px;
-}
-
-.status-comment-footer small {
-  font-size: 10px;
-  color: #7a6a54;
-}
-
-.save-comment-btn {
-  padding: 4px 12px;
-  background: linear-gradient(to bottom, #8b7355, #6d5a44);
-  border: 1px solid #5a4a38;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.save-comment-btn:hover {
-  background: linear-gradient(to bottom, #6d5a44, #5a4a38);
-  transform: translateY(-1px);
-}
-
-.save-comment-btn:active {
-  transform: translateY(0);
-}
 
 .status-comment-indicator {
   font-size: 12px;
@@ -286,9 +133,10 @@
   justify-content: center;
   gap: 6px;
   padding: 14px 12px;
-  background: transparent;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(235, 224, 207, 0.1));
   border: none;
   border-bottom: 3px solid transparent;
+  border-right: 1px solid rgba(139, 115, 85, 0.3);
   color: #5a4a38;
   font-size: 14px;
   font-weight: 600;
@@ -296,17 +144,25 @@
   transition: all 0.2s;
   position: relative;
   white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .users-tab:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(235, 224, 207, 0.25));
   color: #3d2817;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .users-tab.active {
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(235, 224, 207, 0.3));
   border-bottom-color: #8b7355;
   color: #3d2817;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 2px 4px rgba(139, 115, 85, 0.2);
+}
+
+/* Remove border from the last tab */
+.users-tab:last-child {
+  border-right: none;
 }
 
 .users-tab i {
@@ -319,17 +175,14 @@
 }
 
 .users-tab .tab-count {
-  font-size: 12px;
-  opacity: 0.8;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
   flex-shrink: 0;
 }
 
-/* Responsive tab text - hide text on very narrow widths, show only icons */
+/* Responsive styling for narrow widths */
 @media (max-width: 400px) {
-  .users-tab span:not(.tab-count) {
-    display: none;
-  }
-
   .users-tab {
     padding: 14px 10px;
     gap: 4px;
@@ -723,9 +576,7 @@
   transition: background 0.2s;
 }
 
-.context-menu-item:last-child {
-  border-bottom: none;
-}
+/* .context-menu-item:last-child consolidated to global styles */
 
 .context-menu-item:hover {
   background: #f5e6d3;

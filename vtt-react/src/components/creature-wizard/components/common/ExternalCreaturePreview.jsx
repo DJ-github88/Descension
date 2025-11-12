@@ -109,13 +109,27 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
   }
 
   // Calculate position with fallback values and live updates - REACTIVE
-  const wizardWidth = (windowSize?.width || 1200) * windowScale;
-  const wizardX = windowPosition?.x || ((window.innerWidth - 1200) / 2);
+  // Use correct width based on activeView (library/wizard = 900px, community = 1100px)
+  const defaultWidth = activeView === 'community' ? 1100 : 900;
+  const wizardWidth = (windowSize?.width || defaultWidth) * windowScale;
+  const wizardX = windowPosition?.x || ((window.innerWidth - defaultWidth) / 2);
   const wizardY = windowPosition?.y || ((window.innerHeight - 800) / 2);
 
+  // Position tooltip very close to the creature window and responsive to width changes
+  const windowRightEdge = (windowPosition?.x || 128) + ((windowSize?.width || 968) * windowScale);
+  const tooltipGap = 10; // Small gap next to window edge
+
+  console.log('Tooltip positioning:', {
+    windowX: windowPosition?.x,
+    windowWidth: windowSize?.width,
+    windowScale,
+    windowRightEdge,
+    tooltipLeft: windowRightEdge + tooltipGap
+  });
+
   const position = {
-    left: wizardX + wizardWidth + 15, // Small gap from creature wizard
-    top: wizardY + 60, // Aligned with content area
+    left: windowRightEdge + tooltipGap, // Overlap window edge slightly
+    top: (windowPosition?.y || 69.5) + 80, // Aligned with window content area
     position: 'fixed',
     zIndex: 99999,
     width: '300px',

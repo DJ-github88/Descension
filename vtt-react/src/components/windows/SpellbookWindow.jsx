@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import WowWindow from './WowWindow';
 import useSpellbookStore from '../../store/spellbookStore';
+import useGameStore from '../../store/gameStore';
 import { LIBRARY_SPELLS } from '../../data/spellLibraryData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import CollectionContextMenu from '../spellcrafting-wizard/components/library/CollectionContextMenu';
@@ -56,6 +57,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
     setWindowPosition,
     setWindowSize
   } = useSpellbookStore();
+  const { isGMMode } = useGameStore();
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Set isLoaded to true after component mounts
@@ -67,9 +69,16 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => {} }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Define tabs for consistent formatting
+  // Redirect players away from wizard tab if they somehow access it
+  useEffect(() => {
+    if (!isGMMode && activeTab === 'wizard') {
+      setActiveTab('library');
+    }
+  }, [isGMMode, activeTab, setActiveTab]);
+
+  // Define tabs for consistent formatting - conditionally show Spell Wizard tab only for GMs
   const tabs = [
-    { id: 'wizard', label: 'Spell Wizard' },
+    ...(isGMMode ? [{ id: 'wizard', label: 'Spell Wizard' }] : []),
     { id: 'library', label: 'Spell Library' },
     { id: 'collections', label: 'Community' }
   ];

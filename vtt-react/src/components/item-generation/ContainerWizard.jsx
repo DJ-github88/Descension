@@ -5,7 +5,7 @@ import useWindowManagerStore from '../../store/windowManagerStore';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../../styles/container-wizard.css';
 
-function ContainerWizard({ onComplete, onCancel }) {
+function ContainerWizard({ onComplete, onCancel, initialData = null, isEditing = false }) {
     // Generate unique window ID
     const windowId = useRef(`container-wizard-${Date.now()}-${Math.random()}`).current;
     const [overlayZIndex, setOverlayZIndex] = useState(2000);
@@ -124,30 +124,62 @@ function ContainerWizard({ onComplete, onCancel }) {
         }
     ];
 
-    const [containerData, setContainerData] = useState({
-        name: containerIcons[0].defaultName,
-        rows: containerIcons[0].defaultRows,
-        cols: containerIcons[0].defaultCols,
-        isLocked: false,
-        lockType: 'none',
-        lockDC: 10,
-        lockCode: '',
-        iconId: containerIcons[0].id,
-        quality: 'common',
-        description: containerIcons[0].defaultDesc,
-        type: 'container',
-        flavorText: '',
-        maxAttempts: 3,
-        failureAction: 'none',
-        failureActionDetails: {
-            removeItems: false,
-            removePercentage: 50,
-            destroyContainer: false,
-            triggerTrap: false,
-            trapDetails: '',
-            transformIntoCreature: false,
-            creatureType: ''
+    const [containerData, setContainerData] = useState(() => {
+        if (initialData) {
+            // When editing, use the initialData but ensure all required fields are present
+            return {
+                name: initialData.name || containerIcons[0].defaultName,
+                rows: initialData.rows || containerIcons[0].defaultRows,
+                cols: initialData.cols || containerIcons[0].defaultCols,
+                isLocked: initialData.isLocked || false,
+                lockType: initialData.lockType || 'none',
+                lockDC: initialData.lockDC || 10,
+                lockCode: initialData.lockCode || '',
+                iconId: initialData.iconId || containerIcons[0].id,
+                quality: initialData.quality || 'common',
+                description: initialData.description || containerIcons[0].defaultDesc,
+                type: 'container',
+                flavorText: initialData.flavorText || '',
+                maxAttempts: initialData.maxAttempts || 3,
+                failureAction: initialData.failureAction || 'none',
+                failureActionDetails: initialData.failureActionDetails || {
+                    removeItems: false,
+                    removePercentage: 50,
+                    destroyContainer: false,
+                    triggerTrap: false,
+                    trapDetails: '',
+                    transformIntoCreature: false,
+                    creatureType: ''
+                }
+            };
         }
+
+        // Default new container
+        return {
+            name: containerIcons[0].defaultName,
+            rows: containerIcons[0].defaultRows,
+            cols: containerIcons[0].defaultCols,
+            isLocked: false,
+            lockType: 'none',
+            lockDC: 10,
+            lockCode: '',
+            iconId: containerIcons[0].id,
+            quality: 'common',
+            description: containerIcons[0].defaultDesc,
+            type: 'container',
+            flavorText: '',
+            maxAttempts: 3,
+            failureAction: 'none',
+            failureActionDetails: {
+                removeItems: false,
+                removePercentage: 50,
+                destroyContainer: false,
+                triggerTrap: false,
+                trapDetails: '',
+                transformIntoCreature: false,
+                creatureType: ''
+            }
+        };
     });
 
     const handleSubmit = () => {
@@ -224,7 +256,7 @@ function ContainerWizard({ onComplete, onCancel }) {
                     style={{ pointerEvents: 'auto' }}
                 >
                     <div className="wizard-header">
-                        <h2>Create Container</h2>
+                        <h2>{isEditing ? 'Edit Container' : 'Create Container'}</h2>
                         <button className="close-button" onClick={onCancel}>×</button>
                     </div>
                     <div className="wizard-content">
@@ -607,7 +639,7 @@ function ContainerWizard({ onComplete, onCancel }) {
                             disabled={!containerData.name || (containerData.isLocked && containerData.lockType === 'code' && !containerData.lockCode)}
                         >
                             <i className="fas fa-plus"></i>
-                            Create Container
+                            {isEditing ? 'Update Container' : 'Create Container'}
                         </button>
                     </div>
                 </div>

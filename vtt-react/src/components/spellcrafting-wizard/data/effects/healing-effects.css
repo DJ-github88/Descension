@@ -688,10 +688,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.draw-count-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+/* .draw-count-button:disabled consolidated to global styles */
 
 .draw-count-input {
   background: linear-gradient(145deg, #f8f5e8 0%, #f0ead6 100%);

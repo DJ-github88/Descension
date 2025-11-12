@@ -29,6 +29,7 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     selectedItemType: 'all',
     selectedQuality: 'all'
   });
+  const [showFilters, setShowFilters] = useState(false);
 
   // Window position state
   const [position, setPosition] = useState({ x: 100, y: 100 });
@@ -826,41 +827,13 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
             </div>
           </div>
 
-          {/* Global Filters - Centered */}
-          <div className="header-filters">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={globalFilters.searchQuery}
-              onChange={(e) => setGlobalFilters(prev => ({ ...prev, searchQuery: e.target.value }))}
-              className="header-filter-input"
-            />
-            <select
-              value={globalFilters.selectedItemType}
-              onChange={(e) => setGlobalFilters(prev => ({ ...prev, selectedItemType: e.target.value }))}
-              className="header-filter-select"
-            >
-              <option value="all">All Types</option>
-              {globalFilterOptions.types.map(type => (
-                <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
-              ))}
-            </select>
-            <select
-              value={globalFilters.selectedQuality}
-              onChange={(e) => setGlobalFilters(prev => ({ ...prev, selectedQuality: e.target.value }))}
-              className="header-filter-select"
-            >
-              <option value="all">All Qualities</option>
-              {globalFilterOptions.qualities.map(quality => (
-                <option key={quality} value={quality}>{quality.charAt(0).toUpperCase() + quality.slice(1)}</option>
-              ))}
-            </select>
+          <div className="header-actions">
             <button
-              onClick={() => setGlobalFilters({ searchQuery: '', selectedItemType: 'all', selectedQuality: 'all' })}
-              className="header-reset-btn"
-              title="Reset filters"
+              onClick={() => setShowFilters(!showFilters)}
+              className={`filter-toggle-btn ${showFilters ? 'active' : ''}`}
+              title="Toggle Filters"
             >
-              <i className="fas fa-times"></i>
+              <i className="fas fa-filter"></i>
             </button>
           </div>
 
@@ -868,6 +841,72 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
             <i className="fas fa-times"></i>
           </button>
         </div>
+
+        {/* Global Filters Popout */}
+        {showFilters && (
+          <div className="filters-popout-overlay" onClick={() => setShowFilters(false)}>
+            <div className="filters-popout" onClick={(e) => e.stopPropagation()}>
+              <div className="filters-popout-header">
+                <h4>Search & Filter Items</h4>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="filters-close-btn"
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
+              <div className="filters-popout-content">
+                <div className="filter-group">
+                  <label className="filter-label">Search Items:</label>
+                  <input
+                    type="text"
+                    placeholder="Type to search..."
+                    value={globalFilters.searchQuery}
+                    onChange={(e) => setGlobalFilters(prev => ({ ...prev, searchQuery: e.target.value }))}
+                    className="popout-filter-input"
+                  />
+                </div>
+                <div className="filter-row">
+                  <div className="filter-group">
+                    <label className="filter-label">Item Type:</label>
+                    <select
+                      value={globalFilters.selectedItemType}
+                      onChange={(e) => setGlobalFilters(prev => ({ ...prev, selectedItemType: e.target.value }))}
+                      className="popout-filter-select"
+                    >
+                      <option value="all">All Types</option>
+                      {globalFilterOptions.types.map(type => (
+                        <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="filter-group">
+                    <label className="filter-label">Quality:</label>
+                    <select
+                      value={globalFilters.selectedQuality}
+                      onChange={(e) => setGlobalFilters(prev => ({ ...prev, selectedQuality: e.target.value }))}
+                      className="popout-filter-select"
+                    >
+                      <option value="all">All Qualities</option>
+                      {globalFilterOptions.qualities.map(quality => (
+                        <option key={quality} value={quality}>{quality.charAt(0).toUpperCase() + quality.slice(1)}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="filters-popout-actions">
+                  <button
+                    onClick={() => setGlobalFilters({ searchQuery: '', selectedItemType: 'all', selectedQuality: 'all' })}
+                    className="filters-reset-btn"
+                  >
+                    <i className="fas fa-undo"></i>
+                    Reset All
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
 
 

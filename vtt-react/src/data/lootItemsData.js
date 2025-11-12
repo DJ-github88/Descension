@@ -16,29 +16,6 @@ export const LOOT_ITEMS = [
   // essence-of-fire is now in the main item store with proper inventory properties
   // fire-crystal is now in the main item store with proper inventory properties
 
-  // Staff of the Archmage
-  {
-    id: 'staff-of-the-archmage',
-    name: 'Staff of the Archmage',
-    type: 'weapon',
-    subtype: 'staff',
-    quality: 'epic',
-    iconId: 'inv_staff_13',
-    description: 'An ancient staff crackling with arcane energy, passed down through generations of elven archmages.',
-    value: { gold: 10, silver: 0 },
-    weaponStats: {
-      baseDamage: {
-        diceCount: 1,
-        diceType: 6,
-        damageType: 'arcane',
-        bonusDamage: 0
-      }
-    },
-    baseStats: {
-      intelligence: 3,
-      spirit: 2
-    }
-  },
 
   // Archmage's Spellbook
   {

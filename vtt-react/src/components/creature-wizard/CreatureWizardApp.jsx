@@ -240,6 +240,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
         isOpen={true}
         activeView={activeView}
       />
+
     </>
   );
 };

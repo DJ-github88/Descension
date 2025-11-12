@@ -59,9 +59,7 @@
     border-bottom: 1px solid rgba(212, 175, 55, 0.2);
 }
 
-.context-menu-item:last-child {
-    border-bottom: none;
-}
+/* .context-menu-item:last-child consolidated to global styles */
 
 .context-menu-item:hover {
     background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);

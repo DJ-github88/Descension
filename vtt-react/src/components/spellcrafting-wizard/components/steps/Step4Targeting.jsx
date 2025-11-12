@@ -2962,7 +2962,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                       <div className="spell-wizard-error">{errors.aoeShape}</div>
                     )}
 
-                    {aoeShape && (
+                    {aoeShape && aoeShape !== 'none' && (
                       <div className="targeting-params">
                         <h4 className="params-title">Shape Parameters</h4>
                         {aoeShape === 'circle' && (

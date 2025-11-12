@@ -273,7 +273,7 @@
 .character-view-content .inventory-section-headers {
   display: flex;
   width: 100%;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
   flex-shrink: 0;
   height: auto;
 }
@@ -281,20 +281,26 @@
 .character-view-content .section-header {
   padding: 6px 0;
   font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
 /* Match header widths to column sections */
 .character-view-content .section-header.normal {
   flex: 0 0 33.333%;
+  border-radius: 6px 0 0 0;
 }
 
 .character-view-content .section-header.encumbered {
   flex: 0 0 33.333%;
+  border-radius: 0;
 }
 
 .character-view-content .section-header.overencumbered {
   flex: 0 0 33.333%;
+  border-radius: 0 6px 0 0;
 }
 
 /* Make inventory rows compact without extra spacing */
@@ -349,7 +355,7 @@
 .character-view-content .inventory-section-headers {
   display: flex;
   width: 100%;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
 }
 
 .character-view-content .section-header {

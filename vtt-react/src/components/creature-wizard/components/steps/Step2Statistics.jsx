@@ -887,8 +887,6 @@ const Step2Statistics = () => {
 
   return (
     <div className="wizard-step">
-      <h2 className="step-title">Statistics</h2>
-
       {/* Tab Navigation */}
       <div className="stats-tabs">
         <button

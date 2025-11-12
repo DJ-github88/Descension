@@ -4,7 +4,6 @@
 .pf-tab-group {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--pf-space-1, 4px);
   margin-bottom: var(--pf-space-4, 16px);
   padding: var(--pf-space-2, 8px);
   background: var(--pf-gradient-parchment-light, linear-gradient(145deg, #f8f4e6 0%, #f0ead6 50%, #ede4d3 100%));
@@ -106,20 +105,18 @@
 .pf-tab-group.horizontal .pf-tab {
   flex: 1;
   border-right: none;
+  margin-right: 12px;
 }
 
 .pf-tab-group.horizontal .pf-tab:not(:last-child) {
   border-right: 1px solid var(--pf-brown-medium, #8B4513);
-  border-radius: var(--pf-border-radius, 8px) 0 0 var(--pf-border-radius, 8px);
+  border-radius: var(--pf-border-radius, 8px);
 }
 
 .pf-tab-group.horizontal .pf-tab:not(:first-child) {
-  border-radius: 0 var(--pf-border-radius, 8px) var(--pf-border-radius, 8px) 0;
+  border-radius: var(--pf-border-radius, 8px);
 }
 
-.pf-tab-group.horizontal .pf-tab:not(:first-child):not(:last-child) {
-  border-radius: 0;
-}
 
 /* Vertical tab group */
 .pf-tab-group.vertical {

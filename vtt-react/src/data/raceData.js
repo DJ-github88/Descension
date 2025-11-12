@@ -49,7 +49,7 @@ export const RACE_DATA = {
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'utility'],
+                        effectTypes: ['buff'],
                         typeConfig: {
                             school: 'frost',
                             secondaryElement: 'cold',
@@ -57,39 +57,22 @@ export const RACE_DATA = {
                             tags: ['resistance', 'cold', 'environmental', 'passive']
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
+                            buffType: 'statEnhancement',
+                            statModifiers: [
                                 {
+                                    id: 'cold_resistance',
                                     name: 'Cold Resistance',
-                                    description: 'Resistance to cold damage (take half damage)',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Take half damage from cold sources'
-                                    }
-                                },
-                                {
-                                    name: 'Exhaustion Resistance',
-                                    description: 'Advantage on saves against exhaustion from harsh weather',
-                                    statusEffect: {
-                                        level: 'minor',
-                                        saveType: 'constitution',
-                                        saveDC: 0,
-                                        saveOutcome: 'negates'
-                                    }
+                                    magnitude: 50,
+                                    magnitudeType: 'percentage',
+                                    category: 'resistance'
                                 }
                             ],
                             durationType: 'permanent',
                             canBeDispelled: false
                         },
-                        utilityConfig: {
-                            utilityType: 'survival',
-                            subtype: 'arctic',
-                            description: 'Can survive in arctic conditions indefinitely without shelter.',
-                            power: 'minor'
-                        },
                         targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                            targetingType: 'single',
+                            rangeType: 'touch'
                         }
                     },
                     {
@@ -222,7 +205,7 @@ export const RACE_DATA = {
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'utility'],
+                        effectTypes: ['buff'],
                         typeConfig: {
                             school: 'frost',
                             secondaryElement: 'cold',
@@ -230,39 +213,22 @@ export const RACE_DATA = {
                             tags: ['resistance', 'cold', 'environmental', 'passive']
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
+                            buffType: 'statEnhancement',
+                            statModifiers: [
                                 {
+                                    id: 'cold_resistance',
                                     name: 'Cold Resistance',
-                                    description: 'Resistance to cold damage (take half damage)',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Take half damage from cold sources'
-                                    }
-                                },
-                                {
-                                    name: 'Exhaustion Resistance',
-                                    description: 'Advantage on saves against exhaustion from harsh weather',
-                                    statusEffect: {
-                                        level: 'minor',
-                                        saveType: 'constitution',
-                                        saveDC: 0,
-                                        saveOutcome: 'negates'
-                                    }
+                                    magnitude: 50,
+                                    magnitudeType: 'percentage',
+                                    category: 'resistance'
                                 }
                             ],
                             durationType: 'permanent',
                             canBeDispelled: false
                         },
-                        utilityConfig: {
-                            utilityType: 'survival',
-                            subtype: 'arctic',
-                            description: 'Can survive in arctic conditions indefinitely without shelter.',
-                            power: 'minor'
-                        },
                         targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                            targetingType: 'single',
+                            rangeType: 'touch'
                         }
                     },
                     {
@@ -2603,8 +2569,8 @@ export const getFullRaceData = (raceId, subraceId) => {
         subrace,
         combinedTraits: {
             ...race.baseTraits,
-            languages: subrace.languages,
-            speed: subrace.speed,
+            languages: subrace.languages || race.baseTraits.languages,
+            speed: subrace.speed || race.baseTraits.baseSpeed,
             statModifiers: subrace.statModifiers,
             traits: subrace.traits
         }

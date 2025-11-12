@@ -260,10 +260,7 @@
 }
 
 /* Load More */
-.load-more {
-  text-align: center;
-  margin-top: 30px;
-}
+/* .load-more consolidated to global styles */
 
 .load-more-btn {
   padding: 12px 24px;

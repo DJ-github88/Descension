@@ -45,8 +45,8 @@ const initialState = {
 
     // Player navigation zoom (separate from GM zoom)
     playerZoom: 1.0,
-    minPlayerZoom: 0.6, // Further increased to prevent grid combining
-    maxPlayerZoom: 4.0,
+    minPlayerZoom: 0.1, // Allow extreme zoom out for overview
+    maxPlayerZoom: 10.0, // Allow extreme zoom in for detail
 
     // Grid rendering settings
     showGrid: true,

@@ -1799,11 +1799,6 @@ export const LIBRARY_CREATURES = [
       },
       items: [
         {
-          itemId: 'staff-of-the-archmage',
-          dropChance: 50,
-          quantity: { min: 1, max: 1 }
-        },
-        {
           itemId: 'archmages-spellbook',
           dropChance: 75,
           quantity: { min: 1, max: 1 }
@@ -1817,34 +1812,6 @@ export const LIBRARY_CREATURES = [
           itemId: 'mage-robe',
           dropChance: 80,
           quantity: { min: 1, max: 1 }
-        },
-        {
-          name: "Staff of the Archmage",
-          type: "weapon",
-          subtype: "staff",
-          quality: "epic",
-          dropChance: 100,
-          iconId: "inv_staff_17",
-          quantity: { min: 1, max: 1 },
-          baseStats: { intelligence: 3, spirit: 2 },
-          weaponStats: {
-            baseDamage: {
-              diceCount: 1,
-              diceType: 6,
-              damageType: "arcane",
-              bonusDamage: 0
-            }
-          },
-          combatStats: {
-            spellDamage: {
-              types: {
-                arcane: { value: 5 },
-                fire: { value: 3 },
-                frost: { value: 3 }
-              }
-            }
-          },
-          description: "An ancient staff crackling with arcane energy, passed down through generations of elven archmages."
         },
         {
           name: "Archmage's Spellbook",

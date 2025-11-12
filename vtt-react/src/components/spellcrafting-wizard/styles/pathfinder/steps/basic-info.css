@@ -474,6 +474,7 @@
   border-radius: var(--pf-border-radius);
   cursor: pointer;
   transition: all var(--pf-transition-normal);
+  text-align: center;
   position: relative;
   min-height: 80px;
 }
@@ -509,6 +510,7 @@
   overflow: hidden;
   border: 2px solid var(--pf-brown-light);
   box-shadow: var(--pf-shadow-sm);
+  margin-bottom: var(--pf-space-2);
 }
 
 .element-icon {
