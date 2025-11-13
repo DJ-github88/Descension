@@ -1,11 +1,59 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { RACE_DATA } from '../../data/raceData';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import './RaceSelector.css';
+
+// Race data loader utility
+const raceDataCache = new Map();
+
+// Lazy load race data - temporarily disabled individual race files due to incomplete data
+const loadRaceData = async (raceId) => {
+  if (raceDataCache.has(raceId)) {
+    return raceDataCache.get(raceId);
+  }
+
+  try {
+    // Load from main raceData.js for now (individual files are incomplete)
+    const { RACE_DATA } = await import('../../data/raceData');
+    const raceData = RACE_DATA[raceId];
+    if (raceData) {
+      raceDataCache.set(raceId, raceData);
+      return raceData;
+    }
+  } catch (error) {
+    console.error(`Failed to load race data for ${raceId}:`, error);
+  }
+
+  return null;
+};
+
+// Get basic race list without full data
+const getRaceList = async () => {
+  try {
+    const { RACE_DATA } = await import('../../data/raceData');
+    return Object.values(RACE_DATA).map(race => ({
+      id: race.id,
+      name: race.name,
+      description: race.description,
+      icon: race.icon,
+      variantCount: Object.keys(race.subraces || {}).length
+    }));
+  } catch (error) {
+    console.error('Failed to load race list:', error);
+    return [];
+  }
+};
+
+// Cache for transformed traits to avoid recomputation
+const traitTransformCache = new Map();
 
 // Transform race trait to spell format expected by UnifiedSpellCard
 const transformTraitToSpell = (trait) => {
   if (!trait) return {};
+
+  const cacheKey = `${trait.id}-${trait.name}`;
+  if (traitTransformCache.has(cacheKey)) {
+    return traitTransformCache.get(cacheKey);
+  }
 
   // Base spell structure
   const spell = {
@@ -616,6 +664,9 @@ const transformTraitToSpell = (trait) => {
     };
   }
 
+  // Cache the transformed spell
+  traitTransformCache.set(cacheKey, spell);
+
   return spell;
 };
 
@@ -705,19 +756,25 @@ const RaceSelector = () => {
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [selectedTrait, setSelectedTrait] = useState(null);
     const [loadedRaceData, setLoadedRaceData] = useState(new Map());
+    const [allRaces, setAllRaces] = useState([]);
+    const [racesLoading, setRacesLoading] = useState(true);
     const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
     const raceGridRef = useRef(null);
 
-    // Create lightweight race list with only essential info for initial display
-    const allRaces = useMemo(() => {
-        return Object.values(RACE_DATA).map(race => ({
-            id: race.id,
-            name: race.name,
-            description: race.description,
-            icon: race.icon,
-            // Include variant count for display
-            variantCount: Object.keys(race.subraces).length
-        }));
+    // Load race list on component mount
+    useEffect(() => {
+        const loadRaces = async () => {
+            try {
+                const raceList = await getRaceList();
+                setAllRaces(raceList);
+                setRacesLoading(false);
+            } catch (error) {
+                console.error('Failed to load race list:', error);
+                setRacesLoading(false);
+            }
+        };
+
+        loadRaces();
     }, []);
 
     // Only show visible races for performance
@@ -732,7 +789,7 @@ const RaceSelector = () => {
 
     // Intersection observer to load more races when approaching the bottom
     useEffect(() => {
-        if (!raceGridRef.current || visibleRaceCount >= allRaces.length) return;
+        if (!raceGridRef.current || visibleRaceCount >= allRaces.length || racesLoading) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -750,7 +807,7 @@ const RaceSelector = () => {
         }
 
         return () => observer.disconnect();
-    }, [visibleRaceCount, allRaces.length, loadMoreRaces]);
+    }, [visibleRaceCount, allRaces.length, loadMoreRaces, racesLoading]);
 
     // Lazy load full race data only when needed
     const raceData = useMemo(() => {
@@ -761,10 +818,14 @@ const RaceSelector = () => {
             return loadedRaceData.get(selectedRace);
         }
 
-        // Load and cache the full race data
-        const fullData = RACE_DATA[selectedRace];
-        setLoadedRaceData(prev => new Map(prev).set(selectedRace, fullData));
-        return fullData;
+        // Trigger async loading
+        loadRaceData(selectedRace).then(fullData => {
+            if (fullData) {
+                setLoadedRaceData(prev => new Map(prev).set(selectedRace, fullData));
+            }
+        });
+
+        return null; // Return null while loading
     }, [selectedRace, loadedRaceData]);
 
     // Memoize variant data to prevent unnecessary lookups
@@ -773,10 +834,35 @@ const RaceSelector = () => {
         [selectedVariant, raceData]
     );
 
-    const handleRaceSelect = (raceId) => {
+    const handleRaceSelect = useCallback((raceId) => {
         setSelectedRace(raceId);
         setSelectedVariant(null); // Reset variant when race changes
-    };
+
+        // Preload adjacent races for better UX
+        const currentIndex = allRaces.findIndex(r => r.id === raceId);
+        if (currentIndex !== -1) {
+            // Preload next and previous races
+            const preloadIndices = [
+                currentIndex - 1,
+                currentIndex + 1,
+                currentIndex - 2,
+                currentIndex + 2
+            ].filter(idx => idx >= 0 && idx < allRaces.length);
+
+            preloadIndices.forEach(idx => {
+                const preloadRaceId = allRaces[idx].id;
+                if (!loadedRaceData.has(preloadRaceId)) {
+                    loadRaceData(preloadRaceId).then(fullData => {
+                        if (fullData) {
+                            setLoadedRaceData(prev => new Map(prev).set(preloadRaceId, fullData));
+                        }
+                    }).catch(() => {
+                        // Silently fail preloading - not critical
+                    });
+                }
+            });
+        }
+    }, [allRaces, loadedRaceData]);
 
     const handleVariantSelect = (variantId) => {
         setSelectedVariant(variantId);
@@ -796,26 +882,34 @@ const RaceSelector = () => {
                 <h3 className="step-title">
                     Select a Race
                 </h3>
-                <div className="race-grid" ref={raceGridRef}>
-                    {races.map(race => (
-                        <RaceCard
-                            key={race.id}
-                            race={race}
-                            isSelected={selectedRace === race.id}
-                            onSelect={handleRaceSelect}
-                        />
-                    ))}
-                    {visibleRaceCount < allRaces.length && (
-                        <div className="loading-more-races">
-                            <i className="fas fa-spinner fa-spin"></i>
-                            Loading more races...
-                        </div>
-                    )}
-                </div>
+                {racesLoading ? (
+                    <div className="race-loading">
+                        <i className="fas fa-spinner fa-spin"></i>
+                        <p>Loading races...</p>
+                    </div>
+                ) : (
+                    <div className="race-grid" ref={raceGridRef}>
+                        {races.map(race => (
+                            <RaceCard
+                                key={race.id}
+                                race={race}
+                                isSelected={selectedRace === race.id}
+                                onSelect={handleRaceSelect}
+                            />
+                        ))}
+                        {visibleRaceCount < allRaces.length && (
+                            <div className="loading-more-races">
+                                <i className="fas fa-spinner fa-spin"></i>
+                                Loading more races...
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* Step 2: Variant Selection - Only shown when race is selected */}
-            {currentStep === 'variant' && raceData && (
+            {currentStep === 'variant' && (
+                raceData ? (
                 <div className="variant-selection-step">
                     <h3 className="step-title">
                         Select a Variant for {raceData.name}
@@ -836,6 +930,12 @@ const RaceSelector = () => {
                         <p>Select a variant to view detailed information</p>
                     </div>
                 </div>
+                ) : (
+                    <div className="race-loading">
+                        <i className="fas fa-spinner fa-spin"></i>
+                        <p>Loading race details...</p>
+                    </div>
+                )
             )}
 
             {/* Step 3: Detailed View - Only shown when variant is selected */}
@@ -855,31 +955,31 @@ const RaceSelector = () => {
                             <div className="info-block">
                                 <h4 className="info-block-title">BASIC INFORMATION</h4>
                                 <div className="info-grid">
-                                    <div className="info-row">
+                                    <div className="info-row info-row-no-bg">
                                         <span className="info-label">SIZE:</span>
                                         <span className="info-value">{raceData.baseTraits.size}</span>
                                     </div>
-                                    <div className="info-row">
+                                    <div className="info-row info-row-no-bg">
                                         <span className="info-label">HEIGHT:</span>
                                         <span className="info-value">{raceData.baseTraits.height || 'MISSING'}</span>
                                     </div>
-                                    <div className="info-row">
+                                    <div className="info-row info-row-no-bg">
                                         <span className="info-label">WEIGHT:</span>
                                         <span className="info-value">{raceData.baseTraits.weight || 'MISSING'}</span>
                                     </div>
-                                    <div className="info-row">
+                                    <div className="info-row info-row-no-bg">
                                         <span className="info-label">BUILD:</span>
                                         <span className="info-value">{raceData.baseTraits.build || 'MISSING'}</span>
                                     </div>
-                                    <div className="info-row">
+                                    <div className="info-row info-row-no-bg">
                                         <span className="info-label">SPEED:</span>
                                         <span className="info-value">{raceData.baseTraits.baseSpeed} ft</span>
                                     </div>
-                                    <div className="info-row">
+                                    <div className="info-row info-row-no-bg">
                                         <span className="info-label">LIFESPAN:</span>
                                         <span className="info-value">{raceData.baseTraits.lifespan}</span>
                                     </div>
-                                    <div className="info-row info-row-full">
+                                    <div className="info-row info-row-full info-row-no-bg">
                                         <span className="info-label">LANGUAGES:</span>
                                         <span className="info-value">{raceData.baseTraits.languages.join(', ')}</span>
                                     </div>

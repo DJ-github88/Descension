@@ -4,6 +4,8 @@ import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftin
 import ProfessionSelection from '../crafting/ProfessionSelection';
 import AlchemyInterface from '../crafting/AlchemyInterface';
 import useChatStore from '../../store/chatStore';
+import useInventoryStore from '../../store/inventoryStore';
+import useItemStore from '../../store/itemStore';
 import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
@@ -18,6 +20,8 @@ function CraftingWindow({ isOpen, onClose }) {
         learnRecipe
     } = useCraftingStore();
     const { addLootNotification } = useChatStore();
+    const { addItemFromLibrary } = useInventoryStore();
+    const { items: itemLibrary } = useItemStore();
 
     // Note: Use the "Add Test Materials" button to populate inventory with crafting materials
 
@@ -84,6 +88,40 @@ function CraftingWindow({ isOpen, onClose }) {
         });
     };
 
+    // Add test materials for crafting (currently alchemy-specific)
+    const handleAddTestMaterials = () => {
+        if (selectedProfession !== 'alchemy') return;
+
+        const testMaterials = [
+            // Basic materials for all potions
+            { id: 'peacebloom', quantity: 10 },
+            { id: 'silverleaf', quantity: 10 },
+            { id: 'earthroot', quantity: 10 },
+            { id: 'mageroyal', quantity: 10 },
+            { id: 'empty-vial', quantity: 5 },
+            { id: 'crystal-vial', quantity: 3 },
+            { id: 'distilled-water', quantity: 10 },
+            { id: 'alchemical-catalyst', quantity: 2 }
+        ];
+
+        testMaterials.forEach(material => {
+            const itemData = itemLibrary.find(item => item.id === material.id);
+            if (itemData) {
+                for (let i = 0; i < material.quantity; i++) {
+                    addItemFromLibrary(itemData, 1);
+                }
+            } else {
+                console.log('Test material not found:', material.id);
+            }
+        });
+
+        addLootNotification({
+            type: 'item_received',
+            message: 'Added test potion crafting materials to inventory!',
+            timestamp: Date.now()
+        });
+    };
+
     return (
         <WowWindow
             title="Crafting"
@@ -111,6 +149,13 @@ function CraftingWindow({ isOpen, onClose }) {
                     </div>
                     {selectedProfession && (
                         <div className="crafting-header-actions">
+                            <button
+                                className="wow-button crafting-action-button"
+                                onClick={handleAddTestMaterials}
+                                title="Add test potion crafting materials to inventory"
+                            >
+                                Add Test Materials
+                            </button>
                             <button
                                 className="wow-button crafting-action-button"
                                 onClick={handleLearnAllRecipes}

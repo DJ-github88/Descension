@@ -4,7 +4,6 @@ import useCharacterStore from '../../store/characterStore';
 import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import { getTalentsForSpec, getTreeBackdrop, getFallbackBackground } from '../../data/talentTreeData';
 import { TalentArrowRenderer } from './TalentArrow';
-import TooltipPortal from '../tooltips/TooltipPortal';
 import './TalentTreeWindow.css';
 
 // Helper function to get talent trees for current class
@@ -28,36 +27,51 @@ const getTalentTreesForClass = (className) => {
 const getDynamicDescription = (talent, currentRank) => {
     if (!talent.description) return '';
 
-    // If no ranks invested, show the base description
-    if (currentRank === 0) return talent.description;
+    // Show what you CURRENTLY have (currentRank)
+    // This shows your actual bonuses
+    const displayRank = currentRank;
 
     // Replace "per rank" calculations with actual values
     let description = talent.description;
 
     // Pattern: "X per rank" or "+X per rank" where X can be a number or dice notation
-    const perRankPattern = /(\+?)(\d+d?\d*)\s+([a-zA-Z\s]+)\s+per rank/gi;
+    const perRankPattern = /(\+?)(\d+(?:d\d+)?)\s+([a-zA-Z\s]+?)\s*per\s+rank\.?/gi;
     description = description.replace(perRankPattern, (match, plus, value, type) => {
         // Check if it's dice notation (e.g., "1d4")
         if (value.includes('d')) {
             const [numDice, diceSize] = value.split('d').map(Number);
-            const scaledDice = numDice * currentRank;
-            return `${plus}${scaledDice}d${diceSize} ${type}`;
+            const scaledDice = numDice * displayRank;
+            return `${plus}${scaledDice}d${diceSize} ${type.trim()}`;
         } else {
             // It's a flat number
-            const scaledValue = parseInt(value) * currentRank;
-            return `${plus}${scaledValue} ${type}`;
+            const scaledValue = parseInt(value) * displayRank;
+            return `${plus}${scaledValue} ${type.trim()}`;
         }
+    });
+
+    // Pattern: "X% per rank" for percentage calculations
+    const percentPerRankPattern = /(\d+)%\s+([a-zA-Z\s]+)\s+per rank/gi;
+    description = description.replace(percentPerRankPattern, (match, percent, type) => {
+        const scaledPercent = parseInt(percent) * displayRank;
+        return `${scaledPercent}% ${type}`;
+    });
+
+    // Pattern: "on X+ per rank" for DC/difficulty scaling
+    const dcPerRankPattern = /on\s+(\d+)\+\s+per rank/gi;
+    description = description.replace(dcPerRankPattern, (match, baseDC) => {
+        const scaledDC = parseInt(baseDC) + (displayRank - 1);
+        return `on ${scaledDC}+`;
     });
 
     return description;
 };
 
-// Constants for grid layout - TTRPG style with larger icons
-const CELL_WIDTH = 120;  // Width of each grid cell (increased for larger icons)
-const CELL_HEIGHT = 110; // Height of each grid cell (tighter vertical spacing)
-const GRID_COLUMNS = 5;  // Number of columns in the grid (expanded for more interesting trees)
-const GRID_ROWS = 7;     // Number of rows in the grid
-const TALENT_SIZE = 80;  // Size of talent icon (increased from 64px)
+// Constants for grid layout - Compact fit for better usability
+const CELL_WIDTH = 132;  // Width of each grid cell (fits 5 columns in 660px available)
+const CELL_HEIGHT = 96;  // Height of each grid cell (fits 8 rows in 768px available)
+const GRID_COLUMNS = 5;  // Number of columns in the grid
+const GRID_ROWS = 8;     // Number of rows in the grid (reduced for more compact window)
+const TALENT_SIZE = 56;  // Size of talent icon (optimized for perfect fit)
 
 const TalentTreeWindow = ({ isOpen, onClose }) => {
     const { class: characterClass } = useCharacterStore();
@@ -65,6 +79,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
     const [talents, setTalents] = useState({});
     const [hoveredTalent, setHoveredTalent] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const [unlearnError, setUnlearnError] = useState(null);
     const hoverTimeoutRef = useRef(null);
     const gridContainerRef = useRef(null);
 
@@ -90,8 +105,68 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         });
     };
 
+    const canUnlearnTalent = (talentId, currentTalents) => {
+        const currentRanks = currentTalents[talentId] || 0;
+        if (currentRanks <= 0) return false;
+
+        // Simulate removing one point
+        const simulatedTalents = { ...currentTalents };
+        simulatedTalents[talentId] = currentRanks - 1;
+        if (simulatedTalents[talentId] === 0) {
+            delete simulatedTalents[talentId];
+        }
+
+        // Calculate points spent in simulated state
+        const simulatedPointsSpent = currentTree ?
+            currentTree.talents.reduce((sum, talent) => {
+                return sum + (simulatedTalents[talent.id] || 0);
+            }, 0) : 0;
+
+        // Check if any currently invested talents would become inaccessible
+        for (const [investedTalentId, investedRanks] of Object.entries(currentTalents)) {
+            if (investedRanks === 0) continue; // Skip talents with 0 ranks
+
+            const investedTalent = currentTree.talents.find(t => t.id === investedTalentId);
+            if (!investedTalent) continue;
+
+            // Check tier accessibility
+            const accessibleTier = Math.floor(simulatedPointsSpent / 3);
+            const talentTier = Math.floor(investedTalent.position.y);
+            if (talentTier > accessibleTier) {
+                return false; // This invested talent would become inaccessible
+            }
+
+            // Check prerequisites
+            if (investedTalent.requires) {
+                if (typeof investedTalent.requires === 'string') {
+                    const prereqTalent = currentTree.talents.find(t => t.id === investedTalent.requires);
+                    if (prereqTalent) {
+                        const prereqRanks = simulatedTalents[investedTalent.requires] || 0;
+                        if (prereqRanks < prereqTalent.maxRanks) {
+                            return false; // Prerequisite would not be met
+                        }
+                    }
+                }
+                // Add similar checks for array prerequisites if needed
+            }
+        }
+
+        return true; // Safe to unlearn
+    };
+
     const handleTalentRightClick = (e, talentId, talent) => {
         e.preventDefault();
+        if (!canUnlearnTalent(talentId, talents)) {
+            // Show error message
+            setUnlearnError({
+                message: "Cannot unlearn this talent - other talents depend on it",
+                position: { x: e.clientX, y: e.clientY }
+            });
+            // Clear error after 2 seconds
+            setTimeout(() => setUnlearnError(null), 2000);
+            return;
+        }
+
         setTalents(prev => {
             const currentRanks = prev[talentId] || 0;
             if (currentRanks > 0) {
@@ -107,8 +182,12 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
     };
 
     const canLearnTalent = (talent) => {
-        // Check if player has enough points spent in tree
-        if (pointsSpent < talent.requiresPoints) return false;
+        // Calculate accessible tier based on points spent (every 3 points unlocks next tier)
+        const accessibleTier = Math.floor(pointsSpent / 3);
+
+        // Check if talent is in an accessible tier
+        const talentTier = Math.floor(talent.position.y);
+        if (talentTier > accessibleTier) return false;
 
         // Check if required talent(s) are FULLY MAXED OUT
         if (talent.requires) {
@@ -191,7 +270,22 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                 defaultPosition={{ x: 200, y: 100 }}
             >
                 <div className="talent-tree-error">
-                    <p>No talent trees available for class: {characterClass}</p>
+                    {!characterClass ? (
+                        <div className="no-class-message">
+                            <h2>❄️ The Empty Grimoire ❄️</h2>
+                            <p className="fantasy-text">
+                                Ah, wanderer of realms untold,<br/>
+                                No path of power hast thou yet chosen.<br/>
+                                <span className="highlight">Select thy class</span> from the sacred tomes,<br/>
+                                And let the arcane winds carry thee to glory!
+                            </p>
+                            <p className="subtle-text">
+                                Choose a class in character creation to unlock your talent trees
+                            </p>
+                        </div>
+                    ) : (
+                        <p>No talent trees available for class: {characterClass}</p>
+                    )}
                 </div>
             </WowWindow>
         );
@@ -202,8 +296,9 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
             title={`Talent Tree - ${characterClass}`}
             isOpen={isOpen}
             onClose={onClose}
-            defaultSize={{ width: 700, height: 800 }}
+            defaultSize={{ width: 700, height: 850 }}
             defaultPosition={{ x: 200, y: 50 }}
+            maxConstraints={[1200, 1000]}
             customHeader={
                 <div className="spellbook-tab-container">
                     {trees.map((tree, index) => (
@@ -325,7 +420,9 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                         className="talent-grid-absolute"
                         style={{
                             width: `${GRID_COLUMNS * CELL_WIDTH}px`,
-                            height: `${GRID_ROWS * CELL_HEIGHT}px`
+                            height: `${GRID_ROWS * CELL_HEIGHT}px`,
+                            maxWidth: '100%',
+                            maxHeight: '100%'
                         }}
                     >
 
@@ -389,49 +486,71 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                 </div>
                 )}
 
+                {/* Error Tooltip */}
+                {unlearnError && (
+                    <div
+                        className="talent-tooltip talent-error-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: unlearnError.position.x + 15,
+                            top: unlearnError.position.y - 10,
+                            pointerEvents: 'none',
+                            zIndex: 2147483647
+                        }}
+                    >
+                        <div className="talent-tooltip-description error-text">
+                            {unlearnError.message}
+                        </div>
+                    </div>
+                )}
+
                 {/* Talent Tooltip */}
                 {hoveredTalent && (
-                    <TooltipPortal>
-                        <div
-                            className="talent-tooltip"
-                            style={{
-                                position: 'fixed',
-                                left: tooltipPosition.x + 15,
-                                top: tooltipPosition.y - 10,
-                                pointerEvents: 'none'
-                            }}
-                        >
-                            <div className="talent-tooltip-header">
-                                <div className="talent-tooltip-name">{hoveredTalent.name}</div>
-                                {hoveredTalent.maxRanks > 1 && (
-                                    <div className="talent-tooltip-ranks">
-                                        Rank {talents[hoveredTalent.id] || 0}/{hoveredTalent.maxRanks}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="talent-tooltip-description">
-                                {getDynamicDescription(hoveredTalent, talents[hoveredTalent.id] || 0)}
-                            </div>
-                            {hoveredTalent.requiresPoints > 0 && (
-                                <div className="talent-tooltip-requirement">
-                                    Requires {hoveredTalent.requiresPoints} points in {currentTree.name}
+                    <div
+                        key={`${hoveredTalent.id}-${talents[hoveredTalent.id] || 0}`}
+                        className="talent-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: tooltipPosition.x + 5,
+                            top: tooltipPosition.y + 5,
+                            pointerEvents: 'none',
+                            zIndex: 2147483647
+                        }}
+                    >
+                        <div className="talent-tooltip-header">
+                            <div className="talent-tooltip-name">{hoveredTalent.name}</div>
+                            {hoveredTalent.maxRanks > 1 && (
+                                <div className="talent-tooltip-ranks">
+                                    Rank {talents[hoveredTalent.id] || 0}/{hoveredTalent.maxRanks}
                                 </div>
                             )}
-                            {hoveredTalent.requires && (
-                                <div className="talent-tooltip-requirement">
-                                    {typeof hoveredTalent.requires === 'string'
-                                        ? 'Requires previous talent'
-                                        : hoveredTalent.requiresAll
-                                            ? `Requires all: ${hoveredTalent.requires.length} talents`
-                                            : `Requires any: ${hoveredTalent.requires.length} talents`
-                                    }
-                                </div>
-                            )}
-                            <div className="talent-tooltip-hint">
-                                Left-click to learn | Right-click to unlearn
-                            </div>
                         </div>
-                    </TooltipPortal>
+                        <div className="talent-tooltip-description">
+                            {getDynamicDescription(hoveredTalent, talents[hoveredTalent.id] || 0)}
+                        </div>
+                        {(() => {
+                            const talentTier = Math.floor(hoveredTalent.position.y);
+                            const requiredPoints = (talentTier + 1) * 3;
+                            return talentTier > 0 && (
+                                <div className="talent-tooltip-requirement">
+                                    Requires {requiredPoints} points in {currentTree.name}
+                                </div>
+                            );
+                        })()}
+                        {hoveredTalent.requires && (
+                            <div className="talent-tooltip-requirement">
+                                {typeof hoveredTalent.requires === 'string'
+                                    ? 'Requires previous talent'
+                                    : hoveredTalent.requiresAll
+                                        ? `Requires all: ${hoveredTalent.requires.length} talents`
+                                        : `Requires any: ${hoveredTalent.requires.length} talents`
+                                }
+                            </div>
+                        )}
+                        <div className="talent-tooltip-hint">
+                            Left-click to learn | Right-click to unlearn
+                        </div>
+                    </div>
                 )}
             </div>
         </WowWindow>

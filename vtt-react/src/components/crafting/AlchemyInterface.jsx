@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useCraftingStore, { SKILL_LEVELS } from '../../store/craftingStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
@@ -13,8 +13,11 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [selectedRecipe, setSelectedRecipe] = useState(null);
 
-    // Crafting progress state
-    const [craftingProgress, setCraftingProgress] = useState(new Map());
+
+    // Simple crafting system
+    const [craftingTimer, setCraftingTimer] = useState(null);
+    const [currentCraftingItem, setCurrentCraftingItem] = useState(null);
+    const [, forceUpdate] = useState(0);
     const {
         getProfessionLevel,
         getProfessionExperience,
@@ -43,6 +46,46 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     const knownRecipes = getKnownRecipesForProfession('alchemy');
     const allAlchemyRecipes = getRecipesForProfession('alchemy');
 
+
+    // Removed excessive logging that was firing on every render
+
+    // Clear any invalid items from previous sessions (items with startTime set to their ID)
+    useEffect(() => {
+        const invalidItems = craftingQueue.filter(item => item.startTime && item.startTime.toString() === item.id);
+        if (invalidItems.length > 0) {
+            console.log('Crafting: Clearing', invalidItems.length, 'invalid items from queue');
+            invalidItems.forEach(item => {
+                removeFromCraftingQueue(item.id);
+            });
+        }
+    }, []); // Only run once on mount
+
+    // Automatically start crafting when items are queued
+    useEffect(() => {
+        // Only start if we have queued items AND no current crafting is happening
+        const queuedItems = craftingQueue.filter(item => item.status === 'queued');
+        if (queuedItems.length > 0 && !currentCraftingItem && !craftingTimer) {
+            // Add a small delay to prevent rapid-fire starts
+            const timeoutId = setTimeout(() => {
+                if (!currentCraftingItem && !craftingTimer) {
+                    startNextItem();
+                }
+            }, 50);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [craftingQueue, currentCraftingItem, craftingTimer]);
+
+
+    // Cleanup timer on unmount
+    useEffect(() => {
+        return () => {
+            if (craftingTimer) {
+                clearInterval(craftingTimer);
+                setCraftingTimer(null);
+            }
+        };
+    }, [craftingTimer]);
+
     // Calculate skill progress for the bar
     const getSkillProgress = () => {
         if (alchemyLevel >= 9) return 100; // Max level
@@ -59,34 +102,6 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
 
 
 
-    // Add test materials for crafting
-    const addTestMaterials = () => {
-        const testMaterials = [
-            { id: 'peacebloom', quantity: 10 },
-            { id: 'silverleaf', quantity: 10 },
-            { id: 'empty-vial', quantity: 5 },
-            { id: 'distilled-water', quantity: 5 },
-            { id: 'earthroot', quantity: 5 },
-            { id: 'mageroyal', quantity: 5 },
-            { id: 'crystal-vial', quantity: 3 },
-            { id: 'alchemical-catalyst', quantity: 2 }
-        ];
-
-        testMaterials.forEach(material => {
-            const itemData = itemLibrary.find(item => item.id === material.id);
-            if (itemData) {
-                for (let i = 0; i < material.quantity; i++) {
-                    addItemFromLibrary(itemData, 1);
-                }
-            }
-        });
-
-        addLootNotification({
-            type: 'item_received',
-            message: 'Added test crafting materials to inventory!',
-            timestamp: Date.now()
-        });
-    };
 
     const getSkillLevelColor = (level) => {
         if (level === 0) return '#9d9d9d';
@@ -122,6 +137,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     };
 
     const craftItem = (recipe) => {
+
         const craftCheck = canCraftRecipe(recipe);
         if (!craftCheck.canCraft) {
             addLootNotification({
@@ -160,35 +176,28 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
             }
         }
 
-        // Add item to crafting queue and get the new item ID
+        // Add item to crafting queue (startTime will be set when timer starts)
         const newItemId = addToCraftingQueue({
             recipe: recipe,
-            startTime: null, // Will be set when crafting starts
+            startTime: null, // Will be set when timer starts
+            totalTime: recipe.craftingTime || 5000,
+            progress: 0,
+            status: 'queued' // Will change to in_progress when timer starts
+        });
+
+        console.log('Crafting: Added item to queue with ID:', newItemId, 'for recipe:', recipe.name);
+
+        // Create the crafting item object
+        const craftingItem = {
+            id: newItemId,
+            recipe: recipe,
+            startTime: null, // Will be set when timer starts
             totalTime: recipe.craftingTime || 5000,
             progress: 0,
             status: 'queued'
-        });
+        };
 
-        // Check if there's already an active crafting item
-        const activeCrafting = craftingQueue.find(item => item.status === 'in_progress');
-
-        // If nothing is currently crafting, start this item immediately
-        if (!activeCrafting) {
-            // Start crafting immediately since this is the first/only item
-            setTimeout(() => {
-                // Mark the item we just added as in progress
-                updateCraftingQueueItem(newItemId, {
-                    status: 'in_progress',
-                    startTime: Date.now()
-                });
-
-                // Find the updated item to pass to the timer
-                const craftingItem = craftingQueue.find(item => item.id === newItemId);
-                if (craftingItem) {
-                    startCraftingTimer(craftingItem);
-                }
-            }, 100); // Small delay to ensure state updates
-        }
+        // Removed direct call to startCraftingTimer - useEffect will handle starting
 
         addLootNotification({
             type: 'crafting_started',
@@ -198,29 +207,61 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     };
 
     const startCraftingTimer = (craftingItem) => {
-        const craftingTime = craftingItem.totalTime || craftingItem.recipe.craftingTime || 5000;
-        const updateInterval = 100; // Update every 100ms for smooth progress
-        const totalSteps = craftingTime / updateInterval;
+        // Simply trigger starting the next item
+        setTimeout(() => startNextItem(), 10);
+    };
 
-        let currentStep = 0;
+
+    // Simple function to start the next queued item
+    const startNextItem = () => {
+        if (currentCraftingItem) return; // Already crafting
+
+        const queuedItems = craftingQueue.filter(item => item.status === 'queued');
+        if (queuedItems.length === 0) return; // Nothing to craft
+
+        const item = queuedItems[0];
+        const startTime = Date.now();
+
+        console.log('Crafting: STARTING', item.recipe?.name, '(', item.id, ')');
+
+        // Update item status
+        updateCraftingQueueItem(item.id, {
+            status: 'in_progress',
+            startTime: startTime
+        });
+
+        setCurrentCraftingItem({ ...item, startTime });
+
+        // Start timer
+        const craftingTime = item.totalTime || item.recipe?.craftingTime || 5000;
+
         const timer = setInterval(() => {
-            currentStep++;
-            const progress = (currentStep / totalSteps) * 100;
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const progress = Math.min(100, (elapsed / craftingTime) * 100);
 
-            setCraftingProgress(prev => {
-                const newProgress = new Map(prev);
-                newProgress.set(craftingItem.recipe.id, Math.min(100, progress));
-                return newProgress;
+            // Removed milestone logs to reduce console spam
+
+            // Force UI update every tick to make progress smooth
+            setCurrentCraftingItem(prev => {
+                if (prev) {
+                    return { ...prev, _update: Date.now(), _progress: progress };
+                }
+                return null;
             });
 
-            if (currentStep >= totalSteps) {
+            if (elapsed >= craftingTime) {
+                console.log('Crafting: COMPLETED', item.recipe?.name, '(', item.id, ')');
                 clearInterval(timer);
-                completeCrafting(craftingItem);
-            }
-        }, updateInterval);
+                setCraftingTimer(null);
+                setCurrentCraftingItem(null);
+                completeCrafting(item);
 
-        // Store the timer reference (though we don't use it currently)
-        // This could be useful for cleanup if needed
+                // useEffect will handle starting the next item
+            }
+        }, 100);
+
+        setCraftingTimer(timer);
     };
 
     const completeCrafting = (craftingItem) => {
@@ -236,7 +277,9 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         }
 
         // Add experience and potentially level up
-        const experienceResult = gainExperience('alchemy', recipe.experienceGained || 1);
+        const xpGained = recipe.experienceGained || 1;
+        const experienceResult = gainExperience('alchemy', xpGained);
+
         if (experienceResult && experienceResult.leveledUp) {
             addLootNotification({
                 type: 'skill_increase',
@@ -247,7 +290,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
             // Show experience gained notification
             addLootNotification({
                 type: 'experience_gained',
-                message: `Gained ${recipe.experienceGained || 1} Alchemy experience.`,
+                message: `Gained ${xpGained} Alchemy experience.`,
                 timestamp: Date.now()
             });
         }
@@ -261,28 +304,8 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
             timestamp: Date.now()
         });
 
-        // Clean up progress
-        setCraftingProgress(prev => {
-            const newProgress = new Map(prev);
-            newProgress.delete(recipe.id);
-            return newProgress;
-        });
 
-        // Start next queued item if available
-        setTimeout(() => {
-            // Get the updated queue after the current item was removed
-            const queuedItems = craftingQueue.filter(item => item.status === 'queued');
-
-            if (queuedItems.length > 0) {
-                // Start the next item in queue
-                const nextItem = queuedItems[0];
-                updateCraftingQueueItem(nextItem.id, {
-                    status: 'in_progress',
-                    startTime: Date.now()
-                });
-                startCraftingTimer(nextItem);
-            }
-        }, 500); // Small delay to ensure state updates
+        // No need to start next item - all items start immediately when queued
     };
 
     const handleRecipeMouseEnter = (recipe, event) => {
@@ -354,16 +377,16 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
             <div className="recipes-header">
                 {/* Recipes Tabs with Skill Bar */}
                 <div className="recipes-header-tabs">
-                    {/* Active Crafting Progress */}
+                    {/* Active Crafting Progress - Always visible */}
                     <div className="tabs-crafting-progress">
                         {(() => {
-                            const activeItem = craftingQueue.find(item => item.status === 'in_progress');
-                            return activeItem ? (
+                            const activeItem = currentCraftingItem;
+                            return (
                                 <div className="active-crafting-compact">
                                     <div className="crafting-progress-icon">
                                         <img
-                                            src={`https://wow.zamimg.com/images/wow/icons/large/${activeItem.recipe.resultIcon || 'inv_potion_51'}.jpg`}
-                                            alt={activeItem.recipe.name}
+                                            src={`https://wow.zamimg.com/images/wow/icons/large/${activeItem?.recipe.resultIcon || 'inv_potion_51'}.jpg`}
+                                            alt={activeItem?.recipe.name || 'No Active Crafting'}
                                             onError={(e) => {
                                                 e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg';
                                             }}
@@ -371,23 +394,42 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                     </div>
                                     <div className="crafting-progress-meter">
                                         <div className="crafting-progress-header-compact">
-                                            <span className="crafting-item-name-compact">{activeItem.recipe.name}</span>
+                                            <span className="crafting-item-name-compact">
+                                                {activeItem?.recipe.name || 'No Active Crafting'}
+                                            </span>
                                             <span className="crafting-time-remaining-compact">
-                                                {Math.max(0, Math.ceil((activeItem.totalTime - (Date.now() - activeItem.startTime)) / 1000))}s
+                                                {activeItem ?
+                                                    Math.max(0, Math.ceil((activeItem.totalTime - (Date.now() - activeItem.startTime)) / 1000)) + 's' :
+                                                    '--'
+                                                }
                                             </span>
                                         </div>
                                         <div className="crafting-progress-bar-compact">
-                                            <div
-                                                className="crafting-progress-fill-compact"
-                                                style={{
-                                                    width: `${craftingProgress.get(activeItem.recipe.id) || 0}%`,
-                                                    background: `linear-gradient(90deg, ${getSkillLevelColor(alchemyLevel)}, ${getSkillLevelColor(Math.min(9, alchemyLevel + 1))})`
-                                                }}
-                                            ></div>
+                                            {(() => {
+                                                let progressValue = 0;
+                                                if (activeItem && activeItem.startTime) {
+                                                    const elapsed = Date.now() - activeItem.startTime;
+                                                    const craftingTime = activeItem.totalTime || activeItem.recipe?.craftingTime || 5000;
+                                                    progressValue = Math.min(100, (elapsed / craftingTime) * 100);
+                                                }
+                                                const timeRemaining = activeItem && activeItem.startTime ?
+                                                    Math.max(0, Math.ceil((activeItem.totalTime - (Date.now() - activeItem.startTime)) / 1000)) : 0;
+                                                return (
+                                                    <div
+                                                        className="crafting-progress-fill-compact"
+                                                        style={{
+                                                            width: `${progressValue}%`,
+                                                            background: activeItem ?
+                                                                `linear-gradient(90deg, ${getSkillLevelColor(alchemyLevel)}, ${getSkillLevelColor(Math.min(9, alchemyLevel + 1))})` :
+                                                                '#666'
+                                                        }}
+                                                    ></div>
+                                                );
+                                            })()}
                                         </div>
                                     </div>
                                 </div>
-                            ) : null;
+                            );
                         })()}
                     </div>
 
@@ -417,16 +459,6 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                         ) : null;
                     })()}
 
-                    {/* Add Test Materials Button */}
-                    <div className="tabs-test-materials">
-                        <button
-                            className="wow-button crafting-test-button"
-                            onClick={addTestMaterials}
-                            title="Add test crafting materials to inventory"
-                        >
-                            Add Test Materials
-                        </button>
-                    </div>
 
                     {/* Skill Progress Bar */}
                     <div className="tabs-skill-bar">
@@ -478,7 +510,9 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                             onMouseEnter={(e) => handleRecipeMouseEnter(recipe, e)}
                             onMouseMove={handleRecipeMouseMove}
                             onMouseLeave={handleRecipeMouseLeave}
-                            onClick={() => setSelectedRecipe(recipe)}
+                            onClick={() => {
+                                setSelectedRecipe(recipe);
+                            }}
                             title={`Click to view: ${recipe.name}`}
                         >
                             <div className="recipe-icon-wrapper">
@@ -572,7 +606,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                     {Object.values(SKILL_LEVELS).find(s => s.level === alchemyLevel)?.name || 'Untrained'}
                                 </span>
                             </div>
-                            <div className="requirement-item">
+                                    <div className="requirement-item">
                                 <span className="requirement-label">Crafting Time:</span>
                                 <span className="requirement-value">
                                     {selectedRecipe.craftingTimeDisplay || 'Unknown'}
@@ -646,6 +680,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                 className="wow-button craft-button-large"
                                 disabled={!craftCheck.canCraft}
                                 onClick={() => {
+                                    console.log('Crafting: Craft Recipe button clicked for', selectedRecipe.name);
                                     craftItem(selectedRecipe);
                                 }}
                                 title={craftCheck.reason || 'Craft this item'}
@@ -664,9 +699,12 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         );
     };
 
-    const renderQueue = () => (
-        <div className="queue-content">
-            {craftingQueue.length === 0 ? (
+    const renderQueue = () => {
+        const queuedItems = craftingQueue.filter(item => item.status === 'queued');
+
+        return (
+            <div className="queue-content">
+                {queuedItems.length === 0 ? (
                 <div className="queue-empty">
                     <div className="queue-empty-icon">
                         <img
@@ -679,12 +717,17 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                 </div>
             ) : (
                 <div className="queue-active">
-                    <h3>Active Crafting Operations</h3>
+                    <h3>Queued Crafting Operations</h3>
                     <div className="queue-items">
-                        {craftingQueue.map((craftingItem, index) => {
-                            const progress = craftingProgress.get(craftingItem.recipe.id) || 0;
-                            const remainingTime = craftingItem.totalTime - (Date.now() - craftingItem.startTime);
-                            const timeRemaining = Math.max(0, Math.ceil(remainingTime / 1000));
+                        {queuedItems.map((craftingItem, index) => {
+                            let progress = 0;
+                            let timeRemaining = 0;
+                            if (craftingItem.status === 'in_progress' && craftingItem.startTime) {
+                                const elapsed = Date.now() - craftingItem.startTime;
+                                const craftingTime = craftingItem.totalTime || craftingItem.recipe?.craftingTime || 5000;
+                                progress = Math.min(100, (elapsed / craftingTime) * 100);
+                                timeRemaining = Math.max(0, Math.ceil((craftingTime - elapsed) / 1000));
+                            }
 
                             return (
                                 <div key={craftingItem.id || index} className="queue-item">
@@ -721,7 +764,8 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                 </div>
             )}
         </div>
-    );
+        );
+    };
 
     const renderContent = () => {
         if (activeTab === 'queue') {

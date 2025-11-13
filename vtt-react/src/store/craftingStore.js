@@ -132,9 +132,9 @@ const initialState = {
         { itemId: 'empty-vial', quantity: 1 },
         { itemId: 'distilled-water', quantity: 1 }
       ],
-      craftingTime: 5000, // 5 seconds
+      craftingTime: 3000, // 3 seconds
       experienceGained: 1,
-      craftingTimeDisplay: '5 sec',
+      craftingTimeDisplay: '3 sec',
       category: 'healing'
     },
     {
@@ -152,9 +152,9 @@ const initialState = {
         { itemId: 'empty-vial', quantity: 1 },
         { itemId: 'distilled-water', quantity: 1 }
       ],
-      craftingTime: 5000, // 5 seconds
+      craftingTime: 4500, // 4.5 seconds
       experienceGained: 2,
-      craftingTimeDisplay: '5 sec',
+      craftingTimeDisplay: '4.5 sec',
       category: 'mana'
     },
     {
@@ -173,9 +173,9 @@ const initialState = {
         { itemId: 'distilled-water', quantity: 2 },
         { itemId: 'alchemical-catalyst', quantity: 1 }
       ],
-      craftingTime: 8000, // 8 seconds
+      craftingTime: 6500, // 6.5 seconds
       experienceGained: 4,
-      craftingTimeDisplay: '8 sec',
+      craftingTimeDisplay: '6.5 sec',
       category: 'enhancement'
     },
     {
@@ -193,9 +193,9 @@ const initialState = {
         { itemId: 'empty-vial', quantity: 1 },
         { itemId: 'distilled-water', quantity: 2 }
       ],
-      craftingTime: 8000, // 8 seconds
+      craftingTime: 5500, // 5.5 seconds
       experienceGained: 3,
-      craftingTimeDisplay: '8 sec',
+      craftingTimeDisplay: '5.5 sec',
       category: 'healing'
     },
     {
@@ -213,9 +213,9 @@ const initialState = {
         { itemId: 'crystal-vial', quantity: 1 },
         { itemId: 'distilled-water', quantity: 2 }
       ],
-      craftingTime: 10000, // 10 seconds
+      craftingTime: 7500, // 7.5 seconds
       experienceGained: 5,
-      craftingTimeDisplay: '10 sec',
+      craftingTimeDisplay: '7.5 sec',
       category: 'enhancement'
     },
     {
@@ -233,9 +233,9 @@ const initialState = {
         { itemId: 'empty-vial', quantity: 1 },
         { itemId: 'distilled-water', quantity: 1 }
       ],
-      craftingTime: 7000, // 7 seconds
+      craftingTime: 6000, // 6 seconds
       experienceGained: 3,
-      craftingTimeDisplay: '7 sec',
+      craftingTimeDisplay: '6 sec',
       category: 'utility'
     },
     {
@@ -254,9 +254,9 @@ const initialState = {
         { itemId: 'distilled-water', quantity: 2 },
         { itemId: 'alchemical-catalyst', quantity: 1 }
       ],
-      craftingTime: 12000, // 12 seconds
+      craftingTime: 9000, // 9 seconds
       experienceGained: 7,
-      craftingTimeDisplay: '12 sec',
+      craftingTimeDisplay: '9 sec',
       category: 'enhancement'
     }
   ],
@@ -408,13 +408,14 @@ const useCraftingStore = create(
       // Add item to crafting queue
       addToCraftingQueue: (craftingItem) => {
         const newId = Date.now().toString();
-        set(state => ({
-          craftingQueue: [...state.craftingQueue, {
-            ...craftingItem,
-            id: newId,
-            startTime: craftingItem.startTime || null,
+        const itemToAdd = {
+          ...craftingItem,
+          id: newId,
+          startTime: craftingItem.startTime || null,
             status: craftingItem.status || 'queued'
-          }]
+        };
+        set(state => ({
+            craftingQueue: [...state.craftingQueue, itemToAdd]
         }));
         return newId; // Return the new item ID
       },
@@ -451,7 +452,7 @@ const useCraftingStore = create(
     }),
     {
       name: 'crafting-storage',
-      version: 1
+      version: 2
     }
   )
 );

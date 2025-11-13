@@ -19,14 +19,69 @@
     color: var(--pf-brown-medium, #8B4513);
 }
 
-/* Floating Controls - Points and Reset in top-right of grid */
+/* Fantasy No Class Selected Message */
+.no-class-message {
+    text-align: center;
+    max-width: 500px;
+    padding: 30px;
+    background: linear-gradient(145deg, rgba(248, 244, 230, 0.95) 0%, rgba(237, 228, 211, 0.95) 100%);
+    border: 3px solid rgba(139, 69, 19, 0.6);
+    border-radius: 15px;
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+}
+
+.no-class-message h2 {
+    font-family: 'Cinzel', 'Trajan Pro', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--pf-brown-dark, #5C4033);
+    margin-bottom: 20px;
+    text-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(139, 69, 19, 0.3);
+    letter-spacing: 2px;
+}
+
+.fantasy-text {
+    font-family: 'Crimson Text', 'Times New Roman', serif;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--pf-brown-medium, #8B4513);
+    margin-bottom: 20px;
+    font-style: italic;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.fantasy-text .highlight {
+    color: var(--pf-brown-dark, #5C4033);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
+}
+
+.subtle-text {
+    font-family: 'Crimson Text', 'Times New Roman', serif;
+    font-size: 1rem;
+    color: var(--pf-brown-light, #A0522D);
+    opacity: 0.8;
+    font-style: italic;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Floating Controls - Points on left, Reset on right of grid */
 .talent-controls {
     position: absolute;
     top: 20px;
+    left: 20px;
     right: 20px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
     z-index: 10;
     pointer-events: auto;
 }
@@ -99,18 +154,28 @@
         inset 0 2px 4px rgba(139, 69, 19, 0.2);
 }
 
-/* Talent Grid Container - TTRPG optimized layout */
+/* Talent Grid Container - Framed layout for perfect fit */
 .talent-grid-container {
     flex: 1;
-    overflow: auto;
-    padding: 70px 30px 30px 30px; /* Optimized padding */
+    overflow: auto; /* Allow scrolling when content doesn't fit */
+    padding: 40px 20px 20px 20px; /* Account for controls at top */
     position: relative;
     display: flex;
-    align-items: flex-start;
+    align-items: center; /* Center vertically */
     justify-content: center;
     /* Backdrop overlay for better talent visibility */
     background-blend-mode: overlay;
-    min-height: 600px; /* Ensure enough vertical space */
+    border: 4px solid var(--pf-brown-medium, #8B4513);
+    border-radius: 12px;
+    box-shadow:
+        inset 0 4px 8px rgba(0, 0, 0, 0.3),
+        0 8px 24px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(
+        135deg,
+        rgba(248, 244, 230, 0.1) 0%,
+        rgba(238, 232, 213, 0.05) 50%,
+        rgba(248, 244, 230, 0.1) 100%
+    );
 }
 
 .talent-grid-container::before {
@@ -133,7 +198,7 @@
 .talent-grid-absolute {
     position: relative;
     z-index: 1;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 /* Talent Node Container - Absolute positioned wrapper */
@@ -158,9 +223,9 @@
     width: 100%;
     height: 100%;
     position: relative;
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
-    border: 4px solid var(--pf-brown-medium, #8B4513);
+    border: 3px solid var(--pf-brown-medium, #8B4513);
     box-shadow:
         0 8px 16px rgba(0, 0, 0, 0.6),
         inset 0 2px 0 rgba(255, 255, 255, 0.15),
@@ -374,6 +439,25 @@
     border-top: 1px solid rgba(139, 69, 19, 0.3);
 }
 
+/* Error Tooltip Styling */
+.talent-error-tooltip {
+    background: linear-gradient(145deg, #ffe6e6 0%, #ffcccc 100%);
+    border: 3px solid #DC143C;
+    animation: errorPulse 0.5s ease-in-out;
+}
+
+.talent-error-tooltip .error-text {
+    color: #DC143C !important;
+    font-weight: 700;
+    text-align: center;
+}
+
+@keyframes errorPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
 /* Scrollbar Styling */
 .talent-grid-container::-webkit-scrollbar {
     width: 14px;
@@ -407,12 +491,13 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
     .talent-node {
-        width: 56px;
-        height: 56px;
+        width: 60px;
+        height: 60px;
     }
 
     .talent-icon-wrapper {
-        border-width: 4px;
+        border-width: 3px;
+        border-radius: 10px;
     }
 
     .talent-tree-header {
@@ -525,7 +610,7 @@
     }
 
     .talent-grid-container {
-        overflow: visible;
+        overflow: auto;
     }
 }
 

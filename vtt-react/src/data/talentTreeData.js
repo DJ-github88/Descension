@@ -30,24 +30,144 @@ export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to backdrop images
   const backdropMap = {
     'Pyrofiend': {
-      'fire_mastery': 'url(/assets/backdrops/pyrofiend-fire.jpg)',
-      'corruption_stages': 'url(/assets/backdrops/pyrofiend-corruption.jpg)',
-      'demonic_power': 'url(/assets/backdrops/pyrofiend-demonic.jpg)'
+      'inferno': 'url(/assets/backdrops/pyrofiend-inferno.jpg)',
+      'wildfire': 'url(/assets/backdrops/pyrofiend-wildfire.jpg)',
+      'hellfire': 'url(/assets/backdrops/pyrofiend-hellfire.jpg)'
     },
     'Minstrel': {
-      'harmonic_weaving': 'url(/assets/backdrops/minstrel-harmonic.jpg)',
-      'chord_combinations': 'url(/assets/backdrops/minstrel-chord.jpg)',
-      'musical_magic': 'url(/assets/backdrops/minstrel-musical.jpg)'
+      'soulsinger': 'url(/assets/backdrops/minstrel-harmonic.jpg)',
+      'battlechoir': 'url(/assets/backdrops/minstrel-chord.jpg)',
+      'dissonance': 'url(/assets/backdrops/minstrel-musical.jpg)'
     },
     'Chronarch': {
-      'temporal_control': 'url(/assets/backdrops/chronarch-temporal.jpg)',
-      'time_manipulation': 'url(/assets/backdrops/chronarch-time.jpg)',
-      'chronos_energy': 'url(/assets/backdrops/chronarch-chronos.jpg)'
+      'stasis': 'url(/assets/backdrops/chronarch-stasis.jpg)',
+      'displacement': 'url(/assets/backdrops/chronarch-displacement.jpg)',
+      'rewinding': 'url(/assets/backdrops/chronarch-rewinding.jpg)'
+    },
+    'Dreadnaught': {
+      'shadow_citadel': 'url(/assets/backdrops/dreadnaught-shadow-citadel.jpg)',
+      'suffering_weaver': 'url(/assets/backdrops/dreadnaught-suffering-weaver.jpg)',
+      'doom_bringer': 'url(/assets/backdrops/dreadnaught-doom-bringer.jpg)'
+    },
+    'Titan': {
+      'colossal_strength': 'url(/assets/backdrops/titan-colossal-strength.jpg)',
+      'earth_dominion': 'url(/assets/backdrops/titan-earth-dominion.jpg)',
+      'strain_endurance': 'url(/assets/backdrops/titan-strain-endurance.jpg)'
+    },
+    'Toxicologist': {
+      'venomancer': 'url(/assets/backdrops/toxicologist-venomancer.jpg)',
+      'gadgeteer': 'url(/assets/backdrops/toxicologist-gadgeteer.jpg)',
+      'saboteur': 'url(/assets/backdrops/toxicologist-saboteur.jpg)'
     },
     'Chaos Weaver': {
       'reality_bending': 'url(/assets/backdrops/chaos-reality.jpg)',
-      'entropy_mastery': 'url(/assets/backdrops/chaos-entropy.jpg)',
-      'chaos_control': 'url(/assets/backdrops/chaos-control.jpg)'
+      'entropy_control': 'url(/assets/backdrops/chaos-entropy.jpg)',
+      'chaos_dice': 'url(/assets/backdrops/chaos-dice.jpg)'
+    },
+    'Arcanoneer': {
+      'prism_mage': 'url(/assets/backdrops/arcanoneer-prism.jpg)',
+      'entropy_weaver': 'url(/assets/backdrops/arcanoneer-entropy.jpg)',
+      'sphere_architect': 'url(/assets/backdrops/arcanoneer-sphere.jpg)'
+    },
+    'Formbender': {
+      'metamorph': 'url(/assets/backdrops/formbender-metamorph.jpg)',
+      'form-thief': 'url(/assets/backdrops/formbender-form-thief.jpg)',
+      'primordial': 'url(/assets/backdrops/formbender-primordial.jpg)'
+    },
+    'Witch Doctor': {
+      'shadow-priest': 'url(/assets/backdrops/witch-doctor-shadow.jpg)',
+      'spirit-healer': 'url(/assets/backdrops/witch-doctor-spirit.jpg)',
+      'war-priest': 'url(/assets/backdrops/witch-doctor-war.jpg)'
+    },
+    'Covenbane': {
+      'shadowbane': 'url(/assets/backdrops/covenbane-shadowbane.jpg)',
+      'spellbreaker': 'url(/assets/backdrops/covenbane-spellbreaker.jpg)',
+      'demonhunter': 'url(/assets/backdrops/covenbane-demonhunter.jpg)'
+    },
+    'Bladedancer': {
+      'flow-master': 'url(/assets/backdrops/bladedancer-flow-master.jpg)',
+      'duelist': 'url(/assets/backdrops/bladedancer-duelist.jpg)',
+      'shadow-dancer': 'url(/assets/backdrops/bladedancer-shadow-dancer.jpg)'
+    },
+    'Lunarch': {
+      'moonlight-sentinel': 'url(/assets/backdrops/lunarch-moonlight-sentinel.jpg)',
+      'starfall-invoker': 'url(/assets/backdrops/lunarch-starfall-invoker.jpg)',
+      'moonwell-guardian': 'url(/assets/backdrops/lunarch-moonwell-guardian.jpg)'
+    },
+    'Huntress': {
+      'shadowblade': 'url(/assets/backdrops/huntress-shadowblade.jpg)',
+      'sentinel': 'url(/assets/backdrops/huntress-sentinel.jpg)',
+      'beastmaster': 'url(/assets/backdrops/huntress-beastmaster.jpg)'
+    },
+    'Warden': {
+      'shadowblade': 'url(/assets/backdrops/warden-shadowblade.jpg)',
+      'jailer': 'url(/assets/backdrops/warden-jailer.jpg)',
+      'avenger': 'url(/assets/backdrops/warden-avenger.jpg)'
+    },
+    'Fate Weaver': {
+      'fortune_teller': 'url(/assets/backdrops/fate-fortune.jpg)',
+      'card_master': 'url(/assets/backdrops/fate-cardmaster.jpg)',
+      'thread_weaver': 'url(/assets/backdrops/fate-thread.jpg)'
+    },
+    'Gambler': {
+      'luck_manipulation': 'url(/assets/backdrops/gambler-luck.jpg)',
+      'risk_management': 'url(/assets/backdrops/gambler-risk.jpg)',
+      'fate_control': 'url(/assets/backdrops/gambler-fate.jpg)'
+    },
+    'Martyr': {
+      'protector': 'url(/assets/backdrops/martyr-protector.jpg)',
+      'redeemer': 'url(/assets/backdrops/martyr-redeemer.jpg)',
+      'avenger': 'url(/assets/backdrops/martyr-avenger.jpg)'
+    },
+    'False Prophet': {
+      'voidcaller': 'url(/assets/backdrops/falseprophet-voidcaller.jpg)',
+      'deceiver': 'url(/assets/backdrops/falseprophet-deceiver.jpg)',
+      'cultist': 'url(/assets/backdrops/falseprophet-cultist.jpg)'
+    },
+    'Exorcist': {
+      'demonologist': 'url(/assets/backdrops/exorcist-demonologist.jpg)',
+      'demon_lord': 'url(/assets/backdrops/exorcist-demonlord.jpg)',
+      'possessed': 'url(/assets/backdrops/exorcist-possessed.jpg)'
+    },
+    'Oracle': {
+      'seer': 'url(/assets/backdrops/oracle-seer.jpg)',
+      'truthseeker': 'url(/assets/backdrops/oracle-truthseeker.jpg)',
+      'destiny_weaver': 'url(/assets/backdrops/oracle-destinyweaver.jpg)'
+    },
+    'Plaguebringer': {
+      'virulent_spreader': 'url(/assets/backdrops/plaguebringer-virulent.jpg)',
+      'torment_weaver': 'url(/assets/backdrops/plaguebringer-torment.jpg)',
+      'decay_harbinger': 'url(/assets/backdrops/plaguebringer-decay.jpg)'
+    },
+    'Lichborne': {
+      'frostbound_tyrant': 'url(/assets/backdrops/lichborne-frostbound.jpg)',
+      'spectral_reaper': 'url(/assets/backdrops/lichborne-spectral.jpg)',
+      'phylactery_guardian': 'url(/assets/backdrops/lichborne-phylactery.jpg)'
+    },
+    'Deathcaller': {
+      'blood_reaver': 'url(/assets/backdrops/deathcaller-blood.jpg)',
+      'spectral_master': 'url(/assets/backdrops/deathcaller-spectral.jpg)',
+      'void_caller': 'url(/assets/backdrops/deathcaller-void.jpg)'
+    },
+    'Spellguard': {
+      'arcane_warden': 'url(/assets/backdrops/spellguard-warden.jpg)',
+      'spell_breaker': 'url(/assets/backdrops/spellguard-breaker.jpg)',
+      'mana_reaver': 'url(/assets/backdrops/spellguard-reaver.jpg)'
+    },
+    'Inscriptor': {
+      'runebinder': 'url(/assets/backdrops/inscriptor-runebinder.jpg)',
+      'enchanter': 'url(/assets/backdrops/inscriptor-enchanter.jpg)',
+      'glyphweaver': 'url(/assets/backdrops/inscriptor-glyphweaver.jpg)'
+    },
+    'Primalist': {
+      'earthwarden': 'url(/assets/backdrops/primalist-earthwarden.jpg)',
+      'stormbringer': 'url(/assets/backdrops/primalist-stormbringer.jpg)',
+      'spiritcaller': 'url(/assets/backdrops/primalist-spiritcaller.jpg)'
+    },
+    'Berserker': {
+      'primal_rage': 'url(/assets/backdrops/berserker-primal-rage.jpg)',
+      'blood_frenzy': 'url(/assets/backdrops/berserker-blood-frenzy.jpg)',
+      'savage_instincts': 'url(/assets/backdrops/berserker-savage-instincts.jpg)'
     },
     // Add more classes as needed
   };
@@ -65,505 +185,317 @@ export const getFallbackBackground = (treeIndex) => {
   ];
   return backgrounds[treeIndex % 3];
 };
+/*
+// Import the moved talent trees
+// Temporarily commented out to resolve duplicate declarations
+*/
+import {
+  DREADNAUGHT_SHADOW_CITADEL,
+  DREADNAUGHT_SUFFERING_WEAVER,
+  DREADNAUGHT_DOOM_BRINGER
+} from './talentTrees/dreadnaught.js';
 
-// Sample talent tree for Pyrofiend - Fire Mastery
-export const PYROFIEND_FIRE_MASTERY = [
-  // Tier 0 - Foundation talents (no prerequisites)
-  {
-    id: 'fire_t0_ignite',
-    name: 'Improved Ignite',
-    description: 'When you cast a fire spell, draw a card. If it\'s a Heart or Diamond, ignite the target for 1d4 fire damage per rank over 6 seconds.',
-    icon: 'spell_fire_flamebolt',
-    maxRanks: 3,
-    position: { x: 0, y: 0 },
-    requires: null,
-    requiresPoints: 0
-  },
-  {
-    id: 'fire_t0_intensity',
-    name: 'Fire Intensity',
-    description: 'Add +1 fire damage per rank to all fire-based attacks.',
-    icon: 'spell_fire_fireball02',
-    maxRanks: 3,
-    position: { x: 2, y: 0 },
-    requires: null,
-    requiresPoints: 0
-  },
-  {
-    id: 'fire_t0_ember_shield',
-    name: 'Ember Shield',
-    description: 'When hit, flip a coin. On heads, gain a shield absorbing 1d6 damage per rank for 8 seconds.',
-    icon: 'spell_fire_fire',
-    maxRanks: 3,
-    position: { x: 4, y: 0 },
-    requires: null,
-    requiresPoints: 0
-  },
+import {
+  TITAN_COLOSSAL_STRENGTH,
+  TITAN_EARTH_DOMINION,
+  TITAN_STRAIN_ENDURANCE
+} from './talentTrees/titan.js';
 
-  // Tier 1 - Early choices
-  {
-    id: 'fire_t1_pyroblast',
-    name: 'Pyroblast',
-    description: 'Unlocks Pyroblast - roll 3d8 fire damage. Draw a card: if Ace, double the damage.',
-    icon: 'spell_fire_fireball',
-    maxRanks: 1,
-    position: { x: 1, y: 1 },
-    requires: 'fire_t0_ignite',
-    requiresPoints: 3
-  },
-  {
-    id: 'fire_t1_flame_surge',
-    name: 'Flame Surge',
-    description: 'Your fire spells deal +1d4 damage per rank. On a natural 20 attack roll, add another +2d6.',
-    icon: 'spell_fire_incinerate',
-    maxRanks: 3,
-    position: { x: 3, y: 1 },
-    requires: 'fire_t0_intensity',
-    requiresPoints: 3
-  },
+import {
+  TOXICOLOGIST_VENOMANCER,
+  TOXICOLOGIST_GADGETEER,
+  TOXICOLOGIST_SABOTEUR
+} from './talentTrees/toxicologist.js';
 
-  // Tier 2 - Branching paths
-  {
-    id: 'fire_t2_combustion',
-    name: 'Combustion',
-    description: 'When an ignite effect expires, flip a coin per rank. Each heads deals 1d6 fire damage.',
-    icon: 'spell_fire_sealoffire',
-    maxRanks: 3,
-    position: { x: 0, y: 2 },
-    requires: 'fire_t0_ignite',
-    requiresPoints: 6
-  },
-  {
-    id: 'fire_t2_inferno',
-    name: 'Inferno',
-    description: 'Unlocks Inferno - deals 3d8 fire damage to all enemies within 15 feet. Roll 1d20: on 18+, targets are stunned for 1 round.',
-    icon: 'spell_fire_incinerate',
-    maxRanks: 1,
-    position: { x: 2, y: 2 },
-    requires: 'fire_t1_pyroblast',
-    requiresPoints: 6
-  },
-  {
-    id: 'fire_t2_molten_armor',
-    name: 'Molten Armor',
-    description: 'When you take damage, draw a card. If it\'s a Spade, attackers take 1d8 fire damage per rank.',
-    icon: 'spell_fire_sealoffire',
-    maxRanks: 3,
-    position: { x: 4, y: 2 },
-    requires: 'fire_t0_ember_shield',
-    requiresPoints: 6
-  },
+import {
+  PYROFIEND_INFERNO,
+  PYROFIEND_WILDFIRE,
+  PYROFIEND_HELLFIRE
+} from './talentTrees/pyrofiend.js';
 
-  // Tier 3 - Specialization choices
-  {
-    id: 'fire_t3_critical_mass',
-    name: 'Critical Mass',
-    description: 'Before each fire spell, draw a card. Face cards grant +2 to critical hit rolls per rank.',
-    icon: 'spell_fire_moltenblood',
-    maxRanks: 3,
-    position: { x: 1, y: 3 },
-    requires: 'fire_t2_combustion',
-    requiresPoints: 9
-  },
-  {
-    id: 'fire_t3_wildfire',
-    name: 'Wildfire',
-    description: 'Your AoE fire spells spread. For each enemy hit, flip a coin. On heads, spread to 1 additional nearby enemy for half damage.',
-    icon: 'spell_fire_selfdestruct',
-    maxRanks: 1,
-    position: { x: 2, y: 3 },
-    requires: 'fire_t2_inferno',
-    requiresPoints: 9
-  },
-  {
-    id: 'fire_t3_phoenix_heart',
-    name: 'Phoenix Heart',
-    description: 'When reduced to 0 HP, draw a card. If it\'s a red Ace, revive with 2d10 HP per rank. Once per day.',
-    icon: 'spell_fire_fire',
-    maxRanks: 2,
-    position: { x: 3, y: 3 },
-    requires: 'fire_t2_molten_armor',
-    requiresPoints: 9
-  },
+import {
+  MINSTREL_HARMONIC_WEAVING,
+  MINSTREL_CHORD_COMBINATIONS,
+  MINSTREL_MUSICAL_MAGIC
+} from './talentTrees/minstrel.js';
 
-  // Tier 4 - Advanced abilities
-  {
-    id: 'fire_t4_living_bomb',
-    name: 'Living Bomb',
-    description: 'Unlocks Living Bomb - attach a bomb dealing 2d6 fire damage over 12 seconds. On expiration, roll 1d6. On 5-6, explodes for 3d8 to nearby enemies.',
-    icon: 'spell_fire_flamebolt',
-    maxRanks: 1,
-    position: { x: 0, y: 4 },
-    requires: 'fire_t3_critical_mass',
-    requiresPoints: 12
-  },
-  {
-    id: 'fire_t4_hot_streak',
-    name: 'Hot Streak',
-    description: 'After two critical hits in a row, draw 2 cards. If both are red, your next fire spell deals triple damage dice.',
-    icon: 'spell_fire_burnout',
-    maxRanks: 1,
-    position: { x: 1, y: 4 },
-    requires: 'fire_t3_critical_mass',
-    requiresPoints: 12
-  },
-  {
-    id: 'fire_t4_firestorm',
-    name: 'Firestorm',
-    description: 'Unlocks Firestorm - rain fire in a 20ft radius. Roll 4d6 fire damage. For each 6 rolled, add +1d6.',
-    icon: 'spell_fire_selfdestruct',
-    maxRanks: 1,
-    position: { x: 2, y: 4 },
-    requires: 'fire_t3_wildfire',
-    requiresPoints: 12
-  },
-  {
-    id: 'fire_t4_dragons_breath',
-    name: "Dragon's Breath",
-    description: 'Unlocks Dragon\'s Breath - 30ft cone dealing 3d10 fire damage. Flip a coin per target: heads = disoriented for 2 rounds.',
-    icon: 'spell_fire_twilightfireward',
-    maxRanks: 1,
-    position: { x: 3, y: 4 },
-    requires: 'fire_t3_phoenix_heart',
-    requiresPoints: 12
-  },
+import {
+  CHRONARCH_TEMPORAL_CONTROL,
+  CHRONARCH_TIME_MANIPULATION,
+  CHRONARCH_CHRONOS_ENERGY
+} from './talentTrees/chronarch.js';
 
-  // Tier 5 - Elite talents
-  {
-    id: 'fire_t5_infernal_cascade',
-    name: 'Infernal Cascade',
-    description: 'When you take fire damage, draw a card. If it\'s a Club or Spade, reflect 2d8 fire damage per rank back to the attacker.',
-    icon: 'spell_fire_flare',
-    maxRanks: 2,
-    position: { x: 0, y: 5 },
-    requires: 'fire_t4_living_bomb',
-    requiresPoints: 15
-  },
-  {
-    id: 'fire_t5_pyromaniac',
-    name: 'Pyromaniac',
-    description: 'On critical fire spell hits, roll 1d20. On 15+, reduce all fire spell cooldowns by 1d4 seconds.',
-    icon: 'spell_fire_meteorstorm',
-    maxRanks: 1,
-    position: { x: 1, y: 5 },
-    requires: ['fire_t4_hot_streak', 'fire_t4_living_bomb'],
-    requiresAll: false,
-    requiresPoints: 15
-  },
-  {
-    id: 'fire_t5_flame_on',
-    name: 'Flame On',
-    description: 'At the start of combat, shuffle a deck. Draw 3 cards: each red card reduces fire ability cooldowns by 3 seconds.',
-    icon: 'spell_fire_twilightflamebreath',
-    maxRanks: 1,
-    position: { x: 3, y: 5 },
-    requires: 'fire_t4_dragons_breath',
-    requiresPoints: 15
-  },
+import {
+  CHAOS_WEAVER_REALITY_BENDING,
+  CHAOS_WEAVER_ENTROPY_CONTROL,
+  CHAOS_WEAVER_CHAOS_DICE
+} from './talentTrees/chaosweaver.js';
 
-  // Tier 6 - Ultimate capstone
-  {
-    id: 'fire_t6_combustion_mastery',
-    name: 'Combustion Mastery',
-    description: 'Unlocks Combustion - consume all burning effects on target. Deal 2d12 per effect consumed. Draw a card: if it\'s a King or Queen, stun target for 1 round.',
-    icon: 'spell_fire_soulburn',
-    maxRanks: 1,
-    position: { x: 1.5, y: 6 },
-    requires: ['fire_t5_pyromaniac', 'fire_t5_infernal_cascade'],
-    requiresAll: false,
-    requiresPoints: 18
-  },
-  {
-    id: 'fire_t6_phoenix_rebirth',
-    name: 'Phoenix Rebirth',
-    description: 'Unlocks Phoenix Form - transform for 30 seconds. All fire damage rolls twice, take higher result. On death during form, revive with full HP. Once per day.',
-    icon: 'spell_fire_twilightflamebreath',
-    maxRanks: 1,
-    position: { x: 3, y: 6 },
-    requires: 'fire_t5_flame_on',
-    requiresPoints: 18
-  }
-];
+import {
+  FATE_WEAVER_FORTUNE_TELLER,
+  FATE_WEAVER_CARD_MASTER,
+  FATE_WEAVER_THREAD_WEAVER
+} from './talentTrees/fateweaver.js';
 
-// Sample talent tree for Minstrel - Harmonic Weaving
-export const MINSTREL_HARMONIC_WEAVING = [
-  // Tier 0 - Foundation
-  {
-    id: 'minstrel_t0_melody',
-    name: 'Melodic Resonance',
-    description: 'When you play a song, flip a coin per rank. Each heads grants allies +1 to attack rolls for 10 seconds.',
-    icon: 'spell_holy_divinehymn',
-    maxRanks: 3,
-    position: { x: 0, y: 0 },
-    requires: null,
-    requiresPoints: 0
-  },
-  {
-    id: 'minstrel_t0_harmony',
-    name: 'Harmonic Focus',
-    description: 'Add +1d4 healing per rank to all musical healing abilities.',
-    icon: 'spell_holy_silence',
-    maxRanks: 3,
-    position: { x: 2, y: 0 },
-    requires: null,
-    requiresPoints: 0
-  },
-  {
-    id: 'minstrel_t0_rhythm',
-    name: 'Rhythmic Precision',
-    description: 'Draw a card when casting. Number cards (2-10) extend song duration by that many seconds.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 2,
-    position: { x: 4, y: 0 },
-    requires: null,
-    requiresPoints: 0
-  },
+import {
+  GAMBLER_LUCK_MANIPULATION,
+  GAMBLER_RISK_MANAGEMENT,
+  GAMBLER_FATE_CONTROL
+} from './talentTrees/gambler.js';
 
-  // Tier 1 - Early abilities
-  {
-    id: 'minstrel_t1_crescendo',
-    name: 'Crescendo',
-    description: 'Unlocks Crescendo - builds power over 3 rounds. Each round, flip a coin. On 3 heads, burst heal for 4d8 to all allies within 20ft.',
-    icon: 'spell_holy_powerwordbarrier',
-    maxRanks: 1,
-    position: { x: 1, y: 1 },
-    requires: 'minstrel_t0_melody',
-    requiresPoints: 3
-  },
-  {
-    id: 'minstrel_t1_soothing_voice',
-    name: 'Soothing Voice',
-    description: 'Your healing songs restore +1d6 HP per rank. Draw a card: if it\'s a Heart, remove 1 debuff.',
-    icon: 'spell_holy_prayerofhealing',
-    maxRanks: 3,
-    position: { x: 3, y: 1 },
-    requires: 'minstrel_t0_harmony',
-    requiresPoints: 3
-  },
+import {
+  MARTYR_PROTECTOR,
+  MARTYR_REDEEMER,
+  MARTYR_AVENGER
+} from './talentTrees/martyr.js';
 
-  // Tier 2 - Branching paths
-  {
-    id: 'minstrel_t2_chord',
-    name: 'Perfect Chord',
-    description: 'When you heal, draw a card. Face cards trigger a bonus heal of 1d6 per rank.',
-    icon: 'spell_holy_prayerofhealing',
-    maxRanks: 3,
-    position: { x: 0, y: 2 },
-    requires: 'minstrel_t0_melody',
-    requiresPoints: 6
-  },
-  {
-    id: 'minstrel_t2_battle_hymn',
-    name: 'Battle Hymn',
-    description: 'Unlocks Battle Hymn - allies within 30ft roll damage twice, take higher result. Flip a coin each round: tails ends the effect.',
-    icon: 'spell_holy_divinehymn',
-    maxRanks: 1,
-    position: { x: 2, y: 2 },
-    requires: 'minstrel_t1_crescendo',
-    requiresPoints: 6
-  },
-  {
-    id: 'minstrel_t2_tempo',
-    name: 'Tempo Control',
-    description: 'At start of combat, draw 3 cards. Each red card grants allies +2 initiative per rank.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 3,
-    position: { x: 4, y: 2 },
-    requires: 'minstrel_t0_rhythm',
-    requiresPoints: 6
-  },
+import {
+  FALSE_PROPHET_VOIDCALLER,
+  FALSE_PROPHET_DECEIVER,
+  FALSE_PROPHET_CULTIST
+} from './talentTrees/falseprophet.js';
 
-  // Tier 3 - Specialization
-  {
-    id: 'minstrel_t3_dissonance',
-    name: 'Dissonant Strike',
-    description: 'Unlocks Dissonant Strike - deals 2d6 thunder damage. Draw a card: Spades stun for 1 round, Clubs deafen for 2 rounds.',
-    icon: 'spell_holy_powerwordbarrier',
-    maxRanks: 1,
-    position: { x: 0, y: 3 },
-    requires: 'minstrel_t2_chord',
-    requiresPoints: 9
-  },
-  {
-    id: 'minstrel_t3_inspiring_presence',
-    name: 'Inspiring Presence',
-    description: 'Allies within 20ft draw a card at start of their turn. Aces grant advantage on their next attack.',
-    icon: 'spell_holy_divineprovidence',
-    maxRanks: 1,
-    position: { x: 2, y: 3 },
-    requires: 'minstrel_t2_battle_hymn',
-    requiresPoints: 9
-  },
-  {
-    id: 'minstrel_t3_song_of_speed',
-    name: 'Song of Speed',
-    description: 'Unlocks Song of Speed - allies gain +10ft movement. Each round, flip a coin per ally: heads grants an extra action.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 1,
-    position: { x: 3, y: 3 },
-    requires: 'minstrel_t2_tempo',
-    requiresPoints: 9
-  },
+import {
+  EXORCIST_DEMONOLOGIST,
+  EXORCIST_DEMON_LORD,
+  EXORCIST_POSSESSED
+} from './talentTrees/exorcist.js';
 
-  // Tier 4 - Advanced abilities
-  {
-    id: 'minstrel_t4_requiem',
-    name: 'Requiem',
-    description: 'Unlocks Requiem - enemies within 30ft take 2d8 psychic damage. Roll 1d20 per enemy: on 16+, they\'re frightened for 2 rounds.',
-    icon: 'spell_shadow_requiem',
-    maxRanks: 1,
-    position: { x: 0, y: 4 },
-    requires: 'minstrel_t3_dissonance',
-    requiresPoints: 12
-  },
-  {
-    id: 'minstrel_t4_healing_chorus',
-    name: 'Healing Chorus',
-    description: 'When you heal an ally, flip a coin. On heads, heal spreads to 1d4 nearby allies for half the amount.',
-    icon: 'spell_holy_prayerofhealing',
-    maxRanks: 1,
-    position: { x: 1, y: 4 },
-    requires: 'minstrel_t3_dissonance',
-    requiresPoints: 12
-  },
-  {
-    id: 'minstrel_t4_war_drums',
-    name: 'War Drums',
-    description: 'Unlocks War Drums - allies deal +1d8 damage per rank. Draw a card each round: red cards extend duration by 1 round.',
-    icon: 'spell_holy_divinehymn',
-    maxRanks: 2,
-    position: { x: 2, y: 4 },
-    requires: 'minstrel_t3_inspiring_presence',
-    requiresPoints: 12
-  },
+import {
+  ORACLE_SEER,
+  ORACLE_TRUTHSEEKER,
+  ORACLE_DESTINY_WEAVER
+} from './talentTrees/oracle.js';
 
-  // Tier 5 - Elite talents
-  {
-    id: 'minstrel_t5_death_defying',
-    name: 'Death-Defying Aria',
-    description: 'When an ally drops to 0 HP, draw a card. If it\'s an Ace, they revive with 3d10 HP. Once per ally per day.',
-    icon: 'spell_holy_resurrection',
-    maxRanks: 1,
-    position: { x: 0, y: 5 },
-    requires: 'minstrel_t4_requiem',
-    requiresPoints: 15
-  },
-  {
-    id: 'minstrel_t5_symphony',
-    name: 'Grand Symphony',
-    description: 'Unlocks Grand Symphony - heals all allies within 30ft for 3d8 + Charisma modifier. Draw 3 cards: each Heart adds +1d6 healing.',
-    icon: 'spell_holy_divineprovidence',
-    maxRanks: 1,
-    position: { x: 1, y: 5 },
-    requires: ['minstrel_t4_healing_chorus', 'minstrel_t4_war_drums'],
-    requiresAll: false,
-    requiresPoints: 15
-  },
-  {
-    id: 'minstrel_t5_cacophony',
-    name: 'Cacophony',
-    description: 'Unlocks Cacophony - 40ft radius of discordant sound. Enemies take 3d6 thunder damage and roll 1d20: on 12 or less, stunned for 1 round.',
-    icon: 'spell_shadow_requiem',
-    maxRanks: 1,
-    position: { x: 2, y: 5 },
-    requires: 'minstrel_t4_war_drums',
-    requiresPoints: 15
-  },
+import {
+  PLAGUEBRINGER_VIRULENT_SPREADER,
+  PLAGUEBRINGER_TORMENT_WEAVER,
+  PLAGUEBRINGER_DECAY_HARBINGER
+} from './talentTrees/plaguebringer.js';
 
-  // Tier 6 - Ultimate capstone
-  {
-    id: 'minstrel_t6_maestro',
-    name: 'Maestro',
-    description: 'Unlocks Maestro Mode - for 1 minute, all your songs affect double the radius. Draw a card at start of each turn: red cards let you cast 2 songs that turn.',
-    icon: 'spell_holy_divineprovidence',
-    maxRanks: 1,
-    position: { x: 1, y: 6 },
-    requires: ['minstrel_t5_symphony', 'minstrel_t5_death_defying'],
-    requiresAll: false,
-    requiresPoints: 18
-  }
-];
+import {
+  LICHBORNE_FROSTBOUND_TYRANT,
+  LICHBORNE_SPECTRAL_REAPER,
+  LICHBORNE_PHYLACTERY_GUARDIAN
+} from './talentTrees/lichborne.js';
 
-// Placeholder talent trees for other specs (can be expanded later)
-const PLACEHOLDER_TREE = [
-  {
-    id: 'placeholder_t1',
-    name: 'Coming Soon',
-    description: 'This talent tree is under development.',
-    icon: 'inv_misc_questionmark',
-    maxRanks: 1,
-    position: { x: 1.5, y: 3 },
-    requires: null,
-    requiresPoints: 0
-  }
-];
+import {
+  SPELLGUARD_ARCANE_WARDEN,
+  SPELLGUARD_SPELL_BREAKER,
+  SPELLGUARD_MANA_REAVER
+} from './talentTrees/spellguard.js';
 
-// Export talent trees organized by class
+import {
+  INSCRIPTOR_RUNEBINDER,
+  INSCRIPTOR_ENCHANTER,
+  INSCRIPTOR_GLYPHWEAVER
+} from './talentTrees/inscriptor.js';
+
+import {
+  ARCANONEER_PRISM_MAGE,
+  ARCANONEER_ENTROPY_WEAVER,
+  ARCANONEER_SPHERE_ARCHITECT
+} from './talentTrees/arcanoneer.js';
+
+import {
+  FORMBENDER_METAMORPH,
+  FORMBENDER_FORM_THIEF,
+  FORMBENDER_PRIMORDIAL
+} from './talentTrees/formbender.js';
+
+import {
+  WITCH_DOCTOR_SHADOW_PRIEST,
+  WITCH_DOCTOR_SPIRIT_HEALER,
+  WITCH_DOCTOR_WAR_PRIEST
+} from './talentTrees/witchdoctor.js';
+
+import {
+  BERSERKER_PRIMAL_RAGE,
+  BERSERKER_BLOOD_FRENZY,
+  BERSERKER_SAVAGE_INSTINCTS
+} from './talentTrees/berserker.js';
+
+import {
+  PRIMALIST_EARTHWARDEN,
+  PRIMALIST_STORMBRINGER,
+  PRIMALIST_SPIRITCALLER
+} from './talentTrees/primalist.js';
+
+import {
+  DEATHCALLER_BLOOD_REAVER,
+  DEATHCALLER_SPECTRAL_MASTER,
+  DEATHCALLER_VOID_CALLER
+} from './talentTrees/deathcaller.js';
+
+import {
+  COVENBANE_SHADOWBANE,
+  COVENBANE_SPELLBREAKER,
+  COVENBANE_DEMONHUNTER
+} from './talentTrees/covenbane.js';
+
+import {
+  BLADEDANCER_FLOW_MASTER,
+  BLADEDANCER_DUELIST,
+  BLADEDANCER_SHADOW_DANCER
+} from './talentTrees/bladedancer.js';
+
+import {
+  LUNARCH_MOONLIGHT_SENTINEL,
+  LUNARCH_STARFALL_INVOKER,
+  LUNARCH_MOONWELL_GUARDIAN
+} from './talentTrees/lunarch.js';
+
+import {
+  HUNTRESS_SHADOWBLADE,
+  HUNTRESS_SENTINEL,
+  HUNTRESS_BEASTMASTER
+} from './talentTrees/huntress.js';
+
+import {
+  WARDEN_SHADOWBLADE,
+  WARDEN_JAILER,
+  WARDEN_AVENGER
+} from './talentTrees/warden.js';
 export const TALENT_TREES = {
+  'Dreadnaught': {
+    'shadow_citadel': DREADNAUGHT_SHADOW_CITADEL,
+    'suffering_weaver': DREADNAUGHT_SUFFERING_WEAVER,
+    'doom_bringer': DREADNAUGHT_DOOM_BRINGER
+  },
+  'Titan': {
+    'colossal_strength': TITAN_COLOSSAL_STRENGTH,
+    'earth_dominion': TITAN_EARTH_DOMINION,
+    'strain_endurance': TITAN_STRAIN_ENDURANCE
+  },
+  'Toxicologist': {
+    'venomancer': TOXICOLOGIST_VENOMANCER,
+    'gadgeteer': TOXICOLOGIST_GADGETEER,
+    'saboteur': TOXICOLOGIST_SABOTEUR
+  },
   'Pyrofiend': {
-    'fire_mastery': PYROFIEND_FIRE_MASTERY,
-    'corruption_stages': PLACEHOLDER_TREE,
-    'demonic_power': PLACEHOLDER_TREE
+    'inferno': PYROFIEND_INFERNO,
+    'wildfire': PYROFIEND_WILDFIRE,
+    'hellfire': PYROFIEND_HELLFIRE
   },
   'Minstrel': {
-    'harmonic_weaving': MINSTREL_HARMONIC_WEAVING,
-    'chord_combinations': PLACEHOLDER_TREE,
-    'musical_magic': PLACEHOLDER_TREE
+    'soulsinger': MINSTREL_HARMONIC_WEAVING,
+    'battlechoir': MINSTREL_CHORD_COMBINATIONS,
+    'dissonance': MINSTREL_MUSICAL_MAGIC
   },
   'Chronarch': {
-    'temporal_control': PLACEHOLDER_TREE,
-    'time_manipulation': PLACEHOLDER_TREE,
-    'chronos_energy': PLACEHOLDER_TREE
+    'stasis': CHRONARCH_TEMPORAL_CONTROL,
+    'displacement': CHRONARCH_TIME_MANIPULATION,
+    'rewinding': CHRONARCH_CHRONOS_ENERGY
   },
   'Chaos Weaver': {
-    'reality_bending': PLACEHOLDER_TREE,
-    'entropy_mastery': PLACEHOLDER_TREE,
-    'chaos_control': PLACEHOLDER_TREE
+    'reality_bending': CHAOS_WEAVER_REALITY_BENDING,
+    'entropy_control': CHAOS_WEAVER_ENTROPY_CONTROL,
+    'chaos_dice': CHAOS_WEAVER_CHAOS_DICE
+  },
+  'Fate Weaver': {
+    'fortune_teller': FATE_WEAVER_FORTUNE_TELLER,
+    'card_master': FATE_WEAVER_CARD_MASTER,
+    'thread_weaver': FATE_WEAVER_THREAD_WEAVER
   },
   'Gambler': {
-    'luck_manipulation': PLACEHOLDER_TREE,
-    'risk_management': PLACEHOLDER_TREE,
-    'fate_control': PLACEHOLDER_TREE
-  },
-  'Rogue': {
-    'assassination': PLACEHOLDER_TREE,
-    'combat': PLACEHOLDER_TREE,
-    'subtlety': PLACEHOLDER_TREE
-  },
-  'Warrior': {
-    'arms': PLACEHOLDER_TREE,
-    'fury': PLACEHOLDER_TREE,
-    'protection': PLACEHOLDER_TREE
-  },
-  'Paladin': {
-    'holy': PLACEHOLDER_TREE,
-    'protection': PLACEHOLDER_TREE,
-    'retribution': PLACEHOLDER_TREE
-  },
-  'Druid': {
-    'balance': PLACEHOLDER_TREE,
-    'feral': PLACEHOLDER_TREE,
-    'restoration': PLACEHOLDER_TREE
-  },
-  'Shaman': {
-    'elemental': PLACEHOLDER_TREE,
-    'enhancement': PLACEHOLDER_TREE,
-    'restoration': PLACEHOLDER_TREE
+    'luck_manipulation': GAMBLER_LUCK_MANIPULATION,
+    'risk_management': GAMBLER_RISK_MANAGEMENT,
+    'fate_control': GAMBLER_FATE_CONTROL
   },
   'Martyr': {
-    'redemption': PLACEHOLDER_TREE,
-    'zealot': PLACEHOLDER_TREE,
-    'ascetic': PLACEHOLDER_TREE
+    'protector': MARTYR_PROTECTOR,
+    'redeemer': MARTYR_REDEEMER,
+    'avenger': MARTYR_AVENGER
   },
   'False Prophet': {
-    'voidcaller': PLACEHOLDER_TREE,
-    'deceiver': PLACEHOLDER_TREE,
-    'cultist': PLACEHOLDER_TREE
+    'voidcaller': FALSE_PROPHET_VOIDCALLER,
+    'deceiver': FALSE_PROPHET_DECEIVER,
+    'cultist': FALSE_PROPHET_CULTIST
   },
   'Exorcist': {
-    'demonologist': PLACEHOLDER_TREE,
-    'demon_lord': PLACEHOLDER_TREE,
-    'possessed': PLACEHOLDER_TREE
+    'demonologist': EXORCIST_DEMONOLOGIST,
+    'demon_lord': EXORCIST_DEMON_LORD,
+    'possessed': EXORCIST_POSSESSED
+  },
+  'Oracle': {
+    'seer': ORACLE_SEER,
+    'truthseeker': ORACLE_TRUTHSEEKER,
+    'destiny_weaver': ORACLE_DESTINY_WEAVER
+  },
+  'Plaguebringer': {
+    'virulent_spreader': PLAGUEBRINGER_VIRULENT_SPREADER,
+    'torment_weaver': PLAGUEBRINGER_TORMENT_WEAVER,
+    'decay_harbinger': PLAGUEBRINGER_DECAY_HARBINGER
+  },
+  'Lichborne': {
+    'frostbound_tyrant': LICHBORNE_FROSTBOUND_TYRANT,
+    'spectral_reaper': LICHBORNE_SPECTRAL_REAPER,
+    'phylactery_guardian': LICHBORNE_PHYLACTERY_GUARDIAN
+  },
+  'Spellguard': {
+    'arcane_warden': SPELLGUARD_ARCANE_WARDEN,
+    'spell_breaker': SPELLGUARD_SPELL_BREAKER,
+    'mana_reaver': SPELLGUARD_MANA_REAVER
+  },
+  'Inscriptor': {
+    'runebinder': INSCRIPTOR_RUNEBINDER,
+    'enchanter': INSCRIPTOR_ENCHANTER,
+    'glyphweaver': INSCRIPTOR_GLYPHWEAVER
+  },
+  'Arcanoneer': {
+    'prism_mage': ARCANONEER_PRISM_MAGE,
+    'entropy_weaver': ARCANONEER_ENTROPY_WEAVER,
+    'sphere_architect': ARCANONEER_SPHERE_ARCHITECT
+  },
+  'Formbender': {
+    'metamorph': FORMBENDER_METAMORPH,
+    'form_thief': FORMBENDER_FORM_THIEF,
+    'primordial': FORMBENDER_PRIMORDIAL
+  },
+  'Witch Doctor': {
+    'shadow-priest': WITCH_DOCTOR_SHADOW_PRIEST,
+    'spirit-healer': WITCH_DOCTOR_SPIRIT_HEALER,
+    'war-priest': WITCH_DOCTOR_WAR_PRIEST
+  },
+  'Covenbane': {
+    'shadowbane': COVENBANE_SHADOWBANE,
+    'spellbreaker': COVENBANE_SPELLBREAKER,
+    'demonhunter': COVENBANE_DEMONHUNTER
+  },
+  'Bladedancer': {
+    'flow-master': BLADEDANCER_FLOW_MASTER,
+    'duelist': BLADEDANCER_DUELIST,
+    'shadow-dancer': BLADEDANCER_SHADOW_DANCER
+  },
+  'Lunarch': {
+    'moonlight-sentinel': LUNARCH_MOONLIGHT_SENTINEL,
+    'starfall-invoker': LUNARCH_STARFALL_INVOKER,
+    'moonwell-guardian': LUNARCH_MOONWELL_GUARDIAN
+  },
+  'Huntress': {
+    'shadowblade': HUNTRESS_SHADOWBLADE,
+    'sentinel': HUNTRESS_SENTINEL,
+    'beastmaster': HUNTRESS_BEASTMASTER
+  },
+  'Warden': {
+    'shadowblade': WARDEN_SHADOWBLADE,
+    'jailer': WARDEN_JAILER,
+    'avenger': WARDEN_AVENGER
+  },
+  'Berserker': {
+    'primal_rage': BERSERKER_PRIMAL_RAGE,
+    'blood_frenzy': BERSERKER_BLOOD_FRENZY,
+    'savage_instincts': BERSERKER_SAVAGE_INSTINCTS
+  },
+  'Primalist': {
+    'earthwarden': PRIMALIST_EARTHWARDEN,
+    'stormbringer': PRIMALIST_STORMBRINGER,
+    'spiritcaller': PRIMALIST_SPIRITCALLER
+  },
+  'Deathcaller': {
+    'blood_reaver': DEATHCALLER_BLOOD_REAVER,
+    'spectral_master': DEATHCALLER_SPECTRAL_MASTER,
+    'void_caller': DEATHCALLER_VOID_CALLER
   }
 };
 
@@ -572,3 +504,24 @@ export const getTalentsForSpec = (className, specId) => {
   return TALENT_TREES[className]?.[specId] || PLACEHOLDER_TREE;
 };
 
+// Placeholder talent tree for missing or invalid specs
+export const PLACEHOLDER_TREE = [
+  {
+    id: 'placeholder_t0',
+    name: 'Coming Soon',
+    description: 'This talent tree is under development.',
+    icon: 'inv_misc_questionmark',
+    maxRanks: 1,
+    position: { x: 1.5, y: 1 },
+    requires: null,
+  },
+  {
+    id: 'placeholder_t1',
+    name: 'Coming Soon',
+    description: 'This talent tree is under development.',
+    icon: 'inv_misc_questionmark',
+    maxRanks: 1,
+    position: { x: 1.5, y: 3 },
+    requires: null,
+  }
+];

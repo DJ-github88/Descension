@@ -568,7 +568,7 @@ Frostfang
 - Track which two forms are active (use both cards)
 - Example: "Nightstalker + Skyhunter = Flying Panther!"
 
-**Skinwalker (Stolen Forms)**:
+**Form Thief (Stolen Forms)**:
 - Can steal enemy forms (costs 5 WI)
 - Track up to 10 stolen forms (create custom cards)
 - Transforming into stolen form costs 2 WI
@@ -604,7 +604,7 @@ Frostfang
     title: 'Formbender Specializations',
     subtitle: 'Three Paths of Transformation Mastery',
 
-    description: `Formbenders can specialize in radically different transformation philosophies. Metamorphs create chimeric hybrid forms, Skinwalkers steal and mimic the forms of their enemies, and Primordials channel ancient elemental transformations. Each path offers a completely unique approach to shapeshifting.`,
+    description: `Formbenders can specialize in radically different transformation philosophies. Metamorphs create chimeric hybrid forms, Form Thieves steal and mimic the forms of their enemies, and Primordials channel ancient elemental transformations. Each path offers a completely unique approach to shapeshifting.`,
 
     passiveAbility: {
       name: 'Primal Attunement',
@@ -652,13 +652,13 @@ Frostfang
       },
 
       {
-        id: 'skinwalker',
-        name: 'Skinwalker',
+        id: 'form-thief',
+        name: 'Form Thief',
         icon: 'spell_shadow_possession',
         color: '#8B0000',
         theme: 'Form Theft & Enemy Mimicry',
 
-        description: `Skinwalkers possess the dark art of stealing forms from defeated enemies, adding them to their repertoire. They can transform into humanoids, monsters, and even magical creatures they've slain, perfectly mimicking their abilities and appearance. This forbidden magic makes them master infiltrators and adaptable combatants.`,
+        description: `Form Thieves possess the dark art of stealing forms from defeated enemies, adding them to their repertoire. They can transform into humanoids, monsters, and even magical creatures they've slain, perfectly mimicking their abilities and appearance. This forbidden magic makes them master infiltrators and adaptable combatants.`,
 
         playstyle: 'Form collection, enemy mimicry, infiltration, stolen abilities',
 

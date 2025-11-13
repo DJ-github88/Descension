@@ -1,6 +1,8 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
 import { RULES_CATEGORIES, getRuleContent } from '../../data/rulesData';
-import RaceSelector from './RaceSelector';
+
+// Lazy load RaceSelector for better performance
+const RaceSelector = React.lazy(() => import('./RaceSelector'));
 import BackgroundSelector from './BackgroundSelector';
 import BackgroundsDisplay from './BackgroundsDisplay';
 import SkillsDisplay from './SkillsDisplay';
@@ -291,7 +293,14 @@ const RulesPage = () => {
 
         {/* Render custom component if flagged (e.g., RaceSelector, BackgroundSelector, BackgroundsDisplay, SkillsDisplay, LanguagesDisplay) */}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'races' && (
-          <RaceSelector />
+          <Suspense fallback={
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading race selector...</p>
+            </div>
+          }>
+            <RaceSelector />
+          </Suspense>
         )}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'character-backgrounds' && (
           <BackgroundsDisplay />

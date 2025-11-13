@@ -143,6 +143,32 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
+  'Gambler': {
+    path: 'Mercenary Path',
+    specializations: [
+      {
+        id: 'luck_manipulation',
+        name: 'Luck Manipulation',
+        description: 'Probability bending, lucky charms, and serendipitous fortune',
+        color: '#32CD32',
+        icon: 'inv_jewelry_necklace_07'
+      },
+      {
+        id: 'risk_management',
+        name: 'Risk Management',
+        description: 'Calculated risks, hedging bets, and contingency planning',
+        color: '#FFD700',
+        icon: 'inv_misc_scalesofjustice'
+      },
+      {
+        id: 'fate_control',
+        name: 'Fate Control',
+        description: 'Destiny manipulation and wheel of fortune control',
+        color: '#8B0000',
+        icon: 'inv_misc_gear_01'
+      }
+    ]
+  },
 
   // Celestial Path
 
@@ -575,11 +601,470 @@ export const CLASS_SPECIALIZATIONS = {
         icon: 'spell_holy_searinglightpriest'
       },
       {
-        id: 'fateweaver',
-        name: 'Fateweaver',
+        id: 'destiny_weaver',
+        name: 'Destiny Weaver',
         description: 'Destiny manipulation and fate alteration',
         color: '#FF1493',
         icon: 'spell_arcane_prismaticcloak'
+      }
+    ]
+  },
+
+  'Plaguebringer': {
+    path: 'Pestilence Path',
+    specializations: [
+      {
+        id: 'virulent_spreader',
+        name: 'Virulent Spreader',
+        description: 'Masters of contagion who excel at spreading afflictions across multiple targets',
+        color: '#556B2F',
+        icon: 'ability_creature_disease_05'
+      },
+      {
+        id: 'torment_weaver',
+        name: 'Torment Weaver',
+        description: 'Specialists in psychic afflictions who break minds as easily as bodies',
+        color: '#4B0082',
+        icon: 'spell_shadow_mindtwisting'
+      },
+      {
+        id: 'decay_harbinger',
+        name: 'Decay Harbinger',
+        description: 'Masters of necrotic decay who accelerate decomposition and prevent healing',
+        color: '#2F4F2F',
+        icon: 'spell_shadow_deathanddecay'
+      }
+    ]
+  },
+
+  'Toxicologist': {
+    path: 'Pestilence Path',
+    specializations: [
+      {
+        id: 'venomancer',
+        name: 'Venomancer',
+        description: 'Masters of deadly poisons and toxins, focusing on maximizing poison damage and duration',
+        color: '#32CD32',
+        icon: 'ability_rogue_deadlybrew'
+      },
+      {
+        id: 'gadgeteer',
+        name: 'Gadgeteer',
+        description: 'Masters of contraptions and mechanical devices, excelling at deploying multiple battlefield machines',
+        color: '#FF6347',
+        icon: 'inv_misc_wrench_01'
+      },
+      {
+        id: 'saboteur',
+        name: 'Saboteur',
+        description: 'Masters of debuffs and battlefield disruption, weakening enemies and creating chaos',
+        color: '#8A2BE2',
+        icon: 'ability_rogue_wrongfullyaccused'
+      }
+    ]
+  },
+
+  'Lichborne': {
+    path: 'Frost Path',
+    specializations: [
+      {
+        id: 'frostbound_tyrant',
+        name: 'Frostbound Tyrant',
+        description: 'Masters of freezing enemies and controlling the battlefield through ice',
+        color: '#4A90E2',
+        icon: 'spell_frost_frostarmor'
+      },
+      {
+        id: 'spectral_reaper',
+        name: 'Spectral Reaper',
+        description: 'Combines frost and necrotic damage for devastating hybrid attacks and minions',
+        color: '#9370DB',
+        icon: 'spell_shadow_soulleech_3'
+      },
+      {
+        id: 'phylactery_guardian',
+        name: 'Phylactery Guardian',
+        description: 'Enhanced phylactery mechanics and survivability with resurrection',
+        color: '#2D1B69',
+        icon: 'spell_frost_frozencore'
+      }
+    ]
+  },
+
+  'Deathcaller': {
+    path: 'Necrotic Path',
+    specializations: [
+      {
+        id: 'blood_reaver',
+        name: 'Blood Reaver',
+        description: 'Aggressive life drain specialist who uses health as a resource for devastating attacks',
+        color: '#8B0000',
+        icon: 'spell_shadow_lifedrain'
+      },
+      {
+        id: 'spectral_master',
+        name: 'Spectral Master',
+        description: 'Master of undead legions who commands spectral armies and controls the battlefield',
+        color: '#4B0082',
+        icon: 'spell_shadow_raisedead'
+      },
+      {
+        id: 'void_caller',
+        name: 'Void Caller',
+        description: 'Psychic devastation specialist who channels cosmic horror and manipulates Blood Tokens',
+        color: '#1C1C1C',
+        icon: 'spell_shadow_shadowwordpain'
+      }
+    ]
+  },
+
+  'False Prophet': {
+    path: 'Dark Path',
+    specializations: [
+      {
+        id: 'voidcaller',
+        name: 'Voidcaller',
+        description: 'Summoners of void entities and emptiness magic',
+        color: '#2F1B14',
+        icon: 'spell_shadow_summonvoidwalker'
+      },
+      {
+        id: 'deceiver',
+        name: 'Deceiver',
+        description: 'Masters of illusion, deception, and false prophecy',
+        color: '#4B0082',
+        icon: 'spell_shadow_mindsteal'
+      },
+      {
+        id: 'cultist',
+        name: 'Cultist',
+        description: 'Leaders of dark cults and forbidden rituals',
+        color: '#8B0000',
+        icon: 'spell_shadow_summonimp'
+      }
+    ]
+  },
+
+  'Dreadnaught': {
+    path: 'Dark Path',
+    specializations: [
+      {
+        id: 'shadow_citadel',
+        name: 'Shadow Citadel',
+        description: 'Unbreakable fortress of darkness, masters of defensive resilience who turn suffering into impenetrable barriers',
+        color: '#2F1B14',
+        icon: 'spell_shadow_twilight'
+      },
+      {
+        id: 'suffering_weaver',
+        name: 'Suffering Weaver',
+        description: 'Dark artisans who weave pain into power, harvesting life essence and converting agony into devastating strength',
+        color: '#8B0000',
+        icon: 'spell_shadow_soulleech_3'
+      },
+      {
+        id: 'doom_bringer',
+        name: 'Doom Bringer',
+        description: 'Harbingers of inevitable ruin, channeling dark wrath to bring apocalyptic vengeance upon their tormentors',
+        color: '#4B0082',
+        icon: 'spell_shadow_demonicempathy'
+      }
+    ]
+  },
+
+  'Exorcist': {
+    path: 'Divine Path',
+    specializations: [
+      {
+        id: 'demonologist',
+        name: 'Demonologist',
+        description: 'Scholars of demonic lore and infernal binding',
+        color: '#8B0000',
+        icon: 'spell_shadow_summonfelguard'
+      },
+      {
+        id: 'demon_lord',
+        name: 'Demon Lord',
+        description: 'Warriors who bind with demon lords for unholy power',
+        color: '#DC143C',
+        icon: 'ability_warlock_demonicpower'
+      },
+      {
+        id: 'possessed',
+        name: 'Possessed',
+        description: 'Those who embrace demonic possession for transcendent power',
+        color: '#4B0082',
+        icon: 'spell_shadow_possession'
+      }
+    ]
+  },
+
+  'Spellguard': {
+    path: 'Arcane Path',
+    specializations: [
+      {
+        id: 'arcane_warden',
+        name: 'Arcane Warden',
+        description: 'Defensive tank, maximum absorption, ally protection, sustained shielding',
+        color: '#4169E1',
+        icon: 'spell_holy_powerwordshield'
+      },
+      {
+        id: 'spell_breaker',
+        name: 'Spell Breaker',
+        description: 'Disruption specialist, spell reflection, caster punishment, high-risk high-reward',
+        color: '#9370DB',
+        icon: 'spell_holy_dispelmagic'
+      },
+      {
+        id: 'mana_reaver',
+        name: 'Mana Reaver',
+        description: 'Offensive drain, mana vampirism, burst damage, caster elimination',
+        color: '#8B008B',
+        icon: 'spell_shadow_manafeed'
+      }
+    ]
+  },
+
+  'Inscriptor': {
+    path: 'Arcane Path',
+    specializations: [
+      {
+        id: 'runebinder',
+        name: 'Runebinder',
+        description: 'Master of runic zones, enhanced rune effects, and zone manipulation',
+        color: '#FF6347',
+        icon: 'inv_misc_rune_01'
+      },
+      {
+        id: 'enchanter',
+        name: 'Enchanter',
+        description: 'Equipment enhancement specialist, permanent inscriptions, and item empowerment',
+        color: '#9370DB',
+        icon: 'spell_holy_greaterblessingofkings'
+      },
+      {
+        id: 'glyphweaver',
+        name: 'Glyphweaver',
+        description: 'Detonation expert, chain reactions, and explosive glyph effects',
+        color: '#00CED1',
+        icon: 'spell_holy_sealofwisdom'
+      }
+    ]
+  },
+
+  'Witch Doctor': {
+    path: 'Voodoo Path',
+    specializations: [
+      {
+        id: 'shadow-priest',
+        name: 'Shadow Priest',
+        description: 'Baron Samedi focus - necromancy, curses, necrotic damage, and resurrection',
+        color: '#800080',
+        icon: 'spell_shadow_curseofsargeras'
+      },
+      {
+        id: 'spirit-healer',
+        name: 'Spirit Healer',
+        description: 'Erzulie and Simbi focus - healing, totems, protection, and cleansing',
+        color: '#FFD700',
+        icon: 'spell_holy_healingaura'
+      },
+      {
+        id: 'war-priest',
+        name: 'War Priest',
+        description: 'Ogoun and Papa Legba focus - poisons, combat buffs, and battlefield control',
+        color: '#FF4500',
+        icon: 'ability_warrior_battleshout'
+      }
+    ]
+  },
+
+  'Covenbane': {
+    path: 'Hexbreaker Path',
+    specializations: [
+      {
+        id: 'shadowbane',
+        name: 'Shadowbane',
+        description: 'Stealthy assassins who excel at infiltrating enemy lines and delivering devastating burst damage from the shadows',
+        color: '#2F1B14',
+        icon: 'ability_stealth'
+      },
+      {
+        id: 'spellbreaker',
+        name: 'Spellbreaker',
+        description: 'Anti-magic specialists who neutralize magical threats and protect allies from harmful spells',
+        color: '#4B0082',
+        icon: 'spell_holy_dispelmagic'
+      },
+      {
+        id: 'demonhunter',
+        name: 'Demonhunter',
+        description: 'Relentless pursuers who track and eliminate evil entities through sustained damage and mobility',
+        color: '#8B0000',
+        icon: 'ability_hunter_markedfordeath'
+      }
+    ]
+  },
+
+  'Bladedancer': {
+    path: 'Stance Mastery Path',
+    specializations: [
+      {
+        id: 'flow-master',
+        name: 'Flow Master',
+        description: 'Masters of rapid stance transitions and combo chains, flowing seamlessly between forms to overwhelm opponents',
+        color: '#00CED1',
+        icon: 'spell_nature_riptide'
+      },
+      {
+        id: 'duelist',
+        name: 'Duelist',
+        description: 'Masters of precision strikes and defensive counters, excelling in one-on-one combat with perfect timing',
+        color: '#FFD700',
+        icon: 'ability_duelist'
+      },
+      {
+        id: 'shadow-dancer',
+        name: 'Shadow Dancer',
+        description: 'Masters of stealth and burst damage, striking from darkness with devastating ambushes and supernatural mobility',
+        color: '#4B0082',
+        icon: 'ability_stealth'
+      }
+    ]
+  },
+
+  'Lunarch': {
+    path: 'Lunar Phase Path',
+    specializations: [
+      {
+        id: 'moonlight-sentinel',
+        name: 'Moonlight Sentinel',
+        description: 'Celestial archers who channel moonlight through precise ranged attacks, excelling at single-target elimination and critical damage',
+        color: '#E6E6FA',
+        icon: 'ability_hunter_focusedaim'
+      },
+      {
+        id: 'starfall-invoker',
+        name: 'Starfall Invoker',
+        description: 'Cosmic mages who summon falling stars and celestial energy, mastering area damage and battlefield control',
+        color: '#FFD700',
+        icon: 'spell_nature_starfall'
+      },
+      {
+        id: 'moonwell-guardian',
+        name: 'Moonwell Guardian',
+        description: 'Lunar healers who create sacred moonwells and protective barriers, focusing on group healing and ally protection',
+        color: '#87CEEB',
+        icon: 'spell_holy_circleofrenewal'
+      }
+    ]
+  },
+
+  'Huntress': {
+    path: 'Companion Bond Path',
+    specializations: [
+      {
+        id: 'shadowblade',
+        name: 'Shadowblade',
+        description: 'Stealthy glaive masters who strike from darkness with devastating precision, enhanced by shadowy tactics and burst damage',
+        color: '#2F1B14',
+        icon: 'ability_stealth'
+      },
+      {
+        id: 'sentinel',
+        name: 'Sentinel',
+        description: 'Protective guardians who defend allies with wards and barriers, coordinating with their companion for group safety',
+        color: '#4169E1',
+        icon: 'spell_holy_devotionaura'
+      },
+      {
+        id: 'beastmaster',
+        name: 'Beastmaster',
+        description: 'Primal hunters whose deep bond with their companion creates devastating coordinated attacks and pack tactics',
+        color: '#8B4513',
+        icon: 'ability_hunter_beastcall'
+      }
+    ]
+  },
+
+  'Warden': {
+    path: 'Vengeance Incarnate Path',
+    specializations: [
+      {
+        id: 'shadowblade',
+        name: 'Shadowblade',
+        description: 'Stealthy hunters who mark targets for death, striking from shadows with lethal precision and execution strikes',
+        color: '#191970',
+        icon: 'ability_stealth'
+      },
+      {
+        id: 'jailer',
+        name: 'Jailer',
+        description: 'Masters of imprisonment who trap enemies in spectral cages, controlling the battlefield through containment and torment',
+        color: '#2F4F4F',
+        icon: 'spell_shadow_shackleundead'
+      },
+      {
+        id: 'avenger',
+        name: 'Avenger',
+        description: 'Embodiments of vengeance who channel fury into overwhelming damage, burning enemies with relentless retribution',
+        color: '#B22222',
+        icon: 'spell_fire_elemental_totem'
+      }
+    ]
+  },
+
+  'Formbender': {
+    path: 'Primal Path',
+    specializations: [
+      {
+        id: 'metamorph',
+        name: 'Metamorph',
+        description: 'Chimeric hybrid forms - combine traits from multiple creatures for adaptive versatility',
+        color: '#9932CC',
+        icon: 'ability_hunter_pet_chimera'
+      },
+      {
+        id: 'form-thief',
+        name: 'Form Thief',
+        description: 'Form theft and mimicry - steal forms from defeated enemies and use their abilities',
+        color: '#8B0000',
+        icon: 'spell_shadow_possession'
+      },
+      {
+        id: 'primordial',
+        name: 'Primordial',
+        description: 'Ancient elemental transformations - channel primal elemental forces and terrain manipulation',
+        color: '#FF4500',
+        icon: 'spell_fire_elementaldevastation'
+      }
+    ]
+  },
+
+  'Primalist': {
+    path: 'Elemental Path',
+    specializations: [
+      {
+        id: 'earthwarden',
+        name: 'Earthwarden',
+        description: 'Master of healing and protection through earthen totems and sanctuary circles',
+        color: '#8B4513',
+        icon: 'spell_nature_stoneclawtotem'
+      },
+      {
+        id: 'stormbringer',
+        name: 'Stormbringer',
+        description: 'Wielder of elemental fury through flame, storm, frost, and wind totems',
+        color: '#4169E1',
+        icon: 'spell_nature_callstorm'
+      },
+      {
+        id: 'spiritcaller',
+        name: 'Spiritcaller',
+        description: 'Communer with nature spirits, manipulating totems for crowd control and utility',
+        color: '#9370DB',
+        icon: 'spell_nature_invisibilitytotem'
       }
     ]
   }
