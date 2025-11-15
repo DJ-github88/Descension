@@ -142,98 +142,59 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
     // Render tooltip
     const renderTooltip = () => {
         if (!showTooltip) return null;
-        
+
         const tooltipContent = (
             <div
                 ref={tooltipRef}
-                className="witchdoctor-tooltip beige-tooltip"
+                className="witchdoctor-tooltip compact-tooltip"
                 style={{ position: 'fixed', zIndex: 2147483647 }}
             >
                 <div className="tooltip-header">
-                    <div className="tooltip-title">Voodoo Essence: {localEssence}/{maxEssence}</div>
-                    <div className="tooltip-spec">{currentSpec.name}</div>
+                    <div className="tooltip-title">⚝ ☥ ⚶ {localEssence}/{maxEssence} - {currentSpec.name}</div>
                 </div>
-                
-                <div className="tooltip-section">
-                    <div className="section-title">Generation</div>
-                    <ul>
-                        <li><strong>+1</strong> per curse applied</li>
-                        <li><strong>+1</strong> per totem placed</li>
-                        <li><strong>+2</strong> per ritual completed</li>
-                        {selectedSpec === 'shadow-priest' && <li><strong>+1 bonus</strong> from curses (Shadow's Embrace)</li>}
-                        {selectedSpec === 'spirit-healer' && <li><strong>+1 bonus</strong> from totems (Spirit's Blessing)</li>}
-                        {selectedSpec === 'war-priest' && <li><strong>+1 bonus</strong> from poisons (Warrior's Spirit)</li>}
-                    </ul>
-                </div>
-                
-                <div className="tooltip-section">
-                    <div className="section-title">Loa Invocations</div>
-                    <ul>
-                        <li><strong>Baron Samedi:</strong> 10 essence {selectedSpec === 'shadow-priest' && '(8 for Shadow Priest)'}</li>
-                        <li><strong>Erzulie:</strong> 6 essence {selectedSpec === 'spirit-healer' && '(4 for Spirit Healer)'}</li>
-                        <li><strong>Ogoun:</strong> 9 essence {selectedSpec === 'war-priest' && '(7 for War Priest)'}</li>
-                        <li><strong>Simbi:</strong> 6 essence {selectedSpec === 'spirit-healer' && '(4 for Spirit Healer)'}</li>
-                        <li><strong>Papa Legba:</strong> 7 essence {selectedSpec === 'war-priest' && '(5 for War Priest)'}</li>
-                    </ul>
-                </div>
-                
-                <div className="tooltip-section">
-                    <div className="section-title">Shared Passive</div>
-                    <div className="passive-name">{currentSpec.sharedPassive.name}</div>
-                    <div className="passive-desc">{currentSpec.sharedPassive.description}</div>
-                </div>
-                
-                <div className="tooltip-section">
-                    <div className="section-title">Specialization Passive</div>
-                    <div className="passive-name">{currentSpec.uniquePassive.name}</div>
-                    <div className="passive-desc">{currentSpec.uniquePassive.description}</div>
-                </div>
-                
-                {selectedSpec === 'shadow-priest' && (
-                    <div className="tooltip-section">
-                        <div className="section-title">Active Effects</div>
-                        <div className="effect-status">Curses Active: {cursesActive ? 'Yes (life/death flicker)' : 'No'}</div>
+
+                <div className="tooltip-content">
+                    <div className="compact-info">
+                        <div className="explanatory-text">
+                            Voodoo Essence - mystical energy from curses, totems, and rituals. Spend to invoke powerful loa spirits.
+                        </div>
+
+                        <div className="gen-info">
+                            <strong>Generation:</strong> +1 curse/totem, +2 ritual
+                            {selectedSpec === 'shadow-priest' && <span className="spec-bonus"> (+1 curses)</span>}
+                            {selectedSpec === 'spirit-healer' && <span className="spec-bonus"> (+1 totems)</span>}
+                            {selectedSpec === 'war-priest' && <span className="spec-bonus"> (+1 poisons)</span>}
+                        </div>
+
+                        <div className="loa-info">
+                            <strong>Loa:</strong> Samedi {selectedSpec === 'shadow-priest' ? '8' : '10'},
+                            Erzulie {selectedSpec === 'spirit-healer' ? '4' : '6'},
+                            Ogoun {selectedSpec === 'war-priest' ? '7' : '9'},
+                            Simbi {selectedSpec === 'spirit-healer' ? '4' : '6'},
+                            Legba {selectedSpec === 'war-priest' ? '5' : '7'}
+                        </div>
+
+                        {((selectedSpec === 'shadow-priest' && cursesActive) ||
+                          (selectedSpec === 'spirit-healer' && totemsActive) ||
+                          (selectedSpec === 'war-priest' && poisonsApplied > 0)) && (
+                            <div className="active-info">
+                                <strong>Active:</strong>
+                                {selectedSpec === 'shadow-priest' && cursesActive && " Curses (life/death flicker)"}
+                                {selectedSpec === 'spirit-healer' && totemsActive && " Totems (rhythmic pulse)"}
+                                {selectedSpec === 'war-priest' && poisonsApplied > 0 && ` ${poisonsApplied} poisons (${Math.min(poisonsApplied * 20, 100)}% intensity)`}
+                            </div>
+                        )}
                     </div>
-                )}
-                
-                {selectedSpec === 'spirit-healer' && (
-                    <div className="tooltip-section">
-                        <div className="section-title">Active Effects</div>
-                        <div className="effect-status">Totems Active: {totemsActive ? 'Yes (rhythmic pulse)' : 'No'}</div>
-                    </div>
-                )}
-                
-                {selectedSpec === 'war-priest' && (
-                    <div className="tooltip-section">
-                        <div className="section-title">Active Effects</div>
-                        <div className="effect-status">Poisons Applied: {poisonsApplied} (core intensity: {Math.min(poisonsApplied * 20, 100)}%)</div>
-                    </div>
-                )}
+                </div>
             </div>
         );
-        
+
         return ReactDOM.createPortal(tooltipContent, document.body);
     };
     
     return (
         <div className={`witchdoctor-resource-container ${size}`}>
             <div className="resource-bar-row">
-                {/* Specialization Cycle Button */}
-                <button
-                    className="spec-cycle-btn"
-                    style={{
-                        borderColor: currentSpec.glowColor,
-                        color: currentSpec.activeColor
-                    }}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setShowSpecSelector(!showSpecSelector);
-                    }}
-                    title="Change Specialization"
-                >
-                    <i className={currentSpec.icon}></i>
-                </button>
-                
                 {/* Main Resource Bar */}
                 <div
                     ref={barRef}
@@ -315,122 +276,149 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                 </div>
             )}
 
-            {/* Dev Controls */}
+            {/* Compact Dev Controls */}
             {showControls && (
-                <div className="dev-controls-overlay" onClick={() => setShowControls(false)}>
-                    <div className="dev-controls-menu" onClick={(e) => e.stopPropagation()}>
-                        <div className="dev-controls-header">
-                            <i className="fas fa-cog"></i> Witch Doctor Dev Controls
-                        </div>
-
-                        {/* Essence Control */}
-                        <div className="control-section">
-                            <div className="control-label">Voodoo Essence: {localEssence}/{maxEssence}</div>
-                            <input
-                                type="range"
-                                min="0"
-                                max={maxEssence}
-                                value={localEssence}
-                                onChange={(e) => setLocalEssence(parseInt(e.target.value))}
-                                className="essence-slider"
-                            />
-                            <div className="control-buttons">
-                                <button onClick={() => setLocalEssence(Math.max(0, localEssence - 1))}>-1</button>
-                                <button onClick={() => setLocalEssence(0)}>Clear</button>
-                                <button onClick={() => setLocalEssence(maxEssence)}>Max</button>
-                                <button onClick={() => setLocalEssence(Math.min(maxEssence, localEssence + 1))}>+1</button>
+                <div className="compact-dev-overlay" onClick={() => setShowControls(false)}>
+                    <div
+                        className="compact-dev-panel"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            zIndex: 1000,
+                            marginTop: '4px'
+                        }}
+                    >
+                        {/* Row 1: Essence Controls */}
+                        <div className="compact-row">
+                            <div className="compact-essence-section">
+                                <span className="compact-section-label">Essence:</span>
+                                <div className="compact-essence-btns">
+                                    <button onClick={() => setLocalEssence(Math.max(0, localEssence - 1))} title="Decrease Essence">
+                                        <i className="fas fa-minus"></i>
+                                    </button>
+                                    <button onClick={() => setLocalEssence(0)} title="Clear Essence">
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                    <button onClick={() => setLocalEssence(maxEssence)} title="Max Essence">
+                                        <i className="fas fa-infinity"></i>
+                                    </button>
+                                    <button onClick={() => setLocalEssence(Math.min(maxEssence, localEssence + 1))} title="Increase Essence">
+                                        <i className="fas fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Loa Invocation Tests */}
-                        <div className="control-section">
-                            <div className="control-label">Test Loa Invocations</div>
-                            <div className="loa-buttons">
-                                <button
-                                    onClick={() => triggerLoaFlash('samedi')}
-                                    style={{ backgroundColor: loaColors.samedi }}
-                                >
-                                    Baron Samedi
-                                </button>
-                                <button
-                                    onClick={() => triggerLoaFlash('erzulie')}
-                                    style={{ backgroundColor: loaColors.erzulie }}
-                                >
-                                    Erzulie
-                                </button>
-                                <button
-                                    onClick={() => triggerLoaFlash('ogoun')}
-                                    style={{ backgroundColor: loaColors.ogoun }}
-                                >
-                                    Ogoun
-                                </button>
-                                <button
-                                    onClick={() => triggerLoaFlash('simbi')}
-                                    style={{ backgroundColor: loaColors.simbi }}
-                                >
-                                    Simbi
-                                </button>
-                                <button
-                                    onClick={() => triggerLoaFlash('legba')}
-                                    style={{ backgroundColor: loaColors.legba }}
-                                >
-                                    Papa Legba
-                                </button>
+                        {/* Row 2: Specialization Selection */}
+                        <div className="compact-row">
+                            <div className="compact-spec-section">
+                                <div className="compact-spec-buttons">
+                                    <button
+                                        className={`spec-select-btn ${selectedSpec === 'shadow-priest' ? 'active' : ''}`}
+                                        onClick={() => setSelectedSpec('shadow-priest')}
+                                        title="Shadow Priest - Necromancy & Death Magic"
+                                    >
+                                        <i className="fas fa-skull"></i>
+                                        <span>Shadow Priest</span>
+                                        <small>Death Magic</small>
+                                    </button>
+                                    <button
+                                        className={`spec-select-btn ${selectedSpec === 'spirit-healer' ? 'active' : ''}`}
+                                        onClick={() => setSelectedSpec('spirit-healer')}
+                                        title="Spirit Healer - Totems & Protection"
+                                    >
+                                        <i className="fas fa-hand-holding-heart"></i>
+                                        <span>Spirit Healer</span>
+                                        <small>Protection</small>
+                                    </button>
+                                    <button
+                                        className={`spec-select-btn ${selectedSpec === 'war-priest' ? 'active' : ''}`}
+                                        onClick={() => setSelectedSpec('war-priest')}
+                                        title="War Priest - Aggressive Channeling"
+                                    >
+                                        <i className="fas fa-fire"></i>
+                                        <span>War Priest</span>
+                                        <small>Combat</small>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Specialization Passive States */}
-                        {selectedSpec === 'shadow-priest' && (
-                            <div className="control-section">
-                                <div className="control-label">Shadow Priest Effects</div>
-                                <label className="checkbox-label">
-                                    <input
-                                        type="checkbox"
-                                        checked={cursesActive}
-                                        onChange={(e) => setCursesActive(e.target.checked)}
-                                    />
-                                    Curses Active (life/death flicker)
-                                </label>
+                        {/* Row 3: Loa Quick Tests */}
+                        <div className="compact-row">
+                            <div className="compact-loa-section">
+                                <span className="compact-section-label">Loa:</span>
+                                <div className="compact-loa-btns">
+                                    <button className="loa-beige-btn" onClick={() => triggerLoaFlash('samedi')} title="Baron Samedi - Death & Shadow">
+                                        <i className="fas fa-skull"></i>
+                                        <span>Samedi</span>
+                                    </button>
+                                    <button className="loa-beige-btn" onClick={() => triggerLoaFlash('erzulie')} title="Erzulie - Love & Healing">
+                                        <i className="fas fa-heart"></i>
+                                        <span>Erzulie</span>
+                                    </button>
+                                    <button className="loa-beige-btn" onClick={() => triggerLoaFlash('ogoun')} title="Ogoun - War & Strength">
+                                        <i className="fas fa-fire"></i>
+                                        <span>Ogoun</span>
+                                    </button>
+                                    <button className="loa-beige-btn" onClick={() => triggerLoaFlash('simbi')} title="Simbi - Water & Magic">
+                                        <i className="fas fa-water"></i>
+                                        <span>Simbi</span>
+                                    </button>
+                                    <button className="loa-beige-btn" onClick={() => triggerLoaFlash('legba')} title="Papa Legba - Crossroads & Fate">
+                                        <i className="fas fa-key"></i>
+                                        <span>Legba</span>
+                                    </button>
+                                </div>
                             </div>
-                        )}
+                        </div>
 
-                        {selectedSpec === 'spirit-healer' && (
-                            <div className="control-section">
-                                <div className="control-label">Spirit Healer Effects</div>
-                                <label className="checkbox-label">
-                                    <input
-                                        type="checkbox"
-                                        checked={totemsActive}
-                                        onChange={(e) => setTotemsActive(e.target.checked)}
-                                    />
-                                    Totems Active (rhythmic pulse)
-                                </label>
+                        {/* Row 4: Effects Toggle */}
+                        <div className="compact-row">
+                            <div className="compact-effects-section">
+                                <span className="compact-section-label">Effects:</span>
+                                <div className="compact-effect-controls">
+                                    {selectedSpec === 'shadow-priest' && (
+                                        <label className="compact-toggle">
+                                            <input
+                                                type="checkbox"
+                                                checked={cursesActive}
+                                                onChange={(e) => setCursesActive(e.target.checked)}
+                                            />
+                                            <span title="Curses Active (life/death flicker)">C</span>
+                                        </label>
+                                    )}
+                                    {selectedSpec === 'spirit-healer' && (
+                                        <label className="compact-toggle">
+                                            <input
+                                                type="checkbox"
+                                                checked={totemsActive}
+                                                onChange={(e) => setTotemsActive(e.target.checked)}
+                                            />
+                                            <span title="Totems Active (rhythmic pulse)">T</span>
+                                        </label>
+                                    )}
+                                    {selectedSpec === 'war-priest' && (
+                                        <div className="compact-war-controls">
+                                            <span className="compact-war-label" title={`Poisons: ${poisonsApplied} (${Math.min(poisonsApplied * 20, 100)}% intensity)`}>
+                                                P:{poisonsApplied}
+                                            </span>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="5"
+                                                value={poisonsApplied}
+                                                onChange={(e) => setPoisonsApplied(parseInt(e.target.value))}
+                                                className="compact-poison-range"
+                                                title={`Poisons: ${poisonsApplied}`}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        )}
-
-                        {selectedSpec === 'war-priest' && (
-                            <div className="control-section">
-                                <div className="control-label">War Priest Effects</div>
-                                <div className="control-sublabel">Poisons Applied: {poisonsApplied}</div>
-                                <input
-                                    type="range"
-                                    min="0"
-                                    max="5"
-                                    value={poisonsApplied}
-                                    onChange={(e) => setPoisonsApplied(parseInt(e.target.value))}
-                                    className="poison-slider"
-                                />
-                                <div className="control-info">Core Intensity: {Math.min(poisonsApplied * 20, 100)}%</div>
-                            </div>
-                        )}
-
-                        <div className="control-section">
-                            <button
-                                className="close-btn"
-                                onClick={() => setShowControls(false)}
-                            >
-                                Close
-                            </button>
                         </div>
                     </div>
                 </div>

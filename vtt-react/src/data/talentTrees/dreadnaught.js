@@ -18,7 +18,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t1_shadow_ramparts',
     name: 'Shadow Ramparts',
-    description: 'Shadow Shield absorbs an additional 1d4 damage per rank. You can use Shadow Shield as a bonus action, raising dark walls around you.',
+    description: 'Shadow Shield absorbs an additional 1d4 damage per rank. You can use Shadow Shield as a 1 action point, raising dark walls around you.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 4,
     position: { x: 0, y: 1 },

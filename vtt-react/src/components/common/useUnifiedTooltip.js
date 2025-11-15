@@ -49,6 +49,19 @@ export const useUnifiedTooltip = () => {
     }));
   }, []);
 
+  // Update tooltip content while keeping it visible
+  const updateTooltipContent = useCallback((content, options = {}) => {
+    const { title, icon, variant = 'default' } = options;
+
+    setTooltipState(prev => ({
+      ...prev,
+      content,
+      title,
+      icon,
+      variant
+    }));
+  }, []);
+
   // Convenience handlers for common use cases
   const handleMouseEnter = useCallback((content, options = {}) => {
     return (event) => {
@@ -71,6 +84,7 @@ export const useUnifiedTooltip = () => {
     showTooltip,
     hideTooltip,
     updateTooltipPosition,
+    updateTooltipContent,
     handleMouseEnter,
     handleMouseLeave,
     handleMouseMove

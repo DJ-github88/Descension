@@ -240,7 +240,7 @@ export const CHRONARCH_TIME_MANIPULATION = [
   {
     id: 'manip_t4_chronal_nexus',
     name: 'Chronal Nexus',
-    description: 'Create a nexus of temporal energy. Allies within 40ft can cast spells as bonus actions. Roll 1d20 each round: on 18+ per rank, spells cost no slots.',
+    description: 'Create a nexus of temporal energy. Allies within 40ft can cast spells as 1 action points. Roll 1d20 each round: on 18+ per rank, spells cost no slots.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 3,
     position: { x: 4, y: 4 },

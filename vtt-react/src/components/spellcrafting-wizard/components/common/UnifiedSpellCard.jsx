@@ -56,25 +56,6 @@ const UnifiedSpellCard = ({
       }
       if (typeof normalizeSpell === 'function') {
         const normalized = normalizeSpell(spellProp) || spellProp || {};
-        
-        // DEBUG: Log spell data for Harmonic Strike
-        if (normalized.name === 'Harmonic Strike') {
-          console.log('🎵 Harmonic Strike DEBUG:', {
-            name: normalized.name,
-            variant,
-            showDescription,
-            showStats,
-            showTags,
-            effectTypes: normalized.effectTypes,
-            damageTypes: normalized.damageTypes,
-            damageConfig: normalized.damageConfig,
-            resourceCost: normalized.resourceCost,
-            targetingConfig: normalized.targetingConfig,
-            tags: normalized.tags,
-            cooldownConfig: normalized.cooldownConfig
-          });
-        }
-        
         return normalized;
       } else {
         console.warn('normalizeSpell is not available, using spellProp directly');
@@ -4604,8 +4585,8 @@ const UnifiedSpellCard = ({
       } else {
         // Show clear warning for incomplete data
         description = effectType === 'buff'
-          ? '⚠️ INCOMPLETE: Add description to status effect'
-          : '⚠️ INCOMPLETE: Add description to status effect';
+          ? 'INCOMPLETE: Add description to status effect'
+          : 'INCOMPLETE: Add description to status effect';
       }
     }
 
@@ -5331,7 +5312,7 @@ const UnifiedSpellCard = ({
         const hasIncompleteName = !stat.name || stat.name.toLowerCase().includes('stat') && !stat.name.toLowerCase().includes('strength') && !stat.name.toLowerCase().includes('agility');
 
         let statDisplay = {
-          name: hasIncompleteName ? '⚠️ INCOMPLETE: Specify stat name' : (stat.name || 'Stat Modifier'),
+          name: hasIncompleteName ? 'INCOMPLETE: Specify stat name' : (stat.name || 'Stat Modifier'),
           value: '',
           class: hasIncompleteName ? 'incomplete-data' : ''
         };
@@ -9557,7 +9538,7 @@ const UnifiedSpellCard = ({
                             // Check for incomplete stat names and show warning
                             const hasIncompleteName = !modifier.name || (statName.toLowerCase().includes('stat') && !statName.toLowerCase().includes('strength') && !statName.toLowerCase().includes('agility'));
                             if (hasIncompleteName) {
-                              statName = '⚠️ INCOMPLETE: Specify stat name';
+                              statName = 'INCOMPLETE: Specify stat name';
                             }
 
                             const value = modifier.magnitude || modifier.value || 0;

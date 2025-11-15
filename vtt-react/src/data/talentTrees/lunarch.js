@@ -18,7 +18,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: 'moonlight_sentinel_t1_true_shot',
     name: 'True Shot',
-    description: 'Once per turn when you hit with a ranged attack, you can spend 1 bonus action to make another ranged attack at advantage.',
+    description: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage.',
     icon: 'ability_hunter_mastermarksman',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -27,7 +27,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: 'moonlight_sentinel_t2_lunar_guidance',
     name: 'Lunar Guidance',
-    description: 'Your ranged attacks ignore half cover and three-quarters cover. Full Moon phase allows you to attack twice as a bonus action when you crit.',
+    description: 'Your ranged attacks ignore half cover and three-quarters cover. Full Moon phase allows you to attack twice using 1 action point when you crit.',
     icon: 'ability_hunter_focusedaim',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -36,7 +36,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: 'moonlight_sentinel_t3_marksman_focus',
     name: 'Marksman Focus',
-    description: 'You can mark a target as a bonus action. Your next attack against the marked target has advantage and deals +2d6 radiant damage.',
+    description: 'You can mark a target using 1 action point. Your next attack against the marked target has advantage and deals +2d6 radiant damage.',
     icon: 'ability_hunter_assassinate',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -136,7 +136,7 @@ export const LUNARCH_STARFALL_INVOKER = [
   {
     id: 'starfall_invoker_t3_cosmic_eruption',
     name: 'Cosmic Eruption',
-    description: 'Enemies that die from your AoE spells explode, dealing 3d6 force damage per rank to all enemies within 10ft.',
+    description: 'Enemies that die from your AoE spells explode, dealing 3d6 force damage to all enemies within 10ft.',
     icon: 'spell_fire_flamebolt',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -247,7 +247,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: 'moonwell_guardian_t1_lunar_blessing',
     name: 'Lunar Blessing',
-    description: 'You can bless an ally as a bonus action. Blessed allies gain +1d6 to their next attack roll, save, or healing received.',
+    description: 'You can bless an ally using 1 action point. Blessed allies gain +1d6 to their next attack roll, save, or healing received.',
     icon: 'spell_holy_blessingofstrength',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -285,7 +285,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: 'moonwell_guardian_t5_eternal_moonwell',
     name: 'Eternal Moonwell',
-    description: 'Your moonwell becomes permanent and can be created as a bonus action. Allies within 30ft of your moonwell cannot be frightened or charmed.',
+    description: 'Your moonwell becomes permanent and can be created using 1 action point. Allies within 30ft of your moonwell cannot be frightened or charmed.',
     icon: 'spell_holy_divineprovidence',
     maxRanks: 1,
     position: { x: 2, y: 4 },

@@ -8,7 +8,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
     const [selectedSpec, setSelectedSpec] = useState('virulentSpreader');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
-    const [showSpecSelector, setShowSpecSelector] = useState(false);
     
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
@@ -68,96 +67,65 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
         }
     }, [showTooltip, localCorruption, localAfflictions, selectedSpec]);
 
-    const handleSpecChange = (newSpec) => {
-        setSelectedSpec(newSpec);
-        setShowSpecSelector(false);
-    };
 
-    const renderCorruptionSegments = () => {
-        const segments = [];
-        const segmentValue = maxCorruption / 4;
-        
-        for (let i = 0; i < 4; i++) {
-            const segmentStart = i * segmentValue;
-            const segmentEnd = (i + 1) * segmentValue;
-            const fillPercent = Math.max(0, Math.min(100, ((localCorruption - segmentStart) / segmentValue) * 100));
-            const isFilled = localCorruption > segmentStart;
-            const isEvolutionSegment = localCorruption >= 75 && i === 3;
-            
-            segments.push(
-                <div 
-                    key={i} 
-                    className={`corruption-segment ${isFilled ? 'filled' : ''} ${isEvolutionSegment ? 'evolution-ready' : ''}`}
-                >
-                    <div 
-                        className="segment-fill" 
-                        style={{ 
-                            width: `${fillPercent}%`,
-                            background: `linear-gradient(90deg, ${currentSpec.color} 0%, ${currentSpec.glow} 100%)`,
-                            boxShadow: `0 0 8px ${currentSpec.glow}`
-                        }}
-                    />
-                </div>
-            );
-        }
-        
-        return segments;
-    };
 
     return (
         <div className={`plaguebringer-resource-wrapper ${size}`}>
-            {/* Spec Selector Icon - Only show in HUD context */}
-            {context !== 'account' && (
-                <>
-                    <div className="spec-selector-icon" onClick={() => setShowSpecSelector(!showSpecSelector)}>
-                        <i className={`fas ${currentSpec.icon}`} style={{ color: currentSpec.glow }}></i>
-                    </div>
 
-                    {/* Spec Selector Dropdown */}
-                    {showSpecSelector && (
-                        <div className="spec-selector-dropdown">
-                            {Object.entries(specConfigs).map(([key, spec]) => (
-                                <div
-                                    key={key}
-                                    className={`spec-option ${selectedSpec === key ? 'selected' : ''}`}
-                                    onClick={() => handleSpecChange(key)}
-                                >
-                                    <i className={`fas ${spec.icon}`} style={{ color: spec.glow }}></i>
-                                    <span>{spec.name}</span>
-                                </div>
-                            ))}
+            {/* Dual Resource Display */}
+            <div className="plaguebringer-dual-bars">
+
+                {/* Corruption Bar (Top) */}
+                <div
+                    ref={barRef}
+                    className={`corruption-bar ${size} clickable`}
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                    onClick={() => setShowControls(!showControls)}
+                >
+                    <div className="corruption-fill" style={{
+                        width: `${(localCorruption / maxCorruption) * 100}%`,
+                        background: `linear-gradient(90deg, ${currentSpec.color} 0%, ${currentSpec.glow} 100%)`
+                    }} />
+                    <div className="corruption-overlay">
+                        <div className="corruption-number">
+                            {localCorruption}/{maxCorruption}
                         </div>
-                    )}
-                </>
-            )}
-            
-            {/* Main Resource Bar - CLICKABLE */}
-            <div
-                ref={barRef}
-                className={`plaguebringer-resource-bar ${size} clickable`}
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
-                onClick={() => setShowControls(!showControls)}
-            >
-                <div className="corruption-segments">
-                    {renderCorruptionSegments()}
+                    </div>
                 </div>
 
-                <div className="corruption-overlay">
-                    <div className="corruption-number">
-                        {localCorruption}/{maxCorruption}
-                    </div>
-                    <div className="afflictions-count">
-                        <i className="fas fa-disease"></i> {localAfflictions}/{maxAfflictions}
+                {/* Afflictions Bar (Bottom) */}
+                <div className="afflictions-bar">
+                    {Array.from({ length: maxAfflictions }, (_, index) => (
+                        <div
+                            key={index}
+                            className={`affliction-segment ${index < localAfflictions ? 'active' : 'inactive'} ${currentSpec.icon.split('-')[1]}`}
+                            style={{
+                                backgroundColor: index < localAfflictions ? currentSpec.color : 'rgba(85, 107, 47, 0.2)',
+                                borderColor: index < localAfflictions ? currentSpec.glow : 'rgba(85, 107, 47, 0.4)',
+                                boxShadow: index < localAfflictions ? `0 0 4px ${currentSpec.glow}80` : 'none'
+                            }}
+                        >
+                            {index < localAfflictions && (
+                                <i className={`fas ${currentSpec.icon}`} style={{
+                                    color: '#ffffff',
+                                    fontSize: size === 'small' ? '6px' : size === 'large' ? '8px' : '7px',
+                                    filter: 'drop-shadow(0 0 2px rgba(0,0,0,0.8))'
+                                }} />
+                            )}
+                        </div>
+                    ))}
+                    <div className="afflictions-label">
+                        <i className="fas fa-disease"></i> {localAfflictions}
                     </div>
                 </div>
             </div>
             
-            {/* Pathfinder-styled Tooltip */}
+            {/* Simple Tooltip */}
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="plaguebringer-tooltip pathfinder-tooltip">
-                    <div className="tooltip-header">Affliction Cultivation</div>
-                    
+                    <div className="tooltip-header">Plaguebringer</div>
+
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
                             <strong>Corruption:</strong> {localCorruption}/{maxCorruption}
@@ -166,113 +134,73 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             <strong>Active Afflictions:</strong> {localAfflictions}/{maxAfflictions}
                         </div>
                     </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
+
                     <div className="tooltip-section">
                         <div className="tooltip-label">Evolution Stage: {evolutionStage}/4</div>
-                        <div className="evolution-stages">
-                            <div className={evolutionStage >= 1 ? 'stage-active' : ''}>Stage 1 (0-24): Base Afflictions</div>
-                            <div className={evolutionStage >= 2 ? 'stage-active' : ''}>Stage 2 (25-49): Enhanced Effects</div>
-                            <div className={evolutionStage >= 3 ? 'stage-active' : ''}>Stage 3 (50-74): Advanced Symptoms</div>
-                            <div className={evolutionStage >= 4 ? 'stage-active' : ''}>Stage 4 (75-100): Final Form</div>
-                        </div>
                     </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
+
                     <div className="tooltip-section">
-                        <div className="tooltip-label">Corruption Generation</div>
-                        <div className="corruption-gen">
-                            <strong>Gain:</strong>
-                            <span>+10 base affliction, +5 category spell, +25 final form</span>
-                            <strong>Decay:</strong>
-                            <span>-2 per turn</span>
+                        <div className="tooltip-label">{currentSpec.name}</div>
+                        <div className="passive-desc" style={{ fontSize: '0.8rem', lineHeight: '1.3' }}>
+                            {currentSpec.passiveDesc}
                         </div>
-                    </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Plague Mastery (Shared)</div>
-                        <div className="passive-desc">
-                            Your afflictions last 1d4 additional rounds and resist dispel attempts (roll 1d6, on 5-6 resist). 
-                            Additionally, whenever an afflicted target dies, you gain 1d4 mana.
-                        </div>
-                    </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">{currentSpec.passive}</div>
-                        <div className="passive-desc">{currentSpec.passiveDesc}</div>
                     </div>
                 </div>,
                 document.body
             )}
             
-            {/* Dev Controls */}
-            {showControls && ReactDOM.createPortal(
-                <div className="plaguebringer-controls-overlay" onClick={() => setShowControls(false)}>
-                    <div className="plaguebringer-controls" onClick={(e) => e.stopPropagation()}>
-                        <div className="controls-header">
-                            <h4>Plaguebringer Controls</h4>
-                            <button className="close-btn" onClick={() => setShowControls(false)}>
-                                <i className="fas fa-times"></i>
-                            </button>
+            {/* Plaguebringer Menu */}
+            {showControls && (
+                <div className="plaguebringer-menu" onClick={(e) => e.stopPropagation()}>
+                    <div className="menu-section">
+                        <div className="menu-title">Corruption</div>
+                        <div className="menu-controls">
+                            <button onClick={() => setLocalCorruption(Math.max(0, localCorruption - 10))}>-10</button>
+                            <span className="menu-value">{localCorruption}/{maxCorruption}</span>
+                            <button onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 10))}>+10</button>
                         </div>
-                        
-                        <div className="control-group">
-                            <label>Corruption: {localCorruption}/{maxCorruption}</label>
-                            <input 
-                                type="range" 
-                                min="0" 
-                                max={maxCorruption} 
-                                value={localCorruption} 
-                                onChange={(e) => setLocalCorruption(parseInt(e.target.value))}
-                            />
-                            <div className="control-buttons">
-                                <button onClick={() => setLocalCorruption(Math.max(0, localCorruption - 10))}>-10</button>
-                                <button onClick={() => setLocalCorruption(Math.max(0, localCorruption - 5))}>-5</button>
-                                <button onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 5))}>+5</button>
-                                <button onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 10))}>+10</button>
-                            </div>
-                        </div>
-                        
-                        <div className="control-group">
-                            <label>Active Afflictions: {localAfflictions}/{maxAfflictions}</label>
-                            <input 
-                                type="range" 
-                                min="0" 
-                                max={maxAfflictions} 
-                                value={localAfflictions} 
-                                onChange={(e) => setLocalAfflictions(parseInt(e.target.value))}
-                            />
-                            <div className="control-buttons">
-                                <button onClick={() => setLocalAfflictions(Math.max(0, localAfflictions - 1))}>-1</button>
-                                <button onClick={() => setLocalAfflictions(Math.min(maxAfflictions, localAfflictions + 1))}>+1</button>
-                            </div>
-                        </div>
-                        
-                        <div className="control-group">
-                            <label>Specialization</label>
-                            <div className="spec-buttons">
-                                {Object.entries(specConfigs).map(([key, spec]) => (
-                                    <button 
-                                        key={key}
-                                        className={selectedSpec === key ? 'active' : ''}
-                                        onClick={() => setSelectedSpec(key)}
-                                        style={{ borderColor: spec.glow }}
-                                    >
-                                        <i className={`fas ${spec.icon}`} style={{ color: spec.glow }}></i>
-                                        <span>{spec.name}</span>
-                                    </button>
-                                ))}
-                            </div>
+                        <div className="menu-quick-buttons">
+                            <button onClick={() => setLocalCorruption(Math.max(0, localCorruption - 5))}>-5</button>
+                            <button onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 5))}>+5</button>
+                            <button onClick={() => setLocalCorruption(0)}>Clear</button>
+                            <button onClick={() => setLocalCorruption(maxCorruption)}>Max</button>
                         </div>
                     </div>
-                </div>,
-                document.body
+
+                    <div className="menu-section">
+                        <div className="menu-title">Active Afflictions</div>
+                        <div className="menu-controls">
+                            <button onClick={() => setLocalAfflictions(Math.max(0, localAfflictions - 1))}>-1</button>
+                            <span className="menu-value">{localAfflictions}/{maxAfflictions}</span>
+                            <button onClick={() => setLocalAfflictions(Math.min(maxAfflictions, localAfflictions + 1))}>+1</button>
+                        </div>
+                        <div className="menu-quick-buttons">
+                            <button onClick={() => setLocalAfflictions(0)}>Clear</button>
+                            <button onClick={() => setLocalAfflictions(maxAfflictions)}>Max</button>
+                        </div>
+                    </div>
+
+                    <div className="menu-section">
+                        <div className="menu-title">Specialization</div>
+                        <div className="spec-icons-row">
+                            {Object.entries(specConfigs).map(([key, spec]) => {
+                                const isSelected = selectedSpec === key;
+                                return (
+                                    <div
+                                        key={key}
+                                        className={`spec-icon-option ${isSelected ? 'selected' : ''}`}
+                                        onClick={() => {
+                                            setSelectedSpec(key);
+                                        }}
+                                        title={`${spec.name}: ${spec.passive}`}
+                                    >
+                                        <i className={`fas ${spec.icon}`}></i>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

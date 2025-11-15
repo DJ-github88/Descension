@@ -164,7 +164,6 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
                 // Reduce logging frequency to prevent spam
                 const now = Date.now();
                 if (!token.lastVisibilityLog || now - token.lastVisibilityLog > 1000) {
-                    console.log(`👁️ Token ${token.id} visibility check: distance=${distance.toFixed(1)}, max=${maxDistance}, visible=${isCurrentlyVisible}, viewingPos=${viewingFromToken.position.x.toFixed(1)},${viewingFromToken.position.y.toFixed(1)}, tokenPos=${token.position.x.toFixed(1)},${token.position.y.toFixed(1)}`);
                     token.lastVisibilityLog = now;
                 }
             } else {
@@ -230,7 +229,6 @@ const MemorySnapshotManager = ({ isGMMode, gridSize, gridOffsetX, gridOffsetY })
 
                                     const stillVisible = distance <= maxDistance;
                                     if (stillVisible) {
-                                        console.log(`🗑️ Removing afterimage for token ${token.id} - token has been visible for 5 seconds`);
                                         removeTokenAfterimage(token.id);
                                     }
                                 }

@@ -149,7 +149,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     id: 'gadget_core_mechanical',
     name: 'Mechanical Core',
-    description: 'Your body houses intricate machinery. Gain proficiency with all tools and advantage on checks to repair or modify mechanical devices. You can spend 1 bonus action to deploy a simple contraption.',
+    description: 'Your body houses intricate machinery. Gain proficiency with all tools and advantage on checks to repair or modify mechanical devices. You can spend 1 1 action point to deploy a simple contraption.',
     icon: 'inv_misc_wrench_01',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -218,7 +218,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     id: 'gadget_hub_automation_core',
     name: 'Automation Core',
-    description: 'Your gadgets operate autonomously. Contraptions can move 30 feet per round and can attack or activate independently. You can command up to 3 contraptions per rank as a bonus action.',
+    description: 'Your gadgets operate autonomously. Contraptions can move 30 feet per round and can attack or activate independently. You can command up to 3 contraptions per rank as a 1 action point.',
     icon: 'inv_misc_punchcards_yellow',
     maxRanks: 4,
     position: { x: 2, y: 3 },
@@ -291,7 +291,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     id: 'sabotage_core_disruption',
     name: 'Disruption Core',
-    description: 'Your presence sows chaos and disorder. Enemies within 30 feet have disadvantage on concentration saves per rank. You can spend 1 bonus action to create a zone of confusion in a 10-foot radius.',
+    description: 'Your presence sows chaos and disorder. Enemies within 30 feet have disadvantage on concentration saves per rank. You can spend 1 1 action point to create a zone of confusion in a 10-foot radius.',
     icon: 'ability_rogue_wrongfullyaccused',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -400,7 +400,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     id: 'sabotage_apocalypse_system_crash',
     name: 'System Crash',
-    description: 'Trigger a total system failure in reality. All enemies within 50 feet are stunned for 1 minute per rank. During this time, they cannot take actions, reactions, or bonus actions.',
+    description: 'Trigger a total system failure in reality. All enemies within 50 feet are stunned for 1 minute per rank. During this time, they cannot take actions, reactions, or 1 action points.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 2,
     position: { x: 1, y: 5 },

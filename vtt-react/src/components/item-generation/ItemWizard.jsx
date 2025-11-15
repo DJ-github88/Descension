@@ -3015,8 +3015,8 @@ export default function ItemWizard({ onClose, onComplete, onCancel, initialData 
                                         <div className="usage-note">
                                             <span className="note-text">
                                                 {itemData.oneTimeUse
-                                                    ? "⚠️ This key will be destroyed after use"
-                                                    : "🔄 This key can be used multiple times"
+                                                    ? "This key will be destroyed after use"
+                                                    : "This key can be used multiple times"
                                                 }
                                             </span>
                                         </div>

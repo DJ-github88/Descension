@@ -673,7 +673,7 @@
 }
 
 .ability-cast-time::before {
-  content: '⏱️';
+  content: 'Timer';
   position: absolute;
   left: 0;
   top: 0;

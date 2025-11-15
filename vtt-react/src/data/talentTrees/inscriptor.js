@@ -38,7 +38,7 @@ export const INSCRIPTOR_RUNEBINDER = [
   {
     id: 'runebinder_t1_zone_control',
     name: 'Zone Control',
-    description: 'Enemies in zones have -1 to saves per rank. Can move runes 5 ft per rank as a bonus action.',
+    description: 'Enemies in zones have -1 to saves per rank. Can move runes 5 ft per rank as a 1 action point.',
     icon: 'spell_arcane_blink',
     maxRanks: 3,
     position: { x: 0, y: 2 },

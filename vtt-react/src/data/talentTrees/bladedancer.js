@@ -18,7 +18,7 @@ export const BLADEDANCER_FLOW_MASTER = [
   {
     id: 'flow_master_t1_rapid_current',
     name: 'Rapid Current',
-    description: 'You can transition between any two connected stances as a bonus action. Gain +1 Momentum when you transition stances.',
+    description: 'You can transition between any two connected stances as a 1 action point. Gain +1 Momentum when you transition stances.',
     icon: 'spell_nature_swiftness',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -94,7 +94,7 @@ export const BLADEDANCER_FLOW_MASTER = [
   {
     id: 'flow_master_t6_water_ascendant',
     name: 'Water Ascendant',
-    description: 'Ultimate ability: Become a flowing water elemental for 1 minute. All attacks pass through you, you take half damage from all sources, and you can teleport 30ft as a bonus action. Costs all Momentum.',
+    description: 'Ultimate ability: Become a flowing water elemental for 1 minute. All attacks pass through you, you take half damage from all sources, and you can teleport 30ft as a 1 action point. Costs all Momentum.',
     icon: 'spell_nature_acid_01',
     maxRanks: 1,
     position: { x: 2, y: 5 },
@@ -176,7 +176,7 @@ export const BLADEDANCER_DUELIST = [
   {
     id: 'duelist_t4_dueling_mastery',
     name: 'Dueling Mastery',
-    description: 'You can challenge a single enemy as a bonus action. While challenged, both you and the target have advantage on attacks against each other, but cannot attack others.',
+    description: 'You can challenge a single enemy as a 1 action point. While challenged, both you and the target have advantage on attacks against each other, but cannot attack others.',
     icon: 'ability_warrior_savageblow',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -218,7 +218,7 @@ export const BLADEDANCER_SHADOW_DANCER = [
   {
     id: 'shadow_dancer_t1_shadow_cloak',
     name: 'Shadow Cloak',
-    description: 'You can enter stealth as a bonus action. While stealthed, you gain +2 to attack and damage rolls. Stealth lasts until you attack or take damage.',
+    description: 'You can enter stealth as a 1 action point. While stealthed, you gain +2 to attack and damage rolls. Stealth lasts until you attack or take damage.',
     icon: 'spell_shadow_nethercloak',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -294,7 +294,7 @@ export const BLADEDANCER_SHADOW_DANCER = [
   {
     id: 'shadow_dancer_t6_shadow_ascendant',
     name: 'Shadow Ascendant',
-    description: 'Ultimate ability: Become a living shadow for 1 minute. You are immune to all damage, can teleport 60ft as a bonus action, and all your attacks deal maximum damage. Costs all Momentum and 3 Flourish.',
+    description: 'Ultimate ability: Become a living shadow for 1 minute. You are immune to all damage, can teleport 60ft as a 1 action point, and all your attacks deal maximum damage. Costs all Momentum and 3 Flourish.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 2, y: 5 },

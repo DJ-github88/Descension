@@ -42,7 +42,7 @@ function CharacterSheetWindow({ isOpen, onClose, title }) {
             isOpen={isOpen}
             onClose={onClose}
             title={safeTitle}
-            defaultSize={{ width: 800, height: 600 }}
+            defaultSize={{ width: 700, height: 500 }}
             defaultPosition={{ x: 300, y: 150 }}
             centered={false}
             customHeader={

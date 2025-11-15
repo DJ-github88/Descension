@@ -922,7 +922,6 @@ const CharacterToken = ({
         const handleMouseLeave = (e) => {
             // Only trigger if we're actively dragging
             if (isDragging) {
-                console.log('🖱️ Mouse left window during drag - finalizing position');
                 // Trigger mouseup to properly finalize the position
                 handleMouseUp(e);
             }
@@ -1084,15 +1083,6 @@ const CharacterToken = ({
     const handleDamageToken = (amount) => {
         const currentHp = characterData.health.current;
         const newHp = Math.max(0, currentHp - amount);
-
-        console.log('💥 DAMAGE CHARACTER TOKEN:', {
-            tokenId,
-            characterName: characterData.name,
-            amount,
-            currentHp,
-            newHp,
-            timestamp: new Date().toLocaleTimeString()
-        });
 
         // Update character health through character store - pass current value, keep max unchanged
         useCharacterStore.getState().updateResource('health', newHp, undefined);
@@ -1273,11 +1263,6 @@ const CharacterToken = ({
 
     // Handle kill (set health to 0)
     const handleKill = () => {
-        console.log('💀 KILL CHARACTER TOKEN:', {
-            tokenId,
-            characterName: characterData.name,
-            timestamp: new Date().toLocaleTimeString()
-        });
 
         // Set health to 0
         useCharacterStore.getState().updateResource('health', 0, undefined);
@@ -1899,9 +1884,9 @@ const CharacterToken = ({
                             fontStyle: 'italic'
                         }}>
                             {isMyTurn ? (
-                                <span style={{ color: '#FFD700', fontWeight: 'bold' }}>🗡️ Your Turn</span>
+                                <span style={{ color: '#FFD700', fontWeight: 'bold' }}>Your Turn</span>
                             ) : (
-                                <span style={{ color: '#666' }}>⏳ Waiting for turn</span>
+                                <span style={{ color: '#666' }}>Waiting for turn</span>
                             )}
                         </div>
                     )}
@@ -1916,7 +1901,7 @@ const CharacterToken = ({
                             color: '#FF9800',
                             fontWeight: 'bold'
                         }}>
-                            🎯 Targeted
+                            Targeted
                         </div>
                     )}
                 </div>,

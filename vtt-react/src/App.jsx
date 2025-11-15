@@ -44,6 +44,8 @@ const CharacterViewPage = lazy(() => import("./components/account/CharacterViewP
 
 // Test components
 const TestTriggerDisplay = lazy(() => import("./components/spellcrafting-wizard/test/TestTriggerDisplay"));
+const TestChronarchTooltips = lazy(() => import('./components/TestChronarchTooltips'));
+const TestLichborneSpecializations = lazy(() => import('./components/TestLichborneSpecializations'));
 
 
 import initChatStore from './utils/initChatStore';
@@ -323,27 +325,20 @@ function GameScreen() {
             // FIXED: Don't add creatures to global library - they should already be there
             // Instead, load tokens if they exist using the special loadToken method
             if (gameState.tokens && Array.isArray(gameState.tokens)) {
-                console.log('🎭 Loading tokens from room state:', gameState.tokens.length, 'tokens');
                 gameState.tokens.forEach(token => {
-                    console.log('🎭 Loading token:', { id: token.id, creatureId: token.creatureId, position: token.position });
                     // Use loadToken method which bypasses existing token checks
                     useCreatureStore.getState().loadToken(token);
                 });
             } else if (gameState.tokens && typeof gameState.tokens === 'object') {
                 // Handle legacy object format
-                console.log('🎭 Loading tokens from legacy object format');
                 Object.values(gameState.tokens).forEach(token => {
-                    console.log('🎭 Loading legacy token:', { id: token.id, creatureId: token.creatureId, position: token.position });
                     useCreatureStore.getState().loadToken(token);
                 });
             } else {
-                console.log('🎭 No tokens to load from room state');
             }
             if (gameState.inventory?.droppedItems) {
                 const droppedItems = Object.values(gameState.inventory.droppedItems);
-                console.log('📦 Loading dropped items from room state:', droppedItems.length, 'items');
                 droppedItems.forEach(item => {
-                    console.log('📦 Loading item:', item);
                     useGridItemStore.getState().loadGridItem(item);
                 });
             }
@@ -387,7 +382,6 @@ function GameScreen() {
                     levelEditorStore.setDrawingLayers(gameState.levelEditor.drawingLayers);
                 }
 
-                console.log('🏗️ Level editor data loaded from room state');
             }
 
             // Also try to load from the separate level editor persistence service
@@ -396,7 +390,6 @@ function GameScreen() {
                 const levelEditorData = levelEditorPersistenceService.loadLevelEditorState(roomId);
                 if (levelEditorData) {
                     useLevelEditorStore.getState().loadMapState(levelEditorData);
-                    console.log('🏗️ Level editor persistence data loaded for room:', roomId);
                 }
             } catch (error) {
                 console.warn('Could not load level editor persistence data:', error);
@@ -473,7 +466,7 @@ function GameScreen() {
                         const { updatePartyMember } = usePartyStore.getState();
                         updatePartyMember('current-player', { isGM: isGMMode });
                     } else {
-                        console.log('ℹ️ No active character found');
+                        console.log('No active character found');
                         // Create a basic single-player party even without a character
                         localStorage.removeItem('party-store');
                         leaveParty();
@@ -896,6 +889,18 @@ const AppContent = ({
                         <Route path="/test/triggers" element={
                             <Suspense fallback={<LoadingFallback message="Loading test..." />}>
                                 <TestTriggerDisplay />
+                            </Suspense>
+                        } />
+
+                        <Route path="/test/chronarch-tooltips" element={
+                            <Suspense fallback={<LoadingFallback message="Loading chronarch tooltip test..." />}>
+                                <TestChronarchTooltips />
+                            </Suspense>
+                        } />
+
+                        <Route path="/test/lichborne-specializations" element={
+                            <Suspense fallback={<LoadingFallback message="Loading lichborne specialization test..." />}>
+                                <TestLichborneSpecializations />
                             </Suspense>
                         } />
 

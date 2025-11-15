@@ -142,7 +142,7 @@ export const MARTYR_REDEEMER = [
   {
     id: 'red_t1_healing_touch',
     name: 'Healing Touch',
-    description: 'Your touch heals wounds. Spend a bonus action to heal 1d8 + your level HP.',
+    description: 'Your touch heals wounds. Spend a 1 action point to heal 1d8 + your level HP.',
     icon: 'spell_holy_healingtouch',
     maxRanks: 3,
     position: { x: 1, y: 0 },

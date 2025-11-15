@@ -254,7 +254,7 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 9px !important;
+    font-size: 7px !important;
     font-weight: bold !important;
     color: #fff !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
@@ -262,6 +262,9 @@
     pointer-events: none !important;
     line-height: 1 !important;
     text-align: center !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 /* Specific override for HUD health/mana/AP bars to ensure proper centering */
@@ -285,7 +288,7 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 9px !important;
+    font-size: 7px !important;
     font-weight: bold !important;
     color: #fff !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
@@ -293,6 +296,9 @@
     pointer-events: none !important;
     line-height: 1 !important;
     text-align: center !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 /* Compact Mode Adjustments */
@@ -1512,6 +1518,18 @@
     font-family: 'Bookman Old Style', 'Garamond', serif;
     /* Ensure frame expands properly for 4th resource bar */
     overflow: visible;
+    
+    /* Performance optimizations for smooth dragging */
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+/* Disable transitions during drag for smooth movement */
+.react-draggable-dragging .party-member-frame {
+    transition: none !important;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 /* Ensure frames with 4th resource bars get additional height */

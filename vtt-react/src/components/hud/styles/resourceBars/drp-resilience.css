@@ -1,0 +1,243 @@
+.class-resource-bar.drp-resilience {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.drp-bar-wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+.drp-bar-container {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.drp-bar-container .bar-background {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    background: linear-gradient(180deg, rgba(26, 0, 51, 0.8), rgba(20, 0, 40, 0.9));
+    border: 1px solid rgba(139, 0, 255, 0.4);
+    border-radius: 4px;
+    overflow: visible;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.drp-segments {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+}
+
+.drp-section {
+    position: relative;
+    flex: 1;
+    display: flex;
+    gap: 1px;
+}
+
+.drp-segment {
+    flex: 1;
+    height: 100%;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.drp-segment.filled {
+    animation: drpPulse 2s ease-in-out infinite;
+}
+
+@keyframes drpPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+}
+
+.drp-threshold-marker {
+    position: absolute;
+    right: -1px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(139, 0, 255, 0.6);
+    box-shadow: 0 0 4px rgba(139, 0, 255, 0.8);
+}
+
+.drp-bar-container .bar-background .bar-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(139, 0, 255, 0.6);
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* DRP Controls */
+.drp-controls {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.drp-btn {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.3), rgba(139, 0, 255, 0.2));
+    border: 1px solid rgba(139, 0, 255, 0.5);
+    border-radius: 4px;
+    color: #8B00FF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.drp-btn:hover {
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.5), rgba(139, 0, 255, 0.3));
+    border-color: #8B00FF;
+    box-shadow: 0 0 8px rgba(139, 0, 255, 0.4);
+}
+
+.drp-btn:active {
+    transform: scale(0.95);
+}
+
+.drp-menu {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    margin-right: 6px;
+    background: linear-gradient(135deg, rgba(26, 0, 51, 0.95), rgba(20, 0, 40, 0.98));
+    border: 1px solid rgba(139, 0, 255, 0.5);
+    border-radius: 4px;
+    padding: 8px;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 0, 255, 0.2);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.drp-menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.drp-menu-section .menu-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #8B00FF;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(139, 0, 255, 0.3);
+}
+
+.drp-menu-row {
+    display: flex;
+    gap: 4px;
+}
+
+.drp-menu-row.set-row {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(139, 0, 255, 0.2);
+}
+
+.drp-menu-item {
+    flex: 1;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.2), rgba(139, 0, 255, 0.1));
+    border: 1px solid rgba(139, 0, 255, 0.3);
+    border-radius: 3px;
+    color: #8B00FF;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.drp-menu-item:hover {
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.4), rgba(139, 0, 255, 0.2));
+    border-color: #8B00FF;
+    box-shadow: 0 0 6px rgba(139, 0, 255, 0.3);
+}
+
+.drp-menu-item:active {
+    transform: scale(0.95);
+}
+
+.drp-resistance-select {
+    width: 100%;
+    padding: 6px 8px;
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.2), rgba(139, 0, 255, 0.1));
+    border: 1px solid rgba(139, 0, 255, 0.3);
+    border-radius: 3px;
+    color: #8B00FF;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.drp-resistance-select:focus {
+    outline: none;
+    border-color: #8B00FF;
+    box-shadow: 0 0 6px rgba(139, 0, 255, 0.3);
+}
+
+/* Size variations */
+.class-resource-bar.drp-resilience.small .drp-bar-container .bar-background {
+    height: 18px;
+}
+
+.class-resource-bar.drp-resilience.small .drp-bar-container .bar-background .bar-text {
+    font-size: 9px;
+}
+
+.class-resource-bar.drp-resilience.small .drp-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-bar-container .bar-background {
+    height: 32px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-bar-container .bar-background .bar-text {
+    font-size: 13px;
+}
+
+.class-resource-bar.drp-resilience.large .drp-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+/* ===================================
+   EXORCIST - DOMINANCE DIE DISPLAY
+   =================================== */

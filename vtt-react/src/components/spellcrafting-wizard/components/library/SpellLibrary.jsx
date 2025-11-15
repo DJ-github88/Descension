@@ -198,7 +198,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       if (!deletedIds.includes(spellId)) {
         deletedIds.push(spellId);
         localStorage.setItem('mythrill-deleted-spells', JSON.stringify(deletedIds));
-        console.log('🗑️ [SpellLibrary] Marked spell as deleted in localStorage:', spellId);
       }
     } catch (error) {
       console.error('🗑️ [SpellLibrary] Error marking spell as deleted:', error);
@@ -218,7 +217,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             const spellsToAdd = userSpells.filter(spell => {
               // Don't add if it's been deleted
               if (deletedSpellIds.includes(spell.id)) {
-                console.log('🗑️ [SpellLibrary] Skipping deleted spell:', spell.id, spell.name);
                 return false;
               }
               // Don't add if it already exists in the library
@@ -761,7 +759,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       const spellId = deleteConfirmation.spellId;
       const spellName = deleteConfirmation.spellName;
 
-      console.log('🗑️ [SpellLibrary] Deleting spell:', { spellId, spellName });
 
       // Find the spell in filteredSpells or library.spells to check if it's custom
       const spell = filteredSpells.find(s => s.id === spellId) || 

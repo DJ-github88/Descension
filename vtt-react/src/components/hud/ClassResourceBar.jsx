@@ -14,6 +14,7 @@ import WitchDoctorResourceBar from '../../data/classes/witchdoctor/components/Wi
 const ClassResourceBar = ({
     characterClass,
     classResource,
+    character = null,
     isGMMode = false,
     onResourceClick = null,
     size = 'normal', // 'small', 'normal', 'large'
@@ -29,6 +30,7 @@ const ClassResourceBar = ({
     const [localSpheres, setLocalSpheres] = useState([]);
     const [isRolling, setIsRolling] = useState(false);
     const [showControls, setShowControls] = useState(false);
+    const [diceButtonMode, setDiceButtonMode] = useState('roll'); // 'roll' | 'spec' | 'prism-reroll' | 'architect-swap'
 
     // Berserker rage controls
     const [showRageMenu, setShowRageMenu] = useState(false);
@@ -44,6 +46,7 @@ const ClassResourceBar = ({
     const [rerollsUsed, setRerollsUsed] = useState(0);
     const [swapMode, setSwapMode] = useState(false);
     const [selectedForSwap, setSelectedForSwap] = useState([]);
+
 
     // State for Berserker rage (local state for interactive demo)
     const [localRage, setLocalRage] = useState(classResource?.current || 0);
@@ -111,6 +114,7 @@ const ClassResourceBar = ({
     const [localThreads, setLocalThreads] = useState(7); // Start with 7 for demo (mid-range)
     const [showThreadsMenu, setShowThreadsMenu] = useState(false);
     const [fateWeaverHoverSection, setFateWeaverHoverSection] = useState(null); // 'threads' | null
+    const [selectedFateWeaverSpec, setSelectedFateWeaverSpec] = useState('fortune-teller'); // 'fortune-teller', 'card-master', 'thread-weaver'
     const threadsBarRef = useRef(null);
 
     // State for Formbender (local state for interactive demo)
@@ -119,7 +123,15 @@ const ClassResourceBar = ({
     const [showWIMenu, setShowWIMenu] = useState(false);
     const [showFormMenu, setShowFormMenu] = useState(false);
     const [formbenderHoverSection, setFormbenderHoverSection] = useState(null); // 'wi' | 'form' | null
+    const [formbenderSpec, setFormbenderSpec] = useState('feral-hunter'); // Default to Feral Hunter
     const wiBarRef = useRef(null);
+
+    // State for Primalist (local state for interactive demo)
+    const [localSynergy, setLocalSynergy] = useState(45); // Start with 45 for demo
+    const [activeTotems, setActiveTotems] = useState(5); // Start with 5 totems for demo
+    const [showSynergyMenu, setShowSynergyMenu] = useState(false);
+    const [primalistSpec, setPrimalistSpec] = useState('earthwarden'); // Default to Earthwarden
+    const synergyBarRef = useRef(null);
 
     // State for Gambler (local state for interactive demo)
     const [localFortunePoints, setLocalFortunePoints] = useState(5); // Start with 5 for demo
@@ -140,9 +152,9 @@ const ClassResourceBar = ({
     const qmBarRef = useRef(null);
 
     // State for Inscriptor (local state for interactive demo)
-    const [localRunes, setLocalRunes] = useState(5); // Start with 5 for demo
-    const [localInscriptions, setLocalInscriptions] = useState(2); // Start with 2 for demo
-    const [inscriptorSpec, setInscriptorSpec] = useState('base'); // 'base' | 'runebinder' | 'enchanter' | 'glyphweaver'
+    const [localRunes, setLocalRunes] = useState(3); // Start with 3 for demo (Enchanter max)
+    const [localInscriptions, setLocalInscriptions] = useState(1); // Start with 1 for demo
+    const [inscriptorSpec, setInscriptorSpec] = useState('enchanter'); // 'runebinder' | 'enchanter' | 'glyphweaver'
     const [showRunesMenu, setShowRunesMenu] = useState(false);
     const [showInscriptorSpecMenu, setShowInscriptorSpecMenu] = useState(false);
     const [inscriptorHoverSection, setInscriptorHoverSection] = useState(null); // 'runes' | 'inscriptions' | null
@@ -153,8 +165,7 @@ const ClassResourceBar = ({
     const [eternalFrostActive, setEternalFrostActive] = useState(false); // Aura state
     const [lichborneSpec, setLichborneSpec] = useState('frostbound_tyrant'); // 'frostbound_tyrant' | 'spectral_reaper' | 'phylactery_guardian'
     const [showPhylacteryMenu, setShowPhylacteryMenu] = useState(false);
-    const [showLichborneSpecMenu, setShowLichborneSpecMenu] = useState(false);
-    const [lichborneHoverSection, setLichborneHoverSection] = useState(null); // 'phylactery' | 'aura' | null
+    const [lichborneHoverSection, setLichborneHoverSection] = useState(null); // 'phylactery' | null
     const phylacteryBarRef = useRef(null);
 
     // State for Lunarch (local state for interactive demo)
@@ -193,7 +204,6 @@ const ClassResourceBar = ({
         { source: 'Revelation', amount: 1 }
     ]); // Last 3 Vision gains
     const [showVisionsMenu, setShowVisionsMenu] = useState(false);
-    const [showOracleSpecMenu, setShowOracleSpecMenu] = useState(false);
     const [oracleHoverSection, setOracleHoverSection] = useState(null); // 'visions' | null
     const visionsBarRef = useRef(null);
 
@@ -217,7 +227,7 @@ const ClassResourceBar = ({
             baseColor: '#2D1B69',
             activeColor: '#9370DB',
             glowColor: '#DDA0DD',
-            icon: '⚡'
+            icon: 'fa-bolt'
         },
         mechanics: {
             max: 5,
@@ -300,8 +310,93 @@ const ClassResourceBar = ({
     const handleRageBarLeave = () => setShowTooltip(false);
 
 
+    // Create specialization-specific visual and mechanical configurations for Fate Weaver
+    const getFateWeaverConfig = (spec) => {
+        const baseConfig = {
+            type: 'threads-of-destiny',
+            count: 13,
+            arrangement: 'horizontal',
+            segmentBorder: '#2d1b4e',
+            cardSuits: ['♠', '♥', '♦', '♣'],
+            icon: 'fas fa-scroll',
+            effects: ['mystical', 'fate', 'tarot'],
+            maxThreads: 13, // Base maximum
+            handLimit: 5   // Base hand limit
+        };
+
+        switch (spec) {
+            case 'fortune-teller':
+                return {
+                    ...baseConfig,
+                    baseColor: '#0a0614', // Deep mystical purple-black
+                    threadColor: '#9370DB', // Medium purple
+                    shimmerColor: '#BA55D3', // Medium orchid
+                    accentColor: '#8A2BE2', // Blue violet
+                    glowColor: '#DA70D6', // Orchid
+                    crystalSymbols: ['♠', '♥', '♦', '♣'],
+                    icon: 'fas fa-eye',
+                    effects: ['mystical', 'crystal', 'divination'],
+                    maxThreads: 13, // Standard
+                    handLimit: 5   // Standard
+                };
+            case 'card-master':
+                return {
+                    ...baseConfig,
+                    baseColor: '#1a1a0a', // Deep gold-black
+                    threadColor: '#FFD700', // Gold
+                    shimmerColor: '#F0E68C', // Pale goldenrod
+                    accentColor: '#DAA520', // Goldenrod
+                    glowColor: '#FFA500', // Orange
+                    cardSymbols: ['♠', '♥', '♦', '♣'],
+                    icon: 'fas fa-cards',
+                    effects: ['golden', 'deck', 'cards'],
+                    maxThreads: 13, // Standard Threads
+                    handLimit: 7   // Master of the Deck: hold up to 7 cards
+                };
+            case 'thread-weaver':
+                return {
+                    ...baseConfig,
+                    baseColor: '#140a0f', // Deep pink-black
+                    threadColor: '#FF1493', // Deep pink
+                    shimmerColor: '#FF69B4', // Hot pink
+                    accentColor: '#DC143C', // Crimson
+                    glowColor: '#FF6347', // Tomato
+                    webSymbols: ['♠', '♥', '♦', '♣'],
+                    icon: 'fas fa-spider',
+                    effects: ['thread', 'web', 'weaver'],
+                    maxThreads: 13, // Standard maximum
+                    handLimit: 5   // Standard
+                };
+            default:
+                return {
+                    ...baseConfig,
+                    baseColor: '#1a0d2e', // Deep mystical purple
+                    threadColor: '#FFD700', // Golden thread
+                    shimmerColor: '#F0E68C', // Pale gold shimmer
+                    accentColor: '#9370DB', // Medium purple
+                    glowColor: '#FFA500', // Orange-gold glow
+                    maxThreads: 13,
+                    handLimit: 5
+                };
+        }
+    };
+
     const finalConfig = config || defaultConfig;
     const finalClassResource = classResource || { current: 0, max: finalConfig.mechanics?.max || 20 };
+
+    // Apply specialization-specific visual and mechanical config for Fate Weaver
+    const modifiedConfig = characterClass === 'Fate Weaver' ? {
+        ...finalConfig,
+        visual: {
+            ...finalConfig.visual,
+            ...getFateWeaverConfig(selectedFateWeaverSpec)
+        },
+        mechanics: {
+            ...finalConfig.mechanics,
+            max: getFateWeaverConfig(selectedFateWeaverSpec).maxThreads,
+            handLimit: getFateWeaverConfig(selectedFateWeaverSpec).handLimit
+        }
+    } : finalConfig;
 
     // Define stance value for Bladedancer tooltips (needs to be accessible to renderTooltip)
     const stanceValue = context === 'account'
@@ -421,8 +516,6 @@ const ClassResourceBar = ({
                 return renderPropheticVisions();
             case 'corruption-bar':
                 return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
-            case 'totemic-synergy':
-                return <PrimalistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'inferno-veil':
                 return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'arcane-absorption':
@@ -433,6 +526,8 @@ const ClassResourceBar = ({
                 return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'vengeance-points':
                 return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+            case 'totemic-synergy':
+                return renderTotemicSynergy();
             case 'voodoo-essence':
                 return <WitchDoctorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
             case 'progress-bar':
@@ -1931,32 +2026,69 @@ const ClassResourceBar = ({
 
     // Helper functions for Fate Weaver (defined at component level for tooltip access)
     const getThreadLevel = (threads) => {
-        const levels = finalConfig.threadLevels || [];
-        const level = levels.find(l => threads >= l.min && threads <= l.max);
-        return level || { name: 'Sparse Threads', color: '#9370DB' };
+        // Standard levels for all specs (max 13)
+        if (threads <= 3) return { name: 'Sparse Threads', color: '#9370DB' };
+        if (threads <= 6) return { name: 'Woven Strands', color: '#B8860B' };
+        if (threads <= 9) return { name: 'Tapestry of Fate', color: '#FFD700' };
+        if (threads <= 12) return { name: 'Destiny\'s Web', color: '#FFA500' };
+        return { name: 'Fate Mastered', color: '#FFD700' };
     };
 
     // Threads of Destiny display (Fate Weaver)
     const renderThreadsOfDestiny = () => {
         // Use local state for demo, fallback to classResource
         const currentThreads = localThreads ?? classResource?.current ?? 0;
-        const maxThreads = finalConfig.mechanics?.max ?? 13;
+        const maxThreads = modifiedConfig.mechanics?.max ?? 13;
 
         const threadLevel = getThreadLevel(currentThreads);
 
-        // Get card suit symbol for segment (cycles through ♠ ♥ ♦ ♣)
+        // Get card suit symbol for segment (cycles through specialization-specific symbols)
         const getCardSuit = (index) => {
-            const suits = finalConfig.visual.cardSuits || ['♠', '♥', '♦', '♣'];
-            return suits[index % suits.length];
+            const spec = selectedFateWeaverSpec;
+            if (spec === 'fortune-teller') {
+                const crystalSymbols = modifiedConfig.visual.crystalSymbols || ['💎', '🔮', '✨', '🌟'];
+                return crystalSymbols[index % crystalSymbols.length];
+            } else if (spec === 'card-master') {
+                const cardSymbols = modifiedConfig.visual.cardSymbols || ['🃏', '♠', '♥', '♦', '♣'];
+                return cardSymbols[index % cardSymbols.length];
+            } else if (spec === 'thread-weaver') {
+                const webSymbols = modifiedConfig.visual.webSymbols || ['🕸️', '🕷️', '✨', '🌐'];
+                return webSymbols[index % webSymbols.length];
+            } else {
+                const suits = modifiedConfig.visual.cardSuits || ['♠', '♥', '♦', '♣'];
+                return suits[index % suits.length];
+            }
         };
 
-        // Get segment color based on index (gradient from purple to gold)
+        // Get segment color based on specialization
         const getSegmentColor = (index) => {
-            const progress = index / maxThreads;
-            if (progress < 0.25) return '#9370DB'; // Medium purple
-            if (progress < 0.5) return '#B8860B'; // Dark goldenrod
-            if (progress < 0.75) return '#FFD700'; // Gold
-            return '#FFA500'; // Orange-gold
+            const spec = selectedFateWeaverSpec;
+            switch (spec) {
+                case 'fortune-teller':
+                    const crystalProgress = index / maxThreads;
+                    if (crystalProgress < 0.25) return '#9370DB'; // Medium purple
+                    if (crystalProgress < 0.5) return '#BA55D3'; // Medium orchid
+                    if (crystalProgress < 0.75) return '#8A2BE2'; // Blue violet
+                    return '#DA70D6'; // Orchid
+                case 'card-master':
+                    const cardProgress = index / maxThreads;
+                    if (cardProgress < 0.25) return '#FFD700'; // Gold
+                    if (cardProgress < 0.5) return '#F0E68C'; // Pale goldenrod
+                    if (cardProgress < 0.75) return '#DAA520'; // Goldenrod
+                    return '#FFA500'; // Orange
+                case 'thread-weaver':
+                    const webProgress = index / maxThreads;
+                    if (webProgress < 0.25) return '#FF1493'; // Deep pink
+                    if (webProgress < 0.5) return '#FF69B4'; // Hot pink
+                    if (webProgress < 0.75) return '#DC143C'; // Crimson
+                    return '#FF6347'; // Tomato
+                default:
+                    const progress = index / maxThreads;
+                    if (progress < 0.25) return '#9370DB'; // Medium purple
+                    if (progress < 0.5) return '#B8860B'; // Dark goldenrod
+                    if (progress < 0.75) return '#FFD700'; // Gold
+                    return '#FFA500'; // Orange-gold
+            }
         };
 
         // Adjustment functions
@@ -1975,7 +2107,8 @@ const ClassResourceBar = ({
         };
 
         const setToMax = () => {
-            setLocalThreads(13);
+            const maxThreads = modifiedConfig.mechanics?.max ?? 13;
+            setLocalThreads(maxThreads);
         };
 
         // Tooltip handlers
@@ -2011,15 +2144,15 @@ const ClassResourceBar = ({
                         onClick={handleBarClick}
                         style={{ cursor: 'pointer' }}
                     >
-                        {/* Segmented threads bar with card suits */}
+                        {/* Segmented threads bar with specialization symbols */}
                         <div className="threads-segments">
                             {Array.from({ length: maxThreads }, (_, index) => (
                                 <div
                                     key={index}
                                     className={`thread-segment ${index < currentThreads ? 'woven' : 'empty'}`}
                                     style={{
-                                        backgroundColor: index < currentThreads ? getSegmentColor(index) : finalConfig.visual.baseColor,
-                                        borderColor: finalConfig.visual.segmentBorder,
+                                        backgroundColor: index < currentThreads ? getSegmentColor(index) : modifiedConfig.visual.baseColor,
+                                        borderColor: modifiedConfig.visual.segmentBorder,
                                         boxShadow: index < currentThreads ? `0 0 6px ${getSegmentColor(index)}` : 'none'
                                     }}
                                 >
@@ -2047,13 +2180,13 @@ const ClassResourceBar = ({
                                 <div className="menu-section-title">Gain Threads (Failures)</div>
                                 <div className="menu-buttons">
                                     <button onClick={() => gainThreads(1)} title="Minor failure">
-                                        <i className="fas fa-plus"></i> +1 (Minor)
+                                        <i className="fas fa-plus"></i> Minor
                                     </button>
                                     <button onClick={() => gainThreads(2)} title="Major failure">
-                                        <i className="fas fa-plus-circle"></i> +2 (Major)
+                                        <i className="fas fa-plus-circle"></i> Major
                                     </button>
                                     <button onClick={() => gainThreads(3)} title="Destiny Weaver bonus">
-                                        <i className="fas fa-star"></i> +3 (Weaver)
+                                        <i className="fas fa-star"></i> Weaver
                                     </button>
                                 </div>
                             </div>
@@ -2062,13 +2195,49 @@ const ClassResourceBar = ({
                                 <div className="menu-section-title">Spend Threads</div>
                                 <div className="menu-buttons">
                                     <button onClick={() => spendThreads(2)} title="Call specific card">
-                                        <i className="fas fa-hand-sparkles"></i> -2 (Call Card)
+                                        <i className="fas fa-hand-sparkles"></i> Call Card
                                     </button>
                                     <button onClick={() => spendThreads(3)} title="Force failure">
-                                        <i className="fas fa-times-circle"></i> -3 (Force Fail)
+                                        <i className="fas fa-times-circle"></i> Force Fail
                                     </button>
                                     <button onClick={() => spendThreads(5)} title="Force success">
-                                        <i className="fas fa-check-circle"></i> -5 (Force Success)
+                                        <i className="fas fa-check-circle"></i> Force Success
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="menu-section">
+                                <div className="menu-section-title">Specialization</div>
+                                <div className="menu-buttons">
+                                    <button
+                                        onClick={() => setSelectedFateWeaverSpec('fortune-teller')}
+                                        title="Fortune Teller: Predictive support and ally buffs"
+                                        style={{
+                                            backgroundColor: selectedFateWeaverSpec === 'fortune-teller' ? '#9370DB' : undefined,
+                                            borderColor: selectedFateWeaverSpec === 'fortune-teller' ? '#9370DB' : '#9370DB'
+                                        }}
+                                    >
+                                        <i className="fas fa-eye"></i> Fortune Teller
+                                    </button>
+                                    <button
+                                        onClick={() => setSelectedFateWeaverSpec('card-master')}
+                                        title="Card Master: Deck control and combo assembly"
+                                        style={{
+                                            backgroundColor: selectedFateWeaverSpec === 'card-master' ? '#FFD700' : undefined,
+                                            borderColor: selectedFateWeaverSpec === 'card-master' ? '#FFD700' : '#FFD700'
+                                        }}
+                                    >
+                                        <i className="fas fa-crown"></i> Card Master
+                                    </button>
+                                    <button
+                                        onClick={() => setSelectedFateWeaverSpec('thread-weaver')}
+                                        title="Thread Weaver: High-risk Thread generation"
+                                        style={{
+                                            backgroundColor: selectedFateWeaverSpec === 'thread-weaver' ? '#FF1493' : undefined,
+                                            borderColor: selectedFateWeaverSpec === 'thread-weaver' ? '#FF1493' : '#FF1493'
+                                        }}
+                                    >
+                                        <i className="fas fa-spider"></i> Thread Weaver
                                     </button>
                                 </div>
                             </div>
@@ -2080,7 +2249,7 @@ const ClassResourceBar = ({
                                         <i className="fas fa-undo"></i> Reset to 0
                                     </button>
                                     <button onClick={setToMax} title="Set to maximum" style={{ color: '#FFD700' }}>
-                                        <i className="fas fa-crown"></i> Set to 13 (King)
+                                        <i className="fas fa-crown"></i> Set to {modifiedConfig.mechanics?.max ?? 13} (King)
                                     </button>
                                 </div>
                             </div>
@@ -2186,25 +2355,12 @@ const ClassResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Form Indicator */}
-                    <div
-                        className="form-indicator"
-                        onMouseEnter={handleFormEnter}
-                        onMouseLeave={handleLeave}
-                        onClick={handleFormClick}
-                        style={{
-                            cursor: 'pointer',
-                            backgroundColor: activeForm.color,
-                            borderColor: activeForm.borderColor,
-                            boxShadow: `0 0 8px ${activeForm.glowColor}`
-                        }}
-                    >
-                        <i className={activeForm.icon} style={{ color: activeForm.glowColor }}></i>
-                    </div>
-
                     {/* WI Adjustment Menu */}
                     {showWIMenu && (
-                        <div className="resource-adjust-menu wi-menu">
+                        <div
+                            className="resource-adjust-menu wi-menu"
+                            onMouseEnter={() => setShowTooltip(false)}
+                        >
                             <div className="menu-header">Adjust Wild Instinct ({wiValue}/{maxWI})</div>
                             <div className="menu-buttons">
                                 <button onClick={() => setLocalWildInstinct(Math.min(maxWI, wiValue + 1))}>+1 WI</button>
@@ -2213,6 +2369,23 @@ const ClassResourceBar = ({
                                 <button onClick={() => setLocalWildInstinct(Math.max(0, wiValue - 3))}>-3 Ability</button>
                                 <button onClick={() => setLocalWildInstinct(Math.max(0, wiValue - 5))}>-5 Ultimate</button>
                             </div>
+
+                            {/* Specialization Section */}
+                            <div className="menu-section">
+                                <div className="menu-section-title">Specialization</div>
+                                <div className="spec-buttons">
+                                    {Object.entries(finalConfig.visual?.specializations || {}).map(([specKey, spec]) => (
+                                        <button
+                                            key={specKey}
+                                            onClick={() => setFormbenderSpec(specKey)}
+                                            className={formbenderSpec === specKey ? 'active' : ''}
+                                        >
+                                            <i className={spec.icon}></i> {spec.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
                             <button className="menu-reset" onClick={() => { setLocalWildInstinct(0); setShowWIMenu(false); }}>Reset to 0</button>
                         </div>
                     )}
@@ -2225,6 +2398,7 @@ const ClassResourceBar = ({
                                 {Object.entries(forms).map(([formId, form]) => (
                                     <button
                                         key={formId}
+                                        title=""
                                         onClick={() => handleTransform(formId)}
                                         className={currentForm === formId ? 'active' : ''}
                                         style={{
@@ -2236,10 +2410,287 @@ const ClassResourceBar = ({
                                     </button>
                                 ))}
                             </div>
-                            <button className="menu-reset" onClick={() => setShowFormMenu(false)}>Close</button>
+                            <button className="menu-reset" title="" onClick={() => setShowFormMenu(false)}>Close</button>
                         </div>
                     )}
                 </div>
+            </div>
+        );
+    };
+
+    // Totemic Synergy (Primalist)
+    const renderTotemicSynergy = () => {
+        const maxSynergy = finalConfig.mechanics?.max || 100;
+        const synergyValue = localSynergy;
+        const maxTotems = finalConfig.mechanics?.totems?.max || 8;
+        const totemCount = activeTotems;
+        const synergyThreshold = finalConfig.mechanics?.synergyThreshold || 4;
+        const specs = finalConfig.visual?.specializations || {};
+        const currentSpec = specs[primalistSpec] || specs['earthwarden'];
+        const canActivateSynergy = totemCount >= synergyThreshold;
+
+        // Handle bar click to toggle synergy menu
+        const handleBarClick = (e) => {
+            e.stopPropagation();
+            setShowSynergyMenu(!showSynergyMenu);
+        };
+
+        // Handle synergy bar hover
+        const handleSynergyEnter = (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
+            setShowTooltip(true);
+        };
+
+        const handleLeave = () => {
+            setShowTooltip(false);
+        };
+
+        return (
+            <div className={`class-resource-bar totemic-synergy ${size}`}>
+                {/* Primal Energy Display - 2 Rows */}
+                <div className="primal-energy-container">
+                    {/* Row 1: Synergy Energy Flow */}
+                    <div
+                        className="primal-energy-row synergy-row"
+                        ref={synergyBarRef}
+                        onMouseEnter={handleSynergyEnter}
+                        onMouseLeave={handleLeave}
+                        onClick={handleBarClick}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <div className="energy-flow-background">
+                            {/* Primal Energy Waves */}
+                            <div className="energy-waves">
+                                {Array.from({ length: 3 }, (_, waveIndex) => (
+                                    <div
+                                        key={waveIndex}
+                                        className="energy-wave"
+                                        style={{
+                                            background: `linear-gradient(90deg, transparent, ${currentSpec.activeColor}40, ${currentSpec.glowColor}60, transparent)`,
+                                            animationDelay: `${waveIndex * 0.5}s`,
+                                            opacity: synergyValue > 0 ? 1 : 0
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Energy Fill */}
+                            <div
+                                className="energy-fill"
+                                style={{
+                                    width: `${(synergyValue / maxSynergy) * 100}%`,
+                                    background: `linear-gradient(90deg, ${currentSpec.activeColor}, ${currentSpec.glowColor}, ${currentSpec.activeColor})`,
+                                    boxShadow: canActivateSynergy ? `0 0 15px ${currentSpec.glowColor}, inset 0 0 10px rgba(255,255,255,0.3)` : `0 0 8px ${currentSpec.activeColor}`,
+                                    animation: canActivateSynergy ? 'energyPulse 1.5s infinite' : 'none'
+                                }}
+                            >
+                                {/* Energy Particles */}
+                                {canActivateSynergy && Array.from({ length: 5 }, (_, particleIndex) => (
+                                    <div
+                                        key={particleIndex}
+                                        className="energy-particle"
+                                        style={{
+                                            left: `${20 + particleIndex * 15}%`,
+                                            background: currentSpec.glowColor,
+                                            animation: `particleFloat 2s infinite ${particleIndex * 0.3}s`
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Tribal Energy Markings */}
+                            <div className="energy-markings">
+                                {Array.from({ length: 8 }, (_, markIndex) => (
+                                    <div
+                                        key={markIndex}
+                                        className="energy-mark"
+                                        style={{
+                                            left: `${markIndex * 12.5}%`,
+                                            opacity: synergyValue / maxSynergy > markIndex / 8 ? 0.8 : 0.2,
+                                            background: synergyValue / maxSynergy > markIndex / 8 ? currentSpec.glowColor : '#666'
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
+                            <div className="energy-value" style={{
+                                color: '#FFFFFF',
+                                textShadow: '2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)',
+                                fontWeight: 'bold',
+                                fontFamily: 'serif'
+                            }}>
+                                {synergyValue}/{maxSynergy}
+                            </div>
+                        </div>
+                        {canActivateSynergy && (
+                            <div className="synergy-spirit-awakened" style={{
+                                background: `linear-gradient(45deg, ${currentSpec.glowColor}, ${currentSpec.activeColor})`,
+                                color: '#FFFFFF',
+                                textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                                fontWeight: 'bold',
+                                border: `2px solid ${currentSpec.glowColor}`,
+                                animation: 'spiritAwaken 1s infinite alternate'
+                            }}>
+                                ⚡ AWAKENED ⚡
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Row 2: Tribal Totem Array */}
+                    <div className="primal-energy-row totem-row">
+                        <div className="totem-array-background">
+                            {Array.from({ length: maxTotems }, (_, index) => {
+                                const isActive = index < totemCount;
+                                const totemSymbols = ['🗿', '🌿', '🏹', '🔥', '💎', '🌊', '🌪️', '⚡'];
+                                const symbol = totemSymbols[index % totemSymbols.length];
+
+                                return (
+                                    <div key={index} className="totem-pole-container">
+                                        {/* Totem Pole Base */}
+                                        <div
+                                            className={`totem-pole ${isActive ? 'active' : 'inactive'}`}
+                                            style={{
+                                                background: isActive ?
+                                                    `linear-gradient(180deg, ${currentSpec.activeColor}, ${currentSpec.activeColor}80, #4A4A4A)` :
+                                                    `linear-gradient(180deg, #666666, #4A4A4A, #333333)`,
+                                                borderColor: isActive ? currentSpec.glowColor : '#777',
+                                                boxShadow: isActive ?
+                                                    `0 0 12px ${currentSpec.glowColor}60, inset 0 2px 4px rgba(255,255,255,0.2)` :
+                                                    '0 2px 4px rgba(0,0,0,0.3)'
+                                            }}
+                                        >
+                                            {/* Tribal Carvings */}
+                                            <div className="totem-carvings">
+                                                <div className="carving-line" style={{ top: '20%', opacity: isActive ? 0.8 : 0.3 }}></div>
+                                                <div className="carving-line" style={{ top: '40%', opacity: isActive ? 0.8 : 0.3 }}></div>
+                                                <div className="carving-line" style={{ top: '60%', opacity: isActive ? 0.8 : 0.3 }}></div>
+                                                <div className="carving-spirit" style={{
+                                                    top: '35%',
+                                                    opacity: isActive ? 1 : 0,
+                                                    color: currentSpec.glowColor,
+                                                    animation: isActive ? 'spiritRune 2s infinite' : 'none'
+                                                }}>
+                                                    {symbol}
+                                                </div>
+                                            </div>
+
+                                            {/* Spirit Energy Core */}
+                                            {isActive && (
+                                                <div
+                                                    className="totem-spirit-core"
+                                                    style={{
+                                                        background: `radial-gradient(circle, ${currentSpec.glowColor}, ${currentSpec.activeColor}60)`,
+                                                        boxShadow: `0 0 15px ${currentSpec.glowColor}, 0 0 30px ${currentSpec.glowColor}40`,
+                                                        animation: 'totemSpirit 1.8s infinite ease-in-out'
+                                                    }}
+                                                >
+                                                    <div className="spirit-orb" style={{
+                                                        background: currentSpec.glowColor,
+                                                        boxShadow: `inset 0 0 8px rgba(255,255,255,0.8), 0 0 12px ${currentSpec.glowColor}`
+                                                    }}></div>
+                                                </div>
+                                            )}
+
+                                            {/* Activation Glow */}
+                                            {isActive && (
+                                                <div className="totem-glow-ring" style={{
+                                                    borderColor: currentSpec.glowColor,
+                                                    boxShadow: `0 0 20px ${currentSpec.glowColor}50`,
+                                                    animation: 'totemGlow 2.5s infinite'
+                                                }}></div>
+                                            )}
+                                        </div>
+
+                                        {/* Connection Energy Between Totems */}
+                                        {index < maxTotems - 1 && (
+                                            <div
+                                                className={`totem-connection ${isActive && index < totemCount - 1 ? 'active' : ''}`}
+                                                style={{
+                                                    background: isActive && index < totemCount - 1 ?
+                                                        `linear-gradient(90deg, ${currentSpec.activeColor}, ${currentSpec.glowColor})` :
+                                                        '#555',
+                                                    boxShadow: isActive && index < totemCount - 1 ?
+                                                        `0 0 8px ${currentSpec.glowColor}60` : 'none'
+                                                }}
+                                            >
+                                                {isActive && index < totemCount - 1 && (
+                                                    <div className="connection-spark" style={{
+                                                        background: currentSpec.glowColor,
+                                                        boxShadow: `0 0 6px ${currentSpec.glowColor}`,
+                                                        animation: 'connectionSpark 1.5s infinite'
+                                                    }}></div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+
+                            {/* Totem Count Overlay */}
+                            <div className="totem-count-overlay" style={{
+                                color: '#FFFFFF',
+                                textShadow: '2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)',
+                                fontWeight: 'bold',
+                                fontFamily: 'serif'
+                            }}>
+                                {totemCount}/{maxTotems}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Synergy Adjustment Menu */}
+                {showSynergyMenu && (
+                    <div
+                        className="resource-adjust-menu synergy-menu"
+                        onMouseEnter={() => setShowTooltip(false)}
+                    >
+                        <div className="menu-header">Adjust Totemic Synergy ({synergyValue}/{maxSynergy})</div>
+                        <div className="menu-buttons">
+                            <button title="" onClick={() => setLocalSynergy(Math.max(0, synergyValue - 10))}>-10 TS</button>
+                            <button title="" onClick={() => setLocalSynergy(Math.max(0, synergyValue - 5))}>-5 TS</button>
+                            <button title="" onClick={() => setLocalSynergy(Math.min(maxSynergy, synergyValue + 5))}>+5 TS</button>
+                            <button title="" onClick={() => setLocalSynergy(Math.min(maxSynergy, synergyValue + 10))}>+10 TS</button>
+                        </div>
+
+                        {/* Totem Section */}
+                        <div className="menu-section">
+                            <div className="menu-section-title">Active Totems ({totemCount}/{maxTotems})</div>
+                            <div className="menu-buttons">
+                                <button title="" onClick={() => setActiveTotems(Math.max(0, totemCount - 1))}>-1 Totem</button>
+                                <button title="" onClick={() => setActiveTotems(Math.min(maxTotems, totemCount + 1))}>+1 Totem</button>
+                            </div>
+                            <div className="synergy-status" style={{
+                                fontSize: '10px',
+                                color: canActivateSynergy ? currentSpec.glowColor : '#888',
+                                textAlign: 'center',
+                                marginTop: '4px'
+                            }}>
+                                {canActivateSynergy ? `SYNERGY READY (${synergyThreshold}+ totems)` : `Need ${synergyThreshold - totemCount} more totem(s)`}
+                            </div>
+                        </div>
+
+                        {/* Specialization Section */}
+                        <div className="menu-section">
+                            <div className="menu-section-title">Specialization</div>
+                            <div className="spec-buttons">
+                                {Object.entries(specs).map(([specKey, spec]) => (
+                                    <button
+                                        key={specKey}
+                                        title=""
+                                        onClick={() => setPrimalistSpec(specKey)}
+                                        className={primalistSpec === specKey ? 'active' : ''}
+                                    >
+                                        <i className={spec.icon}></i> {spec.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <button className="menu-reset" title="" onClick={() => { setLocalSynergy(0); setActiveTotems(0); setShowSynergyMenu(false); }}>Reset to 0</button>
+                    </div>
+                )}
             </div>
         );
     };
@@ -2644,7 +3095,7 @@ const ClassResourceBar = ({
     const renderRunesInscriptions = () => {
         // Get specialization config
         const specs = finalConfig.visual;
-        const currentSpec = specs[inscriptorSpec] || specs.base;
+        const currentSpec = specs[inscriptorSpec] || specs.enchanter;
         const maxRunes = currentSpec.maxRunes;
         const maxInscriptions = currentSpec.maxInscriptions;
         const specColor = currentSpec.color;
@@ -2727,43 +3178,57 @@ const ClassResourceBar = ({
         };
 
         return (
-            <div className={`class-resource-bar runes-inscriptions ${size}`}>
-                <div className="inscriptor-container">
+            <div className={`class-resource-bar runes-inscriptions ${size}`} style={{ width: '100%' }}>
+                <div className="inscriptor-container" style={{ width: '100%' }}>
                     {/* Combined Runes & Inscriptions Bar */}
-                    <div className="ri-bar-wrapper" ref={inscriptorBarRef}>
-                        <div className="ri-bar-content">
+                    <div className="ri-bar-wrapper" ref={inscriptorBarRef} style={{ width: '100%', minWidth: 0 }}>
+                        <div className="ri-bar-content" style={{ width: '100%', minWidth: 0 }}>
                         {/* Runes Section */}
                         <div
                             className="runes-section"
                             onClick={handleBarClick}
                             onMouseEnter={handleRunesBarEnter}
                             onMouseLeave={handleBarLeave}
-                            style={{ cursor: 'pointer' }}
+                            style={{
+                                cursor: 'pointer',
+                                flex: maxRunes > maxInscriptions ? '3' : '1'
+                            }}
                         >
                             {/* Runes Value Display - Centered */}
                             <div className="ri-section-value runes-value">
                                 {runesValue}/{maxRunes}
                             </div>
                             <div className="runes-segments">
-                                {Array.from({ length: maxRunes }, (_, index) => {
+                                {Array.from({ length: Math.min(maxRunes, maxRunes > maxInscriptions ? 12 : 8) }, (_, index) => {
                                     const runeSymbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ']; // Elder Futhark runes
+                                    const maxVisualRunes = maxRunes > maxInscriptions ? 12 : 8;
                                     return (
                                         <div
                                             key={`rune-${index}`}
-                                            className={`rune-segment ${index < runesValue ? 'filled' : 'empty'}`}
+                                            className={`rune-segment ${index < Math.min(runesValue, maxVisualRunes) ? 'filled' : 'empty'}`}
                                             style={{
-                                                backgroundColor: index < runesValue ? specs.runes.activeColor : specs.runes.baseColor,
+                                                backgroundColor: index < Math.min(runesValue, maxVisualRunes) ? specs.runes.activeColor : specs.runes.baseColor,
                                                 borderColor: specs.runes.segmentBorder,
-                                                boxShadow: index < runesValue ? `0 0 6px ${specs.runes.glowColor}` : 'none',
-                                                fontSize: '14px',
+                                                boxShadow: index < Math.min(runesValue, maxVisualRunes) ? `0 0 6px ${specs.runes.glowColor}` : 'none',
+                                                fontSize: maxRunes > maxInscriptions ? '12px' : '14px',
                                                 fontWeight: 'bold',
-                                                color: index < runesValue ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
+                                                color: index < Math.min(runesValue, maxVisualRunes) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
                                             }}
                                         >
                                             {runeSymbols[index % runeSymbols.length]}
                                         </div>
                                     );
                                 })}
+                                {maxRunes > (maxRunes > maxInscriptions ? 12 : 8) && (
+                                    <div className="runes-overflow-indicator" style={{
+                                        color: '#FFD700',
+                                        fontSize: '10px',
+                                        fontWeight: 'bold',
+                                        marginLeft: '2px'
+                                    }}>
+                                        +{Math.max(0, Math.min(runesValue, maxRunes) - (maxRunes > maxInscriptions ? 12 : 8))}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -2776,32 +3241,46 @@ const ClassResourceBar = ({
                             onClick={handleBarClick}
                             onMouseEnter={handleInscriptionsBarEnter}
                             onMouseLeave={handleBarLeave}
-                            style={{ cursor: 'pointer' }}
+                            style={{
+                                cursor: 'pointer',
+                                flex: maxInscriptions > maxRunes ? '3' : '1'
+                            }}
                         >
                             {/* Inscriptions Value Display - Centered */}
                             <div className="ri-section-value inscriptions-value">
                                 {inscriptionsValue}/{maxInscriptions}
                             </div>
                             <div className="inscriptions-segments">
-                                {Array.from({ length: maxInscriptions }, (_, index) => {
-                                    const inscriptionSymbols = ['◈', '◆', '◇', '◉', '○', '●', '◎', '◐']; // Mystical geometric symbols
+                                {Array.from({ length: Math.min(maxInscriptions, maxRunes > maxInscriptions ? 2 : 6) }, (_, index) => {
+                                    const inscriptionSymbols = ['◈', '◆', '◇', '◉', '○', '●']; // Mystical geometric symbols
+                                    const maxVisualInscriptions = maxRunes > maxInscriptions ? 2 : 6;
                                     return (
                                         <div
                                             key={`inscription-${index}`}
-                                            className={`inscription-segment ${index < inscriptionsValue ? 'filled' : 'empty'}`}
+                                            className={`inscription-segment ${index < Math.min(inscriptionsValue, maxVisualInscriptions) ? 'filled' : 'empty'}`}
                                             style={{
-                                                backgroundColor: index < inscriptionsValue ? specs.inscriptions.activeColor : specs.inscriptions.baseColor,
+                                                backgroundColor: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? specs.inscriptions.activeColor : specs.inscriptions.baseColor,
                                                 borderColor: specs.inscriptions.segmentBorder,
-                                                boxShadow: index < inscriptionsValue ? `0 0 6px ${specs.inscriptions.glowColor}` : 'none',
-                                                fontSize: '12px',
+                                                boxShadow: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? `0 0 6px ${specs.inscriptions.glowColor}` : 'none',
+                                                fontSize: maxRunes > maxInscriptions ? '8px' : '12px',
                                                 fontWeight: 'bold',
-                                                color: index < inscriptionsValue ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
+                                                color: index < Math.min(inscriptionsValue, maxVisualInscriptions) ? '#FFF' : 'rgba(255, 255, 255, 0.2)'
                                             }}
                                         >
-                                            {inscriptionSymbols[index % inscriptionSymbols.length]}
+                                            {inscriptionSymbols[index]}
                                         </div>
                                     );
                                 })}
+                                {maxInscriptions > (maxRunes > maxInscriptions ? 2 : 6) && (
+                                    <div className="inscriptions-overflow-indicator" style={{
+                                        color: '#FFD700',
+                                        fontSize: '9px',
+                                        fontWeight: 'bold',
+                                        marginLeft: '2px'
+                                    }}>
+                                        +{Math.max(0, Math.min(inscriptionsValue, maxInscriptions) - (maxRunes > maxInscriptions ? 2 : 6))}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -2811,6 +3290,35 @@ const ClassResourceBar = ({
                         {showRunesMenu && (
                             <div className="ri-menu" onClick={(e) => e.stopPropagation()}>
                                 <div className="menu-title">Adjust Runes & Inscriptions</div>
+                                
+                                {/* Specialization Selection */}
+                                <div className="menu-section spec-section-menu">
+                                    <div className="menu-section-title">Specialization</div>
+                                    <div className="spec-options-grid">
+                                        {Object.entries(specs).filter(([key]) =>
+                                            key === 'runebinder' || key === 'enchanter' || key === 'glyphweaver'
+                                        ).map(([key, spec]) => (
+                                            <button
+                                                key={key}
+                                                className={`spec-option-button ${key} ${inscriptorSpec === key ? 'active' : ''}`}
+                                                onClick={() => {
+                                                    setInscriptorSpec(key);
+                                                    // Adjust current values if they exceed new max
+                                                    setLocalRunes(Math.min(localRunes, spec.maxRunes));
+                                                    setLocalInscriptions(Math.min(localInscriptions, spec.maxInscriptions));
+                                                }}
+                                                style={{
+                                                    borderColor: spec.color,
+                                                    color: inscriptorSpec === key ? spec.color : '#3a3a3a'
+                                                }}
+                                            >
+                                                <i className={`fas ${spec.icon}`}></i>
+                                                <span>{spec.name}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
                                 <div className="menu-section">
                                     <div className="menu-section-title">Runes</div>
                                     <div className="menu-buttons">
@@ -2853,42 +3361,6 @@ const ClassResourceBar = ({
                                 <button className="menu-reset" onClick={() => setShowRunesMenu(false)}>
                                     Close
                                 </button>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Specialization Selector - Outside the bar */}
-                    <div
-                        className="inscriptor-spec-selector"
-                        onClick={() => setShowInscriptorSpecMenu(!showInscriptorSpecMenu)}
-                        style={{
-                            borderColor: specColor,
-                            color: specColor
-                        }}
-                    >
-                        <i className={`fas ${specIcon}`}></i>
-
-                        {/* Specialization Menu */}
-                        {showInscriptorSpecMenu && (
-                            <div className="spec-menu" onClick={(e) => e.stopPropagation()}>
-                                {Object.entries(specs).filter(([key]) =>
-                                    key === 'base' || key === 'runebinder' || key === 'enchanter' || key === 'glyphweaver'
-                                ).map(([key, spec]) => (
-                                    <div
-                                        key={key}
-                                        className={`spec-menu-item ${key}`}
-                                        onClick={() => {
-                                            setInscriptorSpec(key);
-                                            setShowInscriptorSpecMenu(false);
-                                            // Adjust current values if they exceed new max
-                                            setLocalRunes(Math.min(localRunes, spec.maxRunes));
-                                            setLocalInscriptions(Math.min(localInscriptions, spec.maxInscriptions));
-                                        }}
-                                    >
-                                        <i className={`fas ${spec.icon}`}></i>
-                                        <span>{spec.name}</span>
-                                    </div>
-                                ))}
                             </div>
                         )}
                     </div>
@@ -2936,20 +3408,6 @@ const ClassResourceBar = ({
             setShowTooltip(true);
         };
 
-        const handleAuraIconEnter = (e) => {
-            if (showPhylacteryMenu) return; // Don't show tooltip if menu is open
-            setLichborneHoverSection('aura');
-            const rect = e.currentTarget.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            const viewportWidth = window.innerWidth;
-            const spaceBelow = viewportHeight - rect.bottom;
-            const spaceAbove = rect.top;
-            const spaceRight = viewportWidth - rect.right;
-            const spaceLeft = rect.left;
-
-            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-            setShowTooltip(true);
-        };
 
         const handleBarLeave = () => {
             if (showPhylacteryMenu) return;
@@ -2982,23 +3440,8 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar eternal-frost-phylactery ${size}`}>
                 <div className="lichborne-container">
-                    {/* Phylactery Bar with Aura Icon */}
+                    {/* Phylactery Bar */}
                     <div className="phylactery-bar-wrapper" ref={phylacteryBarRef}>
-                        {/* Aura Toggle Icon (Left) */}
-                        <div
-                            className={`aura-icon ${auraActive ? 'active' : 'inactive'}`}
-                            onClick={handleToggleAura}
-                            onMouseEnter={handleAuraIconEnter}
-                            onMouseLeave={handleBarLeave}
-                            style={{
-                                color: auraActive ? specGlow : '#555',
-                                textShadow: auraActive ? `0 0 8px ${specGlow}` : 'none',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <i className={`fas ${specIcon}`}></i>
-                        </div>
-
                         {/* Phylactery HP Bar */}
                         <div
                             className="phylactery-bar-content"
@@ -3078,25 +3521,20 @@ const ClassResourceBar = ({
                             {/* Specialization Selector */}
                             <div className="menu-section">
                                 <div className="menu-title">
-                                    Specialization
-                                    <button
-                                        className="spec-toggle-btn"
-                                        onClick={() => setShowLichborneSpecMenu(!showLichborneSpecMenu)}
-                                    >
-                                        <i className="fas fa-cog"></i>
-                                    </button>
+                                    Specialization: {Object.entries(specs)
+                                        .filter(([key]) => key !== 'type' && key !== 'arrangement' && key !== 'baseColor' && key !== 'activeColor' && key !== 'glowColor' && key !== 'icon')
+                                        .find(([key]) => key === lichborneSpec)?.[1]?.name || 'Frostbound Tyrant'}
                                 </div>
-                                {showLichborneSpecMenu && (
-                                    <div className="spec-selector">
+                                <div className="menu-info">
+                                    <div className="spec-buttons-inline">
                                         {Object.entries(specs)
                                             .filter(([key]) => key !== 'type' && key !== 'arrangement' && key !== 'baseColor' && key !== 'activeColor' && key !== 'glowColor' && key !== 'icon')
                                             .map(([key, spec]) => (
-                                                <div
+                                                <button
                                                     key={key}
-                                                    className={`spec-option ${lichborneSpec === key ? 'selected' : ''}`}
+                                                    className={`spec-button ${lichborneSpec === key ? 'selected' : ''}`}
                                                     onClick={() => {
                                                         setLichborneSpec(key);
-                                                        setShowLichborneSpecMenu(false);
                                                         // Adjust phylactery HP if switching to/from Phylactery Guardian
                                                         if (key === 'phylactery_guardian') {
                                                             // Can now store up to 75
@@ -3105,13 +3543,17 @@ const ClassResourceBar = ({
                                                             setLocalPhylacteryHP(Math.min(localPhylacteryHP, 50));
                                                         }
                                                     }}
+                                                    style={{ borderColor: lichborneSpec === key ? spec.glow : 'rgba(0, 255, 255, 0.4)' }}
+                                                    title={spec.name}
                                                 >
-                                                    <i className={`fas ${spec.icon}`}></i>
-                                                    <span>{spec.name}</span>
-                                                </div>
+                                                    <i className={`fas ${spec.icon}`} style={{ color: lichborneSpec === key ? spec.glow : '#87CEEB' }}></i>
+                                                </button>
                                             ))}
                                     </div>
-                                )}
+                                    <div className="spec-passive-text">
+                                        {getSpecPassive()}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -3686,10 +4128,6 @@ const ClassResourceBar = ({
             ]);
         };
 
-        const handleSpecClick = (e) => {
-            e.stopPropagation();
-            setShowOracleSpecMenu(!showOracleSpecMenu);
-        };
 
         return (
             <div className={`class-resource-bar prophetic-visions-bar ${size}`}>
@@ -3734,18 +4172,6 @@ const ClassResourceBar = ({
                             ))}
                         </div>
 
-                        {/* Specialization Indicator */}
-                        <div
-                            className="oracle-spec-indicator"
-                            onClick={handleSpecClick}
-                            style={{
-                                borderColor: specColor,
-                                background: `linear-gradient(135deg, ${specColor}22 0%, ${specColor}11 100%)`,
-                                boxShadow: `0 0 8px ${specColor}66`
-                            }}
-                        >
-                            <i className={`fas ${specIcon}`} style={{ color: specColor }}></i>
-                        </div>
                     </div>
 
                     {/* Visions Adjustment Menu */}
@@ -3793,38 +4219,28 @@ const ClassResourceBar = ({
                                     <i className="fas fa-lightbulb"></i> Revelation (+1)
                                 </button>
                             </div>
-                        </div>
-                    )}
 
-                    {/* Oracle Specialization Menu */}
-                    {showOracleSpecMenu && (
-                        <div className="oracle-spec-menu" onClick={(e) => e.stopPropagation()}>
-                            <div className="menu-title">Specialization</div>
-                            {['seer', 'truthseeker', 'fateweaver'].map((spec) => {
-                                const specConfig = specs[spec];
-                                const isSelected = oracleSpec === spec;
-                                return (
-                                    <div
-                                        key={spec}
-                                        className={`spec-option ${isSelected ? 'selected' : ''}`}
-                                        onClick={() => {
-                                            setOracleSpec(spec);
-                                            setShowOracleSpecMenu(false);
-                                        }}
-                                        style={{
-                                            borderColor: specConfig.activeColor,
-                                            background: isSelected
-                                                ? `linear-gradient(135deg, ${specConfig.activeColor}33 0%, ${specConfig.activeColor}22 100%)`
-                                                : 'rgba(0, 0, 0, 0.3)'
-                                        }}
-                                    >
-                                        <div className="spec-name" style={{ color: specConfig.activeColor }}>
-                                            <i className={`fas ${specConfig.icon}`}></i> {specConfig.name}
-                                        </div>
-                                        <div className="spec-theme">{specConfig.theme}</div>
-                                    </div>
-                                );
-                            })}
+                            <div className="menu-section">
+                                <div className="menu-title">Specialization</div>
+                                <div className="spec-icons-row">
+                                    {['seer', 'truthseeker', 'fateweaver'].map((spec) => {
+                                        const specConfig = specs[spec];
+                                        const isSelected = oracleSpec === spec;
+                                        return (
+                                            <div
+                                                key={spec}
+                                                className={`spec-icon-option ${isSelected ? 'selected' : ''}`}
+                                                onClick={() => {
+                                                    setOracleSpec(spec);
+                                                }}
+                                                title={`${specConfig.name}: ${specConfig.theme}`}
+                                            >
+                                                <i className={`fas ${specConfig.icon}`}></i>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -4046,11 +4462,8 @@ const ClassResourceBar = ({
 
                             {/* Specialization Selector */}
                             <div className="menu-section">
-                                <div className="menu-title">
-                                    Specialization
-                                    <span className="menu-value" style={{ color: specColors.activeColor }}>
-                                        {specData?.name || martyrSpec}
-                                    </span>
+                                <div className="menu-title" style={{ color: specColors.activeColor }}>
+                                    {specData?.name || martyrSpec}
                                 </div>
                                 <div className="spec-selector-horizontal">
                                     {['redemption', 'zealot', 'ascetic'].map((spec) => {
@@ -4268,6 +4681,49 @@ const ClassResourceBar = ({
             }, 500); // Animation delay
         };
 
+        // Cycle dice button mode
+        const cycleDiceButtonMode = () => {
+            const modes = ['roll', 'spec'];
+            // Add spec-specific modes
+            if (activeSpecialization === 'prism-mage') {
+                modes.splice(1, 0, 'prism-reroll');
+            } else if (activeSpecialization === 'sphere-architect') {
+                modes.splice(1, 0, 'architect-swap');
+            }
+            // For entropy weaver, no additional button needed as chaos effects are automatic
+
+            const currentIndex = modes.indexOf(diceButtonMode);
+            const nextIndex = (currentIndex + 1) % modes.length;
+            setDiceButtonMode(modes[nextIndex]);
+        };
+
+        // Handle dice button click based on mode
+        const handleDiceButtonClick = (e) => {
+            e.stopPropagation();
+            if (diceButtonMode === 'roll') {
+                rollSpheres();
+            } else if (diceButtonMode === 'spec') {
+                // Cycle specialization
+                const specs = ['prism-mage', 'entropy-weaver', 'sphere-architect'];
+                const currentIndex = specs.indexOf(activeSpecialization);
+                const nextIndex = (currentIndex + 1) % specs.length;
+                setActiveSpecialization(specs[nextIndex]);
+                setRerollsUsed(0);
+                setSelectedForSwap([]);
+                setSwapMode(false);
+            } else if (diceButtonMode === 'prism-reroll') {
+                // Reroll sphere (Prism Mage)
+                if (activeSpheres.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * activeSpheres.length);
+                    rerollSphere(randomIndex);
+                }
+            } else if (diceButtonMode === 'architect-swap') {
+                // Toggle swap mode (Sphere Architect)
+                setSwapMode(!swapMode);
+                setSelectedForSwap([]);
+            }
+        };
+
         // Clear all spheres
         const clearSpheres = () => {
             setLocalSpheres([]);
@@ -4286,7 +4742,6 @@ const ClassResourceBar = ({
         // Reroll spheres (Prism Mage)
         const rerollSphere = (index) => {
             if (activeSpecialization !== 'prism-mage') return;
-            if (rerollsUsed >= 2) return; // Max 2 rerolls per turn
 
             const newSpheres = [...activeSpheres];
             const roll = Math.floor(Math.random() * 8) + 1;
@@ -4321,33 +4776,89 @@ const ClassResourceBar = ({
             }
         };
 
-        // Toggle controls on click (for HUD/account)
-        const handleContainerClick = () => {
-            if (size !== 'large') {
-                setShowControls(!showControls);
-            }
+
+        // Handle tooltip hover
+        const handleMouseEnter = (e) => {
+            setShowTooltip(true);
+            setTooltipPosition({
+                x: e.clientX,
+                y: e.clientY
+            });
+            setTooltipPlacement('above');
+        };
+
+        const handleMouseLeave = () => {
+            setShowTooltip(false);
+        };
+
+        const handleMouseMove = (e) => {
+            setTooltipPosition({
+                x: e.clientX,
+                y: e.clientY
+            });
         };
 
         return (
-            <div className={`elemental-spheres-container ${size}`}>
-                {/* Specialization selector and sphere count header for large size */}
+            <div
+                className={`elemental-spheres-container ${size}`}
+                onMouseEnter={handleMouseEnter}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                onContextMenu={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Right-click on the bar removes one sphere (if any exist)
+                    if (activeSpheres.length > 0) {
+                        removeElement(activeSpheres[activeSpheres.length - 1]);
+                    }
+                }}
+            >
+                {/* Creative specialization selector for large size */}
                 {size === 'large' && (
                     <div className="sphere-top-controls">
-                        <select
-                            value={activeSpecialization}
-                            onChange={(e) => {
-                                setActiveSpecialization(e.target.value);
-                                setRerollsUsed(0);
-                                setSelectedForSwap([]);
-                                setSwapMode(false);
-                            }}
-                            className="spec-dropdown-top"
-                            title="Select Specialization"
-                        >
-                            <option value="prism-mage">Prism</option>
-                            <option value="entropy-weaver">Entropy</option>
-                            <option value="sphere-architect">Architect</option>
-                        </select>
+                        <div className="specialization-selector">
+                            <button
+                                className={`spec-button ${activeSpecialization === 'prism-mage' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setActiveSpecialization('prism-mage');
+                                    setRerollsUsed(0);
+                                    setSelectedForSwap([]);
+                                    setSwapMode(false);
+                                }}
+                                title="Prism Mage - Crystal focus and precise control"
+                            >
+                                <i className="fas fa-gem"></i>
+                                <span className="spec-label">Prism</span>
+                            </button>
+
+                            <button
+                                className={`spec-button ${activeSpecialization === 'entropy-weaver' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setActiveSpecialization('entropy-weaver');
+                                    setRerollsUsed(0);
+                                    setSelectedForSwap([]);
+                                    setSwapMode(false);
+                                }}
+                                title="Entropy Weaver - Chaotic power and randomness"
+                            >
+                                <i className="fas fa-dice"></i>
+                                <span className="spec-label">Entropy</span>
+                            </button>
+
+                            <button
+                                className={`spec-button ${activeSpecialization === 'sphere-architect' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setActiveSpecialization('sphere-architect');
+                                    setRerollsUsed(0);
+                                    setSelectedForSwap([]);
+                                    setSwapMode(false);
+                                }}
+                                title="Sphere Architect - Strategic construction and manipulation"
+                            >
+                                <i className="fas fa-cogs"></i>
+                                <span className="spec-label">Architect</span>
+                            </button>
+                        </div>
                         <div className="sphere-count-header">
                             {activeSpheres.length} SPHERE{activeSpheres.length !== 1 ? 'S' : ''}
                         </div>
@@ -4377,8 +4888,16 @@ const ClassResourceBar = ({
                                         className={`sphere-slot ${isActive ? 'active' : 'empty'} ${isChaos ? 'chaos' : ''} ${isRolling ? 'rolling' : ''} ${isSelectedForSwap ? 'selected-for-swap' : ''}`}
                                         title={tooltipText}
                                         onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (e.button === 0) { // Left click - add orb
+                                                setLocalSpheres([...localSpheres, element.id]);
+                                            }
+                                        }}
+                                        onContextMenu={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            // Right click - remove orb (if active)
                                             if (isActive) {
-                                                e.stopPropagation();
                                                 if (swapMode && activeSpecialization === 'sphere-architect') {
                                                     handleSphereSwap(element.id);
                                                 } else {
@@ -4390,7 +4909,7 @@ const ClassResourceBar = ({
                                             backgroundColor: isActive ? element.color : finalConfig.visual.emptyColor,
                                             background: isChaos && isActive ? element.color : undefined,
                                             boxShadow: isActive ? `0 0 12px ${element.glowColor}, inset 0 0 8px rgba(255,255,255,0.3)` : 'none',
-                                            cursor: isActive ? 'pointer' : 'default'
+                                            cursor: 'pointer'
                                         }}
                                     >
                                         <i className={`sphere-icon ${element.icon}`}></i>
@@ -4408,14 +4927,33 @@ const ClassResourceBar = ({
                         <div className="sphere-side-controls">
                             <button
                                 className="sphere-icon-btn roll-btn"
-                                onClick={(e) => {
+                                onClick={handleDiceButtonClick}
+                                onContextMenu={(e) => {
+                                    e.preventDefault();
                                     e.stopPropagation();
-                                    rollSpheres();
+                                    cycleDiceButtonMode();
                                 }}
-                                disabled={isRolling}
-                                title={isRolling ? 'Rolling...' : (activeSpecialization === 'entropy-weaver' ? 'Roll 5d8' : 'Roll 4d8')}
+                                disabled={
+                                    (isRolling && diceButtonMode === 'roll') ||
+                                    (diceButtonMode === 'prism-reroll' && activeSpheres.length === 0) ||
+                                    (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
+                                }
+                                title={
+                                    diceButtonMode === 'roll'
+                                        ? (isRolling ? 'Rolling...' : (activeSpecialization === 'entropy-weaver' ? 'Roll 5d8 (Right-click to cycle)' : 'Roll 4d8 (Right-click to cycle)'))
+                                        : diceButtonMode === 'spec'
+                                        ? 'Switch specialization (Right-click to cycle)'
+                                        : diceButtonMode === 'prism-reroll'
+                                        ? `Reroll sphere (Right-click to cycle)`
+                                        : 'Toggle swap mode (Right-click to cycle)' // architect-swap
+                                }
                             >
-                                <i className="fas fa-dice"></i>
+                                <i className={`fas ${
+                                    diceButtonMode === 'roll' ? 'fa-dice' :
+                                    diceButtonMode === 'spec' ? 'fa-exchange-alt' :
+                                    diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
+                                    'fa-arrows-alt' // architect-swap
+                                }`}></i>
                             </button>
 
                             <button
@@ -4437,14 +4975,33 @@ const ClassResourceBar = ({
                         <div className="sphere-side-controls">
                             <button
                                 className="sphere-icon-btn roll-btn"
-                                onClick={(e) => {
+                                onClick={handleDiceButtonClick}
+                                onContextMenu={(e) => {
+                                    e.preventDefault();
                                     e.stopPropagation();
-                                    rollSpheres();
+                                    cycleDiceButtonMode();
                                 }}
-                                disabled={isRolling}
-                                title={activeSpecialization === 'entropy-weaver' ? 'Roll 5d8' : 'Roll 4d8'}
+                                disabled={
+                                    (isRolling && diceButtonMode === 'roll') ||
+                                    (diceButtonMode === 'prism-reroll' && activeSpheres.length === 0) ||
+                                    (diceButtonMode === 'architect-swap' && activeSpheres.length < 2)
+                                }
+                                title={
+                                    diceButtonMode === 'roll'
+                                        ? (isRolling ? 'Rolling...' : (activeSpecialization === 'entropy-weaver' ? 'Roll 5d8 (Right-click to cycle)' : 'Roll 4d8 (Right-click to cycle)'))
+                                        : diceButtonMode === 'spec'
+                                        ? 'Switch specialization (Right-click to cycle)'
+                                        : diceButtonMode === 'prism-reroll'
+                                        ? `Reroll sphere (Right-click to cycle)`
+                                        : 'Toggle swap mode (Right-click to cycle)' // architect-swap
+                                }
                             >
-                                <i className="fas fa-dice"></i>
+                                <i className={`fas ${
+                                    diceButtonMode === 'roll' ? 'fa-dice' :
+                                    diceButtonMode === 'spec' ? 'fa-exchange-alt' :
+                                    diceButtonMode === 'prism-reroll' ? 'fa-sync-alt' :
+                                    'fa-arrows-alt' // architect-swap
+                                }`}></i>
                             </button>
 
                             <button
@@ -4458,44 +5015,52 @@ const ClassResourceBar = ({
                             >
                                 <i className="fas fa-times"></i>
                             </button>
-
-                            {/* Prism Mage: Reroll button */}
-                            {activeSpecialization === 'prism-mage' && (
-                                <button
-                                    className="sphere-icon-btn reroll-btn"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (activeSpheres.length > 0) {
-                                            const randomIndex = Math.floor(Math.random() * activeSpheres.length);
-                                            rerollSphere(randomIndex);
-                                        }
-                                    }}
-                                    disabled={rerollsUsed >= 2 || activeSpheres.length === 0}
-                                    title={`Reroll sphere (${rerollsUsed}/2 used)`}
-                                >
-                                    <i className="fas fa-sync-alt"></i>
-                                </button>
-                            )}
-
-                            {/* Sphere Architect: Swap button */}
-                            {activeSpecialization === 'sphere-architect' && (
-                                <button
-                                    className={`sphere-icon-btn swap-btn ${swapMode ? 'active' : ''}`}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSwapMode(!swapMode);
-                                        setSelectedForSwap([]);
-                                    }}
-                                    disabled={activeSpheres.length < 2}
-                                    title="Swap 2 spheres"
-                                >
-                                    <i className="fas fa-exchange-alt"></i>
-                                </button>
-                            )}
                         </div>
                     )}
 
                 </div>
+
+                {/* Pathfinder-style Resource Tooltip */}
+                {showTooltip && (
+                    <TooltipPortal>
+                        <div
+                            className="pathfinder-resource-tooltip"
+                            style={{
+                                position: 'fixed',
+                                left: tooltipPosition.x,
+                                top: tooltipPosition.y,
+                                transform: 'translate(15px, -50%)',
+                                pointerEvents: 'none',
+                                zIndex: 999999999
+                            }}
+                        >
+                            <div className="pathfinder-tooltip-content">
+                                <div className="pathfinder-tooltip-title">ELEMENTAL SPHERES</div>
+                                <div className="pathfinder-tooltip-description">
+                                    Roll {activeSpecialization === 'entropy-weaver' ? '5d8' : '4d8'} each turn to generate elemental spheres that can be combined to cast spells. Spheres persist during combat but vanish when combat ends.
+                                </div>
+                                <div className="pathfinder-tooltip-controls">
+                                    <strong>BAR CONTROLS:</strong><br/>
+                                    • <em>Left-click spheres</em> to spend them for spells<br/>
+                                    • <em>Right-click bar</em> to remove one sphere<br/>
+                                    • <em>Right-click dice button</em> to cycle: Roll → Spec Switch → {activeSpecialization === 'prism-mage' ? 'Reroll' : activeSpecialization === 'sphere-architect' ? 'Swap Mode' : 'Spec Switch'}
+                                </div>
+                                <div className="pathfinder-tooltip-spec">
+                                    <strong>{activeSpecialization === 'prism-mage' ? 'PRISM MAGE' :
+                                             activeSpecialization === 'entropy-weaver' ? 'ENTROPY WEAVER' :
+                                             'SPHERE ARCHITECT'}</strong>
+                                    {activeSpecialization === 'prism-mage' && ': Reroll spheres, pure element combos +50% damage'}
+                                    {activeSpecialization === 'entropy-weaver' && ': Extra sphere per turn, chaos combos x2 damage, wild magic surges'}
+                                    {activeSpecialization === 'sphere-architect' && ': Swap spheres (1/turn), 3-sphere spells -3 mana, efficient banking'}
+                                </div>
+                                <div className="pathfinder-tooltip-limits">
+                                    CURRENT: {activeSpheres.length} • MAXIMUM: unlimited during combat
+                                </div>
+                            </div>
+                        </div>
+                    </TooltipPortal>
+                )}
+
             </div>
         );
     };
@@ -4531,7 +5096,10 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar rage-bar ${size} ${isOverheated ? 'overheated' : ''}`}>
                 <div className="rage-bar-wrapper">
-                    <div className="rage-bar-container" ref={rageBarRef} onMouseEnter={handleRageBarEnter} onMouseLeave={handleRageBarLeave}>
+                    <div className="rage-bar-container" ref={rageBarRef} onMouseEnter={handleRageBarEnter} onMouseLeave={handleRageBarLeave} onClick={(e) => {
+                        e.stopPropagation();
+                        setShowRageMenu((v) => !v);
+                    }} style={{ cursor: 'pointer' }}>
                         <div className="bar-background">
                             <div
                                 className="bar-fill"
@@ -4546,66 +5114,52 @@ const ClassResourceBar = ({
                             {rageValue}/100
                         </div>
                     </div>
-                    {/* Single control button with pop menu */}
-                    <div className="rage-controls">
-                        <button
-                            className="rage-btn rage-menu-btn"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowRageMenu((v) => !v);
-                            }}
-                            title="Adjust Rage"
-                        >
-                            <i className="fas fa-sliders-h"></i>
-                        </button>
-                        {showRageMenu && (
-                            <div className="rage-menu" onClick={(e) => e.stopPropagation()}>
-                                <div className="rage-menu-row">
-                                    <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 5, 150)); setShowRageMenu(false); }}>+5</button>
-                                    <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 5, 0)); setShowRageMenu(false); }}>-5</button>
-                                </div>
-                                <div className="rage-menu-row">
-                                    <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 10, 150)); setShowRageMenu(false); }}>+10</button>
-                                    <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 10, 0)); setShowRageMenu(false); }}>-10</button>
-                                </div>
-                                <div className="rage-menu-row">
-                                    <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 20, 150)); setShowRageMenu(false); }}>+20</button>
-                                    <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 20, 0)); setShowRageMenu(false); }}>-20</button>
-                                </div>
-                                <div className="rage-menu-row set-row">
-                                    <input
-                                        className="rage-menu-input"
-                                        type="number"
-                                        min="0"
-                                        max="150"
-                                        placeholder={`${rageValue}`}
-                                        value={rageInputValue}
-                                        onChange={(e) => setRageInputValue(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                const v = parseInt(rageInputValue);
-                                                if (!isNaN(v)) {
-                                                    setLocalRage(Math.max(0, Math.min(v, 150)));
-                                                    setRageInputValue('');
-                                                    setShowRageMenu(false);
-                                                }
-                                            }
-                                        }}
-                                    />
-                                    <button className="rage-menu-item apply" onClick={() => {
-                                        const v = parseInt(rageInputValue);
-                                        if (!isNaN(v)) {
-                                            setLocalRage(Math.max(0, Math.min(v, 150)));
-                                            setRageInputValue('');
-                                            setShowRageMenu(false);
-                                        }
-                                    }}>Set</button>
-                                </div>
+                    {showRageMenu && (
+                        <div className="rage-menu" onClick={(e) => e.stopPropagation()}>
+                            <div className="rage-menu-row">
+                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 5, 150)); setShowRageMenu(false); }}>+5</button>
+                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 5, 0)); setShowRageMenu(false); }}>-5</button>
                             </div>
-                        )}
-                    </div>
+                            <div className="rage-menu-row">
+                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 10, 150)); setShowRageMenu(false); }}>+10</button>
+                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 10, 0)); setShowRageMenu(false); }}>-10</button>
+                            </div>
+                            <div className="rage-menu-row">
+                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 20, 150)); setShowRageMenu(false); }}>+20</button>
+                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 20, 0)); setShowRageMenu(false); }}>-20</button>
+                            </div>
+                            <div className="rage-menu-row set-row">
+                                <input
+                                    className="rage-menu-input"
+                                    type="number"
+                                    min="0"
+                                    max="150"
+                                    placeholder={`${rageValue}`}
+                                    value={rageInputValue}
+                                    onChange={(e) => setRageInputValue(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            const v = parseInt(rageInputValue);
+                                            if (!isNaN(v)) {
+                                                setLocalRage(Math.max(0, Math.min(v, 150)));
+                                                setRageInputValue('');
+                                                setShowRageMenu(false);
+                                            }
+                                        }
+                                    }}
+                                />
+                                <button className="rage-menu-item apply" onClick={() => {
+                                    const v = parseInt(rageInputValue);
+                                    if (!isNaN(v)) {
+                                        setLocalRage(Math.max(0, Math.min(v, 150)));
+                                        setRageInputValue('');
+                                        setShowRageMenu(false);
+                                    }
+                                }}>Set</button>
+                            </div>
+                        </div>
+                    )}
                 </div>
-
             </div>
         );
     };
@@ -5104,17 +5658,21 @@ const ClassResourceBar = ({
                                    finalConfig.visual?.type === 'prophetic-visions' ||
                                    finalConfig.visual?.type === 'corruption-bar' ||
                                    finalConfig.visual?.type === 'dual-resource' ||
-                                   finalConfig.visual?.type === 'vengeance-points';
+                                   finalConfig.visual?.type === 'vengeance-points' ||
+                                   finalConfig.visual?.type === 'totemic-synergy';
+
+        // Hide tooltip when menus are open to prevent conflicts
+        if (showWIMenu || showSynergyMenu) return null;
 
         if (!showTooltip) return null;
         if (!handlesOwnTooltips && !finalConfig.tooltip) return null;
 
         const sphereCount = finalClassResource.spheres?.length || 0;
-        const rageState = finalConfig.type === 'rage' ? getRageState(finalClassResource.current) : '';
+        const rageState = modifiedConfig.type === 'rage' ? getRageState(finalClassResource.current) : '';
 
         // Skip tooltip title replacement for classes that handle their own tooltips
-        const tooltipTitle = finalConfig.tooltip?.title
-            ? finalConfig.tooltip.title
+        const tooltipTitle = modifiedConfig.tooltip?.title
+            ? modifiedConfig.tooltip.title
                 .replace('{current}', finalClassResource.current)
                 .replace('{max}', finalClassResource.max)
                 .replace('{count}', sphereCount)
@@ -5126,7 +5684,7 @@ const ClassResourceBar = ({
 
         // Calculate sphere breakdown for Arcanoneer
         const sphereBreakdown = {};
-        if (finalConfig.type === 'spheres' && finalClassResource.spheres) {
+        if (modifiedConfig.type === 'spheres' && finalClassResource.spheres) {
             finalClassResource.spheres.forEach(elementId => {
                 const element = finalConfig.elements?.find(el => el.id === elementId);
                 if (element) {
@@ -5149,12 +5707,12 @@ const ClassResourceBar = ({
                         zIndex: 999999999
                     }}
                 >
-                    {finalConfig.type !== 'rage' && finalConfig.type !== 'dual-resource' && finalConfig.visual?.type !== 'mayhem-modifiers' && finalConfig.visual?.type !== 'time-shards-strain' && finalConfig.visual?.type !== 'ascension-blood' && finalConfig.visual?.type !== 'hexbreaker-charges' && finalConfig.visual?.type !== 'drp-resilience' && finalConfig.visual?.type !== 'dominance-die' && finalConfig.visual?.type !== 'madness-gauge' && finalConfig.visual?.type !== 'threads-of-destiny' && finalConfig.visual?.type !== 'fortune-points-gambling' && finalConfig.visual?.type !== 'quarry-marks-companion' && finalConfig.visual?.type !== 'runes-inscriptions' && finalConfig.visual?.type !== 'musical-notes-combo' && finalConfig.visual?.type !== 'prophetic-visions' && finalConfig.visual?.type !== 'vengeance-points' && finalConfig.tooltip?.description && (
+                    {modifiedConfig.type !== 'rage' && modifiedConfig.type !== 'dual-resource' && modifiedConfig.visual?.type !== 'mayhem-modifiers' && modifiedConfig.visual?.type !== 'time-shards-strain' && modifiedConfig.visual?.type !== 'ascension-blood' && modifiedConfig.visual?.type !== 'hexbreaker-charges' && modifiedConfig.visual?.type !== 'drp-resilience' && modifiedConfig.visual?.type !== 'dominance-die' && modifiedConfig.visual?.type !== 'madness-gauge' && modifiedConfig.visual?.type !== 'threads-of-destiny' && modifiedConfig.visual?.type !== 'fortune-points-gambling' && modifiedConfig.visual?.type !== 'quarry-marks-companion' && modifiedConfig.visual?.type !== 'runes-inscriptions' && modifiedConfig.visual?.type !== 'musical-notes-combo' && modifiedConfig.visual?.type !== 'prophetic-visions' && modifiedConfig.visual?.type !== 'vengeance-points' && modifiedConfig.visual?.type !== 'eternal-frost-phylactery' && modifiedConfig.tooltip?.description && (
                         <div className="tooltip-description">
                             <span className="tooltip-header">
-                                <i className={`${finalConfig.visual.icon || 'fas fa-atom'} tooltip-icon`} style={{ color: finalConfig.visual.activeColor || '#9370DB' }}></i>
+                                <i className={`${modifiedConfig.visual.icon || 'fas fa-atom'} tooltip-icon`} style={{ color: modifiedConfig.visual.activeColor || '#9370DB' }}></i>
                             </span>
-                            {finalConfig.tooltip.description}
+                            {modifiedConfig.tooltip.description}
                         </div>
                     )}
 
@@ -5316,20 +5874,20 @@ const ClassResourceBar = ({
                             {chronarchHoverSection === 'shards' && (
                                 <>
                                     <div className="rage-tooltip-state">
-                                        <div className="state-name">Time Shards: {localTimeShards}/10</div>
+                                        <div className="state-name" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Time Shards: {localTimeShards}/10</div>
                                         <div className="state-columns">
                                             <div className="state-col">
-                                                <div className="col-title">Generation</div>
+                                                <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Generation</div>
                                                 <ul>
-                                                    <li><strong>+1</strong> per spell cast</li>
-                                                    <li>Persists between combats</li>
+                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}><strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>+1</strong> per spell cast</li>
+                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Persists between combats</li>
                                                 </ul>
                                             </div>
                                             <div className="state-col">
-                                                <div className="col-title">Usage</div>
+                                                <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Usage</div>
                                                 <ul>
-                                                    <li>Spend on <strong>Temporal Flux</strong></li>
-                                                    <li>Cost: <strong>1-10</strong> shards</li>
+                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Spend on <strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Temporal Flux</strong></li>
+                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Cost: <strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>1-10</strong> shards</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -5338,13 +5896,14 @@ const ClassResourceBar = ({
                                         fontStyle: 'italic',
                                         fontSize: '9px',
                                         textAlign: 'center',
-                                        color: '#81D4FA',
+                                        color: 'white',
                                         marginTop: '6px',
                                         padding: '4px',
-                                        background: 'rgba(79, 195, 247, 0.1)',
-                                        borderRadius: '3px'
+                                        background: 'rgba(79, 195, 247, 0.2)',
+                                        borderRadius: '3px',
+                                        textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
                                     }}>
-                                        ⏳ Power resource - accumulate to unleash time magic
+                                        Power resource - accumulate to unleash time magic
                                     </div>
                                 </>
                             )}
@@ -5364,7 +5923,7 @@ const ClassResourceBar = ({
                                 return (
                                     <>
                                         <div className="rage-tooltip-state">
-                                            <div className="state-name">
+                                            <div className="state-name" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
                                                 Temporal Strain: {strainValue}/10
                                                 <span style={{
                                                     fontSize: '10px',
@@ -5373,43 +5932,44 @@ const ClassResourceBar = ({
                                                     marginLeft: '8px',
                                                     padding: '2px 6px',
                                                     background: `${state.color}22`,
-                                                    borderRadius: '3px'
+                                                    borderRadius: '3px',
+                                                    textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
                                                 }}>
                                                     {state.name}
                                                 </span>
                                             </div>
                                             <div className="state-columns">
                                                 <div className="state-col">
-                                                    <div className="col-title">Accumulation</div>
+                                                    <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Accumulation</div>
                                                     <ul>
-                                                        <li><strong>+1 to +5</strong> per Flux ability</li>
+                                                        <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}><strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>+1 to +5</strong> per Flux ability</li>
                                                     </ul>
                                                 </div>
                                                 <div className="state-col">
-                                                    <div className="col-title">Decay</div>
+                                                    <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Decay</div>
                                                     <ul>
-                                                        <li><strong>-1</strong> per turn</li>
-                                                        <li>(if no Flux used)</li>
+                                                        <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}><strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>-1</strong> per turn</li>
+                                                        <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>(if no Flux used)</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         {strainValue >= 10 && (
                                             <div className="rage-tooltip-warning" style={{ background: 'rgba(183, 28, 28, 0.15)', borderColor: '#B71C1C' }}>
-                                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>⚠️ TEMPORAL BACKLASH</div>
+                                                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>TEMPORAL BACKLASH</div>
                                                 <div className="state-columns">
                                                     <div className="state-col">
-                                                        <div className="col-title">Immediate</div>
+                                                        <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Immediate</div>
                                                         <ul>
-                                                            <li>Lose next turn</li>
-                                                            <li>Take <strong>10 damage</strong></li>
+                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Lose next turn</li>
+                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Take <strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>10 damage</strong></li>
                                                         </ul>
                                                     </div>
                                                     <div className="state-col">
-                                                        <div className="col-title">Reset</div>
+                                                        <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Reset</div>
                                                         <ul>
-                                                            <li>Strain → 0</li>
-                                                            <li>All effects end</li>
+                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Strain → 0</li>
+                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>All effects end</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -5420,26 +5980,28 @@ const ClassResourceBar = ({
                                                 fontStyle: 'italic',
                                                 fontSize: '9px',
                                                 textAlign: 'center',
-                                                color: '#E53935',
+                                                color: 'white',
                                                 marginTop: '6px',
                                                 padding: '4px',
-                                                background: 'rgba(229, 57, 53, 0.1)',
-                                                borderRadius: '3px'
+                                                background: 'rgba(229, 57, 53, 0.2)',
+                                                borderRadius: '3px',
+                                                textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
                                             }}>
-                                                ⚠️ Approaching Backlash threshold!
+                                                Approaching Backlash threshold!
                                             </div>
                                         )}
                                         <div style={{
                                             fontStyle: 'italic',
                                             fontSize: '9px',
                                             textAlign: 'center',
-                                            color: '#FF5252',
+                                            color: 'white',
                                             marginTop: '6px',
                                             padding: '4px',
-                                            background: 'rgba(255, 82, 82, 0.1)',
-                                            borderRadius: '3px'
+                                            background: 'rgba(255, 82, 82, 0.2)',
+                                            borderRadius: '3px',
+                                            textShadow: '1px 1px 2px rgba(0,0,0,0.8)'
                                         }}>
-                                            ⚠️ Risk resource - balance power with safety
+                                            Risk resource - balance power with safety
                                         </div>
                                     </>
                                 );
@@ -5618,7 +6180,7 @@ const ClassResourceBar = ({
                                         </div>
                                         {tokensValue >= dangerThreshold && (
                                             <div className="rage-tooltip-warning" style={{ background: 'rgba(255, 0, 0, 0.15)', borderColor: '#FF0000' }}>
-                                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>💀 EXTREME DANGER!</div>
+                                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>EXTREME DANGER!</div>
                                                 <div className="state-columns">
                                                     <div className="state-col">
                                                         <div className="col-title">Burst Damage</div>
@@ -5648,7 +6210,7 @@ const ClassResourceBar = ({
                                                 background: 'rgba(255, 107, 107, 0.1)',
                                                 borderRadius: '3px'
                                             }}>
-                                                ⚠️ High token count - use soon or risk burst!
+                                                High token count - use soon or risk burst!
                                             </div>
                                         )}
                                     </>
@@ -5784,6 +6346,70 @@ const ClassResourceBar = ({
                         </div>
                     )}
 
+                    {/* Totemic Synergy Tooltip */}
+                    {finalConfig.visual?.type === 'totemic-synergy' && (
+                        <div className="tooltip-rage-bar">
+                            <div className="rage-tooltip-state" style={{
+                                background: 'var(--pf-gradient-parchment)',
+                                border: '2px solid var(--pf-parchment-dark)',
+                                borderRadius: '8px',
+                                padding: '12px'
+                            }}>
+                                <div className="state-name" style={{
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                    color: '#8B4513',
+                                    marginBottom: '8px'
+                                }}>
+                                    Totemic Synergy ({localSynergy}/100)
+                                </div>
+                                <div style={{
+                                    fontSize: '12px',
+                                    lineHeight: '1.4',
+                                    color: '#2F1810',
+                                    marginBottom: '8px'
+                                }}>
+                                    Primal energy that powers totemic effects and synergies.
+                                </div>
+                                <div className="state-columns">
+                                    <div className="state-col">
+                                        <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#8B4513', marginBottom: '4px' }}>Generation:</div>
+                                        <div style={{ fontSize: '11px', color: '#2F1810', lineHeight: '1.3' }}>
+                                            +1 per totem placed, +1 per totem per turn
+                                        </div>
+                                    </div>
+                                    <div className="state-col">
+                                        <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#8B4513', marginBottom: '4px' }}>Spending:</div>
+                                        <div style={{ fontSize: '11px', color: '#2F1810', lineHeight: '1.3' }}>
+                                            Variable (4-10 per synergy effect)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="rage-tooltip-warning" style={{
+                                background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(139, 69, 19, 0.05) 100%)',
+                                border: '1px solid #4CAF50',
+                                borderRadius: '6px',
+                                padding: '8px',
+                                fontSize: '11px',
+                                color: '#2F1810'
+                            }}>
+                                <div style={{
+                                    fontWeight: 'bold',
+                                    marginBottom: '4px',
+                                    color: '#4CAF50',
+                                    fontSize: '12px'
+                                }}>
+                                    Synergy Ready: {activeTotems >= 4 ? 'YES' : 'NO'}
+                                </div>
+                                <div>
+                                    Need {Math.max(0, 4 - activeTotems)} more totem(s) for synergy effects
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Exorcist Dominance Tooltip */}
                     {finalConfig.visual?.type === 'dominance-die' && exorcistHoverSection === 'dominance' && (
                         <div className="tooltip-rage-bar">
@@ -5873,7 +6499,7 @@ const ClassResourceBar = ({
                                                 borderColor: currentDD === 6 ? '#DC143C' : '#FF8C00'
                                             }}>
                                                 <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                                    {currentDD === 6 ? '⚠️ CRITICAL - Demon Near Escape!' : '⚠️ WARNING - Low Dominance'}
+                                                    {currentDD === 6 ? 'CRITICAL - Demon Near Escape!' : 'WARNING - Low Dominance'}
                                                 </div>
                                                 <div className="state-columns">
                                                     <div className="state-col">
@@ -5897,7 +6523,7 @@ const ClassResourceBar = ({
                                         {currentDD === 0 && (
                                             <div className="rage-tooltip-warning" style={{ background: 'rgba(139, 0, 0, 0.2)', borderColor: '#8B0000' }}>
                                                 <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#FF4444' }}>
-                                                    💀 DEMON ESCAPED!
+                                                    DEMON ESCAPED!
                                                 </div>
                                                 <div className="state-columns">
                                                     <div className="state-col">
@@ -5983,7 +6609,7 @@ const ClassResourceBar = ({
                                     borderColor: localMadness === 20 ? '#8B0000' : '#DC143C'
                                 }}>
                                     <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                        {localMadness === 20 ? '💀 INSANITY CONVULSION!' : '⚠️ HIGH CONVULSION RISK'}
+                                        {localMadness === 20 ? 'INSANITY CONVULSION!' : 'HIGH CONVULSION RISK'}
                                     </div>
                                     {localMadness === 20 ? (
                                         <>
@@ -6034,88 +6660,72 @@ const ClassResourceBar = ({
                     )}
 
                     {/* Fate Weaver Threads Tooltip */}
-                    {finalConfig.visual?.type === 'threads-of-destiny' && fateWeaverHoverSection === 'threads' && (
+                    {modifiedConfig.visual?.type === 'threads-of-destiny' && fateWeaverHoverSection === 'threads' && (
                         <div className="tooltip-rage-bar">
                             <div className="rage-tooltip-state">
-                                <div className="state-name">Threads of Destiny: {localThreads}/13</div>
-                                <div className="state-columns">
-                                    <div className="state-col">
-                                        <div className="col-title">Thread Generation</div>
-                                        <ul>
-                                            <li><strong>Minor Failure:</strong> +1 Thread</li>
-                                            <li><strong>Major Failure:</strong> +2 Threads</li>
-                                            <li><strong>Spell Fails:</strong> +1-2 Threads</li>
-                                        </ul>
-                                    </div>
-                                    <div className="state-col">
-                                        <div className="col-title">Thread Spending</div>
-                                        <ul>
-                                            <li><strong>Call Card:</strong> 2 Threads</li>
-                                            <li><strong>Force Fail:</strong> 3 Threads</li>
-                                            <li><strong>Force Success:</strong> 5 Threads</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Thread Level Info */}
-                            <div className="rage-tooltip-warning" style={{
-                                background: 'rgba(255, 215, 0, 0.15)',
-                                borderColor: '#FFD700'
-                            }}>
-                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                                <div className="state-name">Threads of Destiny: {localThreads}/{modifiedConfig.mechanics?.max ?? 13}</div>
+                                <div style={{ marginBottom: '8px', fontSize: '12px', color: '#000000' }}>
                                     Current Level: {getThreadLevel(localThreads).name}
                                 </div>
+
+                                {/* Specialization Info */}
+                                <div style={{
+                                    padding: '6px 8px',
+                                    background: 'rgba(255, 255, 255, 0.05)',
+                                    borderRadius: '4px',
+                                    marginBottom: '8px',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                                }}>
+                                    <div style={{ fontWeight: 'bold', fontSize: '11px', marginBottom: '4px' }}>
+                                        Specialization: {selectedFateWeaverSpec === 'fortune-teller' ? 'Fortune Teller' :
+                                                        selectedFateWeaverSpec === 'card-master' ? 'Card Master' : 'Thread Weaver'}
+                                    </div>
+                                    <div style={{ fontSize: '10px', color: '#000000', marginBottom: '4px' }}>
+                                        {selectedFateWeaverSpec === 'fortune-teller' && 'Predictive support and ally buffs'}
+                                        {selectedFateWeaverSpec === 'card-master' && 'Deck control and combo assembly'}
+                                        {selectedFateWeaverSpec === 'thread-weaver' && 'High-risk Thread generation'}
+                                    </div>
+                                    {/* Specialization Bonuses */}
+                                    <div style={{ fontSize: '9px', color: '#000000' }}>
+                                        {selectedFateWeaverSpec === 'fortune-teller' && (
+                                            <div>• See top card always • 1 Thread for ally advantage</div>
+                                        )}
+                                        {selectedFateWeaverSpec === 'card-master' && (
+                                            <div>• Hold 7 cards • Call 2 cards per 2 Threads</div>
+                                        )}
+                                        {selectedFateWeaverSpec === 'thread-weaver' && (
+                                            <div>• +1 Thread on all gains • 5T auto-success • 3T auto-fail</div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Key Actions */}
                                 <div className="state-columns">
                                     <div className="state-col">
-                                        <div className="col-title">Thread Levels</div>
-                                        <ul>
-                                            <li><strong>0-3:</strong> Sparse Threads</li>
-                                            <li><strong>4-6:</strong> Woven Strands</li>
-                                            <li><strong>7-9:</strong> Tapestry of Fate</li>
-                                            <li><strong>10-12:</strong> Destiny's Web</li>
-                                            <li><strong>13:</strong> Fate Mastered (King)</li>
-                                        </ul>
+                                        <div className="col-title" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Quick Actions</div>
+                                        <div style={{ fontSize: '11px', lineHeight: '1.4', color: '#000000' }}>
+                                            <div>• <strong>Failures</strong> generate Threads</div>
+                                            <div>• <strong>2 Threads:</strong> Call specific card</div>
+                                            {selectedFateWeaverSpec === 'thread-weaver' && localThreads >= 3 && (
+                                                <div>• <strong>3 Threads:</strong> Force failure (max Threads)</div>
+                                            )}
+                                            {selectedFateWeaverSpec === 'thread-weaver' && localThreads >= 5 && (
+                                                <div>• <strong>5 Threads:</strong> Force success (max effect)</div>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="state-col">
-                                        <div className="col-title">Strategy</div>
-                                        <ul>
-                                            <li>Failures generate Threads</li>
-                                            <li>Spend to manipulate cards</li>
-                                            <li>Force outcomes at high cost</li>
-                                            <li>Balance risk vs. control</li>
-                                        </ul>
+                                        <div className="col-title" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Thread Level</div>
+                                        <div style={{ fontSize: '11px', lineHeight: '1.4', color: '#000000' }}>
+                                            {localThreads <= 3 && <div>• Build Thread reserves</div>}
+                                            {localThreads >= 4 && localThreads <= 6 && <div>• Call 2-3 cards safely</div>}
+                                            {localThreads >= 7 && localThreads <= 9 && <div>• Manipulate fate freely</div>}
+                                            {localThreads >= 10 && localThreads <= 12 && <div>• Aggressive control</div>}
+                                            {localThreads >= 13 && <div>• FATE MASTERED!</div>}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            {/* Destiny Weaver Specialization Bonus */}
-                            {localThreads >= 7 && (
-                                <div className="rage-tooltip-warning" style={{
-                                    background: 'rgba(147, 112, 219, 0.15)',
-                                    borderColor: '#9370DB'
-                                }}>
-                                    <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                        ✨ Destiny Weaver Bonus
-                                    </div>
-                                    <div className="state-columns">
-                                        <div className="state-col">
-                                            <div className="col-title">Enhanced Generation</div>
-                                            <ul>
-                                                <li>+1 Thread on all gains</li>
-                                                <li>1 becomes 2, 2 becomes 3</li>
-                                            </ul>
-                                        </div>
-                                        <div className="state-col">
-                                            <div className="col-title">Special Options</div>
-                                            <ul>
-                                                <li><strong>5 Threads:</strong> Auto-succeed (max)</li>
-                                                <li><strong>3 Threads:</strong> Auto-fail (max Threads)</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     )}
 
@@ -6123,104 +6733,84 @@ const ClassResourceBar = ({
                     {finalConfig.visual?.type === 'wild-instinct-forms' && formbenderHoverSection && (
                         <div className="tooltip-rage-bar">
                             {formbenderHoverSection === 'wi' && (
-                                <>
-                                    <div className="rage-tooltip-state">
-                                        <div className="state-name">Wild Instinct: {localWildInstinct}/15</div>
-                                        <div className="state-columns">
-                                            <div className="state-col">
-                                                <div className="col-title">Generation</div>
-                                                <ul>
-                                                    <li><strong>Form Actions:</strong> +1-2 WI</li>
-                                                    <li><strong>Stealth (Nightstalker):</strong> +1/round</li>
-                                                    <li><strong>Taunt (Ironhide):</strong> +1/enemy</li>
-                                                    <li><strong>Scout (Skyhunter):</strong> +1 WI</li>
-                                                    <li><strong>Track (Frostfang):</strong> +1 WI</li>
-                                                </ul>
-                                            </div>
-                                            <div className="state-col">
-                                                <div className="col-title">Spending</div>
-                                                <ul>
-                                                    <li><strong>Transform:</strong> 1 WI</li>
-                                                    <li><strong>Tier 1-2:</strong> 1-2 WI</li>
-                                                    <li><strong>Tier 3-4:</strong> 3-4 WI</li>
-                                                    <li><strong>Ultimate:</strong> 5 WI</li>
-                                                    <li><strong>First transform:</strong> FREE</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="rage-tooltip-warning" style={{
-                                        background: 'rgba(76, 175, 80, 0.15)',
-                                        borderColor: '#4CAF50'
+                                <div className="rage-tooltip-state" style={{
+                                    background: 'var(--pf-gradient-parchment)',
+                                    border: '2px solid var(--pf-parchment-dark)',
+                                    borderRadius: '8px',
+                                    padding: '12px'
+                                }}>
+                                    <div className="state-name" style={{
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        color: '#8B4513',
+                                        marginBottom: '8px'
                                     }}>
-                                        <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                            Resource Banking
-                                        </div>
-                                        <div className="state-columns">
-                                            <div className="state-col">
-                                                <ul>
-                                                    <li>WI persists between combats</li>
-                                                    <li>No decay or time limit</li>
-                                                </ul>
+                                        Wild Instinct ({localWildInstinct}/15)
+                                    </div>
+                                    <div style={{
+                                        fontSize: '12px',
+                                        lineHeight: '1.4',
+                                        color: '#2F1810',
+                                        marginBottom: '8px'
+                                    }}>
+                                        Primal energy for shapeshifting and feral abilities.
+                                    </div>
+                                    <div className="state-columns">
+                                        <div className="state-col">
+                                            <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#8B4513', marginBottom: '4px' }}>Generate:</div>
+                                            <div style={{ fontSize: '11px', color: '#2F1810', lineHeight: '1.3' }}>
+                                                Combat actions, stealth, taunting, scouting, tracking
                                             </div>
-                                            <div className="state-col">
-                                                <ul>
-                                                    <li>Save for crucial encounters</li>
-                                                    <li>Strategic resource management</li>
-                                                </ul>
+                                        </div>
+                                        <div className="state-col">
+                                            <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#8B4513', marginBottom: '4px' }}>Spend:</div>
+                                            <div style={{ fontSize: '11px', color: '#2F1810', lineHeight: '1.3' }}>
+                                                Transform (1 WI), Abilities (1-5 WI), First transform free
                                             </div>
                                         </div>
                                     </div>
-                                </>
+                                </div>
                             )}
 
                             {formbenderHoverSection === 'form' && (
-                                <>
-                                    <div className="rage-tooltip-state">
-                                        <div className="state-name">
-                                            {finalConfig.visual.forms[currentForm]?.name || 'Human'} Form
-                                        </div>
-                                        <div className="state-columns">
-                                            <div className="state-col">
-                                                <div className="col-title">Role</div>
-                                                <ul>
-                                                    <li>{finalConfig.visual.forms[currentForm]?.description || 'Not Transformed'}</li>
-                                                </ul>
-                                            </div>
-                                            <div className="state-col">
-                                                <div className="col-title">Generation</div>
-                                                <ul>
-                                                    <li>{finalConfig.visual.forms[currentForm]?.generation || 'None'}</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="rage-tooltip-warning" style={{
-                                        background: `rgba(${parseInt(finalConfig.visual.forms[currentForm]?.color?.slice(1, 3) || '80', 16)}, ${parseInt(finalConfig.visual.forms[currentForm]?.color?.slice(3, 5) || '80', 16)}, ${parseInt(finalConfig.visual.forms[currentForm]?.color?.slice(5, 7) || '80', 16)}, 0.15)`,
-                                        borderColor: finalConfig.visual.forms[currentForm]?.borderColor || '#808080'
+                                <div className="rage-tooltip-state" style={{
+                                    background: 'var(--pf-gradient-parchment)',
+                                    border: '2px solid var(--pf-parchment-dark)',
+                                    borderRadius: '8px',
+                                    padding: '12px'
+                                }}>
+                                    <div className="state-name" style={{
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        color: '#8B4513',
+                                        marginBottom: '8px'
                                     }}>
-                                        <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                            Form Passive
-                                        </div>
-                                        <div>
-                                            {finalConfig.visual.forms[currentForm]?.passive || 'No form bonuses'}
-                                        </div>
+                                        {finalConfig.visual.forms[currentForm]?.name || 'Human'} Form
                                     </div>
-
-                                    {currentForm !== 'human' && (
-                                        <div style={{
-                                            fontStyle: 'italic',
-                                            fontSize: '9px',
-                                            marginTop: '8px',
-                                            textAlign: 'center',
-                                            color: '#AAA'
-                                        }}>
-                                            Click form icon to transform (1 WI)
-                                        </div>
-                                    )}
-                                </>
+                                    <div style={{
+                                        fontSize: '12px',
+                                        lineHeight: '1.4',
+                                        color: '#2F1810',
+                                        marginBottom: '6px'
+                                    }}>
+                                        {finalConfig.visual.forms[currentForm]?.description || 'Human form with no special abilities.'}
+                                    </div>
+                                    <div style={{
+                                        fontSize: '11px',
+                                        fontWeight: 'bold',
+                                        color: '#8B4513',
+                                        marginBottom: '4px'
+                                    }}>
+                                        WI Generation: {finalConfig.visual.forms[currentForm]?.generation || 'None'}
+                                    </div>
+                                    <div style={{
+                                        fontSize: '11px',
+                                        color: '#2F1810',
+                                        lineHeight: '1.3'
+                                    }}>
+                                        <strong>Passive:</strong> {finalConfig.visual.forms[currentForm]?.passive || 'No bonuses'}
+                                    </div>
+                                </div>
                             )}
                         </div>
                     )}
@@ -6466,7 +7056,7 @@ const ClassResourceBar = ({
                         <div className="tooltip-rage-bar">
                             {inscriptorHoverSection === 'runes' && (() => {
                                 const specs = finalConfig.visual;
-                                const currentSpec = specs[inscriptorSpec] || specs.base;
+                                const currentSpec = specs[inscriptorSpec] || specs.enchanter;
                                 const specName = currentSpec.name;
                                 const specColor = currentSpec.color;
                                 const maxRunes = currentSpec.maxRunes;
@@ -6478,11 +7068,12 @@ const ClassResourceBar = ({
                                                 Runes: {localRunes}/{maxRunes}
                                                 <span style={{
                                                     fontSize: '10px',
-                                                    color: specColor,
+                                                    color: '#000000',
                                                     fontWeight: 'bold',
                                                     marginLeft: '8px',
                                                     padding: '2px 6px',
-                                                    background: `${specColor}33`,
+                                                    background: 'rgba(240, 230, 210, 0.8)',
+                                                    border: '1px solid #a08c70',
                                                     borderRadius: '3px'
                                                 }}>
                                                     {specName}
@@ -6514,10 +7105,10 @@ const ClassResourceBar = ({
 
                                         {localRunes >= 3 && (
                                             <div className="rage-tooltip-warning" style={{
-                                                background: 'rgba(65, 105, 225, 0.15)',
-                                                borderColor: '#4169E1'
+                                                background: 'rgba(240, 230, 210, 0.8)',
+                                                borderColor: '#a08c70'
                                             }}>
-                                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                                                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#000000' }}>
                                                     Zone Active
                                                 </div>
                                                 <div className="state-columns">
@@ -6541,11 +7132,11 @@ const ClassResourceBar = ({
 
                                         {inscriptorSpec === 'glyphweaver' && (
                                             <div className="rage-tooltip-warning" style={{
-                                                background: 'rgba(220, 20, 60, 0.15)',
-                                                borderColor: '#DC143C'
+                                                background: 'rgba(240, 230, 210, 0.8)',
+                                                borderColor: '#a08c70'
                                             }}>
-                                                <div style={{ fontWeight: 'bold', color: '#DC143C' }}>VOLATILE RUNES</div>
-                                                <div style={{ fontSize: '9px', marginTop: '4px' }}>
+                                                <div style={{ fontWeight: 'bold', color: '#000000' }}>VOLATILE RUNES</div>
+                                                <div style={{ fontSize: '9px', marginTop: '4px', color: '#000000' }}>
                                                     Auto-detonate after 30 seconds | +3d8 bonus damage | Friendly fire (half damage)
                                                 </div>
                                             </div>
@@ -6556,7 +7147,7 @@ const ClassResourceBar = ({
 
                             {inscriptorHoverSection === 'inscriptions' && (() => {
                                 const specs = finalConfig.visual;
-                                const currentSpec = specs[inscriptorSpec] || specs.base;
+                                const currentSpec = specs[inscriptorSpec] || specs.enchanter;
                                 const specName = currentSpec.name;
                                 const specColor = currentSpec.color;
                                 const maxInscriptions = currentSpec.maxInscriptions;
@@ -6568,11 +7159,12 @@ const ClassResourceBar = ({
                                                 Inscriptions: {localInscriptions}/{maxInscriptions}
                                                 <span style={{
                                                     fontSize: '10px',
-                                                    color: specColor,
+                                                    color: '#000000',
                                                     fontWeight: 'bold',
                                                     marginLeft: '8px',
                                                     padding: '2px 6px',
-                                                    background: `${specColor}33`,
+                                                    background: 'rgba(240, 230, 210, 0.8)',
+                                                    border: '1px solid #a08c70',
                                                     borderRadius: '3px'
                                                 }}>
                                                     {specName}
@@ -6601,8 +7193,8 @@ const ClassResourceBar = ({
                                         </div>
 
                                         <div className="rage-tooltip-warning" style={{
-                                            background: 'rgba(255, 215, 0, 0.15)',
-                                            borderColor: '#FFD700'
+                                            background: 'rgba(240, 230, 210, 0.8)',
+                                            borderColor: '#a08c70'
                                         }}>
                                             <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
                                                 Equipment Slots
@@ -6642,47 +7234,78 @@ const ClassResourceBar = ({
                         </div>
                     )}
 
-                    {/* Lichborne Eternal Frost & Phylactery Tooltip */}
-                    {finalConfig.visual?.type === 'eternal-frost-phylactery' && lichborneHoverSection && (
+                    {/* Lichborne Phylactery Tooltip - Only shows phylactery info, no aura content */}
+                    {finalConfig.visual?.type === 'eternal-frost-phylactery' && lichborneHoverSection === 'phylactery' && lichborneHoverSection !== 'aura' && (
                         <div className="tooltip-rage-bar">
-                            {lichborneHoverSection === 'phylactery' && (() => {
+                            {(() => {
                                 const specs = finalConfig.visual;
                                 const currentSpec = specs[lichborneSpec] || specs.frostbound_tyrant;
                                 const maxPhylactery = currentSpec.maxPhylactery;
                                 const specName = currentSpec.name;
+                                const specGlow = currentSpec.glow || '#87CEEB';
+                                
+                                // Convert hex to RGB for gradient
+                                const hexToRgb = (hex) => {
+                                    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                                    return result ? {
+                                        r: parseInt(result[1], 16),
+                                        g: parseInt(result[2], 16),
+                                        b: parseInt(result[3], 16)
+                                    } : { r: 135, g: 206, b: 235 };
+                                };
+                                const rgb = hexToRgb(specGlow);
 
                                 return (
                                     <>
-                                        <div className="rage-tooltip-state">
-                                            <div className="state-name">Phylactery HP: {localPhylacteryHP}/{maxPhylactery}</div>
+                                        <div className="rage-tooltip-state phylactery-tooltip">
+                                            <div className="state-name phylactery-hp" style={{ color: '#000000' }}>
+                                                Phylactery HP: {localPhylacteryHP}/{maxPhylactery}
+                                            </div>
                                             <div className="state-columns">
                                                 <div className="state-col">
-                                                    <div className="col-title">Storage</div>
-                                                    <ul>
-                                                        <li><strong>Ritual:</strong> Transfer 10 HP (1 hour)</li>
-                                                        <li><strong>Max:</strong> {maxPhylactery} HP</li>
-                                                        <li><strong>Recharge:</strong> 10 HP per rest</li>
+                                                    <div className="col-title phylactery-storage" style={{ color: '#000000' }}>
+                                                        Storage
+                                                    </div>
+                                                    <ul style={{ color: '#000000' }}>
+                                                        <li><strong style={{ color: '#000000' }}>Ritual:</strong> Transfer 10 HP (1 hour)</li>
+                                                        <li><strong style={{ color: '#000000' }}>Max:</strong> {maxPhylactery} HP</li>
+                                                        <li><strong style={{ color: '#000000' }}>Recharge:</strong> 10 HP per rest</li>
                                                     </ul>
                                                 </div>
                                                 <div className="state-col">
-                                                    <div className="col-title">Resurrection</div>
-                                                    <ul>
-                                                        <li><strong>Cost:</strong> {lichborneSpec === 'phylactery_guardian' ? '8 HP' : '10 HP'}</li>
-                                                        <li><strong>Revive at:</strong> {lichborneSpec === 'phylactery_guardian' ? '15 HP' : '10 HP'}</li>
-                                                        <li><strong>Limit:</strong> Once per combat</li>
+                                                    <div className="col-title phylactery-resurrection" style={{ color: '#000000' }}>
+                                                        Resurrection
+                                                    </div>
+                                                    <ul style={{ color: '#000000' }}>
+                                                        <li><strong style={{ color: '#000000' }}>Cost:</strong> {lichborneSpec === 'phylactery_guardian' ? '8 HP' : '10 HP'}</li>
+                                                        <li><strong style={{ color: '#000000' }}>Revive at:</strong> {lichborneSpec === 'phylactery_guardian' ? '15 HP' : '10 HP'}</li>
+                                                        <li><strong style={{ color: '#000000' }}>Limit:</strong> Once per combat</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="rage-tooltip-warning" style={{
-                                            background: 'rgba(74, 144, 226, 0.15)',
-                                            borderColor: '#4A90E2'
+                                        <div className="rage-tooltip-warning phylactery-spec" style={{
+                                            background: `linear-gradient(135deg, rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.2), rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.15))`,
+                                            borderColor: specGlow,
+                                            borderWidth: '2px',
+                                            boxShadow: `0 0 12px ${specGlow}40, inset 0 1px 2px ${specGlow}20`
                                         }}>
-                                            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                                Specialization: {specName}
+                                            <div style={{ 
+                                                fontWeight: 'bold', 
+                                                marginBottom: '6px',
+                                                fontSize: '11px',
+                                                color: '#000000',
+                                                letterSpacing: '0.5px',
+                                                textTransform: 'uppercase'
+                                            }}>
+                                                {specName}
                                             </div>
-                                            <div style={{ fontSize: '9px' }}>
+                                            <div style={{ 
+                                                fontSize: '10px',
+                                                color: '#000000',
+                                                lineHeight: '1.5'
+                                            }}>
                                                 {lichborneSpec === 'frostbound_tyrant' && 'Freeze effects last +1d4 rounds. Frozen enemies take +1d6 damage.'}
                                                 {lichborneSpec === 'spectral_reaper' && 'Frost spells deal +1d6 necrotic damage. Enemies killed have 1/6 chance to rise as spectral minions (1d4 rounds).'}
                                                 {lichborneSpec === 'phylactery_guardian' && 'Phylactery stores 75 HP. Resurrection costs 8 HP, revives at 15 HP.'}
@@ -6691,56 +7314,6 @@ const ClassResourceBar = ({
                                     </>
                                 );
                             })()}
-
-                            {lichborneHoverSection === 'aura' && (
-                                <>
-                                    <div className="rage-tooltip-state">
-                                        <div className="state-name">Eternal Frost Aura: {eternalFrostActive ? 'ACTIVE' : 'INACTIVE'}</div>
-                                        <div className="state-columns">
-                                            <div className="state-col">
-                                                <div className="col-title">When Active</div>
-                                                <ul>
-                                                    <li><strong>Frost Damage:</strong> +1d6</li>
-                                                    <li><strong>Chilling DC:</strong> 17</li>
-                                                    <li><strong>Effect:</strong> -10 ft movement</li>
-                                                </ul>
-                                            </div>
-                                            <div className="state-col">
-                                                <div className="col-title">Cost</div>
-                                                <ul>
-                                                    <li><strong>HP Drain:</strong> 1d6 per turn</li>
-                                                    <li><strong>Toggle:</strong> Free action</li>
-                                                    <li><strong>Duration:</strong> Until deactivated</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {eternalFrostActive && (
-                                        <div className="rage-tooltip-warning" style={{
-                                            background: 'rgba(0, 255, 255, 0.15)',
-                                            borderColor: '#00FFFF'
-                                        }}>
-                                            <div style={{ fontWeight: 'bold', color: '#00FFFF' }}>AURA ACTIVE</div>
-                                            <div style={{ fontSize: '9px', marginTop: '4px' }}>
-                                                All frost spells enhanced | Draining 1d6 HP per turn
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div className="rage-tooltip-warning" style={{
-                                        background: 'rgba(74, 144, 226, 0.15)',
-                                        borderColor: '#4A90E2'
-                                    }}>
-                                        <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                                            Shared Passive: Undying Frost
-                                        </div>
-                                        <div style={{ fontSize: '9px' }}>
-                                            Chilling DC +2 (DC 17) | Immune to frost damage
-                                        </div>
-                                    </div>
-                                </>
-                            )}
                         </div>
                     )}
 
@@ -6951,17 +7524,17 @@ const ClassResourceBar = ({
                                             <div className="state-columns">
                                                 <div className="state-col">
                                                     <div className="col-title">Generated By</div>
-                                                    <div style={{ fontSize: '9px', marginTop: '4px', color: '#5a1e12' }}>
+                                                    <div style={{ fontSize: '11px', marginTop: '4px', color: '#8B7355', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>
                                                         {note.generatedBy}
                                                     </div>
                                                 </div>
                                                 <div className="state-col">
                                                     <div className="col-title">Used In</div>
-                                                    <ul style={{ color: '#5a1e12' }}>
+                                                    <ul style={{ color: '#8B7355' }}>
                                                         {note.usedIn?.slice(0, 3).map((cadence, i) => (
-                                                            <li key={i}>{cadence}</li>
+                                                            <li key={i} style={{ fontSize: '10px', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>{cadence}</li>
                                                         ))}
-                                                        {note.usedIn?.length > 3 && <li>+{note.usedIn.length - 3} more...</li>}
+                                                        {note.usedIn?.length > 3 && <li style={{ fontSize: '10px', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>+{note.usedIn.length - 3} more...</li>}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -6977,7 +7550,7 @@ const ClassResourceBar = ({
                                             background: `${note.color}15`,
                                             borderRadius: '3px'
                                         }}>
-                                            🎵 Notes persist between combats | Decay: 1 per minute
+                                            Notes persist between combats | Decay: 1 per minute
                                         </div>
 
                                         {finalConfig.sharedPassive?.description && (
@@ -6989,7 +7562,7 @@ const ClassResourceBar = ({
                                                 <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#2E5C8A' }}>
                                                     Shared Passive: {finalConfig.sharedPassive.name || 'Harmonic Resonance'}
                                                 </div>
-                                                <div style={{ fontSize: '9px', color: '#5a1e12' }}>
+                                                <div style={{ fontSize: '11px', color: '#8B7355', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>
                                                     {finalConfig.sharedPassive.description}
                                                 </div>
                                             </div>
@@ -7004,7 +7577,7 @@ const ClassResourceBar = ({
                                                 <div style={{ fontWeight: 'bold', marginBottom: '4px', color: getHighContrastColor(currentSpec.glow) }}>
                                                     {currentSpec.name} Passive
                                                 </div>
-                                                <div style={{ fontSize: '9px', color: '#5a1e12' }}>
+                                                <div style={{ fontSize: '11px', color: '#8B7355', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>
                                                     {finalConfig.specPassives[minstrelSpec].description}
                                                 </div>
                                             </div>
@@ -7109,7 +7682,7 @@ const ClassResourceBar = ({
                                         )}
                                         {isOverheated && (
                                             <div className="rage-tooltip-warning">
-                                                ⚠️ OVERHEAT: Take 2d6 damage if not spent this round!
+                                                OVERHEAT: Take 2d6 damage if not spent this round!
                                             </div>
                                         )}
                                     </>
@@ -7204,7 +7777,7 @@ const ClassResourceBar = ({
     const isDreadnaught = finalConfig.visual?.type === 'drp-resilience';
     const isExorcist = finalConfig.visual?.type === 'dominance-die';
     const isFalseProphet = finalConfig.visual?.type === 'madness-gauge';
-    const isFateWeaver = finalConfig.visual?.type === 'threads-of-destiny';
+    const isFateWeaver = modifiedConfig.visual?.type === 'threads-of-destiny';
     const isGambler = finalConfig.visual?.type === 'fortune-points-gambling';
     const isHuntress = finalConfig.visual?.type === 'quarry-marks-companion';
     const isInscriptor = finalConfig.visual?.type === 'runes-inscriptions';

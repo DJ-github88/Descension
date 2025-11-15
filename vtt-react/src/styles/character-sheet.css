@@ -2896,12 +2896,12 @@
 
 .character-summary-portrait {
     flex: 1;
-    min-width: 300px;
+    min-width: 250px;
 }
 
 .character-summary-stats {
     flex: 1;
-    min-width: 400px;
+    min-width: 300px;
     height: 100%;
     overflow: hidden;
     position: relative;
@@ -3410,8 +3410,8 @@
 
 .character-details-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
 }
 
 .character-field {

@@ -718,6 +718,7 @@ export default function CharacterPanel() {
                                 <ClassResourceBar
                                     characterClass={characterClass}
                                     classResource={classResource}
+                                    character={{ health, mana, actionPoints }}
                                     size="large"
                                 />
                             </div>

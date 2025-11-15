@@ -133,7 +133,7 @@ export const LICHBORNE_SPECTRAL_REAPER = [
   {
     id: 'spectral_t2_reaper_command',
     name: 'Reaper Command',
-    description: 'Command up to 2 spectral minions per rank as a bonus action. Minions can attack or defend. Minion HP increases by 1d6 per rank.',
+    description: 'Command up to 2 spectral minions per rank as a 1 action point. Minions can attack or defend. Minion HP increases by 1d6 per rank.',
     icon: 'spell_shadow_requiem',
     maxRanks: 2,
     position: { x: 0, y: 2 },

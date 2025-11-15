@@ -961,7 +961,6 @@ export default function InventoryWindow() {
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
 
-        console.log(`🎯 Drag over cell ${row},${col} with item:`, draggedItem.name);
 
         // Get item dimensions
         const width = draggedItem.width || 1;

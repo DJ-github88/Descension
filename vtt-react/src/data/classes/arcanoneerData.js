@@ -397,7 +397,7 @@ MANA COSTS:
         playstyle: 'Pure element focus, rerolling spheres, elemental specialization, consistent damage',
 
         strengths: [
-          'Can reroll up to 2 spheres per turn',
+          'Can reroll spheres to get desired elements',
           'Pure element combos (Fire+Fire, Ice+Ice, etc.) deal +50% damage',
           'Gain resistance to your most-used element type',
           'More consistent and predictable than other specs',
@@ -408,7 +408,7 @@ MANA COSTS:
           'Less versatile than other specs',
           'Struggles against enemies resistant to your favored elements',
           'Cannot leverage chaos and mixed-element synergies as well',
-          'Rerolls cost 1 mana per sphere rerolled',
+          'Rerolls cost 1 mana per sphere rerolled (unlimited uses)',
           'Limited by element availability'
         ],
 
@@ -422,7 +422,7 @@ MANA COSTS:
           {
             name: 'Elemental Purity',
             tier: 'Specialization Passive',
-            description: 'You can reroll up to 2 spheres per turn (costs 1 mana per reroll). Pure element combinations (same element twice) deal 50% bonus damage. You gain resistance to the element type you\'ve used most this combat.',
+            description: 'You can reroll spheres to get desired elements (costs 1 mana per reroll). Pure element combinations (same element twice) deal 50% bonus damage. You gain resistance to the element type you\'ve used most this combat.',
             uniqueTo: 'Prism Mage'
           }
         ],

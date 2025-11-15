@@ -1,0 +1,327 @@
+.class-resource-bar.stance-flow {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.stance-flow-compact {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(139, 69, 19, 0.4);
+    border-radius: 12px;
+    overflow: visible;
+}
+
+/* Momentum Bar (Left Side) */
+.momentum-bar-left {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    background: rgba(26, 77, 109, 0.4);
+    border-radius: 12px 0 0 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.momentum-bar-left:hover {
+    background: rgba(26, 77, 109, 0.5);
+}
+
+.momentum-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 12px 0 0 12px;
+}
+
+.resource-value-left {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-family: 'Crimson Text', serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 1px 3px rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8),
+        -1px -1px 0 rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+/* Flourish Bar (Right Side) */
+.flourish-bar-right {
+    position: relative;
+    flex: 1;
+    height: 100%;
+    background: rgba(52, 73, 94, 0.4);
+    border-radius: 0 12px 12px 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.flourish-bar-right:hover {
+    background: rgba(52, 73, 94, 0.5);
+}
+
+.flourish-fill {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 0 12px 12px 0;
+}
+
+.resource-value-right {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-family: 'Crimson Text', serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 1px 3px rgba(0, 0, 0, 0.8),
+        1px 1px 0 rgba(0, 0, 0, 0.8),
+        -1px -1px 0 rgba(0, 0, 0, 0.8);
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+/* Stance Icon (Center) */
+.stance-icon-center {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 2;
+    margin: 0 -1px; /* Overlap borders slightly */
+}
+
+.stance-icon-center:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.stance-icon-center i {
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+/* Resource Adjustment Menu (Compact) */
+.resource-adjust-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    background: var(--pf-gradient-parchment);
+    border: 2px solid var(--pf-parchment-dark);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 3200;
+    box-shadow: var(--pf-shadow-parchment);
+    min-width: 180px;
+}
+
+.resource-adjust-menu * {
+    pointer-events: auto;
+}
+
+/* Prevent any browser tooltips in resource adjust menus */
+.resource-adjust-menu,
+.resource-adjust-menu * {
+    pointer-events: auto !important;
+}
+
+/* Disable browser tooltips by preventing default tooltip behavior */
+.resource-adjust-menu button,
+.resource-adjust-menu div,
+.resource-adjust-menu span,
+.resource-adjust-menu i {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Absolutely prevent any tooltips from appearing */
+.resource-adjust-menu * {
+    position: relative;
+}
+
+.resource-adjust-menu *:hover::before,
+.resource-adjust-menu *:hover::after {
+    display: none !important;
+    content: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+.momentum-menu-left {
+    left: 0;
+}
+
+.flourish-menu-right {
+    right: 0;
+}
+
+.menu-header {
+    font-family: var(--pf-font-body);
+    font-size: 11px;
+    font-weight: 700;
+    color: #8B4513;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--pf-parchment-dark);
+}
+
+.menu-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.menu-buttons button {
+    background: var(--pf-parchment-light);
+    border: 1px solid var(--pf-parchment-dark);
+    border-radius: 4px;
+    padding: 6px 8px;
+    color: #2F1810;
+    font-family: var(--pf-font-body);
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-buttons button:hover:not(:disabled) {
+    background: var(--pf-parchment);
+    border-color: #8B4513;
+}
+
+.menu-buttons button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.menu-custom-input {
+    margin-bottom: 6px;
+}
+
+.menu-custom-input input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(139, 69, 19, 0.4);
+    border-radius: 4px;
+    padding: 6px 8px;
+    color: #d8c9a9;
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    box-sizing: border-box;
+}
+
+.menu-custom-input input:focus {
+    outline: none;
+    border-color: rgba(139, 69, 19, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.menu-custom-input input::placeholder {
+    color: rgba(216, 201, 169, 0.5);
+    font-style: italic;
+}
+
+.menu-reset {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.2) 0%, rgba(160, 82, 45, 0.1) 100%);
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    padding: 6px 8px;
+    color: #2F1810;
+    font-family: var(--pf-font-body);
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-reset:hover {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.3) 0%, rgba(160, 82, 45, 0.2) 100%);
+    border-color: rgba(139, 69, 19, 0.7);
+}
+
+.menu-section {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid var(--pf-parchment-dark);
+}
+
+.menu-section-title {
+    font-family: var(--pf-font-body);
+    font-size: 10px;
+    font-weight: 700;
+    color: #8B4513;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.spec-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.spec-buttons button {
+    background: var(--pf-parchment-light);
+    border: 1px solid var(--pf-parchment-dark);
+    border-radius: 4px;
+    padding: 6px 8px;
+    color: #2F1810;
+    font-family: var(--pf-font-body);
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.spec-buttons button:hover:not(.active) {
+    background: var(--pf-parchment);
+    border-color: #8B4513;
+}
+
+.spec-buttons button.active {
+    background: var(--pf-parchment);
+    color: #2F1810;
+    font-weight: bold;
+    border-color: #8B4513;
+}
+
+/* Primalist Energy Flow */

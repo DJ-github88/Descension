@@ -7,7 +7,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: 'shadowblade_warden_t0_vengeful_pursuit',
     name: 'Vengeful Pursuit',
-    description: 'Vengeance Points build 50% faster from successful attacks against marked targets. You can mark targets as a bonus action, gaining +1 VP per successful attack against them.',
+    description: 'Vengeance Points build 50% faster from successful attacks against marked targets. You can mark targets as a 1 action point, gaining +1 VP per successful attack against them.',
     icon: 'ability_hunter_assassinate',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -18,7 +18,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: 'shadowblade_warden_t1_shadow_stalker',
     name: 'Shadow Stalker',
-    description: 'You can hide as a bonus action after attacking. Stealth attacks generate +2 VP instead of +1. Marked targets cannot detect you through blindsight or tremorsense.',
+    description: 'You can hide as a 1 action point after attacking. Stealth attacks generate +2 VP instead of +1. Marked targets cannot detect you through blindsight or tremorsense.',
     icon: 'ability_stealth',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -36,7 +36,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: 'shadowblade_warden_t3_unseen_executioner',
     name: 'Unseen Executioner',
-    description: 'Marked targets below 50% HP take double damage from your attacks. When you kill a marked target, you can hide as a free action.',
+    description: 'Marked targets below 50% HP take double damage from your attacks. When you kill a marked target, you can hide as a 1 action point.',
     icon: 'ability_rogue_shadowstrike',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -176,7 +176,7 @@ export const WARDEN_JAILER = [
   {
     id: 'jailer_t4_spectral_overlord',
     name: 'Spectral Overlord',
-    description: 'Your cages become immune to dispel magic. Caged enemies generate VP for you equal to the damage they take. You can teleport between your cages as a bonus action.',
+    description: 'Your cages become immune to dispel magic. Caged enemies generate VP for you equal to the damage they take. You can teleport between your cages as a 1 action point.',
     icon: 'spell_shadow_shadetruesight',
     maxRanks: 2,
     position: { x: 2, y: 2 },

@@ -16,7 +16,7 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: 'virulent_t0_rapid_infection',
     name: 'Rapid Infection',
-    description: 'Apply afflictions as a bonus action. +1 affliction target per rank when spreading.',
+    description: 'Apply afflictions as a 1 action point. +1 affliction target per rank when spreading.',
     icon: 'spell_shadow_contagion',
     maxRanks: 3,
     position: { x: 2, y: 0 },

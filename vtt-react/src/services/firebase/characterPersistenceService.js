@@ -179,14 +179,6 @@ class CharacterPersistenceService {
     this.isConfigured = isFirebaseConfigured && !isDemoMode;
     
     // CRITICAL FIX: Log configuration status for debugging
-    console.log('🔥 CharacterPersistenceService initialized:', {
-      isFirebaseConfigured,
-      isDemoMode,
-      isConfigured: this.isConfigured,
-      hasDb: !!db,
-      hasAuth: !!auth,
-      canUseFirebase: this.isConfigured && !!db
-    });
   }
 
   /**

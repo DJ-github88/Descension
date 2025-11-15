@@ -1,0 +1,82 @@
+/* ===== BERSERKER TOOLTIP STYLES ===== */
+.tooltip-rage-bar {
+    font-size: 12px;
+    color: #000000;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* Rage tooltip tidy layout */
+.rage-tooltip .state-columns,
+.tooltip-rage-bar .state-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 6px;
+}
+.rage-tooltip .state-col .col-title,
+.tooltip-rage-bar .state-col .col-title {
+    font-weight: 600;
+    font-size: 11px;
+    color: #5e2e23;
+    text-align: center;
+    margin-bottom: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.rage-tooltip .state-col ul,
+.tooltip-rage-bar .state-col ul {
+    margin: 0;
+    padding-left: 0;
+    list-style-type: none;
+}
+.rage-tooltip .state-col li,
+.tooltip-rage-bar .state-col li {
+    font-size: 10px;
+    line-height: 1.4;
+    color: #000000;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+.rage-tooltip .state-list.penalties strong{color:#7a1f1f}
+
+.rage-tooltip-state,
+.tooltip-rage-bar .rage-tooltip-state {
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.state-name,
+.tooltip-rage-bar .state-name {
+    font-weight: 600;
+    color: #000000;
+    font-size: 12px;
+    margin-bottom: 6px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.state-bonus {
+    font-size: 11px;
+    color: #000000;
+    font-weight: 500;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.rage-tooltip-warning,
+.tooltip-rage-bar .rage-tooltip-warning {
+    background: rgba(240, 230, 210, 0.8);
+    border: 1px solid #a08c70;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-top: 6px;
+    font-size: 10px;
+    color: #000000;
+    font-weight: 600;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+/* ========================================
+   BLADEDANCER STANCE FLOW RESOURCE BAR - COMPACT
+   ======================================== */

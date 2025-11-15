@@ -297,7 +297,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           const maxDistance = visionRange * tokenGridSize;
 
           visible = distance <= maxDistance;
-          console.log(`🎯 CreatureToken ${token.creatureId || token.id} distance check: ${visible} (distance: ${distance.toFixed(1)}, max: ${maxDistance}) at ${position.x.toFixed(1)},${position.y.toFixed(1)}`);
         } else {
           // If not viewing from a token, always visible (normal GM view)
           visible = true;
@@ -1200,15 +1199,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     const currentHp = token.state.currentHp;
     const newHp = Math.max(0, currentHp - amount);
-
-    console.log('💥 DAMAGE TOKEN:', {
-      tokenId,
-      creatureName: creature?.name,
-      amount,
-      currentHp,
-      newHp,
-      timestamp: new Date().toLocaleTimeString()
-    });
 
     updateTokenState(tokenId, {
       currentHp: newHp
@@ -2179,9 +2169,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               fontStyle: 'italic'
             }}>
               {isMyTurn ? (
-                <span style={{ color: '#FFD700', fontWeight: 'bold' }}>🗡️ Current Turn</span>
+                <span style={{ color: '#FFD700', fontWeight: 'bold' }}>Current Turn</span>
               ) : (
-                <span style={{ color: '#666' }}>⏳ Waiting for turn</span>
+                <span style={{ color: '#666' }}>Waiting for turn</span>
               )}
             </div>
           )}
@@ -2196,7 +2186,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               color: '#FF9800',
               fontWeight: 'bold'
             }}>
-              🎯 Targeted
+              Targeted
             </div>
           )}
 

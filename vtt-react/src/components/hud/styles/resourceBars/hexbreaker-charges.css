@@ -1,0 +1,308 @@
+.class-resource-bar.hexbreaker-charges {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.hexbreaker-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(44, 44, 44, 0.15) 0%, rgba(60, 60, 60, 0.12) 100%);
+    border: 1px solid rgba(192, 192, 192, 0.3);
+    border-radius: 4px;
+    padding: 6px 8px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Charges Display */
+.charges-display {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    cursor: pointer;
+    padding: 3px 6px;
+    background: linear-gradient(180deg, rgba(60, 60, 60, 0.12) 0%, rgba(44, 44, 44, 0.15) 100%);
+    border: 1px solid rgba(160, 160, 160, 0.25);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.charges-display:hover {
+    background: linear-gradient(180deg, rgba(70, 70, 70, 0.18) 0%, rgba(50, 50, 50, 0.2) 100%);
+    border-color: rgba(192, 192, 192, 0.4);
+}
+
+.charges-grid {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+}
+
+.charge-indicator {
+    position: relative;
+    flex: 1;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid rgba(100, 100, 100, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.charge-indicator.filled {
+    border-color: rgba(192, 192, 192, 0.7);
+}
+
+.charge-indicator.max-glow {
+    animation: hexbreaker-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes hexbreaker-pulse {
+    0%, 100% {
+        box-shadow: 0 0 6px rgba(232, 232, 232, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 12px rgba(232, 232, 232, 0.8), 0 0 18px rgba(192, 192, 192, 0.4);
+    }
+}
+
+.charge-icon {
+    font-size: 10px;
+    color: #E8E8E8;
+    text-shadow: 0 0 4px rgba(192, 192, 192, 0.6);
+}
+
+.charges-value {
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #C0C0C0;
+    min-width: 28px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Attack Counter */
+.attack-counter {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    padding: 3px 6px;
+    background: linear-gradient(180deg, rgba(44, 44, 44, 0.12) 0%, rgba(44, 44, 44, 0.18) 100%);
+    border: 1px solid rgba(160, 160, 160, 0.25);
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    min-width: 45px;
+}
+
+.attack-counter:hover {
+    background: linear-gradient(180deg, rgba(50, 50, 50, 0.18) 0%, rgba(50, 50, 50, 0.24) 100%);
+    border-color: rgba(192, 192, 192, 0.4);
+}
+
+.counter-dots {
+    display: flex;
+    gap: 3px;
+}
+
+.counter-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(100, 100, 100, 0.4);
+    transition: all 0.2s ease;
+}
+
+.counter-dot.active {
+    border-color: rgba(192, 192, 192, 0.7);
+}
+
+.counter-dot.true-damage-ready {
+    animation: true-damage-pulse 1s ease-in-out infinite;
+}
+
+@keyframes true-damage-pulse {
+    0%, 100% {
+        box-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
+    }
+    50% {
+        box-shadow: 0 0 8px rgba(255, 215, 0, 1), 0 0 12px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.counter-label {
+    font-family: 'Crimson Text', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #a08970;
+    white-space: nowrap;
+}
+
+/* Charges Adjustment Menu */
+.charges-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.95) 0%, rgba(101, 67, 33, 0.98) 100%);
+    border: 1px solid rgba(192, 192, 192, 0.4);
+    border-radius: 4px;
+    padding: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    min-width: 200px;
+}
+
+.charges-menu .menu-header {
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #C0C0C0;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+    text-align: center;
+}
+
+.charges-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 6px;
+}
+
+.charges-menu .menu-buttons button {
+    font-family: 'Crimson Text', serif;
+    font-size: 10px;
+    padding: 4px 8px;
+    background: rgba(60, 60, 60, 0.2);
+    border: 1px solid rgba(160, 160, 160, 0.3);
+    border-radius: 3px;
+    color: #d4c5a9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.charges-menu .menu-buttons button:hover {
+    background: rgba(80, 80, 80, 0.3);
+    border-color: rgba(192, 192, 192, 0.5);
+    color: #E8E8E8;
+}
+
+.charges-menu .menu-reset {
+    font-family: 'Crimson Text', serif;
+    font-size: 10px;
+    padding: 4px 8px;
+    background: rgba(139, 69, 19, 0.2);
+    border: 1px solid rgba(139, 69, 19, 0.4);
+    border-radius: 4px;
+    color: #a08970;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.charges-menu .menu-reset:hover {
+    background: rgba(139, 69, 19, 0.3);
+    color: #d4c5a9;
+}
+
+/* Size Variations */
+.class-resource-bar.hexbreaker-charges.small .hexbreaker-container {
+    padding: 3px 5px;
+    gap: 4px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charges-display {
+    padding: 2px 3px;
+    gap: 3px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charges-grid {
+    gap: 2px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charge-indicator {
+    min-width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charge-icon {
+    font-size: 7px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .charges-value {
+    font-size: 8px;
+    min-width: 20px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .attack-counter {
+    padding: 2px 3px;
+    min-width: 32px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .counter-dot {
+    width: 5px;
+    height: 5px;
+}
+
+.class-resource-bar.hexbreaker-charges.small .counter-label {
+    font-size: 7px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .hexbreaker-container {
+    padding: 8px 10px;
+    gap: 10px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charges-display {
+    padding: 4px 8px;
+    gap: 8px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charges-grid {
+    gap: 6px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charge-indicator {
+    min-width: 30px;
+    height: 24px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charge-icon {
+    font-size: 14px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .charges-value {
+    font-size: 13px;
+    min-width: 32px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .attack-counter {
+    padding: 4px 8px;
+    min-width: 52px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .counter-dot {
+    width: 10px;
+    height: 10px;
+}
+
+.class-resource-bar.hexbreaker-charges.large .counter-label {
+    font-size: 10px;
+}
+
+/* ========================================
+   DEATHCALLER - ASCENSION PATHS & BLOOD TOKENS
+   ======================================== */

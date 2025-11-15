@@ -105,7 +105,7 @@ export const FORMBENDER_METAMORPH = [
   {
     id: 'metamorph_t5_rapid_metamorphosis',
     name: 'Rapid Metamorphosis',
-    description: 'Transform as a bonus action instead of an action. Roll 1d6 when transforming - on 4+ per rank, also gain advantage on your first attack in the new form.',
+    description: 'Transform as a 1 action point instead of an action. Roll 1d6 when transforming - on 4+ per rank, also gain advantage on your first attack in the new form.',
     icon: 'ability_druid_typhoon',
     maxRanks: 3,
     position: { x: 4, y: 4 },
@@ -389,7 +389,7 @@ export const FORMBENDER_PRIMORDIAL = [
   {
     id: 'primordial_t5_elemental_ascension',
     name: 'Elemental Ascension',
-    description: 'Transform as a bonus action and maintain elemental forms indefinitely. Roll 1d8 when ascending - on 7+ per rank, gain a new elemental ability permanently.',
+    description: 'Transform as a 1 action point and maintain elemental forms indefinitely. Roll 1d8 when ascending - on 7+ per rank, gain a new elemental ability permanently.',
     icon: 'spell_nature_elementalprecision_1',
     maxRanks: 3,
     position: { x: 4, y: 4 },

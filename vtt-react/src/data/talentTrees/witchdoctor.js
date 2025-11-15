@@ -211,7 +211,7 @@ export const WITCH_DOCTOR_SPIRIT_HEALER = [
   {
     id: 'spirit_healer_t3_life_transfer',
     name: 'Life Transfer',
-    description: 'You can transfer 2d6 HP per rank from yourself to bonded allies as a bonus action. If you would be reduced to 0 HP, transfer the damage to a bonded ally instead (once per turn).',
+    description: 'You can transfer 2d6 HP per rank from yourself to bonded allies as a 1 action point. If you would be reduced to 0 HP, transfer the damage to a bonded ally instead (once per turn).',
     icon: 'spell_holy_layonhands',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -315,7 +315,7 @@ export const WITCH_DOCTOR_WAR_PRIEST = [
   {
     id: 'war_priest_t2_war_cry',
     name: 'War Cry',
-    description: 'You can unleash a war cry as a bonus action per rank. Allies within 30 ft gain +1d6 weapon damage for 1 minute. Roll 1d20 - on 16+ per rank, enemies within range are frightened.',
+    description: 'You can unleash a war cry as a 1 action point per rank. Allies within 30 ft gain +1d6 weapon damage for 1 minute. Roll 1d20 - on 16+ per rank, enemies within range are frightened.',
     icon: 'ability_warrior_warcry',
     maxRanks: 4,
     position: { x: 1, y: 2 },

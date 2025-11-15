@@ -623,7 +623,6 @@ const ContainerWindow = ({ container, onClose }) => {
                         onDrop={(e) => {
                             e.preventDefault();
                             e.stopPropagation(); // Prevent event from bubbling
-                            console.log('🎯 Drop event triggered on cell:', row, col);
 
                             // Clear all highlights
                             document.querySelectorAll('.container-cell').forEach(cell => {
@@ -645,9 +644,8 @@ const ContainerWindow = ({ container, onClose }) => {
                                 let data;
                                 try {
                                     data = JSON.parse(dataTransfer);
-                                    console.log('🎯 Parsed drop data:', data);
                                 } catch (jsonError) {
-                                    console.error('❌ Error parsing JSON data:', jsonError);
+                                    console.error('Error parsing JSON data:', jsonError);
                                     return;
                                 }
 

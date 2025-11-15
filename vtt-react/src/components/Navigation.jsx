@@ -693,7 +693,6 @@ export default function Navigation({ onReturnToLanding }) {
     const buttons = useMemo(() => getVisibleButtons(), [isGMMode]);
 
     const handleButtonClick = useCallback((windowId) => {
-        console.log('🎯 Navigation button clicked:', windowId, 'Current openWindows:', Array.from(openWindows));
 
         // Special handling for level editor
         if (windowId === 'leveleditor') {

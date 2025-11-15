@@ -38,7 +38,7 @@ export const DEATHCALLER_BLOOD_REAVER = [
   {
     id: 'deathcaller_blood_t2_rush_of_blood',
     name: 'Rush of Blood',
-    description: 'When you drop below 50% HP, life drain spells are cast as bonus actions per rank.',
+    description: 'When you drop below 50% HP, life drain spells are cast as 1 action points per rank.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 2,
     position: { x: 4, y: 2 },

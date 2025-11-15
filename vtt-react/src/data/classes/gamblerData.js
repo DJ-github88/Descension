@@ -695,7 +695,7 @@ Playing Gambler in person is uniquely satisfying because:
         id: 'fortunes-favor',
         name: "Fortune's Favor",
         icon: 'inv_misc_coin_17',
-        color: '#FFD700',
+        color: '#c9aa71',
         theme: 'Luck Manipulation',
 
         description: `Fortune's Favor Gamblers are masters of coin flips and probability manipulation. They specialize in bending luck to their will, granting rerolls, and influencing the outcomes of chance-based events. These Gamblers believe that fortune favors the bold—and they've learned to make fortune favor them specifically.`,
@@ -737,7 +737,7 @@ Playing Gambler in person is uniquely satisfying because:
         id: 'high-roller',
         name: 'High Roller',
         icon: 'inv_misc_gem_diamond_01',
-        color: '#DC143C',
+        color: '#7a3b2e',
         theme: 'High Stakes Betting',
 
         description: `High Roller Gamblers embrace extreme risk for extreme reward. They bet their own health, mana, and resources on the outcomes of their gambles, capable of achieving devastating results—or catastrophic failures. These Gamblers live for the thrill of putting everything on the line and coming out on top.`,
@@ -780,7 +780,7 @@ Playing Gambler in person is uniquely satisfying because:
         id: 'card-sharp',
         name: 'Card Sharp',
         icon: 'inv_misc_platnumdisks',
-        color: '#4B0082',
+        color: '#daa520',
         theme: 'Strategic Gambling',
 
         description: `Card Sharp Gamblers are strategic masterminds who treat combat like a high-stakes card game. They specialize in prediction, pattern recognition, and calculated risks. These Gamblers use their keen analytical minds to turn randomness into advantage through careful observation and strategic play.`,

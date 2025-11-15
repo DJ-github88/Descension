@@ -18,7 +18,7 @@ export const TITAN_COLOSSAL_STRENGTH = [
   {
     id: 'strength_t1_seismic_force',
     name: 'Seismic Force',
-    description: 'Your attacks create shockwaves. Deal an additional 1d4 thunder damage per rank to all enemies within 5 feet of your target. You can spend 1 ki point to make a Strength attack as a bonus action.',
+    description: 'Your attacks create shockwaves. Deal an additional 1d4 thunder damage per rank to all enemies within 5 feet of your target. You can spend 1 ki point to make a Strength attack as a 1 action point.',
     icon: 'spell_nature_earthshock',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -47,7 +47,7 @@ export const TITAN_COLOSSAL_STRENGTH = [
   {
     id: 'strength_t2_mountain_fist',
     name: 'Mountain Fist',
-    description: 'Your unarmed strikes deal 1d8 bludgeoning damage per rank and count as magical. You can make unarmed strikes as a bonus action.',
+    description: 'Your unarmed strikes deal 1d8 bludgeoning damage per rank and count as magical. You can make unarmed strikes as a 1 action point.',
     icon: 'ability_warrior_colossussmash',
     maxRanks: 4,
     position: { x: 2, y: 2 },
@@ -111,7 +111,7 @@ export const TITAN_COLOSSAL_STRENGTH = [
   {
     id: 'strength_t4_colossus_strike',
     name: 'Colossus Strike',
-    description: 'Once per turn when you critically hit, you can make an additional attack as a bonus action. This attack deals maximum damage.',
+    description: 'Once per turn when you critically hit, you can make an additional attack as a 1 action point. This attack deals maximum damage.',
     icon: 'ability_warrior_colossussmash',
     maxRanks: 3,
     position: { x: 2, y: 4 },
@@ -195,7 +195,7 @@ export const TITAN_EARTH_DOMINION = [
   {
     id: 'dominion_t2_crystal_armor',
     name: 'Crystal Armor',
-    description: 'You can grow crystal spikes from your body. Once per turn when a creature hits you with a melee attack, it takes 1d6 piercing damage per rank. You can retract the spikes as a bonus action.',
+    description: 'You can grow crystal spikes from your body. Once per turn when a creature hits you with a melee attack, it takes 1d6 piercing damage per rank. You can retract the spikes as a 1 action point.',
     icon: 'spell_nature_crystalball',
     maxRanks: 4,
     position: { x: 2, y: 2 },
@@ -390,7 +390,7 @@ export const TITAN_STRAIN_ENDURANCE = [
   {
     id: 'endurance_t4_peak_conditioning',
     name: 'Peak Conditioning',
-    description: 'You can take the Dash action as a bonus action, and you don\'t suffer penalties from difficult terrain. Your hit point maximum increases by 10 per rank.',
+    description: 'You can take the Dash action as a 1 action point, and you don\'t suffer penalties from difficult terrain. Your hit point maximum increases by 10 per rank.',
     icon: 'ability_warrior_endurance',
     maxRanks: 2,
     position: { x: 0, y: 4 },

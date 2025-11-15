@@ -2091,7 +2091,7 @@ button.gender-option.selected {
 }
 
 .class-features-list::before {
-    content: '⚡ Class Features';
+    content: 'Class Features';
     position: absolute;
     top: -10px;
     left: 20px;

@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import WowWindow from './WowWindow';
 import useCharacterStore from '../../store/characterStore';
 import { CLASS_SPECIALIZATIONS } from '../../data/classSpellCategories';
 import { getTalentsForSpec, getTreeBackdrop, getFallbackBackground } from '../../data/talentTreeData';
 import { TalentArrowRenderer } from './TalentArrow';
+import UnifiedTooltip from '../common/UnifiedTooltip';
+import useUnifiedTooltip from '../common/useUnifiedTooltip';
 import './TalentTreeWindow.css';
 
 // Helper function to get talent trees for current class
@@ -23,9 +25,106 @@ const getTalentTreesForClass = (className) => {
     }));
 };
 
+// Progressive tooltip descriptions for talents
+const PROGRESSIVE_TOOLTIPS = {
+    // Lunarch - Moonlight Sentinel
+    'moonlight_sentinel_t0_lunar_precision': {
+        1: 'Your ranged attacks gain +1 to attack rolls.',
+        2: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +10ft range.',
+        3: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +10ft range. Full Moon phase grants +1d4 bonus radiant damage on ranged attacks.',
+        4: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +20ft range. Full Moon phase grants +1d4 bonus radiant damage on ranged attacks.',
+        5: 'Your ranged attacks gain +1 to attack rolls. Lunar Arrow and Moonbeam have +20ft range. Full Moon phase grants +2d4 bonus radiant damage on ranged attacks.'
+    },
+    'moonlight_sentinel_t1_true_shot': {
+        1: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage.',
+        2: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage. Your bonus attack also deals +1d6 radiant damage.',
+        3: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage. Your bonus attack also deals +1d6 radiant damage and ignores half cover.',
+        4: 'Once per turn when you hit with a ranged attack, you can spend 1 action point to make another ranged attack at advantage. Your bonus attack also deals +2d6 radiant damage and ignores half and three-quarters cover.'
+    },
+    'moonlight_sentinel_t2_lunar_guidance': {
+        1: 'Your ranged attacks ignore half cover.',
+        2: 'Your ranged attacks ignore half cover. Full Moon phase allows you to attack twice using 1 action point when you crit.',
+        3: 'Your ranged attacks ignore half cover and three-quarters cover. Full Moon phase allows you to attack twice using 1 action point when you crit.',
+        4: 'Your ranged attacks ignore half cover and three-quarters cover. Full Moon phase allows you to attack three times using 1 action point when you crit.'
+    },
+    'moonlight_sentinel_t3_marksman_focus': {
+        1: 'You can spend 1 action point to gain advantage on your next ranged attack.',
+        2: 'You can spend 1 action point to gain advantage on your next ranged attack. Your critical hit range increases by 1.',
+        3: 'You can spend 1 action point to gain advantage on your next ranged attack. Your critical hit range increases by 1. You can use this ability twice per short rest.',
+        4: 'You can spend 1 action point to gain advantage on your next ranged attack. Your critical hit range increases by 2. You can use this ability twice per short rest.'
+    },
+    'moonlight_sentinel_t1_moonlight_arrow': {
+        1: 'Your Lunar Arrow deals +1d6 radiant damage.',
+        2: 'Your Lunar Arrow deals +1d6 radiant damage and reduces the target\'s radiant resistance by 5.',
+        3: 'Your Lunar Arrow deals +2d6 radiant damage and reduces the target\'s radiant resistance by 5.',
+        4: 'Your Lunar Arrow deals +2d6 radiant damage and reduces the target\'s radiant resistance by 10.'
+    },
+    'moonlight_sentinel_t2_radiant_burst': {
+        1: 'When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 1d8 radiant damage.',
+        2: 'When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 2d8 radiant damage.',
+        3: 'When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 2d8 radiant damage. Enemies hit take -1d4 on their next attack.',
+        4: 'When you crit with a ranged attack during Full Moon, all enemies within 15ft of the target take 3d8 radiant damage. Enemies hit take -1d4 on their next attack.'
+    },
+    'moonlight_sentinel_t3_lunar_empowerment': {
+        1: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 5, to a minimum of 0.',
+        2: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 10, to a minimum of 0.',
+        3: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 10, to a minimum of 0. You gain +1 to attack rolls during Full Moon.',
+        4: 'During Full Moon, your ranged attacks reduce the target\'s radiant resistance by 15, to a minimum of 0. You gain +1 to attack rolls during Full Moon.'
+    },
+    'moonlight_sentinel_t4_deadly_precision': {
+        1: 'Enemies that die from your AoE spells explode, dealing 3d6 force damage to all enemies within 10ft.',
+        2: 'Enemies that die from your AoE spells explode, dealing 6d6 force damage to all enemies within 10ft.',
+        3: 'Enemies that die from your AoE spells explode, dealing 9d6 force damage to all enemies within 10ft.',
+        4: 'Enemies that die from your AoE spells explode, dealing 12d6 force damage to all enemies within 10ft.',
+        5: 'Enemies that die from your AoE spells explode, dealing 15d6 force damage to all enemies within 10ft.'
+    },
+    'moonlight_sentinel_t5_lunar_sentinel': {
+        1: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
+        2: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
+        3: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
+        4: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.',
+        5: 'As a reaction when an ally within 30ft takes damage, you can reduce the damage by 2d6 per rank and heal them for the reduced amount.'
+    },
+    // Starfall Invoker
+    'starfall_invoker_t0_cosmic_attunement': {
+        1: 'Your spells can be cast as ranged spell attacks.',
+        2: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +5ft radius.',
+        3: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +5ft radius. Waning Moon phase allows you to affect one extra target with single-target spells.',
+        4: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +10ft radius. Waning Moon phase allows you to affect one extra target with single-target spells.',
+        5: 'Your spells can be cast as ranged spell attacks. Starfall and Moonbeam affect +10ft radius. Waning Moon phase allows you to affect two extra targets with single-target spells.'
+    }
+};
+
+// Helper function to generate progressive tooltips for multi-rank talents
+const generateProgressiveTooltip = (talent, currentRank) => {
+    // Split the description into sentences
+    const sentences = talent.description.split(/[.!?]+/).filter(s => s.trim().length > 0);
+
+    if (sentences.length <= 1 || talent.maxRanks === 1) {
+        // Single benefit talent or single-rank talent - show full description
+        return talent.description;
+    }
+
+    // Multi-benefit, multi-rank talent - show progressive unlocking of benefits
+    const numBenefits = sentences.length;
+    const benefitsPerRank = Math.max(1, Math.ceil(numBenefits / talent.maxRanks));
+    const benefitsToShow = Math.min(numBenefits, currentRank * benefitsPerRank);
+
+    const progressiveDescription = sentences.slice(0, benefitsToShow).join('. ').trim();
+    return progressiveDescription + (progressiveDescription ? '.' : '');
+};
+
 // Helper function to calculate dynamic tooltip description based on current rank
 const getDynamicDescription = (talent, currentRank) => {
     if (!talent.description) return '';
+
+    // Check if this talent has progressive tooltips defined
+    if (PROGRESSIVE_TOOLTIPS[talent.id] && PROGRESSIVE_TOOLTIPS[talent.id][currentRank]) {
+        return PROGRESSIVE_TOOLTIPS[talent.id][currentRank];
+    }
+
+    // Only use progressive tooltips for talents that have custom definitions
+    // Most talents should show their full description at all ranks
 
     // Show what you CURRENTLY have (currentRank)
     // This shows your actual bonuses
@@ -35,6 +134,7 @@ const getDynamicDescription = (talent, currentRank) => {
     let description = talent.description;
 
     // Pattern: "X per rank" or "+X per rank" where X can be a number or dice notation
+    // Show cumulative total effect based on ranks invested
     const perRankPattern = /(\+?)(\d+(?:d\d+)?)\s+([a-zA-Z\s]+?)\s*per\s+rank\.?/gi;
     description = description.replace(perRankPattern, (match, plus, value, type) => {
         // Check if it's dice notation (e.g., "1d4")
@@ -77,14 +177,78 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
     const { class: characterClass } = useCharacterStore();
     const [selectedTree, setSelectedTree] = useState(0);
     const [talents, setTalents] = useState({});
-    const [hoveredTalent, setHoveredTalent] = useState(null);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [unlearnError, setUnlearnError] = useState(null);
     const hoverTimeoutRef = useRef(null);
     const gridContainerRef = useRef(null);
 
+    // Use unified tooltip system
+    const { tooltipState, showTooltip, hideTooltip, updateTooltipPosition, updateTooltipContent } = useUnifiedTooltip();
+
+    // Track currently hovered talent for real-time updates
+    const [hoveredTalentId, setHoveredTalentId] = useState(null);
+
     const trees = getTalentTreesForClass(characterClass);
     const currentTree = trees[selectedTree];
+
+    // Function to generate tooltip content for a talent
+    const generateTooltipContent = useCallback((talent) => {
+        if (!talent) return null;
+
+        const currentRanks = talents[talent.id] || 0;
+        const content = getDynamicDescription(talent, currentRanks);
+        const title = talent.name;
+
+        let subtitle = '';
+        if (talent.maxRanks > 1) {
+            subtitle = `Rank ${currentRanks}/${talent.maxRanks}`;
+        }
+
+        let requirements = [];
+        const talentTier = Math.floor(talent.position.y);
+        const requiredPoints = (talentTier + 1) * 3;
+        if (talentTier > 0) {
+            requirements.push(`Requires ${requiredPoints} points in ${currentTree.name}`);
+        }
+        if (talent.requires) {
+            if (typeof talent.requires === 'string') {
+                requirements.push('Requires previous talent');
+            } else if (Array.isArray(talent.requires)) {
+                if (talent.requiresAll) {
+                    requirements.push(`Requires all: ${talent.requires.length} talents`);
+                } else {
+                    requirements.push(`Requires any: ${talent.requires.length} talents`);
+                }
+            }
+        }
+
+        const fullContent = (
+            <div>
+                {subtitle && <div style={{ fontSize: '0.9rem', color: '#D4AF37', marginBottom: '8px' }}>{subtitle}</div>}
+                <div style={{ marginBottom: '12px' }}>{content}</div>
+                {requirements.map((req, index) => (
+                    <div key={index} style={{ fontSize: '0.85rem', color: '#DC143C', fontStyle: 'italic', marginBottom: '4px' }}>
+                        {req}
+                    </div>
+                ))}
+                <div style={{ fontSize: '0.8rem', color: '#8B4513', fontStyle: 'italic', marginTop: '12px', paddingTop: '8px', borderTop: '1px solid rgba(139, 69, 19, 0.3)' }}>
+                    Left-click to learn | Right-click to unlearn
+                </div>
+            </div>
+        );
+
+        return { content: fullContent, title };
+    }, [talents, currentTree]);
+
+    // Update tooltip content in real-time when talent ranks change
+    useEffect(() => {
+        if (tooltipState.isVisible && hoveredTalentId && currentTree) {
+            const hoveredTalent = currentTree.talents.find(t => t.id === hoveredTalentId);
+            if (hoveredTalent) {
+                const { content, title } = generateTooltipContent(hoveredTalent);
+                updateTooltipContent(content, { title });
+            }
+        }
+    }, [talents, tooltipState.isVisible, hoveredTalentId, currentTree, generateTooltipContent, updateTooltipContent]);
 
     // Calculate total points spent in current tree
     // We need to count points from talents that belong to the current tree
@@ -238,22 +402,22 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         }
 
         hoverTimeoutRef.current = setTimeout(() => {
-            setHoveredTalent(talent);
-            setTooltipPosition({ x: e.clientX, y: e.clientY });
+            setHoveredTalentId(talent.id);
+            const { content, title } = generateTooltipContent(talent);
+            showTooltip(content, { title, event: e });
         }, 300);
     };
 
-    const handleTalentMouseMove = (e, talent) => {
-        if (hoveredTalent && hoveredTalent.id === talent.id) {
-            setTooltipPosition({ x: e.clientX, y: e.clientY });
-        }
+    const handleTalentMouseMove = (e) => {
+        updateTooltipPosition(e);
     };
 
     const handleTalentMouseLeave = () => {
         if (hoverTimeoutRef.current) {
             clearTimeout(hoverTimeoutRef.current);
         }
-        setHoveredTalent(null);
+        setHoveredTalentId(null);
+        hideTooltip();
     };
 
     const resetTalents = () => {
@@ -272,7 +436,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                 <div className="talent-tree-error">
                     {!characterClass ? (
                         <div className="no-class-message">
-                            <h2>❄️ The Empty Grimoire ❄️</h2>
+                            <h2>The Empty Grimoire</h2>
                             <p className="fantasy-text">
                                 Ah, wanderer of realms untold,<br/>
                                 No path of power hast thou yet chosen.<br/>
@@ -459,7 +623,7 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                                         onClick={() => handleTalentClick(talent.id, talent)}
                                         onContextMenu={(e) => handleTalentRightClick(e, talent.id, talent)}
                                         onMouseEnter={(e) => handleTalentMouseEnter(e, talent)}
-                                        onMouseMove={(e) => handleTalentMouseMove(e, talent)}
+                                        onMouseMove={handleTalentMouseMove}
                                         onMouseLeave={handleTalentMouseLeave}
                                         style={{
                                             width: `${TALENT_SIZE}px`,
@@ -504,54 +668,14 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                     </div>
                 )}
 
-                {/* Talent Tooltip */}
-                {hoveredTalent && (
-                    <div
-                        key={`${hoveredTalent.id}-${talents[hoveredTalent.id] || 0}`}
-                        className="talent-tooltip"
-                        style={{
-                            position: 'fixed',
-                            left: tooltipPosition.x + 5,
-                            top: tooltipPosition.y + 5,
-                            pointerEvents: 'none',
-                            zIndex: 2147483647
-                        }}
-                    >
-                        <div className="talent-tooltip-header">
-                            <div className="talent-tooltip-name">{hoveredTalent.name}</div>
-                            {hoveredTalent.maxRanks > 1 && (
-                                <div className="talent-tooltip-ranks">
-                                    Rank {talents[hoveredTalent.id] || 0}/{hoveredTalent.maxRanks}
-                                </div>
-                            )}
-                        </div>
-                        <div className="talent-tooltip-description">
-                            {getDynamicDescription(hoveredTalent, talents[hoveredTalent.id] || 0)}
-                        </div>
-                        {(() => {
-                            const talentTier = Math.floor(hoveredTalent.position.y);
-                            const requiredPoints = (talentTier + 1) * 3;
-                            return talentTier > 0 && (
-                                <div className="talent-tooltip-requirement">
-                                    Requires {requiredPoints} points in {currentTree.name}
-                                </div>
-                            );
-                        })()}
-                        {hoveredTalent.requires && (
-                            <div className="talent-tooltip-requirement">
-                                {typeof hoveredTalent.requires === 'string'
-                                    ? 'Requires previous talent'
-                                    : hoveredTalent.requiresAll
-                                        ? `Requires all: ${hoveredTalent.requires.length} talents`
-                                        : `Requires any: ${hoveredTalent.requires.length} talents`
-                                }
-                            </div>
-                        )}
-                        <div className="talent-tooltip-hint">
-                            Left-click to learn | Right-click to unlearn
-                        </div>
-                    </div>
-                )}
+                {/* Unified Tooltip */}
+                <UnifiedTooltip
+                    content={tooltipState.content}
+                    title={tooltipState.title}
+                    isVisible={tooltipState.isVisible}
+                    position={tooltipState.position}
+                    variant="spell"
+                />
             </div>
         </WowWindow>
     );

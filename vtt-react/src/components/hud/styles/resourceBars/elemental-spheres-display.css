@@ -1,0 +1,624 @@
+/* ===== ELEMENTAL SPHERES DISPLAY (ARCANONEER) ===== */
+/* Container for the entire sphere system */
+.elemental-spheres-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align to left for HUD */
+    gap: 4px; /* Smaller gap for HUD */
+    width: 100%;
+    margin-top: 2px; /* Small margin from other bars */
+    /* Frame styling */
+    border: 2px solid rgba(138, 43, 226, 0.6); /* Purple border */
+    background: linear-gradient(135deg, rgba(25, 25, 25, 0.9), rgba(45, 45, 45, 0.8));
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+    position: relative;
+}
+
+.elemental-spheres-container.large {
+    gap: 6px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; /* Center for large */
+    margin-top: 0;
+    padding: 12px; /* Larger padding for large size */
+}
+
+/* Top controls container (specialization + sphere count) */
+.sphere-top-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+/* Creative specialization selector */
+.specialization-selector {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.spec-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, rgba(45, 27, 105, 0.7), rgba(75, 45, 135, 0.6));
+    border: 2px solid rgba(147, 112, 219, 0.4);
+    border-radius: 8px;
+    color: #d0d0d0;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.spec-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.spec-button:hover::before {
+    left: 100%;
+}
+
+.spec-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(147, 112, 219, 0.4);
+    border-color: rgba(147, 112, 219, 0.7);
+}
+
+.spec-button.active {
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.8), rgba(138, 43, 226, 0.7));
+    border-color: rgba(255, 255, 255, 0.6);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
+}
+
+.spec-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, #ffffff, #e0e0e0, #ffffff);
+    border-radius: 1px;
+}
+
+.spec-button i {
+    font-size: 16px;
+    margin-bottom: 2px;
+    transition: all 0.3s ease;
+}
+
+.spec-button.active i {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.spec-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    line-height: 1;
+}
+
+/* Sphere count header (above the bar for large) */
+.sphere-count-header {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #f8f4e6;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Wrapper for bar + icon controls */
+.sphere-bar-wrapper {
+    display: flex;
+    align-items: center; /* Vertically center spheres and buttons */
+    gap: 8px;
+    width: 100%;
+    justify-content: flex-start; /* Align to left for HUD */
+}
+
+/* Center alignment for large size (rules section) */
+.elemental-spheres-container.large .sphere-bar-wrapper {
+    justify-content: center;
+    gap: 10px;
+}
+
+/* The main sphere display container */
+.elemental-spheres-display {
+    /* Transparent background for HUD (normal/small) - no black backdrop */
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    height: auto;
+    min-height: auto;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align to left for HUD */
+    justify-content: center;
+    gap: 0; /* No gap for HUD */
+}
+
+.elemental-spheres-display.clickable {
+    cursor: pointer;
+}
+
+.elemental-spheres-display.clickable:hover {
+    /* No hover effect for transparent version */
+}
+
+.elemental-spheres-display.small {
+    padding: 0;
+    min-height: auto;
+}
+
+/* Large size (rules section) keeps the black backdrop */
+.elemental-spheres-display.large {
+    background: linear-gradient(145deg, rgba(30, 25, 20, 0.95), rgba(20, 15, 12, 0.98));
+    border: 2px solid #8B7355;
+    border-radius: 8px;
+    padding: 10px 14px;
+    min-height: 56px;
+}
+
+.elemental-spheres-display.large:hover {
+    border-color: #A0826D;
+    box-shadow: 0 0 10px rgba(160, 130, 109, 0.3);
+}
+
+/* Sphere Grid - 2x4 layout for small/normal, 1x8 for large */
+.spheres-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px 7px; /* row-gap column-gap - better spacing */
+    width: fit-content; /* Only take up space needed */
+}
+
+.elemental-spheres-display.small .spheres-grid {
+    gap: 4px 5px;
+}
+
+.elemental-spheres-display.large .spheres-grid {
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 1fr;
+    gap: 7px;
+    align-items: center;
+    width: auto; /* Full width for large */
+}
+
+/* Individual Sphere Slot */
+.sphere-slot {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    transition: all 0.3s ease;
+    background-clip: padding-box;
+}
+
+.elemental-spheres-display.small .sphere-slot {
+    width: 24px;
+    height: 24px;
+    border-width: 1.5px;
+}
+
+.elemental-spheres-display.large .sphere-slot {
+    width: 42px;
+    height: 42px;
+    border-width: 2px;
+}
+
+/* Empty sphere state */
+.sphere-slot.empty {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(139, 115, 85, 0.3);
+    opacity: 0.4;
+}
+
+/* Active sphere state */
+.sphere-slot.active {
+    border-color: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+    animation: spherePulse 2s ease-in-out infinite;
+}
+
+.sphere-slot.active:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* Chaos sphere special gradient animation */
+.sphere-slot.chaos.active {
+    animation: spherePulse 2s ease-in-out infinite, rainbowShift 4s linear infinite;
+    background-size: 200% 200%;
+}
+
+/* Rolling animation */
+.sphere-slot.rolling {
+    animation: sphereRoll 0.5s ease-in-out;
+}
+
+/* Sphere icon */
+.sphere-icon {
+    font-size: 14px;
+    color: #FFFFFF;
+    text-shadow:
+        0 0 8px rgba(0, 0, 0, 1),
+        0 0 4px rgba(0, 0, 0, 0.9),
+        1px 1px 2px rgba(0, 0, 0, 0.8),
+        -1px -1px 2px rgba(0, 0, 0, 0.8);
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.9));
+    pointer-events: none;
+    position: relative;
+    z-index: 2;
+}
+
+.elemental-spheres-display.small .sphere-icon {
+    font-size: 10px;
+}
+
+.elemental-spheres-display.large .sphere-icon {
+    font-size: 20px;
+}
+
+/* Sphere count badge */
+.sphere-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #FFD700;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: 'Cinzel', serif;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #FFD700;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+.elemental-spheres-display.small .sphere-count {
+    font-size: 8px;
+    width: 12px;
+    height: 12px;
+    top: -2px;
+    right: -2px;
+}
+
+.elemental-spheres-display.large .sphere-count {
+    font-size: 14px;
+    width: 22px;
+    height: 22px;
+    top: -6px;
+    right: -6px;
+}
+
+/* Sphere Controls (for small/normal sizes) */
+.sphere-controls {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    padding-top: 8px;
+    /* No border-top since there's no black backdrop */
+}
+
+/* Icon-only controls for large size (outside the bar) */
+.sphere-icon-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sphere-icon-btn {
+    background: linear-gradient(145deg, #8B7355, #6B5345);
+    border: 1.5px solid #5a4332;
+    border-radius: 4px;
+    color: #f8f4e6;
+    font-size: 12px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+/* Larger buttons for large size */
+.elemental-spheres-container.large .sphere-icon-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+.sphere-icon-btn:hover:not(:disabled) {
+    background: linear-gradient(145deg, #9B8365, #7B6355);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.sphere-icon-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sphere-icon-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Sphere control buttons (for small/normal sizes) */
+.sphere-roll-btn,
+.sphere-clear-btn {
+    background: linear-gradient(145deg, #8B7355, #6B5345);
+    border: 1.5px solid #5a4332;
+    border-radius: 4px;
+    color: #f8f4e6;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.sphere-roll-btn:hover:not(:disabled),
+.sphere-clear-btn:hover:not(:disabled) {
+    background: linear-gradient(145deg, #9B8365, #7B6355);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.sphere-roll-btn:active:not(:disabled),
+.sphere-clear-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sphere-roll-btn:disabled,
+.sphere-clear-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Sphere Hint (for HUD/Account) */
+.sphere-hint {
+    text-align: center;
+    padding-top: 6px;
+    /* No border-top since there's no black backdrop */
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    color: rgba(139, 115, 85, 0.8);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* Animations */
+@keyframes spherePulse {
+    0%, 100% {
+        box-shadow: 0 0 12px currentColor, inset 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px currentColor, inset 0 0 12px rgba(255, 255, 255, 0.5);
+    }
+}
+
+@keyframes rainbowShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes sphereRoll {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* Tooltip sphere breakdown */
+.tooltip-sphere-breakdown {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(139, 115, 85, 0.4);
+}
+
+.tooltip-sphere-breakdown ul {
+    margin: 4px 0 0 0;
+    padding-left: 16px;
+    list-style: none;
+}
+
+.tooltip-sphere-breakdown li {
+    font-size: 10px;
+    margin: 2px 0;
+    color: #5a1e12;
+}
+
+.tooltip-sphere-breakdown li::before {
+    content: "• ";
+    color: #8B7355;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .class-resource-bar {
+        height: 14px;
+    }
+
+    .orb {
+        width: 10px;
+        height: 10px;
+        font-size: 7px;
+    }
+
+    .resource-label {
+        font-size: 7px;
+    }
+
+    .class-resource-tooltip {
+        max-width: 200px;
+        font-size: 9px;
+    }
+
+    .spheres-grid {
+        gap: 4px;
+    }
+
+    .sphere-slot {
+        width: 24px;
+        height: 24px;
+    }
+
+    .sphere-icon {
+        font-size: 14px;
+    }
+}
+
+/* Side Controls (right of sphere grid) */
+.sphere-side-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0; /* No padding for HUD */
+    margin-left: 0; /* No extra margin needed with wrapper gap */
+}
+
+/* Add padding for large size only */
+.elemental-spheres-container.large .sphere-side-controls {
+    padding: 8px;
+    gap: 6px;
+}
+
+/* Side Specialization Dropdown */
+.spec-dropdown-side {
+    width: 90px;
+    padding: 8px 6px;
+    background: linear-gradient(135deg, rgba(45, 27, 105, 0.9), rgba(75, 45, 135, 0.8));
+    border: 2px solid rgba(147, 112, 219, 0.6);
+    border-radius: 6px;
+    color: #f8f4e6;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.spec-dropdown-side:hover {
+    background: linear-gradient(135deg, rgba(55, 37, 115, 1), rgba(85, 55, 145, 0.9));
+    border-color: rgba(147, 112, 219, 0.8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.spec-dropdown-side:focus {
+    outline: none;
+    border-color: rgba(147, 112, 219, 1);
+    box-shadow: 0 0 12px rgba(147, 112, 219, 0.6);
+}
+
+.spec-dropdown-side option {
+    background: #2d1b69;
+    color: #f8f4e6;
+    font-family: 'Crimson Text', serif;
+    font-size: 12px;
+}
+
+/* Specialization-specific buttons */
+.sphere-icon-btn.reroll-btn {
+    background: linear-gradient(135deg, #4169E1, #1E90FF);
+}
+
+.sphere-icon-btn.reroll-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #5179F1, #2EA0FF);
+}
+
+.sphere-icon-btn.swap-btn {
+    background: linear-gradient(135deg, #9370DB, #BA55D3);
+}
+
+.sphere-icon-btn.swap-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #A380EB, #CA65E3);
+}
+
+.sphere-icon-btn.swap-btn.active {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    animation: swapPulse 1s ease-in-out infinite;
+}
+
+@keyframes swapPulse {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+    }
+}
+
+/* Selected for swap state */
+.sphere-slot.selected-for-swap {
+    border: 3px solid #FFD700 !important;
+    animation: swapPulse 1s ease-in-out infinite;
+}

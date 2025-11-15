@@ -712,7 +712,7 @@ const useGameStore = create((set, get) => ({
             // Multiplayer token movement (deprecated - use creatureStore instead)
             updateTokenPositionMultiplayer: (creatureId, position) => {
                 // This method is deprecated to avoid dual store conflicts
-                console.warn('🎯 gameStore.updateTokenPositionMultiplayer is deprecated - use creatureStore instead');
+                console.warn('gameStore.updateTokenPositionMultiplayer is deprecated - use creatureStore instead');
             }
 }));
 

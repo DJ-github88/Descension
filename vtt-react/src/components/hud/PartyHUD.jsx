@@ -1089,10 +1089,19 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setShowContextMenu(false);
     };
 
-    // Handle drag for party member frames with immediate visual feedback
+    // Handle drag for party member frames with throttled updates for smooth performance
+    const dragThrottleRef = useRef({});
     const handleMemberDrag = useCallback((member, data) => {
-        // Update the member's position IMMEDIATELY for responsive visual feedback
-        setMemberPosition(member.id, { x: data.x, y: data.y });
+        const memberId = member.id;
+        const now = Date.now();
+        const lastUpdate = dragThrottleRef.current[memberId] || 0;
+        
+        // Throttle store updates to every 16ms (~60fps) for smooth dragging
+        // The Draggable component handles visual updates, we just sync to store
+        if (now - lastUpdate >= 16) {
+            setMemberPosition(memberId, { x: data.x, y: data.y });
+            dragThrottleRef.current[memberId] = now;
+        }
     }, []); // Zustand store functions are stable, no deps needed
 
     // Removed: Test functions for buffs/debuffs
@@ -1166,13 +1175,21 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         }
                     }
 
+                    // Get stored position or use default
+                    const storedPosition = getMemberPosition(member.id);
+                    const initialPosition = storedPosition || { x: 20, y: yOffset };
+
                     return (
                         <Draggable
                             key={member.id}
                             handle={`.party-frame-${member.id} .party-member-frame`}
-                            defaultPosition={{ x: 20, y: yOffset }}
+                            position={initialPosition}
                             nodeRef={memberNodeRef}
                             onDrag={(e, data) => handleMemberDrag(member, data)}
+                            onStop={(e, data) => {
+                                // Final position update on drag end
+                                setMemberPosition(member.id, { x: data.x, y: data.y });
+                            }}
                             enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
                             disabled={false} // Ensure dragging is always enabled
                             scale={1} // Fixed scale to prevent transform calculations

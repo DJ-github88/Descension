@@ -894,7 +894,7 @@ export const CLASS_RESOURCE_TYPES = {
         name: 'Eternal Frost Aura & Phylactery',
         shortName: 'Phylactery',
         type: 'frost_undead',
-        description: 'Toggle aura for frost damage boost with HP drain, phylactery stores HP for resurrection',
+        description: 'Phylactery stores HP for resurrection',
         visual: {
             type: 'eternal-frost-phylactery',
             arrangement: 'horizontal-segmented',
@@ -950,7 +950,7 @@ export const CLASS_RESOURCE_TYPES = {
         },
         tooltip: {
             title: 'Eternal Frost Aura & Phylactery',
-            description: 'Toggle aura for frost damage boost with HP drain, phylactery stores HP for resurrection',
+            description: 'Phylactery stores HP for resurrection',
             showAuraStatus: true,
             showPhylacteryHP: true
         }
@@ -1459,6 +1459,32 @@ CLASS_RESOURCE_TYPES['Formbender'] = {
                 generation: '+1 WI from tracking, +2 WI from Pack Tactics',
                 passive: 'Advantage when ally is within 5ft, enhanced tracking'
             }
+        },
+        specializations: {
+            'feral-hunter': {
+                name: 'Feral Hunter',
+                icon: 'fas fa-wolf-pack-battalion',
+                baseColor: '#2D1B4E',
+                activeColor: '#4B2D7A',
+                glowColor: '#7B4FBD',
+                theme: 'Pack tactics and coordinated hunting'
+            },
+            'primal-guardian': {
+                name: 'Primal Guardian',
+                icon: 'fas fa-shield-alt',
+                baseColor: '#5C4033',
+                activeColor: '#8B6F47',
+                glowColor: '#A0826D',
+                theme: 'Defensive shapeshifting and protection'
+            },
+            'sky-predator': {
+                name: 'Sky Predator',
+                icon: 'fas fa-dove',
+                baseColor: '#4682B4',
+                activeColor: '#5F9EA0',
+                glowColor: '#87CEEB',
+                theme: 'Aerial combat and mobility'
+            }
         }
     },
     mechanics: {
@@ -1492,7 +1518,33 @@ CLASS_RESOURCE_TYPES['Primalist'] = {
         activeColor: '#8B4513',
         glowColor: '#CD853F',
         icon: 'fas fa-torii-gate',
-        effects: ['elemental', 'totemic', 'synergy']
+        effects: ['elemental', 'totemic', 'synergy'],
+        specializations: {
+            'earthwarden': {
+                name: 'Earthwarden',
+                icon: 'fas fa-shield-alt',
+                baseColor: '#5C4033',
+                activeColor: '#8B6F47',
+                glowColor: '#A0826D',
+                theme: 'Defensive totems and protection'
+            },
+            'stormbringer': {
+                name: 'Stormbringer',
+                icon: 'fas fa-bolt',
+                baseColor: '#4169E1',
+                activeColor: '#5F9EA0',
+                glowColor: '#87CEEB',
+                theme: 'Elemental damage and lower synergy threshold'
+            },
+            'spiritcaller': {
+                name: 'Spiritcaller',
+                icon: 'fas fa-ghost',
+                baseColor: '#4B0082',
+                activeColor: '#9370DB',
+                glowColor: '#DDA0DD',
+                theme: 'Spirit bonds and totem repositioning'
+            }
+        }
     },
     mechanics: {
         max: 100,

@@ -6,7 +6,6 @@ import RulesPage from '../rules/RulesPage';
 import './styles/LandingPage.css';
 
 const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onShowRegister, isAuthenticated, user }) => {
-  console.log('🎯 LandingPage component rendered!', { isAuthenticated, user });
 
   const [activeSection, setActiveSection] = useState('home');
   const [showScrollTop, setShowScrollTop] = useState(false);

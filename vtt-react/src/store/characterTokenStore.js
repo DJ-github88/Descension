@@ -7,8 +7,6 @@ const useCharacterTokenStore = create((set, get) => ({
 
             // Add a character token to the grid
             addCharacterToken: (position, playerId = null, sendToServer = true) => set(state => {
-                console.log('🎭 addCharacterToken called with position:', position, 'playerId:', playerId);
-                console.log('🎭 Current character tokens:', state.characterTokens);
 
                 // In multiplayer, use playerId to make tokens unique per player
                 // In single player, use isPlayerToken for backward compatibility
@@ -20,7 +18,6 @@ const useCharacterTokenStore = create((set, get) => ({
                 );
 
                 if (existingToken) {
-                    console.log('🎭 Character token already exists for player', tokenIdentifier, ', updating position from', existingToken.position, 'to', position);
                     return {
                         characterTokens: state.characterTokens.map(t =>
                             (playerId ? t.playerId === playerId : t.isPlayerToken)
@@ -39,10 +36,8 @@ const useCharacterTokenStore = create((set, get) => ({
                     createdAt: Date.now()
                 };
 
-                console.log('🎭 Created new character token:', newToken);
 
                 // 🎯 AUTOMATICALLY SWITCH TO PLAYER VIEW WHEN CHARACTER TOKEN IS PLACED
-                console.log('🎯 Setting up player view for new character token');
                 Promise.all([
                     import('../store/gameStore'),
                     import('../store/levelEditorStore')
@@ -60,7 +55,6 @@ const useCharacterTokenStore = create((set, get) => ({
                         position: position // Include position for visibility calculations
                     });
                     // NOTE: Removed automatic camera centering on token creation to prevent unwanted camera resets
-                    console.log('🎯 Player view activated for token:', newToken.id, 'at position:', position);
                 }).catch(error => {
                     console.error('Failed to setup player view:', error);
                 });
@@ -70,7 +64,6 @@ const useCharacterTokenStore = create((set, get) => ({
                     import('../store/gameStore').then(({ default: useGameStore }) => {
                         const gameStore = useGameStore.getState();
                         if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-                            console.log('🎭 Sending character token creation to multiplayer server');
                             gameStore.multiplayerSocket.emit('character_token_created', {
                                 tokenId: newToken.id,
                                 position: position
@@ -91,12 +84,10 @@ const useCharacterTokenStore = create((set, get) => ({
 
             // Add character token from server (no multiplayer sending)
             addCharacterTokenFromServer: (tokenId, position, playerId) => set(state => {
-                console.log('🎭 addCharacterTokenFromServer called with:', { tokenId, position, playerId });
 
                 // Check if token already exists
                 const existingToken = state.characterTokens.find(t => t.id === tokenId);
                 if (existingToken) {
-                    console.log('🎭 Character token already exists, skipping:', tokenId);
                     return state;
                 }
 
@@ -108,7 +99,6 @@ const useCharacterTokenStore = create((set, get) => ({
                     createdAt: Date.now()
                 };
 
-                console.log('🎭 Added character token from server:', newToken);
                 return {
                     characterTokens: [
                         ...state.characterTokens,
@@ -154,7 +144,6 @@ const useCharacterTokenStore = create((set, get) => ({
                 );
 
                 if (existingToken) {
-                    console.log('🎭 Character token already exists, updating position:', existingToken.id);
                     return {
                         characterTokens: state.characterTokens.map(token =>
                             token.id === existingToken.id
@@ -173,7 +162,6 @@ const useCharacterTokenStore = create((set, get) => ({
                     createdAt: Date.now()
                 };
 
-                console.log('🎭 Added character token from server:', newToken);
 
                 return {
                     characterTokens: [

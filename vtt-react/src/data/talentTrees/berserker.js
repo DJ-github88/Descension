@@ -477,7 +477,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t2_tactical_awareness',
     name: 'Tactical Awareness',
-    description: 'You can direct one ally per rank as a bonus action, granting them +1d4 damage on their next attack.',
+    description: 'You can direct one ally per rank as a 1 action point, granting them +1d4 damage on their next attack.',
     icon: 'ability_warrior_commandingshout',
     maxRanks: 3,
     position: { x: 3, y: 2 },

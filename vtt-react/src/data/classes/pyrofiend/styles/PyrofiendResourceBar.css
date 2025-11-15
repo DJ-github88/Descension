@@ -22,8 +22,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     background: linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(101, 67, 33, 0.25) 100%);
     border: 1px solid rgba(139, 69, 19, 0.4);
     border-radius: 4px;
@@ -39,7 +39,7 @@
 }
 
 .pyrofiend-resource-wrapper .spec-selector-icon i {
-    font-size: 14px;
+    font-size: 12px;
     filter: drop-shadow(0 0 3px currentColor);
 }
 
@@ -102,8 +102,8 @@
     display: flex;
     align-items: center;
     flex: 1;
-    height: 36px;
-    padding: 4px;
+    height: 30px;
+    padding: 3px;
     background:
         linear-gradient(180deg, rgba(40, 20, 10, 0.5) 0%, rgba(30, 15, 8, 0.8) 100%),
         radial-gradient(circle at 20% 30%, rgba(255, 69, 0, 0.03) 0%, transparent 50%);
@@ -332,7 +332,7 @@
 }
 
 .level-label {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     font-weight: 600;
     color: rgba(222, 184, 135, 0.9);
     text-transform: uppercase;
@@ -340,7 +340,7 @@
 }
 
 .level-number {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     filter: drop-shadow(0 0 4px currentColor);
 }
@@ -402,6 +402,10 @@
     color: rgba(240, 220, 200, 0.95);
     font-size: 0.85rem;
     line-height: 1.4;
+}
+
+.pyrofiend-tooltip .tooltip-section strong {
+    color: rgba(222, 184, 135, 1);
 }
 
 .pyrofiend-tooltip .tooltip-section:last-child {

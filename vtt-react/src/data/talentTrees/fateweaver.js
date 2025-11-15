@@ -335,7 +335,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
     description: 'You can see the threads of destiny connecting all things. +1d4 to perception checks per rank when detecting hidden enemies.',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 3,
-    position: { x: 2, y: 1 },
+    position: { x: 2, y: 0 },
     requires: null,
   },
 
@@ -346,7 +346,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
     description: 'When your spells fail, gain +1 Thread of Destiny per rank. Maximum Threads increased by 3 per rank.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 4,
-    position: { x: 0, y: 0 },
+    position: { x: 0, y: 1 },
     requires: 'thread_t0_thread_sense',
   },
   {
@@ -355,7 +355,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
     description: 'Spend 1 Thread to reroll any die. Roll 1d20: on 15+ per rank, you can spend 1 Thread to force a reroll for enemies too.',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 3,
-    position: { x: 2, y: 0 },
+    position: { x: 2, y: 1 },
     requires: 'thread_t0_thread_sense',
   },
   {
@@ -364,7 +364,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
     description: 'Weave threads into simple constructs. Spend 2 Threads to create a 10ft bridge or rope. Lasts 1 minute per rank.',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 3,
-    position: { x: 4, y: 0 },
+    position: { x: 4, y: 1 },
     requires: 'thread_t0_thread_sense',
   },
 

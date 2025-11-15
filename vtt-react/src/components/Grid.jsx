@@ -803,7 +803,6 @@ function GridComponent({
         if (e.button === 1) { // Middle mouse button
             e.preventDefault();
             e.stopPropagation();
-            console.log('🎯 [GRID] Middle mouse drag START - setting window._isDraggingCamera = true');
             setIsDraggingCamera(true);
             gameStore.setState({ isDraggingCamera: true }); // Update global state
             window._isDraggingCamera = true; // PERFORMANCE FIX: Window flag for non-reactive reads
@@ -817,7 +816,6 @@ function GridComponent({
         if (e.button === 0 && e.ctrlKey) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🎯 [GRID] Ctrl+Left drag START - setting window._isDraggingCamera = true');
             setIsDraggingCamera(true);
             gameStore.setState({ isDraggingCamera: true }); // Update global state
             window._isDraggingCamera = true; // PERFORMANCE FIX: Window flag for non-reactive reads
@@ -1076,7 +1074,6 @@ function GridComponent({
                 pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
             }
             
-            console.log('🎯 [GRID] Drag END (handleMouseUp) - setting window._isDraggingCamera = false');
             setIsDraggingCamera(false);
             gameStore.setState({ isDraggingCamera: false }); // Update global state
             window._isDraggingCamera = false; // PERFORMANCE FIX: Clear window flag
@@ -1169,7 +1166,6 @@ function GridComponent({
         }
         
         // Simply stop camera dragging - no momentum
-        console.log('🎯 [GRID] Drag END (handleGlobalMouseUp) - setting window._isDraggingCamera = false');
         setIsDraggingCamera(false);
         gameStore.setState({ isDraggingCamera: false }); // Update global state
         window._isDraggingCamera = false; // PERFORMANCE FIX: Clear window flag
@@ -2007,7 +2003,7 @@ function GridComponent({
             if (e.button === 0) {
                 // Check if tile data is valid
                 if (!tile || tile.gridX === undefined || tile.gridY === undefined) {
-                    console.error('🎭 Invalid tile data for character token placement:', tile);
+                    console.error('Invalid tile data for character token placement:', tile);
                     return;
                 }
 
@@ -2871,7 +2867,7 @@ function GridComponent({
                                 textAlign: 'center'
                             }}
                         >
-                            🎯 Grid Alignment Mode<br/>
+                            Grid Alignment Mode<br/>
                             <span style={{ fontSize: '12px', fontWeight: 'normal' }}>
                                 {gridAlignmentStep === 1 ? 'Step 1/2: Draw first grid cell' :
                                  gridAlignmentStep === 2 ? 'Step 2/2: Draw second grid cell for better accuracy' :
@@ -2979,7 +2975,7 @@ function GridComponent({
                                 textAlign: 'center'
                             }}
                         >
-                            🖼️ Background Manipulation Mode<br/>
+                            Background Manipulation Mode<br/>
                             {activeBackgroundId && (() => {
                                 const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
                                 return activeBackground ? (
@@ -3109,7 +3105,7 @@ function GridComponent({
                         animation: 'pulse 2s infinite'
                     }}
                 >
-                    🎭 CHARACTER TOKEN PLACEMENT MODE<br/>
+                    CHARACTER TOKEN PLACEMENT MODE<br/>
                     <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#FFF' }}>
                         Left-click anywhere on the grid to place your token<br/>
                         Right-click or press ESC to cancel

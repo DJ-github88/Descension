@@ -7,7 +7,7 @@ export const HUNTRESS_SHADOWBLADE = [
   {
     id: 'shadowblade_t0_glaive_mastery',
     name: 'Glaive Mastery',
-    description: 'Shadow Glaive chains to +1 additional target. You can spend 1 bonus action to hide after a successful glaive attack. Quarry Marks build 25% faster against marked targets.',
+    description: 'Shadow Glaive chains to +1 additional target. You can spend 1 action point to hide after a successful glaive attack. Quarry Marks build 25% faster against marked targets.',
     icon: 'ability_stealth',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -18,7 +18,7 @@ export const HUNTRESS_SHADOWBLADE = [
   {
     id: 'shadowblade_t1_shadow_strike',
     name: 'Shadow Strike',
-    description: 'Glaive attacks from stealth deal +2d6 bonus damage and generate +1 extra Quarry Mark. You can enter stealth as a bonus action while in combat.',
+    description: 'Glaive attacks from stealth deal +2d6 bonus damage and generate +1 extra Quarry Mark. You can enter stealth using 1 action point while in combat.',
     icon: 'ability_rogue_shadowstrike',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -107,7 +107,7 @@ export const HUNTRESS_SENTINEL = [
   {
     id: 'sentinel_t0_wardens_vigil',
     name: 'Warden\'s Vigil',
-    description: 'Allies within 30ft gain +1 AC while you have an active Quarry Mark. Your companion can protect allies, granting +1 AC to one ally as a bonus action.',
+    description: 'Allies within 30ft gain +1 AC while you have an active Quarry Mark. Your companion can protect allies, granting +1 AC to one ally using 1 action point.',
     icon: 'spell_holy_devotionaura',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -185,7 +185,7 @@ export const HUNTRESS_SENTINEL = [
   {
     id: 'sentinel_t5_eternal_guardian',
     name: 'Eternal Guardian',
-    description: 'Your Sacred Ground becomes permanent and you can activate it as a bonus action. Allies inside cannot be frightened or charmed.',
+    description: 'Your Sacred Ground becomes permanent and you can activate it using 1 action point. Allies inside cannot be frightened or charmed.',
     icon: 'spell_holy_divineprovidence',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -236,7 +236,7 @@ export const HUNTRESS_BEASTMASTER = [
   {
     id: 'beastmaster_t3_savage_coordination',
     name: 'Savage Coordination',
-    description: 'Once per turn, when your companion attacks, you can spend 1 Quarry Mark to make a glaive attack against the same target as a bonus action.',
+    description: 'Once per turn, when your companion attacks, you can spend 1 Quarry Mark to make a glaive attack against the same target using 1 action point.',
     icon: 'ability_hunter_animalhandler',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -256,7 +256,7 @@ export const HUNTRESS_BEASTMASTER = [
   {
     id: 'beastmaster_t2_companion_commands',
     name: 'Companion Commands',
-    description: 'You can command your companion as a bonus action instead of an action. Your companion can use the Attack action twice per command.',
+    description: 'You can command your companion using 1 action point instead of an action. Your companion can use the Attack action twice per command.',
     icon: 'ability_hunter_beastsoothe',
     maxRanks: 4,
     position: { x: 4, y: 2 },

@@ -1,0 +1,317 @@
+.class-resource-bar.time-shards-strain {
+    background: transparent;
+    border: none;
+    height: auto;
+}
+
+.chronarch-dual-bars {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(101, 67, 33, 0.12) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.35);
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Time Shards Bar (Top) */
+.time-shards-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 5px;
+    background: linear-gradient(180deg, rgba(26, 77, 109, 0.12) 0%, rgba(26, 77, 109, 0.18) 100%);
+    border: 1px solid rgba(79, 195, 247, 0.25);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 1px rgba(129, 212, 250, 0.1);
+}
+
+.time-shards-bar:hover {
+    background: linear-gradient(180deg, rgba(26, 77, 109, 0.18) 0%, rgba(26, 77, 109, 0.25) 100%);
+    border-color: rgba(79, 195, 247, 0.4);
+    box-shadow: inset 0 1px 1px rgba(129, 212, 250, 0.15), 0 0 4px rgba(79, 195, 247, 0.2);
+}
+
+/* Temporal Strain Bar (Bottom) */
+.temporal-strain-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 5px;
+    background: linear-gradient(180deg, rgba(66, 66, 66, 0.12) 0%, rgba(66, 66, 66, 0.18) 100%);
+    border: 1px solid rgba(46, 125, 50, 0.25);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.temporal-strain-bar:hover {
+    background: linear-gradient(180deg, rgba(66, 66, 66, 0.18) 0%, rgba(66, 66, 66, 0.25) 100%);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.15), 0 0 4px rgba(255, 82, 82, 0.15);
+}
+
+/* Pulse animation for high strain */
+.temporal-strain-bar.pulse {
+    animation: strainPulse 1.5s ease-in-out infinite;
+}
+
+.temporal-strain-bar.flash {
+    animation: strainFlash 0.5s ease-in-out infinite;
+}
+
+@keyframes strainPulse {
+    0%, 100% {
+        border-color: rgba(251, 140, 0, 0.3);
+        box-shadow: 0 0 0 rgba(251, 140, 0, 0);
+    }
+    50% {
+        border-color: rgba(251, 140, 0, 0.6);
+        box-shadow: 0 0 8px rgba(251, 140, 0, 0.4);
+    }
+}
+
+@keyframes strainFlash {
+    0%, 100% {
+        border-color: rgba(198, 40, 40, 0.5);
+        box-shadow: 0 0 4px rgba(198, 40, 40, 0.3);
+    }
+    50% {
+        border-color: rgba(198, 40, 40, 0.9);
+        box-shadow: 0 0 12px rgba(198, 40, 40, 0.6);
+    }
+}
+
+/* Bar Labels */
+.time-shards-bar .bar-label,
+.temporal-strain-bar .bar-label {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-family: 'Crimson Text', serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: #d4c5a9;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.3px;
+}
+
+.time-shards-bar .bar-icon {
+    font-size: 11px;
+    filter: drop-shadow(0 0 2px rgba(79, 195, 247, 0.5));
+}
+
+.temporal-strain-bar .bar-icon {
+    font-size: 11px;
+    filter: drop-shadow(0 0 2px rgba(255, 82, 82, 0.5));
+}
+
+/* Segments Container */
+.time-shards-bar .segments-container,
+.temporal-strain-bar .segments-container {
+    display: flex;
+    gap: 1.5px;
+    flex: 1;
+}
+
+.time-shards-bar .segment,
+.temporal-strain-bar .segment {
+    flex: 1;
+    height: 11px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.time-shards-bar .segment.filled {
+    animation: shardFill 0.3s ease;
+}
+
+.temporal-strain-bar .segment.filled {
+    animation: strainFill 0.3s ease;
+}
+
+@keyframes shardFill {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes strainFill {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Bar Values */
+.time-shards-bar .bar-value {
+    font-family: 'Crimson Text', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #81D4FA;
+    text-shadow:
+        0 0 3px rgba(0, 0, 0, 0.8),
+        0 1px 2px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    min-width: 30px;
+    text-align: right;
+}
+
+.temporal-strain-bar .bar-value {
+    font-family: 'Crimson Text', serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow:
+        0 0 3px rgba(0, 0, 0, 0.8),
+        0 1px 2px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    min-width: 30px;
+    text-align: right;
+}
+
+/* Adjustment Menus */
+.shards-menu,
+.strain-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+    background: rgba(20, 15, 10, 0.95);
+    border: 2px solid rgba(139, 69, 19, 0.6);
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 220px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.shards-menu .menu-header,
+.strain-menu .menu-header {
+    font-family: 'Crimson Text', serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #d4c5a9;
+    text-align: center;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
+}
+
+.shards-menu .menu-buttons,
+.strain-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.shards-menu .menu-buttons button,
+.strain-menu .menu-buttons button {
+    font-family: 'Crimson Text', serif;
+    font-size: 11px;
+    padding: 6px 10px;
+    background: rgba(139, 69, 19, 0.3);
+    border: 1px solid rgba(139, 69, 19, 0.5);
+    border-radius: 4px;
+    color: #d4c5a9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.shards-menu .menu-buttons button:hover,
+.strain-menu .menu-buttons button:hover {
+    background: rgba(139, 69, 19, 0.5);
+    border-color: rgba(139, 69, 19, 0.7);
+    color: #f0e6d2;
+}
+
+.shards-menu .menu-reset,
+.strain-menu .menu-reset {
+    font-family: 'Crimson Text', serif;
+    font-size: 10px;
+    padding: 4px 8px;
+    background: rgba(139, 69, 19, 0.2);
+    border: 1px solid rgba(139, 69, 19, 0.4);
+    border-radius: 4px;
+    color: #a08970;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.shards-menu .menu-reset:hover,
+.strain-menu .menu-reset:hover {
+    background: rgba(139, 69, 19, 0.3);
+    color: #d4c5a9;
+}
+
+/* Size Variations */
+.class-resource-bar.time-shards-strain.small .chronarch-dual-bars {
+    padding: 4px;
+    gap: 2px;
+}
+
+.class-resource-bar.time-shards-strain.small .time-shards-bar,
+.class-resource-bar.time-shards-strain.small .temporal-strain-bar {
+    padding: 2px 4px;
+    gap: 3px;
+}
+
+.class-resource-bar.time-shards-strain.small .segment {
+    height: 9px;
+}
+
+.class-resource-bar.time-shards-strain.small .bar-value {
+    font-size: 9px;
+    min-width: 26px;
+}
+
+.class-resource-bar.time-shards-strain.large .chronarch-dual-bars {
+    padding: 7px;
+    gap: 4px;
+}
+
+.class-resource-bar.time-shards-strain.large .time-shards-bar,
+.class-resource-bar.time-shards-strain.large .temporal-strain-bar {
+    padding: 4px 7px;
+    gap: 5px;
+}
+
+.class-resource-bar.time-shards-strain.large .segment {
+    height: 14px;
+}
+
+.class-resource-bar.time-shards-strain.large .bar-value {
+    font-size: 12px;
+    min-width: 36px;
+}
+
+/* ========================================
+   COVENBANE - HEXBREAKER CHARGES
+   ======================================== */

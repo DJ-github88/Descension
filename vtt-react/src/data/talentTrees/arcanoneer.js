@@ -369,7 +369,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: 'sphere_architect_t3_mana_crystal',
     name: 'Mana Crystal',
-    description: 'Store mana in crystal form (up to 20 mana per rank). Crystals can be used as bonus action to restore mana.',
+    description: 'Store mana in crystal form (up to 20 mana per rank). Crystals can be used as 1 action point to restore mana.',
     icon: 'inv_misc_gem_crystal_01',
     maxRanks: 2,
     position: { x: 3, y: 3 },
@@ -389,7 +389,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: 'sphere_architect_t4_perfect_control',
     name: 'Perfect Control',
-    description: 'You can rearrange your sphere bank as a bonus action. Controlled spheres have advantage on all spell effects per rank.',
+    description: 'You can rearrange your sphere bank as a 1 action point. Controlled spheres have advantage on all spell effects per rank.',
     icon: 'spell_arcane_mindmastery',
     maxRanks: 2,
     position: { x: 2, y: 4 },

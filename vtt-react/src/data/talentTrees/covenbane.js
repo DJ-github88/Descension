@@ -94,7 +94,7 @@ export const COVENBANE_SHADOWBANE = [
   {
     id: 'shadowbane_t6_shadow_ascendant',
     name: 'Shadow Ascendant',
-    description: 'Ultimate ability: Become a shadow entity for 1 minute. Gain 50% damage reduction, teleport 60ft as bonus action, and attacks deal maximum damage. Costs all Hexbreaker charges.',
+    description: 'Ultimate ability: Become a shadow entity for 1 minute. Gain 50% damage reduction, teleport 60ft as 1 action point, and attacks deal maximum damage. Costs all Hexbreaker charges.',
     icon: 'spell_shadow_twilight',
     maxRanks: 1,
     position: { x: 2, y: 5 },
@@ -147,7 +147,7 @@ export const COVENBANE_SPELLBREAKER = [
   {
     id: 'spellbreaker_t1_ward_weaver',
     name: 'Ward Weaver',
-    description: 'Create protective wards that reduce spell damage to allies within 30ft by 1d8 per rank. Wards last 1 minute and can be maintained as a bonus action.',
+    description: 'Create protective wards that reduce spell damage to allies within 30ft by 1d8 per rank. Wards last 1 minute and can be maintained as a 1 action point.',
     icon: 'spell_holy_powerwordshield',
     maxRanks: 3,
     position: { x: 3, y: 1 },

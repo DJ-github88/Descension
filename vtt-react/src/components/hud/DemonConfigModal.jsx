@@ -13,6 +13,7 @@ const DemonConfigModal = ({
     const [demonName, setDemonName] = useState(initialData?.name || '');
     const [tier, setTier] = useState(initialData?.tier || 2);
     const [saveDC, setSaveDC] = useState(initialData?.saveDC || 14);
+    const [saveDCStat, setSaveDCStat] = useState(initialData?.saveDCStat || 'spirit');
     const [startingDD, setStartingDD] = useState(initialData?.dd || 10);
     
     const modalRef = useRef(null);
@@ -32,6 +33,7 @@ const DemonConfigModal = ({
             setDemonName(initialData?.name || '');
             setTier(initialData?.tier || 2);
             setSaveDC(initialData?.saveDC || 14);
+            setSaveDCStat(initialData?.saveDCStat || 'spirit');
             setStartingDD(initialData?.dd || 10);
         }
     }, [show, initialData]);
@@ -50,6 +52,7 @@ const DemonConfigModal = ({
             name: demonName.trim(),
             tier: parseInt(tier),
             saveDC: parseInt(saveDC),
+            saveDCStat,
             dd: parseInt(startingDD)
         });
     };
@@ -144,14 +147,6 @@ const DemonConfigModal = ({
                                 </button>
                             ))}
                         </div>
-                        <div className="tier-description">
-                            {tier === 1 && 'Lesser Demon (CR 1-3)'}
-                            {tier === 2 && 'Minor Demon (CR 4-6)'}
-                            {tier === 3 && 'Demon (CR 7-9)'}
-                            {tier === 4 && 'Greater Demon (CR 10-12)'}
-                            {tier === 5 && 'Demon Lord (CR 13-15)'}
-                            {tier === 6 && 'Archfiend (CR 16+)'}
-                        </div>
                     </div>
 
                     {/* Save DC */}
@@ -159,14 +154,39 @@ const DemonConfigModal = ({
                         <label htmlFor="demon-save-dc">
                             <i className="fas fa-shield-alt"></i> Save DC
                         </label>
-                        <input
-                            id="demon-save-dc"
-                            type="number"
-                            value={saveDC}
-                            onChange={(e) => setSaveDC(e.target.value)}
-                            min="10"
-                            max="30"
-                        />
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <select
+                                id="demon-save-stat"
+                                value={saveDCStat}
+                                onChange={(e) => setSaveDCStat(e.target.value)}
+                                style={{
+                                    flex: '0 0 120px',
+                                    padding: '8px 10px',
+                                    fontSize: '12px',
+                                    fontFamily: 'Cinzel, serif',
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    border: '1px solid #654321',
+                                    borderRadius: '4px',
+                                    color: '#3d2817'
+                                }}
+                            >
+                                <option value="spirit">Spirit</option>
+                                <option value="intelligence">Intelligence</option>
+                                <option value="charisma">Charisma</option>
+                                <option value="constitution">Constitution</option>
+                                <option value="strength">Strength</option>
+                                <option value="agility">Agility</option>
+                            </select>
+                            <input
+                                id="demon-save-dc"
+                                type="number"
+                                value={saveDC}
+                                onChange={(e) => setSaveDC(e.target.value)}
+                                min="10"
+                                max="30"
+                                style={{ flex: '1' }}
+                            />
+                        </div>
                         <div className="save-dc-hint">
                             Suggested for Tier {tier}: DC {getSuggestedDC(tier)}
                         </div>
@@ -179,7 +199,7 @@ const DemonConfigModal = ({
                                 <i className="fas fa-dice-d20"></i> Starting Dominance Die
                             </label>
                             <div className="dd-selector">
-                                {[12, 10, 8, 6].map(dd => (
+                                {[20, 12, 10, 8, 6, 4].map(dd => (
                                     <button
                                         key={dd}
                                         type="button"

@@ -44,8 +44,8 @@
     display: flex;
     align-items: center;
     flex: 1;
-    height: 28px;
-    padding: 3px;
+    height: 20px;
+    padding: 2px;
     background:
         linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%),
         radial-gradient(circle at 30% 50%, var(--spec-base-color, #1E3A8A) 0%, transparent 70%);
@@ -64,6 +64,17 @@
     box-shadow:
         inset 0 2px 4px rgba(0, 0, 0, 0.5),
         0 0 14px var(--spec-glow-color, #6495ED);
+}
+
+/* Size Variants */
+.spellguard-resource-bar.small {
+    height: 18px;
+    padding: 1px;
+}
+
+.spellguard-resource-bar.large {
+    height: 24px;
+    padding: 3px;
 }
 
 /* Arcane background pattern */
@@ -348,11 +359,13 @@
 
 /* AEP Display */
 .aep-display {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: baseline;
     gap: 2px;
-    margin-left: auto;
     padding: 0 6px;
     font-family: 'Crimson Text', serif;
     font-weight: 600;
@@ -383,18 +396,51 @@
     letter-spacing: 0.5px;
 }
 
+/* AEP Display Size Adjustments */
+.spellguard-resource-bar.small .aep-display {
+    padding: 0 4px;
+}
+
+.spellguard-resource-bar.small .aep-current {
+    font-size: 0.75rem;
+}
+
+.spellguard-resource-bar.small .aep-separator,
+.spellguard-resource-bar.small .aep-max {
+    font-size: 0.65rem;
+}
+
+.spellguard-resource-bar.small .aep-label {
+    font-size: 0.6rem;
+    margin-left: 2px;
+}
+
+.spellguard-resource-bar.large .aep-current {
+    font-size: 1rem;
+}
+
+.spellguard-resource-bar.large .aep-separator,
+.spellguard-resource-bar.large .aep-max {
+    font-size: 0.85rem;
+}
+
+.spellguard-resource-bar.large .aep-label {
+    font-size: 0.75rem;
+}
+
 /* Tooltip Styles */
 .spellguard-tooltip {
-    background: linear-gradient(180deg, rgba(26, 26, 26, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
-    border: 2px solid rgba(139, 69, 19, 0.8);
-    border-radius: 6px;
-    padding: 12px;
-    min-width: 280px;
-    max-width: 350px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-    font-family: 'Crimson Text', serif;
-    color: rgba(222, 184, 135, 0.95);
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 10px 12px;
+    min-width: 240px;
+    max-width: 300px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #000000;
     pointer-events: none;
+    font-size: 11px;
 }
 
 .spellguard-tooltip.top::after {
@@ -407,7 +453,7 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid rgba(139, 69, 19, 0.8);
+    border-top: 8px solid #a08c70;
 }
 
 .spellguard-tooltip.bottom::after {
@@ -420,42 +466,53 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid rgba(139, 69, 19, 0.8);
+    border-bottom: 8px solid #a08c70;
 }
 
 .tooltip-header {
-    font-size: 1rem;
+    font-size: 12px;
     font-weight: 700;
-    color: rgba(222, 184, 135, 1);
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
+    color: #000000;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
 }
 
-.tooltip-section {
-    margin-bottom: 10px;
-    font-size: 0.9rem;
+.tooltip-compact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tooltip-compact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 10px;
     line-height: 1.4;
 }
 
-/* .tooltip-section:last-child consolidated to global styles */
-
-.tooltip-label {
+.tooltip-compact-label {
     font-weight: 600;
-    color: rgba(222, 184, 135, 0.95);
-    margin-bottom: 4px;
+    color: #000000;
+    flex-shrink: 0;
+    min-width: 70px;
 }
 
-.tooltip-value {
-    color: rgba(222, 184, 135, 0.85);
-    padding-left: 8px;
+.tooltip-compact-value {
+    color: #000000;
+    flex: 1;
+    word-wrap: break-word;
 }
 
-.spec-section {
-    background: rgba(139, 69, 19, 0.15);
-    padding: 8px;
-    border-radius: 4px;
-    border-left: 3px solid rgba(139, 69, 19, 0.6);
+.tooltip-compact-item.spec-compact {
+    margin-top: 5px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(160, 140, 112, 0.3);
+    padding-left: 2px;
 }
 
 /* Dev Controls */
@@ -465,13 +522,14 @@
     left: 0;
     right: 0;
     margin-top: 8px;
-    background: linear-gradient(180deg, rgba(26, 26, 26, 0.98) 0%, rgba(20, 20, 20, 0.98) 100%);
-    border: 2px solid rgba(139, 69, 19, 0.6);
-    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
     padding: 10px;
     z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     min-width: 220px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
 .controls-header {
@@ -480,25 +538,33 @@
     align-items: center;
     margin-bottom: 10px;
     padding-bottom: 6px;
-    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
-    font-family: 'Crimson Text', serif;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: rgba(222, 184, 135, 1);
+    border-bottom: 2px solid rgba(160, 140, 112, 0.4);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.controls-header span {
+    color: #000000 !important;
 }
 
 .controls-header button {
     background: transparent;
     border: none;
-    color: rgba(222, 184, 135, 0.7);
+    color: #7a3b2e;
     cursor: pointer;
-    padding: 2px;
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
+    padding: 2px 4px;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    opacity: 0.7;
 }
 
 .controls-header button:hover {
-    color: rgba(222, 184, 135, 1);
+    opacity: 1;
+    color: #5e2e23;
 }
 
 .control-group {
@@ -508,17 +574,56 @@
 .control-group label {
     display: block;
     margin-bottom: 6px;
-    font-family: 'Crimson Text', serif;
-    font-size: 0.85rem;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
     font-weight: 600;
-    color: rgba(222, 184, 135, 0.95);
+    color: #3a3a3a;
+}
+
+.spec-selector-group {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.3);
+}
+
+.spec-selector-group label {
+    margin-bottom: 4px;
+    font-size: 9px;
+    color: #5e2e23;
+}
+
+.spellguard-dev-controls .spec-cycle-btn {
+    width: 100%;
+    height: auto;
+    min-height: 32px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid;
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.spellguard-dev-controls .spec-cycle-btn span {
+    font-size: 10px;
+}
+
+.spellguard-dev-controls .spec-cycle-btn:hover {
+    background: rgba(213, 203, 176, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .aep-info {
-    font-family: 'Crimson Text', serif;
-    font-size: 0.8rem;
-    color: rgba(222, 184, 135, 0.75);
-    line-height: 1.3;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 9px;
+    color: #5e2e23;
+    line-height: 1.4;
     margin-bottom: 8px;
     font-style: italic;
 }
@@ -535,23 +640,24 @@
 
 .button-row button {
     flex: 1;
-    padding: 5px 8px;
-    background: linear-gradient(180deg, rgba(139, 69, 19, 0.3) 0%, rgba(139, 69, 19, 0.5) 100%);
-    border: 1px solid rgba(139, 69, 19, 0.6);
-    border-radius: 3px;
-    color: rgba(222, 184, 135, 0.9);
-    font-family: 'Crimson Text', serif;
-    font-size: 0.8rem;
-    font-weight: 600;
+    padding: 6px 8px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    border-radius: 4px;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
     min-width: 0;
 }
 
 .button-row button:hover {
-    background: linear-gradient(180deg, rgba(139, 69, 19, 0.4) 0%, rgba(139, 69, 19, 0.6) 100%);
-    border-color: rgba(139, 69, 19, 0.8);
-    color: rgba(222, 184, 135, 1);
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    color: #2a2a2a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .button-row button i {
@@ -561,9 +667,9 @@
 /* Force compact sizing in account context */
 .character-card .spellguard-resource-bar,
 .character-card-compact .spellguard-resource-bar {
-    height: 16px !important;
-    min-height: 16px !important;
-    padding: 2px !important;
+    height: 14px !important;
+    min-height: 14px !important;
+    padding: 1px !important;
 }
 
 .character-card .spec-cycle-btn,

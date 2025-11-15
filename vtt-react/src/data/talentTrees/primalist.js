@@ -333,7 +333,7 @@ export const PRIMALIST_SPIRITCALLER = [
   {
     id: 'spiritcaller_t1_spirit_walk',
     name: 'Spirit Walk',
-    description: 'You can teleport to any active totem location as a bonus action per rank.',
+    description: 'You can teleport to any active totem location as a 1 action point per rank.',
     icon: 'spell_arcane_teleportorgrimmar',
     maxRanks: 4,
     position: { x: 2, y: 1 },
@@ -440,7 +440,7 @@ export const PRIMALIST_SPIRITCALLER = [
   {
     id: 'spiritcaller_t2_spirit_link',
     name: 'Spirit Link',
-    description: 'You can swap positions between any two active totems as a bonus action.',
+    description: 'You can swap positions between any two active totems as a 1 action point.',
     icon: 'spell_nature_spiritwolf',
     maxRanks: 3,
     position: { x: 1, y: 2 },

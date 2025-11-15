@@ -126,24 +126,8 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
     return (
         <div className="spellguard-resource-container">
-            {/* Specialization Button and Main Bar Row */}
+            {/* Main Bar Row */}
             <div className="resource-bar-row">
-                {/* Spec Cycle Button */}
-                <button
-                    className="spec-cycle-btn"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        cycleSpec();
-                    }}
-                    title={`Current: ${currentSpec.name}\nClick to cycle`}
-                    style={{
-                        borderColor: currentSpec.activeColor,
-                        color: currentSpec.glowColor
-                    }}
-                >
-                    <i className={`fas ${currentSpec.icon}`}></i>
-                </button>
-
                 {/* Main Resource Bar */}
                 <div
                     ref={barRef}
@@ -210,49 +194,27 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     }}
                 >
                     <div className="tooltip-header">
-                        Arcane Energy Points: {localAEP}/{maxAEP}
+                        AEP: {localAEP}/{maxAEP}
                     </div>
                     
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Strategy Threshold:</div>
-                        <div className="tooltip-value">
-                            {localAEP === 0 && 'Empty - Absorb damage to generate AEP'}
-                            {localAEP > 0 && localAEP <= 15 && 'Critical Low - Focus on absorption, basic defense only'}
-                            {localAEP > 15 && localAEP <= 40 && 'Building - Moderate spending, efficient abilities'}
-                            {localAEP > 40 && localAEP <= 75 && 'Optimal - Aggressive spending, powerful abilities'}
-                            {localAEP > 75 && 'Maximum - Ultimate abilities, mass protection'}
+                    <div className="tooltip-compact-grid">
+                        <div className="tooltip-compact-item">
+                            <span className="tooltip-compact-label">Status:</span>
+                            <span className="tooltip-compact-value">
+                                {localAEP === 0 && 'Empty'}
+                                {localAEP > 0 && localAEP <= 15 && 'Critical Low'}
+                                {localAEP > 15 && localAEP <= 40 && 'Building'}
+                                {localAEP > 40 && localAEP <= 75 && 'Optimal'}
+                                {localAEP > 75 && 'Maximum'}
+                            </span>
                         </div>
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">AEP Generation:</div>
-                        <div className="tooltip-value">
-                            Magical damage: +2 AEP per damage
-                            <br />
-                            Physical damage: +1 AEP per 2 damage
-                            <br />
-                            Mana drain: +1 AEP per mana drained
+                        <div className="tooltip-compact-item">
+                            <span className="tooltip-compact-label">Generate:</span>
+                            <span className="tooltip-compact-value">Magical +2, Physical +1/2, Mana +1</span>
                         </div>
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Shared Passive - Arcane Absorption:</div>
-                        <div className="tooltip-value">
-                            Absorb fire, cold, lightning, necrotic damage for 2 AEP per damage. Physical damage grants 1 AEP per 2 damage.
-                        </div>
-                    </div>
-
-                    <div className="tooltip-section spec-section">
-                        <div className="tooltip-label">{currentSpec.name} - {currentSpec.passive}:</div>
-                        <div className="tooltip-value">
-                            {currentSpec.passiveDesc}
-                        </div>
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">AEP Management:</div>
-                        <div className="tooltip-value">
-                            Decays at 5 AEP/min outside combat. Max capacity: 100 AEP.
+                        <div className="tooltip-compact-item spec-compact">
+                            <span className="tooltip-compact-label">{currentSpec.name}:</span>
+                            <span className="tooltip-compact-value">{currentSpec.passiveDesc}</span>
                         </div>
                     </div>
                 </div>,
@@ -270,6 +232,26 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     </div>
 
                     <div className="control-group">
+                        {/* Specialization Selection */}
+                        <div className="spec-selector-group">
+                            <label>Specialization:</label>
+                            <button
+                                className="spec-cycle-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    cycleSpec();
+                                }}
+                                title={`Current: ${currentSpec.name}\nClick to cycle`}
+                                style={{
+                                    borderColor: currentSpec.activeColor,
+                                    color: currentSpec.glowColor
+                                }}
+                            >
+                                <i className={`fas ${currentSpec.icon}`}></i>
+                                <span>{currentSpec.name}</span>
+                            </button>
+                        </div>
+                        
                         <label>AEP Level: {localAEP}/{maxAEP}</label>
                         <div className="aep-info">
                             Absorb magical damage to generate AEP. Spend on shields, reflections, and strikes.

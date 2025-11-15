@@ -142,7 +142,7 @@ export const GAMBLER_RISK_MANAGEMENT = [
   {
     id: 'risk_t1_hedge_bet',
     name: 'Hedge Bet',
-    description: 'Split your actions between safety and risk. Once per turn, take a bonus action to create a safety net.',
+    description: 'Split your actions between safety and risk. Once per turn, take a 1 action point to create a safety net.',
     icon: 'inv_misc_coin_03',
     maxRanks: 3,
     position: { x: 0, y: 1 },
