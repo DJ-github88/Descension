@@ -15,7 +15,6 @@ const LIBRARY_VERSION = 1; // For future migrations
  */
 export function clearLibraryFromStorage() {
   try {
-    console.log('Clearing library from localStorage');
     localStorage.removeItem(LIBRARY_STORAGE_KEY);
     return true;
   } catch (error) {
@@ -29,9 +28,6 @@ export function clearLibraryFromStorage() {
  */
 export function saveLibraryToStorage(library) {
   try {
-    // Debug log to see what's being saved
-    // console.log('Saving library to storage:', library);
-
     const libraryData = {
       version: LIBRARY_VERSION,
       timestamp: new Date().toISOString(),
@@ -54,7 +50,6 @@ export function saveLibraryToStorage(library) {
 
     // Verify the data was saved correctly
     const savedData = localStorage.getItem(LIBRARY_STORAGE_KEY);
-    // console.log('Saved data size:', savedData ? savedData.length : 0, 'bytes');
 
     return true;
   } catch (error) {
@@ -71,11 +66,8 @@ export function loadLibraryFromStorage() {
     const data = localStorage.getItem(LIBRARY_STORAGE_KEY);
 
     if (!data) {
-      console.log('No library found in storage, returning empty library');
       return getDefaultLibrary();
     }
-
-    // console.log('Found library in storage, size:', data.length, 'bytes');
 
     const libraryData = JSON.parse(data);
 
@@ -179,81 +171,52 @@ export function searchSpells(library, query) {
 export function filterSpells(library, filters) {
   let filteredSpells = [...library.spells];
 
-  console.log('🔍 [filterSpells] Starting with spells:', {
-    count: filteredSpells.length,
-    spellIds: filteredSpells.map(s => s.id),
-    filters: filters
-  });
-
   // Apply text search filter
   if (filters.query) {
-    const beforeCount = filteredSpells.length;
     filteredSpells = searchSpells({ spells: filteredSpells }, filters.query);
-    console.log(`🔍 [filterSpells] After query filter: ${beforeCount} → ${filteredSpells.length}`);
   }
 
   // Filter by categories
   if (filters.categories && filters.categories.length > 0) {
-    const beforeCount = filteredSpells.length;
     filteredSpells = filteredSpells.filter(spell => {
       // If no categories are assigned, it should be in 'uncategorized'
       const spellCategories = spell.categoryIds || ['uncategorized'];
 
       // Check if any of the spell's categories match the filter categories
-      const matches = filters.categories.some(catId => spellCategories.includes(catId));
-
-      if (!matches) {
-        console.log(`🔍 [filterSpells] Filtered out ${spell.name} - categoryIds:`, spell.categoryIds, 'vs filter:', filters.categories);
-      }
-
-      return matches;
+      return filters.categories.some(catId => spellCategories.includes(catId));
     });
-    console.log(`🔍 [filterSpells] After category filter: ${beforeCount} → ${filteredSpells.length}`);
   }
 
   // Filter by spell levels
   if (filters.levels && filters.levels.length > 0) {
-    const beforeCount = filteredSpells.length;
     filteredSpells = filteredSpells.filter(spell => {
       return filters.levels.includes(spell.level);
     });
-    console.log(`🔍 [filterSpells] After level filter: ${beforeCount} → ${filteredSpells.length}`);
   }
 
   // Filter by effect types
   if (filters.effectTypes && filters.effectTypes.length > 0) {
-    const beforeCount = filteredSpells.length;
     filteredSpells = filteredSpells.filter(spell => {
       return spell.effectTypes &&
         filters.effectTypes.some(effect => spell.effectTypes.includes(effect));
     });
-    console.log(`🔍 [filterSpells] After effect type filter: ${beforeCount} → ${filteredSpells.length}`);
   }
 
   // Filter by spell types
   if (filters.spellTypes && filters.spellTypes.length > 0) {
-    const beforeCount = filteredSpells.length;
     filteredSpells = filteredSpells.filter(spell => {
       return filters.spellTypes.includes(spell.spellType);
     });
-    console.log(`🔍 [filterSpells] After spell type filter: ${beforeCount} → ${filteredSpells.length}`);
   }
 
   // Filter by damage types
   if (filters.damageTypes && filters.damageTypes.length > 0) {
-    const beforeCount = filteredSpells.length;
     filteredSpells = filteredSpells.filter(spell => {
       // Check if the spell has any of the selected damage types
       if (!spell.damageTypes || !Array.isArray(spell.damageTypes)) return false;
       return filters.damageTypes.some(damageType => spell.damageTypes.includes(damageType));
     });
-    console.log(`🔍 [filterSpells] After damage type filter: ${beforeCount} → ${filteredSpells.length}`);
   }
-
-  console.log('🔍 [filterSpells] Final result:', {
-    count: filteredSpells.length,
-    spellIds: filteredSpells.map(s => s.id)
-  });
 
   return filteredSpells;
 }

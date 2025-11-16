@@ -6,14 +6,11 @@ import useCreatureStore from '../store/creatureStore';
  * This is the single point of initialization to prevent duplicates
  */
 const initCreatureStore = () => {
-  console.log('🐉 initCreatureStore called');
 
   const creatureStore = useCreatureStore.getState();
-  console.log('📊 Current creature count:', creatureStore.creatures.length);
 
   // Check if the store already has creatures
   if (creatureStore.creatures.length === 0) {
-    console.log('🔄 Initializing creature store with sample creatures');
 
     // Add sample creatures to the store with duplicate checking
     let addedCount = 0;
@@ -24,13 +21,10 @@ const initCreatureStore = () => {
         creatureStore.addCreature(creature);
         addedCount++;
       } else {
-        console.log('⚠️ Skipping duplicate creature:', creature.name);
       }
     });
 
-    console.log(`✅ Added ${addedCount} creatures to the store`);
   } else {
-    console.log('⏭️ Creature store already has creatures, skipping initialization');
   }
 };
 
@@ -39,7 +33,6 @@ const initCreatureStore = () => {
  * This can be called to clean up any existing duplicates
  */
 export const removeDuplicateCreatures = () => {
-  console.log('🧹 Removing duplicate creatures from store');
 
   const creatureStore = useCreatureStore.getState();
   const uniqueCreatures = [];
@@ -49,17 +42,13 @@ export const removeDuplicateCreatures = () => {
     if (!seenIds.has(creature.id)) {
       seenIds.add(creature.id);
       uniqueCreatures.push(creature);
-    } else {
-      console.log('🗑️ Removing duplicate creature:', creature.name, 'ID:', creature.id);
     }
   });
 
   if (uniqueCreatures.length !== creatureStore.creatures.length) {
-    console.log(`📊 Removed ${creatureStore.creatures.length - uniqueCreatures.length} duplicate creatures`);
     // Update the store with unique creatures only
     creatureStore.setCreatures(uniqueCreatures);
   } else {
-    console.log('✅ No duplicate creatures found');
   }
 };
 

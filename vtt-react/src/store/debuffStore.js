@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import useGameStore from './gameStore';
 
 const useDebuffStore = create(
     persist(
@@ -46,6 +47,9 @@ const useDebuffStore = create(
                     set({ activeDebuffs: [...activeDebuffs, newDebuff] });
                 }
 
+                // Sync with multiplayer
+                get().syncDebuffUpdate('debuff_added', newDebuff);
+
                 // Set up automatic removal timer (only for time-based debuffs)
                 if (newDebuff.durationType !== 'rounds') {
                     setTimeout(() => {
@@ -57,7 +61,14 @@ const useDebuffStore = create(
             // Remove a debuff by ID
             removeDebuff: (debuffId) => {
                 const { activeDebuffs } = get();
+                const debuffToRemove = activeDebuffs.find(debuff => debuff.id === debuffId);
+
                 set({ activeDebuffs: activeDebuffs.filter(debuff => debuff.id !== debuffId) });
+
+                // Sync with multiplayer
+                if (debuffToRemove) {
+                    get().syncDebuffUpdate('debuff_removed', { debuffId, debuffData: debuffToRemove });
+                }
             },
 
             // Remove all debuffs
@@ -179,6 +190,18 @@ const useDebuffStore = create(
                 });
 
                 set({ activeDebuffs: updatedDebuffs });
+            },
+
+            // Multiplayer Synchronization
+            syncDebuffUpdate: (updateType, data) => {
+                const gameStore = useGameStore.getState();
+                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                    gameStore.multiplayerSocket.emit('debuff_update', {
+                        type: updateType,
+                        data: data,
+                        timestamp: Date.now()
+                    });
+                }
             }
         }),
         {

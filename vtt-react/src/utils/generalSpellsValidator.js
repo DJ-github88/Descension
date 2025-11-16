@@ -336,6 +336,5 @@ export const generateValidationReport = () => {
 if (process.env.NODE_ENV === 'development') {
   setTimeout(() => {
     const report = generateValidationReport();
-    console.log(report);
   }, 2000);
 }

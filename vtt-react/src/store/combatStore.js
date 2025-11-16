@@ -127,14 +127,6 @@ const useCombatStore = create((set, get) => ({
                         else if (initiative >= 21) currentActionPoints = 4;
                     }
 
-                    console.log('⚔️ COMBAT START:', {
-                        name: creature.name,
-                        type: isCharacterToken ? 'CHARACTER' : 'CREATURE',
-                        initiative,
-                        d20Roll,
-                        AP: `${currentActionPoints}/${maxActionPoints}`
-                    });
-
                     return {
                         tokenId: token.id,
                         creatureId: creature.id,
@@ -216,11 +208,6 @@ const useCombatStore = create((set, get) => ({
                                 }
                             });
 
-                            console.log('⚔️ SYNCED INITIAL CHARACTER AP:', {
-                                name: combatant.name,
-                                current: combatant.currentActionPoints,
-                                max: combatant.maxActionPoints
-                            });
                         } catch (error) {
                             console.error('❌ Failed to sync initial character AP:', error);
                         }
@@ -317,14 +304,6 @@ const useCombatStore = create((set, get) => ({
                         // Keep the original maxActionPoints (set at combat start)
                         const maxActionPoints = combatant.maxActionPoints;
 
-                        console.log('🔄 TURN START:', {
-                            name: combatant.name,
-                            type: combatant.isCharacterToken ? 'CHARACTER' : 'CREATURE',
-                            initiative: newInitiative,
-                            d20Roll: d20Roll,
-                            AP: `${currentActionPoints}/${maxActionPoints}`
-                        });
-
                         return {
                             ...combatant,
                             initiative: newInitiative,
@@ -363,10 +342,6 @@ const useCombatStore = create((set, get) => ({
                             });
                         }
 
-                        console.log('🔄 SYNCED CHARACTER AP ON TURN START:', {
-                            current: nextCombatantData.currentActionPoints,
-                            max: nextCombatantData.maxActionPoints
-                        });
                     } catch (error) {
                         console.error('❌ Failed to sync character AP on turn start:', error);
                     }
@@ -587,11 +562,6 @@ const useCombatStore = create((set, get) => ({
                     const char = useCharacterStore.getState();
                     // CRITICAL FIX: Use moveSpeed (not movementSpeed) - matches characterUtils.js
                     const characterSpeed = char.derivedStats?.moveSpeed || 30;
-                    console.log('🏃 CHARACTER MOVEMENT SPEED:', {
-                        name: char.name,
-                        speed: characterSpeed,
-                        derivedStats: char.derivedStats
-                    });
                     creature = {
                         id: combatant.creatureId,
                         name: char.name || 'Character',
@@ -653,37 +623,14 @@ const useCombatStore = create((set, get) => ({
                 let needsConfirmation = false;
                 const hasUnlockedMovement = state.movementUnlocked.has(tokenId);
 
-                console.log('🔍 MOVEMENT STATE DETAILED:', {
-                    tokenId,
-                    hasUnlockedMovement,
-                    movementUsedThisTurn,
-                    currentMoveFeet,
-                    totalAfter: totalMovementAfterThis,
-                    currentAP,
-                    creatureSpeed,
-                    movementUnlockedSet: Array.from(state.movementUnlocked),
-                    turnMovementUsedMap: Array.from(state.turnMovementUsed)
-                });
-
                 // CRITICAL: Determine if confirmation is needed
                 // The key issue is that we need to FORCE confirmation for first movement
-
-                console.log('🔍 CONFIRMATION LOGIC CHECK:', {
-                    hasUnlockedMovement,
-                    movementUsedThisTurn,
-                    isFirstMovement: movementUsedThisTurn === 0,
-                    shouldForceConfirmation: !hasUnlockedMovement || movementUsedThisTurn === 0
-                });
 
                 if (!hasUnlockedMovement || movementUsedThisTurn === 0) {
                     // FIRST MOVEMENT OF THE TURN - ALWAYS requires confirmation and 1 AP
                     additionalAPNeeded = 1;
                     needsConfirmation = true;
-                    console.log('🔒 FIRST MOVEMENT CONFIRMED - FORCING CONFIRMATION');
-                    console.log('🔒 First movement details:', {
-                        tokenId,
-                        hasUnlockedMovement,
-                        movementUsedThisTurn,
+                    return {
                         currentMoveFeet: Math.round(currentMoveFeet),
                         totalMovementAfterThis: Math.round(totalMovementAfterThis),
                         creatureSpeed,
@@ -691,17 +638,10 @@ const useCombatStore = create((set, get) => ({
                         additionalAPNeeded,
                         needsConfirmation,
                         reason: !hasUnlockedMovement ? 'Movement not unlocked' : 'No movement used this turn'
-                    });
+                    };
                 } else {
                     // Movement is already unlocked - get the current total unlocked movement
                     const totalUnlockedMovement = get().getTotalUnlockedMovement(tokenId, creatures);
-
-                    console.log('🔍 CHECKING EXCESS MOVEMENT:', {
-                        totalMovementAfterThis,
-                        movementUsedThisTurn,
-                        totalUnlockedMovement,
-                        isExcess: totalMovementAfterThis > totalUnlockedMovement
-                    });
 
                     if (totalMovementAfterThis > totalUnlockedMovement) {
                         // Need additional AP for movement beyond unlocked amount
@@ -709,34 +649,15 @@ const useCombatStore = create((set, get) => ({
                         const additionalSegments = Math.ceil(excessMovement / creatureSpeed);
                         additionalAPNeeded = additionalSegments;
                         needsConfirmation = true; // Always confirm when spending additional AP
-                        console.log('⚡ EXCESS MOVEMENT CONFIRMED - FORCING CONFIRMATION');
-                        console.log('⚡ Excess movement details:', {
-                            tokenId,
-                            totalMovementAfterThis: Math.round(totalMovementAfterThis),
-                            totalUnlockedMovement,
-                            excessMovement: Math.round(excessMovement),
-                            additionalSegments,
-                            additionalAPNeeded,
-                            needsConfirmation
-                        });
                     } else {
                         // Within unlocked movement - no additional AP needed, no confirmation required
                         additionalAPNeeded = 0;
                         needsConfirmation = false;
-                        console.log('✅ FREE MOVEMENT within unlocked range -', Math.round(totalMovementAfterThis), '/', totalUnlockedMovement, 'ft');
                     }
                 }
 
                 // Check if this movement exceeds what we can do with current AP
                 const isValid = currentAP >= additionalAPNeeded;
-
-                console.log('🎲 FINAL VALIDATION RESULT:', {
-                    isValid,
-                    needsConfirmation,
-                    additionalAPNeeded,
-                    currentAP,
-                    hasEnoughAP: currentAP >= additionalAPNeeded
-                });
 
                 // Calculate movement segments for return data
                 const movementSegmentsUsed = Math.ceil(movementUsedThisTurn / creatureSpeed);
@@ -757,15 +678,12 @@ const useCombatStore = create((set, get) => ({
                     reason: !isValid ? 'Insufficient Action Points' : null
                 };
 
-                console.log('🎯 RETURNING VALIDATION RESULT:', result);
                 return result;
             },
 
             // Set pending movement confirmation
             setPendingMovementConfirmation: (movementData) => {
-                console.log('🚨 STORE: Setting pending movement confirmation:', movementData);
                 set({ pendingMovementConfirmation: movementData });
-                console.log('🚨 STORE: State updated, new pendingMovementConfirmation:', get().pendingMovementConfirmation);
             },
 
             // Clear pending movement confirmation
@@ -780,13 +698,6 @@ const useCombatStore = create((set, get) => ({
             // Confirm movement and spend AP
             confirmMovement: (tokenId, apCost, totalMovementDistance) => {
                 const state = get();
-
-                console.log('💰 CONFIRMING MOVEMENT:', {
-                    tokenId,
-                    apCost,
-                    totalMovementDistance,
-                    currentMovementUsed: state.turnMovementUsed.get(tokenId) || 0
-                });
 
                 // Spend the required AP
                 get().spendActionPoints(tokenId, apCost);
@@ -814,11 +725,6 @@ const useCombatStore = create((set, get) => ({
                     tempMovementDistance: newTempMovement
                 });
 
-                console.log('✅ MOVEMENT CONFIRMED:', {
-                    newMovementUsed: totalMovementDistance,
-                    movementUnlocked: true
-                });
-
                 return true;
             },
 
@@ -830,11 +736,6 @@ const useCombatStore = create((set, get) => ({
                 newTurnMovementUsed.set(tokenId, currentUsed + movementDistance);
 
                 set({ turnMovementUsed: newTurnMovementUsed });
-
-                console.log('📏 FREE MOVEMENT ADDED:', {
-                    distance: movementDistance,
-                    totalUsed: currentUsed + movementDistance
-                });
             },
 
             // Get remaining movement for a token
@@ -995,7 +896,6 @@ const useCombatStore = create((set, get) => ({
 
             // Debug function to reset movement state
             resetMovementState: () => {
-                console.log('Resetting movement state for debugging');
                 set({
                     turnMovementUsed: new Map(),
                     movementUnlocked: new Set(),
@@ -1023,11 +923,6 @@ const useCombatStore = create((set, get) => ({
 
             // Spend action points
             spendActionPoints: (tokenId, amount) => {
-                console.log('💰 SPENDING ACTION POINTS:', {
-                    tokenId,
-                    amount,
-                    beforeSpend: get().turnOrder.find(c => c.tokenId === tokenId)?.currentActionPoints
-                });
 
                 // Find the combatant to determine if it's a character or creature token
                 const combatant = get().turnOrder.find(c => c.tokenId === tokenId);
@@ -1043,12 +938,6 @@ const useCombatStore = create((set, get) => ({
                 set(state => {
                     const updatedTurnOrder = state.turnOrder.map(combatant => {
                         if (combatant.tokenId === tokenId) {
-                            console.log('💰 AP UPDATE:', {
-                                tokenId,
-                                oldAP: combatant.currentActionPoints,
-                                spent: amount,
-                                newAP
-                            });
                             return {
                                 ...combatant,
                                 currentActionPoints: newAP
@@ -1057,7 +946,6 @@ const useCombatStore = create((set, get) => ({
                         return combatant;
                     });
 
-                    console.log('💰 TURN ORDER UPDATED');
                     return { turnOrder: updatedTurnOrder };
                 });
 
@@ -1067,7 +955,6 @@ const useCombatStore = create((set, get) => ({
                     try {
                         const useCharacterStore = require('./characterStore').default;
                         const beforeAP = useCharacterStore.getState().actionPoints;
-                        console.log('💰 BEFORE SYNC - Character Store AP:', beforeAP);
 
                         // Sync to character store
                         useCharacterStore.getState().updateResource('actionPoints', newAP, beforeAP.max);
@@ -1087,9 +974,6 @@ const useCombatStore = create((set, get) => ({
                             });
                         }
 
-                        const afterAP = useCharacterStore.getState().actionPoints;
-                        console.log('💰 AFTER SYNC - Character Store AP:', afterAP);
-                        console.log('💰 ✅ SYNCED AP TO CHARACTER & PARTY STORES:', { newAP, beforeAP, afterAP });
                     } catch (error) {
                         console.error('❌ Failed to sync AP to character/party store:', error);
                     }
@@ -1097,16 +981,9 @@ const useCombatStore = create((set, get) => ({
                     // Update creature token state for creature tokens
                     try {
                         const useCreatureStore = require('./creatureStore').default;
-                        const beforeState = useCreatureStore.getState().tokens.find(t => t.id === tokenId)?.state;
-                        console.log('💰 BEFORE SYNC - Creature Token AP:', beforeState?.currentActionPoints);
-
                         useCreatureStore.getState().updateTokenState(tokenId, {
                             currentActionPoints: newAP
                         });
-
-                        const afterState = useCreatureStore.getState().tokens.find(t => t.id === tokenId)?.state;
-                        console.log('💰 AFTER SYNC - Creature Token AP:', afterState?.currentActionPoints);
-                        console.log('💰 ✅ SYNCED AP TO CREATURE TOKEN STATE:', newAP);
                     } catch (error) {
                         console.error('❌ Failed to sync AP to creature token state:', error);
                     }
@@ -1137,11 +1014,6 @@ const useCombatStore = create((set, get) => ({
                 set(state => {
                     const updatedTurnOrder = state.turnOrder.map(combatant => {
                         if (combatant.tokenId === tokenId) {
-                            console.log('💚 SYNCING HP TO TIMELINE:', {
-                                tokenId,
-                                oldHP: combatant.currentHP,
-                                newHP
-                            });
                             return {
                                 ...combatant,
                                 currentHP: newHP
@@ -1159,11 +1031,6 @@ const useCombatStore = create((set, get) => ({
                 set(state => {
                     const updatedTurnOrder = state.turnOrder.map(combatant => {
                         if (combatant.tokenId === tokenId) {
-                            console.log('💙 SYNCING MANA TO TIMELINE:', {
-                                tokenId,
-                                oldMana: combatant.currentMana,
-                                newMana
-                            });
                             return {
                                 ...combatant,
                                 currentMana: newMana

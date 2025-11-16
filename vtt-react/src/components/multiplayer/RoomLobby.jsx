@@ -113,7 +113,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       const characterName = activeCharacter.name || activeCharacter.baseName;
       setPlayerName(characterName);
       playerNameRef.current = characterName;
-      console.log(`🎮 Auto-updated player name to character: ${characterName}`);
     }
   }, [getActiveCharacter]); // Run when active character changes
 
@@ -125,7 +124,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       if (playerName !== characterName) {
         setPlayerName(characterName);
         playerNameRef.current = characterName;
-        console.log(`🎮 Synced player name to character: ${characterName}`);
       }
     }
   }, [playerName, getActiveCharacter]); // Run when playerName or active character changes
@@ -141,9 +139,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         // Use just the character name as the room name, not "xxx's Campaign"
         setRoomName(characterName);
       }
-      console.log(`🎮 Using active character: ${characterName}`);
-    } else {
-      console.log('⚠️ No active character found');
     }
   };
 
@@ -166,10 +161,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
   // Reduced logging for production performance - only log once
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🔌 Socket URL:', SOCKET_URL);
-      console.log('🌍 Environment:', process.env.NODE_ENV);
-    }
   }, []); // Only log once on mount
 
   // Localhost development bypass - automatically create test room
@@ -182,7 +173,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       const autoCreateTestRoom = localStorage.getItem('autoCreateTestRoom') !== 'false';
 
       if (autoCreateTestRoom) {
-        console.log('🧪 Localhost development detected - auto-creating test room');
 
         // Set up test room data (no password to test empty password functionality)
         const testRoomData = {
@@ -199,7 +189,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
         // Create the room automatically after a short delay
         setTimeout(() => {
-          console.log('🚀 Auto-creating localhost test room...');
           socket.emit('create_room', testRoomData);
         }, 1000);
       }
@@ -222,7 +211,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         localStorage.removeItem('isConverting');
         localStorage.removeItem('convertingLocalRoom');
 
-        console.log('🔄 Converting local room to multiplayer:', conversionData.name);
       } catch (error) {
         console.error('Error parsing conversion data:', error);
         localStorage.removeItem('isConverting');
@@ -259,7 +247,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         const userName = user.displayName || user.email?.split('@')[0] || 'Player';
         const finalName = characterName || userName;
         setPlayerName(finalName);
-        console.log(`🎮 Player name set to: ${finalName} (character: ${!!characterName})`);
         loadUserRooms();
 
         // Auto-join preselected room if user is authenticated
@@ -280,24 +267,14 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   useEffect(() => {
     if (!socket) return;
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Setting up RoomLobby socket event listeners');
-    }
-
     // Socket event listeners
     const handleConnect = () => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('✅ Connected to server in RoomLobby');
-      }
       setIsConnecting(false);
       setError(''); // Clear any connection errors
       fetchAvailableRooms();
     };
 
     const handleDisconnect = (reason) => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('❌ Disconnected from server in RoomLobby:', reason);
-      }
       if (reason === 'io server disconnect') {
         // Server initiated disconnect, try to reconnect
         setError('The bond of fellowship has been broken by the keepers of the realm.');
@@ -314,9 +291,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     };
 
     const handleReconnect = (attemptNumber) => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`🔄 Reconnected after ${attemptNumber} attempts`);
-      }
       setError('');
       fetchAvailableRooms();
     };
@@ -330,7 +304,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     };
 
     const handleRoomCreated = (data) => {
-      console.log('Room created successfully:', data);
       setIsConnecting(false);
 
       // CRITICAL FIX: Update URL with room code for shareable links
@@ -368,18 +341,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
           playerColor: playerColor
         };
 
-        console.log('Auto-joining created room:', joinData);
-        console.log('Socket connected:', socket.connected);
-        console.log('Socket ID:', socket.id);
         socket.emit('join_room', joinData);
       }, 100); // Small delay to ensure room is fully created
     };
 
     const handleRoomJoined = (data) => {
-      console.log('Room joined successfully:', data);
-      console.log('Player name:', playerNameRef.current.trim());
-      console.log('Room GM name:', data.room.gm?.name);
-      console.log('Is GM reconnect:', data.isGMReconnect);
       setIsConnecting(false);
 
       // CRITICAL FIX: Update URL with room code for shareable links
@@ -392,13 +358,11 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       if (data.room.persistentRoomId) {
         localStorage.setItem('roomDataChanged', 'true');
         localStorage.setItem('lastJoinedRoom', data.room.persistentRoomId);
-        console.log(`📝 Marked room data as changed for joined room: ${data.room.persistentRoomId}`);
 
         // For guest users, save the joined room to localStorage
         try {
           const { user } = useAuthStore.getState();
           if (user?.isGuest) {
-            console.log('👤 Guest user joined room via lobby - saving to localStorage');
             const guestRoomData = {
               id: data.room.persistentRoomId,
               name: data.room.name,
@@ -410,7 +374,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               isMultiplayer: true
             };
             localStorage.setItem('mythrill-guest-joined-room', JSON.stringify(guestRoomData));
-            console.log(`✅ Guest joined room saved: ${data.room.name}`);
           }
         } catch (error) {
           console.warn('Could not save guest joined room:', error);
@@ -419,9 +382,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
       // Check if this is a GM reconnect or if the player name matches the GM name
       const isGM = data.isGMReconnect || (data.room.gm && data.room.gm.name === playerNameRef.current.trim());
-      console.log('Determined isGM:', isGM);
 
-      console.log('Calling onJoinRoom with:', { room: data.room, socket: socket, isGM });
       onJoinRoomRef.current(data.room, socket, isGM);
     };
 
@@ -433,7 +394,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     };
 
     const handleRoomListUpdated = (rooms) => {
-      console.log('Room list updated:', rooms);
       setAvailableRooms(rooms);
     };
 
@@ -454,9 +414,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
 
     return () => {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Cleaning up RoomLobby socket event listeners');
-      }
       socket.off('connect', handleConnect);
       socket.off('disconnect', handleDisconnect);
       socket.off('connect_error', handleConnectError);
@@ -478,7 +435,6 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('✅ Server health check passed:', data);
         return true;
       } else {
         console.warn('⚠️ Server health check failed:', response.status, response.statusText);

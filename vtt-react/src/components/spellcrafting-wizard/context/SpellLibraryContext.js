@@ -62,23 +62,11 @@ function spellLibraryReducer(state, action) {
         categoryIds: spellCategories
       };
 
-      console.log('📚 [SpellLibraryContext] ADD_SPELL action:', {
-        spellName: newSpell.name,
-        spellId: newSpell.id,
-        currentSpellsCount: state.spells.length,
-        willHaveCount: state.spells.length + 1
-      });
-
       const newState = {
         ...state,
         spells: [...state.spells, newSpell],
         selectedSpell: newSpell.id
       };
-
-      console.log('📚 [SpellLibraryContext] After ADD_SPELL:', {
-        newSpellsCount: newState.spells.length,
-        spellIds: newState.spells.map(s => s.id)
-      });
 
       return newState;
     }
@@ -123,22 +111,13 @@ function spellLibraryReducer(state, action) {
 
     case LIBRARY_ACTION_TYPES.DELETE_SPELL: {
       const spellId = action.payload;
-      console.log('🗑️ [SpellLibraryReducer] DELETE_SPELL action received:', spellId);
-      console.log('🗑️ [SpellLibraryReducer] Current spells count:', state.spells.length);
-      console.log('🗑️ [SpellLibraryReducer] Current spell IDs:', state.spells.map(s => s.id));
 
       const spellToDelete = state.spells.find(s => s.id === spellId);
-      if (spellToDelete) {
-        console.log('🗑️ [SpellLibraryReducer] Spell found to delete:', spellToDelete.name);
-      } else {
+      if (!spellToDelete) {
         console.warn('🗑️ [SpellLibraryReducer] Spell NOT found in library.spells:', spellId);
       }
 
       const updatedSpells = state.spells.filter(spell => spell.id !== spellId);
-
-      console.log('🗑️ [SpellLibraryReducer] Updated spells count:', updatedSpells.length);
-      console.log('🗑️ [SpellLibraryReducer] Updated spell IDs:', updatedSpells.map(s => s.id));
-      console.log('🗑️ [SpellLibraryReducer] Deletion successful?', state.spells.length !== updatedSpells.length);
 
       // If the deleted spell was selected, deselect it
       const selectedSpell = state.selectedSpell === spellId
@@ -150,8 +129,6 @@ function spellLibraryReducer(state, action) {
         spells: updatedSpells,
         selectedSpell
       };
-
-      console.log('🗑️ [SpellLibraryReducer] New state created, will save to localStorage automatically');
 
       return newState;
     }
@@ -404,22 +381,18 @@ function SpellLibraryProvider({ children }) {
     spellLibraryReducer,
     null,
     () => {
-      // console.log('Initializing library state from storage');
       const storedLibrary = loadLibraryFromStorage();
 
       if (!storedLibrary) {
-        console.log('No library found in storage, using default library');
         return initialState;
       }
 
-      // console.log('Found library in storage with', storedLibrary.spells?.length || 0, 'spells');
       return validateLibraryIntegrity(storedLibrary);
     }
   );
 
   // Save to local storage whenever state changes
   useEffect(() => {
-    // console.log('Saving library state to storage:', state);
     const saved = saveLibraryToStorage(state);
     if (!saved) {
       console.error('Failed to save library to storage');

@@ -152,7 +152,6 @@ export const createPersistentRoom = async (roomData) => {
 
   try {
     await setDoc(doc(db, ROOMS_COLLECTION, roomId), room);
-    console.log('✅ Room created in Firestore:', roomId);
     return roomId;
   } catch (error) {
     console.error('❌ Error creating room in Firestore:', error);
@@ -251,7 +250,6 @@ export const getUserRooms = async (userId) => {
   try {
     const { isDemoMode } = await import('../config/firebase');
     if (isDemoMode) {
-      console.log('🔧 Demo mode: Returning empty rooms list');
       return [];
     }
   } catch (error) {
@@ -402,7 +400,6 @@ export const deleteRoom = async (roomId, userId) => {
     }
 
     await deleteDoc(doc(db, ROOMS_COLLECTION, roomId));
-    console.log('✅ Room deleted:', roomId);
   } catch (error) {
     console.error('❌ Error deleting room:', error);
     throw error;
@@ -487,7 +484,6 @@ export const saveCompleteGameState = async (roomId, gameState) => {
       lastActivity: serverTimestamp()
     });
 
-    console.log('✅ Complete game state saved for room:', roomId);
   } catch (error) {
     console.error('❌ Error saving complete game state:', error);
     throw error;
@@ -546,7 +542,6 @@ export const updateGameStateSection = async (roomId, section, sectionData) => {
 
     await updateDoc(roomRef, updateData);
 
-    console.log(`✅ Game state section '${section}' updated for room:`, roomId);
   } catch (error) {
     console.error(`❌ Error updating game state section '${section}':`, error);
     throw error;
@@ -563,8 +558,6 @@ export const getRoomLimits = async (userId = null) => {
   try {
     const { isDemoMode } = await import('../config/firebase');
     if (isDemoMode) {
-      console.log('🔧 Demo mode: Returning demo room limits');
-
       // Import local room service to get local room count
       const { default: localRoomService } = await import('./localRoomService');
       const localRooms = localRoomService.getLocalRooms();
@@ -631,8 +624,6 @@ export const getRoomLimits = async (userId = null) => {
     const tier = await subscriptionService.getUserTier(uid);
     const limit = tier.roomLimit;
     const remaining = Math.max(0, limit - totalUsed);
-
-    console.log(`📊 Room count: ${multiplayerRoomCount} multiplayer + ${localRoomCount} local = ${totalUsed} total`);
 
     return {
       tier: tier,

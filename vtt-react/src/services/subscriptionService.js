@@ -78,14 +78,12 @@ class SubscriptionService {
    */
   async getUserTier(userId = null) {
     const checkUserId = userId || auth.currentUser?.uid;
-    console.log('🔍 getUserTier called with userId:', checkUserId);
 
     // CRITICAL FIX: Check for guest users FIRST (before demo mode)
     // This ensures guest users always get 1 character even in demo mode
-    
+
     // Check if the userId indicates a guest user (check userId FIRST)
     if (checkUserId && checkUserId.startsWith('guest-')) {
-      console.log('👤 Guest user detected (from userId): Returning guest tier (1 character)');
       return SUBSCRIPTION_TIERS.GUEST;
     }
 
@@ -95,7 +93,6 @@ class SubscriptionService {
       try {
         const parsedGuestUser = JSON.parse(guestUser);
         if (parsedGuestUser.isGuest) {
-          console.log('👤 Guest user detected (from localStorage): Returning guest tier (1 character)');
           return SUBSCRIPTION_TIERS.GUEST;
         }
       } catch (error) {
@@ -111,7 +108,6 @@ class SubscriptionService {
       const { default: useAuthStore } = await import('../store/authStore');
       const authState = useAuthStore.getState();
       if (authState.isDevelopmentBypass || checkUserId === 'dev-user-123' || checkUserId?.startsWith('dev-user-')) {
-        console.log('🔧 Dev mode detected: Returning demo tier (50 characters)');
         return {
           id: 'demo',
           name: 'Demo Mode',
@@ -132,7 +128,6 @@ class SubscriptionService {
       if (isDemoMode) {
         // Only return demo tier if user is authenticated (not guest)
         if (auth.currentUser || (checkUserId && !checkUserId.startsWith('guest-'))) {
-          console.log('🔧 Demo mode: Returning demo tier (50 characters) for authenticated user');
           return {
             id: 'demo',
             name: 'Demo Mode',
@@ -246,7 +241,6 @@ class SubscriptionService {
         lastModified: new Date()
       });
 
-      console.log(`✅ Updated user ${uid} to tier: ${tier.name}`);
       return true;
     } catch (error) {
       console.error('Error updating user tier:', error);
@@ -314,15 +308,6 @@ class SubscriptionService {
     
     const characterLimit = tier.characterLimit;
     const remaining = Math.max(0, characterLimit - currentCharacterCount);
-    
-    console.log('📊 Character limit check:', {
-      tier: tier.name,
-      limit: characterLimit,
-      current: currentCharacterCount,
-      remaining: remaining,
-      canCreate: currentCharacterCount < characterLimit,
-      userId: userId || auth.currentUser?.uid
-    });
 
     return {
       canCreate: currentCharacterCount < characterLimit,

@@ -15,6 +15,11 @@ import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/container-window.css';
 import '../../styles/draggable-window.css';
 
+// Helper function to get display name (custom name or original name)
+const getDisplayName = (item) => {
+    return item.customName || item.name;
+};
+
 // Helper function to get quality color
 const getQualityColor = (quality, rarity) => {
     // Check for both quality and rarity properties
@@ -64,7 +69,21 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Get store functions
     const updateItem = useItemStore(state => state.updateItem);
+    const updateInventoryItem = useInventoryStore(state => state.updateItem);
     const addItemToInventory = useInventoryStore(state => state.addItemFromLibrary);
+
+    // Helper function to update container in the correct store
+    const updateContainer = (containerId, updates) => {
+        // Check if container is in inventory store
+        const inventoryItems = useInventoryStore.getState().items;
+        const isInInventory = inventoryItems.some(item => item.id === containerId);
+
+        if (isInInventory) {
+            updateInventoryItem(containerId, updates);
+        } else {
+            updateItem(containerId, updates);
+        }
+    };
 
     // Subscribe to the item store to get live updates to the container
     const containerFromStore = useItemStore(state =>
@@ -114,14 +133,14 @@ const ContainerWindow = ({ container, onClose }) => {
         // Force container type to be 'container' if it's not already
         if (currentContainer.type !== 'container') {
             // Update the container type in the store
-            updateItem(currentContainer.id, {
+            updateContainer(currentContainer.id, {
                 type: 'container'
             });
         }
 
         if (!currentContainer.containerProperties) {
             // Initialize container properties if missing
-            updateItem(currentContainer.id, {
+            updateContainer(currentContainer.id, {
                 type: 'container',
                 containerProperties: { ...defaultContainerProperties }
             });
@@ -129,7 +148,7 @@ const ContainerWindow = ({ container, onClose }) => {
 
         // Mark as initialized immediately
         setIsInitialized(true);
-    }, [currentContainer.id, currentContainer.name, currentContainer.type, currentContainer.containerProperties, updateItem]);
+    }, [currentContainer.id, currentContainer.name, currentContainer.customName, currentContainer.type, currentContainer.containerProperties, updateContainer]);
 
     // Handle drag for the container window
     const handleDrag = (e, data) => {
@@ -286,7 +305,7 @@ const ContainerWindow = ({ container, onClose }) => {
             };
 
             // Update the container in the store
-            updateItem(currentContainer.id, {
+            updateContainer(currentContainer.id, {
                 containerProperties: updatedContainerProps
             });
 
@@ -322,7 +341,7 @@ const ContainerWindow = ({ container, onClose }) => {
         };
 
         // Update the container
-        updateItem(currentContainer.id, {
+        updateContainer(currentContainer.id, {
             containerProperties: updatedProps
         });
 
@@ -397,26 +416,17 @@ const ContainerWindow = ({ container, onClose }) => {
 
     // Helper function to check if two items can stack
     const canStack = (item1, item2) => {
-        console.log('🔍 Checking if items can stack:', {
-            item1: { name: item1.name, type: item1.type, iconId: item1.iconId },
-            item2: { name: item2.name, type: item2.type, iconId: item2.iconId }
-        });
-
         // Coins always stack with coins
         if (item1.type === 'currency' && item2.type === 'currency') {
-            console.log('✅ Both are currency - can stack');
             return true;
         }
 
         // Consumables, materials, gems, and miscellaneous can stack if they have the same name and iconId
         const stackableTypes = ['consumable', 'material', 'gem', 'miscellaneous'];
         if (stackableTypes.includes(item1.type) && stackableTypes.includes(item2.type)) {
-            const canStackResult = item1.name === item2.name && item1.iconId === item2.iconId;
-            console.log(`${canStackResult ? '✅' : '❌'} Stackable type check: name match=${item1.name === item2.name}, iconId match=${item1.iconId === item2.iconId}`);
-            return canStackResult;
+            return item1.name === item2.name && item1.iconId === item2.iconId;
         }
 
-        console.log('❌ Items cannot stack - different types or non-stackable');
         return false;
     };
 
@@ -472,7 +482,7 @@ const ContainerWindow = ({ container, onClose }) => {
         // Ensure container properties exist
         if (!currentContainer.containerProperties) {
             // Initialize container properties if missing
-            updateItem(currentContainer.id, {
+            updateContainer(currentContainer.id, {
                 containerProperties: { ...defaultContainerProperties }
             });
             return null; // Return early, will re-render when store updates
@@ -579,8 +589,6 @@ const ContainerWindow = ({ container, onClose }) => {
                                 const items = currentContainer.containerProperties?.items || [];
                                 const canStackWithExisting = item ? findStackableItem(items, item) : null;
 
-                                console.log('🔍 Drag over - can stack?', !!canStackWithExisting, 'item:', item?.name, 'type:', item?.type);
-
                                 // Check if this is a valid position for the dragged item
                                 const isValidPosition = isValidContainerPosition(
                                     items,
@@ -651,7 +659,6 @@ const ContainerWindow = ({ container, onClose }) => {
 
                                 // Handle items dragged from inventory
                                 if (data.type === 'inventory-item') {
-                                    console.log('Inventory item dropped into container:', data);
 
                                     // Get the item from inventory
                                     const inventoryItem = useInventoryStore.getState().items.find(item => item.id === data.id);
@@ -687,7 +694,7 @@ const ContainerWindow = ({ container, onClose }) => {
                                             };
 
                                             // Update container in the store
-                                            updateItem(currentContainer.id, {
+                                            updateContainer(currentContainer.id, {
                                                 containerProperties: updatedContainerProps
                                             });
 
@@ -728,7 +735,7 @@ const ContainerWindow = ({ container, onClose }) => {
                                                 };
 
                                                 // Update container in the store
-                                                updateItem(currentContainer.id, {
+                                                updateContainer(currentContainer.id, {
                                                     containerProperties: updatedContainerProps
                                                 });
 
@@ -740,16 +747,13 @@ const ContainerWindow = ({ container, onClose }) => {
                                 }
                                 // Handle items dragged from item library
                                 else if (data.type === 'item') {
-                                    console.log('✅ Item library item dropped into container:', data);
 
                                     // Get the item from the item library
                                     const libraryItem = useItemStore.getState().items.find(item => item.id === data.id);
-                                    console.log('🔍 Found library item:', libraryItem?.name);
 
                                     if (libraryItem) {
                                         // Don't allow dropping a container into another container
                                         if (libraryItem.type === 'container') {
-                                            console.log('❌ Cannot add a container to another container');
                                             return;
                                         }
 
@@ -804,8 +808,6 @@ const ContainerWindow = ({ container, onClose }) => {
                                             }
                                         }
 
-                                        console.log(`📏 Item dimensions: ${width}x${height}, rotation: ${rotation}`);
-
                                         // Make a deep copy of the container's items
                                         const items = JSON.parse(JSON.stringify(currentContainer.containerProperties?.items || []));
 
@@ -835,11 +837,8 @@ const ContainerWindow = ({ container, onClose }) => {
                                                 hasHadItems: true
                                             };
 
-                                            console.log('💾 Stacking item with existing:', stackableItem);
-                                            console.log('💾 Updated container props:', updatedContainerProps);
-
                                             // Update container in the store
-                                            updateItem(currentContainer.id, {
+                                            updateContainer(currentContainer.id, {
                                                 containerProperties: updatedContainerProps
                                             });
 
@@ -889,7 +888,7 @@ const ContainerWindow = ({ container, onClose }) => {
                                                 console.log('💾 Updated container props:', updatedContainerProps);
 
                                                 // Update container in the store
-                                                updateItem(currentContainer.id, {
+                                                updateContainer(currentContainer.id, {
                                                     containerProperties: updatedContainerProps
                                                 });
 
@@ -958,7 +957,7 @@ const ContainerWindow = ({ container, onClose }) => {
                                         console.log('Updating container with new properties:', updatedContainerProps);
 
                                         // Update container in the store
-                                        updateItem(currentContainer.id, {
+                                        updateContainer(currentContainer.id, {
                                             containerProperties: updatedContainerProps
                                         });
                                     }
@@ -1162,13 +1161,13 @@ const ContainerWindow = ({ container, onClose }) => {
                         <div className="container-title">
                             <img
                                 src={`https://wow.zamimg.com/images/wow/icons/large/${currentContainer.iconId || 'inv_box_01'}.jpg`}
-                                alt={currentContainer.name}
+                                alt={getDisplayName(currentContainer)}
                                 className="container-icon"
                                 onError={(e) => {
                                     e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_box_01.jpg';
                                 }}
                             />
-                            <span className="container-name">{currentContainer.name}</span>
+                            <span className="container-name">{getDisplayName(currentContainer)}</span>
                             {currentContainer.containerProperties?.isLocked && (
                                 <i className="fas fa-lock container-lock-icon"></i>
                             )}

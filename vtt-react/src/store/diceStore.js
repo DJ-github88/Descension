@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import useGameStore from './gameStore';
 
 // Dice types with their properties
 export const DICE_TYPES = {
@@ -162,17 +163,25 @@ const useDiceStore = create(
             ]
           };
         }
+
+        // Sync with multiplayer
+        get().syncDiceUpdate('dice_added', { diceType, quantity: Math.min(quantity, 10) });
       }),
 
-      removeDice: (diceType, quantity = 1) => set(state => ({
-        selectedDice: state.selectedDice
-          .map(d =>
-            d.type === diceType
-              ? { ...d, quantity: Math.max(d.quantity - quantity, 0) }
-              : d
-          )
-          .filter(d => d.quantity > 0)
-      })),
+      removeDice: (diceType, quantity = 1) => {
+        set(state => ({
+          selectedDice: state.selectedDice
+            .map(d =>
+              d.type === diceType
+                ? { ...d, quantity: Math.max(d.quantity - quantity, 0) }
+                : d
+            )
+            .filter(d => d.quantity > 0)
+        }));
+
+        // Sync with multiplayer
+        get().syncDiceUpdate('dice_removed', { diceType, quantity });
+      },
 
       clearSelectedDice: () => set({ selectedDice: [] }),
 
@@ -204,6 +213,9 @@ const useDiceStore = create(
             ]
           };
         }
+
+        // Sync with multiplayer
+        get().syncDiceUpdate('dice_quantity_set', { diceType, quantity: Math.min(quantity, 10) });
       }),
 
       // Rolling actions
@@ -212,13 +224,14 @@ const useDiceStore = create(
       finishRoll: (results) => set(state => {
         // Don't add to history if results is empty or invalid
         const validResults = Array.isArray(results) ? results.filter(r => r && r.value !== undefined && r.value !== null && r.value > 0) : [];
-        
+
         // Only add to history if we have valid results
         const shouldAddToHistory = validResults.length > 0 && state.selectedDice.length > 0;
-        
+
         let newHistory = state.rollHistory;
+        let rollEntry = null;
         if (shouldAddToHistory) {
-          const rollEntry = {
+          rollEntry = {
             id: `roll_${Date.now()}`,
             timestamp: new Date().toISOString(),
             dice: state.selectedDice.map(d => ({ ...d })),
@@ -234,6 +247,21 @@ const useDiceStore = create(
           rollHistory: newHistory
         };
       }),
+
+      // Sync dice roll with multiplayer
+      syncDiceRoll: (results) => {
+        const state = get();
+        if (results && Array.isArray(results) && results.length > 0 && state.selectedDice.length > 0) {
+          const rollEntry = {
+            id: `roll_${Date.now()}`,
+            timestamp: new Date().toISOString(),
+            dice: state.selectedDice.map(d => ({ ...d })),
+            results: results,
+            total: results.reduce((sum, result) => sum + result.value, 0)
+          };
+          get().syncDiceUpdate('dice_rolled', rollEntry);
+        }
+      },
 
       // UI actions
       toggleDiceBar: () => set(state => ({ isDiceBarVisible: !state.isDiceBarVisible })),
@@ -270,7 +298,19 @@ const useDiceStore = create(
       },
 
       // Clear history
-      clearRollHistory: () => set({ rollHistory: [] })
+      clearRollHistory: () => set({ rollHistory: [] }),
+
+      // Multiplayer Synchronization
+      syncDiceUpdate: (updateType, data) => {
+        const gameStore = useGameStore.getState();
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+          gameStore.multiplayerSocket.emit('dice_update', {
+            type: updateType,
+            data: data,
+            timestamp: Date.now()
+          });
+        }
+      }
     }),
     {
       name: 'dice-store',

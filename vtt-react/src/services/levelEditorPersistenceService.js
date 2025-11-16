@@ -199,7 +199,6 @@ class LevelEditorPersistenceService {
    * @param {number} maxAge - Maximum age in days (default: 30)
    */
   cleanupOldStates(maxAge = 30) {
-    console.log('cleanupOldStates is deprecated - state is now managed in database');
   }
 
   /**

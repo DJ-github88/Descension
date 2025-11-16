@@ -77,7 +77,6 @@ class LocalStorageManager {
       });
     });
 
-    console.log(`🧹 Cleaned up ${removedCount} old character backups`);
     return removedCount;
   }
 
@@ -111,13 +110,9 @@ class LocalStorageManager {
    * Perform comprehensive cleanup
    */
   performCleanup() {
-    console.log('🧹 Starting localStorage cleanup...');
-    console.log(`📊 Current usage: ${this.getUsagePercentage().toFixed(1)}%`);
-
     const backupsRemoved = this.cleanupOldBackups();
     const tempDataRemoved = this.cleanupTempData();
 
-    console.log(`📊 Usage after cleanup: ${this.getUsagePercentage().toFixed(1)}%`);
     return { backupsRemoved, tempDataRemoved };
   }
 
@@ -183,7 +178,6 @@ class LocalStorageManager {
    * Emergency cleanup - more aggressive than regular cleanup
    */
   performEmergencyCleanup() {
-    console.log('🚨 Performing emergency localStorage cleanup...');
     let totalRemoved = 0;
     const keysToRemove = [];
     
@@ -228,14 +222,12 @@ class LocalStorageManager {
                 return bTime - aTime;
               });
               finalData = sorted.slice(0, 5);
-              console.log(`📦 Reduced ${key} from ${cleanedData.length} to ${finalData.length} characters`);
             }
             
             // Try to save compressed data
             try {
               const compressedJson = JSON.stringify(finalData);
               localStorage.setItem(key, compressedJson);
-              console.log(`✅ Compressed ${key} (removed images from all characters)`);
             } catch (saveError) {
               // If still too large, remove oldest characters
               if (saveError.name === 'QuotaExceededError') {
@@ -248,7 +240,6 @@ class LocalStorageManager {
                   return minimal;
                 });
                 localStorage.setItem(key, JSON.stringify(minimalData));
-                console.log(`📦 Further reduced ${key} to ${minimalData.length} minimal characters`);
               }
             }
           }
@@ -277,13 +268,11 @@ class LocalStorageManager {
             if (data.messages && Array.isArray(data.messages) && data.messages.length > 50) {
               data.messages = data.messages.slice(-50); // Keep only last 50 messages
               localStorage.setItem(key, JSON.stringify(data));
-              console.log(`📦 Compressed ${key} messages`);
             }
             // Remove large map data
             if (data.maps && Array.isArray(data.maps)) {
               data.maps = data.maps.slice(-3); // Keep only last 3 maps
               localStorage.setItem(key, JSON.stringify(data));
-              console.log(`📦 Compressed ${key} maps`);
             }
           }
         } catch (error) {
@@ -291,7 +280,6 @@ class LocalStorageManager {
           try {
             localStorage.removeItem(key);
             totalRemoved++;
-            console.log(`🗑️ Removed corrupted ${key}`);
           } catch (e) {
             console.error(`Failed to remove ${key}:`, e);
           }
@@ -299,7 +287,6 @@ class LocalStorageManager {
       }
     }
 
-    console.log(`🧹 Emergency cleanup removed ${totalRemoved} items and compressed character data`);
     return totalRemoved;
   }
 
@@ -359,7 +346,6 @@ class LocalStorageManager {
       }
 
       keysToRemove.forEach(key => localStorage.removeItem(key));
-      console.log(`🧹 Cleared ${keysToRemove.length} localStorage items`);
       return keysToRemove.length;
     } else {
       console.warn('clearAllData only available in development mode');
@@ -374,7 +360,6 @@ const localStorageManager = new LocalStorageManager();
 // Expose to window for development debugging
 if (process.env.NODE_ENV === 'development') {
   window.localStorageManager = localStorageManager;
-  console.log('🔧 LocalStorage manager available at window.localStorageManager');
 }
 
 export default localStorageManager;

@@ -60,17 +60,69 @@ module.exports = {
           concatenateModules: true,
         };
 
-        // Add bundle splitting for better caching
+        // Enhanced bundle splitting for better caching and smaller initial bundle
         webpackConfig.optimization.splitChunks = {
           chunks: 'all',
+          maxInitialRequests: 25,
+          minSize: 20000,
           cacheGroups: {
-            vendor: {
+            // React core - separate chunk for React/ReactDOM
+            react: {
+              test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+              name: 'react',
+              chunks: 'all',
+              priority: 20,
+              enforce: true,
+            },
+            // Firebase - large SDK, split into separate chunk
+            firebase: {
+              test: /[\\/]node_modules[\\/]firebase[\\/]/,
+              name: 'firebase',
+              chunks: 'all',
+              priority: 15,
+              enforce: true,
+            },
+            // FontAwesome - large icon library
+            fontawesome: {
+              test: /[\\/]node_modules[\\/]@fortawesome[\\/]/,
+              name: 'fontawesome',
+              chunks: 'all',
+              priority: 15,
+              enforce: true,
+            },
+            // UI libraries
+            ui: {
+              test: /[\\/]node_modules[\\/](react-bootstrap|react-tooltip|react-draggable|react-resizable|react-icons)[\\/]/,
+              name: 'ui',
+              chunks: 'all',
+              priority: 14,
+              enforce: true,
+            },
+            // Charting library - only used in specific components
+            charts: {
+              test: /[\\/]node_modules[\\/]recharts[\\/]/,
+              name: 'charts',
+              chunks: 'async', // Only load when needed
+              priority: 13,
+              enforce: true,
+            },
+            // Socket.io - only needed for multiplayer
+            socketio: {
+              test: /[\\/]node_modules[\\/]socket\.io-client[\\/]/,
+              name: 'socketio',
+              chunks: 'async', // Only load when needed
+              priority: 13,
+              enforce: true,
+            },
+            // Other large vendor libraries
+            vendors: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
               chunks: 'all',
               priority: 10,
+              minChunks: 2,
             },
-            // Prevent roomService from being split into separate chunk
+            // Services - split into separate chunk
             services: {
               test: /[\\/]src[\\/]services[\\/]/,
               name: 'services',
@@ -78,6 +130,15 @@ module.exports = {
               priority: 8,
               enforce: true,
             },
+            // Stores - split into separate chunk
+            stores: {
+              test: /[\\/]src[\\/]store[\\/]/,
+              name: 'stores',
+              chunks: 'all',
+              priority: 7,
+              enforce: true,
+            },
+            // Common code shared between chunks
             common: {
               name: 'common',
               minChunks: 2,

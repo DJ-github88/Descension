@@ -89,7 +89,6 @@ class CharacterSyncService {
    * Handle going online
    */
   async handleOnline() {
-    console.log('🌐 Connection restored, starting sync...');
     this.isOnline = true;
     
     if (this.syncQueue.length > 0) {
@@ -101,7 +100,6 @@ class CharacterSyncService {
    * Handle going offline
    */
   handleOffline() {
-    console.log('📴 Connection lost, switching to offline mode');
     this.isOnline = false;
   }
 
@@ -120,8 +118,6 @@ class CharacterSyncService {
 
     this.syncQueue.push(change);
     this.saveOfflineChanges();
-    
-    console.log(`📝 Queued offline change: ${changeType} for character ${characterId}`);
 
     // Try to sync immediately if online
     if (this.isOnline && !this.syncInProgress) {
@@ -138,7 +134,6 @@ class CharacterSyncService {
     }
 
     this.syncInProgress = true;
-    console.log(`🔄 Syncing ${this.syncQueue.length} offline changes...`);
 
     const results = {
       synced: 0,
@@ -177,8 +172,6 @@ class CharacterSyncService {
         lastSync: new Date().toISOString(),
         pendingChanges: this.syncQueue.length
       });
-
-      console.log(`✅ Sync completed: ${results.synced} synced, ${results.failed} failed, ${results.conflicts} conflicts`);
 
     } catch (error) {
       console.error('Error during sync:', error);
@@ -226,8 +219,6 @@ class CharacterSyncService {
 
     // Save updated character to Firebase
     await characterPersistenceService.saveCharacter(characterId, updatedCharacter);
-    
-    console.log(`✅ Synced ${changes.length} changes for character ${characterId}`);
   }
 
   /**
@@ -330,7 +321,6 @@ class CharacterSyncService {
     this.syncQueue = [];
     this.saveOfflineChanges();
     this.updateSyncStatus({ pendingChanges: 0 });
-    console.log('✅ All pending changes cleared');
   }
 
   /**

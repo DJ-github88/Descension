@@ -53,7 +53,6 @@ const usePresenceSync = (sessionType = null, roomData = null) => {
 
     // Update presence
     updateSession(sessionData);
-    console.log('🔄 Presence synced:', sessionData);
 
   }, [sessionType, roomData?.id, roomData?.name, user, character, currentUserPresence]);
 };

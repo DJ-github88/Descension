@@ -35,6 +35,34 @@ const ClassResourceBar = ({
         selectedForSwap: []
     });
 
+    // Destructure uiState for easier access
+    const {
+        showTooltip,
+        tooltipPosition,
+        tooltipPlacement,
+        showRageMenu,
+        rageInputValue,
+        showModifierMenu,
+        chaosWeaverHoverSection,
+        activeSpecialization,
+        rerollsUsed,
+        swapMode,
+        selectedForSwap
+    } = uiState;
+
+    // Helper functions for updating uiState
+    const setShowTooltip = (value) => setUiState(prev => ({ ...prev, showTooltip: value }));
+    const setTooltipPosition = (value) => setUiState(prev => ({ ...prev, tooltipPosition: value }));
+    const setTooltipPlacement = (value) => setUiState(prev => ({ ...prev, tooltipPlacement: value }));
+    const setShowRageMenu = (value) => setUiState(prev => ({ ...prev, showRageMenu: value }));
+    const setRageInputValue = (value) => setUiState(prev => ({ ...prev, rageInputValue: value }));
+    const setShowModifierMenu = (value) => setUiState(prev => ({ ...prev, showModifierMenu: value }));
+    const setChaosWeaverHoverSection = (value) => setUiState(prev => ({ ...prev, chaosWeaverHoverSection: value }));
+    const setActiveSpecialization = (value) => setUiState(prev => ({ ...prev, activeSpecialization: value }));
+    const setRerollsUsed = (value) => setUiState(prev => ({ ...prev, rerollsUsed: value }));
+    const setSwapMode = (value) => setUiState(prev => ({ ...prev, swapMode: value }));
+    const setSelectedForSwap = (value) => setUiState(prev => ({ ...prev, selectedForSwap: value }));
+
     // Arcanoneer state
     const [arcanoneerState, setArcanoneerState] = useState({
         localSpheres: [],

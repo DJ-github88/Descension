@@ -275,18 +275,15 @@ const useTargetingStore = create(
             targetNearestEnemy: () => {
                 // This would need to be implemented with actual game logic
                 // to find the nearest enemy creature
-                console.log('Target nearest enemy - implementation needed');
             },
 
             targetNearestFriend: () => {
                 // This would need to be implemented with actual game logic
                 // to find the nearest friendly creature
-                console.log('Target nearest friend - implementation needed');
             },
 
             targetPartyMember: (memberIndex) => {
                 // This would integrate with the party store to target a specific party member
-                console.log(`Target party member ${memberIndex} - implementation needed`);
             }
         }),
         {

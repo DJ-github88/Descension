@@ -94,11 +94,6 @@ class AuthService {
 
   // Sign in with Google
   async signInWithGoogle() {
-    console.log('🔍 Google sign-in debug info:');
-    console.log('- isConfigured:', this.isConfigured);
-    console.log('- auth:', !!auth);
-    console.log('- googleProvider:', !!googleProvider);
-
     if (!this.isConfigured || !auth || !googleProvider) {
       const errorMsg = 'Authentication not configured. Please check Firebase setup.';
       console.error('❌', errorMsg);
@@ -106,10 +101,8 @@ class AuthService {
     }
 
     try {
-      console.log('🚀 Starting Google sign-in popup...');
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      console.log('✅ Google sign-in successful:', user.email);
 
       // Create or update user document in Firestore
       await this.createUserDocument(user);
@@ -117,8 +110,6 @@ class AuthService {
       return { user, success: true };
     } catch (error) {
       console.error('❌ Google sign in error:', error);
-      console.log('Error code:', error.code);
-      console.log('Error message:', error.message);
 
       // Handle specific popup-related errors
       if (error.code === 'auth/popup-closed-by-user') {
@@ -257,7 +248,6 @@ class AuthService {
             totalPlayTime: 0
           }
         });
-        console.log(`✅ User document created with Friend ID: ${finalFriendId}`);
       } catch (error) {
         console.error('Error creating user document:', error);
       }
@@ -323,10 +313,8 @@ class AuthService {
 // Factory function to create the appropriate auth service
 function createAuthService() {
   if (isDemoMode) {
-    console.log('AuthService: Using demo authentication');
     return demoAuthService;
   } else {
-    console.log('AuthService: Using Firebase authentication');
     return new AuthService();
   }
 }

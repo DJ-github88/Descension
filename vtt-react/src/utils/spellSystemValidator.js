@@ -129,8 +129,6 @@ export const validateSpellStructure = () => {
  * Run all validations
  */
 export const validateSpellSystem = () => {
-  console.log('🧪 Running Spell System Validation...');
-
   const spellCountValidation = validateClassSpellCounts();
   const specializationValidation = validateSpecializations();
   const spellStructureValidation = validateSpellStructure();
@@ -154,13 +152,7 @@ export const validateSpellSystem = () => {
     }
   };
 
-  // Log results
-  if (overallResults.success) {
-    console.log('✅ Spell System Validation PASSED');
-    console.log(`📊 Summary: ${overallResults.summary.totalClasses} classes, ${overallResults.summary.totalSpells} spells`);
-  } else {
-    console.log('❌ Spell System Validation FAILED');
-    console.log(`📊 Summary: ${overallResults.summary.totalErrors} errors found`);
+  // Validation complete
     
     // Log all errors
     [
@@ -195,10 +187,7 @@ if (process.env.NODE_ENV === 'development') {
     // Only validate classes that actually have spells
     const classesWithSpells = Object.keys(ALL_CLASS_SPELLS);
     if (classesWithSpells.length > 0) {
-      console.log('🧪 Running Spell System Validation for classes with spells:', classesWithSpells);
       validateSpellSystem();
-    } else {
-      console.log('🧪 Skipping Spell System Validation - no classes with spells found');
     }
   }, 1000);
 }

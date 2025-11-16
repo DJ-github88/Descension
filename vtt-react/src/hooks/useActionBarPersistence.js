@@ -25,7 +25,6 @@ export const useActionBarPersistence = (roomId = 'global') => {
    */
   const loadActionBarConfig = useCallback(async () => {
     if (!currentCharacterId) {
-      console.log('📋 No character selected, using empty action bar');
       setActionSlots(Array(10).fill(null));
       setIsLoading(false);
       return;
@@ -46,11 +45,9 @@ export const useActionBarPersistence = (roomId = 'global') => {
         });
         
         setActionSlots(normalizedConfig);
-        console.log(`📋 Loaded action bar for ${characterName} in room ${roomId}`);
       } else {
         // No saved config found, use empty slots
         setActionSlots(Array(10).fill(null));
-        console.log(`📋 No saved action bar found for ${characterName} in room ${roomId}, using empty slots`);
       }
     } catch (error) {
       console.error('Error loading action bar config:', error);
@@ -76,7 +73,6 @@ export const useActionBarPersistence = (roomId = 'global') => {
       
       if (success) {
         setLastSaveTime(new Date());
-        console.log(`💾 Action bar saved for ${characterName} in room ${roomId}`);
       }
       
       return success;
@@ -150,7 +146,6 @@ export const useActionBarPersistence = (roomId = 'global') => {
       if (success) {
         // Reload the configuration
         await loadActionBarConfig();
-        console.log(`📋 Action bar copied from room ${sourceRoomId} to ${roomId}`);
       }
       
       return success;

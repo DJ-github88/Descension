@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import useGameStore from './gameStore';
 
 // Constants
 export const BASE_CATEGORY = {
@@ -4080,6 +4081,9 @@ const useItemStore = create(
                     items: [...state.items, newItem],
                     itemCategories: newItemCategories
                 };
+
+                // Sync with multiplayer
+                get().syncItemUpdate('item_added', { item: newItem, categories: Array.from(categorySet) });
             }),
 
             updateItem: (itemId, updates) => set(state => {
@@ -4093,6 +4097,9 @@ const useItemStore = create(
                     items: updatedItems,
                     selectedItem: state.selectedItem?.id === itemId ? updatedItems[itemIndex] : state.selectedItem
                 };
+
+                // Sync with multiplayer
+                get().syncItemUpdate('item_updated', { itemId, updates });
             }),
 
             removeItem: (itemId) => set(state => {
@@ -4111,14 +4118,25 @@ const useItemStore = create(
                     itemCategories: newItemCategories,
                     selectedItem: newSelectedItem
                 };
+
+                // Sync with multiplayer
+                const itemToRemove = state.items.find(item => item.id === itemId);
+                if (itemToRemove) {
+                    get().syncItemUpdate('item_removed', { itemId, itemData: itemToRemove });
+                }
             }),
 
-            moveItem: (itemId, categoryId) => set(state => ({
-                itemCategories: {
-                    ...state.itemCategories,
-                    [itemId]: categoryId === BASE_CATEGORY.id ? [BASE_CATEGORY.id] : [BASE_CATEGORY.id, categoryId]
-                }
-            })),
+            moveItem: (itemId, categoryId) => {
+                set(state => ({
+                    itemCategories: {
+                        ...state.itemCategories,
+                        [itemId]: categoryId === BASE_CATEGORY.id ? [BASE_CATEGORY.id] : [BASE_CATEGORY.id, categoryId]
+                    }
+                }));
+
+                // Sync with multiplayer
+                get().syncItemUpdate('item_moved', { itemId, categoryId });
+            },
 
             selectItem: (item) => set({ selectedItem: item }),
 
@@ -4185,6 +4203,17 @@ const useItemStore = create(
                 };
             }),
 
+            // Multiplayer Synchronization
+            syncItemUpdate: (updateType, data) => {
+                const gameStore = useGameStore.getState();
+                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                    gameStore.multiplayerSocket.emit('item_update', {
+                        type: updateType,
+                        data: data,
+                        timestamp: Date.now()
+                    });
+                }
+            }
 
         }),
         {

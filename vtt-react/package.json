@@ -75,6 +75,19 @@
     "@babel/preset-react": "^7.26.3",
     "cross-env": "^10.1.0",
     "css-minimizer-webpack-plugin": "^7.0.2",
-    "serve": "^14.2.4"
-  }
+    "serve": "^14.2.4",
+    "source-map-explorer": "^2.5.3"
+  },
+  "overrides": {
+    "js-yaml": ">=4.1.1",
+    "nth-check": ">=2.0.1",
+    "postcss": ">=8.4.31"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "./src/polyfills.js",
+    "./src/index.js",
+    "./src/serviceWorkerRegistration.js"
+  ]
 }

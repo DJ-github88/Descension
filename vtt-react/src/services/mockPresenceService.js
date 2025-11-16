@@ -192,7 +192,6 @@ class MockPresenceService {
    * Initialize mock users
    */
   initializeMockUsers() {
-    console.log('🎭 Initializing mock users...');
 
     // Import background and race data for computing display names
     const { getCustomBackgroundData } = require('../data/customBackgroundData');
@@ -444,7 +443,6 @@ class MockPresenceService {
     if (this.partyChatInterval) {
       clearInterval(this.partyChatInterval);
       this.partyChatInterval = null;
-      console.log('🛑 Stopped party chat simulation');
     }
   }
 
@@ -477,11 +475,9 @@ class MockPresenceService {
   startAutomatedChat(addGlobalMessage) {
     // Don't start if already running
     if (this.chatInterval) {
-      console.log('🤖 Automated chat already running');
       return;
     }
 
-    console.log('🤖 Starting automated chat activity...');
 
     // Send initial greeting after 2 seconds
     setTimeout(() => {
@@ -508,7 +504,6 @@ class MockPresenceService {
     }
     this.responseTimers.forEach(timer => clearTimeout(timer));
     this.responseTimers = [];
-    console.log('🛑 Stopped automated chat activity');
   }
 
   /**
@@ -516,7 +511,6 @@ class MockPresenceService {
    * Maintains 4-7 users online at any time
    */
   startOnlineOfflineSimulation(updateUserStatus, addGlobalMessage) {
-    console.log('🔄 Starting online/offline simulation...');
 
     // More frequent status changes every 10-20 seconds to maintain 4-7 users online
     this.onlineOfflineInterval = setInterval(() => {
@@ -574,7 +568,6 @@ class MockPresenceService {
       clearInterval(this.onlineOfflineInterval);
       this.onlineOfflineInterval = null;
     }
-    console.log('🛑 Stopped online/offline simulation');
   }
 
   /**

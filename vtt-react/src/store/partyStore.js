@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 import useChatStore from './chatStore';
+import useGameStore from './gameStore';
 
 // Party member status types
 export const PARTY_STATUS = {
@@ -46,7 +47,10 @@ const initialState = {
     },
 
     // Individual member HUD positions
-    memberPositions: {}
+    memberPositions: {},
+
+    // Multiplayer integration
+    multiplayerSocket: null
 };
 
 // Create the party store
@@ -121,12 +125,10 @@ const usePartyStore = create(
                 const existingMemberByName = state.partyMembers.find(member => member.name === memberData.name);
 
                 if (existingMemberById) {
-                    console.log('🚫 Preventing duplicate party member by ID:', memberData.name, 'ID:', memberData.id);
                     return false;
                 }
 
                 if (existingMemberByName) {
-                    console.log('🚫 Preventing duplicate party member by name:', memberData.name, 'Existing ID:', existingMemberByName.id, 'New ID:', memberData.id);
                     return false;
                 }
 
@@ -145,7 +147,6 @@ const usePartyStore = create(
                     }
                 };
 
-                console.log('✅ Adding party member:', newMember.name, 'GM:', newMember.isGM, 'ID:', newMember.id);
 
                 // Add new member without changing leadership
                 const updatedMembers = [...state.partyMembers, newMember];
@@ -155,17 +156,27 @@ const usePartyStore = create(
                     partyMembers: updatedMembers
                 }));
 
+                // Sync with multiplayer
+                get().syncPartyUpdate('member_added', newMember);
+
                 return true;
             },
 
             removePartyMember: (memberId) => {
+                const state = get();
+                const memberToRemove = state.partyMembers.find(member => member.id === memberId);
+
                 set(state => ({
                     partyMembers: state.partyMembers.filter(member => member.id !== memberId)
                 }));
 
+                // Sync with multiplayer
+                if (memberToRemove) {
+                    get().syncPartyUpdate('member_removed', { memberId, memberData: memberToRemove });
+                }
+
                 // If current player is removed, they should be redirected (handled by MultiplayerApp)
                 if (memberId === 'current-player') {
-                    console.log('Current player removed from party - should redirect to homepage');
                 }
             },
 
@@ -173,24 +184,16 @@ const usePartyStore = create(
                 set(state => {
                     const updatedMembers = state.partyMembers.map(member => {
                         if (member.id === memberId) {
-                            const oldMember = member;
-                            const newMember = { ...member, ...updates };
-
-                            // Log the update for debugging
-                            console.log('🔄 Party member updated:', {
-                                memberId,
-                                oldMember,
-                                newMember,
-                                updates
-                            });
-
-                            return newMember;
+                            return { ...member, ...updates };
                         }
                         return member;
                     });
 
                     return { partyMembers: updatedMembers };
                 });
+
+                // Sync with multiplayer
+                get().syncPartyUpdate('member_updated', { memberId, updates });
             },
 
             // Invitation System
@@ -304,6 +307,26 @@ const usePartyStore = create(
             getPartySize: () => {
                 const state = get();
                 return state.partyMembers.length;
+            },
+
+            // Multiplayer Synchronization
+            syncPartyUpdate: (updateType, data) => {
+                const gameStore = useGameStore.getState();
+                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                    gameStore.multiplayerSocket.emit('party_update', {
+                        type: updateType,
+                        data: data,
+                        timestamp: Date.now()
+                    });
+                }
+            },
+
+            setMultiplayerSocket: (socket) => {
+                set({ multiplayerSocket: socket });
+            },
+
+            clearMultiplayerSocket: () => {
+                set({ multiplayerSocket: null });
             }
         }),
         {

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import useGameStore from './gameStore';
 
 const useBuffStore = create(
     persist(
@@ -46,6 +47,9 @@ const useBuffStore = create(
                     set({ activeBuffs: [...activeBuffs, newBuff] });
                 }
 
+                // Sync with multiplayer
+                get().syncBuffUpdate('buff_added', newBuff);
+
                 // Set up automatic removal timer (only for time-based buffs)
                 if (newBuff.durationType !== 'rounds') {
                     setTimeout(() => {
@@ -57,7 +61,14 @@ const useBuffStore = create(
             // Remove a buff by ID
             removeBuff: (buffId) => {
                 const { activeBuffs } = get();
+                const buffToRemove = activeBuffs.find(buff => buff.id === buffId);
+
                 set({ activeBuffs: activeBuffs.filter(buff => buff.id !== buffId) });
+
+                // Sync with multiplayer
+                if (buffToRemove) {
+                    get().syncBuffUpdate('buff_removed', { buffId, buffData: buffToRemove });
+                }
             },
 
             // Remove all buffs
@@ -176,6 +187,18 @@ const useBuffStore = create(
                 });
 
                 set({ activeBuffs: updatedBuffs });
+            },
+
+            // Multiplayer Synchronization
+            syncBuffUpdate: (updateType, data) => {
+                const gameStore = useGameStore.getState();
+                if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                    gameStore.multiplayerSocket.emit('buff_update', {
+                        type: updateType,
+                        data: data,
+                        timestamp: Date.now()
+                    });
+                }
             }
         }),
         {

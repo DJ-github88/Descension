@@ -19,7 +19,6 @@ const useLocalRoomAutoSave = () => {
     if (isInLocalRoom() && !isLoadingRef.current) {
       localRoomService.autoSaveCurrentRoom();
       lastSaveRef.current = Date.now();
-      console.log('💾 Manual save triggered for local room');
     }
   };
 
@@ -27,16 +26,13 @@ const useLocalRoomAutoSave = () => {
   const setLoading = (loading) => {
     isLoadingRef.current = loading;
     if (loading) {
-      console.log('🔄 Auto-save disabled during room loading');
     } else {
-      console.log('✅ Auto-save re-enabled after room loading');
     }
   };
   
   // Debounced save function to prevent excessive saves
   const debouncedSave = () => {
     if (isLoadingRef.current) {
-      console.log('🚫 Auto-save skipped - room is loading');
       return;
     }
 
@@ -50,11 +46,9 @@ const useLocalRoomAutoSave = () => {
 
       saveTimeoutRef.current = setTimeout(() => {
         if (!isLoadingRef.current) {
-          console.log('⏰ Delayed auto-save triggered');
           localRoomService.autoSaveCurrentRoom();
           lastSaveRef.current = Date.now();
         } else {
-          console.log('🚫 Delayed auto-save skipped - still loading');
         }
       }, 2000);
       return;
@@ -93,14 +87,6 @@ const useLocalRoomAutoSave = () => {
           state.cameraX !== prevState.cameraX ||
           state.cameraY !== prevState.cameraY ||
           state.zoomLevel !== prevState.zoomLevel) {
-        console.log('🎨 Local room: Background or camera changed, auto-saving...', {
-          backgroundsChanged: state.backgrounds !== prevState.backgrounds,
-          activeIdChanged: state.activeBackgroundId !== prevState.activeBackgroundId,
-          backgroundUrlChanged: state.backgroundImageUrl !== prevState.backgroundImageUrl,
-          backgroundImageChanged: state.backgroundImage !== prevState.backgroundImage,
-          backgroundsCount: state.backgrounds?.length || 0,
-          activeBackgroundId: state.activeBackgroundId
-        });
         debouncedSave();
       }
     });
@@ -111,7 +97,6 @@ const useLocalRoomAutoSave = () => {
 
       // Monitor tokens (placed creatures) instead of global creature library
       if (state.tokens !== prevState.tokens) {
-        console.log('🎭 Local room: Tokens changed, auto-saving...');
         debouncedSave();
       }
     });
@@ -121,7 +106,6 @@ const useLocalRoomAutoSave = () => {
       if (!isInLocalRoom()) return;
       
       if (state.gridItems !== prevState.gridItems) {
-        console.log('📦 Local room: Grid items changed, auto-saving...');
         debouncedSave();
       }
     });
@@ -133,12 +117,10 @@ const useLocalRoomAutoSave = () => {
       if (state.terrainData !== prevState.terrainData ||
           state.environmentalObjects !== prevState.environmentalObjects ||
           state.lightSources !== prevState.lightSources) {
-        console.log('🏗️ Local room: Level editor changed, auto-saving...');
         debouncedSave();
       }
     });
 
-    console.log('🔄 Local room auto-save enabled');
 
     // Cleanup function
     return () => {
@@ -151,7 +133,6 @@ const useLocalRoomAutoSave = () => {
         clearTimeout(saveTimeoutRef.current);
       }
       
-      console.log('🔄 Local room auto-save disabled');
     };
   }, []); // Empty dependency array - we check isInLocalRoom() inside the effect
 

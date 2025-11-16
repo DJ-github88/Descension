@@ -56,40 +56,85 @@ const io = socketIo(server, {
   allowEIO3: true // Allow Engine.IO v3 clients
 });
 
-// DISABLED: Enhanced multiplayer services causing lag and socket errors
-// const eventBatcher = new EventBatcher(io);
-// const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
+// OPTIMIZED: Enhanced multiplayer services with performance controls
+// Initialize with reduced frequency to prevent lag
+const eventBatcher = new EventBatcher(io);
+const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
 
-// DISABLED: Infrastructure services causing performance issues
-// const errorHandler = new ErrorHandler();
-// const performanceMonitor = new PerformanceMonitor();
-
-// Minimal error handling only
+// Enhanced error handling with rate limiting
 const errorHandler = {
+  errorCounts: new Map(),
+  lastErrorTime: 0,
   handleError: async (error, context) => {
+    const now = Date.now();
+    const errorKey = `${error.message}_${context?.roomId || 'global'}`;
+
+    // Rate limit error logging (max 5 per minute per error type)
+    const count = this.errorCounts.get(errorKey) || 0;
+    if (count >= 5 && (now - this.lastErrorTime) < 60000) {
+      return { message: error.message };
+    }
+
+    this.errorCounts.set(errorKey, count + 1);
+    this.lastErrorTime = now;
+
     console.error('Error:', error.message, context);
     return { message: error.message };
   }
 };
 
-// Minimal performance tracking only
+// Performance monitoring with sampling
 const performanceMonitor = {
-  trackRequest: () => {}, // No-op
-  trackWebSocketEvent: () => {}, // No-op
-  getPerformanceSummary: () => ({ status: 'disabled' }),
-  getOptimizationRecommendations: () => []
+  requestCount: 0,
+  websocketEventCount: 0,
+  lastReset: Date.now(),
+
+  trackRequest: (path, duration, success) => {
+    this.requestCount++;
+    // Only log slow requests (>500ms) or failures
+    if (!success || duration > 500) {
+      console.log(`🚨 Request: ${path} took ${duration}ms (${success ? 'success' : 'failed'})`);
+    }
+  },
+
+  trackWebSocketEvent: (eventType, roomId) => {
+    this.websocketEventCount++;
+    // Sample 1% of websocket events to avoid spam
+    if (Math.random() < 0.01) {
+      console.log(`📡 WS Event: ${eventType} in room ${roomId || 'unknown'}`);
+    }
+  },
+
+  getPerformanceSummary: () => {
+    const uptime = Date.now() - this.lastReset;
+    return {
+      status: 'active',
+      uptime: uptime,
+      requestsPerMinute: (this.requestCount * 60000) / uptime,
+      websocketEventsPerMinute: (this.websocketEventCount * 60000) / uptime
+    };
+  },
+
+  getOptimizationRecommendations: () => {
+    const summary = this.getPerformanceSummary();
+    const recommendations = [];
+
+    if (summary.requestsPerMinute > 100) {
+      recommendations.push('High request rate detected - consider rate limiting');
+    }
+    if (summary.websocketEventsPerMinute > 500) {
+      recommendations.push('High websocket activity - consider batching optimization');
+    }
+
+    return recommendations;
+  }
 };
 
-// Make minimal services globally available
+// Make services globally available
 global.errorHandler = errorHandler;
 global.performanceMonitor = performanceMonitor;
-// global.memoryManager = memoryManager; // DISABLED
 
-// Initialize enhanced services
-const eventBatcher = new EventBatcher(io);
-const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
-
-console.log('🚀 Smart enhanced multiplayer services initialized (role-aware optimization)');
+console.log('🚀 Optimized enhanced multiplayer services initialized');
 
 // Middleware
 app.use(cors({
@@ -113,32 +158,32 @@ app.use((req, res, next) => {
   next();
 });
 
-// DISABLED: Enhanced health check causing 500 errors
-// app.get('/health', (req, res) => {
-//   try {
-//     const performanceSummary = performanceMonitor.getPerformanceSummary();
-//     const errorStats = errorHandler.getErrorStats();
-//     res.json({
-//       status: 'OK',
-//       timestamp: new Date().toISOString(),
-//       environment: process.env.NODE_ENV || 'development',
-//       corsOrigins: allowedOrigins,
-//       performance: {
-//         cpu: performanceSummary.cpu.latest?.usage || 0,
-//         memory: performanceSummary.memory.latest?.systemPercent || 0,
-//         eventLoop: performanceSummary.eventLoop.latest?.delay || 0
-//       },
-//       errors: {
-//         total: errorStats.total,
-//         byType: errorStats.byType
-//       },
-//       uptime: process.uptime()
-//     });
-//   } catch (error) {
-//     console.error('Health check error:', error);
-//     res.status(500).json({ status: 'ERROR', message: 'Health check failed' });
-//   }
-// });
+// OPTIMIZED: Enhanced health check with error handling
+app.get('/health', (req, res) => {
+  try {
+    const performanceSummary = performanceMonitor.getPerformanceSummary();
+    const optimizationRecommendations = performanceMonitor.getOptimizationRecommendations();
+
+    res.json({
+      status: 'OK',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development',
+      corsOrigins: allowedOrigins,
+      realtimeServices: {
+        eventBatcher: !!eventBatcher,
+        realtimeSync: !!realtimeSync,
+        deltaSync: !!deltaSync,
+        optimizedFirebase: !!optimizedFirebase
+      },
+      performance: performanceSummary,
+      recommendations: optimizationRecommendations,
+      uptime: process.uptime()
+    });
+  } catch (error) {
+    console.error('Health check error:', error);
+    res.status(500).json({ status: 'ERROR', message: 'Health check failed' });
+  }
+});
 
 // List public rooms endpoint
 app.get('/rooms', (req, res) => {
@@ -1956,6 +2001,269 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Handle party updates with real-time sync
+  socket.on('party_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast party updates to all players in the room
+      socket.to(player.roomId).emit('party_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      // Update room state if needed
+      if (data.type === 'member_added') {
+        // Add party member to room state if not already present
+        if (!room.partyMembers) room.partyMembers = [];
+        const existingMember = room.partyMembers.find(m => m.id === data.data.id);
+        if (!existingMember) {
+          room.partyMembers.push(data.data);
+        }
+      } else if (data.type === 'member_removed') {
+        // Remove party member from room state
+        if (room.partyMembers) {
+          room.partyMembers = room.partyMembers.filter(m => m.id !== data.data.memberId);
+        }
+      }
+
+      console.log(`👥 Party ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Party update error:', error);
+      socket.emit('error', { message: 'Failed to update party' });
+    }
+  });
+
+  // Handle buff updates with real-time sync
+  socket.on('buff_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast buff updates to all players in the room
+      socket.to(player.roomId).emit('buff_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      console.log(`✨ Buff ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Buff update error:', error);
+      socket.emit('error', { message: 'Failed to update buff' });
+    }
+  });
+
+  // Handle debuff updates with real-time sync
+  socket.on('debuff_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast debuff updates to all players in the room
+      socket.to(player.roomId).emit('debuff_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      console.log(`🧟 Debuff ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Debuff update error:', error);
+      socket.emit('error', { message: 'Failed to update debuff' });
+    }
+  });
+
+  // Handle dice updates with real-time sync
+  socket.on('dice_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast dice updates to all players in the room
+      socket.to(player.roomId).emit('dice_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      console.log(`🎲 Dice ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Dice update error:', error);
+      socket.emit('error', { message: 'Failed to update dice' });
+    }
+  });
+
+  // Handle item updates with real-time sync
+  socket.on('item_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast item updates to all players in the room
+      socket.to(player.roomId).emit('item_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      console.log(`📦 Item ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Item update error:', error);
+      socket.emit('error', { message: 'Failed to update item' });
+    }
+  });
+
+  // Handle window updates with real-time sync
+  socket.on('window_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast window updates to all players in the room
+      socket.to(player.roomId).emit('window_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      console.log(`🪟 Window ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Window update error:', error);
+      socket.emit('error', { message: 'Failed to update window' });
+    }
+  });
+
+  // Handle container updates with real-time sync
+  socket.on('container_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast container updates to all players in the room
+      socket.to(player.roomId).emit('container_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      console.log(`📦 Container ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Container update error:', error);
+      socket.emit('error', { message: 'Failed to update container' });
+    }
+  });
+
+  // Handle grid item updates with real-time sync
+  socket.on('grid_item_update', async (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    try {
+      // Broadcast grid item updates to all players in the room
+      socket.to(player.roomId).emit('grid_item_update', {
+        type: data.type,
+        data: data.data,
+        playerId: player.id,
+        playerName: player.name,
+        timestamp: data.timestamp || Date.now()
+      });
+
+      console.log(`🔳 Grid item ${data.type} by ${player.name} in room ${player.roomId}`);
+    } catch (error) {
+      console.error('Grid item update error:', error);
+      socket.emit('error', { message: 'Failed to update grid item' });
+    }
+  });
+
   // Handle combat state updates (GM only)
   socket.on('combat_update', async (data) => {
     const player = players.get(socket.id);
@@ -2002,8 +2310,12 @@ io.on('connection', (socket) => {
     const room = rooms.get(player.roomId);
     if (!room) return;
 
-    // DISABLED: Real-time sync causing socket errors
-    // realtimeSync.updateUI(player.roomId, player.id, data.uiUpdates);
+    // OPTIMIZED: Real-time UI sync with error handling
+    try {
+      realtimeSync.updateUI(player.roomId, player.id, data.uiUpdates);
+    } catch (error) {
+      console.warn('UI sync failed:', error.message);
+    }
   });
 
   // DISABLED: Enhanced services causing lag

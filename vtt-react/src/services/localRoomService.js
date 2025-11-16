@@ -74,7 +74,6 @@ class LocalRoomService {
     this.saveRooms();
     this.saveRoomState(roomId, room.gameState);
 
-    console.log('✅ Local room created:', roomId);
     return room;
   }
 
@@ -123,7 +122,6 @@ class LocalRoomService {
       console.error('Error deleting room state:', error);
     }
 
-    console.log('🗑️ Local room deleted:', roomId);
   }
 
   /**
@@ -134,7 +132,6 @@ class LocalRoomService {
     if (roomIndex !== -1) {
       this.rooms[roomIndex] = { ...this.rooms[roomIndex], ...updates };
       this.saveRooms();
-      console.log('✅ Local room updated:', roomId, updates);
     } else {
       throw new Error('Room not found');
     }
@@ -175,7 +172,6 @@ class LocalRoomService {
       // Update room activity
       this.updateRoomActivity(roomId);
 
-      console.log('💾 Local room state saved:', roomId, 'with backgrounds:', stateToSave.backgrounds?.length || 0);
     } catch (error) {
       console.error('Error saving room state:', error);
     }
@@ -316,22 +312,6 @@ class LocalRoomService {
     try {
       const currentGameState = await this.collectCurrentGameState();
 
-      console.log('💾 Auto-saving local room with data:', {
-        backgroundsCount: currentGameState.backgrounds.length,
-        tokensCount: currentGameState.tokens.length,
-        droppedItemsCount: Object.keys(currentGameState.inventory.droppedItems).length,
-        activeBackgroundId: currentGameState.activeBackgroundId,
-        hasBackgroundUrl: !!currentGameState.backgroundImageUrl,
-        hasBackgroundImage: !!currentGameState.backgroundImage
-      });
-
-      // Debug: Log actual tokens being saved
-      if (currentGameState.tokens && currentGameState.tokens.length > 0) {
-        console.log('🎭 Tokens being saved:', currentGameState.tokens.map(t => ({ id: t.id, creatureId: t.creatureId, position: t.position })));
-      } else {
-        console.log('🎭 No tokens in creature store to save');
-      }
-
       this.saveRoomState(currentRoomId, currentGameState);
     } catch (error) {
       console.error('Error in autoSaveCurrentRoom:', error);
@@ -363,11 +343,8 @@ export default localRoomService;
 export const forceSaveCurrentRoom = async () => {
   const roomId = localStorage.getItem('selectedLocalRoomId');
   if (!roomId) {
-    console.log('🚫 No local room selected for force save');
     return;
   }
-
-  console.log('💪 Force saving room state for:', roomId);
 
   try {
     // Get current game state from all stores
@@ -376,7 +353,6 @@ export const forceSaveCurrentRoom = async () => {
     // Use the same save method as regular auto-save
     localRoomService.saveRoomState(roomId, currentGameState);
 
-    console.log('✅ Force save completed for room:', roomId);
   } catch (error) {
     console.error('❌ Error in force save:', error);
   }

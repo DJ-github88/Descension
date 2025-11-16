@@ -193,7 +193,6 @@ export async function getItemCategories() {
     }));
   } catch (error) {
     console.error('Error fetching item categories:', error);
-    console.log('Falling back to mock data');
     return MOCK_CATEGORIES;
   }
 }
@@ -239,7 +238,6 @@ export async function getItemsByCategory(categoryId, pageSize = 20, lastDoc = nu
     };
   } catch (error) {
     console.error('Error fetching items by category:', error);
-    console.log('Falling back to mock data');
     const mockItems = MOCK_FEATURED_ITEMS.filter(item => item.categoryId === categoryId);
     return {
       items: mockItems,
@@ -285,7 +283,6 @@ export async function searchItems(searchTerm, pageSize = 20) {
     }));
   } catch (error) {
     console.error('Error searching items:', error);
-    console.log('Falling back to mock search');
     const filteredItems = MOCK_FEATURED_ITEMS.filter(item =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -320,7 +317,6 @@ export async function getFeaturedItems(pageSize = 10) {
     }));
   } catch (error) {
     console.error('Error fetching featured items:', error);
-    console.log('Falling back to mock featured items');
     return MOCK_FEATURED_ITEMS.slice(0, pageSize);
   }
 }
@@ -485,7 +481,6 @@ export const DEFAULT_ITEM_CATEGORIES = [
  */
 export async function initializeItemCategories() {
   if (!checkFirebaseAvailable()) {
-    console.log('Firebase not available, skipping category initialization');
     return [];
   }
 
@@ -540,7 +535,6 @@ export async function initializeItemCategories() {
       const categoryRef = doc(db, COLLECTIONS.CATEGORIES, categoryId);
       await setDoc(categoryRef, categoryData);
       results.push(`✅ Created: ${categoryData.name}`);
-      console.log(`✅ Created: ${categoryData.name}`);
     } catch (error) {
       results.push(`❌ Failed: ${categoryData.name} - ${error.message}`);
       console.error(`❌ Failed: ${categoryData.name}`, error);

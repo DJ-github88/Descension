@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import useGameStore from './gameStore';
 
 /**
  * Z-Index Management Store
@@ -48,7 +49,10 @@ const useWindowManagerStore = create((set, get) => ({
       nextWindowZ: type === 'window' ? nextWindowZ + 1 : nextWindowZ,
       nextModalZ: type === 'modal' ? nextModalZ + 1 : nextModalZ,
     });
-    
+
+    // Sync with multiplayer
+    get().syncWindowUpdate('window_registered', { id, type, zIndex });
+
     return zIndex;
   },
   
@@ -76,7 +80,10 @@ const useWindowManagerStore = create((set, get) => ({
       nextWindowZ: window.type === 'window' ? nextWindowZ + 1 : nextWindowZ,
       nextModalZ: window.type === 'modal' ? nextModalZ + 1 : nextModalZ,
     });
-    
+
+    // Sync with multiplayer
+    get().syncWindowUpdate('window_focused', { id, newZIndex });
+
     return newZIndex;
   },
   
@@ -89,6 +96,9 @@ const useWindowManagerStore = create((set, get) => ({
     const newWindows = new Map(windows);
     newWindows.delete(id);
     set({ windows: newWindows });
+
+    // Sync with multiplayer
+    get().syncWindowUpdate('window_unregistered', { id });
   },
   
   /**
@@ -108,6 +118,18 @@ const useWindowManagerStore = create((set, get) => ({
   getTooltipZIndex: () => {
     return Z_INDEX_RANGES.TOOLTIP;
   },
+
+  // Multiplayer Synchronization
+  syncWindowUpdate: (updateType, data) => {
+    const gameStore = useGameStore.getState();
+    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+      gameStore.multiplayerSocket.emit('window_update', {
+        type: updateType,
+        data: data,
+        timestamp: Date.now()
+      });
+    }
+  }
 }));
 
 export default useWindowManagerStore;

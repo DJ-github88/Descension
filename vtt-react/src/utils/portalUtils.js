@@ -43,7 +43,6 @@ export const initializePortalSystem = () => {
         return; // Only run in production
     }
 
-    console.log('🔧 Initializing portal system for production...');
 
     // Ensure DOM is ready
     const ensureDOMReady = () => {
@@ -77,7 +76,6 @@ export const initializePortalSystem = () => {
                 z-index: 9999;
             `;
             document.body.appendChild(portalContainer);
-            console.log('✅ Created production portal container');
         }
 
         // Ensure critical CSS classes are applied
@@ -114,14 +112,12 @@ export const initializePortalSystem = () => {
             styleElement.id = 'production-portal-styles';
             styleElement.textContent = criticalStyles;
             document.head.appendChild(styleElement);
-            console.log('✅ Injected production portal styles');
         }
     };
 
     // Initialize the system
     ensureDOMReady().then(() => {
         preparePortalContainers();
-        console.log('✅ Portal system initialized for production');
     });
 };
 

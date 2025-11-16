@@ -144,7 +144,6 @@ export async function getPacksByType(packType, pageSize = 20, lastDoc = null) {
     };
   } catch (error) {
     console.error('Error fetching packs by type:', error);
-    console.log('Falling back to mock data');
     const mockPacks = MOCK_FEATURED_PACKS.filter(pack => pack.type === packType);
     return {
       packs: mockPacks,
@@ -190,7 +189,6 @@ export async function searchPacks(searchTerm, pageSize = 20) {
     }));
   } catch (error) {
     console.error('Error searching packs:', error);
-    console.log('Falling back to mock search');
     const filteredPacks = MOCK_FEATURED_PACKS.filter(pack =>
       pack.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pack.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -225,7 +223,6 @@ export async function getFeaturedPacks(pageSize = 10) {
     }));
   } catch (error) {
     console.error('Error fetching featured packs:', error);
-    console.log('Falling back to mock featured packs');
     return MOCK_FEATURED_PACKS.slice(0, pageSize);
   }
 }

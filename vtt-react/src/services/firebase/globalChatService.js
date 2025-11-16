@@ -50,7 +50,6 @@ class GlobalChatService {
       };
 
       const docRef = await addDoc(collection(db, COLLECTIONS.GLOBAL_CHAT), messageData);
-      console.log('💾 Global chat message saved:', docRef.id);
       
       return docRef.id;
     } catch (error) {
@@ -89,7 +88,6 @@ class GlobalChatService {
       // Reverse to get chronological order
       messages.reverse();
 
-      console.log(`📜 Loaded ${messages.length} global chat messages`);
       return messages;
     } catch (error) {
       console.error('❌ Failed to load global chat messages:', error);

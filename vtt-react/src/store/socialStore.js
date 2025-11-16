@@ -133,7 +133,6 @@ const useSocialStore = create(
         const needsMigration = friends.some(f => !f.friendId);
 
         if (needsMigration) {
-          console.log('🔄 Migrating friends data to include Friend IDs...');
           set({ friends: [...SAMPLE_FRIENDS] });
         }
       },
@@ -199,15 +198,10 @@ const useSocialStore = create(
       }),
 
       removeIgnored: (id) => {
-        console.log('🗑️ removeIgnored called with ID:', id);
         set(state => {
-          const beforeCount = state.ignored.length;
           const newIgnored = state.ignored.filter(ignored => {
-            console.log(`  Checking: ${ignored.name} (${ignored.id}) === ${id}? ${ignored.id === id}`);
             return ignored.id !== id;
           });
-          const afterCount = newIgnored.length;
-          console.log(`📊 Ignored list: ${beforeCount} → ${afterCount}`);
 
           return {
             ignored: newIgnored,

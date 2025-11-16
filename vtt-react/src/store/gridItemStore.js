@@ -198,21 +198,13 @@ const useGridItemStore = create((set, get) => ({
           lastUpdate: Date.now()
         };
 
-        // Send to multiplayer server if enabled
+        // Sync with multiplayer using our new system
         if (sendToServer) {
-          const gameStore = useGameStore.getState();
-          if (gameStore.isInMultiplayer) {
-            // Sending item drop to multiplayer server
-
-            // Use regular socket system for item drops (server handles these properly)
-            if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-              gameStore.multiplayerSocket.emit('item_dropped', {
-                item: gridItem,
-                position: position,
-                gridPosition: position.gridPosition
-              });
-            }
-          }
+          get().syncGridItemUpdate('grid_item_added', {
+            item: gridItem,
+            position: position,
+            gridPosition: position.gridPosition
+          });
         }
 
         // Force a React re-render by dispatching a custom event
@@ -247,6 +239,12 @@ const useGridItemStore = create((set, get) => ({
           temporaryItems: newTemporaryItems,
           lastUpdate: Date.now()
         };
+
+        // Sync with multiplayer
+        get().syncGridItemUpdate('grid_item_removed', {
+          gridItemId,
+          itemData: itemBeingRemoved
+        });
       }),
 
       // Loot an item from the grid and add it to inventory
@@ -514,18 +512,10 @@ const useGridItemStore = create((set, get) => ({
 
           // Handle item removal from grid for currency items
           const gameStore = useGameStore.getState();
-          console.log(`🎁 Currency loot handling: sendToServer=${sendToServer}, isInMultiplayer=${gameStore.isInMultiplayer}, socketConnected=${gameStore.multiplayerSocket?.connected}`);
 
           if (sendToServer && gameStore.isInMultiplayer) {
             // In multiplayer, send to server and let server handle authoritative removal
             if (gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-              console.log(`🎁 Sending currency loot to server:`, {
-                item: itemToUse,
-                quantity: 1,
-                source: 'Grid Item',
-                looter: looterName,
-                gridItemId: gridItemId
-              });
 
               gameStore.multiplayerSocket.emit('item_looted', {
                 item: itemToUse,
@@ -536,7 +526,6 @@ const useGridItemStore = create((set, get) => ({
               });
 
               // For currency, we rely on server confirmation for removal to prevent desync
-              console.log(`🎁 Sent currency loot ${gridItemId} to server, waiting for confirmation`);
 
               // Add a fallback timeout to remove the item if server doesn't respond within 5 seconds
               setTimeout(() => {
@@ -553,7 +542,6 @@ const useGridItemStore = create((set, get) => ({
             }
           } else {
             // In single player or when not sending to server, remove locally
-            console.log(`🎯 SINGLE PLAYER: Removing currency loot orb ${gridItemId} locally`);
             removeItemFromGrid(gridItemId);
           }
 
@@ -667,8 +655,6 @@ const useGridItemStore = create((set, get) => ({
 
       // Load a grid item from saved state (bypasses position validation)
       loadGridItem: (item) => set((state) => {
-        console.log('🔄 Loading grid item from saved state:', item);
-
         // Ensure the item has required properties
         if (!item.id) {
           console.warn('⚠️ Grid item missing ID, skipping:', item);
@@ -678,7 +664,6 @@ const useGridItemStore = create((set, get) => ({
         // Check if item already exists (avoid duplicates)
         const existingItemIndex = state.gridItems.findIndex(gridItem => gridItem.id === item.id);
         if (existingItemIndex >= 0) {
-          console.log('🔄 Grid item already exists, updating:', item.id);
           const updatedGridItems = [...state.gridItems];
           updatedGridItems[existingItemIndex] = item;
           return {
@@ -688,7 +673,6 @@ const useGridItemStore = create((set, get) => ({
         }
 
         // Add new item
-        console.log('✅ Grid item loaded successfully:', item.id);
         return {
           gridItems: [...state.gridItems, item],
           lastUpdate: Date.now()
@@ -718,13 +702,29 @@ const useGridItemStore = create((set, get) => ({
           }
         };
 
-        console.log(`🎯 Updated item ${gridItemId} position to grid (${newPosition.gridPosition.col}, ${newPosition.gridPosition.row})`);
-
         return {
           gridItems: updatedItems,
           lastUpdate: Date.now()
         };
+
+        // Sync with multiplayer
+        get().syncGridItemUpdate('grid_item_moved', {
+          gridItemId,
+          newPosition
+        });
       }),
+
+      // Multiplayer Synchronization
+      syncGridItemUpdate: (updateType, data) => {
+        const gameStore = useGameStore.getState();
+        if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+          gameStore.multiplayerSocket.emit('grid_item_update', {
+            type: updateType,
+            data: data,
+            timestamp: Date.now()
+          });
+        }
+      },
 }));
 
 export default useGridItemStore;

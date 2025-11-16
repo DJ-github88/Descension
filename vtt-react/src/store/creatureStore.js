@@ -290,13 +290,11 @@ const useCreatureStore = create(
 
       // Token actions
       clearTokens: () => {
-        console.log('🧹 Clearing all tokens from store');
         set({ tokens: [] });
       },
 
       // Special method for loading tokens from saved state (bypasses existing token checks)
       loadToken: (tokenData) => set(state => {
-        console.log('🔄 Loading token from saved state:', tokenData);
 
         // Find the creature for this token
         const creature = state.creatures.find(c => c.id === tokenData.creatureId);
@@ -308,7 +306,6 @@ const useCreatureStore = create(
         // Check if token already exists (avoid duplicates)
         const existingTokenIndex = state.tokens.findIndex(t => t.id === tokenData.id);
         if (existingTokenIndex >= 0) {
-          console.log('🔄 Token already exists, updating:', tokenData.id);
           const updatedTokens = [...state.tokens];
           updatedTokens[existingTokenIndex] = {
             ...tokenData,
@@ -332,32 +329,26 @@ const useCreatureStore = create(
           }
         };
 
-        console.log('✅ Token loaded successfully:', newToken.id);
         return { tokens: [...state.tokens, newToken] };
       }),
 
       addToken: (creatureId, position, sendToServer = true, tokenId = null) => set(state => {
-        console.log('🔍 addToken called with creatureId:', creatureId, 'tokenId:', tokenId, 'type:', typeof creatureId);
-        console.log('📋 Available creatures in store:', state.creatures.map(c => ({ id: c.id, name: c.name, idType: typeof c.id })));
 
         // Try multiple approaches to find the creature
         let creature = null;
 
         // 1. Direct ID match
         creature = state.creatures.find(c => c.id === creatureId);
-        console.log('🎯 Direct ID match result:', creature ? `Found: ${creature.name}` : 'Not found');
 
         // 2. String comparison (in case the ID is a string)
         if (!creature && typeof creatureId === 'string') {
           creature = state.creatures.find(c => c.id.toString() === creatureId);
-          console.log('🔄 String comparison result:', creature ? `Found: ${creature.name}` : 'Not found');
         }
 
         // 3. Trim whitespace and try again (in case of whitespace issues)
         if (!creature && typeof creatureId === 'string') {
           const trimmedId = creatureId.trim();
           creature = state.creatures.find(c => c.id === trimmedId || c.id.toString() === trimmedId);
-          console.log('✂️ Trimmed ID match result:', creature ? `Found: ${creature.name}` : 'Not found');
         }
 
         // 4. Case-insensitive search (in case of case differences)
@@ -365,7 +356,6 @@ const useCreatureStore = create(
           creature = state.creatures.find(c =>
             c.id.toString().toLowerCase() === creatureId.toLowerCase()
           );
-          console.log('🔤 Case-insensitive match result:', creature ? `Found: ${creature.name}` : 'Not found');
         }
 
         if (!creature) {
@@ -374,15 +364,12 @@ const useCreatureStore = create(
           console.error('❌ REFUSING TO USE FALLBACK - This would create wrong tokens');
           return state; // Don't use fallback, just return unchanged state
         } else {
-          console.log('✅ Successfully found creature:', creature.name);
         }
 
         // CRITICAL FIX: Don't move existing tokens when addToken is called
         // Check if a token for this creature already exists
         const existingToken = state.tokens.find(t => t.creatureId === creature.id);
         if (existingToken) {
-          console.log('🚫 Token already exists for creature:', creature.name, '- NOT moving existing token');
-          console.log('🚫 Existing token position:', existingToken.position, 'Requested position:', position);
           // Return the state unchanged - do NOT move existing tokens
           return state;
         }
@@ -417,8 +404,6 @@ const useCreatureStore = create(
           ]
         };
 
-        console.log('✅ Token added to store:', newToken.id, 'for creature:', creature.name);
-        console.log('📊 Total tokens in store after adding:', newState.tokens.length);
 
         // Send to multiplayer server if enabled
         if (sendToServer) {
@@ -426,7 +411,6 @@ const useCreatureStore = create(
           import('./gameStore').then(({ default: useGameStore }) => {
             const gameStore = useGameStore.getState();
             if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
-              console.log('🎭 Sending token creation to multiplayer server:', creature.name);
               gameStore.multiplayerSocket.emit('token_created', {
                 creature: creature,
                 token: newToken,

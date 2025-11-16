@@ -23,7 +23,6 @@ const SPELL_STORAGE_KEYS = [
  * Consolidates functionality from both clearSpellCache.js and forceSpellReload.js
  */
 export const clearAllSpellCache = () => {
-  console.log('🔄 Clearing all spell cache data...');
 
   let clearedCount = 0;
 
@@ -33,7 +32,6 @@ export const clearAllSpellCache = () => {
       if (localStorage.getItem(key)) {
         localStorage.removeItem(key);
         clearedCount++;
-        console.log(`✅ Cleared localStorage key: ${key}`);
       }
     } catch (error) {
       console.warn(`❌ Failed to clear localStorage key ${key}:`, error);
@@ -48,14 +46,12 @@ export const clearAllSpellCache = () => {
       try {
         localStorage.removeItem(key);
         clearedCount++;
-        console.log(`✅ Cleared spell-related localStorage key: ${key}`);
       } catch (error) {
         console.warn(`❌ Failed to clear localStorage key ${key}:`, error);
       }
     }
   });
 
-  console.log(`🎉 Spell cache cleared - ${clearedCount} keys removed`);
   return clearedCount > 0;
 };
 
@@ -91,7 +87,6 @@ export const checkSpellCacheVersion = () => {
   const cachedVersion = localStorage.getItem('spell-cache-version');
 
   if (cachedVersion !== currentVersion) {
-    console.log(`Spell cache version mismatch. Cached: ${cachedVersion}, Current: ${currentVersion}`);
     clearAllSpellCache();
     localStorage.setItem('spell-cache-version', currentVersion);
     return true;
@@ -106,7 +101,6 @@ export const checkSpellCacheVersion = () => {
  * Consolidates functionality from forceSpellReload.js
  */
 export const forceSpellLibraryReload = () => {
-  console.log('🔄 FORCING COMPLETE SPELL LIBRARY RELOAD...');
 
   // Use the library manager's clear function if available
   try {
@@ -114,7 +108,6 @@ export const forceSpellLibraryReload = () => {
     import('../components/spellcrafting-wizard/core/utils/libraryManager')
       .then(({ clearLibraryFromStorage }) => {
         clearLibraryFromStorage();
-        console.log('✅ Cleared library using libraryManager');
       })
       .catch(error => {
         console.warn('❌ Could not use libraryManager clear:', error);
@@ -126,7 +119,6 @@ export const forceSpellLibraryReload = () => {
   // Clear all spell cache
   const cleared = clearAllSpellCache();
 
-  console.log('🎉 SPELL CACHE FORCE CLEARED - RELOAD THE PAGE TO SEE CHANGES');
   return cleared;
 };
 
@@ -139,7 +131,6 @@ export const initializeSpellCache = () => {
   const cacheCleared = checkSpellCacheVersion();
 
   if (cacheCleared) {
-    console.log('Spell cache was cleared due to version update');
   }
 
   return cacheCleared;

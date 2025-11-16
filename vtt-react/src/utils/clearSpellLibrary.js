@@ -26,7 +26,6 @@ export const clearSpellLibraryStorage = () => {
     localStorage.removeItem('spells');
     localStorage.removeItem('spell-library-data');
 
-    console.log('✅ ALL spell library storage cleared - users will start with empty library');
     return true;
   } catch (error) {
     console.error('❌ Failed to clear spell library storage:', error);
@@ -49,8 +48,6 @@ export const initializeCleanSpellLibrary = () => {
       // If the library has ANY spells, clear it completely
       // We're transitioning to a user-only spell system
       if (libraryData?.data?.spells?.length > 0) {
-        console.log('🧹 Clearing ALL existing spells from library - transitioning to user-only system');
-        console.log(`Found ${libraryData.data.spells.length} spells - clearing them all`);
         clearSpellLibraryStorage();
         return true;
       }
@@ -69,7 +66,6 @@ export const initializeCleanSpellLibrary = () => {
  * Force clear all spell data (for development/testing)
  */
 export const forceCleanSpellLibrary = () => {
-  console.log('🔥 FORCE CLEARING ALL SPELL LIBRARY DATA');
   
   // Clear localStorage
   clearSpellLibraryStorage();
@@ -82,7 +78,6 @@ export const forceCleanSpellLibrary = () => {
   // Dispatch a custom event to notify components
   window.dispatchEvent(new CustomEvent('spellLibraryCleared'));
   
-  console.log('✅ All spell library data cleared - reload page to see empty library');
   return true;
 };
 
@@ -90,7 +85,6 @@ export const forceCleanSpellLibrary = () => {
  * Immediate spell library clear - call this right now to clear everything
  */
 export const clearSpellLibraryNow = () => {
-  console.log('🔥 IMMEDIATE SPELL LIBRARY CLEAR - CLEARING ALL SPELL DATA NOW');
 
   // Clear localStorage immediately
   clearSpellLibraryStorage();
@@ -99,7 +93,6 @@ export const clearSpellLibraryNow = () => {
   try {
     // Clear the spell-store persistence
     localStorage.removeItem('spell-store');
-    console.log('✅ Cleared spell-store persistence');
   } catch (error) {
     console.warn('❌ Could not clear spell-store:', error);
   }
@@ -118,8 +111,6 @@ export const clearSpellLibraryNow = () => {
   window.dispatchEvent(new CustomEvent('spellLibraryCleared'));
   window.dispatchEvent(new CustomEvent('forceSpellLibraryReload'));
 
-  console.log('✅ IMMEDIATE CLEAR COMPLETE - Refresh page to see empty library');
-  console.log('📝 Note: If spells still appear, they may be coming from a different source');
   return true;
 };
 

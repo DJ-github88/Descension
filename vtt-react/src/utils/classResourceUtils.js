@@ -7,7 +7,6 @@ export const validateAllClassConfigurations = () => {
     const allClasses = getAllClassNames();
     const results = [];
     
-    console.log('🧪 Testing Class Resource Configurations...');
     
     allClasses.forEach(className => {
         const config = getClassResourceConfig(className);
@@ -54,35 +53,24 @@ export const validateAllClassConfigurations = () => {
 
 // Function to test class resource updates
 export const testClassResourceUpdates = (characterStore) => {
-    console.log('🧪 Testing Class Resource Updates...');
     
     const testClasses = ['Pyrofiend', 'Minstrel', 'Chronarch', 'Chaos Weaver', 'Gambler'];
     
     testClasses.forEach(className => {
-        console.log(`\n🔄 Testing ${className}...`);
-        
         // Set class
         characterStore.updateCharacterInfo('class', className);
-        
+
         // Check if class resource was initialized
         const state = characterStore.getState();
         if (state.classResource) {
-            console.log(`✅ Class resource initialized: ${state.classResource.type}`);
-            console.log(`   Current: ${state.classResource.current}, Max: ${state.classResource.max}`);
-            
             // Test gaining resource
             characterStore.gainClassResource(1);
-            const newState = characterStore.getState();
-            console.log(`   After gain: ${newState.classResource.current}`);
-            
+
             // Test consuming resource
+            const newState = characterStore.getState();
             if (newState.classResource.current > 0) {
                 characterStore.consumeClassResource(1);
-                const finalState = characterStore.getState();
-                console.log(`   After consume: ${finalState.classResource.current}`);
             }
-        } else {
-            console.log(`❌ Class resource not initialized for ${className}`);
         }
     });
 };

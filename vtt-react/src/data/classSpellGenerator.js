@@ -421,42 +421,30 @@ const generatedSpells = generateAllClassSpells();
 if (CLASS_DATA_MAP['Arcanoneer']?.exampleSpells) {
   const processed = processArcanoneerSpells(CLASS_DATA_MAP['Arcanoneer'].exampleSpells);
   generatedSpells['Arcanoneer'] = processed;
-  console.log(`📚 Added ${processed.length} Arcanoneer spells to class library`);
 }
 
 // Pyrofiend
 if (CLASS_DATA_MAP['Pyrofiend']?.exampleSpells) {
   const processed = processPyrofiendSpells(CLASS_DATA_MAP['Pyrofiend'].exampleSpells);
   generatedSpells['Pyrofiend'] = processed;
-  console.log(`📚 Added ${processed.length} Pyrofiend spells to class library`);
 }
 
 // Minstrel
 if (CLASS_DATA_MAP['Minstrel']?.exampleSpells) {
   const processed = processMinstrelSpells(CLASS_DATA_MAP['Minstrel'].exampleSpells);
   generatedSpells['Minstrel'] = processed;
-  console.log(`📚 Added ${processed.length} Minstrel spells to class library`);
 }
 
 // Chronarch
 if (CLASS_DATA_MAP['Chronarch']?.exampleSpells) {
   const processed = processChronarchSpells(CLASS_DATA_MAP['Chronarch'].exampleSpells);
   generatedSpells['Chronarch'] = processed;
-  console.log(`📚 Added ${processed.length} Chronarch spells to class library`);
 }
 
 // Martyr
 if (CLASS_DATA_MAP['Martyr']?.exampleSpells) {
   const processed = processMartyrSpells(CLASS_DATA_MAP['Martyr'].exampleSpells);
   generatedSpells['Martyr'] = processed;
-  console.log(`📚 Added ${processed.length} Martyr spells to class library`, {
-    spells: processed.map(s => ({ name: s.name, specialization: s.specialization })),
-    specializationCounts: {
-      protector: processed.filter(s => s.specialization === 'protector').length,
-      redeemer: processed.filter(s => s.specialization === 'redeemer').length,
-      avenger: processed.filter(s => s.specialization === 'avenger').length
-    }
-  });
 } else {
   console.warn('⚠️ MARTYR_DATA or MARTYR_DATA.exampleSpells not found!', {
     hasMARTYR_DATA: !!CLASS_DATA_MAP['Martyr'],
@@ -483,14 +471,12 @@ if (CLASS_DATA_MAP['Fate Weaver']?.exampleSpells) {
   const processed = CLASS_DATA_MAP['Fate Weaver'].exampleSpells
     .map(spell => normalizeClassSpell(spell, 'Fate Weaver', determineFateWeaverSpecialization));
   generatedSpells['Fate Weaver'] = processed;
-  console.log(`📚 Added ${processed.length} Fate Weaver spells to class library`);
 }
 
 // Chaos Weaver
 if (CLASS_DATA_MAP['Chaos Weaver']?.exampleSpells) {
   const processed = processChaosWeaverSpells(CLASS_DATA_MAP['Chaos Weaver'].exampleSpells);
   generatedSpells['Chaos Weaver'] = processed;
-  console.log(`📚 Added ${processed.length} Chaos Weaver spells to class library`);
 }
 
 // ===== VALIDATE ALL SPELLS =====
@@ -546,10 +532,6 @@ Object.entries(generatedSpells).forEach(([className, spells]) => {
       invalidSpells: validation.invalidSpells,
       missingFields: validation.missingFields
     });
-  } else {
-    console.log(`✅ ${className}: All ${validation.totalSpells} spells properly formatted`, {
-      specializations: validation.specializationCounts
-    });
   }
 });
 
@@ -557,14 +539,6 @@ Object.entries(generatedSpells).forEach(([className, spells]) => {
 const totalSpells = Object.values(validationResults).reduce((sum, v) => sum + v.totalSpells, 0);
 const totalValid = Object.values(validationResults).reduce((sum, v) => sum + v.validSpells, 0);
 const totalInvalid = Object.values(validationResults).reduce((sum, v) => sum + v.invalidSpells.length, 0);
-
-console.log(`\n📊 SPELL VALIDATION SUMMARY:`, {
-  totalClasses: Object.keys(validationResults).length,
-  totalSpells,
-  validSpells: totalValid,
-  invalidSpells: totalInvalid,
-  classes: Object.keys(validationResults)
-});
 
 export const ALL_CLASS_SPELLS = generatedSpells;
 

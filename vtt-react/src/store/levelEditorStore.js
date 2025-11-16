@@ -673,7 +673,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     terrainData: newTerrainData
                                 }
                             });
-                            console.log('📤 Emitted terrain update to server');
                         }
                     }
                 }).catch(() => {
@@ -715,8 +714,6 @@ const useLevelEditorStore = create((set, get) => ({
 
             // Wall operations - walls are placed on grid edges
             setWall: (x1, y1, x2, y2, wallType) => {
-                console.log('🧱 SET WALL CALLED:', { x1, y1, x2, y2, wallType });
-
                 const state = get();
                 const wallTypeData = WALL_TYPES[wallType];
                 const defaultState = wallTypeData?.states?.[0] || 'default';
@@ -732,17 +729,11 @@ const useLevelEditorStore = create((set, get) => ({
                     id: Date.now().toString()
                 };
 
-                console.log('🧱 Setting wall with key:', key, 'data:', wallData);
-
                 const newWallData = {
                     ...state.wallData,
                     [key]: wallData
                 };
                 set({ wallData: newWallData });
-
-                // Log after setting
-                const newState = get();
-                console.log('🧱 Wall data after setting:', Object.keys(newState.wallData).length, 'walls total');
                 
                 // Emit wall update to multiplayer server
                 import('./gameStore').then(({ default: useGameStore }) => {
@@ -754,7 +745,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     wallData: newWallData
                                 }
                             });
-                            console.log('📤 Emitted wall update to server');
                         }
                     }
                 }).catch(() => {
@@ -809,7 +799,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     wallData: newWallData
                                 }
                             });
-                            console.log('📤 Emitted wall removal to server');
                         }
                     }
                 }).catch(() => {
@@ -1043,7 +1032,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     exploredAreas: newExploredAreas
                                 }
                             });
-                            console.log('📤 Emitted explored areas update to server');
                         }
                     }
                 }).catch(() => {
@@ -1571,7 +1559,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     terrainData: terrainData || {}
                                 }
                             });
-                            console.log('📤 Emitted terrain data update to server');
                         }
                     }
                 }).catch(() => {
@@ -1596,7 +1583,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     wallData: wallData || {}
                                 }
                             });
-                            console.log('📤 Emitted wall data update to server');
                         }
                     }
                 }).catch(() => {
@@ -1617,7 +1603,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     fogOfWarPaths: fogOfWarPaths || []
                                 }
                             });
-                            console.log('📤 Emitted fog of war paths update to server');
                         }
                     }
                 }).catch(() => {
@@ -1638,7 +1623,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     fogErasePaths: fogErasePaths || []
                                 }
                             });
-                            console.log('📤 Emitted fog erase paths update to server');
                         }
                     }
                 }).catch(() => {
@@ -1664,9 +1648,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     fogOfWar: fogOfWarData || {}
                                 }
                             });
-                            console.log('📤 Emitted fog of war update to server');
-                        } else {
-                            console.log('🚫 Skipped fog of war update (receiving from server)');
                         }
                     }
                 }).catch(() => {
@@ -1687,9 +1668,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     drawingPaths: drawingPaths || []
                                 }
                             });
-                            console.log('📤 Emitted drawing paths update to server');
-                        } else {
-                            console.log('🚫 Skipped drawing paths update (receiving from server)');
                         }
                     }
                 }).catch(() => {
@@ -1710,9 +1688,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     drawingLayers: drawingLayers || initialState.drawingLayers
                                 }
                             });
-                            console.log('📤 Emitted drawing layers update to server');
-                        } else {
-                            console.log('🚫 Skipped drawing layers update (receiving from server)');
                         }
                     }
                 }).catch(() => {
@@ -1777,7 +1752,6 @@ const useLevelEditorStore = create((set, get) => ({
                 
                 // Skip adding if duplicate
                 if (isDuplicate) {
-                    console.log('🚫 Skipped duplicate drawing path');
                     return null;
                 }
                 
@@ -1802,9 +1776,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     drawingPaths: newDrawingPaths
                                 }
                             });
-                            console.log('📤 Emitted drawing paths update to server');
-                        } else {
-                            console.log('🚫 Skipped drawing paths update (receiving from server)');
                         }
                     }
                 }).catch(() => {
@@ -2168,7 +2139,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     fogOfWarPaths: fogPaths
                                 }
                             });
-                            console.log('📤 Emitted fog of war paths update to server (finished)');
                         }
                     }
                 }).catch(() => {
@@ -2193,7 +2163,6 @@ const useLevelEditorStore = create((set, get) => ({
                                     fogErasePaths: fogErasePaths
                                 }
                             });
-                            console.log('📤 Emitted fog erase paths update to server (finished)');
                         }
                     }
                 }).catch(() => {
@@ -2310,11 +2279,6 @@ const useLevelEditorStore = create((set, get) => ({
                     fogOfWarPaths: consolidatedFogPaths,
                     fogErasePaths: limitedErasePaths
                 });
-                
-                console.log('🌫️ Consolidated fog paths:', {
-                    before: { fog: fogPaths.length, erase: erasePaths.length },
-                    after: { fog: consolidatedFogPaths.length, erase: limitedErasePaths.length }
-                });
             },
 
             coverEntireMapWithFog: (gridSize = 50) => {
@@ -2383,13 +2347,6 @@ const useLevelEditorStore = create((set, get) => ({
                     // New erase paths will be created for the new "cover entire map" fog path
                     set({ fogOfWarPaths: filteredPaths, fogErasePaths: [] });
                     
-                    console.log('🌫️ coverEntireMapWithFog called', {
-                        gridSize,
-                        visibleArea: { worldLeft, worldTop, worldRight, worldBottom },
-                        pointsCreated: points.length,
-                        existingFogPaths: existingFogPaths.length,
-                        newFogPaths: filteredPaths.length
-                    });
                 } catch (error) {
                     console.error('🌫️ Error in coverEntireMapWithFog:', error);
                     // Fallback to cover a much larger area if grid system fails
@@ -2441,9 +2398,6 @@ const useLevelEditorStore = create((set, get) => ({
 
             // Brush terrain painting with size support
             paintTerrainBrush: (gridX, gridY, terrainType, brushSize = 1) => {
-                console.log('🎨 paintTerrainBrush called:', { gridX, gridY, terrainType, brushSize });
-                console.trace('🎨 Call stack for paintTerrainBrush');
-
                 const state = get();
                 const newTerrainData = { ...state.terrainData };
 
@@ -2470,8 +2424,6 @@ const useLevelEditorStore = create((set, get) => ({
                             // Standard terrain without variations
                             newTerrainData[tileKey] = terrainType;
                         }
-
-                        console.log('🎨 Setting terrain at', tileKey, 'to', newTerrainData[tileKey]);
                     }
                 }
 
@@ -2529,9 +2481,6 @@ const useLevelEditorStore = create((set, get) => ({
 
             // Professional object placement methods
             addEnvironmentalObject: (objectData) => {
-                console.log('🏮 addEnvironmentalObject called with:', objectData);
-                console.trace('🏮 Call stack for addEnvironmentalObject');
-
                 const state = get();
                 const newObject = {
                     id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
@@ -2547,7 +2496,6 @@ const useLevelEditorStore = create((set, get) => ({
                     ...objectData
                 };
 
-                console.log('🏮 Adding environmental object:', newObject);
                 set({
                     environmentalObjects: [...state.environmentalObjects, newObject]
                 });

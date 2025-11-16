@@ -28,16 +28,7 @@ const isFirebaseConfigured = !!(
 const isDemoMode = process.env.NODE_ENV === 'development' || !isFirebaseConfigured;
 
 // CRITICAL FIX: Enhanced debug logging for Firebase configuration tracking
-console.log('🔥 Firebase Configuration Debug:');
 console.log('- NODE_ENV:', process.env.NODE_ENV);
-console.log('- API_KEY:', firebaseConfig.apiKey ? `${firebaseConfig.apiKey.substring(0, 10)}...` : 'MISSING');
-console.log('- PROJECT_ID:', firebaseConfig.projectId || 'MISSING');
-console.log('- AUTH_DOMAIN:', firebaseConfig.authDomain || 'MISSING');
-console.log('- DATABASE_URL:', firebaseConfig.databaseURL || 'MISSING');
-console.log('- STORAGE_BUCKET:', firebaseConfig.storageBucket || 'MISSING');
-console.log('- MESSAGING_SENDER_ID:', firebaseConfig.messagingSenderId || 'MISSING');
-console.log('- APP_ID:', firebaseConfig.appId || 'MISSING');
-console.log('- MEASUREMENT_ID:', firebaseConfig.measurementId || 'MISSING');
 console.log('- isFirebaseConfigured:', isFirebaseConfigured);
 console.log('- isDemoMode:', isDemoMode);
 console.log('- Using env vars:', {
@@ -51,16 +42,10 @@ let app = null;
 if (isFirebaseConfigured && firebaseConfig) {
   try {
     app = initializeApp(firebaseConfig);
-    console.log('✅ Firebase initialized successfully');
   } catch (error) {
     console.error('❌ Firebase initialization failed:', error);
-    console.log('Please check your Firebase project configuration:');
-    console.log('1. Ensure Firebase project exists');
-    console.log('2. Verify API key is correct');
-    console.log('3. Check project ID matches your Firebase project');
   }
 } else if (isDemoMode) {
-  console.log('🔧 Running in demo mode - using mock authentication');
 } else {
   console.warn('⚠️ Firebase not configured - authentication features will be disabled');
 }
@@ -74,7 +59,6 @@ export let googleProvider = null;
 
 if (app) {
   try {
-    console.log('🔥 Initializing Firebase services...');
     
     // Initialize Firebase Authentication and get a reference to the service
     auth = getAuth(app);
@@ -86,7 +70,6 @@ if (app) {
     // Set auth persistence to LOCAL (persists across browser sessions)
     setPersistence(auth, browserLocalPersistence)
       .then(() => {
-        console.log('✅ Firebase Auth persistence set to LOCAL');
       })
       .catch((error) => {
         console.error('❌ Failed to set auth persistence:', error);
@@ -127,7 +110,6 @@ if (app) {
     googleProvider.addScope('email');
     googleProvider.addScope('profile');
 
-    console.log('✅ Google Auth Provider initialized');
     
     // CRITICAL FIX: Log final Firebase status for debugging
     console.log('🔥 Firebase Services Status:', {
@@ -149,11 +131,6 @@ if (app) {
     // }
   } catch (error) {
     console.error('❌ Firebase services initialization failed:', error);
-    console.log('Troubleshooting steps:');
-    console.log('1. Check if Authentication is enabled in Firebase Console');
-    console.log('2. Check if Firestore is enabled in Firebase Console');
-    console.log('3. Verify Google Sign-in provider is enabled');
-    console.log('4. Check Firebase project permissions');
   }
 }
 

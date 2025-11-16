@@ -25,6 +25,11 @@ const formatCurrency = (value) => {
     return parts.join(' ') || '0c';
 };
 
+// Helper function to get display name (custom name or original name)
+const getDisplayName = (item) => {
+    return item.customName || item.name;
+};
+
 const getMiscTypeInfo = (item) => {
     if (!item || !item.subtype) {
         // Fallback for miscellaneous items without subtype
@@ -695,7 +700,7 @@ function ItemTooltip({ item }) {
                     fontWeight: 'bold',
                     marginBottom: '8px'
                 }}>
-                    {item.name}
+                    {getDisplayName(item)}
                 </div>
 
                 {/* Profession and Skill Requirements */}
@@ -881,7 +886,7 @@ function ItemTooltip({ item }) {
                     marginBottom: '8px',
                     textShadow: '1px 1px 1px rgba(0, 0, 0, 0.5)'
                 }}>
-                    {item.name || 'Currency'}
+                    {getDisplayName(item) || 'Currency'}
                 </div>
 
                 {/* Item Type */}
@@ -1223,7 +1228,7 @@ function ItemTooltip({ item }) {
                 }}>
                     <img
                         src={item.imageUrl || (item.iconId ? `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg` : 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg')}
-                        alt={item.name}
+                        alt={getDisplayName(item)}
                         style={{
                             width: '100%',
                             height: '100%',
@@ -1248,7 +1253,7 @@ function ItemTooltip({ item }) {
                     }}
                     // Removed title attribute to prevent browser tooltip conflict
                 >
-                    {item.name || 'Unknown Item'}
+                    {getDisplayName(item) || 'Unknown Item'}
                 </div>
             </div>
 

@@ -190,8 +190,7 @@ export function createPlaceholderCharacter(name, options = {}) {
   
   // Generate a random character icon
   const randomIcon = getRandomIcon();
-  console.log(`🎨 Generated random icon for ${name}: ${randomIcon}`);
-  
+
   return {
     id: characterId,
     name: name,
@@ -339,7 +338,6 @@ export function createGuestPlaceholderCharacters() {
   // Save to localStorage
   try {
     localStorage.setItem('mythrill-guest-characters', JSON.stringify(characters));
-    console.log('✅ Created guest placeholder characters:', characters.map(c => c.name));
     return characters;
   } catch (error) {
     console.error('❌ Failed to create guest placeholder characters:', error);
@@ -395,7 +393,6 @@ export function createDevPlaceholderCharacters() {
   // Save to localStorage
   try {
     localStorage.setItem('mythrill-characters', JSON.stringify(characters));
-    console.log('✅ Created dev placeholder characters:', characters.map(c => c.name));
     return characters;
   } catch (error) {
     console.error('❌ Failed to create dev placeholder characters:', error);
@@ -449,7 +446,6 @@ export async function createAuthenticatedPlaceholderCharacters(userId) {
       try {
         const characterId = await characterPersistenceService.createCharacter(character, userId);
         savedCharacters.push({ ...character, id: characterId });
-        console.log(`✅ Created authenticated placeholder character: ${character.name} (${characterId})`);
       } catch (error) {
         console.error(`❌ Failed to create character ${character.name}:`, error);
       }
@@ -472,22 +468,18 @@ export async function initializePlaceholderCharacters() {
   const user = authState.user;
   
   if (!user) {
-    console.log('ℹ️ No user logged in, creating guest placeholder characters');
     return createGuestPlaceholderCharacters();
   }
   
   if (user.isGuest) {
-    console.log('ℹ️ Guest user detected, creating guest placeholder characters');
     return createGuestPlaceholderCharacters();
   }
   
   if (user.uid === 'dev-user-123' || user.uid?.startsWith('dev-user-')) {
-    console.log('ℹ️ Dev user detected, creating dev placeholder characters');
     return createDevPlaceholderCharacters();
   }
   
   // Authenticated user
-  console.log('ℹ️ Authenticated user detected, creating authenticated placeholder characters');
   return await createAuthenticatedPlaceholderCharacters(user.uid);
 }
 
@@ -507,7 +499,6 @@ export async function ensurePlaceholderCharacters() {
     if (!guestChars || JSON.parse(guestChars).length === 0) {
       characters = createGuestPlaceholderCharacters();
     } else {
-      console.log('ℹ️ Guest placeholder characters already exist');
     }
   } else if (user.uid === 'dev-user-123' || user.uid?.startsWith('dev-user-')) {
     // Check dev characters
@@ -515,7 +506,6 @@ export async function ensurePlaceholderCharacters() {
     if (!devChars || JSON.parse(devChars).length === 0) {
       characters = createDevPlaceholderCharacters();
     } else {
-      console.log('ℹ️ Dev placeholder characters already exist');
     }
   } else {
     // For authenticated users, check Firebase
@@ -525,7 +515,6 @@ export async function ensurePlaceholderCharacters() {
       if (!existingChars || existingChars.length === 0) {
         characters = await createAuthenticatedPlaceholderCharacters(user.uid);
       } else {
-        console.log('ℹ️ Authenticated placeholder characters already exist');
       }
     } catch (error) {
       console.warn('⚠️ Could not check authenticated characters:', error);

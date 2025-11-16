@@ -84,18 +84,15 @@ class CharacterMigrationService {
    */
   async migrateCharacter(character, userId) {
     try {
-      console.log(`🔄 Migrating character: ${character.name} (${character.id})`);
-
       // Transform character data to ensure compatibility
       const migratedCharacter = this.transformCharacterData(character);
 
       // Create character in Firebase
       const characterId = await characterPersistenceService.createCharacter(migratedCharacter, userId);
-      
+
       // Update migration status
       this.migrationStatus.migratedCharacters.push(character.id);
-      
-      console.log(`✅ Character migrated successfully: ${character.name} (${characterId})`);
+
       return { success: true, characterId };
 
     } catch (error) {
@@ -184,11 +181,8 @@ class CharacterMigrationService {
     );
 
     if (unmigrated.length === 0) {
-      console.log('✅ No characters need migration');
       return { success: true, migrated: 0, failed: 0 };
     }
-
-    console.log(`🔄 Starting migration of ${unmigrated.length} characters...`);
 
     const results = {
       success: true,
@@ -220,7 +214,6 @@ class CharacterMigrationService {
       results.success = false;
     }
 
-    console.log(`✅ Migration completed: ${results.migrated} successful, ${results.failed} failed`);
     return results;
   }
 
@@ -238,8 +231,7 @@ class CharacterMigrationService {
 
       const backupKey = `mythrill-backup-${Date.now()}`;
       localStorage.setItem(backupKey, JSON.stringify(backup));
-      
-      console.log(`✅ Backup created: ${backupKey}`);
+
       return backupKey;
     } catch (error) {
       console.error('Error creating backup:', error);
@@ -259,8 +251,7 @@ class CharacterMigrationService {
 
       const backup = JSON.parse(backupData);
       localStorage.setItem('mythrill-characters', JSON.stringify(backup.characters));
-      
-      console.log(`✅ Restored from backup: ${backupKey}`);
+
       return true;
     } catch (error) {
       console.error('Error restoring from backup:', error);
@@ -301,7 +292,6 @@ class CharacterMigrationService {
       failedMigrations: []
     };
     this.saveMigrationStatus();
-    console.log('✅ Migration status reset');
   }
 
   /**
@@ -319,8 +309,7 @@ class CharacterMigrationService {
         // Clear the characters from localStorage
         localStorage.removeItem('mythrill-characters');
         localStorage.removeItem('mythrill-active-character');
-        
-        console.log(`✅ localStorage cleaned up. Backup available at: ${backupKey}`);
+
         return true;
       } else {
         console.warn('⚠️ Cannot cleanup: migration not complete or has failures');

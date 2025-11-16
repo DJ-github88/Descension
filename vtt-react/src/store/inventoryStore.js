@@ -120,19 +120,15 @@ const findEmptyPosition = (items, gridSize, itemToPlace) => {
     }
 
     const bounds = getShapeBounds(shape);
-    console.log(`🔍 FIND EMPTY POSITION: Looking for ${bounds.width}x${bounds.height} space in ${gridSize.WIDTH}x${gridSize.HEIGHT} grid`);
 
     for (let row = 0; row <= gridSize.HEIGHT - bounds.height; row++) {
         for (let col = 0; col <= gridSize.WIDTH - bounds.width; col++) {
             const isValid = isValidPosition(items, row, col, itemToPlace);
             if (isValid) {
-                console.log(`🔍 FOUND VALID POSITION: row ${row}, col ${col}`);
                 return { row, col };
             }
         }
     }
-
-    console.log(`🔍 NO VALID POSITION FOUND for ${bounds.width}x${bounds.height} item`);
     // If no valid position found, return null
     return null;
 };
@@ -582,8 +578,6 @@ const useInventoryStore = create(persist((set, get) => ({
 
         // If dimensions aren't explicitly set, determine them based on item type
         if (!libraryItem.width || !libraryItem.height) {
-            console.log(`🔧 DIMENSIONS: Setting default dimensions for ${libraryItem.name} (type: ${libraryItem.type}, subtype: ${libraryItem.subtype})`);
-
             if (libraryItem.type === 'weapon') {
                 const subtype = (libraryItem.subtype || '').toLowerCase();
                 if (subtype === 'greatsword' || subtype === 'greataxe' ||
@@ -660,8 +654,6 @@ const useInventoryStore = create(persist((set, get) => ({
                 width = 1;
                 height = 1;
             }
-
-            console.log(`🔧 DIMENSIONS: Set ${libraryItem.name} to ${width}x${height} (type: ${libraryItem.type}, subtype: ${libraryItem.subtype})`);
         }
 
         // For containers, we want to preserve the original ID to maintain container functionality
@@ -797,22 +789,16 @@ const useInventoryStore = create(persist((set, get) => ({
 
     // Remove item with quantity support
     removeItem: (itemId, quantity = 0) => set((state) => {
-        console.log(`🗑️ REMOVING ITEM FROM INVENTORY: ${itemId} (quantity: ${quantity})`);
-        console.log(`🗑️ Current inventory items before removal:`, state.items.length);
-
         const itemIndex = state.items.findIndex(item => item.id === itemId);
 
         if (itemIndex === -1) {
-            console.log(`🗑️ Item ${itemId} not found in inventory`);
             return { items: state.items };
         }
 
         const item = state.items[itemIndex];
-        console.log(`🗑️ Found item to remove:`, item.name);
 
         // If quantity is specified and less than total quantity, reduce quantity
         if (quantity > 0 && item.quantity > quantity) {
-            console.log(`🗑️ Reducing quantity: ${item.quantity} -> ${item.quantity - quantity}`);
             const updatedItems = [...state.items];
             updatedItems[itemIndex] = {
                 ...item,
@@ -834,9 +820,7 @@ const useInventoryStore = create(persist((set, get) => ({
         }
 
         // Otherwise remove the item completely
-        console.log(`🗑️ Removing entire item: ${item.name}`);
         const updatedItems = state.items.filter(item => item.id !== itemId);
-        console.log(`🗑️ Inventory items after removal: ${updatedItems.length} (was ${state.items.length})`);
 
         // Record character change for persistence
         recordCharacterChange('inventory_remove', {
@@ -1015,7 +999,6 @@ const useInventoryStore = create(persist((set, get) => ({
                 // Update encumbrance state after rotating
                 setTimeout(() => get().updateEncumbranceState(), 0);
 
-                console.log(`🔄 Rotated item and moved from (${row}, ${col}) to (${pos.row}, ${pos.col})`);
                 return { items: updatedItems };
             }
         }
@@ -1179,7 +1162,6 @@ const useInventoryStore = create(persist((set, get) => ({
 
     // Clear all items from inventory
     clearInventory: () => set(() => {
-        console.log('🗑️ Clearing all items from inventory');
         return {
             items: [],
             encumbranceState: 'normal'

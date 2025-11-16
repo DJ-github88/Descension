@@ -61,9 +61,6 @@ const usePresenceStore = create((set, get) => ({
     newOnlineUsers.set(userId, presenceData);
     set({ onlineUsers: newOnlineUsers });
 
-    console.log('✅ Presence initialized locally for user:', userId);
-    console.log('✅ Firebase sync:', success ? 'enabled' : 'disabled (dev mode)');
-
     return true; // Always return true since local state is set
   },
 
@@ -76,11 +73,8 @@ const usePresenceStore = create((set, get) => ({
     const hasMockUsers = Array.from(currentUsers.keys()).some(key => key.startsWith('mock_user_'));
 
     if (hasMockUsers) {
-      console.log('🎭 Mock users already initialized, skipping...');
       return;
     }
-
-    console.log('🎭 Initializing mock users for testing...');
     const mockUsers = mockPresenceService.initializeMockUsers();
 
     const usersMap = new Map(get().onlineUsers);
@@ -98,7 +92,6 @@ const usePresenceStore = create((set, get) => ({
     const updateUserStatus = get().updateUserStatus;
     mockPresenceService.startOnlineOfflineSimulation(updateUserStatus, addGlobalMessage);
 
-    console.log(`✅ Added ${mockUsers.length} mock users to online list`);
   },
 
   /**
@@ -118,7 +111,6 @@ const usePresenceStore = create((set, get) => ({
       });
 
       set({ onlineUsers: usersMap });
-      console.log('📊 Online users updated:', users.length + mockUsers.length);
     });
 
     set({ presenceUnsubscribe: unsubscribe });
@@ -175,10 +167,6 @@ const usePresenceStore = create((set, get) => ({
   updateStatus: async (status, statusComment = null) => {
     const { currentUserPresence, onlineUsers } = get();
 
-    console.log('🔍 updateStatus called with:', { status, statusComment });
-    console.log('👤 currentUserPresence:', currentUserPresence);
-    console.log('👥 onlineUsers size:', onlineUsers.size);
-
     if (!currentUserPresence) {
       console.error('❌ No currentUserPresence found!');
       return false;
@@ -190,8 +178,6 @@ const usePresenceStore = create((set, get) => ({
       status,
       statusComment
     );
-
-    console.log('🔥 Firebase update success:', success);
 
     // Always update local state, even if Firebase update failed (for demo mode)
     const updates = {
@@ -205,13 +191,9 @@ const usePresenceStore = create((set, get) => ({
       updates.statusComment = statusComment;
     }
 
-    console.log('📦 Updates object:', updates);
-    console.log('📦 Old status:', currentUserPresence.status, '→ New status:', status);
-
     // Also update the user in the onlineUsers map so the UI reflects the change
     const newOnlineUsers = new Map(onlineUsers);
     const userExists = newOnlineUsers.has(currentUserPresence.userId);
-    console.log('🔍 User exists in onlineUsers:', userExists, 'userId:', currentUserPresence.userId);
 
     if (userExists) {
       newOnlineUsers.set(currentUserPresence.userId, updates);
@@ -226,9 +208,6 @@ const usePresenceStore = create((set, get) => ({
       onlineUsers: newOnlineUsers
     });
 
-    console.log('✅ Updated currentUserPresence and onlineUsers');
-    console.log('✅ New currentUserPresence status:', get().currentUserPresence?.status);
-
     // Emit socket event if connected (for multiplayer sync)
     const { socket } = get();
     if (socket && socket.connected) {
@@ -237,10 +216,7 @@ const usePresenceStore = create((set, get) => ({
         status,
         statusComment: updates.statusComment
       });
-      console.log('📡 Emitted status update to socket');
     }
-
-    console.log(`✅ Status updated to: ${status}${statusComment ? ` - "${statusComment}"` : ''}`);
 
     return true; // Return true since we updated local state
   },

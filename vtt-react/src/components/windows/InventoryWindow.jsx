@@ -45,6 +45,11 @@ const getQualityColor = (quality, rarity) => {
     return RARITY_COLORS[qualityLower]?.border || RARITY_COLORS.common.border;
 };
 
+// Helper function to get display name (custom name or original name)
+const getDisplayName = (item) => {
+    return item.customName || item.name;
+};
+
 const InventoryWindow = memo(() => {
     // Force refresh mechanism
     const [refreshKey, setRefreshKey] = useState(0);
@@ -60,16 +65,6 @@ const InventoryWindow = memo(() => {
     const GRID_SIZE = useMemo(() => {
         if (derivedStats && derivedStats.carryingCapacity) {
             const gridDimensions = getInventoryGridDimensions(derivedStats.carryingCapacity);
-            console.log('📦 Inventory grid dimensions calculated:', {
-                carryingCapacity: derivedStats.carryingCapacity,
-                strength: stats.strength,
-                equipmentBonuses: equipmentBonuses,
-                totalStrength: (stats.strength || 0) + (equipmentBonuses?.str || 0),
-                strModifier: Math.floor(((stats.strength || 0) + (equipmentBonuses?.str || 0) - 10) / 2),
-                gridDimensions,
-                actualGridSize: `${gridDimensions.HEIGHT}x${gridDimensions.WIDTH}`,
-                expectedForStrength: `Should be ${5 + Math.max(0, Math.floor(((stats.strength || 0) + (equipmentBonuses?.str || 0) - 10) / 2))}x15`
-            });
             return gridDimensions;
         }
         // Using default grid size - no carrying capacity found (log removed for performance)
@@ -88,14 +83,12 @@ const InventoryWindow = memo(() => {
         const unsubscribe = useInventoryStore.subscribe(
             (state) => state.items,
             (items) => {
-                console.log('Inventory items changed, forcing refresh');
                 setRefreshKey(prev => prev + 1);
             }
         );
 
         // Listen for custom inventory-updated events
         const handleInventoryUpdated = (event) => {
-            console.log('Received inventory-updated event:', event.detail);
             setRefreshKey(prev => prev + 1);
         };
 
@@ -170,6 +163,8 @@ const InventoryWindow = memo(() => {
     const [showUnlockModal, setShowUnlockModal] = useState(false);
     const [containerToUnlock, setContainerToUnlock] = useState(null);
     const [showCurrencyWithdrawModal, setShowCurrencyWithdrawModal] = useState(false);
+    const [showRenameModal, setShowRenameModal] = useState(false);
+    const [itemToRename, setItemToRename] = useState(null);
 
 
     // Refs
@@ -204,7 +199,7 @@ const InventoryWindow = memo(() => {
 
     // Monitor localOpenContainers changes
     useEffect(() => {
-        console.log('localOpenContainers changed:', Array.from(localOpenContainers));
+        // Container state changed - no debug logging needed
     }, [localOpenContainers]);
 
     // Close context menu when clicking outside
@@ -343,13 +338,28 @@ const InventoryWindow = memo(() => {
                 result.itemsToReturn.forEach(returnedItem => {
                     addItem(returnedItem);
                 });
-                console.log(`Equipped ${item.name} to ${slotName} and returned ${result.itemsToReturn.length} conflicting items to inventory`);
-            } else {
-                console.log(`Equipped ${item.name} to ${slotName}`);
             }
         } catch (error) {
             console.error('Error equipping item:', error);
         }
+    };
+
+    // Handle renaming an item
+    const handleRenameItem = () => {
+        const input = document.getElementById('rename-input');
+        if (!input || !itemToRename) return;
+
+        const newName = input.value.trim();
+        if (!newName) return; // Don't allow empty names
+
+        // Update the item in the inventory store
+        useInventoryStore.getState().updateItem(itemToRename.id, {
+            customName: newName
+        });
+
+        // Close the modal
+        setShowRenameModal(false);
+        setItemToRename(null);
     };
 
     // Handle using a consumable item
@@ -357,26 +367,19 @@ const InventoryWindow = memo(() => {
         if (!item) return;
 
         try {
-            console.log('Using item from inventory:', item.name);
-
             // Handle recipe scrolls
             if (item.type === 'recipe' && item.recipeId) {
-                console.log('Learning recipe:', item.recipeId);
-
                 // Learn the recipe
                 learnRecipe(item.requiredProfession || 'alchemy', item.recipeId);
 
                 // Remove the recipe scroll from inventory
                 removeItem(item.id, 1);
 
-                console.log(`Learned recipe: ${item.name}`);
                 return;
             }
 
             // Handle regular consumables
             if (item.type !== 'consumable') return;
-
-            console.log('Using consumable from inventory:', item.name);
 
             // Apply consumable effects (same logic as ActionBar)
             const combatStats = item.combatStats || {};
@@ -472,11 +475,9 @@ const InventoryWindow = memo(() => {
                     if (value > 0) {
                         buffEffects[statName] = value;
                         hasBuffEffects = true;
-                        console.log(`Adding buff effect from baseStats: ${statName} +${value}`);
                     } else if (value < 0) {
                         debuffEffects[statName] = Math.abs(value); // Store as positive value, debuff store will make it negative
                         hasDebuffEffects = true;
-                        console.log(`Adding debuff effect from baseStats: ${statName} ${value}`);
                     }
                 }
             });
@@ -496,7 +497,6 @@ const InventoryWindow = memo(() => {
                         const mappedStat = statMap[statName] || statName;
                         buffEffects[mappedStat] = value;
                         hasBuffEffects = true;
-                        console.log(`Adding buff effect from utilityStats: ${mappedStat} +${value}`);
                     } else if (value < 0) {
                         const statMap = {
                             movementSpeed: 'moveSpeed',
@@ -505,7 +505,6 @@ const InventoryWindow = memo(() => {
                         const mappedStat = statMap[statName] || statName;
                         debuffEffects[mappedStat] = Math.abs(value);
                         hasDebuffEffects = true;
-                        console.log(`Adding debuff effect from utilityStats: ${mappedStat} ${value}`);
                     }
                 }
             });
@@ -1541,7 +1540,7 @@ const InventoryWindow = memo(() => {
                                         {item.iconId ? (
                                             <img
                                                 src={`${WOW_ICON_BASE_URL}${item.iconId}.jpg`}
-                                                alt={item.name}
+                                                alt={getDisplayName(item)}
                                                 className="item-icon"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
@@ -1549,7 +1548,7 @@ const InventoryWindow = memo(() => {
                                                 }}
                                             />
                                         ) : (
-                                            <span className="item-name" style={{ color: getQualityColor(item.quality, item.rarity) }}>{item.name}</span>
+                                            <span className="item-name" style={{ color: getQualityColor(item.quality, item.rarity) }}>{getDisplayName(item)}</span>
                                         )}
                                         {item.quantity > 1 && (
                                             <span className="item-quantity">{item.quantity}</span>
@@ -1700,6 +1699,17 @@ const InventoryWindow = memo(() => {
                         }
                     });
                 }
+
+                // Rename option
+                menuItems.push({
+                    icon: <i className="fas fa-edit"></i>,
+                    label: 'Rename',
+                    onClick: () => {
+                        setItemToRename(item);
+                        setShowRenameModal(true);
+                        setContextMenu({ visible: false });
+                    }
+                });
 
                                 // Equip/Use option - show based on item type
                 // Show "Use" for consumable items and recipe scrolls
@@ -2078,6 +2088,83 @@ const InventoryWindow = memo(() => {
                 <UnifiedCurrencyWithdrawModal
                     onClose={() => setShowCurrencyWithdrawModal(false)}
                 />
+            )}
+
+            {/* Rename Item Modal */}
+            {showRenameModal && itemToRename && ReactDOM.createPortal(
+                <div className="modal-overlay" onClick={() => {
+                    setShowRenameModal(false);
+                    setItemToRename(null);
+                }}>
+                    <div className="modal-content rename-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Rename Item</h3>
+                            <button
+                                className="close-button"
+                                onClick={() => {
+                                    setShowRenameModal(false);
+                                    setItemToRename(null);
+                                }}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="rename-item-info">
+                                <img
+                                    src={`https://wow.zamimg.com/images/wow/icons/large/${itemToRename.iconId || 'inv_misc_questionmark'}.jpg`}
+                                    alt={itemToRename.name}
+                                    className="item-icon-small"
+                                    onError={(e) => {
+                                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                    }}
+                                />
+                                <div className="item-details">
+                                    <div className="item-name">{itemToRename.name}</div>
+                                    <div className="item-quantity">
+                                        {itemToRename.quantity > 1 ? `Quantity: ${itemToRename.quantity}` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="rename-input-group">
+                                <label htmlFor="rename-input">New Name:</label>
+                                <input
+                                    id="rename-input"
+                                    type="text"
+                                    defaultValue={itemToRename.customName || itemToRename.name}
+                                    placeholder="Enter new name..."
+                                    autoFocus
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleRenameItem();
+                                        } else if (e.key === 'Escape') {
+                                            setShowRenameModal(false);
+                                            setItemToRename(null);
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                className="modal-button cancel"
+                                onClick={() => {
+                                    setShowRenameModal(false);
+                                    setItemToRename(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="modal-button confirm"
+                                onClick={handleRenameItem}
+                            >
+                                Rename
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
             )}
 
 

@@ -42,7 +42,6 @@ function checkFirebaseAvailable() {
 export async function getUserLibrary(userId) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, returning empty library');
       return {
         downloadedItems: [],
         downloadedCreatures: [],
@@ -89,7 +88,6 @@ export async function getUserLibrary(userId) {
 export async function addDownloadedItem(userId, itemData) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, skipping item sync');
       return;
     }
 
@@ -116,8 +114,6 @@ export async function addDownloadedItem(userId, itemData) {
       downloadHistory: arrayUnion(historyEntry),
       lastSyncAt: new Date()
     });
-
-    console.log('Item added to user library:', itemData.name);
   } catch (error) {
     console.error('Error adding downloaded item:', error);
     throw new Error('Failed to add item to user library');
@@ -130,7 +126,6 @@ export async function addDownloadedItem(userId, itemData) {
 export async function addDownloadedCreature(userId, creatureData) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, skipping creature sync');
       return;
     }
 
@@ -158,7 +153,6 @@ export async function addDownloadedCreature(userId, creatureData) {
       lastSyncAt: new Date()
     });
 
-    console.log('Creature added to user library:', creatureData.name);
   } catch (error) {
     console.error('Error adding downloaded creature:', error);
     throw new Error('Failed to add creature to user library');
@@ -171,7 +165,6 @@ export async function addDownloadedCreature(userId, creatureData) {
 export async function addDownloadedPack(userId, packData) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, skipping pack sync');
       return;
     }
 
@@ -201,7 +194,6 @@ export async function addDownloadedPack(userId, packData) {
       lastSyncAt: new Date()
     });
 
-    console.log('Pack added to user library:', packData.name);
   } catch (error) {
     console.error('Error adding downloaded pack:', error);
     throw new Error('Failed to add pack to user library');
@@ -214,7 +206,6 @@ export async function addDownloadedPack(userId, packData) {
 export async function addToFavorites(userId, contentType, contentId, contentName) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, skipping favorites sync');
       return;
     }
 
@@ -231,7 +222,6 @@ export async function addToFavorites(userId, contentType, contentId, contentName
       lastSyncAt: new Date()
     });
 
-    console.log(`${contentType} added to favorites:`, contentName);
   } catch (error) {
     console.error('Error adding to favorites:', error);
     throw new Error('Failed to add to favorites');
@@ -244,7 +234,6 @@ export async function addToFavorites(userId, contentType, contentId, contentName
 export async function removeFromFavorites(userId, contentType, contentId) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, skipping favorites sync');
       return;
     }
 
@@ -260,8 +249,6 @@ export async function removeFromFavorites(userId, contentType, contentId) {
         favorites: arrayRemove(favoriteToRemove),
         lastSyncAt: new Date()
       });
-
-      console.log(`${contentType} removed from favorites:`, favoriteToRemove.name);
     }
   } catch (error) {
     console.error('Error removing from favorites:', error);
@@ -293,7 +280,6 @@ export async function getDownloadHistory(userId, limit = 50) {
 export async function syncUserLibrary(userId, localLibraryData) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, skipping library sync');
       return localLibraryData;
     }
 
@@ -316,7 +302,6 @@ export async function syncUserLibrary(userId, localLibraryData) {
     // Update Firebase with merged data
     await updateDoc(userLibraryRef, mergedLibrary);
     
-    console.log('User library synced successfully');
     return mergedLibrary;
   } catch (error) {
     console.error('Error syncing user library:', error);
@@ -350,7 +335,6 @@ function mergeArrays(localArray, firebaseArray, keyField) {
 export async function clearUserLibrary(userId) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, skipping library clear');
       return;
     }
 
@@ -364,7 +348,6 @@ export async function clearUserLibrary(userId) {
       lastSyncAt: new Date()
     });
 
-    console.log('User library cleared');
   } catch (error) {
     console.error('Error clearing user library:', error);
     throw new Error('Failed to clear user library');

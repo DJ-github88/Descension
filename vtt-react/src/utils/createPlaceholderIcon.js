@@ -69,7 +69,6 @@ export const generateTestIcons = () => {
     { name: 'ui_icon_questionmark', text: '?', bg: '#4a5568' }
   ];
 
-  console.log('Generating test icons...');
   icons.forEach(icon => {
     setTimeout(() => {
       downloadPlaceholderIcon(icon.name, icon.text, icon.bg);

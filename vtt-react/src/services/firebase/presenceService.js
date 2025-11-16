@@ -73,7 +73,6 @@ class PresenceService {
         lastSeen: serverTimestamp()
       });
 
-      console.log('✅ User presence set to online:', userId);
       return true;
     } catch (error) {
       console.error('❌ Failed to set user online:', error);
@@ -101,7 +100,6 @@ class PresenceService {
       };
 
       await set(presenceRef, updates);
-      console.log('✅ Session updated for user:', userId, sessionData);
       return true;
     } catch (error) {
       console.error('❌ Failed to update session:', error);
@@ -185,7 +183,6 @@ class PresenceService {
       };
 
       await set(presenceRef, updates);
-      console.log('✅ Character data updated for user:', userId, characterData.name);
       return true;
     } catch (error) {
       console.error('❌ Failed to update character data:', error);
@@ -213,7 +210,6 @@ class PresenceService {
         await onDisconnect(this.presenceRef).cancel();
       }
       
-      console.log('✅ User presence set to offline:', userId);
       return true;
     } catch (error) {
       console.error('❌ Failed to set user offline:', error);

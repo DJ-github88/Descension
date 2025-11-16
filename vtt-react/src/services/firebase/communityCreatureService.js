@@ -184,7 +184,6 @@ export async function getCreatureCategories() {
     }));
   } catch (error) {
     console.error('Error fetching creature categories:', error);
-    console.log('Falling back to mock data');
     return MOCK_CATEGORIES;
   }
 }
@@ -230,7 +229,6 @@ export async function getCreaturesByCategory(categoryId, pageSize = 20, lastDoc 
     };
   } catch (error) {
     console.error('Error fetching creatures by category:', error);
-    console.log('Falling back to mock data');
     const mockCreatures = MOCK_FEATURED_CREATURES.filter(creature => creature.categoryId === categoryId);
     return {
       creatures: mockCreatures,
@@ -276,7 +274,6 @@ export async function searchCreatures(searchTerm, pageSize = 20) {
     }));
   } catch (error) {
     console.error('Error searching creatures:', error);
-    console.log('Falling back to mock search');
     const filteredCreatures = MOCK_FEATURED_CREATURES.filter(creature =>
       creature.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       creature.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -311,7 +308,6 @@ export async function getFeaturedCreatures(pageSize = 10) {
     }));
   } catch (error) {
     console.error('Error fetching featured creatures:', error);
-    console.log('Falling back to mock featured creatures');
     return MOCK_FEATURED_CREATURES.slice(0, pageSize);
   }
 }
@@ -476,7 +472,6 @@ export const DEFAULT_CREATURE_CATEGORIES = [
  */
 export async function initializeCreatureCategories() {
   if (!checkFirebaseAvailable()) {
-    console.log('Firebase not available, skipping category initialization');
     return [];
   }
 
@@ -531,7 +526,6 @@ export async function initializeCreatureCategories() {
       const categoryRef = doc(db, COLLECTIONS.CATEGORIES, categoryId);
       await setDoc(categoryRef, categoryData);
       results.push(`✅ Created: ${categoryData.name}`);
-      console.log(`✅ Created: ${categoryData.name}`);
     } catch (error) {
       results.push(`❌ Failed: ${categoryData.name} - ${error.message}`);
       console.error(`❌ Failed: ${categoryData.name}`, error);

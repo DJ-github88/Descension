@@ -185,17 +185,6 @@ class CharacterPersistenceService {
    * Create a new character
    */
   async createCharacter(characterData, userId) {
-    // CRITICAL FIX: Enhanced logging for Firebase operation tracking
-    console.log('🔥 [Firebase] createCharacter called:', {
-      characterId: characterData.id,
-      characterName: characterData.name,
-      userId: userId,
-      isConfigured: this.isConfigured,
-      hasDb: !!db,
-      isDemoMode: isDemoMode,
-      isFirebaseConfigured: isFirebaseConfigured
-    });
-    
     if (!this.isConfigured || !db) {
       const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
       console.error('❌ [Firebase] createCharacter failed:', {
@@ -258,7 +247,6 @@ class CharacterPersistenceService {
         return characterId;
       });
 
-      console.log(`✅ Character created: ${characterData.name} (${result})`);
       return result;
 
     } catch (error) {
@@ -271,16 +259,6 @@ class CharacterPersistenceService {
    * Load a character by ID
    */
   async loadCharacter(characterId, userId) {
-    // CRITICAL FIX: Enhanced logging for Firebase operation tracking
-    console.log('🔥 [Firebase] loadCharacter called:', {
-      characterId,
-      userId,
-      isConfigured: this.isConfigured,
-      hasDb: !!db,
-      isDemoMode: isDemoMode,
-      isFirebaseConfigured: isFirebaseConfigured
-    });
-    
     if (!this.isConfigured || !db) {
       const reason = !this.isConfigured ? 'Service not configured' : 'Database not available';
       console.error('❌ [Firebase] loadCharacter failed:', {
@@ -318,7 +296,6 @@ class CharacterPersistenceService {
       });
 
       const character = transformFromStorage(characterData);
-      console.log(`✅ Character loaded: ${character.name} (${characterId})`);
       return character;
 
     } catch (error) {

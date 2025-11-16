@@ -47,7 +47,6 @@ function checkFirebaseAvailable() {
 export async function saveUserSpell(userId, spellData) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, spell saved locally only');
       return { success: false, localOnly: true };
     }
 
@@ -94,7 +93,6 @@ export async function saveUserSpell(userId, spellData) {
       });
     }
 
-    console.log(`✅ Spell saved to Firebase: ${spellData.name} (${spellId})`);
     return { success: true, spellId, localOnly: false };
 
   } catch (error) {
@@ -109,12 +107,10 @@ export async function saveUserSpell(userId, spellData) {
 export async function loadUserSpells(userId) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, returning empty spell list');
       return [];
     }
 
     if (!userId) {
-      console.log('No user ID provided, returning empty spell list');
       return [];
     }
 
@@ -135,7 +131,6 @@ export async function loadUserSpells(userId) {
       });
     });
 
-    console.log(`✅ Loaded ${spells.length} custom spells for user ${userId}`);
     return spells;
 
   } catch (error) {
@@ -150,7 +145,6 @@ export async function loadUserSpells(userId) {
 export async function updateUserSpell(userId, spellId, updates) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, spell updated locally only');
       return { success: false, localOnly: true };
     }
 
@@ -178,7 +172,6 @@ export async function updateUserSpell(userId, spellId, updates) {
       lastModified: new Date().toISOString()
     });
 
-    console.log(`✅ Spell updated: ${spellId}`);
     return { success: true, localOnly: false };
 
   } catch (error) {
@@ -193,7 +186,6 @@ export async function updateUserSpell(userId, spellId, updates) {
 export async function deleteUserSpell(userId, spellId) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, spell deleted locally only');
       return { success: false, localOnly: true };
     }
 
@@ -224,7 +216,6 @@ export async function deleteUserSpell(userId, spellId) {
       updatedAt: serverTimestamp()
     });
 
-    console.log(`✅ Spell deleted: ${spellId}`);
     return { success: true, localOnly: false };
 
   } catch (error) {
@@ -274,7 +265,6 @@ export async function getUserSpell(userId, spellId) {
 export async function syncLocalSpellsToFirebase(userId, localSpells) {
   try {
     if (!checkFirebaseAvailable()) {
-      console.log('Firebase not available, cannot sync spells');
       return { success: false, synced: 0 };
     }
 
@@ -298,7 +288,6 @@ export async function syncLocalSpellsToFirebase(userId, localSpells) {
       }
     }
 
-    console.log(`✅ Synced ${syncedCount} spells to Firebase`);
     return { success: true, synced: syncedCount, errors };
 
   } catch (error) {

@@ -30,13 +30,11 @@ const useIdleDetection = () => {
     // If user was idle and is now active, restore their previous status
     // BUT only if the current status is still 'idle' (user hasn't manually changed it)
     if (isIdleRef.current && previousStatusRef.current && currentStatus === 'idle') {
-      console.log('🔄 User is active again, restoring status:', previousStatusRef.current);
       updateStatus(previousStatusRef.current, null);
       isIdleRef.current = false;
       previousStatusRef.current = null;
     } else if (isIdleRef.current && currentStatus !== 'idle') {
       // User manually changed status while idle, so clear idle state without restoring
-      console.log('🔄 User manually changed status while idle, clearing idle state');
       isIdleRef.current = false;
       previousStatusRef.current = null;
     }
@@ -47,7 +45,6 @@ const useIdleDetection = () => {
 
       // Only set to idle if user is not already idle or offline
       if (currentStatus && currentStatus !== 'idle' && currentStatus !== 'offline') {
-        console.log('💤 User is idle, changing status from', currentStatus, 'to idle');
         previousStatusRef.current = currentStatus;
         isIdleRef.current = true;
         updateStatus('idle', null);

@@ -24,8 +24,6 @@ class GameStateManager {
    * @param {boolean} enableAutoSave - Whether to enable auto-save (GM only)
    */
   async initialize(roomId, enableAutoSave = true) {
-    console.log('🎮 Initializing GameStateManager for room:', roomId, 'Auto-save:', enableAutoSave);
-
     this.currentRoomId = roomId;
     this.isAutoSaveEnabled = enableAutoSave;
 
@@ -40,8 +38,6 @@ class GameStateManager {
       // Set up store change listeners for auto-save triggers (GM only)
       this.setupStoreListeners();
       this.startAutoSave();
-    } else {
-      console.log('📝 Player mode: Skipping Firebase operations to prevent permission errors');
     }
   }
 
@@ -101,7 +97,6 @@ class GameStateManager {
       }
     });
 
-    console.log('📡 Store listeners set up for auto-save');
   }
 
   /**
@@ -111,16 +106,12 @@ class GameStateManager {
     if (!this.currentRoomId || this.isLoading) return;
 
     this.isLoading = true;
-    console.log('📥 Loading game state for room:', this.currentRoomId);
 
     try {
       const gameState = await loadCompleteGameState(this.currentRoomId);
 
       if (gameState && Object.keys(gameState).length > 0) {
         await this.applyGameStateToStores(gameState);
-        console.log('✅ Game state loaded and applied successfully');
-      } else {
-        console.log('📝 No existing game state found, starting fresh');
       }
     } catch (error) {
       // Check if this is a permission error
@@ -328,7 +319,6 @@ class GameStateManager {
     }
 
     this.isSaving = true;
-    console.log('💾 Saving game state for room:', this.currentRoomId);
 
     try {
       const gameState = this.collectGameStateFromStores();
@@ -336,7 +326,6 @@ class GameStateManager {
 
       this.lastSaveTime = Date.now();
       this.pendingChanges.clear();
-      console.log('✅ Game state saved successfully');
     } catch (error) {
       // Check if this is a permission error for players
       if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
@@ -372,7 +361,6 @@ class GameStateManager {
       this.saveGameState();
     }, this.autoSaveInterval);
 
-    console.log('🔄 Auto-save started with interval:', this.autoSaveInterval / 1000, 'seconds');
   }
 
   /**
@@ -383,14 +371,12 @@ class GameStateManager {
       clearInterval(this.autoSaveTimer);
       this.autoSaveTimer = null;
     }
-    console.log('⏹️ Auto-save stopped');
   }
 
   /**
    * Cleanup when leaving room
    */
   async cleanup() {
-    console.log('🧹 Cleaning up GameStateManager');
 
     // Save final state
     if (this.currentRoomId && this.pendingChanges.size > 0) {

@@ -124,7 +124,6 @@ class DemoAuthService {
   async signInWithGoogle() {
     try {
       // Simulate Google OAuth popup
-      console.log('Demo: Opening Google OAuth popup...');
 
       // Create a realistic demo Google user
       const googleUsers = [
@@ -167,7 +166,6 @@ class DemoAuthService {
         this.currentUser = userWithoutPassword;
         localStorage.setItem('mythrill-demo-user', JSON.stringify(userWithoutPassword));
         this.notifyListeners(userWithoutPassword);
-        console.log('Demo: Signed in existing Google user:', userWithoutPassword.email);
         return { user: userWithoutPassword, success: true };
       } else {
         // Create new user
@@ -183,7 +181,6 @@ class DemoAuthService {
 
         // Notify listeners
         this.notifyListeners(user);
-        console.log('Demo: Created new Google user:', user.email);
         return { user, success: true };
       }
     } catch (error) {
@@ -218,7 +215,6 @@ class DemoAuthService {
       }
 
       // In demo mode, just return success
-      console.log(`Demo: Password reset email sent to ${email}`);
       return { success: true };
     } catch (error) {
       return { error: error.message, success: false };

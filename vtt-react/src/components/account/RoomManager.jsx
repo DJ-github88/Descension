@@ -38,17 +38,14 @@ const RoomManager = () => {
   useEffect(() => {
     const checkForRoomDataChanges = () => {
       if (user && localStorage.getItem('roomDataChanged') === 'true') {
-        console.log('🔄 Room data changed detected, refreshing...');
         localStorage.removeItem('roomDataChanged');
         const lastJoinedRoom = localStorage.getItem('lastJoinedRoom');
         const lastCreatedRoom = localStorage.getItem('lastCreatedRoom');
 
         if (lastJoinedRoom) {
-          console.log(`📍 Last joined room: ${lastJoinedRoom}`);
           localStorage.removeItem('lastJoinedRoom');
           setRefreshMessage(`🎮 Welcome back! Room data refreshed after joining a room.`);
         } else if (lastCreatedRoom) {
-          console.log(`📍 Last created room: ${lastCreatedRoom}`);
           localStorage.removeItem('lastCreatedRoom');
           setRefreshMessage(`🎉 Room created successfully! Your new room should appear below.`);
         }
@@ -66,14 +63,12 @@ const RoomManager = () => {
     // Auto-refresh room data when component becomes visible (e.g., returning from multiplayer)
     const handleVisibilityChange = () => {
       if (!document.hidden && user) {
-        console.log('🔄 Page became visible, checking for changes...');
         checkForRoomDataChanges();
       }
     };
 
     const handleFocus = () => {
       if (user) {
-        console.log('🔄 Window focused, checking for changes...');
         checkForRoomDataChanges();
       }
     };
@@ -144,7 +139,6 @@ const RoomManager = () => {
     try {
       const localRoomsList = localRoomService.getLocalRooms();
       setLocalRooms(localRoomsList);
-      console.log('📁 Loaded local rooms:', localRoomsList.length);
     } catch (error) {
       console.error('Error loading local rooms:', error);
     }
@@ -173,7 +167,6 @@ const RoomManager = () => {
       if (user) {
         getRoomLimits(user.uid).then(limits => {
           setRoomLimits(limits);
-          console.log('📊 Room limits updated after creating local room');
         }).catch(err => {
           console.error('Error updating room limits:', err);
         });
@@ -198,7 +191,6 @@ const RoomManager = () => {
       localStorage.removeItem('selectedRoomId');
       localStorage.removeItem('isTestRoom');
 
-      console.log('🎮 Joining local room:', room.name);
       navigate('/game'); // Navigate directly to game for local rooms
     } catch (error) {
       console.error('Error joining local room:', error);
@@ -217,7 +209,6 @@ const RoomManager = () => {
         if (user) {
           getRoomLimits(user.uid).then(limits => {
             setRoomLimits(limits);
-            console.log('📊 Room limits updated after deleting local room');
           }).catch(err => {
             console.error('Error updating room limits:', err);
           });
@@ -234,11 +225,9 @@ const RoomManager = () => {
 
   // Update a local room
   const handleUpdateLocalRoom = (roomId, updates) => {
-    console.log('🔄 Updating local room:', roomId, 'with updates:', updates);
     try {
       localRoomService.updateLocalRoom(roomId, updates);
       loadLocalRooms(); // Refresh the list
-      console.log('✅ Local room updated successfully');
       setRefreshMessage('✅ Local room updated');
       setTimeout(() => setRefreshMessage(''), 3000);
     } catch (error) {
@@ -254,7 +243,6 @@ const RoomManager = () => {
 
   // Update a multiplayer room
   const handleUpdateMultiplayerRoom = async (roomId, updates) => {
-    console.log('🔄 Updating multiplayer room:', roomId, 'with updates:', updates);
     try {
       if (!roomId) {
         throw new Error('Room ID is required');
@@ -268,7 +256,6 @@ const RoomManager = () => {
 
       // Estimate size (rough calculation)
       const estimatedSize = new Blob([dataString]).size;
-      console.log('💾 Estimated storage size:', (estimatedSize / 1024).toFixed(1), 'KB');
 
       // Try to save with better error handling
       try {
@@ -287,7 +274,6 @@ const RoomManager = () => {
         )
       );
 
-      console.log('✅ Multiplayer room updated successfully');
       setRefreshMessage('✅ Room updated');
       setTimeout(() => setRefreshMessage(''), 3000);
     } catch (error) {
@@ -299,7 +285,6 @@ const RoomManager = () => {
   const loadRoomData = async () => {
     if (!user) {
       // No user logged in - show empty state
-      console.log('⚠️ No user logged in');
       setRooms([]);
       setLocalRooms([]);
       setRoomLimits({
@@ -314,7 +299,6 @@ const RoomManager = () => {
 
     // Check if user is a guest - they get 1 room limit (can be local or multiplayer)
     if (user.isGuest) {
-      console.log('👤 Guest user detected - loading guest rooms');
       setIsLoading(true);
 
       try {
@@ -323,7 +307,6 @@ const RoomManager = () => {
 
         if (!guestInitialized) {
           // First time this guest is accessing rooms - clear any existing rooms from other users
-          console.log('🧹 First-time guest access - clearing any existing local rooms');
           localStorage.removeItem('mythrill_local_rooms');
 
           // Clear room state data
@@ -370,11 +353,9 @@ const RoomManager = () => {
 
                 if (roomStillExists) {
                   joinedMultiplayerRooms = [roomData];
-                  console.log('✅ Guest joined multiplayer room found:', roomData.name);
                 } else {
                   // Room no longer exists, clear it
                   localStorage.removeItem('mythrill-guest-joined-room');
-                  console.log('🗑️ Joined room no longer exists, cleared from storage');
                 }
               }
             } catch (serverError) {
@@ -404,8 +385,6 @@ const RoomManager = () => {
           canCreate: totalRoomCount < 1, // Can only create if no rooms at all
           localRooms: localRoomsData
         });
-
-        console.log(`👤 Guest rooms loaded: ${localRoomCount} local, ${joinedMultiplayerRooms.length} multiplayer (total: ${totalRoomCount}/1)`);
       } catch (error) {
         console.error('Error loading guest rooms:', error);
         setRooms([]);
@@ -622,7 +601,6 @@ const RoomManager = () => {
           <button
             className="refresh-rooms-btn"
             onClick={() => {
-              console.log('🔄 Manual refresh triggered');
               loadRoomData();
             }}
             title="Refresh room list"
@@ -777,7 +755,6 @@ const RoomManager = () => {
             </div>
           ) : (
           rooms.map(room => {
-            console.log('🎮 Rendering room:', room);
             return (
               <RoomCard
                 key={room.id}

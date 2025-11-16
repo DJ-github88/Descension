@@ -1370,18 +1370,16 @@ const useCharacterStore = create((set, get) => ({
             const lastUserId = localStorage.getItem('mythrill-last-user-id');
             
             if (lastAccountType && lastAccountType !== currentAccountType) {
-                console.log(`🔄 Account type changed from ${lastAccountType} to ${currentAccountType} - clearing old characters`);
                 if (lastAccountType === 'guest') {
                     localStorage.removeItem('mythrill-guest-characters');
                 } else {
                     localStorage.removeItem('mythrill-characters');
                 }
             }
-            
+
             // CRITICAL FIX: Also check if userId changed (dev vs Google login)
             // This ensures dev preview and Google login have separate character storage
             if (lastUserId && lastUserId !== currentUserId) {
-                console.log(`🔄 User ID changed from ${lastUserId} to ${currentUserId} - clearing old characters`);
                 // Clear characters when switching between different users (dev vs Google login)
                 if (lastAccountType === 'guest') {
                     localStorage.removeItem('mythrill-guest-characters');
@@ -1569,7 +1567,6 @@ const useCharacterStore = create((set, get) => ({
                 try {
                     const characterId = await characterPersistenceService.createCharacter(newCharacter, userId);
                     newCharacter.id = characterId;
-                    console.log('✅ Character saved to Firebase:', characterId);
                 } catch (firebaseError) {
                     console.error('Error creating character in Firebase:', firebaseError);
                     console.warn('Failed to save to Firebase, saving locally:', firebaseError);
@@ -1604,7 +1601,6 @@ const useCharacterStore = create((set, get) => ({
                                 characterImage: null,
                                 imageTransformations: null
                             };
-                            console.log(`📦 Removed large image from character ${char.id} to save space`);
                         }
                     }
                 }
@@ -1637,8 +1633,6 @@ const useCharacterStore = create((set, get) => ({
                         console.warn('⚠️ Failed to save characters to localStorage (quota exceeded):', result.error);
                         console.warn('⚠️ Character is still available in this session but may not persist after refresh');
                         // Still continue with the operation - character is in memory
-                    } else {
-                        console.log('✅ Character saved to localStorage:', newCharacter.id);
                     }
                 } catch (error) {
                     console.warn('⚠️ localStorage quota exceeded for guest character:', error);
@@ -1650,7 +1644,6 @@ const useCharacterStore = create((set, get) => ({
                 // Try to save but don't fail if it doesn't work (Firebase is primary)
                 try {
                     localStorageManager.safeSetItem(storageKey, JSON.stringify(compressedCharacters));
-                    console.log('✅ Character backup saved to localStorage:', newCharacter.id);
                 } catch (error) {
                     console.warn('⚠️ Failed to save character backup to localStorage (Firebase is primary):', error);
                     // Don't fail the operation - Firebase is the primary storage
@@ -1672,7 +1665,6 @@ const useCharacterStore = create((set, get) => ({
                 setTimeout(async () => {
                     try {
                         await get().loadCharacters();
-                        console.log('✅ Characters reloaded after creation');
                     } catch (error) {
                         console.warn('⚠️ Failed to reload characters after creation:', error);
                     }

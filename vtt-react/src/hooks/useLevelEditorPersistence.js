@@ -85,7 +85,6 @@ export const useLevelEditorPersistence = () => {
       
       if (success) {
         lastSaveTimeRef.current = Date.now();
-        console.log(`💾 Level editor state saved for room ${currentRoomId}`);
       }
       
       return success;
@@ -100,12 +99,10 @@ export const useLevelEditorPersistence = () => {
    */
   const loadLevelEditorState = useCallback(async () => {
     if (!isInRoom || !currentRoomId || currentRoomId === 'global') {
-      console.log('📋 Not in a specific room, skipping level editor state load');
       return false;
     }
 
     if (isLoadingRef.current) {
-      console.log('📋 Already loading level editor state, skipping');
       return false;
     }
 
@@ -117,10 +114,8 @@ export const useLevelEditorPersistence = () => {
       if (savedState) {
         // Apply the loaded state to the level editor store
         loadMapState(savedState);
-        console.log(`📋 Level editor state loaded for room ${currentRoomId}`);
         return true;
       } else {
-        console.log(`📋 No saved level editor state found for room ${currentRoomId}`);
         return false;
       }
     } catch (error) {
@@ -180,7 +175,6 @@ export const useLevelEditorPersistence = () => {
       if (success) {
         // Reload the state after copying
         await loadLevelEditorState();
-        console.log(`📋 Level editor state copied from room ${sourceRoomId} to ${currentRoomId}`);
       }
       
       return success;

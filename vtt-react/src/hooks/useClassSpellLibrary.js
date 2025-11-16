@@ -27,19 +27,7 @@ export const useClassSpellLibrary = () => {
 
   // Debug logging (when character or class changes)
   useEffect(() => {
-    console.log('🔍 useClassSpellLibrary - Character State:', {
-      currentCharacterId,
-      activeCharacter: activeCharacter ? {
-        id: activeCharacter.id,
-        name: activeCharacter.name,
-        class: activeCharacter.class,
-        class_spells: activeCharacter.class_spells
-      } : null,
-      currentClass,
-      resolvedCharacterClass: characterClass,
-      knownSpellsFromStore: knownSpells,
-      knownSpellsCount: knownSpells.length
-    });
+    // Effect for potential future use
   }, [currentCharacterId, activeCharacter?.id, activeCharacter?.class, currentClass, characterClass, knownSpells]);
 
   /**
@@ -58,24 +46,9 @@ export const useClassSpellLibrary = () => {
     try {
       // Get class spells from generated data
       const spellsForClass = ALL_CLASS_SPELLS[className] || [];
-      
-      console.log(`🔍 Loading spells for ${className}:`, {
-        spellsInALL_CLASS_SPELLS: ALL_CLASS_SPELLS[className]?.length || 0,
-        availableClasses: Object.keys(ALL_CLASS_SPELLS),
-        spellsForClass: spellsForClass.length,
-        firstFewSpells: spellsForClass.slice(0, 3).map(s => ({ 
-          name: s.name, 
-          id: s.id, 
-          specialization: s.specialization 
-        }))
-      });
 
       // Create categories for this class
       const categories = createSpellLibraryCategoriesForClass(className);
-
-      console.log(`📚 Loaded ${spellsForClass.length} spells in ${categories.length} categories for ${className}`, {
-        categoryIds: categories.map(c => c.id)
-      });
 
       // Organize spells into categories
       const organizedCategories = categories.map(category => {
@@ -90,17 +63,7 @@ export const useClassSpellLibrary = () => {
         // Find spells for this specialization
         const specializationId = category.id.replace(`${className.toLowerCase()}_`, '');
         const specializationSpells = spellsForClass.filter(spell => {
-          const matches = spell.specialization === specializationId;
-          if (!matches && spell.specialization) {
-            console.log(`🔍 Spell ${spell.name} (specialization: ${spell.specialization}) doesn't match category ${category.id} (specializationId: ${specializationId})`);
-          }
-          return matches;
-        });
-
-        console.log(`📚 Category ${category.name} (${category.id}): Found ${specializationSpells.length} spells`, {
-          specializationId,
-          spellNames: specializationSpells.map(s => s.name),
-          spellIds: specializationSpells.map(s => s.id)
+          return spell.specialization === specializationId;
         });
 
         return {
@@ -116,9 +79,6 @@ export const useClassSpellLibrary = () => {
       try {
         const store = require('../store/characterStore').default;
         const assigned = await store.getState().ensureClassStarterSpells(className);
-        if (assigned) {
-          console.log(`✨ Assigned starter spells for ${className}`);
-        }
       } catch (e) {
         console.warn('Could not ensure starter spells:', e);
       }
@@ -235,16 +195,9 @@ export const useClassSpellLibrary = () => {
 
   // Load spells when character class changes
   useEffect(() => {
-    console.log('🔄 useClassSpellLibrary - Class change detected:', {
-      characterClass,
-      isValidClass: characterClass && characterClass !== 'Class'
-    });
-
     if (characterClass && characterClass !== 'Class') {
-      console.log(`📚 Loading spells for class: ${characterClass}`);
       loadSpellsForClass(characterClass);
     } else {
-      console.log('🧹 Resetting spell library (no valid class)');
       resetLibrary();
     }
   }, [characterClass, loadSpellsForClass, resetLibrary]);

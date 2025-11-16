@@ -200,7 +200,6 @@ export async function searchSpells(searchTerm, pageSize = 20) {
     }));
   } catch (error) {
     console.error('Error searching spells:', error);
-    console.log('Falling back to mock search');
     const searchLower = searchTerm.toLowerCase();
     const results = MOCK_FEATURED_SPELLS.filter(spell =>
       spell.name.toLowerCase().includes(searchLower) ||
@@ -237,7 +236,6 @@ export async function getFeaturedSpells(pageSize = 10) {
     }));
   } catch (error) {
     console.error('Error fetching featured spells:', error);
-    console.log('Falling back to mock featured spells');
     return MOCK_FEATURED_SPELLS.slice(0, limit);
   }
 }
@@ -582,27 +580,3 @@ async function recalculateSpellVotes(spellId) {
   }
 }
 
-
-// Debug function to check Firebase status
-export function debugFirebaseStatus() {
-  console.log('=== Firebase Debug Info ===');
-  console.log('DB available:', !!db);
-  console.log('Firebase available:', typeof window !== 'undefined' && !!window.firebase);
-  console.log('checkFirebaseAvailable():', checkFirebaseAvailable());
-
-  if (db) {
-    console.log('Database instance:', db);
-    console.log('App:', db.app);
-  }
-
-  return {
-    dbAvailable: !!db,
-    firebaseAvailable: typeof window !== 'undefined' && !!window.firebase,
-    checkResult: checkFirebaseAvailable()
-  };
-}
-
-// Make debug function available globally for testing
-if (typeof window !== 'undefined') {
-  window.debugFirebaseStatus = debugFirebaseStatus;
-}

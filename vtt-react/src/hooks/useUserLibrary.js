@@ -81,7 +81,6 @@ export function useUserLibrary(userId) {
       setLibrary(syncedLibrary);
       saveLocalLibrary(syncedLibrary);
       
-      console.log('Library synced successfully');
     } catch (err) {
       setError(err.message);
       console.error('Failed to sync library:', err);

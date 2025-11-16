@@ -230,16 +230,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Listen for player join/leave events
     socket.on('player_joined', (data) => {
-      // Debug: Log received player data
-      console.log('📥 Received player_joined event:', {
-        playerName: data.player?.name,
-        hasCharacter: !!data.player?.character,
-        hasTokenSettings: !!data.player?.character?.tokenSettings,
-        hasLore: !!data.player?.character?.lore,
-        hasCharacterImage: !!data.player?.character?.lore?.characterImage,
-        fullPlayer: data.player
-      });
-      
       // Update actual player count from server
       setActualPlayerCount(data.playerCount);
 
@@ -299,16 +289,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
         };
         
-        // Debug: Log party member data
-        console.log('👥 Adding party member:', {
-          name: newPartyMember.name,
-          hasTokenSettings: !!newPartyMember.character.tokenSettings,
-          hasLore: !!newPartyMember.character.lore,
-          hasCharacterImage: !!newPartyMember.character.lore?.characterImage,
-          tokenSettings: newPartyMember.character.tokenSettings,
-          lore: newPartyMember.character.lore
-        });
-
+        // Add party member
         addPartyMember(newPartyMember);
 
         // Then update with proper race display name if needed
@@ -402,7 +383,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // CRITICAL FIX: Check if the leaving player is the current player
       // If so, navigate to landing page (they were disconnected)
       if (data.player.id === currentPlayer?.id) {
-        console.log('Current player left room - navigating to landing page');
         handleLeaveRoom();
         setTimeout(() => {
           navigate('/', { replace: true });
@@ -449,7 +429,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     socket.on('room_closed', (data) => {
       // CRITICAL FIX: Properly handle room closure with navigation
-      console.log('Room closed:', data.message);
       handleLeaveRoom();
       
       // Navigate to landing page after cleanup
@@ -461,7 +440,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Handle being kicked/removed from room
     socket.on('player_kicked', (data) => {
       // CRITICAL FIX: Properly handle player kick with navigation
-      console.log('Player kicked:', data.reason);
       handleLeaveRoom();
       
       // Navigate to landing page after cleanup
@@ -473,7 +451,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Handle room access revoked
     socket.on('access_revoked', (data) => {
       // CRITICAL FIX: Properly handle access revocation with navigation
-      console.log('Access revoked:', data.reason);
       handleLeaveRoom();
       
       // Navigate to landing page after cleanup
@@ -603,22 +580,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                     const shouldUpdate = data.isDragging || distance > 1 || distance === 0; // Accept dragging, significant changes, or exact matches
                     
                     if (shouldUpdate) {
-                      console.log('🔄 Updating token position from server:', {
-                        creatureId: token.creatureId,
-                        tokenId: token.id,
-                        position: update.position,
-                        currentPosition: currentTokenPosition,
-                        distance: distance,
-                        movedBy: data.playerId,
-                        isGM: isGM,
-                        isDragging: data.isDragging
-                      });
                       updateCreatureTokenPosition(token.id, update.position);
-                    } else {
-                      console.log('🚫 Skipping token position update - change too small:', {
-                        creatureId: token.creatureId,
-                        distance: distance
-                      });
                     }
                   } else {
                     console.warn('⚠️ Token not found for movement update:', {
@@ -1062,6 +1024,298 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // Handle party updates
+    socket.on('party_update', (data) => {
+      // Import party store dynamically to avoid circular dependencies
+      import('../../store/partyStore').then(({ default: usePartyStore }) => {
+        const partyStore = usePartyStore.getState();
+
+        // Only process updates from other players (not our own)
+        if (data.playerId !== currentPlayer?.id) {
+          switch (data.type) {
+            case 'member_added':
+              // Add the new party member
+              if (data.data && data.data.id) {
+                const memberData = {
+                  ...data.data,
+                  status: 'online' // Assume online since they're active
+                };
+                partyStore.addPartyMember(memberData);
+              }
+              break;
+
+            case 'member_removed':
+              // Remove the party member
+              if (data.data && data.data.memberId) {
+                partyStore.removePartyMember(data.data.memberId);
+              }
+              break;
+
+            case 'member_updated':
+              // Update party member data
+              if (data.data && data.data.memberId && data.data.updates) {
+                partyStore.updatePartyMember(data.data.memberId, data.data.updates);
+              }
+              break;
+          }
+        }
+      });
+    });
+
+    // Handle buff updates
+    socket.on('buff_update', (data) => {
+      // Import buff store dynamically to avoid circular dependencies
+      import('../../store/buffStore').then(({ default: useBuffStore }) => {
+        const buffStore = useBuffStore.getState();
+
+        // Only process updates from other players (not our own)
+        if (data.playerId !== currentPlayer?.id) {
+          switch (data.type) {
+            case 'buff_added':
+              // Add the new buff
+              if (data.data && data.data.id) {
+                buffStore.addBuff(data.data);
+              }
+              break;
+
+            case 'buff_removed':
+              // Remove the buff
+              if (data.data && data.data.buffId) {
+                buffStore.removeBuff(data.data.buffId);
+              }
+              break;
+          }
+        }
+      });
+    });
+
+    // Handle debuff updates
+    socket.on('debuff_update', (data) => {
+      // Import debuff store dynamically to avoid circular dependencies
+      import('../../store/debuffStore').then(({ default: useDebuffStore }) => {
+        const debuffStore = useDebuffStore.getState();
+
+        // Only process updates from other players (not our own)
+        if (data.playerId !== currentPlayer?.id) {
+          switch (data.type) {
+            case 'debuff_added':
+              // Add the new debuff
+              if (data.data && data.data.id) {
+                debuffStore.addDebuff(data.data);
+              }
+              break;
+
+            case 'debuff_removed':
+              // Remove the debuff
+              if (data.data && data.data.debuffId) {
+                debuffStore.removeDebuff(data.data.debuffId);
+              }
+              break;
+          }
+        }
+      });
+    });
+
+    // Handle dice updates
+    socket.on('dice_update', (data) => {
+      // Import dice store dynamically to avoid circular dependencies
+      import('../../store/diceStore').then(({ default: useDiceStore }) => {
+        const diceStore = useDiceStore.getState();
+
+        // Only process updates from other players (not our own)
+        if (data.playerId !== currentPlayer?.id) {
+          switch (data.type) {
+            case 'dice_added':
+              // Add dice to selection
+              if (data.data && data.data.diceType && data.data.quantity) {
+                diceStore.addDice(data.data.diceType, data.data.quantity);
+              }
+              break;
+
+            case 'dice_removed':
+              // Remove dice from selection
+              if (data.data && data.data.diceType && data.data.quantity) {
+                diceStore.removeDice(data.data.diceType, data.data.quantity);
+              }
+              break;
+
+            case 'dice_quantity_set':
+              // Set dice quantity
+              if (data.data && data.data.diceType !== undefined && data.data.quantity !== undefined) {
+                diceStore.setDiceQuantity(data.data.diceType, data.data.quantity);
+              }
+              break;
+
+            case 'dice_rolled':
+              // Show dice roll results from other players
+              if (data.data && data.data.results) {
+                // Add to roll history without triggering local roll
+                const rollEntry = {
+                  ...data.data,
+                  playerName: data.playerName,
+                  fromNetwork: true
+                };
+                // This could trigger a notification or add to a shared roll history
+                console.log(`🎲 ${data.playerName} rolled:`, data.data);
+              }
+              break;
+          }
+        }
+      });
+    });
+
+    // Handle item updates
+    socket.on('item_update', (data) => {
+      // Import item store dynamically to avoid circular dependencies
+      import('../../store/itemStore').then(({ default: useItemStore }) => {
+        const itemStore = useItemStore.getState();
+
+        // Only process updates from other players (not our own)
+        if (data.playerId !== currentPlayer?.id) {
+          switch (data.type) {
+            case 'item_added':
+              // Add the new item
+              if (data.data && data.data.item && data.data.categories) {
+                itemStore.addItem(data.data.item, data.data.categories);
+              }
+              break;
+
+            case 'item_updated':
+              // Update the item
+              if (data.data && data.data.itemId && data.data.updates) {
+                itemStore.updateItem(data.data.itemId, data.data.updates);
+              }
+              break;
+
+            case 'item_removed':
+              // Remove the item
+              if (data.data && data.data.itemId) {
+                itemStore.removeItem(data.data.itemId);
+              }
+              break;
+
+            case 'item_moved':
+              // Move the item to a different category
+              if (data.data && data.data.itemId && data.data.categoryId) {
+                itemStore.moveItem(data.data.itemId, data.data.categoryId);
+              }
+              break;
+          }
+        }
+      });
+    });
+
+    // Handle window updates (optional - mostly for awareness)
+    socket.on('window_update', (data) => {
+      // Window updates are mostly informational - each player manages their own UI
+      // But we can log for awareness or future features
+      if (data.type === 'window_registered') {
+        console.log(`🪟 ${data.playerName} opened ${data.data.type}: ${data.data.id}`);
+      } else if (data.type === 'window_focused') {
+        console.log(`🪟 ${data.playerName} focused window: ${data.data.id}`);
+      }
+    });
+
+    // Handle container updates
+    socket.on('container_update', (data) => {
+      // Import container store dynamically to avoid circular dependencies
+      import('../../store/containerStore').then(({ default: useContainerStore }) => {
+        const containerStore = useContainerStore.getState();
+
+        // Only process updates from other players (not our own)
+        if (data.playerId !== currentPlayer?.id) {
+          switch (data.type) {
+            case 'container_added':
+              // Add the new container
+              if (data.data) {
+                containerStore.addContainer(data.data);
+              }
+              break;
+
+            case 'container_removed':
+              // Remove the container
+              if (data.data && data.data.containerId) {
+                containerStore.removeContainer(data.data.containerId);
+              }
+              break;
+
+            case 'container_toggled':
+              // This is the most critical - sync open/close state
+              if (data.data && data.data.containerId !== undefined) {
+                // We need to check if the container exists and update its state
+                // Since toggleOpen checks if it's not locked, we need to directly set the state
+                const containerStore = useContainerStore.getState();
+                // For now, we'll trust the sync - in a full implementation we'd verify
+                console.log(`📦 Container ${data.data.containerId} ${data.data.isOpen ? 'opened' : 'closed'} by ${data.playerName}`);
+              }
+              break;
+
+            case 'container_lock_toggled':
+              // Sync lock state
+              if (data.data && data.data.containerId !== undefined) {
+                console.log(`🔒 Container ${data.data.containerId} ${data.data.isLocked ? 'locked' : 'unlocked'} by ${data.playerName}`);
+              }
+              break;
+
+            case 'item_added_to_container':
+              // Add item to container
+              if (data.data && data.data.containerId && data.data.item) {
+                containerStore.addItemToContainer(data.data.containerId, data.data.item, data.data.item.position);
+              }
+              break;
+
+            case 'item_removed_from_container':
+              // Remove item from container
+              if (data.data && data.data.containerId && data.data.itemId) {
+                containerStore.removeItemFromContainer(data.data.containerId, data.data.itemId);
+              }
+              break;
+
+            case 'container_position_updated':
+              // Update container position
+              if (data.data && data.data.containerId && data.data.position) {
+                containerStore.updateContainerPosition(data.data.containerId, data.data.position);
+              }
+              break;
+          }
+        }
+      });
+    });
+
+    // Handle grid item updates
+    socket.on('grid_item_update', (data) => {
+      // Import grid item store dynamically to avoid circular dependencies
+      import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
+        const gridItemStore = useGridItemStore.getState();
+
+        // Only process updates from other players (not our own)
+        if (data.playerId !== currentPlayer?.id) {
+          switch (data.type) {
+            case 'grid_item_added':
+              // Add item to grid
+              if (data.data && data.data.item && data.data.position) {
+                gridItemStore.addItemToGrid(data.data.item, data.data.position, false);
+              }
+              break;
+
+            case 'grid_item_removed':
+              // Remove item from grid
+              if (data.data && data.data.gridItemId) {
+                gridItemStore.removeItemFromGrid(data.data.gridItemId);
+              }
+              break;
+
+            case 'grid_item_moved':
+              // Move item on grid
+              if (data.data && data.data.gridItemId && data.data.newPosition) {
+                gridItemStore.updateItemPosition(data.data.gridItemId, data.data.newPosition);
+              }
+              break;
+          }
+        }
+      });
+    });
+
     // Listen for map updates (fog of war, drawing, tiles)
     socket.on('map_updated', (data) => {
       // CRITICAL FIX: Always process map updates from server (even if it's our own update)
@@ -1071,14 +1325,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       
       import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
         const levelEditorStore = useLevelEditorStore.getState();
-        
-        console.log('🗺️ Received map update from server:', {
-          updatedBy: data.updatedBy,
-          currentPlayerId: currentPlayer?.id,
-          hasTerrainData: data.mapData?.terrainData !== undefined,
-          hasFogData: data.mapData?.fogOfWarPaths !== undefined,
-          hasDrawingData: data.mapData?.drawingPaths !== undefined
-        });
         
         // CRITICAL FIX: Temporarily disable emit check, then use setters to update state
         // This ensures updates are applied and synced properly
@@ -1209,7 +1455,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             });
           }
 
-          console.log('📥 Received area remove from GM:', removeType);
         }).catch(error => {
           console.error('Failed to process area remove:', error);
         });
@@ -1422,17 +1667,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               // Regular authenticated user - save to Firebase
               const { joinRoom } = await import('../../services/roomService');
               await joinRoom(room.persistentRoomId, user.uid, room.password || '');
-              console.log(`✅ Added player to persistent room ${room.persistentRoomId}`);
 
               // Set a flag to indicate that room data should be refreshed when returning to account
               localStorage.setItem('roomDataChanged', 'true');
               localStorage.setItem('lastJoinedRoom', room.persistentRoomId);
             }
-          } else if (user && !room.persistentRoomId) {
-            console.log('⚠️ User is authenticated but room has no persistentRoomId - this is a socket-only room');
           }
-        } else {
-          console.log('🔄 Auth store not available, skipping Firebase persistence');
         }
       } catch (error) {
         console.warn('Failed to add player to persistent room:', error);
@@ -1454,36 +1694,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
       // If still no active character, check if any characters exist and suggest activation
       if (!activeCharacter) {
-        console.warn('No active character found for multiplayer session');
-
         // Try to get available characters
         const { characters } = useCharacterStore.getState();
         if (characters && characters.length > 0) {
-          console.log(`💡 Found ${characters.length} available characters. Please activate one before joining multiplayer.`);
           // Show a user-friendly message with actionable guidance
           const characterNames = characters.map(c => c.name).join(', ');
           setError(`Please select and activate a character before joining multiplayer rooms. Available characters: ${characterNames}. Go to Account > Characters to activate one.`);
           return;
         } else {
-          console.log('ℹ️ No characters available. User needs to create a character first.');
           setError('You need to create a character before joining multiplayer rooms. Go to Account > Characters to create your first character.');
           return;
         }
       }
 
-      console.log(`🎮 Loading active character into multiplayer: ${activeCharacter.name}`);
-
       // Start character session for tracking changes during multiplayer
       try {
-        const sessionId = await startCharacterSession(activeCharacter.id, room.id);
-        if (sessionId) {
-          console.log(`✅ Character session started: ${sessionId}`);
-        } else {
-          console.warn('⚠️ Character session could not be started, but continuing with multiplayer');
-        }
+        await startCharacterSession(activeCharacter.id, room.id);
       } catch (sessionError) {
-        console.error('❌ Error starting character session:', sessionError);
-        console.log('🔄 Continuing with multiplayer without session tracking');
+        // Continue with multiplayer even if session tracking fails
       }
 
       // Set room name for multiplayer context (this will format the display name)
@@ -1504,20 +1732,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         
         if (refreshedCharacter && refreshedCharacter.inventory) {
           characterToUse = refreshedCharacter;
-          console.log('📦 Loaded character from Firebase with inventory:', {
-            itemsCount: refreshedCharacter.inventory.items?.length || 0,
-            currency: refreshedCharacter.inventory.currency
-          });
         } else {
           // Fallback to store character
           const { loadCharacter } = useCharacterStore.getState();
           const storeCharacter = loadCharacter(activeCharacter.id);
           if (storeCharacter && storeCharacter.inventory) {
             characterToUse = storeCharacter;
-            console.log('📦 Using character from store with inventory:', {
-              itemsCount: storeCharacter.inventory.items?.length || 0,
-              currency: storeCharacter.inventory.currency
-            });
           } else {
             console.warn('⚠️ Character does not have inventory saved. This may be a new character or inventory was not saved during creation.');
             characterToUse = activeCharacter;
@@ -1551,7 +1771,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
           // Load character's items
           if (characterInventory.items && Array.isArray(characterInventory.items)) {
-            console.log(`📦 Loading ${characterInventory.items.length} items into inventory`);
             characterInventory.items.forEach(item => {
               try {
                 inventoryStore.addItem(item);
@@ -1567,8 +1786,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           if (characterInventory.currency) {
             inventoryStore.updateCurrency(characterInventory.currency);
           }
-
-          console.log(`✅ Character inventory synced: ${characterInventory.items?.length || 0} items, currency:`, characterInventory.currency);
         });
       } catch (inventoryError) {
         console.warn('Failed to sync character inventory:', inventoryError);
@@ -1599,7 +1816,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               playerId: currentPlayerData?.id
             }
           });
-          console.log('📤 Character data sent to server');
         }
     } catch (error) {
       console.error('Error loading active character for multiplayer:', error);
@@ -1632,13 +1848,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       index === self.findIndex(p => p.id === player.id) && player.id !== currentPlayerData?.id
     );
 
-    console.log(`🎮 Setting initial player list (excluding current player):`, uniquePlayers.map(p => p.name));
     setConnectedPlayers(uniquePlayers);
 
     // Set initial player count (GM + regular players)
     const initialPlayerCount = (room.players?.size || 0) + 1; // +1 for GM
     setActualPlayerCount(initialPlayerCount);
-    console.log(`📊 Setting initial player count: ${initialPlayerCount}`);
 
     // Integrate multiplayer players into party system
     // Get active character data for current player
@@ -1670,10 +1884,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     };
 
     // Update the existing current player instead of adding a duplicate
-    console.log('🎮 Setting up current player with GM status:', {
-        isGameMaster,
-        currentPlayerMember
-    });
     updatePartyMember('current-player', currentPlayerMember);
 
     // Broadcast current player's party member data to other players
@@ -1695,7 +1905,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Add GM to party if GM is not the current player
     if (room.gm && room.gm.id !== currentPlayerData?.id) {
       const gmCharacterName = room.gm.character?.name || room.gm.name;
-      console.log(`👑 Adding GM to party: ${gmCharacterName}`);
 
       addPartyMember({
         id: room.gm.id,
@@ -1732,7 +1941,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         if (!isCurrentPlayer) {
           const playerCharacterName = player.character?.name || player.name;
-          console.log(`👥 Adding other player: ${playerCharacterName}`);
 
           const playerMember = {
             id: player.id,
@@ -1752,18 +1960,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               lore: player.character?.lore || {} // Include lore (which contains characterImage), default to empty object
             }
           };
-          
-          // Debug: Log player member data
-          console.log('👥 Adding other player to party:', {
-            name: playerMember.name,
-            hasTokenSettings: !!playerMember.character.tokenSettings,
-            hasLore: !!playerMember.character.lore,
-            hasCharacterImage: !!playerMember.character.lore?.characterImage,
-            tokenSettings: playerMember.character.tokenSettings,
-            lore: playerMember.character.lore,
-            fullPlayerCharacter: player.character
-          });
-          
+
           addPartyMember(playerMember);
 
           addUser({
@@ -1793,7 +1990,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           message: message,
           type: 'chat' // This will be handled as party chat on the server
         });
-        console.log('💬 Sent chat message through socket:', message);
       } else {
         console.error('No socket connection for chat or socket disconnected');
         // Show error to user
@@ -1822,7 +2018,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       //   console.error('❌ Failed to initialize game state manager:', error);
       // });
 
-      console.log('🎮 Skipping game state loading to prevent old tokens in fresh rooms');
+      // Skip game state loading to prevent old tokens in fresh rooms
     }
   };
 
@@ -1850,12 +2046,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       // End character session to save all changes (async, non-blocking)
       const activeCharacter = getActiveCharacter();
       if (activeCharacter) {
-        console.log(`🔄 Ending character session for: ${activeCharacter.name} (background)`);
         // Don't await - let it complete in background
         endCharacterSession(activeCharacter.id).then((sessionEnded) => {
-          if (sessionEnded) {
-            console.log(`✅ Character session ended and changes saved`);
-          } else {
+          if (!sessionEnded) {
             console.warn('⚠️ Failed to end character session properly');
           }
         }).catch((error) => {
@@ -1864,9 +2057,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
 
       // Cleanup game state manager (async, non-blocking)
-      gameStateManager.cleanup().then(() => {
-        console.log('✅ Game state manager cleaned up');
-      }).catch((error) => {
+      gameStateManager.cleanup().catch((error) => {
         console.error('❌ Error cleaning up game state manager:', error);
       });
 

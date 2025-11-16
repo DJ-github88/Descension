@@ -50,8 +50,7 @@ import initChatStore from './utils/initChatStore';
 import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
 import { initializePortalSystem } from './utils/portalUtils';
 import { initializeCleanSpellLibrary, clearSpellLibraryNow } from './utils/clearSpellLibrary';
-import firebaseAuthDebugger from './utils/debugFirebaseAuth';
-import PortalDebugger from './components/debug/PortalDebugger';
+// Debug utilities removed - no longer needed
 
 // Preload roomService to prevent chunk loading issues
 import './services/roomService';
@@ -615,10 +614,7 @@ export default function App() {
             setTimeout(async () => {
                 await refreshAuthState();
 
-                // Initialize Firebase debugging in development
-                if (process.env.NODE_ENV === 'development') {
-                    firebaseAuthDebugger.getAuthDebugInfo();
-                }
+                // Firebase debugging removed - no longer needed
             }, 1000); // Give auth time to initialize
         } catch (error) {
             console.warn('Authentication initialization failed:', error);
@@ -910,8 +906,7 @@ const AppContent = ({
             {/* Level-Up Choice Modal */}
             <LevelUpChoiceModalWrapper />
 
-            {/* Portal Debugger for production troubleshooting */}
-            <PortalDebugger />
+            {/* Debug components removed - no longer needed */}
         </>
     );
 };

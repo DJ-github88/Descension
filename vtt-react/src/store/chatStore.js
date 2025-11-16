@@ -156,17 +156,8 @@ const useChatStore = create(
       sendMessage: (tab, content) => {
         const { addNotification, currentUser, multiplayerSocket, sendMultiplayerMessage } = get();
 
-        console.log('Chat sendMessage called:', {
-          tab,
-          content,
-          hasSocket: !!multiplayerSocket,
-          socketConnected: multiplayerSocket?.connected,
-          hasSendFunction: !!sendMultiplayerMessage
-        });
-
         // If in multiplayer mode and sending to social tab, send through socket
         if (tab === 'social' && multiplayerSocket && multiplayerSocket.connected && sendMultiplayerMessage) {
-          console.log('Sending message through multiplayer socket');
           sendMultiplayerMessage(content);
           return; // Don't add locally, it will come back through the socket
         }
@@ -182,7 +173,6 @@ const useChatStore = create(
           return;
         }
 
-        console.log('Sending message in single-player mode');
         // Create message object for local/single-player mode
         const message = {
           sender: currentUser,
