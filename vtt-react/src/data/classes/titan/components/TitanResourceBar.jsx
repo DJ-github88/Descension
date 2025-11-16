@@ -37,7 +37,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
             activeColor: '#87CEEB',
             glowColor: '#B0E0E6',
             icon: 'fa-moon',
-            benefit: '+2 AC, regenerate 5 HP at start of each turn',
+            benefit: '+2 armor, regenerate 5 HP at start of each turn',
             ultimate: 'Lunar Shield: Absorb 50 damage for all allies within 15 ft',
             restriction: 'Healing received from external sources is halved'
         },
@@ -59,7 +59,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
             activeColor: '#8B4513',
             glowColor: '#A0522D',
             icon: 'fa-mountain',
-            benefit: '+3 AC, resistance to physical damage',
+            benefit: '+3 armor, resistance to physical damage',
             ultimate: 'Earthshatter: 3d6 bludgeoning damage, knock prone all enemies within 20 ft',
             restriction: 'Movement speed reduced by 10 ft'
         },
@@ -176,25 +176,8 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
 
     return (
         <div className={`titan-resource-container ${size}`}>
-            {/* Devotion Button and Main Bar Row */}
+            {/* Main Resource Bar Row */}
             <div className="resource-bar-row">
-                {/* Devotion Cycle Button */}
-                <button
-                    className="devotion-cycle-btn"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        cycleDevotion();
-                    }}
-                    title={`Current: ${currentDevotion.name}\nClick to cycle`}
-                    style={{
-                        borderColor: currentDevotion.activeColor,
-                        color: currentDevotion.glowColor,
-                        boxShadow: `0 0 8px ${currentDevotion.glowColor}40`
-                    }}
-                >
-                    <i className={`fas ${currentDevotion.icon}`}></i>
-                </button>
-
                 {/* Main Resource Bar */}
                 <div
                     ref={barRef}
@@ -264,18 +247,9 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                         zIndex: 100000
                     }}
                 >
-                    <div className="tooltip-header">
-                        {currentDevotion.name}, {currentDevotion.title}
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Divine Charge:</div>
-                        <div className="tooltip-value">{localCharge}/{maxCharge}</div>
-                    </div>
-                    
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Charge Level:</div>
-                        <div className="tooltip-value">
+                    <div className="tooltip-content">
+                        <div className="tooltip-devotion">{currentDevotion.name}</div>
+                        <div className="tooltip-stage">
                             {localCharge === 0 && 'Dormant - No divine connection'}
                             {localCharge > 0 && localCharge <= 20 && 'Faint - Weak divine presence'}
                             {localCharge > 20 && localCharge <= 40 && 'Awakening - Divine power stirring'}
@@ -283,35 +257,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                             {localCharge > 60 && localCharge <= 80 && 'Empowered - Strong celestial connection'}
                             {localCharge > 80 && 'Divine - Maximum celestial favor'}
                         </div>
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Devotion Benefit:</div>
-                        <div className="tooltip-value">{currentDevotion.benefit}</div>
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Ultimate Ability (1/Long Rest):</div>
-                        <div className="tooltip-value">{currentDevotion.ultimate}</div>
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Restriction:</div>
-                        <div className="tooltip-value">{currentDevotion.restriction}</div>
-                    </div>
-
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Shared Passive - Celestial Attunement:</div>
-                        <div className="tooltip-value">
-                            Attune to one celestial being each day. Gain divine charge through combat and devotion fulfillment. Switch devotions during long rest.
-                        </div>
-                    </div>
-
-                    <div className="tooltip-section spec-section">
-                        <div className="tooltip-label">{currentSpec.name} - {currentSpec.passive}:</div>
-                        <div className="tooltip-value">
-                            {currentSpec.passiveDesc}
-                        </div>
+                        <div className="tooltip-benefit">{currentDevotion.benefit}</div>
                     </div>
                 </div>,
                 document.body
@@ -320,63 +266,52 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
             {/* Dev Controls */}
             {showControls && (
                 <div className="titan-dev-controls">
+                    {/* Compact Header */}
                     <div className="controls-header">
-                        <span>Celestial Devotion System</span>
+                        <span>Devotion Controls</span>
                         <button onClick={() => setShowControls(false)}>
                             <i className="fas fa-times"></i>
                         </button>
                     </div>
 
-                    <div className="control-group">
-                        <label>Divine Charge: {localCharge}/{maxCharge}</label>
-                        <div className="charge-info">
-                            Build charge through combat and devotion fulfillment. Higher charge = stronger divine connection.
-                        </div>
-                        <div className="button-row">
-                            <button onClick={() => setLocalCharge(0)}>0</button>
-                            <button onClick={() => setLocalCharge(25)}>25</button>
-                            <button onClick={() => setLocalCharge(50)}>50</button>
-                            <button onClick={() => setLocalCharge(75)}>75</button>
-                            <button onClick={() => setLocalCharge(100)}>100</button>
-                        </div>
-                        <div className="button-row">
-                            <button onClick={() => adjustCharge(-10)}>-10</button>
-                            <button onClick={() => adjustCharge(-5)}>-5</button>
-                            <button onClick={() => adjustCharge(5)}>+5</button>
-                            <button onClick={() => adjustCharge(10)}>+10</button>
+                    {/* Charge Controls */}
+                    <div className="control-group charge-controls">
+                        <div className="charge-buttons">
+                            <div className="preset-buttons-row">
+                                <button onClick={() => setLocalCharge(0)}>0</button>
+                                <button onClick={() => setLocalCharge(50)}>50</button>
+                                <button onClick={() => setLocalCharge(100)}>100</button>
+                            </div>
+                            <div className="adjust-buttons-row">
+                                <button onClick={() => adjustCharge(-10)}>-10</button>
+                                <button onClick={() => adjustCharge(10)}>+10</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="control-group">
-                        <label>Active Devotion</label>
-                        <div className="devotion-grid">
+                    {/* Devotion Selector */}
+                    <div className="control-group devotion-selector">
+                        <div className="devotion-buttons">
                             {Object.entries(devotionConfigs).map(([key, devotion]) => (
                                 <button
                                     key={key}
-                                    className={selectedDevotion === key ? 'active' : ''}
+                                    className={`devotion-btn ${selectedDevotion === key ? 'active' : ''}`}
                                     onClick={() => {
                                         setSelectedDevotion(key);
                                         simulateSwitch();
                                     }}
-                                    style={{
-                                        borderColor: selectedDevotion === key ? devotion.activeColor : 'transparent',
-                                        color: selectedDevotion === key ? devotion.glowColor : '#8B7355'
-                                    }}
+                                    title={devotion.name}
                                 >
                                     <i className={`fas ${devotion.icon}`}></i>
-                                    <span>{devotion.name}</span>
                                 </button>
                             ))}
                         </div>
-                    </div>
-
-                    <div className="control-group">
-                        <label>Specialization</label>
-                        <div className="spec-grid">
+                        {/* Specialization Selector */}
+                        <div className="spec-buttons">
                             {Object.entries(specConfigs).map(([key, spec]) => (
                                 <button
                                     key={key}
-                                    className={selectedSpec === key ? 'active' : ''}
+                                    className={`spec-btn ${selectedSpec === key ? 'active' : ''}`}
                                     onClick={() => setSelectedSpec(key)}
                                 >
                                     {spec.name}

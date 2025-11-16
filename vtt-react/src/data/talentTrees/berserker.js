@@ -401,7 +401,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t1_survival_instincts',
     name: 'Survival Instincts',
-    description: 'You have +1 AC per rank when fighting outnumbered. Maximum +5.',
+    description: 'You have +1 armor per rank when fighting outnumbered. Maximum +5.',
     icon: 'spell_nature_spiritwolf',
     maxRanks: 4,
     position: { x: 4, y: 5 },

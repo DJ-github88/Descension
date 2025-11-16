@@ -151,7 +151,7 @@ export const EXORCIST_DEMON_LORD = [
   {
     id: 'dlord_t1_demon_armor',
     name: 'Demon Armor',
-    description: 'Armor forged in demon fires. +2 AC and resistance to fire damage.',
+    description: 'Armor forged in demon fires. +2 armor and resistance to fire damage.',
     icon: 'spell_shadow_ragingscream',
     maxRanks: 2,
     position: { x: 3, y: 1 },
@@ -326,7 +326,7 @@ export const EXORCIST_POSSESSED = [
   {
     id: 'poss_t3_demon_form',
     name: 'Demon Form',
-    description: 'Transform into demon form. Gain +2 AC, darkvision, and immunity to poison.',
+    description: 'Transform into demon form. Gain +2 armor, darkvision, and immunity to poison.',
     icon: 'spell_shadow_demonform',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -355,7 +355,7 @@ export const EXORCIST_POSSESSED = [
   {
     id: 'poss_t4_abyssal_armor',
     name: 'Abyssal Armor',
-    description: 'Armor forged from abyssal corruption. +3 AC and resistance to all damage.',
+    description: 'Armor forged from abyssal corruption. +3 armor and resistance to all damage.',
     icon: 'spell_shadow_nethercloak',
     maxRanks: 2,
     position: { x: 0, y: 4 },

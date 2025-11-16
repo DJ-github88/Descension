@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo, memo } from 'react';
 import ReactDOM from 'react-dom';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
@@ -45,7 +45,7 @@ const getQualityColor = (quality, rarity) => {
     return RARITY_COLORS[qualityLower]?.border || RARITY_COLORS.common.border;
 };
 
-export default function InventoryWindow() {
+const InventoryWindow = memo(() => {
     // Force refresh mechanism
     const [refreshKey, setRefreshKey] = useState(0);
 
@@ -2083,4 +2083,8 @@ export default function InventoryWindow() {
 
         </div>
     );
-}
+});
+
+InventoryWindow.displayName = 'InventoryWindow';
+
+export default InventoryWindow;

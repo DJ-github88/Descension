@@ -66,7 +66,7 @@ export const SENTINEL_PATH = {
                     {
                         id: 'shield_wall',
                         name: 'Shield Wall',
-                        description: '+5 AC, 10 damage reduction'
+                        description: '+5 armor, 10 damage reduction'
                     }
                 ],
                 buffs: [
@@ -352,7 +352,7 @@ export const SENTINEL_PATH = {
                             {
                                 id: 'shield_wall',
                                 name: 'Shield Wall',
-                                description: '+5 AC, take 50% reduced damage, cannot move'
+                                description: '+5 armor, take 50% reduced damage, cannot move'
                             }
                         ],
                         buffs: [
@@ -489,7 +489,7 @@ export const SENTINEL_PATH = {
             icon: 'fas fa-hands-helping',
 
             mechanicalBenefits: [
-                { name: 'Guardian', description: 'Allies within 10 feet gain +1 AC', type: 'passive' }
+                { name: 'Guardian', description: 'Allies within 10 feet gain +1 armor', type: 'passive' }
             ],
 
             abilities: [

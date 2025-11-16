@@ -98,7 +98,7 @@ export const WITCH_DOCTOR_SHADOW_PRIEST = [
   {
     id: 'shadow_priest_t5_spectral_armor',
     name: 'Spectral Armor',
-    description: 'While you have 3+ cursed enemies, you gain +1 AC per rank and necrotic resistance. When cursed enemies die within 30 ft, gain +1d4 temp HP per rank.',
+    description: 'While you have 3+ cursed enemies, you gain +1 armor per rank and necrotic resistance. When cursed enemies die within 30 ft, gain +1d4 temp HP per rank.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 2,
     position: { x: 2, y: 5 },

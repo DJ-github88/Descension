@@ -1,3 +1,33 @@
+import { logger } from './logger';
+
+// Helper functions for processing different data structures
+const processSimpleValue = (bonuses, key, val) => {
+    if (typeof val === 'number') {
+        bonuses[key] = (bonuses[key] || 0) + val;
+        return true;
+    }
+    return false;
+};
+
+const processObjectValue = (bonuses, key, val, targetKey) => {
+    if (typeof val === 'object') {
+        Object.entries(val).forEach(([subKey, subVal]) => {
+            bonuses[targetKey][subKey] = (bonuses[targetKey][subKey] || 0) + subVal;
+        });
+        return true;
+    }
+    return false;
+};
+
+const statMap = {
+    strength: 'str',
+    constitution: 'con',
+    agility: 'agi',
+    intelligence: 'int',
+    spirit: 'spir',
+    charisma: 'cha'
+};
+
 export function calculateEquipmentBonuses(equipment = {}) {
     const bonuses = {
         str: 0, con: 0, agi: 0, int: 0, spir: 0, cha: 0,
@@ -14,82 +44,59 @@ export function calculateEquipmentBonuses(equipment = {}) {
         skills: {}
     };
 
-    // Loop over each equipped item
-    for (const slot in equipment) {
-        const item = equipment[slot];
-        if (!item) continue;
-
+    // Process each equipped item using functional approach
+    Object.values(equipment).filter(Boolean).forEach(item => {
         // Handle legacy effects structure
         if (item.effects) {
-            for (const [key, val] of Object.entries(item.effects)) {
-                if (typeof val === 'number') {
-                    bonuses[key] = (bonuses[key] || 0) + val;
-                    continue;
-                }
+            Object.entries(item.effects).forEach(([key, val]) => {
+                if (processSimpleValue(bonuses, key, val)) return;
 
-                if (key === 'resistances' && typeof val === 'object') {
-                    for (const [resType, resVal] of Object.entries(val)) {
-                        bonuses.resistances[resType] =
-                            (bonuses.resistances[resType] || 0) + resVal;
-                    }
+                switch (key) {
+                    case 'resistances':
+                        processObjectValue(bonuses, key, val, 'resistances');
+                        break;
+                    case 'spellDamageTypes':
+                        processObjectValue(bonuses, key, val, 'spellDamageTypes');
+                        break;
+                    case 'skills':
+                        processObjectValue(bonuses, key, val, 'skills');
+                        break;
                 }
-                else if (key === 'spellDamageTypes' && typeof val === 'object') {
-                    for (const [spellType, amount] of Object.entries(val)) {
-                        bonuses.spellDamageTypes[spellType] =
-                            (bonuses.spellDamageTypes[spellType] || 0) + amount;
-                    }
-                }
-                else if (key === 'skills' && typeof val === 'object') {
-                    for (const [skillKey, skillVal] of Object.entries(val)) {
-                        bonuses.skills[skillKey] =
-                            (bonuses.skills[skillKey] || 0) + skillVal;
-                    }
-                }
-            }
+            });
         }
 
         // Handle new item structure with baseStats, combatStats, utilityStats
         if (item.baseStats) {
-            for (const [stat, statData] of Object.entries(item.baseStats)) {
+            Object.entries(item.baseStats).forEach(([stat, statData]) => {
                 const value = typeof statData === 'object' ? statData.value : statData;
                 if (typeof value === 'number') {
-                    // Map stat names to bonus keys
-                    const statMap = {
-                        strength: 'str',
-                        constitution: 'con',
-                        agility: 'agi',
-                        intelligence: 'int',
-                        spirit: 'spir',
-                        charisma: 'cha'
-                    };
                     const bonusKey = statMap[stat] || stat;
                     bonuses[bonusKey] = (bonuses[bonusKey] || 0) + value;
                 }
-            }
+            });
         }
 
         if (item.combatStats) {
-            for (const [stat, statData] of Object.entries(item.combatStats)) {
-                // Handle spell damage types specifically
+            Object.entries(item.combatStats).forEach(([stat, statData]) => {
+                // Handle special cases first
                 if (stat === 'spellDamage' && statData.types) {
-                    for (const [spellType, spellData] of Object.entries(statData.types)) {
+                    Object.entries(statData.types).forEach(([spellType, spellData]) => {
                         const value = typeof spellData === 'object' ? spellData.value : spellData;
                         if (typeof value === 'number') {
                             bonuses.spellDamageTypes[spellType] = (bonuses.spellDamageTypes[spellType] || 0) + value;
                         }
-                    }
-                    continue;
+                    });
+                    return;
                 }
 
-                // Handle resistances specifically
                 if (stat === 'resistances' && typeof statData === 'object') {
-                    for (const [resType, resData] of Object.entries(statData)) {
+                    Object.entries(statData).forEach(([resType, resData]) => {
                         const value = typeof resData === 'object' ? resData.value : resData;
                         if (typeof value === 'number') {
                             bonuses.resistances[resType] = (bonuses.resistances[resType] || 0) + value;
                         }
-                    }
-                    continue;
+                    });
+                    return;
                 }
 
                 // Handle regular combat stats
@@ -97,7 +104,6 @@ export function calculateEquipmentBonuses(equipment = {}) {
                 const isPercentage = typeof statData === 'object' ? statData.isPercentage : false;
 
                 if (typeof value === 'number') {
-                    // Map combat stat names to bonus keys
                     const statMap = {
                         healthRestore: 'healthRegen',
                         manaRestore: 'manaRegen',
@@ -130,22 +136,18 @@ export function calculateEquipmentBonuses(equipment = {}) {
 
                     bonuses[bonusKey] = (bonuses[bonusKey] || 0) + value;
                 }
-            }
+            });
         }
 
         if (item.utilityStats) {
-            for (const [stat, statData] of Object.entries(item.utilityStats)) {
+            Object.entries(item.utilityStats).forEach(([stat, statData]) => {
                 const value = typeof statData === 'object' ? statData.value : statData;
                 if (typeof value === 'number') {
                     // Map utility stat names to bonus keys
-                    const statMap = {
-                        movementSpeed: 'moveSpeed',
-                        carryingCapacity: 'carryingCapacity'
-                    };
                     const bonusKey = statMap[stat] || stat;
                     bonuses[bonusKey] = (bonuses[bonusKey] || 0) + value;
                 }
-            }
+            });
         }
 
         // Handle weapon stats for damage bonuses
@@ -201,12 +203,11 @@ export function calculateEquipmentBonuses(equipment = {}) {
             }
         });
 
-        // Handle top-level armorClass property (for legacy items)
+        // Handle top-level armorClass property (for legacy items - deprecated, use armor instead)
         if (item.armorClass && typeof item.armorClass === 'number') {
             bonuses.armor = (bonuses.armor || 0) + item.armorClass;
         }
-    }
-
+    });
 
     return bonuses;
 }
@@ -473,7 +474,7 @@ export function calculateCarryingCapacity(strength, equipmentBonus = 0) {
 
     const totalSlots = rowsPerSection * slotsPerRow * sectionsCount;
 
-    console.log('🎒 Carrying capacity calculation:', {
+    logger.debug('🎒 Carrying capacity calculation:', {
         strength,
         baseRowsPerSection,
         additionalRows,
@@ -501,7 +502,7 @@ export function getInventoryGridDimensions(carryingCapacity) {
     // Calculate rows per section (minimum 5 rows, then add based on strength)
     const rowsPerSection = Math.ceil(slotsPerSection / slotsPerRow);
 
-    console.log('📐 Grid dimensions calculation:', {
+    logger.debug('📐 Grid dimensions calculation:', {
         carryingCapacity,
         slotsPerSection,
         rowsPerSection,

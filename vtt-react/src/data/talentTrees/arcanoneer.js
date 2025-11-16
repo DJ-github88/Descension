@@ -105,7 +105,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: 'prism_mage_t4_crystal_armor',
     name: 'Crystal Armor',
-    description: 'While you have 3+ spheres banked of the same element, you gain +2 AC per rank and resistance to that element.',
+    description: 'While you have 3+ spheres banked of the same element, you gain +2 armor per rank and resistance to that element.',
     icon: 'inv_misc_gem_crystal_01',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -247,7 +247,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: 'entropy_weaver_t4_chaos_armor',
     name: 'Chaos Armor',
-    description: 'While you have Chaos spheres banked, you gain +1 AC per Chaos sphere per rank and resistance to random elemental damage.',
+    description: 'While you have Chaos spheres banked, you gain +1 armor per Chaos sphere per rank and resistance to random elemental damage.',
     icon: 'spell_shadow_nethercloak',
     maxRanks: 2,
     position: { x: 2, y: 4 },

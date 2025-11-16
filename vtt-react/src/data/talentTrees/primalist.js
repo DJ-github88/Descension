@@ -56,7 +56,7 @@ export const PRIMALIST_EARTHWARDEN = [
   {
     id: 'earthwarden_t1_earthen_shield',
     name: 'Earthen Shield',
-    description: 'Guardian Totem absorbs +2 damage per rank. Earth Totem grants +1 AC per rank.',
+    description: 'Guardian Totem absorbs +2 damage per rank. Earth Totem grants +1 armor per rank.',
     icon: 'spell_nature_stoneskintotem',
     maxRanks: 4,
     position: { x: 3, y: 1 },

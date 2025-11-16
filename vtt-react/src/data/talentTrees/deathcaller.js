@@ -112,7 +112,7 @@ export const DEATHCALLER_SPECTRAL_MASTER = [
   {
     id: 'deathcaller_spectral_t1_spectral_durability',
     name: 'Spectral Durability',
-    description: 'Spectral summons gain +1 AC per rank and resistance to necrotic damage.',
+    description: 'Spectral summons gain +1 armor per rank and resistance to necrotic damage.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 3,
     position: { x: 1, y: 1 },

@@ -1074,7 +1074,7 @@ export const RACE_DATA = {
                                 },
                                 {
                                     name: 'Stone Armor',
-                                    description: 'Natural armor provides +1 to AC',
+                                    description: 'Natural armor provides +1 to armor',
                                     statModifier: {
                                         stat: 'armor_class',
                                         magnitude: 1,
@@ -1518,7 +1518,7 @@ export const RACE_DATA = {
                 traits: [
                     {
                         name: 'Forest Guardian',
-                        description: 'Sense threats to natural areas within 1 mile. Gain +1 AC when defending nature.',
+                        description: 'Sense threats to natural areas within 1 mile. Gain +1 armor when defending nature.',
                         type: 'nature'
                     },
                     {
@@ -1664,7 +1664,7 @@ export const RACE_DATA = {
                 traits: [
                     {
                         name: 'Forge Heart',
-                        description: 'Can work metal without tools (2 AP). Items gain +1 damage or AC.',
+                        description: 'Can work metal without tools (2 AP). Items gain +1 damage or armor.',
                         type: 'crafting'
                     },
                     {

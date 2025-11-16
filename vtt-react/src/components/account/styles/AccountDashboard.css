@@ -135,7 +135,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   min-width: 140px;
   text-align: center;
 }
@@ -172,14 +172,14 @@
 .create-character-btn,
 .create-first-character-btn,
 .edit-btn {
-  padding: 0.8rem 1.5rem;
+  padding: 0.5rem 1rem;
   background: rgba(212, 175, 55, 0.9);
   border: 2px solid rgba(184, 134, 11, 0.3);
-  border-radius: 8px;
+  border-radius: 6px;
   color: #2d1810;
   font-family: 'Cinzel', serif;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(139, 69, 19, 0.1);
@@ -648,7 +648,7 @@
   border: 1px solid rgba(212, 175, 55, 0.3);
   color: #d4af37;
   padding: 0.5rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -765,7 +765,7 @@
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -810,7 +810,7 @@
   gap: 0.75rem;
   padding: 0.75rem;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   transition: all 0.3s ease;
 }
 
@@ -882,7 +882,7 @@
 .character-preview {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 241, 232, 0.9) 100%);
   border: 2px solid rgba(139, 69, 19, 0.3);
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   padding: 1rem;
   text-align: center;
   transition: all 0.3s ease;
@@ -1048,7 +1048,7 @@
   padding: 1rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 241, 232, 0.9) 100%);
   border: 2px solid rgba(139, 69, 19, 0.3);
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   color: #2d1810;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -1354,7 +1354,7 @@
   .fan-tab {
     margin: 0;
     min-width: 120px;
-    border-radius: 8px;
+    border-radius: var(--pf-border-radius-lg);
     width: 100%;
     padding: var(--pf-space-mobile-4) var(--pf-space-mobile-3);
     font-size: var(--pf-font-size-mobile-base);
@@ -1838,7 +1838,7 @@
 .characters-full-view {
   background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
   border: 2px solid #8b4513;
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   padding: 2rem;
   box-shadow: 0 4px 16px rgba(139, 69, 19, 0.2);
 }
@@ -1896,7 +1896,7 @@
   color: #f4f1e8;
   border: none;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   font-family: 'Cinzel', serif;
   font-weight: 600;
   cursor: pointer;
@@ -2281,7 +2281,7 @@
 .character-card-compact .mana-resource .resource-bar-container,
 .character-card-compact .action-resource .resource-bar-container {
   height: 14px !important;
-  background: rgba(0, 0, 0, 0.2) !important;
+  background: var(--pf-bg-overlay-light) !important;
   border: 1px solid rgba(0, 0, 0, 0.3) !important;
   border-radius: 4px !important;
   overflow: visible !important;
@@ -2759,7 +2759,7 @@
 .character-card-compact .health-resource .resource-bar-container,
 .character-card-compact .mana-resource .resource-bar-container,
 .character-card-compact .action-resource .resource-bar-container {
-  background: rgba(0, 0, 0, 0.2) !important;
+  background: var(--pf-bg-overlay-light) !important;
   border-radius: 4px !important;
   height: 18px !important;
   border: 1px solid rgba(0, 0, 0, 0.3) !important;
@@ -3145,9 +3145,9 @@
   background: linear-gradient(135deg, #d4af37 0%, #f4e4a6 100%);
   border: 2px solid #d4af37;
   color: #2c2416;
-  padding: 0.75rem 1.5rem;
-  border-radius: 10px;
-  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--pf-border-radius-lg);
+  font-size: 0.85rem;
   font-weight: 700;
   font-family: 'Cinzel', serif;
   cursor: pointer;
@@ -3156,17 +3156,18 @@
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 1px 3px rgba(139, 69, 19, 0.15);
+  margin-right: 0.5rem;
 }
 
 .create-character-btn:hover {
   background: linear-gradient(135deg, #c19b26 0%, #e6d195 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 18px rgba(212, 175, 55, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(139, 69, 19, 0.2);
 }
 
 .create-character-btn i {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .create-character-btn.disabled,
@@ -3250,7 +3251,7 @@
 .stat-item {
   background: rgba(212, 175, 55, 0.1);
   border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   padding: 0.75rem;
   text-align: center;
   transition: all 0.3s ease;
@@ -3291,7 +3292,7 @@
   color: #2d1810;
   border: 2px solid rgba(139, 69, 19, 0.3);
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: var(--pf-border-radius-lg);
   font-family: 'Cinzel', serif;
   font-weight: 600;
   cursor: pointer;

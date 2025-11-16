@@ -7,7 +7,7 @@ import useCreatureStore from "../store/creatureStore";
 import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
 import useCombatStore from "../store/combatStore";
-import useLevelEditorStore, { TERRAIN_TYPES, WALL_TYPES } from "../store/levelEditorStore";
+import useLevelEditorStore from "../store/levelEditorStore";
 import useMapStore from "../store/mapStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
 import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";
@@ -16,7 +16,6 @@ import GridContainer from "./grid/GridContainer";
 import CreatureToken from "./grid/CreatureToken";
 import CharacterToken from "./grid/CharacterToken";
 import MovementVisualization from "./grid/MovementVisualization";
-// import TokenTester from "./grid/TokenTester"; // Removed per user request
 import CanvasGridRenderer from "./grid/CanvasGridRenderer";
 import ProfessionalVTTEditor from "./level-editor/ProfessionalVTTEditor";
 import VTTDrawingEngine from "./level-editor/VTTDrawingEngine";

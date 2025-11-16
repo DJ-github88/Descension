@@ -47,7 +47,7 @@ export const FORMBENDER_METAMORPH = [
   {
     id: 'metamorph_t2_morphological_resilience',
     name: 'Morphological Resilience',
-    description: 'While transformed, you gain +1 AC per rank and resistance to poison. When you transform, roll 1d8 - on 6+ per rank, remove one debuff from yourself.',
+    description: 'While transformed, you gain +1 armor per rank and resistance to poison. When you transform, roll 1d8 - on 6+ per rank, remove one debuff from yourself.',
     icon: 'spell_nature_spiritarmor',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -320,7 +320,7 @@ export const FORMBENDER_PRIMORDIAL = [
   {
     id: 'primordial_t1_avalanche_essence',
     name: 'Avalanche Essence',
-    description: 'Your earth transformations gain +2 AC per rank. When you transform into Avalanche, roll 1d6 - on 4+ per rank, create stone spikes that deal 2d6 piercing damage in 20 ft.',
+    description: 'Your earth transformations gain +2 armor per rank. When you transform into Avalanche, roll 1d6 - on 4+ per rank, create stone spikes that deal 2d6 piercing damage in 20 ft.',
     icon: 'spell_nature_earthquake',
     maxRanks: 4,
     position: { x: 3, y: 1 },

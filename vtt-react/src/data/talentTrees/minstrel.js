@@ -226,7 +226,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: 'chord_t1_harmonic_shield',
     name: 'Harmonic Shield',
-    description: 'Allies within 20ft gain +1 AC per active song per rank. Maximum +3 AC.',
+    description: 'Allies within 20ft gain +1 armor per active song per rank. Maximum +3 armor.',
     icon: 'spell_holy_powerwordbarrier',
     maxRanks: 3,
     position: { x: 2, y: 1 },
@@ -342,7 +342,7 @@ export const MINSTREL_CHORD_COMBINATIONS = [
   {
     id: 'chord_t5_symphonic_barrier',
     name: 'Symphonic Barrier',
-    description: 'Create a 50ft barrier of harmonic energy. Enemies take 2d8 thunder damage per rank when crossing. Allies gain +2 AC while inside.',
+    description: 'Create a 50ft barrier of harmonic energy. Enemies take 2d8 thunder damage per rank when crossing. Allies gain +2 armor while inside.',
     icon: 'spell_holy_powerwordbarrier',
     maxRanks: 3,
     position: { x: 2, y: 5 },

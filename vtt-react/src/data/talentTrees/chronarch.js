@@ -56,7 +56,7 @@ export const CHRONARCH_TEMPORAL_CONTROL = [
   {
     id: 'temporal_t3_reflexes',
     name: 'Lightning Reflexes',
-    description: 'You and allies within 20ft roll initiative twice, take higher result. +1d6 to AC against attacks from slowed creatures.',
+    description: 'You and allies within 20ft roll initiative twice, take higher result. +1d6 to armor against attacks from slowed creatures.',
     icon: 'spell_nature_invisibilty',
     maxRanks: 3,
     position: { x: 4, y: 2 },
@@ -315,7 +315,7 @@ export const CHRONARCH_CHRONOS_ENERGY = [
   {
     id: 'energy_t1_energy_shield',
     name: 'Chronal Shield',
-    description: 'Surround yourself with temporal energy. +2 AC per rank, absorb 1d8 force damage from time effects.',
+    description: 'Surround yourself with temporal energy. +2 armor per rank, absorb 1d8 force damage from time effects.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 3,
     position: { x: 2, y: 1 },

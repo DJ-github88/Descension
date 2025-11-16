@@ -231,7 +231,7 @@ export const FATE_WEAVER_CARD_MASTER = [
   {
     id: 'card_t2_flush_power',
     name: 'Flush Power',
-    description: 'Suits have power: Hearts heal +1d8 per rank, Diamonds deal +1d8 force damage, Clubs stun (DC 13 + rank), Spades reduce enemy AC by 2 per rank.',
+    description: 'Suits have power: Hearts heal +1d8 per rank, Diamonds deal +1d8 force damage, Clubs stun (DC 13 + rank), Spades reduce enemy armor by 2 per rank.',
     icon: 'inv_misc_tarot_01',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -381,7 +381,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
   {
     id: 'thread_t2_thread_armor',
     name: 'Thread Armor',
-    description: 'Threads weave protective armor. +1 AC per 2 Threads spent. Lasts until you spend more Threads.',
+    description: 'Threads weave protective armor. +1 armor per 2 Threads spent. Lasts until you spend more Threads.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 4,
     position: { x: 3, y: 2 },
@@ -399,7 +399,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
   {
     id: 'thread_t2_thread_barrier',
     name: 'Thread Barrier',
-    description: 'Create barriers of woven threads. Spend 3 Threads for a 20ft wall (AC 15, 20 HP per rank). Lasts 1 minute.',
+    description: 'Create barriers of woven threads. Spend 3 Threads for a 20ft wall (armor 15, 20 HP per rank). Lasts 1 minute.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 3,
     position: { x: 4, y: 3 },

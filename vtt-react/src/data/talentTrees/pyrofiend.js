@@ -435,7 +435,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t3_demon_form',
     name: 'Demon Form',
-    description: 'Unlocks Demon Form - transform for 1 minute. +2 AC per rank, +1 to all saves, regenerate 1d8 HP per round.',
+    description: 'Unlocks Demon Form - transform for 1 minute. +2 armor per rank, +1 to all saves, regenerate 1d8 HP per round.',
     icon: 'spell_shadow_metamorphosis',
     maxRanks: 3,
     position: { x: 0, y: 4 },

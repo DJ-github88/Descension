@@ -275,7 +275,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: 'cult_t1_summon_demonling',
     name: 'Summon Demonling',
-    description: 'Summon a demonling to fight for you. It has AC 13 and deals 1d6 piercing damage.',
+    description: 'Summon a demonling to fight for you. It has armor 13 and deals 1d6 piercing damage.',
     icon: 'spell_shadow_summonfelhunter',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -353,7 +353,7 @@ export const FALSE_PROPHET_CULTIST = [
   {
     id: 'cult_t4_cult_mastery',
     name: 'Cult Mastery',
-    description: 'Master of cult leadership. Summoned creatures have +2 AC and damage.',
+    description: 'Master of cult leadership. Summoned creatures have +2 armor and damage.',
     icon: 'spell_shadow_antimagicshell',
     maxRanks: 3,
     position: { x: 2, y: 4 },

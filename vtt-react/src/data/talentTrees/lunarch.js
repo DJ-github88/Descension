@@ -227,7 +227,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: 'moonwell_guardian_t2_protective_aura',
     name: 'Protective Aura',
-    description: 'Allies within 10ft of you gain +1 AC and resistance to necrotic damage. During Waxing Moon, this bonus increases to +2 AC.',
+    description: 'Allies within 10ft of you gain +1 armor and resistance to necrotic damage. During Waxing Moon, this bonus increases to +2 armor.',
     icon: 'spell_holy_devotionaura',
     maxRanks: 3,
     position: { x: 2, y: 2 },

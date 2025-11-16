@@ -143,7 +143,7 @@ export const HEXER_PATH = {
                     {
                         id: 'spirit_warded',
                         name: 'Spirit Warded',
-                        description: 'Protected by spirits, +3 AC'
+                        description: 'Protected by spirits, +3 armor'
                     }
                 ],
                 buffs: [

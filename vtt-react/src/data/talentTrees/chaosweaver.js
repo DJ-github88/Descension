@@ -164,7 +164,7 @@ export const CHAOS_WEAVER_ENTROPY_CONTROL = [
   {
     id: 'entropy_t2_entropy_shield',
     name: 'Entropy Shield',
-    description: 'Shield yourself with decaying energy. +3 AC, reflect 1d6 necrotic damage per rank. Roll 1d20: on 15+, shield damages attacker.',
+    description: 'Shield yourself with decaying energy. +3 armor, reflect 1d6 necrotic damage per rank. Roll 1d20: on 15+, shield damages attacker.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -317,7 +317,7 @@ export const CHAOS_WEAVER_CHAOS_DICE = [
   {
     id: 'dice_t2_chaos_shield',
     name: 'Chaos Shield',
-    description: 'Surround yourself with chaotic energy. +2 AC per chaos die. Roll 1d20 when attacked: on 15+ per rank, attacker takes 1d8 random damage.',
+    description: 'Surround yourself with chaotic energy. +2 armor per chaos die. Roll 1d20 when attacked: on 15+ per rank, attacker takes 1d8 random damage.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 3,
     position: { x: 1, y: 3 },

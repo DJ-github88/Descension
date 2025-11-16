@@ -150,7 +150,7 @@ export const INSCRIPTOR_ENCHANTER = [
   {
     id: 'enchanter_t1_armor_enhancement',
     name: 'Armor Enhancement',
-    description: 'Armor inscriptions grant +1 AC per rank.',
+    description: 'Armor inscriptions grant +1 armor per rank.',
     icon: 'spell_holy_devotionaura',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -199,7 +199,7 @@ export const INSCRIPTOR_ENCHANTER = [
   {
     id: 'enchanter_t2_magical_armor',
     name: 'Magical Armor',
-    description: 'Armor provides +2 AC against magical attacks per rank.',
+    description: 'Armor provides +2 armor against magical attacks per rank.',
     icon: 'spell_holy_greaterblessingofsanctuary',
     maxRanks: 2,
     position: { x: 3, y: 3 },

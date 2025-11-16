@@ -642,7 +642,7 @@ PRIMALIST QUICK REFERENCE
 
 TOTEM PLACEMENT:
 • Cost: 3 mana per totem
-• HP: 10 HP each (AC 12)
+• HP: 10 HP each (armor 12)
 • Radius: 10 ft (15 ft for Spiritcaller)
 • Max Active: 8 totems
 

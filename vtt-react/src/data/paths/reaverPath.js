@@ -66,7 +66,7 @@ export const REAVER_PATH = {
                     {
                         id: 'raging',
                         name: 'Raging',
-                        description: '+8 damage, -2 AC'
+                        description: '+8 damage, -2 armor'
                     }
                 ],
                 buffs: [
@@ -303,7 +303,7 @@ export const REAVER_PATH = {
                             {
                                 id: 'blood_rage',
                                 name: 'Blood Rage',
-                                description: '+8 damage dealt, -2 AC (easier to hit)'
+                                description: '+8 damage dealt, -2 armor (easier to hit)'
                             }
                         ],
                         buffs: [
@@ -633,7 +633,7 @@ export const REAVER_PATH = {
                             {
                                 id: 'battle_cry',
                                 name: 'Battle Cry',
-                                description: 'Inspired by warlord, +3 attack, +2 AC'
+                                description: 'Inspired by warlord, +3 attack, +2 armor'
                             }
                         ],
                         buffs: [

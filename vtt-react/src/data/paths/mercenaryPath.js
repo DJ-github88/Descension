@@ -58,7 +58,7 @@ export const MERCENARY_PATH = {
                     {
                         id: 'marked_target',
                         name: 'Marked Target',
-                        description: 'Weakness exploited, -3 AC, you deal 25% more damage to this target'
+                        description: 'Weakness exploited, -3 armor, you deal 25% more damage to this target'
                     }
                 ],
                 debuffs: [
@@ -197,7 +197,7 @@ export const MERCENARY_PATH = {
                 selectedEffects: [
                     {
                         name: 'Tactical Withdrawal',
-                        description: 'Move up to 30 feet away from enemies, gaining +3 AC until end of turn',
+                        description: 'Move up to 30 feet away from enemies, gaining +3 armor until end of turn',
                         customName: 'Tactical Retreat'
                     }
                 ],
@@ -285,7 +285,7 @@ export const MERCENARY_PATH = {
                             {
                                 id: 'marked_target',
                                 name: 'Marked Target',
-                                description: 'Weakness exploited, -3 AC, you deal 25% more damage to this target'
+                                description: 'Weakness exploited, -3 armor, you deal 25% more damage to this target'
                             }
                         ],
                         debuffs: [

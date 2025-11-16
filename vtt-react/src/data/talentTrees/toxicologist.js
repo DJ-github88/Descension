@@ -258,7 +258,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     id: 'gadget_singularity_swarm_intelligence',
     name: 'Swarm Intelligence',
-    description: 'Your contraptions develop hive mind intelligence. All your contraptions share senses within 100 feet and can coordinate attacks. Each contraption gains +2 AC and can take reactions.',
+    description: 'Your contraptions develop hive mind intelligence. All your contraptions share senses within 100 feet and can coordinate attacks. Each contraption gains +2 armor and can take reactions.',
     icon: 'inv_misc_enggizmos_02',
     maxRanks: 2,
     position: { x: 1, y: 5 },

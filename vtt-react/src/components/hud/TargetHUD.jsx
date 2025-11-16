@@ -22,11 +22,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [showResourceModal, setShowResourceModal] = useState(false);
     const [resourceModalData, setResourceModalData] = useState(null);
-    const [refreshKey, setRefreshKey] = useState(0);
     const [tooltip, setTooltip] = useState({ show: false, content: '', position: { x: 0, y: 0 } });
     const [currentTime, setCurrentTime] = useState(Date.now());
     const [conditionContextMenu, setConditionContextMenu] = useState({ show: false, condition: null, position: { x: 0, y: 0 } });
-    const [forceUpdate, setForceUpdate] = useState(0);
     const [showDurationModal, setShowDurationModal] = useState(false);
     const [durationModalCondition, setDurationModalCondition] = useState(null);
     const [showCreatureInspect, setShowCreatureInspect] = useState(false);
@@ -44,9 +42,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const { getBuffsForTarget, getRemainingTime } = useBuffStore();
     const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime } = useDebuffStore();
 
-    // Force re-render when tokens change for creature targets - use reactive subscription
-    const tokens = useCreatureStore(state => state.tokens);
-
     // Real-time updates for condition timers - reduced frequency for performance
     useEffect(() => {
         const interval = setInterval(() => {
@@ -55,71 +50,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
         return () => clearInterval(interval);
     }, []);
-
-    // Watch for store changes using direct store access
-    useEffect(() => {
-        // Force update when target changes or when we need to refresh
-        setForceUpdate(prev => prev + 1);
-    }, [currentTarget, refreshKey]);
-
-    // Watch for token changes specifically for creature targets
-    useEffect(() => {
-        if (targetType === 'creature' && currentTarget?.id) {
-            const targetToken = tokens.find(t => t.id === currentTarget.id);
-            // Always force refresh when tokens array changes for creature targets
-            setForceUpdate(prev => prev + 1);
-        }
-    }, [tokens, targetType, currentTarget?.id]);
-
-    // Subscribe to store changes for immediate updates
-    useEffect(() => {
-        const unsubscribers = [];
-
-        // Subscribe to party store changes for party member targets
-        if (targetType === 'party_member') {
-            const unsubscribeParty = usePartyStore.subscribe(
-                (state) => state.partyMembers,
-                (partyMembers) => {
-                    // Check if our target is in the updated party members
-                    const updatedMember = partyMembers.find(m => m.id === currentTarget?.id);
-                    if (updatedMember) {
-                        setForceUpdate(prev => prev + 1);
-                    }
-                }
-            );
-            unsubscribers.push(unsubscribeParty);
-        }
-
-        // Subscribe to character store changes for current player target
-        if (targetType === 'player' || (targetType === 'party_member' && currentTarget?.id === 'current-player')) {
-            const unsubscribeCharacter = useCharacterStore.subscribe(
-                (state) => state,
-                () => {
-                    setForceUpdate(prev => prev + 1);
-                }
-            );
-            unsubscribers.push(unsubscribeCharacter);
-        }
-
-        // Subscribe to creature store changes for creature targets
-        if (targetType === 'creature') {
-            const unsubscribeCreature = useCreatureStore.subscribe(
-                (state) => state.tokens,
-                (tokens) => {
-                    // Check if our target token was updated
-                    const targetToken = tokens.find(t => t.id === currentTarget?.id);
-                    if (targetToken) {
-                        setForceUpdate(prev => prev + 1);
-                    }
-                }
-            );
-            unsubscribers.push(unsubscribeCreature);
-        }
-
-        return () => {
-            unsubscribers.forEach(unsubscribe => unsubscribe());
-        };
-    }, [targetType, currentTarget?.id]);
 
     // Close context menu when clicking outside
     useEffect(() => {
@@ -146,16 +76,19 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         }
     }, [showContextMenu, conditionContextMenu.show]);
 
+    // Get reactive store data for proper memoization
+    const partyMembers = usePartyStore(state => state.partyMembers);
+    const characterState = useCharacterStore(state => state);
+    const tokens = useCreatureStore(state => state.tokens);
+
     // Get target data based on type - memoized to ensure reactivity
     const targetData = useMemo(() => {
-        // This function will re-run when dependencies change
-        const _ = forceUpdate; // Keep forceUpdate dependency for timer-based updates
         if (!currentTarget) return null;
+
         if (targetType === 'party_member' || targetType === 'player') {
             // For party members, get fresh data from stores instead of cached data
             if (currentTarget.id === 'current-player') {
                 // Get fresh data from character store for current player
-                const characterState = useCharacterStore.getState();
                 return {
                     name: characterState.name,
                     class: characterState.class,
@@ -171,8 +104,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 };
             } else {
                 // Get fresh data from party store for other party members
-                const partyState = usePartyStore.getState();
-                const member = partyState.partyMembers.find(m => m.id === currentTarget.id);
+                const member = partyMembers.find(m => m.id === currentTarget.id);
                 if (member) {
                     return {
                         name: member.name,
@@ -207,10 +139,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             }
         } else if (targetType === 'creature') {
             // For creatures, get current values from token state if available
-            // Get fresh token data from store to ensure we have the latest state
-            const freshTokens = useCreatureStore.getState().tokens;
-            // Now we target by tokenId, so find the token directly
-            const token = freshTokens.find(t => t.id === currentTarget.id);
+            const token = tokens.find(t => t.id === currentTarget.id);
 
             let health, mana, actionPoints;
 
@@ -263,7 +192,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             };
         }
         return null;
-    }, [targetType, currentTarget, tokens, forceUpdate, refreshKey]);
+    }, [targetType, currentTarget, partyMembers, characterState, tokens]);
 
     // Get target image/icon based on target type
     const getTargetImage = () => {
@@ -661,12 +590,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         [stateKey]: newValue
                     });
 
-                    // Force immediate UI update
-                    setTimeout(() => {
-                        setForceUpdate(prev => prev + 1);
-                        setRefreshKey(prev => prev + 1);
-                    }, 0);
-
                     // Show floating combat text at token's screen position
                     if (window.showFloatingCombatText && token.position && adjustment !== 0) {
                         // Determine text type based on resource and adjustment direction
@@ -725,9 +648,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
         setShowResourceModal(false);
         setResourceModalData(null);
-
-        // Force refresh of target data
-        setRefreshKey(prev => prev + 1);
     };
 
     // Handle position changes from dragging with immediate visual feedback

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import ReactDOM from 'react-dom';
+import LazyImage from './LazyImage';
 import './UnifiedTooltip.css';
 
 /**
@@ -123,7 +124,7 @@ const UnifiedTooltip = ({
         {icon && (
           <div className="tooltip-icon">
             {typeof icon === 'string' ? (
-              <img src={`/icons/${icon}.png`} alt="" />
+              <LazyImage src={`/icons/${icon}.png`} alt="" width="16" height="16" />
             ) : (
               icon
             )}
@@ -148,4 +149,4 @@ const UnifiedTooltip = ({
   );
 };
 
-export default UnifiedTooltip;
+export default memo(UnifiedTooltip);

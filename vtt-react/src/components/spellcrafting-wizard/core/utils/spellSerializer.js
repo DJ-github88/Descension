@@ -5,6 +5,7 @@
  * creation of templates, and generation of human-readable descriptions.
  */
 
+import { formatResourceName } from '../../../../utils/formatUtils';
 import {
     EFFECT_TYPES,
     ENHANCED_EFFECT_TYPES,
@@ -897,26 +898,6 @@ import {
   /**
    * Format a resource name for display
    */
-  function formatResourceName(resourceType) {
-    switch (resourceType) {
-      case 'action_points':
-        return 'Action Points';
-      case 'combo_points':
-        return 'Combo Points';
-      case 'soul_shards':
-        return 'Soul Shards';
-      case 'holy_power':
-        return 'Holy Power';
-      case 'astral_power':
-        return 'Astral Power';
-      default:
-        // Convert snake_case to Title Case
-        return resourceType
-          .split('_')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ');
-    }
-  }
 
   /**
    * Format a parameter name for display

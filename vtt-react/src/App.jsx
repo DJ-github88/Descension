@@ -44,8 +44,6 @@ const CharacterViewPage = lazy(() => import("./components/account/CharacterViewP
 
 // Test components
 const TestTriggerDisplay = lazy(() => import("./components/spellcrafting-wizard/test/TestTriggerDisplay"));
-const TestChronarchTooltips = lazy(() => import('./components/TestChronarchTooltips'));
-const TestLichborneSpecializations = lazy(() => import('./components/TestLichborneSpecializations'));
 
 
 import initChatStore from './utils/initChatStore';
@@ -892,17 +890,6 @@ const AppContent = ({
                             </Suspense>
                         } />
 
-                        <Route path="/test/chronarch-tooltips" element={
-                            <Suspense fallback={<LoadingFallback message="Loading chronarch tooltip test..." />}>
-                                <TestChronarchTooltips />
-                            </Suspense>
-                        } />
-
-                        <Route path="/test/lichborne-specializations" element={
-                            <Suspense fallback={<LoadingFallback message="Loading lichborne specialization test..." />}>
-                                <TestLichborneSpecializations />
-                            </Suspense>
-                        } />
 
                         {/* Redirect unknown routes to home */}
                         <Route path="*" element={<Navigate to="/" replace />} />

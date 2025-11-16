@@ -151,7 +151,7 @@ export const LICHBORNE_SPECTRAL_REAPER = [
   {
     id: 'spectral_t2_necrotic_link',
     name: 'Necrotic Link',
-    description: 'Spectral minions share 50% of damage taken by you. You heal for 1d6 HP per rank when a minion dies. Minions gain +1 AC per rank.',
+    description: 'Spectral minions share 50% of damage taken by you. You heal for 1d6 HP per rank when a minion dies. Minions gain +1 armor per rank.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -248,7 +248,7 @@ export const LICHBORNE_PHYLACTERY_GUARDIAN = [
   {
     id: 'phylactery_t2_ice_shield',
     name: 'Ice Shield',
-    description: 'While Eternal Frost Aura is active, gain +2 AC per rank. Aura drain reduced by 1d6 HP.',
+    description: 'While Eternal Frost Aura is active, gain +2 armor per rank. Aura drain reduced by 1d6 HP.',
     icon: 'spell_frost_frostarmor',
     maxRanks: 2,
     position: { x: 0, y: 2 },

@@ -82,7 +82,7 @@ export const WITCH_DOCTOR_DATA = {
 *Six zombies shamble toward you, led by a necromancer. You begin the ritual. The loa are watching.*
 
 **Your Action**: Cast "Curse of Weakness" on Necromancer (6 mana)
-**Effect**: Target has -2 AC, disadvantage on STR saves, takes 1d6 necrotic damage per turn
+**Effect**: Target has -2 armor, disadvantage on STR saves, takes 1d6 necrotic damage per turn
 
 *You gesture at the necromancer. Dark voodoo energy WRAPS around him like chains.*
 
@@ -324,7 +324,7 @@ Carefully track battlefield conditions to know when you can invoke each loa. Som
       headers: ['Loa', 'Essence Cost', 'Precursors', 'Effect Summary'],
       rows: [
         ['Baron Samedi', '10', '3+ cursed enemies, Ritual of Death', 'Resurrect ally + curse all enemies (4d6 necrotic over 3 turns)'],
-        ['Erzulie', '8', '2+ allies within 10ft, Totem of Healing placed', '+2 AC, fear immunity, heal 3d8 to all allies in 30ft'],
+        ['Erzulie', '8', '2+ allies within 10ft, Totem of Healing placed', '+2 armor, fear immunity, heal 3d8 to all allies in 30ft'],
         ['Papa Legba', '7', '2+ essence from rituals, within 30ft of cursed enemy', 'Telepathy for 1hr + teleport 5 allies within 1 mile'],
         ['Simbi', '6', '1+ ally below 50% HP, Ritual of Cleansing', 'Healing rain: 4d6 HP, cure diseases/poisons in 30ft'],
         ['Ogoun', '9', 'Poison applied, 1+ ally in combat within 15ft', '+2 attack, physical resistance, +2d6 fire damage for 1min']
@@ -485,7 +485,7 @@ Maximum: 15 Essence
 LOA INVOCATIONS (Essence Cost):
 • Baron Samedi (10): Resurrect + curse all
 • Ogoun (9): +2 attack, resistance, +2d6 fire
-• Erzulie (8): +2 AC, fear immunity, heal 3d8
+• Erzulie (8): +2 armor, fear immunity, heal 3d8
 • Papa Legba (7): Telepathy + teleport allies
 • Simbi (6): Healing rain, cure diseases
 
@@ -687,7 +687,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         keyAbilities: [
           'Totem of Healing: Healing totem that restores 2d4 HP per turn to nearby allies',
           'Ritual of Cleansing: Purifying ritual that removes curses and diseases',
-          'Erzulie Invocation: Divine protection granting AC, fear immunity, and healing'
+          'Erzulie Invocation: Divine protection granting armor, fear immunity, and healing'
         ]
       },
       

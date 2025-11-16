@@ -18,7 +18,7 @@ export const MARTYR_PROTECTOR = [
   {
     id: 'prot_t1_sacred_barrier',
     name: 'Sacred Barrier',
-    description: 'Create sacred barriers that block enemy movement. 10ft walls per rank, AC 18.',
+    description: 'Create sacred barriers that block enemy movement. 10ft walls per rank, armor 18.',
     icon: 'spell_holy_devotionaura',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -27,7 +27,7 @@ export const MARTYR_PROTECTOR = [
   {
     id: 'prot_t1_protective_aura',
     name: 'Protective Aura',
-    description: 'Emit a protective aura. Allies within 10ft gain +1 AC per rank.',
+    description: 'Emit a protective aura. Allies within 10ft gain +1 armor per rank.',
     icon: 'spell_holy_auraoflight',
     maxRanks: 4,
     position: { x: 3, y: 1 },
@@ -36,7 +36,7 @@ export const MARTYR_PROTECTOR = [
   {
     id: 'prot_t1_shield_wall',
     name: 'Shield Wall',
-    description: 'Form a shield wall with allies. Adjacent allies gain +2 AC and can use your shield bonus.',
+    description: 'Form a shield wall with allies. Adjacent allies gain +2 armor and can use your shield bonus.',
     icon: 'ability_warrior_shieldwall',
     maxRanks: 2,
     position: { x: 2, y: 1 },

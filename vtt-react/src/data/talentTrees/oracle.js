@@ -27,7 +27,7 @@ export const ORACLE_SEER = [
   {
     id: 'seer_t1_prescience',
     name: 'Prescience',
-    description: 'Sense immediate threats. You cannot be surprised and have +1 AC against opportunity attacks per rank.',
+    description: 'Sense immediate threats. You cannot be surprised and have +1 armor against opportunity attacks per rank.',
     icon: 'spell_holy_heroism',
     maxRanks: 3,
     position: { x: 3, y: 0 },
@@ -85,7 +85,7 @@ export const ORACLE_SEER = [
   {
     id: 'seer_t3_oracle_of_fate',
     name: 'Oracle of Fate',
-    description: 'Become an oracle of fate. You can see the HP and AC of creatures within 60ft.',
+    description: 'Become an oracle of fate. You can see the HP and armor of creatures within 60ft.',
     icon: 'spell_holy_mindvision',
     maxRanks: 1,
     position: { x: 0, y: 2 },

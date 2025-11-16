@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
@@ -21,6 +21,43 @@ import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
 import ShareToCommunityDialog from './ShareToCommunityDialog';
 import useSpellbookStore from '../../../../store/spellbookStore';
 import { useCommunitySpells } from '../../../../hooks/useCommunitySpells';
+
+// Simple virtualization hook for large lists
+const useVirtualScroll = (items, itemHeight = 200, containerHeight = 600) => {
+  const [scrollTop, setScrollTop] = useState(0);
+  const [visibleRange, setVisibleRange] = useState({ start: 0, end: 20 });
+
+  const totalHeight = items.length * itemHeight;
+
+  const handleScroll = useCallback((e) => {
+    const newScrollTop = e.target.scrollTop;
+    setScrollTop(newScrollTop);
+
+    const start = Math.floor(newScrollTop / itemHeight);
+    const end = Math.min(
+      start + Math.ceil(containerHeight / itemHeight) + 2, // +2 for buffer
+      items.length
+    );
+
+    setVisibleRange({ start: Math.max(0, start - 1), end }); // -1 for buffer
+  }, [items.length, itemHeight, containerHeight]);
+
+  const visibleItems = useMemo(() => {
+    return items.slice(visibleRange.start, visibleRange.end).map((item, index) => ({
+      ...item,
+      virtualIndex: visibleRange.start + index
+    }));
+  }, [items, visibleRange]);
+
+  const offsetY = visibleRange.start * itemHeight;
+
+  return {
+    totalHeight,
+    visibleItems,
+    offsetY,
+    onScroll: handleScroll
+  };
+};
 
 
 // Helper function to get spell icon URL

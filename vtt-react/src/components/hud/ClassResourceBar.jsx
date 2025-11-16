@@ -20,191 +20,212 @@ const ClassResourceBar = ({
     size = 'normal', // 'small', 'normal', 'large'
     context = 'hud' // 'hud' or 'account' - controls whether to show interactive elements
 }) => {
-    const [showTooltip, setShowTooltip] = useState(false);
-    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
-    const [tooltipPlacement, setTooltipPlacement] = useState('above'); // 'above' | 'below'
+    // Consolidated state for better performance
+    const [uiState, setUiState] = useState({
+        showTooltip: false,
+        tooltipPosition: { x: 0, y: 0 },
+        tooltipPlacement: 'above', // 'above' | 'below'
+        showRageMenu: false,
+        rageInputValue: '',
+        showModifierMenu: false,
+        chaosWeaverHoverSection: null, // 'modifiers' | null
+        activeSpecialization: 'prism-mage', // 'prism-mage', 'entropy-weaver', 'sphere-architect'
+        rerollsUsed: 0,
+        swapMode: false,
+        selectedForSwap: []
+    });
+
+    // Arcanoneer state
+    const [arcanoneerState, setArcanoneerState] = useState({
+        localSpheres: [],
+        isRolling: false,
+        showControls: false,
+        diceButtonMode: 'roll' // 'roll' | 'spec' | 'prism-reroll' | 'architect-swap'
+    });
+
+    // Chaos Weaver state
+    const [chaosWeaverState, setChaosWeaverState] = useState({
+        localModifiers: 0 // Chaos Weaver Mayhem Modifiers
+    });
+
     const rageBarRef = useRef(null);
     const tooltipRef = useRef(null);
 
-    // State for Arcanoneer spheres (local state for interactive demo)
-    const [localSpheres, setLocalSpheres] = useState([]);
-    const [isRolling, setIsRolling] = useState(false);
-    const [showControls, setShowControls] = useState(false);
-    const [diceButtonMode, setDiceButtonMode] = useState('roll'); // 'roll' | 'spec' | 'prism-reroll' | 'architect-swap'
+    // Class-specific states consolidated
+    const [berserkerState, setBerserkerState] = useState({
+        localRage: classResource?.current || 0
+    });
 
-    // Berserker rage controls
-    const [showRageMenu, setShowRageMenu] = useState(false);
-    const [rageInputValue, setRageInputValue] = useState('');
+    const [bladedancerState, setBladedancerState] = useState({
+        localMomentum: 0,
+        localFlourish: 3,
+        currentStance: 'Flowing Water',
+        showStanceMenu: false,
+        showMomentumMenu: false,
+        showFlourishMenu: false,
+        momentumInputValue: '',
+        bladedancerHoverSection: null, // 'momentum' | 'flourish' | 'stance' | null
+        showSpecPassiveMenu: false,
+        selectedSpecialization: 'Flow Master' // 'Blade Dancer' | 'Duelist' | 'Shadow Dancer'
+    });
 
-    // Chaos Weaver mayhem modifier controls
-    const [localModifiers, setLocalModifiers] = useState(0); // Chaos Weaver Mayhem Modifiers
-    const [showModifierMenu, setShowModifierMenu] = useState(false);
-    const [chaosWeaverHoverSection, setChaosWeaverHoverSection] = useState(null); // 'modifiers' | null
+    const [chronarchState, setChronarchState] = useState({
+        localTimeShards: 7, // Start with 7 for demo
+        localTemporalStrain: 6, // Start with 6 for demo
+        showTimeShardsMenu: false,
+        showTemporalStrainMenu: false,
+        chronarchHoverSection: null // 'shards' | 'strain' | null
+    });
 
-    // State for Arcanoneer specialization
-    const [activeSpecialization, setActiveSpecialization] = useState('prism-mage'); // 'prism-mage', 'entropy-weaver', 'sphere-architect'
-    const [rerollsUsed, setRerollsUsed] = useState(0);
-    const [swapMode, setSwapMode] = useState(false);
-    const [selectedForSwap, setSelectedForSwap] = useState([]);
+    const [covenbaneState, setCovenbaneState] = useState({
+        localHexbreakerCharges: 4, // Start with 4 for demo
+        localAttackCounter: 2, // 1, 2, or 3 (resets to 1 after 3)
+        showChargesMenu: false,
+        covenbaneHoverSection: null // 'charges' | 'counter' | null
+    });
 
+    const [deathcallerState, setDeathcallerState] = useState({
+        localAscensionPaths: [true, true, true, false, false, false, false], // Start with 3 paths active
+        localBloodTokens: 12, // Start with 12 tokens for demo
+        showPathsMenu: false,
+        showTokensMenu: false,
+        deathcallerHoverSection: null // 'paths' | 'tokens' | null
+    });
 
-    // State for Berserker rage (local state for interactive demo)
-    const [localRage, setLocalRage] = useState(classResource?.current || 0);
-
-    // State for Bladedancer (local state for interactive demo)
-    const [localMomentum, setLocalMomentum] = useState(0);
-    const [localFlourish, setLocalFlourish] = useState(3);
-    const [currentStance, setCurrentStance] = useState('Flowing Water');
-    const [showStanceMenu, setShowStanceMenu] = useState(false);
-    const [showMomentumMenu, setShowMomentumMenu] = useState(false);
-    const [showFlourishMenu, setShowFlourishMenu] = useState(false);
-    const [momentumInputValue, setMomentumInputValue] = useState('');
-    const [bladedancerHoverSection, setBladedancerHoverSection] = useState(null); // 'momentum' | 'flourish' | 'stance' | null
-    const [showSpecPassiveMenu, setShowSpecPassiveMenu] = useState(false);
-    const [selectedSpecialization, setSelectedSpecialization] = useState('Flow Master'); // 'Blade Dancer' | 'Duelist' | 'Shadow Dancer'
-
-    // State for Chronarch (local state for interactive demo)
-    const [localTimeShards, setLocalTimeShards] = useState(7); // Start with 7 for demo
-    const [localTemporalStrain, setLocalTemporalStrain] = useState(6); // Start with 6 for demo
-    const [showTimeShardsMenu, setShowTimeShardsMenu] = useState(false);
-    const [showTemporalStrainMenu, setShowTemporalStrainMenu] = useState(false);
-    const [chronarchHoverSection, setChronarchHoverSection] = useState(null); // 'shards' | 'strain' | null
-
-    // State for Covenbane (local state for interactive demo)
-    const [localHexbreakerCharges, setLocalHexbreakerCharges] = useState(4); // Start with 4 for demo
-    const [localAttackCounter, setLocalAttackCounter] = useState(2); // 1, 2, or 3 (resets to 1 after 3)
-    const [showChargesMenu, setShowChargesMenu] = useState(false);
-    const [covenbaneHoverSection, setCovenbaneHoverSection] = useState(null); // 'charges' | 'counter' | null
-
-    // State for Deathcaller (local state for interactive demo)
-    const [localAscensionPaths, setLocalAscensionPaths] = useState([true, true, true, false, false, false, false]); // Start with 3 paths active
-    const [localBloodTokens, setLocalBloodTokens] = useState(12); // Start with 12 tokens for demo
-    const [showPathsMenu, setShowPathsMenu] = useState(false);
-    const [showTokensMenu, setShowTokensMenu] = useState(false);
-    const [deathcallerHoverSection, setDeathcallerHoverSection] = useState(null); // 'paths' | 'tokens' | null
-
-    // State for Dreadnaught (local state for interactive demo)
-    const [localDRP, setLocalDRP] = useState(30); // Start with 30 for demo
-    const [selectedResistanceType, setSelectedResistanceType] = useState('Slashing'); // Default resistance type
-    const [showDRPMenu, setShowDRPMenu] = useState(false);
-    const [dreadnaughtHoverSection, setDreadnaughtHoverSection] = useState(null); // 'drp' | 'resistance' | 'rebirth' | null
+    const [dreadnaughtState, setDreadnaughtState] = useState({
+        localDRP: 30, // Start with 30 for demo
+        selectedResistanceType: 'Slashing', // Default resistance type
+        showDRPMenu: false,
+        dreadnaughtHoverSection: null // 'drp' | 'resistance' | 'rebirth' | null
+    });
     const drpBarRef = useRef(null);
 
-    // State for Exorcist (local state for interactive demo)
-    const [localDominanceDie, setLocalDominanceDie] = useState(0); // Start with no demon
-    const [selectedDemonIndex, setSelectedDemonIndex] = useState(0); // Which demon is currently displayed
-    const [boundDemons, setBoundDemons] = useState([
-        null, // Empty slot - can be configured
-        null  // Empty slot - can be configured
-    ]); // Demo: 2 slots (base Exorcist), both empty by default
-    const [showDominanceMenu, setShowDominanceMenu] = useState(false);
-    const [exorcistHoverSection, setExorcistHoverSection] = useState(null); // 'dominance' | null
+    const [exorcistState, setExorcistState] = useState({
+        localDominanceDie: 0, // Start with no demon
+        selectedDemonIndex: 0, // Which demon is currently displayed
+        boundDemons: [null, null], // Demo: 2 slots (base Exorcist), both empty by default
+        showDominanceMenu: false,
+        exorcistHoverSection: null, // 'dominance' | null
+        showDemonConfigModal: false,
+        demonConfigMode: 'create', // 'create' | 'edit'
+        demonConfigInitialData: null
+    });
     const dominanceBarRef = useRef(null);
-    const [showDemonConfigModal, setShowDemonConfigModal] = useState(false);
-    const [demonConfigMode, setDemonConfigMode] = useState('create'); // 'create' | 'edit'
-    const [demonConfigInitialData, setDemonConfigInitialData] = useState(null);
 
-    // State for False Prophet (local state for interactive demo)
-    const [localMadness, setLocalMadness] = useState(8); // Start with 8 for demo
-    const [showMadnessMenu, setShowMadnessMenu] = useState(false);
-    const [falseProphetHoverSection, setFalseProphetHoverSection] = useState(null); // 'madness' | null
+    // Additional class states consolidated
+    const [falseProphetState, setFalseProphetState] = useState({
+        localMadness: 8, // Start with 8 for demo
+        showMadnessMenu: false,
+        falseProphetHoverSection: null // 'madness' | null
+    });
     const madnessBarRef = useRef(null);
 
-    // State for Fate Weaver (local state for interactive demo)
-    const [localThreads, setLocalThreads] = useState(7); // Start with 7 for demo (mid-range)
-    const [showThreadsMenu, setShowThreadsMenu] = useState(false);
-    const [fateWeaverHoverSection, setFateWeaverHoverSection] = useState(null); // 'threads' | null
-    const [selectedFateWeaverSpec, setSelectedFateWeaverSpec] = useState('fortune-teller'); // 'fortune-teller', 'card-master', 'thread-weaver'
+    const [fateWeaverState, setFateWeaverState] = useState({
+        localThreads: 7, // Start with 7 for demo (mid-range)
+        showThreadsMenu: false,
+        fateWeaverHoverSection: null, // 'threads' | null
+        selectedFateWeaverSpec: 'fortune-teller' // 'fortune-teller', 'card-master', 'thread-weaver'
+    });
     const threadsBarRef = useRef(null);
 
-    // State for Formbender (local state for interactive demo)
-    const [localWildInstinct, setLocalWildInstinct] = useState(8); // Start with 8 for demo
-    const [currentForm, setCurrentForm] = useState('nightstalker'); // Start in Nightstalker form
-    const [showWIMenu, setShowWIMenu] = useState(false);
-    const [showFormMenu, setShowFormMenu] = useState(false);
-    const [formbenderHoverSection, setFormbenderHoverSection] = useState(null); // 'wi' | 'form' | null
-    const [formbenderSpec, setFormbenderSpec] = useState('feral-hunter'); // Default to Feral Hunter
+    const [formbenderState, setFormbenderState] = useState({
+        localWildInstinct: 8, // Start with 8 for demo
+        currentForm: 'nightstalker', // Start in Nightstalker form
+        showWIMenu: false,
+        showFormMenu: false,
+        formbenderHoverSection: null, // 'wi' | 'form' | null
+        formbenderSpec: 'feral-hunter' // Default to Feral Hunter
+    });
     const wiBarRef = useRef(null);
 
-    // State for Primalist (local state for interactive demo)
-    const [localSynergy, setLocalSynergy] = useState(45); // Start with 45 for demo
-    const [activeTotems, setActiveTotems] = useState(5); // Start with 5 totems for demo
-    const [showSynergyMenu, setShowSynergyMenu] = useState(false);
-    const [primalistSpec, setPrimalistSpec] = useState('earthwarden'); // Default to Earthwarden
+    const [primalistState, setPrimalistState] = useState({
+        localSynergy: 45, // Start with 45 for demo
+        activeTotems: 5, // Start with 5 totems for demo
+        showSynergyMenu: false,
+        primalistSpec: 'earthwarden' // Default to Earthwarden
+    });
     const synergyBarRef = useRef(null);
 
-    // State for Gambler (local state for interactive demo)
-    const [localFortunePoints, setLocalFortunePoints] = useState(5); // Start with 5 for demo
-    const [gamblerSpec, setGamblerSpec] = useState('high-roller'); // Default to High Roller
-    const [showFPMenu, setShowFPMenu] = useState(false);
-    const [showSpecMenu, setShowSpecMenu] = useState(false);
-    const [gamblerHoverSection, setGamblerHoverSection] = useState(null); // 'fp' | null
+    const [gamblerState, setGamblerState] = useState({
+        localFortunePoints: 5, // Start with 5 for demo
+        gamblerSpec: 'high-roller', // Default to High Roller
+        showFPMenu: false,
+        showSpecMenu: false,
+        gamblerHoverSection: null // 'fp' | null
+    });
     const fpBarRef = useRef(null);
 
-    // State for Huntress (local state for interactive demo)
-    const [localQuarryMarks, setLocalQuarryMarks] = useState(3); // Start with 3 for demo
-    const [huntressSpec, setHuntressSpec] = useState('bladestorm'); // 'bladestorm' | 'beastmaster' | 'shadowdancer'
-    const [companionHP, setCompanionHP] = useState(50); // Companion HP
-    const [companionMaxHP] = useState(50); // Companion max HP
-    const [showQMMenu, setShowQMMenu] = useState(false);
-    const [showHuntressSpecMenu, setShowHuntressSpecMenu] = useState(false);
-    const [huntressHoverSection, setHuntressHoverSection] = useState(null); // 'marks' | 'companion' | null
+    const [huntressState, setHuntressState] = useState({
+        localQuarryMarks: 3, // Start with 3 for demo
+        huntressSpec: 'bladestorm', // 'bladestorm' | 'beastmaster' | 'shadowdancer'
+        companionHP: 50, // Companion HP
+        companionMaxHP: 50, // Companion max HP
+        showQMMenu: false,
+        showHuntressSpecMenu: false,
+        huntressHoverSection: null // 'marks' | 'companion' | null
+    });
     const qmBarRef = useRef(null);
 
-    // State for Inscriptor (local state for interactive demo)
-    const [localRunes, setLocalRunes] = useState(3); // Start with 3 for demo (Enchanter max)
-    const [localInscriptions, setLocalInscriptions] = useState(1); // Start with 1 for demo
-    const [inscriptorSpec, setInscriptorSpec] = useState('enchanter'); // 'runebinder' | 'enchanter' | 'glyphweaver'
-    const [showRunesMenu, setShowRunesMenu] = useState(false);
-    const [showInscriptorSpecMenu, setShowInscriptorSpecMenu] = useState(false);
-    const [inscriptorHoverSection, setInscriptorHoverSection] = useState(null); // 'runes' | 'inscriptions' | null
+    const [inscriptorState, setInscriptorState] = useState({
+        localRunes: 3, // Start with 3 for demo (Enchanter max)
+        localInscriptions: 1, // Start with 1 for demo
+        inscriptorSpec: 'enchanter', // 'runebinder' | 'enchanter' | 'glyphweaver'
+        showRunesMenu: false,
+        showInscriptorSpecMenu: false,
+        inscriptorHoverSection: null // 'runes' | 'inscriptions' | null
+    });
     const inscriptorBarRef = useRef(null);
 
-    // State for Lichborne (local state for interactive demo)
-    const [localPhylacteryHP, setLocalPhylacteryHP] = useState(25); // Start with 25 for demo
-    const [eternalFrostActive, setEternalFrostActive] = useState(false); // Aura state
-    const [lichborneSpec, setLichborneSpec] = useState('frostbound_tyrant'); // 'frostbound_tyrant' | 'spectral_reaper' | 'phylactery_guardian'
-    const [showPhylacteryMenu, setShowPhylacteryMenu] = useState(false);
-    const [lichborneHoverSection, setLichborneHoverSection] = useState(null); // 'phylactery' | null
+    const [lichborneState, setLichborneState] = useState({
+        localPhylacteryHP: 25, // Start with 25 for demo
+        eternalFrostActive: false, // Aura state
+        lichborneSpec: 'frostbound_tyrant', // 'frostbound_tyrant' | 'spectral_reaper' | 'phylactery_guardian'
+        showPhylacteryMenu: false,
+        lichborneHoverSection: null // 'phylactery' | null
+    });
     const phylacteryBarRef = useRef(null);
 
-    // State for Lunarch (local state for interactive demo)
-    const [currentLunarPhase, setCurrentLunarPhase] = useState('new_moon'); // 'new_moon' | 'waxing_moon' | 'full_moon' | 'waning_moon'
-    const [roundsInPhase, setRoundsInPhase] = useState(0); // 0-2 (3 rounds per phase)
-    const [lunarchSpec, setLunarchSpec] = useState('moonlight_sentinel'); // 'moonlight_sentinel' | 'starfall_invoker' | 'lunar_guardian'
-    const [showLunarPhaseMenu, setShowLunarPhaseMenu] = useState(false);
-    const [showLunarchSpecMenu, setShowLunarchSpecMenu] = useState(false);
-    const [lunarchHoverSection, setLunarchHoverSection] = useState(null); // 'phase' | 'timer' | null
+    const [lunarchState, setLunarchState] = useState({
+        currentLunarPhase: 'new_moon', // 'new_moon' | 'waxing_moon' | 'full_moon' | 'waning_moon'
+        roundsInPhase: 0, // 0-2 (3 rounds per phase)
+        lunarchSpec: 'moonlight_sentinel', // 'moonlight_sentinel' | 'starfall_invoker' | 'lunar_guardian'
+        showLunarPhaseMenu: false,
+        showLunarchSpecMenu: false,
+        lunarchHoverSection: null // 'phase' | 'timer' | null
+    });
     const lunarPhaseBarRef = useRef(null);
 
-    // State for Martyr (local state for interactive demo)
-    const [localDevotionLevel, setLocalDevotionLevel] = useState(3); // Start with level 3 for demo
-    const [localDevotionDamage, setLocalDevotionDamage] = useState(45); // Damage accumulated (45/60 toward level 4)
-    const [martyrSpec, setMartyrSpec] = useState('redemption'); // 'redemption' | 'zealot' | 'ascetic'
-    const [showDevotionMenu, setShowDevotionMenu] = useState(false);
-    const [showMartyrSpecMenu, setShowMartyrSpecMenu] = useState(false);
-    const [martyrHoverSection, setMartyrHoverSection] = useState(null); // 'devotion' | null
+    const [martyrState, setMartyrState] = useState({
+        localDevotionLevel: 3, // Start with level 3 for demo
+        localDevotionDamage: 45, // Damage accumulated (45/60 toward level 4)
+        martyrSpec: 'redemption', // 'redemption' | 'zealot' | 'ascetic'
+        showDevotionMenu: false,
+        showMartyrSpecMenu: false,
+        martyrHoverSection: null // 'devotion' | null
+    });
     const devotionBarRef = useRef(null);
 
-    // State for Minstrel (local state for interactive demo)
-    const [localNotes, setLocalNotes] = useState([3, 1, 2, 0, 2, 1, 0]); // Start with some notes for demo (I, II, III, IV, V, VI, VII)
-    const [minstrelSpec, setMinstrelSpec] = useState('battlechoir'); // 'battlechoir' | 'soulsinger' | 'dissonance'
-    const [minstrelHoverSection, setMinstrelHoverSection] = useState(null); // 'note-0' through 'note-6' | 'spec' | null
-    const [showNoteMenus, setShowNoteMenus] = useState([false, false, false, false, false, false, false]); // One for each note
-    const [showMinstrelSpecMenu, setShowMinstrelSpecMenu] = useState(false);
+    const [minstrelState, setMinstrelState] = useState({
+        localNotes: [3, 1, 2, 0, 2, 1, 0], // Start with some notes for demo (I, II, III, IV, V, VI, VII)
+        minstrelSpec: 'battlechoir', // 'battlechoir' | 'soulsinger' | 'dissonance'
+        minstrelHoverSection: null, // 'note-0' through 'note-6' | 'spec' | null
+        showNoteMenus: [false, false, false, false, false, false, false], // One for each note
+        showMinstrelSpecMenu: false
+    });
     const minstrelBarRef = useRef(null);
 
-    // State for Oracle (local state for interactive demo)
-    const [localVisions, setLocalVisions] = useState(6); // Start with 6 for demo
-    const [oracleSpec, setOracleSpec] = useState('seer'); // 'seer' | 'truthseeker' | 'fateweaver'
-    const [predictionAccuracy, setPredictionAccuracy] = useState({ total: 5, correct: 4, chain: 2 }); // Tracking predictions
-    const [lastVisionGain, setLastVisionGain] = useState([
-        { source: 'Correct Prediction (Moderate)', amount: 2 },
-        { source: 'Witness Critical', amount: 1 },
-        { source: 'Revelation', amount: 1 }
-    ]); // Last 3 Vision gains
-    const [showVisionsMenu, setShowVisionsMenu] = useState(false);
-    const [oracleHoverSection, setOracleHoverSection] = useState(null); // 'visions' | null
+    const [oracleState, setOracleState] = useState({
+        localVisions: 6, // Start with 6 for demo
+        oracleSpec: 'seer', // 'seer' | 'truthseeker' | 'fateweaver'
+        predictionAccuracy: { total: 5, correct: 4, chain: 2 }, // Tracking predictions
+        lastVisionGain: [
+            { source: 'Correct Prediction (Moderate)', amount: 2 },
+            { source: 'Witness Critical', amount: 1 },
+            { source: 'Revelation', amount: 1 }
+        ], // Last 3 Vision gains
+        showVisionsMenu: false,
+        oracleHoverSection: null // 'visions' | null
+    });
     const visionsBarRef = useRef(null);
 
     // Get class configuration
@@ -1335,41 +1356,30 @@ const ClassResourceBar = ({
         // For small size (HUD), show compact bar with controls
         if (size === 'small') {
             return (
-                <div className={`class-resource-bar mayhem-modifiers-display ${size}`}>
+                <div
+                    className={`class-resource-bar mayhem-modifiers-display ${size}`}
+                >
                     <div className="mayhem-bar-wrapper">
-                        {/* Control button with popup menu */}
-                        <div className="mayhem-controls-hud">
-                            <button
-                                className="mayhem-btn mayhem-menu-btn"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowModifierMenu(v => !v);
-                                }}
-                                title="Adjust Modifiers"
-                            >
-                                <i className="fas fa-sliders-h"></i>
-                            </button>
-                            {showModifierMenu && (
-                                <div className="mayhem-menu" onClick={(e) => e.stopPropagation()}>
-                                    <div className="mayhem-menu-row">
-                                        <button className="mayhem-menu-item" onClick={() => addModifiers(1)}>+1</button>
-                                        <button className="mayhem-menu-item" onClick={() => removeModifiers(1)}>-1</button>
-                                    </div>
-                                    <div className="mayhem-menu-row">
-                                        <button className="mayhem-menu-item" onClick={() => addModifiers(5)}>+5</button>
-                                        <button className="mayhem-menu-item" onClick={() => removeModifiers(5)}>-5</button>
-                                    </div>
-                                    <div className="mayhem-menu-row">
-                                        <button className="mayhem-menu-item" onClick={() => addModifiers(rollDice(1, 4))}>+1d4</button>
-                                        <button className="mayhem-menu-item" onClick={() => addModifiers(rollDice(2, 4))}>+2d4</button>
-                                    </div>
-                                    <div className="mayhem-menu-row set-row">
-                                        <button className="mayhem-menu-item" onClick={() => setLocalModifiers(0)}>Reset</button>
-                                        <button className="mayhem-menu-item" onClick={() => setLocalModifiers(maxModifiers)}>Max</button>
-                                    </div>
+                        {showModifierMenu && (
+                            <div className="mayhem-menu" onClick={(e) => e.stopPropagation()}>
+                                <div className="mayhem-menu-row">
+                                    <button className="mayhem-menu-item" onClick={() => addModifiers(1)}>+1</button>
+                                    <button className="mayhem-menu-item" onClick={() => removeModifiers(1)}>-1</button>
                                 </div>
-                            )}
-                        </div>
+                                <div className="mayhem-menu-row">
+                                    <button className="mayhem-menu-item" onClick={() => addModifiers(5)}>+5</button>
+                                    <button className="mayhem-menu-item" onClick={() => removeModifiers(5)}>-5</button>
+                                </div>
+                                <div className="mayhem-menu-row">
+                                    <button className="mayhem-menu-item" onClick={() => addModifiers(rollDice(1, 4))}>+1d4</button>
+                                    <button className="mayhem-menu-item" onClick={() => addModifiers(rollDice(2, 4))}>+2d4</button>
+                                </div>
+                                <div className="mayhem-menu-row set-row">
+                                    <button className="mayhem-menu-item" onClick={() => setLocalModifiers(0)}>Reset</button>
+                                    <button className="mayhem-menu-item" onClick={() => setLocalModifiers(maxModifiers)}>Max</button>
+                                </div>
+                            </div>
+                        )}
 
                         <div
                             className="mayhem-bar-container-hud"
@@ -1408,7 +1418,13 @@ const ClassResourceBar = ({
                                 setShowTooltip(false);
                             }}
                         >
-                            <div className="mayhem-bar-background">
+                            <div 
+                                className="mayhem-bar-background"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowModifierMenu(v => !v);
+                                }}
+                            >
                                 <div
                                     className="mayhem-bar-fill-hud"
                                     style={{
@@ -2707,44 +2723,6 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar fortune-points-gambling ${size}`}>
                 <div className="gambler-container">
-                    {/* Specialization Indicator */}
-                    <div
-                        className="spec-indicator"
-                        onClick={() => setShowSpecMenu(!showSpecMenu)}
-                        title=""
-                        style={{
-                            borderColor: specColor,
-                            color: specColor
-                        }}
-                    >
-                        <i className={currentSpec.icon} title=""></i>
-
-                        {/* Specialization Menu */}
-                        {showSpecMenu && (
-                            <div className="spec-menu" onClick={(e) => e.stopPropagation()}>
-                                <div className="menu-title">Choose Specialization</div>
-                                {Object.entries(specs).map(([key, spec]) => (
-                                    <button
-                                        key={key}
-                                        onClick={() => {
-                                            setGamblerSpec(key);
-                                            setLocalFortunePoints(Math.min(localFortunePoints, spec.max));
-                                            setShowSpecMenu(false);
-                                        }}
-                                        className={gamblerSpec === key ? 'active' : ''}
-                                        style={{
-                                            borderColor: spec.color,
-                                            color: gamblerSpec === key ? '#000' : spec.color,
-                                            background: gamblerSpec === key ? spec.color : 'transparent'
-                                        }}
-                                    >
-                                        <i className={spec.icon}></i> {spec.name} ({spec.max} FP)
-                                    </button>
-                                ))}
-                                <button className="menu-reset" onClick={() => setShowSpecMenu(false)}>Close</button>
-                            </div>
-                        )}
-                    </div>
 
                     {/* Fortune Points Bar */}
                     <div
@@ -2866,11 +2844,35 @@ const ClassResourceBar = ({
                         {/* FP Adjustment Menu */}
                         {showFPMenu && (
                             <div
-                                className="fp-menu"
+                                className="fp-menu inline-menu"
                                 onMouseEnter={() => setGamblerHoverSection(null)}
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <div className="menu-title">Adjust Fortune Points</div>
+
+                                {/* Specialization Selection */}
+                                <div className="spec-selection">
+                                    {Object.entries(specs).map(([key, spec]) => (
+                                        <button
+                                            key={key}
+                                            className={`spec-select-button ${gamblerSpec === key ? 'active' : ''}`}
+                                            onClick={() => {
+                                                setGamblerSpec(key);
+                                                setLocalFortunePoints(Math.min(localFortunePoints, spec.max));
+                                            }}
+                                            style={{
+                                                borderColor: spec.color,
+                                                color: gamblerSpec === key ? '#000' : spec.color,
+                                                background: gamblerSpec === key ? spec.color : 'transparent'
+                                            }}
+                                            title={spec.name}
+                                        >
+                                            <i className={key === 'card-sharp' ? 'fas fa-cards' : (spec.icon || 'fas fa-question')}></i>
+                                            <span className="spec-name">{spec.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+
                                 <div className="menu-buttons">
                                     <button onClick={() => setLocalFortunePoints(Math.min(maxFP, fpValue + 1))}>
                                         +1 FP (Successful Action)

@@ -61,8 +61,8 @@ const initialState = {
     isBackgroundManipulationMode: false,
 
     // Window scaling system
-    // Note: 0.83 is the new baseline (displayed as 100% in UI)
-    windowScale: 0.83,
+    // Note: 0.6889 is the new baseline (displayed as 100% in UI, 83% of previous 0.83)
+    windowScale: 0.6889,
     minWindowScale: 0.6,  // Displayed as 60% in UI
     maxWindowScale: 1.5,  // Displayed as 150% in UI
 
@@ -664,7 +664,7 @@ const useGameStore = create((set, get) => ({
             },
 
             resetWindowScale: () => {
-                set({ windowScale: 1.0 });
+                set({ windowScale: 0.6889 });
 
                 // Dispatch custom events to notify windows of scale changes
                 setTimeout(() => {

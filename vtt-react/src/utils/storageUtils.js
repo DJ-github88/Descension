@@ -4,6 +4,8 @@
  * Provides error handling, quota management, and consistent behavior
  */
 
+import { logger } from './logger';
+
 /**
  * Safe localStorage wrapper with error handling
  */
@@ -13,7 +15,7 @@ export const safeStorage = {
       const value = localStorage.getItem(name);
       return value;
     } catch (error) {
-      console.error(`Error retrieving ${name} from localStorage:`, error);
+      logger.error(`Error retrieving ${name} from localStorage:`, error);
       return null;
     }
   },
@@ -24,11 +26,11 @@ export const safeStorage = {
       return true;
     } catch (error) {
       if (error.name === 'QuotaExceededError') {
-        console.warn(`Storage quota exceeded for ${name}, attempting cleanup...`);
+        logger.warn(`Storage quota exceeded for ${name}, attempting cleanup...`);
         handleStorageQuotaExceeded(name, value);
         return false;
       } else {
-        console.error(`Error storing ${name} in localStorage:`, error);
+        logger.error(`Error storing ${name} in localStorage:`, error);
         return false;
       }
     }
@@ -39,7 +41,7 @@ export const safeStorage = {
       localStorage.removeItem(name);
       return true;
     } catch (error) {
-      console.error(`Error removing ${name} from localStorage:`, error);
+      logger.error(`Error removing ${name} from localStorage:`, error);
       return false;
     }
   }
@@ -79,12 +81,12 @@ const handleStorageQuotaExceeded = (name, value) => {
     // Try to store again after cleanup
     try {
       localStorage.setItem(name, value);
-      console.log(`Successfully stored ${name} after cleanup`);
+      logger.debug(`Successfully stored ${name} after cleanup`);
     } catch (retryError) {
-      console.error(`Still unable to store ${name} after cleanup:`, retryError);
+      logger.error(`Still unable to store ${name} after cleanup:`, retryError);
     }
   } catch (cleanupError) {
-    console.error('Error during storage cleanup:', cleanupError);
+    logger.error('Error during storage cleanup:', cleanupError);
   }
 };
 
@@ -110,7 +112,7 @@ export const createStorageConfig = (storeName, options = {}) => {
 
           // Version check if provided
           if (versionCheck && !versionCheck(parsed)) {
-            console.log(`${storeName}: Version check failed, resetting store`);
+            logger.warn(`${storeName}: Version check failed, resetting store`);
             safeStorage.removeItem(name);
             return null;
           }
@@ -122,7 +124,7 @@ export const createStorageConfig = (storeName, options = {}) => {
 
           return parsed;
         } catch (error) {
-          console.error(`Error parsing ${storeName} data:`, error);
+          logger.error(`Error parsing ${storeName} data:`, error);
           return null;
         }
       },
@@ -134,7 +136,7 @@ export const createStorageConfig = (storeName, options = {}) => {
           const serialized = JSON.stringify(dataToStore);
           safeStorage.setItem(name, serialized);
         } catch (error) {
-          console.error(`Error serializing ${storeName} data:`, error);
+          logger.error(`Error serializing ${storeName} data:`, error);
         }
       },
 

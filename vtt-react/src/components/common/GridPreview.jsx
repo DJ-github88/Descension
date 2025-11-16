@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo } from 'react';
+import { logger } from '../../utils/logger';
 import './GridPreview.css';
 
 /**
@@ -21,8 +22,8 @@ const GridPreview = ({
     if (!roomData) return null;
 
     // Debug logging
-    console.log('GridPreview: Processing room data:', roomData);
-    console.log('GridPreview: Room type:', roomData?.type, 'isLocal:', roomData?.isLocal);
+    logger.debug('GridPreview: Processing room data:', roomData);
+    logger.debug('GridPreview: Room type:', roomData?.type, 'isLocal:', roomData?.isLocal);
 
     // Handle different room data structures
     let gameState = roomData.gameState || roomData;
@@ -231,4 +232,4 @@ const GridPreview = ({
   );
 };
 
-export default GridPreview;
+export default memo(GridPreview);

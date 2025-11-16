@@ -107,7 +107,7 @@ export const HUNTRESS_SENTINEL = [
   {
     id: 'sentinel_t0_wardens_vigil',
     name: 'Warden\'s Vigil',
-    description: 'Allies within 30ft gain +1 AC while you have an active Quarry Mark. Your companion can protect allies, granting +1 AC to one ally using 1 action point.',
+    description: 'Allies within 30ft gain +1 armor while you have an active Quarry Mark. Your companion can protect allies, granting +1 armor to one ally using 1 action point.',
     icon: 'spell_holy_devotionaura',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -136,7 +136,7 @@ export const HUNTRESS_SENTINEL = [
   {
     id: 'sentinel_t3_sacred_ground',
     name: 'Sacred Ground',
-    description: 'You can create a 20ft radius protective zone for 1 minute. Allies inside gain +2 AC and resistance to necrotic damage. Costs 3 Quarry Marks to activate.',
+    description: 'You can create a 20ft radius protective zone for 1 minute. Allies inside gain +2 armor and resistance to necrotic damage. Costs 3 Quarry Marks to activate.',
     icon: 'spell_holy_circleofrenewal',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -194,7 +194,7 @@ export const HUNTRESS_SENTINEL = [
   {
     id: 'sentinel_t6_warden_of_light',
     name: 'Warden of Light',
-    description: 'Ultimate ability: Create a massive ward for 1 minute that protects all allies within 40ft. They gain +3 AC, resistance to all damage, and cannot be targeted by enemy spells. Costs 5 Quarry Marks.',
+    description: 'Ultimate ability: Create a massive ward for 1 minute that protects all allies within 40ft. They gain +3 armor, resistance to all damage, and cannot be targeted by enemy spells. Costs 5 Quarry Marks.',
     icon: 'spell_holy_resurrection',
     maxRanks: 1,
     position: { x: 2, y: 5 },

@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense, useEffect } from 'react';
+import React, { useState, lazy, Suspense, useEffect, memo } from 'react';
 import { CreatureLibraryProvider } from '../creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from '../creature-wizard/context/CreatureWizardContext';
 import CreatureLibrary from '../creature-wizard/components/library/CreatureLibrary';
@@ -8,7 +8,7 @@ import '../creature-wizard/styles/CreatureWindow.css';
 // Lazy load the wizard components
 const CreatureWizardApp = lazy(() => import('../creature-wizard/CreatureWizardApp'));
 
-export default function CreatureWindow({
+const CreatureWindow = memo(function CreatureWindow({
   initialCreatureId = null,
   initialView = 'library',
   onClose = null,
@@ -780,4 +780,8 @@ export default function CreatureWindow({
       </CreatureLibraryProvider>
     </div>
   );
-}
+});
+
+CreatureWindow.displayName = 'CreatureWindow';
+
+export default CreatureWindow;

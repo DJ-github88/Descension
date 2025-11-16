@@ -167,7 +167,7 @@ Don't stand still. Use Shadowstep and Evasion to:
 **Companion's Turn (Fang)**: You command Fang to Defend you (+2 AC for 1 round)
 *Fang positions himself protectively in front of you, snarling at the remaining bandits.*
 
-**Current State**: QM: 2/10 | 2 bandits remaining | Your AC: 16 → 18 (Fang defending)
+**Current State**: QM: 2/10 | 2 bandits remaining | Your armor: 16 → 18 (Fang defending)
 
 **Turn 3 - Companion Empowerment (QM: 2 → 0 → 1)**
 
@@ -490,7 +490,7 @@ Use a companion miniature or token on the battle map:
 COMPANION: [Name] (Wolf/Panther/Bear)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 HP: 50/50
-AC: 14
+Armor: 14
 Speed: 40 ft
 
 COMMANDS (1 AP each):
@@ -583,7 +583,7 @@ SPENDING:
 5 Marks: Ultimate Ability (spec-dependent)
 
 COMPANION:
-• HP: 50 | AC: 14 | Speed: 40 ft
+• HP: 50 | Armor: 14 | Speed: 40 ft
 • Must stay within 30 ft
 • Commands cost 1 AP each
 • Generates marks on hit

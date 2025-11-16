@@ -6,6 +6,7 @@
  */
 
 // Import required functions and constants
+import { formatResourceName } from '../../../../utils/formatUtils';
 import { getAverageRoll } from '../../data/enhancedEffectSystemData';
 import { 
   COMBAT_STAT_MODIFIERS, 
@@ -1439,28 +1440,6 @@ import {
    * @param {string} resourceType - Resource type identifier
    * @return {string} Formatted resource name
    */
-  function formatResourceName(resourceType) {
-    if (!resourceType) return 'Resource';
-    
-    switch (resourceType) {
-      case 'action_points':
-        return 'Action Points';
-      case 'combo_points':
-        return 'Combo Points';
-      case 'soul_shards':
-        return 'Soul Shards';
-      case 'holy_power':
-        return 'Holy Power';
-      case 'astral_power':
-        return 'Astral Power';
-      default:
-        // Convert snake_case to Title Case
-        return resourceType
-          .split('_')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ');
-    }
-  }
   
   /**
    * Format a trigger condition for display

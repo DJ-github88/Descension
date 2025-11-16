@@ -285,7 +285,7 @@ export const COVENBANE_DEMONHUNTER = [
   {
     id: 'demonhunter_t5_final_hour',
     name: 'Final Hour',
-    description: 'Enter a state of ultimate focus for 1 minute. Gain +5 AC, +30ft movement, advantage on all attacks, and Witch Hunter\'s Precision triggers on every attack. Cannot be stopped.',
+    description: 'Enter a state of ultimate focus for 1 minute. Gain +5 armor, +30ft movement, advantage on all attacks, and Witch Hunter\'s Precision triggers on every attack. Cannot be stopped.',
     icon: 'spell_holy_avenginewrath',
     maxRanks: 1,
     position: { x: 2, y: 4 },

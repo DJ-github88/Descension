@@ -52,9 +52,9 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const [hasScaleChanges, setHasScaleChanges] = useState(false);
 
     // Helper function to convert actual scale to display percentage
-    // 0.83 actual = 100% display, 0.6 actual = 60% display, 1.5 actual = 150% display
+    // 0.6889 actual = 100% display, 0.6 actual = ~87% display, 1.5 actual = ~218% display
     const scaleToDisplayPercent = (scale) => {
-        return Math.round((scale / 0.83) * 100);
+        return Math.round((scale / 0.6889) * 100);
     };
 
 
@@ -75,19 +75,19 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
 
     // Reset window scale preview
     const resetWindowScalePreview = () => {
-        setPreviewWindowScale(0.83);
-        setHasScaleChanges(Math.abs(0.83 - windowScale) > 0.01);
+        setPreviewWindowScale(0.6889);
+        setHasScaleChanges(Math.abs(0.6889 - windowScale) > 0.01);
     };
 
     // Quick scale adjustments
     const previewScaleDown = () => {
-        const newScale = Math.max(0.6, previewWindowScale / 1.1);
+        const newScale = Math.max(0.4, previewWindowScale / 1.1);
         setPreviewWindowScale(newScale);
         setHasScaleChanges(Math.abs(newScale - windowScale) > 0.01);
     };
 
     const previewScaleUp = () => {
-        const newScale = Math.min(1.5, previewWindowScale * 1.1);
+        const newScale = Math.min(1.2, previewWindowScale * 1.1);
         setPreviewWindowScale(newScale);
         setHasScaleChanges(Math.abs(newScale - windowScale) > 0.01);
     };
@@ -215,7 +215,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                             <button
                                 className="control-button secondary"
                                 onClick={previewScaleDown}
-                                disabled={previewWindowScale <= 0.6}
+                                disabled={previewWindowScale <= 0.4}
                                 style={{ minWidth: '80px' }}
                                 title="Make windows smaller"
                             >
@@ -227,21 +227,21 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 <span className="range-label">60%</span>
                                 <input
                                     type="range"
-                                    min="0.6"
-                                    max="1.5"
+                                    min="0.4"
+                                    max="1.2"
                                     step="0.05"
                                     value={previewWindowScale}
                                     onChange={handleWindowScalePreviewChange}
                                     className="control-slider"
                                     style={{ flex: 1 }}
                                 />
-                                <span className="range-label">150%</span>
+                                <span className="range-label">175%</span>
                             </div>
 
                             <button
                                 className="control-button secondary"
                                 onClick={previewScaleUp}
-                                disabled={previewWindowScale >= 1.5}
+                                disabled={previewWindowScale >= 1.2}
                                 style={{ minWidth: '80px' }}
                                 title="Make windows larger"
                             >

@@ -124,7 +124,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 **Mana**: 44 - 4 = 40/60
 
-**Shadow Lord's Turn**: Casts "Shadow Bolt" at you → [16] → Miss! (AC 18)
+**Shadow Lord's Turn**: Casts "Shadow Bolt" at you → [16] → Miss! (armor 18)
 
 *The shadow bolt dissipates against your new moon protection.*
 
@@ -238,7 +238,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 2. **Manual Shifting**: Spent 8 mana Turn 3 to shift from New Moon to Full Moon (skipped Waxing Moon because didn't need healing)
 3. **Full Moon Damage**: Moonbeam: 17 → 28 damage (+11 from +2d6), Lunar Arrow crit: 12 → 46 damage (doubled base + doubled Full Moon bonus)
 4. **Waning Moon Efficiency**: Saved 4 mana total (Moonbeam 6 → 4, Lunar Arrow 4 → 2)
-5. **New Moon Defense**: +2 AC caused 2 attacks to miss (AC 16 → 18)
+5. **New Moon Defense**: +2 armor caused 2 attacks to miss (armor 16 → 18)
 6. **Phase Duration**: Each phase lasts 3 rounds naturally, manual shift resets timer
 7. **Strategic Shifting**: Skipped Waxing Moon (healing) because didn't need it, went straight to Full Moon for damage
 

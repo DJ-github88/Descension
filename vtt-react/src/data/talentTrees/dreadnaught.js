@@ -27,7 +27,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t1_obsidian_armor',
     name: 'Obsidian Armor',
-    description: 'When you have 20+ DRP, your AC increases by +1 per rank. Roll a d6 when hit: on 5+ per rank, the attacker takes 1d6 shadow damage from ricocheting obsidian shards.',
+    description: 'When you have 20+ DRP, your armor increases by +1 per rank. Roll a d6 when hit: on 5+ per rank, the attacker takes 1d6 shadow damage from ricocheting obsidian shards.',
     icon: 'spell_shadow_shadowfiend',
     maxRanks: 3,
     position: { x: 4, y: 1 },
@@ -38,7 +38,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t2_northeast_bastion',
     name: 'Northeast Bastion',
-    description: 'Allies within 10 feet gain +1 AC per rank when you have 25+ DRP. Shadow Shield creates a barrier that protects one ally within 5 feet.',
+    description: 'Allies within 10 feet gain +1 armor per rank when you have 25+ DRP. Shadow Shield creates a barrier that protects one ally within 5 feet.',
     icon: 'spell_shadow_darkritual',
     maxRanks: 3,
     position: { x: 1, y: 2 },

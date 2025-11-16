@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
 import SelectionCard from '../common/SelectionCard';
@@ -49,7 +49,7 @@ import {
   calculateEffectActionPointCost
 } from '../../core/data/effectTypes';
 
-const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) => {
+const Step3Effects = memo(({ onNext, onPrevious, stepNumber, totalSteps, isActive }) => {
   const state = useSpellWizardState();
   const dispatch = useSpellWizardDispatch();
 
@@ -696,6 +696,8 @@ const Step3Effects = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }) 
       </div>
     </WizardStep>
   );
-};
+});
+
+Step3Effects.displayName = 'Step3Effects';
 
 export default Step3Effects;

@@ -186,7 +186,7 @@ export const TITAN_EARTH_DOMINION = [
   {
     id: 'dominion_t2_metal_skin',
     name: 'Metal Skin',
-    description: 'Your skin becomes reinforced with living metal. You gain +1 AC per rank, and you have resistance to poison damage. You are immune to disease.',
+    description: 'Your skin becomes reinforced with living metal. You gain +1 armor per rank, and you have resistance to poison damage. You are immune to disease.',
     icon: 'spell_nature_skinofearth',
     maxRanks: 3,
     position: { x: 0, y: 2 },
