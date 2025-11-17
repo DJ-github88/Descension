@@ -1028,39 +1028,64 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar time-shards-strain ${size}`}>
                 <div className="chronarch-single-bar">
-                    {/* Time Shards Bar (Left Side) */}
-                    <div
-                        className="time-shards-bar"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setShowTimeShardsMenu(!showTimeShardsMenu);
-                            setShowTemporalStrainMenu(false);
-                        }}
-                        onMouseEnter={(e) => {
-                            setChronarchHoverSection('shards');
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-                            setShowTooltip(true);
-                        }}
-                        onMouseLeave={() => {
-                            setChronarchHoverSection(null);
-                            setShowTooltip(false);
-                        }}
-                    >
-                        <div className="fluid-bar-container">
-                            <div
-                                className="fluid-bar-fill"
-                                style={{
-                                    width: `${(shardsValue / shardsMax) * 100}%`,
-                                    background: `linear-gradient(90deg,
-                                        ${finalConfig.visual.timeShards.activeColor} 0%,
-                                        ${finalConfig.visual.timeShards.activeColor} 70%,
-                                        ${finalConfig.visual.timeShards.glowColor} 100%)`,
-                                    boxShadow: `0 0 8px ${finalConfig.visual.timeShards.glowColor}`
-                                }}
-                            />
-                        </div>
-                        <div className="bar-value">{shardsValue}/{shardsMax}</div>
+                    {/* Combined Bar Container */}
+                    <div className="chronarch-combined-container">
+                        {/* Time Shards Fill (from left) */}
+                        <div
+                            className="time-shards-fill"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowTimeShardsMenu(!showTimeShardsMenu);
+                                setShowTemporalStrainMenu(false);
+                            }}
+                            onMouseEnter={(e) => {
+                                setChronarchHoverSection('shards');
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
+                                setShowTooltip(true);
+                            }}
+                            onMouseLeave={() => {
+                                setChronarchHoverSection(null);
+                                setShowTooltip(false);
+                            }}
+                            style={{
+                                width: `${(shardsValue / shardsMax) * 50}%`,
+                                background: `linear-gradient(90deg,
+                                    ${finalConfig.visual.timeShards.activeColor} 0%,
+                                    ${finalConfig.visual.timeShards.activeColor} 70%,
+                                    ${finalConfig.visual.timeShards.glowColor} 100%)`,
+                                boxShadow: `0 0 8px ${finalConfig.visual.timeShards.glowColor}`
+                            }}
+                        />
+
+                        {/* Temporal Strain Fill (from right) */}
+                        <div
+                            className={`temporal-strain-fill ${shouldPulse ? 'pulse' : ''} ${shouldFlash ? 'flash' : ''}`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowTemporalStrainMenu(!showTemporalStrainMenu);
+                                setShowTimeShardsMenu(false);
+                            }}
+                            onMouseEnter={(e) => {
+                                setChronarchHoverSection('strain');
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
+                                setShowTooltip(true);
+                            }}
+                            onMouseLeave={() => {
+                                setChronarchHoverSection(null);
+                                setShowTooltip(false);
+                            }}
+                            style={{
+                                width: `${(strainValue / strainMax) * 50}%`,
+                                right: 0,
+                                background: `linear-gradient(270deg,
+                                    ${strainColor} 0%,
+                                    ${strainColor} 70%,
+                                    rgba(255, 255, 255, 0.3) 100%)`,
+                                boxShadow: `0 0 8px ${strainColor}`
+                            }}
+                        />
                     </div>
 
                     {/* Chronarch Center Divider */}
@@ -1076,39 +1101,10 @@ const ClassResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Temporal Strain Bar (Right Side) */}
-                    <div
-                        className={`temporal-strain-bar ${shouldPulse ? 'pulse' : ''} ${shouldFlash ? 'flash' : ''}`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setShowTemporalStrainMenu(!showTemporalStrainMenu);
-                            setShowTimeShardsMenu(false);
-                        }}
-                        onMouseEnter={(e) => {
-                            setChronarchHoverSection('strain');
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-                            setShowTooltip(true);
-                        }}
-                        onMouseLeave={() => {
-                            setChronarchHoverSection(null);
-                            setShowTooltip(false);
-                        }}
-                    >
-                        <div className="fluid-bar-container">
-                            <div
-                                className="fluid-bar-fill"
-                                style={{
-                                    width: `${(strainValue / strainMax) * 100}%`,
-                                    background: `linear-gradient(90deg,
-                                        ${strainColor} 0%,
-                                        ${strainColor} 70%,
-                                        rgba(255, 255, 255, 0.3) 100%)`,
-                                    boxShadow: `0 0 8px ${strainColor}`
-                                }}
-                            />
-                        </div>
-                        <div className="bar-value" style={{ color: strainColor }}>
+                    {/* Bar Values */}
+                    <div className="chronarch-values">
+                        <div className="bar-value time-shards-value">{shardsValue}/{shardsMax}</div>
+                        <div className="bar-value temporal-strain-value" style={{ color: strainColor }}>
                             {strainValue}/{strainMax}
                         </div>
                     </div>
