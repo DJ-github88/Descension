@@ -23,12 +23,12 @@
     position: relative;
     display: flex !important;
     flex-direction: row;
-    align-items: center;
-    gap: 6px;
+    align-items: stretch;
+    gap: 2px;
     background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(101, 67, 33, 0.12) 100%);
     border: 1px solid rgba(139, 69, 19, 0.35);
     border-radius: 25px;
-    padding: 3px 8px;
+    padding: 3px 6px;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
     width: 100%;
     box-sizing: border-box;
@@ -51,7 +51,18 @@
     /* Don't clip here - bars need to be fully visible */
 }
 
-.party-member-frame .chronarch-combined-container {
+.party-member-frame .time-shards-bar,
+.party-member-frame .temporal-strain-bar {
+    padding: 2px 4px;
+    gap: 4px;
+    flex: 1 1 auto !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    overflow: visible;
+    min-height: 16px !important;
+}
+
+.party-member-frame .fluid-bar-container {
     height: 6px !important;
 }
 
@@ -69,14 +80,24 @@
     height: 1px !important;
 }
 
-.party-member-frame .time-shards-value,
-.party-member-frame .temporal-strain-value {
+.party-member-frame .time-shards-bar .bar-value,
+.party-member-frame .temporal-strain-bar .bar-value {
     font-size: 8px;
+    min-width: auto;
     color: #ffffff !important;
     text-shadow:
         0 0 3px rgba(0, 0, 0, 1),
         0 1px 2px rgba(0, 0, 0, 1),
         1px 1px 2px rgba(0, 0, 0, 1) !important;
+    text-align: center !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+    white-space: nowrap !important;
+    box-sizing: border-box;
 }
 
 /* Time Shards Bar (Left) - Fluid */
@@ -102,80 +123,6 @@
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(79, 195, 247, 0.3);
 }
 
-/* Combined Bar Container */
-.chronarch-combined-container {
-    flex: 1;
-    height: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Time Shards Fill (from left) */
-.time-shards-fill {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    border-radius: 5px 0 0 5px;
-    transition: width 0.5s ease, background 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    z-index: 1;
-}
-
-.time-shards-fill::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 100%);
-    animation: fluidShimmerLeft 2s ease-in-out infinite;
-}
-
-/* Temporal Strain Fill (from right) */
-.temporal-strain-fill {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    border-radius: 0 5px 5px 0;
-    transition: width 0.5s ease, background 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.temporal-strain-fill::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(270deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 100%);
-    animation: fluidShimmerRight 2s ease-in-out infinite;
-}
-
-/* Shimmer animations for combined fills */
-@keyframes fluidShimmerLeft {
-    0%, 100% { opacity: 0; transform: translateX(-100%); }
-    50% { opacity: 1; transform: translateX(0%); }
-}
-
-@keyframes fluidShimmerRight {
-    0%, 100% { opacity: 0; transform: translateX(100%); }
-    50% { opacity: 1; transform: translateX(0%); }
-}
-
 /* Chronarch Center Ornament */
 .chronarch-center {
     flex-shrink: 0;
@@ -184,7 +131,6 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 10;
 }
 
 .center-ornament {
@@ -249,43 +195,63 @@
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 6px rgba(46, 125, 50, 0.3);
 }
 
-/* Chronarch Values Container */
-.chronarch-values {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+/* Fluid Bar Container and Fill */
+.fluid-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
 }
 
-.time-shards-value {
-    font-family: 'Crimson Text', serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: #81D4FA;
-    text-shadow:
-        0 0 3px rgba(0, 0, 0, 0.8),
-        0 1px 2px rgba(0, 0, 0, 0.6);
-    white-space: nowrap;
-    flex-shrink: 0;
+.fluid-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease, background 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
-.temporal-strain-value {
-    font-family: 'Crimson Text', serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: #ffffff;
-    text-shadow:
-        0 0 3px rgba(0, 0, 0, 0.8),
-        0 1px 2px rgba(0, 0, 0, 0.6);
-    white-space: nowrap;
-    flex-shrink: 0;
+/* Temporal Strain bar fills from right to left */
+.temporal-strain-bar .fluid-bar-fill {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.fluid-bar-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%);
+    animation: fluidShimmer 2s ease-in-out infinite;
+}
+
+@keyframes fluidShimmer {
+    0%, 100% { opacity: 0; transform: translateX(-100%); }
+    50% { opacity: 1; transform: translateX(0%); }
 }
 
 /* Pulse animation for high strain */
-.temporal-strain-fill.pulse {
+.temporal-strain-bar.pulse {
+    animation: strainPulse 1.5s ease-in-out infinite;
+}
+
+.temporal-strain-bar.pulse .fluid-bar-fill {
     animation: strainPulseFill 1.5s ease-in-out infinite;
 }
 
-.temporal-strain-fill.flash {
+.temporal-strain-bar.flash {
+    animation: strainFlash 0.5s ease-in-out infinite;
+}
+
+.temporal-strain-bar.flash .fluid-bar-fill {
     animation: strainFlashFill 0.5s ease-in-out infinite;
 }
 
@@ -439,13 +405,9 @@
 
 /* Size Variations */
 .class-resource-bar.time-shards-strain.small .chronarch-single-bar {
-    padding: 3px 6px;
-    gap: 4px;
+    padding: 3px 5px;
+    gap: 2px;
     min-height: 20px;
-}
-
-.class-resource-bar.time-shards-strain.small .chronarch-combined-container {
-    height: 8px;
 }
 
 .class-resource-bar.time-shards-strain.small .chronarch-center {
@@ -462,19 +424,25 @@
     height: 1px !important;
 }
 
-.class-resource-bar.time-shards-strain.small .time-shards-value,
-.class-resource-bar.time-shards-strain.small .temporal-strain-value {
+.class-resource-bar.time-shards-strain.small .time-shards-bar,
+.class-resource-bar.time-shards-strain.small .temporal-strain-bar {
+    padding: 2px 4px;
+    gap: 4px;
+}
+
+.class-resource-bar.time-shards-strain.small .fluid-bar-container {
+    height: 6px;
+}
+
+.class-resource-bar.time-shards-strain.small .bar-value {
     font-size: 9px;
+    min-width: 26px;
 }
 
 .class-resource-bar.time-shards-strain.large .chronarch-single-bar {
-    padding: 5px 10px;
-    gap: 8px;
+    padding: 5px 8px;
+    gap: 4px;
     min-height: 32px;
-}
-
-.class-resource-bar.time-shards-strain.large .chronarch-combined-container {
-    height: 14px;
 }
 
 .class-resource-bar.time-shards-strain.large .chronarch-center {
@@ -491,9 +459,19 @@
     height: 1px !important;
 }
 
-.class-resource-bar.time-shards-strain.large .time-shards-value,
-.class-resource-bar.time-shards-strain.large .temporal-strain-value {
+.class-resource-bar.time-shards-strain.large .time-shards-bar,
+.class-resource-bar.time-shards-strain.large .temporal-strain-bar {
+    padding: 3px 8px;
+    gap: 8px;
+}
+
+.class-resource-bar.time-shards-strain.large .fluid-bar-container {
+    height: 12px;
+}
+
+.class-resource-bar.time-shards-strain.large .bar-value {
     font-size: 12px;
+    min-width: 36px;
 }
 
 /* ========================================
