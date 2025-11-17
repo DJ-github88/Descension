@@ -995,7 +995,7 @@ export default function CharacterStats() {
                     baseValue: 30,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-                    color: '#228b22',
+                    color: '#8B4513',
                     description: 'Base walking speed in feet per turn'
                 },
                 {
@@ -1004,7 +1004,7 @@ export default function CharacterStats() {
                     baseValue: Math.floor((totalStats.movementSpeed ?? 30) / 3),
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_aquaticform.jpg',
-                    color: '#4444ff',
+                    color: '#8B4513',
                     description: 'Swimming speed in feet per turn'
                 },
                 {
@@ -1029,7 +1029,7 @@ export default function CharacterStats() {
                     baseValue: 60,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg',
-                    color: '#b8860b',
+                    color: '#8B4513',
                     description: 'Normal vision range in feet'
                 },
                 {
@@ -1038,7 +1038,7 @@ export default function CharacterStats() {
                     baseValue: 0,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_detectinvisibility.jpg',
-                    color: '#9370DB',
+                    color: '#8B4513',
                     description: 'Dark vision range in feet'
                 },
                 {
@@ -1056,7 +1056,7 @@ export default function CharacterStats() {
                     baseValue: Math.round(Math.floor((stats.agility || 10) / 5) || 0),
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-                    color: '#ff4444',
+                    color: '#8B4513',
                     description: 'Initiative bonus for combat order'
                 }
             ]
@@ -1110,13 +1110,7 @@ export default function CharacterStats() {
             };
 
             const getResistanceColor = (level) => {
-                switch (level?.toLowerCase()) {
-                    case 'immune': return '#4CAF50';
-                    case 'resistant': return '#2196F3';
-                    case 'exposed': return '#FF9800';
-                    case 'vulnerable': return '#F44336';
-                    default: return '#9E9E9E';
-                }
+                return '#8B4513';
             };
 
             return (
@@ -1190,7 +1184,7 @@ export default function CharacterStats() {
                                         />
                                         <span className="stat-label">{damageType.name} Immunity:</span>
                                     </div>
-                                    <span className="stat-value" style={{ color: '#ffd100' }}>
+                                    <span className="stat-value" style={{ color: '#8B4513' }}>
                                         Immune
                                     </span>
                                 </div>
@@ -1199,7 +1193,7 @@ export default function CharacterStats() {
                                     <div className="stat-label-container">
                                         <span className="stat-label">{immunity} Immunity:</span>
                                     </div>
-                                    <span className="stat-value" style={{ color: '#ffd100' }}>
+                                    <span className="stat-value" style={{ color: '#8B4513' }}>
                                         Immune
                                     </span>
                                 </div>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, memo } from 'react';
 import { createPortal } from 'react-dom';
 import ItemTooltip from './ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import QuantitySelector from '../common/QuantitySelector';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import '../../styles/item-card.css';
 
@@ -26,20 +27,6 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
 
     // State for quantity (for stackable items)
     const [quantity, setQuantity] = useState(item.quantity || 1);
-    const [showQuantityPopup, setShowQuantityPopup] = useState(false);
-
-    // Quick quantity shortcuts
-    const quickQuantities = [1, 5, 10, 20, 50, 99];
-
-    const handleQuantityClick = (newQuantity) => {
-        setQuantity(newQuantity);
-        setShowQuantityPopup(false);
-    };
-
-    const toggleQuantityPopup = (e) => {
-        if (e) e.stopPropagation();
-        setShowQuantityPopup(!showQuantityPopup);
-    };
 
 
     // Simple tooltip handlers (matching character sheet pattern) - optimized for drag performance
@@ -311,82 +298,20 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                         }}
                         onDragStart={(e) => e.preventDefault()}
                     />
-                    {/* Quantity circle on icon */}
+                    {/* Quantity selector on icon */}
                     {isSelected && (item.type === 'consumable' || item.type === 'miscellaneous') && (
-                        <div
-                            className="item-quantity-circle"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                toggleQuantityPopup();
-                            }}
-                            title={`Quantity: ${quantity} - Click to change`}
-                        >
-                            {quantity}
-                        </div>
+                        <QuantitySelector
+                            quantity={quantity}
+                            onQuantityChange={setQuantity}
+                            maxQuantity={99}
+                            triggerClassName="item-quantity-circle"
+                        />
                     )}
                 </div>
                 <div className="item-name" style={{ color: getQualityColor(item.quality) }}>
                     {item.name}
                 </div>
 
-                {/* Quantity Modal */}
-                {showQuantityPopup && createPortal(
-                    <div className="quantity-modal-container">
-                        {/* Modal Backdrop */}
-                        <div
-                            className="quantity-modal-backdrop"
-                            onClick={() => setShowQuantityPopup(false)}
-                        />
-
-                        {/* Modal Content */}
-                        <div className="quantity-modal">
-                            <div className="quantity-modal-header">
-                                <h3>Set Quantity</h3>
-                                <button
-                                    className="quantity-modal-close"
-                                    onClick={() => setShowQuantityPopup(false)}
-                                    title="Close"
-                                >
-                                    ×
-                                </button>
-                            </div>
-
-                            <div className="quantity-modal-content">
-                                <div className="quantity-grid">
-                                    {quickQuantities.map(qty => (
-                                        <button
-                                            key={qty}
-                                            className={`quantity-option ${quantity === qty ? 'active' : ''}`}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleQuantityClick(qty);
-                                            }}
-                                        >
-                                            {qty}
-                                        </button>
-                                    ))}
-                                </div>
-
-                                <div className="quantity-custom-section">
-                                    <label>Custom Quantity:</label>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        max="99"
-                                        value={quantity}
-                                        onChange={(e) => {
-                                            const newQuantity = Math.max(1, Math.min(99, parseInt(e.target.value) || 1));
-                                            setQuantity(newQuantity);
-                                        }}
-                                        onClick={(e) => e.stopPropagation()}
-                                        placeholder="Enter quantity"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>,
-                    document.body
-                )}
             </div>
             {showTooltip && (
                 <TooltipPortal>

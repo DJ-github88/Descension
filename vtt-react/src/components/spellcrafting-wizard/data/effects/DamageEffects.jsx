@@ -552,7 +552,9 @@ const DamageEffects = () => {
               const newConfig = {
                 ...damageConfig,
                 damageType: 'dot',
-                hasDotEffect: false
+                hasDotEffect: false,
+                // Clear instant damage formula for pure DoT
+                formula: ''
               };
               setDamageConfig(newConfig);
               dispatch(actionCreators.updateDamageConfig(newConfig));

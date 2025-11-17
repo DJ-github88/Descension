@@ -6,6 +6,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useGameStore from '../../store/gameStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
+import QuantitySelector from '../common/QuantitySelector';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 import './ShopWindow.css';
 
@@ -20,6 +21,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   const [selectedSellItems, setSelectedSellItems] = useState({}); // Track items selected for selling
   const [purchaseQuantity, setPurchaseQuantity] = useState(1);
   const [sellQuantity, setSellQuantity] = useState(1);
+  const [merchantQuantities, setMerchantQuantities] = useState({}); // Track quantities for merchant items
+  const [playerQuantities, setPlayerQuantities] = useState({}); // Track quantities for player items
   const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
   const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
 
@@ -199,21 +202,35 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     if (!shopItem) return;
 
     const newSelectedItems = { ...selectedItems };
-    const currentSelected = newSelectedItems[shopItemIndex] || 0;
+    const currentQuantity = merchantQuantities[shopItemIndex] || 1;
     const availableQuantity = shopItem.quantity;
 
-    if (currentSelected < availableQuantity) {
-      if (newSelectedItems[shopItemIndex]) {
-        // Increase quantity if already selected and under limit
-        newSelectedItems[shopItemIndex]++;
-      } else {
-        // Add new item with quantity 1
-        newSelectedItems[shopItemIndex] = 1;
-      }
+    if (currentQuantity <= availableQuantity) {
+      newSelectedItems[shopItemIndex] = currentQuantity;
       setSelectedItems(newSelectedItems);
     } else {
       // Show notification when trying to select more than available
       showNotification(`Only ${availableQuantity} available!`, 'error');
+      // Adjust quantity to maximum available
+      setMerchantQuantities(prev => ({ ...prev, [shopItemIndex]: availableQuantity }));
+      newSelectedItems[shopItemIndex] = availableQuantity;
+      setSelectedItems(newSelectedItems);
+    }
+  };
+
+  // Handle quantity change for merchant items
+  const handleMerchantQuantityChange = (shopItemIndex, newQuantity) => {
+    const shopItem = shopItems[shopItemIndex];
+    if (!shopItem) return;
+
+    const availableQuantity = shopItem.quantity;
+    const clampedQuantity = Math.max(1, Math.min(availableQuantity, newQuantity));
+
+    setMerchantQuantities(prev => ({ ...prev, [shopItemIndex]: clampedQuantity }));
+
+    // Update selected items if this item is already selected
+    if (selectedItems[shopItemIndex]) {
+      setSelectedItems(prev => ({ ...prev, [shopItemIndex]: clampedQuantity }));
     }
   };
 
@@ -258,18 +275,36 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   // Handle sell item selection
   const handleSellItemSelection = (item) => {
     const newSelectedSellItems = { ...selectedSellItems };
+    const currentQuantity = playerQuantities[item.id] || 1;
+    const availableQuantity = item.quantity || 1;
 
-    if (newSelectedSellItems[item.id]) {
-      // Increase quantity if already selected (up to available quantity)
-      if (newSelectedSellItems[item.id] < (item.quantity || 1)) {
-        newSelectedSellItems[item.id]++;
-      }
+    if (currentQuantity <= availableQuantity) {
+      newSelectedSellItems[item.id] = currentQuantity;
+      setSelectedSellItems(newSelectedSellItems);
     } else {
-      // Add new item with quantity 1
-      newSelectedSellItems[item.id] = 1;
+      // Show notification when trying to select more than available
+      showNotification(`Only ${availableQuantity} available!`, 'error');
+      // Adjust quantity to maximum available
+      setPlayerQuantities(prev => ({ ...prev, [item.id]: availableQuantity }));
+      newSelectedSellItems[item.id] = availableQuantity;
+      setSelectedSellItems(newSelectedSellItems);
     }
+  };
 
-    setSelectedSellItems(newSelectedSellItems);
+  // Handle quantity change for player items
+  const handlePlayerQuantityChange = (itemId, newQuantity) => {
+    const item = inventoryItems.find(invItem => invItem.id === itemId);
+    if (!item) return;
+
+    const availableQuantity = item.quantity || 1;
+    const clampedQuantity = Math.max(1, Math.min(availableQuantity, newQuantity));
+
+    setPlayerQuantities(prev => ({ ...prev, [itemId]: clampedQuantity }));
+
+    // Update selected items if this item is already selected
+    if (selectedSellItems[itemId]) {
+      setSelectedSellItems(prev => ({ ...prev, [itemId]: clampedQuantity }));
+    }
   };
 
   // Remove item from sell selection or decrease quantity
@@ -940,7 +975,12 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                             if (e.ctrlKey || e.metaKey) {
                               handleItemDeselection(index);
                             } else {
-                              handleItemSelection(index);
+                              // If already selected, clicking again should deselect
+                              if (selectedItems[index]) {
+                                handleItemDeselection(index);
+                              } else {
+                                handleItemSelection(index);
+                              }
                             }
                           }}
                         >
@@ -957,7 +997,13 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                             <div className="item-quantity">{shopItem.quantity}</div>
                           )}
                           {selectedItems[index] && (
-                            <div className="selected-quantity">{selectedItems[index]}</div>
+                            <QuantitySelector
+                              quantity={merchantQuantities[index] || selectedItems[index] || 1}
+                              onQuantityChange={(newQuantity) => handleMerchantQuantityChange(index, newQuantity)}
+                              maxQuantity={shopItem.quantity}
+                              showTrigger={true}
+                              triggerClassName="shop-item-quantity-selector"
+                            />
                           )}
                         </div>
                       );
@@ -990,7 +1036,12 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                             if (e.ctrlKey || e.metaKey) {
                               handleSellItemDeselection(item);
                             } else {
-                              handleSellItemSelection(item);
+                              // If already selected, clicking again should deselect
+                              if (selectedSellItems[item.id]) {
+                                handleSellItemDeselection(item);
+                              } else {
+                                handleSellItemSelection(item);
+                              }
                             }
                           }}
                         >
@@ -1007,7 +1058,13 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                             <div className="item-quantity">{item.quantity}</div>
                           )}
                           {selectedSellItems[item.id] && (
-                            <div className="selected-quantity sell-quantity">{selectedSellItems[item.id]}</div>
+                            <QuantitySelector
+                              quantity={playerQuantities[item.id] || selectedSellItems[item.id] || 1}
+                              onQuantityChange={(newQuantity) => handlePlayerQuantityChange(item.id, newQuantity)}
+                              maxQuantity={item.quantity || 1}
+                              showTrigger={true}
+                              triggerClassName="shop-item-quantity-selector sell-item-quantity-selector"
+                            />
                           )}
                         </div>
                       );
