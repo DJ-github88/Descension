@@ -85,19 +85,20 @@
 
 .qm-segments {
     display: flex;
-    gap: 4px;
+    gap: 2px;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     cursor: pointer;
     position: relative;
+    width: 100%;
 }
 
 .qm-segment {
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
-    border: 2px solid rgba(139, 115, 85, 0.5);
-    background: rgba(26, 15, 8, 0.8);
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    border: 1px solid rgba(160, 140, 112, 0.6);
+    background: rgba(245, 222, 179, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -152,53 +153,9 @@
     font-family: 'Cinzel', serif;
     font-size: 10px;
     font-weight: 600;
-    color: #f8f4e6;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
     margin-top: 2px;
-}
-
-/* Specialization Selector (Right Side) */
-.spec-selector {
-    position: relative;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid rgba(139, 115, 85, 0.6);
-    background: radial-gradient(circle at 30% 30%, rgba(60, 50, 40, 0.9), rgba(30, 25, 20, 0.95));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    align-self: center;
-}
-
-.spec-selector:hover {
-    border-color: rgba(160, 140, 112, 0.8);
-    transform: scale(1.05);
-}
-
-/* Specialization-specific colors for selector */
-.spec-selector.bladestorm {
-    border-color: rgba(220, 20, 60, 0.7);
-    box-shadow: 0 0 8px rgba(220, 20, 60, 0.4);
-}
-
-.spec-selector.beastmaster {
-    border-color: rgba(46, 125, 50, 0.7);
-    box-shadow: 0 0 8px rgba(46, 125, 50, 0.4);
-}
-
-.spec-selector.shadowdancer {
-    border-color: rgba(106, 27, 154, 0.7);
-    box-shadow: 0 0 8px rgba(106, 27, 154, 0.4);
-}
-
-.spec-icon {
-    font-size: 14px;
-    color: #f8f4e6;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
 }
 
 /* QM Adjustment Menu */
@@ -207,153 +164,191 @@
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(42, 36, 32, 0.98);
-    border: 2px solid rgba(139, 115, 85, 0.7);
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
     border-radius: 8px;
-    padding: 12px;
-    min-width: 280px;
-    max-width: 320px;
+    padding: 8px;
+    min-width: 240px;
+    max-width: 280px;
     z-index: 3050;
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
-    font-family: 'Cinzel', serif;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+}
+
+.qm-menu .menu-header {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.6);
+    width: 100%;
+    order: 1;
 }
 
 .qm-menu .menu-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
-    color: #f8f4e6;
-    margin-bottom: 10px;
+    color: #000000;
+    text-shadow: none;
     text-align: center;
-    border-bottom: 1px solid rgba(139, 115, 85, 0.4);
-    padding-bottom: 8px;
+}
+
+.qm-menu .menu-divider {
+    height: 1px;
+    background: rgba(139, 115, 85, 0.6);
+    margin: 12px 0 10px 0;
+    width: 100%;
+    flex-shrink: 0;
+    order: 3;
+}
+
+.qm-menu .spec-buttons {
+    display: flex !important;
+    gap: 6px;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 4px;
+    width: 100%;
+    justify-content: center;
+    padding-top: 0;
+    position: relative !important;
+    z-index: 1;
+    order: 4;
+}
+
+.qm-menu .spec-button {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.6) 0%, rgba(213, 203, 176, 0.6) 100%) !important;
+    border: 1px solid rgba(139, 115, 85, 0.8) !important;
+    border-radius: 4px;
+    color: #000000 !important;
+    cursor: pointer;
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    min-width: 80px;
+    justify-content: center;
+    position: relative !important;
+    transform: none !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+}
+
+.qm-menu .spec-button:hover {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.8) 0%, rgba(213, 203, 176, 0.8) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: none !important;
+}
+
+.qm-menu .spec-button.active {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.7) 0%, rgba(160, 140, 112, 0.7) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.3);
+    font-weight: 700;
+    transform: none !important;
+}
+
+.qm-menu .spec-button.active:hover {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.85) 0%, rgba(160, 140, 112, 0.85) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    box-shadow: 0 3px 6px rgba(139, 115, 85, 0.4);
+    transform: none !important;
+}
+
+.qm-menu .spec-button i {
+    font-size: 12px;
+    display: inline-block;
 }
 
 .qm-menu .menu-buttons {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 4px;
+    order: 2;
 }
 
-.qm-menu .menu-buttons button {
-    background: rgba(139, 115, 85, 0.25);
-    border: 1px solid rgba(139, 115, 85, 0.5);
+.button-row {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.button-row button {
+    background: rgba(139, 115, 85, 0.2);
+    border: 1px solid rgba(139, 115, 85, 0.6);
     border-radius: 4px;
-    color: #f8f4e6;
+    color: #000000;
     cursor: pointer;
-    padding: 8px 12px;
-    font-size: 11px;
+    padding: 4px 6px;
+    font-size: 10px;
     font-weight: 600;
     transition: all 0.2s ease;
-    text-align: left;
-    font-family: 'Cinzel', serif;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    min-width: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.button-desc {
+    font-size: 8px;
+    opacity: 0.8;
+    font-weight: 500;
 }
 
 .qm-menu .menu-buttons button:hover {
-    background: rgba(160, 140, 112, 0.4);
-    border-color: rgba(160, 140, 112, 0.8);
-    color: #FFF;
+    background: rgba(139, 115, 85, 0.4);
+    border-color: rgba(139, 115, 85, 0.8);
+    color: #000000;
 }
 
 .qm-menu .menu-buttons button:active {
     transform: scale(0.98);
 }
 
-.qm-menu .menu-reset {
-    width: 100%;
-    background: rgba(139, 69, 19, 0.3);
-    border: 1px solid rgba(139, 69, 19, 0.6);
+.menu-reset {
+    background: rgba(139, 69, 19, 0.4);
+    border: 1px solid rgba(139, 115, 85, 0.6);
     border-radius: 4px;
-    color: #f8f4e6;
+    color: #000000;
     cursor: pointer;
-    padding: 6px;
-    font-size: 10px;
+    padding: 4px 6px;
+    font-size: 12px;
     font-weight: 600;
     transition: all 0.2s ease;
-    font-family: 'Cinzel', serif;
-}
-
-.qm-menu .menu-reset:hover {
-    background: rgba(139, 69, 19, 0.5);
-    border-color: rgba(139, 69, 19, 0.8);
-    color: #FFF;
-}
-
-/* Specialization Menu */
-.spec-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background: rgba(42, 36, 32, 0.98);
-    border: 2px solid rgba(139, 115, 85, 0.7);
-    border-radius: 8px;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 140px;
-    z-index: 3050;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
-}
-
-.spec-menu-item {
-    background: rgba(139, 115, 85, 0.25);
-    border: 1px solid rgba(139, 115, 85, 0.5);
-    border-radius: 4px;
-    color: #f8f4e6;
-    cursor: pointer;
-    padding: 8px 12px;
-    font-size: 11px;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    text-align: left;
-    font-family: 'Cinzel', serif;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    min-width: 40px;
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
 }
 
-.spec-menu-item i {
-    font-size: 14px;
-    width: 16px;
-    text-align: center;
-}
-
-.spec-menu-item:hover {
-    background: rgba(160, 140, 112, 0.4);
-    border-color: rgba(160, 140, 112, 0.8);
-    color: #FFF;
-}
-
-.spec-menu-item:active {
-    transform: scale(0.98);
-}
-
-.spec-menu-item.bladestorm {
-    border-color: rgba(220, 20, 60, 0.5);
-}
-
-.spec-menu-item.bladestorm:hover {
-    border-color: rgba(220, 20, 60, 0.8);
-    background: rgba(220, 20, 60, 0.2);
-}
-
-.spec-menu-item.beastmaster {
-    border-color: rgba(46, 125, 50, 0.5);
-}
-
-.spec-menu-item.beastmaster:hover {
-    border-color: rgba(46, 125, 50, 0.8);
-    background: rgba(46, 125, 50, 0.2);
-}
-
-.spec-menu-item.shadowdancer {
-    border-color: rgba(106, 27, 154, 0.5);
-}
-
-.spec-menu-item.shadowdancer:hover {
-    border-color: rgba(106, 27, 154, 0.8);
-    background: rgba(106, 27, 154, 0.2);
+.menu-reset:hover {
+    background: rgba(139, 69, 19, 0.6);
+    border-color: rgba(139, 115, 85, 0.8);
+    color: #000000;
 }
 
 /* Animations */
@@ -382,12 +377,12 @@
 }
 
 .class-resource-bar.quarry-marks-companion.small .qm-segment {
-    width: 22px;
-    height: 22px;
+    width: 16px;
+    height: 16px;
 }
 
 .class-resource-bar.quarry-marks-companion.small .qm-segment-icon {
-    font-size: 11px;
+    font-size: 9px;
 }
 
 .class-resource-bar.quarry-marks-companion.small .qm-value {

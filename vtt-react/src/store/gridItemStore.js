@@ -153,9 +153,9 @@ const useGridItemStore = create((set, get) => ({
           type: item.type || 'misc',
           quality: item.quality || item.rarity || 'common',
 
-          // Ensure icon and name are set
+          // Ensure icon and name are set - use customName if available (for renamed items)
           iconId: item.iconId || null,
-          name: item.name || 'Unknown Item',
+          name: item.customName || item.name || 'Unknown Item',
 
           // Ensure value is set for currency items
           value: item.value || null,
@@ -278,7 +278,17 @@ const useGridItemStore = create((set, get) => ({
         // This handles items created directly in inventory (like test items or currency)
         // Use ALL properties from the grid item to ensure nothing is lost
         // Priority: main item store → temporary items → originalItemStoreId → grid item fallback
-        const itemToUse = originalItem || temporaryItem || originalItemFromStoreId || {
+        // But preserve customName from grid item if it exists (for renamed items)
+        const itemToUse = originalItem ? {
+          ...originalItem,
+          customName: gridItem.customName || originalItem.customName
+        } : temporaryItem ? {
+          ...temporaryItem,
+          customName: gridItem.customName || temporaryItem.customName
+        } : originalItemFromStoreId ? {
+          ...originalItemFromStoreId,
+          customName: gridItem.customName || originalItemFromStoreId.customName
+        } : {
           // Start with ALL properties from the grid item
           ...gridItem,
 

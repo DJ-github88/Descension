@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -193,6 +193,16 @@ const ClassResourceBar = ({
         showHuntressSpecMenu: false,
         huntressHoverSection: null // 'marks' | 'companion' | null
     });
+
+    // Helper functions for huntress state
+    const setLocalQuarryMarks = (value) => {
+        setHuntressState(prev => ({ ...prev, localQuarryMarks: value }));
+    };
+
+    const setHuntressSpec = (value) => {
+        setHuntressState(prev => ({ ...prev, huntressSpec: value }));
+    };
+
     const qmBarRef = useRef(null);
 
     const [inscriptorState, setInscriptorState] = useState({
@@ -219,7 +229,6 @@ const ClassResourceBar = ({
         roundsInPhase: 0, // 0-2 (3 rounds per phase)
         lunarchSpec: 'moonlight_sentinel', // 'moonlight_sentinel' | 'starfall_invoker' | 'lunar_guardian'
         showLunarPhaseMenu: false,
-        showLunarchSpecMenu: false,
         lunarchHoverSection: null // 'phase' | 'timer' | null
     });
     const lunarPhaseBarRef = useRef(null);
@@ -388,7 +397,6 @@ const ClassResourceBar = ({
         roundsInPhase,
         lunarchSpec,
         showLunarPhaseMenu,
-        showLunarchSpecMenu,
         lunarchHoverSection
     } = lunarchState;
 
@@ -420,6 +428,9 @@ const ClassResourceBar = ({
     const setShowMomentumMenu = (value) => setBladedancerState(prev => ({ ...prev, showMomentumMenu: value }));
     const setShowFlourishMenu = (value) => setBladedancerState(prev => ({ ...prev, showFlourishMenu: value }));
     const setShowSpecPassiveMenu = (value) => setBladedancerState(prev => ({ ...prev, showSpecPassiveMenu: value }));
+    const setLocalMomentum = (value) => setBladedancerState(prev => ({ ...prev, localMomentum: value }));
+    const setLocalFlourish = (value) => setBladedancerState(prev => ({ ...prev, localFlourish: value }));
+    const setCurrentStance = (value) => setBladedancerState(prev => ({ ...prev, currentStance: value }));
     const setLocalRage = (value) => setBerserkerState(prev => ({ ...prev, localRage: value }));
     const setShowTimeShardsMenu = (value) => setChronarchState(prev => ({ ...prev, showTimeShardsMenu: value }));
     const setShowTemporalStrainMenu = (value) => setChronarchState(prev => ({ ...prev, showTemporalStrainMenu: value }));
@@ -455,7 +466,9 @@ const ClassResourceBar = ({
     const setShowInscriptorSpecMenu = (value) => setInscriptorState(prev => ({ ...prev, showInscriptorSpecMenu: value }));
     const setShowPhylacteryMenu = (value) => setLichborneState(prev => ({ ...prev, showPhylacteryMenu: value }));
     const setShowLunarPhaseMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarPhaseMenu: value }));
-    const setShowLunarchSpecMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarchSpecMenu: value }));
+    const setCurrentLunarPhase = useCallback((value) => setLunarchState(prev => ({ ...prev, currentLunarPhase: value })), []);
+    const setRoundsInPhase = useCallback((value) => setLunarchState(prev => ({ ...prev, roundsInPhase: value })), []);
+    const setLunarchSpec = useCallback((value) => setLunarchState(prev => ({ ...prev, lunarchSpec: value })), []);
     const setShowDevotionMenu = (value) => setMartyrState(prev => ({ ...prev, showDevotionMenu: value }));
     const setShowMartyrSpecMenu = (value) => setMartyrState(prev => ({ ...prev, showMartyrSpecMenu: value }));
     const setMartyrSpec = (value) => setMartyrState(prev => ({ ...prev, martyrSpec: value }));
@@ -1028,64 +1041,39 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar time-shards-strain ${size}`}>
                 <div className="chronarch-single-bar">
-                    {/* Combined Bar Container */}
-                    <div className="chronarch-combined-container">
-                        {/* Time Shards Fill (from left) */}
-                        <div
-                            className="time-shards-fill"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowTimeShardsMenu(!showTimeShardsMenu);
-                                setShowTemporalStrainMenu(false);
-                            }}
-                            onMouseEnter={(e) => {
-                                setChronarchHoverSection('shards');
-                                const rect = e.currentTarget.getBoundingClientRect();
-                                setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-                                setShowTooltip(true);
-                            }}
-                            onMouseLeave={() => {
-                                setChronarchHoverSection(null);
-                                setShowTooltip(false);
-                            }}
-                            style={{
-                                width: `${(shardsValue / shardsMax) * 50}%`,
-                                background: `linear-gradient(90deg,
-                                    ${finalConfig.visual.timeShards.activeColor} 0%,
-                                    ${finalConfig.visual.timeShards.activeColor} 70%,
-                                    ${finalConfig.visual.timeShards.glowColor} 100%)`,
-                                boxShadow: `0 0 8px ${finalConfig.visual.timeShards.glowColor}`
-                            }}
-                        />
-
-                        {/* Temporal Strain Fill (from right) */}
-                        <div
-                            className={`temporal-strain-fill ${shouldPulse ? 'pulse' : ''} ${shouldFlash ? 'flash' : ''}`}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowTemporalStrainMenu(!showTemporalStrainMenu);
-                                setShowTimeShardsMenu(false);
-                            }}
-                            onMouseEnter={(e) => {
-                                setChronarchHoverSection('strain');
-                                const rect = e.currentTarget.getBoundingClientRect();
-                                setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
-                                setShowTooltip(true);
-                            }}
-                            onMouseLeave={() => {
-                                setChronarchHoverSection(null);
-                                setShowTooltip(false);
-                            }}
-                            style={{
-                                width: `${(strainValue / strainMax) * 50}%`,
-                                right: 0,
-                                background: `linear-gradient(270deg,
-                                    ${strainColor} 0%,
-                                    ${strainColor} 70%,
-                                    rgba(255, 255, 255, 0.3) 100%)`,
-                                boxShadow: `0 0 8px ${strainColor}`
-                            }}
-                        />
+                    {/* Time Shards Bar (Left Side) */}
+                    <div
+                        className="time-shards-bar"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setShowTimeShardsMenu(!showTimeShardsMenu);
+                            setShowTemporalStrainMenu(false);
+                        }}
+                        onMouseEnter={(e) => {
+                            setChronarchHoverSection('shards');
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
+                            setShowTooltip(true);
+                        }}
+                        onMouseLeave={() => {
+                            setChronarchHoverSection(null);
+                            setShowTooltip(false);
+                        }}
+                    >
+                        <div className="fluid-bar-container">
+                            <div
+                                className="fluid-bar-fill"
+                                style={{
+                                    width: `${(shardsValue / shardsMax) * 100}%`,
+                                    background: `linear-gradient(90deg,
+                                        ${finalConfig.visual.timeShards.activeColor} 0%,
+                                        ${finalConfig.visual.timeShards.activeColor} 70%,
+                                        ${finalConfig.visual.timeShards.glowColor} 100%)`,
+                                    boxShadow: `0 0 8px ${finalConfig.visual.timeShards.glowColor}`
+                                }}
+                            />
+                        </div>
+                        <div className="bar-value">{shardsValue}/{shardsMax}</div>
                     </div>
 
                     {/* Chronarch Center Divider */}
@@ -1101,10 +1089,39 @@ const ClassResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Bar Values */}
-                    <div className="chronarch-values">
-                        <div className="bar-value time-shards-value">{shardsValue}/{shardsMax}</div>
-                        <div className="bar-value temporal-strain-value" style={{ color: strainColor }}>
+                    {/* Temporal Strain Bar (Right Side) */}
+                    <div
+                        className={`temporal-strain-bar ${shouldPulse ? 'pulse' : ''} ${shouldFlash ? 'flash' : ''}`}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setShowTemporalStrainMenu(!showTemporalStrainMenu);
+                            setShowTimeShardsMenu(false);
+                        }}
+                        onMouseEnter={(e) => {
+                            setChronarchHoverSection('strain');
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setTooltipPosition({ x: rect.left + rect.width / 2, y: rect.top });
+                            setShowTooltip(true);
+                        }}
+                        onMouseLeave={() => {
+                            setChronarchHoverSection(null);
+                            setShowTooltip(false);
+                        }}
+                    >
+                        <div className="fluid-bar-container">
+                            <div
+                                className="fluid-bar-fill"
+                                style={{
+                                    width: `${(strainValue / strainMax) * 100}%`,
+                                    background: `linear-gradient(90deg,
+                                        ${strainColor} 0%,
+                                        ${strainColor} 70%,
+                                        rgba(255, 255, 255, 0.3) 100%)`,
+                                    boxShadow: `0 0 8px ${strainColor}`
+                                }}
+                            />
+                        </div>
+                        <div className="bar-value" style={{ color: strainColor }}>
                             {strainValue}/{strainMax}
                         </div>
                     </div>
@@ -3324,11 +3341,6 @@ const ClassResourceBar = ({
                                     )}
                                 </div>
                             ))}
-
-                            {/* QM Value Display */}
-                            <div className="qm-value" style={{ color: specColor }}>
-                                {qmValue}/{maxQM}
-                            </div>
                         </div>
 
                         {/* QM Adjustment Menu */}
@@ -3337,69 +3349,67 @@ const ClassResourceBar = ({
                                 className="qm-menu"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <div className="menu-title">Adjust Quarry Marks</div>
+                                <div className="menu-header">
+                                    <div className="menu-title">Adjust Quarry Marks</div>
+                                </div>
                                 <div className="menu-buttons">
-                                    <button onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 1)); setShowQMMenu(false); }}>
-                                        +1 QM (Hit/Companion Hit)
+                                    <div className="button-row">
+                                        <button onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 1)); setShowQMMenu(false); }}>
+                                            +1 <span className="button-desc">Hit</span>
+                                        </button>
+                                        <button onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 2)); setShowQMMenu(false); }}>
+                                            +2 <span className="button-desc">Crit</span>
+                                        </button>
+                                        <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 1)); setShowQMMenu(false); }}>
+                                            -1 <span className="button-desc">Comp</span>
+                                        </button>
+                                    </div>
+                                    <div className="button-row">
+                                        <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 2)); setShowQMMenu(false); }}>
+                                            -2 <span className="button-desc">Chain</span>
+                                        </button>
+                                        <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 3)); setShowQMMenu(false); }}>
+                                            -3 <span className="button-desc">Spec</span>
+                                        </button>
+                                        <button onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }}>
+                                            -5 <span className="button-desc">Ult</span>
+                                        </button>
+                                    </div>
+                                    <div className="button-row">
+                                        <button onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }}>
+                                            0 <span className="button-desc">Reset</span>
+                                        </button>
+                                        <button onClick={() => { setLocalQuarryMarks(maxQM); setShowQMMenu(false); }}>
+                                            {maxQM} <span className="button-desc">Max</span>
+                                        </button>
+                                        <button className="menu-reset" onClick={() => setShowQMMenu(false)}>
+                                            ✕
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="menu-divider"></div>
+                                <div className="spec-buttons">
+                                    <button
+                                        className={`spec-button ${huntressSpec === 'bladestorm' ? 'active' : ''}`}
+                                        onClick={() => setHuntressSpec('bladestorm')}
+                                    >
+                                        <i className="fas fa-khanda"></i> Bladestorm
                                     </button>
-                                    <button onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 2)); setShowQMMenu(false); }}>
-                                        +2 QM (Critical Hit)
+                                    <button
+                                        className={`spec-button ${huntressSpec === 'beastmaster' ? 'active' : ''}`}
+                                        onClick={() => setHuntressSpec('beastmaster')}
+                                    >
+                                        <i className="fas fa-paw"></i> Beastmaster
                                     </button>
-                                    <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 1)); setShowQMMenu(false); }}>
-                                        -1 QM (Enhance Companion)
-                                    </button>
-                                    <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 2)); setShowQMMenu(false); }}>
-                                        -2 QM (Extend Chain)
-                                    </button>
-                                    <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 3)); setShowQMMenu(false); }}>
-                                        -3 QM (Companion Special)
-                                    </button>
-                                    <button onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }}>
-                                        -5 QM (Ultimate Ability)
-                                    </button>
-                                    <button onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }}>
-                                        Set to 0
-                                    </button>
-                                    <button onClick={() => { setLocalQuarryMarks(maxQM); setShowQMMenu(false); }}>
-                                        Set to {maxQM} (Max)
+                                    <button
+                                        className={`spec-button ${huntressSpec === 'shadowdancer' ? 'active' : ''}`}
+                                        onClick={() => setHuntressSpec('shadowdancer')}
+                                    >
+                                        <i className="fas fa-moon"></i> Shadowdancer
                                     </button>
                                 </div>
-                                <button className="menu-reset" onClick={() => setShowQMMenu(false)}>
-                                    Close
-                                </button>
                             </div>
                         )}
-
-                        {/* Specialization Selector (inside QM bar wrapper) */}
-                        <div
-                            className="spec-selector"
-                            onClick={() => setShowHuntressSpecMenu(!showHuntressSpecMenu)}
-                            style={{
-                                borderColor: specColor,
-                                color: specColor
-                            }}
-                        >
-                            <i className={`fas ${specIcon === 'fa-glaive-alt' ? 'fa-khanda' : specIcon}`}></i>
-
-                            {/* Specialization Menu */}
-                            {showHuntressSpecMenu && (
-                                <div className="spec-menu" onClick={(e) => e.stopPropagation()}>
-                                    {Object.entries(specs).filter(([key]) => key !== 'max' && key !== 'baseColor' && key !== 'emptyColor' && key !== 'segmentBorder').map(([key, spec]) => (
-                                        <div
-                                            key={key}
-                                            className={`spec-menu-item ${key}`}
-                                            onClick={() => {
-                                                setHuntressSpec(key);
-                                                setShowHuntressSpecMenu(false);
-                                            }}
-                                        >
-                                            <i className={`fas ${spec.icon === 'fa-glaive-alt' ? 'fa-khanda' : spec.icon}`}></i>
-                                            <span>{spec.name}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -4006,7 +4016,7 @@ const ClassResourceBar = ({
 
         return (
             <div className={`class-resource-bar lunar-phases ${size}`}>
-                <div className="lunarch-container">
+                <>
                     {/* Lunar Phase Bar */}
                     <div className="lunar-phase-bar-wrapper" ref={lunarPhaseBarRef}>
                         {/* Moon Icon (Left) */}
@@ -4050,14 +4060,14 @@ const ClassResourceBar = ({
                                             key={phase}
                                             className={`lunar-phase-segment ${isActive ? 'active' : isPast ? 'past' : 'future'}`}
                                             style={{
-                                                backgroundColor: isActive ? phaseConfig.color : isPast ? `${phaseConfig.color}40` : 'rgba(30, 30, 50, 0.5)',
-                                                borderColor: isActive ? phaseConfig.glow : 'rgba(100, 100, 120, 0.3)',
+                                                backgroundColor: isActive ? phaseConfig.color : isPast ? `${phaseConfig.color}60` : 'rgba(139, 69, 19, 0.2)',
+                                                borderColor: isActive ? phaseConfig.glow : 'rgba(139, 69, 19, 0.4)',
                                                 boxShadow: isActive ? `0 0 12px ${phaseConfig.glow}, inset 0 0 8px ${phaseConfig.glow}` : 'none'
                                             }}
                                         >
                                             <i className={`fas ${phaseConfig.icon}`} style={{
                                                 color: isActive ? phaseConfig.glow : isPast ? `${phaseConfig.glow}60` : 'rgba(150, 150, 170, 0.5)',
-                                                fontSize: '11px'
+                                                fontSize: '9px'
                                             }}></i>
                                         </div>
                                     );
@@ -4133,38 +4143,25 @@ const ClassResourceBar = ({
 
                             {/* Specialization Selector */}
                             <div className="menu-section">
-                                <div className="menu-title">
-                                    Specialization
-                                    <button
-                                        className="spec-toggle-btn"
-                                        onClick={() => setShowLunarchSpecMenu(!showLunarchSpecMenu)}
-                                    >
-                                        <i className="fas fa-cog"></i>
-                                    </button>
+                                <div className="menu-title">Specialization</div>
+                                <div className="spec-row">
+                                    {Object.entries(phases)
+                                        .filter(([key]) => key === 'moonlight_sentinel' || key === 'starfall_invoker' || key === 'lunar_guardian')
+                                        .map(([key, spec]) => (
+                                            <div
+                                                key={key}
+                                                className={`spec-option ${lunarchSpec === key ? 'selected' : ''}`}
+                                                onClick={() => setLunarchSpec(key)}
+                                            >
+                                                <i className={`fas ${spec.icon}`}></i>
+                                                <span>{spec.name}</span>
+                                            </div>
+                                        ))}
                                 </div>
-                                {showLunarchSpecMenu && (
-                                    <div className="spec-selector">
-                                        {Object.entries(phases)
-                                            .filter(([key]) => key === 'moonlight_sentinel' || key === 'starfall_invoker' || key === 'lunar_guardian')
-                                            .map(([key, spec]) => (
-                                                <div
-                                                    key={key}
-                                                    className={`spec-option ${lunarchSpec === key ? 'selected' : ''}`}
-                                                    onClick={() => {
-                                                        setLunarchSpec(key);
-                                                        setShowLunarchSpecMenu(false);
-                                                    }}
-                                                >
-                                                    <i className={`fas ${spec.icon}`}></i>
-                                                    <span>{spec.name}</span>
-                                                </div>
-                                            ))}
-                                    </div>
-                                )}
                             </div>
                         </div>
                     )}
-                </div>
+                </>
             </div>
         );
     };
@@ -5663,12 +5660,17 @@ const ClassResourceBar = ({
                             setBladedancerHoverSection(null);
                             setShowTooltip(false);
                         }}
-                        style={{
-                            color: currentStanceData.color,
-                            borderColor: currentStanceData.color
-                        }}
                     >
-                        <i className={currentStanceData.icon}></i>
+                        <div className="stance-center-ornament">
+                            <div className="stance-center-circle"></div>
+                            <div className="stance-center-lines">
+                                <div className="stance-line stance-line-1"></div>
+                                <div className="stance-line stance-line-2"></div>
+                                <div className="stance-line stance-line-3"></div>
+                                <div className="stance-line stance-line-4"></div>
+                            </div>
+                            <i className={currentStanceData.icon} style={{ color: currentStanceData.color }}></i>
+                        </div>
                     </div>
 
                     {/* Flourish Bar (Right) */}

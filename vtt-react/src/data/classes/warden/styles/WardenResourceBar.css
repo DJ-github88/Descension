@@ -5,35 +5,14 @@
     width: 100%;
 }
 
+.warden-resource-container .resource-bar-row {
+    position: relative;
+}
+
 /* Resource Bar Row - Spec Button + Bar */
 /* .resource-bar-row consolidated to global styles */
 
-/* Specialization Cycle Button */
-.spec-cycle-btn {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(20, 15, 10, 0.95), rgba(40, 30, 20, 0.95));
-    border: 2px solid;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 16px;
-}
-
-.warden-resource-container.small .spec-cycle-btn {
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-}
-
-.spec-cycle-btn:hover {
-    transform: scale(1.1);
-    filter: brightness(1.3);
-}
+/* Spec cycle button removed - now in menu */
 
 /* Main Warden Resource Bar */
 .warden-resource-bar {
@@ -62,14 +41,7 @@
     min-height: 16px !important;
 }
 
-.character-card .spec-cycle-btn,
-.character-card-compact .spec-cycle-btn {
-    width: 16px !important;
-    height: 16px !important;
-    min-width: 16px !important;
-    min-height: 16px !important;
-    font-size: 0.6rem !important;
-}
+/* Spec cycle button removed - now in menu */
 
 .warden-resource-bar.clickable:hover {
     border-color: var(--spec-active-color);
@@ -379,68 +351,218 @@
     }
 }
 
-/* Specialization Selector */
-.warden-spec-selector-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
+/* Warden Menu - Pathfinder Beige Style */
+.warden-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
+    border: 2px solid #a08c70;
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 240px;
+    max-width: 280px;
+    z-index: 3050;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+}
+
+.warden-menu .menu-header {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.6);
+    width: 100%;
+    order: 1;
+}
+
+.warden-menu .menu-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: none;
+    text-align: center;
+}
+
+.warden-menu .menu-divider {
+    height: 1px;
+    background: rgba(139, 115, 85, 0.6);
+    margin: 12px 0 10px 0;
+    width: 100%;
+    flex-shrink: 0;
+    order: 3;
+}
+
+.warden-menu .menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    order: 2;
+}
+
+.warden-menu .button-row {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.warden-menu .menu-buttons button {
+    background: rgba(139, 115, 85, 0.2);
+    border: 1px solid rgba(139, 115, 85, 0.6);
+    border-radius: 4px;
+    color: #000000;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    min-width: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.warden-menu .button-desc {
+    font-size: 8px;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.warden-menu .menu-buttons button:hover {
+    background: rgba(139, 115, 85, 0.4);
+    border-color: rgba(139, 115, 85, 0.8);
+    color: #000000;
+}
+
+.warden-menu .menu-buttons button:active {
+    transform: scale(0.98);
+}
+
+.warden-menu .menu-reset {
+    background: rgba(139, 69, 19, 0.4);
+    border: 1px solid rgba(139, 115, 85, 0.6);
+    border-radius: 4px;
+    color: #000000;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    min-width: 40px;
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999999;
 }
 
-.warden-spec-selector {
-    background: linear-gradient(135deg, #1a1410 0%, #2a1f1a 100%);
-    border: 2px solid #8B7355;
-    border-radius: 8px;
-    padding: 20px;
-    min-width: 300px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+.warden-menu .menu-reset:hover {
+    background: rgba(139, 69, 19, 0.6);
+    border-color: rgba(139, 115, 85, 0.8);
+    color: #000000;
 }
 
-.spec-selector-header {
-    font-family: 'Cinzel', serif;
-    font-size: 18px;
-    font-weight: bold;
-    color: #D4C5B0;
-    text-align: center;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #8B7355;
-}
-
-.spec-option {
-    display: flex;
+.warden-menu .spec-buttons {
+    display: flex !important;
+    gap: 6px;
     align-items: center;
-    gap: 12px;
+    margin-top: 0;
+    margin-bottom: 4px;
     width: 100%;
-    padding: 12px;
-    margin-bottom: 8px;
-    background: transparent;
-    border: 2px solid;
+    justify-content: center;
+    padding-top: 0;
+    position: relative !important;
+    z-index: 1;
+    order: 4;
+}
+
+.warden-menu .spec-button {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.6) 0%, rgba(213, 203, 176, 0.6) 100%) !important;
+    border: 1px solid rgba(139, 115, 85, 0.8) !important;
     border-radius: 4px;
+    color: #000000 !important;
     cursor: pointer;
-    font-family: 'Cinzel', serif;
-    font-size: 14px;
-    color: #D4C5B0;
-    transition: all 0.2s ease;
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    text-shadow: none;
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    min-width: 80px;
+    justify-content: center;
+    position: relative !important;
+    transform: none !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
 }
 
-.spec-option:hover {
-    transform: translateX(4px);
-    filter: brightness(1.2);
+.warden-menu .spec-button:hover {
+    background: linear-gradient(135deg, rgba(240, 230, 210, 0.8) 0%, rgba(213, 203, 176, 0.8) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: none !important;
 }
 
-.spec-option.selected {
-    font-weight: bold;
+.warden-menu .spec-button.active {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.7) 0%, rgba(160, 140, 112, 0.7) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    text-shadow: none;
+    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.3);
+    font-weight: 700;
+    transform: none !important;
 }
 
-.spec-option i {
-    font-size: 18px;
+.warden-menu .spec-button.active:hover {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.85) 0%, rgba(160, 140, 112, 0.85) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    box-shadow: 0 3px 6px rgba(139, 115, 85, 0.4);
+    transform: none !important;
+}
+
+.warden-menu .spec-button i {
+    font-size: 12px;
+    display: inline-block;
+}
+
+.warden-menu .menu-section {
+    margin-bottom: 8px;
+    padding: 6px 0;
+}
+
+.warden-menu .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 4px;
+    text-align: center;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
+.warden-menu .menu-section .button-row button.active {
+    background: linear-gradient(135deg, rgba(139, 115, 85, 0.7) 0%, rgba(160, 140, 112, 0.7) 100%) !important;
+    border-color: rgba(139, 115, 85, 1) !important;
+    color: #000000 !important;
+    font-weight: 700;
 }
 
 /* Simplified Tooltip - Beige Pathfinder Style */
@@ -501,135 +623,5 @@
     margin-right: 4px;
 }
 
-/* Dev Controls */
-.warden-controls-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999999;
-}
-
-.warden-controls {
-    background: linear-gradient(135deg, #1a1410 0%, #2a1f1a 100%);
-    border: 2px solid #8B7355;
-    border-radius: 8px;
-    padding: 20px;
-    min-width: 400px;
-    max-width: 500px;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-}
-
-.controls-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Cinzel', serif;
-    font-size: 18px;
-    font-weight: bold;
-    color: #D4C5B0;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #8B7355;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: #D4C5B0;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.close-btn:hover {
-    color: #FF6B6B;
-    transform: scale(1.2);
-}
-
-.control-group {
-    margin-bottom: 16px;
-    padding: 12px;
-    background: rgba(139, 115, 85, 0.1);
-    border: 1px solid rgba(139, 115, 85, 0.3);
-    border-radius: 4px;
-}
-
-.control-group label {
-    display: block;
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    font-weight: bold;
-    color: #C4A57B;
-    margin-bottom: 8px;
-}
-
-.control-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.control-buttons button {
-    flex: 1;
-    min-width: 70px;
-    padding: 8px 12px;
-    background: linear-gradient(135deg, #2a2520 0%, #3a3530 100%);
-    border: 1px solid #8B7355;
-    border-radius: 4px;
-    color: #D4C5B0;
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.control-buttons button:hover {
-    background: linear-gradient(135deg, #3a3530 0%, #4a4540 100%);
-    border-color: #C4A57B;
-    transform: translateY(-1px);
-}
-
-.control-buttons button.active {
-    background: linear-gradient(135deg, #2E5016 0%, #4CAF50 100%);
-    border-color: #76FF03;
-    color: #FFF;
-    font-weight: bold;
-}
-
-.vp-bar-preview {
-    margin-top: 8px;
-    height: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid #8B7355;
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-}
-
-.vp-fill {
-    height: 100%;
-    transition: all 0.3s ease;
-}
-
-.info-text {
-    margin-top: 8px;
-    font-size: 11px;
-    color: #B8A890;
-    font-style: italic;
-    line-height: 1.4;
-}
+/* Dev Controls removed - now using Pathfinder beige menu */
 

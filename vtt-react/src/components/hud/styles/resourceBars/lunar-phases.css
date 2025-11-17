@@ -4,42 +4,29 @@
     height: auto;
 }
 
-.lunarch-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
 .lunar-phase-bar-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 3px 6px;
-    background:
-        linear-gradient(135deg,
-            rgba(15, 15, 35, 0.6) 0%,
-            rgba(25, 25, 50, 0.7) 50%,
-            rgba(20, 20, 45, 0.6) 100%);
-    border-radius: 8px;
-    border: 1px solid rgba(230, 230, 250, 0.3);
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.5),
-        inset 0 1px 1px rgba(230, 230, 250, 0.2);
+    gap: 2px;
+    padding: 1px 2px;
+    background: rgba(139, 119, 101, 0.8);
+    border-radius: 3px;
+    border: 1px solid var(--pf-brown-dark);
+    box-shadow: var(--pf-shadow-sm);
+    height: 14px;
 }
 
 /* Moon Icon (Left Side) */
 .lunar-moon-icon {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
+    width: 12px;
+    height: 12px;
+    min-width: 12px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid;
+    border: 1px solid var(--pf-brown-medium);
     transition: all 0.3s ease;
     position: relative;
     animation: moonGlow 4s ease-in-out infinite;
@@ -48,13 +35,13 @@
 .lunar-moon-icon::before {
     content: '';
     position: absolute;
-    top: 5px;
-    left: 7px;
-    width: 8px;
-    height: 8px;
+    top: 3px;
+    left: 4px;
+    width: 5px;
+    height: 5px;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
     border-radius: 50%;
-    filter: blur(2px);
+    filter: blur(1px);
 }
 
 .lunar-moon-icon:hover {
@@ -62,8 +49,8 @@
 }
 
 .lunar-moon-icon i {
-    font-size: 14px;
-    filter: drop-shadow(0 0 4px currentColor);
+    font-size: 8px;
+    filter: drop-shadow(0 0 2px currentColor);
     z-index: 1;
 }
 
@@ -81,21 +68,16 @@
     flex: 1;
     display: flex;
     align-items: center;
-    padding: 2px 5px;
-    background:
-        linear-gradient(180deg,
-            rgba(30, 30, 50, 0.8) 0%,
-            rgba(20, 20, 40, 0.9) 100%);
-    border: 1px solid;
-    border-radius: 4px;
+    padding: 0 1px;
+    background: rgba(213, 203, 176, 0.4);
+    border: 1px solid var(--pf-brown-medium);
+    border-radius: 1px;
     transition: all 0.3s ease;
 }
 
 .lunar-phase-bar-content:hover {
-    background:
-        linear-gradient(180deg,
-            rgba(40, 40, 60, 0.9) 0%,
-            rgba(30, 30, 50, 1) 100%);
+    background: rgba(213, 203, 176, 0.5);
+    border-color: var(--pf-brown-medium);
 }
 
 /* Phase Segments (4 horizontal boxes) */
@@ -107,9 +89,9 @@
 
 .lunar-phase-segment {
     flex: 1;
-    height: 20px;
-    border-radius: 3px;
-    border: 1px solid;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid var(--pf-brown-light);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -164,27 +146,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    padding: 2px 4px;
-    background:
-        linear-gradient(180deg,
-            rgba(30, 30, 50, 0.8) 0%,
-            rgba(20, 20, 40, 0.9) 100%);
-    border: 1px solid;
-    border-radius: 4px;
+    gap: 1px;
+    padding: 1px 4px;
+    background: transparent;
+    border: none;
     min-width: 32px;
 }
 
 .lunar-round-timer .timer-segments {
     display: flex;
-    gap: 2px;
+    gap: 1px;
 }
 
 .lunar-round-timer .timer-segment {
-    width: 5px;
-    height: 14px;
-    border-radius: 2px;
-    border: 1px solid rgba(230, 230, 250, 0.3);
+    width: 3px;
+    height: 8px;
+    border-radius: 1px;
+    border: 1px solid var(--pf-brown-medium);
     transition: all 0.3s ease;
 }
 
@@ -202,172 +180,177 @@
 }
 
 .lunar-round-timer .timer-label {
-    font-size: 7px;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 0 0 4px currentColor;
+    display: none;
 }
 
 /* Lunar Phase Menu */
 .lunar-phase-menu {
     position: absolute;
-    top: calc(100% + 12px);
+    top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    min-width: 320px;
-    background:
-        linear-gradient(135deg,
-            rgba(15, 15, 35, 0.98) 0%,
-            rgba(25, 25, 50, 0.98) 50%,
-            rgba(20, 20, 45, 0.98) 100%),
-        repeating-linear-gradient(0deg,
-            transparent,
-            transparent 30px,
-            rgba(230, 230, 250, 0.03) 30px,
-            rgba(230, 230, 250, 0.03) 60px);
-    border: 2px solid rgba(230, 230, 250, 0.4);
-    border-radius: 10px;
-    padding: 14px;
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.7),
-        inset 0 1px 3px rgba(230, 230, 250, 0.3),
-        0 0 40px rgba(230, 230, 250, 0.2);
+    min-width: 240px;
+    max-width: 280px;
+    background: var(--pf-gradient-parchment);
+    border: 2px solid var(--pf-brown-medium);
+    border-radius: var(--pf-border-radius);
+    padding: 8px;
+    box-shadow: var(--pf-shadow-lg);
     z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    backdrop-filter: blur(6px);
-}
-
-.lunar-phase-menu .menu-section {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
+.lunar-phase-menu .menu-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .lunar-phase-menu .menu-title {
-    font-size: 10px;
-    font-weight: bold;
-    color: #E6E6FA;
+    font-family: var(--pf-font-body);
+    font-size: 9px;
+    font-weight: var(--pf-font-semibold);
+    color: var(--pf-text-primary);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    text-shadow: 0 0 8px rgba(230, 230, 250, 0.6);
 }
 
 .lunar-phase-menu .menu-value {
-    font-size: 12px;
-    font-weight: bold;
-    color: #F0E68C;
+    font-family: var(--pf-font-body);
+    font-size: 10px;
+    font-weight: var(--pf-font-semibold);
+    color: var(--pf-text-primary);
     text-align: center;
-    text-shadow: 0 0 10px rgba(240, 230, 140, 0.8);
 }
 
 /* Advance Round Button */
 .advance-round-btn {
-    padding: 8px 14px;
-    background:
-        linear-gradient(180deg,
-            rgba(230, 230, 250, 0.3) 0%,
-            rgba(200, 200, 230, 0.4) 100%);
-    border: 2px solid rgba(230, 230, 250, 0.5);
-    border-radius: 6px;
-    color: #E6E6FA;
-    font-size: 11px;
-    font-weight: bold;
+    padding: 4px 8px;
+    background: var(--pf-gradient-button);
+    border: 1px solid var(--pf-brown-medium);
+    border-radius: var(--pf-border-radius-sm);
+    color: var(--pf-text-primary);
+    font-family: var(--pf-font-body);
+    font-size: 9px;
+    font-weight: var(--pf-font-semibold);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow:
-        inset 0 1px 2px rgba(255, 255, 255, 0.2),
-        0 0 10px rgba(230, 230, 250, 0.3);
 }
 
 .advance-round-btn:hover {
-    background:
-        linear-gradient(180deg,
-            rgba(230, 230, 250, 0.5) 0%,
-            rgba(200, 200, 230, 0.6) 100%);
-    border-color: #E6E6FA;
-    box-shadow:
-        inset 0 1px 2px rgba(255, 255, 255, 0.3),
-        0 0 16px rgba(230, 230, 250, 0.6);
-    color: #FFFFFF;
-    text-shadow: 0 0 8px rgba(230, 230, 250, 1);
-    transform: scale(1.05);
+    background: var(--pf-gradient-button-hover);
+    border-color: var(--pf-brown-medium);
 }
 
 .advance-round-btn i {
-    margin-right: 6px;
+    margin-right: 4px;
 }
 
 /* Phase Shift Grid */
 .phase-shift-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 4px;
 }
 
 .phase-shift-option {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 10px;
-    background:
-        linear-gradient(180deg,
-            rgba(230, 230, 250, 0.15) 0%,
-            rgba(200, 200, 230, 0.2) 100%);
-    border: 2px solid;
-    border-radius: 8px;
+    gap: 2px;
+    padding: 4px;
+    background: rgba(213, 203, 176, 0.3);
+    border: 1px solid var(--pf-brown-light);
+    border-radius: var(--pf-border-radius-sm);
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow:
-        inset 0 1px 2px rgba(255, 255, 255, 0.1),
-        0 0 8px rgba(230, 230, 250, 0.2);
+    transition: all 0.2s ease;
 }
 
 .phase-shift-option:hover:not(.current) {
-    background:
-        linear-gradient(180deg,
-            rgba(230, 230, 250, 0.3) 0%,
-            rgba(200, 200, 230, 0.4) 100%);
-    box-shadow:
-        inset 0 1px 2px rgba(255, 255, 255, 0.2),
-        0 0 16px rgba(230, 230, 250, 0.4);
-    transform: scale(1.05);
+    background: rgba(213, 203, 176, 0.5);
+    border-color: var(--pf-brown-medium);
 }
 
 .phase-shift-option.current {
-    background:
-        linear-gradient(180deg,
-            rgba(240, 230, 140, 0.3) 0%,
-            rgba(230, 220, 120, 0.4) 100%);
-    box-shadow:
-        inset 0 1px 3px rgba(255, 255, 255, 0.3),
-        0 0 20px rgba(240, 230, 140, 0.5);
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--pf-gold);
 }
 
 .phase-shift-option i {
-    font-size: 20px;
+    font-size: 12px;
 }
 
 .phase-shift-name {
-    font-size: 9px;
-    font-weight: bold;
+    font-family: var(--pf-font-body);
+    font-size: 7px;
+    font-weight: var(--pf-font-semibold);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #E6E6FA;
+    color: var(--pf-text-primary);
 }
 
 .phase-shift-bonus {
-    font-size: 8px;
-    color: #F0E68C;
+    font-family: var(--pf-font-body);
+    font-size: 7px;
+    color: var(--pf-brown-dark);
     font-style: italic;
+    font-weight: var(--pf-font-medium);
 }
+
+/* Specialization Row */
+.spec-row {
+    display: flex;
+    flex-direction: row !important;
+    gap: 1px;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.lunar-phase-menu .spec-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1px;
+    padding: 0 1px;
+    margin: 0;
+    background: rgba(213, 203, 176, 0.3);
+    border: 1px solid var(--pf-brown-light);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    height: 18px;
+    font-family: var(--pf-font-body);
+    font-size: 6px;
+    font-weight: var(--pf-font-semibold);
+    color: var(--pf-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    box-sizing: border-box;
+}
+
+.lunar-phase-menu .spec-option:hover:not(.selected) {
+    background: rgba(213, 203, 176, 0.5);
+    border-color: var(--pf-brown-medium);
+}
+
+.lunar-phase-menu .spec-option.selected {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--pf-gold);
+}
+
+.lunar-phase-menu .spec-option i {
+    font-size: 8px;
+    color: var(--pf-text-primary);
+}
+
 
 /* ========================================
    MARTYR - DEVOTION GAUGE

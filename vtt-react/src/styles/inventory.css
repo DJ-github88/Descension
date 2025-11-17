@@ -705,16 +705,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 8px 12px;
     border-bottom: 1px solid #8b7355;
-    background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
 }
 
 .modal-header h3 {
     margin: 0;
     font-size: 1.2rem;
-    color: #8b6914;
-    text-shadow: 0 1px 1px rgba(240, 230, 210, 0.8);
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-weight: 600;
+    color: #7a3b2e;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
 }
 
 .close-button {
@@ -760,19 +762,27 @@
 }
 
 .item-details {
-    flex: 1;
+    flex: 1 1;
+    width: 300px;
+    border-radius: 4px;
+    padding: 1rem;
 }
 
 .item-details .item-name {
     font-size: 1.1rem;
-    font-weight: bold;
-    color: #8b6914;
-    margin-bottom: 4px;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-weight: 600;
+    color: #7a3b2e;
+    margin-bottom: 2px;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.3px;
 }
 
 .item-details .item-quantity {
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 0.85rem;
+    font-family: 'Crimson Text', 'Georgia', serif;
+    color: #8b7355;
+    font-style: italic;
 }
 
 .rename-input-group {

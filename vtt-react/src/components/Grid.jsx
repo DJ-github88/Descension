@@ -2172,10 +2172,11 @@ function GridComponent({
                     const itemStoreItem = useItemStore.getState().items.find(i => i.id === item.originalItemId);
 
                     // Use the original item from the item store if available, otherwise use the inventory item
-                    // IMPORTANT: Always preserve the quantity from the inventory item
+                    // IMPORTANT: Always preserve the quantity from the inventory item AND customName if it exists
                     const itemToAdd = itemStoreItem ? {
                         ...itemStoreItem,
-                        quantity: item.quantity || 1  // Preserve quantity from inventory
+                        quantity: item.quantity || 1,  // Preserve quantity from inventory
+                        customName: item.customName || itemStoreItem.customName  // Preserve customName from inventory item
                     } : item;
 
                     // If we're using the inventory item but it has an originalItemId,

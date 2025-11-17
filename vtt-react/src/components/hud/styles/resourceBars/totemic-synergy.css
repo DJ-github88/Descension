@@ -452,13 +452,15 @@
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(20, 20, 20, 0.98);
-    border: 2px solid rgba(139, 69, 19, 0.6);
-    border-radius: 8px;
-    padding: 10px;
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
+    border: 2px solid #8b7355;
+    border-radius: 6px;
+    padding: 8px;
     z-index: 3200;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     min-width: 180px;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    color: #5a1e12;
 }
 
 .stance-grid {
@@ -471,9 +473,9 @@
     position: relative;
     width: 48px;
     height: 48px;
-    background: rgba(52, 73, 94, 0.3);
-    border: 2px solid;
-    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(240, 240, 210, 0.8), rgba(245, 245, 220, 0.9));
+    border: 2px solid #8b7355;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -482,7 +484,8 @@
 }
 
 .stance-option-compact:hover:not(.disabled) {
-    background: rgba(52, 73, 94, 0.5);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.9), rgba(250, 250, 230, 1));
+    border-color: #7a3b2e;
     transform: scale(1.05);
 }
 
@@ -499,13 +502,14 @@
     position: absolute;
     bottom: 2px;
     right: 2px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(139, 69, 19, 0.9);
     border-radius: 3px;
     padding: 1px 4px;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Cinzel', 'Times New Roman', serif;
     font-size: 9px;
     font-weight: 700;
-    color: #3498DB;
+    color: #f5f5dc;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Bladedancer Tooltips */

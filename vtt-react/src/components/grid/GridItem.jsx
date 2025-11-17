@@ -384,11 +384,13 @@ const GridItem = ({ gridItem }) => {
   const itemForTooltip = originalItem ? {
     ...originalItem,
     // Always use quantity from gridItem since it might be stacked
-    quantity: gridItem.quantity || 1
+    quantity: gridItem.quantity || 1,
+    // Preserve customName from grid item if it exists (for renamed items)
+    customName: gridItem.customName || originalItem.customName
   } : {
     ...gridItem,
     id: gridItem.itemId,
-    name: gridItem.name || 'Unknown Item',
+    name: gridItem.customName || gridItem.name || 'Unknown Item',
     quality: gridItem.quality || gridItem.rarity || 'common',
     rarity: gridItem.rarity || gridItem.quality || 'common',
     type: gridItem.type || 'misc',

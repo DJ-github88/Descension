@@ -13,7 +13,6 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
     
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
-    const [showSpecSelector, setShowSpecSelector] = useState(false);
     
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
@@ -91,7 +90,6 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
 
     const handleSpecChange = (spec) => {
         setSelectedSpec(spec);
-        setShowSpecSelector(false);
     };
 
     const handleVPChange = (delta) => {
@@ -189,25 +187,8 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
 
     return (
         <div className={`warden-resource-container ${size}`}>
-            {/* Specialization Button and Main Bar Row */}
+            {/* Main Resource Bar */}
             <div className="resource-bar-row">
-                {/* Specialization Cycle Button */}
-                <button
-                    className="spec-cycle-btn"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setShowSpecSelector(!showSpecSelector);
-                    }}
-                    style={{
-                        borderColor: currentSpec.glowColor,
-                        color: currentSpec.glowColor,
-                        boxShadow: `0 0 8px ${currentSpec.glowColor}40`
-                    }}
-                >
-                    <i className={`fas ${currentSpec.icon}`}></i>
-                </button>
-
-                {/* Main Resource Bar */}
                 <div
                     ref={barRef}
                     className={`warden-resource-bar ${size} state-${visualState} clickable`}
@@ -260,28 +241,121 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                 </div>
             </div>
 
-            {/* Specialization Selector Menu */}
-            {showSpecSelector && ReactDOM.createPortal(
-                <div className="warden-spec-selector-overlay" onClick={() => setShowSpecSelector(false)}>
-                    <div className="warden-spec-selector" onClick={(e) => e.stopPropagation()}>
-                        <div className="spec-selector-header">Select Specialization</div>
+            {/* Warden Menu - Pathfinder Beige Style */}
+            {showControls && (
+                <div className="warden-menu" onClick={(e) => e.stopPropagation()}>
+                    <div className="menu-header">
+                        <div className="menu-title">Adjust Vengeance Points</div>
+                    </div>
+                    <div className="menu-buttons">
+                        <div className="button-row">
+                            <button onClick={() => { handleVPChange(1); setShowControls(false); }}>
+                                +1 <span className="button-desc">Attack</span>
+                            </button>
+                            <button onClick={() => { if (isMarked) handleVPChange(2); setShowControls(false); }}>
+                                +2 <span className="button-desc">Marked</span>
+                            </button>
+                            <button onClick={() => { handleVPChange(-1); setShowControls(false); }}>
+                                -1 <span className="button-desc">Strike</span>
+                            </button>
+                        </div>
+                        <div className="button-row">
+                            <button onClick={() => { handleVPChange(-2); setShowControls(false); }}>
+                                -2 <span className="button-desc">Whirl</span>
+                            </button>
+                            <button onClick={() => { handleVPChange(-3); setShowControls(false); }}>
+                                -3 <span className="button-desc">Resolve</span>
+                            </button>
+                            <button onClick={() => { handleVPChange(selectedSpec === 'jailer' ? -3 : -5); setShowControls(false); }}>
+                                {selectedSpec === 'jailer' ? '-3' : '-5'} <span className="button-desc">Cage</span>
+                            </button>
+                        </div>
+                        <div className="button-row">
+                            <button onClick={() => { setLocalVP(0); setShowControls(false); }}>
+                                0 <span className="button-desc">Reset</span>
+                            </button>
+                            <button onClick={() => { setLocalVP(maxVP); setShowControls(false); }}>
+                                {maxVP} <span className="button-desc">Max</span>
+                            </button>
+                            <button className="menu-reset" onClick={() => setShowControls(false)}>
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                    <div className="menu-divider"></div>
+                    
+                    {/* Shadowblade State Controls */}
+                    {selectedSpec === 'shadowblade' && (
+                        <div className="menu-section">
+                            <div className="section-label">Shadowblade State</div>
+                            <div className="button-row">
+                                <button 
+                                    className={isInStealth ? 'active' : ''}
+                                    onClick={() => setIsInStealth(!isInStealth)}
+                                >
+                                    {isInStealth ? '✓' : ''} Stealth Mode
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Jailer State Controls */}
+                    {selectedSpec === 'jailer' && (
+                        <div className="menu-section">
+                            <div className="section-label">Active Cages: {activeCages}/2</div>
+                            <div className="button-row">
+                                <button onClick={() => setActiveCages(Math.max(0, activeCages - 1))}>-1</button>
+                                <button onClick={() => setActiveCages(0)}>Clear</button>
+                                <button onClick={() => setActiveCages(2)}>Max</button>
+                                <button onClick={() => setActiveCages(Math.min(2, activeCages + 1))}>+1</button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Vengeance Seeker State Controls */}
+                    {selectedSpec === 'vengeanceSeeker' && (
+                        <div className="menu-section">
+                            <div className="section-label">Vengeance Seeker State</div>
+                            <div className="button-row">
+                                <button 
+                                    className={isInAvatar ? 'active' : ''}
+                                    onClick={() => setIsInAvatar(!isInAvatar)}
+                                >
+                                    {isInAvatar ? '✓' : ''} Avatar
+                                </button>
+                                <button 
+                                    className={isMarked ? 'active' : ''}
+                                    onClick={() => setIsMarked(!isMarked)}
+                                >
+                                    {isMarked ? '✓' : ''} Marked
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Quick Actions */}
+                    <div className="menu-section">
+                        <div className="section-label">Quick Actions</div>
+                        <div className="button-row">
+                            <button onClick={() => { handleVPChange(-10); setIsInAvatar(true); setShowControls(false); }}>
+                                Avatar <span className="button-desc">-10 VP</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="menu-divider"></div>
+                    <div className="spec-buttons">
                         {Object.entries(specConfigs).map(([key, spec]) => (
                             <button
                                 key={key}
-                                className={`spec-option ${selectedSpec === key ? 'selected' : ''}`}
+                                className={`spec-button ${selectedSpec === key ? 'active' : ''}`}
                                 onClick={() => handleSpecChange(key)}
-                                style={{
-                                    borderColor: spec.glowColor,
-                                    backgroundColor: selectedSpec === key ? `${spec.activeColor}40` : 'transparent'
-                                }}
                             >
-                                <i className={`fas ${spec.icon}`} style={{ color: spec.glowColor }}></i>
-                                <span>{spec.name}</span>
+                                <i className={`fas ${spec.icon}`}></i> {spec.name}
                             </button>
                         ))}
                     </div>
-                </div>,
-                document.body
+                </div>
             )}
 
             {/* Simplified Tooltip */}
@@ -313,122 +387,6 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                 document.body
             )}
 
-            {/* Dev Controls */}
-            {showControls && ReactDOM.createPortal(
-                <div className="warden-controls-overlay" onClick={() => setShowControls(false)}>
-                    <div className="warden-controls" onClick={(e) => e.stopPropagation()}>
-                        <div className="controls-header">
-                            <span>Warden Dev Controls</span>
-                            <button className="close-btn" onClick={() => setShowControls(false)}>×</button>
-                        </div>
-
-                        <div className="control-group">
-                            <label>Vengeance Points: {localVP}/{maxVP}</label>
-                            <div className="control-buttons">
-                                <button onClick={() => handleVPChange(-1)}>-1</button>
-                                <button onClick={() => handleVPChange(-5)}>-5</button>
-                                <button onClick={() => setLocalVP(0)}>Clear</button>
-                                <button onClick={() => setLocalVP(maxVP)}>Max</button>
-                                <button onClick={() => handleVPChange(1)}>+1</button>
-                                <button onClick={() => handleVPChange(5)}>+5</button>
-                            </div>
-                            <div className="vp-bar-preview">
-                                <div
-                                    className="vp-fill"
-                                    style={{
-                                        width: `${percentage}%`,
-                                        backgroundColor: currentSpec.activeColor,
-                                        boxShadow: `0 0 8px ${currentSpec.glowColor}`
-                                    }}
-                                />
-                            </div>
-                        </div>
-
-                        {selectedSpec === 'shadowblade' && (
-                            <div className="control-group">
-                                <label>Shadowblade State</label>
-                                <div className="control-buttons">
-                                    <button
-                                        className={isInStealth ? 'active' : ''}
-                                        onClick={() => setIsInStealth(!isInStealth)}
-                                    >
-                                        {isInStealth ? '✓' : ''} Stealth Mode
-                                    </button>
-                                </div>
-                                <div className="info-text">
-                                    Stealth: Bar flickers and dims, attacks generate +3 VP
-                                </div>
-                            </div>
-                        )}
-
-                        {selectedSpec === 'jailer' && (
-                            <div className="control-group">
-                                <label>Jailer State - Active Cages: {activeCages}/2</label>
-                                <div className="control-buttons">
-                                    <button onClick={() => setActiveCages(Math.max(0, activeCages - 1))}>-1 Cage</button>
-                                    <button onClick={() => setActiveCages(0)}>Clear</button>
-                                    <button onClick={() => setActiveCages(2)}>Max (2)</button>
-                                    <button onClick={() => setActiveCages(Math.min(2, activeCages + 1))}>+1 Cage</button>
-                                </div>
-                                <div className="info-text">
-                                    Cages: Spectral chains appear, cost 3 VP instead of 5
-                                </div>
-                            </div>
-                        )}
-
-                        {selectedSpec === 'vengeanceSeeker' && (
-                            <div className="control-group">
-                                <label>Vengeance Seeker State</label>
-                                <div className="control-buttons">
-                                    <button
-                                        className={isInAvatar ? 'active' : ''}
-                                        onClick={() => setIsInAvatar(!isInAvatar)}
-                                    >
-                                        {isInAvatar ? '✓' : ''} Avatar Form
-                                    </button>
-                                    <button
-                                        className={isMarked ? 'active' : ''}
-                                        onClick={() => setIsMarked(!isMarked)}
-                                    >
-                                        {isMarked ? '✓' : ''} Target Marked
-                                    </button>
-                                </div>
-                                <div className="info-text">
-                                    Avatar: Lasts 6 rounds, aura visible, attacks on marked generate +3 VP
-                                </div>
-                            </div>
-                        )}
-
-                        <div className="control-group">
-                            <label>Quick Actions</label>
-                            <div className="control-buttons">
-                                <button onClick={() => {
-                                    handleVPChange(1);
-                                }}>
-                                    Attack (+1 VP)
-                                </button>
-                                <button onClick={() => {
-                                    if (isMarked) handleVPChange(2);
-                                }}>
-                                    Attack Marked (+2 VP)
-                                </button>
-                                <button onClick={() => {
-                                    handleVPChange(-5);
-                                }}>
-                                    Cage (-5 VP)
-                                </button>
-                                <button onClick={() => {
-                                    setLocalVP(0);
-                                    setIsInAvatar(true);
-                                }}>
-                                    Avatar (-10 VP)
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
         </div>
     );
 };
