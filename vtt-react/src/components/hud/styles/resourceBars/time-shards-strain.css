@@ -212,6 +212,12 @@
     position: relative;
 }
 
+/* Temporal Strain bar fills from right to left */
+.temporal-strain-bar .fluid-bar-fill {
+    transform-origin: center right;
+    transform: scaleX(-1);
+}
+
 .fluid-bar-fill::before {
     content: '';
     position: absolute;
@@ -226,8 +232,18 @@
     animation: fluidShimmer 2s ease-in-out infinite;
 }
 
+/* Reverse shimmer animation for temporal strain bar */
+.temporal-strain-bar .fluid-bar-fill::before {
+    animation: fluidShimmerReverse 2s ease-in-out infinite;
+}
+
 @keyframes fluidShimmer {
     0%, 100% { opacity: 0; transform: translateX(-100%); }
+    50% { opacity: 1; transform: translateX(0%); }
+}
+
+@keyframes fluidShimmerReverse {
+    0%, 100% { opacity: 0; transform: translateX(100%); }
     50% { opacity: 1; transform: translateX(0%); }
 }
 
