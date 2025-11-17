@@ -59,6 +59,50 @@
         0 0 10px var(--spec-glow-color, #6495ED);
 }
 
+/* Party Context - Pathfinder Beige Theme */
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] {
+    background:
+        linear-gradient(180deg, rgba(240, 230, 210, 0.9) 0%, rgba(213, 203, 176, 0.95) 100%),
+        radial-gradient(circle at 30% 50%, rgba(160, 140, 112, 0.3) 0%, transparent 70%);
+    border: 2px solid #a08c70;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 8px rgba(160, 140, 112, 0.4);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"]:hover {
+    border-color: #8b7355;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3),
+        0 0 12px rgba(160, 140, 112, 0.6);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-fill {
+    background: linear-gradient(90deg,
+        rgba(122, 59, 46, 0.8) 0%,
+        rgba(139, 69, 19, 0.9) 50%,
+        rgba(122, 59, 46, 0.8) 100%
+    );
+    box-shadow:
+        inset 0 0 8px rgba(255, 255, 255, 0.2),
+        0 0 12px rgba(122, 59, 46, 0.6);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-display {
+    color: #5e2e23;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.6), 0 0 2px rgba(160, 140, 112, 0.4);
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-current {
+    color: #7a3b2e;
+}
+
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-separator,
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-max,
+.spellguard-resource-container .resource-bar-row .spellguard-resource-bar[context="party"] .aep-label {
+    color: rgba(122, 59, 46, 0.8);
+}
+
 .spellguard-resource-bar.clickable:hover {
     border-color: var(--spec-glow-color, #6495ED);
     box-shadow:
@@ -532,6 +576,13 @@
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
+/* Party Context Dev Controls */
+.spellguard-dev-controls.party-context {
+    background: linear-gradient(135deg, rgba(250, 245, 235, 0.98) 0%, rgba(240, 230, 210, 0.98) 100%);
+    border: 2px solid #b8a085;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
 .controls-header {
     display: flex;
     justify-content: space-between;
@@ -581,15 +632,9 @@
 }
 
 .spec-selector-group {
-    margin-bottom: 10px;
-    padding-bottom: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
     border-bottom: 1px solid rgba(160, 140, 112, 0.3);
-}
-
-.spec-selector-group label {
-    margin-bottom: 4px;
-    font-size: 9px;
-    color: #5e2e23;
 }
 
 .spellguard-dev-controls .spec-cycle-btn {
@@ -619,13 +664,52 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* New spec display button */
+.spec-display-btn {
+    width: 100%;
+    height: auto;
+    min-height: 28px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid;
+    border-radius: 4px;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.spec-display-btn:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.spec-display-btn i {
+    font-size: 11px;
+}
+
 .aep-info {
     font-family: 'Bookman Old Style', 'Garamond', serif;
     font-size: 9px;
     color: #5e2e23;
     line-height: 1.4;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-style: italic;
+    text-align: center;
+    background: rgba(160, 140, 112, 0.1);
+    padding: 6px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(160, 140, 112, 0.2);
+}
+
+/* Party Context AEP Info */
+.spellguard-dev-controls.party-context .aep-info {
+    background: rgba(184, 160, 133, 0.1);
+    border: 1px solid rgba(184, 160, 133, 0.3);
+    color: #6b4226;
 }
 
 .button-row {
@@ -662,6 +746,95 @@
 
 .button-row button i {
     margin-right: 4px;
+}
+
+/* New control sections layout */
+.control-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.section-label {
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 9px;
+    font-weight: 600;
+    color: #5e2e23;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.preset-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+}
+
+.preset-buttons button {
+    padding: 4px 2px;
+    font-size: 10px;
+    font-weight: 600;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adjust-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+}
+
+.adjust-btn {
+    padding: 6px 4px;
+    background: rgba(240, 230, 210, 0.6);
+    border: 1px solid rgba(160, 140, 112, 0.5);
+    border-radius: 4px;
+    color: #3a3a3a;
+    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-size: 9px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 0;
+    text-align: center;
+}
+
+.adjust-btn:hover {
+    background: rgba(213, 203, 176, 0.8);
+    border-color: #8b7355;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.adjust-btn.negative {
+    color: #d32f2f;
+}
+
+.adjust-btn.positive {
+    color: #2e7d32;
+}
+
+/* Party Context Button Styles */
+.spellguard-dev-controls.party-context .preset-buttons button,
+.spellguard-dev-controls.party-context .adjust-btn {
+    background: rgba(250, 245, 235, 0.7);
+    border: 1px solid rgba(184, 160, 133, 0.5);
+    color: #5e2e23;
+}
+
+.spellguard-dev-controls.party-context .preset-buttons button:hover,
+.spellguard-dev-controls.party-context .adjust-btn:hover {
+    background: rgba(240, 230, 210, 0.9);
+    border-color: #a08c70;
 }
 
 /* Force compact sizing in account context */

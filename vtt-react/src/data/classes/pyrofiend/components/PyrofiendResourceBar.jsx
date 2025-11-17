@@ -169,11 +169,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
     return (
         <div className={`pyrofiend-resource-wrapper ${size}`}>
-            {/* Spec Selector Icon */}
-            <div className="spec-selector-icon" onClick={() => setShowSpecSelector(!showSpecSelector)}>
-                <i className={`fas ${currentSpec.icon}`} style={{ color: currentSpec.glowColor }}></i>
-            </div>
-            
             {/* Spec Selector Dropdown */}
             {showSpecSelector && (
                 <div className="spec-selector-dropdown">
@@ -276,8 +271,13 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             )}
             
             {/* Dev Controls */}
-            {showControls && (
-                <div className="pyrofiend-dev-controls pathfinder-panel">
+            {showControls && ReactDOM.createPortal(
+                <div className="pyrofiend-dev-controls pathfinder-panel" style={{
+                    position: 'fixed',
+                    top: barRef.current ? barRef.current.getBoundingClientRect().bottom + 8 : '50%',
+                    left: barRef.current ? barRef.current.getBoundingClientRect().left : '50%',
+                    transform: barRef.current ? 'none' : 'translate(-50%, -50%)'
+                }}>
                     <div className="controls-header">
                         <span>Inferno Veil Controls</span>
                         <button className="close-btn" onClick={() => setShowControls(false)}>×</button>
@@ -316,7 +316,8 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                             ))}
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

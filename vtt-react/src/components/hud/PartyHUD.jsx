@@ -425,6 +425,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                                 isGMMode={isGMMode}
                                 onResourceClick={(resourceType) => onResourceAdjust(member.id, resourceType)}
                                 size="small"
+                                context="party"
                             />
                         )}
                     </div>
@@ -867,7 +868,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
             updateResource(resourceType, newValue, maxValue);
 
-            // Show floating combat text for current player
+            // Show floating combat text for current player (only for health, mana, and action points)
             if (window.showFloatingCombatText) {
                 // Determine text type based on resource and adjustment direction
                 let textType;
@@ -879,24 +880,27 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     textType = adjustment > 0 ? 'ap' : 'ap-loss';
                 }
 
-                // Get the actual HUD element position if available
-                let floatingTextPosition;
-                if (hudElementRef && hudElementRef.current) {
-                    const rect = hudElementRef.current.getBoundingClientRect();
-                    floatingTextPosition = {
-                        x: rect.left + rect.width / 2,
-                        y: rect.top + 10 // Slightly above the HUD for better visibility
-                    };
-                } else {
-                    // Fallback to main player HUD position (bottom-left corner of screen)
-                    floatingTextPosition = { x: 120, y: window.innerHeight - 100 };
-                }
+                // Only show floating combat text for known resource types
+                if (textType) {
+                    // Get the actual HUD element position if available
+                    let floatingTextPosition;
+                    if (hudElementRef && hudElementRef.current) {
+                        const rect = hudElementRef.current.getBoundingClientRect();
+                        floatingTextPosition = {
+                            x: rect.left + rect.width / 2,
+                            y: rect.top + 10 // Slightly above the HUD for better visibility
+                        };
+                    } else {
+                        // Fallback to main player HUD position (bottom-left corner of screen)
+                        floatingTextPosition = { x: 120, y: window.innerHeight - 100 };
+                    }
 
-                window.showFloatingCombatText(
-                    Math.abs(adjustment).toString(),
-                    textType,
-                    floatingTextPosition
-                );
+                    window.showFloatingCombatText(
+                        Math.abs(adjustment).toString(),
+                        textType,
+                        floatingTextPosition
+                    );
+                }
             }
         } else {
             // Update party member's resources
@@ -916,7 +920,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     }
                 });
 
-                // Show floating combat text for party member
+                // Show floating combat text for party member (only for health, mana, and action points)
                 if (window.showFloatingCombatText) {
                     // Determine text type based on resource and adjustment direction
                     let textType;
@@ -928,32 +932,35 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         textType = adjustment > 0 ? 'ap' : 'ap-loss';
                     }
 
-                    // Get the actual HUD element position if available
-                    let floatingTextPosition;
-                    if (hudElementRef && hudElementRef.current) {
-                        const rect = hudElementRef.current.getBoundingClientRect();
-                        floatingTextPosition = {
-                            x: rect.left + rect.width / 2,
-                            y: rect.top + 10 // Slightly above the HUD for better visibility
-                        };
-                    } else {
-                        // Fallback to stored position if HUD element ref not available
-                        const memberPosition = getMemberPosition(memberId);
-                        if (memberPosition) {
+                    // Only show floating combat text for known resource types
+                    if (textType) {
+                        // Get the actual HUD element position if available
+                        let floatingTextPosition;
+                        if (hudElementRef && hudElementRef.current) {
+                            const rect = hudElementRef.current.getBoundingClientRect();
                             floatingTextPosition = {
-                                x: memberPosition.x + 100,
-                                y: memberPosition.y + 20
+                                x: rect.left + rect.width / 2,
+                                y: rect.top + 10 // Slightly above the HUD for better visibility
                             };
                         } else {
-                            floatingTextPosition = { x: 200, y: 300 };
+                            // Fallback to stored position if HUD element ref not available
+                            const memberPosition = getMemberPosition(memberId);
+                            if (memberPosition) {
+                                floatingTextPosition = {
+                                    x: memberPosition.x + 100,
+                                    y: memberPosition.y + 20
+                                };
+                            } else {
+                                floatingTextPosition = { x: 200, y: 300 };
+                            }
                         }
-                    }
 
-                    window.showFloatingCombatText(
-                        Math.abs(adjustment).toString(),
-                        textType,
-                        floatingTextPosition
-                    );
+                        window.showFloatingCombatText(
+                            Math.abs(adjustment).toString(),
+                            textType,
+                            floatingTextPosition
+                        );
+                    }
                 }
             }
         }

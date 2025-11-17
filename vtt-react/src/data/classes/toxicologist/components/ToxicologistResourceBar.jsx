@@ -97,6 +97,29 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
         }
     }, [showTooltip, localToxinVials, localContraptionParts, selectedSpec, hoverSection]);
 
+    // Close menus when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showSpecMenu && !event.target.closest('.toxicologist-spec-menu') && !event.target.closest('.spec-button')) {
+                setShowSpecMenu(false);
+            }
+            if (showToxinMenu && !event.target.closest('.toxicologist-resource-menu') && !event.target.closest('.toxin-half')) {
+                setShowToxinMenu(false);
+            }
+            if (showContraptionMenu && !event.target.closest('.toxicologist-resource-menu') && !event.target.closest('.contraption-half')) {
+                setShowContraptionMenu(false);
+            }
+        };
+
+        if (showSpecMenu || showToxinMenu || showContraptionMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showSpecMenu, showToxinMenu, showContraptionMenu]);
+
     // Render toxin vials with liquid fill effect
     const renderToxinVials = () => {
         const vials = [];

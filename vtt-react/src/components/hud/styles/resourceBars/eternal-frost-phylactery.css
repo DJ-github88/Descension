@@ -2,6 +2,12 @@
     background: transparent;
     border: none;
     height: auto;
+    min-height: fit-content; /* Ensure it grows with content */
+}
+
+/* Small size for party HUD */
+.class-resource-bar.eternal-frost-phylactery.small {
+    min-height: 28px; /* Minimum height for small phylactery bar */
 }
 
 .lichborne-container {
@@ -28,6 +34,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    min-height: 32px; /* Ensure minimum height for segments */
     background:
         linear-gradient(180deg,
             rgba(15, 25, 45, 0.8) 0%,
@@ -47,6 +54,12 @@
         0 0 15px rgba(0, 100, 150, 0.3);
     transition: all 0.3s ease;
     overflow: hidden;
+}
+
+/* Small size adjustments for party HUD */
+.small .phylactery-bar-content {
+    min-height: 24px; /* Smaller min-height for compact HUD */
+    padding: 4px 6px;
 }
 
 .phylactery-bar-content::before {

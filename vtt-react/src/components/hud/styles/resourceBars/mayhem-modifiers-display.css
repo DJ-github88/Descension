@@ -127,48 +127,13 @@
 }
 
 /* Mayhem popup menu */
-.mayhem-menu {
-    position: absolute;
-    right: calc(100% + 10px); /* Position to the left of the button since controls are on the left */
-    top: 0;
-    background: rgba(42, 36, 32, 0.98);
-    border: 1px solid rgba(147, 51, 234, 0.7);
-    border-radius: 8px;
-    padding: 10px 12px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    min-width: 160px;
-    z-index: 3200;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
-}
+/* .mayhem-menu styles moved to chaosweaver.css for Chaos Weaver specific styling */
 
 .mayhem-menu-row {
     display: contents;
 }
 
-.mayhem-menu-item {
-    background: rgba(139, 115, 85, 0.25);
-    border: 1px solid rgba(147, 51, 234, 0.5);
-    border-radius: 4px;
-    color: #D946EF;
-    cursor: pointer;
-    padding: 6px 10px;
-    font-size: 11px;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    text-align: center;
-}
-
-.mayhem-menu-item:hover {
-    background: rgba(147, 51, 234, 0.4);
-    border-color: rgba(147, 51, 234, 0.8);
-    color: #FFF;
-}
-
-.mayhem-menu-item:active {
-    transform: scale(0.95);
-}
+/* .mayhem-menu-item styles moved to chaosweaver.css for Chaos Weaver specific styling */
 
 /* Full display - clean bar container */
 .mayhem-bar-container {
@@ -623,7 +588,7 @@
 
 /* Modifier tokens - horizontal row display */
 .modifier-tokens-container {
-    margin-top: 12px;
+    margin-top: 16px;
     display: flex;
     justify-content: center;
     width: 100%;

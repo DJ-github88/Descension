@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import DemonConfigModal from './DemonConfigModal';
@@ -256,6 +257,260 @@ const ClassResourceBar = ({
     });
     const visionsBarRef = useRef(null);
 
+    // Destructure local variables from state objects for easier access
+    const {
+        localRage,
+        showRageMenu: berserkerShowRageMenu,
+        rageInputValue: berserkerRageInputValue
+    } = berserkerState;
+
+    const {
+        localMomentum,
+        localFlourish,
+        currentStance,
+        showStanceMenu,
+        showMomentumMenu,
+        showFlourishMenu,
+        momentumInputValue,
+        bladedancerHoverSection,
+        showSpecPassiveMenu,
+        selectedSpecialization
+    } = bladedancerState;
+
+    const {
+        localTimeShards,
+        localTemporalStrain,
+        showTimeShardsMenu,
+        showTemporalStrainMenu,
+        chronarchHoverSection
+    } = chronarchState;
+
+    const {
+        localHexbreakerCharges,
+        localAttackCounter,
+        showChargesMenu,
+        covenbaneHoverSection
+    } = covenbaneState;
+
+    const {
+        localAscensionPaths,
+        localBloodTokens,
+        showPathsMenu,
+        showTokensMenu,
+        deathcallerHoverSection
+    } = deathcallerState;
+
+    const {
+        localDRP,
+        selectedResistanceType,
+        showDRPMenu,
+        dreadnaughtHoverSection
+    } = dreadnaughtState;
+
+    const {
+        localDominanceDie,
+        selectedDemonIndex,
+        boundDemons,
+        showDominanceMenu,
+        exorcistHoverSection,
+        showDemonConfigModal,
+        demonConfigMode,
+        demonConfigInitialData
+    } = exorcistState;
+
+    const {
+        localMadness,
+        showMadnessMenu,
+        falseProphetHoverSection
+    } = falseProphetState;
+
+    const {
+        localThreads,
+        showThreadsMenu,
+        fateWeaverHoverSection,
+        selectedFateWeaverSpec
+    } = fateWeaverState;
+
+    const {
+        localWildInstinct,
+        currentForm,
+        formbenderSpec,
+        showWIMenu,
+        showFormMenu,
+        formbenderHoverSection
+    } = formbenderState;
+
+    const {
+        localSynergy,
+        activeTotems,
+        primalistSpec,
+        showSynergyMenu
+    } = primalistState;
+
+    const {
+        localFortunePoints,
+        gamblerSpec,
+        showFPMenu,
+        showSpecMenu,
+        gamblerHoverSection
+    } = gamblerState;
+
+    const {
+        localQuarryMarks,
+        huntressSpec,
+        companionHP,
+        companionMaxHP,
+        showQMMenu,
+        showHuntressSpecMenu,
+        huntressHoverSection
+    } = huntressState;
+
+    const {
+        localRunes,
+        localInscriptions,
+        inscriptorSpec,
+        showRunesMenu,
+        showInscriptionsMenu,
+        showInscriptorSpecMenu,
+        inscriptorHoverSection
+    } = inscriptorState;
+
+    const {
+        localPhylacteryHP,
+        eternalFrostActive,
+        lichborneSpec,
+        showPhylacteryMenu,
+        lichborneHoverSection
+    } = lichborneState;
+
+    const {
+        currentLunarPhase,
+        roundsInPhase,
+        lunarchSpec,
+        showLunarPhaseMenu,
+        showLunarchSpecMenu,
+        lunarchHoverSection
+    } = lunarchState;
+
+    const {
+        localDevotionLevel,
+        localDevotionDamage,
+        martyrSpec,
+        showDevotionMenu,
+        showMartyrSpecMenu,
+        martyrHoverSection
+    } = martyrState;
+
+    const {
+        localNotes,
+        minstrelSpec,
+        showNoteMenus,
+        showMinstrelSpecMenu,
+        minstrelHoverSection
+    } = minstrelState;
+
+    const setMinstrelHoverSection = (value) => setMinstrelState(prev => ({ ...prev, minstrelHoverSection: value }));
+    const setShowMinstrelSpecMenu = (value) => setMinstrelState(prev => ({ ...prev, showMinstrelSpecMenu: value }));
+    const setShowNoteMenus = (value) => setMinstrelState(prev => ({ ...prev, showNoteMenus: value }));
+    const setLocalNotes = (value) => setMinstrelState(prev => ({ ...prev, localNotes: value }));
+    const setMinstrelSpec = (value) => setMinstrelState(prev => ({ ...prev, minstrelSpec: value }));
+
+    // Setter functions for menu toggles in class-specific states
+    const setShowStanceMenu = (value) => setBladedancerState(prev => ({ ...prev, showStanceMenu: value }));
+    const setShowMomentumMenu = (value) => setBladedancerState(prev => ({ ...prev, showMomentumMenu: value }));
+    const setShowFlourishMenu = (value) => setBladedancerState(prev => ({ ...prev, showFlourishMenu: value }));
+    const setShowSpecPassiveMenu = (value) => setBladedancerState(prev => ({ ...prev, showSpecPassiveMenu: value }));
+    const setLocalRage = (value) => setBerserkerState(prev => ({ ...prev, localRage: value }));
+    const setShowTimeShardsMenu = (value) => setChronarchState(prev => ({ ...prev, showTimeShardsMenu: value }));
+    const setShowTemporalStrainMenu = (value) => setChronarchState(prev => ({ ...prev, showTemporalStrainMenu: value }));
+    const setLocalTimeShards = (value) => setChronarchState(prev => ({ ...prev, localTimeShards: value }));
+    const setLocalTemporalStrain = (value) => setChronarchState(prev => ({ ...prev, localTemporalStrain: value }));
+    const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
+    const setLocalHexbreakerCharges = (value) => setCovenbaneState(prev => ({ ...prev, localHexbreakerCharges: value }));
+    const setLocalAttackCounter = (value) => setCovenbaneState(prev => ({ ...prev, localAttackCounter: value }));
+    const setShowPathsMenu = (value) => setDeathcallerState(prev => ({ ...prev, showPathsMenu: value }));
+    const setShowTokensMenu = (value) => setDeathcallerState(prev => ({ ...prev, showTokensMenu: value }));
+    const setShowDRPMenu = (value) => setDreadnaughtState(prev => ({ ...prev, showDRPMenu: value }));
+    const setLocalDRP = (value) => setDreadnaughtState(prev => ({ ...prev, localDRP: value }));
+    const setSelectedResistanceType = (value) => setDreadnaughtState(prev => ({ ...prev, selectedResistanceType: value }));
+    const setShowDominanceMenu = (value) => setExorcistState(prev => ({ ...prev, showDominanceMenu: value }));
+    const setLocalDominanceDie = (value) => setExorcistState(prev => ({ ...prev, localDominanceDie: value }));
+    const setSelectedDemonIndex = (value) => setExorcistState(prev => ({ ...prev, selectedDemonIndex: value }));
+    const setBoundDemons = (value) => setExorcistState(prev => ({ ...prev, boundDemons: value }));
+    const setShowDemonConfigModal = (value) => setExorcistState(prev => ({ ...prev, showDemonConfigModal: value }));
+    const setDemonConfigMode = (value) => setExorcistState(prev => ({ ...prev, demonConfigMode: value }));
+    const setDemonConfigInitialData = (value) => setExorcistState(prev => ({ ...prev, demonConfigInitialData: value }));
+    const setShowMadnessMenu = (value) => setFalseProphetState(prev => ({ ...prev, showMadnessMenu: value }));
+    const setLocalMadness = (value) => setFalseProphetState(prev => ({ ...prev, localMadness: value }));
+    const setShowWIMenu = (value) => setFormbenderState(prev => ({ ...prev, showWIMenu: value }));
+    const setShowFormMenu = (value) => setFormbenderState(prev => ({ ...prev, showFormMenu: value }));
+    const setShowSynergyMenu = (value) => setPrimalistState(prev => ({ ...prev, showSynergyMenu: value }));
+    const setShowFPMenu = (value) => setGamblerState(prev => ({ ...prev, showFPMenu: value }));
+    const setShowSpecMenu = (value) => setGamblerState(prev => ({ ...prev, showSpecMenu: value }));
+    const setGamblerSpec = (value) => setGamblerState(prev => ({ ...prev, gamblerSpec: value }));
+    const setLocalFortunePoints = (value) => setGamblerState(prev => ({ ...prev, localFortunePoints: value }));
+    const setShowQMMenu = (value) => setHuntressState(prev => ({ ...prev, showQMMenu: value }));
+    const setShowHuntressSpecMenu = (value) => setHuntressState(prev => ({ ...prev, showHuntressSpecMenu: value }));
+    const setShowRunesMenu = (value) => setInscriptorState(prev => ({ ...prev, showRunesMenu: value }));
+    const setShowInscriptorSpecMenu = (value) => setInscriptorState(prev => ({ ...prev, showInscriptorSpecMenu: value }));
+    const setShowPhylacteryMenu = (value) => setLichborneState(prev => ({ ...prev, showPhylacteryMenu: value }));
+    const setShowLunarPhaseMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarPhaseMenu: value }));
+    const setShowLunarchSpecMenu = (value) => setLunarchState(prev => ({ ...prev, showLunarchSpecMenu: value }));
+    const setShowDevotionMenu = (value) => setMartyrState(prev => ({ ...prev, showDevotionMenu: value }));
+    const setShowMartyrSpecMenu = (value) => setMartyrState(prev => ({ ...prev, showMartyrSpecMenu: value }));
+    const setMartyrSpec = (value) => setMartyrState(prev => ({ ...prev, martyrSpec: value }));
+    const setLocalDevotionLevel = (value) => setMartyrState(prev => ({ ...prev, localDevotionLevel: value }));
+    const setLocalDevotionDamage = (value) => setMartyrState(prev => ({ ...prev, localDevotionDamage: value }));
+    const setShowVisionsMenu = (value) => setOracleState(prev => ({ ...prev, showVisionsMenu: value }));
+    const setLocalVisions = (value) => setOracleState(prev => ({ ...prev, localVisions: value }));
+    const setOracleSpec = (value) => setOracleState(prev => ({ ...prev, oracleSpec: value }));
+    const setLastVisionGain = (value) => setOracleState(prev => ({ ...prev, lastVisionGain: value }));
+    const setPredictionAccuracy = (value) => setOracleState(prev => ({ ...prev, predictionAccuracy: value }));
+
+    // Setter functions for hover sections in class-specific states
+    const setBladedancerHoverSection = (value) => setBladedancerState(prev => ({ ...prev, bladedancerHoverSection: value }));
+    const setChronarchHoverSection = (value) => setChronarchState(prev => ({ ...prev, chronarchHoverSection: value }));
+    const setCovenbaneHoverSection = (value) => setCovenbaneState(prev => ({ ...prev, covenbaneHoverSection: value }));
+    const setDeathcallerHoverSection = (value) => setDeathcallerState(prev => ({ ...prev, deathcallerHoverSection: value }));
+    const setDreadnaughtHoverSection = (value) => setDreadnaughtState(prev => ({ ...prev, dreadnaughtHoverSection: value }));
+    const setExorcistHoverSection = (value) => setExorcistState(prev => ({ ...prev, exorcistHoverSection: value }));
+    const setFalseProphetHoverSection = (value) => setFalseProphetState(prev => ({ ...prev, falseProphetHoverSection: value }));
+    const setFateWeaverHoverSection = (value) => setFateWeaverState(prev => ({ ...prev, fateWeaverHoverSection: value }));
+    const setSelectedFateWeaverSpec = (value) => setFateWeaverState(prev => ({ ...prev, selectedFateWeaverSpec: value }));
+    const setShowThreadsMenu = (value) => setFateWeaverState(prev => ({ ...prev, showThreadsMenu: value }));
+    const setLocalThreads = (value) => setFateWeaverState(prev => ({ ...prev, localThreads: value }));
+    const setFormbenderHoverSection = (value) => setFormbenderState(prev => ({ ...prev, formbenderHoverSection: value }));
+    const setGamblerHoverSection = (value) => setGamblerState(prev => ({ ...prev, gamblerHoverSection: value }));
+    const setHuntressHoverSection = (value) => setHuntressState(prev => ({ ...prev, huntressHoverSection: value }));
+    const setInscriptorHoverSection = (value) => setInscriptorState(prev => ({ ...prev, inscriptorHoverSection: value }));
+    const setLichborneHoverSection = (value) => setLichborneState(prev => ({ ...prev, lichborneHoverSection: value }));
+    const setLocalPhylacteryHP = (value) => setLichborneState(prev => ({ ...prev, localPhylacteryHP: value }));
+    const setEternalFrostActive = (value) => setLichborneState(prev => ({ ...prev, eternalFrostActive: value }));
+    const setLichborneSpec = (value) => setLichborneState(prev => ({ ...prev, lichborneSpec: value }));
+    const setLunarchHoverSection = (value) => setLunarchState(prev => ({ ...prev, lunarchHoverSection: value }));
+    const setMartyrHoverSection = (value) => setMartyrState(prev => ({ ...prev, martyrHoverSection: value }));
+    const setOracleHoverSection = (value) => setOracleState(prev => ({ ...prev, oracleHoverSection: value }));
+
+    const {
+        localVisions,
+        oracleSpec,
+        predictionAccuracy,
+        lastVisionGain,
+        showVisionsMenu,
+        oracleHoverSection
+    } = oracleState;
+
+    const {
+        localSpheres,
+        isRolling,
+        showControls,
+        diceButtonMode
+    } = arcanoneerState;
+
+    const {
+        localModifiers
+    } = chaosWeaverState;
+
     // Get class configuration
     const config = getClassResourceConfig(characterClass);
 
@@ -296,6 +551,45 @@ const ClassResourceBar = ({
         }
     };
     // Keep tooltip inside viewport using measurement after render
+    // Reset modifier menu when character class changes
+    useEffect(() => {
+        setShowModifierMenu(false);
+    }, [characterClass]);
+
+    // Close modifier menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showModifierMenu && !event.target.closest('.mayhem-menu')) {
+                setShowModifierMenu(false);
+            }
+        };
+
+        if (showModifierMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showModifierMenu]);
+
+    // Close DRP menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showDRPMenu && !event.target.closest('.drp-menu') && !event.target.closest('.drp-bar-container')) {
+                setShowDRPMenu(false);
+            }
+        };
+
+        if (showDRPMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showDRPMenu]);
+
     useEffect(() => {
         if (!showTooltip || !tooltipRef.current) return;
 
@@ -948,7 +1242,11 @@ const ClassResourceBar = ({
 
                     {/* Charges Adjustment Menu */}
                     {showChargesMenu && (
-                        <div className="resource-adjust-menu charges-menu">
+                        <div
+                            className="resource-adjust-menu charges-menu"
+                            onMouseEnter={() => setShowTooltip(false)}
+                            onMouseLeave={() => setShowTooltip(false)}
+                        >
                             <div className="menu-header">Adjust Hexbreaker Charges ({chargesValue}/{maxCharges})</div>
                             <div className="menu-buttons">
                                 <button onClick={() => setLocalHexbreakerCharges(Math.min(maxCharges, chargesValue + 1))}>+1 Attack Evil Caster</button>
@@ -1026,7 +1324,7 @@ const ClassResourceBar = ({
         };
 
         return (
-            <div className={`class-resource-bar ascension-blood ${size}`}>
+            <div className={`class-resource-bar ascension-blood ${size} ${context === 'party' ? 'party-context' : ''}`}>
                 <div className="deathcaller-dual-bars">
                     {/* Ascension Paths Bar (Top) */}
                     <div
@@ -1201,11 +1499,11 @@ const ClassResourceBar = ({
 
         // Helper functions
         const addDRP = (amount) => {
-            setLocalDRP(prev => Math.min(prev + amount, drpMax));
+            setLocalDRP(Math.min(localDRP + amount, drpMax));
         };
 
         const removeDRP = (amount) => {
-            setLocalDRP(prev => Math.max(prev - amount, 0));
+            setLocalDRP(Math.max(localDRP - amount, 0));
         };
 
         const simulateDamage = (damage) => {
@@ -1230,7 +1528,10 @@ const ClassResourceBar = ({
         return (
             <div className={`class-resource-bar drp-resilience ${size}`}>
                 <div className="drp-bar-wrapper">
-                    <div className="drp-bar-container" ref={drpBarRef} onMouseEnter={handleDRPBarEnter} onMouseLeave={handleDRPBarLeave}>
+                    <div className="drp-bar-container" ref={drpBarRef} onMouseEnter={handleDRPBarEnter} onMouseLeave={handleDRPBarLeave} onClick={(e) => {
+                        e.stopPropagation();
+                        setShowDRPMenu(v => !v);
+                    }} style={{ cursor: 'pointer' }}>
                         <div className="bar-background" style={{
                             borderColor: hasPassiveBenefits ? glowColor : 'rgba(139, 0, 255, 0.4)',
                             boxShadow: hasPassiveBenefits ? `inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 8px ${glowColor}` : 'inset 0 2px 4px rgba(0, 0, 0, 0.5)'
@@ -1264,61 +1565,50 @@ const ClassResourceBar = ({
                         </div>
                     </div>
 
-                    {/* Control button with popup menu */}
-                    <div className="drp-controls">
-                        <button
-                            className="drp-btn drp-menu-btn"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowDRPMenu(v => !v);
-                            }}
-                            title="Adjust DRP"
-                        >
-                            <i className="fas fa-sliders-h"></i>
-                        </button>
-                        {showDRPMenu && (
-                            <div className="drp-menu" onClick={(e) => e.stopPropagation()}>
-                                <div className="drp-menu-section">
-                                    <div className="menu-label">Adjust DRP</div>
-                                    <div className="drp-menu-row">
-                                        <button className="drp-menu-item" onClick={() => addDRP(5)}>+5</button>
-                                        <button className="drp-menu-item" onClick={() => removeDRP(5)}>-5</button>
-                                    </div>
-                                    <div className="drp-menu-row">
-                                        <button className="drp-menu-item" onClick={() => addDRP(10)}>+10</button>
-                                        <button className="drp-menu-item" onClick={() => removeDRP(10)}>-10</button>
-                                    </div>
-                                    <div className="drp-menu-row set-row">
-                                        <button className="drp-menu-item" onClick={() => setLocalDRP(0)}>Reset</button>
-                                        <button className="drp-menu-item" onClick={() => setLocalDRP(drpMax)}>Max</button>
-                                    </div>
+                    {/* Control menu */}
+                    {showDRPMenu && (
+                        <div className="drp-menu" onClick={(e) => e.stopPropagation()}>
+                            <div className="drp-menu-section">
+                                <div className="menu-label">Adjust DRP</div>
+                                <div className="drp-menu-row">
+                                    <button className="drp-menu-item" onClick={() => addDRP(5)}>+5</button>
+                                    <button className="drp-menu-item" onClick={() => removeDRP(5)}>-5</button>
                                 </div>
-                                <div className="drp-menu-section">
-                                    <div className="menu-label">Simulate Damage</div>
-                                    <div className="drp-menu-row">
-                                        <button className="drp-menu-item" onClick={() => simulateDamage(25)}>Take 25 dmg (+5 DRP)</button>
-                                    </div>
-                                    <div className="drp-menu-row">
-                                        <button className="drp-menu-item" onClick={() => simulateDamage(50)}>Take 50 dmg (+10 DRP)</button>
-                                    </div>
+                                <div className="drp-menu-row">
+                                    <button className="drp-menu-item" onClick={() => addDRP(10)}>+10</button>
+                                    <button className="drp-menu-item" onClick={() => removeDRP(10)}>-10</button>
                                 </div>
-                                {hasPassiveBenefits && (
-                                    <div className="drp-menu-section">
-                                        <div className="menu-label">Resistance Type</div>
-                                        <select
-                                            className="drp-resistance-select"
-                                            value={selectedResistanceType}
-                                            onChange={(e) => setSelectedResistanceType(e.target.value)}
-                                        >
-                                            {Object.keys(damageTypes).map(type => (
-                                                <option key={type} value={type}>{type}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                )}
+                                <div className="drp-menu-row set-row">
+                                    <button className="drp-menu-item" onClick={() => setLocalDRP(0)}>Reset</button>
+                                    <button className="drp-menu-item" onClick={() => setLocalDRP(drpMax)}>Max</button>
+                                </div>
                             </div>
-                        )}
-                    </div>
+                            <div className="drp-menu-section">
+                                <div className="menu-label">Simulate Damage</div>
+                                <div className="drp-menu-row">
+                                    <button className="drp-menu-item" onClick={() => simulateDamage(25)}>Take 25 dmg (+5 DRP)</button>
+                                </div>
+                                <div className="drp-menu-row">
+                                    <button className="drp-menu-item" onClick={() => simulateDamage(50)}>Take 50 dmg (+10 DRP)</button>
+                                </div>
+                            </div>
+                            {hasPassiveBenefits && (
+                                <div className="drp-menu-section">
+                                    <div className="menu-label">Resistance Type</div>
+                                    <select
+                                        className="drp-resistance-select"
+                                        value={selectedResistanceType}
+                                        onChange={(e) => setSelectedResistanceType(e.target.value)}
+                                    >
+                                        {Object.keys(damageTypes).map(type => (
+                                            <option key={type} value={type}>{type}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                 </div>
             </div>
         );
@@ -1366,11 +1656,31 @@ const ClassResourceBar = ({
 
         // Helper functions for modifier management
         const addModifiers = (amount) => {
-            setLocalModifiers(prev => Math.min(prev + amount, maxModifiers));
+            setChaosWeaverState(prev => ({
+                ...prev,
+                localModifiers: Math.min(prev.localModifiers + amount, maxModifiers)
+            }));
         };
 
         const removeModifiers = (amount) => {
-            setLocalModifiers(prev => Math.max(prev - amount, 0));
+            setChaosWeaverState(prev => ({
+                ...prev,
+                localModifiers: Math.max(prev.localModifiers - amount, 0)
+            }));
+        };
+
+        const resetModifiers = () => {
+            setChaosWeaverState(prev => ({
+                ...prev,
+                localModifiers: 0
+            }));
+        };
+
+        const maxModifiersFunc = () => {
+            setChaosWeaverState(prev => ({
+                ...prev,
+                localModifiers: maxModifiers
+            }));
         };
 
         const rollDice = (diceCount, diceSize) => {
@@ -1403,8 +1713,8 @@ const ClassResourceBar = ({
                                     <button className="mayhem-menu-item" onClick={() => addModifiers(rollDice(2, 4))}>+2d4</button>
                                 </div>
                                 <div className="mayhem-menu-row set-row">
-                                    <button className="mayhem-menu-item" onClick={() => setLocalModifiers(0)}>Reset</button>
-                                    <button className="mayhem-menu-item" onClick={() => setLocalModifiers(maxModifiers)}>Max</button>
+                                    <button className="mayhem-menu-item" onClick={resetModifiers}>Reset</button>
+                                    <button className="mayhem-menu-item" onClick={maxModifiersFunc}>Max</button>
                                 </div>
                             </div>
                         )}
@@ -1552,8 +1862,8 @@ const ClassResourceBar = ({
                                     <button className="mayhem-menu-option" onClick={() => removeModifiers(1)}>-1</button>
                                     <button className="mayhem-menu-option" onClick={() => addModifiers(rollDice(1, 4))}> +1d4</button>
                                     <button className="mayhem-menu-option" onClick={() => addModifiers(rollDice(2, 4))}>+2d4</button>
-                                    <button className="mayhem-menu-option" onClick={() => setLocalModifiers(0)}>Reset</button>
-                                    <button className="mayhem-menu-option" onClick={() => setLocalModifiers(maxModifiers)}>Max</button>
+                                    <button className="mayhem-menu-option" onClick={resetModifiers}>Reset</button>
+                                    <button className="mayhem-menu-option" onClick={maxModifiersFunc}>Max</button>
                                 </div>
                             )}
                         </div>
@@ -2218,8 +2528,43 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Adjustment Menu */}
-                    {showThreadsMenu && (
-                        <div className="threads-adjustment-menu">
+                    {showThreadsMenu && ReactDOM.createPortal(
+                        <div className="threads-adjustment-menu" style={{
+                            position: 'fixed',
+                            top: (() => {
+                                if (!threadsBarRef.current) return '50%';
+                                const rect = threadsBarRef.current.getBoundingClientRect();
+                                const menuHeight = 300; // Approximate menu height
+                                const bottom = rect.bottom + 8;
+                                const viewportHeight = window.innerHeight;
+
+                                // If menu would go off bottom, position above the bar
+                                if (bottom + menuHeight > viewportHeight) {
+                                    return Math.max(rect.top - menuHeight - 8, 10) + 'px';
+                                }
+
+                                return bottom + 'px';
+                            })(),
+                            left: (() => {
+                                if (!threadsBarRef.current) return '50%';
+                                const rect = threadsBarRef.current.getBoundingClientRect();
+                                const menuWidth = 340; // Min width from CSS
+                                const left = rect.left;
+                                const viewportWidth = window.innerWidth;
+
+                                // Center on bar, but keep within viewport
+                                let finalLeft = left;
+                                if (finalLeft + menuWidth > viewportWidth) {
+                                    finalLeft = viewportWidth - menuWidth - 10;
+                                }
+                                if (finalLeft < 10) {
+                                    finalLeft = 10;
+                                }
+
+                                return finalLeft + 'px';
+                            })(),
+                            transform: threadsBarRef.current ? 'translateX(0)' : 'translate(-50%, -50%)'
+                        }}>
                             <div className="menu-section">
                                 <div className="menu-section-title">Gain Threads (Failures)</div>
                                 <div className="menu-buttons">
@@ -2303,7 +2648,8 @@ const ClassResourceBar = ({
                                     <i className="fas fa-times"></i> Close
                                 </button>
                             </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -2362,7 +2708,7 @@ const ClassResourceBar = ({
             if (formId !== currentForm && formId !== 'human') {
                 // Cost 1 WI to transform (unless it's the first transform)
                 if (wiValue >= 1) {
-                    setLocalWildInstinct(Math.max(0, wiValue - 1));
+                    setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 1) }));
                 }
             }
             setCurrentForm(formId);
@@ -2407,11 +2753,11 @@ const ClassResourceBar = ({
                         >
                             <div className="menu-header">Adjust Wild Instinct ({wiValue}/{maxWI})</div>
                             <div className="menu-buttons">
-                                <button onClick={() => setLocalWildInstinct(Math.min(maxWI, wiValue + 1))}>+1 WI</button>
-                                <button onClick={() => setLocalWildInstinct(Math.min(maxWI, wiValue + 2))}>+2 Form Action</button>
-                                <button onClick={() => setLocalWildInstinct(Math.max(0, wiValue - 1))}>-1 Transform</button>
-                                <button onClick={() => setLocalWildInstinct(Math.max(0, wiValue - 3))}>-3 Ability</button>
-                                <button onClick={() => setLocalWildInstinct(Math.max(0, wiValue - 5))}>-5 Ultimate</button>
+                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 1) }))}>+1 WI</button>
+                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 2) }))}>+2 Form Action</button>
+                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 1) }))}>−1 Transform</button>
+                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 3) }))}>−3 Ability</button>
+                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 5) }))}>−5 Ultimate</button>
                             </div>
 
                             {/* Specialization Section */}
@@ -2421,7 +2767,7 @@ const ClassResourceBar = ({
                                     {Object.entries(finalConfig.visual?.specializations || {}).map(([specKey, spec]) => (
                                         <button
                                             key={specKey}
-                                            onClick={() => setFormbenderSpec(specKey)}
+                                            onClick={() => setFormbenderState(prev => ({ ...prev, formbenderSpec: specKey }))}
                                             className={formbenderSpec === specKey ? 'active' : ''}
                                         >
                                             <i className={spec.icon}></i> {spec.name}
@@ -2430,7 +2776,7 @@ const ClassResourceBar = ({
                                 </div>
                             </div>
 
-                            <button className="menu-reset" onClick={() => { setLocalWildInstinct(0); setShowWIMenu(false); }}>Reset to 0</button>
+                            <button className="menu-reset" onClick={() => { setFormbenderState(prev => ({ ...prev, localWildInstinct: 0 })); setShowWIMenu(false); }}>Reset to 0</button>
                         </div>
                     )}
 
@@ -2558,7 +2904,44 @@ const ClassResourceBar = ({
                                 ))}
                             </div>
 
-                            <div className="energy-value" style={{
+                            {/* Elemental Spheres on top of the bar */}
+                            <div className="elemental-spheres-overlay">
+                                {Array.from({ length: maxTotems }, (_, index) => {
+                                    const sphereElements = ['fire', 'frost', 'storm', 'earth', 'healing', 'protection', 'spirit', 'nature'];
+                                    const element = sphereElements[index] || 'unknown';
+                                    const isActive = index < totemCount; // Show spheres based on active totems
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`elemental-sphere ${element} ${isActive ? 'active' : 'inactive'}`}
+                                        >
+                                            <div className="sphere-icon">
+                                                {/* No letters - spheres are just visual indicators */}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Totem Bubbles integrated into the bar */}
+                            <div className="totem-symbols-overlay">
+                                {Array.from({ length: maxTotems }, (_, index) => {
+                                    const isActive = index < totemCount;
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`totem-bubble ${isActive ? 'active' : 'inactive'}`}
+                                            style={{
+                                                left: `${(index * (100 / maxTotems)) + (50 / maxTotems)}%`
+                                            }}
+                                        ></div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className={`energy-value ${canActivateSynergy ? 'awakened' : ''}`} style={{
                                 color: '#FFFFFF',
                                 textShadow: '2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)',
                                 fontWeight: 'bold',
@@ -2581,107 +2964,6 @@ const ClassResourceBar = ({
                         )}
                     </div>
 
-                    {/* Row 2: Tribal Totem Array */}
-                    <div className="primal-energy-row totem-row">
-                        <div className="totem-array-background">
-                            {Array.from({ length: maxTotems }, (_, index) => {
-                                const isActive = index < totemCount;
-                                const totemSymbols = ['🗿', '🌿', '🏹', '🔥', '💎', '🌊', '🌪️', '⚡'];
-                                const symbol = totemSymbols[index % totemSymbols.length];
-
-                                return (
-                                    <div key={index} className="totem-pole-container">
-                                        {/* Totem Pole Base */}
-                                        <div
-                                            className={`totem-pole ${isActive ? 'active' : 'inactive'}`}
-                                            style={{
-                                                background: isActive ?
-                                                    `linear-gradient(180deg, ${currentSpec.activeColor}, ${currentSpec.activeColor}80, #4A4A4A)` :
-                                                    `linear-gradient(180deg, #666666, #4A4A4A, #333333)`,
-                                                borderColor: isActive ? currentSpec.glowColor : '#777',
-                                                boxShadow: isActive ?
-                                                    `0 0 12px ${currentSpec.glowColor}60, inset 0 2px 4px rgba(255,255,255,0.2)` :
-                                                    '0 2px 4px rgba(0,0,0,0.3)'
-                                            }}
-                                        >
-                                            {/* Tribal Carvings */}
-                                            <div className="totem-carvings">
-                                                <div className="carving-line" style={{ top: '20%', opacity: isActive ? 0.8 : 0.3 }}></div>
-                                                <div className="carving-line" style={{ top: '40%', opacity: isActive ? 0.8 : 0.3 }}></div>
-                                                <div className="carving-line" style={{ top: '60%', opacity: isActive ? 0.8 : 0.3 }}></div>
-                                                <div className="carving-spirit" style={{
-                                                    top: '35%',
-                                                    opacity: isActive ? 1 : 0,
-                                                    color: currentSpec.glowColor,
-                                                    animation: isActive ? 'spiritRune 2s infinite' : 'none'
-                                                }}>
-                                                    {symbol}
-                                                </div>
-                                            </div>
-
-                                            {/* Spirit Energy Core */}
-                                            {isActive && (
-                                                <div
-                                                    className="totem-spirit-core"
-                                                    style={{
-                                                        background: `radial-gradient(circle, ${currentSpec.glowColor}, ${currentSpec.activeColor}60)`,
-                                                        boxShadow: `0 0 15px ${currentSpec.glowColor}, 0 0 30px ${currentSpec.glowColor}40`,
-                                                        animation: 'totemSpirit 1.8s infinite ease-in-out'
-                                                    }}
-                                                >
-                                                    <div className="spirit-orb" style={{
-                                                        background: currentSpec.glowColor,
-                                                        boxShadow: `inset 0 0 8px rgba(255,255,255,0.8), 0 0 12px ${currentSpec.glowColor}`
-                                                    }}></div>
-                                                </div>
-                                            )}
-
-                                            {/* Activation Glow */}
-                                            {isActive && (
-                                                <div className="totem-glow-ring" style={{
-                                                    borderColor: currentSpec.glowColor,
-                                                    boxShadow: `0 0 20px ${currentSpec.glowColor}50`,
-                                                    animation: 'totemGlow 2.5s infinite'
-                                                }}></div>
-                                            )}
-                                        </div>
-
-                                        {/* Connection Energy Between Totems */}
-                                        {index < maxTotems - 1 && (
-                                            <div
-                                                className={`totem-connection ${isActive && index < totemCount - 1 ? 'active' : ''}`}
-                                                style={{
-                                                    background: isActive && index < totemCount - 1 ?
-                                                        `linear-gradient(90deg, ${currentSpec.activeColor}, ${currentSpec.glowColor})` :
-                                                        '#555',
-                                                    boxShadow: isActive && index < totemCount - 1 ?
-                                                        `0 0 8px ${currentSpec.glowColor}60` : 'none'
-                                                }}
-                                            >
-                                                {isActive && index < totemCount - 1 && (
-                                                    <div className="connection-spark" style={{
-                                                        background: currentSpec.glowColor,
-                                                        boxShadow: `0 0 6px ${currentSpec.glowColor}`,
-                                                        animation: 'connectionSpark 1.5s infinite'
-                                                    }}></div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                );
-                            })}
-
-                            {/* Totem Count Overlay */}
-                            <div className="totem-count-overlay" style={{
-                                color: '#FFFFFF',
-                                textShadow: '2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)',
-                                fontWeight: 'bold',
-                                fontFamily: 'serif'
-                            }}>
-                                {totemCount}/{maxTotems}
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Synergy Adjustment Menu */}
@@ -2692,18 +2974,18 @@ const ClassResourceBar = ({
                     >
                         <div className="menu-header">Adjust Totemic Synergy ({synergyValue}/{maxSynergy})</div>
                         <div className="menu-buttons">
-                            <button title="" onClick={() => setLocalSynergy(Math.max(0, synergyValue - 10))}>-10 TS</button>
-                            <button title="" onClick={() => setLocalSynergy(Math.max(0, synergyValue - 5))}>-5 TS</button>
-                            <button title="" onClick={() => setLocalSynergy(Math.min(maxSynergy, synergyValue + 5))}>+5 TS</button>
-                            <button title="" onClick={() => setLocalSynergy(Math.min(maxSynergy, synergyValue + 10))}>+10 TS</button>
+                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 10) }))}>-10 TS</button>
+                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 5) }))}>-5 TS</button>
+                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 5) }))} >+5 TS</button>
+                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 10) }))} >+10 TS</button>
                         </div>
 
                         {/* Totem Section */}
                         <div className="menu-section">
                             <div className="menu-section-title">Active Totems ({totemCount}/{maxTotems})</div>
                             <div className="menu-buttons">
-                                <button title="" onClick={() => setActiveTotems(Math.max(0, totemCount - 1))}>-1 Totem</button>
-                                <button title="" onClick={() => setActiveTotems(Math.min(maxTotems, totemCount + 1))}>+1 Totem</button>
+                                <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, activeTotems: Math.max(0, totemCount - 1) }))}>-1 Totem</button>
+                                <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, activeTotems: Math.min(maxTotems, totemCount + 1) }))} >+1 Totem</button>
                             </div>
                             <div className="synergy-status" style={{
                                 fontSize: '10px',
@@ -2732,7 +3014,7 @@ const ClassResourceBar = ({
                             </div>
                         </div>
 
-                        <button className="menu-reset" title="" onClick={() => { setLocalSynergy(0); setActiveTotems(0); setShowSynergyMenu(false); }}>Reset to 0</button>
+                        <button className="menu-reset" title="" onClick={() => { setPrimalistState(prev => ({ ...prev, localSynergy: 0, activeTotems: 0 })); setShowSynergyMenu(false); }}>Reset to 0</button>
                     </div>
                 )}
             </div>
@@ -3332,10 +3614,12 @@ const ClassResourceBar = ({
                                                 key={key}
                                                 className={`spec-option-button ${key} ${inscriptorSpec === key ? 'active' : ''}`}
                                                 onClick={() => {
-                                                    setInscriptorSpec(key);
-                                                    // Adjust current values if they exceed new max
-                                                    setLocalRunes(Math.min(localRunes, spec.maxRunes));
-                                                    setLocalInscriptions(Math.min(localInscriptions, spec.maxInscriptions));
+                                                    setInscriptorState(prev => ({
+                                                        ...prev,
+                                                        inscriptorSpec: key,
+                                                        localRunes: Math.min(localRunes, spec.maxRunes),
+                                                        localInscriptions: Math.min(localInscriptions, spec.maxInscriptions)
+                                                    }));
                                                 }}
                                                 style={{
                                                     borderColor: spec.color,
@@ -3352,16 +3636,16 @@ const ClassResourceBar = ({
                                 <div className="menu-section">
                                     <div className="menu-section-title">Runes</div>
                                     <div className="menu-buttons">
-                                        <button onClick={() => { setLocalRunes(Math.min(maxRunes, runesValue + 1)); }}>
+                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 1) })); }}>
                                             +1 Rune (Place)
                                         </button>
-                                        <button onClick={() => { setLocalRunes(Math.min(maxRunes, runesValue + 3)); }}>
+                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 3) })); }}>
                                             +3 Runes (Form Zone)
                                         </button>
-                                        <button onClick={() => { setLocalRunes(Math.max(0, runesValue - 1)); }}>
+                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: Math.max(0, runesValue - 1) })); }}>
                                             -1 Rune (Detonate)
                                         </button>
-                                        <button onClick={() => { setLocalRunes(0); }}>
+                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: 0 })); }}>
                                             Clear All Runes
                                         </button>
                                     </div>
@@ -3369,22 +3653,22 @@ const ClassResourceBar = ({
                                 <div className="menu-section">
                                     <div className="menu-section-title">Inscriptions</div>
                                     <div className="menu-buttons">
-                                        <button onClick={() => { setLocalInscriptions(Math.min(maxInscriptions, inscriptionsValue + 1)); }}>
+                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localInscriptions: Math.min(maxInscriptions, inscriptionsValue + 1) })); }}>
                                             +1 Inscription (Inscribe Item)
                                         </button>
-                                        <button onClick={() => { setLocalInscriptions(Math.max(0, inscriptionsValue - 1)); }}>
+                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localInscriptions: Math.max(0, inscriptionsValue - 1) })); }}>
                                             -1 Inscription (Remove)
                                         </button>
-                                        <button onClick={() => { setLocalInscriptions(0); }}>
+                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localInscriptions: 0 })); }}>
                                             Clear All Inscriptions
                                         </button>
                                     </div>
                                 </div>
                                 <div className="menu-buttons">
-                                    <button onClick={() => { setLocalRunes(0); setLocalInscriptions(0); }}>
+                                    <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: 0, localInscriptions: 0 })); }}>
                                         Reset All
                                     </button>
-                                    <button onClick={() => { setLocalRunes(maxRunes); setLocalInscriptions(maxInscriptions); }}>
+                                    <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: maxRunes, localInscriptions: maxInscriptions })); }}>
                                         Set to Max
                                     </button>
                                 </div>
@@ -3985,8 +4269,13 @@ const ClassResourceBar = ({
                                         </div>
 
                                         {/* Adjustment Menu */}
-                                        {showNoteMenus[index] && (
-                                            <div className="note-adjustment-menu" onClick={(e) => e.stopPropagation()}>
+                                        {showNoteMenus[index] && document.body && ReactDOM.createPortal(
+                                            <div className="note-adjustment-menu" onClick={(e) => e.stopPropagation()} style={{
+                                                position: 'fixed',
+                                                top: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().bottom + 8 : '50%',
+                                                left: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().left + (index * (minstrelBarRef.current.getBoundingClientRect().width / notes.length)) + ((minstrelBarRef.current.getBoundingClientRect().width / notes.length) / 2) : '50%',
+                                                transform: minstrelBarRef.current ? 'translateX(-50%)' : 'translate(-50%, -50%)'
+                                            }}>
                                                 <div className="menu-header">{note.name} ({note.numeral})</div>
                                                 <div className="menu-controls">
                                                     <button onClick={() => handleNoteAdjust(index, -1)} disabled={count === 0}>
@@ -4004,7 +4293,8 @@ const ClassResourceBar = ({
                                                 <button className="menu-reset" onClick={() => handleNoteReset(index)}>
                                                     Reset to 0
                                                 </button>
-                                            </div>
+                                            </div>,
+                                            document.body
                                         )}
                                     </div>
                                 );
@@ -4026,8 +4316,13 @@ const ClassResourceBar = ({
                             <i className="fas fa-cog" style={{ color: currentSpec.glow }}></i>
 
                             {/* Specialization Menu */}
-                            {showMinstrelSpecMenu && (
-                                <div className="minstrel-spec-menu" onClick={(e) => e.stopPropagation()}>
+                            {showMinstrelSpecMenu && document.body && ReactDOM.createPortal(
+                                <div className="minstrel-spec-menu" onClick={(e) => e.stopPropagation()} style={{
+                                    position: 'fixed',
+                                    top: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().bottom + 8 : '50%',
+                                    left: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().right - 10 : '50%',
+                                    transform: minstrelBarRef.current ? 'translateX(-100%)' : 'translate(-50%, -50%)'
+                                }}>
                                     <div className="menu-title">Select Specialization</div>
                                     {specs.map((spec) => (
                                         <div
@@ -4046,7 +4341,8 @@ const ClassResourceBar = ({
                                             <div className="spec-theme">{spec.theme}</div>
                                         </div>
                                     ))}
-                                </div>
+                                </div>,
+                                document.body
                             )}
                         </div>
                     )}
@@ -4506,21 +4802,21 @@ const ClassResourceBar = ({
                                                 className={`spec-option-horizontal ${isSelected ? 'selected' : ''}`}
                                                 onClick={() => setMartyrSpec(spec)}
                                                 style={{
-                                                    borderColor: isSelected ? specVisual.activeColor : 'rgba(139, 69, 19, 0.4)',
+                                                    borderColor: isSelected ? 'rgba(139, 105, 60, 0.8)' : 'rgba(139, 105, 60, 0.4)',
                                                     background: isSelected
-                                                        ? `linear-gradient(135deg, ${specVisual.activeColor}22 0%, ${specVisual.activeColor}11 100%)`
-                                                        : 'rgba(0, 0, 0, 0.2)',
-                                                    boxShadow: isSelected ? `0 0 8px ${specVisual.activeColor}66` : 'none'
+                                                        ? 'linear-gradient(135deg, rgba(139, 105, 60, 0.4) 0%, rgba(120, 90, 50, 0.4) 100%)'
+                                                        : 'linear-gradient(135deg, rgba(240, 230, 210, 0.6) 0%, rgba(232, 220, 192, 0.6) 100%)',
+                                                    boxShadow: isSelected ? 'inset 0 0 8px rgba(139, 105, 60, 0.3)' : 'none'
                                                 }}
                                             >
                                                 <i
                                                     className="fas fa-cross"
                                                     style={{
-                                                        color: specVisual.activeColor
+                                                        color: isSelected ? '#8b5a3c' : '#5a4a3a'
                                                     }}
                                                 ></i>
                                                 <span style={{
-                                                    color: isSelected ? specVisual.activeColor : '#999',
+                                                    color: isSelected ? '#8b5a3c' : '#5a4a3a',
                                                     fontWeight: isSelected ? 'bold' : 'normal'
                                                 }}>
                                                     {specConfig?.name || spec}
@@ -4688,7 +4984,7 @@ const ClassResourceBar = ({
 
         // Roll spheres based on specialization
         const rollSpheres = () => {
-            setIsRolling(true);
+            setArcanoneerState(prev => ({ ...prev, isRolling: true }));
             setRerollsUsed(0); // Reset rerolls for new turn
             const newSpheres = [];
 
@@ -4706,8 +5002,7 @@ const ClassResourceBar = ({
 
             // Add to existing spheres (banking)
             setTimeout(() => {
-                setLocalSpheres([...activeSpheres, ...newSpheres]);
-                setIsRolling(false);
+                setArcanoneerState(prev => ({ ...prev, localSpheres: [...activeSpheres, ...newSpheres], isRolling: false }));
             }, 500); // Animation delay
         };
 
@@ -4724,7 +5019,7 @@ const ClassResourceBar = ({
 
             const currentIndex = modes.indexOf(diceButtonMode);
             const nextIndex = (currentIndex + 1) % modes.length;
-            setDiceButtonMode(modes[nextIndex]);
+            setArcanoneerState(prev => ({ ...prev, diceButtonMode: modes[nextIndex] }));
         };
 
         // Handle dice button click based on mode
@@ -4756,7 +5051,7 @@ const ClassResourceBar = ({
 
         // Clear all spheres
         const clearSpheres = () => {
-            setLocalSpheres([]);
+            setArcanoneerState(prev => ({ ...prev, localSpheres: [] }));
         };
 
         // Remove a sphere (simulate spending)
@@ -4765,7 +5060,7 @@ const ClassResourceBar = ({
             if (index > -1) {
                 const newSpheres = [...activeSpheres];
                 newSpheres.splice(index, 1);
-                setLocalSpheres(newSpheres);
+                setArcanoneerState(prev => ({ ...prev, localSpheres: newSpheres }));
             }
         };
 
@@ -4778,7 +5073,7 @@ const ClassResourceBar = ({
             const element = finalConfig.elements?.find(el => el.d8Value === roll);
             if (element) {
                 newSpheres[index] = element.id;
-                setLocalSpheres(newSpheres);
+                setArcanoneerState(prev => ({ ...prev, localSpheres: newSpheres }));
                 setRerollsUsed(rerollsUsed + 1);
             }
         };
@@ -4799,7 +5094,7 @@ const ClassResourceBar = ({
                     const newSpheres = [...activeSpheres];
                     // Swap the elements
                     [newSpheres[firstIndex], newSpheres[secondIndex]] = [newSpheres[secondIndex], newSpheres[firstIndex]];
-                    setLocalSpheres(newSpheres);
+                    setArcanoneerState(prev => ({ ...prev, localSpheres: newSpheres }));
                 }
                 setSelectedForSwap([]);
                 setSwapMode(false);
@@ -4920,7 +5215,7 @@ const ClassResourceBar = ({
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             if (e.button === 0) { // Left click - add orb
-                                                setLocalSpheres([...localSpheres, element.id]);
+                                                setArcanoneerState(prev => ({ ...prev, localSpheres: [...localSpheres, element.id] }));
                                             }
                                         }}
                                         onContextMenu={(e) => {
@@ -5904,20 +6199,20 @@ const ClassResourceBar = ({
                             {chronarchHoverSection === 'shards' && (
                                 <>
                                     <div className="rage-tooltip-state">
-                                        <div className="state-name" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Time Shards: {localTimeShards}/10</div>
+                                        <div className="state-name">Time Shards: {localTimeShards}/10</div>
                                         <div className="state-columns">
                                             <div className="state-col">
-                                                <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Generation</div>
+                                                <div className="col-title">Generation</div>
                                                 <ul>
-                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}><strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>+1</strong> per spell cast</li>
-                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Persists between combats</li>
+                                                    <li><strong>+1</strong> per spell cast</li>
+                                                    <li>Persists between combats</li>
                                                 </ul>
                                             </div>
                                             <div className="state-col">
-                                                <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Usage</div>
+                                                <div className="col-title">Usage</div>
                                                 <ul>
-                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Spend on <strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Temporal Flux</strong></li>
-                                                    <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Cost: <strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>1-10</strong> shards</li>
+                                                    <li>Spend on <strong>Temporal Flux</strong></li>
+                                                    <li>Cost: <strong>1-10</strong> shards</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -5926,7 +6221,7 @@ const ClassResourceBar = ({
                                         fontStyle: 'italic',
                                         fontSize: '9px',
                                         textAlign: 'center',
-                                        color: 'white',
+                                        color: '#000000',
                                         marginTop: '6px',
                                         padding: '4px',
                                         background: 'rgba(79, 195, 247, 0.2)',
@@ -5953,7 +6248,7 @@ const ClassResourceBar = ({
                                 return (
                                     <>
                                         <div className="rage-tooltip-state">
-                                            <div className="state-name" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>
+                                            <div className="state-name">
                                                 Temporal Strain: {strainValue}/10
                                                 <span style={{
                                                     fontSize: '10px',
@@ -5970,36 +6265,36 @@ const ClassResourceBar = ({
                                             </div>
                                             <div className="state-columns">
                                                 <div className="state-col">
-                                                    <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Accumulation</div>
+                                                    <div className="col-title">Accumulation</div>
                                                     <ul>
-                                                        <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}><strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>+1 to +5</strong> per Flux ability</li>
+                                                        <li><strong>+1 to +5</strong> per Flux ability</li>
                                                     </ul>
                                                 </div>
                                                 <div className="state-col">
-                                                    <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Decay</div>
+                                                    <div className="col-title">Decay</div>
                                                     <ul>
-                                                        <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}><strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>-1</strong> per turn</li>
-                                                        <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>(if no Flux used)</li>
+                                                        <li><strong>-1</strong> per turn</li>
+                                                        <li>(if no Flux used)</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
                                         {strainValue >= 10 && (
                                             <div className="rage-tooltip-warning" style={{ background: 'rgba(183, 28, 28, 0.15)', borderColor: '#B71C1C' }}>
-                                                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>TEMPORAL BACKLASH</div>
+                                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>TEMPORAL BACKLASH</div>
                                                 <div className="state-columns">
                                                     <div className="state-col">
-                                                        <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Immediate</div>
+                                                        <div className="col-title">Immediate</div>
                                                         <ul>
-                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Lose next turn</li>
-                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Take <strong style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>10 damage</strong></li>
+                                                            <li>Lose next turn</li>
+                                                            <li>Take <strong>10 damage</strong></li>
                                                         </ul>
                                                     </div>
                                                     <div className="state-col">
-                                                        <div className="col-title" style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Reset</div>
+                                                        <div className="col-title">Reset</div>
                                                         <ul>
-                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Strain → 0</li>
-                                                            <li style={{ color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>All effects end</li>
+                                                            <li>Strain → 0</li>
+                                                            <li>All effects end</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -6010,7 +6305,7 @@ const ClassResourceBar = ({
                                                 fontStyle: 'italic',
                                                 fontSize: '9px',
                                                 textAlign: 'center',
-                                                color: 'white',
+                                                color: '#000000',
                                                 marginTop: '6px',
                                                 padding: '4px',
                                                 background: 'rgba(229, 57, 53, 0.2)',
@@ -6024,7 +6319,7 @@ const ClassResourceBar = ({
                                             fontStyle: 'italic',
                                             fontSize: '9px',
                                             textAlign: 'center',
-                                            color: 'white',
+                                            color: '#000000',
                                             marginTop: '6px',
                                             padding: '4px',
                                             background: 'rgba(255, 82, 82, 0.2)',
@@ -7501,22 +7796,8 @@ const ClassResourceBar = ({
                             return null;
                         }
 
-                        // Helper function to get high-contrast color for tooltip text
-                        const getHighContrastColor = (glowColor) => {
-                            // Map of light colors to darker, more readable versions
-                            const colorMap = {
-                                '#FFED4E': '#D4A017', // Yellow -> Dark gold
-                                '#FFA500': '#CC6600', // Orange -> Dark orange
-                                '#90EE90': '#2E8B57', // Light green -> Sea green
-                                '#FF6B6B': '#DC143C', // Light red -> Crimson
-                                '#6495ED': '#4169E1', // Light blue -> Royal blue
-                                '#BA55D3': '#8B008B', // Light purple -> Dark magenta
-                                '#DA70D6': '#9400D3'  // Light orchid -> Dark violet
-                            };
-                            return colorMap[glowColor] || glowColor;
-                        };
-
-                        const headerColor = getHighContrastColor(note.glow);
+                        // Simplified color scheme for Minstrel tooltips
+                        const headerColor = '#D4A017'; // Consistent gold color for headers
 
                         return (
                         <div className="tooltip-rage-bar">
@@ -7532,11 +7813,12 @@ const ClassResourceBar = ({
                                                 {note.numeral} - {note.name}
                                                 <span style={{
                                                     fontSize: '10px',
-                                                    color: '#f8f4e6',
+                                                    color: '#8B7355',
                                                     fontWeight: 'bold',
                                                     marginLeft: '8px',
                                                     padding: '2px 6px',
-                                                    background: note.color,
+                                                    background: 'rgba(139, 115, 85, 0.2)',
+                                                    border: '1px solid #8B7355',
                                                     borderRadius: '3px'
                                                 }}>
                                                     {count}/{maxPerNote}
@@ -7545,7 +7827,7 @@ const ClassResourceBar = ({
                                             <div style={{
                                                 fontSize: '9px',
                                                 fontStyle: 'italic',
-                                                color: '#5a1e12',
+                                                color: '#8B7355',
                                                 marginTop: '4px',
                                                 marginBottom: '8px'
                                             }}>
@@ -7553,18 +7835,18 @@ const ClassResourceBar = ({
                                             </div>
                                             <div className="state-columns">
                                                 <div className="state-col">
-                                                    <div className="col-title">Generated By</div>
-                                                    <div style={{ fontSize: '11px', marginTop: '4px', color: '#8B7355', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>
+                                                    <div className="col-title" style={{ color: '#8B7355' }}>Generated By</div>
+                                                    <div style={{ fontSize: '11px', marginTop: '4px', color: '#8B7355' }}>
                                                         {note.generatedBy}
                                                     </div>
                                                 </div>
                                                 <div className="state-col">
-                                                    <div className="col-title">Used In</div>
+                                                    <div className="col-title" style={{ color: '#8B7355' }}>Used In</div>
                                                     <ul style={{ color: '#8B7355' }}>
                                                         {note.usedIn?.slice(0, 3).map((cadence, i) => (
-                                                            <li key={i} style={{ fontSize: '10px', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>{cadence}</li>
+                                                            <li key={i} style={{ fontSize: '10px' }}>{cadence}</li>
                                                         ))}
-                                                        {note.usedIn?.length > 3 && <li style={{ fontSize: '10px', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>+{note.usedIn.length - 3} more...</li>}
+                                                        {note.usedIn?.length > 3 && <li style={{ fontSize: '10px' }}>+{note.usedIn.length - 3} more...</li>}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -7574,10 +7856,10 @@ const ClassResourceBar = ({
                                             fontStyle: 'italic',
                                             fontSize: '9px',
                                             textAlign: 'center',
-                                            color: '#5a1e12',
+                                            color: '#8B7355',
                                             marginTop: '6px',
                                             padding: '4px',
-                                            background: `${note.color}15`,
+                                            background: 'rgba(139, 115, 85, 0.1)',
                                             borderRadius: '3px'
                                         }}>
                                             Notes persist between combats | Decay: 1 per minute
@@ -7585,14 +7867,13 @@ const ClassResourceBar = ({
 
                                         {finalConfig.sharedPassive?.description && (
                                             <div className="rage-tooltip-warning" style={{
-                                                background: 'rgba(74, 144, 226, 0.15)',
-                                                borderColor: '#4A90E2',
-                                                color: '#2E5C8A'
+                                                background: 'rgba(139, 115, 85, 0.1)',
+                                                borderColor: '#8B7355'
                                             }}>
-                                                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#2E5C8A' }}>
+                                                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#8B7355' }}>
                                                     Shared Passive: {finalConfig.sharedPassive.name || 'Harmonic Resonance'}
                                                 </div>
-                                                <div style={{ fontSize: '11px', color: '#8B7355', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>
+                                                <div style={{ fontSize: '11px', color: '#8B7355' }}>
                                                     {finalConfig.sharedPassive.description}
                                                 </div>
                                             </div>
@@ -7600,14 +7881,13 @@ const ClassResourceBar = ({
 
                                         {currentSpec && finalConfig.specPassives?.[minstrelSpec]?.description && (
                                             <div className="rage-tooltip-warning" style={{
-                                                background: `${currentSpec.color}15`,
-                                                borderColor: getHighContrastColor(currentSpec.glow),
-                                                color: getHighContrastColor(currentSpec.glow)
+                                                background: 'rgba(139, 115, 85, 0.1)',
+                                                borderColor: '#8B7355'
                                             }}>
-                                                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: getHighContrastColor(currentSpec.glow) }}>
+                                                <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#8B7355' }}>
                                                     {currentSpec.name} Passive
                                                 </div>
-                                                <div style={{ fontSize: '11px', color: '#8B7355', textShadow: '0 1px 1px rgba(0, 0, 0, 0.5)' }}>
+                                                <div style={{ fontSize: '11px', color: '#8B7355' }}>
                                                     {finalConfig.specPassives[minstrelSpec].description}
                                                 </div>
                                             </div>
@@ -7854,3 +8134,4 @@ const ClassResourceBar = ({
 };
 
 export default ClassResourceBar;
+

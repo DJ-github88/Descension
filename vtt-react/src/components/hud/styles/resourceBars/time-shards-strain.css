@@ -2,11 +2,26 @@
     background: transparent;
     border: none;
     height: auto;
+    width: 100%; /* Ensure container takes full width */
+    display: block; /* Ensure it displays */
+    min-height: 0; /* Allow shrinking */
+}
+
+/* Party member frame specific styling */
+.party-member-frame .class-resource-bar.time-shards-strain {
+    width: 100% !important;
+    min-width: 0; /* Allow flex shrinking */
+    flex: 0 1 auto; /* Don't force flex growth, allow natural sizing */
+    max-width: 100%; /* Prevent overflow */
+    box-sizing: border-box;
+    display: block !important; /* Ensure it displays */
+    min-height: 20px; /* Ensure minimum height for dual bars */
+    /* Don't clip here - let the frame handle overflow */
 }
 
 .chronarch-dual-bars {
     position: relative;
-    display: flex;
+    display: flex !important; /* Ensure it displays */
     flex-direction: column;
     gap: 3px;
     background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(101, 67, 33, 0.12) 100%);
@@ -14,12 +29,83 @@
     border-radius: 4px;
     padding: 5px;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+    width: 100%; /* Ensure container takes full width */
+    box-sizing: border-box;
+    min-height: 20px; /* Ensure minimum height */
+}
+
+/* Remove frame in party member context */
+.party-member-frame .chronarch-dual-bars {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    gap: 2px;
+    width: 100% !important; /* Ensure container stretches */
+    min-width: 0; /* Allow flex shrinking */
+    max-width: 100% !important; /* Prevent overflow */
+    box-sizing: border-box;
+    display: flex !important; /* Ensure it displays */
+    min-height: 18px !important; /* Ensure minimum height for two bars */
+    /* Don't clip here - bars need to be fully visible */
+}
+
+.party-member-frame .time-shards-bar,
+.party-member-frame .temporal-strain-bar {
+    padding: 2px 4px;
+    gap: 2px;
+    width: 100% !important; /* Ensure bars stretch to fill container */
+    min-width: 0 !important; /* Allow flex shrinking */
+    max-width: 100% !important; /* Prevent overflow */
+    flex: 1 1 auto !important; /* Take available space */
+    position: relative !important; /* Needed for absolute positioning of bar-value */
+    box-sizing: border-box !important;
+    /* Ensure bars fit within available space */
+    overflow: visible; /* Allow content to be visible */
+}
+
+.party-member-frame .time-shards-bar .segments-container,
+.party-member-frame .temporal-strain-bar .segments-container {
+    flex: 1 1 auto !important; /* Allow segments to stretch */
+    min-width: 0 !important; /* Allow flex shrinking */
+    width: 100% !important; /* Ensure container stretches */
+    max-width: 100% !important; /* Prevent overflow */
+    /* Don't use overflow: hidden - segments should be visible */
+}
+
+.party-member-frame .time-shards-bar .segment,
+.party-member-frame .temporal-strain-bar .segment {
+    height: 8px;
+    min-width: 0; /* Allow flex shrinking */
+    flex: 1 1 0; /* Equal flex distribution */
+}
+
+.party-member-frame .time-shards-bar .bar-value,
+.party-member-frame .temporal-strain-bar .bar-value {
+    font-size: 8px;
+    min-width: auto;
+    max-width: calc(100% - 8px) !important; /* Account for bar padding */
+    color: #ffffff !important; /* White text */
+    text-shadow: 
+        0 0 3px rgba(0, 0, 0, 1),
+        0 1px 2px rgba(0, 0, 0, 1),
+        1px 1px 2px rgba(0, 0, 0, 1) !important; /* Black shadow */
+    text-align: center !important; /* Center the text */
+    position: absolute !important; /* Position over the segments */
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+    white-space: nowrap !important; /* Prevent text wrapping */
+    /* Text should stay within bar bounds */
+    box-sizing: border-box;
 }
 
 /* Time Shards Bar (Top) */
 .time-shards-bar {
     position: relative;
-    display: flex;
+    display: flex !important; /* Ensure it displays */
     align-items: center;
     gap: 4px;
     padding: 3px 5px;
@@ -29,6 +115,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: inset 0 1px 1px rgba(129, 212, 250, 0.1);
+    min-height: 8px; /* Ensure minimum height */
 }
 
 .time-shards-bar:hover {
@@ -40,7 +127,7 @@
 /* Temporal Strain Bar (Bottom) */
 .temporal-strain-bar {
     position: relative;
-    display: flex;
+    display: flex !important; /* Ensure it displays */
     align-items: center;
     gap: 4px;
     padding: 3px 5px;
@@ -50,6 +137,7 @@
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+    min-height: 8px; /* Ensure minimum height */
 }
 
 .temporal-strain-bar:hover {
@@ -179,6 +267,7 @@
     white-space: nowrap;
     min-width: 30px;
     text-align: right;
+    position: relative;
 }
 
 .temporal-strain-bar .bar-value {
@@ -192,6 +281,7 @@
     white-space: nowrap;
     min-width: 30px;
     text-align: right;
+    position: relative;
 }
 
 /* Adjustment Menus */

@@ -47,6 +47,23 @@
     max-width: 100%; /* Fill available HUD width */
 }
 
+/* Party member frame constraints - prevent stretching */
+.party-member-frame .minstrel-container {
+    max-width: 200px; /* Constrain width in party frames */
+    width: auto; /* Don't stretch to 100% */
+    overflow: visible; /* Allow content to extend beyond container */
+}
+
+.party-member-frame .musical-note-segment {
+    min-width: 20px; /* Smaller minimum in party frames */
+    max-width: 30px; /* Smaller maximum in party frames */
+}
+
+.party-member-frame .musical-notes-bar-wrapper {
+    flex: none; /* Don't stretch in party frames */
+    overflow: visible; /* Allow menus to extend beyond wrapper */
+}
+
 .small .musical-notes-bar-wrapper {
     height: 24px; /* Very compact height for HUD */
 }
@@ -131,10 +148,6 @@
 
 /* Note Adjustment Menu */
 .note-adjustment-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
     background: linear-gradient(135deg, rgba(42, 24, 16, 0.98) 0%, rgba(26, 15, 8, 0.98) 100%);
     border: 2px solid rgba(139, 69, 19, 0.6);
     border-radius: 6px;
@@ -274,14 +287,11 @@
 
 /* Minstrel Specialization Menu */
 .minstrel-spec-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
     background: linear-gradient(135deg, rgba(42, 24, 16, 0.98) 0%, rgba(26, 15, 8, 0.98) 100%);
     border: 2px solid rgba(139, 69, 19, 0.6);
     border-radius: 6px;
     padding: 10px;
-    z-index: 1000;
+    z-index: 1000000000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     min-width: 180px;
     display: flex;

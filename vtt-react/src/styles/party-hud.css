@@ -1517,7 +1517,9 @@
         inset 0 -1px 0 rgba(0, 0, 0, 0.1);
     font-family: var(--pf-font-serif);
     /* Ensure frame expands properly for 4th resource bar */
+    /* Allow overflow for tooltips, but content should be constrained by width */
     overflow: visible;
+    box-sizing: border-box; /* Ensure padding/border are included in width */
     
     /* Performance optimizations for smooth dragging */
     will-change: transform;
@@ -1546,7 +1548,17 @@
 .party-member-frame.class-plaguebringer,
 .party-member-frame.class-toxicologist,
 .party-member-frame.class-false-prophet {
-    min-height: 96px; /* Extra height for complex displays */
+    min-height: 110px; /* Extra height for complex displays with menus */
+}
+
+/* Deathcaller needs extra height for dual bars display */
+.party-member-frame.class-deathcaller {
+    min-height: 145px; /* Extra height for dual bars display with breathing room */
+}
+
+/* Chronarch needs extra height for dual bars */
+.party-member-frame.class-chronarch {
+    min-height: 145px; /* Extra height for dual bars display with breathing room */
 }
 
 .party-member-frame:hover {
@@ -1645,7 +1657,11 @@
     padding-top: 2px;
     min-height: fit-content; /* Allow growth for additional resource bars */
     height: auto; /* Allow dynamic height expansion */
-    overflow: visible; /* Ensure content is not clipped */
+    min-width: 0; /* Allow flex shrinking */
+    width: 100%; /* Ensure container takes full width */
+    max-width: 100%; /* Prevent overflow */
+    box-sizing: border-box;
+    /* Don't clip here - let the frame handle overflow */
 }
 
 .member-header {
@@ -1714,9 +1730,11 @@
     gap: 2px !important;
     min-height: fit-content !important; /* Ensure container grows with content */
     height: auto !important; /* Allow dynamic height expansion */
-    flex: 1 !important; /* Take available space */
-    max-height: 60px !important; /* Limit container height */
-    overflow: hidden !important; /* Hide overflow content */
+    flex: 0 1 auto !important; /* Don't force flex growth, allow natural sizing */
+    width: 100% !important; /* Ensure container takes full width */
+    max-width: 100% !important; /* Prevent overflow */
+    box-sizing: border-box !important;
+    /* Don't clip here - bars need to be fully visible, frame will clip if needed */
 }
 
 /* Make resource bar styles specific to party HUD to avoid conflicts with class resource bars */

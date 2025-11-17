@@ -151,17 +151,10 @@ const ResourceAdjustmentModal = ({
 
     return createPortal(
         <div className="resource-adjustment-modal" ref={modalRef} style={modalStyle}>
-            <div className="modal-header">
-                <h4>
-                    <span className="resource-icon">{getResourceIcon()}</span>
-                    Adjust {formatResourceName()}
-                </h4>
-                <button className="close-button" onClick={onClose}>×</button>
-            </div>
-            
             <div className="modal-content">
                 <div className="current-value">
-                    Current: {currentValue}/{maxValue}
+                    <span className="resource-icon">{getResourceIcon()}</span>
+                    {currentValue}/{maxValue}
                 </div>
 
                 <div className="adjustment-mode-toggle">
@@ -169,13 +162,13 @@ const ResourceAdjustmentModal = ({
                         className={adjustmentMode === 'relative' ? 'active' : ''}
                         onClick={() => setAdjustmentMode('relative')}
                     >
-                        +/- Amount
+                        ±
                     </button>
                     <button 
                         className={adjustmentMode === 'absolute' ? 'active' : ''}
                         onClick={() => setAdjustmentMode('absolute')}
                     >
-                        Set Value
+                        =
                     </button>
                 </div>
 
@@ -186,7 +179,7 @@ const ResourceAdjustmentModal = ({
                         value={inputValue}
                         onChange={handleInputChange}
                         onKeyPress={handleKeyPress}
-                        placeholder={adjustmentMode === 'relative' ? 'e.g., -5 or +10' : 'e.g., 25'}
+                        placeholder={adjustmentMode === 'relative' ? '±5' : '25'}
                         className="adjustment-input"
                     />
                     <button 
@@ -195,19 +188,17 @@ const ResourceAdjustmentModal = ({
                         disabled={!inputValue}
                         style={{ backgroundColor: getResourceColor() }}
                     >
-                        Apply
+                        ✓
                     </button>
                 </div>
 
                 <div className="quick-buttons">
                     <div className="quick-section">
-                        <span className="section-label">Quick Damage:</span>
-                        <button onClick={() => handleQuickAdjust(-1)} className="quick-btn damage">-1</button>
-                        <button onClick={() => handleQuickAdjust(-5)} className="quick-btn damage">-5</button>
                         <button onClick={() => handleQuickAdjust(-10)} className="quick-btn damage">-10</button>
+                        <button onClick={() => handleQuickAdjust(-5)} className="quick-btn damage">-5</button>
+                        <button onClick={() => handleQuickAdjust(-1)} className="quick-btn damage">-1</button>
                     </div>
                     <div className="quick-section">
-                        <span className="section-label">Quick Heal:</span>
                         <button onClick={() => handleQuickAdjust(1)} className="quick-btn heal">+1</button>
                         <button onClick={() => handleQuickAdjust(5)} className="quick-btn heal">+5</button>
                         <button onClick={() => handleQuickAdjust(10)} className="quick-btn heal">+10</button>

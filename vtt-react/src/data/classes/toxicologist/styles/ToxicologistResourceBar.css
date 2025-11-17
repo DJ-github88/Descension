@@ -388,17 +388,17 @@
 
 .toxicologist-tooltip {
     position: fixed;
-    background: linear-gradient(135deg, rgba(20, 15, 10, 0.98), rgba(15, 10, 5, 0.98));
-    border: 2px solid rgba(139, 69, 19, 0.8);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
+    border: 2px solid #8b7355;
     border-radius: 6px;
     padding: 12px;
     min-width: 300px;
     max-width: 350px;
     z-index: 100000;
     pointer-events: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
-    font-family: 'Crimson Text', serif;
-    color: rgba(222, 184, 135, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    color: #5a1e12;
 }
 
 .toxicologist-tooltip .tooltip-section {
@@ -408,9 +408,11 @@
 .toxicologist-tooltip .tooltip-label {
     font-weight: 700;
     font-size: 13px;
-    color: #4CAF50;
+    color: #7a3b2e;
     margin-bottom: 6px;
-    text-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .toxicologist-tooltip .tooltip-columns {
@@ -428,10 +430,11 @@
 .toxicologist-tooltip .col-title {
     font-weight: 600;
     font-size: 11px;
-    color: #FFD700;
+    color: #daa520;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 4px;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-tooltip ul {
@@ -442,30 +445,32 @@
 
 .toxicologist-tooltip li {
     font-size: 11px;
-    color: rgba(222, 184, 135, 0.9);
+    color: #5a1e12;
     line-height: 1.5;
     padding-left: 8px;
     position: relative;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.05);
 }
 
 .toxicologist-tooltip li::before {
     content: '•';
     position: absolute;
     left: 0;
-    color: rgba(139, 69, 19, 0.6);
+    color: #8b7355;
 }
 
 .toxicologist-tooltip .tooltip-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(139, 69, 19, 0.4) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, #8b7355 50%, transparent 100%);
     margin: 8px 0;
 }
 
 .toxicologist-tooltip .passive-desc {
     font-size: 11px;
-    color: rgba(222, 184, 135, 0.85);
+    color: #8b7355;
     line-height: 1.5;
     font-style: italic;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.05);
 }
 
 /* ===== SPECIALIZATION MENU ===== */
@@ -474,25 +479,25 @@
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    background: linear-gradient(180deg, rgba(25, 20, 15, 0.98) 0%, rgba(20, 15, 10, 0.98) 100%);
-    border: 2px solid rgba(139, 69, 19, 0.8);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
+    border: 2px solid #8b7355;
     border-radius: 8px;
     padding: 14px;
     min-width: 200px;
     z-index: 3000;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-    font-family: 'Crimson Text', serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
 .toxicologist-spec-menu .spec-menu-title {
     font-size: 13px;
     font-weight: 700;
-    color: #FFD700;
+    color: #7a3b2e;
     text-align: center;
     margin-bottom: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-spec-menu .spec-menu-options {
@@ -506,16 +511,17 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: linear-gradient(180deg, rgba(40, 60, 40, 0.8) 0%, rgba(30, 50, 30, 0.9) 100%);
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border: 1px solid #8b7355;
     border-radius: 4px;
-    color: rgba(222, 184, 135, 0.95);
+    color: #5a1e12;
     padding: 10px 14px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-spec-menu .spec-option i {
@@ -525,63 +531,65 @@
 }
 
 .toxicologist-spec-menu .spec-option:hover {
-    background: linear-gradient(180deg, rgba(50, 70, 50, 0.9) 0%, rgba(40, 60, 40, 1) 100%);
-    border-color: rgba(76, 175, 80, 0.7);
+    background: linear-gradient(135deg, rgba(250, 250, 240, 0.9), rgba(245, 245, 230, 0.8));
+    border-color: #daa520;
     transform: translateX(2px);
-    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 0 6px rgba(218, 165, 32, 0.3);
 }
 
 .toxicologist-spec-menu .spec-option.active {
-    background: linear-gradient(180deg, rgba(76, 175, 80, 0.4) 0%, rgba(56, 142, 60, 0.5) 100%);
-    border-color: rgba(76, 175, 80, 0.8);
-    box-shadow: 0 0 12px rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, rgba(250, 250, 240, 0.9), rgba(245, 245, 230, 0.8));
+    border-color: #daa520;
+    box-shadow: 0 0 8px rgba(218, 165, 32, 0.4);
 }
 
 .toxicologist-spec-menu .menu-close-btn {
     width: 100%;
-    background: linear-gradient(180deg, rgba(60, 40, 30, 0.8) 0%, rgba(50, 30, 20, 0.9) 100%);
-    border: 1px solid rgba(139, 69, 19, 0.5);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border: 1px solid #8b7355;
     border-radius: 4px;
-    color: rgba(222, 184, 135, 0.95);
+    color: #5a1e12;
     padding: 8px 12px;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-spec-menu .menu-close-btn:hover {
-    background: linear-gradient(180deg, rgba(70, 50, 40, 0.9) 0%, rgba(60, 40, 30, 1) 100%);
-    border-color: rgba(139, 69, 19, 0.7);
+    background: linear-gradient(135deg, rgba(250, 250, 240, 0.9), rgba(245, 245, 230, 0.8));
+    border-color: #daa520;
+    box-shadow: 0 0 6px rgba(218, 165, 32, 0.3);
 }
 
-/* ===== RESOURCE MENU STYLES (Dark Theme) ===== */
+/* ===== RESOURCE MENU STYLES ===== */
 
 .toxicologist-resource-menu {
     position: absolute;
     top: calc(100% + 8px);
     left: 0;
-    background: linear-gradient(180deg, rgba(25, 20, 15, 0.98) 0%, rgba(20, 15, 10, 0.98) 100%);
-    border: 2px solid rgba(139, 69, 19, 0.8);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
+    border: 2px solid #8b7355;
     border-radius: 8px;
     padding: 14px;
     min-width: 240px;
     max-width: 260px;
     z-index: 3000;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-    font-family: 'Crimson Text', serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Cinzel', 'Times New Roman', serif;
 }
 
 .toxicologist-resource-menu .menu-title {
     font-size: 13px;
     font-weight: 700;
-    color: #4CAF50;
+    color: #7a3b2e;
     text-align: center;
     margin-bottom: 12px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    text-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-resource-menu .menu-info-row {
@@ -592,12 +600,14 @@
 }
 
 .toxicologist-resource-menu .info-label {
-    color: #FFD700;
+    color: #daa520;
     font-weight: 600;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-resource-menu .info-value {
-    color: rgba(222, 184, 135, 0.9);
+    color: #5a1e12;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.05);
 }
 
 .toxicologist-resource-menu .menu-action-buttons {
@@ -608,73 +618,78 @@
 }
 
 .toxicologist-resource-menu .menu-action-btn {
-    background: linear-gradient(180deg, rgba(40, 60, 40, 0.8) 0%, rgba(30, 50, 30, 0.9) 100%);
-    border: 1px solid rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border: 1px solid #8b7355;
     border-radius: 4px;
-    color: rgba(222, 184, 135, 0.95);
+    color: #5a1e12;
     padding: 10px 14px;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Cinzel', 'Times New Roman', serif;
     text-align: center;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-resource-menu .menu-action-btn.gain {
-    background: linear-gradient(180deg, rgba(40, 60, 40, 0.8) 0%, rgba(30, 50, 30, 0.9) 100%);
-    border-color: rgba(76, 175, 80, 0.5);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border-color: #8b7355;
 }
 
 .toxicologist-resource-menu .menu-action-btn.spend {
-    background: linear-gradient(180deg, rgba(40, 60, 40, 0.8) 0%, rgba(30, 50, 30, 0.9) 100%);
-    border-color: rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border-color: #8b7355;
 }
 
 .toxicologist-resource-menu .menu-action-btn:hover {
-    background: linear-gradient(180deg, rgba(50, 70, 50, 0.9) 0%, rgba(40, 60, 40, 1) 100%);
-    border-color: rgba(76, 175, 80, 0.7);
+    background: linear-gradient(135deg, rgba(250, 250, 240, 0.9), rgba(245, 245, 230, 0.8));
+    border-color: #daa520;
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 0 6px rgba(218, 165, 32, 0.3);
 }
 
 .toxicologist-resource-menu .menu-reset-btn {
     width: 100%;
-    background: linear-gradient(180deg, rgba(80, 50, 30, 0.8) 0%, rgba(60, 40, 20, 0.9) 100%);
-    border: 1px solid rgba(139, 69, 19, 0.5);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border: 1px solid #8b7355;
     border-radius: 4px;
-    color: rgba(222, 184, 135, 0.95);
+    color: #5a1e12;
     padding: 8px 12px;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Cinzel', 'Times New Roman', serif;
     margin-bottom: 6px;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-resource-menu .menu-reset-btn:hover {
-    background: linear-gradient(180deg, rgba(90, 60, 40, 0.9) 0%, rgba(70, 50, 30, 1) 100%);
-    border-color: rgba(139, 69, 19, 0.7);
+    background: linear-gradient(135deg, rgba(250, 250, 240, 0.9), rgba(245, 245, 230, 0.8));
+    border-color: #daa520;
+    box-shadow: 0 0 6px rgba(218, 165, 32, 0.3);
 }
 
 .toxicologist-resource-menu .menu-close-btn {
     width: 100%;
-    background: linear-gradient(180deg, rgba(60, 40, 30, 0.8) 0%, rgba(50, 30, 20, 0.9) 100%);
-    border: 1px solid rgba(139, 69, 19, 0.5);
+    background: linear-gradient(135deg, rgba(245, 245, 220, 0.8), rgba(240, 240, 210, 0.7));
+    border: 1px solid #8b7355;
     border-radius: 4px;
-    color: rgba(222, 184, 135, 0.95);
+    color: #5a1e12;
     padding: 8px 12px;
     font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-family: 'Crimson Text', serif;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .toxicologist-resource-menu .menu-close-btn:hover {
-    background: linear-gradient(180deg, rgba(70, 50, 40, 0.9) 0%, rgba(60, 40, 30, 1) 100%);
-    border-color: rgba(139, 69, 19, 0.7);
+    background: linear-gradient(135deg, rgba(250, 250, 240, 0.9), rgba(245, 245, 230, 0.8));
+    border-color: #daa520;
+    box-shadow: 0 0 6px rgba(218, 165, 32, 0.3);
 }
 
 /* Force compact sizing in account context */

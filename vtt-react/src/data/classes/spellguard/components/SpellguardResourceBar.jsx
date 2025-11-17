@@ -132,6 +132,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                 <div
                     ref={barRef}
                     className={`spellguard-resource-bar ${size} ${visualIntensity} ${isAbsorbing ? 'absorbing' : ''} ${isSpending ? 'spending' : ''} clickable`}
+                    context={context}
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
                     onClick={() => setShowControls(!showControls)}
@@ -223,7 +224,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
             {/* Dev Controls */}
             {showControls && (
-                <div className="spellguard-dev-controls">
+                <div className={`spellguard-dev-controls ${context === 'party' ? 'party-context' : ''}`}>
                     <div className="controls-header">
                         <span>Arcane Absorption</span>
                         <button onClick={() => setShowControls(false)}>
@@ -234,40 +235,53 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                     <div className="control-group">
                         {/* Specialization Selection */}
                         <div className="spec-selector-group">
-                            <label>Specialization:</label>
                             <button
-                                className="spec-cycle-btn"
+                                className="spec-display-btn"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     cycleSpec();
                                 }}
-                                title={`Current: ${currentSpec.name}\nClick to cycle`}
+                                title={`${currentSpec.name}\n${currentSpec.passiveDesc}`}
                                 style={{
-                                    borderColor: currentSpec.activeColor,
-                                    color: currentSpec.glowColor
+                                    borderColor: context === 'party' ? '#a08c70' : currentSpec.activeColor,
+                                    background: context === 'party' ? 'rgba(240, 230, 210, 0.8)' : 'rgba(15, 23, 42, 0.8)',
+                                    color: context === 'party' ? '#5e2e23' : currentSpec.glowColor
                                 }}
                             >
                                 <i className={`fas ${currentSpec.icon}`}></i>
                                 <span>{currentSpec.name}</span>
                             </button>
                         </div>
-                        
-                        <label>AEP Level: {localAEP}/{maxAEP}</label>
+
                         <div className="aep-info">
-                            Absorb magical damage to generate AEP. Spend on shields, reflections, and strikes.
+                            {context === 'party' ? (
+                                'Absorb magical damage to build AEP. Use for arcane shields, spell reflections, and magical strikes.'
+                            ) : (
+                                'Absorb magical damage to generate AEP. Spend on shields, reflections, and strikes.'
+                            )}
                         </div>
-                        <div className="button-row">
-                            <button onClick={() => setLocalAEP(0)}>0</button>
-                            <button onClick={() => setLocalAEP(15)}>15</button>
-                            <button onClick={() => setLocalAEP(40)}>40</button>
-                            <button onClick={() => setLocalAEP(75)}>75</button>
-                            <button onClick={() => setLocalAEP(100)}>100</button>
-                        </div>
-                        <div className="button-row">
-                            <button onClick={() => adjustAEP(-10)}>-10</button>
-                            <button onClick={() => adjustAEP(-5)}>-5</button>
-                            <button onClick={() => adjustAEP(5)}>+5</button>
-                            <button onClick={() => adjustAEP(10)}>+10</button>
+
+                        <div className="control-sections">
+                            <div className="control-section">
+                                <div className="section-label">Quick Set AEP</div>
+                                <div className="preset-buttons">
+                                    <button onClick={() => setLocalAEP(0)} title="Empty (0 AEP)">0</button>
+                                    <button onClick={() => setLocalAEP(25)} title="Quarter (25 AEP)">¼</button>
+                                    <button onClick={() => setLocalAEP(50)} title="Half (50 AEP)">½</button>
+                                    <button onClick={() => setLocalAEP(75)} title="Three Quarters (75 AEP)">¾</button>
+                                    <button onClick={() => setLocalAEP(100)} title="Full (100 AEP)">100</button>
+                                </div>
+                            </div>
+
+                            <div className="control-section">
+                                <div className="section-label">Adjust AEP</div>
+                                <div className="adjust-buttons">
+                                    <button onClick={() => adjustAEP(-10)} className="adjust-btn negative">-10</button>
+                                    <button onClick={() => adjustAEP(-5)} className="adjust-btn negative">-5</button>
+                                    <button onClick={() => adjustAEP(5)} className="adjust-btn positive">+5</button>
+                                    <button onClick={() => adjustAEP(10)} className="adjust-btn positive">+10</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

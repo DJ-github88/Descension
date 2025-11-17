@@ -5,6 +5,17 @@
     position: relative;
     margin-bottom: 4px;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Party member frame specific constraints */
+.party-member-frame .class-resource-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    /* Don't clip here - let the frame handle overflow */
 }
 
 .class-resource-wrapper.clickable {
