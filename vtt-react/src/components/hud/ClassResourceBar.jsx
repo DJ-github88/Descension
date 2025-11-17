@@ -1027,8 +1027,8 @@ const ClassResourceBar = ({
 
         return (
             <div className={`class-resource-bar time-shards-strain ${size}`}>
-                <div className="chronarch-dual-bars">
-                    {/* Time Shards Bar (Top) */}
+                <div className="chronarch-single-bar">
+                    {/* Time Shards Bar (Left Side) */}
                     <div
                         className="time-shards-bar"
                         onClick={(e) => {
@@ -1047,26 +1047,36 @@ const ClassResourceBar = ({
                             setShowTooltip(false);
                         }}
                     >
-                        <div className="segments-container">
-                            {Array.from({ length: shardsMax }, (_, i) => (
-                                <div
-                                    key={i}
-                                    className={`segment ${i < shardsValue ? 'filled' : 'empty'}`}
-                                    style={{
-                                        backgroundColor: i < shardsValue
-                                            ? finalConfig.visual.timeShards.activeColor
-                                            : finalConfig.visual.timeShards.baseColor,
-                                        boxShadow: i < shardsValue
-                                            ? `0 0 4px ${finalConfig.visual.timeShards.glowColor}`
-                                            : 'none'
-                                    }}
-                                />
-                            ))}
+                        <div className="fluid-bar-container">
+                            <div
+                                className="fluid-bar-fill"
+                                style={{
+                                    width: `${(shardsValue / shardsMax) * 100}%`,
+                                    background: `linear-gradient(90deg,
+                                        ${finalConfig.visual.timeShards.activeColor} 0%,
+                                        ${finalConfig.visual.timeShards.activeColor} 70%,
+                                        ${finalConfig.visual.timeShards.glowColor} 100%)`,
+                                    boxShadow: `0 0 8px ${finalConfig.visual.timeShards.glowColor}`
+                                }}
+                            />
                         </div>
                         <div className="bar-value">{shardsValue}/{shardsMax}</div>
                     </div>
 
-                    {/* Temporal Strain Bar (Bottom) */}
+                    {/* Chronarch Center Divider */}
+                    <div className="chronarch-center">
+                        <div className="center-ornament">
+                            <div className="center-circle"></div>
+                            <div className="center-lines">
+                                <div className="line line-1"></div>
+                                <div className="line line-2"></div>
+                                <div className="line line-3"></div>
+                                <div className="line line-4"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Temporal Strain Bar (Right Side) */}
                     <div
                         className={`temporal-strain-bar ${shouldPulse ? 'pulse' : ''} ${shouldFlash ? 'flash' : ''}`}
                         onClick={(e) => {
@@ -1085,21 +1095,18 @@ const ClassResourceBar = ({
                             setShowTooltip(false);
                         }}
                     >
-                        <div className="segments-container">
-                            {Array.from({ length: strainMax }, (_, i) => (
-                                <div
-                                    key={i}
-                                    className={`segment ${i < strainValue ? 'filled' : 'empty'}`}
-                                    style={{
-                                        backgroundColor: i < strainValue
-                                            ? strainColor
-                                            : finalConfig.visual.temporalStrain.baseColor,
-                                        boxShadow: i < strainValue
-                                            ? `0 0 4px ${strainColor}`
-                                            : 'none'
-                                    }}
-                                />
-                            ))}
+                        <div className="fluid-bar-container">
+                            <div
+                                className="fluid-bar-fill"
+                                style={{
+                                    width: `${(strainValue / strainMax) * 100}%`,
+                                    background: `linear-gradient(90deg,
+                                        ${strainColor} 0%,
+                                        ${strainColor} 70%,
+                                        rgba(255, 255, 255, 0.3) 100%)`,
+                                    boxShadow: `0 0 8px ${strainColor}`
+                                }}
+                            />
                         </div>
                         <div className="bar-value" style={{ color: strainColor }}>
                             {strainValue}/{strainMax}
