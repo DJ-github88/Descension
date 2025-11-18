@@ -51,7 +51,8 @@ const Step4SpellSelection = () => {
         if (!classData) return [];
 
         const level1SpellIds = classData.spellPools?.[1] || [];
-        const allSpells = classData.exampleSpells || [];
+        // Support both 'spells' (new format) and 'exampleSpells' (legacy format)
+        const allSpells = classData.spells || classData.exampleSpells || [];
 
         // Filter spells that are in the level 1 pool and map class-specific mechanics
         return allSpells

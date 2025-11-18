@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
 import { LIBRARY_ACTION_TYPES, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
@@ -174,7 +174,6 @@ const Step10Review = ({
       rangeType: spellState.targetingConfig?.rangeType || 'ranged',
 
       // Targeting information
-      targetingMode: spellState.targetingConfig?.targetingType || 'single',
       // Use the first item in the targetRestrictions array, or fall back to the single targetRestriction
       targetRestriction: spellState.targetingConfig?.targetRestrictions && spellState.targetingConfig.targetRestrictions.length > 0 ?
                          spellState.targetingConfig.targetRestrictions[0] :
@@ -210,6 +209,10 @@ const Step10Review = ({
         rangeType: spellState.targetingConfig?.rangeType || 'ranged',
         rangeDistance: spellState.targetingConfig?.rangeDistance || 30
       } || {},
+
+      // Effect-specific targeting (for tagged targeting mode)
+      targetingMode: spellState.targetingMode || (spellState.targetingConfig?.targetingType ? 'unified' : 'unified'),
+      effectTargeting: spellState.effectTargeting || (spellState.targetingTags && Object.keys(spellState.targetingTags).length > 0 ? spellState.targetingTags : null),
 
       // Propagation information
       propagation: spellState.propagation ? {
@@ -2695,7 +2698,7 @@ const Step10Review = ({
   };
 
   // Create the mapped spell data for preview
-  const previewSpellData = mapWizardStateToPreviewState();
+  const previewSpellData = useMemo(() => mapWizardStateToPreviewState(), [spellState]);
 
   // Trigger conditions display has been removed from the review step
 
@@ -2715,7 +2718,7 @@ const Step10Review = ({
           <div className="review-spell-preview">
             {/* Display spell card in wizard style */}
             <UnifiedSpellCard
-              key={`wizard-preview-${spellState.name || 'unnamed'}`}
+              key={`wizard-preview-${previewSpellData.name || 'unnamed'}-${previewSpellData.controlConfig ? JSON.stringify(previewSpellData.controlConfig) : 'no-control'}`}
               spell={previewSpellData}
               variant="wizard"
               showActions={false}

@@ -526,22 +526,39 @@ const ActionBar = () => {
         const targetElement = e.currentTarget;
         if (!targetElement) return;
 
+        // Store the current mouse position for initial tooltip placement
+        const currentMouseX = e.clientX;
+        const currentMouseY = e.clientY;
+
         // Set hover timeout
         spellHoverTimeoutRef.current = setTimeout(() => {
             // Check if element still exists
             if (!targetElement || !document.contains(targetElement)) return;
 
-            // Get the action slot element's position for better tooltip placement
-            const rect = targetElement.getBoundingClientRect();
-
-            // Anchor point: center-top of the slot. SpellTooltip will translate above.
-            const tooltipX = rect.left + (rect.width / 2);
-            const tooltipY = rect.top; // exact top edge; SpellTooltip handles offset
+            // Use mouse position for tooltip placement - this follows the cursor
+            // Position tooltip above the mouse cursor
+            const tooltipX = currentMouseX;
+            const tooltipY = currentMouseY; // Use cursor Y directly, transform will position above
 
             setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
             setTooltipSpell(spellToDisplay);
             setShowSpellTooltip(true);
         }, 300); // 300ms delay before showing tooltip
+    };
+
+    const handleSpellMouseMove = (e, item) => {
+        if (!item || item.type !== 'spell') return;
+
+        // Update tooltip position to follow the mouse cursor
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        // Position tooltip relative to mouse cursor
+        const tooltipX = mouseX;
+        const tooltipY = mouseY; // Use cursor Y directly, transform will position above
+
+        // Update position whether tooltip is showing or not (for smooth appearance at current position)
+        setSpellTooltipPosition({ x: tooltipX, y: tooltipY });
     };
 
     const handleSpellMouseLeave = () => {
@@ -620,6 +637,8 @@ const ActionBar = () => {
                             onMouseMove={(e) => {
                                 if (item && item.type === 'consumable') {
                                     handleConsumableMouseMove(e, item);
+                                } else if (item && item.type === 'spell') {
+                                    handleSpellMouseMove(e, item);
                                 }
                             }}
                             onMouseLeave={() => {

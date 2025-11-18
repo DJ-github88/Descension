@@ -77,9 +77,54 @@ export const normalizeSpell = (spell) => {
 
   // 10. Preserve class-specific mechanics (flattened properties)
   // These are flattened in classSpellGenerator for spell card display
+  // First check if they exist as flat properties
   if (spell.infernoRequired !== undefined) normalized.infernoRequired = spell.infernoRequired;
   if (spell.infernoAscend !== undefined) normalized.infernoAscend = spell.infernoAscend;
   if (spell.infernoDescend !== undefined) normalized.infernoDescend = spell.infernoDescend;
+  
+  // Extract from resourceCost.resourceValues if not already set (wizard format)
+  // This ensures class-specific resources from wizard format are properly flattened for display
+  if (normalized.resourceCost?.resourceValues) {
+    const rv = normalized.resourceCost.resourceValues;
+    
+    // Pyrofiend Inferno Veil
+    if (normalized.infernoRequired === undefined && rv.inferno_required !== undefined) {
+      normalized.infernoRequired = rv.inferno_required;
+    }
+    if (normalized.infernoAscend === undefined && rv.inferno_ascend !== undefined) {
+      normalized.infernoAscend = rv.inferno_ascend;
+    }
+    if (normalized.infernoDescend === undefined && rv.inferno_descend !== undefined) {
+      normalized.infernoDescend = rv.inferno_descend;
+    }
+    
+    // Martyr Devotion Level
+    if (normalized.devotionRequired === undefined && rv.devotion_required !== undefined) {
+      normalized.devotionRequired = rv.devotion_required;
+    }
+    if (normalized.devotionCost === undefined && rv.devotion_cost !== undefined) {
+      normalized.devotionCost = rv.devotion_cost;
+    }
+    if (normalized.devotionGain === undefined && rv.devotion_gain !== undefined) {
+      normalized.devotionGain = rv.devotion_gain;
+    }
+    
+    // Chronarch Temporal Mechanics
+    if (normalized.timeShardGenerate === undefined && rv.time_shard_generate !== undefined) {
+      normalized.timeShardGenerate = rv.time_shard_generate;
+    }
+    if (normalized.timeShardCost === undefined && rv.time_shard_cost !== undefined) {
+      normalized.timeShardCost = rv.time_shard_cost;
+    }
+    if (normalized.temporalStrainGain === undefined && rv.temporal_strain_gain !== undefined) {
+      normalized.temporalStrainGain = rv.temporal_strain_gain;
+    }
+    if (normalized.temporalStrainReduce === undefined && rv.temporal_strain_reduce !== undefined) {
+      normalized.temporalStrainReduce = rv.temporal_strain_reduce;
+    }
+  }
+  
+  // Preserve flat properties if they already exist (legacy format)
   if (spell.musicalCombo !== undefined) normalized.musicalCombo = spell.musicalCombo;
   if (spell.timeShardGenerate !== undefined) normalized.timeShardGenerate = spell.timeShardGenerate;
   if (spell.timeShardCost !== undefined) normalized.timeShardCost = spell.timeShardCost;

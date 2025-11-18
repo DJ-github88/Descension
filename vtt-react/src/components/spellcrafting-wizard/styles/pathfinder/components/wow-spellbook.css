@@ -162,8 +162,12 @@
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s ease;
-  max-width: 600px;
+  /* Tooltip must be wide enough for scaled card: 580px * 0.9 = 522px, add padding */
+  max-width: 650px !important;
+  width: auto !important;
+  min-width: 550px !important;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
+  overflow: visible !important;
 }
 
 .wow-spell-tooltip.visible {
@@ -171,20 +175,42 @@
 }
 
 .wow-spell-tooltip .review-spell-preview {
-  margin: 0;
-  transform: scale(0.95);
+  margin: 0 !important;
+  transform: scale(0.9);
   transform-origin: top left;
+  width: 100% !important;
+  min-width: 520px !important;
+  max-width: 580px !important;
+  display: flex;
+  justify-content: flex-start;
+  overflow: visible;
 }
 
-/* Ensure tooltip spell card has proper styling */
-.wow-spell-tooltip .pf-spell-card {
+/* Ensure tooltip spell card has proper styling and full width */
+.wow-spell-tooltip .pf-spell-card,
+.wow-spell-tooltip .wow-spell-card {
+  /* Override base card constraints inside tooltip */
+  width: 100% !important;
+  max-width: 580px !important;
+  min-width: 520px !important;
+  margin: 0 !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
   border: 3px solid #8b7355;
+  flex-shrink: 0;
 }
 
 /* Spell Preview - Just the spell card floating outside library */
 .spell-preview-panel-floating {
   /* Container for the floating spell card */
+  background: rgba(245, 222, 179, 0.98);
+  border: 2px solid rgba(160, 82, 45, 0.8);
+  border-radius: 8px;
+  padding: 12px;
+  max-width: 400px;
+  width: 400px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  z-index: 100000;
 }
 
 @keyframes slideInFromRight {

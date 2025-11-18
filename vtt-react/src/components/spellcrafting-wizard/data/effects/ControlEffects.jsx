@@ -426,7 +426,7 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
 
   // Simplified function for toggling saving throw on/off
   const toggleSavingThrow = () => {
-    const newValue = controlConfig.savingThrow === null ? 'strength' : null;
+    const newValue = controlConfig.savingThrow === null ? true : null;
     handleControlConfigChange('savingThrow', newValue);
   };
 
@@ -440,8 +440,8 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
       const updated = {
         ...prev,
         savingThrowType: newType,
-        // Always enable saving throws when changing type (auto-enable)
-        savingThrow: newType
+        // Keep saving throws enabled when changing type
+        savingThrow: true
       };
 
       console.log('Updated control config:', updated);
@@ -542,15 +542,15 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
             name: effectData.name,
             icon: effectData.icon,
             description: effectData.description,
-            // Individual configuration for this effect
+            // Individual configuration for this effect - use null/undefined to inherit from global config
             config: {
-              duration: 2, // Default duration
-              durationUnit: 'rounds',
-              hasDuration: true,
-              savingThrow: true,
-              savingThrowType: getSavingThrowTypeForEffect(activeControlType, effectId),
-              difficultyClass: 15,
-              strength: 'moderate',
+              duration: null, // Inherit from global
+              durationUnit: null, // Inherit from global
+              savingThrow: null, // Inherit from global
+              savingThrowType: null, // Inherit from global
+              difficultyClass: null, // Inherit from global
+              concentration: null, // Inherit from global
+              strength: 'moderate', // Effect-specific default
               customName: effectData.name,
               customDescription: effectData.description,
               statModifiers: [], // Add stat modifiers array
@@ -1295,10 +1295,16 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
             <button
               className={`effect-toggle-switch ${controlConfig.duration !== null ? 'active' : ''}`}
               onClick={toggleDuration}
+              title="Toggle to hide/show duration controls below"
             >
               <span className="effect-toggle-slider"></span>
             </button>
           </div>
+          {controlConfig.duration === null && (
+            <div className="effect-toggle-note">
+              Duration controls are hidden - toggle above to configure duration
+            </div>
+          )}
         </div>
 
         {controlConfig.duration !== null && (
@@ -1434,37 +1440,59 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
         <div className="control-config-grid">
           <div className="config-group">
             <label>Duration</label>
-            <div className="duration-config">
-              <input
-                type="number"
-                min="1"
-                max="100"
-                value={controlConfig.duration || 2}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value === '' || value === '0') {
-                    handleControlConfigChange('duration', 1);
-                  } else {
-                    const duration = Math.max(1, Math.min(100, parseInt(value) || 1));
-                    handleControlConfigChange('duration', duration);
-                  }
-                }}
-                className="duration-value"
-              />
-              <select
-                value={controlConfig.durationUnit || 'rounds'}
-                onChange={(e) => {
-                  handleControlConfigChange('durationUnit', e.target.value);
-                }}
-                className="duration-unit"
+            <div className="duration-toggle">
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.duration !== null ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('duration', 1)}
               >
-                <option value="rounds">Rounds</option>
-                <option value="minutes">Minutes</option>
-                <option value="hours">Hours</option>
-                <option value="days">Days</option>
-              </select>
+                Yes
+              </button>
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.duration === null ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('duration', null)}
+              >
+                No
+              </button>
             </div>
           </div>
+
+          {controlConfig.duration !== null && (
+            <div className="config-group">
+              <label>Duration Value</label>
+              <div className="duration-config">
+                <input
+                  type="number"
+                  min="1"
+                  max="100"
+                  value={controlConfig.duration || 2}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === '' || value === '0') {
+                      handleControlConfigChange('duration', 1);
+                    } else {
+                      const duration = Math.max(1, Math.min(100, parseInt(value) || 1));
+                      handleControlConfigChange('duration', duration);
+                    }
+                  }}
+                  className="duration-value"
+                />
+                <select
+                  value={controlConfig.durationUnit || 'rounds'}
+                  onChange={(e) => {
+                    handleControlConfigChange('durationUnit', e.target.value);
+                  }}
+                  className="duration-unit"
+                >
+                  <option value="rounds">Rounds</option>
+                  <option value="minutes">Minutes</option>
+                  <option value="hours">Hours</option>
+                  <option value="days">Days</option>
+                </select>
+              </div>
+            </div>
+          )}
 
           <div className="config-group">
             <label>Concentration</label>
@@ -1511,19 +1539,41 @@ const ControlEffects = ({ state, dispatch, actionCreators, getDefaultFormula, on
 
           <div className="config-group">
             <label>Saving Throw</label>
-            <select
-              value={controlConfig.savingThrowType || 'strength'}
-              onChange={(e) => handleSavingThrowTypeChange(e.target.value)}
-              className="save-select"
-            >
-              <option value="strength">Strength</option>
-              <option value="agility">Agility</option>
-              <option value="constitution">Constitution</option>
-              <option value="intelligence">Intelligence</option>
-              <option value="spirit">Spirit</option>
-              <option value="charisma">Charisma</option>
-            </select>
+            <div className="saving-throw-toggle">
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.savingThrow !== null ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('savingThrow', true)}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className={`toggle-btn ${controlConfig.savingThrow === null ? 'active' : ''}`}
+                onClick={() => handleControlConfigChange('savingThrow', null)}
+              >
+                No
+              </button>
+            </div>
           </div>
+
+          {controlConfig.savingThrow !== null && (
+            <div className="config-group">
+              <label>Saving Throw Type</label>
+              <select
+                value={controlConfig.savingThrowType || 'strength'}
+                onChange={(e) => handleSavingThrowTypeChange(e.target.value)}
+                className="save-select"
+              >
+                <option value="strength">Strength</option>
+                <option value="agility">Agility</option>
+                <option value="constitution">Constitution</option>
+                <option value="intelligence">Intelligence</option>
+                <option value="spirit">Spirit</option>
+                <option value="charisma">Charisma</option>
+              </select>
+            </div>
+          )}
 
         </div>
       </div>

@@ -2151,28 +2151,39 @@ const useCharacterStore = create((set, get) => ({
             const known = state.class_spells?.known_spells || [];
             if (known.length > 0) return false;
 
+            // Ensure character is level 1 if not set
+            if (!state.level || state.level < 1) {
+                set({ level: 1 });
+            }
+
             // Prefer selecting from the actually loaded/generated class spells
             try {
                 const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
                 const available = ALL_CLASS_SPELLS[className] || [];
-                if (available.length > 0) {
+                
+                // Filter to level 1 spells only
+                const level1Spells = available.filter(s => (s.level === 1 || s.level === undefined));
+                
+                if (level1Spells.length > 0) {
                     let starter = [];
                     if (className === 'Chaos Weaver') {
                         // Prefer spells that showcase chaos rollable tables
-                        const withTables = available.filter(s => (s.rollableTable && s.rollableTable.enabled) || (s.mechanicsConfig && s.mechanicsConfig.rollableTable && s.mechanicsConfig.rollableTable.enabled));
-                        const ec = available.filter(s => s.specialization === 'entropy_control');
-                        const rb = available.filter(s => s.specialization === 'reality_bending');
-                        const cd = available.filter(s => s.specialization === 'chaos_dice');
+                        const withTables = level1Spells.filter(s => (s.rollableTable && s.rollableTable.enabled) || (s.mechanicsConfig && s.mechanicsConfig.rollableTable && s.mechanicsConfig.rollableTable.enabled));
+                        const ec = level1Spells.filter(s => s.specialization === 'entropy_control');
+                        const rb = level1Spells.filter(s => s.specialization === 'reality_bending');
+                        const cd = level1Spells.filter(s => s.specialization === 'chaos_dice');
                         starter = (withTables.slice(0, 3).length === 3
                           ? withTables.slice(0, 3)
                           : [...cd, ...ec, ...rb].filter(s => withTables.includes(s) || s.rollableTable?.enabled).slice(0, 3));
                     } else if (className === 'Fate Weaver') {
                         // Prefer card-based spells with rollable tables
-                        const withCards = available.filter(s => (s.resolution === 'CARDS') || (s.mechanicsConfig?.cards) || (s.rollableTable?.resolutionType === 'CARDS'));
+                        const withCards = level1Spells.filter(s => (s.resolution === 'CARDS') || (s.mechanicsConfig?.cards) || (s.rollableTable?.resolutionType === 'CARDS'));
                         const withTables = withCards.filter(s => s.rollableTable?.enabled);
                         starter = (withTables.slice(0, 3).length === 3 ? withTables.slice(0, 3) : withCards.slice(0, 3));
                     } else {
-                        starter = available.slice(0, 3);
+                        // For Pyrofiend and other classes, randomly select 3 from level 1 spells
+                        const shuffled = [...level1Spells].sort(() => Math.random() - 0.5);
+                        starter = shuffled.slice(0, 3);
                     }
                     if (starter.length > 0) {
                         set({
@@ -2185,7 +2196,11 @@ const useCharacterStore = create((set, get) => ({
                     }
                 }
             } catch (e) {
-                // Fall back to classData spell pools if generator unavailable
+                console.warn('Could not load from ALL_CLASS_SPELLS, falling back to spellPools:', e);
+            }
+            
+            // Fall back to classData spell pools if generator unavailable or no spells found
+            try {
                 let classData = null;
                 if (className === 'Arcanoneer') {
                     const { ARCANONEER_DATA } = require('../data/classes/arcanoneerData');
@@ -2217,6 +2232,8 @@ const useCharacterStore = create((set, get) => ({
                     });
                     return true;
                 }
+            } catch (e) {
+                console.warn('Fallback to spellPools also failed:', e);
             }
         } catch (e) {
             console.warn('ensureClassStarterSpells failed:', e);

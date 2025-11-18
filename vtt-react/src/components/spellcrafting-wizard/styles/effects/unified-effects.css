@@ -2663,7 +2663,9 @@
   box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2);
 }
 
-.concentration-toggle {
+.concentration-toggle,
+.duration-toggle,
+.saving-throw-toggle {
   display: flex;
   gap: var(--pf-space-2);
 }

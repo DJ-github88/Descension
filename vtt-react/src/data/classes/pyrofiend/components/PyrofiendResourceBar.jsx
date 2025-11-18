@@ -22,7 +22,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             glowColor: '#FF6347',
             icon: 'fa-fire-flame-curved',
             passive: 'Burning Ambition',
-            passiveDesc: 'At Inferno Level 7+: +10% crit chance with fire spells, crits deal +1d10 fire damage.'
+            passiveDesc: 'At Inferno Level 7+: Fire spells crit on the 2 highest die numbers instead of just the highest, and crits deal +1d10 fire damage.'
         },
         wildfire: { 
             name: 'Wildfire', 
@@ -120,7 +120,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             2: '1d4 psychic/turn (lustful intensity)',
             3: '-10 ft speed, constant fatigue',
             4: '+2d6 damage taken from all attacks',
-            5: '1d6 bleeding/turn, -4 AC',
+            5: '1d6 bleeding/turn, weakened defenses',
             6: 'Disadvantage on sight-based checks',
             7: '2d6 fire/turn to self (uncontrollable flames)',
             8: '1d8 necrotic/turn, -2 all saves',
@@ -199,7 +199,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
                 <div className="inferno-overlay">
                     <div className="inferno-level-display">
-                        <span className="level-label">Inferno</span>
+                        <span className="level-label">INFERNO</span>
                         <span className="level-number" style={{ color: currentSpec.glowColor }}>
                             {localInfernoLevel}
                         </span>
@@ -238,7 +238,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                     </div>
                     
                     <div className="tooltip-divider"></div>
-                    
+
                     <div className="tooltip-section">
                         <div className="tooltip-label">Level Management</div>
                         <div className="level-management">
@@ -248,24 +248,34 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                             <span>Cooling Ember (1d4 levels), -1 per minute out of combat</span>
                         </div>
                     </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Infernal Surge (Shared)</div>
-                        <div className="passive-desc">
-                            At Inferno Level 5+: Your next fire spell deals +2d6 fire damage.
-                        </div>
-                    </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
-                        <div className="passive-desc">
-                            {currentSpec.passiveDesc}
-                        </div>
-                    </div>
+
+                    {localInfernoLevel >= 5 && (
+                        <>
+                            <div className="tooltip-divider"></div>
+
+                            <div className="tooltip-section">
+                                <div className="tooltip-label">Infernal Surge (Shared)</div>
+                                <div className="passive-desc">
+                                    At Inferno Level 5+: Your next fire spell deals +2d6 fire damage.
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    {((selectedSpec === 'inferno' && localInfernoLevel >= 7) ||
+                      (selectedSpec === 'wildfire') ||
+                      (selectedSpec === 'hellfire')) && (
+                        <>
+                            <div className="tooltip-divider"></div>
+
+                            <div className="tooltip-section">
+                                <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
+                                <div className="passive-desc">
+                                    {currentSpec.passiveDesc}
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>,
                 document.body
             )}
@@ -302,14 +312,10 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                         <label>Specialization</label>
                         <div className="spec-buttons">
                             {Object.entries(specConfigs).map(([key, spec]) => (
-                                <button 
+                                <button
                                     key={key}
                                     className={selectedSpec === key ? 'active' : ''}
                                     onClick={() => setSelectedSpec(key)}
-                                    style={{ 
-                                        borderColor: selectedSpec === key ? spec.glowColor : 'transparent',
-                                        color: spec.glowColor
-                                    }}
                                 >
                                     <i className={`fas ${spec.icon}`}></i> {spec.name}
                                 </button>

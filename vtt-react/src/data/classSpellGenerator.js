@@ -345,8 +345,8 @@ export const generateAllClassSpells = () => {
 
   // Only generate spells for classes that have actual spell data files
   Object.keys(CLASS_DATA_MAP).forEach(className => {
-    // Skip classes that don't have exampleSpells (they will be handled by real data later)
-    if (!CLASS_DATA_MAP[className]?.exampleSpells) {
+    // Skip classes that don't have spells or exampleSpells (they will be handled by real data later)
+    if (!CLASS_DATA_MAP[className]?.spells && !CLASS_DATA_MAP[className]?.exampleSpells) {
       return;
     }
 
@@ -424,8 +424,9 @@ if (CLASS_DATA_MAP['Arcanoneer']?.exampleSpells) {
 }
 
 // Pyrofiend
-if (CLASS_DATA_MAP['Pyrofiend']?.exampleSpells) {
-  const processed = processPyrofiendSpells(CLASS_DATA_MAP['Pyrofiend'].exampleSpells);
+if (CLASS_DATA_MAP['Pyrofiend']?.spells || CLASS_DATA_MAP['Pyrofiend']?.exampleSpells) {
+  const pyrofiendSpells = CLASS_DATA_MAP['Pyrofiend'].spells || CLASS_DATA_MAP['Pyrofiend'].exampleSpells;
+  const processed = processPyrofiendSpells(pyrofiendSpells);
   generatedSpells['Pyrofiend'] = processed;
 }
 

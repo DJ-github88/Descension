@@ -153,7 +153,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // State for spell tooltip (hover preview)
   const [hoveredSpell, setHoveredSpell] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [tooltipPosition, setTooltipPosition] = useState({ x: -1000, y: -1000 }); // Start off-screen
   const [tooltipTimer, setTooltipTimer] = useState(null);
 
   // State for preview panel position
@@ -297,21 +297,21 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     if (library.selectedSpell && libraryContentRef.current) {
       const updatePosition = () => {
         const libraryRect = libraryContentRef.current.getBoundingClientRect();
-        const previewWidth = 500; // Width of the preview panel
-        const previewHeight = Math.min(800, window.innerHeight - 100); // Max height with padding
+        const previewWidth = 400; // More conservative width
+        const previewHeight = Math.min(600, window.innerHeight - 120); // More conservative height
 
         // Position to the right of the library window
-        let x = libraryRect.right + 10;
+        let x = libraryRect.right + 20;
         let y = libraryRect.top;
 
         // If preview would go off right edge, position to the left instead
         if (x + previewWidth > window.innerWidth) {
-          x = libraryRect.left - previewWidth - 10;
+          x = Math.max(10, libraryRect.left - previewWidth - 20);
         }
 
         // Ensure preview doesn't go off bottom
         if (y + previewHeight > window.innerHeight) {
-          y = Math.max(10, window.innerHeight - previewHeight - 10);
+          y = Math.max(10, window.innerHeight - previewHeight - 20);
         }
 
         // Ensure preview doesn't go off top
@@ -319,10 +319,16 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           y = 10;
         }
 
+        // Ensure preview doesn't go off left edge
+        if (x < 10) {
+          x = 10;
+        }
+
         setPreviewPanelPosition({ x, y });
       };
 
-      updatePosition();
+      // Small delay to ensure DOM is updated
+      setTimeout(updatePosition, 10);
 
       // Update position on window resize
       window.addEventListener('resize', updatePosition);
@@ -702,6 +708,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       }
     };
   }, [tooltipTimer]);
+
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredSpells.length / spellsPerPage);
@@ -1367,8 +1374,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                   {paginatedSpells.map(spell => (
                     <div
                       key={spell.id}
-                      className={`wow-spell-row ${library.selectedSpell === spell.id ? 'selected' : ''}`}
-                      onClick={() => handleSelectSpell(spell.id)}
+                      className="wow-spell-row"
                       onMouseDown={(e) => { if (e.button === 2) handleSpellContextMenu(e, spell.id); }}
                       onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
                       draggable={true}
@@ -1398,42 +1404,43 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                           clearTimeout(tooltipTimer);
                         }
 
-                        // Set a small delay before showing tooltip (like WoW Classic)
+                        // Set hovered spell immediately and position tooltip
+                        setHoveredSpell(spell);
+
+                        // Position tooltip immediately next to the spell
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        // Updated width to match CSS max-width (480px scaled to 0.9 = ~432px effective)
+                        const tooltipWidth = 450;
+                        const tooltipHeight = 400;
+
+                        let x = rect.right + 10;
+                        let y = rect.top;
+
+                        // Check if tooltip would go off right edge of screen
+                        if (x + tooltipWidth > window.innerWidth) {
+                          x = rect.left - tooltipWidth - 10;
+                        }
+
+                        // Check if tooltip would go off bottom edge of screen
+                        if (y + tooltipHeight > window.innerHeight) {
+                          y = window.innerHeight - tooltipHeight - 10;
+                        }
+
+                        // Ensure tooltip doesn't go off edges
+                        x = Math.max(10, Math.min(x, window.innerWidth - tooltipWidth - 10));
+                        y = Math.max(10, Math.min(y, window.innerHeight - tooltipHeight - 10));
+
+                        setTooltipPosition({ x, y });
+
+                        // Set a timer to refine position after delay (for WoW feel)
                         const timer = setTimeout(() => {
-                          // Check if element still exists
-                          if (!e.currentTarget) return;
-
-                          const rect = e.currentTarget.getBoundingClientRect();
-                          const tooltipWidth = 600; // max-width from CSS
-                          const tooltipHeight = 400; // estimated height
-
-                          // Calculate position - prefer right side, but flip to left if not enough space
-                          let x = rect.right + 10;
-                          let y = rect.top;
-
-                          // Check if tooltip would go off right edge of screen
-                          if (x + tooltipWidth > window.innerWidth) {
-                            x = rect.left - tooltipWidth - 10;
-                          }
-
-                          // Check if tooltip would go off bottom edge of screen
-                          if (y + tooltipHeight > window.innerHeight) {
-                            y = window.innerHeight - tooltipHeight - 10;
-                          }
-
-                          // Ensure tooltip doesn't go off top edge
-                          if (y < 10) {
-                            y = 10;
-                          }
-
-                          setHoveredSpell(spell);
-                          setTooltipPosition({ x, y });
-                        }, 300); // 300ms delay
+                          // Could do additional positioning refinements here if needed
+                        }, 300);
 
                         setTooltipTimer(timer);
                       }}
                       onMouseLeave={() => {
-                        // Clear timer and hide tooltip
+                        // Clear timer and hide tooltip immediately
                         if (tooltipTimer) {
                           clearTimeout(tooltipTimer);
                           setTooltipTimer(null);
@@ -1731,8 +1738,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         />
       )}
 
-      {/* Spell Tooltip - Shows full spell card on hover (only when no spell is selected) */}
-      {hoveredSpell && viewMode === 'compact' && !library.selectedSpell && ReactDOM.createPortal(
+      {/* Spell Tooltip - Shows full spell card on hover */}
+      {(() => {
+        const shouldShow = hoveredSpell && viewMode === 'compact';
+        return shouldShow && ReactDOM.createPortal(
         <div
           className={`wow-spell-tooltip ${hoveredSpell ? 'visible' : ''}`}
           style={{
@@ -1755,43 +1764,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           </div>
         </div>,
         document.body
-      )}
-
-      {/* Spell Preview - Just the spell card floating to the right of library */}
-      {library.selectedSpell && (() => {
-        const selectedSpell = filteredSpells.find(s => s.id === library.selectedSpell);
-        if (!selectedSpell) return null;
-
-        const transformedSpell = mapSpellToUnifiedFormat(selectedSpell);
-        const rollableTableData = getSpellRollableTable(selectedSpell);
-
-        return ReactDOM.createPortal(
-          <div
-            className="spell-preview-panel-floating"
-            style={{
-              position: 'fixed',
-              left: `${previewPanelPosition.x}px`,
-              top: `${previewPanelPosition.y}px`,
-              zIndex: 9999,
-              animation: 'slideInFromRight 0.3s ease-out',
-              filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.4))'
-            }}
-          >
-            <SpellCardWithProcs
-              spell={transformedSpell}
-              variant="wizard"
-              rollableTableData={rollableTableData}
-              showActions={false}
-              showDescription={true}
-              showStats={true}
-              showTags={true}
-              procPosition="below"
-              showProcs={true}
-            />
-          </div>,
-          document.body
-        );
+      );
       })()}
+
 
       {/* Confirmation Dialog for Spell Deletion */}
       {deleteConfirmation && (

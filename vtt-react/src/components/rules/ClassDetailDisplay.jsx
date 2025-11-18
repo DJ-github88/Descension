@@ -558,14 +558,15 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     );
   };
 
-  // Render example spells tab
-  const renderExampleSpells = () => {
-    const { exampleSpells } = classData;
+  // Render spells tab
+  const renderSpells = () => {
+    // Use spells from classData.spells or exampleSpells
+    const spells = classData.spells || classData.exampleSpells || [];
 
-    if (!exampleSpells || exampleSpells.length === 0) {
+    if (!spells || spells.length === 0) {
       return (
         <div className="class-detail-section">
-          <p>No example spells available for this class yet.</p>
+          <p>No spells available for this class yet.</p>
         </div>
       );
     }
@@ -575,12 +576,18 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     let categoryIcon = 'fas fa-fire';
 
     if (classData.id === 'pyrofiend') {
-      // Group by Inferno Level
+      // Group by spell level
       spellsByCategory = {
-        'Low (0-3) Inferno Level': exampleSpells.filter(s => s.specialMechanics?.infernoLevel?.required <= 3),
-        'Mid (4-6) Inferno Level': exampleSpells.filter(s => s.specialMechanics?.infernoLevel?.required >= 4 && s.specialMechanics?.infernoLevel?.required <= 6),
-        'High (7-9) Inferno Level': exampleSpells.filter(s => s.specialMechanics?.infernoLevel?.required >= 7),
-        'Utility Inferno Level': exampleSpells.filter(s => s.tags?.includes('utility') || s.tags?.includes('inferno-management'))
+        'Level 1 Spells': spells.filter(s => s.level === 1),
+        'Level 2 Spells': spells.filter(s => s.level === 2),
+        'Level 3 Spells': spells.filter(s => s.level === 3),
+        'Level 4 Spells': spells.filter(s => s.level === 4),
+        'Level 5 Spells': spells.filter(s => s.level === 5),
+        'Level 6 Spells': spells.filter(s => s.level === 6),
+        'Level 7 Spells': spells.filter(s => s.level === 7),
+        'Level 8 Spells': spells.filter(s => s.level === 8),
+        'Level 9 Spells': spells.filter(s => s.level === 9),
+        'Level 10 Spells': spells.filter(s => s.level === 10)
       };
       categoryIcon = 'fas fa-fire';
     } else if (classData.id === 'minstrel') {
@@ -864,14 +871,14 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       setViewingSpell(spellId);
     };
 
-    const currentSpell = viewingSpell ? exampleSpells.find(s => s.id === viewingSpell) : null;
+    const currentSpell = viewingSpell ? spells.find(s => s.id === viewingSpell) : null;
 
     return (
       <div className="class-detail-section">
         <div className="class-intro">
-          <h3>Example Spells</h3>
+          <h3>Spells</h3>
           <p className="class-description">
-            These spells showcase the {classData.name}'s capabilities and demonstrate the spell wizard system's features.
+            These are all the spells available to the {classData.name} class.
             Click a spell icon to view its details.
           </p>
         </div>
@@ -939,10 +946,16 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                   spell={{
                     ...currentSpell,
                     // Add class-specific mechanic info to the spell object for display
-                    infernoRequired: currentSpell.specialMechanics?.infernoLevel?.required,
-                    infernoAscend: currentSpell.specialMechanics?.infernoLevel?.ascendBy,
-                    infernoDescend: currentSpell.specialMechanics?.infernoLevel?.descendBy,
-                    musicalCombo: currentSpell.specialMechanics?.musicalCombo
+                    // Prioritize specialMechanics, fallback to resourceValues
+                    infernoRequired: currentSpell.specialMechanics?.infernoLevel?.required ||
+                                   currentSpell.resourceCost?.resourceValues?.inferno_required,
+                    infernoAscend: currentSpell.specialMechanics?.infernoLevel?.ascendBy ||
+                                 currentSpell.resourceCost?.resourceValues?.inferno_ascend,
+                    infernoDescend: currentSpell.specialMechanics?.infernoLevel?.descendBy ||
+                                  currentSpell.resourceCost?.resourceValues?.inferno_descend,
+                    ...(currentSpell.specialMechanics?.musicalCombo && {
+                      musicalCombo: currentSpell.specialMechanics.musicalCombo
+                    })
                   }}
                   variant="wizard"
                   showActions={false}
@@ -1056,7 +1069,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           className={`class-tab ${activeTab === 'spells' ? 'active' : ''}`}
           onClick={() => setActiveTab('spells')}
         >
-          <i className="fas fa-magic"></i> Example Spells
+          <i className="fas fa-magic"></i> Spells
         </button>
       </div>
 
@@ -1065,7 +1078,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
         {activeTab === 'overview' && renderOverview()}
         {activeTab === 'resource' && renderResourceSystem()}
         {activeTab === 'specializations' && renderSpecializations()}
-        {activeTab === 'spells' && renderExampleSpells()}
+        {activeTab === 'spells' && renderSpells()}
       </div>
     </div>
   );

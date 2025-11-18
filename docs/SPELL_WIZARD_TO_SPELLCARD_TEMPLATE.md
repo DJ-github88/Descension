@@ -2,6 +2,88 @@
 
 This document provides a complete mapping of EVERY field from the SpellWizard (Steps 1-10) to how it appears on the UnifiedSpellCard. This is intended as a reference for AI-generated spell creation prompts to ensure all fields are properly configured and formatted.
 
+## ⚠️ Critical Display Rules
+
+### Unconfigured Fields Handling
+**IMPORTANT**: The `UnifiedSpellCard` component automatically hides unconfigured/null/undefined fields. To ensure clean spell card previews in the wizard:
+
+1. **Only include configured fields**: Don't set fields to `null` or empty objects unless they're intentionally disabled
+2. **Conditional rendering**: Fields are only displayed if:
+   - The effect type is in `effectTypes` array
+   - The configuration object exists and has meaningful data
+   - Arrays have length > 0
+   - Boolean flags are explicitly `true`
+
+3. **Default values**: The component uses sensible defaults for missing fields:
+   - Missing `targetingConfig` → defaults to "Touch" range, single target
+   - Missing `resourceCost` → defaults to 1 action point
+   - Missing `cooldownConfig` → defaults to no cooldown
+   - Missing effect configs → effect section is hidden
+
+### Targeting Display Rules
+**Proper targeting display requires**:
+- `targetingConfig` object must exist with:
+  - `targetingType`: 'single', 'area', 'ground', 'cone', 'line', 'self'
+  - `rangeType`: 'touch', 'ranged', 'sight', 'unlimited', 'self_centered'
+  - `rangeDistance`: number (for ranged)
+  - `aoeShape`: 'circle', 'square', 'cone', 'line', etc. (for area effects)
+  - `aoeParameters`: object with shape-specific parameters
+  - `targetRestrictions`: array (e.g., ['enemy', 'ally'])
+  - `maxTargets`: number
+
+- **Effect-specific targeting** (when `targetingMode === 'tagged'`):
+  - `effectTargeting[effectType]` must exist for each effect
+  - Each effect's targeting config follows same structure as unified targeting
+
+- **Propagation** (optional):
+  - Only shown if `propagation.method !== 'none'`
+  - Requires `propagation.parameters` with appropriate values
+
+### Best Practices for Clean Previews
+
+1. **Effect Types**: Only include effect types that have been configured:
+   ```javascript
+   effectTypes: ['damage', 'healing'] // Only if both are configured
+   ```
+
+2. **Config Objects**: Only include config objects if they have data:
+   ```javascript
+   damageConfig: hasDamage ? { formula: '2d6', ... } : null
+   ```
+
+3. **Arrays**: Ensure arrays are populated or empty (not undefined):
+   ```javascript
+   targetRestrictions: restrictions.length > 0 ? restrictions : []
+   ```
+
+4. **Conditional Fields**: Use conditional logic for optional features:
+   ```javascript
+   triggerConfig: hasTriggers ? { ... } : null
+   rollableTable: enabled ? { ... } : null
+   ```
+
+5. **Targeting**: Always provide complete targeting config:
+   ```javascript
+   targetingConfig: {
+     targetingType: 'area',
+     rangeType: 'ranged',
+     rangeDistance: 30,
+     aoeShape: 'circle',
+     aoeParameters: { radius: 20 },
+     targetRestrictions: ['enemy'],
+     maxTargets: 5
+   }
+   ```
+
+### Preview in Wizard (Step 10)
+The `Step10Review` component uses `mapWizardStateToPreviewState()` to transform wizard state into preview format. This function:
+- Filters out unconfigured fields
+- Provides defaults for required fields
+- Ensures proper structure for `UnifiedSpellCard`
+- Handles both unified and effect-specific targeting modes
+
+**Result**: The preview shows exactly what will appear in the final spell card, with no unconfigured placeholders or "undefined" text.
+
 ## Table of Contents
 1. [Step 1: Basic Information](#step-1-basic-information)
 2. [Step 2: Spell Type](#step-2-spell-type)
@@ -76,6 +158,9 @@ This document provides a complete mapping of EVERY field from the SpellWizard (S
 
 ### Fields Configured:
 - **spellType** (enum: 'ACTION', 'CHANNELED', 'PASSIVE', 'REACTION', 'TRAP', 'STATE', 'ZONE')
+  - **CHANNELED**: For spells that require concentration and last multiple rounds (e.g., Fiery Aura, Demonic Empowerment)
+  - **PASSIVE**: For always-active abilities
+  - **ACTION**: Default for most offensive spells
 - **typeConfig** (object) - Type-specific configuration
 
 ### SpellCard Display Mapping:
@@ -110,47 +195,102 @@ This document provides a complete mapping of EVERY field from the SpellWizard (S
 #### Type-Specific Configuration Bullets (formatTypeSpecificBullets function)
 
 **ACTION:**
-- `typeConfig.castTimeType !== 'IMMEDIATE'` → Bullet: "{castTimeType} (lowercase)"
+- `typeConfig.castTime` (number) - Cast time in turns
+- `typeConfig.castTimeType` (enum: 'IMMEDIATE', 'START_OF_TURN', 'END_OF_TURN') - When cast time applies
+- If `castTimeType !== 'IMMEDIATE'` → Bullet: "{castTimeType.replace(/_/g, ' ').toLowerCase()}"
 
 **CHANNELED:**
 - Duration: `"Up to {maxChannelDuration} {durationUnit.toLowerCase()}"`
-- Interruptible: `"Can be interrupted"` or `"Cannot be interrupted"`
-- Movement: `"Can move while channeling"` or `"Must stand still"`
-- Concentration DC: `"DC {concentrationDC} {dcType}"`
-- Tick Frequency: `"{tickFrequency.replace(/_/g, ' ').toLowerCase()}"`
-- Break Effect: `"break: {breakEffect}"` (if not 'none')
+- Interruptible: `"Can be interrupted"` or `"Cannot be interrupted"` (if `interruptible` is defined)
+- Movement: `"Can move while channeling"` or `"Must stand still"` (if `movementAllowed` is defined)
+- Concentration DC: `"DC {concentrationDC} {dcType}"` (if `concentrationDC` is defined)
+- Tick Frequency: `"{tickFrequency.replace(/_/g, ' ').toLowerCase()}"` (if `tickFrequency` exists)
+- Break Effect: `"break: {breakEffect}"` (if `breakEffect` exists and not 'none')
+
+**Fields Used:**
+- `typeConfig.maxChannelDuration` (number) - Maximum channel duration
+- `typeConfig.durationUnit` (enum: 'TURNS', 'ROUNDS') - Duration unit
+- `typeConfig.interruptible` (boolean) - Whether channeling can be interrupted
+- `typeConfig.movementAllowed` (boolean) - Whether caster can move while channeling
+- `typeConfig.concentrationDC` (number) - Base concentration DC (default: 10)
+- `typeConfig.dcType` (enum: 'CONSTITUTION', 'STRENGTH', 'AGILITY', 'INTELLIGENCE', 'SPIRIT', 'CHARISMA') - Stat used for concentration checks
+- `typeConfig.tickFrequency` (enum: 'START_OF_TURN', 'END_OF_TURN', 'CONTINUOUS') - Effect frequency
+- `typeConfig.breakEffect` (string) - Effect when channeling is broken (default: 'none')
 
 **REACTION:**
 - Availability: `"{availabilityType.replace(/_/g, ' ').toLowerCase()}"` (default: "always available")
 - Uses Per Turn: `"{usesPerTurn}/turn"` (if `limitUsesPerTurn === true`)
-- Reaction Window: `"{reactionWindow} window"` (if not 'immediate')
-- Cooldown: `"{cooldownAfterTrigger} {cooldownUnit} cooldown"` or `"no cooldown"` (if 0)
+- Reaction Window: `"{reactionWindow} window"` (if `reactionWindow` exists and not 'immediate')
+- Cooldown: `"{cooldownAfterTrigger} {cooldownUnit} cooldown"` or `"no cooldown"` (if `cooldownAfterTrigger === 0`)
 - Max Triggers: 
   - `-1` → `"unlimited triggers"`
   - `1` → `"single use"`
   - `>1` → `"max {maxTriggers} triggers"`
 
+**Fields Used:**
+- `typeConfig.availabilityType` (enum: 'ALWAYS', 'PREPARED', 'CONDITIONAL') - When reaction is available
+- `typeConfig.limitUsesPerTurn` (boolean) - Whether to limit uses per turn
+- `typeConfig.usesPerTurn` (number) - Number of uses per turn (if `limitUsesPerTurn === true`)
+- `typeConfig.reactionWindow` (string) - Reaction window type (default: 'immediate')
+- `typeConfig.cooldownAfterTrigger` (number) - Cooldown after trigger (0 = no cooldown)
+- `typeConfig.cooldownUnit` (string) - Cooldown unit (default: 'seconds')
+- `typeConfig.maxTriggers` (number) - Maximum triggers (-1 = unlimited)
+
 **TRAP:**
-- Placement Time: `"{placementTime} turns to place"` (if > 1)
+- Placement Time: `"{placementTime} turns to place"` (if `placementTime > 1`)
 - Visibility:
   - `"hidden"` → `"hidden"`
   - `"magical"` → `"magical aura"`
   - `"visible"` → `"visible to all"`
-- Cooldown: `"{cooldownAfterTrigger} {cooldownUnit} cooldown"` or `"no cooldown"`
+- Cooldown: `"{cooldownAfterTrigger} {cooldownUnit} cooldown"` or `"no cooldown"` (if `cooldownAfterTrigger === 0`)
 - Max Triggers: Same logic as REACTION
+
+**Fields Used:**
+- `typeConfig.placementTime` (number) - Turns to place trap (default: 1)
+- `typeConfig.visibility` (enum: 'hidden', 'visible', 'magical') - Trap visibility
+- `typeConfig.cooldownAfterTrigger` (number) - Cooldown after trigger (0 = no cooldown)
+- `typeConfig.cooldownUnit` (string) - Cooldown unit (default: 'seconds')
+- `typeConfig.maxTriggers` (number) - Maximum triggers (-1 = unlimited)
+- `trapConfig.placementPosition` (object) - `{ x: number, y: number }` - Grid position
+- `trapConfig.placementRadius` (number) - Trap size in feet
+- `trapConfig.detectionMethod` (enum: 'perception', 'investigation', 'arcana', 'detect_magic', 'true_sight')
+- `trapConfig.disarmMethod` (enum: 'thieves_tools', 'arcana', 'strength', 'agility', 'dispel_magic', 'specific_item')
+- `trapConfig.detectionDC` (number) - Difficulty to detect (5-30)
+- `trapConfig.disarmDC` (number) - Difficulty to disarm (5-30)
+- `trapConfig.trapDuration` (enum: 'permanent', 'timed', 'conditional')
+- `trapConfig.durationValue` (number) - Duration amount (if timed)
+- `trapConfig.durationUnit` (enum: 'turns', 'rounds', 'minutes', 'hours', 'days')
+- `trapConfig.conditionType` (enum) - For conditional duration: 'combat_end', 'dawn', 'dusk', 'short_rest', 'long_rest', 'area_cleared', 'caster_leaves'
+- `trapConfig.resetTime` (number) - Time before trap can trigger again in seconds (0 = no reset)
 
 **STATE:**
 - Visibility: Same logic as TRAP
 - Cooldown: Same logic as REACTION/TRAP
 - Max Triggers: Same logic as REACTION/TRAP
 
+**Fields Used:**
+- `typeConfig.stateVisibility` (enum: 'visible', 'self_only', 'hidden') - State visibility
+- `typeConfig.cooldownAfterTrigger` (number) - Cooldown after trigger (0 = no cooldown)
+- `typeConfig.cooldownUnit` (string) - Cooldown unit (default: 'seconds')
+- `typeConfig.maxTriggers` (number) - Maximum triggers (-1 = unlimited, default: -1)
+
 **ZONE:**
 - Duration: `"{zoneDuration} {zoneDurationUnit}"`
 - Trail: `"leaves trail"` (if `leaveTrail === true`)
-- Trail Duration: `"trail: {trailDuration} {trailDurationUnit}"`
+- Trail Duration: `"trail: {trailDuration} {trailDurationUnit}"` (if `leaveTrail === true`)
+
+**Fields Used:**
+- `typeConfig.zoneDuration` (number) - Duration value for how long the zone persists
+- `typeConfig.zoneDurationUnit` (enum: 'seconds', 'minutes', 'hours', 'days', 'weeks', 'rounds', 'turns') - Unit for zone duration
+- `typeConfig.leaveTrail` (boolean) - Whether the zone leaves a trail as it moves
+- `typeConfig.trailDuration` (number) - Duration for how long each trail segment remains active
+- `typeConfig.trailDurationUnit` (enum: 'seconds', 'minutes', 'hours', 'days', 'weeks', 'rounds', 'turns') - Unit for trail duration
 
 **PASSIVE:**
 - Toggleable: `"toggleable"` (if `toggleable === true`)
+
+**Fields Used:**
+- `typeConfig.toggleable` (boolean) - Whether the passive effect can be turned on and off
 
 ---
 
@@ -223,7 +363,7 @@ Different formulas:
 **Fields Used:**
 - `damageConfig.formula`
 - `damageConfig.elementType` / `damageConfig.secondaryElementType`
-- `damageConfig.damageType` ('direct' or 'dot')
+- `damageConfig.damageType` ('direct', 'dot', 'area')
 - `damageConfig.hasDotEffect`
 - `damageConfig.dotConfig.duration`
 - `damageConfig.dotConfig.tickFrequency`
@@ -231,23 +371,61 @@ Different formulas:
 - `damageConfig.dotConfig.isProgressiveDot`
 - `damageConfig.dotConfig.progressiveStages[]`
 - `damageConfig.dotConfig.cardConfig.formula` / `damageConfig.dotConfig.coinConfig.formula`
+- `damageConfig.areaShape` ('circle', 'square', 'cone', 'line') - For area damage
+- `damageConfig.areaParameters` (object) - Area dimensions: `{ radius: 5 }`, `{ width: 10, length: 20 }`, etc.
+- `damageConfig.triggerCondition` (string) - When damage occurs: 'area_entry', 'damage_taken', etc.
+- `damageConfig.triggerDescription` (string) - Description of trigger condition
+- `damageConfig.description` (string) - General damage effect description
 - `cardConfig.formula` / `cardConfig.drawCount`
 - `coinConfig.formula` / `coinConfig.flipCount`
 - `resolution` ('DICE', 'CARDS', 'COINS')
 
+**Area Damage:**
+```
+"Area Damage: {formula} {damageType} - {triggerDescription}"
+Example: "Area Damage: 1d6 Fire - Creatures that enter or start their turn in flame areas take 1d6 fire damage"
+```
+
 **Critical Hit Configuration:**
-- `damageConfig.canCrit` (boolean)
-- `damageConfig.critMultiplier` (number, default: 2)
-- `damageConfig.critDiceOnly` (boolean)
-- **Display**: Shown as "Critical: {multiplier}x" badge if enabled
+- `damageConfig.criticalConfig.enabled` (boolean) - Enable critical hits
+- `damageConfig.criticalConfig.critType` (enum: 'dice', 'cards', 'coins') - Resolution method for crits
+- `damageConfig.criticalConfig.critOnlyEffect` (boolean) - Effect-only crits (no damage bonus)
+- `damageConfig.criticalConfig.useRollableTable` (boolean) - Use rollable table for crit effects
+- `damageConfig.criticalConfig.spellEffect` (string | null) - Reference to spell from library
+- `damageConfig.criticalConfig.critEffects` (array) - Additional effects: 'knockback', 'stun', 'burning', 'shock', 'freeze', 'disarm'
+
+**Dice-Based Critical Hits:**
+- `damageConfig.criticalConfig.critMultiplier` (number) - Multiplier for crit damage (1-10, default: 2)
+- `damageConfig.criticalConfig.critDiceOnly` (boolean) - Multiply only dice, not modifiers
+- `damageConfig.criticalConfig.extraDice` (string) - Extra dice on crit (e.g., "2d6")
+- `damageConfig.criticalConfig.explodingDice` (boolean) - Enable exploding dice
+- `damageConfig.criticalConfig.explodingDiceType` (enum: 'reroll_add', 'double_value', 'add_max')
+
+**Card-Based Critical Hits:**
+- `damageConfig.criticalConfig.cardCritRule` (enum: 'face_cards', 'aces', 'specific_suit', 'red_cards', 'black_cards', 'pairs')
+- `damageConfig.criticalConfig.critSuit` (enum: 'hearts', 'diamonds', 'clubs', 'spades') - For specific_suit
+- `damageConfig.criticalConfig.cardCritResolution` (enum: 'draw_add', 'multiply_value', 'double_damage')
+- `damageConfig.criticalConfig.extraCardDraw` (number) - Extra cards to draw (1-10)
+
+**Coin-Based Critical Hits:**
+- `damageConfig.criticalConfig.coinCritRule` (enum: 'all_heads', 'all_tails', 'sequence', 'majority')
+- `damageConfig.criticalConfig.coinCount` (number) - Number of coins (1-10)
+- `damageConfig.criticalConfig.coinCritResolution` (enum: 'flip_add', 'multiply_value', 'double_damage')
+- `damageConfig.criticalConfig.extraCoinFlips` (number) - Extra coins to flip (1-10)
+
+**Display**: Shown as "Critical: {multiplier}x" badge if enabled, with details in effect description
+**Legacy Support**: Also supports `damageConfig.canCrit`, `damageConfig.critMultiplier`, `damageConfig.critDiceOnly`
 
 **Saving Throw Configuration:**
 - `damageConfig.savingThrowConfig.enabled` (boolean)
-- `damageConfig.savingThrowConfig.savingThrow` (stat name)
-- `damageConfig.savingThrowConfig.difficultyClass` (number)
-- `damageConfig.savingThrowConfig.saveOutcome` ('negates', 'halves', etc.)
+- `damageConfig.savingThrowConfig.savingThrowType` (enum: 'strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma')
+- `damageConfig.savingThrowConfig.difficultyClass` (number) - DC (5-30, default: 15)
+- `damageConfig.savingThrowConfig.partialEffect` (boolean) - Enable partial effect on successful save
+- `damageConfig.savingThrowConfig.partialEffectFormula` (string) - Formula for reduced effect on save (e.g., 'damage/2', 'damage/4', '0', 'MAX(damage/2, 1)')
+- `damageConfig.savingThrowConfig.saveOutcome` (enum: 'negates', 'halves', 'none') - What happens on successful save
 - **Format**: `"DC {dc} {saveType} ({outcome})"`
 - **Display Location**: Below damage text
+- **Legacy Support**: Also supports `damageConfig.savingThrow`, `damageConfig.difficultyClass`, `damageConfig.partialEffect`, `damageConfig.partialEffectFormula`
 
 #### Healing Effects (formatHealing function)
 
@@ -364,22 +542,155 @@ Concentration: "{duration} ({durationUnit}) (Concentration)"
 
 **Fields Used:**
 - `buffConfig.buffType` ('statEnhancement', 'temporaryHP', 'statusEffect', 'custom')
-- `buffConfig.effects[]` - Array of effect objects
+- `buffConfig.statModifiers[]` - **Array of stat modifier objects** (preferred format)
+  - `statModifier.id` (string) - Unique identifier for the modifier
+  - `statModifier.name` (string) - Display name (e.g., "Heat Shield", "Damage Reduction")
+  - `statModifier.stat` (string) - Stat being modified (e.g., 'damage_reduction', 'armor', 'strength', 'intelligence')
+  - `statModifier.value` (number) - The numeric value (same as magnitude, for clarity)
+  - `statModifier.magnitude` (number | string) - The amount of change (number or dice formula like '2d6 + 4')
+  - `statModifier.magnitudeType` ('flat' or 'percentage') - Whether the magnitude is flat or percentage
+  - `statModifier.isPercentage` (boolean) - Whether this is a percentage modifier
+  - `statModifier.description` (string, optional) - Human-readable description of what this modifier does
+- `buffConfig.effects[]` - Alternative format (legacy, but still supported)
   - `effect.id` / `effect.name`
   - `effect.statModifier.stat`
   - `effect.statModifier.magnitude`
   - `effect.statModifier.magnitudeType` ('flat' or 'percentage')
   - `effect.description`
-- `buffConfig.durationValue` / `buffConfig.duration`
+- `buffConfig.durationValue` / `buffConfig.duration` (number) - Duration value
 - `buffConfig.durationType` ('instant', 'rounds', 'turns', 'permanent', 'rest', 'minutes', 'hours')
-- `buffConfig.durationUnit`
+- `buffConfig.durationUnit` (string) - **REQUIRED**: Must match durationType (e.g., 'rounds', 'turns', 'minutes')
 - `buffConfig.concentrationRequired` (boolean)
 - `buffConfig.canBeDispelled` (boolean)
 - `buffConfig.maxStacks` (number)
 - `buffConfig.stackingRule` ('replace', 'stack', 'refresh')
 - `buffConfig.customDescription` (string)
 
-**⚠️ IMPORTANT**: Always configure `buffConfig` when 'buff' is in `effectTypes`. The component will show "Buff Effect - Effect details not configured" if only the effect type is present without proper configuration.
+**⚠️ CRITICAL - Damage Reduction and Protection Buffs:**
+
+When creating buffs that provide damage reduction or protection, you **MUST** include complete details and clearly specify the mechanic type:
+
+1. **Use `statModifiers` array** (preferred format):
+```javascript
+buffConfig: {
+  buffType: 'statEnhancement',
+  statModifiers: [{
+    id: 'unique_id_for_this_modifier',
+    name: 'Display Name',  // e.g., "Heat Shield", "Protective Aura"
+    stat: 'damage_reduction',  // Use 'damage_reduction' for flat damage reduction
+    value: 2,  // The amount of damage reduction
+    magnitude: 2,  // Same as value
+    magnitudeType: 'flat',  // 'flat' for fixed amount, 'percentage' for %
+    isPercentage: false,
+    // ⚠️ CRITICAL: Description must clearly specify the mechanic type
+    description: 'Reduces incoming damage by 2 (flat reduction)'  // OR
+    description: 'Provides 2 flat damage reduction per hit'  // OR
+    description: 'Reduces all incoming damage by 2 points (not absorption)'
+    // DO NOT use vague terms like "protection" or "shield" without clarification
+    // DO NOT imply absorption/barrier mechanics unless that's the actual mechanic
+  }],
+  durationValue: 2,
+  durationType: 'rounds',
+  durationUnit: 'rounds',  // ⚠️ MUST be included and match durationType
+  concentrationRequired: false,
+  canBeDispelled: true
+}
+```
+
+**Description Guidelines for Damage Reduction:**
+- ✅ **Good**: "Reduces incoming damage by 2 (flat reduction)"
+- ✅ **Good**: "Provides 2 flat damage reduction per hit"
+- ✅ **Good**: "Reduces all incoming damage by 2 points"
+- ❌ **Bad**: "Provides protection" (too vague)
+- ❌ **Bad**: "Creates a shield" (implies absorption/barrier)
+- ❌ **Bad**: "Absorbs damage" (unless it's actually absorption that breaks)
+
+2. **Common stat values for protection:**
+   - `'damage_reduction'` - **Flat damage reduction** (e.g., "Reduces incoming damage by 2 (flat reduction)")
+     - This is a **flat reduction** that applies to each hit
+     - **NOT** an absorption pool that breaks
+     - **NOT** a barrier that shatters
+     - Description should explicitly state "flat reduction" to avoid confusion
+   - `'armor'` - Armor class bonus (e.g., "+2 Armor Class")
+   - `'resistance'` - Damage resistance percentage (use `magnitudeType: 'percentage'`)
+     - Description: "Reduces incoming damage by 25% (resistance)"
+   - `'temporary_hp'` - Temporary hit points (use formula in magnitude)
+     - Description: "Grants 1d6 + Constitution temporary hit points"
+
+3. **Always include:**
+   - ✅ `statModifiers[].id` - Unique identifier
+   - ✅ `statModifiers[].name` - Display name
+   - ✅ `statModifiers[].stat` - The stat being modified
+   - ✅ `statModifiers[].value` and `statModifiers[].magnitude` - The amount
+   - ✅ `statModifiers[].magnitudeType` - 'flat' or 'percentage'
+   - ✅ `statModifiers[].description` - Clear description of the effect
+   - ✅ `durationUnit` - Must match `durationType` (e.g., if `durationType: 'rounds'`, then `durationUnit: 'rounds'`)
+
+4. **Example - Complete Damage Reduction Buff (Pyrofiend Heat Shield):**
+```javascript
+{
+  id: 'pyro_heat_shield',
+  name: 'Heat Shield',
+  description: 'Create a weak barrier of heat around yourself, providing minor protection.',
+  effectTypes: ['buff'],
+  resourceCost: {
+    resourceTypes: ['mana'],
+    resourceValues: { mana: 6 },
+    actionPoints: 1,  // ⚠️ Weaker utility spell = 1 AP
+    components: ['V', 'S']
+  },
+  buffConfig: {
+    buffType: 'statEnhancement',
+    statModifiers: [{
+      id: 'heat_shield_damage_reduction',
+      name: 'Heat Shield',
+      stat: 'damage_reduction',
+      value: 2,
+      magnitude: 2,
+      magnitudeType: 'flat',
+      isPercentage: false,
+      // ⚠️ CRITICAL: Description must specify this is flat reduction, not absorption
+      description: 'Reduces incoming damage by 2 (flat reduction per hit)'
+      // Alternative: 'Provides 2 flat damage reduction (not an absorption pool)'
+    }],
+    durationValue: 2,
+    durationType: 'rounds',
+    durationUnit: 'rounds',  // ⚠️ Required!
+    concentrationRequired: false,
+    canBeDispelled: true
+  }
+}
+```
+
+**Example - Pyrofiend Spell with Inferno Ascend:**
+```javascript
+{
+  id: 'pyro_hellfire_bolt',
+  name: 'Hellfire Bolt',
+  description: 'A bolt of demonic fire that burns enemies and increases your Inferno Level.',
+  effectTypes: ['damage'],
+  resourceCost: {
+    resourceTypes: ['mana', 'inferno_ascend'],  // ⚠️ Include in resourceTypes
+    resourceValues: {
+      mana: 8,
+      inferno_ascend: 2  // ⚠️ CRITICAL: Must be in resourceValues
+    },
+    actionPoints: 2,  // ⚠️ Most Pyrofiend spells = 2 AP
+    components: ['V', 'S']
+  },
+  damageConfig: {
+    formula: '3d10',
+    elementType: 'fire',
+    damageType: 'direct'
+  }
+}
+```
+
+**⚠️ IMPORTANT**: 
+- Always configure `buffConfig` when 'buff' is in `effectTypes`. The component will show "Buff Effect - Effect details not configured" if only the effect type is present without proper configuration.
+- **Never leave damage reduction or protection effects without complete details** - always include `statModifiers` with full information including `description` and ensure `durationUnit` matches `durationType`.
+- **For damage reduction**: Always specify in the description that it's a "flat reduction" (not absorption/barrier) to avoid confusion.
+- **For Pyrofiend spells**: Always include `actionPoints` (2 for most spells, 1 for weaker utility spells) and include `inferno_ascend`/`inferno_descend` in `resourceTypes` and `resourceValues` when applicable.
 
 #### Debuff Effects
 
@@ -708,15 +1019,18 @@ Example: "Mana Restoration: 2d6 + Spirit Mana Restored"
 **Forced Movement:**
 ```
 "Forced Movement (DC {saveDC} {saveType} save)"
-"Push: Push targets up to {pushDistance} ft away"
-"Pull: Pull targets up to {pullDistance} ft closer"
+"Pull: Pulls target {distance} feet toward caster"
+"Push: Pushes target {distance} feet away from caster"
+"Slide: Slides target {distance} feet in any direction"
+"Teleport: Teleports target up to {distance} feet"
 ```
 
 **Restraint:**
 ```
 "Restraint (DC {saveDC} {saveType} save)"
-"Paralyze: Target cannot move or take actions"
-"Root: Target's movement speed reduced to 0"
+"Binding: Target cannot move or take reactions"
+"Slow: Target's movement speed reduced"
+"Snare: Target is rooted in place"
 ```
 
 **Mental Control:**
@@ -727,14 +1041,79 @@ Example: "Mana Restoration: 2d6 + Spirit Mana Restored"
 ```
 
 **Fields Used:**
-- `controlConfig.controlType` ('forcedMovement', 'restraint', 'mental', 'environmental')
+- `controlConfig.controlType` ('forcedMovement', 'restraint', 'knockdown', 'incapacitation', 'mind_control', 'restriction')
 - `controlConfig.strength` ('weak', 'moderate', 'strong')
-- `controlConfig.duration` (number)
-- `controlConfig.saveDC` (number)
-- `controlConfig.saveType` (stat name)
-- `controlConfig.specialEffects[]`
+- `controlConfig.duration` (number) - Duration in rounds (0 for instant)
+- `controlConfig.durationUnit` (string) - 'instant', 'rounds', 'turns', etc.
+- `controlConfig.saveDC` (number) - Difficulty class for saving throw
+- `controlConfig.saveType` (string) - Stat name for saving throw ('strength', 'agility', 'constitution', etc.)
+- `controlConfig.savingThrow` (boolean) - Whether a saving throw is required
+- `controlConfig.effects[]` - **REQUIRED**: Array of effect objects with proper configuration
 
-**⚠️ IMPORTANT**: Always configure `controlConfig` when 'control' is in `effectTypes`. The component will show "Control Effect - Effect details not configured" if only the effect type is present without proper configuration.
+**⚠️ CRITICAL - Forced Movement Configuration:**
+
+For forced movement effects (push, pull, slide, teleport), you **MUST** use the `effects` array format:
+
+```javascript
+controlConfig: {
+  controlType: 'forcedMovement',
+  strength: 'weak', // or 'moderate', 'strong'
+  duration: 0, // 0 for instant movement
+  durationUnit: 'instant',
+  saveDC: 12, // Difficulty class for saving throw
+  saveType: 'strength', // Stat used for saving throw
+  savingThrow: true, // Whether saving throw is required
+  effects: [{
+    id: 'pull', // 'pull', 'push', 'slide', or 'teleport'
+    name: 'Pull', // Display name
+    description: 'Pulls the target toward the caster', // Clear description
+    config: {
+      movementType: 'pull', // Must match id: 'pull', 'push', 'slide', or 'teleport'
+      distance: 15 // Distance in feet
+    }
+  }]
+}
+```
+
+**Common Movement Types:**
+- `'pull'` - Pulls target toward caster
+- `'push'` - Pushes target away from caster
+- `'slide'` - Slides target in any direction
+- `'teleport'` - Instantaneously relocates target
+
+**Example - Complete Pull Effect:**
+```javascript
+{
+  id: 'pyro_flame_lash',
+  name: 'Flame Lash',
+  effectTypes: ['damage', 'control'],
+  controlConfig: {
+    controlType: 'forcedMovement',
+    strength: 'weak',
+    duration: 0,
+    durationUnit: 'instant',
+    saveDC: 12,
+    saveType: 'strength',
+    savingThrow: true,
+    effects: [{
+      id: 'pull',
+      name: 'Pull',
+      description: 'Pulls the target toward the caster',
+      config: {
+        movementType: 'pull',
+        distance: 15
+      }
+    }]
+  }
+}
+```
+
+**⚠️ IMPORTANT**: 
+- Always use the `effects` array format for control effects
+- Each effect must have `id`, `name`, `description`, and `config` with proper settings
+- For forced movement, `config.movementType` must match the effect `id` ('pull', 'push', etc.)
+- Always include `distance` in the config for forced movement effects
+- Never leave control effects without complete details in the `effects` array
 
 #### Summoning Effects
 
@@ -979,6 +1358,30 @@ Behavior-specific:
 ### Fields Configured:
 - **resourceCost** (object)
 
+### ⚠️ CRITICAL REMINDERS FOR RESOURCE COSTS:
+
+1. **Action Points (AP)**:
+   - **Pyrofiend spells**: Most cost 2 AP, weaker utility spells cost 1 AP
+   - **Always set explicitly**: Never leave `actionPoints` undefined
+   - **Default for other classes**: Usually 1 AP unless specified otherwise
+
+2. **Class-Specific Resources (Inferno, Devotion, etc.)**:
+   - **MUST be in `resourceTypes` array**: Include `'inferno_ascend'`, `'inferno_descend'`, etc.
+   - **MUST be in `resourceValues` object**: Set values like `resourceValues.inferno_ascend = 2`
+   - **Example**: 
+     ```javascript
+     resourceCost: {
+       resourceTypes: ['mana', 'inferno_ascend'],
+       resourceValues: { mana: 8, inferno_ascend: 2 },
+       actionPoints: 2
+     }
+     ```
+
+3. **Damage Reduction Descriptions**:
+   - **Always specify "flat reduction"**: Use descriptions like "Reduces incoming damage by 2 (flat reduction)"
+   - **Avoid vague terms**: Don't use "protection" or "shield" without clarification
+   - **Clarify mechanic type**: Make it clear it's not absorption/barrier unless it actually is
+
 ### SpellCard Display Mapping:
 
 #### Resource Costs (formatResourceCosts function)
@@ -998,9 +1401,79 @@ Example: "⚡ 2" or "💎 25"
 - Example: "AS 2" or "HS 1"
 
 **Inferno Veil (Pyrofiend):**
-- `inferno_required`: "Requires Inferno Level {amount}"
-- `inferno_ascend`: "Ascend Inferno +{amount}"
-- `inferno_descend`: "Descend Inferno -{amount}"
+- `inferno_required`: "Requires Inferno Level {amount}" - Must be set in `resourceValues.inferno_required`
+- `inferno_ascend`: "Ascend Inferno +{amount}" - Must be set in `resourceValues.inferno_ascend`
+- `inferno_descend`: "Descend Inferno -{amount}" - Must be set in `resourceValues.inferno_descend`
+- **⚠️ CRITICAL REQUIREMENTS FOR ALL PYROFIEND SPELLS**:
+  - **ALWAYS include `actionPoints`** (2 for most spells, 1 for weaker utility spells like Flame Step)
+  - **ALWAYS include inferno resources in BOTH `resourceTypes` AND `resourceValues`** when applicable
+  - **Example - Standard damage spell:**
+    ```javascript
+    resourceCost: {
+      resourceTypes: ['mana', 'inferno_ascend'], // Include in resourceTypes array
+      resourceValues: {
+        mana: 8,
+        inferno_ascend: 2  // Ascends by 2 Inferno Levels
+      },
+      actionPoints: 2  // Most Pyrofiend spells cost 2 AP
+    }
+    ```
+  - **Example - Utility spell (Flame Step):**
+    ```javascript
+    resourceCost: {
+      resourceTypes: ['mana', 'inferno_ascend'], // Even utility spells include inferno resources
+      resourceValues: {
+        mana: 12,
+        inferno_ascend: 1  // Utility spells typically ascend by 1
+      },
+      actionPoints: 1  // Weaker utility spells cost 1 AP
+    }
+    ```
+  - **Example - Spell that descends Inferno (Cooling Ember):**
+    ```javascript
+    resourceCost: {
+      resourceTypes: ['mana', 'inferno_descend'],
+      resourceValues: {
+        mana: 5,
+        inferno_descend: 3  // Descends by 3 Inferno Levels
+      },
+      actionPoints: 2  // Even descending spells cost AP
+    }
+    ```
+- **Utility Effect Formatting for Pyrofiend Spells:**
+  - For teleportation effects, use detailed `selectedEffects` configuration instead of `enhancementType`
+  - Include distance, line of sight requirements, and other teleport parameters in the effect object
+  - If the spell leaves damaging effects (like flames), include `'damage'` in `effectTypes` and configure `damageConfig`
+  - **Example - Flame Step utility configuration:**
+    ```javascript
+    effectTypes: ['utility', 'damage'],  // Include damage if spell leaves damaging effects
+
+    utilityConfig: {
+      utilityType: 'Teleport',
+      selectedEffects: [{
+        id: 'teleport',                  // Special ID for teleport effects
+        name: 'Teleport',                // Display name
+        distance: 30,                    // Distance in feet
+        needsLineOfSight: true            // Line of sight requirement
+      }],
+      duration: 0,
+      durationUnit: 'instant',
+      concentration: false,
+      power: 'minor'
+    },
+
+    damageConfig: {                      // For flames left behind
+      formula: '1d6',
+      elementType: 'fire',
+      damageType: 'area',
+      description: 'Flames left at departure and arrival points deal 1d6 fire damage to creatures that enter or start their turn in those areas',
+      areaShape: 'circle',
+      areaParameters: { radius: 5 },
+      duration: 1,
+      durationUnit: 'rounds'
+    }
+    ```
+  - **Display Result**: Shows "Teleport" with "Teleport up to 30 ft (requires line of sight)" and separate "Area Damage" effects showing "1d6 fire damage - Creatures that enter or start their turn in flame areas take 1d6 fire damage"
 
 **Musical Notes (Minstrel):**
 - `note_i`, `note_ii`, `note_iii`, `note_iv`, `note_v`, `note_vi`, `note_vii`
@@ -1018,6 +1491,14 @@ Example: "⚡ 2" or "💎 25"
 - `devotion_cost`: "Devotion Level -{amount}"
 - `devotion_gain`: "Devotion Level +{amount}"
 
+**Chaos Mechanics (Chaos Weaver):**
+- `mayhem_generate`: "Mayhem Modifiers +{amount}"
+- `mayhem_spend`: "Mayhem Modifiers -{amount}"
+
+**Fate Mechanics (Fate Weaver):**
+- `threads_generate`: "Threads of Destiny +{amount}"
+- `threads_spend`: "Threads of Destiny -{amount}"
+
 **Formulas:**
 - If `useFormulas[resourceType] === true`, display the formula instead of fixed value
 - Format: "{icon} {formula}"
@@ -1030,19 +1511,41 @@ Example: "⚡ 2" or "💎 25"
   - `per_second` → "/sec"
   - `atStart` → " (at start)"
   - `atEnd` → " (at end)"
+- **Display Location**: Shown next to resource costs when `resourceCost.channelingFrequency` is set
+- **Format**: Resource cost badge with frequency suffix (e.g., "💎 25/round")
 
 **Fields Used:**
-- `resourceCost.resourceTypes[]` - Array of selected resource types
+- `resourceCost.resourceTypes[]` - Array of selected resource types (e.g., `['mana', 'inferno_ascend']`)
 - `resourceCost.resourceValues{}` - Object mapping resource types to values
+  - **⚠️ CRITICAL**: For class-specific resources (Inferno, Devotion, etc.), values MUST be in `resourceValues`:
+    ```javascript
+    resourceValues: {
+      mana: 8,
+      inferno_ascend: 2,      // Pyrofiend: Ascends Inferno
+      inferno_descend: 3,     // Pyrofiend: Descends Inferno
+      inferno_required: 5,    // Pyrofiend: Requires Inferno Level
+      devotion_required: 3,   // Martyr: Requires Devotion Level
+      // etc.
+    }
+    ```
 - `resourceCost.resourceFormulas{}` - Object mapping resource types to formulas
 - `resourceCost.useFormulas{}` - Object mapping resource types to boolean
-- `resourceCost.actionPoints` (number)
-- `resourceCost.mana` (number)
+- `resourceCost.actionPoints` (number) - **⚠️ IMPORTANT**: 
+  - **Default**: Most spells cost 1 AP
+  - **Pyrofiend spells**: Most cost 2 AP, weaker utility spells cost 1 AP
+  - **Powerful spells**: May cost 2-3 AP depending on class and spell power
+  - **Always specify**: Never leave `actionPoints` undefined - always set explicitly
+- `resourceCost.mana` (number) - Legacy support, prefer `resourceValues.mana`
 - `resourceCost.channelingFrequency` (string, CHANNELED spells only)
 - `resourceCost.components[]` - Array of component strings ('V', 'S', 'M')
 - `resourceCost.materialComponents` (string)
 - `resourceCost.verbalText` (string)
 - `resourceCost.somaticText` (string)
+
+**⚠️ CRITICAL - Action Points for Pyrofiend Spells:**
+- **Most Pyrofiend spells**: `actionPoints: 2` (standard cost)
+- **Weak utility spells**: `actionPoints: 1` (e.g., Heat Shield, Cooling Ember)
+- **Never omit**: Always explicitly set `actionPoints` in `resourceCost`
 
 **Spell Components Display:**
 ```
@@ -1097,10 +1600,12 @@ Example: "1d4 cooldown"
 ```
 
 **Fields Used:**
-- `cooldownConfig.type` ('turn_based', 'short_rest', 'long_rest', 'charge_based', 'dice_based')
-- `cooldownConfig.value` (number)
-- `cooldownConfig.charges` (number, charge_based only)
-- `cooldownConfig.recovery` (number, charge_based only)
+- `cooldownConfig.type` (enum: 'turn_based', 'short_rest', 'long_rest', 'charge_based', 'dice_based')
+- `cooldownConfig.value` (number) - Cooldown value (turns, uses, or dice formula)
+- `cooldownConfig.charges` (number) - Maximum charges (charge_based only)
+- `cooldownConfig.recovery` (number) - Turns to recover 1 charge (charge_based only)
+- `cooldownConfig.sharesCooldown` (boolean) - Whether this spell shares cooldown with other spells
+- `cooldownConfig.cooldownGroup` (string) - Group identifier for shared cooldowns
 
 **Location**: Card footer, cooldown badge
 
@@ -1133,17 +1638,145 @@ Example: "1d4 cooldown"
 - `resourceModifier`: number (1.0 = normal cost)
 
 **Fields Used:**
-- `triggerConfig.global.logicType` ('AND', 'OR')
-- `triggerConfig.global.compoundTriggers[]` - Array of trigger objects
-- `triggerConfig.effectTriggers{}` - Object mapping effect types to trigger configs
-- `triggerConfig.conditionalEffects{}` - Object tracking conditional activation
-- `triggerConfig.triggerRole` (object)
+
+**Global Triggers:**
+- `triggerConfig.global.enabled` (boolean) - Whether global triggers are enabled
+- `triggerConfig.global.logicType` ('AND', 'OR') - How multiple triggers are combined
+- `triggerConfig.global.compoundTriggers[]` - Array of trigger objects with:
+  - `id` (string) - Trigger type identifier (e.g., 'health_threshold', 'damage_taken', 'combat_start')
+  - `category` (string) - Trigger category ('combat', 'movement', 'health', 'status', 'environment', 'time', 'trap')
+  - `name` (string) - Human-readable trigger name
+  - `parameters` (object) - Trigger-specific parameters:
+    - `percentage` (number) - For health/resource thresholds
+    - `amount` (number) - For damage/health change amounts
+    - `distance` (number) - For movement/proximity triggers
+    - `comparison` (string) - 'less_than', 'greater_than', 'equal', 'not_equal'
+    - `threshold_type` (string) - 'percentage' or 'flat' for resource thresholds
+    - `resource_type` (string) - 'health', 'mana', 'energy', 'rage', 'inferno'
+    - `perspective` (string) - 'self', 'target', 'ally', 'enemy'
+    - `target_type` (string) - 'self', 'ally', 'enemy', 'any'
+    - `damage_type` (string) - Specific damage type for damage triggers
+    - `effect_type` (string) - Specific effect type for status triggers
+    - `stack_count` (number) - Stack count for effect stack triggers
+    - `duration` (number) - Duration in rounds for duration triggers
+    - `is_percent` (boolean) - Whether amount is percentage
+    - `whose_turn` (string) - 'self', 'ally', 'enemy' for turn triggers
+    - `creature_type` (string) - For trap triggers
+    - `interaction_type` (string) - For interaction triggers
+    - `weather_type` (string) - For weather triggers
+    - `terrain_type` (string) - For terrain triggers
+    - `is_day` (boolean) - For day/night triggers
+    - `object_type` (string) - For object interaction triggers
+    - `ability_id` (string) - For cooldown ready triggers
+    - `time` (number) - For timer triggers (seconds)
+    - `weight_threshold` (number) - For weight/pressure triggers
+    - `magic_type` (string) - For magical trigger
+    - `damage_threshold` (number) - For trap damage triggers
+
+**Required Conditions:**
+- `triggerConfig.requiredConditions.enabled` (boolean) - Whether required conditions are enabled
+- `triggerConfig.requiredConditions.logicType` ('AND', 'OR') - How multiple conditions are combined
+- `triggerConfig.requiredConditions.conditions[]` - Array of trigger objects that must be met before spell can be cast
+
+**Effect-Specific Triggers:**
+- `triggerConfig.effectTriggers{}` - Object mapping effect types to trigger configs:
+  - `effectTriggers.damage` - Triggers for damage effects
+  - `effectTriggers.healing` - Triggers for healing effects
+  - `effectTriggers.buff` - Triggers for buff effects
+  - `effectTriggers.debuff` - Triggers for debuff effects
+  - `effectTriggers.utility` - Triggers for utility effects
+  - `effectTriggers.control` - Triggers for control effects
+  - Each contains:
+    - `logicType` ('AND' | 'OR') - How multiple triggers are combined
+    - `compoundTriggers[]` - Array of trigger objects
+    - `targetingOverride` (string, optional) - Override targeting for this effect when triggered (e.g., 'nearest', 'farthest', 'lowest_health')
+
+**Conditional Effects:**
+- `triggerConfig.conditionalEffects{}` - Object mapping effect types to conditional configs:
+  - `conditionalEffects[effectType].isConditional` (boolean) - Whether this effect is conditional
+  - `conditionalEffects[effectType].defaultEnabled` (boolean) - Whether effect is enabled by default (when no trigger conditions are met)
+  - `conditionalEffects[effectType].baseFormula` (string) - Base formula for the effect (from Step 3)
+  - `conditionalEffects[effectType].baseSettings` (object) - Base settings for the effect (from Step 3):
+    - For damage: `{ damageType, elementType, ... }`
+    - For healing: `{ healingType, hasHotEffect, hasShieldEffect, ... }`
+    - For buff: `{ duration, statAffected, ... }`
+    - For debuff: `{ duration, durationUnit, difficultyClass, savingThrow, ... }`
+    - For control: `{ duration, savingThrow, difficultyClass, controlType, effects, ... }`
+    - For restoration: `{ resourceType, resolution, isOverTime, overTimeFormula, ... }`
+  - `conditionalEffects[effectType].conditionalFormulas{}` - Map of trigger ID to formula:
+    - Key: trigger ID (e.g., 'health_threshold_30', 'damage_taken', 'default')
+    - Value: formula string (e.g., '2d6 + INT', 'damage * 1.5')
+    - Special key 'default' contains the base formula
+  - `conditionalEffects[effectType].conditionalSettings{}` - Map of trigger ID to settings object:
+    - Key: trigger ID
+    - Value: settings object that can override baseSettings for that trigger
+    - Can include: `statModifiers[]`, `statPenalties[]`, `damageType`, `elementType`, `duration`, etc.
+
+**Buff/Debuff Triggers:**
+- `triggerConfig.buffDebuffTriggers{}` - Triggers attached to effects created by this spell:
+  - `buffDebuffTriggers.buff` - Triggers for buff effects created by spell
+  - `buffDebuffTriggers.debuff` - Triggers for debuff effects created by spell
+  - Each contains: `triggers[]`, `triggersEffect` (string | null)
+
+**Trigger Role:**
+- `triggerConfig.triggerRole.mode` ('CONDITIONAL') - Always CONDITIONAL (auto-cast removed)
+- Note: Auto-cast functionality has been removed; triggers now only modify effects
+
+**Trigger Categories and Types:**
+
+The wizard supports 7 trigger categories with multiple trigger types each:
+
+1. **Combat** (`combat`):
+   - `damage_taken`, `damage_dealt`, `critical_hit`, `critical_hit_taken`
+   - `miss`, `dodge`, `parry`, `block`
+   - `spell_reflect`, `spell_interrupt`, `spell_resist`
+   - `combat_start`, `combat_end`, `first_strike`, `last_stand`
+
+2. **Movement** (`movement`):
+   - `movement_start`, `movement_end`, `distance_moved`
+   - `enter_area`, `leave_area`, `proximity`
+   - `forced_movement`, `high_ground`, `falling`
+
+3. **Health, Resources & Death** (`health`):
+   - `health_threshold`, `health_change`, `resource_threshold`
+   - `ally_health`, `on_death`, `on_revival`, `near_death`
+   - `death_save_success`, `death_save_failure`, `full_health`, `overhealing`
+
+4. **Status Effects** (`status`):
+   - `effect_applied`, `effect_removed`, `effect_duration`
+   - `effect_stack`, `dispel`, `cleanse`, `immunity`
+
+5. **Environment** (`environment`):
+   - `weather_change`, `terrain_type`, `day_night`
+   - `object_interaction`, `environmental_damage`
+   - `underwater`, `in_darkness`, `in_bright_light`
+
+6. **Time & Turns** (`time`):
+   - `turn_start`, `turn_end`, `round_start`, `round_end`
+   - `timer`, `cooldown_ready`, `duration_threshold`
+
+7. **Trap Triggers** (`trap`):
+   - `proximity`, `stepped_on`, `interaction`, `line_of_sight`
+   - `detection_attempt`, `disarm_attempt`, `timer`
+   - `weight_pressure`, `magical_trigger`, `trap_chain`, `trap_damage`
 
 **Display Format:**
 ```
-"Triggers: {condition1} AND {condition2}"
-"Auto-cast when: {conditions}"
-"Conditional: {formula} when {condition} else {defaultFormula}"
+Global Triggers:
+  "Triggers: {condition1} AND {condition2}"
+  Displayed in spell description or as separate section
+
+Required Conditions:
+  "Requires: {condition1} AND {condition2}"
+  Displayed before spell effects
+
+Effect-Specific Triggers:
+  "When {trigger}: {effect description with modified formula}"
+  Displayed with individual effect descriptions
+
+Conditional Effects:
+  "{baseFormula} (or {conditionalFormula} when {trigger})"
+  Displayed inline with effect descriptions
 ```
 
 ---
@@ -1250,12 +1883,23 @@ Example: "1d4 cooldown"
 ```
 
 **Fields Used:**
-- `channelingConfig.type` ('power_up', 'persistent', 'staged')
-- `channelingConfig.baseFormula` (string)
-- `channelingConfig.maxFormula` (string, power_up)
-- `channelingConfig.tickFrequency` (string)
-- `channelingConfig.stages[]` (array, staged type)
-- `channelingConfig.maxDuration` (number, power_up)
+- `channelingConfig.type` (enum: 'power_up', 'persistent', 'staged') - Channeling type
+- `channelingConfig.baseFormula` (string) - Starting formula for power_up, or constant formula for persistent
+- `channelingConfig.maxFormula` (string) - Maximum formula for power_up type
+- `channelingConfig.tickFrequency` (string) - How often effects apply (e.g., 'round', 'turn')
+- `channelingConfig.maxDuration` (number) - Maximum channeling duration (for power_up)
+- `channelingConfig.scalingType` (enum: 'linear', 'exponential', 'diminishing') - How power_up scales
+- `channelingConfig.stages[]` (array) - Array of stage configs for staged type:
+  - `round` (number) - Which round this stage applies to
+  - `formula` (string) - Formula for this stage
+  - `description` (string) - Description of stage
+  - `areaInfo` (object) - Area expansion info (if applicable)
+- `channelingConfig.perRoundFormulas{}` (object) - Map of effect ID to array of per-round formulas
+- `channelingConfig.areaExpansion` (object) - Area expansion configuration:
+  - `enabled` (boolean) - Whether area expands
+  - `initialRadius` (number) - Starting radius
+  - `expansionRate` (number) - How much radius increases per round
+  - `maxRadius` (number) - Maximum radius
 
 **Display Location**: Integrated with DoT/HoT effects or shown as separate section
 
@@ -1284,6 +1928,107 @@ The Review step shows a preview of the complete spell card using the UnifiedSpel
 ---
 
 ## Formula Formatting
+
+### Formula Syntax and Math Operators
+
+Formulas support rich mathematical expressions using character stats, dice rolls, and operators. This makes spells scale with character progression and creates interesting gameplay mechanics.
+
+#### Basic Math Operators
+
+| Operator | Name | Description | Example | Result |
+|----------|------|-------------|---------|--------|
+| `+` | Addition | Adds two values together | `strength + 5` | If strength is 15, result is 20 |
+| `-` | Subtraction | Subtracts the second value from the first | `maxHealth - currentHealth` | If maxHealth is 100 and currentHealth is 75, result is 25 |
+| `*` | Multiplication | Multiplies two values | `intelligence * 2` | If intelligence is 12, result is 24 |
+| `/` | Division | Divides the first value by the second | `spellDamage / 3` | If spellDamage is 30, result is 10 |
+
+#### Comparison Operators
+
+| Operator | Name | Description | Example | Result |
+|----------|------|-------------|---------|--------|
+| `>` | Greater Than | Returns true if first value is greater than second | `strength > 15 ? 10 : 5` | If strength is 18, returns 10. If strength is 12, returns 5 |
+| `<` | Less Than | Returns true if first value is less than second | `currentHealth < 50 ? 20 : 0` | If currentHealth is 30, returns 20. If currentHealth is 80, returns 0 |
+| `>=` | Greater Than or Equal | Returns true if first value is greater than or equal to second | `level >= 10 ? 15 : 10` | If level is 10 or higher, returns 15. Otherwise returns 10 |
+| `<=` | Less Than or Equal | Returns true if first value is less than or equal to second | `exhaustionLevel <= 2 ? 0 : 5` | If exhaustionLevel is 2 or less, returns 0. Otherwise returns 5 |
+| `==` | Equal To | Returns true if both values are equal | `currentMana == maxMana ? 25 : 15` | If mana is full, returns 25. Otherwise returns 15 |
+
+#### Conditional Logic
+
+| Operator | Name | Description | Example | Result |
+|----------|------|-------------|---------|--------|
+| `? :` | Ternary (If-Then-Else) | If condition is true, use first value, otherwise use second | `strength > intelligence ? strength : intelligence` | Uses whichever stat is higher |
+| `&&` | Logical AND | Both conditions must be true | `strength > 15 && agility > 12 ? 20 : 10` | Returns 20 only if both strength > 15 AND agility > 12 |
+| `\|\|` | Logical OR | At least one condition must be true | `fireDamage > 0 \|\| frostDamage > 0 ? 15 : 10` | Returns 15 if you have any fire or frost damage |
+
+#### Math Functions
+
+| Function | Name | Description | Example | Result |
+|----------|------|-------------|---------|--------|
+| `MAX(a, b)` | Maximum | Returns the larger of two values | `MAX(strength, intelligence)` | If strength is 15 and intelligence is 18, returns 18 |
+| `MIN(a, b)` | Minimum | Returns the smaller of two values | `MIN(currentHealth, 50)` | If currentHealth is 75, returns 50. If currentHealth is 30, returns 30 |
+| `ROUND(a)` | Round | Rounds to the nearest whole number | `ROUND(intelligence / 3)` | If intelligence is 16, result is ROUND(5.33) = 5 |
+| `FLOOR(a)` | Floor | Rounds down to the nearest whole number | `FLOOR(spellDamage / 4)` | If spellDamage is 23, result is FLOOR(5.75) = 5 |
+| `CEIL(a)` | Ceiling | Rounds up to the nearest whole number | `CEIL(healingPower / 6)` | If healingPower is 25, result is CEIL(4.17) = 5 |
+
+#### Available Character Stats
+
+**Primary Attributes:**
+- `strength` - Physical power and melee damage
+- `agility` - Dexterity, reflexes, and ranged accuracy
+- `constitution` - Health, stamina, and physical resilience
+- `intelligence` - Magical power, knowledge, and spell effectiveness
+- `spirit` - Willpower, spiritual energy, and mana regeneration
+- `charisma` - Social influence, leadership, and divine magic
+
+**Combat Stats:**
+- `level` - Character level
+- `currentHealth` - Current hit points
+- `maxHealth` - Maximum hit points
+- `currentMana` - Current mana
+- `maxMana` - Maximum mana
+- `currentActionPoints` - Current action points
+- `maxActionPoints` - Maximum action points
+
+#### Formula Examples
+
+**Simple Scaling:**
+```javascript
+formula: '1d6 + intelligence/3'  // Base 1d6, plus 1/3 of intelligence
+formula: '2d8 + intelligence'     // Base 2d8, plus full intelligence
+formula: '3d6 + intelligence * 1.5' // Base 3d6, plus 1.5x intelligence
+```
+
+**Conditional Scaling:**
+```javascript
+formula: 'strength > 20 ? (strength - 20) * 2 + 15 : 15'
+// Base 15 damage, plus 2 extra damage for each point of strength above 20
+
+formula: 'currentHealth < (maxHealth / 2) ? 25 : 10'
+// Deal 25 damage if below half health, otherwise 10 damage
+```
+
+**Multi-Stat Scaling:**
+```javascript
+formula: 'MAX(strength, intelligence) + MIN(agility, spirit)'
+// Use your highest physical/mental stat plus your lowest utility stat
+
+formula: 'intelligence + spirit/2'
+// Intelligence plus half of spirit
+```
+
+**Resource-Based Scaling:**
+```javascript
+formula: 'currentMana >= 50 ? spellDamage * 1.5 : spellDamage'
+// Deal 50% more spell damage if you have at least 50 mana
+```
+
+#### Best Practices
+
+1. **Use stat modifiers for scaling**: Instead of flat damage, use formulas like `1d6 + intelligence/3` to make spells scale with character stats
+2. **Keep formulas readable**: Use clear stat names and simple operations when possible
+3. **Balance appropriately**: Lower level spells should use smaller modifiers (e.g., `/3`, `/4`) while higher level spells can use larger ones (e.g., `* 1.5`, `* 2`)
+4. **Use division for fractional scaling**: `intelligence/3` is better than `intelligence * 0.33` for readability
+5. **Consider DoT formulas**: DoT effects can also use formulas: `dotFormula: '1d4 + intelligence/4'`
 
 ### Formula Cleaning (cleanFormula function)
 
@@ -1835,7 +2580,16 @@ Advanced mechanics that modify spell behavior based on character state or game s
    - Thresholds: 3, 5, 8
 
 #### Fields Configured:
-- **specialMechanics** (object):
+
+**Global Mechanics Config:**
+- `mechanicsConfig.cards` (object) - Card-based resolution mechanics
+- `mechanicsConfig.coins` (object) - Coin-based resolution mechanics
+- `mechanicsConfig.combos` (object) - Combo system mechanics
+- `mechanicsConfig.stateRequirements[]` (array) - Array of state requirement objects
+- `mechanicsConfig.stateOptions.thresholds[]` (array) - Threshold configurations
+
+**Per-Effect Mechanics Config:**
+- `effectMechanicsConfigs[effectId]` (object) - Mechanics configuration for specific effect:
   ```javascript
   {
     enabled: boolean,
@@ -1844,33 +2598,58 @@ Advanced mechanics that modify spell behavior based on character state or game s
     type: string, // System-specific type
     thresholdValue: number,
     
-    // Combo system
+    // Combo Points System
     comboOptions: {
-      generationMethod: string,
-      consumptionRule: 'all' | 'partial',
-      visualStyle: 'points' | 'bars'
+      generationMethod: string, // How combo points are generated
+      consumptionRule: 'all' | 'partial', // How combo points are consumed
+      visualStyle: 'points' | 'bars' // Visual representation
     },
     
-    // Toxic system
+    // Proc System
+    procOptions: {
+      procChance: number, // Percentage chance (0-100)
+      triggerLimit: number, // Maximum triggers per encounter
+      spellId: string | null, // Reference to spell from library
+      procType: string // Type of proc trigger
+    },
+    
+    // State Requirements System
+    stateOptions: {
+      resourceType: string, // Resource to check (health, mana, etc.)
+      thresholdValue: number, // Threshold value
+      thresholdType: 'above' | 'below' | 'equal', // Comparison type
+      modifiedFormula: string // Formula when threshold is met
+    },
+    
+    // Form System
+    formOptions: {
+      formType: string, // Form type (bear_form, cat_form, etc.)
+      requiresForm: boolean, // Whether form is required to cast
+      bonusType: string, // Type of bonus when in form
+      bonusAmount: number, // Bonus amount
+      formSpellId: string | null // Reference to form spell
+    },
+    
+    // Toxic System
     toxicOptions: {
       selectedToxicTypes: object, // Map of toxic type to count
-      duration: number,
-      durationType: 'rounds' | 'minutes' | 'hours',
-      consumptionRule: 'all' | 'specific',
-      modifiedFormula: string,
+      duration: number, // Duration of toxic effect
+      durationType: 'rounds' | 'minutes' | 'hours', // Duration unit
+      consumptionRule: 'all' | 'specific', // How toxins are consumed
+      modifiedFormula: string, // Formula when consuming toxins
       toxicEffects: object // Effects per toxic type
     },
     
-    // Chord system
+    // Chord System
     chordOptions: {
-      chordFunction: string, // For note spells
-      isWildcard: boolean,
-      extendDuration: number,
+      chordFunction: string, // For note spells (tonic, mediant, etc.)
+      isWildcard: boolean, // Whether note is a wildcard
+      extendDuration: number, // Extend improvisation window (for extenders)
       recipe: string, // For chord spells (e.g., "tonic-mediant-dominant")
-      improvisationWindow: number,
+      improvisationWindow: number, // Time window for playing notes
       graduatedEffects: object, // Effects for partial matches
       requiredFunctions: object, // Specific functions for partial resolution
-      partialMatchType: 'count' | 'specific'
+      partialMatchType: 'count' | 'specific' // How partial matches are resolved
     }
   }
   ```
@@ -1878,10 +2657,27 @@ Advanced mechanics that modify spell behavior based on character state or game s
 #### SpellCard Display:
 - **Location**: Card body, mechanics section
 - **Format**:
-  - Combo Points: "Generates X combo points" or "Consumes all combo points for X% increased effect"
-  - Toxic: "Applies [Toxic Types]" or "Consumes [Toxic Types] for enhanced effect"
-  - Chord: "Plays [Chord Function] note" or "Requires recipe: [Recipe]"
-  - Form: "Requires [Form]" or "Grants bonus when in [Form]"
+  - **Combo Points**: 
+    - Builder: "Generates X combo points"
+    - Spender: "Consumes all combo points for X% increased effect" or "Consumes X combo points for enhanced effect"
+  - **Proc System**: 
+    - "[Chance]% chance on [Trigger]: [Effect Description]"
+    - If spell reference: "Triggers spell: [Spell Name]"
+  - **State Requirements**: 
+    - "When [Resource] is [above/below] [Threshold]%: [Modified Formula]"
+    - "Requires: [Condition]"
+  - **Form System**: 
+    - "Requires [Form]" (if `requiresForm === true`)
+    - "Grants +[Bonus] [BonusType] when in [Form]" (if bonus configured)
+  - **Toxic System**: 
+    - Applier: "Applies [Toxic Types] for [Duration]"
+    - Consumer: "Consumes [Toxic Types] for enhanced effect: [Modified Formula]"
+  - **Chord System**: 
+    - Note: "Plays [Chord Function] note" (e.g., "Plays Tonic note")
+    - Wildcard: "Plays Wildcard note (any function)"
+    - Extender: "Extends improvisation window by [Duration]"
+    - Chord: "Requires recipe: [Recipe]" (e.g., "Requires recipe: tonic-mediant-dominant")
+    - Partial matches: "Partial match (X/Y): [Effect]"
 
 ---
 
@@ -2222,6 +3018,12 @@ Damage that applies over multiple rounds/turns.
 8. **Include all config objects** - Even if empty, provide the config object structure
 9. **Tag format** - Use lowercase, hyphenated tag names
 10. **School vs Damage Type** - `typeConfig.school` is for magic school, `damageTypes[]` is for damage type
+11. **Class-specific resources extraction** - The spell normalizer automatically extracts class-specific resources from `resourceCost.resourceValues`:
+    - **Pyrofiend**: `inferno_required`, `inferno_ascend`, `inferno_descend` → flattened to `infernoRequired`, `infernoAscend`, `infernoDescend`
+    - **Martyr**: `devotion_required`, `devotion_cost`, `devotion_gain` → flattened to `devotionRequired`, `devotionCost`, `devotionGain`
+    - **Chronarch**: `time_shard_generate`, `time_shard_cost`, `temporal_strain_gain`, `temporal_strain_reduce` → flattened to `timeShardGenerate`, `timeShardCost`, `temporalStrainGain`, `temporalStrainReduce`
+    - **Action Points**: Always set `resourceCost.actionPoints` explicitly (not in resourceTypes/resourceValues)
+    - The normalizer handles this automatically, so spells from class data files will display correctly in the library
 
 ---
 
@@ -2281,4 +3083,67 @@ Damage that applies over multiple rounds/turns.
 ```
 
 This template provides complete mapping from every wizard step to every possible display format on the spell card. Use this as a reference when generating spells through prompts to ensure all fields are properly configured and will display correctly.
+
+---
+
+## UnifiedSpellCard Usage Locations
+
+The `UnifiedSpellCard` component is used throughout the application in the following locations. All of these locations MUST use the same component and follow this template:
+
+1. **Spell Wizard (Step 10: Review)**
+   - Location: `vtt-react/src/components/spellcrafting-wizard/components/steps/Step10Review.jsx`
+   - Variant: `wizard`
+   - Purpose: Preview spell during creation
+
+2. **Spell Library**
+   - Location: `vtt-react/src/components/spellcrafting-wizard/components/library/SpellLibrary.jsx`
+   - Variant: `library`
+   - Purpose: Display spells in the library browser
+
+3. **Character Creation Wizard - Spell Selection (Step 4)**
+   - Location: `vtt-react/src/components/character-creation-wizard/steps/Step4SpellSelection.jsx`
+   - Variant: `library` or `compact`
+   - Purpose: Select spells during character creation
+
+4. **Character Creation Wizard - Race Selection (Step 2)**
+   - Location: `vtt-react/src/components/character-creation-wizard/steps/Step2RaceSelection.jsx`
+   - Variant: `compact` or `preview`
+   - Purpose: Display racial spells/abilities
+
+5. **Character Creation Wizard - Path Selection (Step 5)**
+   - Location: `vtt-react/src/components/character-creation-wizard/steps/Step5PathSelection.jsx`
+   - Variant: `compact` or `preview`
+   - Purpose: Display path spells/abilities
+
+6. **Spellbook Window**
+   - Location: `vtt-react/src/components/windows/SpellbookWindow.jsx`
+   - Variant: `spellbook`
+   - Purpose: Display spells in character's spellbook
+
+7. **Spell Selection Window**
+   - Location: `vtt-react/src/components/windows/SpellSelectionWindow.jsx`
+   - Variant: `library` or `compact`
+   - Purpose: Select spells for various purposes
+
+8. **Level Up Choice Modal**
+   - Location: `vtt-react/src/components/modals/LevelUpChoiceModal.jsx`
+   - Variant: `compact` or `preview`
+   - Purpose: Display spells available on level up
+
+9. **Rules Section**
+   - Location: Various rule display components
+   - Variant: `rules` or `compact`
+   - Purpose: Display spell information in rules documentation
+
+10. **Action Bar Hover Tooltips**
+    - Location: Action bar components (via SpellTooltip)
+    - Variant: `compact` or tooltip variant
+    - Purpose: Show spell details on hover
+
+11. **Character Sheet**
+    - Location: Character sheet spell display components
+    - Variant: `compact` or `spellbook`
+    - Purpose: Display known/prepared spells
+
+**Important**: All these locations use the same `UnifiedSpellCard` component, ensuring consistent formatting across the entire application. Any changes to spell card formatting should be made in `UnifiedSpellCard.jsx` to maintain consistency.
 

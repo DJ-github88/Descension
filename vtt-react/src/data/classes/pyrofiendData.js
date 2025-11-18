@@ -293,7 +293,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         ['2', '+2', 'Lustful intensity: 1d4 psychic damage per turn', 'Lust - Distracting Heat'],
         ['3', '+3', 'Oppressive heat: -10 ft movement, constant fatigue', 'Gluttony - Heavy Rain'],
         ['4', '+4', 'Molten veins: +2d6 damage taken from all attacks', 'Greed - Weight of Gold'],
-        ['5', '+5', 'Body cracks: 1d6 bleeding per turn, -4 AC', 'Wrath - River Styx'],
+        ['5', '+5', 'Body cracks: 1d6 bleeding per turn, weakened defenses', 'Wrath - River Styx'],
         ['6', '+6', 'Blazing eyes: Disadvantage on sight-based checks/attacks', 'Heresy - Uncontrollable Fire'],
         ['7', '+7', 'Scorching breath: -15 ft speed, 1d6 suffocation per turn', 'Violence - Burning Sand'],
         ['8', '+8', 'Wreathed in flames: 2d4 self-damage per turn, disadvantage on Dex checks', 'Fraud - Raging Flames'],
@@ -446,7 +446,7 @@ Many players enhance the experience by adding thematic elements:
           {
             name: 'Burning Ambition',
             tier: 'Specialization Passive',
-            description: 'While at Inferno Level 7 or higher, your critical hit chance with fire spells increases by 10%, and critical hits deal an additional 1d10 fire damage.',
+            description: 'While at Inferno Level 7 or higher, your fire spells crit on the 2 highest die numbers instead of just the highest, and critical hits deal an additional 1d10 fire damage.',
             uniqueTo: 'Inferno'
           }
         ],
@@ -546,60 +546,87 @@ Many players enhance the experience by adding thematic elements:
   // Maps character level to available spell IDs for learning
   spellPools: {
     1: [
-      // Level 1 spells: Basic fire spells (5 options, pick 3)
+      // Level 1 starting spells (pick 3)
       'pyro_ember_spark',
-      'pyro_hellfire_bolt',
-      'pyro_infernal_brand',
-      'pyro_demonic_resilience',
-      'pyro_flame_lash'
+      'pyro_smoldering_touch',
+      'pyro_flicker',
+      'pyro_cooling_ember',
+      'pyro_heat_shield'
     ],
     2: [
-      // Level 2-3 spells: Early Inferno spells
+      // Level 2 spells
       'pyro_scorching_grasp',
+      'pyro_flame_lash',
+      'pyro_cinder_bolt'
+    ],
+    3: [
+      // Level 3 spells
       'pyro_fireball',
-      'pyro_flame_lash'
+      'pyro_burning_hands',
+      'pyro_flame_step'
     ],
     4: [
-      // Level 4-5 spells: Mid-tier Inferno spells
-      'pyro_fireball',
+      // Level 4 spells
+      'pyro_infernal_blast',
+      'pyro_searing_ray',
+      'pyro_fiery_aura'
+    ],
+    5: [
+      // Level 5 spells
       'pyro_hellfire_wave',
-      'pyro_scorching_grasp'
+      'pyro_immolation',
+      'pyro_fire_whip'
     ],
     6: [
-      // Level 6-7 spells: High-tier Inferno spells
+      // Level 6 spells
       'pyro_lava_burst',
-      'pyro_hellfire_wave',
-      'pyro_fireball'
+      'pyro_flame_storm',
+      'pyro_infernal_brand_advanced'
+    ],
+    7: [
+      // Level 7 spells
+      'pyro_volcanic_eruption',
+      'pyro_hellfire_breath',
+      'pyro_demonic_empowerment'
     ],
     8: [
-      // Level 8-9 spells: Ultimate Inferno spells
+      // Level 8 spells
       'pyro_meteor_shower',
+      'pyro_infernal_nova',
+      'pyro_phoenix_flame'
+    ],
+    9: [
+      // Level 9 spells
       'pyro_infernal_avatar',
-      'pyro_lava_burst'
+      'pyro_apocalypse',
+      'pyro_hellfire_ritual'
     ],
     10: [
-      // Level 10+ spells: Master-tier spells
-      'pyro_infernal_avatar',
-      'pyro_meteor_shower',
-      'pyro_brimstone_teleport'
+      // Level 10 spells
+      'pyro_brimstone_teleport',
+      'pyro_demonic_ascension',
+      'pyro_inferno_mastery'
     ]
   },
 
-  // Example Spells - showcasing Inferno Veil ascension mechanics
-  exampleSpells: [
+  // Spells - organized by level, properly formatted for wizard
+  spells: [
     // ========================================
     // LEVEL 1 STARTING SPELLS (5 options, pick 3)
+    // Weak starter spells - intentionally low power
     // ========================================
     {
       id: 'pyro_ember_spark',
       name: 'Ember Spark',
-      description: 'A minor spark of demonic fire that ignites your target, burning over time.',
+      description: 'A tiny spark of demonic fire that ignites your target, causing minor burning over time.',
+      level: 1,
       spellType: 'ACTION',
       icon: 'spell_fire_flamebolt',
-      school: 'Evocation',
-      level: 1,
-
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_flamebolt',
+        tags: ['fire', 'damage', 'dot', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -607,451 +634,391 @@ Many players enhance the experience by adding thematic elements:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 3,
-        durationUnit: 'rounds'
+        rangeDistance: 60,
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
         verbalText: 'Ignis!',
         somaticText: 'Snap fingers to create spark'
       },
 
       resolution: 'DICE',
-
-      damageConfig: {
-        damageType: 'dot',
-        elementType: 'fire',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '1d4',
-          duration: 3,
-          tickFrequency: 'round',
-          scalingType: 'flat'
-        }
-      },
-
       effectTypes: ['damage'],
 
-      effects: {
-        damage: {
-          dot: {
-            formula: '1d4',
-            type: 'fire',
-            duration: 3,
-            interval: 'round'
-          }
-        }
-      },
-
-      specialMechanics: {
-        infernoLevel: {
-          required: 0,
-          ascendBy: 1
-        }
-      },
-
-      tags: ['fire', 'damage', 'dot', 'inferno-0', 'starter']
-    },
-
-    {
-      id: 'pyro_hellfire_bolt',
-      name: 'Hellfire Bolt',
-      description: 'A bolt of infernal fire streaks toward your enemy, burning with demonic intensity.',
-      spellType: 'ACTION',
-      icon: 'spell_fire_firebolt',
-      school: 'Evocation',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 90
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 8,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Infernus Sagitta!',
-        somaticText: 'Thrust hand forward'
-      },
-
-      resolution: 'DICE',
-
       damageConfig: {
-        formula: '1d8',
-        damageType: 'fire',
-        scalingType: 'none'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d8',
-            type: 'fire'
-          }
-        }
-      },
-
-      specialMechanics: {
-        infernoLevel: {
-          required: 0,
-          ascendBy: 1
-        }
-      },
-
-      tags: ['fire', 'damage', 'ranged', 'inferno-0', 'starter']
-    },
-
-    {
-      id: 'pyro_infernal_brand',
-      name: 'Infernal Brand',
-      description: 'Mark your enemy with a burning brand that sears their flesh over time.',
-      spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
-      school: 'Evocation',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 2
-      },
-
-      resourceCost: {
-        mana: 10,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Sigillum Ignis!',
-        somaticText: 'Draw burning sigil in the air'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        damageType: 'dot',
+        formula: '1d3',
         elementType: 'fire',
+        damageType: 'direct',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '1d4',
           duration: 2,
-          tickFrequency: 'turn',
-          scalingType: 'flat'
+          tickFrequency: 'round',
+          dotFormula: '1d4',
+          isProgressiveDot: false
         }
       },
-
-      debuffConfig: {
-        statusEffects: [
-          {
-            id: 'burning',
-            name: 'Infernal Brand',
-            description: 'Marked with burning brand'
-          }
-        ],
-        duration: 2,
-        durationType: 'turns'
-      },
-
-      effectTypes: ['damage', 'debuff'],
-
-      effects: {
-        damage: {
-          dot: {
-            formula: '1d4',
-            type: 'fire',
-            duration: 2,
-            interval: 'turn'
-          }
-        }
-      },
-
-      specialMechanics: {
-        infernoLevel: {
-          required: 0,
-          ascendBy: 1
-        }
-      },
-
-      tags: ['fire', 'damage', 'dot', 'debuff', 'inferno-0', 'starter']
-    },
-
-    {
-      id: 'pyro_demonic_resilience',
-      name: 'Demonic Resilience',
-      description: 'Channel infernal power to harden your flesh, gaining temporary resistance to damage.',
-      spellType: 'CHANNELED',
-      icon: 'spell_shadow_antishadow',
-      school: 'Abjuration',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION',
-        maxChannelDuration: 3,
-        durationUnit: 'TURNS',
-        interruptible: true,
-        movementAllowed: true
-      },
-
-      targetingConfig: {
-        targetingType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 3
-      },
-
-      resourceCost: {
-        mana: 12,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Fortis Daemon!',
-        somaticText: 'Clench fist over heart'
-      },
-
-      resolution: 'NONE',
-
-      buffConfig: {
-        statModifiers: [
-          {
-            id: 'damageReduction',
-            name: 'Damage Reduction',
-            magnitude: 3,
-            magnitudeType: 'flat'
-          }
-        ],
-        statusEffects: [
-          {
-            id: 'demonic_resilience',
-            name: 'Demonic Resilience',
-            description: 'Your skin glows with faint embers'
-          }
-        ],
-        duration: 3,
-        durationType: 'turns'
-      },
-
-      effectTypes: ['buff'],
-
-      effects: {
-        buff: {
-          duration: 3,
-          stats: {
-            damageReduction: 3
-          }
-        }
-      },
-
-      specialMechanics: {
-        infernoLevel: {
-          required: 0,
-          ascendBy: 1
-        }
-      },
-
-      tags: ['fire', 'buff', 'defensive', 'channeled', 'inferno-0', 'starter']
-    },
-
-    {
-      id: 'pyro_flame_lash',
-      name: 'Flame Lash',
-      description: 'A whip of fire lashes out at your enemy, pulling them closer as it burns.',
-      spellType: 'ACTION',
-      icon: 'spell_fire_flare',
-      school: 'Evocation',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 10,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Flagellum Ignis!',
-        somaticText: 'Whip hand forward'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '1d6',
-        damageType: 'fire',
-        scalingType: 'none'
-      },
-
-      effectTypes: ['damage', 'control'],
 
       cooldownConfig: {
         type: 'turn_based',
         value: 0
       },
 
-      // Control effect for pull
-      controlConfig: {
-        instant: true,
-        effects: [
-          {
-            id: 'pull',
-            name: 'Pull',
-            description: 'Pulls target 10 feet closer',
-            mechanicsText: '10 feet towards caster',
-            config: {
-              distance: 10,
-              direction: 'towards_caster'
-            }
-          }
-        ]
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d6',
-            type: 'fire'
-          }
-        },
-        control: {
-          pull: {
-            distance: 10,
-            unit: 'feet',
-            direction: 'towards_caster'
-          }
-        }
-      },
-
-      specialMechanics: {
-        infernoLevel: {
-          required: 0,
-          ascendBy: 1
-        }
-      },
-
-      tags: ['fire', 'damage', 'control', 'pull', 'inferno-0', 'starter']
+      tags: ['fire', 'damage', 'dot', 'starter']
     },
 
-    // ========================================
-    // INFERNO VEIL 0-3 - Early Corruption Spells
-    // ========================================
-
     {
-      id: 'pyro_scorching_grasp',
-      name: 'Scorching Grasp',
-      description: 'Flames envelop your hand as you touch an enemy, burning them and leaving lingering fire.',
+      id: 'pyro_smoldering_touch',
+      name: 'Smoldering Touch',
+      description: 'Your hand glows with heat as you touch an enemy, dealing instant damage and leaving a lingering smolder.',
+      level: 1,
       spellType: 'ACTION',
-      icon: 'spell_fire_flameshock',
-      school: 'Evocation',
-      level: 2,
-
+      icon: 'spell_fire_firebolt',
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_firebolt',
+        tags: ['fire', 'damage', 'touch', 'dot', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'single',
-        rangeType: 'touch'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeType: 'touch',
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 10,
-        components: ['verbal', 'somatic'],
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 5, inferno_ascend: 1, inferno_required: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Ardeo!',
+        somaticText: 'Touch with glowing hand'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d4 + intelligence/3',
+        elementType: 'fire',
+        damageType: 'direct',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 1,
+          tickFrequency: 'round',
+          dotFormula: '1',
+          isProgressiveDot: false
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'touch', 'dot', 'starter']
+    },
+
+    {
+      id: 'pyro_flicker',
+      name: 'Flicker',
+      description: 'A quick flash of fire that streaks toward your target. Cheap and fast, but weak.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_fire_sealoffire',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_sealoffire',
+        tags: ['fire', 'damage', 'starter'],
+        castTime: 0,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 2, inferno_ascend: 1, inferno_required: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V'],
+        verbalText: 'Flicker!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d3 + intelligence/4',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'starter']
+    },
+
+    {
+      id: 'pyro_cooling_ember',
+      name: 'Cooling Ember',
+      description: 'A calming spell that reduces your Inferno Level and heals you slightly. Essential for managing demonic corruption.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_fire_twilightflamebreath',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_twilightflamebreath',
+        tags: ['fire', 'healing', 'utility', 'starter'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_descend', 'inferno_required'],
+        resourceValues: { mana: 5, inferno_descend: 2, inferno_required: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Pax Ignis',
+        somaticText: 'Place hand over heart'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '1d6 + spirit/3',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'healing', 'utility', 'starter']
+    },
+
+    {
+      id: 'pyro_heat_shield',
+      name: 'Heat Shield',
+      description: 'Create a weak barrier of heat around yourself, providing minor protection.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_antishadow',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_shadow_antishadow',
+        tags: ['fire', 'buff', 'defensive', 'starter'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_descend', 'inferno_required'],
+        resourceValues: { mana: 6, inferno_descend: 1, inferno_required: 1 },  // Heat Shield - minor descend
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['V', 'S'],
+        verbalText: 'Scutum Calor!',
+        somaticText: 'Raise hands to create barrier'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        statModifiers: [{
+          id: 'heat_shield_damage_reduction',
+          name: 'Heat Shield',
+          stat: 'damage_reduction',
+          value: 2,
+          magnitude: 2,
+          magnitudeType: 'flat',
+          isPercentage: false,
+          description: 'Reduces incoming damage by 2 (flat reduction per hit)'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'buff', 'defensive', 'starter']
+    },
+
+    // ========================================
+    // LEVEL 2 SPELLS
+    // ========================================
+    {
+      id: 'pyro_scorching_grasp',
+      name: 'Scorching Grasp',
+      description: 'Flames envelop your hand as you touch an enemy, dealing moderate fire damage.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'spell_fire_flameshock',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_flameshock',
+        tags: ['fire', 'damage', 'touch'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch',
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 8, inferno_ascend: 1, inferno_required: 2 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
         verbalText: 'Ardeo!',
         somaticText: 'Grasp with burning hand'
       },
 
       resolution: 'DICE',
-
-      damageConfig: {
-        formula: '1d10',
-        damageType: 'fire',
-        elementType: 'fire',
-        scalingType: 'none',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '1d4',
-          duration: 1,
-          tickFrequency: 'turn',
-          scalingType: 'flat'
-        }
-      },
-
       effectTypes: ['damage'],
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d10',
-            type: 'fire'
-          },
-          dot: {
-            formula: '1d4',
-            type: 'fire',
-            duration: 1,
-            interval: 'turn'
-          }
-        }
+      damageConfig: {
+        formula: '1d8 + intelligence/2',
+        elementType: 'fire',
+        damageType: 'direct'
       },
 
-      specialMechanics: {
-        infernoLevel: {
-          required: 1,
-          ascendBy: 1
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      tags: ['fire', 'damage', 'dot', 'touch', 'inferno-1']
+      tags: ['fire', 'damage', 'touch']
     },
 
     {
-      id: 'pyro_fireball',
-      name: 'Fireball',
-      description: 'A classic explosive ball of fire that detonates on impact, damaging all nearby enemies. You absorb some of the heat, healing yourself.',
+      id: 'pyro_flame_lash',
+      name: 'Flame Lash',
+      description: 'A whip of fire lashes out, pulling your enemy closer while burning them.',
+      level: 2,
       spellType: 'ACTION',
-      icon: 'spell_fire_fireball02',
-      school: 'Evocation',
-      level: 3,
-
+      icon: 'spell_fire_flare',
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_flare',
+        tags: ['fire', 'damage', 'control'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 10, inferno_ascend: 1, inferno_required: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Flagellum Ignis!',
+        somaticText: 'Whip hand forward'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '1d6 + intelligence/3',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'forcedMovement',
+        strength: 'weak',
+        duration: 0,
+        durationUnit: 'instant',
+        saveDC: 12,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'pull',
+          name: 'Pull',
+          description: 'Pulls the target toward the caster',
+          config: {
+            movementType: 'pull',
+            distance: 15
+          }
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'control']
+    },
+
+    {
+      id: 'pyro_cinder_bolt',
+      name: 'Cinder Bolt',
+      description: 'A bolt of cinders that explodes on impact, dealing fire damage in a small area.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_fireball',
+        tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1059,78 +1026,106 @@ Many players enhance the experience by adding thematic elements:
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
-        rangeDistance: 120,
-        aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 10
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 5 },
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 20,
-        components: ['verbal', 'somatic'],
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 12, inferno_ascend: 2, inferno_required: 2 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Cinis Sagitta!',
+        somaticText: 'Hurl cinder bolt'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d6 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'aoe']
+    },
+
+    // ========================================
+    // LEVEL 3 SPELLS
+    // ========================================
+    {
+      id: 'pyro_fireball',
+      name: 'Fireball',
+      description: 'A classic explosive ball of fire that detonates on impact, damaging all nearby enemies.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball02',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_fireball02',
+        tags: ['fire', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 100,
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 2 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
         verbalText: 'Ignis Globus!',
         somaticText: 'Hurl ball of flame'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '3d6',
-        damageType: 'fire',
-        scalingType: 'none'
+        formula: '3d6 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct'
       },
 
-      restorationConfig: {
-        resourceType: 'health',
-        formula: 'HALF_DAMAGE_DEALT',
-        duration: 'instant',
-        resolution: 'DICE'
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      effectTypes: ['damage', 'restoration'],
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d6',
-            type: 'fire',
-            aoe: true
-          }
-        },
-        restoration: {
-          instant: {
-            formula: 'HALF_DAMAGE_DEALT',
-            resourceType: 'health'
-          }
-        }
-      },
-
-      specialMechanics: {
-        infernoLevel: {
-          required: 3,
-          ascendBy: 3
-        }
-      },
-
-      tags: ['fire', 'damage', 'aoe', 'restoration', 'inferno-3']
+      tags: ['fire', 'damage', 'aoe']
     },
 
-    // INFERNO VEIL 4-6 - Demonic Power Spells
     {
-      id: 'pyro_hellfire_wave',
-      name: 'Hellfire Wave',
-      description: 'A wave of hellish fire sweeps over your enemies, burning them intensely and leaving them smoldering.',
+      id: 'pyro_burning_hands',
+      name: 'Burning Hands',
+      description: 'A cone of fire erupts from your hands, scorching enemies in front of you.',
+      level: 3,
       spellType: 'ACTION',
-      icon: 'spell_fire_sealoffire',
-      school: 'Evocation',
-      level: 5,
-
+      icon: 'spell_fire_flamebolt',
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_flamebolt',
+        tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1139,76 +1134,444 @@ Many players enhance the experience by adding thematic elements:
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'cone',
-        aoeParameters: {
-          length: 30
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        aoeParameters: { length: 20 },
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 25,
-        components: ['verbal', 'somatic'],
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 15, inferno_ascend: 2, inferno_required: 2 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Manus Ardens!',
+        somaticText: 'Spread fingers wide'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d8 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'aoe']
+    },
+
+    {
+      id: 'pyro_flame_step',
+      name: 'Flame Step',
+      description: 'Teleport a short distance in a burst of fire, leaving flames at your departure and arrival points.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'ability_mage_firestarter',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'ability_mage_firestarter',
+        tags: ['fire', 'utility', 'teleport'],
+        castTime: 0,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 12, inferno_ascend: 1, inferno_required: 2 },
+        useFormulas: {},
+        actionPoints: 1,  // Utility spell
+        components: ['V'],
+        verbalText: 'Saltus Ignis!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility', 'damage'],
+
+      utilityConfig: {
+        utilityType: 'Teleport',
+        selectedEffects: [{
+          id: 'teleport',
+          name: 'Teleport',
+          distance: 30,
+          needsLineOfSight: true
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'minor'
+      },
+
+      damageConfig: {
+        formula: '1d6',
+        elementType: 'fire',
+        damageType: 'area',
+        description: 'Flames left at departure and arrival points',
+        areaShape: 'circle',
+        areaParameters: { radius: 5 },
+        duration: 1,
+        durationUnit: 'rounds',
+        triggerCondition: 'area_entry',
+        triggerDescription: 'Creatures that enter or start their turn in flame areas take 1d6 fire damage'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['fire', 'utility', 'teleport']
+    },
+
+    // ========================================
+    // LEVEL 4 SPELLS
+    // ========================================
+    {
+      id: 'pyro_infernal_blast',
+      name: 'Infernal Blast',
+      description: 'A concentrated blast of demonic fire that deals significant damage to a single target.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_fire_incinerate',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_incinerate',
+        tags: ['fire', 'damage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 80,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 20, inferno_ascend: 2, inferno_required: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Infernus Ictus!',
+        somaticText: 'Thrust palm forward'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '4d6 + intelligence * 1.5',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage']
+    },
+
+    {
+      id: 'pyro_searing_ray',
+      name: 'Searing Ray',
+      description: 'A focused ray of intense heat that burns through your target.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_fire_flameshock',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_flameshock',
+        tags: ['fire', 'damage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Radius Ardens!',
+        somaticText: 'Point finger'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d8 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage']
+    },
+
+    {
+      id: 'pyro_fiery_aura',
+      name: 'Fiery Aura',
+      description: 'Surround yourself with an aura of heat that damages nearby enemies.',
+      level: 4,
+      spellType: 'CHANNELED',
+      icon: 'spell_fire_masterofelements',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_masterofelements',
+        tags: ['fire', 'damage', 'buff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 22, inferno_ascend: 2, inferno_required: 2 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Aura Ignis!',
+        somaticText: 'Spread arms wide'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'custom',
+        customDescription: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns.',
+        durationValue: 3,
+        durationType: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'buff']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS
+    // ========================================
+    {
+      id: 'pyro_hellfire_wave',
+      name: 'Hellfire Wave',
+      description: 'A wave of hellish fire sweeps over your enemies, burning them intensely.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_fire_sealoffire',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_sealoffire',
+        tags: ['fire', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'cone',
+        aoeParameters: { length: 30 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 25, inferno_ascend: 2, inferno_required: 2 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
         verbalText: 'Infernus Unda!',
         somaticText: 'Sweep arms forward'
       },
 
       resolution: 'DICE',
-
-      damageConfig: {
-        formula: '4d8',
-        damageType: 'fire',
-        elementType: 'fire',
-        scalingType: 'none',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '1d8',
-          duration: 1,
-          tickFrequency: 'turn',
-          scalingType: 'flat'
-        }
-      },
-
       effectTypes: ['damage'],
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '4d8',
-            type: 'fire',
-            aoe: true
-          },
-          dot: {
-            formula: '1d8',
-            type: 'fire',
-            duration: 1,
-            interval: 'turn'
-          }
-        }
+      damageConfig: {
+        formula: '4d8 + intelligence * 1.5',
+        elementType: 'fire',
+        damageType: 'direct'
       },
 
-      specialMechanics: {
-        infernoLevel: {
-          required: 4,
-          ascendBy: 2
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      tags: ['fire', 'damage', 'aoe', 'cone', 'dot', 'inferno-4']
+      tags: ['fire', 'damage', 'aoe']
     },
 
     {
+      id: 'pyro_immolation',
+      name: 'Immolation',
+      description: 'Engulf your target in flames that burn over time.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_fire_immolation',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_immolation',
+        tags: ['fire', 'damage', 'dot'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 28, inferno_ascend: 3, inferno_required: 3 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Immolatio!',
+        somaticText: 'Clench fist'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d8 + intelligence/2',
+        elementType: 'fire',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 3,
+          tickFrequency: 'round',
+          dotFormula: '1d6 + intelligence/4',
+          isProgressiveDot: false
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'dot']
+    },
+
+    {
+      id: 'pyro_fire_whip',
+      name: 'Fire Whip',
+      description: 'A whip of pure fire lashes out, dealing damage and potentially stunning your target.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_fire_flare',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_flare',
+        tags: ['fire', 'damage', 'control'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 3 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Flagellum Infernus!',
+        somaticText: 'Crack whip motion'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '3d6 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        strength: 'moderate',
+        duration: 1,
+        saveDC: 14,
+        saveType: 'constitution',
+        specialEffects: ['stun']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['fire', 'damage', 'control']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
       id: 'pyro_lava_burst',
       name: 'Lava Burst',
-      description: 'A burst of molten lava erupts from the ground beneath your target, dealing massive damage and splashing nearby enemies.',
+      description: 'A burst of molten lava erupts from the ground, dealing massive damage in an area.',
+      level: 6,
       spellType: 'ACTION',
       icon: 'spell_shaman_lavaburst',
-      school: 'Evocation',
-      level: 6,
-
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'spell_shaman_lavaburst',
+        tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1217,68 +1580,352 @@ Many players enhance the experience by adding thematic elements:
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 80,
-        aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 15
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 32,
-        components: ['verbal', 'somatic', 'material'],
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 3 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S', 'M'],
         verbalText: 'Terra Ignea!',
         somaticText: 'Slam fist downward',
-        materialText: 'A piece of volcanic rock'
+        materialComponents: 'A piece of volcanic rock'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d6',
-        damageType: 'fire',
-        scalingType: 'none'
+        formula: '6d6 + intelligence * 2',
+        elementType: 'fire',
+        damageType: 'direct'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '6d6',
-            type: 'fire',
-            primaryTarget: true
-          },
-          splash: {
-            formula: '3d6',
-            type: 'fire',
-            aoe: true
-          }
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      specialMechanics: {
-        infernoLevel: {
-          required: 6,
-          ascendBy: 3
-        }
-      },
-
-      tags: ['fire', 'damage', 'aoe', 'splash', 'inferno-6']
+      tags: ['fire', 'damage', 'aoe']
     },
 
-    // INFERNO VEIL 7-9 - Ultimate Corruption Spells
+    {
+      id: 'pyro_flame_storm',
+      name: 'Flame Storm',
+      description: 'Create a swirling storm of fire that damages all enemies in a large area over time.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball02',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_fireball02',
+        tags: ['fire', 'damage', 'aoe', 'dot'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 100,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 35, inferno_ascend: 2, inferno_required: 4 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Tempestas Ignis!',
+        somaticText: 'Raise arms and swirl'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d8 + intelligence',
+        elementType: 'fire',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 3,
+          tickFrequency: 'round',
+          dotFormula: '2d6 + intelligence/2',
+          isProgressiveDot: false
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['fire', 'damage', 'aoe', 'dot']
+    },
+
+    {
+      id: 'pyro_infernal_brand_advanced',
+      name: 'Infernal Brand (Advanced)',
+      description: 'Mark your enemy with a powerful burning brand that sears their flesh and weakens them.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_fire_sealoffire',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_sealoffire',
+        tags: ['fire', 'damage', 'dot', 'debuff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 70,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 30, inferno_ascend: 2, inferno_required: 4 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Sigillum Infernus!',
+        somaticText: 'Draw burning sigil'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '1d4 + intelligence/3',
+        elementType: 'fire',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 4,
+          tickFrequency: 'round',
+          dotFormula: '2d6 + intelligence/2',
+          isProgressiveDot: false
+        }
+      },
+
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'weakened',
+          name: 'Weakened',
+          statModifier: {
+            stat: 'strength',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'dot', 'debuff']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'pyro_volcanic_eruption',
+      name: 'Volcanic Eruption',
+      description: 'Cause the ground to erupt with volcanic fire, dealing massive damage in a large area.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_fire_lavasplash',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_lavasplash',
+        tags: ['fire', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 6 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S', 'M'],
+        verbalText: 'Eruptio Volcanica!',
+        somaticText: 'Slam both hands down',
+        materialComponents: 'Volcanic ash'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d6 + intelligence * 2.5',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['fire', 'damage', 'aoe']
+    },
+
+    {
+      id: 'pyro_hellfire_breath',
+      name: 'Hellfire Breath',
+      description: 'Breathe a cone of hellfire that incinerates everything in its path.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fire',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_fire',
+        tags: ['fire', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'cone',
+        aoeParameters: { length: 40 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 38, inferno_ascend: 3, inferno_required: 5 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Halitus Infernus!',
+        somaticText: 'Inhale deeply and exhale'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d8 + intelligence * 2',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['fire', 'damage', 'aoe']
+    },
+
+    {
+      id: 'pyro_demonic_empowerment',
+      name: 'Demonic Empowerment',
+      description: 'Channel demonic power to significantly increase your fire damage output.',
+      level: 7,
+      spellType: 'CHANNELED',
+      icon: 'spell_shadow_demonictactics',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_shadow_demonictactics',
+        tags: ['fire', 'buff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 35, inferno_ascend: 2, inferno_required: 5 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Potentia Daemonis!',
+        somaticText: 'Clench fists and channel'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'fireDamageBoost',
+          name: 'Fire Damage Boost',
+          statModifier: {
+            stat: 'fireDamage',
+            magnitude: 5,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['fire', 'buff']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
     {
       id: 'pyro_meteor_shower',
       name: 'Meteor Shower',
-      description: 'Summon a shower of flaming meteors from the sky, devastating a large area and leaving burning craters.',
+      description: 'Summon a shower of flaming meteors from the sky, devastating a large area.',
+      level: 8,
       spellType: 'ACTION',
       icon: 'spell_fire_meteorstorm',
-      school: 'Evocation',
-      level: 8,
-
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_meteorstorm',
+        tags: ['fire', 'damage', 'aoe'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -1287,261 +1934,476 @@ Many players enhance the experience by adding thematic elements:
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 150,
-        aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 30
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 45,
-        components: ['verbal', 'somatic'],
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 45, inferno_ascend: 3, inferno_required: 7 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
         verbalText: 'Meteorus Infernus!',
         somaticText: 'Raise arms to the sky'
       },
 
       resolution: 'DICE',
-
-      damageConfig: {
-        formula: '8d6',
-        damageType: 'fire',
-        elementType: 'fire',
-        scalingType: 'none',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '2d8',
-          duration: 2,
-          tickFrequency: 'turn',
-          scalingType: 'flat'
-        }
-      },
-
       effectTypes: ['damage'],
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '8d6',
-            type: 'fire',
-            aoe: true
-          },
-          dot: {
-            formula: '2d8',
-            type: 'fire',
-            duration: 2,
-            interval: 'turn'
-          }
-        }
+      damageConfig: {
+        formula: '8d6 + intelligence * 2.5',
+        elementType: 'fire',
+        damageType: 'direct'
       },
 
-      specialMechanics: {
-        infernoLevel: {
-          required: 8,
-          ascendBy: 2
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
       },
 
-      tags: ['fire', 'damage', 'aoe', 'dot', 'ultimate', 'inferno-8']
+      tags: ['fire', 'damage', 'aoe']
     },
 
     {
-      id: 'pyro_infernal_avatar',
-      name: 'Infernal Avatar',
-      description: 'Transform into a being of pure fire, gaining immense power and immunity to fire damage. Your very presence burns those around you.',
-      spellType: 'BUFF',
-      icon: 'spell_fire_elemental_totem',
-      school: 'Transmutation',
-      level: 9,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1
-      },
-
-      resourceCost: {
-        mana: 50,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Ego Sum Ignis!',
-        somaticText: 'Spread arms wide as flames engulf you'
-      },
-
-      resolution: 'NONE',
-
-      buffConfig: {
-        stats: {
-          fireDamage: '+5',
-          armorClass: '+3'
-        },
-        effects: [
-          'Immunity to fire damage',
-          'Enemies within 10 feet take 2d6 fire damage at start of their turn',
-          'Your fire spells ignore fire resistance'
-        ]
-      },
-
-      effects: {
-        buff: {
-          duration: 60,
-          stats: {
-            fireDamage: 5,
-            ac: 3
-          },
-          immunities: ['fire'],
-          aura: {
-            damage: '2d6',
-            type: 'fire',
-            radius: 10
-          }
-        }
-      },
-
-      specialMechanics: {
-        infernoLevel: {
-          required: 9,
-          ascendBy: 1
-        }
-      },
-
-      tags: ['fire', 'buff', 'transformation', 'aura', 'ultimate', 'inferno-9']
-    },
-
-    // INFERNO MANAGEMENT - Ascend and Descend Dynamically
-    {
-      id: 'pyro_cooling_ember',
-      name: 'Cooling Ember',
-      description: 'A calming spell to manage your Inferno Levels. The demonic fire within you dims, healing your wounds as corruption fades.',
+      id: 'pyro_infernal_nova',
+      name: 'Infernal Nova',
+      description: 'Release a massive explosion of infernal fire in all directions.',
+      level: 8,
       spellType: 'ACTION',
-      icon: 'spell_fire_twilightflamebreath',
-      school: 'Abjuration',
-      level: 1,
-
+      icon: 'spell_fire_fireball02',
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_fireball02',
+        tags: ['fire', 'damage', 'aoe'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 35 },
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 10,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Pax Ignis',
-        somaticText: 'Place hand over heart'
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 42, inferno_ascend: 3, inferno_required: 8 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Nova Infernus!',
+        somaticText: 'Spread arms wide and explode'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
-      healingConfig: {
-        formula: '1d6_PER_LEVEL_REDUCED',
-        healingType: 'self',
-        description: 'Heal 1d6 per Inferno Level reduced'
+      damageConfig: {
+        formula: '10d6 + intelligence * 3',
+        elementType: 'fire',
+        damageType: 'direct'
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '1d6',
-            multiplier: 'INFERNO_LEVELS_REDUCED',
-            target: 'self'
-          }
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
       },
 
-      specialMechanics: {
-        infernoLevel: {
-          required: 0,
-          descendBy: '1d4'
-        }
-      },
-
-      tags: ['fire', 'healing', 'utility', 'inferno-management']
+      tags: ['fire', 'damage', 'aoe']
     },
 
     {
-      id: 'pyro_flame_step',
-      name: 'Flame Step',
-      description: 'Teleport a short distance in a burst of fire, leaving flames at your departure and arrival points.',
+      id: 'pyro_phoenix_flame',
+      name: 'Phoenix Flame',
+      description: 'Summon the essence of a phoenix, dealing massive fire damage and leaving burning ground.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_fire_burnout',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_burnout',
+        tags: ['fire', 'damage', 'aoe', 'dot'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 48, inferno_ascend: 3, inferno_required: 8 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Flamma Phoenix!',
+        somaticText: 'Summon phoenix gesture'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d10 + intelligence * 2',
+        elementType: 'fire',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 4,
+          tickFrequency: 'round',
+          dotFormula: '3d6 + intelligence/2',
+          isProgressiveDot: false
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['fire', 'damage', 'aoe', 'dot']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'pyro_infernal_avatar',
+      name: 'Infernal Avatar',
+      description: 'Transform into a being of pure fire, gaining immense power and immunity to fire damage.',
+      level: 9,
+      spellType: 'CHANNELED',
+      icon: 'spell_fire_elemental_totem',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_elemental_totem',
+        tags: ['fire', 'buff', 'transformation'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 50, inferno_ascend: 3, inferno_required: 7 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Ego Sum Ignis!',
+        somaticText: 'Spread arms wide'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'custom',
+        customDescription: 'Gain +5 fire damage to all spells, +3 AC, immunity to fire damage, and enemies within 10 feet take 2d6 fire damage at start of their turn.',
+        durationValue: 10,
+        durationType: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      tags: ['fire', 'buff', 'transformation']
+    },
+
+    {
+      id: 'pyro_apocalypse',
+      name: 'Apocalypse',
+      description: 'Unleash the full power of demonic fire, creating a cataclysmic explosion that devastates everything.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_fire_selfdestruct',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_selfdestruct',
+        tags: ['fire', 'damage', 'aoe'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 200,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 60, inferno_ascend: 3, inferno_required: 9 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Apocalypsis!',
+        somaticText: 'Raise arms and channel all power'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '12d10 + intelligence * 4',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      tags: ['fire', 'damage', 'aoe']
+    },
+
+    {
+      id: 'pyro_hellfire_ritual',
+      name: 'Hellfire Ritual',
+      description: 'Perform a ritual that channels infernal power, dramatically increasing your fire damage for a short time.',
+      level: 9,
+      spellType: 'CHANNELED',
+      icon: 'spell_shadow_antishadow',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_shadow_antishadow',
+        tags: ['fire', 'buff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 55, inferno_ascend: 3, inferno_required: 0 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S', 'M'],
+        verbalText: 'Ritualis Infernus!',
+        somaticText: 'Perform ritual gestures',
+        materialComponents: 'Demonic essence'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'massiveFireBoost',
+          name: 'Massive Fire Boost',
+          statModifier: {
+            stat: 'fireDamage',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 12
+      },
+
+      tags: ['fire', 'buff']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'pyro_brimstone_teleport',
+      name: 'Brimstone Teleport',
+      description: 'Teleport through hellfire, appearing in a burst of flames and dealing damage to nearby enemies.',
+      level: 10,
       spellType: 'ACTION',
       icon: 'ability_mage_firestarter',
-      school: 'Conjuration',
-      level: 2,
-
+      
       typeConfig: {
+        school: 'fire',
+        icon: 'ability_mage_firestarter',
+        tags: ['fire', 'utility', 'teleport', 'damage'],
         castTime: 0,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        targetingType: 'self',
+        rangeType: 'self_centered'
       },
 
       resourceCost: {
-        mana: 15,
-        components: ['verbal'],
-        verbalText: 'Saltus Ignis!'
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 30, inferno_ascend: 1, inferno_required: 8 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V'],
+        verbalText: 'Teleportatio Infernus!'
       },
 
       resolution: 'DICE',
-
-      damageConfig: {
-        formula: '1d6',
-        damageType: 'fire',
-        scalingType: 'none'
-      },
+      effectTypes: ['utility', 'damage'],
 
       utilityConfig: {
-        type: 'teleport',
-        distance: 30,
-        unit: 'feet'
+        utilityType: 'movement',
+        selectedEffects: ['teleport'],
+        enhancementType: 'distance',
+        enhancementValue: 60,
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'major'
       },
 
-      effects: {
-        utility: {
-          teleport: {
-            distance: 30,
-            unit: 'feet'
-          }
-        },
-        damage: {
-          instant: {
-            formula: '1d6',
-            type: 'fire',
-            targets: 'adjacent_at_start_and_end'
-          }
-        }
+      damageConfig: {
+        formula: '4d6 + intelligence * 1.5',
+        elementType: 'fire',
+        damageType: 'direct'
       },
 
-      specialMechanics: {
-        infernoLevel: {
-          required: 0,
-          ascendBy: 1
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
       },
 
-      tags: ['fire', 'utility', 'teleport', 'mobility']
+      tags: ['fire', 'utility', 'teleport', 'damage']
+    },
+
+    {
+      id: 'pyro_demonic_ascension',
+      name: 'Demonic Ascension',
+      description: 'Reach the pinnacle of demonic power, transforming into a true demon of fire with overwhelming power.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_fire_elemental_totem',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_elemental_totem',
+        tags: ['fire', 'buff', 'transformation'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 70, inferno_ascend: 3, inferno_required: 9 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Ascensio Daemonis!',
+        somaticText: 'Channel ultimate power'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'custom',
+        customDescription: 'Gain +15 fire damage to all spells, +5 AC, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn.',
+        durationValue: 5,
+        durationType: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 15
+      },
+
+      tags: ['fire', 'buff', 'transformation']
+    },
+
+    {
+      id: 'pyro_inferno_mastery',
+      name: 'Inferno Mastery',
+      description: 'Master the art of infernal fire, gaining complete control over flame and dealing devastating damage.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_fire_masterofelements',
+      
+      typeConfig: {
+        school: 'fire',
+        icon: 'spell_fire_masterofelements',
+        tags: ['fire', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 200,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
+        resourceValues: { mana: 80, inferno_ascend: 3, inferno_required: 9 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'Dominatio Infernus!',
+        somaticText: 'Command all fire'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '15d10 + intelligence * 5',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 12
+      },
+
+      tags: ['fire', 'damage', 'aoe']
     }
   ]
 };

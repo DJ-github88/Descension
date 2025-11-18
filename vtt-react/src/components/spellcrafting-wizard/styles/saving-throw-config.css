@@ -764,6 +764,13 @@
   font-weight: 500;
 }
 
+.effect-toggle-note {
+  font-size: 0.9em;
+  color: #888;
+  font-style: italic;
+  margin-top: 5px;
+}
+
 /* Toggle Container - Match exactly with CriticalHitConfig and ChanceOnHitConfig */
 .toggle-container {
   display: flex;

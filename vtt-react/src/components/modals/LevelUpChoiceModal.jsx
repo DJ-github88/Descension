@@ -67,24 +67,33 @@ const LevelUpChoiceModal = ({
             return [];
         }
 
-        // Find the highest level pool that is <= currentLevel
-        const poolLevels = Object.keys(classData.spellPools || {}).map(Number).sort((a, b) => b - a);
-        const eligibleLevel = poolLevels.find(level => level <= currentLevel);
+        // When leveling up to level N, show spells from level N's pool
+        // First try to get spells for the exact level being reached
+        let eligibleLevel = currentLevel;
+        
+        // If there's no pool for the exact level, find the highest level pool that is <= currentLevel
+        if (!classData.spellPools[currentLevel]) {
+            const poolLevels = Object.keys(classData.spellPools || {}).map(Number).sort((a, b) => b - a);
+            eligibleLevel = poolLevels.find(level => level <= currentLevel);
+        }
 
         console.log('🔍 Level-up spell selection:', {
             currentLevel,
             eligibleLevel,
-            poolLevels,
+            availablePools: Object.keys(classData.spellPools || {}),
+            poolForCurrentLevel: classData.spellPools[currentLevel],
             knownSpells,
             characterClass
         });
 
-        if (!eligibleLevel) {
+        if (!eligibleLevel || !classData.spellPools[eligibleLevel]) {
+            console.warn('⚠️ No spell pool found for level', eligibleLevel, 'or level', currentLevel);
             return [];
         }
 
         const spellIds = classData.spellPools[eligibleLevel] || [];
-        const allSpells = classData.exampleSpells || [];
+        // Support both 'spells' (new format) and 'exampleSpells' (legacy format)
+        const allSpells = classData.spells || classData.exampleSpells || [];
 
         // Filter out already known spells
         const unknownSpells = allSpells.filter(spell =>

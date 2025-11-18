@@ -1948,33 +1948,63 @@ const UnifiedSpellCard = ({
       });
     }
 
+    // Add Action Points (for wizard format spells or legacy format that wasn't already added)
+    if (spell.resourceCost && spell.resourceCost.actionPoints !== undefined && spell.resourceCost.actionPoints > 0) {
+      // Check if actionPoints is already in resourceTypes (wizard format)
+      const actionPointsInTypes = spell.resourceCost.resourceTypes && spell.resourceCost.resourceTypes.includes('action_points');
+      
+      // Check if already added (check all possible type variations: 'actionpoints', 'action-points', 'action_points')
+      const alreadyAdded = resources.some(r => 
+        r.type === 'action-points' || 
+        r.type === 'action_points' || 
+        r.type === 'actionpoints'
+      );
+      
+      // Only add if:
+      // 1. Not in resourceTypes (so it's not being handled by the wizard format loop above)
+      // 2. Not already added from legacy format
+      // 3. This is a wizard format spell (has resourceTypes) OR legacy format (no resourceTypes but actionPoints exists)
+      if (!actionPointsInTypes && !alreadyAdded) {
+        resources.push({
+          type: 'action-points',
+          amount: spell.resourceCost.actionPoints,
+          name: 'Action Points',
+          icon: faBolt,
+          color: '#E67E22'
+        });
+      }
+    }
+
     // Add Pyrofiend Inferno costs
-    if (spell.infernoRequired !== undefined && spell.infernoRequired > 0) {
+    const infernoRequired = spell.infernoRequired || spell.resourceCost?.resourceValues?.inferno_required;
+    if (infernoRequired !== undefined && infernoRequired > 0) {
       resources.push({
         type: 'inferno-required',
-        amount: `Requires [${getInfernoStageNameWithSuffix(spell.infernoRequired)}]`,
+        amount: `Requires [${getInfernoStageNameWithSuffix(infernoRequired)}]`,
         name: '',
         icon: faFire,
         color: '#8b0000',
         isInferno: true
       });
     }
-    if (spell.infernoAscend !== undefined && spell.infernoAscend > 0) {
+    const infernoAscend = spell.infernoAscend || spell.resourceCost?.resourceValues?.inferno_ascend;
+    if (infernoAscend !== undefined && infernoAscend > 0) {
       resources.push({
         type: 'inferno-ascend',
-        amount: `Ascend Inferno by ${spell.infernoAscend}`,
+        amount: `Ascend Inferno +${infernoAscend}`,
         name: '',
         icon: faFire,
         color: '#ff4500',
         isInferno: true
       });
     }
-    if (spell.infernoDescend !== undefined && spell.infernoDescend !== 0 && spell.infernoDescend !== '0') {
+    const infernoDescend = spell.infernoDescend || spell.resourceCost?.resourceValues?.inferno_descend;
+    if (infernoDescend !== undefined && infernoDescend !== 0 && infernoDescend !== '0') {
       // Handle both numeric and dice formula descend values
-      const descendValue = typeof spell.infernoDescend === 'string' ? spell.infernoDescend : spell.infernoDescend;
+      const descendValue = typeof infernoDescend === 'string' ? infernoDescend : infernoDescend;
       resources.push({
         type: 'inferno-descend',
-        amount: `Descend Inferno by ${descendValue}`,
+        amount: `Descend Inferno -${descendValue}`,
         name: '',
         icon: faFire,
         color: '#4682b4',
@@ -5505,21 +5535,41 @@ const UnifiedSpellCard = ({
               statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
             }
           } else {
-            // Enhanced flat number descriptions
-            if (Math.abs(magnitude) >= 10) {
-              const intensity = magnitude >= 0 ? 'greatly increases' : 'greatly decreases';
-              statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
-            } else if (Math.abs(magnitude) >= 5) {
-              const intensity = magnitude >= 0 ? 'increases' : 'decreases';
-              statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+            // Special handling for damage_reduction stat
+            if (stat.stat === 'damage_reduction' || statName.includes('damage_reduction') || statName.includes('damage reduction')) {
+              // Use description if provided, otherwise create clear text
+              if (stat.description) {
+                statDisplay.value = stat.description;
+              } else {
+                statDisplay.value = `Reduces incoming damage by ${Math.abs(magnitude)}`;
+              }
+              statDisplay.class = 'damage-reduction';
+            } else if (stat.stat === 'armor' || statName.includes('armor')) {
+              // Special handling for armor
+              if (stat.description) {
+                statDisplay.value = stat.description;
+              } else {
+                statDisplay.value = `+${magnitude} Armor Class`;
+              }
+              statDisplay.class = 'armor-bonus';
             } else {
-              const intensity = magnitude >= 0 ? 'slightly increases' : 'slightly decreases';
-              statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+              // Enhanced flat number descriptions for other stats
+              if (stat.description) {
+                // Use description if provided
+                statDisplay.value = stat.description;
+              } else if (Math.abs(magnitude) >= 10) {
+                const intensity = magnitude >= 0 ? 'greatly increases' : 'greatly decreases';
+                statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+              } else if (Math.abs(magnitude) >= 5) {
+                const intensity = magnitude >= 0 ? 'increases' : 'decreases';
+                statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+              } else {
+                const intensity = magnitude >= 0 ? 'slightly increases' : 'slightly decreases';
+                statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+              }
+              statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
             }
-            statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
           }
-
-          statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
         }
 
         // Group stats by type
@@ -5679,7 +5729,8 @@ const UnifiedSpellCard = ({
               'damage_dealt': 'when dealing damage',
               'healing_received': 'when healed',
               'spell_cast': 'when casting spells',
-              'continuous': 'continuous effect'
+              'continuous': 'continuous effect',
+              'area_entry': 'when entering or starting turn in area'
             };
             mechanicsParts.push(triggerMap[effectData.triggerCondition] || effectData.triggerCondition);
           }
@@ -8035,15 +8086,24 @@ const UnifiedSpellCard = ({
                                 } else {
                                   // Single damage effect
                                   const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
-                                  const effectSubType = isDotOnly ? 'damage_dot' : 'damage_direct';
+                                  const isAreaDamage = damageData?.damageType === 'area';
+                                  const effectSubType = isDotOnly ? 'damage_dot' : (isAreaDamage ? 'damage_area' : 'damage_direct');
                                   const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
                                   const effectTargeting = formatEffectTargeting('damage', effectSubType);
+
+                                  // Build mechanics text for area damage with triggers
+                                  let mechanicsText = damageResult;
+                                  if (isAreaDamage && damageData?.triggerDescription) {
+                                    mechanicsText = `${damageResult} - ${damageData.triggerDescription}`;
+                                  }
+
                                   effects.push({
-                                    name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
-                                    description: '',
-                                    mechanicsText: damageResult,
+                                    name: isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage'),
+                                    description: damageData?.description || '',
+                                    mechanicsText: mechanicsText,
                                     conditionalFormulas: effectTriggers?.formulas || [],
-                                    targeting: effectTargeting
+                                    targeting: effectTargeting,
+                                    triggerCondition: damageData?.triggerCondition
                                   });
                                 }
                               }
@@ -9605,8 +9665,28 @@ const UnifiedSpellCard = ({
                                 }
                               }
                             } else {
-                              // Use generic formatting for non-resistance stats
-                              statModifierTexts.push(`${sign}${value}${typeText} ${statName}`);
+                              // Special handling for damage_reduction stat
+                              if (modifier.stat === 'damage_reduction' || modifierName.includes('damage_reduction') || modifierName.includes('damage reduction')) {
+                                // Use description if provided, otherwise create clear text
+                                if (modifier.description) {
+                                  statModifierTexts.push(modifier.description);
+                                } else {
+                                  statModifierTexts.push(`Reduces incoming damage by ${value}`);
+                                }
+                              } else if (modifier.stat === 'armor' || modifierName.includes('armor')) {
+                                // Special handling for armor
+                                if (modifier.description) {
+                                  statModifierTexts.push(modifier.description);
+                                } else {
+                                  statModifierTexts.push(`+${value} Armor Class`);
+                                }
+                              } else if (modifier.description) {
+                                // Use description if provided for any stat
+                                statModifierTexts.push(modifier.description);
+                              } else {
+                                // Use generic formatting for other stats
+                                statModifierTexts.push(`${sign}${value}${typeText} ${statName}`);
+                              }
                             }
                           });
 
@@ -10653,18 +10733,9 @@ const UnifiedSpellCard = ({
                 const hasControlType = spell?.effectTypes?.includes('control');
                 const hasControlConfig = spell?.controlConfig;
                 const hasSelectedEffects = spell?.controlConfig?.effects?.length > 0;
-                const hasAnyControlConfiguration = hasControlConfig && (
-                  spell.controlConfig.duration !== null ||
-                  spell.controlConfig.durationUnit !== 'rounds' ||
-                  spell.controlConfig.savingThrow !== null ||
-                  spell.controlConfig.savingThrowType !== 'strength' ||
-                  spell.controlConfig.difficultyClass !== 15 ||
-                  spell.controlConfig.concentration ||
-                  spell.controlConfig.controlType ||
-                  hasSelectedEffects
-                );
 
-                if (!hasControlType && !hasAnyControlConfiguration) return null;
+                // Show control effects if control type is selected OR control config exists
+                if (!hasControlType && !hasControlConfig) return null;
 
                 return (
                   <div className="healing-effects">
@@ -10687,9 +10758,15 @@ const UnifiedSpellCard = ({
 
                         // Build saving throw text to append to effect descriptions
                         let saveText = '';
-                        if (controlData?.savingThrow !== null && controlData?.savingThrow !== false && controlData?.savingThrowType && controlData?.difficultyClass) {
+                        if (controlData?.savingThrow !== null && controlData?.savingThrow !== false && controlData?.savingThrowType) {
                           const saveType = controlData.savingThrowType.charAt(0).toUpperCase() + controlData.savingThrowType.slice(1);
-                          saveText = `DC ${controlData.difficultyClass} ${saveType}`;
+                          saveText = `${saveType}`;
+                          if (controlData?.difficultyClass) {
+                            saveText = `DC ${controlData.difficultyClass} ${saveText}`;
+                          }
+                        } else if (controlData?.difficultyClass) {
+                          // Show DC even without saving throws if it exists
+                          saveText = `DC ${controlData.difficultyClass}`;
                         }
 
                         // Handle selected effects with their individual configurations
@@ -10701,11 +10778,11 @@ const UnifiedSpellCard = ({
                             // Use individual effect config if available, otherwise use top-level control config
                             const effectConfig = effect.config || {};
                             const effectDuration = effectConfig.duration !== null && effectConfig.duration !== undefined ? effectConfig.duration : controlData.duration;
-                            const effectDurationUnit = effectConfig.durationUnit || controlData.durationUnit || 'rounds';
-                            const effectConcentration = effectConfig.concentration !== undefined ? effectConfig.concentration : (controlData.concentration !== undefined ? controlData.concentration : false);
-                            const effectSavingThrowType = effectConfig.savingThrowType || controlData.savingThrowType || 'strength';
+                            const effectDurationUnit = effectConfig.durationUnit !== null && effectConfig.durationUnit !== undefined ? effectConfig.durationUnit : (controlData.durationUnit || 'rounds');
+                            const effectConcentration = effectConfig.concentration !== null && effectConfig.concentration !== undefined ? effectConfig.concentration : (controlData.concentration !== undefined ? controlData.concentration : false);
+                            const effectSavingThrowType = effectConfig.savingThrowType !== null && effectConfig.savingThrowType !== undefined ? effectConfig.savingThrowType : (controlData.savingThrowType || 'strength');
                             const effectDifficultyClass = effectConfig.difficultyClass !== null && effectConfig.difficultyClass !== undefined ? effectConfig.difficultyClass : controlData.difficultyClass;
-                            const effectSavingThrow = effectConfig.savingThrow !== undefined ? effectConfig.savingThrow : (controlData.savingThrow !== null && controlData.savingThrow !== false ? controlData.savingThrow : true);
+                            const effectSavingThrow = effectConfig.savingThrow !== null && effectConfig.savingThrow !== undefined ? effectConfig.savingThrow : (controlData.savingThrow !== null && controlData.savingThrow !== false ? controlData.savingThrow : null);
 
                             // Build duration text for this effect
                             let effectDurationText = '';

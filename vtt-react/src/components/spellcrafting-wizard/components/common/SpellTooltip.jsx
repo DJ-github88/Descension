@@ -24,10 +24,7 @@ const SpellTooltip = ({
 
   // Apply smart positioning only when requested (for action bar)
   if (smartPositioning) {
-    // Anchor the tooltip to the action slot: horizontally centered, immediately above
-    // We'll place the portal at the slot's center-top and use CSS transform to move
-    // the tooltip above the slot regardless of its actual height.
-
+    // For mouse-following tooltips: position above cursor, centered horizontally
     const scaledTooltipWidth = tooltipWidth * 0.75;
 
     // Clamp anchor X within viewport padding, accounting for horizontal centering
@@ -35,8 +32,9 @@ const SpellTooltip = ({
     const maxCenterX = window.innerWidth - padding - (scaledTooltipWidth / 2);
     x = Math.min(Math.max(position.x, minCenterX), maxCenterX);
 
-    // Use the slot's top edge as the anchor Y
-    y = position.y; // exact top of the slot; transform will place tooltip above
+    // Position tooltip so its bottom edge is just above the cursor (5px gap)
+    // We'll use bottom positioning instead of top to achieve this
+    y = position.y;
   }
 
   console.log('SpellTooltip position:', {
@@ -54,10 +52,10 @@ const SpellTooltip = ({
       style={{
         position: 'fixed',
         left: x,
-        ...(smartPositioning ? { bottom: window.innerHeight - y + 8, top: 'auto' } : { top: y }),
+        ...(smartPositioning ? { bottom: window.innerHeight - y + 5, top: 'auto' } : { top: y }),
         zIndex: 2147483647, // Maximum z-index value to ensure tooltips always appear above everything
         pointerEvents: 'auto',
-        // Anchor above the slot when smartPositioning is enabled (no height-dependent translate)
+        // Center horizontally when smartPositioning is enabled
         transform: smartPositioning ? 'translateX(-50%)' : undefined,
         // Set size for scaled spell card - scrolling handled by inner container
         width: smartPositioning ? (tooltipWidth * 0.75) : 'auto',
