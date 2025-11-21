@@ -749,20 +749,24 @@ When you cross a Rage State threshold, announce it dramatically:
     ]
   },
   
-  // Example Spells - organized by specialization, showcasing Rage States mechanic
-  exampleSpells: [
-    // SMOLDERING STATE (0-20 Rage) - Basic Abilities
+  // Complete Spell System - organized by Rage States and Level
+  spells: [
+    // ========================================
+    // LEVEL 1 SPELLS - Basic Abilities
+    // ========================================
+
     {
       id: 'berserk_basic_strike',
       name: 'Basic Strike',
-      description: 'A standard melee attack. Available at all Rage levels.',
+      description: 'Harness your primal fury in a devastating melee attack. Each swing stokes the flames of rage within you, building toward greater destruction.',
+      level: 1,
       spellType: 'ACTION',
       icon: 'ability_warrior_savageblow',
-      school: 'Martial',
-      level: 1,
-      specialization: 'savage',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_savageblow',
+        tags: ['melee', 'damage', 'rage_generation', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -770,61 +774,47 @@ When you cross a Rage State threshold, announce it dramatically:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 5
-        },
-        components: ['somatic'],
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['S'],
         somaticText: 'Swing weapon with controlled fury'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8',
-        damageType: 'slashing',
-        scalingType: 'none'
+        formula: '1d8 + strength',
+        elementType: 'physical',
+        damageType: 'direct',
+        description: 'A brutal strike that channels your growing fury into raw physical power'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d8',
-            type: 'slashing'
-          }
-        }
+      cooldownConfig: {
+        type: 'none'
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Smoldering (0-20)',
-          rageGeneration: '1d6 on hit'
-        }
-      },
-
-      tags: ['melee', 'damage', 'basic', 'smoldering', 'berserker']
+      tags: ['melee', 'damage', 'rage_generation', 'starter', 'berserker']
     },
 
     {
       id: 'berserk_defensive_stance',
       name: 'Defensive Stance',
-      description: 'Channel your rage into a defensive posture, gaining +2 AC for one round.',
+      description: 'Brace yourself in an unbreakable defensive posture. Your fury hardens your resolve, turning every attack against you into fuel for your rage.',
+      level: 1,
       spellType: 'ACTION',
       icon: 'ability_warrior_defensivestance',
-      school: 'Martial',
-      level: 1,
-      specialization: 'juggernaut',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_defensivestance',
+        tags: ['defense', 'buff', 'rage_generation', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -834,64 +824,115 @@ When you cross a Rage State threshold, announce it dramatically:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 1
-      },
-
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 10
-        },
-        components: ['somatic'],
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['S'],
         somaticText: 'Adopt defensive posture'
       },
 
       resolution: 'NONE',
+      effectTypes: ['buff'],
 
       buffConfig: {
-        stats: {
-          armorClass: '+2'
-        },
-        effects: [
-          '+2 AC for 1 round',
-          'Can be used reactively'
-        ]
-      },
-
-      effects: {
-        buff: {
-          duration: 1,
-          stats: {
-            ac: 2
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'defensive_stance_ac',
+          name: 'Iron Defense',
+          description: 'Your fury manifests as unbreakable defense, turning attacks into rage fuel',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 2,
+            magnitudeType: 'flat'
           }
-        }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Smoldering (0-20)',
-          rageGeneration: '1d4 if hit while in stance'
-        }
+      cooldownConfig: {
+        type: 'none'
       },
 
-      tags: ['defense', 'buff', 'ac', 'smoldering', 'berserker']
+      tags: ['defense', 'buff', 'rage_generation', 'starter', 'berserker']
     },
 
-    // FRENZIED STATE (21-40 Rage) - Escalating Power
+    {
+      id: 'berserk_rage_tap',
+      name: 'Rage Tap',
+      description: 'Plunge deep into your primal fury, awakening the beast within. Your attacks become more ferocious, and every strike feeds the growing storm of rage inside you.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_bloodbath',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bloodbath',
+        tags: ['buff', 'rage_generation', 'starter'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['S'],
+        somaticText: 'Tap into your inner rage'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'primal_awakening',
+          name: 'Primal Awakening',
+          description: 'The beast within stirs, making your strikes more savage and your rage burn brighter',
+          statusType: 'berserk_rage',
+          level: 'minor'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['buff', 'rage_generation', 'starter', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 2 SPELLS - Enhanced Abilities
+    // ========================================
+
     {
       id: 'berserk_frenzied_slash',
       name: 'Frenzied Slash',
-      description: 'A powerful attack fueled by rising fury, dealing an additional 1d6 damage.',
+      description: 'Your vision tinges red as you unleash a whirlwind of savage strikes. The beast within howls for blood, turning each swing into a masterpiece of controlled carnage. Requires Frenzied Rage State (21+ Rage).',
+      level: 2,
       spellType: 'ACTION',
       icon: 'ability_warrior_cleave',
-      school: 'Martial',
-      level: 2,
-      specialization: 'savage',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_cleave',
+        tags: ['melee', 'damage', 'rage_generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -899,207 +940,175 @@ When you cross a Rage State threshold, announce it dramatically:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 15
-        },
-        components: ['somatic'],
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 21 },
+        actionPoints: 1,
+        components: ['S'],
         somaticText: 'Unleash a frenzied strike'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8+1d6',
-        damageType: 'slashing',
-        scalingType: 'none'
+        formula: '1d8 + strength + 1d6',
+        elementType: 'physical',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critEffects: ['knockback']
+        },
+        description: 'Savage strikes fueled by rising fury, capable of knocking foes back on critical hits'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d8+1d6',
-            type: 'slashing'
-          }
-        }
+      cooldownConfig: {
+        type: 'none'
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Frenzied (21-40)',
-          rageGeneration: '1d6 on hit',
-          bonus: '+1 to attack roll while Frenzied'
-        }
-      },
-
-      tags: ['melee', 'damage', 'frenzied', 'berserker']
+      tags: ['melee', 'damage', 'rage_generation', 'frenzied', 'berserker']
     },
 
     {
       id: 'berserk_war_cry',
       name: 'War Cry',
-      description: 'Release a thunderous battle cry that increases allies\' attack rolls by +1 for one round.',
+      description: 'Your voice becomes the thunder of charging hordes as you unleash a primal battle cry that ignites the fighting spirit in your allies. The air itself seems to bleed with your fury, inspiring courage and sharpening blades. Requires Frenzied Rage State (21+ Rage).',
+      level: 2,
       spellType: 'ACTION',
       icon: 'ability_warrior_warcry',
-      school: 'Martial',
-      level: 2,
-      specialization: 'warlord',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_warcry',
+        tags: ['buff', 'aoe', 'support', 'rage_generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
-        rangeType: 'self',
-        areaOfEffect: {
-          type: 'RADIUS',
-          size: 30,
-          unit: 'feet'
-        }
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 1
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 20
-        },
-        components: ['verbal'],
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 21 },
+        actionPoints: 1,
+        components: ['V'],
         verbalText: 'FOR GLORY!'
       },
 
       resolution: 'NONE',
+      effectTypes: ['buff'],
 
       buffConfig: {
-        effects: [
-          'All allies within 30 feet gain +1 to attack rolls for 1 round',
-          'Allies gain +5 temporary Rage if they are Berserkers'
-        ]
-      },
-
-      effects: {
-        buff: {
-          duration: 1,
-          aoe: true,
-          radius: 30,
-          stats: {
-            attackBonus: 1
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'battle_fury',
+          name: 'Battle Fury',
+          description: 'Ignited by the war cry, attacks strike with greater precision and power',
+          statModifier: {
+            stat: 'attack',
+            magnitude: 2,
+            magnitudeType: 'flat'
           }
-        }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Frenzied (21-40)',
-          rageGeneration: '1d4 per ally affected'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
       },
 
-      tags: ['buff', 'aoe', 'support', 'frenzied', 'berserker']
+      tags: ['buff', 'aoe', 'support', 'rage_generation', 'frenzied', 'berserker']
     },
 
-    // PRIMAL STATE (41-60 Rage) - Self-Sustain Unlocked
     {
-      id: 'berserk_primal_roar',
-      name: 'Primal Roar',
-      description: 'Unleash a primal roar that deals 2d6 damage to all enemies within 10 feet.',
+      id: 'berserk_bloodthirst',
+      name: 'Bloodthirst',
+      description: 'Your hunger becomes insatiable as you tear into your foe, drinking deep of their life essence. Each drop of blood spilled fuels your relentless assault, healing your wounds and strengthening your fury. Requires Frenzied Rage State (21+ Rage).',
+      level: 2,
       spellType: 'ACTION',
-      icon: 'ability_warrior_warcry',
-      school: 'Martial',
-      level: 3,
-      specialization: 'savage',
+      icon: 'spell_shadow_lifedrain',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'spell_shadow_lifedrain',
+        tags: ['healing', 'self_sustain', 'rage_generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
-        rangeType: 'self',
-        areaOfEffect: {
-          type: 'RADIUS',
-          size: 10,
-          unit: 'feet'
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 25
-        },
-        components: ['verbal'],
-        verbalText: 'RAAAAGH!'
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 21 },
+        actionPoints: 1,
+        components: ['S'],
+        somaticText: 'Drain life essence from your foe'
       },
 
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half_damage'
-      },
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
 
       damageConfig: {
-        formula: '2d6',
-        damageType: 'thunder',
-        scalingType: 'none'
+        formula: '1d6 + strength',
+        elementType: 'physical',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critEffects: ['life_drain']
+        },
+        description: 'Savage strike that tears into flesh, drinking deep of vital essence'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d6',
-            type: 'thunder',
-            aoe: true
-          }
-        }
+      healingConfig: {
+        formula: 'damage_dealt / 2',
+        healingType: 'direct',
+        description: 'Each drop of spilled blood becomes fuel for your unyielding vitality'
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Primal (41-60)',
-          rageGeneration: '1d4 per enemy hit',
-          bonus: '+2 to attack rolls while Primal'
-        }
+      cooldownConfig: {
+        type: 'none'
       },
 
-      tags: ['aoe', 'damage', 'thunder', 'primal', 'berserker']
+      tags: ['melee', 'damage', 'healing', 'self_sustain', 'rage_generation', 'frenzied', 'berserker']
     },
 
     {
-      id: 'berserk_bloodlust',
-      name: 'Bloodlust',
-      description: 'Channel your rage into regenerative fury, healing for 1d8 hit points.',
+      id: 'berserk_adrenaline_rush',
+      name: 'Adrenaline Rush',
+      description: 'Flood your body with adrenaline, gaining extra action points but risking Rage decay. Requires Frenzied Rage State.',
+      level: 2,
       spellType: 'ACTION',
-      icon: 'spell_shadow_lifedrain',
-      school: 'Martial',
-      level: 3,
-      specialization: 'savage',
+      icon: 'ability_rogue_sprint',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_sprint',
+        tags: ['buff', 'speed', 'rage_management', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1109,58 +1118,314 @@ When you cross a Rage State threshold, announce it dramatically:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'instant'
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 8 },
+        actionPoints: 1,
+        components: ['S'],
+        somaticText: 'Inject yourself with adrenaline'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'adrenaline_speed',
+          name: 'Adrenaline Rush',
+          description: 'Extra action points from adrenaline surge',
+          statModifier: {
+            stat: 'action_points',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['buff', 'speed', 'rage_management', 'frenzied', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 3 SPELLS - Advanced Abilities
+    // ========================================
+
+    {
+      id: 'berserk_primal_roar',
+      name: 'Primal Roar',
+      description: 'The ancient fury of your ancestors erupts in a deafening roar that shakes the earth and breaks the spirit. Enemies within range are battered by thunderous force and flee in terror from the awakening beast. Requires Primal Rage State (41+ Rage).',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_warcry',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_warcry',
+        tags: ['aoe', 'damage', 'control', 'primal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 30
-        },
-        components: ['somatic'],
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 41 },
+        actionPoints: 1,
+        components: ['V'],
+        verbalText: 'RAAAAGH!'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '2d6 + strength',
+        elementType: 'thunder',
+        damageType: 'direct',
+        description: 'Thunderous roar that deafens and disorients nearby foes'
+      },
+
+      controlConfig: {
+        controlType: 'mind_control',
+        effects: [{
+          id: 'primal_terror',
+          name: 'Primal Terror',
+          description: 'Overwhelmed by the roar of an ancient predator, fleeing in blind panic',
+          config: {
+            fearStrength: 'moderate'
+          }
+        }],
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'constitution',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['aoe', 'damage', 'control', 'primal', 'berserker']
+    },
+
+    {
+      id: 'berserk_bloodlust',
+      name: 'Bloodlust',
+      description: 'The ancient blood of predators courses through your veins, awakening regenerative powers that mend your wounds with primal fury. Your very life force becomes a weapon of endurance. Requires Primal Rage State (41+ Rage).',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_lifedrain',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_shadow_lifedrain',
+        tags: ['healing', 'hot', 'self_sustain', 'primal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 41 },
+        actionPoints: 1,
+        components: ['S'],
         somaticText: 'Embrace the fury within'
       },
 
       resolution: 'NONE',
+      effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '1d8',
-        healingType: 'self'
+        formula: '1d8 + constitution',
+        healingType: 'direct',
+        hasHotEffect: true,
+        hotFormula: '1d4 + constitution/2',
+        hotDuration: 3,
+        hotTickType: 'round',
+        description: 'Primal regeneration fueled by the blood of ancient hunters'
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '1d8',
-            target: 'self'
-          }
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Primal (41-60)',
-          bonus: 'Healing increased by +1d6 if above 50 Rage'
-        }
-      },
-
-      tags: ['healing', 'self-sustain', 'primal', 'berserker']
+      tags: ['healing', 'hot', 'self_sustain', 'primal', 'berserker']
     },
 
-    // CARNAGE STATE (61-80 Rage) - Elite Power
+    {
+      id: 'berserk_savage_leap',
+      name: 'Savage Leap',
+      description: 'Leap through the air with primal fury, crashing down on enemies and dealing massive damage. Requires Primal Rage State.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'ability_heroicleap',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_heroicleap',
+        tags: ['movement', 'damage', 'aoe', 'primal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 20,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 10 },
+        actionPoints: 1,
+        components: ['S'],
+        somaticText: 'Leap with primal force'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '2d8 + strength',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'knockdown',
+        effects: [{
+          id: 'leap_stun',
+          name: 'Stunned',
+          description: 'Stunned by impact of savage leap',
+          config: {}
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'constitution',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['movement', 'damage', 'aoe', 'control', 'primal', 'berserker']
+    },
+
+    {
+      id: 'berserk_berserk_charge',
+      name: 'Berserk Charge',
+      description: 'Charge forward with unstoppable momentum, knocking enemies aside and dealing damage. Requires Primal Rage State.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_charge',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_charge',
+        tags: ['movement', 'damage', 'control', 'primal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'line',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'line',
+        aoeParameters: { length: 30, width: 5 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 41 },
+        actionPoints: 1,
+        components: ['S'],
+        somaticText: 'Charge with berserk momentum'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '2d6 + strength',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'forcedMovement',
+        effects: [{
+          id: 'charge_knockback',
+          name: 'Charge Impact',
+          description: 'Knocked back by charging berserker',
+          config: {
+            movementType: 'push',
+            distance: 10
+          }
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'strength',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['movement', 'damage', 'control', 'primal', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 4 SPELLS - Elite Abilities
+    // ========================================
+
     {
       id: 'berserk_carnage_strike',
       name: 'Carnage Strike',
-      description: 'A devastating attack dealing an additional 3d6 damage, leaving enemies reeling.',
+      description: 'Carnage incarnate flows through your veins as you unleash a strike of apocalyptic violence. The battlefield becomes your slaughterhouse, where every swing paints the ground red and leaves your enemies broken and bleeding. Requires Carnage Rage State (61+ Rage).',
+      level: 4,
       spellType: 'ACTION',
       icon: 'ability_warrior_decisivestrike',
-      school: 'Martial',
-      level: 4,
-      specialization: 'savage',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_decisivestrike',
+        tags: ['melee', 'damage', 'carnage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1168,46 +1433,38 @@ When you cross a Rage State threshold, announce it dramatically:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 35
-        },
-        components: ['somatic'],
-        somaticText: 'Strike with overwhelming force'
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 61 },
+        actionPoints: 2,
+        components: ['S'],
+        somaticText: 'Strike with overwhelming carnage'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8+3d6',
-        damageType: 'slashing',
-        scalingType: 'none'
+        formula: '2d8 + strength + 2d6',
+        elementType: 'physical',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3,
+          critEffects: ['knockback', 'stun', 'bleeding'],
+          extraDice: '1d8'
+        },
+        description: 'A slaughterhouse swing that turns the battlefield into a charnel house'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d8+3d6',
-            type: 'slashing'
-          }
-        }
-      },
-
-      specialMechanics: {
-        rageState: {
-          required: 'Carnage (61-80)',
-          rageGeneration: '2d6 on hit',
-          bonus: '+3 to attack rolls while in Carnage state'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
       },
 
       tags: ['melee', 'damage', 'carnage', 'berserker']
@@ -1216,14 +1473,15 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_raging_defense',
       name: 'Raging Defense',
-      description: 'Your fury becomes a shield. Gain resistance to all damage types for one round.',
+      description: 'Your fury becomes a shield. Gain resistance to all damage and regenerate Rage when attacked. Requires Carnage Rage State.',
+      level: 4,
       spellType: 'ACTION',
       icon: 'ability_warrior_shieldwall',
-      school: 'Martial',
-      level: 4,
-      specialization: 'juggernaut',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_shieldwall',
+        tags: ['defense', 'resistance', 'buff', 'carnage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1233,59 +1491,180 @@ When you cross a Rage State threshold, announce it dramatically:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 1
-      },
-
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 40
-        },
-        components: ['somatic'],
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 61 },
+        actionPoints: 2,
+        components: ['S'],
         somaticText: 'Brace against all harm'
       },
 
       resolution: 'NONE',
+      effectTypes: ['buff'],
 
       buffConfig: {
-        effects: [
-          'Gain resistance to all damage types for 1 round',
-          'Take half damage from all sources'
-        ]
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'damage_resistance',
+          name: 'Damage Resistance',
+          description: 'Reduces incoming damage by 50% (resistance)',
+          statModifier: {
+            stat: 'damage_reduction',
+            magnitude: 50,
+            magnitudeType: 'percentage'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      effects: {
-        buff: {
-          duration: 1,
-          resistances: ['all']
-        }
-      },
-
-      specialMechanics: {
-        rageState: {
-          required: 'Carnage (61-80)',
-          rageGeneration: '1d6 per attack received while active'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
       },
 
       tags: ['defense', 'resistance', 'buff', 'carnage', 'berserker']
     },
 
-    // CATACLYSM STATE (81-100 Rage) - Peak Performance
+    {
+      id: 'berserk_intimidating_presence',
+      name: 'Intimidating Presence',
+      description: 'Your terrifying aura causes enemies to flee and allies to fight harder. Requires Carnage Rage State.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_deathscream',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_shadow_deathscream',
+        tags: ['control', 'aoe', 'fear', 'carnage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 15 },
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'FEAR ME!',
+        somaticText: 'Radiate terrifying aura'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'mind_control',
+        effects: [{
+          id: 'frightened',
+          name: 'Frightened',
+          description: 'Terrified by intimidating presence',
+          config: {
+            fearStrength: 'moderate'
+          }
+        }],
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'charisma',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['control', 'aoe', 'fear', 'carnage', 'berserker']
+    },
+
+    {
+      id: 'berserk_battle_trance',
+      name: 'Battle Trance',
+      description: 'Enter a trance-like state of perfect combat awareness, gaining enhanced reflexes. Requires Carnage Rage State.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_focusedrage',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_focusedrage',
+        tags: ['buff', 'dodge', 'carnage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 61 },
+        actionPoints: 2,
+        components: ['S'],
+        somaticText: 'Enter battle trance'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'battle_trance_dodge',
+          name: 'Battle Trance',
+          description: 'Enhanced reflexes and combat awareness',
+          statModifier: {
+            stat: 'dodge',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'dodge', 'carnage', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS - Legendary Abilities
+    // ========================================
+
     {
       id: 'berserk_cataclysmic_blow',
       name: 'Cataclysmic Blow',
-      description: 'A massive strike dealing 4d6 damage to a single target, potentially stunning them.',
+      description: 'Gather the destructive force of a collapsing star in your fist and unleash it upon your foe. The impact can shatter stone, crumple armor, and leave even the mightiest warriors stunned and broken. Requires Cataclysm Rage State (81+ Rage).',
+      level: 5,
       spellType: 'ACTION',
       icon: 'ability_warrior_titansgrip',
-      school: 'Martial',
-      level: 5,
-      specialization: 'savage',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_titansgrip',
+        tags: ['melee', 'damage', 'control', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1293,74 +1672,74 @@ When you cross a Rage State threshold, announce it dramatically:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 45
-        },
-        components: ['somatic'],
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 81 },
+        actionPoints: 2,
+        components: ['S'],
         somaticText: 'Channel all fury into one devastating blow'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '4d6',
-        damageType: 'bludgeoning',
-        scalingType: 'none'
-      },
-
-      debuffConfig: {
-        effects: [
-          'Target must make DC 16 Constitution save or be stunned for 1 round'
-        ]
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '4d6',
-            type: 'bludgeoning'
-          }
+        formula: '3d8 + strength + 2d6',
+        elementType: 'physical',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 3,
+          critEffects: ['stun', 'knockback', 'disarm'],
+          explodingDice: true,
+          explodingDiceType: 'reroll_add'
         },
-        debuff: {
-          type: 'stun',
-          duration: 1,
-          saveType: 'constitution',
-          saveDC: 16
-        }
+        description: 'A blow of apocalyptic force that can shatter mountains and break the strongest defenses'
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Cataclysm (81-100)',
-          rageGeneration: '2d6 on hit',
-          bonus: '+4 to attack rolls while in Cataclysm state'
-        }
+      controlConfig: {
+        controlType: 'incapacitation',
+        effects: [{
+          id: 'cataclysmic_impact',
+          name: 'Cataclysmic Impact',
+          description: 'Mind and body shattered by the force of a collapsing star',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }],
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'constitution',
+        savingThrow: true
       },
 
-      tags: ['melee', 'damage', 'stun', 'cataclysm', 'berserker']
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['melee', 'damage', 'control', 'cataclysm', 'berserker']
     },
 
     {
       id: 'berserk_unstoppable_force',
       name: 'Unstoppable Force',
-      description: 'Your rage makes you immune to all conditions for one round. Nothing can stop you.',
+      description: 'Your rage makes you immune to all conditions and forced movement for one round. Requires Cataclysm Rage State.',
+      level: 5,
       spellType: 'ACTION',
       icon: 'spell_nature_shamanrage',
-      school: 'Martial',
-      level: 5,
-      specialization: 'juggernaut',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'spell_nature_shamanrage',
+        tags: ['buff', 'immunity', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1370,119 +1749,233 @@ When you cross a Rage State threshold, announce it dramatically:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 1
-      },
-
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 50
-        },
-        components: ['verbal', 'somatic'],
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 20 },
+        actionPoints: 2,
+        components: ['V', 'S'],
         verbalText: 'NOTHING STOPS ME!',
         somaticText: 'Surge forward with unstoppable momentum'
       },
 
       resolution: 'NONE',
+      effectTypes: ['buff'],
 
       buffConfig: {
-        effects: [
-          'Gain immunity to all conditions for 1 round',
-          'Cannot be stunned, paralyzed, frightened, charmed, or restrained',
-          'Automatically succeed on saves against forced movement'
-        ]
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'condition_immunity',
+          name: 'Unstoppable Force',
+          description: 'Immune to all conditions and forced movement',
+          statusType: 'immunity',
+          level: 'major'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      effects: {
-        buff: {
-          duration: 1,
-          immunities: ['all_conditions']
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Cataclysm (81-100)',
-          warning: 'Approaching Overheat threshold - spend Rage wisely'
-        }
-      },
-
-      tags: ['buff', 'immunity', 'conditions', 'cataclysm', 'berserker']
+      tags: ['buff', 'immunity', 'cataclysm', 'berserker']
     },
 
-    // OBLITERATION STATE (101+ Rage) - Ultimate Power
     {
-      id: 'berserk_obliterating_strike',
-      name: 'Obliterating Strike',
-      description: 'An ultimate attack dealing 6d6 damage to all enemies within 20 feet. Must be used immediately or risk Overheat.',
+      id: 'berserk_commanding_shout',
+      name: 'Commanding Shout',
+      description: 'A powerful shout that rallies allies and demoralizes enemies. Requires Cataclysm Rage State.',
+      level: 5,
       spellType: 'ACTION',
-      icon: 'ability_warrior_rampage',
-      school: 'Martial',
-      level: 6,
-      specialization: 'savage',
+      icon: 'ability_warrior_commandingshout',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_commandingshout',
+        tags: ['buff', 'debuff', 'aoe', 'support', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'aoe',
-        rangeType: 'self',
-        areaOfEffect: {
-          type: 'RADIUS',
-          size: 20,
-          unit: 'feet'
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 }
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 60
-        },
-        components: ['somatic'],
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 81 },
+        actionPoints: 2,
+        components: ['V'],
+        verbalText: 'RALLY TO ME!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff', 'debuff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'commanding_buff',
+          name: 'Commanding Presence',
+          description: 'Increased attack and damage from leadership',
+          statModifier: {
+            stat: 'attack',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'commanding_debuff',
+          name: 'Demoralized',
+          description: 'Reduced attack rolls from demoralizing shout',
+          statModifier: {
+            stat: 'attack',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        difficultyClass: 16,
+        savingThrow: 'charisma',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['buff', 'debuff', 'aoe', 'support', 'cataclysm', 'berserker']
+    },
+
+    {
+      id: 'berserk_rage_eruption',
+      name: 'Rage Eruption',
+      description: 'Explode with uncontrollable fury, damaging all nearby enemies but risking self-harm. Requires Cataclysm Rage State.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_fire_volcano',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_fire_volcano',
+        tags: ['aoe', 'damage', 'self_damage', 'cataclysm'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 25 },
+        actionPoints: 2,
+        components: ['V', 'S'],
+        verbalText: 'MY RAGE CONSUMES ALL!',
+        somaticText: 'Explode with uncontrollable fury'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d6 + strength',
+        elementType: 'fire',
+        damageType: 'direct',
+        triggerCondition: 'activation',
+        triggerDescription: 'Deals damage to self and nearby enemies'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['aoe', 'damage', 'self_damage', 'cataclysm', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS - Ultimate Abilities
+    // ========================================
+
+    {
+      id: 'berserk_obliterating_strike',
+      name: 'Obliterating Strike',
+      description: 'The culmination of your rage erupts in a cataclysmic explosion of pure destructive force. Reality itself warps around your strike as you channel the entropy of a dying universe. Must be used immediately or risk Overheat. Requires Obliteration Rage State (101+ Rage).',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_rampage',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_rampage',
+        tags: ['aoe', 'damage', 'ultimate', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 3,
+        components: ['S'],
         somaticText: 'Unleash all accumulated fury in one devastating strike'
       },
 
       resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 17,
-        onSaveEffect: 'half_damage'
-      },
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d6',
-        damageType: 'force',
-        scalingType: 'none'
+        formula: '4d8 + strength + 3d6',
+        elementType: 'force',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 4,
+          extraDice: '2d6',
+          critEffects: ['knockback', 'stun', 'burning'],
+          explodingDice: true,
+          explodingDiceType: 'double_value'
+        },
+        description: 'Reality-warping strike that channels the destructive force of universal entropy'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '6d6',
-            type: 'force',
-            aoe: true
-          }
-        }
-      },
-
-      specialMechanics: {
-        rageState: {
-          required: 'Obliteration (101+)',
-          warning: 'OVERHEAT IMMINENT - If not spent this round, take 2d6 damage and reset to 0 Rage',
-          bonus: '+5 to attack rolls while in Obliteration state'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
       },
 
       tags: ['aoe', 'damage', 'ultimate', 'obliteration', 'berserker']
@@ -1491,14 +1984,15 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_wrath_berserker',
       name: 'Wrath of the Berserker',
-      description: 'For the next three rounds, gain advantage on all attack rolls and +5 to damage. The ultimate expression of fury.',
+      description: 'For three rounds, gain advantage on all attacks and massive damage bonuses. The ultimate expression of fury. Requires Obliteration Rage State.',
+      level: 6,
       spellType: 'ACTION',
       icon: 'ability_warrior_innerrage',
-      school: 'Martial',
-      level: 6,
-      specialization: 'warlord',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_innerrage',
+        tags: ['buff', 'advantage', 'damage', 'ultimate', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1508,59 +2002,876 @@ When you cross a Rage State threshold, announce it dramatically:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 3
-      },
-
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'rage',
-          cost: 50
-        },
-        components: ['verbal', 'somatic'],
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 30 },
+        actionPoints: 3,
+        components: ['V', 'S'],
         verbalText: 'WITNESS TRUE FURY!',
         somaticText: 'Embrace the full power of rage'
       },
 
       resolution: 'NONE',
+      effectTypes: ['buff'],
 
       buffConfig: {
-        stats: {
-          damageBonus: '+5'
-        },
-        effects: [
-          'Advantage on all attack rolls for 3 rounds',
-          '+5 to all damage rolls',
-          'Rage Decay suspended during duration',
-          'Allies within 30 feet gain +2 to attack rolls'
-        ]
-      },
-
-      effects: {
-        buff: {
-          duration: 3,
-          stats: {
-            damageBonus: 5
-          },
-          advantages: ['attack'],
-          aura: {
-            radius: 30,
-            allyBonus: 2
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'wrath_damage',
+          name: 'Wrath of the Berserker',
+          description: 'Massive damage bonus and advantage on attacks',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 5,
+            magnitudeType: 'flat'
           }
-        }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      specialMechanics: {
-        rageState: {
-          required: 'Obliteration (101+)',
-          warning: 'OVERHEAT IMMINENT - Using this ability prevents Overheat',
-          bonus: 'Rage Decay suspended for duration'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
       },
 
       tags: ['buff', 'advantage', 'damage', 'ultimate', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_final_stand',
+      name: 'Final Stand',
+      description: 'Make a last stand against overwhelming odds, becoming nearly invincible but unable to move. Requires Obliteration Rage State.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_laststand',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_laststand',
+        tags: ['buff', 'invulnerability', 'ultimate', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 3,
+        components: ['V', 'S'],
+        verbalText: 'I WILL NOT FALL!',
+        somaticText: 'Dig in for final stand'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'final_stand_defense',
+          name: 'Final Stand',
+          description: 'Dug in and nearly invulnerable',
+          statModifier: {
+            stat: 'damage_reduction',
+            magnitude: 75,
+            magnitudeType: 'percentage'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['buff', 'invulnerability', 'ultimate', 'obliteration', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS - Mythic Abilities
+    // ========================================
+
+    {
+      id: 'berserk_berserkers_rage',
+      name: 'Berserker\'s Rage',
+      description: 'Embrace the full power of your fury, becoming an unstoppable force of destruction.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_nature_bloodlust',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_nature_bloodlust',
+        tags: ['buff', 'damage', 'transformation', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 35 },
+        actionPoints: 3,
+        components: ['V', 'S'],
+        verbalText: 'I AM THE STORM!',
+        somaticText: 'Embrace the raging beast within'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff', 'damage'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'berserkers_rage_buff',
+          name: 'Berserker\'s Rage',
+          description: 'Transformed by pure fury, gaining immense power',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 8,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      damageConfig: {
+        formula: '2d6',
+        elementType: 'physical',
+        damageType: 'direct',
+        triggerCondition: 'activation',
+        triggerDescription: 'Deals damage to self and nearby enemies when activated'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['buff', 'damage', 'transformation', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_fury_of_the_ancients',
+      name: 'Fury of the Ancients',
+      description: 'The spirits of ancient berserkers possess your form as you transform into a living cyclone of primal fury. Blades of ancestral rage whirl around you, tearing through flesh and bone, leaving only devastation in your wake. Requires Obliteration Rage State (101+ Rage).',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_bladestorm',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bladestorm',
+        tags: ['aoe', 'damage', 'movement', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 3,
+        components: ['S'],
+        somaticText: 'Spin into a whirlwind of blades'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '3d6 + strength + 2d6',
+        elementType: 'physical',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 4,
+          critEffects: ['knockback', 'stun', 'bleeding'],
+          explodingDice: true,
+          explodingDiceType: 'reroll_add'
+        },
+        description: 'Ancestral spirits manifest as whirling blades of unstoppable fury'
+      },
+
+      controlConfig: {
+        controlType: 'knockdown',
+        effects: [{
+          id: 'whirlwind_knockback',
+          name: 'Whirlwind Force',
+          description: 'Knocked back by spinning fury',
+          config: {}
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'strength',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['aoe', 'damage', 'movement', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_blood_frenzy',
+      name: 'Blood Frenzy',
+      description: 'Enter a blood-fueled frenzy, healing massively from each enemy you defeat. Requires Obliteration Rage State.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_bloodboil',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_shadow_bloodboil',
+        tags: ['buff', 'healing', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 3,
+        components: ['V', 'S'],
+        verbalText: 'BLOOD FUELS MY RAGE!',
+        somaticText: 'Enter blood-fueled frenzy'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'blood_frenzy_heal',
+          name: 'Blood Frenzy',
+          description: 'Heal massively from defeated enemies',
+          statModifier: {
+            stat: 'healing_per_kill',
+            magnitude: 20,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 7
+      },
+
+      tags: ['buff', 'healing', 'obliteration', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS - Legendary Abilities
+    // ========================================
+
+    {
+      id: 'berserk_ragnarok_fury',
+      name: 'Ragnarok Fury',
+      description: 'Unleash apocalyptic rage that shatters the earth and consumes everything in flames.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_fire_ragnaros_lavabolt',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_fire_ragnaros_lavabolt',
+        tags: ['aoe', 'damage', 'destruction', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 4,
+        components: ['V', 'S'],
+        verbalText: 'THE WORLD BURNS!',
+        somaticText: 'Strike the ground with apocalyptic force'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '5d8 + strength + 4d6',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        effects: [{
+          id: 'ragnarok_stun',
+          name: 'Apocalyptic Shock',
+          description: 'Stunned by the force of Ragnarok',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }],
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'constitution',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 7
+      },
+
+      tags: ['aoe', 'damage', 'destruction', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_immortal_rage',
+      name: 'Immortal Rage',
+      description: 'Your fury transcends death itself, granting immortality for a brief moment.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_deathscream',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_shadow_deathscream',
+        tags: ['buff', 'immortality', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 4,
+        components: ['V', 'S'],
+        verbalText: 'DEATH CANNOT HOLD ME!',
+        somaticText: 'Reject mortality itself'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'immortal_rage',
+          name: 'Immortal Rage',
+          description: 'Immune to death and all lethal damage',
+          statusType: 'immortality',
+          level: 'extreme'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      tags: ['buff', 'immortality', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_dimensional_rift',
+      name: 'Dimensional Rift',
+      description: 'Tear open a rift to another dimension, pulling enemies through and dealing chaotic damage. Requires Obliteration Rage State.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_portalironforge',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_arcane_portalironforge',
+        tags: ['aoe', 'damage', 'control', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 4,
+        components: ['V', 'S'],
+        verbalText: 'REALITY TEARS APART!',
+        somaticText: 'Rip open dimensional barriers'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '4d6 + strength + 3d6',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'forcedMovement',
+        effects: [{
+          id: 'dimensional_pull',
+          name: 'Dimensional Pull',
+          description: 'Pulled through dimensional rift',
+          config: {
+            movementType: 'pull',
+            distance: 20
+          }
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'constitution',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      tags: ['aoe', 'damage', 'control', 'obliteration', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS - Transcendent Abilities
+    // ========================================
+
+    {
+      id: 'berserk_cosmic_fury',
+      name: 'Cosmic Fury',
+      description: 'Harness the fury of the cosmos itself, becoming a conduit for universal destruction.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_starfire',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_arcane_starfire',
+        tags: ['aoe', 'damage', 'cosmic', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 4,
+        components: ['V', 'S'],
+        verbalText: 'THE COSMOS BENDS TO MY WILL!',
+        somaticText: 'Draw cosmic energy into your being'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '6d8 + strength + 5d6',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'incapacitation',
+        effects: [{
+          id: 'cosmic_stun',
+          name: 'Cosmic Overload',
+          description: 'Mind shattered by cosmic fury',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }],
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 20,
+        saveType: 'intelligence',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      tags: ['aoe', 'damage', 'cosmic', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_eternal_warrior',
+      name: 'Eternal Warrior',
+      description: 'Become the embodiment of eternal warfare, gaining god-like combat prowess.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_endlessrage',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_endlessrage',
+        tags: ['buff', 'godlike', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 4,
+        components: ['V', 'S'],
+        verbalText: 'I AM WAR INCARNATE!',
+        somaticText: 'Embrace the eternal spirit of battle'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'eternal_warrior',
+          name: 'Eternal Warrior',
+          description: 'Ascended to god-like combat mastery',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      tags: ['buff', 'godlike', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_time_dilation',
+      name: 'Time Dilation',
+      description: 'Bend time itself, slowing enemies to a crawl while you move at blinding speed. Requires Obliteration Rage State.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_time',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_arcane_time',
+        tags: ['buff', 'control', 'time', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 40 },
+        actionPoints: 4,
+        components: ['V', 'S'],
+        verbalText: 'TIME BENDS TO MY WILL!',
+        somaticText: 'Manipulate the flow of time'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'restraint',
+        effects: [{
+          id: 'time_slow',
+          name: 'Time Dilation',
+          description: 'Time slows to a crawl, severely reducing speed and actions',
+          config: {
+            speedReduction: 75,
+            actionReduction: 1
+          }
+        }],
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 20,
+        saveType: 'intelligence',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 9
+      },
+
+      tags: ['buff', 'control', 'time', 'obliteration', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS - Godlike Abilities
+    // ========================================
+
+    {
+      id: 'berserk_armageddon_rage',
+      name: 'Armageddon Rage',
+      description: 'Unleash the fury of Armageddon itself, destroying everything within a massive radius.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_fire_meteorstorm',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_fire_meteorstorm',
+        tags: ['aoe', 'damage', 'apocalypse', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 5,
+        components: ['V', 'S'],
+        verbalText: 'THE END OF ALL THINGS!',
+        somaticText: 'Call forth the apocalypse'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d8 + strength + 6d6',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      tags: ['aoe', 'damage', 'apocalypse', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_god_of_war',
+      name: 'God of War',
+      description: 'Divine wrath incarnate flows through your veins as you transcend mortality and become the living embodiment of war itself. Gods tremble at your approach, for you are the eternal conflict, the unending battle, the apocalypse given flesh. Requires Obliteration Rage State (101+ Rage).',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_bloodnova',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bloodnova',
+        tags: ['buff', 'ascension', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 5,
+        components: ['V', 'S'],
+        verbalText: 'I AM THE GOD OF WAR!',
+        somaticText: 'Ascend to divine fury'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'god_of_war',
+          name: 'Divine Wrath Incarnate',
+          description: 'Transcended mortality to become the living embodiment of eternal conflict',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 15,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 12
+      },
+
+      tags: ['buff', 'ascension', 'obliteration', 'berserker']
+    },
+
+    {
+      id: 'berserk_omega_rage',
+      name: 'Omega Rage',
+      description: 'You become the Omega - the final, ultimate expression of rage that existed before the universe and will remain after its end. Reality itself bends to your will as you transcend all limits, becoming the living embodiment of apocalyptic fury. Requires Obliteration Rage State (101+ Rage).',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_unholyfrenzy',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'spell_shadow_unholyfrenzy',
+        tags: ['buff', 'transformation', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_required'],
+        resourceValues: { mana: 0, rage_required: 101 },
+        actionPoints: 5,
+        components: ['V', 'S'],
+        verbalText: 'THE ALPHA AND OMEGA OF DESTRUCTION!',
+        somaticText: 'Achieve ultimate berserk transformation'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'omega_rage',
+          name: 'Omega Incarnation',
+          description: 'Transcended all mortal limits to become the living apocalypse, the alpha and omega of destruction',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 20,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 15
+      },
+
+      tags: ['buff', 'transformation', 'obliteration', 'berserker']
     }
   ]
 };
