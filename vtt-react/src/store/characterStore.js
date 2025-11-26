@@ -861,60 +861,97 @@ const useCharacterStore = create((set, get) => ({
                     };
                 }
 
-                // Auto-assign starting spells for spell-casting classes
-                const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Chaos Weaver', 'Fate Weaver', 'Berserker'];
+                // Auto-assign starting spells for ALL classes
                 const previousClass = state.class;
 
-                // Check if we're switching TO a spell-casting class
-                if (SPELL_CLASSES.includes(value)) {
-                    // Import class data dynamically
-                    let classData = null;
-                    if (value === 'Arcanoneer') {
-                        const { ARCANONEER_DATA } = require('../data/classes/arcanoneerData');
-                        classData = ARCANONEER_DATA;
-                    } else if (value === 'Pyrofiend') {
-                        const { PYROFIEND_DATA } = require('../data/classes/pyrofiendData');
-                        classData = PYROFIEND_DATA;
-                    } else if (value === 'Minstrel') {
-                        const { MINSTREL_DATA } = require('../data/classes/minstrelData');
-                        classData = MINSTREL_DATA;
-                    } else if (value === 'Chronarch') {
-                        const { CHRONARCH_DATA } = require('../data/classes/chronarchData');
-                        classData = CHRONARCH_DATA;
-                    } else if (value === 'Martyr') {
-                        const { MARTYR_DATA } = require('../data/classes/martyrData');
-                        classData = MARTYR_DATA;
-                    } else if (value === 'Chaos Weaver') {
-                        const { CHAOS_WEAVER_DATA } = require('../data/classes/chaosWeaverData');
-                        classData = CHAOS_WEAVER_DATA;
-                    } else if (value === 'Fate Weaver') {
-                        const { FATE_WEAVER_DATA } = require('../data/classes/fateWeaverData');
-                        classData = FATE_WEAVER_DATA;
-                    } else if (value === 'Berserker') {
-                        const { BERSERKER_DATA } = require('../data/classes/berserkerData');
-                        classData = BERSERKER_DATA;
+                // Helper function to get class data by name
+                const getClassData = (className) => {
+                    const classDataMap = {
+                        'Arcanoneer': () => require('../data/classes/arcanoneerData').ARCANONEER_DATA,
+                        'Berserker': () => require('../data/classes/berserkerData').BERSERKER_DATA,
+                        'Bladedancer': () => require('../data/classes/bladedancerData').BLADEDANCER_DATA,
+                        'Chaos Weaver': () => require('../data/classes/chaosWeaverData').CHAOS_WEAVER_DATA,
+                        'Chronarch': () => require('../data/classes/chronarchData').CHRONARCH_DATA,
+                        'Covenbane': () => require('../data/classes/covenbaneData').COVENBANE_DATA,
+                        'Deathcaller': () => require('../data/classes/deathcallerData').DEATHCALLER_DATA,
+                        'Dreadnaught': () => require('../data/classes/dreadnaughtData').DREADNAUGHT_DATA,
+                        'Exorcist': () => require('../data/classes/exorcistData').EXORCIST_DATA,
+                        'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
+                        'Fate Weaver': () => require('../data/classes/fateWeaverData').FATE_WEAVER_DATA,
+                        'Formbender': () => require('../data/classes/formbenderData').FORMBENDER_DATA,
+                        'Gambler': () => require('../data/classes/gamblerData').GAMBLER_DATA,
+                        'Huntress': () => require('../data/classes/huntressData').HUNTRESS_DATA,
+                        'Inscriptor': () => require('../data/classes/inscriptorData').INSCRIPTOR_DATA,
+                        'Lichborne': () => require('../data/classes/lichborneData').LICHBORNE_DATA,
+                        'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
+                        'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
+                        'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
+                        'Oracle': () => require('../data/classes/oracleData').ORACLE_DATA,
+                        'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
+                        'Primalist': () => require('../data/classes/primalistData').PRIMALIST_DATA,
+                        'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
+                        'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
+                        'Titan': () => require('../data/classes/titanData').TITAN_DATA,
+                        'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
+                        'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
+                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA
+                    };
+                    const loader = classDataMap[className];
+                    if (loader) {
+                        try {
+                            return loader();
+                        } catch (e) {
+                            console.warn(`Failed to load class data for ${className}:`, e);
+                            return null;
+                        }
                     }
+                    return null;
+                };
 
-                    if (classData && classData.spellPools && classData.spellPools[1]) {
-                        const level1SpellIds = classData.spellPools[1];
+                // Helper function to get level 1 spell IDs from class data
+                const getLevel1SpellIds = (classData) => {
+                    if (!classData) return [];
+                    
+                    // First try spellPools[1]
+                    if (classData.spellPools && classData.spellPools[1]) {
+                        return classData.spellPools[1];
+                    }
+                    
+                    // Fallback: filter spells array for level 1 spells
+                    if (classData.spells && Array.isArray(classData.spells)) {
+                        return classData.spells
+                            .filter(spell => spell.level === 1)
+                            .map(spell => spell.id);
+                    }
+                    
+                    return [];
+                };
 
-                        // If switching from a different spell class, or if no spells assigned yet
-                        const hasNoSpells = !state.class_spells?.known_spells || state.class_spells.known_spells.length === 0;
-                        const shouldReassignSpells = previousClass !== value &&
-                            (SPELL_CLASSES.includes(previousClass) || hasNoSpells);
-
-                        if (shouldReassignSpells || hasNoSpells) {
-                            // Randomly select 3 spells from the pool (ensure we have at least 3 available)
-                            const availableSpells = level1SpellIds.length >= 3 ? level1SpellIds : level1SpellIds;
-                            const shuffled = [...availableSpells].sort(() => Math.random() - 0.5);
-                            const selectedSpells = shuffled.slice(0, Math.min(3, availableSpells.length));
+                // Try to get class data and assign starter spells
+                const classData = getClassData(value);
+                if (classData) {
+                    const level1SpellIds = getLevel1SpellIds(classData);
+                    
+                    if (level1SpellIds.length > 0) {
+                        // Always reassign spells when switching to a different class
+                        const shouldReassignSpells = previousClass !== value;
+                        
+                        if (shouldReassignSpells) {
+                            // Randomly select 3 spells from the pool
+                            const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
+                            const selectedSpells = shuffled.slice(0, Math.min(3, level1SpellIds.length));
 
                             newState.class_spells = {
                                 ...(state.class_spells || {}),
                                 known_spells: selectedSpells
                             };
 
-                            console.log(`✨ Auto-assigned ${selectedSpells.length} starter spells for ${value}:`, selectedSpells);
+                            console.log(`✨ Auto-assigned ${selectedSpells.length} starter spells for ${value}:`, {
+                                selectedSpells,
+                                level1PoolSize: level1SpellIds.length,
+                                previousClass,
+                                newClass: value
+                            });
                         }
                     }
                 }
@@ -925,11 +962,16 @@ const useCharacterStore = create((set, get) => ({
             if (state.currentCharacterId) {
                 const updatedCharacters = state.characters.map(char => {
                     if (char.id === state.currentCharacterId) {
-                        return {
+                        const updatedChar = {
                             ...char,
                             [field]: value,
                             updatedAt: new Date().toISOString()
                         };
+                        // If class_spells was updated, sync that too
+                        if (newState.class_spells) {
+                            updatedChar.class_spells = newState.class_spells;
+                        }
+                        return updatedChar;
                     }
                     return char;
                 });
@@ -2207,29 +2249,75 @@ const useCharacterStore = create((set, get) => ({
             
             // Fall back to classData spell pools if generator unavailable or no spells found
             try {
-                let classData = null;
-                if (className === 'Arcanoneer') {
-                    const { ARCANONEER_DATA } = require('../data/classes/arcanoneerData');
-                    classData = ARCANONEER_DATA;
-                } else if (className === 'Pyrofiend') {
-                    const { PYROFIEND_DATA } = require('../data/classes/pyrofiendData');
-                    classData = PYROFIEND_DATA;
-                } else if (className === 'Minstrel') {
-                    const { MINSTREL_DATA } = require('../data/classes/minstrelData');
-                    classData = MINSTREL_DATA;
-                } else if (className === 'Chronarch') {
-                    const { CHRONARCH_DATA } = require('../data/classes/chronarchData');
-                    classData = CHRONARCH_DATA;
-                } else if (className === 'Martyr') {
-                    const { MARTYR_DATA } = require('../data/classes/martyrData');
-                    classData = MARTYR_DATA;
-                } else if (className === 'Chaos Weaver') {
-                    const { CHAOS_WEAVER_DATA } = require('../data/classes/chaosWeaverData');
-                    classData = CHAOS_WEAVER_DATA;
-                }
-                if (classData && classData.spellPools && classData.spellPools[1]) {
-                    const poolFallback = [...classData.spellPools[1]];
-                    const selectionFallback = poolFallback.length <= 3 ? poolFallback : poolFallback.sort(() => Math.random() - 0.5).slice(0, 3);
+                // Helper function to get class data by name
+                const getClassData = (name) => {
+                    const classDataMap = {
+                        'Arcanoneer': () => require('../data/classes/arcanoneerData').ARCANONEER_DATA,
+                        'Berserker': () => require('../data/classes/berserkerData').BERSERKER_DATA,
+                        'Bladedancer': () => require('../data/classes/bladedancerData').BLADEDANCER_DATA,
+                        'Chaos Weaver': () => require('../data/classes/chaosWeaverData').CHAOS_WEAVER_DATA,
+                        'Chronarch': () => require('../data/classes/chronarchData').CHRONARCH_DATA,
+                        'Covenbane': () => require('../data/classes/covenbaneData').COVENBANE_DATA,
+                        'Deathcaller': () => require('../data/classes/deathcallerData').DEATHCALLER_DATA,
+                        'Dreadnaught': () => require('../data/classes/dreadnaughtData').DREADNAUGHT_DATA,
+                        'Exorcist': () => require('../data/classes/exorcistData').EXORCIST_DATA,
+                        'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
+                        'Fate Weaver': () => require('../data/classes/fateWeaverData').FATE_WEAVER_DATA,
+                        'Formbender': () => require('../data/classes/formbenderData').FORMBENDER_DATA,
+                        'Gambler': () => require('../data/classes/gamblerData').GAMBLER_DATA,
+                        'Huntress': () => require('../data/classes/huntressData').HUNTRESS_DATA,
+                        'Inscriptor': () => require('../data/classes/inscriptorData').INSCRIPTOR_DATA,
+                        'Lichborne': () => require('../data/classes/lichborneData').LICHBORNE_DATA,
+                        'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
+                        'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
+                        'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
+                        'Oracle': () => require('../data/classes/oracleData').ORACLE_DATA,
+                        'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
+                        'Primalist': () => require('../data/classes/primalistData').PRIMALIST_DATA,
+                        'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
+                        'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
+                        'Titan': () => require('../data/classes/titanData').TITAN_DATA,
+                        'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
+                        'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
+                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA
+                    };
+                    const loader = classDataMap[name];
+                    if (loader) {
+                        try {
+                            return loader();
+                        } catch (err) {
+                            console.warn(`Failed to load class data for ${name}:`, err);
+                            return null;
+                        }
+                    }
+                    return null;
+                };
+
+                // Helper function to get level 1 spell IDs from class data
+                const getLevel1SpellIds = (classData) => {
+                    if (!classData) return [];
+                    
+                    // First try spellPools[1]
+                    if (classData.spellPools && classData.spellPools[1]) {
+                        return classData.spellPools[1];
+                    }
+                    
+                    // Fallback: filter spells array for level 1 spells
+                    if (classData.spells && Array.isArray(classData.spells)) {
+                        return classData.spells
+                            .filter(spell => spell.level === 1)
+                            .map(spell => spell.id);
+                    }
+                    
+                    return [];
+                };
+
+                const classData = getClassData(className);
+                const level1SpellIds = getLevel1SpellIds(classData);
+                
+                if (level1SpellIds.length > 0) {
+                    const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
+                    const selectionFallback = shuffled.slice(0, Math.min(3, level1SpellIds.length));
                     set({
                         class_spells: {
                             ...state.class_spells,

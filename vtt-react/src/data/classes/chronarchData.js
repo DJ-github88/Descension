@@ -2127,7 +2127,62 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       tags: ['buff', 'control', 'omnipotence', 'displacement'],
       specialization: 'displacement'
     }
-  ]
+  ],
+
+  // Spell Pools by Level
+  spellPools: {
+    1: [
+      'chrono_bolt',
+      'temporal_mend',
+      'temporal_step'
+    ],
+    2: [
+      'stasis_field',
+      'temporal_rewind',
+      'chrono_echo'
+    ],
+    3: [
+      'temporal_flux_blink',
+      'temporal_acceleration',
+      'chrono_clone'
+    ],
+    4: [
+      'temporal_flux_freeze',
+      'temporal_flux_rewind',
+      'temporal_flux_shift'
+    ],
+    5: [
+      'chronal_shift',
+      'temporal_barrier',
+      'temporal_flux_heal',
+      'temporal_flux_speed'
+    ],
+    6: [
+      'temporal_flux_storm',
+      'time_lock',
+      'temporal_flux_mass_rewind'
+    ],
+    7: [
+      'temporal_flux_teleport_storm',
+      'chronal_reversal',
+      'temporal_flux_clone_army'
+    ],
+    8: [
+      'temporal_flux_dominion',
+      'temporal_flux_resurrection',
+      'temporal_flux_phase_army'
+    ],
+    9: [
+      'chronal_cataclysm',
+      'temporal_flux_reversal',
+      'temporal_flux_apocalypse'
+    ],
+    10: [
+      'temporal_apotheosis',
+      'chronal_ascension',
+      'temporal_omnipotence'
+    ]
+  }
 };
 
 export default CHRONARCH_DATA;

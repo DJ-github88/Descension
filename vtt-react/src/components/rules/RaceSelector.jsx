@@ -50,12 +50,46 @@ const traitTransformCache = new Map();
 const transformTraitToSpell = (trait) => {
   if (!trait) return {};
 
+  // If trait already has the new spell format (effectTypes array exists), use it directly
+  // This includes traits with empty effectTypes - they just show description without effect sections
+  if (Array.isArray(trait.effectTypes)) {
+    const spell = {
+      id: trait.id || `trait_${trait.name?.toLowerCase().replace(/\s+/g, '_') || 'unknown'}`,
+      name: trait.name || 'Unknown Trait',
+      description: trait.description || '',
+      level: trait.level || 0,
+      spellType: trait.spellType || 'PASSIVE',
+      effectTypes: trait.effectTypes,
+      tags: trait.typeConfig?.tags || ['racial', 'trait'],
+      damageTypes: trait.damageTypes || [],
+      icon: trait.icon || trait.typeConfig?.icon || 'inv_misc_questionmark',
+      typeConfig: trait.typeConfig,
+      targetingConfig: trait.targetingConfig || { targetingType: 'self', rangeType: 'self' },
+      resourceCost: trait.resourceCost,
+      cooldownConfig: trait.cooldownConfig,
+      triggerConfig: trait.triggerConfig,
+      // Pass through all effect configs
+      buffConfig: trait.buffConfig,
+      debuffConfig: trait.debuffConfig,
+      damageConfig: trait.damageConfig,
+      healingConfig: trait.healingConfig,
+      utilityConfig: trait.utilityConfig,
+      controlConfig: trait.controlConfig,
+      transformationConfig: trait.transformationConfig,
+      summonConfig: trait.summonConfig,
+      restorationConfig: trait.restorationConfig,
+      purificationConfig: trait.purificationConfig
+    };
+    
+    // Return directly without caching (new format traits are already properly structured)
+    return spell;
+  }
+
+  // Legacy fallback: Base spell structure for old-format traits
   const cacheKey = `${trait.id}-${trait.name}`;
   if (traitTransformCache.has(cacheKey)) {
     return traitTransformCache.get(cacheKey);
   }
-
-  // Base spell structure
   const spell = {
     id: `trait_${trait.name?.toLowerCase().replace(/\s+/g, '_') || 'unknown'}`,
     name: trait.name || 'Unknown Trait',
@@ -68,7 +102,7 @@ const transformTraitToSpell = (trait) => {
     icon: 'inv_misc_questionmark'
   };
 
-  // Map trait type to effect types and configurations
+  // Map trait type to effect types and configurations (legacy format)
   switch (trait.type) {
     case 'divination':
       spell.effectTypes = ['utility'];

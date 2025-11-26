@@ -6,25 +6,67 @@
  */
 
 import { CLASS_SPECIALIZATIONS } from './classSpellCategories';
+// Import ALL class data files
 import { ARCANONEER_DATA } from './classes/arcanoneerData';
-import { PYROFIEND_DATA } from './classes/pyrofiendData';
-import { MINSTREL_DATA } from './classes/minstrelData';
-import { CHRONARCH_DATA } from './classes/chronarchData';
-import { MARTYR_DATA } from './classes/martyrData';
-import { FATE_WEAVER_DATA } from './classes/fateWeaverData';
+import { BERSERKER_DATA } from './classes/berserkerData';
+import { BLADEDANCER_DATA } from './classes/bladedancerData';
 import { CHAOS_WEAVER_DATA } from './classes/chaosWeaverData';
+import { CHRONARCH_DATA } from './classes/chronarchData';
+import { COVENBANE_DATA } from './classes/covenbaneData';
+import { DEATHCALLER_DATA } from './classes/deathcallerData';
+import { DREADNAUGHT_DATA } from './classes/dreadnaughtData';
+import { EXORCIST_DATA } from './classes/exorcistData';
+import { FALSE_PROPHET_DATA } from './classes/falseProphetData';
+import { FATE_WEAVER_DATA } from './classes/fateWeaverData';
+import { FORMBENDER_DATA } from './classes/formbenderData';
+import { GAMBLER_DATA } from './classes/gamblerData';
+import { HUNTRESS_DATA } from './classes/huntressData';
+import { INSCRIPTOR_DATA } from './classes/inscriptorData';
+import { LICHBORNE_DATA } from './classes/lichborneData';
+import { LUNARCH_DATA } from './classes/lunarchData';
+import { MARTYR_DATA } from './classes/martyrData';
+import { MINSTREL_DATA } from './classes/minstrelData';
+import { ORACLE_DATA } from './classes/oracleData';
+import { PLAGUEBRINGER_DATA } from './classes/plaguebringerData';
+import { PRIMALIST_DATA } from './classes/primalistData';
+import { PYROFIEND_DATA } from './classes/pyrofiendData';
+import { SPELLGUARD_DATA } from './classes/spellguardData';
+import { TITAN_DATA } from './classes/titanData';
+import { TOXICOLOGIST_DATA } from './classes/toxicologistData';
+import { WARDEN_DATA } from './classes/wardenData';
+import { WITCH_DOCTOR_DATA } from './classes/witchDoctorData';
 
 // ===== CLASS DATA MAP =====
 // Maps class names to their data files for dynamic loading
 const CLASS_DATA_MAP = {
   'Arcanoneer': ARCANONEER_DATA,
-  'Pyrofiend': PYROFIEND_DATA,
-  'Minstrel': MINSTREL_DATA,
-  'Chronarch': CHRONARCH_DATA,
-  'Martyr': MARTYR_DATA,
-  'Fate Weaver': FATE_WEAVER_DATA,
+  'Berserker': BERSERKER_DATA,
+  'Bladedancer': BLADEDANCER_DATA,
   'Chaos Weaver': CHAOS_WEAVER_DATA,
-  // Add more classes here as their data files are created
+  'Chronarch': CHRONARCH_DATA,
+  'Covenbane': COVENBANE_DATA,
+  'Deathcaller': DEATHCALLER_DATA,
+  'Dreadnaught': DREADNAUGHT_DATA,
+  'Exorcist': EXORCIST_DATA,
+  'False Prophet': FALSE_PROPHET_DATA,
+  'Fate Weaver': FATE_WEAVER_DATA,
+  'Formbender': FORMBENDER_DATA,
+  'Gambler': GAMBLER_DATA,
+  'Huntress': HUNTRESS_DATA,
+  'Inscriptor': INSCRIPTOR_DATA,
+  'Lichborne': LICHBORNE_DATA,
+  'Lunarch': LUNARCH_DATA,
+  'Martyr': MARTYR_DATA,
+  'Minstrel': MINSTREL_DATA,
+  'Oracle': ORACLE_DATA,
+  'Plaguebringer': PLAGUEBRINGER_DATA,
+  'Primalist': PRIMALIST_DATA,
+  'Pyrofiend': PYROFIEND_DATA,
+  'Spellguard': SPELLGUARD_DATA,
+  'Titan': TITAN_DATA,
+  'Toxicologist': TOXICOLOGIST_DATA,
+  'Warden': WARDEN_DATA,
+  'Witch Doctor': WITCH_DOCTOR_DATA
 };
 
 // ===== GENERIC SPELL NORMALIZATION =====
@@ -522,6 +564,28 @@ if (CLASS_DATA_MAP['Chaos Weaver']?.spells || CLASS_DATA_MAP['Chaos Weaver']?.ex
     hasExampleSpells: !!CLASS_DATA_MAP['Chaos Weaver']?.exampleSpells
   });
 }
+
+// ===== PROCESS REMAINING CLASSES =====
+// Generic processing for all classes not handled above
+const processedClasses = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Fate Weaver', 'Chaos Weaver'];
+const remainingClasses = Object.keys(CLASS_DATA_MAP).filter(className => !processedClasses.includes(className));
+
+// Generic spell processor for classes without special processing
+function processGenericSpells(spells, className) {
+  return spells.map(spell => normalizeClassSpell(spell, className, () => 'general'));
+}
+
+remainingClasses.forEach(className => {
+  const classData = CLASS_DATA_MAP[className];
+  if (classData?.spells || classData?.exampleSpells) {
+    const spells = classData.spells || classData.exampleSpells;
+    const processed = processGenericSpells(spells, className);
+    generatedSpells[className] = processed;
+    console.log(`✅ Loaded ${processed.length} ${className} spells into ALL_CLASS_SPELLS`);
+  } else {
+    console.warn(`⚠️ ${className} spells not found in CLASS_DATA_MAP`);
+  }
+});
 
 // ===== VALIDATE ALL SPELLS =====
 // Ensure all spells have required fields and proper formatting

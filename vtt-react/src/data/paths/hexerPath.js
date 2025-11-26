@@ -26,56 +26,183 @@ export const HEXER_PATH = {
         mechanicalIntegration: 'Curses, hexes, and dark pacts.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
+        // PASSIVE - Dark Pact
         {
-            id: 'hex',
-            name: 'Hex',
-            description: '"You are cursed." Place a debilitating hex on an enemy.',
-            icon: 'spell_shadow_curseofachimonde',
+            id: 'dark_pact',
+            name: 'Dark Pact',
+            description: '"I have bargained with powers beyond your comprehension." Your pact with dark forces grants you resistance to necrotic damage and the ability to sense magical curses.',
+            icon: 'spell_shadow_ritualofsacrifice',
             level: 1,
-            spellType: 'ACTION',
-            tags: ['debuff', 'curse', 'hex', 'damage-amplification'],
-            effectTypes: ['debuff'],
+            spellType: 'PASSIVE',
+            tags: ['passive', 'dark', 'resistance', 'detection'],
+            effectTypes: ['buff'],
             damageTypes: [],
 
-            debuffConfig: {
-                duration: 10,
-                durationValue: 10,
-                durationType: 'rounds',
-                durationUnit: 'rounds',
-                statModifiers: [
+            typeConfig: {
+                school: 'shadow',
+                icon: 'spell_shadow_ritualofsacrifice',
+                tags: ['passive', 'dark', 'resistance', 'detection']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
                     {
-                        name: 'hex_vulnerability',
-                        stat: 'damage_taken',
-                        value: 20,
-                        magnitude: 20,
-                        magnitudeType: 'percentage',
-                        isPercentage: true
-                    }
-                ],
-                statusEffects: [
+                        id: 'dark_resilience',
+                        name: 'Dark Resilience',
+                        description: 'You have resistance to necrotic damage (50% reduction). Your familiarity with dark magic protects you from its effects.',
+                        statModifier: {
+                            stat: 'necrotic_resistance',
+                            magnitude: 50,
+                            magnitudeType: 'percentage'
+                        }
+                    },
                     {
-                        id: 'hexed',
-                        name: 'Hexed',
-                        description: 'Cursed to take 20% increased damage'
-                    }
-                ],
-                debuffs: [
-                    {
-                        name: 'Curse of Vulnerability',
-                        description: 'Increased damage taken',
-                        duration: 10,
-                        effects: {
-                            damageTakenBonus: 20
+                        id: 'curse_sense',
+                        name: 'Curse Sense',
+                        description: 'You can sense the presence of curses, hexes, and magical afflictions within 30 feet. You know the general nature of any curse you detect.',
+                        statModifier: {
+                            stat: 'perception',
+                            magnitude: 2,
+                            magnitudeType: 'flat'
                         }
                     }
                 ],
-                difficultyClass: 14,
-                savingThrow: 'spirit',
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            resourceCost: {
+                actionPoints: 0
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow'
+        },
+        // REACTION - Curse Backlash
+        {
+            id: 'curse_backlash',
+            name: 'Curse Backlash',
+            description: '"Your curse returns to you tenfold!" When an enemy tries to curse, hex, or debuff you, redirect the effect back at them.',
+            icon: 'spell_shadow_curse',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'defensive', 'curse', 'reflect'],
+            effectTypes: ['debuff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'shadow',
+                icon: 'spell_shadow_curse',
+                tags: ['reaction', 'defensive', 'curse', 'reflect']
+            },
+
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'reflected_curse',
+                        name: 'Reflected Curse',
+                        description: 'The attacker receives their own curse effect. They take 2d6 necrotic damage and have disadvantage on their next attack roll.'
+                    }
+                ],
+                durationValue: 2,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                saveDC: 14,
+                saveType: 'spirit',
+                saveOutcome: 'halves',
+                canBeDispelled: true
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 60,
+                targetRestrictions: ['enemy']
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'curse_targeted',
+                            category: 'status',
+                            name: 'When an enemy tries to curse or debuff you',
+                            parameters: {
+                                perspective: 'self',
+                                effect_type: 'debuff',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: true
+                }
+            },
+
+            resourceCost: {
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 12 },
+                actionPoints: 0
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 2,
+                charges: 2,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow'
+        },
+        // ACTION - Hex
+        {
+            id: 'hex',
+            name: 'Hex',
+            description: '"You are cursed." Place a debilitating hex on an enemy, causing them to take 20% increased damage from all sources for 10 rounds.',
+            icon: 'spell_shadow_curseofachimonde',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['action', 'debuff', 'curse', 'hex', 'damage-amplification'],
+            effectTypes: ['debuff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'shadow',
+                icon: 'spell_shadow_curseofachimonde',
+                tags: ['action', 'debuff', 'curse', 'hex', 'damage-amplification']
+            },
+
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'hexed',
+                        name: 'Hexed',
+                        description: 'Target takes 20% increased damage from all sources for 10 rounds. The curse can be removed by dispel magic or similar effects.'
+                    }
+                ],
+                durationValue: 10,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                saveDC: 14,
+                saveType: 'spirit',
                 saveOutcome: 'negates',
-                canBeDispelled: true,
-                concentrationRequired: false
+                canBeDispelled: true
             },
 
             targetingConfig: {
@@ -86,35 +213,27 @@ export const HEXER_PATH = {
             },
 
             resourceCost: {
-                mana: 15,
-                health: 0,
-                stamina: 0,
-                focus: 5,
-                actionPoints: 1
-            },
-
-            durationConfig: {
-                type: 'timed',
-                value: 10,
-                unit: 'rounds',
-                concentration: false,
-                dispellable: true
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 15 },
+                actionPoints: 2
             },
 
             cooldownConfig: {
                 type: 'short_rest',
                 value: 1,
                 charges: 2,
-                recovery: 2
+                recovery: 1
             },
 
             resolution: 'DICE',
-            visualTheme: 'shadow',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
+            visualTheme: 'shadow'
+        }
+    ],
+
+    // Legacy abilities for subPaths
+    legacyAbilities: [
         {
-            id: 'spirit_ward',
+            id: 'spirit_ward_legacy',
             name: 'Spirit Ward',
             description: '"My spirits protect me." Summon protective spirits to shield you from harm.',
             icon: 'spell_shadow_antimagicshell',
@@ -714,7 +833,7 @@ export const HEXER_PATH = {
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['summon', 'totem', 'buff', 'aoe'],
-                    effectTypes: ['summon', 'buff'],
+                    effectTypes: ['summon'],
                     damageTypes: [],
 
                     summonConfig: {

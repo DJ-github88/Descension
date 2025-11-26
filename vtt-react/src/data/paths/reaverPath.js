@@ -26,97 +26,200 @@ export const REAVER_PATH = {
         mechanicalIntegration: 'Berserker rage and brutal combat.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
+        // PASSIVE - Bloodlust
         {
-            id: 'blood_rage',
-            name: 'Blood Rage',
-            description: '"RAGE!" Enter a berserker rage, dealing massive damage but taking more damage.',
-            icon: 'ability_warrior_intensifyrage',
+            id: 'bloodlust',
+            name: 'Bloodlust',
+            description: '"The blood of my enemies sustains me." When you reduce an enemy to 0 HP, you gain temporary hit points and resistance to all damage for a brief moment.',
+            icon: 'ability_warrior_bloodfrenzy',
             level: 1,
-            spellType: 'ACTION',
-            tags: ['buff', 'rage', 'damage', 'risk-reward'],
+            spellType: 'PASSIVE',
+            tags: ['passive', 'combat', 'lifesteal', 'temporary-hp'],
             effectTypes: ['buff'],
             damageTypes: [],
 
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_warrior_bloodfrenzy',
+                tags: ['passive', 'combat', 'lifesteal', 'temporary-hp']
+            },
+
             buffConfig: {
-                duration: 6,
-                durationValue: 6,
-                durationType: 'rounds',
-                durationUnit: 'rounds',
-                statModifiers: [
+                buffType: 'statEnhancement',
+                effects: [
                     {
-                        name: 'rage_damage',
-                        stat: 'damage',
-                        value: 8,
-                        magnitude: 8,
-                        magnitudeType: 'flat',
-                        isPercentage: false
+                        id: 'blood_feast',
+                        name: 'Blood Feast',
+                        description: 'When you reduce an enemy to 0 HP, gain 5 temporary hit points. These temporary HP stack up to a maximum of 20.',
+                        statModifier: {
+                            stat: 'temporary_hp',
+                            magnitude: 5,
+                            magnitudeType: 'flat'
+                        }
                     },
                     {
-                        name: 'rage_vulnerability',
-                        stat: 'armor_class',
-                        value: -2,
-                        magnitude: 2,
-                        magnitudeType: 'flat',
-                        isPercentage: false
-                    }
-                ],
-                statusEffects: [
-                    {
-                        id: 'raging',
-                        name: 'Raging',
-                        description: '+8 damage, -2 armor'
-                    }
-                ],
-                buffs: [
-                    {
-                        name: 'Berserker Rage',
-                        description: 'Enhanced damage, reduced defense',
-                        duration: 6,
-                        effects: {
-                            damageBonus: 8,
-                            armorPenalty: -2
+                        id: 'battle_hardened',
+                        name: 'Battle Hardened',
+                        description: 'You have resistance to bludgeoning, piercing, and slashing damage while you have temporary HP from Blood Feast.',
+                        statModifier: {
+                            stat: 'physical_resistance',
+                            magnitude: 25,
+                            magnitudeType: 'percentage'
                         }
                     }
-                ]
+                ],
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
             },
 
             targetingConfig: {
-                targetingType: 'self',
-                rangeType: 'self',
-                rangeDistance: 0,
-                targetRestrictions: ['self']
+                targetingType: 'self'
             },
 
             resourceCost: {
-                mana: 0,
-                health: 0,
-                stamina: 20,
-                focus: 0,
-                actionPoints: 1
+                actionPoints: 0
             },
 
-            durationConfig: {
-                type: 'timed',
-                value: 6,
-                unit: 'rounds',
-                concentration: false,
-                dispellable: false
+            resolution: 'DICE',
+            visualTheme: 'fire'
+        },
+        // REACTION - Vengeful Strike
+        {
+            id: 'vengeful_strike',
+            name: 'Vengeful Strike',
+            description: '"You\'ll pay for that!" When an enemy damages you, immediately counterattack with a devastating strike fueled by your rage.',
+            icon: 'ability_warrior_revenge',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'damage', 'counter', 'melee'],
+            effectTypes: ['damage'],
+            damageTypes: ['slashing'],
+
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_warrior_revenge',
+                tags: ['reaction', 'damage', 'counter', 'melee']
+            },
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'slashing',
+                formula: '2d8 + strength',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 2,
+                    critDiceOnly: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'melee',
+                rangeDistance: 5,
+                targetRestrictions: ['enemy']
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'damage_taken',
+                            category: 'combat',
+                            name: 'When an enemy in melee range damages you',
+                            parameters: {
+                                perspective: 'self',
+                                target_type: 'self',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: true
+                }
+            },
+
+            resourceCost: {
+                resourceTypes: ['stamina'],
+                resourceValues: { stamina: 10 },
+                actionPoints: 0
+            },
+
+            cooldownConfig: {
+                type: 'turn_based',
+                value: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'fire'
+        },
+        // ACTION - Blood Rage
+        {
+            id: 'blood_rage',
+            name: 'Blood Rage',
+            description: '"RAGE!" Enter a berserker frenzy, gaining +8 damage on all attacks but reducing your armor by 2. The fury of battle consumes you.',
+            icon: 'ability_warrior_intensifyrage',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['action', 'buff', 'rage', 'damage', 'risk-reward'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_warrior_intensifyrage',
+                tags: ['action', 'buff', 'rage', 'damage', 'risk-reward']
+            },
+
+            buffConfig: {
+                buffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'berserker_rage',
+                        name: 'Berserker Rage',
+                        description: 'Gain +8 damage on all attacks but suffer -2 armor for 6 rounds. You cannot be frightened while raging.'
+                    }
+                ],
+                durationValue: 6,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            resourceCost: {
+                resourceTypes: ['stamina'],
+                resourceValues: { stamina: 20 },
+                actionPoints: 1
             },
 
             cooldownConfig: {
                 type: 'short_rest',
                 value: 1,
                 charges: 2,
-                recovery: 2
+                recovery: 1
             },
 
             resolution: 'DICE',
-            visualTheme: 'fire',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
+            visualTheme: 'fire'
+        }
+    ],
+
+    // Legacy abilities for subPaths
+    legacyAbilities: [
         {
             id: 'whirlwind',
             name: 'Whirlwind',

@@ -71,30 +71,90 @@ const ZEALOT_PATH = {
             mechanicalIntegration: 'Your path abilities are designed to work seamlessly with the Action Point system and complement any class choice.'
         },
 
-        // Top 3 abilities representing the discipline
+        // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
         abilities: [
+            // PASSIVE - Faithful Resolve
+            {
+                id: 'faithful_resolve',
+                name: 'Faithful Resolve',
+                description: '"My faith is my armor." Your unwavering conviction grants you resistance to mental intrusion and the ability to sense corruption.',
+                icon: 'spell_holy_devotion',
+                level: 1,
+                spellType: 'PASSIVE',
+                tags: ['passive', 'divine', 'resistance', 'detection'],
+                effectTypes: ['buff'],
+                damageTypes: [],
+
+                typeConfig: {
+                    school: 'holy',
+                    icon: 'spell_holy_devotion',
+                    tags: ['passive', 'divine', 'resistance', 'detection']
+                },
+
+                buffConfig: {
+                    buffType: 'statEnhancement',
+                    effects: [
+                        {
+                            id: 'mental_fortitude',
+                            name: 'Mental Fortitude',
+                            description: 'You have advantage on saving throws against fear and charm effects. Your faith protects your mind from manipulation.',
+                            statModifier: {
+                                stat: 'saving_throws',
+                                magnitude: 2,
+                                magnitudeType: 'flat'
+                            }
+                        },
+                        {
+                            id: 'corruption_sense',
+                            name: 'Corruption Sense',
+                            description: 'You can sense the presence of fiends, undead, and corrupted creatures within 60 feet. You know their general direction but not exact location.',
+                            statModifier: {
+                                stat: 'perception',
+                                magnitude: 2,
+                                magnitudeType: 'flat'
+                            }
+                        }
+                    ],
+                    durationType: 'permanent',
+                    durationUnit: 'permanent',
+                    canBeDispelled: false
+                },
+
+                targetingConfig: {
+                    targetingType: 'self'
+                },
+
+                resourceCost: {
+                    actionPoints: 0
+                },
+
+                resolution: 'DICE',
+                visualTheme: 'holy'
+            },
+            // REACTION - Martyr's Sacrifice
             {
                 id: 'martyrs_sacrifice',
                 name: "Martyr's Sacrifice",
-                description: '"Greater love hath no one than this, that one lay down their life for their friends." When an ally within 30 feet drops below 25% health, sacrifice your own vitality to heal them.',
+                description: '"Greater love hath no one than this." When an ally within 30 feet drops below 25% health, sacrifice your own vitality to heal them instantly.',
                 icon: 'spell_holy_prayerofhealing',
                 level: 1,
                 spellType: 'REACTION',
-                tags: ['healing', 'divine', 'sacrifice', 'reaction'],
+                tags: ['reaction', 'healing', 'divine', 'sacrifice'],
                 effectTypes: ['healing'],
                 damageTypes: [],
 
+                typeConfig: {
+                    school: 'holy',
+                    icon: 'spell_holy_prayerofhealing',
+                    tags: ['reaction', 'healing', 'divine', 'sacrifice']
+                },
+
                 healingConfig: {
                     healingType: 'direct',
-                    formula: '3d8 + 4',
+                    formula: '3d8 + spirit',
+                    resolution: 'DICE',
                     hasHotEffect: false,
-                    hasShieldEffect: false,
-                    criticalConfig: {
-                        enabled: true,
-                        critType: 'dice',
-                        critMultiplier: 2,
-                        critDiceOnly: false
-                    }
+                    hasShieldEffect: false
                 },
 
                 targetingConfig: {
@@ -106,184 +166,78 @@ const ZEALOT_PATH = {
 
                 triggerConfig: {
                     global: {
+                        enabled: true,
                         logicType: 'OR',
                         compoundTriggers: [
                             {
                                 id: 'health_threshold',
+                                category: 'health',
                                 name: 'When ally drops below 25% health',
                                 parameters: {
                                     perspective: 'ally',
-                                    threshold: 25,
-                                    condition: 'below',
+                                    percentage: 25,
+                                    comparison: 'less_than',
                                     triggerChance: 100
                                 }
                             }
                         ]
                     },
                     triggerRole: {
-                        mode: 'REACTIVE',
+                        mode: 'CONDITIONAL',
                         activationDelay: 0,
                         requiresLOS: true
                     }
                 },
 
                 resourceCost: {
-                    mana: 0,
-                    health: 8,
-                    stamina: 0,
-                    focus: 0
-                },
-
-                durationConfig: {
-                    type: 'instant',
-                    value: 0,
-                    unit: 'seconds',
-                    concentration: false,
-                    dispellable: false
-                },
-
-                cooldownConfig: {
-                    type: 'long_rest',
-                    value: 1,
-                    charges: 2,
-                    recovery: 2
-                },
-
-                resolution: 'DICE',
-                visualTheme: 'holy'
-            },
-            {
-                id: 'faithful_intercession',
-                name: 'Faithful Intercession',
-                description: '"Stand behind me - my faith is shield enough for us both." When an ally within 5 feet takes damage, intercede and redirect the attack to yourself, reducing the damage taken.',
-                icon: 'spell_holy_divineshield',
-                level: 1,
-                spellType: 'REACTION',
-                tags: ['defensive', 'protection', 'reaction', 'divine'],
-                effectTypes: ['buff'],
-                damageTypes: [],
-
-                buffConfig: {
-                    duration: 1,
-                    durationValue: 1,
-                    durationType: 'instant',
-                    durationUnit: 'instant',
-                    statModifiers: [],
-                    statusEffects: [
-                        {
-                            id: 'divine_protection',
-                            name: 'Divine Protection',
-                            description: 'Intercept attack and reduce damage by 50%'
-                        }
-                    ],
-                    buffs: [
-                        {
-                            name: 'Divine Intercession',
-                            description: 'Redirects damage to yourself',
-                            duration: 1,
-                            effects: {
-                                damageReduction: 50
-                            }
-                        }
-                    ]
-                },
-
-                targetingConfig: {
-                    targetingType: 'single',
-                    rangeType: 'melee',
-                    rangeDistance: 5,
-                    targetRestrictions: ['ally']
-                },
-
-                triggerConfig: {
-                    global: {
-                        logicType: 'OR',
-                        compoundTriggers: [
-                            {
-                                id: 'ally_takes_damage',
-                                name: 'When ally takes damage',
-                                parameters: {
-                                    perspective: 'ally',
-                                    threshold: 0,
-                                    condition: 'above',
-                                    triggerChance: 100
-                                }
-                            }
-                        ]
-                    },
-                    triggerRole: {
-                        mode: 'REACTIVE',
-                        activationDelay: 0,
-                        requiresLOS: true
-                    }
-                },
-
-                resourceCost: {
-                    mana: 10,
-                    health: 0,
-                    stamina: 5,
-                    focus: 0
-                },
-
-                durationConfig: {
-                    type: 'instant',
-                    value: 0,
-                    unit: 'seconds',
-                    concentration: false,
-                    dispellable: false
+                    resourceTypes: ['health'],
+                    resourceValues: { health: 10 },
+                    useFormulas: { health: false },
+                    actionPoints: 0
                 },
 
                 cooldownConfig: {
                     type: 'short_rest',
                     value: 1,
                     charges: 2,
-                    recovery: 2
+                    recovery: 1
                 },
 
                 resolution: 'DICE',
                 visualTheme: 'holy'
             },
+            // ACTION - Zealous Fervor
             {
                 id: 'zealous_fervor',
                 name: 'Zealous Fervor',
-                description: '"For my faith, I fear nothing!" Inspire yourself and nearby allies with unshakeable faith.',
+                description: '"For my faith, I fear nothing!" Inspire yourself and nearby allies with unshakeable faith, granting combat bonuses and fear immunity.',
                 icon: 'spell_holy_innerfire',
                 level: 1,
                 spellType: 'ACTION',
-                tags: ['buff', 'inspiration', 'divine', 'aura'],
+                tags: ['action', 'buff', 'inspiration', 'divine', 'aura'],
                 effectTypes: ['buff'],
                 damageTypes: [],
 
+                typeConfig: {
+                    school: 'holy',
+                    icon: 'spell_holy_innerfire',
+                    tags: ['action', 'buff', 'inspiration', 'divine', 'aura']
+                },
+
                 buffConfig: {
-                    duration: 10,
+                    buffType: 'statusEffect',
+                    effects: [
+                        {
+                            id: 'zealous_inspiration',
+                            name: 'Zealous Inspiration',
+                            description: 'Gain +2 to attack rolls and saving throws, and immunity to fear effects for 10 rounds.',
+                            statusType: 'inspired'
+                        }
+                    ],
                     durationValue: 10,
                     durationType: 'rounds',
                     durationUnit: 'rounds',
-                    statModifiers: [],
-                    statusEffects: [
-                        {
-                            id: 'inspired',
-                            name: 'Inspired',
-                            description: '+2 to attack rolls and saving throws'
-                        },
-                        {
-                            id: 'fearless',
-                            name: 'Fearless',
-                            description: 'Immune to fear effects'
-                        }
-                    ],
-                    buffs: [
-                        {
-                            name: 'Zealous Inspiration',
-                            description: 'Boost to combat effectiveness',
-                            duration: 10,
-                            effects: {
-                                attackBonus: 2,
-                                saveBonus: 2,
-                                fearImmunity: true
-                            }
-                        }
-                    ]
+                    canBeDispelled: true
                 },
 
                 targetingConfig: {
@@ -291,31 +245,21 @@ const ZEALOT_PATH = {
                     rangeType: 'self_centered',
                     rangeDistance: 0,
                     aoeShape: 'sphere',
-                    aoeSize: 30,
+                    aoeParameters: { radius: 30 },
                     targetRestrictions: ['ally', 'self']
                 },
 
                 resourceCost: {
-                    mana: 15,
-                    health: 0,
-                    stamina: 0,
-                    focus: 5,
-                    actionPoints: 1
-                },
-
-                durationConfig: {
-                    type: 'timed',
-                    value: 10,
-                    unit: 'rounds',
-                    concentration: false,
-                    dispellable: true
+                    resourceTypes: ['mana'],
+                    resourceValues: { mana: 15 },
+                    actionPoints: 2
                 },
 
                 cooldownConfig: {
                     type: 'short_rest',
                     value: 1,
                     charges: 2,
-                    recovery: 2
+                    recovery: 1
                 },
 
                 resolution: 'DICE',

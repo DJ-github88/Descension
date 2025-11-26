@@ -1652,6 +1652,57 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       },
       tags: ['transformation', 'permanent', 'godlike', 'demonhunter']
     }
+  ],
 
-  ]
+  // Spell Pools by Level
+  spellPools: {
+    1: [
+      'cov_shadow_hunt',
+      'cov_hex_strike',
+      'cov_silver_blade'
+    ],
+    2: [
+      'cov_dark_pursuit',
+      'cov_hex_weakness',
+      'cov_silver_bolt'
+    ],
+    3: [
+      'cov_curse_eater',
+      'cov_shadow_ambush',
+      'cov_anti_magic_barrier'
+    ],
+    4: [
+      'cov_spirit_shackle',
+      'cov_hexbreaker_precision',
+      'cov_silver_storm'
+    ],
+    5: [
+      'cov_hexbreaker_execution',
+      'cov_anti_magic_field',
+      'cov_hunters_net'
+    ],
+    6: [
+      'cov_hexbreaker_fury',
+      'cov_shadow_eruption'
+    ],
+    7: [
+      'cov_spell_nullification'
+    ],
+    8: [
+      'cov_hexbreaker_storm',
+      'cov_apex_predator',
+      'cov_final_hour'
+    ],
+    9: [
+      'cov_judgment_day',
+      'cov_shadow_ascendant',
+      'cov_anti_magic_storm'
+    ],
+    10: [
+      'cov_hexbreaker_apocalypse',
+      'cov_void_hunter',
+      'cov_divine_executioner',
+      'cov_hexbreaker_armageddon'
+    ]
+  }
 };

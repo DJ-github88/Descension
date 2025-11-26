@@ -48,7 +48,9 @@ export const useClassSpellLibrary = () => {
       const spellsForClass = ALL_CLASS_SPELLS[className] || [];
       console.log(`📚 Loading spells for ${className}:`, {
         totalSpells: spellsForClass.length,
-        spellIds: spellsForClass.map(s => s.id).slice(0, 10) // First 10 IDs
+        spellIds: spellsForClass.map(s => s.id).slice(0, 10), // First 10 IDs
+        allClassesInGenerator: Object.keys(ALL_CLASS_SPELLS),
+        classExistsInGenerator: className in ALL_CLASS_SPELLS
       });
 
       // Create categories for this class
@@ -74,7 +76,7 @@ export const useClassSpellLibrary = () => {
 
         return {
           ...category,
-          spells: specializationSpells
+          spells: levelSpells
         };
       });
 
@@ -216,12 +218,28 @@ export const useClassSpellLibrary = () => {
 
   // Load spells when character class changes
   useEffect(() => {
+    console.log('🎮 Class change detected:', {
+      characterClass,
+      currentClass,
+      activeCharacterId: activeCharacter?.id,
+      activeCharacterClass: activeCharacter?.class,
+      knownSpellsCount: knownSpells.length
+    });
     if (characterClass && characterClass !== 'Class') {
       loadSpellsForClass(characterClass);
     } else {
       resetLibrary();
     }
-  }, [characterClass, loadSpellsForClass, resetLibrary]);
+  }, [characterClass, loadSpellsForClass, resetLibrary, currentClass, activeCharacter, knownSpells.length]);
+
+  // Force re-render when known spells change (for reactive updates)
+  useEffect(() => {
+    console.log('📖 Known spells updated:', {
+      count: knownSpells.length,
+      spellIds: knownSpells,
+      characterClass
+    });
+  }, [knownSpells, characterClass]);
 
   // Load custom spells from localStorage on mount
   useEffect(() => {

@@ -26,97 +26,204 @@ export const SENTINEL_PATH = {
         mechanicalIntegration: 'Protection, tanking, and defensive abilities.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
+        // PASSIVE - Unwavering Stance
         {
-            id: 'shield_wall',
-            name: 'Shield Wall',
-            description: '"None shall pass!" Raise your shield, massively increasing your defenses.',
-            icon: 'ability_warrior_shieldwall',
+            id: 'unwavering_stance',
+            name: 'Unwavering Stance',
+            description: '"I will not be moved." Your training as a guardian grants you unshakeable stability and enhanced defensive capabilities.',
+            icon: 'ability_warrior_defensivestance',
             level: 1,
-            spellType: 'ACTION',
-            tags: ['buff', 'defense', 'shield', 'damage-reduction'],
+            spellType: 'PASSIVE',
+            tags: ['passive', 'defense', 'stability', 'protection'],
             effectTypes: ['buff'],
             damageTypes: [],
 
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_warrior_defensivestance',
+                tags: ['passive', 'defense', 'stability', 'protection']
+            },
+
             buffConfig: {
-                duration: 6,
-                durationValue: 6,
-                durationType: 'rounds',
-                durationUnit: 'rounds',
-                statModifiers: [
+                buffType: 'statEnhancement',
+                effects: [
                     {
-                        name: 'shield_defense',
-                        stat: 'armor',
-                        value: 5,
-                        magnitude: 5,
-                        magnitudeType: 'flat',
-                        isPercentage: false
+                        id: 'immovable',
+                        name: 'Immovable',
+                        description: 'You have advantage on saving throws against being moved, pushed, or knocked prone. You cannot be forcibly moved against your will.',
+                        statModifier: {
+                            stat: 'stability',
+                            magnitude: 5,
+                            magnitudeType: 'flat'
+                        }
                     },
                     {
-                        name: 'damage_reduction',
-                        stat: 'damage_reduction',
-                        value: 10,
-                        magnitude: 10,
-                        magnitudeType: 'flat',
-                        isPercentage: false
-                    }
-                ],
-                statusEffects: [
-                    {
-                        id: 'shield_wall',
-                        name: 'Shield Wall',
-                        description: '+5 armor, 10 damage reduction'
-                    }
-                ],
-                buffs: [
-                    {
-                        name: 'Defensive Stance',
-                        description: 'Enhanced defenses',
-                        duration: 6,
-                        effects: {
-                            armorBonus: 5,
-                            damageReduction: 10
+                        id: 'guardian_presence',
+                        name: 'Guardian Presence',
+                        description: 'Allies within 10 feet of you gain +1 armor from your protective presence.',
+                        statModifier: {
+                            stat: 'armor',
+                            magnitude: 1,
+                            magnitudeType: 'flat'
                         }
                     }
-                ]
+                ],
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
             },
 
             targetingConfig: {
-                targetingType: 'self',
-                rangeType: 'self',
-                rangeDistance: 0,
-                targetRestrictions: ['self']
+                targetingType: 'self'
             },
 
             resourceCost: {
-                mana: 0,
-                health: 0,
-                stamina: 15,
-                focus: 0,
-                actionPoints: 1
+                actionPoints: 0
             },
 
-            durationConfig: {
-                type: 'timed',
-                value: 6,
-                unit: 'rounds',
-                concentration: false,
-                dispellable: false
+            resolution: 'DICE',
+            visualTheme: 'holy'
+        },
+        // REACTION - Intercept
+        {
+            id: 'intercept',
+            name: 'Intercept',
+            description: '"Get behind me!" When an ally within 10 feet is attacked, throw yourself in the way, taking the hit instead.',
+            icon: 'ability_warrior_safeguard',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'defensive', 'protection', 'ally'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_warrior_safeguard',
+                tags: ['reaction', 'defensive', 'protection', 'ally']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'intercept_damage',
+                        name: 'Intercept Damage',
+                        description: 'You take the damage instead of your ally. The damage is reduced by 5 (flat reduction) due to your prepared stance.',
+                        statModifier: {
+                            stat: 'damage_reduction',
+                            magnitude: 5,
+                            magnitudeType: 'flat'
+                        }
+                    }
+                ],
+                durationValue: 1,
+                durationType: 'instant',
+                durationUnit: 'instant',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 10,
+                targetRestrictions: ['ally']
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'ally_attacked',
+                            category: 'combat',
+                            name: 'When an ally within 10 feet is attacked',
+                            parameters: {
+                                perspective: 'ally',
+                                target_type: 'ally',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: true
+                }
+            },
+
+            resourceCost: {
+                actionPoints: 0
+            },
+
+            cooldownConfig: {
+                type: 'turn_based',
+                value: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'holy'
+        },
+        // ACTION - Shield Wall
+        {
+            id: 'shield_wall',
+            name: 'Shield Wall',
+            description: '"None shall pass!" Raise your shield in a defensive stance, gaining +5 armor and 10 damage reduction for 6 rounds.',
+            icon: 'ability_warrior_shieldwall',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['action', 'buff', 'defense', 'shield', 'damage-reduction'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_warrior_shieldwall',
+                tags: ['action', 'buff', 'defense', 'shield', 'damage-reduction']
+            },
+
+            buffConfig: {
+                buffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'shield_wall',
+                        name: 'Shield Wall',
+                        description: 'Gain +5 armor and 10 damage reduction (flat) for 6 rounds. Your movement speed is reduced by half while in this stance.'
+                    }
+                ],
+                durationValue: 6,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            resourceCost: {
+                resourceTypes: ['stamina'],
+                resourceValues: { stamina: 15 },
+                actionPoints: 1
             },
 
             cooldownConfig: {
                 type: 'short_rest',
                 value: 1,
                 charges: 2,
-                recovery: 2
+                recovery: 1
             },
 
             resolution: 'DICE',
-            visualTheme: 'holy',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
+            visualTheme: 'holy'
+        }
+    ],
+
+    // Legacy abilities for subPaths
+    legacyAbilities: [
         {
             id: 'taunt',
             name: 'Taunt',

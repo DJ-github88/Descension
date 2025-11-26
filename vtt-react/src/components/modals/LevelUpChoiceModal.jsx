@@ -7,19 +7,104 @@
  *   - +1 to any attribute (can pick same attribute multiple times)
  *   - +15 Maximum Health
  *   - +10 Maximum Mana
- * - Arcanoneer, Pyrofiend, Minstrel, Chronarch & Martyr: Also learn 1 spell from available options (free, doesn't cost points)
+ * - All classes: Also learn 1 spell from available options (free, doesn't cost points)
  */
 
 import React, { useState, useMemo } from 'react';
+// Import all class data
 import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
-import { PYROFIEND_DATA } from '../../data/classes/pyrofiendData';
-import { MINSTREL_DATA } from '../../data/classes/minstrelData';
-import { CHRONARCH_DATA } from '../../data/classes/chronarchData';
-import { MARTYR_DATA } from '../../data/classes/martyrData';
+import { BERSERKER_DATA } from '../../data/classes/berserkerData';
+import { BLADEDANCER_DATA } from '../../data/classes/bladedancerData';
 import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverData';
+import { CHRONARCH_DATA } from '../../data/classes/chronarchData';
+import { COVENBANE_DATA } from '../../data/classes/covenbaneData';
+import { DEATHCALLER_DATA } from '../../data/classes/deathcallerData';
+import { DREADNAUGHT_DATA } from '../../data/classes/dreadnaughtData';
+import { EXORCIST_DATA } from '../../data/classes/exorcistData';
+import { FALSE_PROPHET_DATA } from '../../data/classes/falseProphetData';
 import { FATE_WEAVER_DATA } from '../../data/classes/fateWeaverData';
+import { FORMBENDER_DATA } from '../../data/classes/formbenderData';
+import { GAMBLER_DATA } from '../../data/classes/gamblerData';
+import { HUNTRESS_DATA } from '../../data/classes/huntressData';
+import { INSCRIPTOR_DATA } from '../../data/classes/inscriptorData';
+import { LICHBORNE_DATA } from '../../data/classes/lichborneData';
+import { LUNARCH_DATA } from '../../data/classes/lunarchData';
+import { MARTYR_DATA } from '../../data/classes/martyrData';
+import { MINSTREL_DATA } from '../../data/classes/minstrelData';
+import { ORACLE_DATA } from '../../data/classes/oracleData';
+import { PLAGUEBRINGER_DATA } from '../../data/classes/plaguebringerData';
+import { PRIMALIST_DATA } from '../../data/classes/primalistData';
+import { PYROFIEND_DATA } from '../../data/classes/pyrofiendData';
+import { SPELLGUARD_DATA } from '../../data/classes/spellguardData';
+import { TITAN_DATA } from '../../data/classes/titanData';
+import { TOXICOLOGIST_DATA } from '../../data/classes/toxicologistData';
+import { WARDEN_DATA } from '../../data/classes/wardenData';
+import { WITCH_DOCTOR_DATA } from '../../data/classes/witchDoctorData';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import './LevelUpChoiceModal.css';
+
+// Map of class names to their data
+const CLASS_DATA_MAP = {
+    'Arcanoneer': ARCANONEER_DATA,
+    'Berserker': BERSERKER_DATA,
+    'Bladedancer': BLADEDANCER_DATA,
+    'Chaos Weaver': CHAOS_WEAVER_DATA,
+    'Chronarch': CHRONARCH_DATA,
+    'Covenbane': COVENBANE_DATA,
+    'Deathcaller': DEATHCALLER_DATA,
+    'Dreadnaught': DREADNAUGHT_DATA,
+    'Exorcist': EXORCIST_DATA,
+    'False Prophet': FALSE_PROPHET_DATA,
+    'Fate Weaver': FATE_WEAVER_DATA,
+    'Formbender': FORMBENDER_DATA,
+    'Gambler': GAMBLER_DATA,
+    'Huntress': HUNTRESS_DATA,
+    'Inscriptor': INSCRIPTOR_DATA,
+    'Lichborne': LICHBORNE_DATA,
+    'Lunarch': LUNARCH_DATA,
+    'Martyr': MARTYR_DATA,
+    'Minstrel': MINSTREL_DATA,
+    'Oracle': ORACLE_DATA,
+    'Plaguebringer': PLAGUEBRINGER_DATA,
+    'Primalist': PRIMALIST_DATA,
+    'Pyrofiend': PYROFIEND_DATA,
+    'Spellguard': SPELLGUARD_DATA,
+    'Titan': TITAN_DATA,
+    'Toxicologist': TOXICOLOGIST_DATA,
+    'Warden': WARDEN_DATA,
+    'Witch Doctor': WITCH_DOCTOR_DATA
+};
+
+// All classes that have spells
+const SPELL_CLASSES = Object.keys(CLASS_DATA_MAP);
+
+// Helper function to get level spell IDs from class data for a specific level
+const getLevelSpellIds = (classData, level) => {
+    if (!classData) return [];
+    
+    // First try spellPools for the specific level
+    if (classData.spellPools && classData.spellPools[level]) {
+        return classData.spellPools[level];
+    }
+    
+    // For levels without specific pools, check if there's a pool for a lower level
+    if (classData.spellPools) {
+        const poolLevels = Object.keys(classData.spellPools).map(Number).sort((a, b) => b - a);
+        const eligibleLevel = poolLevels.find(l => l <= level);
+        if (eligibleLevel) {
+            return classData.spellPools[eligibleLevel];
+        }
+    }
+    
+    // Fallback: filter spells array for spells of this level
+    if (classData.spells && Array.isArray(classData.spells)) {
+        return classData.spells
+            .filter(spell => spell.level === level)
+            .map(spell => spell.id);
+    }
+    
+    return [];
+};
 
 const LevelUpChoiceModal = ({
     isOpen,
@@ -40,58 +125,32 @@ const LevelUpChoiceModal = ({
 
     // Determine which spell pool to use based on level
     const availableSpellPool = useMemo(() => {
-        // Only these classes get spell selection on level-up
-        if (characterClass !== 'Arcanoneer' && characterClass !== 'Pyrofiend' && characterClass !== 'Minstrel' && characterClass !== 'Chronarch' && characterClass !== 'Martyr' && characterClass !== 'Chaos Weaver' && characterClass !== 'Fate Weaver') {
+        // Check if class is in our spell classes list
+        if (!SPELL_CLASSES.includes(characterClass)) {
             return [];
         }
 
         // Get the appropriate class data
-        let classData = null;
-        if (characterClass === 'Arcanoneer') {
-            classData = ARCANONEER_DATA;
-        } else if (characterClass === 'Pyrofiend') {
-            classData = PYROFIEND_DATA;
-        } else if (characterClass === 'Minstrel') {
-            classData = MINSTREL_DATA;
-        } else if (characterClass === 'Chronarch') {
-            classData = CHRONARCH_DATA;
-        } else if (characterClass === 'Martyr') {
-            classData = MARTYR_DATA;
-        } else if (characterClass === 'Chaos Weaver') {
-            classData = CHAOS_WEAVER_DATA;
-        } else if (characterClass === 'Fate Weaver') {
-            classData = FATE_WEAVER_DATA;
-        }
-
+        const classData = CLASS_DATA_MAP[characterClass];
         if (!classData) {
             return [];
         }
 
         // When leveling up to level N, show spells from level N's pool
-        // First try to get spells for the exact level being reached
-        let eligibleLevel = currentLevel;
+        const spellIds = getLevelSpellIds(classData, currentLevel);
         
-        // If there's no pool for the exact level, find the highest level pool that is <= currentLevel
-        if (!classData.spellPools[currentLevel]) {
-            const poolLevels = Object.keys(classData.spellPools || {}).map(Number).sort((a, b) => b - a);
-            eligibleLevel = poolLevels.find(level => level <= currentLevel);
-        }
-
         console.log('🔍 Level-up spell selection:', {
             currentLevel,
-            eligibleLevel,
             availablePools: Object.keys(classData.spellPools || {}),
-            poolForCurrentLevel: classData.spellPools[currentLevel],
+            spellIdsFound: spellIds.length,
             knownSpells,
             characterClass
         });
 
-        if (!eligibleLevel || !classData.spellPools[eligibleLevel]) {
-            console.warn('⚠️ No spell pool found for level', eligibleLevel, 'or level', currentLevel);
+        if (spellIds.length === 0) {
+            console.warn('⚠️ No spell pool found for level', currentLevel, 'for class', characterClass);
             return [];
         }
-
-        const spellIds = classData.spellPools[eligibleLevel] || [];
         // Support both 'spells' (new format) and 'exampleSpells' (legacy format)
         const allSpells = classData.spells || classData.exampleSpells || [];
 
@@ -172,8 +231,8 @@ const LevelUpChoiceModal = ({
             attributes: attributeChoices       // Array of attribute names
         };
 
-        // Add spell choice if spell-casting class and spell selected
-        if ((characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch' || characterClass === 'Martyr') && selectedSpell) {
+        // Add spell choice if class has spells and spell selected
+        if (SPELL_CLASSES.includes(characterClass) && selectedSpell) {
             result.spellId = selectedSpell;
         }
 
@@ -185,8 +244,8 @@ const LevelUpChoiceModal = ({
         // Must spend all 2 points
         if (pointsSpent !== TOTAL_POINTS) return false;
 
-        // If spell-casting class with available spells, must select a spell
-        const isSpellCaster = characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch' || characterClass === 'Martyr';
+        // If class has available spells, must select a spell
+        const isSpellCaster = SPELL_CLASSES.includes(characterClass);
         if (isSpellCaster && availableSpellPool.length > 0 && !selectedSpell) return false;
 
         return true;
@@ -211,8 +270,8 @@ const LevelUpChoiceModal = ({
                     <p>You have <strong>{pointsRemaining}</strong> point{pointsRemaining !== 1 ? 's' : ''} remaining to spend</p>
                 </div>
 
-                {/* Spell Selection (Arcanoneer, Pyrofiend, Minstrel, Chronarch & Martyr) - Like racial traits */}
-                {(characterClass === 'Arcanoneer' || characterClass === 'Pyrofiend' || characterClass === 'Minstrel' || characterClass === 'Chronarch' || characterClass === 'Martyr' || characterClass === 'Chaos Weaver') && availableSpellPool.length > 0 && (
+                {/* Spell Selection (All Classes) - Like racial traits */}
+                {SPELL_CLASSES.includes(characterClass) && availableSpellPool.length > 0 && (
                     <div className="spell-selection-section">
                         <h3><i className="fas fa-magic"></i> Learn a New Spell</h3>
                         <p className="section-description">Click a spell icon to view details, then select one to learn:</p>

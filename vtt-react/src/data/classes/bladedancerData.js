@@ -2928,6 +2928,62 @@ Many players enhance the stance-dancing experience with:
       tags: ['passive', 'mastery', 'ultimate', 'stance', 'bladedancer']
     }
   ],
+
+  // Spell Pools by Level
+  spellPools: {
+    1: [
+      'bladedancer_momentum_strike',
+      'bladedancer_stance_shift',
+      'bladedancer_defensive_flow',
+      'bladedancer_quick_step'
+    ],
+    2: [
+      'bladedancer_flowing_strike',
+      'bladedancer_dancing_blade',
+      'bladedancer_stance_dance',
+      'bladedancer_blade_flurry'
+    ],
+    3: [
+      'bladedancer_perfect_riposte',
+      'bladedancer_whirling_defense',
+      'bladedancer_flowing_dodge',
+      'bladedancer_stance_mastery'
+    ],
+    4: [
+      'bladedancer_chain_dance',
+      'bladedancer_precision_strike',
+      'bladedancer_dancing_death'
+    ],
+    5: [
+      'bladedancer_shadow_strike',
+      'bladedancer_blade_barrier',
+      'bladedancer_momentum_burst'
+    ],
+    6: [
+      'bladedancer_vanishing_blade',
+      'bladedancer_stance_harmony',
+      'bladedancer_reflecting_blades'
+    ],
+    7: [
+      'bladedancer_flow_master_rapid_transitions',
+      'bladedancer_flow_combo',
+      'bladedancer_momentum_wave'
+    ],
+    8: [
+      'bladedancer_stance_mastery_dancing_blade',
+      'bladedancer_blade_dance',
+      'bladedancer_stance_echo'
+    ],
+    9: [
+      'bladedancer_flourish_ultimate_thousand_cuts',
+      'bladedancer_flourish_sixfold_strike',
+      'bladedancer_perfect_harmony'
+    ],
+    10: [
+      'bladedancer_transcendent_dance_of_the_six_winds',
+      'bladedancer_zenith_blade_mastery'
+    ]
+  },
 };
 
 export default BLADEDANCER_DATA;

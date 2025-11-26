@@ -26,37 +26,188 @@ export const HARROW_PATH = {
         mechanicalIntegration: 'Endurance, fear manipulation, and grim determination.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
+        // PASSIVE - Survivor's Grit
+        {
+            id: 'survivors_grit',
+            name: "Survivor's Grit",
+            description: '"I\'ve walked through worse." Your experiences have hardened your body and mind against death and despair.',
+            icon: 'spell_shadow_unholyfrenzy',
+            level: 1,
+            spellType: 'PASSIVE',
+            tags: ['passive', 'survival', 'resistance', 'endurance'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'shadow',
+                icon: 'spell_shadow_unholyfrenzy',
+                tags: ['passive', 'survival', 'resistance', 'endurance']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'death_ward',
+                        name: 'Death Ward',
+                        description: 'Once per long rest, when you drop to 0 HP, you automatically stabilize without making death saving throws.',
+                        statModifier: {
+                            stat: 'death_saves',
+                            magnitude: 1,
+                            magnitudeType: 'flat'
+                        }
+                    },
+                    {
+                        id: 'fear_resistance',
+                        name: 'Fear Resistance',
+                        description: 'You have advantage on saving throws against fear effects and resistance to psychic damage (50% reduction).',
+                        statModifier: {
+                            stat: 'psychic_resistance',
+                            magnitude: 50,
+                            magnitudeType: 'percentage'
+                        }
+                    }
+                ],
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            resourceCost: {
+                actionPoints: 0
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow'
+        },
+        // REACTION - Defiant Stand
+        {
+            id: 'defiant_stand',
+            name: 'Defiant Stand',
+            description: '"I will not fall!" When reduced to below 25% health, your survival instincts kick in, granting temporary hit points and reducing incoming damage.',
+            icon: 'ability_warrior_laststand',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'defensive', 'survival', 'buff'],
+            effectTypes: ['buff', 'healing'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'shadow',
+                icon: 'ability_warrior_laststand',
+                tags: ['reaction', 'defensive', 'survival', 'buff']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'defiant_resolve',
+                        name: 'Defiant Resolve',
+                        description: 'Gain 2d8 + Constitution temporary hit points and reduce all incoming damage by 3 (flat reduction) for 2 rounds.',
+                        statModifier: {
+                            stat: 'damage_reduction',
+                            magnitude: 3,
+                            magnitudeType: 'flat'
+                        }
+                    }
+                ],
+                durationValue: 2,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                canBeDispelled: false
+            },
+
+            healingConfig: {
+                healingType: 'shield',
+                formula: '2d8 + constitution',
+                resolution: 'DICE',
+                shieldDuration: 2
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'health_threshold',
+                            category: 'health',
+                            name: 'When your health drops below 25%',
+                            parameters: {
+                                perspective: 'self',
+                                percentage: 25,
+                                comparison: 'less_than',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: false
+                }
+            },
+
+            resourceCost: {
+                actionPoints: 0
+            },
+
+            cooldownConfig: {
+                type: 'long_rest',
+                value: 1,
+                charges: 1,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow'
+        },
+        // ACTION - Terrifying Presence
         {
             id: 'terrifying_presence',
             name: 'Terrifying Presence',
-            description: '"Fear me!" Unleash an aura of dread that frightens nearby enemies.',
+            description: '"Fear me!" Unleash an aura of dread that frightens all enemies within 30 feet. Frightened creatures have disadvantage on attacks and must move away from you.',
             icon: 'spell_shadow_psychicscream',
             level: 1,
             spellType: 'ACTION',
-            tags: ['debuff', 'fear', 'aura', 'mental'],
+            tags: ['action', 'debuff', 'fear', 'aura', 'mental'],
             effectTypes: ['debuff'],
             damageTypes: ['psychic'],
 
+            typeConfig: {
+                school: 'shadow',
+                icon: 'spell_shadow_psychicscream',
+                tags: ['action', 'debuff', 'fear', 'aura', 'mental']
+            },
+
             debuffConfig: {
                 debuffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'fear',
+                        name: 'Frightened',
+                        description: 'Target is frightened for 4 rounds. They have disadvantage on attack rolls and ability checks while you are in their line of sight, and must use their movement to move away from you.'
+                    }
+                ],
                 durationValue: 4,
                 durationType: 'rounds',
                 durationUnit: 'rounds',
-                difficultyClass: 14,
-                savingThrow: 'spirit',
+                saveDC: 14,
+                saveType: 'spirit',
                 saveOutcome: 'negates',
-                effects: [
-                    {
-                        id: 'frightened',
-                        name: 'Frightened',
-                        description: 'Target is frightened and must move away from you',
-                        statModifier: null
-                    }
-                ],
-                canBeDispelled: true,
-                concentrationRequired: false
+                canBeDispelled: true
             },
 
             targetingConfig: {
@@ -64,38 +215,30 @@ export const HARROW_PATH = {
                 rangeType: 'self_centered',
                 rangeDistance: 0,
                 aoeShape: 'sphere',
-                aoeSize: 30,
+                aoeParameters: { radius: 30 },
                 targetRestrictions: ['enemy']
             },
 
             resourceCost: {
-                mana: 15,
-                health: 0,
-                stamina: 0,
-                focus: 5,
-                actionPoints: 1
-            },
-
-            durationConfig: {
-                type: 'timed',
-                value: 4,
-                unit: 'rounds',
-                concentration: false,
-                dispellable: true
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 15 },
+                actionPoints: 2
             },
 
             cooldownConfig: {
                 type: 'short_rest',
                 value: 1,
                 charges: 2,
-                recovery: 2
+                recovery: 1
             },
 
             resolution: 'DICE',
-            visualTheme: 'shadow',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
+            visualTheme: 'shadow'
+        }
+    ],
+
+    // Legacy abilities for subPaths (kept for reference)
+    legacyAbilities: [
         {
             id: 'plague_touch',
             name: 'Plague Touch',

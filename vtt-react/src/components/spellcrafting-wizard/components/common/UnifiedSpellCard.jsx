@@ -6,7 +6,7 @@ import {
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
   faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
-  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle, faShield, faRandom, faScroll, faDice
+  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle, faShield, faRandom, faScroll, faDice, faPaw, faCrosshairs, faTint, faBalanceScale
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
@@ -5835,8 +5835,8 @@ const UnifiedSpellCard = ({
     if (!spell?.buffConfig) {
       // If spell has buff effect type but no config, show a basic effect
       if (spell?.effectTypes?.includes('buff')) {
-        // Use customName from buffConfig if provided
-        const buffName = spell?.buffConfig?.customName || 'Buff Effect';
+        // buffConfig is undefined here, so just use a generic name
+        const buffName = 'Buff Effect';
         return [{
           name: buffName,
           description: 'Provides beneficial effects',
@@ -10078,10 +10078,10 @@ const UnifiedSpellCard = ({
                 const hasEffectsBuff = spell?.effects?.buff || spellProp?.effects?.buff;
                 
                 // Check for buffConfig with actual content
-                const hasStatModifiers = hasBuffConfig && Array.isArray(spell.buffConfig.statModifiers) && spell.buffConfig.statModifiers.length > 0;
-                const hasStatusEffects = hasBuffConfig && Array.isArray(spell.buffConfig.statusEffects) && spell.buffConfig.statusEffects.length > 0;
-                const hasEffectsArray = hasBuffConfig && Array.isArray(spell.buffConfig.effects) && spell.buffConfig.effects.length > 0;
-                const hasDurationOnly = hasBuffConfig && (spell.buffConfig.duration || spell.buffConfig.durationType || spell.buffConfig.durationValue) && !hasStatModifiers && !hasStatusEffects && !hasEffectsArray;
+                const hasStatModifiers = hasBuffConfig && Array.isArray(spell?.buffConfig?.statModifiers) && spell.buffConfig.statModifiers.length > 0;
+                const hasStatusEffects = hasBuffConfig && Array.isArray(spell?.buffConfig?.statusEffects) && spell.buffConfig.statusEffects.length > 0;
+                const hasEffectsArray = hasBuffConfig && Array.isArray(spell?.buffConfig?.effects) && spell.buffConfig.effects.length > 0;
+                const hasDurationOnly = hasBuffConfig && (spell?.buffConfig?.duration || spell?.buffConfig?.durationType || spell?.buffConfig?.durationValue) && !hasStatModifiers && !hasStatusEffects && !hasEffectsArray;
                 
                 const hasAnyBuffConfiguration = hasStatModifiers || hasStatusEffects || hasEffectsArray;
                 
@@ -10469,7 +10469,7 @@ const UnifiedSpellCard = ({
                       let cleanDescription = rawDescription.trim().replace(/^-\s*/, '').trim();
                       
                       // Use customName from buffConfig if effect doesn't have its own name
-                      const defaultBuffName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
+                      const defaultBuffName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
                       buffEffectsToRender.push({
                         name: effect.name || defaultBuffName,
                         description: durationText ? durationText : '',
@@ -10490,7 +10490,7 @@ const UnifiedSpellCard = ({
                   // Add other effects (non-statModifier effects)
                   otherEffects.forEach(effect => {
                     // Use customName from buffConfig if effect doesn't have its own name
-                    const otherDefaultName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
+                    const otherDefaultName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
                     buffEffectsToRender.push({
                       name: effect.name || otherDefaultName,
                       description: effect.description,
@@ -10756,7 +10756,7 @@ const UnifiedSpellCard = ({
                             }
 
                             // Use customName from buffConfig if provided
-                            const progressiveBaseName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
+                            const progressiveBaseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
                             buffEffectsToRender.push({
                               name: `${progressiveBaseName}${finalDescription ? ` - ${finalDescription}` : ''}`,
                               description: '',
@@ -10814,7 +10814,7 @@ const UnifiedSpellCard = ({
 
                 const durationText = durationParts.length > 0 ? `(${durationParts.join(' • ')})` : '';
                 // Use customName from buffConfig if provided, otherwise fallback to 'Buff Effect'
-                const baseName = buffData.customName || buffConfig?.customName || 'Buff Effect';
+                const baseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
                 const effectName = durationText ? `${baseName} ${durationText}` : baseName;
 
                 buffEffectsToRender.push({
@@ -10827,7 +10827,7 @@ const UnifiedSpellCard = ({
               else if ((hasBuffType || legacyBuffData) && buffEffectsToRender.length === 0) {
                 let mechanicsText = 'Effect details not configured';
                 // Use customName from buffConfig if provided, otherwise fallback to 'Buff Effect'
-                let effectName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
+                let effectName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
 
                 // Add duration information if configured
                 if (buffData) {
@@ -11296,8 +11296,24 @@ const UnifiedSpellCard = ({
                               const magnitudeType = statMod.magnitudeType || 'flat';
                               const typeText = magnitudeType === 'percentage' ? '%' : '';
                               
-                              // Build mechanics text
-                              const mechanicsText = `-${magnitude}${typeText} ${statName}`;
+                              // Check if description already explains the stat modifier
+                              const effectDescription = effect.description || '';
+                              const descriptionLower = effectDescription.toLowerCase();
+                              const statNameLower = statName.toLowerCase();
+                              
+                              // Check if description mentions the magnitude and stat (e.g., "+50% damage", "Take +50% damage")
+                              const hasMagnitudeAndStat = (
+                                descriptionLower.includes(`+${magnitude}`) ||
+                                descriptionLower.includes(`${magnitude}%`) ||
+                                descriptionLower.includes(`${magnitude} `)
+                              ) && (
+                                descriptionLower.includes(statNameLower) ||
+                                descriptionLower.includes('damage') ||
+                                descriptionLower.includes('vulnerable')
+                              );
+                              
+                              // Build mechanics text - suppress if description already explains the effect
+                              const mechanicsText = hasMagnitudeAndStat ? '' : `-${magnitude}${typeText} ${statName}`;
                               
                               // Build description with duration and save
                               const descriptionParts = [];
@@ -11422,7 +11438,7 @@ const UnifiedSpellCard = ({
                               
                               const debuffTargeting = formatEffectTargeting('debuff');
                               // Use customName from debuffConfig if effect doesn't have its own name
-                              const defaultName = debuffData?.customName || debuffConfig?.customName || 'Debuff Effect';
+                              const defaultName = debuffData?.customName || spell?.debuffConfig?.customName || 'Debuff Effect';
                               effects.push({
                                 name: effect.name || effect.id || defaultName,
                                 description: description,

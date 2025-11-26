@@ -264,8 +264,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'divination',
-                            subtype: 'prediction',
-                            description: 'Communicate with ancestor spirits for guidance and wisdom.',
+                            selectedEffects: [{
+                                id: 'prediction',
+                                name: 'Prediction',
+                                description: 'Communicate with ancestor spirits for guidance and wisdom.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'minor'
                         },
                         targetingConfig: {
@@ -387,8 +392,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'survival',
-                            subtype: 'arctic',
-                            description: 'Can survive in arctic conditions indefinitely without any shelter or supplies.',
+                            selectedEffects: [{
+                                id: 'arctic',
+                                name: 'Arctic',
+                                description: 'Can survive in arctic conditions indefinitely without any shelter or supplies.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'major'
                         },
                         targetingConfig: {
@@ -412,8 +422,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'environment',
-                            subtype: 'weather',
-                            description: 'Can sense safe paths through blizzards and predict weather changes within 24 hours.',
+                            selectedEffects: [{
+                                id: 'weather',
+                                name: 'Weather',
+                                description: 'Can sense safe paths through blizzards and predict weather changes within 24 hours.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'moderate'
                         },
                         targetingConfig: {
@@ -523,19 +538,162 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'prophetic_glimpse_corvani',
                         name: 'Prophetic Glimpse',
-                        description: 'Can peer into possible futures (2 AP). Gain advantage on one attack, save, or ability check, but take 1d6 psychic damage from temporal strain.',
-                        type: 'divination'
+                        description: 'Can peer into possible futures. Gain advantage on one attack, save, or ability check, but take 1d6 psychic damage from temporal strain.',
+                        level: 1,
+                        icon: 'spell_holy_prophecy',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'divination',
+                            secondaryElement: 'time',
+                            icon: 'spell_holy_prophecy',
+                            tags: ['divination', 'future-sight', 'prophecy']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Gain advantage on one attack, save, or ability check',
+                            effects: [
+                                {
+                                    name: 'Prophetic Insight',
+                                    description: 'Advantage on one roll',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'You glimpse possible futures'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'precognition',
+                                name: 'Precognition',
+                                description: 'Peer briefly into possible futures, taking psychic strain to gain insight.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'raven_sight_corvani',
                         name: 'Raven Sight',
                         description: 'Advantage on Perception checks and can detect illusions within 30 feet. However, you have disadvantage on saves against psychic damage.',
-                        type: 'perception'
+                        level: 1,
+                        icon: 'ability_hunter_eagleeye',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'perception',
+                            secondaryElement: 'detection',
+                            icon: 'ability_hunter_eagleeye',
+                            tags: ['perception', 'illusion-detection', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Enhanced Perception',
+                                    description: 'Advantage on Perception checks',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your senses are supernaturally keen'
+                                    }
+                                },
+                                {
+                                    name: 'Illusion Detection',
+                                    description: 'Detect illusions within 30 feet',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'You can see through deceptions'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Psychic Sensitivity',
+                                    description: 'Disadvantage on saves against psychic damage',
+                                    statModifier: {
+                                        stat: 'saving_throws',
+                                        magnitude: -1,
+                                        magnitudeType: 'disadvantage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'fates_burden_corvani',
                         name: 'Fate\'s Burden',
-                        description: 'Vulnerable to necrotic and psychic damage (+50% damage) due to your connection to the threads of fate. Your visions make you susceptible to energies that unravel reality.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to necrotic and psychic damage (+50% damage) due to your connection to the threads of fate.',
+                        level: 1,
+                        icon: 'spell_shadow_curseofsargeras',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'fate',
+                            icon: 'spell_shadow_curseofsargeras',
+                            tags: ['vulnerability', 'fate', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Necrotic Vulnerability',
+                                    description: 'Take +50% damage from necrotic sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Psychic Vulnerability',
+                                    description: 'Take +50% damage from psychic sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Corvid', 'Ethereal'],
@@ -591,8 +749,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'movement',
-                            subtype: 'navigation',
-                            description: 'Perfect knowledge of natural terrain and unhindered movement.',
+                            selectedEffects: [{
+                                id: 'navigation',
+                                name: 'Navigation',
+                                description: 'Perfect knowledge of natural terrain and unhindered movement.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'moderate'
                         },
                         targetingConfig: {
@@ -616,8 +779,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'communication',
-                            subtype: 'messenger',
-                            description: 'Send messages via ravens to any location you have visited.',
+                            selectedEffects: [{
+                                id: 'messenger',
+                                name: 'Messenger',
+                                description: 'Send messages via ravens to any location you have visited.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'minor'
                         },
                         targetingConfig: {
@@ -798,8 +966,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'divination',
-                            subtype: 'detection',
-                            description: 'Detect minerals and underground passages within 60 feet.',
+                            selectedEffects: [{
+                                id: 'detection',
+                                name: 'Detection',
+                                description: 'Detect minerals and underground passages within 60 feet.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'minor'
                         },
                         targetingConfig: {
@@ -897,6 +1070,7 @@ export const RACE_DATA = {
                             customDescription: 'Absorb damage for allies within 10 feet',
                             durationValue: 1,
                             durationType: 'rounds',
+                            durationUnit: 'rounds',
                             canBeDispelled: false
                         },
                         debuffConfig: {
@@ -913,6 +1087,7 @@ export const RACE_DATA = {
                             ],
                             durationValue: 1,
                             durationType: 'rounds',
+                            durationUnit: 'rounds',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -1226,19 +1401,137 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'spirit_communion_vheil',
                         name: 'Spirit Communion',
-                        description: 'Can commune with spirits for information (2 AP). Gain advantage on one Intelligence or Spirit check.',
-                        type: 'communication'
+                        description: 'Commune with spirits for information. Gain advantage on one Intelligence or Spirit check.',
+                        level: 1,
+                        icon: 'spell_shadow_haunting',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'spirit',
+                            secondaryElement: 'ethereal',
+                            icon: 'spell_shadow_haunting',
+                            tags: ['communication', 'spirit', 'guidance']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
+                            effects: [
+                                {
+                                    name: 'Spirit Guidance',
+                                    description: 'Advantage on one Intelligence or Spirit check',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Spirits provide insight and knowledge'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'communication',
+                                name: 'Communication',
+                                description: 'Commune with nearby spirits to gain information or guidance.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'ethereal_sight_vheil',
                         name: 'Ethereal Sight',
                         description: 'Can see into the Ethereal Plane and detect invisible creatures within 30 feet.',
-                        type: 'perception'
+                        level: 1,
+                        icon: 'spell_shadow_eyeofkilrogg',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'perception',
+                            secondaryElement: 'ethereal',
+                            icon: 'spell_shadow_eyeofkilrogg',
+                            tags: ['perception', 'ethereal', 'detection', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Ethereal Vision',
+                                    description: 'Can see into the Ethereal Plane',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Perceive creatures and objects in the Ethereal Plane'
+                                    }
+                                },
+                                {
+                                    name: 'Invisibility Detection',
+                                    description: 'Detect invisible creatures within 30 feet',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your sight pierces magical concealment'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'radiant_vulnerability_vheil',
                         name: 'Radiant Vulnerability',
                         description: 'Vulnerable to radiant damage (+50% damage) as your connection to the spirit realm makes you susceptible to purifying holy energies.',
-                        type: 'vulnerability'
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'radiant',
+                            icon: 'spell_holy_holybolt',
+                            tags: ['vulnerability', 'radiant', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take +50% damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Ethereal', 'Celestial'],
@@ -1256,19 +1549,132 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'ethereal_step_vheil',
                         name: 'Ethereal Step',
-                        description: 'Can briefly step into the Ethereal Plane to avoid attacks (2 AP). Once per short rest.',
-                        type: 'movement'
+                        description: 'Briefly step into the Ethereal Plane to avoid attacks.',
+                        level: 1,
+                        icon: 'spell_arcane_blink',
+                        spellType: 'REACTION',
+                        effectTypes: ['utility', 'defense'],
+                        typeConfig: {
+                            school: 'transmutation',
+                            secondaryElement: 'ethereal',
+                            icon: 'spell_arcane_blink',
+                            tags: ['movement', 'ethereal', 'evasion', 'reaction']
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{
+                                id: 'planar_shift',
+                                name: 'Planar Shift',
+                                description: 'Step briefly into the Ethereal Plane to avoid damage.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'OR',
+                                compoundTriggers: [
+                                    {
+                                        triggerType: 'on_attack_targeted',
+                                        conditions: {
+                                            targetType: 'self'
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'reality_anchor_vheil',
                         name: 'Reality Anchor',
                         description: 'Immune to forced planar travel and can stabilize dimensional rifts.',
-                        type: 'utility'
+                        level: 1,
+                        icon: 'spell_holy_holyprotection',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'abjuration',
+                            secondaryElement: 'planar',
+                            icon: 'spell_holy_holyprotection',
+                            tags: ['immunity', 'planar', 'stability', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Planar Immunity',
+                                    description: 'Immune to forced planar travel',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'Cannot be forcibly banished or transported to other planes'
+                                    }
+                                },
+                                {
+                                    name: 'Rift Stabilization',
+                                    description: 'Can stabilize dimensional rifts',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your presence calms unstable planar boundaries'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'force_vulnerability_vheil',
                         name: 'Force Vulnerability',
                         description: 'Vulnerable to force damage (+50% damage) as your tenuous connection to reality makes you susceptible to energies that disrupt planar boundaries.',
-                        type: 'vulnerability'
+                        level: 1,
+                        icon: 'spell_arcane_blast',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'force',
+                            icon: 'spell_arcane_blast',
+                            tags: ['vulnerability', 'force', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Force Vulnerability',
+                                    description: 'Take +50% damage from force sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Ethereal', 'Abyssal'],
@@ -1313,19 +1719,142 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'perfect_mimicry_mimir',
                         name: 'Perfect Mimicry',
-                        description: 'Can copy appearance and voice of observed creatures (2 AP). Gain advantage on disguise checks.',
-                        type: 'illusion'
+                        description: 'Copy appearance and voice of observed creatures. Gain advantage on disguise checks.',
+                        level: 1,
+                        icon: 'spell_magic_lesserinvisibilty',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'illusion',
+                            secondaryElement: 'shapeshifting',
+                            icon: 'spell_magic_lesserinvisibilty',
+                            tags: ['mimicry', 'disguise', 'shapeshifting']
+                        },
+                        utilityConfig: {
+                            utilityType: 'shapeshifting',
+                            selectedEffects: [{
+                                id: 'mimicry',
+                                name: 'Mimicry',
+                                description: 'Copy the appearance and voice of a creature you have observed.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'major'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'adaptive_form_mimir',
                         name: 'Adaptive Form',
-                        description: 'Can alter physical features for disguise or advantage on social checks (1 AP).',
-                        type: 'utility'
+                        description: 'Alter physical features for disguise or advantage on social checks.',
+                        level: 1,
+                        icon: 'ability_druid_forceofnature',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'transmutation',
+                            secondaryElement: 'shapeshifting',
+                            icon: 'ability_druid_forceofnature',
+                            tags: ['adaptation', 'social', 'shapeshifting']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Advantage on social or disguise checks',
+                            effects: [
+                                {
+                                    name: 'Adaptive Form',
+                                    description: 'Can alter physical features to gain social advantage',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your form adapts to social situations'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'hours',
+                            durationUnit: 'hours',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'illusion',
+                            selectedEffects: [{
+                                id: 'disguise',
+                                name: 'Disguise',
+                                description: 'Alter your physical appearance to match any humanoid you have seen.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'silver_vulnerability_mimir',
                         name: 'Silver Vulnerability',
-                        description: 'Vulnerable to silver weapons and radiant damage (+50% damage) due to your shapeshifting curse. Silver weapons ignore your damage resistance.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to silver weapons and radiant damage (+50% damage) due to your shapeshifting curse.',
+                        level: 1,
+                        icon: 'inv_ingot_silver',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'silver',
+                            icon: 'inv_ingot_silver',
+                            tags: ['vulnerability', 'silver', 'radiant', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Silver Vulnerability',
+                                    description: 'Take +50% damage from silver weapons',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take +50% damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Thieves\' Cant'],
@@ -1343,19 +1872,137 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'fractured_mind_mimir',
                         name: 'Fractured Mind',
                         description: 'Resistance to charm and fear effects due to mental fragmentation.',
-                        type: 'mental'
+                        level: 1,
+                        icon: 'spell_shadow_mindrot',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'mental',
+                            secondaryElement: 'defense',
+                            icon: 'spell_shadow_mindrot',
+                            tags: ['resistance', 'charm', 'fear', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Charm Resistance',
+                                    description: 'Resistance to charm effects',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your fragmented mind is difficult to control'
+                                    }
+                                },
+                                {
+                                    name: 'Fear Resistance',
+                                    description: 'Resistance to fear effects',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your fractured mind cannot focus on fear'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'memory_fragments_mimir',
                         name: 'Memory Fragments',
-                        description: 'Can access random knowledge or skills from fragmented memories (1 AP). Gain advantage on one Intelligence or Spirit check.',
-                        type: 'mental'
+                        description: 'Access random knowledge or skills from fragmented memories. Gain advantage on one Intelligence or Spirit check.',
+                        level: 1,
+                        icon: 'spell_holy_mindvision',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'mental',
+                            secondaryElement: 'memory',
+                            icon: 'spell_holy_mindvision',
+                            tags: ['knowledge', 'memory', 'mental']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
+                            effects: [
+                                {
+                                    name: 'Memory Access',
+                                    description: 'Access fragments of past knowledge',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Memories surface to provide insight'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'knowledge',
+                                name: 'Knowledge',
+                                description: 'Access fragments of absorbed memories to recall knowledge you may have never learned.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'psychic_vulnerability_mimir',
                         name: 'Psychic Vulnerability',
-                        description: 'Vulnerable to psychic damage (+50% damage) as your fractured mind is susceptible to mental intrusions and manipulations.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to psychic damage (+50% damage) as your fractured mind is susceptible to mental intrusions.',
+                        level: 1,
+                        icon: 'spell_shadow_psychichorrors',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'psychic',
+                            icon: 'spell_shadow_psychichorrors',
+                            tags: ['vulnerability', 'psychic', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Psychic Vulnerability',
+                                    description: 'Take +50% damage from psychic sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Deep Speech'],
@@ -1400,19 +2047,131 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'binding_oath_briaran',
                         name: 'Binding Oath',
-                        description: 'Can create magical contracts (2 AP). Targets must succeed on Spirit save (DC 14) or be bound by terms. You are also bound by your own contracts.',
-                        type: 'social'
+                        description: 'Create magical contracts. Targets must succeed on Spirit save (DC 14) or be bound by terms. You are also bound by your own contracts.',
+                        level: 1,
+                        icon: 'spell_holy_prayerofhealing',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility', 'debuff'],
+                        typeConfig: {
+                            school: 'enchantment',
+                            secondaryElement: 'fae',
+                            icon: 'spell_holy_prayerofhealing',
+                            tags: ['contract', 'social', 'binding', 'fae']
+                        },
+                        utilityConfig: {
+                            utilityType: 'contract',
+                            selectedEffects: [{
+                                id: 'binding',
+                                name: 'Binding',
+                                description: 'Create a magical contract that binds both parties to agreed terms.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'major'
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Oath Bound',
+                                    description: 'You are bound by your own contract terms',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Breaking the oath results in severe consequences'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            saveDC: 14,
+                            saveType: 'spirit',
+                            saveOutcome: 'negates',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'touch',
+                            targetRestrictions: ['willing']
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'long_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'court_etiquette_briaran',
                         name: 'Court Etiquette',
                         description: 'Advantage on social interactions with nobility and fae creatures.',
-                        type: 'social'
+                        level: 1,
+                        icon: 'spell_holy_divineprovidence',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'social',
+                            secondaryElement: 'fae',
+                            icon: 'spell_holy_divineprovidence',
+                            tags: ['social', 'nobility', 'fae', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Court Etiquette',
+                                    description: 'Advantage on social checks with nobility and fae',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your fae heritage grants insight into courtly behavior'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'iron_vulnerability_briaran_oathbound',
                         name: 'Iron Vulnerability',
-                        description: 'Vulnerable to iron weapons and cold iron damage (+50% damage) due to your fae heritage. Iron disrupts your magical nature.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to iron weapons and cold iron damage (+50% damage) due to your fae heritage.',
+                        level: 1,
+                        icon: 'inv_ingot_iron',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'iron',
+                            icon: 'inv_ingot_iron',
+                            tags: ['vulnerability', 'iron', 'fae', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Iron Vulnerability',
+                                    description: 'Take +50% damage from iron weapons',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Sylvan', 'Celestial'],
@@ -1430,19 +2189,138 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'briar_form_briaran',
                         name: 'Briar Form',
-                        description: 'Can transform into thorny vines (2 AP). Gain resistance to bludgeoning/slashing damage but become immobile.',
-                        type: 'transformation'
+                        description: 'Transform into thorny vines. Gain resistance to bludgeoning/slashing damage but become immobile.',
+                        level: 1,
+                        icon: 'spell_nature_thorns',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'transformation'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'transformation',
+                            icon: 'spell_nature_thorns',
+                            tags: ['transformation', 'defense', 'nature']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Physical Resistance',
+                                    description: 'Resistance to bludgeoning and slashing damage',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your form becomes thorny vines'
+                                    }
+                                },
+                                {
+                                    name: 'Immobile',
+                                    description: 'Cannot move while in briar form',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        description: 'Your roots anchor you in place'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        transformationConfig: {
+                            transformationType: 'physical',
+                            targetType: 'self',
+                            duration: 1,
+                            durationUnit: 'minutes',
+                            power: 'moderate',
+                            specialEffects: ['damage_resistance', 'immobile', 'thorns']
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'thorn_strike_briaran',
                         name: 'Thorn Strike',
                         description: 'Natural weapons deal +1 damage and cause bleeding (1d4 damage per round for 3 rounds).',
-                        type: 'combat'
+                        level: 1,
+                        icon: 'ability_druid_ferociousbite',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['damage'],
+                        typeConfig: {
+                            school: 'combat',
+                            secondaryElement: 'nature',
+                            icon: 'ability_druid_ferociousbite',
+                            tags: ['combat', 'natural-weapons', 'bleeding', 'passive']
+                        },
+                        damageConfig: {
+                            damageType: 'direct',
+                            elementType: 'piercing',
+                            bonusDamage: 1,
+                            dotEffect: {
+                                name: 'Bleeding',
+                                damage: '1d4',
+                                duration: 3,
+                                tickRate: 1
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'iron_vulnerability_briaran_wild',
                         name: 'Iron Vulnerability',
-                        description: 'Vulnerable to iron weapons and fire damage (+50% damage) due to your broken fae contracts. Iron severs your connection to nature magic.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to iron weapons and fire damage (+50% damage) due to your broken fae contracts.',
+                        level: 1,
+                        icon: 'inv_ingot_iron',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'iron',
+                            icon: 'inv_ingot_iron',
+                            tags: ['vulnerability', 'iron', 'fire', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Iron Vulnerability',
+                                    description: 'Take +50% damage from iron weapons',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Fire Vulnerability',
+                                    description: 'Take +50% damage from fire sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Sylvan'],
@@ -1460,19 +2338,121 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'twilight_step_briaran',
                         name: 'Twilight Step',
-                        description: 'Can teleport short distances through shadows (2 AP). Only during dawn or dusk.',
-                        type: 'movement'
+                        description: 'Teleport short distances through shadows. Only during dawn or dusk.',
+                        level: 1,
+                        icon: 'ability_rogue_shadowstep',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'transmutation',
+                            secondaryElement: 'shadow',
+                            icon: 'ability_rogue_shadowstep',
+                            tags: ['teleport', 'shadow', 'movement', 'twilight']
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{
+                                id: 'teleport',
+                                name: 'Teleport',
+                                description: 'Teleport up to 30 feet through shadows during twilight hours.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'location',
+                            rangeType: 'ranged',
+                            rangeDistance: 30
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'duality_briaran',
                         name: 'Duality',
                         description: 'Advantage on stealth and perception checks in low light.',
-                        type: 'perception'
+                        level: 1,
+                        icon: 'spell_shadow_twilight',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'perception',
+                            secondaryElement: 'twilight',
+                            icon: 'spell_shadow_twilight',
+                            tags: ['stealth', 'perception', 'low-light', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Low Light Advantage',
+                                    description: 'Advantage on stealth and perception in low light',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'You thrive in twilight conditions'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'radiant_necrotic_vulnerability_briaran',
                         name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) during daylight and necrotic damage (+50% damage) in darkness due to your twilight nature.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to radiant damage (+50% damage) during daylight and necrotic damage (+50% damage) in darkness.',
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'twilight',
+                            icon: 'spell_holy_holybolt',
+                            tags: ['vulnerability', 'radiant', 'necrotic', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability (Day)',
+                                    description: 'Take +50% damage from radiant sources during daylight',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Necrotic Vulnerability (Night)',
+                                    description: 'Take +50% damage from necrotic sources in darkness',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Sylvan', 'Umbral'],
@@ -1517,19 +2497,128 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'forest_guardian_groven',
                         name: 'Forest Guardian',
                         description: 'Sense threats to natural areas within 1 mile. Gain +1 armor when defending nature.',
-                        type: 'nature'
+                        level: 1,
+                        icon: 'spell_nature_natureguard',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'protection',
+                            icon: 'spell_nature_natureguard',
+                            tags: ['defense', 'nature', 'detection', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Nature Sense',
+                                    description: 'Sense threats to natural areas within 1 mile',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your connection to nature alerts you to danger'
+                                    }
+                                },
+                                {
+                                    name: 'Nature\'s Shield',
+                                    description: '+1 armor when defending nature',
+                                    statModifier: {
+                                        stat: 'armor_class',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'detection',
+                                name: 'Detection',
+                                description: 'Sense threats to natural areas within 1 mile radius.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'antler_strike_groven',
                         name: 'Antler Strike',
                         description: 'Natural weapons deal +1 damage. Can charge through difficult terrain.',
-                        type: 'combat'
+                        level: 1,
+                        icon: 'ability_druid_prowl',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['damage', 'utility'],
+                        typeConfig: {
+                            school: 'combat',
+                            secondaryElement: 'nature',
+                            icon: 'ability_druid_prowl',
+                            tags: ['combat', 'natural-weapons', 'charge', 'passive']
+                        },
+                        damageConfig: {
+                            damageType: 'direct',
+                            elementType: 'piercing',
+                            bonusDamage: 1
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{
+                                id: 'charge',
+                                name: 'Charge',
+                                description: 'Charge through difficult terrain without penalty.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'fire_vulnerability_groven',
                         name: 'Fire Vulnerability',
-                        description: 'Vulnerable to fire damage (+50% damage) due to your deep connection to living wood and nature.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to fire damage (+50% damage) due to your connection to living wood.',
+                        level: 1,
+                        icon: 'spell_fire_flamestrike',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'fire',
+                            icon: 'spell_fire_flamestrike',
+                            tags: ['vulnerability', 'fire', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Fire Vulnerability',
+                                    description: 'Take +50% damage from fire sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Beast Speech'],
@@ -1547,19 +2636,118 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'seasonal_adaptation_groven',
                         name: 'Seasonal Adaptation',
-                        description: 'Gain advantage on Survival checks during current season. Disadvantage during opposite season.',
-                        type: 'adaptive'
+                        description: 'Advantage on Survival checks during current season. Disadvantage during opposite season.',
+                        level: 1,
+                        icon: 'spell_nature_regenerate',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'adaptation',
+                            icon: 'spell_nature_regenerate',
+                            tags: ['survival', 'seasonal', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Seasonal Advantage',
+                                    description: 'Advantage on Survival during current season',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'You are attuned to seasonal rhythms'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Seasonal Weakness',
+                                    description: 'Disadvantage on Survival during opposite season',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'The opposing season disrupts your natural attunement'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'pathfinder_groven',
                         name: 'Pathfinder',
-                        description: 'Cannot become lost in natural environments. Gain advantage on navigation.',
-                        type: 'movement'
+                        description: 'Cannot become lost in natural environments. Advantage on navigation.',
+                        level: 1,
+                        icon: 'ability_druid_dash',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'nature',
+                            secondaryElement: 'navigation',
+                            icon: 'ability_druid_dash',
+                            tags: ['navigation', 'nature', 'passive']
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{
+                                id: 'navigation',
+                                name: 'Navigation',
+                                description: 'Cannot become lost in natural environments.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'poison_vulnerability_groven',
                         name: 'Poison Vulnerability',
-                        description: 'Vulnerable to poison damage (+50% damage) due to your constant exposure to wild environments and toxins.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to poison damage (+50% damage) due to exposure to wild toxins.',
+                        level: 1,
+                        icon: 'spell_nature_nullifypoison_02',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'poison',
+                            icon: 'spell_nature_nullifypoison_02',
+                            tags: ['vulnerability', 'poison', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Poison Vulnerability',
+                                    description: 'Take +50% damage from poison sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Primordial'],
@@ -1577,19 +2765,133 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'spirit_communion_groven',
                         name: 'Spirit Communion',
-                        description: 'Can commune with nature spirits (2 AP). Gain advantage on one Nature or Spirit check.',
-                        type: 'spiritual'
+                        description: 'Commune with nature spirits. Gain advantage on one Nature or Spirit check.',
+                        level: 1,
+                        icon: 'spell_nature_spiritarmor',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'spirit',
+                            secondaryElement: 'nature',
+                            icon: 'spell_nature_spiritarmor',
+                            tags: ['communion', 'spirit', 'nature']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Advantage on one Nature or Spirit check',
+                            effects: [
+                                {
+                                    name: 'Spirit Guidance',
+                                    description: 'Nature spirits provide insight',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Spirits share their wisdom'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'communication',
+                                name: 'Communication',
+                                description: 'Commune with nature spirits to gain wisdom about the natural world.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'elemental_affinity_groven',
                         name: 'Elemental Affinity',
-                        description: 'Can channel elemental forces for minor effects (1 AP).',
-                        type: 'elemental'
+                        description: 'Channel elemental forces for minor effects.',
+                        level: 1,
+                        icon: 'spell_nature_elementalshields',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'elemental',
+                            secondaryElement: 'nature',
+                            icon: 'spell_nature_elementalshields',
+                            tags: ['elemental', 'nature', 'utility']
+                        },
+                        utilityConfig: {
+                            utilityType: 'elemental',
+                            selectedEffects: [{
+                                id: 'manipulation',
+                                name: 'Manipulation',
+                                description: 'Channel minor elemental effects.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'radiant_vulnerability_groven',
                         name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) due to your deep spiritual connection to nature and elemental forces.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to radiant damage (+50% damage) due to your spiritual connection to nature.',
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'radiant',
+                            icon: 'spell_holy_holybolt',
+                            tags: ['vulnerability', 'radiant', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take +50% damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Elemental'],
@@ -1606,19 +2908,120 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'naturally_stealthy_groven',
                         name: 'Naturally Stealthy',
                         description: 'Advantage on Stealth checks in natural environments.',
-                        type: 'stealth'
+                        level: 1,
+                        icon: 'ability_rogue_stealth',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'stealth',
+                            secondaryElement: 'nature',
+                            icon: 'ability_rogue_stealth',
+                            tags: ['stealth', 'nature', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Natural Stealth',
+                                    description: 'Advantage on Stealth in natural environments',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'You blend seamlessly into natural surroundings'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'lucky_groven',
                         name: 'Lucky',
                         description: 'Once per short rest, reroll a 1 on any d20 roll.',
-                        type: 'luck'
+                        level: 1,
+                        icon: 'spell_holy_blessed',
+                        spellType: 'REACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'luck',
+                            secondaryElement: 'fate',
+                            icon: 'spell_holy_blessed',
+                            tags: ['luck', 'reroll', 'reaction']
+                        },
+                        utilityConfig: {
+                            utilityType: 'reroll',
+                            selectedEffects: [{
+                                id: 'luck',
+                                name: 'Luck',
+                                description: 'Reroll a 1 on any d20 roll.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    {
+                                        triggerType: 'on_roll_result',
+                                        conditions: {
+                                            result: 1
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'size_vulnerability_groven',
                         name: 'Size Vulnerability',
-                        description: 'Vulnerable to damage from Large or larger creatures (+50% damage) due to your small stature.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to damage from Large or larger creatures (+50% damage).',
+                        level: 1,
+                        icon: 'ability_warrior_charge',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'size',
+                            icon: 'ability_warrior_charge',
+                            tags: ['vulnerability', 'size', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Size Vulnerability',
+                                    description: 'Take +50% damage from Large or larger creatures',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Halfling', 'Druidic'],
@@ -1663,19 +3066,108 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'forge_heart_emberth',
                         name: 'Forge Heart',
-                        description: 'Can work metal without tools (2 AP). Items gain +1 damage or armor.',
-                        type: 'crafting'
+                        description: 'Work metal without tools. Items gain +1 damage or armor.',
+                        level: 1,
+                        icon: 'inv_hammer_20',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'crafting',
+                            secondaryElement: 'fire',
+                            icon: 'inv_hammer_20',
+                            tags: ['crafting', 'fire', 'smithing']
+                        },
+                        utilityConfig: {
+                            utilityType: 'crafting',
+                            selectedEffects: [{
+                                id: 'smithing',
+                                name: 'Smithing',
+                                description: 'Work metal with your bare hands. Items crafted gain +1 damage or armor.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'touch',
+                            targetRestrictions: ['object']
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'fire_immunity_emberth',
                         name: 'Fire Immunity',
                         description: 'Immune to fire damage and can walk through lava unharmed.',
-                        type: 'resistance'
+                        level: 1,
+                        icon: 'spell_fire_firearmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'resistance',
+                            icon: 'spell_fire_firearmor',
+                            tags: ['immunity', 'fire', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Fire Immunity',
+                                    description: 'Complete immunity to fire damage',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Take no damage from fire or lava'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'cold_vulnerability_forgeborn',
                         name: 'Cold Vulnerability',
-                        description: 'Vulnerable to cold damage (+50% damage) as your inner fire can be extinguished by extreme cold.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to cold damage (+50% damage) as your inner fire can be extinguished.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt02',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'cold',
+                            icon: 'spell_frost_frostbolt02',
+                            tags: ['vulnerability', 'cold', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'cold_vulnerability',
+                                    name: 'Cold Vulnerability',
+                                    description: 'Take +50% damage from cold sources'
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Terran'],
@@ -1693,19 +3185,130 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'ember_trail_emberth',
                         name: 'Ember Trail',
-                        description: 'Leave a trail of embers for tracking or signaling (1 AP).',
-                        type: 'movement'
+                        description: 'Leave a trail of embers for tracking or signaling.',
+                        level: 1,
+                        icon: 'spell_fire_burnout',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'utility',
+                            icon: 'spell_fire_burnout',
+                            tags: ['tracking', 'signaling', 'fire']
+                        },
+                        utilityConfig: {
+                            utilityType: 'tracking',
+                            selectedEffects: [{
+                                id: 'trail',
+                                name: 'Trail',
+                                description: 'Leave a visible trail of embers.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'ash_cloud_emberth',
                         name: 'Ash Cloud',
-                        description: 'Create concealing ash cloud (2 AP). Grants advantage on Stealth.',
-                        type: 'utility'
+                        description: 'Create concealing ash cloud. Grants advantage on Stealth.',
+                        level: 1,
+                        icon: 'spell_fire_smokecloud',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'concealment',
+                            icon: 'spell_fire_smokecloud',
+                            tags: ['concealment', 'stealth', 'fire']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Advantage on Stealth while in cloud',
+                            effects: [
+                                {
+                                    name: 'Ash Concealment',
+                                    description: 'Advantage on Stealth',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'The ash cloud hides your presence'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'environment',
+                            selectedEffects: [{
+                                id: 'obscurement',
+                                name: 'Obscurement',
+                                description: 'Create a 10-foot radius cloud of hot ash that obscures vision.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeSize: 10
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'cold_vulnerability_cinderborn',
                         name: 'Cold Vulnerability',
-                        description: 'Vulnerable to cold damage (+50% damage) as extreme cold can quench your inner heat.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to cold damage (+50% damage) as cold can quench your inner heat.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt02',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'cold',
+                            icon: 'spell_frost_frostbolt02',
+                            tags: ['vulnerability', 'cold', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'cold_vulnerability',
+                                    name: 'Cold Vulnerability',
+                                    description: 'Take +50% damage from cold sources'
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Auran'],
@@ -1723,19 +3326,141 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'battle_rage_emberth',
                         name: 'Battle Rage',
-                        description: 'Enter battle rage when reducing enemy to 0 HP (1 AP). +2 attack, +1d6 fire damage for 1 minute.',
-                        type: 'combat'
+                        description: 'Enter battle rage when reducing enemy to 0 HP. +2 attack, +1d6 fire damage for 1 minute.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'REACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'combat',
+                            secondaryElement: 'fire',
+                            icon: 'ability_warrior_rampage',
+                            tags: ['rage', 'fire', 'combat', 'reaction']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            statModifiers: [
+                                {
+                                    id: 'rage_attack',
+                                    name: 'Attack Bonus',
+                                    magnitude: 2,
+                                    magnitudeType: 'flat',
+                                    category: 'combat'
+                                }
+                            ],
+                            effects: [
+                                {
+                                    name: 'Fire Damage',
+                                    description: '+1d6 fire damage to attacks',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your attacks burn with inner fire'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            canBeDispelled: false
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    {
+                                        triggerType: 'on_kill',
+                                        conditions: {}
+                                    }
+                                ]
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'scarred_hide_emberth',
                         name: 'Scarred Hide',
                         description: '+1 Armor from toughened skin. Advantage on saves against fear.',
-                        type: 'defense'
+                        level: 1,
+                        icon: 'ability_warrior_defensivestance',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'combat',
+                            secondaryElement: 'defense',
+                            icon: 'ability_warrior_defensivestance',
+                            tags: ['armor', 'fear-resistance', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            statModifiers: [
+                                {
+                                    id: 'armor_bonus',
+                                    name: 'Armor Bonus',
+                                    magnitude: 1,
+                                    magnitudeType: 'flat',
+                                    category: 'defense'
+                                }
+                            ],
+                            effects: [
+                                {
+                                    name: 'Fear Resistance',
+                                    description: 'Advantage on saves against fear',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Battle has hardened your resolve'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'cold_vulnerability_warborn',
                         name: 'Cold Vulnerability',
-                        description: 'Vulnerable to cold damage (+50% damage) as your inner fire can be quenched by extreme cold.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to cold damage (+50% damage) as your inner fire can be quenched.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt02',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'cold',
+                            icon: 'spell_frost_frostbolt02',
+                            tags: ['vulnerability', 'cold', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'cold_vulnerability',
+                                    name: 'Cold Vulnerability',
+                                    description: 'Take +50% damage from cold sources'
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Ignan'],
@@ -1858,12 +3583,15 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'detection',
-                            subtype: 'scent',
-                            description: 'Can detect creatures within 60 feet by scent, even through walls. Advantage on tracking checks.',
-                            power: 'minor',
-                            range: 60,
+                            selectedEffects: [{
+                                id: 'scent',
+                                name: 'Scent',
+                                description: 'Can detect creatures within 60 feet by scent, even through walls. Advantage on tracking checks.',
+                                range: 60
+                            }],
                             duration: 10,
-                            durationUnit: 'minutes'
+                            durationUnit: 'minutes',
+                            power: 'minor'
                         },
                         targetingConfig: {
                             targetingType: 'self',
@@ -1962,8 +3690,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'utility',
-                            subtype: 'transformation',
-                            description: 'Gain enhanced senses or rapid healing for 1 minute.',
+                            selectedEffects: [{
+                                id: 'transformation',
+                                name: 'Transformation',
+                                description: 'Gain enhanced senses or rapid healing for 1 minute.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'minor'
                         },
                         targetingConfig: {
@@ -2018,8 +3751,13 @@ export const RACE_DATA = {
                         },
                         utilityConfig: {
                             utilityType: 'divination',
-                            subtype: 'detection',
-                            description: 'Can sense supernatural afflictions within 30 feet.',
+                            selectedEffects: [{
+                                id: 'detection',
+                                name: 'Detection',
+                                description: 'Can sense supernatural afflictions within 30 feet.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
                             power: 'minor'
                         },
                         targetingConfig: {
@@ -2122,19 +3860,127 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'treasure_sense_morthel',
                         name: 'Treasure Sense',
-                        description: 'Detect valuable items within 120 feet and know their worth (1 AP).',
-                        type: 'detection'
+                        description: 'Detect valuable items within 120 feet and know their worth.',
+                        level: 1,
+                        icon: 'inv_misc_coin_01',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'detection',
+                            secondaryElement: 'treasure',
+                            icon: 'inv_misc_coin_01',
+                            tags: ['detection', 'treasure', 'appraisal']
+                        },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            selectedEffects: [{
+                                id: 'treasure',
+                                name: 'Treasure',
+                                description: 'Detect valuable items within 120 feet and know their worth.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'undead_resilience_morthel',
                         name: 'Undead Resilience',
                         description: 'Immune to poison, disease, and exhaustion.',
-                        type: 'undead'
+                        level: 1,
+                        icon: 'spell_shadow_deathsembrace',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'undead',
+                            secondaryElement: 'resilience',
+                            icon: 'spell_shadow_deathsembrace',
+                            tags: ['immunity', 'undead', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Poison Immunity',
+                                    description: 'Immune to poison damage and effects',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Your undead nature is unaffected by toxins'
+                                    }
+                                },
+                                {
+                                    name: 'Disease Immunity',
+                                    description: 'Immune to disease',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Your undead body cannot be infected'
+                                    }
+                                },
+                                {
+                                    name: 'Exhaustion Immunity',
+                                    description: 'Immune to exhaustion',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Your undead body needs no rest'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'radiant_vulnerability_morthel_hoarder',
                         name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) as your undead nature is susceptible to holy energies.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to radiant damage (+50% damage) due to your undead nature.',
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'radiant',
+                            icon: 'spell_holy_holybolt',
+                            tags: ['vulnerability', 'radiant', 'undead', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take +50% damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Necril', 'Draconic'],
@@ -2152,19 +3998,107 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'perfect_memory_morthel',
                         name: 'Perfect Memory',
                         description: 'Perfect recall of everything you\'ve read. Can learn languages and skills permanently.',
-                        type: 'knowledge'
+                        level: 1,
+                        icon: 'spell_holy_mindvision',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'knowledge',
+                            secondaryElement: 'undead',
+                            icon: 'spell_holy_mindvision',
+                            tags: ['memory', 'knowledge', 'undead', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Perfect Recall',
+                                    description: 'Remember everything you have read',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'Your undead mind preserves all knowledge'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'deathless_vigil_morthel',
                         name: 'Deathless Vigil',
                         description: 'No need for sleep. Can work continuously for days.',
-                        type: 'undead'
+                        level: 1,
+                        icon: 'spell_shadow_demonicfortitude',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'undead',
+                            secondaryElement: 'endurance',
+                            icon: 'spell_shadow_demonicfortitude',
+                            tags: ['sleepless', 'undead', 'endurance', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'No Sleep Needed',
+                                    description: 'You do not need to sleep',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your undead body requires no rest'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'radiant_vulnerability_morthel_scholar',
                         name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) as your undead nature is susceptible to purifying holy energies.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to radiant damage (+50% damage) due to your undead nature.',
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'radiant',
+                            icon: 'spell_holy_holybolt',
+                            tags: ['vulnerability', 'radiant', 'undead', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take +50% damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Necril', 'All Ancient Languages'],
@@ -2209,19 +4143,123 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'thunder_voice_volketh',
                         name: 'Thunder Voice',
-                        description: 'Voice carries thunder power (2 AP). Deal sonic damage and stun enemies.',
-                        type: 'combat'
+                        description: 'Voice carries thunder power. Deal sonic damage and stun enemies.',
+                        level: 1,
+                        icon: 'spell_nature_thunderclap',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'debuff'],
+                        typeConfig: {
+                            school: 'lightning',
+                            secondaryElement: 'sonic',
+                            icon: 'spell_nature_thunderclap',
+                            tags: ['sonic', 'stun', 'damage']
+                        },
+                        damageConfig: {
+                            damageType: 'direct',
+                            elementType: 'thunder',
+                            formula: '2d6'
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Stunned',
+                                    description: 'Target is stunned for 1 round',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Thunder stuns the target'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeSize: 15
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'storm_presence_volketh',
                         name: 'Storm Presence',
                         description: 'Allies within 30 feet gain intimidation bonus.',
-                        type: 'social'
+                        level: 1,
+                        icon: 'spell_nature_lightning',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'lightning',
+                            secondaryElement: 'social',
+                            icon: 'spell_nature_lightning',
+                            tags: ['aura', 'intimidation', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Intimidating Presence',
+                                    description: 'Allies gain intimidation bonus',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your storm-scarred presence inspires fear'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeSize: 30
+                        }
                     },
                     {
+                        id: 'grounding_vulnerability_volketh',
                         name: 'Grounding Vulnerability',
-                        description: 'Vulnerable to effects that ground electricity (+50% damage from non-magical metal weapons and water-based attacks).',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to effects that ground electricity (+50% damage from metal weapons and water attacks).',
+                        level: 1,
+                        icon: 'spell_nature_earthbind',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'grounding',
+                            icon: 'spell_nature_earthbind',
+                            tags: ['vulnerability', 'grounding', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Grounding Vulnerability',
+                                    description: 'Take +50% damage from metal and water attacks',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Auran', 'Primordial'],
@@ -2239,19 +4277,101 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'lightning_reflexes_volketh',
                         name: 'Lightning Reflexes',
-                        description: 'Move at lightning speed in bursts (2 AP), but become exhausted.',
-                        type: 'movement'
+                        description: 'Move at lightning speed in bursts, but become exhausted.',
+                        level: 1,
+                        icon: 'spell_nature_lightningoverload',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'lightning',
+                            secondaryElement: 'movement',
+                            icon: 'spell_nature_lightningoverload',
+                            tags: ['movement', 'speed', 'lightning']
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{
+                                id: 'dash',
+                                name: 'Dash',
+                                description: 'Move at incredible speed for a short burst.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'major'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'chain_reaction_volketh',
                         name: 'Chain Reaction',
                         description: 'Attacks can arc to nearby enemies, but may hit allies.',
-                        type: 'combat'
+                        level: 1,
+                        icon: 'spell_nature_chainlightning',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['damage'],
+                        typeConfig: {
+                            school: 'lightning',
+                            secondaryElement: 'chain',
+                            icon: 'spell_nature_chainlightning',
+                            tags: ['chain', 'lightning', 'damage', 'passive']
+                        },
+                        damageConfig: {
+                            damageType: 'direct',
+                            elementType: 'lightning',
+                            chainDistance: 10
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'water_vulnerability_volketh',
                         name: 'Water Vulnerability',
-                        description: 'Vulnerable to water-based effects (+50% damage from water attacks) as your electrical nature shorts out in conductive fluids.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to water-based effects (+50% damage from water attacks).',
+                        level: 1,
+                        icon: 'spell_frost_waterbolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'water',
+                            icon: 'spell_frost_waterbolt',
+                            tags: ['vulnerability', 'water', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Water Vulnerability',
+                                    description: 'Take +50% damage from water attacks',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Auran', 'Primordial'],
@@ -2269,19 +4389,155 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'storm_rage_volketh',
                         name: 'Storm Rage',
-                        description: 'Enter berserk rage (1 AP). +3 attack, +2d6 lightning damage, resistance to physical damage.',
-                        type: 'combat'
+                        description: 'Enter berserk rage. +3 attack, +2d6 lightning damage, resistance to physical damage.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'lightning',
+                            secondaryElement: 'rage',
+                            icon: 'ability_warrior_rampage',
+                            tags: ['rage', 'lightning', 'combat']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            statModifiers: [
+                                {
+                                    id: 'rage_attack',
+                                    name: 'Attack Bonus',
+                                    magnitude: 3,
+                                    magnitudeType: 'flat',
+                                    category: 'combat'
+                                }
+                            ],
+                            effects: [
+                                {
+                                    name: 'Lightning Damage',
+                                    description: '+2d6 lightning damage',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'Your attacks crackle with lightning'
+                                    }
+                                },
+                                {
+                                    name: 'Physical Resistance',
+                                    description: 'Resistance to physical damage',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Storm energy protects you'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'eye_of_the_storm_volketh',
                         name: 'Eye of the Storm',
-                        description: 'Create zone of calm protecting allies (2 AP), but cannot move.',
-                        type: 'protection'
+                        description: 'Create zone of calm protecting allies, but cannot move.',
+                        level: 1,
+                        icon: 'spell_nature_nullifydisease',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'lightning',
+                            secondaryElement: 'protection',
+                            icon: 'spell_nature_nullifydisease',
+                            tags: ['protection', 'zone', 'allies']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Calm Zone',
+                                    description: 'Allies in zone are protected from storm effects',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'The eye of the storm provides safety'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'environment',
+                            selectedEffects: [{
+                                id: 'weather_control',
+                                name: 'Weather Control',
+                                description: 'Create a 20-foot radius zone of calm weather, protecting allies from storm effects.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeSize: 20
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'pressure_vulnerability_volketh',
                         name: 'Pressure Vulnerability',
-                        description: 'Vulnerable to pressure effects (+50% damage from crushing/bludgeoning attacks) due to your damaged lungs.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to pressure effects (+50% damage from crushing/bludgeoning attacks).',
+                        level: 1,
+                        icon: 'ability_warrior_sunder',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'pressure',
+                            icon: 'ability_warrior_sunder',
+                            tags: ['vulnerability', 'pressure', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Pressure Vulnerability',
+                                    description: 'Take +50% damage from crushing/bludgeoning attacks',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Auran'],
@@ -2326,19 +4582,131 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'pressure_adaptation_drennar',
                         name: 'Pressure Adaptation',
                         description: 'Resistant to bludgeoning damage. Can survive any ocean depth.',
-                        type: 'defense'
+                        level: 1,
+                        icon: 'spell_shadow_demonicfortitude',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'defense',
+                            secondaryElement: 'pressure',
+                            icon: 'spell_shadow_demonicfortitude',
+                            tags: ['resistance', 'bludgeoning', 'pressure', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Bludgeoning Resistance',
+                                    description: 'Resistance to bludgeoning damage',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your pressure-adapted body resists crushing blows'
+                                    }
+                                },
+                                {
+                                    name: 'Depth Survival',
+                                    description: 'Can survive any ocean depth',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'No depth can crush your adapted form'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'abyssal_resilience_drennar',
                         name: 'Abyssal Resilience',
                         description: 'Resistant to cold and acid damage.',
-                        type: 'defense'
+                        level: 1,
+                        icon: 'spell_nature_nullifydisease',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'defense',
+                            secondaryElement: 'abyssal',
+                            icon: 'spell_nature_nullifydisease',
+                            tags: ['resistance', 'cold', 'acid', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Cold Resistance',
+                                    description: 'Resistance to cold damage',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'The deep cold no longer harms you'
+                                    }
+                                },
+                                {
+                                    name: 'Acid Resistance',
+                                    description: 'Resistance to acid damage',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Deep-sea chemicals have toughened you'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'light_sensitivity_drennar',
                         name: 'Light Sensitivity',
                         description: 'Vulnerable to radiant damage (+50% damage) and blinded by daylight.',
-                        type: 'vulnerability'
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'light',
+                            icon: 'spell_holy_holybolt',
+                            tags: ['vulnerability', 'radiant', 'light', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take +50% damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Daylight Blindness',
+                                    description: 'Blinded by daylight',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Bright light overwhelms your adapted eyes'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Aquan', 'Deep Speech'],
@@ -2356,19 +4724,162 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'bioluminescent_lure_drennar',
                         name: 'Bioluminescent Lure',
-                        description: 'Create hypnotic light patterns (1 AP) to lure and confuse enemies.',
-                        type: 'illusion'
+                        description: 'Create hypnotic light patterns to lure and confuse enemies.',
+                        level: 1,
+                        icon: 'spell_arcane_arcanepower',
+                        spellType: 'ACTION',
+                        effectTypes: ['debuff', 'control'],
+                        typeConfig: {
+                            school: 'illusion',
+                            secondaryElement: 'light',
+                            icon: 'spell_arcane_arcanepower',
+                            tags: ['illusion', 'hypnotic', 'lure']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Hypnotized',
+                                    description: 'Target is lured and confused',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'The hypnotic patterns capture their attention'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            saveDC: 12,
+                            saveType: 'spirit',
+                            saveOutcome: 'negates',
+                            canBeDispelled: false
+                        },
+                        controlConfig: {
+                            controlType: 'mind_control',
+                            strength: 'weak',
+                            duration: 1,
+                            durationUnit: 'rounds',
+                            saveDC: 12,
+                            saveType: 'spirit',
+                            savingThrow: true,
+                            effects: [{
+                                id: 'confuse',
+                                name: 'Lured',
+                                description: 'Target is drawn toward the hypnotic lights and has disadvantage on attacks against you',
+                                config: {
+                                    controlLevel: 'distraction',
+                                    mentalApproach: 'subtle'
+                                }
+                            }]
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'ranged',
+                            rangeDistance: 30
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'ambush_predator_drennar',
                         name: 'Ambush Predator',
                         description: 'Double damage on surprise attacks, but disadvantage in direct combat.',
-                        type: 'combat'
+                        level: 1,
+                        icon: 'ability_rogue_ambush',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'combat',
+                            secondaryElement: 'ambush',
+                            icon: 'ability_rogue_ambush',
+                            tags: ['ambush', 'surprise', 'combat', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Ambush Damage',
+                                    description: 'Double damage on surprise attacks',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'You strike from the shadows with deadly precision'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Direct Combat Weakness',
+                                    description: 'Disadvantage in direct combat',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'You struggle in face-to-face confrontations'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'surface_frailty_drennar',
                         name: 'Surface Frailty',
                         description: 'Vulnerable to radiant damage (+50% damage) and take damage in bright light.',
-                        type: 'vulnerability'
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'light',
+                            icon: 'spell_holy_holybolt',
+                            tags: ['vulnerability', 'radiant', 'light', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Radiant Vulnerability',
+                                    description: 'Take +50% damage from radiant sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    name: 'Light Damage',
+                                    description: 'Take damage in bright light',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Bright light harms your adapted eyes'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Aquan', 'Deep Speech'],
@@ -2386,19 +4897,107 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'adaptive_gills_drennar',
                         name: 'Adaptive Gills',
                         description: 'Can breathe both water and air.',
-                        type: 'utility'
+                        level: 1,
+                        icon: 'spell_frost_summonwaterelemental',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'aquatic',
+                            secondaryElement: 'adaptation',
+                            icon: 'spell_frost_summonwaterelemental',
+                            tags: ['breathing', 'aquatic', 'amphibious', 'passive']
+                        },
+                        utilityConfig: {
+                            utilityType: 'environmental',
+                            selectedEffects: [{
+                                id: 'breathing',
+                                name: 'Breathing',
+                                description: 'Breathe both underwater and in air.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'chromatic_display_drennar',
                         name: 'Chromatic Display',
-                        description: 'Change bioluminescent patterns for communication (1 AP).',
-                        type: 'utility'
+                        description: 'Change bioluminescent patterns for communication.',
+                        level: 1,
+                        icon: 'spell_arcane_arcanepower',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'communication',
+                            secondaryElement: 'light',
+                            icon: 'spell_arcane_arcanepower',
+                            tags: ['communication', 'light', 'display']
+                        },
+                        utilityConfig: {
+                            utilityType: 'communication',
+                            selectedEffects: [{
+                                id: 'visual',
+                                name: 'Visual',
+                                description: 'Communicate through changing light patterns.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'pressure_instability_drennar',
                         name: 'Pressure Instability',
-                        description: 'Vulnerable to thunder damage (+50% damage) from pressure waves that worsen your injuries.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to thunder damage (+50% damage) from pressure waves.',
+                        level: 1,
+                        icon: 'spell_nature_thunderclap',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'thunder',
+                            icon: 'spell_nature_thunderclap',
+                            tags: ['vulnerability', 'thunder', 'pressure', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Thunder Vulnerability',
+                                    description: 'Take +50% damage from thunder sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Aquan'],
@@ -2443,19 +5042,120 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'void_step_astren',
                         name: 'Void Step',
-                        description: 'Teleport through void between spaces (2 AP).',
-                        type: 'movement'
+                        description: 'Teleport through the void between spaces.',
+                        level: 1,
+                        icon: 'spell_arcane_blink',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'void',
+                            secondaryElement: 'teleport',
+                            icon: 'spell_arcane_blink',
+                            tags: ['teleport', 'void', 'movement']
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{
+                                id: 'teleport',
+                                name: 'Teleport',
+                                description: 'Step through the void to another location within 60 feet.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'major'
+                        },
+                        targetingConfig: {
+                            targetingType: 'location',
+                            rangeType: 'ranged',
+                            rangeDistance: 60
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'cosmic_isolation_astren',
                         name: 'Cosmic Isolation',
                         description: 'Immune to mind-affecting effects and fear.',
-                        type: 'mental'
+                        level: 1,
+                        icon: 'spell_shadow_antimagicshell',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'mental',
+                            secondaryElement: 'cosmic',
+                            icon: 'spell_shadow_antimagicshell',
+                            tags: ['immunity', 'mind', 'fear', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Mind Immunity',
+                                    description: 'Immune to mind-affecting effects',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Your alien mind is beyond mortal manipulation'
+                                    }
+                                },
+                                {
+                                    name: 'Fear Immunity',
+                                    description: 'Immune to fear',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'The void has shown you true terror'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'void_hunger_astren',
                         name: 'Void Hunger',
-                        description: 'Vulnerable to necrotic damage (+50% damage) as the void within you draws in death energies.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to necrotic damage (+50% damage) as the void within draws in death energies.',
+                        level: 1,
+                        icon: 'spell_shadow_deathsembrace',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'necrotic',
+                            icon: 'spell_shadow_deathsembrace',
+                            tags: ['vulnerability', 'necrotic', 'void', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Necrotic Vulnerability',
+                                    description: 'Take +50% damage from necrotic sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Celestial', 'Cosmic', 'Deep Speech'],
@@ -2473,19 +5173,98 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'stellar_radiance_astren',
                         name: 'Stellar Radiance',
-                        description: 'Emit intense light and heat (1 AP). Damage nearby enemies.',
-                        type: 'combat'
+                        description: 'Emit intense light and heat. Damage nearby enemies.',
+                        level: 1,
+                        icon: 'spell_holy_innerfire',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'radiant',
+                            icon: 'spell_holy_innerfire',
+                            tags: ['radiant', 'fire', 'aoe', 'damage']
+                        },
+                        damageConfig: {
+                            damageType: 'direct',
+                            elementType: 'radiant',
+                            formula: '2d6'
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeSize: 10
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 1
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'solar_healing_astren',
                         name: 'Solar Healing',
                         description: 'Regenerate health in sunlight.',
-                        type: 'utility'
+                        level: 1,
+                        icon: 'spell_holy_renew',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['healing'],
+                        typeConfig: {
+                            school: 'healing',
+                            secondaryElement: 'solar',
+                            icon: 'spell_holy_renew',
+                            tags: ['healing', 'regeneration', 'solar', 'passive']
+                        },
+                        healingConfig: {
+                            healingType: 'hot',
+                            formula: '1d4',
+                            hasHotEffect: true,
+                            hotTickInterval: 1,
+                            hotDuration: 'while in sunlight'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     },
                     {
+                        id: 'shadow_frailty_astren',
                         name: 'Shadow Frailty',
                         description: 'Vulnerable to necrotic damage (+50% damage) as darkness extinguishes your stellar fire.',
-                        type: 'vulnerability'
+                        level: 1,
+                        icon: 'spell_shadow_deathsembrace',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'necrotic',
+                            icon: 'spell_shadow_deathsembrace',
+                            tags: ['vulnerability', 'necrotic', 'shadow', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Necrotic Vulnerability',
+                                    description: 'Take +50% damage from necrotic sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Celestial', 'Ignan'],
@@ -2503,19 +5282,129 @@ export const RACE_DATA = {
                 },
                 traits: [
                     {
+                        id: 'star_reading_astren',
                         name: 'Star Reading',
-                        description: 'Read fate in the stars (2 AP). Gain advantage on one divination check.',
-                        type: 'divination'
+                        description: 'Read fate in the stars. Gain advantage on one divination check.',
+                        level: 1,
+                        icon: 'spell_holy_prophecy',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'divination',
+                            secondaryElement: 'cosmic',
+                            icon: 'spell_holy_prophecy',
+                            tags: ['divination', 'fate', 'stars']
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'fate',
+                                name: 'Fate',
+                                description: 'Read the patterns in the stars to divine the future.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'constellation_form_astren',
                         name: 'Constellation Form',
-                        description: 'Transform into starlight (2 AP). Become intangible but cannot affect physical world.',
-                        type: 'transformation'
+                        description: 'Transform into starlight. Become intangible but cannot affect physical world.',
+                        level: 1,
+                        icon: 'spell_arcane_blink',
+                        spellType: 'ACTION',
+                        effectTypes: ['transformation', 'buff'],
+                        typeConfig: {
+                            school: 'transmutation',
+                            secondaryElement: 'starlight',
+                            icon: 'spell_arcane_blink',
+                            tags: ['transformation', 'intangible', 'starlight']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Starlight Form',
+                                    description: 'Become intangible',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'You become made of pure starlight'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        transformationConfig: {
+                            transformationType: 'elemental',
+                            targetType: 'self',
+                            duration: 1,
+                            durationUnit: 'minutes',
+                            power: 'major',
+                            specialEffects: ['intangible', 'luminous', 'cannot_attack']
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            actionPoints: 2
+                        },
+                        cooldownConfig: {
+                            type: 'short_rest',
+                            value: 1
+                        }
                     },
                     {
+                        id: 'cosmic_strain_astren',
                         name: 'Cosmic Strain',
-                        description: 'Vulnerable to psychic damage (+50% damage) as your cosmic awareness makes you susceptible to mental intrusions.',
-                        type: 'vulnerability'
+                        description: 'Vulnerable to psychic damage (+50% damage) as cosmic awareness makes you susceptible to mental intrusions.',
+                        level: 1,
+                        icon: 'spell_shadow_psychichorrors',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'psychic',
+                            icon: 'spell_shadow_psychichorrors',
+                            tags: ['vulnerability', 'psychic', 'cosmic', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Psychic Vulnerability',
+                                    description: 'Take +50% damage from psychic sources',
+                                    statModifier: {
+                                        stat: 'damage_taken',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        }
                     }
                 ],
                 languages: ['Common', 'Celestial', 'Cosmic'],

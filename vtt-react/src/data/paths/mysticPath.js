@@ -26,174 +26,173 @@ export const MYSTIC_PATH = {
         mechanicalIntegration: 'Energy manipulation and spiritual transcendence.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
-        // From Energy Discipline
+        // PASSIVE - Spiritual Attunement
         {
-            id: 'energy_burst',
-                    name: 'Energy Burst',
-                    description: '"Release!" Unleash a burst of pure spiritual energy that damages enemies in a cone.',
-                    icon: 'spell_nature_wispsplode',
-                    level: 1,
-                    spellType: 'ACTION',
-                    tags: ['damage', 'energy', 'cone', 'spiritual'],
-                    effectTypes: ['damage'],
-                    damageTypes: ['force'],
+            id: 'spiritual_attunement',
+            name: 'Spiritual Attunement',
+            description: '"The universe speaks to those who listen." Your deep connection to spiritual energy grants you enhanced perception and resistance to mental intrusion.',
+            icon: 'spell_holy_spiritualguidence',
+            level: 1,
+            spellType: 'PASSIVE',
+            tags: ['passive', 'spiritual', 'perception', 'resistance'],
+            effectTypes: ['buff'],
+            damageTypes: [],
 
-                    damageConfig: {
-                        damageType: 'direct',
-                        elementType: 'force',
-                        formula: '3d8 + SPI',
-                        resolution: 'DICE',
-                        hasDotEffect: false,
-                        savingThrowConfig: {
-                            enabled: true,
-                            savingThrowType: 'agility',
-                            difficultyClass: 14,
-                            saveOutcome: 'halves'
-                        },
-                        criticalConfig: {
-                            enabled: true,
-                            critType: 'dice',
-                            critMultiplier: 2,
-                            critDiceOnly: false
+            typeConfig: {
+                school: 'spiritual',
+                icon: 'spell_holy_spiritualguidence',
+                tags: ['passive', 'spiritual', 'perception', 'resistance']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'spirit_sense',
+                        name: 'Spirit Sense',
+                        description: 'You can sense life energy within 30 feet, detecting living creatures even through thin barriers. You also have advantage on saving throws against charm and fear effects.',
+                        statModifier: {
+                            stat: 'perception',
+                            magnitude: 2,
+                            magnitudeType: 'flat'
                         }
                     },
+                    {
+                        id: 'mental_ward',
+                        name: 'Mental Ward',
+                        description: 'Your spiritual discipline grants resistance to psychic damage (50% reduction).',
+                        statModifier: {
+                            stat: 'psychic_resistance',
+                            magnitude: 50,
+                            magnitudeType: 'percentage'
+                        }
+                    }
+                ],
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
+            },
 
-                    targetingConfig: {
-                        targetingType: 'area',
-                        rangeType: 'self_centered',
-                        rangeDistance: 0,
-                        aoeShape: 'cone',
-                        aoeSize: 30,
-                        targetRestrictions: ['enemy']
-                    },
+            targetingConfig: {
+                targetingType: 'self'
+            },
 
-                    resourceCost: {
-                        mana: 15,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
-                        actionPoints: 2
-                    },
+            resourceCost: {
+                actionPoints: 0
+            },
 
-                    durationConfig: {
-                        type: 'instant',
-                        value: 0,
-                        unit: 'seconds',
-                        concentration: false,
-                        dispellable: false
-                    },
+            resolution: 'DICE',
+            visualTheme: 'holy'
+        },
+        // REACTION - Spirit Ward
+        {
+            id: 'spirit_ward',
+            name: 'Spirit Ward',
+            description: '"My spirit shields me!" When you or an ally within 30 feet takes damage, instantly manifest a protective barrier of spiritual energy to reduce the damage.',
+            icon: 'spell_holy_powerwordbarrier',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'defensive', 'protection', 'spiritual'],
+            effectTypes: ['buff'],
+            damageTypes: [],
 
-                    cooldownConfig: {
-                        type: 'short_rest',
-                        value: 1,
-                        charges: 2,
-                        recovery: 2
-                    },
+            typeConfig: {
+                school: 'spiritual',
+                icon: 'spell_holy_powerwordbarrier',
+                tags: ['reaction', 'defensive', 'protection', 'spiritual']
+            },
 
-                    resolution: 'DICE',
-                    visualTheme: 'arcane',
-                    effectMechanicsConfigs: {},
-                    mechanicsConfig: []
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'spirit_shield',
+                        name: 'Spirit Shield',
+                        description: 'Reduces incoming damage by 2d6 + Spirit modifier (flat reduction applied before damage is taken).',
+                        statModifier: {
+                            stat: 'damage_reduction',
+                            magnitude: 10,
+                            magnitudeType: 'flat'
+                        }
+                    }
+                ],
+                durationValue: 1,
+                durationType: 'instant',
+                durationUnit: 'instant',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 30,
+                targetRestrictions: ['ally', 'self']
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'damage_taken',
+                            category: 'combat',
+                            name: 'When you or ally takes damage',
+                            parameters: {
+                                perspective: 'ally',
+                                target_type: 'ally_or_self',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
                 },
-                {
-                    id: 'chakra_shield',
-                    name: 'Chakra Shield',
-                    description: '"My energy protects me." Form a protective barrier of spiritual energy that absorbs damage.',
-                    icon: 'spell_holy_powerwordbarrier',
-                    level: 2,
-                    spellType: 'ACTION',
-                    tags: ['buff', 'shield', 'protection', 'energy'],
-                    effectTypes: ['buff'],
-                    damageTypes: [],
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: true
+                }
+            },
 
-                    buffConfig: {
-                        duration: 10,
-                        durationValue: 10,
-                        durationType: 'rounds',
-                        durationUnit: 'rounds',
-                        statModifiers: [
-                            {
-                                name: 'damage_absorption',
-                                stat: 'shield',
-                                value: 20,
-                                magnitude: 20,
-                                magnitudeType: 'flat',
-                                isPercentage: false,
-                                formula: '3d6 + SPI'
-                            }
-                        ],
-                        statusEffects: [
-                            {
-                                id: 'chakra_shield',
-                                name: 'Chakra Shield',
-                                description: 'Protected by spiritual energy barrier'
-                            }
-                        ],
-                        buffs: [
-                            {
-                                name: 'Energy Barrier',
-                                description: 'Absorbs damage',
-                                duration: 10,
-                                effects: {
-                                    damageAbsorption: '3d6 + SPI'
-                                }
-                            }
-                        ]
-                    },
+            resourceCost: {
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 8 },
+                actionPoints: 0
+            },
 
-                    targetingConfig: {
-                        targetingType: 'self',
-                        rangeType: 'self',
-                        rangeDistance: 0,
-                        targetRestrictions: ['self']
-                    },
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 2,
+                charges: 2,
+                recovery: 1
+            },
 
-                    resourceCost: {
-                        mana: 18,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
-                        actionPoints: 2
-                    },
-
-                    durationConfig: {
-                        type: 'timed',
-                        value: 10,
-                        unit: 'rounds',
-                        concentration: false,
-                        dispellable: true
-                    },
-
-                    cooldownConfig: {
-                        type: 'long_rest',
-                        value: 1,
-                        charges: 1,
-                        recovery: 1
-                    },
-
-                    resolution: 'DICE',
-                    visualTheme: 'arcane',
-                    effectMechanicsConfigs: {},
-                    mechanicsConfig: []
-                },
-        // From Soul Discipline
+            resolution: 'DICE',
+            visualTheme: 'holy'
+        },
+        // ACTION - Soul Drain
         {
             id: 'soul_drain',
             name: 'Soul Drain',
-            description: '"Your essence is mine." Drain the life force from an enemy to heal yourself.',
+            description: '"Your essence is mine." Drain the life force from an enemy, dealing necrotic damage and healing yourself for the same amount.',
             icon: 'spell_shadow_lifedrain02',
             level: 1,
             spellType: 'ACTION',
-            tags: ['damage', 'healing', 'drain', 'soul'],
+            tags: ['action', 'damage', 'healing', 'drain', 'soul'],
             effectTypes: ['damage', 'healing'],
             damageTypes: ['necrotic'],
+
+            typeConfig: {
+                school: 'necrotic',
+                icon: 'spell_shadow_lifedrain02',
+                tags: ['action', 'damage', 'healing', 'drain', 'soul']
+            },
 
             damageConfig: {
                 damageType: 'direct',
                 elementType: 'necrotic',
-                formula: '2d8 + SPI',
+                formula: '2d8 + spirit',
                 resolution: 'DICE',
                 hasDotEffect: false,
                 savingThrowConfig: {
@@ -212,39 +211,29 @@ export const MYSTIC_PATH = {
 
             healingConfig: {
                 healingType: 'direct',
-                formula: '2d8 + SPI',
+                formula: '2d8 + spirit',
                 resolution: 'DICE',
                 hasHotEffect: false,
-                hasShieldEffect: false,
-                criticalConfig: {
-                    enabled: true,
-                    critType: 'dice',
-                    critMultiplier: 2,
-                    critDiceOnly: false
+                hasShieldEffect: false
+            },
+
+            targetingMode: 'effect',
+            effectTargeting: {
+                damage: {
+                    targetingType: 'single',
+                    rangeType: 'ranged',
+                    rangeDistance: 30,
+                    targetRestrictions: ['enemy']
+                },
+                healing: {
+                    targetingType: 'self'
                 }
             },
 
-            targetingConfig: {
-                targetingType: 'single',
-                rangeType: 'ranged',
-                rangeDistance: 30,
-                targetRestrictions: ['enemy']
-            },
-
             resourceCost: {
-                mana: 15,
-                health: 0,
-                stamina: 0,
-                focus: 0,
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 15 },
                 actionPoints: 2
-            },
-
-            durationConfig: {
-                type: 'instant',
-                value: 0,
-                unit: 'seconds',
-                concentration: false,
-                dispellable: false
             },
 
             cooldownConfig: {
@@ -255,9 +244,7 @@ export const MYSTIC_PATH = {
             },
 
             resolution: 'DICE',
-            visualTheme: 'shadow',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
+            visualTheme: 'shadow'
         }
     ],
 

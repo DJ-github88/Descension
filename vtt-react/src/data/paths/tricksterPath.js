@@ -26,205 +26,214 @@ export const TRICKSTER_PATH = {
         mechanicalIntegration: 'Deception, mobility, and tactical advantage.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
+        // PASSIVE - Cunning Instincts
         {
-            id: 'shadow_step',
-            name: 'Shadow Step',
-            description: '"Now you see me..." Teleport through shadows to a nearby location.',
-            icon: 'ability_rogue_shadowstep',
+            id: 'cunning_instincts',
+            name: 'Cunning Instincts',
+            description: '"I always see it coming." Your honed instincts grant you enhanced awareness and make you difficult to surprise or deceive.',
+            icon: 'ability_rogue_quickrecovery',
             level: 1,
-            spellType: 'ACTION',
-            tags: ['utility', 'teleport', 'shadow', 'mobility'],
-            effectTypes: ['utility'],
+            spellType: 'PASSIVE',
+            tags: ['passive', 'perception', 'initiative', 'deception'],
+            effectTypes: ['buff'],
             damageTypes: [],
+
+            typeConfig: {
+                school: 'shadow',
+                icon: 'ability_rogue_quickrecovery',
+                tags: ['passive', 'perception', 'initiative', 'deception']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'quick_reflexes',
+                        name: 'Quick Reflexes',
+                        description: 'You gain +2 to initiative rolls and cannot be surprised while conscious.',
+                        statModifier: {
+                            stat: 'initiative',
+                            magnitude: 2,
+                            magnitudeType: 'flat'
+                        }
+                    },
+                    {
+                        id: 'silver_tongue',
+                        name: 'Silver Tongue',
+                        description: 'You have advantage on Deception and Insight checks. Your quick wit makes you hard to fool.',
+                        statModifier: {
+                            stat: 'deception',
+                            magnitude: 2,
+                            magnitudeType: 'flat'
+                        }
+                    }
+                ],
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            resourceCost: {
+                actionPoints: 0
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow'
+        },
+        // REACTION - Evasive Maneuver
+        {
+            id: 'evasive_maneuver',
+            name: 'Evasive Maneuver',
+            description: '"You missed!" When targeted by an attack, use your quick reflexes to dodge and reposition, reducing damage and moving to safety.',
+            icon: 'ability_rogue_feint',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'defensive', 'mobility', 'evasion'],
+            effectTypes: ['buff', 'utility'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'shadow',
+                icon: 'ability_rogue_feint',
+                tags: ['reaction', 'defensive', 'mobility', 'evasion']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'evasion',
+                        name: 'Evasion',
+                        description: 'Reduce incoming damage by half and immediately move up to 15 feet without provoking opportunity attacks.',
+                        statModifier: {
+                            stat: 'damage_reduction',
+                            magnitude: 50,
+                            magnitudeType: 'percentage'
+                        }
+                    }
+                ],
+                durationValue: 1,
+                durationType: 'instant',
+                durationUnit: 'instant',
+                canBeDispelled: false
+            },
 
             utilityConfig: {
                 utilityType: 'movement',
-                utilitySubtype: 'teleport',
+                selectedEffects: [{
+                    id: 'quick_escape',
+                    name: 'Quick Escape',
+                    description: 'Move up to 15 feet without provoking opportunity attacks',
+                    distance: 15,
+                    needsLineOfSight: false
+                }],
+                duration: 0,
+                durationUnit: 'instant'
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'damage_taken',
+                            category: 'combat',
+                            name: 'When you are targeted by an attack',
+                            parameters: {
+                                perspective: 'self',
+                                target_type: 'self',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: false
+                }
+            },
+
+            resourceCost: {
+                resourceTypes: ['stamina'],
+                resourceValues: { stamina: 10 },
+                actionPoints: 0
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 2,
+                charges: 2,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'shadow'
+        },
+        // ACTION - Shadow Step
+        {
+            id: 'shadow_step',
+            name: 'Shadow Step',
+            description: '"Now you see me..." Teleport through shadows to any location you can see within 60 feet that is in dim light or darkness.',
+            icon: 'ability_rogue_shadowstep',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['action', 'utility', 'teleport', 'shadow', 'mobility'],
+            effectTypes: ['utility'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'shadow',
+                icon: 'ability_rogue_shadowstep',
+                tags: ['action', 'utility', 'teleport', 'shadow', 'mobility']
+            },
+
+            utilityConfig: {
+                utilityType: 'movement',
+                selectedEffects: [{
+                    id: 'teleport',
+                    name: 'Shadow Teleport',
+                    description: 'Teleport up to 60 feet to an unoccupied space you can see that is in dim light or darkness',
+                    distance: 60,
+                    needsLineOfSight: true
+                }],
                 duration: 0,
                 durationUnit: 'instant',
-                selectedEffects: [
-                    {
-                        name: 'Shadow Teleport',
-                        description: 'Teleport up to 60 feet to an unoccupied space you can see that is in dim light or darkness',
-                        customName: 'Shadow Step'
-                    }
-                ],
-                difficultyClass: 0,
                 concentration: false
             },
 
             targetingConfig: {
-                targetingType: 'location',
+                targetingType: 'ground',
                 rangeType: 'ranged',
-                rangeDistance: 60,
-                targetRestrictions: []
+                rangeDistance: 60
             },
 
             resourceCost: {
-                mana: 10,
-                health: 0,
-                stamina: 5,
-                focus: 0,
+                resourceTypes: ['mana', 'stamina'],
+                resourceValues: { mana: 10, stamina: 5 },
                 actionPoints: 1
-            },
-
-            durationConfig: {
-                type: 'instant',
-                value: 0,
-                unit: 'seconds',
-                concentration: false,
-                dispellable: false
             },
 
             cooldownConfig: {
                 type: 'short_rest',
                 value: 1,
                 charges: 3,
-                recovery: 3
+                recovery: 1
             },
 
             resolution: 'DICE',
-            visualTheme: 'shadow',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
-        {
-            id: 'mirror_image',
-            name: 'Mirror Image',
-            description: '"Which one is real?" Create illusory duplicates of yourself.',
-            icon: 'spell_magic_lesserinvisibilty',
-            level: 1,
-            spellType: 'ACTION',
-            tags: ['utility', 'illusion', 'defense', 'misdirection'],
-            effectTypes: ['utility'],
-            damageTypes: [],
-
-            utilityConfig: {
-                utilityType: 'illusion',
-                utilitySubtype: 'visual',
-                duration: 6,
-                durationUnit: 'rounds',
-                selectedEffects: [
-                    {
-                        name: 'Illusory Duplicates',
-                        description: 'Create 2 illusory duplicates that share your space and mimic your movements. Attackers have a 33% chance to hit a duplicate instead',
-                        customName: 'Mirror Image'
-                    }
-                ],
-                difficultyClass: 0,
-                concentration: false
-            },
-
-            targetingConfig: {
-                targetingType: 'self',
-                rangeType: 'self',
-                rangeDistance: 0,
-                targetRestrictions: ['self']
-            },
-
-            resourceCost: {
-                mana: 15,
-                health: 0,
-                stamina: 0,
-                focus: 5,
-                actionPoints: 1
-            },
-
-            durationConfig: {
-                type: 'timed',
-                value: 6,
-                unit: 'rounds',
-                concentration: false,
-                dispellable: true
-            },
-
-            cooldownConfig: {
-                type: 'short_rest',
-                value: 1,
-                charges: 2,
-                recovery: 2
-            },
-
-            resolution: 'DICE',
-            visualTheme: 'arcane',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
-        {
-            id: 'envenom_weapon',
-            name: 'Envenom Weapon',
-            description: '"A little something extra." Coat your weapon with deadly poison.',
-            icon: 'ability_rogue_deadlypoison',
-            level: 1,
-            spellType: 'ACTION',
-            tags: ['buff', 'poison', 'weapon', 'damage-over-time'],
-            effectTypes: ['buff'],
-            damageTypes: ['poison'],
-
-            buffConfig: {
-                duration: 10,
-                durationValue: 10,
-                durationType: 'rounds',
-                durationUnit: 'rounds',
-                statModifiers: [],
-                statusEffects: [
-                    {
-                        id: 'envenomed_weapon',
-                        name: 'Envenomed Weapon',
-                        description: 'Weapon attacks deal additional 2d6 poison damage and apply poison DoT'
-                    }
-                ],
-                buffs: [
-                    {
-                        name: 'Deadly Poison',
-                        description: 'Weapon deals poison damage',
-                        duration: 10,
-                        effects: {
-                            bonusDamage: '2d6',
-                            damageType: 'poison',
-                            dotDamage: '1d6',
-                            dotDuration: 3
-                        }
-                    }
-                ]
-            },
-
-            targetingConfig: {
-                targetingType: 'self',
-                rangeType: 'self',
-                rangeDistance: 0,
-                targetRestrictions: ['self']
-            },
-
-            resourceCost: {
-                mana: 12,
-                health: 0,
-                stamina: 0,
-                focus: 0,
-                actionPoints: 1
-            },
-
-            durationConfig: {
-                type: 'timed',
-                value: 10,
-                unit: 'rounds',
-                concentration: false,
-                dispellable: false
-            },
-
-            cooldownConfig: {
-                type: 'short_rest',
-                value: 1,
-                charges: 2,
-                recovery: 2
-            },
-
-            resolution: 'DICE',
-            visualTheme: 'nature',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
+            visualTheme: 'shadow'
         }
     ],
 

@@ -26,57 +26,177 @@ export const MERCENARY_PATH = {
         mechanicalIntegration: 'Versatility, tactics, and professional combat skills.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
+        // PASSIVE - Tactical Mind
         {
-            id: 'exploit_weakness',
-            name: 'Exploit Weakness',
-            description: '"I see your weakness." Mark an enemy, dealing increased damage to them.',
-            icon: 'ability_hunter_snipershot',
+            id: 'tactical_mind',
+            name: 'Tactical Mind',
+            description: '"I\'ve seen every trick in the book." Your extensive combat experience grants you enhanced tactical awareness and defensive bonuses when outnumbered.',
+            icon: 'ability_warrior_vigilance',
             level: 1,
-            spellType: 'ACTION',
-            tags: ['debuff', 'tactical', 'damage-amplification', 'mark'],
-            effectTypes: ['debuff'],
+            spellType: 'PASSIVE',
+            tags: ['passive', 'tactical', 'defense', 'awareness'],
+            effectTypes: ['buff'],
             damageTypes: [],
 
-            debuffConfig: {
-                duration: 8,
-                durationValue: 8,
-                durationType: 'rounds',
-                durationUnit: 'rounds',
-                statModifiers: [
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_warrior_vigilance',
+                tags: ['passive', 'tactical', 'defense', 'awareness']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
                     {
-                        name: 'marked_vulnerability',
-                        stat: 'armor_class',
-                        value: -3,
-                        magnitude: -3,
-                        magnitudeType: 'flat',
-                        isPercentage: false
-                    }
-                ],
-                statusEffects: [
+                        id: 'combat_veteran',
+                        name: 'Combat Veteran',
+                        description: 'Gain +1 armor for each enemy within 10 feet of you (maximum +3). Your experience fighting outnumbered keeps you alert.',
+                        statModifier: {
+                            stat: 'armor',
+                            magnitude: 1,
+                            magnitudeType: 'flat'
+                        }
+                    },
                     {
-                        id: 'marked_target',
-                        name: 'Marked Target',
-                        description: 'Weakness exploited, -3 armor, you deal 25% more damage to this target'
-                    }
-                ],
-                debuffs: [
-                    {
-                        name: 'Tactical Mark',
-                        description: 'Weakness exposed',
-                        duration: 8,
-                        effects: {
-                            armorPenalty: -3,
-                            damageTakenBonus: 25
+                        id: 'battlefield_awareness',
+                        name: 'Battlefield Awareness',
+                        description: 'You have advantage on initiative rolls and cannot be surprised while conscious. Your professional training keeps you ready.',
+                        statModifier: {
+                            stat: 'initiative',
+                            magnitude: 2,
+                            magnitudeType: 'flat'
                         }
                     }
                 ],
-                difficultyClass: 14,
-                savingThrow: 'agility',
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            resourceCost: {
+                actionPoints: 0
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'physical'
+        },
+        // REACTION - Parry and Riposte
+        {
+            id: 'parry_riposte',
+            name: 'Parry and Riposte',
+            description: '"Amateur move." When an enemy misses you with a melee attack, immediately parry and counter with a precise strike.',
+            icon: 'ability_rogue_riposte',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'damage', 'counter', 'melee'],
+            effectTypes: ['damage'],
+            damageTypes: ['piercing'],
+
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_rogue_riposte',
+                tags: ['reaction', 'damage', 'counter', 'melee']
+            },
+
+            damageConfig: {
+                damageType: 'direct',
+                elementType: 'piercing',
+                formula: '2d6 + agility',
+                resolution: 'DICE',
+                hasDotEffect: false,
+                criticalConfig: {
+                    enabled: true,
+                    critType: 'dice',
+                    critMultiplier: 2,
+                    critDiceOnly: false
+                }
+            },
+
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'melee',
+                rangeDistance: 5,
+                targetRestrictions: ['enemy']
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'attack_missed',
+                            category: 'combat',
+                            name: 'When an enemy misses you with a melee attack',
+                            parameters: {
+                                perspective: 'self',
+                                attack_result: 'miss',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: true
+                }
+            },
+
+            resourceCost: {
+                resourceTypes: ['stamina'],
+                resourceValues: { stamina: 5 },
+                actionPoints: 0
+            },
+
+            cooldownConfig: {
+                type: 'turn_based',
+                value: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'physical'
+        },
+        // ACTION - Exploit Weakness
+        {
+            id: 'exploit_weakness',
+            name: 'Exploit Weakness',
+            description: '"I see your weakness." Mark an enemy\'s vulnerable points, reducing their armor by 3 and causing you to deal 25% more damage to them for 8 rounds.',
+            icon: 'ability_hunter_snipershot',
+            level: 1,
+            spellType: 'ACTION',
+            tags: ['action', 'debuff', 'tactical', 'damage-amplification', 'mark'],
+            effectTypes: ['debuff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'physical',
+                icon: 'ability_hunter_snipershot',
+                tags: ['action', 'debuff', 'tactical', 'damage-amplification', 'mark']
+            },
+
+            debuffConfig: {
+                debuffType: 'statusEffect',
+                effects: [
+                    {
+                        id: 'marked_target',
+                        name: 'Marked Target',
+                        description: 'Target\'s weakness is exploited: -3 armor and you deal 25% more damage to them for 8 rounds.'
+                    }
+                ],
+                durationValue: 8,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                saveDC: 14,
+                saveType: 'agility',
                 saveOutcome: 'negates',
-                canBeDispelled: true,
-                concentrationRequired: false
+                canBeDispelled: true
             },
 
             targetingConfig: {
@@ -87,33 +207,25 @@ export const MERCENARY_PATH = {
             },
 
             resourceCost: {
-                mana: 0,
-                health: 0,
-                stamina: 10,
-                focus: 5,
+                resourceTypes: ['stamina'],
+                resourceValues: { stamina: 10 },
                 actionPoints: 1
-            },
-
-            durationConfig: {
-                type: 'timed',
-                value: 8,
-                unit: 'rounds',
-                concentration: false,
-                dispellable: true
             },
 
             cooldownConfig: {
                 type: 'short_rest',
                 value: 1,
                 charges: 2,
-                recovery: 2
+                recovery: 1
             },
 
             resolution: 'DICE',
-            visualTheme: 'physical',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
+            visualTheme: 'physical'
+        }
+    ],
+
+    // Legacy abilities for subPaths
+    legacyAbilities: [
         {
             id: 'precision_strike',
             name: 'Precision Strike',

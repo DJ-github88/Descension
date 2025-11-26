@@ -1729,6 +1729,563 @@ Frostfang
 
     // ===== LEVEL 4 SPELLS (Already has 3, complete) =====
 
+    // ===== LEVEL 2 SPELLS =====
+    {
+      id: 'formbender_beast_claws',
+      name: 'Beast Claws',
+      description: 'Grow razor-sharp claws that enhance your natural attacks.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_rake',
+      school: 'Physical',
+      level: 2,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['physical', 'buff', 'damage', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Grow razor-sharp claws'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'beast_claws',
+          name: 'Beast Claws',
+          description: 'Your unarmed attacks deal slashing damage and gain +2d6 damage for 1 minute',
+          statModifier: {
+            stat: 'damage',
+            magnitude: '2d6',
+            magnitudeType: 'dice'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['physical', 'buff', 'damage', 'formbender']
+    },
+
+    {
+      id: 'formbender_primal_senses',
+      name: 'Primal Senses',
+      description: 'Heighten your senses to detect hidden threats and track prey.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_supriseattack',
+      school: 'Physical',
+      level: 2,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['buff', 'senses', 'utility', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Heighten your senses'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'primal_senses',
+          name: 'Primal Senses',
+          description: 'Gain advantage on Perception checks and can detect invisible creatures for 1 hour',
+          statModifier: {
+            stat: 'perception',
+            magnitude: 'advantage',
+            magnitudeType: 'advantage'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'hours',
+        durationUnit: 'hours',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['buff', 'senses', 'utility', 'formbender']
+    },
+
+    {
+      id: 'formbender_wild_leap',
+      name: 'Wild Leap',
+      description: 'Leap incredible distances, using primal strength to cover ground quickly.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_dash',
+      school: 'Physical',
+      level: 2,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['utility', 'movement', 'mobility', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: [],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Leap incredible distances'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [{
+          id: 'wild_leap',
+          name: 'Wild Leap',
+          description: 'Leap up to 60 feet in any direction, ignoring difficult terrain'
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'moderate'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['utility', 'movement', 'mobility', 'formbender']
+    },
+
+    // ===== LEVEL 3 SPELLS =====
+    {
+      id: 'formbender_feral_rage',
+      name: 'Feral Rage',
+      description: 'Tap into primal fury, gaining temporary strength and ferocity.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_berserk',
+      school: 'Physical',
+      level: 3,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['buff', 'damage', 'rage', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Tap into primal fury'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'feral_rage',
+          name: 'Feral Rage',
+          description: 'Gain +2 Strength and advantage on attack rolls for 1 minute',
+          statModifier: {
+            stat: 'strength',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['buff', 'damage', 'rage', 'formbender']
+    },
+
+    {
+      id: 'formbender_natures_armor',
+      name: 'Nature\'s Armor',
+      description: 'Grow thick natural armor that protects you from harm.',
+      spellType: 'ACTION',
+      icon: 'spell_nature_spiritarmor',
+      school: 'Physical',
+      level: 3,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['buff', 'defense', 'armor', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Grow thick natural armor'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'natures_armor',
+          name: 'Nature\'s Armor',
+          description: 'Gain +3 armor and resistance to physical damage for 10 minutes',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['buff', 'defense', 'armor', 'formbender']
+    },
+
+    {
+      id: 'formbender_hunt_call',
+      name: 'Hunt Call',
+      description: 'Call forth spectral hunters to aid you in tracking and pursuing prey.',
+      spellType: 'ACTION',
+      icon: 'ability_hunter_beastcall',
+      school: 'Physical',
+      level: 3,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['summoning', 'utility', 'tracking', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Call forth spectral hunters'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['summoning'],
+
+      summonConfig: {
+        creatures: [{
+          id: 'spectral_hunter',
+          name: 'Spectral Hunter',
+          description: 'A ghostly wolf that aids in tracking and hunting',
+          size: 'Medium',
+          type: 'spirit',
+          tokenIcon: 'ability_hunter_pet_wolf',
+          stats: {
+            maxHp: 20,
+            armor: 12,
+            maxMana: 0
+          },
+          config: {
+            quantity: 2,
+            duration: 1,
+            durationUnit: 'hours',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 30
+          }
+        }],
+        duration: 1,
+        durationUnit: 'hours',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 30,
+        controlType: 'mental'
+      },
+
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+
+      tags: ['summoning', 'utility', 'tracking', 'formbender']
+    },
+
+    // ===== LEVEL 4 SPELLS =====
+    {
+      id: 'formbender_savage_charge',
+      name: 'Savage Charge',
+      description: 'Charge forward with primal fury, knocking down enemies and dealing massive damage.',
+      spellType: 'ACTION',
+      icon: 'ability_hunter_charge',
+      school: 'Physical',
+      level: 4,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['attack', 'damage', 'control', 'charge', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'line',
+        aoeParameters: { length: 40, width: 5 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 5,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 3 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Charge forward with primal fury'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '3d8 + strength',
+        elementType: 'bludgeoning',
+        damageType: 'direct',
+        description: 'Charge attack that knocks down enemies in your path'
+      },
+
+      controlConfig: {
+        controlType: 'knockdown',
+        strength: 'moderate',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'knockdown',
+          name: 'Knocked Down',
+          description: 'Target is knocked prone',
+          config: {}
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['attack', 'damage', 'control', 'charge', 'formbender']
+    },
+
+    {
+      id: 'formbender_primal_healing',
+      name: 'Primal Healing',
+      description: 'Channel the restorative power of nature to heal wounds and remove afflictions.',
+      spellType: 'ACTION',
+      icon: 'spell_nature_healingwavegreater',
+      school: 'Physical',
+      level: 4,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['healing', 'support', 'restoration', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 3 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Channel restorative nature energy'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '3d8 + spirit',
+        healingType: 'instant',
+        hasHotEffect: true,
+        hotFormula: '1d8',
+        hotDuration: 3,
+        hotTickType: 'round',
+        isProgressiveHot: false,
+        description: 'Heal a target and remove one disease or poison effect'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['healing', 'support', 'restoration', 'formbender']
+    },
+
+    {
+      id: 'formbender_beast_form_partial',
+      name: 'Beast Form (Partial)',
+      description: 'Temporarily take on aspects of one of your forms without fully transforming.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_supriseattack',
+      school: 'Physical',
+      level: 4,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        tags: ['transformation', 'buff', 'partial', 'formbender']
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Take on beast aspects'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'beast_form_partial',
+          name: 'Beast Form (Partial)',
+          description: 'Gain benefits of one form aspect: Nightstalker (stealth), Ironhide (armor), Skyhunter (flight), or Frostfang (pack tactics) for 1 minute'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['transformation', 'buff', 'partial', 'formbender']
+    },
+
     // ===== LEVEL 5 SPELLS =====
     {
       id: 'formbender_pack_leader',
@@ -2854,9 +3411,21 @@ Frostfang
       'formbender_primal_strike',
       'formbender_wild_regeneration'
     ],
-    2: [],
-    3: [],
-    4: [],
+    2: [
+      'formbender_beast_claws',
+      'formbender_primal_senses',
+      'formbender_wild_leap'
+    ],
+    3: [
+      'formbender_feral_rage',
+      'formbender_natures_armor',
+      'formbender_hunt_call'
+    ],
+    4: [
+      'formbender_savage_charge',
+      'formbender_primal_healing',
+      'formbender_beast_form_partial'
+    ],
     5: [
       'formbender_pack_leader',
       'formbender_primal_rage',

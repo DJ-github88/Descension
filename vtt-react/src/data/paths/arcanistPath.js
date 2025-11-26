@@ -26,23 +26,171 @@ export const ARCANIST_PATH = {
         mechanicalIntegration: 'Spell mastery and arcane manipulation.'
     },
 
-    // Top 3 abilities representing the discipline
+    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
+        // PASSIVE - Arcane Mastery
+        {
+            id: 'arcane_mastery',
+            name: 'Arcane Mastery',
+            description: '"Magic flows through me like breath." Your deep understanding of arcane principles reduces spell costs and enhances your magical defenses.',
+            icon: 'spell_arcane_arcanepotency',
+            level: 1,
+            spellType: 'PASSIVE',
+            tags: ['passive', 'arcane', 'efficiency', 'resistance'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'arcane',
+                icon: 'spell_arcane_arcanepotency',
+                tags: ['passive', 'arcane', 'efficiency', 'resistance']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'spell_efficiency',
+                        name: 'Spell Efficiency',
+                        description: 'All spells cost 5 less mana (minimum 1). Your arcane knowledge allows you to channel magic more efficiently.',
+                        statModifier: {
+                            stat: 'mana_cost_reduction',
+                            magnitude: 5,
+                            magnitudeType: 'flat'
+                        }
+                    },
+                    {
+                        id: 'arcane_ward',
+                        name: 'Arcane Ward',
+                        description: 'You have resistance to force damage (50% reduction) and advantage on saving throws against spells.',
+                        statModifier: {
+                            stat: 'force_resistance',
+                            magnitude: 50,
+                            magnitudeType: 'percentage'
+                        }
+                    }
+                ],
+                durationType: 'permanent',
+                durationUnit: 'permanent',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            resourceCost: {
+                actionPoints: 0
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'arcane'
+        },
+        // REACTION - Spell Shield
+        {
+            id: 'spell_shield',
+            name: 'Spell Shield',
+            description: '"Your magic cannot touch me!" When targeted by a spell, create an arcane barrier that absorbs the magical energy and potentially reflects it back.',
+            icon: 'spell_arcane_arcane04',
+            level: 1,
+            spellType: 'REACTION',
+            tags: ['reaction', 'defensive', 'arcane', 'counterspell'],
+            effectTypes: ['buff'],
+            damageTypes: [],
+
+            typeConfig: {
+                school: 'arcane',
+                icon: 'spell_arcane_arcane04',
+                tags: ['reaction', 'defensive', 'arcane', 'counterspell']
+            },
+
+            buffConfig: {
+                buffType: 'statEnhancement',
+                effects: [
+                    {
+                        id: 'arcane_shield',
+                        name: 'Arcane Shield',
+                        description: 'Gain +5 to your saving throw against the triggering spell. If you succeed by 5 or more, the spell is reflected back at the caster.',
+                        statModifier: {
+                            stat: 'spell_save_bonus',
+                            magnitude: 5,
+                            magnitudeType: 'flat'
+                        }
+                    }
+                ],
+                durationValue: 1,
+                durationType: 'instant',
+                durationUnit: 'instant',
+                canBeDispelled: false
+            },
+
+            targetingConfig: {
+                targetingType: 'self'
+            },
+
+            triggerConfig: {
+                global: {
+                    enabled: true,
+                    logicType: 'OR',
+                    compoundTriggers: [
+                        {
+                            id: 'spell_targeted',
+                            category: 'combat',
+                            name: 'When you are targeted by a spell',
+                            parameters: {
+                                perspective: 'self',
+                                target_type: 'self',
+                                damage_type: 'magical',
+                                triggerChance: 100
+                            }
+                        }
+                    ]
+                },
+                triggerRole: {
+                    mode: 'CONDITIONAL',
+                    activationDelay: 0,
+                    requiresLOS: false
+                }
+            },
+
+            resourceCost: {
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 10 },
+                actionPoints: 0
+            },
+
+            cooldownConfig: {
+                type: 'short_rest',
+                value: 2,
+                charges: 2,
+                recovery: 1
+            },
+
+            resolution: 'DICE',
+            visualTheme: 'arcane'
+        },
+        // ACTION - Elemental Blast
         {
             id: 'elemental_blast',
             name: 'Elemental Blast',
-            description: '"Feel the fury of the elements!" Unleash a devastating blast of elemental energy.',
+            description: '"Feel the fury of the elements!" Unleash a devastating blast of elemental energy in a 10-foot radius sphere, dealing massive damage to all enemies caught within.',
             icon: 'spell_fire_elementaldevastation',
             level: 1,
             spellType: 'ACTION',
-            tags: ['damage', 'elemental', 'blast', 'aoe'],
+            tags: ['action', 'damage', 'elemental', 'blast', 'aoe'],
             effectTypes: ['damage'],
-            damageTypes: ['fire', 'frost', 'lightning'],
+            damageTypes: ['fire'],
+
+            typeConfig: {
+                school: 'fire',
+                icon: 'spell_fire_elementaldevastation',
+                tags: ['action', 'damage', 'elemental', 'blast', 'aoe']
+            },
 
             damageConfig: {
                 damageType: 'direct',
                 elementType: 'fire',
-                formula: '5d6 + INT',
+                formula: '5d6 + intelligence',
                 resolution: 'DICE',
                 hasDotEffect: false,
                 savingThrowConfig: {
@@ -64,171 +212,25 @@ export const ARCANIST_PATH = {
                 rangeType: 'ranged',
                 rangeDistance: 60,
                 aoeShape: 'sphere',
-                aoeSize: 10,
+                aoeParameters: { radius: 10 },
                 targetRestrictions: ['enemy']
             },
 
             resourceCost: {
-                mana: 25,
-                health: 0,
-                stamina: 0,
-                focus: 0,
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 25 },
                 actionPoints: 3
-            },
-
-            durationConfig: {
-                type: 'instant',
-                value: 0,
-                unit: 'seconds',
-                concentration: false,
-                dispellable: false
             },
 
             cooldownConfig: {
                 type: 'short_rest',
                 value: 1,
                 charges: 2,
-                recovery: 2
-            },
-
-            resolution: 'DICE',
-            visualTheme: 'fire',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
-        {
-            id: 'time_stop',
-            name: 'Time Stop',
-            description: '"Time bends to my will." Briefly freeze time to take extra actions.',
-            icon: 'spell_arcane_blink',
-            level: 2,
-            spellType: 'ACTION',
-            tags: ['utility', 'time', 'buff', 'extra-actions'],
-            effectTypes: ['buff'],
-            damageTypes: [],
-
-            buffConfig: {
-                duration: 1,
-                durationValue: 1,
-                durationType: 'rounds',
-                durationUnit: 'rounds',
-                statModifiers: [],
-                statusEffects: [
-                    {
-                        id: 'time_stopped',
-                        name: 'Time Stopped',
-                        description: 'Gain 2 extra action points this turn'
-                    }
-                ],
-                buffs: [
-                    {
-                        name: 'Temporal Acceleration',
-                        description: 'Extra actions',
-                        duration: 1,
-                        effects: {
-                            bonusActionPoints: 2
-                        }
-                    }
-                ]
-            },
-
-            targetingConfig: {
-                targetingType: 'self',
-                rangeType: 'self',
-                rangeDistance: 0,
-                targetRestrictions: ['self']
-            },
-
-            resourceCost: {
-                mana: 30,
-                health: 0,
-                stamina: 0,
-                focus: 0,
-                actionPoints: 0
-            },
-
-            durationConfig: {
-                type: 'instant',
-                value: 0,
-                unit: 'seconds',
-                concentration: false,
-                dispellable: false
-            },
-
-            cooldownConfig: {
-                type: 'long_rest',
-                value: 1,
-                charges: 1,
                 recovery: 1
             },
 
             resolution: 'DICE',
-            visualTheme: 'arcane',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
-        },
-        {
-            id: 'arcane_missiles',
-            name: 'Arcane Missiles',
-            description: '"Magic seeks its target." Launch bolts of pure arcane energy that always find their mark.',
-            icon: 'spell_nature_starfall',
-            level: 1,
-            spellType: 'ACTION',
-            tags: ['damage', 'arcane', 'missile', 'guaranteed'],
-            effectTypes: ['damage'],
-            damageTypes: ['arcane'],
-
-            damageConfig: {
-                damageType: 'direct',
-                elementType: 'arcane',
-                formula: '3d4 + INT',
-                resolution: 'DICE',
-                hasDotEffect: false,
-                savingThrowConfig: {
-                    enabled: false
-                },
-                criticalConfig: {
-                    enabled: true,
-                    critType: 'dice',
-                    critMultiplier: 2,
-                    critDiceOnly: false
-                }
-            },
-
-            targetingConfig: {
-                targetingType: 'single',
-                rangeType: 'ranged',
-                rangeDistance: 120,
-                targetRestrictions: ['enemy']
-            },
-
-            resourceCost: {
-                mana: 15,
-                health: 0,
-                stamina: 0,
-                focus: 0,
-                actionPoints: 1
-            },
-
-            durationConfig: {
-                type: 'instant',
-                value: 0,
-                unit: 'seconds',
-                concentration: false,
-                dispellable: false
-            },
-
-            cooldownConfig: {
-                type: 'short_rest',
-                value: 1,
-                charges: 3,
-                recovery: 3
-            },
-
-            resolution: 'DICE',
-            visualTheme: 'arcane',
-            effectMechanicsConfigs: {},
-            mechanicsConfig: []
+            visualTheme: 'fire'
         }
     ],
 
@@ -682,6 +684,25 @@ export const ARCANIST_PATH = {
                         ],
                         difficultyClass: 0,
                         concentration: false
+                    },
+
+                    buffConfig: {
+                        buffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'stolen_buff',
+                                name: 'Stolen Effect',
+                                description: 'Gain the beneficial effect stolen from target',
+                                statusEffect: {
+                                    level: 'variable',
+                                    description: 'Effect duration and strength matches the stolen buff'
+                                }
+                            }
+                        ],
+                        durationValue: 0,
+                        durationType: 'variable',
+                        durationUnit: 'variable',
+                        canBeDispelled: true
                     },
 
                     targetingConfig: {

@@ -1,21 +1,98 @@
 /**
- * Step 4: Spell Selection (Arcanoneer, Pyrofiend, Minstrel, Chronarch & Martyr)
+ * Step 4: Spell Selection (All Classes)
  *
- * Allows spell-casting classes to select 3 starting spells from Level 1 pool
+ * Allows all classes to select 3 starting spells from Level 1 pool
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
+// Import all class data
 import { ARCANONEER_DATA } from '../../../data/classes/arcanoneerData';
-import { PYROFIEND_DATA } from '../../../data/classes/pyrofiendData';
-import { MINSTREL_DATA } from '../../../data/classes/minstrelData';
-import { CHRONARCH_DATA } from '../../../data/classes/chronarchData';
-import { MARTYR_DATA } from '../../../data/classes/martyrData';
+import { BERSERKER_DATA } from '../../../data/classes/berserkerData';
+import { BLADEDANCER_DATA } from '../../../data/classes/bladedancerData';
 import { CHAOS_WEAVER_DATA } from '../../../data/classes/chaosWeaverData';
+import { CHRONARCH_DATA } from '../../../data/classes/chronarchData';
+import { COVENBANE_DATA } from '../../../data/classes/covenbaneData';
+import { DEATHCALLER_DATA } from '../../../data/classes/deathcallerData';
+import { DREADNAUGHT_DATA } from '../../../data/classes/dreadnaughtData';
+import { EXORCIST_DATA } from '../../../data/classes/exorcistData';
+import { FALSE_PROPHET_DATA } from '../../../data/classes/falseProphetData';
+import { FATE_WEAVER_DATA } from '../../../data/classes/fateWeaverData';
+import { FORMBENDER_DATA } from '../../../data/classes/formbenderData';
+import { GAMBLER_DATA } from '../../../data/classes/gamblerData';
+import { HUNTRESS_DATA } from '../../../data/classes/huntressData';
+import { INSCRIPTOR_DATA } from '../../../data/classes/inscriptorData';
+import { LICHBORNE_DATA } from '../../../data/classes/lichborneData';
+import { LUNARCH_DATA } from '../../../data/classes/lunarchData';
+import { MARTYR_DATA } from '../../../data/classes/martyrData';
+import { MINSTREL_DATA } from '../../../data/classes/minstrelData';
+import { ORACLE_DATA } from '../../../data/classes/oracleData';
+import { PLAGUEBRINGER_DATA } from '../../../data/classes/plaguebringerData';
+import { PRIMALIST_DATA } from '../../../data/classes/primalistData';
+import { PYROFIEND_DATA } from '../../../data/classes/pyrofiendData';
+import { SPELLGUARD_DATA } from '../../../data/classes/spellguardData';
+import { TITAN_DATA } from '../../../data/classes/titanData';
+import { TOXICOLOGIST_DATA } from '../../../data/classes/toxicologistData';
+import { WARDEN_DATA } from '../../../data/classes/wardenData';
+import { WITCH_DOCTOR_DATA } from '../../../data/classes/witchDoctorData';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
 import './Step4SpellSelection.css';
+
+// Map of class names to their data
+const CLASS_DATA_MAP = {
+    'Arcanoneer': ARCANONEER_DATA,
+    'Berserker': BERSERKER_DATA,
+    'Bladedancer': BLADEDANCER_DATA,
+    'Chaos Weaver': CHAOS_WEAVER_DATA,
+    'Chronarch': CHRONARCH_DATA,
+    'Covenbane': COVENBANE_DATA,
+    'Deathcaller': DEATHCALLER_DATA,
+    'Dreadnaught': DREADNAUGHT_DATA,
+    'Exorcist': EXORCIST_DATA,
+    'False Prophet': FALSE_PROPHET_DATA,
+    'Fate Weaver': FATE_WEAVER_DATA,
+    'Formbender': FORMBENDER_DATA,
+    'Gambler': GAMBLER_DATA,
+    'Huntress': HUNTRESS_DATA,
+    'Inscriptor': INSCRIPTOR_DATA,
+    'Lichborne': LICHBORNE_DATA,
+    'Lunarch': LUNARCH_DATA,
+    'Martyr': MARTYR_DATA,
+    'Minstrel': MINSTREL_DATA,
+    'Oracle': ORACLE_DATA,
+    'Plaguebringer': PLAGUEBRINGER_DATA,
+    'Primalist': PRIMALIST_DATA,
+    'Pyrofiend': PYROFIEND_DATA,
+    'Spellguard': SPELLGUARD_DATA,
+    'Titan': TITAN_DATA,
+    'Toxicologist': TOXICOLOGIST_DATA,
+    'Warden': WARDEN_DATA,
+    'Witch Doctor': WITCH_DOCTOR_DATA
+};
+
+// All classes that have spells
+const SPELL_CLASSES = Object.keys(CLASS_DATA_MAP);
+
+// Helper function to get level 1 spell IDs from class data
+const getLevel1SpellIds = (classData) => {
+    if (!classData) return [];
+    
+    // First try spellPools[1]
+    if (classData.spellPools && classData.spellPools[1]) {
+        return classData.spellPools[1];
+    }
+    
+    // Fallback: filter spells array for level 1 spells
+    if (classData.spells && Array.isArray(classData.spells)) {
+        return classData.spells
+            .filter(spell => spell.level === 1)
+            .map(spell => spell.id);
+    }
+    
+    return [];
+};
 
 const Step4SpellSelection = () => {
     const state = useCharacterWizardState();
@@ -26,31 +103,14 @@ const Step4SpellSelection = () => {
     // Get character class
     const characterClass = state.characterData.class;
 
-    // Classes that require spell selection
-    const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Chaos Weaver'];
-
     // Get Level 1 spell pool based on class
     const level1SpellPool = useMemo(() => {
         if (!SPELL_CLASSES.includes(characterClass)) return [];
 
-        let classData = null;
-        if (characterClass === 'Arcanoneer') {
-            classData = ARCANONEER_DATA;
-        } else if (characterClass === 'Pyrofiend') {
-            classData = PYROFIEND_DATA;
-        } else if (characterClass === 'Minstrel') {
-            classData = MINSTREL_DATA;
-        } else if (characterClass === 'Chronarch') {
-            classData = CHRONARCH_DATA;
-        } else if (characterClass === 'Martyr') {
-            classData = MARTYR_DATA;
-        } else if (characterClass === 'Chaos Weaver') {
-            classData = CHAOS_WEAVER_DATA;
-        }
-
+        const classData = CLASS_DATA_MAP[characterClass];
         if (!classData) return [];
 
-        const level1SpellIds = classData.spellPools?.[1] || [];
+        const level1SpellIds = getLevel1SpellIds(classData);
         // Support both 'spells' (new format) and 'exampleSpells' (legacy format)
         const allSpells = classData.spells || classData.exampleSpells || [];
 
@@ -100,7 +160,7 @@ const Step4SpellSelection = () => {
                 <div className="step-header">
                     <h2>Starting Spells</h2>
                     <p className="step-description">
-                        This step is only for spell-casting classes (Arcanoneer, Pyrofiend, Minstrel). You can proceed to the next step.
+                        No spells available for this class. You can proceed to the next step.
                     </p>
                 </div>
             </div>
