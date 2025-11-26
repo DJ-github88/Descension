@@ -947,8 +947,8 @@ Many players enhance the Fate Weaver experience with:
     ]
   },
 
-  // Example Spells - showcasing card-based mechanics
-  exampleSpells: [
+  // Spells - organized by level, properly formatted for wizard
+  spells: [
     {
       id: 'hand-of-fate',
       name: 'Hand of Fate',
@@ -1604,6 +1604,1207 @@ Many players enhance the Fate Weaver experience with:
       },
 
       tags: ['healing', 'support', 'sacrifice', 'bond', 'fate-weaver']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS
+    // ========================================
+    {
+      id: 'fate_weaver_stacked_deck',
+      name: 'Stacked Deck',
+      description: 'Manipulate probability to ensure your next three attacks or spells automatically hit.',
+      level: 5,
+      spellType: 'BONUS_ACTION',
+      icon: 'inv_misc_ticket_tarot_madness',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'inv_misc_ticket_tarot_madness',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Shuffle cards elegantly'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'advantage',
+        effects: [{
+          id: 'stacked_deck',
+          name: 'Stacked Deck',
+          description: 'Your next 3 attacks or spells automatically hit (critical on natural 20)'
+        }],
+        durationValue: 3,
+        durationType: 'uses',
+        durationUnit: 'attacks'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'accuracy', 'poker', 'level-5', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_royal_flush',
+      name: 'Royal Flush',
+      description: 'Draw five magical cards. If they form a poker hand, gain scaling effects based on the hand.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'inv_misc_ticket_tarot_vengeance',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_ticket_tarot_vengeance',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 25 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Draw five cards dramatically'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '4d8 + charisma',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      rollableTable: {
+        diceFormula: '5d13',
+        entries: [
+          { roll: 'pair', name: 'Pair', effect: { multiplier: 1.5 } },
+          { roll: 'two_pair', name: 'Two Pair', effect: { multiplier: 2 } },
+          { roll: 'three_kind', name: 'Three of a Kind', effect: { multiplier: 2.5 } },
+          { roll: 'straight', name: 'Straight', effect: { multiplier: 3 } },
+          { roll: 'flush', name: 'Flush', effect: { multiplier: 3.5 } },
+          { roll: 'full_house', name: 'Full House', effect: { multiplier: 4 } },
+          { roll: 'four_kind', name: 'Four of a Kind', effect: { multiplier: 5 } },
+          { roll: 'royal_flush', name: 'Royal Flush', effect: { multiplier: 10 } }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'aoe', 'poker', 'pattern-matching', 'level-5', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_twist_fate',
+      name: 'Twist Fate',
+      description: 'Rewrite destiny itself. Force a creature to reroll any roll and take the result you choose.',
+      level: 5,
+      spellType: 'REACTION',
+      icon: 'spell_holy_reverseentropy',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_reverseentropy',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['any']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Muta Fatum!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['control'],
+
+      specialMechanics: {
+        reroll: {
+          description: 'Target must reroll and you choose which result is used',
+          trigger: 'on_any_roll'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['control', 'utility', 'reroll', 'level-5', 'fate-weaver']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
+      id: 'fate_weaver_dealers_choice',
+      name: "Dealer's Choice",
+      description: 'Deal magical cards to all creatures in range. You choose who gets beneficial or harmful effects.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'inv_misc_ticket_tarot_ascension',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'inv_misc_ticket_tarot_ascension',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['any']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Deal cards to all'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff', 'debuff'],
+
+      buffConfig: {
+        buffType: 'variable',
+        effects: [{
+          id: 'good_card',
+          name: 'Fortune Card',
+          description: 'Chosen allies gain +3 to all rolls for 3 rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      debuffConfig: {
+        debuffType: 'variable',
+        effects: [{
+          id: 'bad_card',
+          name: 'Misfortune Card',
+          description: 'Chosen enemies have -3 to all rolls for 3 rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'charisma',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'debuff', 'aoe', 'control', 'level-6', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_blackjack',
+      name: 'Blackjack',
+      description: 'Draw cards trying to get as close to 21 as possible. Higher hands deal more damage, but bust deals damage to you.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'inv_misc_ticket_tarot_blessings',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_ticket_tarot_blessings',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Draw cards one by one'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: 'card_total * 1d6',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      specialMechanics: {
+        blackjack: {
+          description: 'Draw cards (2-11 value). Try to get close to 21. Over 21 = bust (damage yourself instead)',
+          twentyOne: 'Deal maximum damage and stun target',
+          bust: 'Take the damage yourself instead'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'blackjack', 'risk-reward', 'level-6', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_fold_reality',
+      name: 'Fold Reality',
+      description: 'Fold the fabric of reality like a deck of cards, teleporting yourself and allies to a seen location.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_portals',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_arcane_portals',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 30 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Fold space like cards'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility', 'teleport'],
+
+      utilityConfig: {
+        utilityType: 'teleport',
+        teleportConfig: {
+          range: 120,
+          targetType: 'group',
+          requiresSight: true
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['utility', 'teleport', 'party', 'level-6', 'fate-weaver']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'fate_weaver_house_rules',
+      name: 'House Rules',
+      description: 'Impose your own rules on reality. For the next minute, dice work differently in your favor.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerinfusion',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_powerinfusion',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Regula Meae!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff', 'debuff'],
+
+      specialMechanics: {
+        houseRules: {
+          description: 'Choose one: Allies treat all 1s as 2s, OR enemies treat all 6s as 1s, OR you can reroll any die once per round',
+          duration: '1 minute'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['buff', 'debuff', 'aoe', 'dice-manipulation', 'level-7', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_all_in',
+      name: 'All In',
+      description: 'Go all in on a massive attack. Bet your own life force for devastating damage.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_fire_burnout',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_fire_burnout',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 35, hp: 'variable' },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'ALL IN!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: 'hp_bet * 2d6',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      specialMechanics: {
+        allIn: {
+          description: 'Bet up to half your current HP. Deal damage equal to HP bet × 2d6.',
+          risk: 'If the attack misses, you still lose the HP'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'high-risk', 'betting', 'level-7', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_destiny_rewritten',
+      name: 'Destiny Rewritten',
+      description: 'Rewrite a recent event as if it never happened. Reverse one action taken in the last round.',
+      level: 7,
+      spellType: 'REACTION',
+      icon: 'spell_holy_reverseentropy',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_reverseentropy',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Rescribe!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        rewrite: {
+          description: 'Undo one action taken in the last round. All effects are reversed.',
+          limit: 'Cannot undo death of a creature'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['utility', 'time', 'undo', 'level-7', 'fate-weaver']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'fate_weaver_wild_card',
+      name: 'Wild Card',
+      description: 'Draw the ultimate wild card. Roll on a table of powerful random effects.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'inv_misc_ticket_tarot_stack',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_ticket_tarot_stack',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'variable',
+        rangeType: 'ranged',
+        rangeDistance: 120
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Draw the wild card'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['variable'],
+
+      rollableTable: {
+        diceFormula: '1d10',
+        entries: [
+          { roll: 1, name: 'Joker', effect: { type: 'random_target', description: 'Cast a random level 5 spell on a random target' } },
+          { roll: 2, name: 'The Tower', effect: { type: 'damage', formula: '10d10 force', target: 'enemies' } },
+          { roll: 3, name: 'The Star', effect: { type: 'healing', formula: 'full heal', target: 'allies' } },
+          { roll: 4, name: 'The Moon', effect: { type: 'transform', description: 'All enemies become sheep for 1 round' } },
+          { roll: 5, name: 'The Sun', effect: { type: 'buff', description: 'All allies gain +5 to all stats for 1 minute' } },
+          { roll: 6, name: 'Death', effect: { type: 'damage', description: 'Target must save or drop to 1 HP' } },
+          { roll: 7, name: 'The Wheel', effect: { type: 'swap', description: 'Swap HP with target enemy' } },
+          { roll: 8, name: 'Justice', effect: { type: 'reflect', description: 'All damage to allies is reflected for 1 minute' } },
+          { roll: 9, name: 'The Magician', effect: { type: 'resource', description: 'Restore all mana and cooldowns' } },
+          { roll: 10, name: 'Ace of Destiny', effect: { type: 'choose', description: 'Choose any effect from this table' } }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['variable', 'random', 'powerful', 'level-8', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_fate_sealed',
+      name: 'Fate Sealed',
+      description: 'Seal an enemy\'s fate. They cannot avoid the next attack or effect that targets them.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_mindtwisting',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_mindtwisting',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Fatum Signatum!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'seal',
+        effects: [{
+          id: 'fate_sealed',
+          name: 'Fate Sealed',
+          description: 'The next attack against this target automatically hits and cannot be avoided, blocked, or reduced'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'charisma',
+        saveOutcome: 'halves_duration'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['debuff', 'guaranteed-hit', 'level-8', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_double_down',
+      name: 'Double Down',
+      description: 'Double the effect of your next spell. Also doubles any negative consequences.',
+      level: 8,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_holy_surgeoflight',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_surgeoflight',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Double down!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'amplify',
+        effects: [{
+          id: 'double_down',
+          name: 'Double Down',
+          description: 'Your next spell deals double damage/healing but also doubles any self-damage or negative effects'
+        }],
+        durationValue: 1,
+        durationType: 'spell',
+        durationUnit: 'spell'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'amplify', 'risk-reward', 'level-8', 'fate-weaver']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'fate_weaver_grand_gambit',
+      name: 'Grand Gambit',
+      description: 'The ultimate gamble. Flip a coin for each enemy in range. Heads eliminates them, tails fully heals them.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'inv_misc_coin_18',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_coin_18',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 70 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'GAMBIT MAGNUS!',
+        somaticText: 'Flip a golden coin'
+      },
+
+      resolution: 'COIN_FLIP',
+      effectTypes: ['damage', 'healing'],
+
+      specialMechanics: {
+        grandGambit: {
+          heads: 'Enemy is reduced to 0 HP (no save)',
+          tails: 'Enemy is fully healed and gains +2 AC for 1 minute',
+          perTarget: true
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'high-risk', 'coin-flip', 'ultimate', 'level-9', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_master_of_destiny',
+      name: 'Master of Destiny',
+      description: 'Become the master of fate itself. For 1 minute, you can set any die result to the number of your choice.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_divineillumination',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 80 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Ego Sum Dominus Fati!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'fate_control',
+        effects: [{
+          id: 'master_of_destiny',
+          name: 'Master of Destiny',
+          description: 'Choose the result of any die roll (yours or enemy\'s) up to 10 times'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'dice-control', 'ultimate', 'level-9', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_jackpot_supreme',
+      name: 'Jackpot Supreme',
+      description: 'Hit the ultimate jackpot. Deal massive damage that multiplies based on matching dice.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_surgeoflight',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_surgeoflight',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 75 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'JACKPOT!',
+        somaticText: 'Roll three dice'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '10d10 + charisma * 3',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 20,
+          saveOutcome: 'halves'
+        }
+      },
+
+      specialMechanics: {
+        jackpot: {
+          diceFormula: '3d6',
+          noMatch: { multiplier: 1 },
+          twoMatch: { multiplier: 3 },
+          threeMatch: { multiplier: 7, description: 'JACKPOT! Also stun all targets for 1 round' }
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'aoe', 'jackpot', 'ultimate', 'level-9', 'fate-weaver']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'fate_weaver_rewrite_destiny',
+      name: 'Rewrite Destiny',
+      description: 'Completely rewrite the destiny of one creature. Choose their fate: victory, defeat, or transformation.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_borrowedtime',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_borrowedtime',
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        targetRestrictions: ['any']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'RESCRIBERE FATUM!',
+        somaticText: 'Rewrite reality with cards'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        rewriteDestiny: {
+          choices: [
+            { name: 'Victory', effect: 'Target ally gains immunity to damage and auto-success on all rolls for 1 minute' },
+            { name: 'Defeat', effect: 'Target enemy is reduced to 1 HP and stunned for 1 minute (no save)' },
+            { name: 'Transformation', effect: 'Target is permanently polymorphed into a harmless creature (save ends after 1 hour)' }
+          ]
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['utility', 'ultimate', 'fate-control', 'level-10', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_deck_of_many_things',
+      name: 'Deck of Many Things',
+      description: 'Summon the legendary Deck of Many Things. Draw cards for incredibly powerful but unpredictable effects.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'inv_misc_ticket_tarot_stack',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'inv_misc_ticket_tarot_stack',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 90 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Summon the legendary deck'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['variable'],
+
+      rollableTable: {
+        diceFormula: '1d22',
+        description: 'Draw 1-3 cards. Each has a major effect.',
+        entries: [
+          { roll: 1, name: 'Sun', effect: 'Gain 50,000 XP and a wondrous item' },
+          { roll: 2, name: 'Moon', effect: 'Granted 1d3 wishes' },
+          { roll: 3, name: 'Star', effect: 'Increase one ability score by 2' },
+          { roll: 4, name: 'Throne', effect: 'Gain a keep and +6 Persuasion' },
+          { roll: 5, name: 'Key', effect: 'Gain a rare magic weapon' },
+          { roll: 6, name: 'Knight', effect: 'Gain a 4th-level fighter follower' },
+          { roll: 7, name: 'Gem', effect: 'Gain 50,000gp in gems' },
+          { roll: 8, name: 'Comet', effect: 'Defeat the next monster alone to gain a level' },
+          { roll: 9, name: 'Fates', effect: 'Can undo one event as if it never happened' },
+          { roll: 10, name: 'Balance', effect: 'Alignment changes to opposite' },
+          { roll: 11, name: 'Jester', effect: 'Gain 10,000 XP or draw two more cards' },
+          { roll: 12, name: 'Euryale', effect: '-2 to all saving throws permanently (curse)' },
+          { roll: 13, name: 'Rogue', effect: 'An NPC ally becomes hostile' },
+          { roll: 14, name: 'Idiot', effect: 'Intelligence reduced by 1d4+1 permanently' },
+          { roll: 15, name: 'Donjon', effect: 'Imprisoned in an extradimensional space' },
+          { roll: 16, name: 'Ruin', effect: 'All nonmagical possessions destroyed' },
+          { roll: 17, name: 'Skull', effect: 'Summons an Avatar of Death to fight you' },
+          { roll: 18, name: 'Flames', effect: 'A powerful devil becomes your enemy' },
+          { roll: 19, name: 'Talons', effect: 'All magic items you own are destroyed' },
+          { roll: 20, name: 'Void', effect: 'Soul imprisoned; body is incapacitated' },
+          { roll: 21, name: 'The Fool', effect: 'Lose 10,000 XP; draw again' },
+          { roll: 22, name: 'Vizier', effect: 'Know the answer to your next dilemma' }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['variable', 'random', 'legendary', 'ultimate', 'level-10', 'fate-weaver']
+    },
+
+    {
+      id: 'fate_weaver_casino_royale',
+      name: 'Casino Royale',
+      description: 'Transform the battlefield into a grand casino. All attacks, spells, and abilities become gambles with chance-based outcomes.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineprovidence',
+
+      typeConfig: {
+        school: 'illusion',
+        icon: 'spell_holy_divineprovidence',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 100 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'WELCOME TO MY CASINO!',
+        somaticText: 'Grand sweeping gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['zone', 'control'],
+
+      zoneConfig: {
+        duration: 1,
+        durationUnit: 'minutes',
+        effects: ['gambling_rules'],
+        movable: false,
+        size: { radius: 100 }
+      },
+
+      specialMechanics: {
+        casinoRoyale: {
+          description: 'All attack rolls, saving throws, and ability checks work differently:',
+          rules: [
+            'All dice explode (max roll adds another die)',
+            'Critical hits deal triple damage',
+            'Natural 1s cause a random negative effect',
+            'You gain advantage on all your rolls',
+            'Enemies must gamble: before each action, flip a coin. Tails means they lose their action'
+          ]
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['zone', 'control', 'gambling', 'ultimate', 'level-10', 'fate-weaver']
+    },
+
+    // ADDITIONAL LEVEL 1 SPELLS
+    {
+      id: 'fate_lucky_strike',
+      name: 'Lucky Strike',
+      description: 'Strike with enhanced luck, dealing 1d8 force damage and gaining advantage on next attack roll.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'buff'],
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'inv_misc_dice_01',
+        tags: ['damage', 'buff', 'luck', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '1d8',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'lucky_strike',
+          name: 'Lucky',
+          description: 'Advantage on next attack roll for 1 round',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 1,
+            magnitudeType: 'advantage'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'buff', 'luck', 'universal']
+    },
+
+    {
+      id: 'fate_twist_probability',
+      name: 'Twist Probability',
+      description: 'Twist the threads of fate to force an enemy to reroll their next roll and take the lower result.',
+      level: 1,
+      spellType: 'REACTION',
+      effectTypes: ['debuff'],
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_divineprovidence',
+        tags: ['debuff', 'fate', 'reroll', 'universal'],
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'twisted_fate',
+          name: 'Twisted Fate',
+          description: 'Must reroll next roll and take lower result',
+          statusType: 'disadvantage'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 0,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['debuff', 'fate', 'reroll', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 2 SPELL
+    {
+      id: 'fate_fortune_favor',
+      name: "Fortune's Favor",
+      description: 'Gain the favor of fortune, allowing you to roll twice on your next 3 rolls and take the higher result.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'inv_misc_coin_01',
+        tags: ['buff', 'fortune', 'advantage', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'fortune_favor',
+          name: "Fortune's Favor",
+          description: 'Roll twice and take higher result for next 3 rolls',
+          statModifier: {
+            stat: 'all_rolls',
+            magnitude: 1,
+            magnitudeType: 'advantage'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rolls',
+        durationUnit: 'rolls',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'fortune', 'advantage', 'universal']
     }
   ]
 };

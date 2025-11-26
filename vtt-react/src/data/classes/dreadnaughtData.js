@@ -812,18 +812,19 @@ Many players enhance the dreadnaught experience with:
     ]
   },
   
-  // Example Spells - organized by specialization, showcasing DRP system
+  // Example Spells - organized by level, showcasing DRP system
   exampleSpells: [
-    // DEFENSIVE ABILITIES - Shadow Shield & Protection
+    // ========================================
+    // LEVEL 1 SPELLS
+    // ========================================
     {
       id: 'dread_shadow_shield',
       name: 'Shadow Shield',
       description: 'Create a shield of dark energy that absorbs damage equal to twice the DRP spent.',
+      level: 1,
       spellType: 'REACTION',
       icon: 'spell_shadow_antishadow',
       school: 'Abjuration',
-      level: 1,
-      specialization: 'voidwarden',
 
       typeConfig: {
         castTime: 1,
@@ -835,65 +836,49 @@ Many players enhance the dreadnaught experience with:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'instant'
-      },
-
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'drp',
-          cost: 'variable',
-          description: 'Spend any amount of DRP'
-        },
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 'variable' },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Raise hand to summon shadow barrier'
       },
 
       resolution: 'NONE',
+      effectTypes: ['buff'],
 
       buffConfig: {
-        effects: [
-          'Absorb damage equal to 2× DRP spent',
-          'Voidwarden: Absorbs 2.5× DRP spent',
-          'Can be used as a reaction to incoming damage'
-        ]
+        buffType: 'temporaryHP',
+        effects: [{
+          id: 'shadow_shield_absorption',
+          name: 'Shadow Shield',
+          description: 'Absorbs damage equal to 2× DRP spent',
+          tempHPFormula: '2 * drpSpent',
+          tempHPType: 'absorption'
+        }],
+        durationValue: 1,
+        durationType: 'turns',
+        durationUnit: 'turns',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      effects: {
-        shield: {
-          instant: {
-            formula: '2 × DRP_SPENT',
-            type: 'absorption',
-            voidwardenBonus: '2.5 × DRP_SPENT'
-          }
-        }
-      },
-
-      specialMechanics: {
-        drp: {
-          cost: 'variable',
-          effect: 'Absorb 2× DRP spent (2.5× for Voidwarden)',
-          timing: 'Reaction to taking damage'
-        }
-      },
-
-      tags: ['defense', 'shield', 'absorption', 'drp', 'dreadnaught']
+      tags: ['defense', 'shield', 'absorption', 'drp', 'level-1', 'dreadnaught']
     },
 
     {
-      id: 'dread_unholy_fortitude',
-      name: 'Unholy Fortitude',
-      description: 'Enhance your resilience with dark power, increasing AC by 1 for every 5 DRP spent for one minute.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_unholyfrenzy',
+      id: 'dread_dark_resistance',
+      name: 'Dark Resistance',
+      description: 'While you have at least 10 DRP, gain resistance to one damage type of your choice.',
+      level: 1,
+      spellType: 'PASSIVE',
+      icon: 'spell_shadow_antishadow',
       school: 'Abjuration',
-      level: 2,
-      specialization: 'voidwarden',
 
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTime: 0,
+        castTimeType: 'PASSIVE'
       },
 
       targetingConfig: {
@@ -901,67 +886,92 @@ Many players enhance the dreadnaught experience with:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1
-      },
-
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'drp',
-          cost: 'variable',
-          description: 'Spend 5/10/15/20 DRP'
-        },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Umbra Fortis!',
-        somaticText: 'Dark energy swirls around you'
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: []
       },
 
       resolution: 'NONE',
+      effectTypes: ['buff'],
 
       buffConfig: {
-        stats: {
-          armorClass: '+1 per 5 DRP spent'
-        },
-        effects: [
-          '5 DRP: +1 AC for 1 minute',
-          '10 DRP: +2 AC for 1 minute',
-          '15 DRP: +3 AC for 1 minute',
-          '20 DRP: +4 AC for 1 minute'
-        ]
-      },
-
-      effects: {
-        buff: {
-          duration: 60,
-          stats: {
-            ac: 'DRP_SPENT / 5'
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'dark_resistance_passive',
+          name: 'Dark Resistance',
+          description: 'Gain resistance to one damage type of your choice (requires 10+ DRP)',
+          statModifier: {
+            stat: 'damageResistance',
+            magnitude: 1,
+            magnitudeType: 'flat'
           }
-        }
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      specialMechanics: {
-        drp: {
-          cost: '5/10/15/20',
-          effect: '+1 AC per 5 DRP spent',
-          duration: '1 minute'
-        }
-      },
-
-      tags: ['buff', 'ac', 'defense', 'drp', 'dreadnaught']
+      tags: ['passive', 'resistance', 'defense', 'drp', 'level-1', 'dreadnaught']
     },
 
-    // OFFENSIVE ABILITIES - Wraith Strike & Damage
+    {
+      id: 'dread_dark_regeneration',
+      name: 'Dark Regeneration',
+      description: 'Regenerate hit points based on your DRP at the start of each turn.',
+      level: 1,
+      spellType: 'PASSIVE',
+      icon: 'spell_shadow_lifedrain02',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 0,
+        castTimeType: 'PASSIVE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: 'DRP / 10',
+        healingType: 'hot',
+        hasHotEffect: true,
+        hotFormula: 'DRP / 10',
+        hotDuration: 999,
+        hotTickType: 'turn'
+      },
+
+      tags: ['passive', 'healing', 'regeneration', 'drp', 'level-1', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 2 SPELLS
+    // ========================================
     {
       id: 'dread_wraith_strike',
       name: 'Wraith Strike',
       description: 'Empower your weapon with necrotic energy for a devastating strike, dealing additional necrotic damage.',
+      level: 2,
       spellType: 'ACTION',
       icon: 'spell_shadow_shadowwordpain',
       school: 'Necromancy',
-      level: 2,
-      specialization: 'soulreaver',
 
       typeConfig: {
         castTime: 1,
@@ -974,71 +984,155 @@ Many players enhance the dreadnaught experience with:
         rangeDistance: 5
       },
 
-      durationConfig: {
-        durationType: 'instant'
-      },
-
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'drp',
-          cost: 'variable',
-          description: 'Spend 5/10/15/20 DRP'
-        },
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 'variable' },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Channel dark energy into weapon'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d6 per 5 DRP',
-        damageType: 'necrotic',
-        scalingType: 'drp_based'
+        formula: '1d6 * (drpSpent / 5)',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2
       },
 
-      healingConfig: {
-        formula: '50% of necrotic damage dealt',
-        healingType: 'self',
-        condition: 'Soulreaver specialization only'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d6 per 5 DRP spent',
-            type: 'necrotic'
-          }
-        },
-        healing: {
-          conditional: {
-            spec: 'soulreaver',
-            formula: '50% of necrotic damage dealt',
-            target: 'self'
-          }
-        }
-      },
-
-      specialMechanics: {
-        drp: {
-          cost: '5/10/15/20',
-          effect: '+1d6/2d6/3d6/4d6 necrotic damage',
-          soulreaverBonus: 'Heal for 50% of necrotic damage dealt'
-        }
-      },
-
-      tags: ['damage', 'necrotic', 'melee', 'drp', 'life-drain', 'dreadnaught']
+      tags: ['damage', 'necrotic', 'melee', 'drp', 'level-2', 'dreadnaught']
     },
 
     {
+      id: 'dread_necrotic_touch',
+      name: 'Necrotic Touch',
+      description: 'Touch an enemy to drain their life force, dealing necrotic damage and healing yourself.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_siphonmana',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingMode: 'effect',
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch'
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'touch',
+          targetRestrictions: ['enemy'],
+          maxTargets: 1,
+          targetSelectionMethod: 'manual',
+          requiresLineOfSight: true
+        },
+        healing: {
+          targetingType: 'self'
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 5 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Touch target with necrotic energy'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '2d8 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct'
+      },
+
+      healingConfig: {
+        formula: 'damageDealt / 2',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      tags: ['damage', 'healing', 'necrotic', 'touch', 'drp', 'level-2', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_unholy_fortitude',
+      name: 'Unholy Fortitude',
+      description: 'Enhance your resilience with dark power, increasing armor by 1 for every 5 DRP spent.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_unholyfrenzy',
+      school: 'Abjuration',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 'variable' },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Umbra Fortis!',
+        somaticText: 'Dark energy swirls around you'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'unholy_fortitude_buff',
+          name: 'Unholy Fortitude',
+          description: 'Increase armor by 1 for every 5 DRP spent',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 'drpSpent / 5',
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      tags: ['buff', 'ac', 'defense', 'drp', 'level-2', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 3 SPELLS
+    // ========================================
+    {
       id: 'dread_necrotic_aura',
       name: 'Necrotic Aura',
-      description: 'Emit an aura of dark energy that weakens enemies within 10 feet, giving them disadvantage on attack rolls.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadesofdarkness',
-      school: 'Necromancy',
+      description: 'Surround yourself with necrotic energy, dealing damage to nearby enemies.',
       level: 3,
-      specialization: 'doomguard',
+      spellType: 'ACTION',
+      icon: 'spell_shadow_deathcoil',
+      school: 'Necromancy',
 
       typeConfig: {
         castTime: 1,
@@ -1047,312 +1141,43 @@ Many players enhance the dreadnaught experience with:
 
       targetingConfig: {
         targetingType: 'aoe',
-        rangeType: 'self',
-        areaOfEffect: {
-          type: 'RADIUS',
-          size: 10,
-          unit: 'feet'
-        }
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1
+        rangeType: 'ranged',
+        rangeDistance: 10,
+        aoeShape: 'sphere',
+        aoeSize: 10
       },
 
       resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'drp',
-          cost: 15,
-          description: '15 DRP (10 DRP for Doomguard)'
-        },
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 10 },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Aura Mortis!',
-        somaticText: 'Spread arms to release dark aura'
+        verbalText: 'Mortem Aura!',
+        somaticText: 'Dark energy radiates outward'
       },
 
-      resolution: 'NONE',
-
-      debuffConfig: {
-        effects: [
-          'All enemies within 10 feet have disadvantage on attack rolls',
-          'Doomguard: Also deals 1d6 shadow damage per turn',
-          'Duration: 1 minute',
-          'Aura moves with you'
-        ]
-      },
+      resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d6',
-        damageType: 'shadow',
-        frequency: 'per turn',
-        condition: 'Doomguard specialization only'
+        formula: '2d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false
       },
 
-      effects: {
-        debuff: {
-          duration: 60,
-          aoe: true,
-          radius: 10,
-          effect: 'disadvantage on attack rolls'
-        },
-        damage: {
-          conditional: {
-            spec: 'doomguard',
-            formula: '1d6',
-            type: 'shadow',
-            frequency: 'per_turn'
-          }
-        }
-      },
-
-      specialMechanics: {
-        drp: {
-          cost: '15 (10 for Doomguard)',
-          effect: 'Enemies have disadvantage on attacks',
-          doomguardBonus: 'Also deals 1d6 shadow damage per turn'
-        }
-      },
-
-      tags: ['debuff', 'aoe', 'disadvantage', 'drp', 'dreadnaught']
+      tags: ['damage', 'necrotic', 'aoe', 'drp', 'level-3', 'dreadnaught']
     },
 
-    // ULTIMATE ABILITY - Dark Rebirth
-    {
-      id: 'dread_dark_rebirth',
-      name: 'Dark Rebirth',
-      description: 'Upon reaching 0 hit points, automatically spend all remaining DRP to revive with health equal to twice the DRP.',
-      spellType: 'PASSIVE',
-      icon: 'spell_shadow_demonicempathy',
-      school: 'Necromancy',
-      level: 5,
-      specialization: 'all',
-
-      typeConfig: {
-        castTime: 0,
-        castTimeType: 'AUTOMATIC'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'drp',
-          cost: 'all_remaining',
-          description: 'Automatically spend all DRP'
-        },
-        components: [],
-        trigger: 'Reaching 0 hit points'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      healingConfig: {
-        formula: '2 × all remaining DRP',
-        healingType: 'self',
-        trigger: 'Reaching 0 HP'
-      },
-
-      buffConfig: {
-        effects: [
-          'Automatically triggers when reaching 0 HP',
-          'Regain HP equal to 2× all remaining DRP',
-          'DRP resets to 0 after revival',
-          'Doomguard: Gain +2 to attack and damage for 1 minute after revival'
-        ]
-      },
-
-      effects: {
-        healing: {
-          instant: {
-            formula: '2 × ALL_DRP',
-            target: 'self',
-            trigger: 'death'
-          }
-        },
-        buff: {
-          conditional: {
-            spec: 'doomguard',
-            duration: 60,
-            stats: {
-              attackBonus: 2,
-              damageBonus: 2
-            }
-          }
-        }
-      },
-
-      specialMechanics: {
-        drp: {
-          cost: 'All remaining DRP',
-          effect: 'Revive with 2× DRP as HP',
-          trigger: 'Automatic when reaching 0 HP',
-          doomguardBonus: '+2 attack and damage for 1 minute after revival'
-        }
-      },
-
-      tags: ['healing', 'revival', 'ultimate', 'drp', 'dreadnaught']
-    },
-
-    // UTILITY ABILITIES
-    {
-      id: 'dread_dark_resistance',
-      name: 'Dark Resistance',
-      description: 'While you have at least 10 DRP, gain resistance to one damage type of your choice.',
-      spellType: 'PASSIVE',
-      icon: 'spell_shadow_antishadow',
-      school: 'Abjuration',
-      level: 1,
-      specialization: 'all',
-
-      typeConfig: {
-        castTime: 0,
-        castTimeType: 'PASSIVE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'permanent'
-      },
-
-      resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'drp',
-          cost: 0,
-          description: 'Requires 10+ DRP'
-        },
-        components: []
-      },
-
-      resolution: 'PASSIVE',
-
-      buffConfig: {
-        effects: [
-          'Requires 10+ DRP to activate',
-          'Choose one damage type to resist',
-          'Can change damage type when DRP drops below 10 and rises again',
-          'Voidwarden: Resist two damage types instead of one'
-        ]
-      },
-
-      effects: {
-        buff: {
-          condition: 'DRP >= 10',
-          resistances: ['chosen_type'],
-          voidwardenBonus: 'Two damage types'
-        }
-      },
-
-      specialMechanics: {
-        drp: {
-          threshold: 10,
-          effect: 'Resistance to one damage type',
-          voidwardenBonus: 'Resistance to two damage types'
-        }
-      },
-
-      tags: ['passive', 'resistance', 'defense', 'drp', 'dreadnaught']
-    },
-
-    {
-      id: 'dread_health_regen',
-      name: 'Dark Regeneration',
-      description: 'For each 10 DRP you have, regenerate 1 hit point at the start of each turn.',
-      spellType: 'PASSIVE',
-      icon: 'spell_shadow_lifedrain02',
-      school: 'Necromancy',
-      level: 1,
-      specialization: 'all',
-
-      typeConfig: {
-        castTime: 0,
-        castTimeType: 'PASSIVE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'permanent'
-      },
-
-      resourceCost: {
-        mana: 0,
-        classResource: {
-          type: 'drp',
-          cost: 0,
-          description: 'Requires 10+ DRP'
-        },
-        components: []
-      },
-
-      resolution: 'PASSIVE',
-
-      healingConfig: {
-        formula: '1 HP per 10 DRP',
-        healingType: 'self',
-        frequency: 'start_of_turn'
-      },
-
-      buffConfig: {
-        effects: [
-          '10 DRP: Regenerate 1 HP per turn',
-          '20 DRP: Regenerate 2 HP per turn',
-          '30 DRP: Regenerate 3 HP per turn',
-          '40 DRP: Regenerate 4 HP per turn',
-          '50 DRP: Regenerate 5 HP per turn',
-          'Voidwarden: Regeneration increased by 50%'
-        ]
-      },
-
-      effects: {
-        healing: {
-          ongoing: {
-            formula: 'DRP / 10',
-            target: 'self',
-            frequency: 'start_of_turn',
-            voidwardenBonus: '× 1.5'
-          }
-        }
-      },
-
-      specialMechanics: {
-        drp: {
-          scaling: '1 HP per 10 DRP',
-          frequency: 'Start of each turn',
-          voidwardenBonus: '+50% regeneration'
-        }
-      },
-
-      tags: ['passive', 'healing', 'regeneration', 'drp', 'dreadnaught']
-    },
-
-    // SOULREAVER SPECIFIC
     {
       id: 'dread_blood_to_shadow',
       name: 'Blood to Shadow',
       description: 'Convert your own hit points into Dark Resilience Points. Sacrifice 5 HP to gain 1 DRP.',
+      level: 3,
       spellType: 'ACTION',
       icon: 'spell_shadow_bloodboil',
       school: 'Necromancy',
-      level: 2,
-      specialization: 'soulreaver',
 
       typeConfig: {
         castTime: 1,
@@ -1364,50 +1189,1200 @@ Many players enhance the dreadnaught experience with:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'instant'
-      },
-
       resourceCost: {
-        mana: 0,
-        health: 'variable',
-        components: ['somatic'],
-        somaticText: 'Cut yourself to release dark energy',
-        description: 'Sacrifice 5/10/15/20 HP'
+        resourceTypes: ['health'],
+        resourceValues: { health: 'variable' },
+        useFormulas: { health: true },
+        resourceFormulas: { health: '5 * drp_gain' },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Sangui Umbra!',
+        somaticText: 'Blood turns to shadow'
       },
 
       resolution: 'NONE',
+      effectTypes: ['resourceGain'],
 
-      effects: {
-        cost: {
-          health: 'variable (5/10/15/20)'
-        },
-        gain: {
-          drp: 'HP_SPENT / 5'
-        }
+      resourceGainConfig: {
+        resources: [{
+          type: 'drp',
+          formula: 'health_spent / 5',
+          description: 'Gain 1 DRP per 5 HP sacrificed'
+        }]
       },
 
-      specialMechanics: {
-        conversion: {
-          ratio: '5 HP = 1 DRP',
-          maxConversion: '20 HP = 4 DRP per use',
-          restriction: 'Soulreaver specialization only'
-        }
-      },
-
-      tags: ['utility', 'conversion', 'self-damage', 'drp', 'soulreaver', 'dreadnaught']
+      tags: ['resource-gain', 'drp', 'health', 'level-3', 'dreadnaught']
     },
 
-    // DOOMGUARD SPECIFIC
     {
-      id: 'dread_retribution_aura',
-      name: 'Aura of Retribution',
-      description: 'Attackers automatically take 1d6 shadow damage when they hit you. Always active for Doomguard.',
-      spellType: 'PASSIVE',
-      icon: 'spell_shadow_shadowfiend',
+      id: 'dread_dark_armor',
+      name: 'Dark Armor',
+      description: 'Surround yourself with protective shadows that grant damage resistance and temporary hit points.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowform',
+      school: 'Abjuration',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 15 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Arma Tenebra!',
+        somaticText: 'Shadows coalesce into armor'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'combined',
+        effects: [
+          {
+            id: 'dark_armor_resistance',
+            name: 'Dark Armor Resistance',
+            description: 'Resistance to necrotic and shadow damage',
+            statModifier: {
+              stat: 'damageResistance',
+              magnitude: 1,
+              magnitudeType: 'flat',
+              damageTypes: ['necrotic', 'shadow']
+            }
+          },
+          {
+            id: 'dark_armor_temp_hp',
+            name: 'Dark Armor Protection',
+            description: 'Temporary hit points equal to DRP spent',
+            tempHPFormula: 'drpSpent',
+            tempHPType: 'temporary'
+          }
+        ],
+        durationValue: 1,
+        durationType: 'hours',
+        durationUnit: 'hours',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      tags: ['buff', 'resistance', 'protection', 'drp', 'level-3', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 4 SPELLS
+    // ========================================
+    {
+      id: 'dread_vampiric_strike',
+      name: 'Vampiric Strike',
+      description: 'Drain life from an enemy with a powerful melee attack, healing yourself for half the damage dealt.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_vampiricaura',
       school: 'Necromancy',
-      level: 1,
-      specialization: 'doomguard',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 20 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Weapon glows with vampiric energy'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '3d8 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2
+      },
+
+      healingConfig: {
+        formula: 'damageDealt / 2',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      tags: ['damage', 'healing', 'necrotic', 'melee', 'drp', 'level-4', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_soul_drain',
+      name: 'Soul Drain',
+      description: 'Drain the soul essence from an enemy, dealing massive necrotic damage and gaining DRP.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_soulleech_2',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 25 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Anima Drain!',
+        somaticText: 'Soul energy flows toward you'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'resourceGain'],
+
+      damageConfig: {
+        formula: '4d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false
+      },
+
+      resourceGainConfig: {
+        resources: [{
+          type: 'drp',
+          formula: '5',
+          description: 'Gain 5 DRP from soul drain'
+        }]
+      },
+
+      tags: ['damage', 'resource-gain', 'necrotic', 'ranged', 'drp', 'level-4', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_dark_empowerment',
+      name: 'Dark Empowerment',
+      description: 'Empower yourself with dark energy, gaining increased strength and necrotic damage on attacks.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowembrace',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 30 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Potentia Tenebra!',
+        somaticText: 'Dark power surges through you'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'dark_empowerment_strength',
+            name: 'Dark Strength',
+            description: '+4 to Strength modifier on attacks and damage',
+            statModifier: {
+              stat: 'strength',
+              magnitude: 4,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'dark_empowerment_necrotic',
+            name: 'Necrotic Touch',
+            description: 'All attacks deal +2d6 necrotic damage',
+            damageModifier: {
+              elementType: 'necrotic',
+              formula: '2d6',
+              damageType: 'additional'
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      tags: ['buff', 'strength', 'damage', 'necrotic', 'drp', 'level-4', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS
+    // ========================================
+    {
+      id: 'dread_death_embrace',
+      name: 'Death Embrace',
+      description: 'Embrace the power of death, becoming resistant to all damage while healing from necrotic damage.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_deathsembrace',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 35 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Mortem Amplecti!',
+        somaticText: 'Death embraces you'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'combined',
+        effects: [
+          {
+            id: 'death_embrace_resistance',
+            name: 'Death Resistance',
+            description: 'Resistance to all damage types',
+            statModifier: {
+              stat: 'damageResistance',
+              magnitude: 1,
+              magnitudeType: 'flat',
+              damageTypes: ['all']
+            }
+          },
+          {
+            id: 'death_embrace_healing',
+            name: 'Necrotic Healing',
+            description: 'Heal from necrotic damage instead of taking it',
+            healingModifier: {
+              elementType: 'necrotic',
+              formula: 'damage_taken',
+              healingType: 'conversion'
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      tags: ['buff', 'resistance', 'healing', 'necrotic', 'drp', 'level-5', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_necrotic_wave',
+      name: 'Necrotic Wave',
+      description: 'Send out a wave of necrotic energy that damages and weakens enemies in a line.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_unholyfrenzy',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'line',
+        aoeSize: 60
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 40 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Unda Mortem!',
+        somaticText: 'Wave of death surges forward'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '4d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false
+      },
+
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'necrotic_wave_weakness',
+          name: 'Necrotic Weakness',
+          description: 'Disadvantage on saving throws against necrotic effects',
+          statModifier: {
+            stat: 'savingThrows',
+            magnitude: -1,
+            magnitudeType: 'flat',
+            savingThrowTypes: ['necrotic']
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      tags: ['damage', 'debuff', 'necrotic', 'aoe', 'line', 'drp', 'level-5', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_abyssal_shield',
+      name: 'Abyssal Shield',
+      description: 'Create a powerful shield that blocks all damage and reflects a portion back at attackers.',
+      level: 5,
+      spellType: 'REACTION',
+      icon: 'spell_shadow_sealofkings',
+      school: 'Abjuration',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 'variable' },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Abyssal shield forms'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'damageReflection',
+        effects: [{
+          id: 'abyssal_shield_reflection',
+          name: 'Abyssal Shield',
+          description: 'Block all damage and reflect half back at attacker',
+          damageReflection: {
+            percentage: 50,
+            elementType: 'necrotic'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'turns',
+        durationUnit: 'turns',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      tags: ['defense', 'reflection', 'damage', 'necrotic', 'drp', 'level-5', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
+      id: 'dread_shadow_step',
+      name: 'Shadow Step',
+      description: 'Step through shadows to teleport up to 30 feet to an unoccupied space.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowstep',
+      school: 'Conjuration',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 20 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Dissolve into shadows'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['teleport'],
+
+      teleportConfig: {
+        range: 30,
+        requiresLineOfSight: false,
+        requiresUnoccupied: true,
+        dimension: 'shadow'
+      },
+
+      tags: ['movement', 'teleport', 'shadow', 'drp', 'level-6', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_soul_rend',
+      name: 'Soul Rend',
+      description: 'Tear at an enemy\'s soul, dealing massive damage and potentially preventing healing.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_soulleech_3',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 45 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Anima Lacerare!',
+        somaticText: 'Soul is torn asunder'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '5d8 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2
+      },
+
+      debuffConfig: {
+        debuffType: 'healingPrevention',
+        effects: [{
+          id: 'soul_rend_prevention',
+          name: 'Soul Wounded',
+          description: 'Cannot regain hit points from healing magic',
+          healingPrevention: {
+            types: ['magical'],
+            percentage: 100
+          }
+        }],
+        durationValue: 1,
+        durationType: 'hours',
+        durationUnit: 'hours',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      tags: ['damage', 'debuff', 'necrotic', 'healing-prevention', 'ranged', 'drp', 'level-6', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_apocalypse_aura',
+      name: 'Apocalypse Aura',
+      description: 'Surround yourself with apocalyptic energy that damages enemies and empowers undead allies.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadesofdarkness',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 20,
+        aoeShape: 'sphere',
+        aoeSize: 20
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 50 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Apocalypsis Aura!',
+        somaticText: 'Apocalyptic energy radiates'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'buff'],
+
+      damageConfig: {
+        formula: '3d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false,
+        targetRestrictions: ['enemy', 'living']
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'apocalypse_aura_empowerment',
+          name: 'Apocalyptic Empowerment',
+          description: 'Undead allies gain +2 to attack and damage rolls',
+          statModifier: {
+            stat: 'attackDamageBonus',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        canBeDispelled: false,
+        targetRestrictions: ['undead', 'ally']
+      },
+
+      tags: ['damage', 'buff', 'necrotic', 'aoe', 'undead', 'drp', 'level-6', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'dread_eternal_darkness',
+      name: 'Eternal Darkness',
+      description: 'Create a zone of absolute darkness that drains life from creatures within it.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_twilight',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'sphere',
+        aoeSize: 30
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 60 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material'],
+        verbalText: 'Tenebra Aeterna!',
+        somaticText: 'Darkness consumes the area',
+        materialText: 'Obsidian orb worth 1000 gp'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff', 'terrain'],
+
+      damageConfig: {
+        formula: '4d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'hot',
+        hasHotEffect: true,
+        hotFormula: '2d6 + spirit',
+        hotDuration: 1,
+        hotTickType: 'turn',
+        canCrit: false
+      },
+
+      debuffConfig: {
+        debuffType: 'combined',
+        effects: [
+          {
+            id: 'eternal_darkness_blind',
+            name: 'Absolute Darkness',
+            description: 'Creatures are blinded in the area',
+            statModifier: {
+              stat: 'blinded',
+              magnitude: 1,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'eternal_darkness_weakness',
+            name: 'Dark Weakness',
+            description: 'Vulnerable to necrotic damage',
+            statModifier: {
+              stat: 'damageVulnerability',
+              magnitude: 1,
+              magnitudeType: 'flat',
+              damageTypes: ['necrotic']
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      terrainConfig: {
+        terrainType: 'darkness',
+        description: 'Area of magical darkness that drains life',
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
+      },
+
+      tags: ['damage', 'debuff', 'terrain', 'darkness', 'necrotic', 'aoe', 'drp', 'level-7', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_soul_harvest',
+      name: 'Soul Harvest',
+      description: 'Harvest souls from defeated enemies, gaining massive DRP and temporary undead minions.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadetruesight',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'sphere',
+        aoeSize: 30
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 70 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Anima Messis!',
+        somaticText: 'Souls are harvested'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['resourceGain', 'summon'],
+
+      resourceGainConfig: {
+        resources: [{
+          type: 'drp',
+          formula: '10 * defeated_creatures',
+          description: 'Gain 10 DRP per defeated enemy'
+        }]
+      },
+
+      summonConfig: {
+        creatureType: 'shadow_minion',
+        number: 'min(defeated_creatures, 4)',
+        durationValue: 1,
+        durationType: 'hours',
+        durationUnit: 'hours',
+        stats: {
+          hitPoints: '20 + spirit',
+          attackBonus: 'proficiency + spirit_mod',
+          damage: '1d8 + spirit_mod necrotic'
+        }
+      },
+
+      tags: ['resource-gain', 'summon', 'undead', 'aoe', 'drp', 'level-7', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_void_eruption',
+      name: 'Void Eruption',
+      description: 'Cause a violent eruption of void energy that consumes everything in its path.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowfury',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'cone',
+        aoeSize: 60
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 80 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Vacuum Eruptio!',
+        somaticText: 'Void energy explodes outward'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d8 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false,
+        saveType: 'dexterity',
+        saveDC: '8 + proficiency + spirit_mod',
+        halfDamage: true
+      },
+
+      tags: ['damage', 'necrotic', 'aoe', 'cone', 'save', 'drp', 'level-7', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'dread_immortal_fortress',
+      name: 'Immortal Fortress',
+      description: 'Transform into an immortal fortress of darkness, immune to most damage and effects.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_twilight',
+      school: 'Abjuration',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 100 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Fortis Immortalis!',
+        somaticText: 'Body becomes living darkness'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff', 'transformation'],
+
+      buffConfig: {
+        buffType: 'combined',
+        effects: [
+          {
+            id: 'immortal_fortress_immunity',
+            name: 'Immortal Immunity',
+            description: 'Immune to poison, disease, necrotic, and psychic damage',
+            statModifier: {
+              stat: 'damageImmunity',
+              magnitude: 1,
+              magnitudeType: 'flat',
+              damageTypes: ['poison', 'disease', 'necrotic', 'psychic']
+            }
+          },
+          {
+            id: 'immortal_fortress_resistance',
+            name: 'Fortress Resistance',
+            description: 'Resistance to all other damage types',
+            statModifier: {
+              stat: 'damageResistance',
+              magnitude: 1,
+              magnitudeType: 'flat',
+              damageTypes: ['all']
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      transformationConfig: {
+        form: 'immortal_fortress',
+        description: 'Body transforms into living darkness',
+        abilities: ['flying', 'incorporeal_passage'],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
+      },
+
+      tags: ['buff', 'transformation', 'immunity', 'resistance', 'drp', 'level-8', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_soul_storm',
+      name: 'Soul Storm',
+      description: 'Unleash a storm of tormented souls that ravage enemies and heal you with their essence.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_painspike',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'sphere',
+        aoeSize: 30
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 90 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Anima Tempestas!',
+        somaticText: 'Souls swirl in a deadly storm'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '5d8 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false,
+        saveType: 'constitution',
+        saveDC: '8 + proficiency + spirit_mod',
+        halfDamage: true
+      },
+
+      healingConfig: {
+        formula: 'total_damage / 4',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      tags: ['damage', 'healing', 'necrotic', 'aoe', 'save', 'drp', 'level-8', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_abyssal_apocalypse',
+      name: 'Abyssal Apocalypse',
+      description: 'Bring forth the end of days, devastating all enemies in the area with apocalyptic power.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_mindtwisting',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'sphere',
+        aoeSize: 40
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 120 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material'],
+        verbalText: 'Apocalypsis Abyssus!',
+        somaticText: 'Reality tears asunder',
+        materialText: 'Ancient tome worth 5000 gp'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '8d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false,
+        saveType: 'constitution',
+        saveDC: '8 + proficiency + spirit_mod',
+        halfDamage: false
+      },
+
+      debuffConfig: {
+        debuffType: 'combined',
+        effects: [
+          {
+            id: 'abyssal_apocalypse_fear',
+            name: 'Apocalyptic Fear',
+            description: 'Creatures are frightened for 1 minute',
+            statModifier: {
+              stat: 'frightened',
+              magnitude: 1,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'abyssal_apocalypse_weakness',
+            name: 'Abyssal Weakness',
+            description: 'Maximum hit points reduced by damage taken',
+            statModifier: {
+              stat: 'maxHitPoints',
+              magnitude: 'damage_taken',
+              magnitudeType: 'reduction'
+            }
+          }
+        ],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      tags: ['damage', 'debuff', 'necrotic', 'aoe', 'fear', 'save', 'drp', 'level-8', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'dread_eternal_night',
+      name: 'Eternal Night',
+      description: 'Plunge the world into eternal darkness, draining life from all creatures in the area.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_twilight',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 300,
+        aoeShape: 'sphere',
+        aoeSize: 300
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 150 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material'],
+        verbalText: 'Nox Aeterna!',
+        somaticText: 'Night falls eternally',
+        materialText: 'Black diamond worth 10000 gp'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'terrain', 'debuff'],
+
+      damageConfig: {
+        formula: '10d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false,
+        saveType: 'constitution',
+        saveDC: '8 + proficiency + spirit_mod',
+        halfDamage: true
+      },
+
+      terrainConfig: {
+        terrainType: 'eternal_darkness',
+        description: 'Area of eternal darkness that drains life',
+        durationValue: 24,
+        durationType: 'hours',
+        durationUnit: 'hours'
+      },
+
+      debuffConfig: {
+        debuffType: 'combined',
+        effects: [
+          {
+            id: 'eternal_night_blindness',
+            name: 'Eternal Blindness',
+            description: 'Creatures are permanently blinded in the area',
+            statModifier: {
+              stat: 'blinded',
+              magnitude: 1,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'eternal_night_drain',
+            name: 'Life Drain',
+            description: 'Creatures take 2d6 necrotic damage per turn',
+            damageModifier: {
+              elementType: 'necrotic',
+              formula: '2d6',
+              damageType: 'dot',
+              dotDuration: 24,
+              dotTickType: 'turn'
+            }
+          }
+        ],
+        durationValue: 24,
+        durationType: 'hours',
+        durationUnit: 'hours',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      tags: ['damage', 'debuff', 'terrain', 'darkness', 'necrotic', 'aoe', 'save', 'drp', 'level-9', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_cosmic_devourer',
+      name: 'Cosmic Devourer',
+      description: 'Transform into a cosmic entity that devours everything in its path.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_mindflay',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 200 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Devorans Cosmicus!',
+        somaticText: 'Cosmic hunger awakens'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation', 'damage'],
+
+      transformationConfig: {
+        form: 'cosmic_devourer',
+        description: 'Transform into a cosmic entity of destruction',
+        abilities: ['flying', 'incorporeal_passage', 'devour'],
+        stats: {
+          size: 'huge',
+          speed: 60,
+          strength: 30,
+          hitPoints: '9999'
+        },
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
+      },
+
+      damageConfig: {
+        formula: '12d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false,
+        trigger: 'devour_attack'
+      },
+
+      tags: ['transformation', 'damage', 'necrotic', 'devour', 'drp', 'level-9', 'dreadnaught']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'dread_dark_rebirth',
+      name: 'Dark Rebirth',
+      description: 'When reduced to 0 hit points, automatically revive with full health by spending all DRP.',
+      level: 10,
+      spellType: 'PASSIVE',
+      icon: 'spell_shadow_rebirth',
+      school: 'Necromancy',
 
       typeConfig: {
         castTime: 0,
@@ -1419,43 +2394,194 @@ Many players enhance the dreadnaught experience with:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'permanent'
-      },
-
       resourceCost: {
-        mana: 0,
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
         components: []
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'NONE',
+      effectTypes: ['revival'],
+
+      revivalConfig: {
+        trigger: 'death',
+        healingAmount: '2 * drpSpent',
+        resourceCost: 'all_drp',
+        description: 'Revive at 0 HP, healing for 2× total DRP spent'
+      },
+
+      tags: ['revival', 'healing', 'drp', 'passive', 'level-10', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_retribution_aura',
+      name: 'Retribution Aura',
+      description: 'Surround yourself with vengeful spirits that retaliate against anyone who damages you.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_unholystrength',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 100 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Retributio Aura!',
+        somaticText: 'Vengeful spirits surround you'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'retaliation',
+        effects: [{
+          id: 'retribution_aura_retaliation',
+          name: 'Spirit Retribution',
+          description: 'Spirits deal necrotic damage equal to damage taken back at attacker',
+          retaliationDamage: {
+            formula: 'damage_taken',
+            elementType: 'necrotic',
+            damageType: 'direct'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'hours',
+        durationUnit: 'hours',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      tags: ['buff', 'retaliation', 'damage', 'necrotic', 'drp', 'level-10', 'dreadnaught']
+    },
+
+    {
+      id: 'dread_cosmic_annihilation',
+      name: 'Cosmic Annihilation',
+      description: 'Unleash the ultimate power of darkness, annihilating everything within range.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_mindbomb',
+      school: 'Necromancy',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'aoe',
+        rangeType: 'ranged',
+        rangeDistance: 500,
+        aoeShape: 'sphere',
+        aoeSize: 100
+      },
+
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: { drp: 500 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material'],
+        verbalText: 'Annihilatio Cosmica!',
+        somaticText: 'Cosmic annihilation begins',
+        materialText: 'Void crystal worth 50000 gp'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'destruction'],
 
       damageConfig: {
-        formula: '1d6',
-        damageType: 'shadow',
-        trigger: 'When hit by an attack'
+        formula: '20d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: false,
+        saveType: 'constitution',
+        saveDC: '8 + proficiency + spirit_mod',
+        halfDamage: false
       },
 
-      effects: {
-        counterattack: {
-          automatic: {
-            formula: '1d6',
-            type: 'shadow',
-            trigger: 'being_hit'
-          }
+      destructionConfig: {
+        destructionType: 'annihilation',
+        description: 'Everything in the area is annihilated, leaving only void',
+        radius: 100,
+        saveType: 'constitution',
+        saveDC: '8 + proficiency + spirit_mod'
+      },
+
+      tags: ['damage', 'destruction', 'necrotic', 'aoe', 'ultimate', 'save', 'drp', 'level-10', 'dreadnaught']
+    },
+
+    // ADDITIONAL LEVEL 9 SPELL
+    {
+      id: 'dread_oblivion_strike',
+      name: 'Oblivion Strike',
+      description: 'Strike an enemy with the power of oblivion, dealing 12d10 necrotic damage and erasing them from existence if they drop below 0 HP.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_demonicpact',
+        tags: ['damage', 'necrotic', 'execute', 'ultimate', 'dreadnaught'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
+      },
+
+      damageConfig: {
+        formula: '12d10',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 20,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         }
       },
 
-      specialMechanics: {
-        counterattack: {
-          damage: '1d6 shadow',
-          trigger: 'Whenever an enemy hits you',
-          restriction: 'Doomguard specialization only'
-        }
+      resourceCost: {
+        resourceTypes: ['drp'],
+        resourceValues: {
+          drp: 50
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
       },
 
-      tags: ['passive', 'counterattack', 'damage', 'doomguard', 'dreadnaught']
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'necrotic', 'execute', 'ultimate', 'dreadnaught']
     }
   ]
 };
-

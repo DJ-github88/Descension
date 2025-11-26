@@ -850,19 +850,23 @@ Before combat, decide which cadences you want to prioritize:
     ]
   },
 
-  // Example Spells - showcasing the spell wizard system
-  exampleSpells: [
-    // Builder Spells - Generate Musical Notes
+  // Spells - organized by level, properly formatted for wizard
+  spells: [
+    // ========================================
+    // LEVEL 1 STARTING SPELLS (5 options, pick 3)
+    // ========================================
     {
       id: 'minstrel_opening_chord',
       name: 'Opening Chord',
       description: 'Strike a resonant chord that generates foundational notes and deals minor sonic damage.',
+      level: 1,
       spellType: 'ACTION',
       icon: 'spell_holy_divinepurpose',
-      school: 'Evocation',
-      level: 1,
 
       typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_divinepurpose',
+        tags: ['builder', 'basic', 'sonic', 'tonic-generator', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -870,45 +874,40 @@ Before combat, decide which cadences you want to prioritize:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 60,
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 10,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 10 },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Resonare!',
         somaticText: 'Strum instrument or gesture musically'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d6',
-        damageType: 'thunder',
-        scalingType: 'none'
+        elementType: 'thunder',
+        damageType: 'direct'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d6',
-            type: 'thunder'
-          }
-        }
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'I', count: 2 },
+          { note: 'V', count: 1 }
+        ]
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'builder',
-          generates: [
-            { note: 'I', count: 2 },
-            { note: 'V', count: 1 }
-          ]
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
       tags: ['builder', 'basic', 'sonic', 'tonic-generator', 'level-1']
@@ -918,12 +917,14 @@ Before combat, decide which cadences you want to prioritize:
       id: 'minstrel_harmonic_strike',
       name: 'Harmonic Strike',
       description: 'Strike your foe with a resonant blow, dealing damage and generating mediant notes.',
+      level: 1,
       spellType: 'ACTION',
       icon: 'ability_warrior_savageblow',
-      school: 'Evocation',
-      level: 1,
 
       typeConfig: {
+        school: 'evocation',
+        icon: 'ability_warrior_savageblow',
+        tags: ['builder', 'melee', 'basic', 'mediant-generator', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -931,34 +932,34 @@ Before combat, decide which cadences you want to prioritize:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 5,
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 8,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Strike with instrument or weapon'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'bludgeoning',
-        scalingType: 'none'
+        elementType: 'bludgeoning',
+        damageType: 'direct'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d8',
-            type: 'bludgeoning'
-          }
-        }
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'III', count: 2 },
+          { note: 'I', count: 1 }
+        ]
       },
 
       cooldownConfig: {
@@ -966,21 +967,200 @@ Before combat, decide which cadences you want to prioritize:
         value: 0
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'builder',
-          generates: [
-            { note: 'III', count: 2 },
-            { note: 'I', count: 1 }
-          ]
-        }
-      },
-
-      tags: ['builder', 'melee', 'damage', 'mediant-generator', 'level-1']
+      tags: ['builder', 'melee', 'basic', 'mediant-generator', 'level-1']
     },
 
     {
       id: 'minstrel_inspiring_rhythm',
+      name: 'Inspiring Rhythm',
+      description: 'Play an inspiring rhythm that boosts morale and generates dominant notes.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_holy_greaterblessingofkings',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_greaterblessingofkings',
+        tags: ['builder', 'support', 'dominant-generator', 'level-1'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Inspiro!',
+        somaticText: 'Play inspiring rhythm'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'inspiring_rhythm',
+          name: 'Inspiring Rhythm',
+          description: 'Increases morale and provides minor benefits',
+          customDescription: 'Increases morale and provides minor benefits.'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'V', count: 2 },
+          { note: 'VII', count: 1 }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['builder', 'support', 'dominant-generator', 'level-1']
+    },
+
+    {
+      id: 'minstrel_minor_cadence',
+      name: 'Minor Cadence',
+      description: 'Play a simple cadence that heals nearby allies and generates subdominant notes.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holybolt',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holybolt',
+        tags: ['resolver', 'healing', 'subdominant-generator', 'level-1'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Sanare!',
+        somaticText: 'Play healing cadence'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '1d6 + spirit/4',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'IV', count: 1 },
+          { note: 'I', count: 1 }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['resolver', 'healing', 'subdominant-generator', 'level-1']
+    },
+
+    {
+      id: 'minstrel_soothing_melody',
+      name: 'Soothing Melody',
+      description: 'Play a calming melody that removes minor debuffs and generates leading tone notes.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divinespirit',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_divinespirit',
+        tags: ['resolver', 'utility', 'leading-generator', 'level-1'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Pax!',
+        somaticText: 'Play soothing melody'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'restoration',
+        selectedEffects: [{
+          id: 'remove_debuff',
+          name: 'Remove Debuff',
+          description: 'Removes one minor debuff from the target'
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'minor'
+      },
+
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'VII', count: 1 },
+          { note: 'III', count: 1 }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['resolver', 'utility', 'leading-generator', 'level-1']
+    },
+
+    {
+      id: 'minstrel_inspiring_rhythm_supertonic',
       name: 'Inspiring Rhythm',
       description: 'Play an uplifting rhythm that bolsters an ally and generates supertonic notes.',
       spellType: 'ACTION',
@@ -1006,7 +1186,10 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 12,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Uplifting verse',
         somaticText: 'Play encouraging rhythm'
@@ -1015,15 +1198,20 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'AUTOMATIC',
 
       buffConfig: {
-        statModifiers: [
-          {
-            name: 'Armor',
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'armor_boost',
+          name: 'Armor Boost',
+          description: 'Increases target armor',
+          statModifier: {
+            stat: 'armor',
             magnitude: 2,
             magnitudeType: 'flat'
           }
-        ],
+        }],
         durationValue: 2,
         durationType: 'turns',
+        durationUnit: 'turns',
         stackingRule: 'replace',
         maxStacks: 1
       },
@@ -1051,7 +1239,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     {
-      id: 'minstrel_minor_cadence',
+      id: 'minstrel_minor_cadence_resolver',
       name: 'Minor Cadence',
       description: 'Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.',
       spellType: 'ACTION',
@@ -1112,7 +1300,7 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     {
-      id: 'minstrel_soothing_melody',
+      id: 'minstrel_soothing_melody_resolver',
       name: 'Soothing Melody',
       description: 'Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.',
       spellType: 'ACTION',
@@ -1772,6 +1960,932 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'minstrel_symphony_of_destruction',
+      name: 'Symphony of Destruction',
+      description: 'Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive thunder damage to all enemies in a large area.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_nature_earthquake',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_earthquake',
+        tags: ['damage', 'aoe', 'thunder', 'resolver', 'level-7'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Destructio Symphonia!',
+        somaticText: 'Grand conducting gestures'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d10 + intelligence',
+        elementType: 'thunder',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves'
+        }
+      },
+
+      musicalCombo: {
+        type: 'resolver',
+        consumes: [
+          { note: 'V', count: 3 },
+          { note: 'I', count: 2 }
+        ],
+        requiredNotes: 5
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'aoe', 'thunder', 'resolver', 'level-7']
+    },
+
+    {
+      id: 'minstrel_song_of_heroes',
+      name: 'Song of Heroes',
+      description: 'Perform an inspiring ballad that empowers all allies with legendary might, granting significant bonuses to attack and damage.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineprovidence',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_divineprovidence',
+        tags: ['buff', 'aoe', 'support', 'builder', 'level-7'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 30 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Canticum Heroum!',
+        somaticText: 'Strum heroic melody'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'heroic_might',
+          name: 'Heroic Might',
+          description: 'Allies gain +3 to attack rolls and +2d6 damage on all attacks for 5 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'I', count: 2 },
+          { note: 'III', count: 2 }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['buff', 'aoe', 'support', 'builder', 'level-7']
+    },
+
+    {
+      id: 'minstrel_discordant_shriek',
+      name: 'Discordant Shriek',
+      description: 'Unleash a piercing shriek that disrupts enemy spellcasting and causes psychic damage to all who hear it.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_psychicscream',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_psychicscream',
+        tags: ['damage', 'control', 'psychic', 'level-7'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Piercing shriek of discord'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '4d8 + intelligence',
+        elementType: 'psychic',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'moderate',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'disrupted',
+          name: 'Disrupted',
+          description: 'Enemies cannot cast spells until the end of their next turn',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'control', 'psychic', 'level-7']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'minstrel_magnum_opus',
+      name: 'Magnum Opus',
+      description: 'Perform your greatest masterpiece, dealing devastating damage while simultaneously healing all allies.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holysmite',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holysmite',
+        tags: ['damage', 'healing', 'aoe', 'resolver', 'level-8'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy', 'ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Opus Magnum Virtuoso!',
+        somaticText: 'Grand performance gestures'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '8d8 + intelligence',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 18,
+          saveOutcome: 'halves'
+        }
+      },
+
+      healingConfig: {
+        formula: '6d8 + intelligence',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      musicalCombo: {
+        type: 'resolver',
+        consumes: [
+          { note: 'I', count: 3 },
+          { note: 'V', count: 3 },
+          { note: 'VII', count: 2 }
+        ],
+        requiredNotes: 8
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['damage', 'healing', 'aoe', 'resolver', 'level-8']
+    },
+
+    {
+      id: 'minstrel_serenade_of_shadows',
+      name: 'Serenade of Shadows',
+      description: 'A haunting melody that causes enemies to become entranced and vulnerable, reducing their defenses and causing fear.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_possession',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_possession',
+        tags: ['debuff', 'control', 'aoe', 'level-8'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 38 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Dark haunting melody',
+        somaticText: 'Shadowy conducting motions'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff', 'control'],
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'entranced',
+          name: 'Entranced',
+          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      controlConfig: {
+        controlType: 'mind_control',
+        strength: 'moderate',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'fear',
+          name: 'Frightened',
+          description: 'Enemies are frightened and must move away from you',
+          config: {
+            fearStrength: 'moderate'
+          }
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['debuff', 'control', 'aoe', 'level-8']
+    },
+
+    {
+      id: 'minstrel_harmony_of_renewal',
+      name: 'Harmony of Renewal',
+      description: 'A powerful healing melody that restores allies to full fighting capacity, removing negative effects and providing regeneration.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_holy_renew',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_renew',
+        tags: ['healing', 'purification', 'aoe', 'level-8'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Harmonia Renovare!',
+        somaticText: 'Sweeping healing gestures'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing', 'purification'],
+
+      healingConfig: {
+        formula: '5d10 + intelligence',
+        healingType: 'direct',
+        hasHotEffect: true,
+        hotFormula: '2d6',
+        hotDuration: 3,
+        hotTickType: 'round'
+      },
+
+      purificationConfig: {
+        purificationType: 'cleanse',
+        targetType: 'area',
+        power: 'major',
+        duration: 'instant'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['healing', 'purification', 'aoe', 'level-8']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'minstrel_crescendo_of_power',
+      name: 'Crescendo of Power',
+      description: 'Build to an overwhelming crescendo that empowers all your subsequent spells for the rest of combat.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_surgeoflight',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_surgeoflight',
+        tags: ['buff', 'self', 'empowerment', 'level-9'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Crescendo Potentia!',
+        somaticText: 'Building intensity gestures'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'empowered_performance',
+          name: 'Empowered Performance',
+          description: 'All your spells deal 50% more damage and healing for the rest of combat. Your musical notes generate double resources.',
+          statModifier: {
+            stat: 'spell_power',
+            magnitude: 50,
+            magnitudeType: 'percentage'
+          }
+        }],
+        durationValue: 0,
+        durationType: 'combat',
+        durationUnit: 'combat',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'self', 'empowerment', 'level-9']
+    },
+
+    {
+      id: 'minstrel_requiem_of_the_fallen',
+      name: 'Requiem of the Fallen',
+      description: 'A mournful yet powerful requiem that damages enemies while granting allies the spirits of fallen heroes.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_soulleech',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_soulleech',
+        tags: ['damage', 'buff', 'aoe', 'resolver', 'level-9'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 },
+        targetRestrictions: ['enemy', 'ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Requiem Aeternam Dona Eis!',
+        somaticText: 'Solemn performance'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'buff'],
+
+      damageConfig: {
+        formula: '10d8 + intelligence',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 19,
+          saveOutcome: 'halves'
+        }
+      },
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'spirit_of_heroes',
+          name: 'Spirit of Heroes',
+          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      musicalCombo: {
+        type: 'resolver',
+        consumes: [
+          { note: 'I', count: 4 },
+          { note: 'V', count: 4 },
+          { note: 'VII', count: 2 }
+        ],
+        requiredNotes: 10
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'buff', 'aoe', 'resolver', 'level-9']
+    },
+
+    {
+      id: 'minstrel_tempo_mastery',
+      name: 'Tempo Mastery',
+      description: 'Gain complete control over the tempo of battle, granting allies extra actions while slowing enemies.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerwordbarrier',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['buff', 'debuff', 'control', 'level-9'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy', 'ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 52 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Dominium!',
+        somaticText: 'Time-bending conducting'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff', 'debuff'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'accelerated_tempo',
+          name: 'Accelerated Tempo',
+          description: 'Allies gain an extra action on each of their turns for 3 rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'slowed_tempo',
+          name: 'Slowed Tempo',
+          description: 'Enemies lose their reaction and have their speed halved for 3 rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'constitution',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'debuff', 'control', 'level-9']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'minstrel_legendary_performance',
+      name: 'Legendary Performance',
+      description: 'The pinnacle of musical mastery - a performance so profound it reshapes reality itself, dealing massive damage to enemies and granting allies legendary power.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_divineillumination',
+        tags: ['damage', 'buff', 'aoe', 'ultimate', 'level-10'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['enemy', 'ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 80 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Cantus Legendarum Ultimus!',
+        somaticText: 'Ultimate grand performance'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'buff', 'healing'],
+
+      damageConfig: {
+        formula: '12d10 + intelligence * 2',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 20,
+          saveOutcome: 'halves'
+        }
+      },
+
+      healingConfig: {
+        formula: '8d10 + intelligence',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'legendary_inspiration',
+          name: 'Legendary Inspiration',
+          description: 'Allies gain +5 to all rolls, +4 AC, and immunity to fear and charm for 10 rounds',
+          statModifier: {
+            stat: 'all_rolls',
+            magnitude: 5,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'buff', 'aoe', 'ultimate', 'level-10']
+    },
+
+    {
+      id: 'minstrel_song_of_creation',
+      name: 'Song of Creation',
+      description: 'Sing the primal song of creation, summoning a powerful ally from pure musical energy and enhancing all allies with creative power.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_blast',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_arcane_blast',
+        tags: ['summoning', 'buff', 'ultimate', 'level-10'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 75 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Cantus Creationis!',
+        somaticText: 'Weave music into reality'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['summoning', 'buff'],
+
+      summonConfig: {
+        creatures: [{
+          id: 'musical_avatar',
+          name: 'Avatar of Music',
+          description: 'A being of pure musical energy that fights alongside you',
+          size: 'Large',
+          type: 'construct',
+          tokenIcon: 'spell_holy_innerfire',
+          stats: {
+            maxHp: 100,
+            armor: 18,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 10,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 120
+          }
+        }],
+        duration: 10,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 120,
+        controlType: 'mental'
+      },
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'creative_energy',
+          name: 'Creative Energy',
+          description: 'Allies gain +3 to all ability scores for the duration of the summon'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['summoning', 'buff', 'ultimate', 'level-10']
+    },
+
+    {
+      id: 'minstrel_final_cadence',
+      name: 'Final Cadence',
+      description: 'The ultimate cadence that consumes all accumulated musical energy to deliver a finishing blow that can end any battle.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_fire_burnout',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_fire_burnout',
+        tags: ['damage', 'single-target', 'ultimate', 'resolver', 'level-10'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 70 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'CADENZA FINALE!',
+        somaticText: 'Final strike gesture'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '20d6 + intelligence * 3',
+        elementType: 'force',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critMultiplier: 3,
+          critDiceOnly: false
+        }
+      },
+
+      musicalCombo: {
+        type: 'resolver',
+        consumes: [
+          { note: 'I', count: 5 },
+          { note: 'III', count: 3 },
+          { note: 'V', count: 5 },
+          { note: 'VII', count: 2 }
+        ],
+        requiredNotes: 15
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'single-target', 'ultimate', 'resolver', 'level-10']
+    },
+
+    // ADDITIONAL LEVEL 4 SPELL
+    {
+      id: 'minstrel_harmony_strike',
+      name: 'Harmony Strike',
+      description: 'Strike with harmonic resonance, dealing 4d8 force damage and generating Note II and Note IV.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_silence',
+        tags: ['damage', 'force', 'note-generation', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
+      },
+
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'note_ii', 'note_iv'],
+        resourceValues: {
+          mana: 20,
+          note_ii: 1,
+          note_iv: 1
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'force', 'note-generation', 'universal']
     }
   ]
 };

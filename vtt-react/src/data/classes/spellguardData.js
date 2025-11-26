@@ -940,7 +940,8 @@ Many players enhance the Spellguard experience with:
         buff: {
           armorClass: 2,
           duration: 1,
-          durationType: 'minutes'
+          durationType: 'minutes',
+          durationUnit: 'minutes'
         },
         shield: {
           amount: '10d6',
@@ -1197,7 +1198,8 @@ Many players enhance the Spellguard experience with:
           type: 'spell_damage_reduction',
           amount: -2,
           duration: 1,
-          durationType: 'turns'
+          durationType: 'turns',
+          durationUnit: 'turns'
         }
       },
 
@@ -1470,7 +1472,8 @@ Many players enhance the Spellguard experience with:
           reflectionAmount: 10,
           reflectionType: 'spell_damage',
           duration: 1,
-          durationType: 'minutes'
+          durationType: 'minutes',
+          durationUnit: 'minutes'
         }
       },
 
@@ -1520,7 +1523,8 @@ Many players enhance the Spellguard experience with:
           type: 'immunity',
           immunityType: 'magical_damage',
           duration: 1,
-          durationType: 'turns'
+          durationType: 'turns',
+          durationUnit: 'turns'
         }
       },
 
@@ -1714,6 +1718,888 @@ Many players enhance the Spellguard experience with:
       },
 
       tags: ['control', 'charm', 'reaction', 'aep-cost', 'anti-mage', 'ultimate']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
+      id: 'spellguard_spell_theft',
+      name: 'Spell Theft',
+      description: 'Steal a spell from an enemy spellcaster, gaining the ability to cast it yourself.',
+      level: 6,
+      spellType: 'REACTION',
+      icon: 'spell_arcane_blast',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_arcane_blast',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy', 'spellcaster']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 25, aep: 20 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Grasp the magic'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        spellTheft: {
+          description: 'When an enemy casts a spell, steal it. Counter the original and gain the ability to cast it once within 1 minute.',
+          saveDC: 17,
+          saveType: 'intelligence'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['utility', 'anti-mage', 'counter', 'level-6', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_arcane_fortress',
+      name: 'Arcane Fortress',
+      description: 'Create a fortress of magical energy that protects all allies within from magical attacks.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerwordbarrier',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 30, aep: 25 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Arx Magica!',
+        somaticText: 'Create barrier'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'spell_resistance',
+        effects: [{
+          id: 'arcane_fortress',
+          name: 'Arcane Fortress',
+          description: 'Allies gain resistance to spell damage and advantage on saves vs magic'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['buff', 'protection', 'aoe', 'level-6', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_mana_drain_pulse',
+      name: 'Mana Drain Pulse',
+      description: 'Release a pulse that drains mana from all enemies in range and restores your own.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcane04',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_arcane_arcane04',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Drain!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'utility'],
+
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'force',
+        damageType: 'mana_drain',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'intelligence',
+          difficultyClass: 16,
+          saveOutcome: 'halves'
+        }
+      },
+
+      specialMechanics: {
+        manaDrain: {
+          description: 'Drains 3d10 mana from each enemy hit. You regain half the total mana drained.',
+          restorePercentage: 50
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'utility', 'mana-drain', 'aoe', 'level-6', 'spellguard']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'spellguard_antimagic_zone',
+      name: 'Antimagic Zone',
+      description: 'Create a zone where all magic is suppressed. No spells can be cast within.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_antishadow',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_shadow_antishadow',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 40, aep: 30 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'NULLUM MAGICUM!',
+        somaticText: 'Create null field'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['zone', 'control'],
+
+      zoneConfig: {
+        duration: 5,
+        durationUnit: 'rounds',
+        effects: ['antimagic'],
+        movable: false,
+        size: { radius: 20 }
+      },
+
+      specialMechanics: {
+        antimagic: {
+          description: 'All magic is suppressed in this zone. No spells can be cast, magical items don\'t function, and ongoing spell effects are suspended.',
+          affectsAllies: true
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['zone', 'control', 'anti-magic', 'level-7', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_spell_reflection',
+      name: 'Spell Reflection',
+      description: 'Create a barrier that reflects spells back at their casters.',
+      level: 7,
+      spellType: 'REACTION',
+      icon: 'spell_frost_frost_shock',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_frost_frost_shock',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 35, aep: 25 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Mirror gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'reflection',
+        effects: [{
+          id: 'spell_reflection',
+          name: 'Spell Reflection',
+          description: 'The next spell targeting you is reflected back at the caster with full effect'
+        }],
+        durationValue: 1,
+        durationType: 'uses',
+        durationUnit: 'uses'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'reflection', 'anti-mage', 'level-7', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_arcane_overload',
+      name: 'Arcane Overload',
+      description: 'Overload a spellcaster with arcane energy, causing them to take massive damage.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcanetorrent',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_arcanetorrent',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 40, aep: 30 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'OVERLOAD!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d10 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves'
+        },
+        bonusEffects: 'Deals bonus damage equal to target\'s remaining mana (max 50)'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'anti-mage', 'level-7', 'spellguard']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'spellguard_mage_bane',
+      name: 'Mage Bane',
+      description: 'Mark an enemy spellcaster. They take massive damage whenever they cast a spell.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_mindtwisting',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_mindtwisting',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 50, aep: 35 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'BANE OF MAGES!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'mark',
+        effects: [{
+          id: 'mage_bane',
+          name: 'Mage Bane',
+          description: 'Target takes 5d10 damage whenever they cast a spell for 1 minute'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        saveDC: 18,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['debuff', 'anti-mage', 'mark', 'level-8', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_impenetrable_ward',
+      name: 'Impenetrable Ward',
+      description: 'Create an absolutely impenetrable magical ward that blocks all damage and effects.',
+      level: 8,
+      spellType: 'REACTION',
+      icon: 'spell_holy_divineprovidence',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_divineprovidence',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 55, aep: 40 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Create perfect shield'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'invulnerability',
+        effects: [{
+          id: 'impenetrable_ward',
+          name: 'Impenetrable Ward',
+          description: 'Target is immune to all damage and effects until start of their next turn'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['buff', 'protection', 'reaction', 'level-8', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_arcane_annihilation',
+      name: 'Arcane Annihilation',
+      description: 'Unleash devastating arcane power that destroys magical defenses and deals massive damage.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_blast',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_blast',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 60, aep: 50 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'ARCANE ANNIHILATION!',
+        somaticText: 'Release all power'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '12d8 + intelligence * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 19,
+          saveOutcome: 'halves'
+        },
+        specialRules: 'Destroys all magical shields and barriers. Ignores spell resistance.'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['damage', 'aoe', 'anti-magic', 'level-8', 'spellguard']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'spellguard_absolute_counterspell',
+      name: 'Absolute Counterspell',
+      description: 'Counter any spell, regardless of level, and prevent the caster from casting for 1 round.',
+      level: 9,
+      spellType: 'REACTION',
+      icon: 'spell_frost_iceshock',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_frost_iceshock',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        targetRestrictions: ['enemy', 'casting']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 70, aep: 60 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'ABSOLUTE NEGATION!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility', 'control'],
+
+      specialMechanics: {
+        absoluteCounter: {
+          description: 'Automatically counters any spell, no roll required. The caster is silenced for 1 round.',
+          noSave: true
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['utility', 'counter', 'control', 'ultimate', 'level-9', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_arcane_prison',
+      name: 'Arcane Prison',
+      description: 'Trap an enemy in an arcane prison where they cannot act or be harmed.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_blink',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_arcane_blink',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 75, aep: 60 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'PRISON OF MAGIC!',
+        somaticText: 'Create prison barrier'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'imprisonment',
+        strength: 'absolute',
+        duration: 1,
+        durationUnit: 'minutes',
+        saveDC: 20,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'arcane_prison',
+          name: 'Arcane Prison',
+          description: 'Target is trapped in a prison of arcane energy. They cannot act or be targeted. At end of each turn, can repeat save.'
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['control', 'imprisonment', 'ultimate', 'level-9', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_magic_eater',
+      name: 'Magic Eater',
+      description: 'Consume all magic in a massive area, gaining power from every spell destroyed.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_soulleech',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_shadow_soulleech',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 80, aep: 70 },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'CONSUME ALL MAGIC!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility', 'buff'],
+
+      specialMechanics: {
+        magicEater: {
+          description: 'Dispel ALL magical effects in range. For each effect dispelled, gain +5 temporary HP and +1 to damage for 1 minute.',
+          maxStacks: 20
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['utility', 'buff', 'dispel', 'ultimate', 'level-9', 'spellguard']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'spellguard_avatar_of_negation',
+      name: 'Avatar of Negation',
+      description: 'Transform into an avatar of anti-magic, becoming immune to all magic and negating all spells near you.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_divineillumination',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 100, aep: 'all' },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'I AM THE END OF MAGIC!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'arcane',
+        formName: 'Avatar of Negation',
+        formDescription: 'You become a being of pure anti-magic.',
+        duration: 3,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' }
+        ],
+        resistances: [
+          { type: 'magic', resistanceAmount: 'immunity' }
+        ],
+        specialAbilities: [
+          { name: 'Anti-Magic Aura', description: 'All spells within 30 feet automatically fail. All magical effects are suppressed.' },
+          { name: 'Magic Devourer', description: 'When you negate a spell, deal 5d10 force damage to the caster.' },
+          { name: 'Unstoppable', description: 'You cannot be affected by any magical effect, positive or negative.' }
+        ],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['transformation', 'anti-magic', 'ultimate', 'level-10', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_reality_anchor',
+      name: 'Reality Anchor',
+      description: 'Anchor reality itself, preventing all magical teleportation and dimensional travel in a massive area.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerwordbarrier',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 200 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 100, aep: 80 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'REALITY IS ANCHORED!',
+        somaticText: 'Anchor gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['zone'],
+
+      zoneConfig: {
+        duration: 10,
+        durationUnit: 'minutes',
+        effects: ['no_teleportation', 'no_dimensional_travel', 'no_summoning'],
+        movable: false,
+        size: { radius: 200 }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['zone', 'control', 'ultimate', 'level-10', 'spellguard']
+    },
+
+    {
+      id: 'spellguard_ultimate_dispel',
+      name: 'Ultimate Dispel',
+      description: 'Dispel every magical effect on the battlefield, regardless of power level.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcane04',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_arcane_arcane04',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 120 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: { mana: 100, aep: 100 },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'ALL MAGIC ENDS!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        ultimateDispel: {
+          description: 'Dispel ALL magical effects in range - buffs, debuffs, zones, summons, everything. No exceptions. No saves.',
+          affectsAllies: true,
+          affectsEnemies: true,
+          affectsSelf: false
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['utility', 'dispel', 'ultimate', 'level-10', 'spellguard']
+    },
+
+    // ADDITIONAL LEVEL 5 SPELL
+    {
+      id: 'spellguard_arcane_barrier',
+      name: 'Arcane Barrier',
+      description: 'Create a powerful arcane barrier that absorbs up to 50 damage and reflects 2d8 force damage back at attackers.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'utility'],
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['buff', 'shield', 'reflection', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'temporaryHP',
+        effects: [{
+          id: 'arcane_barrier',
+          name: 'Arcane Barrier',
+          description: 'Gain 50 temporary HP that reflects 2d8 force damage to attackers for 4 rounds',
+          temporaryHP: 50,
+          reflectDamage: '2d8',
+          reflectType: 'force'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'aep'],
+        resourceValues: {
+          mana: 25,
+          aep: 20
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'shield', 'reflection', 'universal']
     }
   ]
 };

@@ -1930,6 +1930,1034 @@ RESTORATION AVAILABLE: Yes
       },
 
       flavorText: 'Light purges darkness. The unholy burn. The faithful are restored.'
+    },
+
+    // ADDITIONAL LEVEL 1 SPELLS
+    {
+      id: 'exo_holy_brand',
+      name: 'Holy Brand',
+      description: 'Brand an enemy with holy light, marking them and dealing bonus radiant damage on next attack.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['debuff', 'damage'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_holysmite',
+        tags: ['debuff', 'holy', 'mark', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
+      },
+
+      damageConfig: {
+        formula: '1d6',
+        elementType: 'radiant',
+        damageType: 'direct'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'holy_brand',
+          name: 'Holy Brand',
+          description: 'Marked with holy light - takes +1d6 radiant damage from next attack for 2 rounds',
+          statusType: 'marked'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['debuff', 'holy', 'mark', 'universal']
+    },
+
+    {
+      id: 'exo_demon_sense',
+      name: 'Demon Sense',
+      description: 'Sense nearby demons and fiends, revealing their location for 3 rounds.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_sealofsacrifice',
+        tags: ['utility', 'detection', 'demons', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      utilityConfig: {
+        utilityType: 'detection',
+        selectedEffects: [{
+          id: 'demon_sense',
+          name: 'Demon Sense',
+          detectionType: 'creature_type',
+          creatureType: 'fiend',
+          range: 60
+        }],
+        duration: 3,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'weak'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['utility', 'detection', 'demons', 'universal']
+    },
+
+    {
+      id: 'exo_binding_circle',
+      name: 'Binding Circle',
+      description: 'Create a holy circle that prevents demons from entering or leaving for 3 rounds.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_prayerofhealing',
+        tags: ['control', 'zone', 'holy', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 }
+      },
+
+      controlConfig: {
+        controlType: 'restriction',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'binding_circle',
+          name: 'Binding Circle',
+          description: 'Holy circle prevents demons from crossing - movement blocked for fiends',
+          config: {
+            creatureType: 'fiend',
+            blocksEntry: true,
+            blocksExit: true
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'zone', 'holy', 'universal']
+    },
+
+    // LEVEL 6 SPELLS
+    {
+      id: 'exo_bind_pit_fiend',
+      name: 'Bind Pit Fiend',
+      description: 'Bind a powerful Pit Fiend to your service, a formidable demon with fire and melee attacks.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_summoninfernal',
+        tags: ['summoning', 'binding', 'demon', 'pit-fiend', 'demonologist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ground']
+      },
+
+      summoningConfig: {
+        summonType: 'permanent',
+        creatureName: 'Pit Fiend',
+        creatureType: 'fiend',
+        quantity: 1,
+        statsFormula: '8d10 + 40',
+        attackFormula: '3d8 + 6',
+        duration: 0,
+        durationUnit: 'permanent',
+        commandable: true,
+        actionsPerTurn: 2,
+        abilities: ['Fire Breath', 'Claw Attack', 'Intimidating Presence']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 35
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      resolution: 'DICE',
+      tags: ['summoning', 'binding', 'demon', 'pit-fiend', 'demonologist']
+    },
+
+    {
+      id: 'exo_mass_dominance',
+      name: 'Mass Dominance',
+      description: 'Restore dominance over all controlled demons simultaneously, restoring 2 DD to each.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['utility', 'demon-control', 'dominance', 'demonologist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      utilityConfig: {
+        utilityType: 'resource_restoration',
+        selectedEffects: [{
+          id: 'mass_dominance',
+          name: 'Mass Dominance',
+          resourceType: 'dominance_die',
+          amount: 2,
+          targetType: 'all_demons'
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'major'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 30
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      resolution: 'DICE',
+      tags: ['utility', 'demon-control', 'dominance', 'demonologist']
+    },
+
+    {
+      id: 'exo_holy_wrath',
+      name: 'Holy Wrath',
+      description: 'Channel holy power to deal massive radiant damage to all demons in an area.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_excorcism',
+        tags: ['damage', 'holy', 'aoe', 'anti-demon', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '6d10',
+        elementType: 'radiant',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 30
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'holy', 'aoe', 'anti-demon', 'universal']
+    },
+
+    // LEVEL 7 SPELLS
+    {
+      id: 'exo_bind_balor',
+      name: 'Bind Balor',
+      description: 'Bind a legendary Balor demon with immense power and devastating flame attacks.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_summoninfernal',
+        tags: ['summoning', 'binding', 'demon', 'balor', 'demon-lord'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ground']
+      },
+
+      summoningConfig: {
+        summonType: 'permanent',
+        creatureName: 'Balor',
+        creatureType: 'fiend',
+        quantity: 1,
+        statsFormula: '10d12 + 60',
+        attackFormula: '4d10 + 8',
+        duration: 0,
+        durationUnit: 'permanent',
+        commandable: true,
+        actionsPerTurn: 3,
+        abilities: ['Flame Whip', 'Death Throes', 'Flaming Sword', 'Teleport']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 45
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 15
+      },
+
+      resolution: 'DICE',
+      tags: ['summoning', 'binding', 'demon', 'balor', 'demon-lord']
+    },
+
+    {
+      id: 'exo_infernal_empowerment',
+      name: 'Infernal Empowerment',
+      description: 'Empower all controlled demons with infernal energy, enhancing their damage and defense.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_demonicempathy',
+        tags: ['buff', 'demon-enhancement', 'mass', 'demonologist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'infernal_empowerment',
+          name: 'Infernal Empowerment',
+          description: 'All controlled demons gain +4 to attack rolls, +3d8 damage, and +30 temporary HP for 5 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 35
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'demon-enhancement', 'mass', 'demonologist']
+    },
+
+    {
+      id: 'exo_possession_mastery',
+      name: 'Possession Mastery',
+      description: 'Master your internal demon, gaining ultimate control and enhanced power for 5 rounds.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_possession',
+        tags: ['buff', 'possession', 'transformation', 'possessed'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'possession_mastery',
+          name: 'Possession Mastery',
+          description: 'Gain +5 to all stats, +4d8 damage on all attacks, resistance to all damage, and enhanced demonic abilities for 5 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 5,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 40
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'possession', 'transformation', 'possessed']
+    },
+
+    // LEVEL 8 SPELLS
+    {
+      id: 'exo_infernal_legion',
+      name: 'Infernal Legion',
+      description: 'Summon a legion of lesser demons to overwhelm your enemies with numbers.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_summonvoidwalker',
+        tags: ['summoning', 'mass', 'demons', 'demonologist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['ground']
+      },
+
+      summoningConfig: {
+        summonType: 'temporary',
+        creatureName: 'Lesser Demon',
+        creatureType: 'fiend',
+        quantity: 8,
+        statsFormula: '3d8 + 10',
+        attackFormula: '1d8 + 2',
+        duration: 5,
+        durationUnit: 'rounds',
+        commandable: true,
+        actionsPerTurn: 1,
+        abilities: ['Claw Attack', 'Swarm Tactics']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 45
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      resolution: 'DICE',
+      tags: ['summoning', 'mass', 'demons', 'demonologist']
+    },
+
+    {
+      id: 'exo_divine_judgment',
+      name: 'Divine Judgment',
+      description: 'Call down divine judgment on all enemies, dealing massive holy damage to fiends and demons.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_divinepurpose',
+        tags: ['damage', 'holy', 'aoe', 'ultimate', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '8d12',
+        elementType: 'radiant',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 50
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'holy', 'aoe', 'ultimate', 'universal']
+    },
+
+    {
+      id: 'exo_demonic_transformation',
+      name: 'Demonic Transformation',
+      description: 'Fully transform into a demon, gaining devastating power and abilities.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_metamorphosis',
+        tags: ['transformation', 'demon', 'ultimate', 'possessed'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      transformationConfig: {
+        transformationType: 'full',
+        newForm: 'Demon',
+        duration: 6,
+        durationUnit: 'rounds',
+        statsBonus: {
+          strength: 6,
+          agility: 4,
+          constitution: 6
+        },
+        newAbilities: ['Claw Attack', 'Demonic Roar', 'Flame Aura'],
+        resistances: ['fire', 'necrotic', 'poison'],
+        vulnerabilities: ['radiant']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 45
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      resolution: 'DICE',
+      tags: ['transformation', 'demon', 'ultimate', 'possessed']
+    },
+
+    // LEVEL 9 SPELLS
+    {
+      id: 'exo_apocalyptic_summoning',
+      name: 'Apocalyptic Summoning',
+      description: 'Summon multiple powerful demons simultaneously to unleash apocalyptic destruction.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_summoninfernal',
+        tags: ['summoning', 'mass', 'ultimate', 'demonologist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        targetRestrictions: ['ground']
+      },
+
+      summoningConfig: {
+        summonType: 'temporary',
+        creatureName: 'Apocalypse Demon',
+        creatureType: 'fiend',
+        quantity: 3,
+        statsFormula: '8d10 + 50',
+        attackFormula: '4d8 + 6',
+        duration: 6,
+        durationUnit: 'rounds',
+        commandable: true,
+        actionsPerTurn: 2,
+        abilities: ['Multi-Attack', 'Flame Breath', 'Teleport', 'Fear Aura']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 55
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 15
+      },
+
+      resolution: 'DICE',
+      tags: ['summoning', 'mass', 'ultimate', 'demonologist']
+    },
+
+    {
+      id: 'exo_holy_apocalypse',
+      name: 'Holy Apocalypse',
+      description: 'Unleash apocalyptic holy power that obliterates all demons in a massive area.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['damage', 'holy', 'ultimate', 'mass', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '10d12',
+        elementType: 'radiant',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 19,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 60
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 12
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'holy', 'ultimate', 'mass', 'universal']
+    },
+
+    {
+      id: 'exo_perfect_dominance',
+      name: 'Perfect Dominance',
+      description: 'Achieve perfect dominance over all demons, maximizing their power and loyalty.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['buff', 'dominance', 'demon-enhancement', 'ultimate', 'demon-lord'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'perfect_dominance',
+          name: 'Perfect Dominance',
+          description: 'All controlled demons gain maximum stats, +6 to all rolls, damage immunity to one element each, and cannot be turned or dismissed for 6 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 6,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 6,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 55
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 15
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'dominance', 'demon-enhancement', 'ultimate', 'demon-lord']
+    },
+
+    // LEVEL 10 SPELLS
+    {
+      id: 'exo_bind_demon_prince',
+      name: 'Bind Demon Prince',
+      description: 'Bind a Demon Prince, one of the most powerful entities in the infernal planes.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_summoninfernal',
+        tags: ['summoning', 'ultimate', 'demon-prince', 'demon-lord'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['ground']
+      },
+
+      summoningConfig: {
+        summonType: 'permanent',
+        creatureName: 'Demon Prince',
+        creatureType: 'fiend',
+        quantity: 1,
+        statsFormula: '15d12 + 100',
+        attackFormula: '6d10 + 10',
+        duration: 0,
+        durationUnit: 'permanent',
+        commandable: true,
+        actionsPerTurn: 4,
+        abilities: ['Apocalyptic Strike', 'Infernal Command', 'Reality Tear', 'Flame Storm', 'Teleport']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 70
+        },
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 30
+      },
+
+      resolution: 'DICE',
+      tags: ['summoning', 'ultimate', 'demon-prince', 'demon-lord']
+    },
+
+    {
+      id: 'exo_divine_annihilation',
+      name: 'Divine Annihilation',
+      description: 'Channel ultimate divine power to annihilate all demons and fiends in sight.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'holy',
+        icon: 'spell_holy_divinepurpose',
+        tags: ['damage', 'holy', 'ultimate', 'annihilation', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '15d12',
+        elementType: 'radiant',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 20,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 80
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 20
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'holy', 'ultimate', 'annihilation', 'universal']
+    },
+
+    {
+      id: 'exo_demon_god_form',
+      name: 'Demon God Form',
+      description: 'Ascend to become a Demon God with ultimate power and abilities.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_metamorphosis',
+        tags: ['transformation', 'ultimate', 'god-form', 'possessed'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      transformationConfig: {
+        transformationType: 'ascended',
+        newForm: 'Demon God',
+        duration: 10,
+        durationUnit: 'rounds',
+        statsBonus: {
+          strength: 10,
+          agility: 8,
+          constitution: 10,
+          intelligence: 8,
+          spirit: 8,
+          charisma: 10
+        },
+        newAbilities: ['Reality Warp', 'Infernal Command', 'Divine Destruction', 'Aura of Terror', 'Immortal Resilience'],
+        resistances: ['all'],
+        immunities: ['necrotic', 'poison', 'fire']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 100
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 30
+      },
+
+      resolution: 'DICE',
+      tags: ['transformation', 'ultimate', 'god-form', 'possessed']
     }
   ]
 };

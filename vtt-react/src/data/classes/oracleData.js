@@ -1513,6 +1513,1100 @@ Many players enhance the Oracle experience with:
       },
 
       tags: ['universal', 'divination', 'ritual', 'foresight']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
+      id: 'oracle_future_strike',
+      name: 'Future Strike',
+      description: 'See into the future to strike an enemy before they can react. This attack cannot be dodged or blocked.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holysmite',
+      specialization: 'seer',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_holysmite',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 25, visions: 2 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Point at where enemy will be'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d8 + intelligence',
+        elementType: 'psychic',
+        damageType: 'direct',
+        specialRules: 'Cannot be dodged, blocked, or reduced by armor'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['seer', 'damage', 'psychic', 'guaranteed-hit', 'level-6']
+    },
+
+    {
+      id: 'oracle_reveal_weakness',
+      name: 'Reveal Weakness',
+      description: 'Peer into a target\'s timeline to discover their greatest weakness, making them vulnerable to all damage.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_detectinvisibility',
+      specialization: 'truthseeker',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_shadow_detectinvisibility',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 22, visions: 2 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Reveal your weakness!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'vulnerability',
+        effects: [{
+          id: 'revealed_weakness',
+          name: 'Revealed Weakness',
+          description: 'Target takes 50% more damage from all sources'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'spirit',
+        saveOutcome: 'halves_duration'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['truthseeker', 'debuff', 'vulnerability', 'level-6']
+    },
+
+    {
+      id: 'oracle_destiny_shift',
+      name: 'Destiny Shift',
+      description: 'Alter the threads of fate to change the outcome of a recent action.',
+      level: 6,
+      spellType: 'REACTION',
+      icon: 'spell_holy_reverseentropy',
+      specialization: 'fateweaver',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_reverseentropy',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['any']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 28, visions: 3 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Fate, shift!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        reroll: {
+          description: 'Force any creature to reroll any d20 roll. You choose which result is used.',
+          trigger: 'on_roll'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['fateweaver', 'utility', 'reroll', 'level-6']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'oracle_prescient_dodge',
+      name: 'Prescient Dodge',
+      description: 'See all incoming attacks before they happen. Become nearly impossible to hit.',
+      level: 7,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_holy_elunesgrace',
+      specialization: 'seer',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_elunesgrace',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 30, visions: 3 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Focus on the future'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'evasion',
+        effects: [{
+          id: 'prescient_dodge',
+          name: 'Prescient Dodge',
+          description: 'Enemies have disadvantage on all attacks against you. You automatically succeed on Dexterity saving throws.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['seer', 'buff', 'evasion', 'level-7']
+    },
+
+    {
+      id: 'oracle_expose_secrets',
+      name: 'Expose Secrets',
+      description: 'Read the hidden truths in a creature\'s past, exposing all their secrets and weaknesses.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_mindtwisting',
+      specialization: 'truthseeker',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_shadow_mindtwisting',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 35, visions: 4 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Your secrets are mine!',
+        somaticText: 'Eye contact'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff', 'damage'],
+
+      debuffConfig: {
+        debuffType: 'exposed',
+        effects: [{
+          id: 'exposed_secrets',
+          name: 'Exposed Secrets',
+          description: 'All attacks against target have advantage. Target cannot benefit from invisibility, cover, or concealment.'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        saveDC: 17,
+        saveType: 'spirit',
+        saveOutcome: 'halves_duration'
+      },
+
+      damageConfig: {
+        formula: '4d10',
+        elementType: 'psychic',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['truthseeker', 'debuff', 'damage', 'level-7']
+    },
+
+    {
+      id: 'oracle_threads_of_fate',
+      name: 'Threads of Fate',
+      description: 'Manipulate the threads of destiny connecting multiple creatures. Link their fates together.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerwordshield',
+      specialization: 'fateweaver',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_powerwordshield',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        maxTargets: 4,
+        targetRestrictions: ['any']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 40, visions: 4 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Weave fate threads'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        linkedFates: {
+          description: 'Link up to 4 creatures. Any effect on one affects all. Damage is split, healing is shared, conditions apply to all.',
+          duration: '1 minute'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['fateweaver', 'utility', 'link', 'level-7']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'oracle_perfect_foresight',
+      name: 'Perfect Foresight',
+      description: 'Gain perfect knowledge of the immediate future. Know exactly what will happen in the next round.',
+      level: 8,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_holy_divineprovidence',
+      specialization: 'seer',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_divineprovidence',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 45, visions: 5 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Close eyes and see'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'foresight',
+        effects: [{
+          id: 'perfect_foresight',
+          name: 'Perfect Foresight',
+          description: 'You know all enemy actions for the next round. You have advantage on all rolls. Enemies have disadvantage against you.'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['seer', 'buff', 'foresight', 'level-8']
+    },
+
+    {
+      id: 'oracle_psychic_assault',
+      name: 'Psychic Assault',
+      description: 'Assault a target\'s mind with visions of their darkest truths, dealing massive psychic damage.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_psychicscream',
+      specialization: 'truthseeker',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_psychicscream',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 50, visions: 5 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Face your truth!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '10d8 + intelligence',
+        elementType: 'psychic',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 18,
+          saveOutcome: 'halves'
+        }
+      },
+
+      controlConfig: {
+        controlType: 'stun',
+        strength: 'strong',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'spirit',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['truthseeker', 'damage', 'control', 'psychic', 'level-8']
+    },
+
+    {
+      id: 'oracle_alter_destiny',
+      name: 'Alter Destiny',
+      description: 'Fundamentally alter a creature\'s destiny. Change the outcome of any action they take.',
+      level: 8,
+      spellType: 'REACTION',
+      icon: 'spell_holy_borrowedtime',
+      specialization: 'fateweaver',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_borrowedtime',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        targetRestrictions: ['any']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 55, visions: 6 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Destiny, bend!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        alterDestiny: {
+          description: 'Change any d20 roll result to any number you choose (1-20). Can turn failures into successes or successes into failures.',
+          trigger: 'on_any_d20_roll'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['fateweaver', 'utility', 'fate-control', 'level-8']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'oracle_timeline_split',
+      name: 'Timeline Split',
+      description: 'Split the timeline, creating two versions of yourself that act simultaneously.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_portals',
+      specialization: 'seer',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_arcane_portals',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 70, visions: 8 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Timeline, split!',
+        somaticText: 'Pull apart gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['summoning'],
+
+      summonConfig: {
+        creatures: [{
+          id: 'timeline_duplicate',
+          name: 'Timeline Duplicate',
+          description: 'A perfect copy of yourself from another timeline',
+          stats: {
+            maxHp: 'same_as_caster',
+            armor: 'same_as_caster',
+            maxMana: 'same_as_caster'
+          },
+          config: {
+            quantity: 1,
+            duration: 3,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'independent',
+            abilities: 'Can take all your actions'
+          }
+        }],
+        duration: 3,
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['seer', 'summoning', 'duplicate', 'level-9']
+    },
+
+    {
+      id: 'oracle_omniscience',
+      name: 'Omniscience',
+      description: 'Briefly tap into omniscient knowledge. Learn any piece of information you desire.',
+      level: 9,
+      spellType: 'RITUAL',
+      icon: 'spell_holy_surgeoflight',
+      specialization: 'truthseeker',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_surgeoflight',
+        castTime: 10,
+        castTimeType: 'RITUAL'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 80, visions: 10 },
+        actionPoints: 0,
+        components: ['verbal', 'somatic', 'material'],
+        verbalText: 'Reveal all truths',
+        somaticText: 'Meditation pose',
+        materialText: 'Rare incense worth 500gp'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        omniscience: {
+          description: 'Ask up to 3 questions. The DM must answer truthfully and completely. Can reveal hidden truths, secret locations, weaknesses, etc.',
+          limitations: 'Cannot predict decisions not yet made. Cannot reveal information protected by deity-level magic.'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['truthseeker', 'utility', 'knowledge', 'ritual', 'level-9']
+    },
+
+    {
+      id: 'oracle_weave_destiny',
+      name: 'Weave Destiny',
+      description: 'Take complete control of fate for a brief moment. Determine the outcome of any situation.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+      specialization: 'fateweaver',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_divineillumination',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 75, visions: 10 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'I AM FATE!',
+        somaticText: 'Weaving motion'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['control'],
+
+      specialMechanics: {
+        weaveDestiny: {
+          description: 'For 1 round, you determine the outcome of all dice rolls in the area. You choose success or failure for every roll.',
+          duration: '1 round'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['fateweaver', 'control', 'fate', 'ultimate', 'level-9']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'oracle_future_self',
+      name: 'Future Self',
+      description: 'Summon your future self - a version of you from a timeline where you reached godlike power.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerwordbarrier',
+      specialization: 'seer',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 100, visions: 'all' },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'COME, MY FUTURE SELF!',
+        somaticText: 'Tear open time'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['summoning'],
+
+      summonConfig: {
+        creatures: [{
+          id: 'future_self',
+          name: 'Future Self',
+          description: 'A godlike version of yourself from the future',
+          size: 'Medium',
+          type: 'celestial',
+          stats: {
+            maxHp: 200,
+            armor: 25,
+            maxMana: 100
+          },
+          config: {
+            quantity: 1,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'independent',
+            abilities: 'Can cast any spell you know at maximum power. Attacks deal 10d10 damage.'
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['seer', 'summoning', 'ultimate', 'level-10']
+    },
+
+    {
+      id: 'oracle_absolute_truth',
+      name: 'Absolute Truth',
+      description: 'Reveal the absolute truth of reality, forcing all creatures to confront their deepest fears and truths.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holysmite',
+      specialization: 'truthseeker',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_holysmite',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 100, visions: 'all' },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'BEHOLD THE TRUTH!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '15d10 + intelligence * 2',
+        elementType: 'psychic',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 21,
+          saveOutcome: 'halves'
+        }
+      },
+
+      controlConfig: {
+        controlType: 'stun',
+        strength: 'overwhelming',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 21,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'truth_revealed',
+          name: 'Truth Revealed',
+          description: 'Stunned and cannot benefit from any magical protection or concealment'
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['truthseeker', 'damage', 'control', 'ultimate', 'level-10']
+    },
+
+    {
+      id: 'oracle_master_of_fate',
+      name: 'Master of Fate',
+      description: 'Become the absolute master of fate itself. For 1 minute, you control destiny.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_surgeoflight',
+      specialization: 'fateweaver',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_surgeoflight',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'visions'],
+        resourceValues: { mana: 100, visions: 'all' },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'I AM THE MASTER OF FATE!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'divine',
+        formName: 'Master of Fate',
+        formDescription: 'You become one with the cosmic forces of destiny.',
+        duration: 1,
+        durationUnit: 'minutes',
+        statModifiers: [
+          { stat: 'all', magnitude: 5, magnitudeType: 'flat' }
+        ],
+        specialAbilities: [{
+          name: 'Absolute Fate Control',
+          description: 'You can change any die roll result to any number you want, unlimited times. You cannot die while transformed. All your spells automatically succeed.'
+        }],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['fateweaver', 'transformation', 'ultimate', 'level-10']
+    },
+
+    // ADDITIONAL LEVEL 1 SPELL
+    {
+      id: 'oracle_divine_insight',
+      name: 'Divine Insight',
+      description: 'Gain divine insight into an enemy, revealing their weaknesses and granting +2 to attack rolls against them for 3 rounds.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_divineprovidence',
+        tags: ['buff', 'insight', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'divine_insight',
+          name: 'Divine Insight',
+          description: 'Gain +2 to attack rolls against target for 3 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'insight', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 3 SPELL
+    {
+      id: 'oracle_prophetic_shield',
+      name: 'Prophetic Shield',
+      description: 'See incoming attacks before they happen, gaining +3 AC and advantage on saving throws for 4 rounds.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['buff', 'defense', 'prophecy', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'prophetic_shield',
+          name: 'Prophetic Shield',
+          description: 'Gain +3 AC and advantage on saving throws for 4 rounds',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 18
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'defense', 'prophecy', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 4 SPELL
+    {
+      id: 'oracle_fate_strike',
+      name: 'Fate Strike',
+      description: 'Strike with the power of fate, dealing 5d8 force damage with guaranteed hit.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holysmite',
+        tags: ['damage', 'force', 'guaranteed', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '5d8',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 22
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'force', 'guaranteed', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 5 SPELL
+    {
+      id: 'oracle_destiny_rewrite',
+      name: 'Destiny Rewrite',
+      description: 'Rewrite the destiny of an ally, allowing them to reroll any roll with advantage for 5 rounds.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_divinepurpose',
+        tags: ['buff', 'destiny', 'advantage', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['ally'],
+        maxTargets: 1
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'destiny_rewrite',
+          name: 'Destiny Rewrite',
+          description: 'Can reroll any roll with advantage for 5 rounds',
+          statModifier: {
+            stat: 'all_rolls',
+            magnitude: 1,
+            magnitudeType: 'advantage'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 28
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'destiny', 'advantage', 'universal']
     }
   ]
 };

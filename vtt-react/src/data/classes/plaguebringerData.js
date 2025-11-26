@@ -1553,7 +1553,7 @@ Many players enhance the Plaguebringer experience with:
               condition: {
                 type: 'disoriented',
                 duration: '1 round',
-                description: 'Target is disoriented from pain'
+                description: 'Target is disoriented from pain - has disadvantage on attack rolls and ability checks, may move in a random direction on their turn'
               }
             },
 
@@ -2244,6 +2244,1234 @@ Many players enhance the Plaguebringer experience with:
 
             tags: ['infect', 'category', 'poison', 'stacking', 'plaguebringer', 'virulent-spreader'],
             flavorText: 'The contagion builds. Each burst stronger. Infection inevitable.'
+          },
+
+          // ADDITIONAL LEVEL 1 SPELLS
+          {
+            id: 'pb_affliction_mark',
+            name: 'Affliction Mark',
+            description: 'Mark a target with a visible affliction symbol, making them vulnerable to plague effects and reducing their Spirit by 2 for 3 rounds.',
+            level: 1,
+            spellType: 'ACTION',
+            effectTypes: ['debuff'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_chilltouch',
+              tags: ['debuff', 'mark', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'single',
+              rangeType: 'ranged',
+              rangeDistance: 30,
+              targetRestrictions: ['enemy'],
+              maxTargets: 1
+            },
+
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'affliction_mark',
+                name: 'Affliction Mark',
+                description: 'Marked target has -2 Spirit and is vulnerable to plague effects for 3 rounds',
+                statusType: 'marked',
+                statModifier: {
+                  stat: 'spirit',
+                  magnitude: -2,
+                  magnitudeType: 'flat'
+                }
+              }],
+              durationValue: 3,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              saveDC: 12,
+              saveType: 'spirit',
+              saveOutcome: 'negates'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 10
+              },
+              actionPoints: 1,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 0
+            },
+
+            resolution: 'DICE',
+            tags: ['debuff', 'mark', 'universal']
+          },
+
+          {
+            id: 'pb_minor_plague',
+            name: 'Minor Plague',
+            description: 'Inflict a minor plague on a target, dealing 1d6 poison damage immediately and 1d4 each round for 2 rounds.',
+            level: 1,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_plaguecloud',
+              tags: ['damage', 'poison', 'dot', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'single',
+              rangeType: 'ranged',
+              rangeDistance: 30,
+              targetRestrictions: ['enemy'],
+              maxTargets: 1
+            },
+
+            damageConfig: {
+              formula: '1d6',
+              elementType: 'poison',
+              damageType: 'direct'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 10
+              },
+              actionPoints: 1,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 0
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'poison', 'dot', 'universal']
+          },
+
+          {
+            id: 'pb_weakening_touch',
+            name: 'Weakening Touch',
+            description: 'A touch attack that weakens the target, reducing their Strength and Constitution by 1 for 3 rounds and dealing 1d4 necrotic damage.',
+            level: 1,
+            spellType: 'ACTION',
+            effectTypes: ['debuff', 'damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_curseofachimonde',
+              tags: ['debuff', 'weaken', 'necrotic', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'single',
+              rangeType: 'touch',
+              rangeDistance: 5,
+              targetRestrictions: ['enemy'],
+              maxTargets: 1
+            },
+
+            damageConfig: {
+              formula: '1d4',
+              elementType: 'necrotic',
+              damageType: 'direct'
+            },
+
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'weakening_touch',
+                name: 'Weakened',
+                description: 'Target has -1 Strength and -1 Constitution for 3 rounds',
+                statusType: 'weakened',
+                statModifier: {
+                  stat: 'strength',
+                  magnitude: -1,
+                  magnitudeType: 'flat'
+                }
+              }],
+              durationValue: 3,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              saveDC: 12,
+              saveType: 'constitution',
+              saveOutcome: 'negates'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 10
+              },
+              actionPoints: 1,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 0
+            },
+
+            resolution: 'DICE',
+            tags: ['debuff', 'weaken', 'necrotic', 'universal']
+          },
+
+          // LEVEL 5 SPELLS
+          {
+            id: 'pb_plague_burst',
+            name: 'Plague Burst',
+            description: 'Detonate all afflictions on a target, dealing 5d8 poison damage plus bonus damage based on affliction stacks.',
+            level: 5,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_plaguecloud',
+              tags: ['damage', 'poison', 'burst', 'virulent-spreader'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'single',
+              rangeType: 'ranged',
+              rangeDistance: 40,
+              targetRestrictions: ['enemy'],
+              maxTargets: 1
+            },
+
+            damageConfig: {
+              formula: '5d8',
+              elementType: 'poison',
+              damageType: 'direct',
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'constitution',
+                difficultyClass: 16,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
+              }
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 25
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 3
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'poison', 'burst', 'virulent-spreader']
+          },
+
+          {
+            id: 'pb_mass_affliction',
+            name: 'Mass Affliction',
+            description: 'Apply a basic affliction to all enemies in a 20 foot radius, dealing 3d6 poison damage and starting affliction cultivation.',
+            level: 5,
+            spellType: 'ACTION',
+            effectTypes: ['damage', 'debuff'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_contagion',
+              tags: ['damage', 'poison', 'aoe', 'affliction', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'ranged',
+              rangeDistance: 40,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 20 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '3d6',
+              elementType: 'poison',
+              damageType: 'area'
+            },
+
+            debuffConfig: {
+              debuffType: 'statusEffect',
+              effects: [{
+                id: 'mass_affliction',
+                name: 'Base Affliction',
+                description: 'All targets afflicted with base plague for cultivation - takes 1d4 poison damage per round for 4 rounds',
+                statusType: 'afflicted'
+              }],
+              durationValue: 4,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              saveDC: 16,
+              saveType: 'constitution',
+              saveOutcome: 'halves'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 30
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 4
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'poison', 'aoe', 'affliction', 'universal']
+          },
+
+          {
+            id: 'pb_torment_cascade',
+            name: 'Torment Cascade',
+            description: 'Create a cascading wave of psychic torment that chains between enemies, dealing 4d8 psychic damage to each.',
+            level: 5,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_painspike',
+              tags: ['damage', 'psychic', 'chain', 'torment-weaver'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'chain',
+              rangeType: 'ranged',
+              rangeDistance: 40,
+              targetRestrictions: ['enemy'],
+              maxTargets: 4,
+              chainDistance: 15
+            },
+
+            damageConfig: {
+              formula: '4d8',
+              elementType: 'psychic',
+              damageType: 'direct'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 28
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 3
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'psychic', 'chain', 'torment-weaver']
+          },
+
+          // LEVEL 6 SPELLS
+          {
+            id: 'pb_plague_storm',
+            name: 'Plague Storm',
+            description: 'Summon a storm of plague that deals 6d6 poison damage to all enemies in a massive area.',
+            level: 6,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_plaguecloud',
+              tags: ['damage', 'poison', 'aoe', 'storm', 'virulent-spreader'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'ranged',
+              rangeDistance: 50,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 30 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '6d6',
+              elementType: 'poison',
+              damageType: 'area',
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'constitution',
+                difficultyClass: 17,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
+              }
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 35
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 5
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'poison', 'aoe', 'storm', 'virulent-spreader']
+          },
+
+          {
+            id: 'pb_mental_anguish',
+            name: 'Mental Anguish',
+            description: 'Inflict severe mental anguish on a target, dealing 7d8 psychic damage and stunning them for 1 round.',
+            level: 6,
+            spellType: 'ACTION',
+            effectTypes: ['damage', 'control'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_shadowwordpain',
+              tags: ['damage', 'psychic', 'control', 'stun', 'torment-weaver'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'single',
+              rangeType: 'ranged',
+              rangeDistance: 40,
+              targetRestrictions: ['enemy'],
+              maxTargets: 1
+            },
+
+            damageConfig: {
+              formula: '7d8',
+              elementType: 'psychic',
+              damageType: 'direct'
+            },
+
+            controlConfig: {
+              controlType: 'incapacitation',
+              duration: 1,
+              durationUnit: 'rounds',
+              saveDC: 17,
+              saveType: 'spirit',
+              savingThrow: true,
+              effects: [{
+                id: 'stunned',
+                name: 'Stunned',
+                description: 'Target is stunned from mental anguish - cannot act for 1 round',
+                config: {
+                  stunType: 'mental'
+                }
+              }]
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 35
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 4
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'psychic', 'control', 'stun', 'torment-weaver']
+          },
+
+          {
+            id: 'pb_decay_field',
+            name: 'Decay Field',
+            description: 'Create a field of decay that persists for 4 rounds, dealing 3d8 necrotic damage per round to all enemies within.',
+            level: 6,
+            spellType: 'ZONE',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_deathanddecay',
+              tags: ['damage', 'necrotic', 'zone', 'decay-harbinger'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'ground',
+              rangeType: 'ranged',
+              rangeDistance: 40,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 20 }
+            },
+
+            damageConfig: {
+              formula: '3d8',
+              elementType: 'necrotic',
+              damageType: 'area'
+            },
+
+            zoneConfig: {
+              duration: 4,
+              durationUnit: 'rounds',
+              damagePerTurn: '3d8',
+              triggerCondition: 'start_of_turn'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 35
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 5
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'necrotic', 'zone', 'decay-harbinger']
+          },
+
+          // LEVEL 7 SPELLS
+          {
+            id: 'pb_apocalyptic_plague',
+            name: 'Apocalyptic Plague',
+            description: 'Unleash an apocalyptic plague that spreads rapidly, dealing 7d10 poison damage to all enemies in sight.',
+            level: 7,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_contagion',
+              tags: ['damage', 'poison', 'ultimate', 'mass', 'virulent-spreader'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'sight',
+              rangeDistance: 60,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 40 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '7d10',
+              elementType: 'poison',
+              damageType: 'area',
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'constitution',
+                difficultyClass: 18,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
+              }
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 45
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 8
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'poison', 'ultimate', 'mass', 'virulent-spreader']
+          },
+
+          {
+            id: 'pb_mind_plague',
+            name: 'Mind Plague',
+            description: 'Infect the minds of all enemies in an area, dealing 8d8 psychic damage and causing confusion for 2 rounds.',
+            level: 7,
+            spellType: 'ACTION',
+            effectTypes: ['damage', 'control'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_mindsteal',
+              tags: ['damage', 'psychic', 'control', 'confusion', 'torment-weaver'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'ranged',
+              rangeDistance: 50,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 25 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '8d8',
+              elementType: 'psychic',
+              damageType: 'area'
+            },
+
+            controlConfig: {
+              controlType: 'mind_control',
+              duration: 2,
+              durationUnit: 'rounds',
+              saveDC: 18,
+              saveType: 'spirit',
+              savingThrow: true,
+              effects: [{
+                id: 'confused',
+                name: 'Confused',
+                description: 'Targets are confused - 50% chance to attack ally, 50% chance to do nothing for 2 rounds',
+                config: {
+                  confusionType: 'random_actions'
+                }
+              }]
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 45
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 6
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'psychic', 'control', 'confusion', 'torment-weaver']
+          },
+
+          {
+            id: 'pb_life_drain_aura',
+            name: 'Life Drain Aura',
+            description: 'Create an aura that drains life from all enemies within 30 feet, dealing 5d8 necrotic damage per round for 3 rounds.',
+            level: 7,
+            spellType: 'ACTION',
+            effectTypes: ['damage', 'healing'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_lifedrain',
+              tags: ['damage', 'healing', 'necrotic', 'drain', 'decay-harbinger'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'self',
+              rangeType: 'self_centered',
+              aoeShape: 'circle',
+              aoeParameters: { radius: 30 }
+            },
+
+            damageConfig: {
+              formula: '5d8',
+              elementType: 'necrotic',
+              damageType: 'area'
+            },
+
+            healingConfig: {
+              formula: '2d8',
+              healingType: 'instant'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 40
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 6
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'healing', 'necrotic', 'drain', 'decay-harbinger']
+          },
+
+          // LEVEL 8 SPELLS
+          {
+            id: 'pb_plague_incarnate',
+            name: 'Plague Incarnate',
+            description: 'Transform into living plague for 5 rounds, gaining enhanced damage, poison immunity, and a damaging aura.',
+            level: 8,
+            spellType: 'ACTION',
+            effectTypes: ['transformation'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_plaguecloud',
+              tags: ['transformation', 'buff', 'ultimate', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'self',
+              rangeType: 'self'
+            },
+
+            transformationConfig: {
+              transformationType: 'full',
+              newForm: 'Plague Incarnate',
+              duration: 5,
+              durationUnit: 'rounds',
+              statsBonus: {
+                intelligence: 5,
+                constitution: 5
+              },
+              newAbilities: ['Plague Touch', 'Contagion Aura', 'Disease Immunity'],
+              resistances: ['poison', 'necrotic'],
+              immunities: ['poison']
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 50
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 10
+            },
+
+            resolution: 'DICE',
+            tags: ['transformation', 'buff', 'ultimate', 'universal']
+          },
+
+          {
+            id: 'pb_epidemic',
+            name: 'Epidemic',
+            description: 'Start an epidemic that spreads through enemy ranks, dealing increasing damage to each successive target.',
+            level: 8,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_contagion',
+              tags: ['damage', 'poison', 'spreading', 'virulent-spreader'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'chain',
+              rangeType: 'ranged',
+              rangeDistance: 50,
+              targetRestrictions: ['enemy'],
+              maxTargets: 8,
+              chainDistance: 20
+            },
+
+            damageConfig: {
+              formula: '6d8',
+              elementType: 'poison',
+              damageType: 'direct'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 50
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 8
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'poison', 'spreading', 'virulent-spreader']
+          },
+
+          {
+            id: 'pb_torment_mastery',
+            name: 'Torment Mastery',
+            description: 'Master the art of torment, causing all enemies in sight to suffer maximum psychic damage and terror.',
+            level: 8,
+            spellType: 'ACTION',
+            effectTypes: ['damage', 'control'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_painspike',
+              tags: ['damage', 'psychic', 'control', 'fear', 'torment-weaver'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'sight',
+              rangeDistance: 60,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 40 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '10d8',
+              elementType: 'psychic',
+              damageType: 'area'
+            },
+
+            controlConfig: {
+              controlType: 'mind_control',
+              duration: 3,
+              durationUnit: 'rounds',
+              saveDC: 19,
+              saveType: 'spirit',
+              savingThrow: true,
+              effects: [{
+                id: 'terrorized',
+                name: 'Terrorized',
+                description: 'Targets are terrorized - must flee or cower in fear for 3 rounds',
+                config: {
+                  fearType: 'flee_or_cower'
+                }
+              }]
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 50
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 10
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'psychic', 'control', 'fear', 'torment-weaver']
+          },
+
+          // LEVEL 9 SPELLS
+          {
+            id: 'pb_black_death',
+            name: 'Black Death',
+            description: 'Unleash the ultimate plague - Black Death - that kills all enemies below 30% health instantly.',
+            level: 9,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_deathanddecay',
+              tags: ['damage', 'poison', 'execute', 'ultimate', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'sight',
+              rangeDistance: 60,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 50 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '12d10',
+              elementType: 'poison',
+              damageType: 'area',
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'constitution',
+                difficultyClass: 20,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
+              }
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 60
+              },
+              actionPoints: 3,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 15
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'poison', 'execute', 'ultimate', 'universal']
+          },
+
+          {
+            id: 'pb_mind_destroyer',
+            name: 'Mind Destroyer',
+            description: 'Destroy the minds of all enemies in a massive area, dealing devastating psychic damage and permanently reducing Intelligence.',
+            level: 9,
+            spellType: 'ACTION',
+            effectTypes: ['damage', 'debuff'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_mindsteal',
+              tags: ['damage', 'psychic', 'permanent', 'ultimate', 'torment-weaver'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'sight',
+              rangeDistance: 60,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 40 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '15d8',
+              elementType: 'psychic',
+              damageType: 'area'
+            },
+
+            debuffConfig: {
+              debuffType: 'statReduction',
+              effects: [{
+                id: 'mind_destroyed',
+                name: 'Mind Destroyed',
+                description: 'Intelligence permanently reduced by 3d6 - cannot be healed by normal means',
+                statusType: 'permanent_reduction',
+                statModifier: {
+                  stat: 'intelligence',
+                  magnitude: -3,
+                  magnitudeType: 'flat'
+                }
+              }],
+              durationValue: 100,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              saveDC: 20,
+              saveType: 'spirit',
+              saveOutcome: 'halves'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 60
+              },
+              actionPoints: 3,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 12
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'psychic', 'permanent', 'ultimate', 'torment-weaver']
+          },
+
+          {
+            id: 'pb_decay_apocalypse',
+            name: 'Decay Apocalypse',
+            description: 'Bring apocalyptic decay to the battlefield, causing all enemies to rot and take massive necrotic damage over time.',
+            level: 9,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_deathanddecay',
+              tags: ['damage', 'necrotic', 'ultimate', 'mass', 'decay-harbinger'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'sight',
+              rangeDistance: 60,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 50 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '10d12',
+              elementType: 'necrotic',
+              damageType: 'area'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 60
+              },
+              actionPoints: 3,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 15
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'necrotic', 'ultimate', 'mass', 'decay-harbinger']
+          },
+
+          // LEVEL 10 SPELLS
+          {
+            id: 'pb_plague_god',
+            name: 'Plague God',
+            description: 'Ascend to become the Plague God, gaining ultimate power over disease, poison, and decay.',
+            level: 10,
+            spellType: 'ACTION',
+            effectTypes: ['transformation'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_contagion',
+              tags: ['transformation', 'ultimate', 'god-form', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'self',
+              rangeType: 'self'
+            },
+
+            transformationConfig: {
+              transformationType: 'ascended',
+              newForm: 'Plague God',
+              duration: 10,
+              durationUnit: 'rounds',
+              statsBonus: {
+                intelligence: 10,
+                constitution: 10,
+                spirit: 8
+              },
+              newAbilities: ['Divine Plague', 'Apocalyptic Contagion', 'Death Touch', 'Immunity Aura', 'Mass Affliction'],
+              resistances: ['all'],
+              immunities: ['poison', 'necrotic', 'disease']
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 100
+              },
+              actionPoints: 2,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 30
+            },
+
+            resolution: 'DICE',
+            tags: ['transformation', 'ultimate', 'god-form', 'universal']
+          },
+
+          {
+            id: 'pb_extinction',
+            name: 'Extinction',
+            description: 'Attempt to cause total extinction of all enemies in sight, dealing catastrophic damage and potentially instant death.',
+            level: 10,
+            spellType: 'ACTION',
+            effectTypes: ['damage'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_deathanddecay',
+              tags: ['damage', 'ultimate', 'death', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'area',
+              rangeType: 'sight',
+              rangeDistance: 120,
+              aoeShape: 'circle',
+              aoeParameters: { radius: 60 },
+              targetRestrictions: ['enemy']
+            },
+
+            damageConfig: {
+              formula: '20d12',
+              elementType: 'necrotic',
+              damageType: 'area',
+              savingThrowConfig: {
+                enabled: true,
+                savingThrowType: 'constitution',
+                difficultyClass: 22,
+                saveOutcome: 'halves',
+                partialEffect: true,
+                partialEffectFormula: 'damage/2'
+              }
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 100
+              },
+              actionPoints: 4,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 30
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'ultimate', 'death', 'universal']
+          },
+
+          {
+            id: 'pb_ultimate_affliction',
+            name: 'Ultimate Affliction',
+            description: 'Apply the ultimate affliction that combines all affliction types, dealing massive multi-type damage over time.',
+            level: 10,
+            spellType: 'ACTION',
+            effectTypes: ['damage', 'debuff'],
+
+            typeConfig: {
+              school: 'necromancy',
+              icon: 'spell_shadow_plaguecloud',
+              tags: ['damage', 'debuff', 'ultimate', 'affliction', 'universal'],
+              castTime: 1,
+              castTimeType: 'IMMEDIATE'
+            },
+
+            targetingConfig: {
+              targetingType: 'single',
+              rangeType: 'ranged',
+              rangeDistance: 60,
+              targetRestrictions: ['enemy'],
+              maxTargets: 1
+            },
+
+            damageConfig: {
+              formula: '15d10',
+              elementType: 'poison',
+              damageType: 'direct'
+            },
+
+            debuffConfig: {
+              debuffType: 'statusEffect',
+              effects: [{
+                id: 'ultimate_affliction',
+                name: 'Ultimate Affliction',
+                description: 'Target suffers all affliction types simultaneously - takes 5d10 damage per round, reduced healing, stat penalties, and spreading contagion for 6 rounds',
+                statusType: 'ultimate_affliction'
+              }],
+              durationValue: 6,
+              durationType: 'rounds',
+              durationUnit: 'rounds',
+              saveDC: 22,
+              saveType: 'constitution',
+              saveOutcome: 'halves'
+            },
+
+            resourceCost: {
+              resourceTypes: ['mana'],
+              resourceValues: {
+                mana: 80
+              },
+              actionPoints: 3,
+              components: ['verbal', 'somatic']
+            },
+
+            cooldownConfig: {
+              type: 'turn_based',
+              value: 20
+            },
+
+            resolution: 'DICE',
+            tags: ['damage', 'debuff', 'ultimate', 'affliction', 'universal']
           }
   ]
 };

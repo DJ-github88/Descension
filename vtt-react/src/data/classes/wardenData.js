@@ -1091,13 +1091,20 @@ Many players enhance the warden experience with:
       },
 
       debuffConfig: {
-        effects: [
-          'Target is trapped in 10-foot radius cage',
-          'Cannot move beyond cage boundaries',
-          'Cannot teleport or use movement abilities',
-          'Takes +1d6 damage from all sources (Jailer passive)',
-          'Duration: 3 rounds (or 1 round on successful save)'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'strength',
+        saveOutcome: 'ends_early',
+        effects: [{
+          id: 'caged',
+          name: 'Caged',
+          description: 'Trapped in spectral cage - cannot move beyond boundaries or teleport - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
+          statusType: 'restrained',
+          level: 'strong'
+        }]
       },
 
       effects: {
@@ -1258,13 +1265,20 @@ Many players enhance the warden experience with:
       },
 
       debuffConfig: {
-        effects: [
-          'All enemies in 20-foot radius are caged',
-          'Cannot leave the prison area',
-          'Cannot teleport or use movement abilities',
-          'Take +1d6 damage from all sources (Condemned passive)',
-          'Duration: 4 rounds (or 2 rounds on successful save)'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'strength',
+        saveOutcome: 'halves_duration',
+        effects: [{
+          id: 'imprisoned',
+          name: 'Imprisoned',
+          description: 'Trapped in spectral prison - cannot leave area or use movement abilities - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
+          statusType: 'restrained',
+          level: 'strong'
+        }]
       },
 
       effects: {
@@ -1476,7 +1490,8 @@ Many players enhance the warden experience with:
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['transformation', 'ultimate', 'vengeance-seeker']
       },
 
       targetingConfig: {
@@ -1484,63 +1499,48 @@ Many players enhance the warden experience with:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 6
-      },
-
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 1,
-        vengeancePoints: 10,
         components: ['verbal', 'somatic'],
         verbalText: 'I am vengeance incarnate!',
         somaticText: 'Transform into Avatar form'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
 
-      buffConfig: {
-        effects: [
-          'Gain +4 to attack rolls',
-          'Deal +2d6 damage on all attacks',
-          'Gain +4 AC',
-          'Gain damage resistance (reduce all damage by 1d6)',
-          'Generate +1 VP per attack (total 2 VP, or 3 VP against marked targets)',
-          'Duration: 6 rounds (Vengeance Seeker spec with Endless Vengeance passive)'
+      transformationConfig: {
+        customName: 'Avatar of Vengeance',
+        transformType: 'spectral',
+        formName: 'Spectral Avatar',
+        formDescription: 'You become an unstoppable embodiment of vengeance, wreathed in shadowy energy with glowing eyes and enhanced glaives.',
+        durationValue: 6,
+        durationType: 'rounds',
+        concentrationRequired: false,
+        statModifiers: [
+          { stat: 'attack_rolls', magnitude: 4, magnitudeType: 'flat' },
+          { stat: 'damage', magnitude: '2d6', magnitudeType: 'dice' },
+          { stat: 'armor', magnitude: 4, magnitudeType: 'flat' }
+        ],
+        resistances: [
+          { damageType: 'all', resistanceType: 'reduction', formula: '1d6' }
+        ],
+        specialAbilities: [
+          {
+            name: 'Enhanced VP Generation',
+            description: 'Generate +1 VP per attack (total 2 VP, or 3 VP against marked targets)'
+          }
         ]
       },
 
-      effects: {
-        buff: {
-          transformation: {
-            duration: 6,
-            attackBonus: 4,
-            damageBonus: '2d6',
-            acBonus: 4,
-            damageResistance: '1d6',
-            vpGeneration: '+1 VP per attack'
-          }
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
       },
 
-      specialMechanics: {
-        vengeancePoints: {
-          cost: 10,
-          description: 'Ultimate ability - costs all 10 Vengeance Points'
-        },
-        vengeanceSeekerUltimate: {
-          description: 'Vengeance Seeker specialization ultimate ability',
-          extendedDuration: '6 rounds instead of 4 (Endless Vengeance passive)',
-          enhancedVP: 'Attacks against marked targets generate 3 VP (1 base + 1 Avatar + 1 mark)'
-        },
-        transformation: {
-          description: 'Become an unstoppable force of vengeance',
-          visualEffect: 'Shadowy aura, glowing eyes, enhanced glaives',
-          powerSpike: 'Massive stat boost for extended duration'
-        }
-      },
-
-      tags: ['buff', 'transformation', 'ultimate', 'vengeance-seeker']
+      tags: ['transformation', 'ultimate', 'vengeance-seeker']
     },
 
     // UNIVERSAL ABILITIES - All Wardens
@@ -1650,11 +1650,17 @@ Many players enhance the warden experience with:
       },
 
       debuffConfig: {
-        effects: [
-          'Enemies hit are slowed',
-          'Movement speed reduced by 10 feet',
-          'Duration: 1 round'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'slowed',
+          name: 'Slowed',
+          description: 'Movement speed reduced by 10 feet',
+          statusType: 'slow',
+          level: 'minor'
+        }]
       },
 
       effects: {
@@ -1962,6 +1968,956 @@ Many players enhance the warden experience with:
       },
 
       tags: ['passive', 'enhancement', 'glaive', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 3-4 SPELLS
+    {
+      id: 'warden_spectral_strike',
+      name: 'Spectral Strike',
+      description: 'Phase through defenses with a glaive strike that ignores armor and deals bonus shadow damage.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      
+      typeConfig: {
+        school: 'shadow',
+        icon: 'ability_rogue_shadowstrike',
+        tags: ['damage', 'shadow', 'armor-penetration', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
+      },
+
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'shadow',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 2
+        },
+        actionPoints: 1,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'shadow', 'armor-penetration', 'universal']
+    },
+
+    {
+      id: 'warden_cage_trap',
+      name: 'Cage Trap',
+      description: 'Set a spectral trap that springs when an enemy enters, caging them for 2 rounds.',
+      level: 3,
+      spellType: 'TRAP',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_shackleundead',
+        tags: ['control', 'trap', 'cage', 'jailer'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        placementTime: 1,
+        visibility: 'hidden',
+        maxTriggers: 1
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 5 }
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'caged',
+          name: 'Caged',
+          description: 'Trapped in spectral cage - cannot move beyond 10 feet radius',
+          config: {
+            restraintType: 'cage',
+            radius: 10
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 3
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'trap', 'cage', 'jailer']
+    },
+
+    {
+      id: 'warden_vengeful_leap',
+      name: 'Vengeful Leap',
+      description: 'Leap to a marked target within 40 feet and strike with enhanced power.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_hunter_aspectoftheviper',
+        tags: ['damage', 'mobility', 'marked-synergy', 'vengeance-seeker'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
+      },
+
+      damageConfig: {
+        formula: '4d6',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [{
+          id: 'leap',
+          name: 'Leap',
+          distance: 40,
+          needsLineOfSight: true
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'moderate'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 3
+        },
+        actionPoints: 1,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'mobility', 'marked-synergy', 'vengeance-seeker']
+    },
+
+    // LEVEL 6 SPELLS
+    {
+      id: 'warden_glaive_storm',
+      name: 'Glaive Storm',
+      description: 'Throw your glaives in a whirling storm, hitting all enemies in a 20 foot cone multiple times.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_fanofknives',
+        tags: ['damage', 'aoe', 'glaive', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 20,
+        aoeShape: 'cone',
+        aoeParameters: { length: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '5d8',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 5
+        },
+        actionPoints: 2,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'aoe', 'glaive', 'universal']
+    },
+
+    {
+      id: 'warden_cage_slam',
+      name: 'Cage Slam',
+      description: 'Smash a caged enemy with spectral force, dealing massive damage and extending the cage duration.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_mindsteal',
+        tags: ['damage', 'cage-synergy', 'shadow', 'jailer'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '6d10',
+        elementType: 'shadow',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 4
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'cage-synergy', 'shadow', 'jailer']
+    },
+
+    // LEVEL 7 SPELLS
+    {
+      id: 'warden_mark_execution',
+      name: 'Mark of Execution',
+      description: 'Execute a marked target below 30% health, dealing devastating damage with a guaranteed critical strike.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_hunter_markedfordeath',
+        tags: ['damage', 'execute', 'marked-synergy', 'vengeance-seeker'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
+      },
+
+      damageConfig: {
+        formula: '8d10',
+        elementType: 'physical',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 7
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'execute', 'marked-synergy', 'vengeance-seeker']
+    },
+
+    {
+      id: 'warden_shadow_cage',
+      name: 'Shadow Cage',
+      description: 'Create an impenetrable shadow cage that blocks all teleportation and prevents escape.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_curseofachimonde',
+        tags: ['control', 'cage', 'anti-teleport', 'jailer'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy']
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'caged',
+          name: 'Shadow Cage',
+          description: 'Trapped in shadow cage - cannot leave area, teleportation blocked, disadvantage on attacks',
+          config: {
+            restraintType: 'cage',
+            blocksTelepor: true,
+            radius: 15
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 6
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'cage', 'anti-teleport', 'jailer']
+    },
+
+    {
+      id: 'warden_hunters_wrath',
+      name: "Hunter's Wrath",
+      description: 'Channel vengeance into a series of rapid glaive strikes against a single target.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_revenge',
+        tags: ['damage', 'multi-strike', 'vengeance', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '6d8',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 5
+        },
+        actionPoints: 2,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'multi-strike', 'vengeance', 'universal']
+    },
+
+    // LEVEL 8 SPELLS
+    {
+      id: 'warden_vengeance_incarnate',
+      name: 'Vengeance Incarnate',
+      description: 'Become a being of pure vengeance for 4 rounds, gaining enhanced speed, damage, and VP generation.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_unholyfrenzy',
+        tags: ['buff', 'transformation', 'enhancement', 'vengeance-seeker'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'vengeance_incarnate',
+          name: 'Vengeance Incarnate',
+          description: 'Gain +5 to attack rolls, +3d8 damage on all attacks, +20 movement speed, and generate +1 VP per attack for 4 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 5,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 8
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'transformation', 'enhancement', 'vengeance-seeker']
+    },
+
+    {
+      id: 'warden_eternal_cage',
+      name: 'Eternal Cage',
+      description: 'Create a cage of eternal binding that cannot be broken by normal means and lasts until dispelled.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_curseofachimonde',
+        tags: ['control', 'cage', 'ultimate', 'jailer'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        duration: 10,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'eternal_cage',
+          name: 'Eternal Cage',
+          description: 'Trapped in unbreakable cage - cannot move, cannot teleport, cannot be freed without dispel magic',
+          config: {
+            restraintType: 'cage',
+            unbreakable: true,
+            blocksEscape: true
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 8
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'cage', 'ultimate', 'jailer']
+    },
+
+    {
+      id: 'warden_relentless_assault',
+      name: 'Relentless Assault',
+      description: 'Launch a devastating assault with multiple glaive strikes, generating VP with each hit.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_savageblow',
+        tags: ['damage', 'multi-strike', 'vp-generation', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '8d8',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 6
+        },
+        actionPoints: 2,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'multi-strike', 'vp-generation', 'universal']
+    },
+
+    // LEVEL 9 SPELLS
+    {
+      id: 'warden_justice_strikes',
+      name: 'Justice Strikes',
+      description: 'Deliver swift justice with enhanced glaive strikes that deal massive damage to marked targets.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_revenge',
+        tags: ['damage', 'marked-synergy', 'execute', 'vengeance-seeker'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '10d10',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 8
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'marked-synergy', 'execute', 'vengeance-seeker']
+    },
+
+    {
+      id: 'warden_cage_mastery',
+      name: 'Cage Mastery',
+      description: 'Cage all enemies within 30 feet in individual spectral cages simultaneously.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_shackleundead',
+        tags: ['control', 'cage', 'mass', 'aoe', 'jailer'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        duration: 4,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'mass_cage',
+          name: 'Mass Cage',
+          description: 'All enemies caged individually - cannot move, teleportation blocked, take increased damage',
+          config: {
+            restraintType: 'cage',
+            individual: true,
+            damageBonus: '1d8'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 9
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'cage', 'mass', 'aoe', 'jailer']
+    },
+
+    {
+      id: 'warden_shadowstep_strike',
+      name: 'Shadowstep Strike',
+      description: 'Teleport to a target through shadows and strike with devastating power.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'ability_rogue_shadowstrike',
+        tags: ['damage', 'teleport', 'stealth', 'shadowblade'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '9d10',
+        elementType: 'shadow',
+        damageType: 'direct'
+      },
+
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [{
+          id: 'teleport',
+          name: 'Shadowstep',
+          distance: 60,
+          needsLineOfSight: false
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'major'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 7
+        },
+        actionPoints: 2,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'teleport', 'stealth', 'shadowblade']
+    },
+
+    // LEVEL 10 SPELLS
+    {
+      id: 'warden_ultimate_vengeance',
+      name: 'Ultimate Vengeance',
+      description: 'Channel all your vengeance into one devastating blow that deals damage based on VP spent.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_unholyfrenzy',
+        tags: ['damage', 'ultimate', 'finisher', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '15d10',
+        elementType: 'physical',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 10
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 15
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'ultimate', 'finisher', 'universal']
+    },
+
+    {
+      id: 'warden_prison_realm',
+      name: 'Prison Realm',
+      description: 'Create a massive spectral prison that traps all enemies in a vast area indefinitely.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_curseofachimonde',
+        tags: ['control', 'cage', 'ultimate', 'mass', 'jailer'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        duration: 6,
+        durationUnit: 'rounds',
+        saveDC: 20,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'prison_realm',
+          name: 'Prison Realm',
+          description: 'Trapped in massive spectral prison - cannot move, cannot escape, take massive increased damage from all sources',
+          config: {
+            restraintType: 'prison',
+            unbreakable: true,
+            damageVulnerability: '2d10'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 10
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 20
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'cage', 'ultimate', 'mass', 'jailer']
+    },
+
+    {
+      id: 'warden_avatar_perfected',
+      name: 'Avatar Perfected',
+      description: 'Become the perfect embodiment of vengeance with enhanced Avatar transformation lasting longer.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_unholyfrenzy',
+        tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance-seeker'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'avatar_perfected',
+          name: 'Avatar Perfected',
+          description: 'Gain +6 to all stats, +5d10 damage on all attacks, damage resistance 50%, enhanced VP generation (+2 per attack), and immunity to crowd control for 8 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 6,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 8,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: {
+          vengeance_points: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 20
+      },
+
+      resolution: 'DICE',
+      tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance-seeker']
     }
   ]
 };

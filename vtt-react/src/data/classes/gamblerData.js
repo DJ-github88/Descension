@@ -835,42 +835,34 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['damage', 'fortune-generation', 'variable', 'gambler']
         },
 
         targetingConfig: {
           targetingType: 'single',
           rangeType: 'ranged',
-          rangeDistance: 50
-        },
-
-        durationConfig: {
-          durationType: 'instant'
+          rangeDistance: 50,
+          targetRestrictions: ['enemy']
         },
 
         resourceCost: {
-          mana: 3,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 3 },
+          actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Fortuna!',
           somaticText: 'Roll dice in hand'
         },
 
         resolution: 'DICE',
+        effectTypes: ['damage'],
 
         damageConfig: {
           formula: '1d8',
-          damageType: 'variable',
+          elementType: 'force',
+          damageType: 'direct',
           scalingType: 'multiplier'
-        },
-
-        effects: {
-          damage: {
-            instant: {
-              formula: '1d8',
-              type: 'variable',
-              multiplier: 'based_on_4d12_match'
-            }
-          }
         },
 
         specialMechanics: {
@@ -929,37 +921,54 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['buff', 'utility', 'fortune-cost', 'gambler']
         },
 
         targetingConfig: {
-          targetingType: 'self_or_ally',
+          targetingType: 'single',
           rangeType: 'ranged',
-          rangeDistance: 30
-        },
-
-        durationConfig: {
-          durationType: 'varies',
-          duration: 1,
-          durationUnit: 'minute'
+          rangeDistance: 30,
+          targetRestrictions: ['ally', 'self']
         },
 
         resourceCost: {
-          mana: 5,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 5 },
+          actionPoints: 1,
           components: ['verbal', 'material'],
           verbalText: 'Fatum Nummus!',
-          materialText: 'A golden coin'
+          materialComponents: 'A golden coin'
         },
 
-        resolution: 'COIN_FLIP',
+        resolution: 'COINS',
+        effectTypes: ['buff', 'utility'],
 
-        effects: {
-          buff: {
-            conditional: {
-              type: 'coin_flip_result',
-              options: ['advantage', 'damage_double', 'heal', 'mana_restore', 'teleport', 'speed_boost']
-            }
-          }
+        buffConfig: {
+          buffType: 'statusEffect',
+          effects: [{
+            id: 'fates_favor',
+            name: "Fate's Favor",
+            description: 'Choose one of six coin effects before flipping. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback.'
+          }],
+          durationValue: 1,
+          durationType: 'minutes',
+          durationUnit: 'minutes',
+          concentrationRequired: false,
+          canBeDispelled: true
+        },
+
+        utilityConfig: {
+          utilityType: 'fate_manipulation',
+          selectedEffects: [{
+            id: 'flip_result',
+            name: 'Flip Result',
+            description: 'Spend 1 Fortune Point to flip the coin result (Heads to Tails or vice versa)'
+          }],
+          duration: 0,
+          durationUnit: 'instant',
+          concentration: false,
+          power: 'moderate'
         },
 
         specialMechanics: {
@@ -1029,7 +1038,8 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['ultimate', 'random', 'high-risk', 'high-reward', 'gambler']
         },
 
         targetingConfig: {
@@ -1037,27 +1047,30 @@ Playing Gambler in person is uniquely satisfying because:
           rangeType: 'self'
         },
 
-        durationConfig: {
-          durationType: 'varies',
-          duration: 1,
-          durationUnit: 'hour'
-        },
-
         resourceCost: {
-          mana: 8,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 8 },
+          actionPoints: 2,
           components: ['verbal', 'somatic', 'material'],
           verbalText: 'Fortuna Maxima!',
           somaticText: 'Pull imaginary slot machine lever',
-          materialText: 'Three golden dice'
+          materialComponents: 'Three golden dice'
         },
 
         resolution: 'DICE',
+        effectTypes: ['utility'],
 
-        effects: {
-          variable: {
-            type: 'slot_machine',
-            outcomes: 21
-          }
+        utilityConfig: {
+          utilityType: 'fate_manipulation',
+          selectedEffects: [{
+            id: 'slot_machine',
+            name: 'Slot Machine',
+            description: 'Roll 3d20 and match results for various powerful effects. Spend Fortune Points to adjust individual dice by ±1 per point.'
+          }],
+          duration: 1,
+          durationUnit: 'hours',
+          concentration: false,
+          power: 'major'
         },
 
         specialMechanics: {
@@ -1109,76 +1122,7 @@ Playing Gambler in person is uniquely satisfying because:
         tags: ['ultimate', 'random', 'high-risk', 'high-reward', 'gambler', 'card-sharp']
       },
 
-      {
-        id: 'high-roller',
-        name: 'High Roller',
-        icon: 'inv_misc_gem_diamond_01',
-        spellType: 'ACTION',
-        school: 'High Stakes Betting',
-        level: 6,
-
-        description: 'Choose one of three high-stakes bets and roll d20. Arcane Auction (bet mana), Twist of Fate (bet action), or Fortune\'s Favor (bet health). Spend Fortune Points to adjust the roll.',
-
-        typeConfig: {
-          castTime: 1,
-          castTimeType: 'IMMEDIATE'
-        },
-
-        targetingConfig: {
-          targetingType: 'self',
-          rangeType: 'self'
-        },
-
-        durationConfig: {
-          durationType: 'varies',
-          duration: 1,
-          durationUnit: 'turn'
-        },
-
-        resourceCost: {
-          mana: 7,
-          components: ['verbal', 'somatic'],
-          verbalText: 'Alea Iacta Est!',
-          somaticText: 'Throw dice dramatically'
-        },
-
-        resolution: 'DICE',
-
-        effects: {
-          variable: {
-            type: 'choice_based_bet',
-            options: ['mana', 'action', 'health']
-          }
-        },
-
-        specialMechanics: {
-          fortunePoints: {
-            usage: 'Adjust d20 roll to guarantee desired outcome',
-            recommendation: '5-10 points for safety'
-          },
-          betting: {
-            type: 'resource_wager',
-            choices: 3,
-            description: 'Choose which resource to bet before rolling'
-          }
-        },
-
-        rollableTable: {
-          enabled: true,
-          name: 'High Roller Bets',
-          description: 'Choose one bet type and roll 1d20',
-          resolutionType: 'DICE',
-          resolutionConfig: { diceType: '1d20' },
-          entries: [
-            { range: 'Arcane Auction', result: '1-10: Lose bet | 11-13: Gain bet | 14-16: x2 | 17-19: x3 | 20: x4', description: 'Bet mana for mana returns' },
-            { range: 'Twist of Fate', result: '1-10: Lose action | 11-13: Advantage | 14-16: x2 dmg | 17-18: +1 action | 19: +2 | 20: +3', description: 'Bet action for future actions' },
-            { range: 'Fortune\'s Favor', result: '1-10: Take bet dmg | 11-13: Heal bet | 14-16: x2 heal | 17-18: x3+temp | 19: x2 temp | 20: Full+temp', description: 'Bet health (max half) for healing' }
-          ]
-        },
-
-        tags: ['betting', 'resource-manipulation', 'high-risk', 'gambler', 'high-roller']
-      },
-
+      
       {
         id: 'all-in',
         name: 'All-In',
@@ -1191,7 +1135,8 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['ultimate', 'life-or-death', 'extreme-risk', 'healing', 'gambler']
         },
 
         targetingConfig: {
@@ -1199,24 +1144,35 @@ Playing Gambler in person is uniquely satisfying because:
           rangeType: 'self'
         },
 
-        durationConfig: {
-          durationType: 'instant'
-        },
-
         resourceCost: {
-          mana: 10,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 10 },
+          actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'Omnia Aut Nihil!',
           somaticText: 'Push all chips forward'
         },
 
         resolution: 'DICE',
+        effectTypes: ['healing', 'utility'],
 
-        effects: {
-          variable: {
-            type: 'life_or_death_gamble',
-            outcomes: 3
-          }
+        healingConfig: {
+          formula: 'variable',
+          healingType: 'direct',
+          description: 'Roll 1d100: 1-50 doubles HP, 51-90 heals to full, 91-100 drops to 0 HP'
+        },
+
+        utilityConfig: {
+          utilityType: 'fate_manipulation',
+          selectedEffects: [{
+            id: 'life_gamble',
+            name: 'Life or Death Gamble',
+            description: 'Bet your current HP on a d100 roll. Fortune Points can adjust the result.'
+          }],
+          duration: 0,
+          durationUnit: 'instant',
+          concentration: false,
+          power: 'major'
         },
 
         specialMechanics: {
@@ -1260,28 +1216,60 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['minigame', 'damage', 'control', 'psychic', 'gambler']
         },
 
         targetingConfig: {
           targetingType: 'single',
           rangeType: 'ranged',
-          rangeDistance: 15
-        },
-
-        durationConfig: {
-          durationType: 'special',
-          description: 'Until game concludes'
+          rangeDistance: 15,
+          targetRestrictions: ['enemy']
         },
 
         resourceCost: {
-          mana: 8,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 8 },
+          actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'Ludus Mortis!',
           somaticText: 'Challenge opponent with dice'
         },
 
-        resolution: 'MINIGAME',
+        resolution: 'DICE',
+        effectTypes: ['damage', 'control'],
+
+        damageConfig: {
+          formula: '1d10 to 10d10',
+          elementType: 'psychic',
+          damageType: 'direct',
+          description: 'Winner chooses how many d10s (1-10) the loser takes as psychic damage',
+          savingThrowConfig: {
+            enabled: true,
+            savingThrowType: 'spirit',
+            difficultyClass: 15,
+            saveOutcome: 'negates'
+          }
+        },
+
+        controlConfig: {
+          controlType: 'incapacitation',
+          strength: 'moderate',
+          duration: 1,
+          durationUnit: 'rounds',
+          saveDC: 15,
+          saveType: 'spirit',
+          savingThrow: true,
+          effects: [{
+            id: 'stun',
+            name: 'Stunned',
+            description: 'Loser is stunned for 1 round, unable to take actions or reactions',
+            config: {
+              durationType: 'temporary',
+              recoveryMethod: 'automatic'
+            }
+          }]
+        },
 
         damageConfig: {
           formula: '1-10d10',
@@ -1643,6 +1631,1108 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         tags: ['utility', 'illusion', 'deception', 'gambler']
-      }
+      },
+
+    // ========================================
+    // LEVEL 1 SPELLS
+    // ========================================
+    {
+      id: 'gambler_lucky_toss',
+      name: 'Lucky Toss',
+      description: 'Toss a coin and channel luck into a minor attack. Heads deals damage, tails provides a small buff.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'inv_misc_coin_01',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_coin_01',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy', 'ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 2 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Luck be mine!',
+        somaticText: 'Flip a coin'
+      },
+
+      resolution: 'COIN_FLIP',
+      effectTypes: ['damage', 'buff'],
+
+      damageConfig: {
+        formula: '1d8 + charisma',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      buffConfig: {
+        buffType: 'luck',
+        effects: [{
+          id: 'minor_luck',
+          name: 'Minor Luck',
+          description: '+1 to your next roll'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: 'damage', target: 'enemy' },
+          tails: { effect: 'buff', target: 'self' }
+        }
+      },
+
+      tags: ['damage', 'buff', 'coin-flip', 'level-1', 'gambler']
+    },
+
+    {
+      id: 'gambler_beginners_luck',
+      name: "Beginner's Luck",
+      description: 'Channel the power of fortune to grant yourself advantage on your next ability check or attack roll.',
+      level: 1,
+      spellType: 'BONUS_ACTION',
+      icon: 'inv_misc_dice_01',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'inv_misc_dice_01',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 1 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'First timer!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'advantage',
+        effects: [{
+          id: 'beginners_advantage',
+          name: "Beginner's Advantage",
+          description: 'Gain advantage on your next ability check or attack roll'
+        }],
+        durationValue: 1,
+        durationType: 'uses',
+        durationUnit: 'uses'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['buff', 'luck', 'level-1', 'gambler']
+    },
+
+    {
+      id: 'gambler_dice_dart',
+      name: 'Dice Dart',
+      description: 'Throw a magically enchanted die that deals damage based on the roll.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'inv_misc_dice_02',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_dice_02',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 2 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Throw enchanted die'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d6',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      tags: ['damage', 'ranged', 'level-1', 'gambler']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS
+    // ========================================
+    {
+      id: 'gambler_hot_streak',
+      name: 'Hot Streak',
+      description: 'When fortune favors you, ride the wave! Each successful attack this turn grants bonus damage on the next.',
+      level: 5,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_fire_immolation',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_fire_immolation',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 15 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: "I'm on fire!"
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'hot_streak',
+          name: 'Hot Streak',
+          description: 'Each hit this turn grants +1d6 damage on your next attack, stacking up to 4 times.'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'damage', 'level-5', 'gambler']
+    },
+
+    {
+      id: 'gambler_double_or_nothing',
+      name: 'Double or Nothing',
+      description: 'Gamble big! Double your next spell or attack damage on heads, or deal nothing on tails.',
+      level: 5,
+      spellType: 'REACTION',
+      icon: 'inv_misc_coin_05',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'inv_misc_coin_05',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Double or nothing!'
+      },
+
+      resolution: 'COIN_FLIP',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'damage_modifier',
+        effects: [{
+          id: 'double_damage',
+          name: 'Double Damage',
+          description: 'On heads: double damage. On tails: zero damage.'
+        }]
+      },
+
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: 'double_damage', multiplier: 2 },
+          tails: { effect: 'no_damage', multiplier: 0 }
+        },
+        trigger: 'on_attack_hit'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['buff', 'coin-flip', 'high-risk', 'level-5', 'gambler']
+    },
+
+    {
+      id: 'gambler_loaded_dice',
+      name: 'Loaded Dice',
+      description: 'Subtly manipulate the odds. Reroll any dice you roll this turn and take the better result.',
+      level: 5,
+      spellType: 'BONUS_ACTION',
+      icon: 'inv_misc_dice_02',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'inv_misc_dice_02',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 14 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Sleight of hand'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'reroll',
+        effects: [{
+          id: 'loaded_dice',
+          name: 'Loaded Dice',
+          description: 'Reroll any dice this turn and take the better result.'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'reroll', 'level-5', 'gambler']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
+      id: 'gambler_house_advantage',
+      name: 'House Advantage',
+      description: 'The house always wins. Steal luck from enemies, imposing disadvantage on them while granting yourself advantage.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_mindtwisting',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_mindtwisting',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'The house always wins!',
+        somaticText: 'Card dealer gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff', 'buff'],
+
+      debuffConfig: {
+        debuffType: 'disadvantage',
+        effects: [{
+          id: 'stolen_luck',
+          name: 'Stolen Luck',
+          description: 'Enemies have disadvantage on attack rolls and saving throws.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      buffConfig: {
+        buffType: 'advantage',
+        effects: [{
+          id: 'house_advantage',
+          name: 'House Advantage',
+          description: 'You have advantage on all rolls for the duration.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['debuff', 'buff', 'luck', 'level-6', 'gambler']
+    },
+
+    {
+      id: 'gambler_card_shark',
+      name: 'Card Shark',
+      description: 'Draw from your magical deck to unleash one of four powerful effects based on the suit.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'inv_misc_ticket_tarot_madness',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_ticket_tarot_madness',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy', 'ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Draw a card'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['variable'],
+
+      rollableTable: {
+        diceFormula: '1d4',
+        entries: [
+          { 
+            roll: 1, 
+            name: 'Spades (Damage)', 
+            effect: { type: 'damage', formula: '6d8', element: 'force' } 
+          },
+          { 
+            roll: 2, 
+            name: 'Hearts (Healing)', 
+            effect: { type: 'healing', formula: '5d8' } 
+          },
+          { 
+            roll: 3, 
+            name: 'Diamonds (Gold)', 
+            effect: { type: 'buff', description: 'Target gains 100gp worth of magical currency' } 
+          },
+          { 
+            roll: 4, 
+            name: 'Clubs (Control)', 
+            effect: { type: 'stun', duration: 2, durationUnit: 'rounds' } 
+          }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'healing', 'control', 'variable', 'level-6', 'gambler']
+    },
+
+    {
+      id: 'gambler_poker_face',
+      name: 'Poker Face',
+      description: 'Project an aura of unreadability, becoming immune to charm, fear, and mind-reading effects.',
+      level: 6,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_shadow_unholyfrenzy',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_shadow_unholyfrenzy',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Assume poker face'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'immunity',
+        effects: [{
+          id: 'poker_face',
+          name: 'Poker Face',
+          description: 'Immune to charm, fear, and mind-reading effects.'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'immunity', 'mental', 'level-6', 'gambler']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'gambler_high_roller',
+      name: 'High Roller',
+      description: 'Make the ultimate gamble. Roll a d20 - on a 15+, deal devastating damage. On a 1-5, take that damage yourself.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'inv_misc_dice_01',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_dice_01',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'High stakes!',
+        somaticText: 'Roll the divine die'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '15d10 + charisma * 2',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      specialMechanics: {
+        highRoll: {
+          diceFormula: '1d20',
+          success: { min: 15, effect: 'deal_damage_to_target' },
+          neutral: { min: 6, max: 14, effect: 'deal_half_damage' },
+          failure: { max: 5, effect: 'deal_damage_to_self' }
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'high-risk', 'high-reward', 'level-9', 'gambler']
+    },
+
+    {
+      id: 'gambler_jackpot_surge',
+      name: 'Jackpot Surge',
+      description: 'Hit the ultimate jackpot! Roll multiple dice and if any match, multiply your damage exponentially.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_surgeoflight',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_surgeoflight',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'JACKPOT!',
+        somaticText: 'Pull the lever'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d8 + charisma',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 19,
+          saveOutcome: 'halves'
+        }
+      },
+
+      specialMechanics: {
+        jackpot: {
+          diceFormula: '3d6',
+          matching: {
+            twoMatch: { multiplier: 2, description: 'Double damage!' },
+            threeMatch: { multiplier: 4, description: 'JACKPOT! Quadruple damage!' }
+          }
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'aoe', 'high-reward', 'level-9', 'gambler']
+    },
+
+    {
+      id: 'gambler_fortune_reversal',
+      name: 'Fortune Reversal',
+      description: 'Reverse the fortunes of battle. Swap your current HP percentage with a target enemy.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_reverseentropy',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_reverseentropy',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Fortune flip!',
+        somaticText: 'Dramatic coin flip'
+      },
+
+      resolution: 'COIN_FLIP',
+      effectTypes: ['utility'],
+
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: 'swap_hp_percentage', description: 'Your HP% and target HP% are swapped' },
+          tails: { effect: 'nothing', description: 'Nothing happens' }
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['utility', 'coin-flip', 'high-risk', 'level-9', 'gambler']
+    },
+
+    // ADDITIONAL LEVEL 3 SPELLS
+    {
+      id: 'gambler_lucky_shot',
+      name: 'Lucky Shot',
+      description: 'Take a lucky shot that deals 4d8 damage on heads, or 2d8 on tails.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_coin_01',
+        tags: ['damage', 'coin-flip', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 18
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'COIN_FLIP',
+      tags: ['damage', 'coin-flip', 'universal']
+    },
+
+    {
+      id: 'gambler_risky_maneuver',
+      name: 'Risky Maneuver',
+      description: 'Attempt a risky maneuver - on heads gain +4 to all stats for 3 rounds, on tails lose 2d6 HP.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'enhancement',
+        icon: 'inv_misc_dice_02',
+        tags: ['buff', 'coin-flip', 'risky', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'risky_maneuver',
+          name: 'Risky Maneuver',
+          description: 'Gain +4 to all stats for 3 rounds (on heads)',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 18
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'COIN_FLIP',
+      tags: ['buff', 'coin-flip', 'risky', 'universal']
+    },
+
+    {
+      id: 'gambler_double_down',
+      name: 'Double Down',
+      description: 'Double down on your luck - on heads deal 5d10 damage, on tails take 3d6 damage.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_coin_02',
+        tags: ['damage', 'coin-flip', 'high-risk', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '5d10',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 20
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'COIN_FLIP',
+      tags: ['damage', 'coin-flip', 'high-risk', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 4 SPELLS
+    {
+      id: 'gambler_fortune_favors',
+      name: 'Fortune Favors',
+      description: 'Call on fortune to favor you - on heads gain advantage on all rolls for 4 rounds, on tails gain disadvantage.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'spell_holy_divineprovidence',
+        tags: ['buff', 'coin-flip', 'fortune', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'fortune_favors',
+          name: 'Fortune Favors',
+          description: 'Gain advantage on all rolls for 4 rounds (on heads)',
+          statModifier: {
+            stat: 'all_rolls',
+            magnitude: 1,
+            magnitudeType: 'advantage'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 22
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'COIN_FLIP',
+      tags: ['buff', 'coin-flip', 'fortune', 'universal']
+    },
+
+    {
+      id: 'gambler_jackpot_strike',
+      name: 'Jackpot Strike',
+      description: 'Strike for the jackpot - on heads deal 6d12 critical damage, on tails deal 2d6 normal damage.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_coin_01',
+        tags: ['damage', 'coin-flip', 'jackpot', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '6d12',
+        elementType: 'force',
+        damageType: 'direct',
+        criticalConfig: {
+          enabled: true,
+          critMultiplier: 2,
+          critDiceOnly: false
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 24
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'COIN_FLIP',
+      tags: ['damage', 'coin-flip', 'jackpot', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 7 SPELL
+    {
+      id: 'gambler_all_in',
+      name: 'All In',
+      description: 'Go all in - on heads deal 10d10 damage to all enemies, on tails take 5d8 damage yourself.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_coin_02',
+        tags: ['damage', 'aoe', 'coin-flip', 'ultimate', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '10d10',
+        elementType: 'force',
+        damageType: 'area'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 45
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      resolution: 'COIN_FLIP',
+      tags: ['damage', 'aoe', 'coin-flip', 'ultimate', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 8 SPELL
+    {
+      id: 'gambler_loaded_dice',
+      name: 'Loaded Dice',
+      description: 'Use loaded dice to guarantee success - automatically deal 8d10 damage with no gamble.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_dice_01',
+        tags: ['damage', 'guaranteed', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '8d10',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 50
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'guaranteed', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 10 SPELL
+    {
+      id: 'gambler_divine_jackpot',
+      name: 'Divine Jackpot',
+      description: 'Hit the divine jackpot - on heads instantly win the encounter, on tails take massive damage.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'inv_misc_coin_01',
+        tags: ['damage', 'coin-flip', 'ultimate', 'jackpot', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '20d12',
+        elementType: 'force',
+        damageType: 'area'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 100
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      resolution: 'COIN_FLIP',
+      tags: ['damage', 'coin-flip', 'ultimate', 'jackpot', 'universal']
+    }
   ]
 };

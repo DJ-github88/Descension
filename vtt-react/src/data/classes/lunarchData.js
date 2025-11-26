@@ -876,10 +876,17 @@ START: Always New Moon
       },
 
       debuffConfig: {
-        effects: [
-          "Target is Marked for 2 rounds",
-          "Marked targets take +1d4 damage from your next spell"
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'marked',
+          name: 'Marked',
+          description: 'Marked targets take +1d4 damage from your next spell - takes additional damage from marked source',
+          statusType: 'marked',
+          level: 'moderate'
+        }]
       },
 
       effects: {
@@ -1097,10 +1104,20 @@ START: Always New Moon
       },
 
       debuffConfig: {
-        effects: [
-          'Targets who fail save are Blinded for 1 round',
-          'Blinded creatures have disadvantage on attack rolls'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
+        effects: [{
+          id: 'blinded',
+          name: 'Blinded',
+          description: 'Blinded creatures have disadvantage on attack rolls - cannot see, automatically fails sight-based checks',
+          statusType: 'blinded',
+          level: 'moderate'
+        }]
       },
 
       effects: {
@@ -1573,6 +1590,1098 @@ START: Always New Moon
       },
 
       tags: ['utility', 'buff', 'multi-phase', 'universal']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'lunarch_moonbeam_barrage',
+      name: 'Moonbeam Barrage',
+      description: 'Fire a volley of moonlight arrows that rain down on enemies in a wide area.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcanetorrent',
+      specialization: 'moonlight-sentinel',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_arcanetorrent',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Arrows of moonlight!',
+        somaticText: 'Fire into sky'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d6 + dexterity',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 17,
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'aoe', 'radiant', 'archery', 'level-7', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_stellar_nova',
+      name: 'Stellar Nova',
+      description: 'Detonate a star above enemies, dealing massive damage and blinding those who fail their save.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_surgeoflight',
+      specialization: 'starfall-invoker',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_surgeoflight',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Star, explode!',
+        somaticText: 'Pull down celestial energy'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '7d10 + intelligence',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves'
+        }
+      },
+
+      controlConfig: {
+        controlType: 'blind',
+        strength: 'strong',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'constitution',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'control', 'blind', 'radiant', 'level-7', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_moonwell_surge',
+      name: 'Moonwell Surge',
+      description: 'Create a surge of healing moonlight that restores health and cleanses conditions from allies.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holynova',
+      specialization: 'moonwell-guardian',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holynova',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 38 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Moonwell, surge!',
+        somaticText: 'Raise staff to moon'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing', 'purification'],
+
+      healingConfig: {
+        formula: '6d8 + wisdom',
+        healingType: 'direct',
+        hasHotEffect: true,
+        hotFormula: '2d6',
+        hotDuration: 3,
+        hotTickType: 'round'
+      },
+
+      purificationConfig: {
+        purificationType: 'cleanse',
+        targetType: 'area',
+        power: 'major',
+        duration: 'instant'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['healing', 'purification', 'aoe', 'level-7', 'lunarch']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'lunarch_phase_arrow_ultimate',
+      name: 'Phase Arrow: Annihilation',
+      description: 'Fire an arrow that phases through all obstacles and enemies, dealing damage to everything in its path.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_blink',
+      specialization: 'universal',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_arcane_blink',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'line',
+        rangeType: 'ranged',
+        rangeDistance: 200,
+        aoeShape: 'line',
+        aoeParameters: { width: 5, length: 200 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Fire with ultimate precision'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '10d8 + dexterity * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        specialRules: 'Ignores cover, concealment, and armor. Hits all enemies in line.'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['damage', 'line', 'piercing', 'level-8', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_constellation_burst',
+      name: 'Constellation Burst',
+      description: 'Summon a constellation that fires beams of starlight at multiple targets simultaneously.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcane04',
+      specialization: 'starfall-invoker',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_arcane04',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        maxTargets: 6,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 48 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Stars, align and strike!',
+        somaticText: 'Draw constellation in air'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d8 + intelligence',
+        elementType: 'radiant',
+        damageType: 'direct',
+        specialRules: 'Each target hit separately. Can hit same target multiple times.'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'multi-target', 'radiant', 'level-8', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_eclipse_barrier',
+      name: 'Eclipse Barrier',
+      description: 'Create a barrier of eclipse energy that absorbs damage and reflects attacks.',
+      level: 8,
+      spellType: 'REACTION',
+      icon: 'spell_holy_powerwordbarrier',
+      specialization: 'moonwell-guardian',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Eclipse, shield us!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'shield',
+        effects: [{
+          id: 'eclipse_barrier',
+          name: 'Eclipse Barrier',
+          description: 'Absorbs up to 50 damage. Reflects 50% of absorbed damage back to attackers.',
+          shieldValue: {
+            formula: '50',
+            shieldType: 'absorption'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'shield', 'reflect', 'reaction', 'level-8', 'lunarch']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'lunarch_moonfire_rain',
+      name: 'Moonfire Rain',
+      description: 'Call down a devastating rain of moonfire that scorches the battlefield.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_nature_starfall',
+      specialization: 'moonlight-sentinel',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_starfall',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 65 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'MOONFIRE, RAIN DOWN!',
+        somaticText: 'Draw bow to sky'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '12d8 + dexterity * 2',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 19,
+          saveOutcome: 'halves'
+        }
+      },
+
+      zoneConfig: {
+        duration: 3,
+        durationUnit: 'rounds',
+        effects: ['persistent_damage'],
+        persistentDamage: '3d8 radiant per round'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'aoe', 'zone', 'ultimate', 'level-9', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_celestial_archery',
+      name: 'Celestial Archery',
+      description: 'Enter a state of perfect celestial archery, making every shot count.',
+      level: 9,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_holy_elunesgrace',
+      specialization: 'universal',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_elunesgrace',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Perfect aim, granted!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'accuracy',
+        effects: [{
+          id: 'celestial_archery',
+          name: 'Celestial Archery',
+          description: 'All ranged attacks automatically hit. Critical hits on 15-20. Double damage on crits.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'archery', 'ultimate', 'level-9', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_full_moon_blessing',
+      name: 'Full Moon Blessing',
+      description: 'Invoke the full power of the full moon to massively empower all allies.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+      specialization: 'moonwell-guardian',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_divineillumination',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 70 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Full Moon, bless us all!',
+        somaticText: 'Arms raised to moon'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff', 'healing'],
+
+      buffConfig: {
+        buffType: 'empowerment',
+        effects: [{
+          id: 'full_moon_blessing',
+          name: 'Full Moon Blessing',
+          description: 'All allies gain +4 to all stats, advantage on all rolls, and deal +2d6 radiant damage'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      healingConfig: {
+        formula: '8d8 + wisdom',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'healing', 'aoe', 'ultimate', 'level-9', 'lunarch']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'lunarch_avatar_of_the_moon',
+      name: 'Avatar of the Moon',
+      description: 'Transform into an avatar of the moon itself, gaining godlike power over moonlight and shadows.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerinfusion',
+      specialization: 'universal',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_powerinfusion',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'I BECOME THE MOON!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'celestial',
+        formName: 'Avatar of the Moon',
+        formDescription: 'You become one with the moon, a being of pure moonlight.',
+        duration: 5,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'all', magnitude: 6, magnitudeType: 'flat' },
+          { stat: 'armorClass', magnitude: 8, magnitudeType: 'flat' },
+          { stat: 'damage', magnitude: 100, magnitudeType: 'percentage' }
+        ],
+        resistances: [
+          { type: 'radiant', resistanceAmount: 'immunity' },
+          { type: 'necrotic', resistanceAmount: 'immunity' }
+        ],
+        specialAbilities: [
+          { name: 'Moonlight Phasing', description: 'Can phase through solid objects. Immune to opportunity attacks.' },
+          { name: 'Lunar Gravity', description: 'Can fly. All ranged attacks have triple range.' },
+          { name: 'Moon\'s Judgment', description: 'All attacks deal additional radiant damage equal to your level.' }
+        ],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['transformation', 'ultimate', 'level-10', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_arrow_of_annihilation',
+      name: 'Arrow of Annihilation',
+      description: 'Fire the ultimate arrow - a bolt of pure moonlight that annihilates everything in its path.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holysmite',
+      specialization: 'moonlight-sentinel',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holysmite',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'line',
+        rangeType: 'ranged',
+        rangeDistance: 500,
+        aoeShape: 'line',
+        aoeParameters: { width: 10, length: 500 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['somatic'],
+        somaticText: 'Draw bow with all your might'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '20d10 + dexterity * 3',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 22,
+          saveOutcome: 'halves'
+        },
+        specialRules: 'Destroys all objects in path. Ignores all resistances and immunities.'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'line', 'ultimate', 'level-10', 'lunarch']
+    },
+
+    {
+      id: 'lunarch_eternal_moonwell',
+      name: 'Eternal Moonwell',
+      description: 'Create an eternal moonwell that continuously heals allies and damages enemies for the rest of combat.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_nature_tranquility',
+      specialization: 'moonwell-guardian',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_nature_tranquility',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'ETERNAL MOONWELL, ARISE!',
+        somaticText: 'Draw power from moon'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['zone', 'healing', 'damage'],
+
+      zoneConfig: {
+        duration: 0,
+        durationUnit: 'combat',
+        effects: ['healing', 'damage', 'purification'],
+        movable: false,
+        size: { radius: 30 }
+      },
+
+      healingConfig: {
+        formula: '4d8 + wisdom',
+        healingType: 'hot',
+        hasHotEffect: true,
+        hotFormula: '4d8',
+        hotDuration: 0,
+        hotTickType: 'round',
+        specialRules: 'Heals all allies in zone each round for rest of combat'
+      },
+
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'radiant',
+        damageType: 'persistent',
+        specialRules: 'Damages all enemies in zone each round'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['zone', 'healing', 'damage', 'ultimate', 'level-10', 'lunarch']
+    },
+
+    // ADDITIONAL LEVEL 1 SPELLS
+    {
+      id: 'lunarch_moonlight_bolt',
+      name: 'Moonlight Bolt',
+      description: 'Fire a bolt of moonlight dealing 1d8 radiant damage.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_starfall',
+        tags: ['damage', 'radiant', 'moonlight', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '1d8',
+        elementType: 'radiant',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'radiant', 'moonlight', 'universal']
+    },
+
+    {
+      id: 'lunarch_lunar_blessing',
+      name: 'Lunar Blessing',
+      description: 'Bless an ally with lunar power, healing them for 1d8 + wisdom.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['healing'],
+
+      typeConfig: {
+        school: 'restoration',
+        icon: 'spell_holy_prayerofhealing',
+        tags: ['healing', 'blessing', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally'],
+        maxTargets: 1
+      },
+
+      healingConfig: {
+        formula: '1d8',
+        healingType: 'instant'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['healing', 'blessing', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 2 SPELLS
+    {
+      id: 'lunarch_phase_shift',
+      name: 'Phase Shift',
+      description: 'Shift through phases of the moon to teleport up to 30 feet.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_nature_moonkey',
+        tags: ['utility', 'teleport', 'movement', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [{
+          id: 'phase_shift',
+          name: 'Phase Shift',
+          distance: 30,
+          needsLineOfSight: false
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'moderate'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['utility', 'teleport', 'movement', 'universal']
+    },
+
+    {
+      id: 'lunarch_crescent_strike',
+      name: 'Crescent Strike',
+      description: 'Strike with a crescent moon blade dealing 3d6 radiant damage.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_abolishmagic',
+        tags: ['damage', 'radiant', 'crescent', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 10,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '3d6',
+        elementType: 'radiant',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 1,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'radiant', 'crescent', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 4 SPELL
+    {
+      id: 'lunarch_lunar_chains',
+      name: 'Lunar Chains',
+      description: 'Bind an enemy with chains of moonlight, restraining them for 3 rounds.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_frost_stun',
+        tags: ['control', 'restrain', 'moonlight', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'lunar_chains',
+          name: 'Lunar Chains',
+          description: 'Restrained by moonlight chains - cannot move or take actions',
+          config: {
+            restraintType: 'magical_bind'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 22
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'restrain', 'moonlight', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 5 SPELL
+    {
+      id: 'lunarch_full_moon_radiance',
+      name: 'Full Moon Radiance',
+      description: 'Channel the full moon to heal all allies in a 20 foot radius for 5d8 + wisdom.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['healing'],
+
+      typeConfig: {
+        school: 'restoration',
+        icon: 'spell_nature_starfall',
+        tags: ['healing', 'aoe', 'full-moon', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally']
+      },
+
+      healingConfig: {
+        formula: '5d8',
+        healingType: 'instant'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 28
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'DICE',
+      tags: ['healing', 'aoe', 'full-moon', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 6 SPELL
+    {
+      id: 'lunarch_eclipse_burst',
+      name: 'Eclipse Burst',
+      description: 'Create an eclipse that deals 6d10 radiant damage to all enemies in a 25 foot radius.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_shadow_twilight',
+        tags: ['damage', 'radiant', 'aoe', 'eclipse', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '6d10',
+        elementType: 'radiant',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 35
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'radiant', 'aoe', 'eclipse', 'universal']
     }
   ]
 };

@@ -1880,6 +1880,1051 @@ Many players enhance the Toxicologist experience with:
       },
 
       tags: ['utility', 'obscurement', 'tactical', 'universal']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'tox_pandemic',
+      name: 'Pandemic',
+      description: 'Release a devastating plague that spreads between enemies, dealing damage and applying debilitating effects.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_plaguecloud',
+      specialization: 'venomancer',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_plaguecloud',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'toxinVials'],
+        resourceValues: { mana: 45, toxinVials: 3 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Release plague vial'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '6d8 + intelligence',
+        elementType: 'poison',
+        damageType: 'persistent',
+        spreadMechanic: 'Spreads to enemies within 10 feet at start of their turn'
+      },
+
+      debuffConfig: {
+        debuffType: 'disease',
+        effects: [{
+          id: 'pandemic_plague',
+          name: 'Pandemic Plague',
+          description: 'Takes 3d8 poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'constitution',
+        saveOutcome: 'halves_damage'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['damage', 'debuff', 'spreading', 'poison', 'level-8', 'toxicologist']
+    },
+
+    {
+      id: 'tox_mechanical_monstrosity',
+      name: 'Mechanical Monstrosity',
+      description: 'Deploy a massive mechanical construct that fights alongside you.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'inv_misc_enggizmos_30',
+      specialization: 'gadgeteer',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'inv_misc_enggizmos_30',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Activate construct'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['summoning'],
+
+      summonConfig: {
+        creatures: [{
+          id: 'mechanical_monstrosity',
+          name: 'Mechanical Monstrosity',
+          description: 'A large mechanical construct armed with weapons',
+          size: 'Large',
+          type: 'construct',
+          stats: {
+            maxHp: 80,
+            armor: 18,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            abilities: 'Can attack for 4d10 damage or launch missiles for 3d8 damage in 15ft radius'
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['summoning', 'construct', 'level-8', 'toxicologist']
+    },
+
+    {
+      id: 'tox_sabotage_supreme',
+      name: 'Sabotage Supreme',
+      description: 'Apply devastating sabotage to multiple enemies, reducing their effectiveness dramatically.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'ability_rogue_dismantle',
+      specialization: 'saboteur',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'ability_rogue_dismantle',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Trigger sabotage devices'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'sabotage',
+        effects: [{
+          id: 'supreme_sabotage',
+          name: 'Supreme Sabotage',
+          description: 'Enemies deal half damage, have -5 to hit, and all their gear malfunctions'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'dexterity',
+        saveOutcome: 'halves_duration'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['debuff', 'aoe', 'sabotage', 'level-8', 'toxicologist']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'tox_extinction_toxin',
+      name: 'Extinction Toxin',
+      description: 'Deploy the ultimate poison that can kill even the most resilient creatures.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_deathcoil',
+      specialization: 'venomancer',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_deathcoil',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'toxinVials'],
+        resourceValues: { mana: 70, toxinVials: 5 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Inject extinction toxin'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '15d8 + intelligence * 2',
+        elementType: 'poison',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 20,
+          saveOutcome: 'halves'
+        },
+        specialRules: 'Ignores poison immunity. Creatures with poison resistance take full damage.'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'poison', 'ultimate', 'level-9', 'toxicologist']
+    },
+
+    {
+      id: 'tox_war_machine',
+      name: 'War Machine',
+      description: 'Deploy a devastating war machine that dominates the battlefield.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'inv_misc_enggizmos_27',
+      specialization: 'gadgeteer',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'inv_misc_enggizmos_27',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 80 },
+        actionPoints: 3,
+        components: ['somatic'],
+        somaticText: 'Deploy war machine'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['summoning'],
+
+      summonConfig: {
+        creatures: [{
+          id: 'war_machine',
+          name: 'War Machine',
+          description: 'A massive war machine bristling with weapons',
+          size: 'Huge',
+          type: 'construct',
+          stats: {
+            maxHp: 150,
+            armor: 22,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            abilities: 'Can attack for 6d10 damage, launch artillery for 8d8 in 30ft radius, or deploy shields for +5 AC to allies'
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['summoning', 'construct', 'ultimate', 'level-9', 'toxicologist']
+    },
+
+    {
+      id: 'tox_total_system_failure',
+      name: 'Total System Failure',
+      description: 'Cause catastrophic failure in all enemy defenses and abilities.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'ability_rogue_wrongfullyaccused',
+      specialization: 'saboteur',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'ability_rogue_wrongfullyaccused',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 75 },
+        actionPoints: 3,
+        components: ['somatic'],
+        somaticText: 'Trigger total failure'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'system_failure',
+        effects: [{
+          id: 'total_system_failure',
+          name: 'Total System Failure',
+          description: 'All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 AC.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'spirit',
+        saveOutcome: 'halves_duration'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['debuff', 'aoe', 'dispel', 'ultimate', 'level-9', 'toxicologist']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'tox_apocalypse_plague',
+      name: 'Apocalypse Plague',
+      description: 'Unleash a plague of biblical proportions that devastates everything it touches.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_plaguecloud',
+      specialization: 'universal',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_plaguecloud',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 100 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'toxinVials'],
+        resourceValues: { mana: 100, toxinVials: 'all' },
+        actionPoints: 3,
+        components: ['somatic'],
+        somaticText: 'Release the apocalypse plague'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '20d8 + intelligence * 3',
+        elementType: 'poison',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 22,
+          saveOutcome: 'halves'
+        }
+      },
+
+      debuffConfig: {
+        debuffType: 'plague',
+        effects: [{
+          id: 'apocalypse_plague',
+          name: 'Apocalypse Plague',
+          description: 'All enemies are poisoned, weakened, and take ongoing damage. Spreads infinitely between enemies.'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'debuff', 'aoe', 'ultimate', 'level-10', 'toxicologist']
+    },
+
+    {
+      id: 'tox_mechanical_army',
+      name: 'Mechanical Army',
+      description: 'Deploy an entire army of mechanical constructs to overwhelm the battlefield.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'inv_misc_enggizmos_25',
+      specialization: 'gadgeteer',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'inv_misc_enggizmos_25',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['somatic'],
+        somaticText: 'Activate mechanical army'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['summoning'],
+
+      summonConfig: {
+        creatures: [{
+          id: 'mechanical_soldier',
+          name: 'Mechanical Soldier',
+          description: 'A combat-ready mechanical soldier',
+          size: 'Medium',
+          type: 'construct',
+          stats: {
+            maxHp: 40,
+            armor: 16,
+            maxMana: 0
+          },
+          config: {
+            quantity: 8,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'autonomous',
+            abilities: 'Attacks for 2d10 damage each'
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['summoning', 'army', 'construct', 'ultimate', 'level-10', 'toxicologist']
+    },
+
+    {
+      id: 'tox_reality_bomb',
+      name: 'Reality Bomb',
+      description: 'Deploy the ultimate sabotage device - a bomb that disrupts the fabric of reality itself.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_unstableaffliction_3',
+      specialization: 'saboteur',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_shadow_unstableaffliction_3',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['somatic'],
+        somaticText: 'Detonate reality bomb'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '15d10 + intelligence * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 22,
+          saveOutcome: 'halves'
+        }
+      },
+
+      specialMechanics: {
+        realityBomb: {
+          description: 'All magic in the area is suppressed for 1 minute. All creatures are disoriented (disadvantage on all rolls for 1 round). Terrain becomes unstable.',
+          antiMagic: true,
+          duration: '1 minute'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'control', 'anti-magic', 'ultimate', 'level-10', 'toxicologist']
+    },
+
+    // ADDITIONAL LEVEL 1 SPELLS
+    {
+      id: 'tox_poison_dart',
+      name: 'Poison Dart',
+      description: 'Fire a poison dart dealing 1d6 poison damage and applying minor poison for 2 rounds.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'inv_throwingknife_04',
+        tags: ['damage', 'poison', 'dart', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '1d6',
+        elementType: 'poison',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'dart', 'universal']
+    },
+
+    {
+      id: 'tox_toxic_cloud',
+      name: 'Toxic Cloud',
+      description: 'Create a small toxic cloud dealing 1d4 poison damage per round in a 10 foot radius for 3 rounds.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_shadow_plaguecloud',
+        tags: ['damage', 'poison', 'zone', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 }
+      },
+
+      damageConfig: {
+        formula: '1d4',
+        elementType: 'poison',
+        damageType: 'area'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'zone', 'universal']
+    },
+
+    {
+      id: 'tox_antidote',
+      name: 'Antidote',
+      description: 'Create an antidote that removes all poison effects from an ally.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['purification'],
+
+      typeConfig: {
+        school: 'restoration',
+        icon: 'inv_potion_53',
+        tags: ['purification', 'healing', 'antidote', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch',
+        rangeDistance: 5,
+        targetRestrictions: ['ally'],
+        maxTargets: 1
+      },
+
+      purificationConfig: {
+        purificationType: 'cleanse',
+        cleansesTypes: ['poison'],
+        dispelStrength: 'moderate'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['purification', 'healing', 'antidote', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 3 SPELLS
+    {
+      id: 'tox_venom_strike',
+      name: 'Venom Strike',
+      description: 'Strike with concentrated venom dealing 4d8 poison damage.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'ability_creature_poison_06',
+        tags: ['damage', 'poison', 'venom', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'poison',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 18
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'venom', 'universal']
+    },
+
+    {
+      id: 'tox_toxic_shock',
+      name: 'Toxic Shock',
+      description: 'Shock an enemy with concentrated toxins, stunning them for 1 round and dealing 3d6 poison damage.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_deathscream',
+        tags: ['damage', 'poison', 'control', 'stun', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '3d6',
+        elementType: 'poison',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'incapacitation',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'constitution',
+        savingThrow: true,
+        effects: [{
+          id: 'toxic_shock',
+          name: 'Toxic Shock',
+          description: 'Stunned by toxins - cannot act for 1 round',
+          config: {
+            stunType: 'toxic'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 18
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'control', 'stun', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 4 SPELL
+    {
+      id: 'tox_poison_bomb',
+      name: 'Poison Bomb',
+      description: 'Throw a poison bomb that explodes dealing 5d8 poison damage to all enemies in a 20 foot radius.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'inv_misc_orb_05',
+        tags: ['damage', 'poison', 'aoe', 'bomb', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '5d8',
+        elementType: 'poison',
+        damageType: 'area',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 22
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'aoe', 'bomb', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 5 SPELL
+    {
+      id: 'tox_deadly_toxin',
+      name: 'Deadly Toxin',
+      description: 'Apply a deadly toxin that deals 6d10 poison damage over 5 rounds.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'ability_creature_poison_05',
+        tags: ['damage', 'poison', 'dot', 'deadly', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '6d10',
+        elementType: 'poison',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 28
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'dot', 'deadly', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 6 SPELL
+    {
+      id: 'tox_toxic_wave',
+      name: 'Toxic Wave',
+      description: 'Send a wave of toxic energy dealing 7d8 poison damage to all enemies in a line.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_acid_01',
+        tags: ['damage', 'poison', 'line', 'wave', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'line',
+        aoeParameters: { length: 60, width: 10 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '7d8',
+        elementType: 'poison',
+        damageType: 'area'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 35
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'line', 'wave', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 7 SPELL
+    {
+      id: 'tox_virulent_plague',
+      name: 'Virulent Plague',
+      description: 'Release a virulent plague that spreads between enemies, dealing 8d8 poison damage.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_contagion',
+        tags: ['damage', 'poison', 'spreading', 'plague', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'chain',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        targetRestrictions: ['enemy'],
+        maxTargets: 6,
+        chainDistance: 20
+      },
+
+      damageConfig: {
+        formula: '8d8',
+        elementType: 'poison',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 45
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'poison', 'spreading', 'plague', 'universal']
     }
   ]
 };
