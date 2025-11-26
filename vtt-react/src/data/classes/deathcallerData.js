@@ -912,39 +912,36 @@ Keep a note of which curses are affecting you:
     ]
   },
 
-  // Example Spells - showcasing blood sacrifice and necrotic ascension mechanics
+  // Deathcaller Spells by Level - Complete spell list for the class
   exampleSpells: [
-    // BLOOD SACRIFICE SPELLS - Health as Resource
+    // ===== LEVEL 1 SPELLS =====
     {
-      id: 'dc_shadow_step',
-      name: 'Shadow Step',
-      description: 'Teleport through shadows to a nearby location. If you teleport into shadows, your next attack deals bonus necrotic damage.',
-      spellType: 'ACTION',
-      icon: 'ability_rogue_shadowstep',
-      school: 'Conjuration',
+      id: 'dc_necrotic_bolt',
+      name: 'Necrotic Bolt',
+      description: 'Fire a bolt of necrotic energy that deals damage and generates Blood Tokens from health sacrifice.',
       level: 1,
-
+      effectTypes: ['damage'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'spell_shadow_shadowbolt',
+        tags: ['damage', 'ranged', 'blood-magic']
       },
-
       targetingConfig: {
-        targetingType: 'location',
+        targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true,
+        propagationMethod: 'seeking',
+        propagationBehavior: 'opportunistic'
       },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
       resourceCost: {
-        mana: 10,
-        health: 0, // Will use formula
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Umbra Saltus!',
-        somaticText: 'Step into shadow',
         useFormulas: {
           health: true
         },
@@ -952,67 +949,153 @@ Keep a note of which curses are affecting you:
           health: '1d6'
         }
       },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        teleport: {
-          range: 30,
-          condition: 'Must see target location'
-        },
-        buff: {
-          conditional: {
-            type: 'in_shadows',
-            success: '+1d6 necrotic damage on next attack',
-            duration: '1 turn'
-          }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 13,
+          saveOutcome: 'halves'
         }
       },
-
-      specialMechanics: {
-        bloodCost: {
-          formula: '1d6',
-          description: 'Sacrifice health to fuel the teleport'
-        },
-        shadowBonus: {
-          condition: 'Teleport into dim light or darkness',
-          effect: 'Next attack within 1 turn deals +1d6 necrotic damage'
-        }
-      },
-
-      tags: ['teleport', 'mobility', 'necrotic', 'blood-magic', 'deathcaller']
+      resolution: 'DICE',
+      tags: ['damage', 'ranged', 'blood-magic']
     },
 
     {
+      id: 'dc_shadow_step',
+      name: 'Shadow Step',
+      description: 'Teleport through shadows to a nearby location. If you teleport into shadows, your next attack deals bonus necrotic damage.',
+      level: 1,
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'shadow',
+        icon: 'ability_rogue_shadowstep',
+        tags: ['teleport', 'mobility', 'necrotic', 'blood-magic']
+      },
+      targetingConfig: {
+        targetingType: 'location',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['location'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false,
+        propagationMethod: 'none'
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 10 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '1d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [{
+          id: 'teleport',
+          name: 'Teleport',
+          description: 'Teleport through shadows',
+          distance: 30,
+          duration: 0,
+          durationUnit: 'instant'
+        }],
+        power: 'minor'
+      },
+      tags: ['teleport', 'mobility', 'necrotic', 'blood-magic']
+    },
+
+    {
+      id: 'dc_blood_ward',
+      name: 'Blood Ward',
+      description: 'Sacrifice health to create a protective ward that absorbs damage.',
+      level: 1,
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_antishadow',
+        tags: ['protection', 'ward', 'blood-magic']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 5 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '1d8'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      utilityConfig: {
+        utilityType: 'enhancement',
+        selectedEffects: [{
+          id: 'damage_absorption',
+          name: 'Damage Absorption',
+          description: 'Absorbs damage equal to health sacrificed',
+          duration: 1,
+          durationUnit: 'minutes'
+        }],
+        power: 'minor'
+      },
+      tags: ['protection', 'ward', 'blood-magic']
+    },
+
+    // ===== LEVEL 2 SPELLS =====
+    {
       id: 'dc_blood_leech',
       name: 'Blood Leech',
-      description: 'Drain health from a target within 30 feet. The health restored is 25% for each 1 HP sacrificed (1 HP = 25%, 2 HP = 50%, 3 HP = 75%, 4 HP = 100%).',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_lifedrain',
-      school: 'Necromancy',
+      description: 'Drain health from a target, dealing damage and healing yourself. Generates Blood Tokens if Crimson Pact is active.',
       level: 2,
-
+      effectTypes: ['damage', 'healing'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'spell_shadow_lifedrain',
+        tags: ['damage', 'healing', 'life-drain', 'blood-magic']
       },
-
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true,
+        propagationMethod: 'chain',
+        propagationBehavior: 'lowest_health'
       },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
       resourceCost: {
-        mana: 8,
-        health: 0,
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Sanguis Haurio!',
-        somaticText: 'Grasping motion toward target',
         useFormulas: {
           health: true
         },
@@ -1020,88 +1103,79 @@ Keep a note of which curses are affecting you:
           health: '1d4'
         }
       },
-
-      resolution: 'DICE',
-
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
       damageConfig: {
         formula: '2d6',
-        damageType: 'necrotic',
-        scalingType: 'none'
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
       },
-
       healingConfig: {
-        formula: 'variable',
-        healingType: 'life_drain',
-        scalingType: 'health_sacrifice'
+        formula: 'damageDealt * 0.5',
+        healingType: 'direct',
+        hasHotEffect: false,
+        hasShieldEffect: false
       },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d6',
-            type: 'necrotic',
-            primaryTarget: true
+      resolution: 'DICE',
+      triggerConfig: {
+        global: {
+          enabled: false
+        },
+        effectTriggers: {
+          damage: {
+            logicType: 'AND',
+            compoundTriggers: [{
+              id: 'health_threshold_25',
+              category: 'health',
+              name: 'Low Health',
+              parameters: {
+                percentage: 25,
+                comparison: 'less_than',
+                resource_type: 'health',
+                perspective: 'self'
+              }
+            }]
           }
         },
-        healing: {
-          self: {
-            formula: 'damage_dealt * (health_sacrificed * 0.25)',
-            description: '25% of damage per HP sacrificed'
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: true,
+            baseFormula: '2d6',
+            conditionalFormulas: {
+              'health_threshold_25': '3d6'
+            }
           }
         }
       },
-
-      specialMechanics: {
-        bloodCost: {
-          formula: '1d4',
-          description: 'Sacrifice health to empower the drain'
-        },
-        lifeDrain: {
-          scaling: '25% of damage dealt per HP sacrificed',
-          example: '1 HP = 25%, 2 HP = 50%, 3 HP = 75%, 4 HP = 100%',
-          maximum: '100% at 4 HP sacrificed'
-        },
-        bloodTokens: {
-          generation: 'If Crimson Pact is active, gain 1 Blood Token per HP sacrificed',
-          usage: 'Can spend tokens to increase damage by 1d6 per token'
-        }
-      },
-
-      tags: ['damage', 'healing', 'life-drain', 'blood-magic', 'deathcaller', 'blood-reaver']
+      tags: ['damage', 'healing', 'life-drain', 'blood-magic']
     },
 
-    // BLOOD TOKEN SPELLS - Crimson Pact Path Required
     {
       id: 'dc_crimson_shield',
       name: 'Crimson Shield',
-      description: 'Sacrifice your blood to create a protective barrier. Absorbs up to 10x the damage sacrificed over 1 minute, converting every 2 damage taken into 1 hit point restored.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_antishadow',
-      school: 'Abjuration',
+      description: 'Sacrifice blood to create a protective barrier that absorbs damage and converts it to healing.',
       level: 2,
-
+      effectTypes: ['utility'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'spell_shadow_antishadow',
+        tags: ['shield', 'absorption', 'healing', 'blood-magic']
       },
-
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
       },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes'
-      },
-
       resourceCost: {
-        mana: 5,
-        health: 0,
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Scutum Sanguinis!',
-        somaticText: 'Draw blood and form barrier',
         useFormulas: {
           health: true
         },
@@ -1109,76 +1183,97 @@ Keep a note of which curses are affecting you:
           health: '1d10'
         }
       },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        shield: {
-          formula: 'health_sacrificed * 10',
-          duration: 60,
-          conversion: 'Every 2 damage absorbed = 1 HP restored',
-          type: 'absorption_with_healing'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
-
-      specialMechanics: {
-        bloodCost: {
-          formula: '1d10',
-          description: 'Sacrifice health to create the shield'
-        },
-        absorption: {
-          formula: 'HP_sacrificed * 10',
-          example: 'Sacrifice 8 HP = 80 damage absorbed',
-          duration: '1 minute'
-        },
-        conversion: {
-          rate: '2:1',
-          description: 'Every 2 damage absorbed restores 1 HP',
-          example: '80 damage absorbed = 40 HP restored'
-        },
-        bloodTokens: {
-          generation: 'If Crimson Pact is active, gain 1 Blood Token per HP sacrificed'
-        }
+      utilityConfig: {
+        utilityType: 'enhancement',
+        selectedEffects: [{
+          id: 'absorption_shield',
+          name: 'Absorption Shield',
+          description: 'Absorbs damage and converts to healing',
+          duration: 1,
+          durationUnit: 'minutes'
+        }],
+        power: 'moderate'
       },
-
-      tags: ['shield', 'absorption', 'healing', 'blood-magic', 'deathcaller', 'blood-reaver']
+      tags: ['shield', 'absorption', 'healing', 'blood-magic']
     },
 
-    // CORPSE SUMMONING SPELLS - Spectral Command Path Synergy
     {
-      id: 'dc_soul_chain',
-      name: 'Soul Chain',
-      description: 'Summon a spectral ally from a corpse to fight for you for 1 minute. The ally has a health pool equal to the health cost paid.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_soulleech_3',
-      school: 'Necromancy',
-      level: 3,
-
+      id: 'dc_dark_pursuit',
+      name: 'Dark Pursuit',
+      description: 'Surge forward with supernatural speed, gaining advantage on your next attack.',
+      level: 2,
+      effectTypes: ['utility'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'shadow',
+        icon: 'ability_rogue_sprint',
+        tags: ['mobility', 'speed', 'utility']
       },
-
       targetingConfig: {
-        targetingType: 'location',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        requiresCorpse: true
+        targetingType: 'self',
+        rangeType: 'self'
       },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes'
-      },
-
       resourceCost: {
-        mana: 0,
-        health: 0,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Anima Catena!',
-        somaticText: 'Pull spectral chain from corpse',
-        materialText: 'A corpse',
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 10 },
+        actionPoints: 1,
+        components: ['somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '1d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [{
+          id: 'speed_burst',
+          name: 'Speed Burst',
+          description: 'Supernatural burst of speed and advantage on next attack',
+          duration: 1,
+          durationUnit: 'rounds'
+        }],
+        power: 'moderate'
+      },
+      tags: ['mobility', 'speed', 'utility']
+    },
+
+    // ===== LEVEL 3 SPELLS =====
+    {
+      id: 'dc_death_s_embrace',
+      name: 'Death\'s Embrace',
+      description: 'Unleash a powerful area attack that deals necrotic damage to all enemies in range. Can spend Blood Tokens for bonus damage.',
+      level: 3,
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_shadowfury',
+        tags: ['damage', 'aoe', 'necrotic', 'blood-tokens']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy'],
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false,
+        propagationMethod: 'explosion',
+        propagationBehavior: 'standard'
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 15 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
         },
@@ -1186,168 +1281,232 @@ Keep a note of which curses are affecting you:
           health: '2d8'
         }
       },
-
-      resolution: 'AUTOMATIC',
-
-      summonConfig: {
-        summonType: 'spectral_warrior',
-        count: 1,
-        duration: 60,
-        healthFormula: 'health_sacrificed',
-        damageFormula: '1d8 + spectral_command_bonus',
-        attackType: 'melee'
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
-
-      effects: {
-        summon: {
-          type: 'spectral_ally',
-          health: 'equal to health sacrificed',
-          damage: '1d8 necrotic',
-          duration: 60,
-          bonuses: 'If Spectral Command active: +1d6 necrotic damage'
+      damageConfig: {
+        formula: '4d6',
+        elementType: 'necrotic',
+        damageType: 'area',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 14,
+          saveOutcome: 'halves'
         }
       },
-
-      specialMechanics: {
-        bloodCost: {
-          formula: '2d8',
-          description: 'Sacrifice health to empower the summon'
-        },
-        summonHealth: {
-          formula: 'HP_sacrificed',
-          example: 'Sacrifice 12 HP = summon has 12 HP',
-          scaling: 'More health = stronger summon'
-        },
-        spectralCommand: {
-          bonus: 'If Spectral Command path is active, summon deals +1d6 necrotic damage',
-          penalty: 'Your speed is reduced by 25 feet while summon is active'
-        },
-        corpseRequirement: {
-          description: 'Requires a corpse within 30 feet to summon from'
-        }
+      resolution: 'DICE',
+      mechanicsConfig: {
+        stateRequirements: [{
+          resourceType: 'bloodTokens',
+          thresholdValue: 0,
+          thresholdType: 'above',
+          modifiedFormula: '4d6 + (bloodTokens_spent * 1d6)',
+          description: 'Spend Blood Tokens for +1d6 damage each'
+        }]
       },
-
-      tags: ['summon', 'spectral', 'blood-magic', 'deathcaller', 'spectral-master']
+      tags: ['damage', 'aoe', 'necrotic', 'blood-tokens']
     },
 
     {
-      id: 'dc_dance_of_the_damned',
-      name: 'Dance of the Damned',
-      description: 'Summon two skeletal archers from corpses. Each archer deals 2d6 necrotic damage per turn for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'ability_hunter_pet_bat',
-      school: 'Necromancy',
-      level: 4,
-
+      id: 'dc_soul_chain',
+      name: 'Soul Chain',
+      description: 'Summon a spectral ally from a corpse to fight for you. Requires Spectral Command path.',
+      level: 3,
+      effectTypes: ['summoning'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'spell_shadow_soulleech_3',
+        tags: ['summon', 'spectral', 'blood-magic']
       },
-
       targetingConfig: {
         targetingType: 'location',
         rangeType: 'ranged',
-        rangeDistance: 40,
+        rangeDistance: 30,
+        targetRestrictions: ['location'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true,
         requiresCorpse: true,
-        corpseCount: 2
+        propagationMethod: 'none'
       },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes'
-      },
-
       resourceCost: {
-        mana: 0,
-        health: 0,
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Saltatio Damnatorum!',
-        somaticText: 'Conduct the dance of death',
-        materialText: 'Two corpses',
         useFormulas: {
           health: true
         },
         resourceFormulas: {
-          health: '3d6'
+          health: '2d8'
         }
       },
-
-      resolution: 'AUTOMATIC',
-
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
       summonConfig: {
-        summonType: 'skeletal_archer',
-        count: 2,
-        duration: 60,
-        damageFormula: '2d6 + spectral_command_bonus',
-        attackType: 'ranged',
-        range: 60
+        creatures: [{
+          id: 'spectral_warrior',
+          name: 'Spectral Warrior',
+          description: 'A ghostly warrior bound by necrotic energy, loyal to its summoner.',
+          size: 'Medium',
+          type: 'undead',
+          tokenIcon: 'ability_ghoulfrenzy',
+          stats: {
+            maxHp: 'health_sacrificed',
+            armor: 12,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 1,
+            durationUnit: 'minutes',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 60
+          }
+        }],
+        duration: 1,
+        durationUnit: 'minutes',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 60,
+        controlType: 'mental'
       },
-
-      effects: {
-        summon: {
-          type: 'skeletal_archers',
-          count: 2,
-          damage: '2d6 necrotic each',
-          range: 60,
-          duration: 60,
-          bonuses: 'If Spectral Command active: +1d6 necrotic damage each'
-        }
-      },
-
-      specialMechanics: {
-        bloodCost: {
-          formula: '3d6',
-          description: 'Sacrifice health to animate the archers'
-        },
-        multiSummon: {
-          count: 2,
-          penalty: 'If Spectral Command active: -50 feet speed total (-25 per summon)'
-        },
-        rangedAttack: {
-          range: 60,
-          damage: '2d6 necrotic per archer',
-          frequency: 'Once per turn each'
-        },
-        corpseRequirement: {
-          description: 'Requires two corpses within 40 feet'
-        }
-      },
-
-      tags: ['summon', 'spectral', 'ranged', 'blood-magic', 'deathcaller', 'spectral-master']
+      tags: ['summon', 'spectral', 'blood-magic']
     },
 
-    // PSYCHIC DEVASTATION SPELLS - Void Caller Specialization
     {
-      id: 'dc_mind_shatter',
-      name: 'Mind Shatter',
-      description: 'Unleash psychic devastation on a target. Damage equals health sacrificed rounded up, dealing pure psychic damage that ignores armor.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadowwordpain',
-      school: 'Enchantment',
-      level: 4,
-
+      id: 'dc_hex_of_weakness',
+      name: 'Hex of Weakness',
+      description: 'Curse an enemy with necrotic weakness, reducing their defenses and dealing damage over time.',
+      level: 3,
+      effectTypes: ['debuff', 'damage'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'spell_shadow_curseofsargeras',
+        tags: ['debuff', 'curse', 'dot', 'anti-magic']
       },
-
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'lowest_health',
+        requiresLineOfSight: true,
+        propagationMethod: 'seeking',
+        propagationBehavior: 'opportunistic'
       },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
       resourceCost: {
-        mana: 25,
-        health: 0,
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 15 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Mens Fracta!',
-        somaticText: 'Clutch head and scream',
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '1d8'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'necrotic_weakness',
+          name: 'Necrotic Weakness',
+          description: 'Reduced defenses and ongoing damage',
+          statModifier: {
+            stat: 'damageReduction',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        savingThrowType: 'constitution',
+        saveDC: 14,
+        saveOutcome: 'negates'
+      },
+      damageConfig: {
+        formula: '1d6',
+        elementType: 'necrotic',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d6',
+          duration: 1,
+          tickFrequency: 'round',
+          isProgressiveDot: false
+        }
+      },
+      resolution: 'SAVING_THROW',
+      tags: ['debuff', 'curse', 'dot', 'anti-magic']
+    },
+
+    // ===== LEVEL 4 SPELLS =====
+    {
+      id: 'dc_life_leech',
+      name: 'Life Leech',
+      description: 'Drain life from enemies, dealing damage and restoring your health. Enhanced by Life Leech Ascension Path.',
+      level: 4,
+      effectTypes: ['damage', 'healing'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_lifedrain02',
+        tags: ['damage', 'healing', 'life-drain', 'blood-magic', 'ascension-synergy']
+      },
+      targetingMode: 'effect',
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true,
+        propagationMethod: 'none',
+        propagationBehavior: 'nearest'
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'ranged',
+          rangeDistance: 40,
+          targetRestrictions: ['enemy'],
+          maxTargets: 1,
+          targetSelectionMethod: 'manual',
+          requiresLineOfSight: true,
+          propagationMethod: 'chain',
+          propagationBehavior: 'lowest_health'
+        },
+        healing: {
+          targetingType: 'self',
+          targetRestrictions: [],
+          maxTargets: 1,
+          targetSelectionMethod: 'manual',
+          requiresLineOfSight: false,
+          propagationMethod: 'none'
+        }
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 18 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
         },
@@ -1355,427 +1514,185 @@ Keep a note of which curses are affecting you:
           health: '2d6'
         }
       },
-
-      resolution: 'DICE',
-
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
       damageConfig: {
-        formula: 'health_sacrificed_rounded_up',
-        damageType: 'psychic',
-        ignoresArmor: true,
-        savingThrow: 'intelligence',
-        difficultyClass: 16,
-        saveOutcome: 'halves'
+        formula: '3d8',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
       },
-
-      effects: {
-        damage: {
-          formula: 'health_sacrificed (rounded up)',
-          type: 'psychic',
-          ignoresArmor: true,
-          savingThrow: 'DC 16 Intelligence',
-          saveEffect: 'Half damage on success'
-        }
+      healingConfig: {
+        formula: 'damageDealt * 0.75',
+        healingType: 'direct',
+        hasHotEffect: false,
+        hasShieldEffect: false
       },
-
-      specialMechanics: {
-        bloodCost: {
-          formula: '2d6',
-          description: 'Sacrifice health to fuel psychic devastation'
-        },
-        damageScaling: {
-          formula: 'HP_sacrificed (rounded up)',
-          example: 'Sacrifice 7 HP = 7 psychic damage, Sacrifice 11 HP = 11 psychic damage',
-          ignoresArmor: true
-        },
-        voidTouched: {
-          bonus: 'If Void Caller spec: Ignores psychic resistance',
-          voidPower: 'If Deep Void was used recently: +2d6 per Void Power stack'
-        }
+      resolution: 'DICE',
+      mechanicsConfig: {
+        stateRequirements: [{
+          resourceType: 'ascensionPaths',
+          thresholdValue: 'life_leech',
+          thresholdType: 'active',
+          modifiedFormula: 'damageDealt * 1.5',
+          description: 'Life Leech Ascension Path: 50% more healing'
+        }]
       },
-
-      tags: ['damage', 'psychic', 'blood-magic', 'deathcaller', 'void-caller']
+      tags: ['damage', 'healing', 'life-drain', 'blood-magic', 'ascension-synergy']
     },
 
     {
-      id: 'dc_despairs_grasp',
-      name: "Despair's Grasp",
-      description: 'Inflict overwhelming despair on all enemies within 30 feet. Targets must make a DC 15 Wisdom save or suffer disadvantage on all rolls and have their movement speed halved for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_charm',
-      school: 'Enchantment',
-      level: 5,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 30
-        }
-      },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes',
-        concentration: true
-      },
-
-      resourceCost: {
-        mana: 15,
-        health: 0,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Desperatio Omnia!',
-        somaticText: 'Spread arms wide, emanating despair'
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrowConfig: {
-        ability: 'wisdom',
-        difficultyClass: 15,
-        onSuccess: 'No effect',
-        onFailure: 'Disadvantage on all rolls + half movement speed'
-      },
-
-      effects: {
-        debuff: {
-          savingThrow: 'DC 15 Wisdom',
-          onFailure: {
-            disadvantage: 'All attack rolls, ability checks, and saving throws',
-            movementPenalty: '-50% movement speed',
-            duration: '1 minute (concentration)'
-          },
-          onSuccess: 'No effect'
-        }
-      },
-
-      specialMechanics: {
-        areaEffect: {
-          radius: 30,
-          targets: 'All enemies',
-          friendly: 'Allies are unaffected'
-        },
-        concentration: {
-          required: true,
-          duration: '1 minute',
-          breakCondition: 'Taking damage requires Constitution save to maintain'
-        }
-      },
-
-      tags: ['debuff', 'crowd-control', 'psychic', 'area', 'deathcaller', 'void-caller']
-    },
-
-    {
-      id: 'dc_eternal_agony',
-      name: 'Eternal Agony',
-      description: 'Inflict escalating psychic pain on a target. Each turn, the target takes 1d6 psychic damage per HP you sacrificed, increasing by 1d6 each turn (max 5 turns).',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_curseofsargeras',
-      school: 'Enchantment',
+      id: 'dc_dance_of_the_damned',
+      name: 'Dance of the Damned',
+      description: 'Summon skeletal archers from corpses to rain death from afar. Requires Spectral Command.',
       level: 4,
-
+      effectTypes: ['summoning'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'ability_hunter_pet_bat',
+        tags: ['summon', 'spectral', 'ranged', 'blood-magic']
       },
-
       targetingConfig: {
-        targetingType: 'single',
+        targetingType: 'location',
         rangeType: 'ranged',
-        rangeDistance: 60
+        rangeDistance: 40,
+        targetRestrictions: ['location'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true,
+        requiresCorpse: true,
+        corpseCount: 2,
+        propagationMethod: 'none'
       },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 5,
-        concentration: true
-      },
-
       resourceCost: {
-        mana: 15,
-        health: 0,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Dolor Aeternus!',
-        somaticText: 'Point at target with trembling hand',
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material'],
         useFormulas: {
           health: true
         },
         resourceFormulas: {
-          health: '1d10'
+          health: '3d6'
         }
       },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: 'escalating',
-        damageType: 'psychic',
-        escalation: {
-          turn1: '1d6 per HP sacrificed',
-          turn2: '2d6 per HP sacrificed',
-          turn3: '3d6 per HP sacrificed',
-          turn4: '4d6 per HP sacrificed',
-          turn5: '5d6 per HP sacrificed'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
-
-      effects: {
-        damage: {
-          type: 'psychic',
-          escalating: true,
-          formula: 'Turn_number * 1d6 * HP_sacrificed',
-          duration: '5 turns',
-          concentration: true
-        }
-      },
-
-      specialMechanics: {
-        bloodCost: {
-          formula: '1d10',
-          description: 'Sacrifice health to fuel the agony'
-        },
-        escalation: {
-          turn1: '1d6 per HP sacrificed',
-          turn2: '2d6 per HP sacrificed',
-          turn3: '3d6 per HP sacrificed',
-          turn4: '4d6 per HP sacrificed',
-          turn5: '5d6 per HP sacrificed',
-          example: 'Sacrifice 6 HP: Turn 1 = 6d6, Turn 2 = 12d6, Turn 3 = 18d6, Turn 4 = 24d6, Turn 5 = 30d6'
-        },
-        concentration: {
-          required: true,
-          duration: '5 turns',
-          breakCondition: 'If concentration breaks, effect ends immediately'
-        }
-      },
-
-      tags: ['damage', 'psychic', 'dot', 'escalating', 'blood-magic', 'deathcaller', 'blood-reaver']
-    },
-
-    // ASCENSION PATH SYNERGY SPELLS - Multiple Paths Working Together
-    {
-      id: 'dc_void_rift',
-      name: 'Void Rift',
-      description: 'Tear open a rift to the void, pulling all enemies within 60 feet toward the center and dealing 12d10 necrotic damage. Costs 4d10 HP each turn active and 1d6 permanent HP upon casting.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadesofdarkness',
-      school: 'Conjuration',
-      level: 7,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 60
-        }
-      },
-
-      durationConfig: {
-        durationType: 'timed',
+      summonConfig: {
+        creatures: [{
+          id: 'skeletal_archer',
+          name: 'Skeletal Archer',
+          description: 'A rotting archer with an unerring aim, bound to serve its necrotic master.',
+          size: 'Medium',
+          type: 'undead',
+          tokenIcon: 'spell_shadow_raisedead',
+          stats: {
+            maxHp: 20,
+            armor: 13,
+            maxMana: 0
+          },
+          config: {
+            quantity: 2,
+            duration: 1,
+            durationUnit: 'minutes',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 60
+          }
+        }],
         duration: 1,
         durationUnit: 'minutes',
-        concentration: true
+        hasDuration: true,
+        concentration: false,
+        controlRange: 60,
+        controlType: 'mental'
       },
-
-      resourceCost: {
-        mana: 45,
-        health: 0,
-        permanentHealth: 0,
-        components: ['verbal', 'somatic'],
-        verbalText: 'VACUUM INFINITUM!',
-        somaticText: 'Tear reality with both hands',
-        useFormulas: {
-          health: true,
-          permanentHealth: true
-        },
-        resourceFormulas: {
-          health: '4d10',
-          permanentHealth: '1d6'
-        }
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '12d10',
-        damageType: 'necrotic',
-        savingThrow: 'strength',
-        difficultyClass: 18,
-        saveOutcome: 'halves'
-      },
-
-      effects: {
-        pull: {
-          range: 60,
-          strength: 'DC 18 Strength save or be pulled 30 feet toward center',
-          frequency: 'Start of each turn'
-        },
-        damage: {
-          formula: '12d10',
-          type: 'necrotic',
-          savingThrow: 'DC 18 Strength',
-          saveEffect: 'Half damage',
-          frequency: 'When pulled into rift'
-        },
-        upkeep: {
-          cost: '4d10 HP per turn',
-          permanentCost: '1d6 permanent HP (cast only)',
-          duration: 'Concentration, up to 1 minute'
-        }
-      },
-
-      specialMechanics: {
-        initialCost: {
-          mana: 45,
-          permanentHealth: '1d6',
-          description: 'Permanent HP loss upon casting - cannot be healed'
-        },
-        upkeepCost: {
-          health: '4d10 per turn',
-          description: 'Must pay health each turn or rift collapses',
-          failure: 'If unable to pay, rift ends and you take 6d10 necrotic damage'
-        },
-        pullEffect: {
-          range: 60,
-          save: 'DC 18 Strength',
-          onFailure: 'Pulled 30 feet toward rift center',
-          frequency: 'Start of each creature\'s turn'
-        },
-        damage: {
-          trigger: 'When pulled into rift center',
-          formula: '12d10 necrotic',
-          save: 'DC 18 Strength for half'
-        },
-        concentration: {
-          required: true,
-          duration: 'Up to 1 minute',
-          breakCondition: 'Taking damage or unable to pay upkeep cost'
-        }
-      },
-
-      tags: ['ultimate', 'area', 'necrotic', 'pull', 'blood-magic', 'permanent-cost', 'deathcaller', 'void-caller']
+      tags: ['summon', 'spectral', 'ranged', 'blood-magic']
     },
 
     {
-      id: 'dc_life_link',
-      name: 'Life Link',
-      description: 'Link your life force with an ally for 1 minute. All damage either of you takes is split evenly between both targets.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing',
-      school: 'Abjuration',
-      level: 5,
-
+      id: 'dc_spirit_shackle',
+      name: 'Spirit Shackle',
+      description: 'Bind an enemy\'s spirit to the ground, immobilizing them completely.',
+      level: 4,
+      effectTypes: ['control'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'shadow',
+        icon: 'spell_shadow_blackplague',
+        tags: ['crowd-control', 'root', 'control']
       },
-
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30,
-        targetType: 'ally'
+        rangeDistance: 30
       },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes'
-      },
-
       resourceCost: {
-        mana: 12,
-        health: 0,
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 18 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Vinculum Vitae!',
-        somaticText: 'Extend hand toward ally, forming ethereal chain'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        link: {
-          duration: 60,
-          effect: 'All damage split evenly between linked targets',
-          range: 'No range limit once linked',
-          breakCondition: 'Either target drops to 0 HP or duration ends'
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '2d6'
         }
       },
-
-      specialMechanics: {
-        damageSharing: {
-          formula: 'damage / 2',
-          description: 'All damage taken by either target is split evenly',
-          example: 'Ally takes 40 damage → both take 20 damage',
-          rounding: 'Round down (odd damage favors the original target)'
-        },
-        noRangeLimit: {
-          description: 'Once linked, no range limit - works across entire battlefield'
-        },
-        breakConditions: {
-          death: 'Link breaks if either target reaches 0 HP',
-          duration: 'Link ends after 1 minute',
-          dispel: 'Can be dispelled as a 5th level spell'
-        },
-        tacticalUse: {
-          tank: 'Link with tank to share incoming damage',
-          protection: 'Protect squishy ally by sharing their damage',
-          sacrifice: 'Take damage for ally who is low on HP'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
-
-      tags: ['support', 'protection', 'link', 'damage-sharing', 'deathcaller', 'blood-reaver']
+      controlConfig: {
+        controlType: 'restraint',
+        strength: 'strong',
+        duration: 1,
+        durationUnit: 'minutes',
+        saveDC: 15,
+        saveType: 'wisdom',
+        saveOutcome: 'negates',
+        savingThrow: true,
+        effects: [{
+          id: 'spirit_bind',
+          name: 'Spirit Bind',
+          description: 'Dark tendrils immobilize the target',
+          config: {
+            restraintType: 'immobilize'
+          }
+        }]
+      },
+      tags: ['crowd-control', 'root', 'control']
     },
 
+    // ===== LEVEL 5 SPELLS =====
     {
       id: 'dc_aura_of_decay',
       name: 'Aura of Decay',
-      description: 'Emanate an aura of death in a 20-foot radius. All enemies take 2d6 necrotic damage at the start of their turn and have disadvantage on Constitution saves.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_demonicempathy',
-      school: 'Necromancy',
+      description: 'Emanate an aura of death that damages enemies and weakens them. Enhanced by Frostwalker path.',
       level: 5,
-
+      effectTypes: ['damage', 'debuff'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'spell_shadow_demonicempathy',
+        tags: ['aura', 'necrotic', 'debuff', 'area']
       },
-
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 20
-        }
+        aoeParameters: { radius: 20 }
       },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes',
-        concentration: true
-      },
-
       resourceCost: {
-        mana: 20,
-        health: 0,
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 25 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Aura Mortis!',
-        somaticText: 'Spread arms, releasing death energy',
         useFormulas: {
           health: true
         },
@@ -1783,139 +1700,936 @@ Keep a note of which curses are affecting you:
           health: '2d8'
         }
       },
-
-      resolution: 'AUTOMATIC',
-
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
       damageConfig: {
         formula: '2d6',
-        damageType: 'necrotic',
+        elementType: 'necrotic',
+        damageType: 'area',
         frequency: 'start_of_turn'
       },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'decay_debuff',
+          name: 'Decay',
+          description: 'Weakened by necrotic energy - damage output reduced',
+          statusType: 'weakened',
+          level: 'moderate'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true
+      },
+      resolution: 'AUTOMATIC',
+      tags: ['aura', 'necrotic', 'debuff', 'area']
+    },
 
-      effects: {
-        aura: {
-          radius: 20,
-          damage: '2d6 necrotic at start of turn',
-          debuff: 'Disadvantage on Constitution saves',
-          duration: '1 minute (concentration)',
-          movesWithCaster: true
+    {
+      id: 'dc_life_link',
+      name: 'Life Link',
+      description: 'Link your life force with an ally, sharing all damage taken.',
+      level: 5,
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_holy_prayerofhealing',
+        tags: ['support', 'protection', 'link', 'damage-sharing']
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetType: 'ally'
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 25 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      utilityConfig: {
+        utilityType: 'enhancement',
+        selectedEffects: [{
+          id: 'life_link',
+          name: 'Life Link',
+          description: 'All damage split evenly between linked targets',
+          duration: 1,
+          durationUnit: 'minutes'
+        }],
+        power: 'major'
+      },
+      tags: ['support', 'protection', 'link', 'damage-sharing']
+    },
+
+    {
+      id: 'dc_hexbreaker_execution',
+      name: 'Hexbreaker Execution',
+      description: 'Attempt to instantly execute a wounded enemy with necrotic power.',
+      level: 5,
+      effectTypes: ['control'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'ability_warrior_execute',
+        tags: ['execute', 'control', 'melee']
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 25 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '3d6'
         }
       },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'severe',
+        duration: 0,
+        durationUnit: 'instant',
+        saveType: 'constitution',
+        saveDC: 16,
+        saveOutcome: 'negates',
+        savingThrow: true,
+        effects: [{
+          id: 'instant_death',
+          name: 'Instant Death',
+          description: 'Attempt to instantly kill wounded targets'
+        }]
+      },
+      tags: ['execute', 'control', 'melee']
+    },
 
-      specialMechanics: {
-        bloodCost: {
-          formula: '2d8',
-          description: 'Sacrifice health to fuel the aura'
+    // ===== LEVEL 6 SPELLS =====
+    {
+      id: 'dc_hexbreaker_fury',
+      name: 'Hexbreaker Fury',
+      description: 'Unleash all accumulated Blood Tokens in a cataclysmic burst of necrotic energy.',
+      level: 6,
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_plaguecloud',
+        tags: ['aoe', 'damage', 'stun', 'ultimate']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 25 }
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
         },
-        auraDamage: {
-          formula: '2d6 necrotic',
-          frequency: 'Start of each enemy turn',
-          noSave: 'Automatic damage, no saving throw'
-        },
-        debuff: {
-          effect: 'Disadvantage on Constitution saves',
-          duration: 'While in aura',
-          synergy: 'Combos with poison, disease, and exhaustion effects'
-        },
-        frostwalkerSynergy: {
-          description: 'If Frostwalker path is active, enemies also take 1d4 cold damage and have -10ft speed',
-          combined: 'Total: 2d6 necrotic + 1d4 cold + -10ft speed + disadvantage on Con saves'
-        },
-        concentration: {
-          required: true,
-          duration: '1 minute',
-          movesWithCaster: 'Aura follows you as you move'
+        resourceFormulas: {
+          health: '4d6'
         }
       },
-
-      tags: ['aura', 'necrotic', 'debuff', 'area', 'blood-magic', 'deathcaller', 'spectral-master']
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: '4d6',
+        elementType: 'necrotic',
+        damageType: 'area',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'severe',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveType: 'constitution',
+        saveDC: 17,
+        saveOutcome: 'negates',
+        savingThrow: true,
+        effects: [{
+          id: 'anti_magic_burst',
+          name: 'Anti-Magic Burst',
+          description: 'Stuns enemies with cataclysmic necrotic energy'
+        }]
+      },
+      resolution: 'SAVING_THROW',
+      tags: ['aoe', 'damage', 'stun', 'ultimate']
     },
 
     {
       id: 'dc_binding_pain',
       name: 'Binding Pain',
-      description: 'Paralyze all enemies within 30 feet with excruciating pain. Targets must make a DC 16 Constitution save or be paralyzed and take 3d10 necrotic damage. Immobilization lasts 1 turn.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_painandsuffering',
-      school: 'Necromancy',
+      description: 'Paralyze enemies with excruciating pain, dealing damage and immobilizing them.',
       level: 6,
-
+      effectTypes: ['damage', 'control'],
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        school: 'necrotic',
+        icon: 'spell_shadow_painandsuffering',
+        tags: ['crowd-control', 'paralysis', 'necrotic', 'area']
       },
-
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 30
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy'],
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false,
+        propagationMethod: 'spreading',
+        propagationBehavior: 'contagion'
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 28 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '3d6'
         }
       },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 1
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
-
-      resourceCost: {
-        mana: 25,
-        health: 0,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Dolor Vinculum!',
-        somaticText: 'Clench fist, binding enemies in pain'
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrowConfig: {
-        ability: 'constitution',
-        difficultyClass: 16,
-        onSuccess: 'Half damage, no paralysis',
-        onFailure: 'Full damage + paralyzed for 1 turn'
-      },
-
       damageConfig: {
         formula: '3d10',
-        damageType: 'necrotic'
+        elementType: 'necrotic',
+        damageType: 'area'
       },
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'strong',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveType: 'constitution',
+        saveDC: 16,
+        savingThrow: true,
+        effects: [{
+          id: 'pain_paralysis',
+          name: 'Pain Paralysis',
+          description: 'Paralyzed by overwhelming pain'
+        }]
+      },
+      resolution: 'SAVING_THROW',
+      tags: ['crowd-control', 'paralysis', 'necrotic', 'area']
+    },
 
-      effects: {
-        damage: {
-          formula: '3d10',
-          type: 'necrotic',
-          savingThrow: 'DC 16 Constitution',
-          saveEffect: 'Half damage'
+    {
+      id: 'dc_eternal_agony',
+      name: 'Eternal Agony',
+      description: 'Inflict escalating psychic pain that grows more severe each turn.',
+      level: 6,
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_curseofsargeras',
+        tags: ['damage', 'psychic', 'dot', 'escalating', 'blood-magic']
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'lowest_health',
+        requiresLineOfSight: true,
+        propagationMethod: 'seeking',
+        propagationBehavior: 'aggressive'
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 28 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
         },
-        paralysis: {
-          duration: '1 turn',
-          savingThrow: 'DC 16 Constitution',
-          onFailure: 'Paralyzed - cannot move or take actions',
-          onSuccess: 'No paralysis'
+        resourceFormulas: {
+          health: '1d10'
         }
       },
-
-      specialMechanics: {
-        areaControl: {
-          radius: 30,
-          targets: 'All enemies',
-          friendly: 'Allies are unaffected'
-        },
-        paralysis: {
-          duration: '1 turn',
-          effect: 'Cannot move, take actions, or reactions',
-          autoHit: 'Attacks against paralyzed targets have advantage',
-          autoCrit: 'Melee attacks against paralyzed targets auto-crit'
-        },
-        tacticalUse: {
-          setup: 'Paralyze enemies for allies to capitalize',
-          escape: 'Lock down pursuers to flee',
-          burst: 'Combo with area damage for massive burst'
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: 'escalating',
+        elementType: 'psychic',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: 'turn_number * 1d6 * health_sacrificed',
+          duration: 5,
+          tickFrequency: 'round',
+          isProgressiveDot: true,
+          progressiveStages: [
+            { round: 1, formula: '1d6 * health_sacrificed', description: 'Initial agony' },
+            { round: 2, formula: '2d6 * health_sacrificed', description: 'Growing pain' },
+            { round: 3, formula: '3d6 * health_sacrificed', description: 'Severe torment' },
+            { round: 4, formula: '4d6 * health_sacrificed', description: 'Excruciating pain' },
+            { round: 5, formula: '5d6 * health_sacrificed', description: 'Unbearable agony' }
+          ]
         }
       },
+      resolution: 'DICE',
+      tags: ['damage', 'psychic', 'dot', 'escalating', 'blood-magic']
+    },
 
-      tags: ['crowd-control', 'paralysis', 'necrotic', 'area', 'deathcaller', 'void-caller']
+    // ===== LEVEL 7 SPELLS =====
+    {
+      id: 'dc_hexbreaker_storm',
+      name: 'Hexbreaker Storm',
+      description: 'Summon a raging storm of necrotic energy that damages enemies over time.',
+      level: 7,
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_shadowbolt',
+        tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 30 }
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '5d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'necrotic',
+        damageType: 'area',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '3d8',
+          duration: 1,
+          tickFrequency: 'round',
+          isProgressiveDot: false
+        },
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'anti_magic_weakening',
+          name: 'Anti-Magic Weakening',
+          description: 'Spells have disadvantage and mana cannot be regained - damage output and spell effectiveness reduced',
+          statusType: 'weakened',
+          level: 'major'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true
+      },
+      resolution: 'DICE',
+      tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
+    },
+
+    {
+      id: 'dc_apex_predator',
+      name: 'Apex Predator',
+      description: 'Transform into a perfect hunter, becoming invisible to enemies and gaining supernatural abilities.',
+      level: 7,
+      effectTypes: ['transformation'],
+      typeConfig: {
+        school: 'shadow',
+        icon: 'ability_hunter_beastmastery',
+        tags: ['transformation', 'stealth', 'buff']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self',
+        targetRestrictions: ['self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false,
+        propagationMethod: 'none'
+      },
+      resourceCost: {
+        resourceTypes: ['mana', 'health'],
+        resourceValues: { mana: 32 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '4d8'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 10,
+        durationUnit: 'minutes',
+        power: 'major',
+        specialEffects: ['invisibility_to_enemies', 'supernatural_senses', 'enhanced_speed']
+      },
+      tags: ['transformation', 'stealth', 'buff']
+    },
+
+    {
+      id: 'dc_final_hour',
+      name: 'Final Hour',
+      description: 'Enter a state of ultimate focus where every attack becomes devastating.',
+      level: 7,
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'ability_hunter_snipershot',
+        tags: ['transformation', 'damage', 'mobility']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '5d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'ultimate_focus',
+          name: 'Ultimate Focus',
+          description: 'Every attack triggers enhanced effects and major enhancements',
+          statusType: 'enhanced',
+          level: 'extreme'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      tags: ['transformation', 'damage', 'mobility']
+    },
+
+    // ===== LEVEL 8 SPELLS =====
+    {
+      id: 'dc_judgment_day',
+      name: 'Judgment Day',
+      description: 'Call down necrotic judgment on all enemies within range, dealing massive damage.',
+      level: 8,
+      effectTypes: ['damage', 'healing'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_holy_divineintervention',
+        tags: ['aoe', 'damage', 'healing', 'necrotic']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 40 }
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '6d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: '6d8',
+        elementType: 'necrotic',
+        damageType: 'area',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      healingConfig: {
+        formula: '6d8',
+        healingType: 'direct',
+        hasHotEffect: false,
+        hasShieldEffect: false
+      },
+      resolution: 'DICE',
+      savingThrowConfig: {
+        enabled: true,
+        savingThrowType: 'wisdom',
+        difficultyClass: 18,
+        saveOutcome: 'halves'
+      },
+      tags: ['aoe', 'damage', 'healing', 'necrotic']
+    },
+
+    {
+      id: 'dc_shadow_ascendant',
+      name: 'Shadow Ascendant',
+      description: 'Ascend into shadow form, becoming an entity of pure necrotic power.',
+      level: 8,
+      effectTypes: ['transformation'],
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_shadesofdarkness',
+        tags: ['transformation', 'mobility', 'damage']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '6d8'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      transformationConfig: {
+        transformationType: 'elemental',
+        targetType: 'self',
+        duration: 1,
+        durationUnit: 'minutes',
+        power: 'major',
+        specialEffects: ['shadow_entity', 'teleportation', 'damage_reduction', 'wall_phasing']
+      },
+      tags: ['transformation', 'mobility', 'damage']
+    },
+
+    {
+      id: 'dc_anti_magic_storm',
+      name: 'Anti-Magic Storm',
+      description: 'Create a massive storm that completely nullifies magic in a wide area.',
+      level: 8,
+      effectTypes: ['damage', 'utility'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_antimagic',
+        tags: ['aoe', 'anti-magic', 'suppression', 'concentration']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 40 }
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '7d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: '4d10',
+        elementType: 'force',
+        damageType: 'area',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      utilityConfig: {
+        utilityType: 'environment',
+        selectedEffects: [{
+          id: 'total_magic_nullification',
+          name: 'Total Magic Nullification',
+          description: 'All magic fails, effects are dispelled, mana cannot be used',
+          duration: 1,
+          durationUnit: 'minutes',
+          concentration: true
+        }],
+        power: 'major'
+      },
+      resolution: 'DICE',
+      tags: ['aoe', 'anti-magic', 'suppression', 'concentration']
+    },
+
+    // ===== LEVEL 9 SPELLS =====
+    {
+      id: 'dc_hexbreaker_apocalypse',
+      name: 'Hexbreaker Apocalypse',
+      description: 'Unleash apocalyptic levels of necrotic energy that reshape reality itself.',
+      level: 9,
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_shadowfury',
+        tags: ['aoe', 'damage', 'damage-over-time', 'anti-magic']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 50 }
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '8d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: '8d8',
+        elementType: 'necrotic',
+        damageType: 'area',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '4d8',
+          duration: 1,
+          tickFrequency: 'round',
+          isProgressiveDot: false
+        },
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'apocalyptic_weakening',
+          name: 'Apocalyptic Weakening',
+          description: 'Enemies cannot cast spells, teleport, or regain mana - damage output and abilities severely reduced',
+          statusType: 'weakened',
+          level: 'extreme'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        saveType: 'constitution',
+        saveDC: 19,
+        saveOutcome: 'negates'
+      },
+      resolution: 'DICE',
+      savingThrowConfig: {
+        enabled: true,
+        savingThrowType: 'constitution',
+        difficultyClass: 19,
+        saveOutcome: 'halves'
+      },
+      tags: ['aoe', 'damage', 'damage-over-time', 'anti-magic']
+    },
+
+    {
+      id: 'dc_void_hunter',
+      name: 'Void Hunter',
+      description: 'Step into the void between worlds, becoming a perfect hunter that can strike from anywhere.',
+      level: 9,
+      effectTypes: ['transformation'],
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_nethercloak',
+        tags: ['transformation', 'mobility', 'damage']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '8d8'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      transformationConfig: {
+        transformationType: 'phaseshift',
+        targetType: 'self',
+        duration: 10,
+        durationUnit: 'minutes',
+        power: 'major',
+        specialEffects: ['void_existence', 'teleport_anywhere', 'ignore_defenses', 'complete_immunity']
+      },
+      tags: ['transformation', 'mobility', 'damage']
+    },
+
+    {
+      id: 'dc_divine_executioner',
+      name: 'Divine Executioner',
+      description: 'Become an instrument of necrotic justice, executing evil with righteous fury.',
+      level: 9,
+      effectTypes: ['transformation'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_holy_righteousfury',
+        tags: ['transformation', 'damage', 'mobility']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '8d10'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 10,
+        durationUnit: 'minutes',
+        power: 'major',
+        specialEffects: ['instant_death_zone', 'complete_evil_immunity', 'necrotic_judgment', 'truth_compulsion', 'zone_of_decay']
+      },
+      tags: ['transformation', 'damage', 'mobility']
+    },
+
+    // ===== LEVEL 10 SPELLS =====
+    {
+      id: 'dc_hexbreaker_armageddon',
+      name: 'Hexbreaker Armageddon',
+      description: 'End the age of magic itself, unleashing total necrotic annihilation.',
+      level: 10,
+      effectTypes: ['damage', 'utility'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_shadowfury',
+        tags: ['aoe', 'damage', 'permanent', 'anti-magic']
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'sphere',
+        aoeParameters: { radius: 100 }
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true
+        },
+        resourceFormulas: {
+          health: '10d6'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      damageConfig: {
+        formula: '10d10',
+        elementType: 'necrotic',
+        damageType: 'area',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false
+      },
+      utilityConfig: {
+        utilityType: 'environment',
+        selectedEffects: [{
+          id: 'permanent_magic_ending',
+          name: 'Permanent Magic Ending',
+          description: 'All magic permanently ends in the area, reality rejects magic forever',
+          duration: 1,
+          durationUnit: 'hours'
+        }],
+        power: 'major'
+      },
+      resolution: 'DICE',
+      savingThrowConfig: {
+        enabled: true,
+        savingThrowType: 'charisma',
+        difficultyClass: 20,
+        saveOutcome: 'negates'
+      },
+      tags: ['aoe', 'damage', 'permanent', 'anti-magic']
+    },
+
+    {
+      id: 'dc_shadow_god',
+      name: 'Shadow God',
+      description: 'Become a god of shadows, wielding ultimate power over darkness and necrotic energy.',
+      level: 10,
+      effectTypes: ['transformation'],
+      typeConfig: {
+        school: 'shadow',
+        icon: 'spell_shadow_nethercloak',
+        tags: ['transformation', 'permanent', 'godlike']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true,
+          permanentHealth: true
+        },
+        resourceFormulas: {
+          health: '10d8',
+          permanentHealth: '2d10'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 0,
+        durationUnit: 'permanent',
+        power: 'major',
+        specialEffects: ['complete_immunity', 'instant_teleport', 'auto_crit', 'shadow_manipulation', 'evil_banishment']
+      },
+      tags: ['transformation', 'permanent', 'godlike']
+    },
+
+    {
+      id: 'dc_necrotic_incarnation',
+      name: 'Necrotic Incarnation',
+      description: 'Become the physical incarnation of necrotic wrath and blood magic.',
+      level: 10,
+      effectTypes: ['transformation'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_shadesofdarkness',
+        tags: ['transformation', 'permanent', 'godlike']
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['bloodTokens'],
+        resourceValues: { bloodTokens: 6 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        useFormulas: {
+          health: true,
+          permanentHealth: true
+        },
+        resourceFormulas: {
+          health: '10d10',
+          permanentHealth: '3d8'
+        }
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 0,
+        durationUnit: 'permanent',
+        power: 'major',
+        specialEffects: ['instant_death_zone', 'complete_evil_immunity', 'necrotic_judgment', 'truth_compulsion', 'zone_of_decay']
+      },
+      tags: ['transformation', 'permanent', 'godlike']
     }
   ]
 };

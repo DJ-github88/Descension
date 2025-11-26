@@ -43,7 +43,8 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
       { id: 'poison', name: 'Poison', description: 'Toxic substances that sicken and weaken', icon: 'spell_nature_corrosivebreath' },
       { id: 'void', name: 'Void', description: 'Magic from the spaces between realities', icon: 'spell_shadow_shadowfury' },
       { id: 'shadow', name: 'Shadow', description: 'Dark magic dealing with stealth and deception', icon: 'spell_shadow_shadowbolt' },
-      { id: 'nature', name: 'Nature', description: 'Primal magic drawn from the elements and living world', icon: 'spell_nature_naturetouchgrow' }
+      { id: 'nature', name: 'Nature', description: 'Primal magic drawn from the elements and living world', icon: 'spell_nature_naturetouchgrow' },
+      { id: 'chaos', name: 'Chaos', description: 'Unpredictable magic that defies categorization and creates random effects', icon: 'spell_shadow_charm' }
     ]
   };
 
@@ -280,7 +281,9 @@ const Step1BasicInfo = ({ onNext, onPrevious, stepNumber, totalSteps, isActive }
               </div>
 
               <small className="spell-wizard-help-text">
-                Select primary and secondary damage types for your spell. Any type can be used for both damage and healing effects.
+                <strong>Select your damage types:</strong> Click once for primary, click a second element for secondary (up to 2 types). 
+                Spells with multiple damage types will display both badges and show "Fire and Cold Damage" in the formula. 
+                Any type can be used for both damage and healing effects.
               </small>
             </div>
 

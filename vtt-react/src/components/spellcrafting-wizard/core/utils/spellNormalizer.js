@@ -454,17 +454,49 @@ function normalizeBuffConfig(spell) {
 
   // Ensure effects array exists if buffConfig exists
   if (spell.buffConfig) {
+    // CRITICAL: Convert statModifiers[] to effects[] format for consistency
+    // This ensures all spells use the same structure regardless of source
+    if (spell.buffConfig.statModifiers && Array.isArray(spell.buffConfig.statModifiers) && spell.buffConfig.statModifiers.length > 0) {
+      // Convert each statModifier to an effect with statModifier property
+      if (!Array.isArray(spell.buffConfig.effects)) {
+        spell.buffConfig.effects = [];
+      }
+      
+      // Only convert if effects array is empty or doesn't have these statModifiers already
+      const existingStatMods = spell.buffConfig.effects.filter(e => e.statModifier).map(e => e.statModifier.stat);
+      spell.buffConfig.statModifiers.forEach(statMod => {
+        // Check if this statModifier is already in effects array
+        if (!existingStatMods.includes(statMod.stat || statMod.id)) {
+          spell.buffConfig.effects.push({
+            id: statMod.id || `stat_${statMod.stat || statMod.name}`,
+            name: statMod.name || (statMod.stat ? statMod.stat.charAt(0).toUpperCase() + statMod.stat.slice(1) : 'Stat Modifier'),
+            description: statMod.description || '',
+            statModifier: {
+              stat: statMod.stat || statMod.id,
+              magnitude: statMod.magnitude || statMod.value || 0,
+              magnitudeType: statMod.magnitudeType || statMod.type || 'flat',
+              category: statMod.category,
+              resistanceType: statMod.resistanceType
+            }
+          });
+        }
+      });
+      
+      // Clear statModifiers array after conversion to avoid duplicate processing
+      // Keep it for backward compatibility but mark as converted
+      spell.buffConfig._statModifiersConverted = true;
+    }
+    
+    // Ensure effects array exists
     if (!Array.isArray(spell.buffConfig.effects)) {
       spell.buffConfig.effects = spell.buffConfig.effects ? [spell.buffConfig.effects] : [];
     }
-    // Ensure statModifiers array exists if it doesn't
-    if (!Array.isArray(spell.buffConfig.statModifiers)) {
-      spell.buffConfig.statModifiers = spell.buffConfig.statModifiers ? [spell.buffConfig.statModifiers] : [];
-    }
+    
     // Ensure statusEffects array exists if it doesn't
     if (!Array.isArray(spell.buffConfig.statusEffects)) {
       spell.buffConfig.statusEffects = spell.buffConfig.statusEffects ? [spell.buffConfig.statusEffects] : [];
     }
+    
     return spell.buffConfig;
   }
 

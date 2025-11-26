@@ -1656,7 +1656,7 @@ button.gender-option.selected {
     }
 
     .character-wizard-container .basic-info-layout .preview-card {
-        order: -1;
+        order: 1;
         position: static;
         min-height: auto;
         margin-bottom: 1rem;

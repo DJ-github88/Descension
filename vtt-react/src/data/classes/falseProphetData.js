@@ -2118,6 +2118,590 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       flavorText: 'They see their doom. They cannot look away.'
+    },
+
+    // ADDITIONAL LEVEL 1 SPELLS
+    {
+      id: 'fp_false_promise',
+      name: 'False Promise',
+      description: 'Make a false promise to an enemy, charming them for 2 rounds.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_prayerofhealing',
+        tags: ['control', 'charm', 'deception', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      controlConfig: {
+        controlType: 'mind_control',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'charmed',
+          name: 'Charmed',
+          description: 'Charmed by false promises - cannot attack caster for 2 rounds',
+          config: {
+            charmType: 'friendly'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'charm', 'deception', 'universal']
+    },
+
+    {
+      id: 'fp_whisper_lies',
+      name: 'Whisper Lies',
+      description: 'Whisper lies to an enemy, reducing their Spirit by 2 for 3 rounds.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['debuff'],
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_charm',
+        tags: ['debuff', 'lies', 'spirit-reduction', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'lies_whispered',
+          name: 'Lies Whispered',
+          description: 'Spirit reduced by 2 from whispered lies for 3 rounds',
+          statusType: 'weakened',
+          statModifier: {
+            stat: 'spirit',
+            magnitude: -2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['debuff', 'lies', 'spirit-reduction', 'universal']
+    },
+
+    {
+      id: 'fp_illusion_bolt',
+      name: 'Illusion Bolt',
+      description: 'Fire a bolt of illusory energy dealing 1d8 psychic damage.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'illusion',
+        icon: 'spell_shadow_mindsteal',
+        tags: ['damage', 'psychic', 'illusion', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '1d8',
+        elementType: 'psychic',
+        damageType: 'direct'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 10
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'psychic', 'illusion', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 2 SPELLS
+    {
+      id: 'fp_false_healing',
+      name: 'False Healing',
+      description: 'Pretend to heal an ally - appears to heal for 3d6 but actually does nothing.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+
+      typeConfig: {
+        school: 'illusion',
+        icon: 'spell_holy_heal',
+        tags: ['utility', 'deception', 'illusion', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally'],
+        maxTargets: 1
+      },
+
+      utilityConfig: {
+        utilityType: 'deception',
+        selectedEffects: [{
+          id: 'false_healing',
+          name: 'False Healing',
+          description: 'Appears to heal but does nothing - enemies believe target is healed'
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
+        power: 'weak'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['utility', 'deception', 'illusion', 'universal']
+    },
+
+    {
+      id: 'fp_deceptive_strike',
+      name: 'Deceptive Strike',
+      description: 'Strike with deception, dealing 3d6 psychic damage and confusing the target for 1 round.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+
+      typeConfig: {
+        school: 'illusion',
+        icon: 'spell_shadow_shadowwordpain',
+        tags: ['damage', 'psychic', 'control', 'confusion', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '3d6',
+        elementType: 'psychic',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'mind_control',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 13,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'confused',
+          name: 'Confused',
+          description: 'Confused by deception - may attack random target for 1 round',
+          config: {
+            confusionType: 'random_target'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 15
+        },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'psychic', 'control', 'confusion', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 7 SPELLS
+    {
+      id: 'fp_grand_deception',
+      name: 'Grand Deception',
+      description: 'Create a grand deception that confuses all enemies in a 30 foot radius for 3 rounds.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'illusion',
+        icon: 'spell_shadow_charm',
+        tags: ['control', 'confusion', 'aoe', 'deception', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy']
+      },
+
+      controlConfig: {
+        controlType: 'mind_control',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'grand_confusion',
+          name: 'Grand Confusion',
+          description: 'All enemies confused - may attack allies or do nothing for 3 rounds',
+          config: {
+            confusionType: 'complete'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 45
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'confusion', 'aoe', 'deception', 'universal']
+    },
+
+    {
+      id: 'fp_reality_distortion',
+      name: 'Reality Distortion',
+      description: 'Distort reality around enemies, dealing 8d8 psychic damage and disorienting them.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+
+      typeConfig: {
+        school: 'illusion',
+        icon: 'spell_shadow_twilight',
+        tags: ['damage', 'psychic', 'debuff', 'distortion', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '8d8',
+        elementType: 'psychic',
+        damageType: 'area'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'disoriented',
+          name: 'Disoriented',
+          description: 'Disoriented by reality distortion - disadvantage on all rolls for 2 rounds',
+          statusType: 'disoriented'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 45
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'psychic', 'debuff', 'distortion', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 8 SPELL
+    {
+      id: 'fp_mass_manipulation',
+      name: 'Mass Manipulation',
+      description: 'Manipulate the minds of all enemies in sight, controlling their actions for 2 rounds.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_mindsteal',
+        tags: ['control', 'manipulation', 'mind-control', 'mass', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      controlConfig: {
+        controlType: 'mind_control',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'mass_control',
+          name: 'Mass Manipulation',
+          description: 'All enemies controlled - must follow your commands for 2 rounds',
+          config: {
+            controlType: 'full'
+          }
+        }]
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 50
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 10
+      },
+
+      resolution: 'DICE',
+      tags: ['control', 'manipulation', 'mind-control', 'mass', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 9 SPELL
+    {
+      id: 'fp_ultimate_deception',
+      name: 'Ultimate Deception',
+      description: 'Create the ultimate deception that makes enemies believe they won, then devastates them with 12d10 psychic damage.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+
+      typeConfig: {
+        school: 'illusion',
+        icon: 'spell_shadow_charm',
+        tags: ['damage', 'psychic', 'ultimate', 'deception', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      damageConfig: {
+        formula: '12d10',
+        elementType: 'psychic',
+        damageType: 'area'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 60
+        },
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 15
+      },
+
+      resolution: 'DICE',
+      tags: ['damage', 'psychic', 'ultimate', 'deception', 'universal']
+    },
+
+    // ADDITIONAL LEVEL 10 SPELL
+    {
+      id: 'fp_prophet_of_lies',
+      name: 'Prophet of Lies',
+      description: 'Ascend to become the ultimate Prophet of Lies, gaining complete control over reality and perception.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_possession',
+        tags: ['transformation', 'ultimate', 'god-form', 'universal'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      transformationConfig: {
+        transformationType: 'ascended',
+        newForm: 'Prophet of Lies',
+        duration: 10,
+        durationUnit: 'rounds',
+        statsBonus: {
+          intelligence: 10,
+          spirit: 10,
+          charisma: 10
+        },
+        newAbilities: ['Reality Warp', 'Mass Manipulation', 'Ultimate Deception', 'Mind Control', 'Illusion Mastery'],
+        resistances: ['psychic', 'all'],
+        immunities: ['charm', 'fear', 'confusion']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: {
+          mana: 100
+        },
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      resolution: 'DICE',
+      tags: ['transformation', 'ultimate', 'god-form', 'universal']
     }
   ]
 };

@@ -231,7 +231,7 @@ function GridComponent({
     const [isGridAlignmentDragging, setIsGridAlignmentDragging] = useState(false);
     const [gridAlignmentStart, setGridAlignmentStart] = useState({ x: 0, y: 0 });
     const [gridAlignmentEnd, setGridAlignmentEnd] = useState({ x: 0, y: 0 });
-    
+
     // Track if camera drag should be enabled (for pointer events)
     const [shouldEnableCameraDrag, setShouldEnableCameraDrag] = useState(false);
 
@@ -370,7 +370,7 @@ function GridComponent({
     const hasSetPlayerViewRef = useRef(false);
     const playerViewSetupTimeoutRef = useRef(null);
     const previousGMModeRef = useRef(isGMMode);
-    
+
     // TEMPORARILY DISABLE ENTIRE PLAYER VIEW SETUP TO TEST
     // // PERFORMANCE FIX: Only run player view setup when actually switching from GM to Player mode
     // // Remove characterTokens from dependencies to prevent constant re-runs
@@ -529,7 +529,7 @@ function GridComponent({
             // Attach wall to the appropriate tile(s)
             if (wallDecoration.isVertical) {
                 // Vertical wall - attach to tiles on both sides
-                const leftTileKey = `${x1-1},${y1}`;
+                const leftTileKey = `${x1 - 1},${y1}`;
                 const rightTileKey = `${x1},${y1}`;
 
                 if (!decorations.has(leftTileKey)) decorations.set(leftTileKey, []);
@@ -539,7 +539,7 @@ function GridComponent({
                 decorations.get(rightTileKey).push({ ...wallDecoration, side: 'left' });
             } else if (wallDecoration.isHorizontal) {
                 // Horizontal wall - attach to tiles on both sides
-                const topTileKey = `${x1},${y1-1}`;
+                const topTileKey = `${x1},${y1 - 1}`;
                 const bottomTileKey = `${x1},${y1}`;
 
                 if (!decorations.has(topTileKey)) decorations.set(topTileKey, []);
@@ -761,33 +761,33 @@ function GridComponent({
                 setShouldEnableCameraDrag(true);
             }
         };
-        
+
         const handleDocumentMouseUp = (e) => {
             // Disable camera drag when mouse button is released
             if (e.button === 1 || (e.button === 0 && e.ctrlKey)) {
                 setShouldEnableCameraDrag(false);
             }
         };
-        
+
         const handleDocumentKeyDown = (e) => {
             // Enable camera drag when Ctrl is pressed
             if (e.ctrlKey || e.key === 'Control') {
                 setShouldEnableCameraDrag(true);
             }
         };
-        
+
         const handleDocumentKeyUp = (e) => {
             // Disable camera drag when Ctrl is released (if not dragging)
             if (!e.ctrlKey && !isDraggingCamera) {
                 setShouldEnableCameraDrag(false);
             }
         };
-        
+
         document.addEventListener('mousedown', handleDocumentMouseDown);
         document.addEventListener('mouseup', handleDocumentMouseUp);
         document.addEventListener('keydown', handleDocumentKeyDown);
         document.addEventListener('keyup', handleDocumentKeyUp);
-        
+
         return () => {
             document.removeEventListener('mousedown', handleDocumentMouseDown);
             document.removeEventListener('mouseup', handleDocumentMouseUp);
@@ -810,7 +810,7 @@ function GridComponent({
             pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
             return;
         }
-        
+
         // Handle Ctrl+Left click for camera drag
         if (e.button === 0 && e.ctrlKey) {
             e.preventDefault();
@@ -1016,13 +1016,13 @@ function GridComponent({
             if (cameraDragRafRef.current === null) {
                 cameraDragRafRef.current = requestAnimationFrame(() => {
                     const { deltaX: totalDeltaX, deltaY: totalDeltaY } = pendingCameraDeltaRef.current;
-                    
+
                     // Use zoom props to avoid stale values
                     const currentEffectiveZoom = zoomLevel * playerZoom;
-                    
+
                     // Move camera in opposite direction to simulate panning (use effective zoom)
                     moveCameraBy(-totalDeltaX / currentEffectiveZoom, -totalDeltaY / currentEffectiveZoom);
-                    
+
                     // Reset pending deltas
                     pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
                     cameraDragRafRef.current = null;
@@ -1065,14 +1065,14 @@ function GridComponent({
                 cancelAnimationFrame(cameraDragRafRef.current);
                 cameraDragRafRef.current = null;
             }
-            
+
             // Apply any remaining pending delta
             const { deltaX, deltaY } = pendingCameraDeltaRef.current;
             if (deltaX !== 0 || deltaY !== 0) {
                 moveCameraBy(-deltaX / effectiveZoom, -deltaY / effectiveZoom);
                 pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
             }
-            
+
             setIsDraggingCamera(false);
             gameStore.setState({ isDraggingCamera: false }); // Update global state
             window._isDraggingCamera = false; // PERFORMANCE FIX: Clear window flag
@@ -1155,7 +1155,7 @@ function GridComponent({
                 cancelAnimationFrame(cameraDragRafRef.current);
                 cameraDragRafRef.current = null;
             }
-            
+
             // Apply any remaining pending delta
             const { deltaX, deltaY } = pendingCameraDeltaRef.current;
             if (deltaX !== 0 || deltaY !== 0) {
@@ -1163,7 +1163,7 @@ function GridComponent({
                 pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
             }
         }
-        
+
         // Simply stop camera dragging - no momentum
         setIsDraggingCamera(false);
         gameStore.setState({ isDraggingCamera: false }); // Update global state
@@ -1197,11 +1197,11 @@ function GridComponent({
             if (!element) return false;
             const style = window.getComputedStyle(element);
             const hasScrollableOverflow = style.overflow === 'auto' ||
-                                        style.overflow === 'scroll' ||
-                                        style.overflowY === 'auto' ||
-                                        style.overflowY === 'scroll' ||
-                                        style.overflowX === 'auto' ||
-                                        style.overflowX === 'scroll';
+                style.overflow === 'scroll' ||
+                style.overflowY === 'auto' ||
+                style.overflowY === 'scroll' ||
+                style.overflowX === 'auto' ||
+                style.overflowX === 'scroll';
             return hasScrollableOverflow;
         };
 
@@ -1247,12 +1247,12 @@ function GridComponent({
             // This makes zoom feel more responsive, especially for players
             const now = Date.now();
             const timeSinceLastZoom = now - lastZoomTimeRef.current;
-            
+
             // Process zoom immediately if enough time has passed, or queue for RAF if too frequent
             if (timeSinceLastZoom > 16 || zoomRafRef.current === null) {
                 // Process zoom immediately for better responsiveness
                 const { deltaY: totalDeltaY, mouseX, mouseY } = pendingZoomDeltaRef.current;
-                
+
                 // Use zoom props
                 const currentZoom = playerZoom;
                 const currentZoomLevel = zoomLevel;
@@ -1263,10 +1263,10 @@ function GridComponent({
                 // Use exponential scaling for smoother zoom (increased for extreme zoom ranges)
                 const zoomFactor = 1.25;
                 const zoomSteps = Math.abs(totalDeltaY) / 100; // Normalize delta
-                const zoomMultiplier = totalDeltaY < 0 ? 
-                    Math.pow(zoomFactor, zoomSteps) : 
+                const zoomMultiplier = totalDeltaY < 0 ?
+                    Math.pow(zoomFactor, zoomSteps) :
                     Math.pow(1 / zoomFactor, zoomSteps);
-                
+
                 let targetZoom = currentZoom * zoomMultiplier;
                 targetZoom = Math.max(currentMinZoom, Math.min(currentMaxZoom, targetZoom));
 
@@ -1285,7 +1285,7 @@ function GridComponent({
 
                 // Reset pending deltas
                 pendingZoomDeltaRef.current = { deltaY: 0, mouseX: 0, mouseY: 0 };
-                
+
                 // Cancel any pending RAF since we processed immediately
                 if (zoomRafRef.current !== null) {
                     cancelAnimationFrame(zoomRafRef.current);
@@ -1296,7 +1296,7 @@ function GridComponent({
                 if (zoomRafRef.current === null) {
                     zoomRafRef.current = requestAnimationFrame(() => {
                         const { deltaY: totalDeltaY, mouseX, mouseY } = pendingZoomDeltaRef.current;
-                        
+
                         // Use zoom props
                         const currentZoom = playerZoom;
                         const currentZoomLevel = zoomLevel;
@@ -1306,10 +1306,10 @@ function GridComponent({
                         // Calculate target zoom based on accumulated delta
                         const zoomFactor = 1.25;
                         const zoomSteps = Math.abs(totalDeltaY) / 100;
-                        const zoomMultiplier = totalDeltaY < 0 ? 
-                            Math.pow(zoomFactor, zoomSteps) : 
+                        const zoomMultiplier = totalDeltaY < 0 ?
+                            Math.pow(zoomFactor, zoomSteps) :
                             Math.pow(1 / zoomFactor, zoomSteps);
-                        
+
                         let targetZoom = currentZoom * zoomMultiplier;
                         targetZoom = Math.max(currentMinZoom, Math.min(currentMaxZoom, targetZoom));
 
@@ -1412,13 +1412,13 @@ function GridComponent({
             document.removeEventListener('mouseup', handleMouseUp);
             gridElement.removeEventListener('wheel', handleWheel, { capture: true });
             document.removeEventListener('wheel', handleWheel, { capture: true });
-            
+
             // Clean up scroll pan RAF if still pending
             if (scrollPanRafRef.current !== null) {
                 cancelAnimationFrame(scrollPanRafRef.current);
                 scrollPanRafRef.current = null;
             }
-            
+
             // PERFORMANCE FIX: Clean up zoom RAF if still pending
             if (zoomRafRef.current !== null) {
                 cancelAnimationFrame(zoomRafRef.current);
@@ -1446,10 +1446,10 @@ function GridComponent({
             // IMPORTANT: Don't use generic target.draggable check as it matches creatures too
             const target = e.target;
             const isItemDrag = target.closest('.item-card') ||
-                              target.closest('.inventory-item') ||
-                              target.closest('.container-item') ||
-                              target.closest('.gm-item') || // GM notes items
-                              window.isDraggingItem; // Also check global flag set by ItemCard
+                target.closest('.inventory-item') ||
+                target.closest('.container-item') ||
+                target.closest('.gm-item') || // GM notes items
+                window.isDraggingItem; // Also check global flag set by ItemCard
 
             if (isItemDrag) {
                 isDraggingItemRef.current = true;
@@ -1646,15 +1646,15 @@ function GridComponent({
         // Handle drop event for document-level drops
         const handleDocumentDrop = (e) => {
             const dataText = e.dataTransfer.getData('text/plain');
-            
+
             // Handle item drops
             if (isDraggingItemRef.current || window.isDraggingItem) {
                 e.preventDefault();
-                
+
                 try {
                     if (dataText && dataText.trim() !== '') {
                         const data = JSON.parse(dataText);
-                        
+
                         // Handle item drops from GM notes or item library
                         // GM notes spreads the full item, so data.type will be the item's actual type (weapon, armor, etc.)
                         // Item library uses data.type === 'item' and stores item in data.item
@@ -1713,10 +1713,10 @@ function GridComponent({
                                 // Ensure item has required properties for addItemToGrid
                                 if (!cleanItem.type && cleanItem.name) {
                                     // Try to infer type from item properties if missing
-                                    cleanItem.type = cleanItem.weaponStats ? 'weapon' : 
-                                                     cleanItem.armorClass ? 'armor' : 
-                                                     cleanItem.utilityStats ? 'accessory' : 
-                                                     'miscellaneous';
+                                    cleanItem.type = cleanItem.weaponStats ? 'weapon' :
+                                        cleanItem.armorClass ? 'armor' :
+                                            cleanItem.utilityStats ? 'accessory' :
+                                                'miscellaneous';
                                 }
 
                                 // Add the item to the grid with the clean position data
@@ -1728,7 +1728,7 @@ function GridComponent({
                             } else {
                                 console.error('Failed to find item for drop:', { itemId, hasItemData, item, data });
                             }
-                            
+
                             // Clear item drag flags
                             isDraggingItemRef.current = false;
                             setIsDraggingItem(false);
@@ -2135,7 +2135,7 @@ function GridComponent({
 
                     // Trigger auto-save for local rooms after placing item
                     setTimeout(() => localRoomService.autoSaveCurrentRoom(), 100);
-                    
+
                     // Stop propagation to prevent document-level drop handler from also processing this
                     e.stopPropagation();
                     return;
@@ -2277,7 +2277,7 @@ function GridComponent({
 
                     // Remove the item from the container
                     const container = useItemStore.getState().items.find(i => i.id === containerId) ||
-                                     useInventoryStore.getState().items.find(i => i.id === containerId);
+                        useInventoryStore.getState().items.find(i => i.id === containerId);
 
                     if (container && container.containerProperties) {
                         const updatedItems = container.containerProperties.items.filter(i => i.id !== item.id);
@@ -2651,8 +2651,8 @@ function GridComponent({
                     overflow: "hidden",
                     zIndex: 0,
                     cursor: isGridAlignmentMode ? 'crosshair' :
-                           isBackgroundManipulationMode ? 'move' :
-                           (isDraggingCamera ? 'grabbing' : 'grab'),
+                        isBackgroundManipulationMode ? 'move' :
+                            (isDraggingCamera ? 'grabbing' : 'grab'),
                     touchAction: 'none', // Prevent touch scrolling
                     userSelect: 'none', // Prevent text selection
                     WebkitUserSelect: 'none', // Prevent text selection on webkit browsers
@@ -2770,14 +2770,14 @@ function GridComponent({
 
                                 // Check for adjacent walls to determine corner connections
                                 const hasAdjacentWalls = {
-                                    topLeft: wallData[`${x1-1},${y1-1},${x1},${y1-1}`] || wallData[`${x1},${y1-1},${x1-1},${y1-1}`],
-                                    topRight: wallData[`${x1},${y1-1},${x1+1},${y1-1}`] || wallData[`${x1+1},${y1-1},${x1},${y1-1}`],
-                                    bottomLeft: wallData[`${x1-1},${y1},${x1},${y1}`] || wallData[`${x1},${y1},${x1-1},${y1}`],
-                                    bottomRight: wallData[`${x1},${y1},${x1+1},${y1}`] || wallData[`${x1+1},${y1},${x1},${y1}`],
-                                    leftTop: wallData[`${x1-1},${y1-1},${x1-1},${y1}`] || wallData[`${x1-1},${y1},${x1-1},${y1-1}`],
-                                    leftBottom: wallData[`${x1-1},${y1},${x1-1},${y1+1}`] || wallData[`${x1-1},${y1+1},${x1-1},${y1}`],
-                                    rightTop: wallData[`${x1},${y1-1},${x1},${y1}`] || wallData[`${x1},${y1},${x1},${y1-1}`],
-                                    rightBottom: wallData[`${x1},${y1},${x1},${y1+1}`] || wallData[`${x1},${y1+1},${x1},${y1}`]
+                                    topLeft: wallData[`${x1 - 1},${y1 - 1},${x1},${y1 - 1}`] || wallData[`${x1},${y1 - 1},${x1 - 1},${y1 - 1}`],
+                                    topRight: wallData[`${x1},${y1 - 1},${x1 + 1},${y1 - 1}`] || wallData[`${x1 + 1},${y1 - 1},${x1},${y1 - 1}`],
+                                    bottomLeft: wallData[`${x1 - 1},${y1},${x1},${y1}`] || wallData[`${x1},${y1},${x1 - 1},${y1}`],
+                                    bottomRight: wallData[`${x1},${y1},${x1 + 1},${y1}`] || wallData[`${x1 + 1},${y1},${x1},${y1}`],
+                                    leftTop: wallData[`${x1 - 1},${y1 - 1},${x1 - 1},${y1}`] || wallData[`${x1 - 1},${y1},${x1 - 1},${y1 - 1}`],
+                                    leftBottom: wallData[`${x1 - 1},${y1},${x1 - 1},${y1 + 1}`] || wallData[`${x1 - 1},${y1 + 1},${x1 - 1},${y1}`],
+                                    rightTop: wallData[`${x1},${y1 - 1},${x1},${y1}`] || wallData[`${x1},${y1},${x1},${y1 - 1}`],
+                                    rightBottom: wallData[`${x1},${y1},${x1},${y1 + 1}`] || wallData[`${x1},${y1 + 1},${x1},${y1}`]
                                 };
 
                                 // Enhanced gap filling with better corner connections
@@ -2867,11 +2867,11 @@ function GridComponent({
                                 textAlign: 'center'
                             }}
                         >
-                            Grid Alignment Mode<br/>
+                            Grid Alignment Mode<br />
                             <span style={{ fontSize: '12px', fontWeight: 'normal' }}>
                                 {gridAlignmentStep === 1 ? 'Step 1/2: Draw first grid cell' :
-                                 gridAlignmentStep === 2 ? 'Step 2/2: Draw second grid cell for better accuracy' :
-                                 'Drag to define grid cell size and position'}
+                                    gridAlignmentStep === 2 ? 'Step 2/2: Draw second grid cell for better accuracy' :
+                                        'Drag to define grid cell size and position'}
                             </span>
                             {gridAlignmentStep === 2 && gridAlignmentRectangles.length > 0 && (
                                 <div style={{ marginTop: '10px' }}>
@@ -2975,12 +2975,12 @@ function GridComponent({
                                 textAlign: 'center'
                             }}
                         >
-                            Background Manipulation Mode<br/>
+                            Background Manipulation Mode<br />
                             {activeBackgroundId && (() => {
                                 const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
                                 return activeBackground ? (
                                     <span style={{ fontSize: '12px', fontWeight: 'normal' }}>
-                                        Editing: {activeBackground.name} (Scale: {activeBackground.scale.toFixed(2)})<br/>
+                                        Editing: {activeBackground.name} (Scale: {activeBackground.scale.toFixed(2)})<br />
                                         Drag to move • Shift+Drag to resize • Scroll to scale
                                     </span>
                                 ) : (
@@ -2998,380 +2998,380 @@ function GridComponent({
                     </div>
                 )}
 
-            {/* Tile Overlay - Always visible tiles */}
-            <TileOverlay />
+                {/* Tile Overlay - Always visible tiles */}
+                <TileOverlay />
 
-            {/* Light Source Overlay - Dynamic lighting system */}
-            <LightSourceOverlay />
+                {/* Light Source Overlay - Dynamic lighting system */}
+                <LightSourceOverlay />
 
-            {/* Shadow Overlay - Dynamic shadow casting */}
-            <ShadowOverlay />
+                {/* Shadow Overlay - Dynamic shadow casting */}
+                <ShadowOverlay />
 
-            {/* Canvas Wall System - High-performance canvas-based wall rendering */}
-            <CanvasWallSystem />
+                {/* Canvas Wall System - High-performance canvas-based wall rendering */}
+                <CanvasWallSystem />
 
-            {/* Render grid items */}
-            {gridItems.map(gridItem => {
-                // Get the original item to check if it's a container
-                // First try using originalItemStoreId if available
-                let originalItem = null;
-                if (gridItem.originalItemStoreId) {
-                    originalItem = useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId);
-                }
+                {/* Render grid items */}
+                {gridItems.map(gridItem => {
+                    // Get the original item to check if it's a container
+                    // First try using originalItemStoreId if available
+                    let originalItem = null;
+                    if (gridItem.originalItemStoreId) {
+                        originalItem = useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId);
+                    }
 
-                // If not found, try the regular itemId
-                if (!originalItem) {
-                    originalItem = useItemStore.getState().items.find(item => item.id === gridItem.itemId);
-                }
+                    // If not found, try the regular itemId
+                    if (!originalItem) {
+                        originalItem = useItemStore.getState().items.find(item => item.id === gridItem.itemId);
+                    }
 
-                // Create a unique key that includes more properties to ensure proper re-rendering
-                const uniqueKey = `${gridItem.id}-${gridItem.itemId || 'no-item'}-${gridItem.addedAt || Date.now()}-${forceRenderKey}`;
+                    // Create a unique key that includes more properties to ensure proper re-rendering
+                    const uniqueKey = `${gridItem.id}-${gridItem.itemId || 'no-item'}-${gridItem.addedAt || Date.now()}-${forceRenderKey}`;
 
-                // If it's a container, render it as a container
-                if (originalItem && originalItem.type === 'container') {
-                    return <GridContainer key={uniqueKey} gridItem={gridItem} />;
-                }
+                    // If it's a container, render it as a container
+                    if (originalItem && originalItem.type === 'container') {
+                        return <GridContainer key={uniqueKey} gridItem={gridItem} />;
+                    }
 
-                // Always render the item, even if the original item is not found
-                // This ensures currency items and other items will appear on the grid
-                return <GridItem key={uniqueKey} gridItem={gridItem} />;
-            })}
+                    // Always render the item, even if the original item is not found
+                    // This ensures currency items and other items will appear on the grid
+                    return <GridItem key={uniqueKey} gridItem={gridItem} />;
+                })}
 
-            {/* Render creature tokens - memoized for performance */}
-            {useMemo(() => tokens.map(token => (
-                <CreatureToken
-                    key={token.id}
-                    tokenId={token.id}
-                    position={token.position}
-                    onRemove={handleRemoveToken}
-                />
-            )), [tokens, handleRemoveToken])}
+                {/* Render creature tokens - memoized for performance */}
+                {useMemo(() => tokens.map(token => (
+                    <CreatureToken
+                        key={token.id}
+                        tokenId={token.id}
+                        position={token.position}
+                        onRemove={handleRemoveToken}
+                    />
+                )), [tokens, handleRemoveToken])}
 
-            {/* Render character tokens - memoized for performance */}
-            {useMemo(() => (characterTokens || []).map(token => (
-                <CharacterToken
-                    key={token.id}
-                    tokenId={token.id}
-                    position={token.position}
-                    onRemove={handleRemoveCharacterToken}
-                    onInspect={handleCharacterTokenInspect}
-                />
-            )), [characterTokens, handleRemoveCharacterToken, handleCharacterTokenInspect])}
+                {/* Render character tokens - memoized for performance */}
+                {useMemo(() => (characterTokens || []).map(token => (
+                    <CharacterToken
+                        key={token.id}
+                        tokenId={token.id}
+                        position={token.position}
+                        onRemove={handleRemoveCharacterToken}
+                        onInspect={handleCharacterTokenInspect}
+                    />
+                )), [characterTokens, handleRemoveCharacterToken, handleCharacterTokenInspect])}
 
-            {/* Movement Visualization - Rendered at grid level for correct positioning */}
-            {/* CRITICAL FIX: Now using reactive state subscriptions instead of getState() */}
-            {showMovementVisualization && activeMovement?.tokenId && activeMovement?.startPosition && activeMovement?.currentPosition && (
-                <MovementVisualization
-                    startPosition={activeMovement.startPosition}
-                    currentPosition={activeMovement.currentPosition}
-                    tokenId={activeMovement.tokenId}
-                    gridSystem={gridSystem}
-                />
-            )}
+                {/* Movement Visualization - Rendered at grid level for correct positioning */}
+                {/* CRITICAL FIX: Now using reactive state subscriptions instead of getState() */}
+                {showMovementVisualization && activeMovement?.tokenId && activeMovement?.startPosition && activeMovement?.currentPosition && (
+                    <MovementVisualization
+                        startPosition={activeMovement.startPosition}
+                        currentPosition={activeMovement.currentPosition}
+                        tokenId={activeMovement.tokenId}
+                        gridSystem={gridSystem}
+                    />
+                )}
 
-            {/* Character Token Placement Preview */}
-            {isDraggingCharacterToken && <CharacterTokenPreview mousePosition={mousePosition} tokenSize={tokenSize} />}
+                {/* Character Token Placement Preview */}
+                {isDraggingCharacterToken && <CharacterTokenPreview mousePosition={mousePosition} tokenSize={tokenSize} />}
 
-            {/* Character Token Placement Cursor Override */}
-            {isDraggingCharacterToken && (
-                <style>
-                    {`
+                {/* Character Token Placement Cursor Override */}
+                {isDraggingCharacterToken && (
+                    <style>
+                        {`
                         * {
                             cursor: crosshair !important;
                         }
                     `}
-                </style>
-            )}
+                    </style>
+                )}
 
-            {/* Character Token Placement Instructions */}
-            {isDraggingCharacterToken && (
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: '20px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                        color: '#FFD700',
-                        padding: '15px 25px',
-                        borderRadius: '12px',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        zIndex: 10001,
-                        textAlign: 'center',
-                        pointerEvents: 'none',
-                        border: '2px solid #FFD700',
-                        boxShadow: '0 4px 20px rgba(255, 215, 0, 0.3)',
-                        animation: 'pulse 2s infinite'
-                    }}
-                >
-                    CHARACTER TOKEN PLACEMENT MODE<br/>
-                    <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#FFF' }}>
-                        Left-click anywhere on the grid to place your token<br/>
-                        Right-click or press ESC to cancel
-                    </span>
-                </div>
-            )}
+                {/* Character Token Placement Instructions */}
+                {isDraggingCharacterToken && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: '20px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                            color: '#FFD700',
+                            padding: '15px 25px',
+                            borderRadius: '12px',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            zIndex: 10001,
+                            textAlign: 'center',
+                            pointerEvents: 'none',
+                            border: '2px solid #FFD700',
+                            boxShadow: '0 4px 20px rgba(255, 215, 0, 0.3)',
+                            animation: 'pulse 2s infinite'
+                        }}
+                    >
+                        CHARACTER TOKEN PLACEMENT MODE<br />
+                        <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#FFF' }}>
+                            Left-click anywhere on the grid to place your token<br />
+                            Right-click or press ESC to cancel
+                        </span>
+                    </div>
+                )}
 
-            {/* Token Tester for testing tooltips - Removed per user request */}
-            {/* <TokenTester /> */}
+                {/* Token Tester for testing tooltips - Removed per user request */}
+                {/* <TokenTester /> */}
 
-            {/* Professional Terrain System - Renders terrain on the grid */}
-            <TerrainSystem />
+                {/* Professional Terrain System - Renders terrain on the grid */}
+                <TerrainSystem />
 
-            {/* Professional Object System - Renders objects like lights, trees, etc */}
-            <ObjectSystem />
+                {/* Professional Object System - Renders objects like lights, trees, etc */}
+                <ObjectSystem />
 
-            {/* VTT Drawing Engine - Renders all drawings on the grid */}
-            <VTTDrawingEngine />
+                {/* VTT Drawing Engine - Renders all drawings on the grid */}
+                <VTTDrawingEngine />
 
-            {/* Grid Tile Tooltip */}
-            {showGridTooltip && hoveredGridTile && (() => {
-                // Check for fog of war first - if present, only show fog tooltip
-                const hasFogOfWar = getFogOfWar(hoveredGridTile.gridX, hoveredGridTile.gridY);
+                {/* Grid Tile Tooltip */}
+                {showGridTooltip && hoveredGridTile && (() => {
+                    // Check for fog of war first - if present, only show fog tooltip
+                    const hasFogOfWar = getFogOfWar(hoveredGridTile.gridX, hoveredGridTile.gridY);
 
-                if (hasFogOfWar) {
-                    // Only show fog of war tooltip - hide all other information
+                    if (hasFogOfWar) {
+                        // Only show fog of war tooltip - hide all other information
+                        return (
+                            <div
+                                className="tile-tooltip unified-tooltip-style"
+                                style={{
+                                    position: 'fixed',
+                                    left: mousePosition.x + 15,
+                                    top: mousePosition.y - 10,
+                                    transform: mousePosition.x > window.innerWidth - 300 ? 'translateX(-100%)' : 'none',
+                                    zIndex: 1000
+                                }}
+                            >
+                                <div className="tooltip-content">
+                                    <div className="tooltip-item">
+                                        <strong>Fog of War</strong>
+                                        <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
+                                            Hidden from players
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    }
+
+                    // No fog of war - show normal tooltip information
+                    // Get terrain information for this tile
+                    const terrainType = getTerrain(hoveredGridTile.gridX, hoveredGridTile.gridY);
+                    const terrain = terrainType ? TERRAIN_TYPES[terrainType] : null;
+
+                    // Check for objects on this tile
+                    const objectsOnTile = environmentalObjects.filter(obj => {
+                        // Handle different positioning systems
+                        if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
+                            // Free-positioned objects use worldX/worldY
+                            return Math.floor(obj.worldX) === hoveredGridTile.gridX &&
+                                Math.floor(obj.worldY) === hoveredGridTile.gridY;
+                        } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
+                            // Grid-aligned objects use gridX/gridY
+                            return obj.gridX === hoveredGridTile.gridX &&
+                                obj.gridY === hoveredGridTile.gridY;
+                        } else if (obj.position && obj.position.x !== undefined && obj.position.y !== undefined) {
+                            // Legacy objects with position property
+                            return Math.floor(obj.position.x) === hoveredGridTile.gridX &&
+                                Math.floor(obj.position.y) === hoveredGridTile.gridY;
+                        }
+                        return false;
+                    });
+
+                    // Check for D&D elements on this tile
+                    const dndOnTile = dndElements.filter(element => {
+                        // Handle different positioning systems for D&D elements
+                        if (element.freePosition && element.worldX !== undefined && element.worldY !== undefined) {
+                            // Free-positioned elements use worldX/worldY
+                            return Math.floor(element.worldX) === hoveredGridTile.gridX &&
+                                Math.floor(element.worldY) === hoveredGridTile.gridY;
+                        } else if (element.gridX !== undefined && element.gridY !== undefined) {
+                            // Grid-aligned elements use gridX/gridY
+                            return element.gridX === hoveredGridTile.gridX &&
+                                element.gridY === hoveredGridTile.gridY;
+                        } else if (element.position && element.position.x !== undefined && element.position.y !== undefined) {
+                            // Legacy elements with position property
+                            return Math.floor(element.position.x) === hoveredGridTile.gridX &&
+                                Math.floor(element.position.y) === hoveredGridTile.gridY;
+                        }
+                        return false;
+                    });
+
+                    // Only show tooltip if there's actual content (terrain, objects, or elements)
+                    const hasContent = terrain || objectsOnTile.length > 0 || dndOnTile.length > 0;
+
+                    if (!hasContent) {
+                        return null; // Don't show tooltip for empty tiles
+                    }
+
+                    const displayTerrain = terrain;
+
                     return (
                         <div
-                            className="tile-tooltip unified-tooltip-style"
                             style={{
                                 position: 'fixed',
                                 left: mousePosition.x + 15,
                                 top: mousePosition.y - 10,
                                 transform: mousePosition.x > window.innerWidth - 300 ? 'translateX(-100%)' : 'none',
-                                zIndex: 1000
+                                backgroundColor: '#f0e6d2',
+                                border: '2px solid #a08c70',
+                                borderRadius: '4px',
+                                padding: '10px 12px',
+                                zIndex: 10000,
+                                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                                fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                                fontSize: '12px',
+                                color: '#7a3b2e',
+                                pointerEvents: 'none',
+                                maxWidth: '280px',
+                                minWidth: '200px'
                             }}
                         >
-                            <div className="tooltip-content">
-                                <div className="tooltip-item">
-                                    <strong>Fog of War</strong>
-                                    <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
-                                        Hidden from players
+                            {/* Header - only show terrain info if terrain exists */}
+                            {displayTerrain ? (
+                                <>
+                                    <div style={{ fontWeight: 'bold', marginBottom: '6px', borderBottom: '1px solid #a08c70', paddingBottom: '4px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                            <div
+                                                style={{
+                                                    width: '12px',
+                                                    height: '12px',
+                                                    backgroundColor: displayTerrain.color,
+                                                    border: '1px solid #7a3b2e',
+                                                    borderRadius: '2px'
+                                                }}
+                                            />
+                                            <span>{displayTerrain.name}</span>
+                                        </div>
+                                        <div style={{ fontSize: '10px', opacity: 0.7, marginTop: '2px' }}>
+                                            ({hoveredGridTile.gridX}, {hoveredGridTile.gridY})
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
 
-                // No fog of war - show normal tooltip information
-                // Get terrain information for this tile
-                const terrainType = getTerrain(hoveredGridTile.gridX, hoveredGridTile.gridY);
-                const terrain = terrainType ? TERRAIN_TYPES[terrainType] : null;
+                                    {/* Terrain Description */}
+                                    <div style={{ marginBottom: '6px' }}>
+                                        <div style={{ fontSize: '11px', fontStyle: 'italic', marginBottom: '3px' }}>
+                                            {displayTerrain.description}
+                                        </div>
+                                    </div>
 
-                // Check for objects on this tile
-                const objectsOnTile = environmentalObjects.filter(obj => {
-                    // Handle different positioning systems
-                    if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
-                        // Free-positioned objects use worldX/worldY
-                        return Math.floor(obj.worldX) === hoveredGridTile.gridX &&
-                               Math.floor(obj.worldY) === hoveredGridTile.gridY;
-                    } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
-                        // Grid-aligned objects use gridX/gridY
-                        return obj.gridX === hoveredGridTile.gridX &&
-                               obj.gridY === hoveredGridTile.gridY;
-                    } else if (obj.position && obj.position.x !== undefined && obj.position.y !== undefined) {
-                        // Legacy objects with position property
-                        return Math.floor(obj.position.x) === hoveredGridTile.gridX &&
-                               Math.floor(obj.position.y) === hoveredGridTile.gridY;
-                    }
-                    return false;
-                });
-
-                // Check for D&D elements on this tile
-                const dndOnTile = dndElements.filter(element => {
-                    // Handle different positioning systems for D&D elements
-                    if (element.freePosition && element.worldX !== undefined && element.worldY !== undefined) {
-                        // Free-positioned elements use worldX/worldY
-                        return Math.floor(element.worldX) === hoveredGridTile.gridX &&
-                               Math.floor(element.worldY) === hoveredGridTile.gridY;
-                    } else if (element.gridX !== undefined && element.gridY !== undefined) {
-                        // Grid-aligned elements use gridX/gridY
-                        return element.gridX === hoveredGridTile.gridX &&
-                               element.gridY === hoveredGridTile.gridY;
-                    } else if (element.position && element.position.x !== undefined && element.position.y !== undefined) {
-                        // Legacy elements with position property
-                        return Math.floor(element.position.x) === hoveredGridTile.gridX &&
-                               Math.floor(element.position.y) === hoveredGridTile.gridY;
-                    }
-                    return false;
-                });
-
-                // Only show tooltip if there's actual content (terrain, objects, or elements)
-                const hasContent = terrain || objectsOnTile.length > 0 || dndOnTile.length > 0;
-
-                if (!hasContent) {
-                    return null; // Don't show tooltip for empty tiles
-                }
-
-                const displayTerrain = terrain;
-
-                return (
-                    <div
-                        style={{
-                            position: 'fixed',
-                            left: mousePosition.x + 15,
-                            top: mousePosition.y - 10,
-                            transform: mousePosition.x > window.innerWidth - 300 ? 'translateX(-100%)' : 'none',
-                            backgroundColor: '#f0e6d2',
-                            border: '2px solid #a08c70',
-                            borderRadius: '4px',
-                            padding: '10px 12px',
-                            zIndex: 10000,
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            fontSize: '12px',
-                            color: '#7a3b2e',
-                            pointerEvents: 'none',
-                            maxWidth: '280px',
-                            minWidth: '200px'
-                        }}
-                    >
-                        {/* Header - only show terrain info if terrain exists */}
-                        {displayTerrain ? (
-                            <>
+                                    {/* Game Mechanics */}
+                                    <div style={{ marginBottom: '6px' }}>
+                                        <div style={{ fontSize: '10px', fontWeight: 'bold', marginBottom: '2px' }}>
+                                            Movement Cost: {displayTerrain.movementCost === 999 ? 'Impassable' : `${displayTerrain.movementCost}x`}
+                                        </div>
+                                        {displayTerrain.mechanics && (
+                                            <div style={{ fontSize: '10px', marginBottom: '2px' }}>
+                                                <strong>Mechanics:</strong> {displayTerrain.mechanics}
+                                            </div>
+                                        )}
+                                        {displayTerrain.tacticalNotes && (
+                                            <div style={{ fontSize: '10px', color: '#8b5a3c' }}>
+                                                <strong>Tactical:</strong> {displayTerrain.tacticalNotes}
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            ) : (
+                                // If no terrain but has objects/elements, show a simple header
                                 <div style={{ fontWeight: 'bold', marginBottom: '6px', borderBottom: '1px solid #a08c70', paddingBottom: '4px' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                        <div
-                                            style={{
-                                                width: '12px',
-                                                height: '12px',
-                                                backgroundColor: displayTerrain.color,
-                                                border: '1px solid #7a3b2e',
-                                                borderRadius: '2px'
-                                            }}
-                                        />
-                                        <span>{displayTerrain.name}</span>
-                                    </div>
-                                    <div style={{ fontSize: '10px', opacity: 0.7, marginTop: '2px' }}>
+                                    <div style={{ fontSize: '10px', opacity: 0.7 }}>
                                         ({hoveredGridTile.gridX}, {hoveredGridTile.gridY})
                                     </div>
                                 </div>
+                            )}
 
-                                {/* Terrain Description */}
-                                <div style={{ marginBottom: '6px' }}>
-                                    <div style={{ fontSize: '11px', fontStyle: 'italic', marginBottom: '3px' }}>
-                                        {displayTerrain.description}
-                                    </div>
-                                </div>
-
-                                {/* Game Mechanics */}
-                                <div style={{ marginBottom: '6px' }}>
-                                    <div style={{ fontSize: '10px', fontWeight: 'bold', marginBottom: '2px' }}>
-                                        Movement Cost: {displayTerrain.movementCost === 999 ? 'Impassable' : `${displayTerrain.movementCost}x`}
-                                    </div>
-                                    {displayTerrain.mechanics && (
-                                        <div style={{ fontSize: '10px', marginBottom: '2px' }}>
-                                            <strong>Mechanics:</strong> {displayTerrain.mechanics}
+                            {/* Objects and Elements */}
+                            {(objectsOnTile.length > 0 || dndOnTile.length > 0) && (
+                                <div style={{ borderTop: '1px solid #a08c70', paddingTop: '4px', fontSize: '10px' }}>
+                                    {objectsOnTile.length > 0 && (
+                                        <div style={{ marginBottom: '2px' }}>
+                                            <strong>Objects:</strong> {objectsOnTile.map(obj => obj.type).join(', ')}
                                         </div>
                                     )}
-                                    {displayTerrain.tacticalNotes && (
-                                        <div style={{ fontSize: '10px', color: '#8b5a3c' }}>
-                                            <strong>Tactical:</strong> {displayTerrain.tacticalNotes}
+                                    {dndOnTile.length > 0 && (
+                                        <div>
+                                            <strong>Elements:</strong> {dndOnTile.map(elem => elem.type).join(', ')}
                                         </div>
                                     )}
                                 </div>
-                            </>
-                        ) : (
-                            // If no terrain but has objects/elements, show a simple header
-                            <div style={{ fontWeight: 'bold', marginBottom: '6px', borderBottom: '1px solid #a08c70', paddingBottom: '4px' }}>
-                                <div style={{ fontSize: '10px', opacity: 0.7 }}>
-                                    ({hoveredGridTile.gridX}, {hoveredGridTile.gridY})
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Objects and Elements */}
-                        {(objectsOnTile.length > 0 || dndOnTile.length > 0) && (
-                            <div style={{ borderTop: '1px solid #a08c70', paddingTop: '4px', fontSize: '10px' }}>
-                                {objectsOnTile.length > 0 && (
-                                    <div style={{ marginBottom: '2px' }}>
-                                        <strong>Objects:</strong> {objectsOnTile.map(obj => obj.type).join(', ')}
-                                    </div>
-                                )}
-                                {dndOnTile.length > 0 && (
-                                    <div>
-                                        <strong>Elements:</strong> {dndOnTile.map(elem => elem.type).join(', ')}
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                );
-            })()}
-
-            {/* Wall Tooltip */}
-            {showWallTooltip && hoveredWall && (
-                <div
-                    className="tile-tooltip unified-tooltip-style"
-                    style={{
-                        position: 'fixed',
-                        left: wallTooltipPosition.x + 15,
-                        top: wallTooltipPosition.y - 10,
-                        transform: wallTooltipPosition.x > window.innerWidth - 300 ? 'translateX(-100%)' : 'none',
-                        zIndex: 10000
-                    }}
-                >
-                    <div className="tooltip-content">
-                        <div className="tooltip-item">
-                            <strong>{hoveredWall.type.name}</strong>
+                            )}
                         </div>
-                        {hoveredWall.type.interactive && (
+                    );
+                })()}
+
+                {/* Wall Tooltip */}
+                {showWallTooltip && hoveredWall && (
+                    <div
+                        className="tile-tooltip unified-tooltip-style"
+                        style={{
+                            position: 'fixed',
+                            left: wallTooltipPosition.x + 15,
+                            top: wallTooltipPosition.y - 10,
+                            transform: wallTooltipPosition.x > window.innerWidth - 300 ? 'translateX(-100%)' : 'none',
+                            zIndex: 10000
+                        }}
+                    >
+                        <div className="tooltip-content">
                             <div className="tooltip-item">
-                                State: {hoveredWall.state || hoveredWall.type.states?.[0] || 'default'}
+                                <strong>{hoveredWall.type.name}</strong>
                             </div>
-                        )}
-                        <div className="tooltip-item">
-                            {hoveredWall.type.description || `A ${hoveredWall.type.name.toLowerCase()}`}
+                            {hoveredWall.type.interactive && (
+                                <div className="tooltip-item">
+                                    State: {hoveredWall.state || hoveredWall.type.states?.[0] || 'default'}
+                                </div>
+                            )}
+                            <div className="tooltip-item">
+                                {hoveredWall.type.description || `A ${hoveredWall.type.name.toLowerCase()}`}
+                            </div>
+                            {hoveredWall.type.interactive && (
+                                <div className="tooltip-item" style={{
+                                    fontStyle: 'italic',
+                                    color: '#666',
+                                    fontSize: '11px'
+                                }}>
+                                    Click to {hoveredWall.state === 'open' ? 'close' : 'open'}
+                                </div>
+                            )}
                         </div>
-                        {hoveredWall.type.interactive && (
-                            <div className="tooltip-item" style={{
-                                fontStyle: 'italic',
-                                color: '#666',
-                                fontSize: '11px'
-                            }}>
-                                Click to {hoveredWall.state === 'open' ? 'close' : 'open'}
-                            </div>
-                        )}
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* Wall Context Menu */}
-            <UnifiedContextMenu
-                visible={showContextMenu}
-                x={contextMenuPosition.x}
-                y={contextMenuPosition.y}
-                onClose={handleCloseContextMenu}
-                title={contextMenu?.type?.name || 'Context Menu'}
-                items={contextMenu ? [
-                    {
-                        icon: '✕',
-                        label: 'Remove Wall',
-                        onClick: handleRemoveWall,
-                        className: 'danger-action'
-                    },
-                    {
-                        type: 'separator'
-                    },
-                    {
-                        icon: '✕',
-                        label: 'Cancel',
-                        onClick: handleCloseContextMenu
-                    }
-                ] : []}
-            />
+                {/* Wall Context Menu */}
+                <UnifiedContextMenu
+                    visible={showContextMenu}
+                    x={contextMenuPosition.x}
+                    y={contextMenuPosition.y}
+                    onClose={handleCloseContextMenu}
+                    title={contextMenu?.type?.name || 'Context Menu'}
+                    items={contextMenu ? [
+                        {
+                            icon: '✕',
+                            label: 'Remove Wall',
+                            onClick: handleRemoveWall,
+                            className: 'danger-action'
+                        },
+                        {
+                            type: 'separator'
+                        },
+                        {
+                            icon: '✕',
+                            label: 'Cancel',
+                            onClick: handleCloseContextMenu
+                        }
+                    ] : []}
+                />
 
-            {/* Text Interaction Overlay - Handle text selection and movement when editor is closed */}
-            <TextInteractionOverlay gridRef={gridRef} />
+                {/* Text Interaction Overlay - Handle text selection and movement when editor is closed */}
+                <TextInteractionOverlay gridRef={gridRef} />
 
-            {/* Fog Systems - Available for both GM and Player modes */}
-            <StaticFogOverlay />
-            <AfterimageOverlay />
+                {/* Fog Systems - Available for both GM and Player modes */}
+                <StaticFogOverlay />
+                <AfterimageOverlay />
 
 
-        </div>
+            </div>
         </>
     );
 }

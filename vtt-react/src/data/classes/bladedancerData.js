@@ -1019,20 +1019,25 @@ Many players enhance the stance-dancing experience with:
     ]
   },
 
-  // Example Spells - organized by specialization
-  exampleSpells: [
+  // Spells - organized by level
+  spells: [
     // ===== BLADE DANCER SPECIALIZATION =====
+    // ========================================
+    // LEVEL 1 SPELLS - Basic Abilities
+    // ========================================
+
     {
-      id: 'bd_flowing_strike',
-      name: 'Flowing Strike',
-      description: 'Attack while transitioning between stances, dealing bonus damage based on your current Momentum.',
+      id: 'bladedancer_momentum_strike',
+      name: 'Momentum Strike',
+      description: 'A precise strike that builds your combat rhythm, channeling your Momentum into devastating force.',
+      level: 1,
       spellType: 'ACTION',
-      icon: 'ability_rogue_slicedice',
-      school: 'Physical',
-      level: 2,
-      specialization: 'blade-dancer',
+      icon: 'inv_sword_04',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'inv_sword_04',
+        tags: ['melee', 'damage', 'momentum_generation', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1040,382 +1045,283 @@ Many players enhance the stance-dancing experience with:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        momentum: 3,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Swift momentum-building strike'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2
+        },
+        description: 'Precise strike that builds combat rhythm and Momentum'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['melee', 'damage', 'momentum_generation', 'starter', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_shift',
+      name: 'Stance Shift',
+      description: 'Flow between combat stances, adapting your fighting style to any situation. Each stance offers unique abilities and passive effects.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'ability_druid_catform',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_druid_catform',
+        tags: ['utility', 'stance', 'transition', 'starter'],
+        castTime: 0,
+        castTimeType: 'FREE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 2 },
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'stance_change',
+        selectedEffects: [{
+          id: 'stance_transition',
+          name: 'Stance Transition',
+          description: 'Change to a connected stance in the stance network, gaining its passive effects'
+        }],
+        duration: 0,
+        durationUnit: 'permanent',
+        concentration: false,
+        power: 'minor'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['utility', 'stance', 'transition', 'starter', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_defensive_flow',
+      name: 'Defensive Flow',
+      description: 'Flow into a defensive stance, gaining enhanced evasion and counter-attack opportunities.',
+      level: 1,
+      spellType: 'PASSIVE',
+      icon: 'ability_warrior_defensivestance',
+
+      typeConfig: {
+        school: 'bludgeoning',
+        icon: 'ability_warrior_defensivestance',
+        tags: ['passive', 'defense', 'counter', 'toggleable', 'starter'],
+        toggleable: true
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'defensive_flow_dodge',
+          name: 'Flowing Defense',
+          description: 'Increases dodge chance and generates Momentum on successful dodges',
+          statModifier: {
+            stat: 'dodge',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'defense', 'counter', 'toggleable', 'starter', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_quick_step',
+      name: 'Quick Step',
+      description: 'A swift repositioning technique that allows you to move quickly and strike from unexpected angles.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'ability_rogue_sprint',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_sprint',
+        tags: ['movement', 'damage', 'mobility', 'starter'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Swift repositioning strike'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d6 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Quick strike with enhanced mobility'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['movement', 'damage', 'mobility', 'starter', 'bladedancer']
+    },
+
+    // ========================================
+    // LEVEL 2 SPELLS - Enhanced Abilities
+    // ========================================
+
+    {
+      id: 'bladedancer_flowing_strike',
+      name: 'Flowing Strike',
+      description: 'A fluid attack that transitions between stances, dealing bonus damage based on your current Momentum level.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'ability_rogue_slicedice',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_slicedice',
+        tags: ['melee', 'damage', 'stance-transition', 'momentum_scaling'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'momentum'],
+        resourceValues: { mana: 0, momentum: 3 },
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Fluid strike while shifting stance'
       },
 
-      resolution: 'ATTACK_ROLL',
+      resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d6',
-        modifier: 'AGILITY',
-        damageType: 'slashing',
-        bonusDamage: {
-          condition: 'per_momentum_point',
-          amount: '+1d4',
-          description: '+1d4 damage per Momentum point you have'
-        }
-      },
-
-      effects: {
-        damage: {
-          base: '2d6 + AGI',
-          type: 'slashing',
-          scaling: '+1d4 per Momentum point'
-        },
-        stanceTransition: {
+        formula: '2d6 + agility + (momentum_current * 1d4)',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        criticalConfig: {
           enabled: true,
-          description: 'After this attack, you may transition to a connected stance for free'
-        }
-      },
-
-      specialMechanics: {
-        bladeDancerBonus: {
+          critType: 'dice',
+          critMultiplier: 2
+        },
+        chanceOnHitConfig: {
           enabled: true,
-          effect: 'Flow Masters can transition to any stance (not just connected) after this attack'
-        },
-        momentumScaling: {
-          description: 'Damage increases with current Momentum, rewarding high resource management'
-        }
-      },
-
-      tags: ['melee', 'damage', 'stance-transition', 'blade-dancer']
-    },
-
-    {
-      id: 'bd_chain_dance',
-      name: 'Chain Dance',
-      description: 'Rapidly transition through multiple stances, attacking from each one in a devastating combo.',
-      spellType: 'ACTION',
-      icon: 'ability_warrior_bladestorm',
-      school: 'Physical',
-      level: 5,
-      specialization: 'blade-dancer',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'special',
-        rangeType: 'melee',
-        rangeDistance: 5,
-        description: 'Can target different enemies with each attack'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        momentum: 8,
-        flourish: 2,
-        components: ['somatic'],
-        somaticText: 'Flow through multiple combat forms'
-      },
-
-      resolution: 'ATTACK_ROLL',
-
-      damageConfig: {
-        formula: '3d8',
-        modifier: 'AGILITY',
-        damageType: 'slashing',
-        attackCount: 3
-      },
-
-      effects: {
-        multiAttack: {
-          count: 3,
-          damage: '3d8 + AGI each',
-          type: 'slashing',
-          description: 'Make 3 attacks, each from a different stance'
-        },
-        stanceFlow: {
-          description: 'Transition through 3 different stances during this ability, ending in your choice of stance'
-        }
-      },
-
-      specialMechanics: {
-        stanceRequirement: {
-          description: 'Must transition through 3 different stances. Each attack uses that stance\'s passive bonuses.'
-        },
-        flourishGeneration: {
-          enabled: true,
-          amount: 1,
-          description: 'This is a signature Flow Master move - generates 1 Flourish when used'
-        }
-      },
-
-      tags: ['melee', 'damage', 'multi-attack', 'stance-transition', 'blade-dancer', 'signature']
-    },
-
-    // ===== DUELIST SPECIALIZATION =====
-    {
-      id: 'bd_riposte',
-      name: 'Perfect Riposte',
-      description: 'Parry an incoming attack and counter with a devastating strike. Generates extra Momentum on success.',
-      spellType: 'REACTION',
-      icon: 'ability_parry',
-      school: 'Physical',
-      level: 3,
-      specialization: 'duelist',
-
-      typeConfig: {
-        castTime: 0,
-        castTimeType: 'REACTION',
-        trigger: 'When an enemy attacks you'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'melee',
-        rangeDistance: 5,
-        description: 'The attacker'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        momentum: 4,
-        components: ['somatic'],
-        somaticText: 'Deflect and counter in one motion'
-      },
-
-      resolution: 'SAVING_THROW',
-      savingThrow: {
-        ability: 'dexterity',
-        dc: 15,
-        onSuccess: 'Attack is parried, riposte deals full damage',
-        onFailure: 'Attack hits normally, no riposte'
-      },
-
-      damageConfig: {
-        formula: '3d8',
-        modifier: 'AGILITY',
-        damageType: 'piercing'
-      },
-
-      effects: {
-        parry: {
-          type: 'negate_attack',
-          description: 'If successful, the attack is completely negated'
-        },
-        riposte: {
-          damage: '3d8 + AGI',
-          type: 'piercing',
-          description: 'Counter-attack immediately after parrying'
-        },
-        momentumGain: {
-          amount: 3,
-          description: 'Gain 3 Momentum on successful parry'
-        }
-      },
-
-      specialMechanics: {
-        duelistBonus: {
-          enabled: true,
-          effect: 'Duelists gain 4 Momentum instead of 3, and riposte damage is doubled (6d8 + AGI)'
-        },
-        stanceRequirement: {
-          stance: 'Rooted Stone',
-          description: 'Most effective in Rooted Stone stance (+2 to parry DC)'
-        }
-      },
-
-      tags: ['reaction', 'parry', 'counter', 'duelist']
-    },
-
-    {
-      id: 'bd_precision_strike',
-      name: 'Precision Strike',
-      description: 'A perfectly aimed strike that targets a vital point, dealing massive damage and applying a bleeding wound.',
-      spellType: 'ACTION',
-      icon: 'ability_backstab',
-      school: 'Physical',
-      level: 4,
-      specialization: 'duelist',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        dotDuration: '3 rounds'
-      },
-
-      resourceCost: {
-        momentum: 6,
-        components: ['somatic'],
-        somaticText: 'Precise thrust to vital point'
-      },
-
-      resolution: 'ATTACK_ROLL',
-
-      damageConfig: {
-        formula: '4d10',
-        modifier: 'AGILITY',
-        damageType: 'piercing'
-      },
-
-      debuffConfig: {
-        effects: [
-          'Target bleeds for 2d6 damage at start of each turn for 3 rounds',
-          'Target has disadvantage on Constitution saves while bleeding'
-        ]
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '4d10 + AGI',
-            type: 'piercing'
-          },
-          overTime: {
-            formula: '2d6',
-            type: 'slashing',
-            duration: 3,
-            frequency: 'start_of_turn'
+          procType: 'dice',
+          diceThreshold: 18,
+          procChance: 15,
+          customEffects: ['knockback'],
+          knockbackConfig: {
+            distance: 10
           }
         },
-        debuff: {
-          type: 'bleeding',
-          duration: 3,
-          effect: 'Disadvantage on Constitution saves'
-        }
+        description: 'Fluid strike that scales with Momentum and may knock foes back on critical hits'
       },
 
-      specialMechanics: {
-        duelistBonus: {
-          enabled: true,
-          effect: 'Duelists have enhanced critical hit chance (crit on max damage die -2, -1, or max)'
-        },
-        stanceBonus: {
-          stance: 'Striking Serpent',
-          effect: 'In Striking Serpent stance, this attack automatically critically hits'
-        },
-        flourishGeneration: {
-          enabled: true,
-          amount: 1,
-          description: 'This is a signature Duelist move - generates 1 Flourish when used'
-        }
+      cooldownConfig: {
+        type: 'none'
       },
 
-      tags: ['melee', 'damage', 'bleed', 'critical', 'duelist', 'signature']
-    },
-
-    // ===== SHADOW DANCER SPECIALIZATION =====
-    {
-      id: 'bd_shadow_strike',
-      name: 'Shadow Strike',
-      description: 'Teleport behind your target and strike from the shadows with devastating force.',
-      spellType: 'ACTION',
-      icon: 'ability_rogue_shadowstrike',
-      school: 'Physical',
-      level: 3,
-      specialization: 'shadow-dancer',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        description: 'Teleport to target, then attack'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        momentum: 5,
-        components: ['somatic'],
-        somaticText: 'Step through shadows'
-      },
-
-      resolution: 'ATTACK_ROLL',
-
-      damageConfig: {
-        formula: '3d8',
-        modifier: 'AGILITY',
-        damageType: 'slashing',
-        bonusDamage: {
-          condition: 'from_stealth',
-          amount: '+3d6',
-          description: '+3d6 if attacking from Shadow Step stance'
-        }
-      },
-
-      effects: {
-        teleport: {
-          range: 30,
-          position: 'behind_target',
-          description: 'Teleport to a space behind the target'
-        },
-        damage: {
-          base: '3d8 + AGI',
-          type: 'slashing',
-          bonus: '+3d6 if in Shadow Step stance'
-        },
-        advantage: {
-          condition: 'first_attack',
-          description: 'This attack has advantage'
-        }
-      },
-
-      specialMechanics: {
-        shadowDancerBonus: {
-          enabled: true,
-          effect: 'Shadow Dancers can use this from any stance, automatically entering Shadow Step stance after teleporting'
-        },
-        stanceTransition: {
-          automatic: true,
-          stance: 'Shadow Step',
-          description: 'Automatically enter Shadow Step stance after using this ability'
-        },
-        noOpportunityAttack: {
-          enabled: true,
-          description: 'This teleport does not provoke opportunity attacks'
-        }
-      },
-
-      tags: ['melee', 'damage', 'teleport', 'shadow-dancer']
+      tags: ['melee', 'damage', 'stance-transition', 'momentum_scaling', 'bladedancer']
     },
 
     {
-      id: 'bd_vanishing_blade',
-      name: 'Vanishing Blade',
-      description: 'Become invisible and strike with a guaranteed critical hit. The ultimate assassin technique.',
+      id: 'bladedancer_dancing_blade',
+      name: 'Dancing Blade',
+      description: 'A mesmerizing series of strikes that flows between different attack patterns, building Momentum with each hit.',
+      level: 2,
       spellType: 'ACTION',
-      icon: 'ability_vanish',
-      school: 'Physical',
-      level: 6,
-      specialization: 'shadow-dancer',
+      icon: 'ability_warrior_bladestorm',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bladestorm',
+        tags: ['melee', 'damage', 'multi-attack', 'momentum_generation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1423,81 +1329,51 @@ Many players enhance the stance-dancing experience with:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        invisibilityDuration: '1 round'
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        momentum: 8,
-        flourish: 2,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Fade into shadows, strike unseen'
+        somaticText: 'Flowing blade dance'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d10',
-        modifier: 'AGILITY',
-        damageType: 'slashing',
-        guaranteedCritical: true
+        formula: '2d6 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Multiple flowing strikes that build combat rhythm'
       },
 
-      effects: {
-        invisibility: {
-          duration: 1,
-          description: 'Become invisible for 1 round'
-        },
-        damage: {
-          formula: '6d10 + AGI',
-          type: 'slashing',
-          critical: 'Automatic critical hit (12d10 + AGI)'
-        },
-        surprise: {
-          effect: 'Target cannot react to this attack'
-        }
+      cooldownConfig: {
+        type: 'none'
       },
 
-      specialMechanics: {
-        guaranteedCritical: {
-          enabled: true,
-          description: 'This attack is always a critical hit, dealing double damage dice'
-        },
-        shadowDancerBonus: {
-          enabled: true,
-          effect: 'Shadow Dancers deal an additional +4d6 damage and remain invisible for 2 rounds instead of 1'
-        },
-        stanceRequirement: {
-          stance: 'Shadow Step',
-          description: 'Must be in Shadow Step stance to use this ability'
-        },
-        flourishGeneration: {
-          enabled: true,
-          amount: 1,
-          description: 'This is a signature Shadow Dancer move - generates 1 Flourish when used'
-        }
-      },
-
-      tags: ['melee', 'damage', 'critical', 'invisibility', 'shadow-dancer', 'signature']
+      tags: ['melee', 'damage', 'multi-attack', 'momentum_generation', 'bladedancer']
     },
 
-    // ===== UNIVERSAL ABILITIES =====
     {
-      id: 'bd_stance_shift',
-      name: 'Stance Shift',
-      description: 'Rapidly change your combat stance to adapt to the situation. Each stance provides unique benefits.',
+      id: 'bladedancer_stance_dance',
+      name: 'Stance Dance',
+      description: 'Rapidly transition through multiple stances, gaining brief bonuses from each before returning to your original form.',
+      level: 2,
       spellType: 'ACTION',
-      icon: 'ability_warrior_defensivestance',
-      school: 'Physical',
-      level: 1,
-      specialization: 'universal',
+      icon: 'ability_druid_challangingroar',
 
       typeConfig: {
-        castTime: 0,
+        school: 'physical',
+        icon: 'ability_druid_challangingroar',
+        tags: ['utility', 'stance', 'transition', 'buff'],
+        castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
@@ -1506,55 +1382,56 @@ Many players enhance the stance-dancing experience with:
         rangeType: 'self'
       },
 
-      durationConfig: {
-        durationType: 'until_changed'
-      },
-
       resourceCost: {
-        momentum: 'variable',
-        description: '2-4 Momentum depending on stance transition (see stance network table)'
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 4 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Dance through stances'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'NONE',
+      effectTypes: ['buff'],
 
-      effects: {
-        stanceChange: {
-          description: 'Change to a connected stance in the stance network',
-          restrictions: 'Can only transition to connected stances (see network table)'
-        },
-        passiveGain: {
-          description: 'Gain the passive effects of the new stance immediately'
-        }
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'stance_dance_speed',
+          name: 'Dancing Speed',
+          description: 'Brief speed boost from flowing through stances',
+          statModifier: {
+            stat: 'movementSpeed',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
       },
 
-      specialMechanics: {
-        stanceNetwork: {
-          description: 'Must follow the stance network connections. Dancing Blade can transition to any stance for 4 Momentum.'
-        },
-        bladeDancerBonus: {
-          enabled: true,
-          effect: 'Flow Masters pay 1 less Momentum for all transitions (minimum 1)'
-        },
-        shadowDancerBonus: {
-          enabled: true,
-          effect: 'Shadow Dancers can enter Shadow Step from any stance for 3 Momentum'
-        }
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
       },
 
-      tags: ['utility', 'stance', 'universal']
+      tags: ['utility', 'stance', 'transition', 'buff', 'bladedancer']
     },
 
     {
-      id: 'bd_momentum_strike',
-      name: 'Momentum Strike',
-      description: 'A basic attack that generates Momentum, building your combat rhythm.',
+      id: 'bladedancer_blade_flurry',
+      name: 'Blade Flurry',
+      description: 'Unleash a rapid series of strikes, each building on the momentum of the last for devastating damage.',
+      level: 2,
       spellType: 'ACTION',
-      icon: 'inv_sword_04',
-      school: 'Physical',
-      level: 1,
-      specialization: 'universal',
+      icon: 'ability_warrior_weaponmastery',
 
       typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_weaponmastery',
+        tags: ['melee', 'damage', 'multi-attack', 'momentum_scaling'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1562,55 +1439,1495 @@ Many players enhance the stance-dancing experience with:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        momentum: 0,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Swift strike'
+        somaticText: 'Rapid blade flurry'
       },
 
-      resolution: 'ATTACK_ROLL',
+      resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8',
-        modifier: 'AGILITY',
-        damageType: 'slashing'
+        formula: '1d8 + agility + (momentum_current / 2)',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Multiple rapid strikes that scale with current Momentum'
       },
 
-      effects: {
-        damage: {
-          formula: '1d8 + AGI',
-          type: 'slashing'
-        },
-        momentumGeneration: {
-          onHit: 1,
-          onCrit: 2,
-          description: 'Generate 1 Momentum on hit, 2 on critical hit'
-        }
+      cooldownConfig: {
+        type: 'none'
       },
 
-      specialMechanics: {
-        basicAttack: {
-          description: 'This is the Bladedancer\'s basic attack for building Momentum'
-        },
-        bladeDancerBonus: {
+      tags: ['melee', 'damage', 'multi-attack', 'momentum_scaling', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_chain_dance',
+      name: 'Chain Dance',
+      description: 'Flow through multiple stances in rapid succession, unleashing a devastating combo of attacks from each combat form.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_bladestorm',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bladestorm',
+        tags: ['melee', 'damage', 'multi-attack', 'stance-transition', 'flourish_generation'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        maxTargets: 3,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'momentum', 'flourish'],
+        resourceValues: { mana: 0, momentum: 8, flourish: 2 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Flow through multiple combat forms'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        criticalConfig: {
           enabled: true,
-          effect: 'Flow Masters generate +1 additional Momentum from this attack'
+          critType: 'dice',
+          critMultiplier: 2
         },
-        stanceModifiers: {
-          description: 'This attack benefits from your current stance\'s passive effects'
-        }
+        description: 'Three devastating attacks, each enhanced by a different stance\'s power'
       },
 
-      tags: ['melee', 'damage', 'momentum-generation', 'universal']
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['melee', 'damage', 'multi-attack', 'stance-transition', 'flourish_generation', 'bladedancer']
+    },
+
+    // ========================================
+    // LEVEL 3 SPELLS - Advanced Abilities
+    // ========================================
+
+    {
+      id: 'bladedancer_perfect_riposte',
+      name: 'Perfect Riposte',
+      description: 'Parry an incoming attack and counter with a devastating strike that generates extra Momentum.',
+      level: 3,
+      spellType: 'REACTION',
+      icon: 'ability_parry',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_parry',
+        tags: ['reaction', 'parry', 'counter', 'momentum_generation'],
+        castTime: 0,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'momentum'],
+        resourceValues: { mana: 0, momentum: 4 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Deflect and counter in one motion'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 15,
+          saveOutcome: 'negates'
+        },
+        description: 'Devastating counter-attack that may be avoided with an agility save'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['reaction', 'parry', 'counter', 'momentum_generation', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_whirling_defense',
+      name: 'Whirling Defense',
+      description: 'Spin with blinding speed, creating a defensive vortex that deflects incoming attacks and damages nearby enemies.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_cleave',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_cleave',
+        tags: ['defense', 'damage', 'aoe', 'mobility'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 5 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Spinning defensive vortex'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Whirling strikes that damage nearby enemies'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['defense', 'damage', 'aoe', 'mobility', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_flowing_dodge',
+      name: 'Flowing Dodge',
+      description: 'Flow like water around attacks, gaining enhanced evasion and positioning yourself for devastating counters.',
+      level: 3,
+      spellType: 'REACTION',
+      icon: 'ability_rogue_feint',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_feint',
+        tags: ['reaction', 'defense', 'mobility', 'counter'],
+        castTime: 0,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Flow around the attack'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'flowing_dodge_evasion',
+          name: 'Flowing Evasion',
+          description: 'Enhanced dodge chance and movement from flowing around attacks',
+          statModifier: {
+            stat: 'dodge',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['reaction', 'defense', 'mobility', 'counter', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_mastery',
+      name: 'Stance Mastery',
+      description: 'Demonstrate mastery of your current stance, enhancing its effects and gaining a powerful bonus ability.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_innerrage',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_innerrage',
+        tags: ['buff', 'stance', 'mastery', 'enhancement'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Master this form!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'stance_mastery_power',
+          name: 'Stance Mastery',
+          description: 'Doubled effects from current stance abilities and enhanced capabilities',
+          statModifier: {
+            stat: 'stancePower',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['buff', 'stance', 'mastery', 'enhancement', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_precision_strike',
+      name: 'Precision Strike',
+      description: 'A perfectly aimed strike that targets a vital point, dealing massive damage and applying a bleeding wound.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'ability_backstab',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_backstab',
+        tags: ['melee', 'damage', 'bleed', 'critical', 'flourish_generation'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'momentum'],
+        resourceValues: { mana: 0, momentum: 6 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Precise thrust to vital point'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '4d10 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2
+        },
+        description: 'Massive piercing damage to vital organs'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'bleeding',
+          name: 'Bleeding Wound',
+          description: 'Target suffers ongoing bleed damage',
+          statusType: 'bleeding',
+          level: 'moderate'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        difficultyClass: 15,
+        savingThrowType: 'constitution',
+        saveOutcome: 'ends_early'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['melee', 'damage', 'bleed', 'critical', 'flourish_generation', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_dancing_death',
+      name: 'Dancing Death',
+      description: 'Weave through multiple enemies in a deadly dance, striking each with precision and building unstoppable momentum.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'ability_rogue_sprint',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_sprint',
+        tags: ['melee', 'damage', 'multi-target', 'momentum_generation', 'mobility'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        maxTargets: 3,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Dance of death through enemies'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d6 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Graceful strikes that flow between multiple targets'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['melee', 'damage', 'multi-target', 'momentum_generation', 'mobility', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_shadow_strike',
+      name: 'Shadow Strike',
+      description: 'Teleport behind your target and strike from the shadows with devastating force, gaining advantage on the attack.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'ability_rogue_shadowstrike',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_shadowstrike',
+        tags: ['melee', 'damage', 'teleport', 'advantage', 'stance-transition'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'momentum'],
+        resourceValues: { mana: 0, momentum: 5 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Step through shadows'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d8 + agility + (stance_shadow_step ? 3d6 : 0)',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2
+        },
+        description: 'Devastating strike from the shadows, enhanced when in Shadow Step stance'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['melee', 'damage', 'teleport', 'advantage', 'stance-transition', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_blade_barrier',
+      name: 'Blade Barrier',
+      description: 'Create a whirling barrier of blades around yourself, damaging enemies that approach and gaining defensive bonuses.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_bladestorm',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bladestorm',
+        tags: ['defense', 'damage', 'aoe', 'concentration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Create whirling blade barrier'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'buff'],
+
+      damageConfig: {
+        formula: '1d6 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        description: 'Whirling blades damage enemies that enter the barrier'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'blade_barrier_defense',
+          name: 'Blade Defense',
+          description: 'Enhanced AC from the protective barrier of blades',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['defense', 'damage', 'aoe', 'concentration', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_momentum_burst',
+      name: 'Momentum Burst',
+      description: 'Release all your stored Momentum in a single devastating explosion of speed and power.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_bloodnova',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bloodnova',
+        tags: ['damage', 'aoe', 'momentum_spend', 'burst'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 'all' },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'BURST!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: 'momentum_spent * 1d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Explosive release of stored Momentum as raw damage'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'aoe', 'momentum_spend', 'burst', 'bladedancer']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS - Master Abilities
+    // ========================================
+
+    {
+      id: 'bladedancer_vanishing_blade',
+      name: 'Vanishing Blade',
+      description: 'Fade into invisibility and strike with a guaranteed critical hit, the ultimate assassin technique.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'ability_vanish',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_vanish',
+        tags: ['melee', 'damage', 'critical', 'invisibility', 'flourish_generation'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'momentum', 'flourish'],
+        resourceValues: { mana: 0, momentum: 8, flourish: 2 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Fade into shadows, strike unseen'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'buff'],
+
+      damageConfig: {
+        formula: '6d10 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critEffects: ['surprise']
+        },
+        description: 'Guaranteed critical strike from invisibility, target cannot react'
+      },
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'vanishing_invisibility',
+          name: 'Shadow Veil',
+          description: 'Become invisible, gaining advantage on attacks',
+          statusType: 'invisibility',
+          level: 'major'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['melee', 'damage', 'critical', 'invisibility', 'flourish_generation', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_harmony',
+      name: 'Stance Harmony',
+      description: 'Achieve perfect harmony between all stances, gaining enhanced effects from multiple forms simultaneously.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'ability_druid_treeoflife',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_druid_treeoflife',
+        tags: ['buff', 'stance', 'harmony', 'concentration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 10 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Harmony of forms!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'stance_harmony_power',
+          name: 'Harmonic Power',
+          description: 'Combine benefits from multiple stances simultaneously',
+          statModifier: {
+            stat: 'multiStanceBenefits',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['buff', 'stance', 'harmony', 'concentration', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_reflecting_blades',
+      name: 'Reflecting Blades',
+      description: 'Your blades move with such speed and precision that they can deflect projectiles and reflect spells back at attackers.',
+      level: 6,
+      spellType: 'REACTION',
+      icon: 'ability_parry',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_parry',
+        tags: ['reaction', 'defense', 'reflection', 'counter'],
+        castTime: 0,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 3 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Deflect with blade precision'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'reflection',
+        selectedEffects: [{
+          id: 'spell_reflection',
+          name: 'Spell Reflection',
+          description: 'Reflect spells and projectiles back at attackers'
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'major'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['reaction', 'defense', 'reflection', 'counter', 'bladedancer']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS - Ultimate Abilities
+    // ========================================
+
+    {
+      id: 'bladedancer_flow_master_rapid_transitions',
+      name: 'Flow Master - Rapid Transitions',
+      description: 'Master the flow between stances, transitioning instantly and gaining enhanced Momentum generation.',
+      level: 7,
+      spellType: 'PASSIVE',
+      icon: 'ability_druid_starfall',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_druid_starfall',
+        tags: ['passive', 'stance', 'momentum_generation', 'flow_master'],
+        toggleable: false
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'rapid_transitions',
+          name: 'Rapid Flow',
+          description: 'Reduce stance transition cost by 1 (minimum 1) and generate +1 Momentum per transition',
+          statModifier: {
+            stat: 'transitionCostReduction',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }, {
+          id: 'flow_momentum_bonus',
+          name: 'Flow Momentum',
+          description: 'Successful attacks generate +1 additional Momentum',
+          statModifier: {
+            stat: 'momentumGeneration',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'stance', 'momentum_generation', 'flow_master', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_flow_combo',
+      name: 'Flow Combo',
+      description: 'Execute a devastating combo that flows seamlessly between stances, dealing massive damage with perfect timing.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_unrelentingassault',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_unrelentingassault',
+        tags: ['melee', 'damage', 'multi-attack', 'combo', 'flow_master'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Flow through deadly combinations'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '4d6 + agility * 1.5',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 3,
+        critDiceOnly: false,
+        description: 'Flawless combo strikes that flow like water'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['melee', 'damage', 'multi-attack', 'combo', 'flow_master', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_momentum_wave',
+      name: 'Momentum Wave',
+      description: 'Release a wave of pure momentum energy that damages enemies and boosts allies in a wide area.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_shockwave',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_shockwave',
+        tags: ['damage', 'buff', 'aoe', 'momentum_spend'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['all']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 15 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'WAVE OF POWER!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'buff'],
+
+      damageConfig: {
+        formula: 'momentum_spent / 2 + agility',
+        elementType: 'force',
+        damageType: 'direct',
+        description: 'Wave of momentum energy that damages enemies'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'momentum_wave_boost',
+          name: 'Momentum Surge',
+          description: 'Allies gain momentum and speed from the wave',
+          statModifier: {
+            stat: 'momentumGeneration',
+            magnitude: 5,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'buff', 'aoe', 'momentum_spend', 'bladedancer']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS - Legendary Abilities
+    // ========================================
+
+    {
+      id: 'bladedancer_stance_mastery_dancing_blade',
+      name: 'Stance Mastery - Dancing Blade',
+      description: 'Achieve true mastery of all stances, allowing transitions to any stance and enhanced abilities.',
+      level: 8,
+      spellType: 'PASSIVE',
+      icon: 'ability_warrior_bladestorm',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bladestorm',
+        tags: ['passive', 'stance', 'mastery', 'universal'],
+        toggleable: false
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'universal_transitions',
+          name: 'Universal Flow',
+          description: 'Can transition to any stance from Dancing Blade hub for 4 Momentum',
+          statModifier: {
+            stat: 'universalTransitions',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }, {
+          id: 'stance_mastery',
+          name: 'Stance Mastery',
+          description: 'All stance abilities are enhanced and cost 1 less Momentum (minimum 1)',
+          statModifier: {
+            stat: 'stanceAbilityCostReduction',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'stance', 'mastery', 'universal', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_blade_dance',
+      name: 'Blade Dance',
+      description: 'Perform an intricate dance of blades, teleporting between enemies and striking them with deadly precision.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'ability_rogue_fleetfooted',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_rogue_fleetfooted',
+        tags: ['damage', 'teleport', 'multi-target', 'mobility'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        maxTargets: 4,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Dance through enemies like the wind'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d6 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Graceful strikes that teleport between targets'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['damage', 'teleport', 'multi-target', 'mobility', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_echo',
+      name: 'Stance Echo',
+      description: 'Your mastery creates echoes of your stance transitions, allowing you to maintain benefits from recently used stances.',
+      level: 8,
+      spellType: 'PASSIVE',
+      icon: 'ability_warrior_secondwind',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_secondwind',
+        tags: ['passive', 'stance', 'echo', 'mastery'],
+        toggleable: false
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'stance_echo_benefits',
+          name: 'Echo Benefits',
+          description: 'Retain partial benefits from your last 2 stances',
+          statModifier: {
+            stat: 'multiStanceEcho',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'stance', 'echo', 'mastery', 'bladedancer']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS - Mythic Abilities
+    // ========================================
+
+    {
+      id: 'bladedancer_flourish_ultimate_thousand_cuts',
+      name: 'Flourish Ultimate - Thousand Cuts',
+      description: 'Expend all your Flourish tokens to unleash a devastating storm of attacks through all 6 stances simultaneously.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_savageblow',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_savageblow',
+        tags: ['aoe', 'damage', 'multi-attack', 'flourish_spend', 'ultimate'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'flourish'],
+        resourceValues: { mana: 0, flourish: 5 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'BY THE SIX WINDS!',
+        somaticText: 'Dance through all forms'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d10 + agility * 2',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2
+        },
+        description: 'Six devastating attacks, one from each stance, enhanced by your mastery'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['aoe', 'damage', 'multi-attack', 'flourish_spend', 'ultimate', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_flourish_sixfold_strike',
+      name: 'Flourish - Sixfold Strike',
+      description: 'Spend Flourish tokens to perform a single devastating attack that embodies the power of all six stances.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'ability_warrior_endlessrage',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_endlessrage',
+        tags: ['damage', 'critical', 'flourish_spend', 'stance_power'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'flourish'],
+        resourceValues: { mana: 0, flourish: 3 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'SIX WINDS UNITE!',
+        somaticText: 'Channel all stances into one strike'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d6 + agility * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 4,
+        critDiceOnly: false,
+        description: 'A single strike embodying the power of all six stances'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['damage', 'critical', 'flourish_spend', 'stance_power', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_perfect_harmony',
+      name: 'Perfect Harmony',
+      description: 'Achieve perfect synchronization with all combat stances, gaining enhanced abilities and flawless transitions.',
+      level: 9,
+      spellType: 'PASSIVE',
+      icon: 'ability_druid_enrage',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_druid_enrage',
+        tags: ['passive', 'stance', 'harmony', 'mastery'],
+        toggleable: false
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'perfect_harmony_mastery',
+          name: 'Harmonic Mastery',
+          description: 'All stance abilities are maximized and transitions are free',
+          statModifier: {
+            stat: 'perfectStanceMastery',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'stance', 'harmony', 'mastery', 'bladedancer']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS - Transcendent Abilities
+    // ========================================
+
+    {
+      id: 'bladedancer_transcendent_dance_of_the_six_winds',
+      name: 'Transcendent Dance - Six Winds',
+      description: 'Transcend mortal limitations, becoming a living embodiment of all six stances simultaneously.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'ability_druid_earthandsky',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_druid_earthandsky',
+        tags: ['transformation', 'ultimate', 'stance', 'transcendent'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'momentum', 'flourish'],
+        resourceValues: { mana: 0, momentum: 20, flourish: 5 },
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        verbalText: 'I BECOME THE STORM!',
+        somaticText: 'Unleash the dance of all forms',
+        materialText: 'A blade infused with the essence of all six stances'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation', 'buff'],
+
+      transformationConfig: {
+        transformationType: 'stance_mastery',
+        targetType: 'self',
+        duration: 1,
+        durationUnit: 'minutes',
+        power: 'ultimate',
+        specialEffects: ['all_stance_passives', 'instant_transitions', 'enhanced_abilities']
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'transcendent_power',
+          name: 'Six Winds Embodiment',
+          description: 'Gain all passive effects from all six stances simultaneously',
+          statModifier: {
+            stat: 'allStanceBenefits',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }, {
+          id: 'infinite_momentum',
+          name: 'Endless Flow',
+          description: 'Momentum generation doubled, instant transitions to any stance',
+          statModifier: {
+            stat: 'momentumGeneration',
+            magnitude: 1,
+            magnitudeType: 'percentage'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest'
+      },
+
+      tags: ['transformation', 'ultimate', 'stance', 'transcendent', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_zenith_blade_mastery',
+      name: 'Zenith Blade Mastery',
+      description: 'Achieve the ultimate pinnacle of blade mastery, where every strike becomes a work of art and every stance a perfect expression of combat.',
+      level: 10,
+      spellType: 'PASSIVE',
+      icon: 'ability_warrior_bladestorm',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'ability_warrior_bladestorm',
+        tags: ['passive', 'mastery', 'ultimate', 'stance'],
+        toggleable: false
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'zenith_mastery',
+          name: 'Zenith Mastery',
+          description: 'All blade attacks become legendary, all stances reach perfection',
+          statModifier: {
+            stat: 'ultimateBladeMastery',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'mastery', 'ultimate', 'stance', 'bladedancer']
     }
-  ]
+  ],
 };
 
 export default BLADEDANCER_DATA;

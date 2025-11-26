@@ -526,179 +526,2166 @@ MANA COSTS:
   // Maps character level to available spell IDs for learning
   spellPools: {
     1: [
-      // Level 1 spells: Basic 2-sphere combinations (5 options, pick 3)
-      'arc_steam_burst',
-      'arc_celestial_ray',
-      'arc_arcane_detonation',
-      'arc_firestorm',
-      'arc_pandemonium'
+      // Level 1 starting spells (pick 3)
+      'arc_spark_bolt',
+      'arc_frost_touch',
+      'arc_healing_light',
+      'arc_arcane_missile',
+      'arc_nature_vine'
     ],
     2: [
-      // Level 2-3 spells: More 2-sphere combinations
+      // Level 2 spells
       'arc_steam_burst',
-      'arc_celestial_ray',
-      'arc_arcane_detonation',
-      'arc_firestorm'
+      'arc_shadow_bolt',
+      'arc_celestial_ray'
+    ],
+    3: [
+      // Level 3 spells
+      'arc_fire_bolt',
+      'arc_ice_shard',
+      'arc_arcane_detonation'
     ],
     4: [
-      // Level 4-5 spells: Advanced 2-sphere and basic 3-sphere
-      'arc_arcane_detonation',
+      // Level 4 spells
       'arc_firestorm',
-      'arc_steam_burst',
-      'arc_celestial_ray',
-      'arc_pandemonium',
-      'arc_glacial_blessing',
-      'arc_thermal_surge'
+      'arc_frost_nova',
+      'arc_shadow_embrace'
+    ],
+    5: [
+      // Level 5 spells
+      'arc_elemental_blast',
+      'arc_divine_healing',
+      'arc_chaos_bolt'
     ],
     6: [
-      // Level 6-7 spells: 3-sphere combinations
-      'arc_firestorm',
-      'arc_pandemonium',
+      // Level 6 spells
       'arc_glacial_blessing',
       'arc_thermal_surge',
-      'arc_primal_arcane_tempest'
+      'arc_void_ray'
     ],
-    8: [
-      // Level 8-9 spells: Advanced 3-sphere combinations
-      'arc_pandemonium',
-      'arc_glacial_blessing',
-      'arc_thermal_surge',
-      'arc_primal_arcane_tempest'
-    ],
-    10: [
-      // Level 10-11 spells: 4-sphere ultimates start appearing
+    7: [
+      // Level 7 spells
       'arc_primal_arcane_tempest',
       'arc_elemental_fury',
-      'arc_divine_cataclysm'
+      'arc_celestial_storm'
     ],
-    12: [
-      // Level 12-14 spells: More 4-sphere ultimates
-      'arc_elemental_fury',
+    8: [
+      // Level 8 spells
       'arc_divine_cataclysm',
-      'arc_void_inferno'
+      'arc_void_inferno',
+      'arc_chaos_storm'
     ],
-    15: [
-      // Level 15-17 spells: Powerful 4-sphere ultimates
-      'arc_elemental_fury',
-      'arc_divine_cataclysm',
-      'arc_void_inferno'
+    9: [
+      // Level 9 spells
+      'arc_elemental_apocalypse',
+      'arc_primordial_chaos',
+      'arc_ultimate_synthesis'
     ],
-    18: [
-      // Level 18-19 spells: Master-level combinations
-      'arc_divine_cataclysm',
-      'arc_void_inferno'
-    ],
-    20: [
-      // Level 20 spells: Ultimate power
-      'arc_void_inferno'
+    10: [
+      // Level 10 spells
+      'arc_omnipotence',
+      'arc_reality_rend',
+      'arc_elemental_mastery'
     ]
   },
 
-  // Example Spells - organized by combination tier
-  exampleSpells: [
+  // Spells - organized by level, properly formatted for wizard
+  spells: [
     // ========================================
-    // 2-SPHERE COMBINATIONS
-    // Representative examples from the 8x8 matrix
+    // LEVEL 1 STARTING SPELLS (5 options, pick 3)
+    // Basic 2-sphere combinations - weak starter spells
     // ========================================
-
-    // Pure Element Combos
     {
-      id: 'arc_arcane_detonation',
-      name: 'Arcane Detonation',
-      description: 'Arcane + Arcane: Pure arcane explosion dealing force damage and disorienting enemies.',
+      id: 'arc_spark_bolt',
+      name: 'Spark Bolt',
+      description: 'A quick bolt of arcane energy that strikes your target. Simple and reliable.',
+      level: 1,
       spellType: 'ACTION',
-      icon: 'spell_arcane_blast',
-      school: 'Evocation',
-      level: 2,
-      sphereCost: ['Arcane', 'Arcane'],
-
+      icon: 'spell_arcane_arcanepotency',
+      
       typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_arcanepotency',
+        tags: ['arcane', 'damage', 'starter'],
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 20
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant explosion'
+        targetRestrictions: []
       },
 
       resourceCost: {
-        mana: 5,
-        spheres: ['Arcane', 'Arcane'],
+        resourceTypes: ['mana', 'arcane_sphere'],
+        resourceValues: { mana: 5, arcane_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Arcanum Detonare!',
-        somaticText: 'Clap hands together to release arcane energy'
+        verbalText: 'Arcanum!',
+        somaticText: 'Point finger to fire bolt'
       },
 
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
+      resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '3d6',
-        damageType: 'force',
-        scalingType: 'none'
+        formula: '1d4 + intelligence/4',
+        elementType: 'arcane',
+        damageType: 'direct'
       },
 
-      debuffConfig: {
-        statusEffects: [
-          {
-            id: 'disoriented',
-            name: 'Disoriented',
-            description: 'Senses overwhelmed by arcane energy',
-            durationType: 'rounds',
-            durationValue: 2,
-            saveType: 'constitution',
-            saveDC: 15
-          }
-        ]
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      effectTypes: ['damage', 'debuff'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Arcane', 'Arcane'],
-          comboType: 'pure',
-          prismMageBonus: '+50% damage (4d6+3 instead of 3d6)'
-        }
-      },
-
-      tags: ['2-sphere', 'arcane', 'force', 'aoe', 'pure-element', 'prism-mage'],
-      flavorText: 'Raw arcane energy explodes outward, overwhelming the senses of those caught in the blast.'
+      tags: ['arcane', 'damage', 'starter']
     },
 
     {
-      id: 'arc_firestorm',
-      name: 'Firestorm',
-      description: 'Fire + Fire: Massive fire explosion that ignites everything in the area.',
+      id: 'arc_frost_touch',
+      name: 'Frost Touch',
+      description: 'Your hand freezes as you touch an enemy, dealing cold damage and slowing them.',
+      level: 1,
       spellType: 'ACTION',
-      icon: 'spell_fire_flameshock',
-      school: 'Evocation',
-      level: 3,
-      sphereCost: ['Fire', 'Fire'],
-
+      icon: 'spell_frost_frostbolt',
+      
       typeConfig: {
+        school: 'cold',
+        icon: 'spell_frost_frostbolt',
+        tags: ['cold', 'damage', 'debuff', 'touch', 'starter'],
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'ground',
+        targetingType: 'single',
+        rangeType: 'touch',
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'ice_sphere'],
+        resourceValues: { mana: 5, ice_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Glacies!',
+        somaticText: 'Touch with frozen hand'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '1d4 + intelligence/4',
+        elementType: 'cold',
+        damageType: 'direct'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'slowed',
+          name: 'Slowed',
+          description: 'Movement speed reduced by 10 feet',
+          statusType: 'slow',
+          level: 'minor'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'constitution',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['ice', 'damage', 'debuff', 'touch', 'starter']
+    },
+
+    {
+      id: 'arc_healing_light',
+      name: 'Healing Light',
+      description: 'A gentle beam of healing energy that restores health to an ally.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holybolt',
+      
+      typeConfig: {
+        school: 'healing',
+        icon: 'spell_holy_holybolt',
+        tags: ['healing', 'support', 'starter'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
         rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['ally', 'self']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'healing_sphere'],
+        resourceValues: { mana: 5, healing_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Sanare!',
+        somaticText: 'Channel healing light'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '1d6 + spirit/3',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['healing', 'support', 'starter']
+    },
+
+    {
+      id: 'arc_arcane_missile',
+      name: 'Arcane Missile',
+      description: 'A small bolt of pure arcane force that unerringly strikes your target.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcanetorrent',
+      
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_arcanetorrent',
+        tags: ['arcane', 'damage', 'starter'],
+        castTime: 0,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere'],
+        resourceValues: { mana: 5, arcane_sphere: 1, holy_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Missile!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d3 + intelligence/4',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['arcane', 'damage', 'starter']
+    },
+
+    {
+      id: 'arc_nature_vine',
+      name: 'Nature Vine',
+      description: 'A vine erupts from the ground, entangling your target and dealing nature damage.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_nature_stranglevines',
+      
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_stranglevines',
+        tags: ['nature', 'damage', 'control', 'starter'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'nature_sphere', 'nature_sphere'],
+        resourceValues: { mana: 5, nature_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Vinea!',
+        somaticText: 'Point at ground to summon vine',
+        spheres: ['Nature', 'Nature']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '1d4 + intelligence/4',
+        elementType: 'nature',
+        damageType: 'direct'
+      },
+
+      controlConfig: {
+        controlType: 'restraint',
+        strength: 'weak',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'snare',
+          name: 'Entangled',
+          description: 'Vines restrain the target, preventing movement',
+          config: {
+            restraintType: 'physical'
+          }
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['nature', 'damage', 'control', 'starter']
+    },
+
+    // ========================================
+    // LEVEL 2 SPELLS
+    // ========================================
+    {
+      id: 'arc_steam_burst',
+      name: 'Steam Burst',
+      description: 'Fire and Ice combine to create a scalding burst of steam that damages and disorients enemies.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'spell_frost_frostbolt',
+      
+      typeConfig: {
+        school: 'cold',
+        secondaryElement: 'fire',
+        icon: 'spell_frost_frostbolt',
+        tags: ['fire', 'ice', 'damage', 'debuff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'cone',
+        aoeParameters: { length: 20 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'fire_sphere', 'ice_sphere'],
+        resourceValues: { mana: 5, fire_sphere: 1, ice_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Vapor Eruptio!',
+        somaticText: 'Combine opposing hands of fire and ice',
+        spheres: ['Fire', 'Ice']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '1d6 + intelligence/3',
+        elementType: 'cold',
+        damageType: 'direct',
+        secondaryElementType: 'fire'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'disoriented',
+          name: 'Disoriented',
+          description: 'Blinded by scalding steam - cannot see, automatically fails sight-based checks, disadvantage on attack rolls (roll two d20s and take the lower result when attacking)',
+          statusType: 'blinded',
+          level: 'minor'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 13,
+        saveType: 'constitution',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'ice', 'damage', 'debuff']
+    },
+
+    {
+      id: 'arc_shadow_bolt',
+      name: 'Shadow Bolt',
+      description: 'A bolt of dark energy that drains life from your target.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowbolt',
+      
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_shadowbolt',
+        tags: ['shadow', 'damage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'shadow_sphere', 'shadow_sphere'],
+        resourceValues: { mana: 5, shadow_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Umbra Sagitta!',
+        somaticText: 'Hurl dark energy',
+        spheres: ['Shadow', 'Shadow']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d8 + intelligence/3',
+        elementType: 'necrotic',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['shadow', 'damage']
+    },
+
+    {
+      id: 'arc_celestial_ray',
+      name: 'Celestial Ray',
+      description: 'A beam of pure magical light that damages enemies and heals allies in its path.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holybolt',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holybolt',
+        tags: ['holy', 'arcane', 'damage', 'healing'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingMode: 'effect',
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'line',
+        aoeParameters: { length: 60 },
+        targetRestrictions: []
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'line',
+          aoeParameters: { length: 60 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'line',
+          aoeParameters: { length: 60 },
+          targetRestrictions: ['ally']
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere'],
+        resourceValues: { mana: 5, arcane_sphere: 1, holy_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Lux Arcanum!',
+        somaticText: 'Point finger to fire beam of light',
+        spheres: ['Arcane', 'Holy']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '1d8 + intelligence/3',
+        elementType: 'radiant',
+        damageType: 'direct'
+      },
+
+      healingConfig: {
+        formula: '1d6 + spirit/3',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['holy', 'arcane', 'damage', 'healing']
+    },
+
+    // ========================================
+    // LEVEL 3 SPELLS
+    // ========================================
+    {
+      id: 'arc_fire_bolt',
+      name: 'Fire Bolt',
+      description: 'A concentrated bolt of fire that explodes on impact, dealing fire damage.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'spell_fire_flamebolt',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_fire_flamebolt',
+        tags: ['fire', 'damage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: []
+      },
+
+      propagation: {
+        method: 'explosion',
+        behavior: 'instant',
+        parameters: {
+          secondaryRadius: 10
+        }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'fire_sphere', 'fire_sphere'],
+        resourceValues: { mana: 5, fire_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Ignis Sagitta!',
+        somaticText: 'Hurl fire bolt',
+        spheres: ['Fire', 'Fire']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d6 + intelligence/2',
+        elementType: 'fire',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage']
+    },
+
+    {
+      id: 'arc_ice_shard',
+      name: 'Ice Shard',
+      description: 'A sharp shard of ice that pierces your target, dealing cold damage and slowing them.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'spell_frost_frostbolt',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_frost_frostbolt',
+        tags: ['ice', 'damage', 'debuff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'ice_sphere', 'ice_sphere'],
+        resourceValues: { mana: 5, ice_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Glacies Fragmentum!',
+        somaticText: 'Hurl ice shard',
+        spheres: ['Ice', 'Ice']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '2d6 + intelligence/2',
+        elementType: 'cold',
+        damageType: 'direct'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 13,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
+        effects: [{
+          id: 'slow',
+          name: 'Slow',
+          description: 'Movement speed reduced by 10 feet',
+          statusType: 'slow',
+          level: 'minor'
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['ice', 'damage', 'debuff']
+    },
+
+    {
+      id: 'arc_arcane_detonation',
+      name: 'Arcane Detonation',
+      description: 'Pure arcane energy explodes in a burst, dealing force damage and disorienting enemies in the area.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_blast',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_blast',
+        tags: ['arcane', 'damage', 'debuff', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'arcane_sphere'],
+        resourceValues: { mana: 5, arcane_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Arcanum Detonare!',
+        somaticText: 'Clap hands together to release arcane energy',
+        spheres: ['Arcane', 'Arcane']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '2d6 + intelligence/2',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 14,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
+        effects: [{
+          id: 'disoriented',
+          name: 'Disoriented',
+          description: 'Arcane energy disrupts focus, causing disorientation and reduced awareness - has -2 to all attack rolls and saving throws, may move in a random direction on their turn',
+          statusType: 'dazed',
+          level: 'moderate'
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['arcane', 'damage', 'debuff', 'aoe']
+    },
+
+    // ========================================
+    // LEVEL 4 SPELLS
+    // ========================================
+    {
+      id: 'arc_firestorm',
+      name: 'Firestorm',
+      description: 'A massive fire explosion that ignites everything in the area, dealing fire damage and leaving burning ground.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_fire_flameshock',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_fire_flameshock',
+        tags: ['fire', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'fire_sphere'],
+        resourceValues: { mana: 5, fire_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Ignis Tempestas!',
+        somaticText: 'Raise both hands and unleash flames',
+        spheres: ['Fire', 'Fire']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d6 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 2,
+          tickFrequency: 'round',
+          dotFormula: '1d4',
+          isProgressiveDot: false
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 14,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'damage', 'aoe']
+    },
+
+    {
+      id: 'arc_frost_nova',
+      name: 'Frost Nova',
+      description: 'A burst of freezing cold radiates from you, damaging and slowing all nearby enemies.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_frost_frozenorb',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_frost_frozenorb',
+        tags: ['ice', 'damage', 'debuff', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'ice_sphere', 'ice_sphere'],
+        resourceValues: { mana: 5, ice_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Glacies Nova!',
+        somaticText: 'Spread arms wide to unleash frost',
+        spheres: ['Ice', 'Ice']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '3d6 + intelligence',
+        elementType: 'cold',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 14,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
+        effects: [{
+          id: 'slow',
+          name: 'Slow',
+          description: 'Freezing cold reduces movement speed by half',
+          statusType: 'slow',
+          level: 'moderate'
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['ice', 'damage', 'debuff', 'aoe']
+    },
+
+    {
+      id: 'arc_shadow_embrace',
+      name: 'Shadow Embrace',
+      description: 'Dark tendrils of shadow wrap around your target, dealing necrotic damage and weakening them.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowembrace',
+      
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_shadow_shadowembrace',
+        tags: ['shadow', 'damage', 'debuff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'shadow_sphere', 'shadow_sphere'],
+        resourceValues: { mana: 5, shadow_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Umbra Amplexus!',
+        somaticText: 'Reach out with shadow tendrils',
+        spheres: ['Shadow', 'Shadow']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '3d6 + intelligence',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 2,
+          tickFrequency: 'round',
+          dotFormula: '1d4',
+          isProgressiveDot: false
+        }
+      },
+
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'weakened',
+          name: 'Weakened',
+          description: 'Reduces target strength',
+          statModifier: {
+            stat: 'strength',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'constitution'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['shadow', 'damage', 'debuff']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS
+    // ========================================
+    {
+      id: 'arc_elemental_blast',
+      name: 'Elemental Blast',
+      description: 'Combine Fire and Ice to create a devastating blast of mixed elemental energy.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball',
+      
+      typeConfig: {
+        school: 'fire',
+        secondaryElement: 'cold',
+        icon: 'spell_fire_fireball',
+        tags: ['fire', 'ice', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'fire_sphere', 'ice_sphere'],
+        resourceValues: { mana: 5, fire_sphere: 1, ice_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Elementum Explosio!',
+        somaticText: 'Combine fire and ice spheres',
+        spheres: ['Fire', 'Ice']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d8 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct',
+        secondaryElementType: 'cold',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 15,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'ice', 'damage', 'aoe']
+    },
+
+    {
+      id: 'arc_divine_healing',
+      name: 'Divine Healing',
+      description: 'A powerful burst of divine energy that restores significant health to your target.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_holy_greaterheal',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_greaterheal',
+        tags: ['holy', 'healing', 'support'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['ally', 'self']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'holy_sphere', 'healing_sphere'],
+        resourceValues: { mana: 5, holy_sphere: 1, healing_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Sanctus Sanare!',
+        somaticText: 'Channel divine healing energy',
+        spheres: ['Holy', 'Healing']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '3d8 + spirit',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['holy', 'healing', 'support']
+    },
+
+    {
+      id: 'arc_chaos_bolt',
+      name: 'Chaos Bolt',
+      description: 'A bolt of unpredictable chaos energy that deals random elemental damage.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_charm',
+      
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_shadow_charm',
+        tags: ['chaos', 'damage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'chaos_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 5, chaos_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Chaos Sagitta!',
+        somaticText: 'Hurl chaotic energy',
+        spheres: ['Chaos', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d10 + intelligence',
+        elementType: 'chaos',
+        damageType: 'direct'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['chaos', 'damage']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS (3-Sphere Combinations)
+    // ========================================
+    {
+      id: 'arc_glacial_blessing',
+      name: 'Glacial Blessing',
+      description: 'Combine Ice, Healing, and Holy to create a protective blessing that heals and grants frost armor.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_frost_frozenarmor',
+      
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_frost_frozenarmor',
+        tags: ['ice', 'healing', 'holy', 'buff'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['ally', 'self']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'ice_sphere', 'healing_sphere', 'holy_sphere'],
+        resourceValues: { mana: 10, ice_sphere: 1, healing_sphere: 1, holy_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Glacies Benedicere!',
+        somaticText: 'Bestow glacial blessing',
+        spheres: ['Ice', 'Healing', 'Holy']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing', 'buff'],
+
+      healingConfig: {
+        formula: '2d8 + spirit',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'frost_armor',
+          name: 'Frost Armor',
+          description: 'Grants +2 armor class and resistance to cold damage',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['ice', 'healing', 'holy', 'buff']
+    },
+
+    {
+      id: 'arc_thermal_surge',
+      name: 'Thermal Surge',
+      description: 'Combine Fire, Ice, and Nature to create a devastating surge of thermal energy.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball02',
+      
+      typeConfig: {
+        school: 'fire',
+        secondaryElement: 'cold',
+        icon: 'spell_fire_fireball02',
+        tags: ['fire', 'ice', 'nature', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'fire_sphere', 'ice_sphere', 'nature_sphere'],
+        resourceValues: { mana: 10, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Thermal Eruptio!',
+        somaticText: 'Unleash thermal surge',
+        spheres: ['Fire', 'Ice', 'Nature']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '4d8 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct',
+        secondaryElementType: 'cold',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 15,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['fire', 'ice', 'nature', 'damage', 'aoe']
+    },
+
+    {
+      id: 'arc_void_ray',
+      name: 'Void Ray',
+      description: 'Combine Arcane and Shadow to create a beam of void energy that tears through reality.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowbolt',
+      
+      typeConfig: {
+        school: 'force',
+        secondaryElement: 'necrotic',
+        icon: 'spell_shadow_shadowbolt',
+        tags: ['arcane', 'shadow', 'damage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'line',
+        aoeParameters: { length: 90 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'shadow_sphere'],
+        resourceValues: { mana: 10, arcane_sphere: 1, shadow_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Voidus Radius!',
+        somaticText: 'Project void beam',
+        spheres: ['Arcane', 'Shadow', 'Shadow']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '4d10 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        secondaryElementType: 'necrotic',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 16,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['arcane', 'shadow', 'damage']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'arc_primal_arcane_tempest',
+      name: 'Primal Arcane Tempest',
+      description: 'Combine Arcane, Nature, and Chaos to unleash a tempest of primal magical energy.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcanetorrent',
+      
+      typeConfig: {
+        school: 'force',
+        secondaryElement: 'chaos',
+        icon: 'spell_arcane_arcanetorrent',
+        tags: ['arcane', 'nature', 'chaos', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'nature_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 10, arcane_sphere: 1, nature_sphere: 1, chaos_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempestas Primalis!',
+        somaticText: 'Unleash primal tempest',
+        spheres: ['Arcane', 'Nature', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '5d10 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        secondaryElementType: 'nature',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 16,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['arcane', 'nature', 'chaos', 'damage', 'aoe']
+    },
+
+    {
+      id: 'arc_elemental_fury',
+      name: 'Elemental Fury',
+      description: 'Combine Fire, Ice, Nature, and Holy to unleash a devastating storm of all four primal elements.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball02',
+      
+      typeConfig: {
+        school: 'fire',
+        secondaryElement: 'cold',
+        icon: 'spell_fire_fireball02',
+        tags: ['fire', 'ice', 'nature', 'holy', 'damage', 'aoe', 'ultimate'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'holy_sphere'],
+        resourceValues: { mana: 15, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, holy_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'ELEMENTUM FURIA!',
+        somaticText: 'Unleash all four primal elements',
+        spheres: ['Fire', 'Ice', 'Nature', 'Holy']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d10 + intelligence',
+        elementType: 'fire',
+        damageType: 'direct',
+        secondaryElementType: 'cold',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 17,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['fire', 'ice', 'nature', 'holy', 'damage', 'aoe', 'ultimate']
+    },
+
+    {
+      id: 'arc_celestial_storm',
+      name: 'Celestial Storm',
+      description: 'Combine Holy, Healing, and Arcane to create a storm of celestial energy that heals allies and damages enemies.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineintervention',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_divineintervention',
+        tags: ['holy', 'healing', 'arcane', 'damage', 'healing', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'holy_sphere', 'healing_sphere', 'arcane_sphere'],
+        resourceValues: { mana: 10, holy_sphere: 1, healing_sphere: 1, arcane_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempestas Caelestis!',
+        somaticText: 'Summon celestial storm',
+        spheres: ['Holy', 'Healing', 'Arcane']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '4d8 + intelligence',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 16,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      healingConfig: {
+        formula: '3d8 + spirit',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['holy', 'healing', 'arcane', 'damage', 'healing', 'aoe']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'arc_divine_cataclysm',
+      name: 'Divine Cataclysm',
+      description: 'Combine Holy, Shadow, Healing, and Chaos to create a cataclysmic explosion of divine and chaotic energy.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineintervention',
+      
+      typeConfig: {
+        school: 'radiant',
+        secondaryElement: 'chaos',
+        icon: 'spell_holy_divineintervention',
+        tags: ['holy', 'shadow', 'healing', 'chaos', 'damage', 'aoe', 'ultimate'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'holy_sphere', 'shadow_sphere', 'healing_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 15, holy_sphere: 1, shadow_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'CATACLYSMUS DIVINUS!',
+        somaticText: 'Unleash divine cataclysm',
+        spheres: ['Holy', 'Shadow', 'Healing', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d12 + intelligence',
+        elementType: 'radiant',
+        damageType: 'direct',
+        secondaryElementType: 'necrotic',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 18,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['holy', 'shadow', 'healing', 'chaos', 'damage', 'aoe', 'ultimate']
+    },
+
+    {
+      id: 'arc_void_inferno',
+      name: 'Void Inferno',
+      description: 'Combine Arcane, Shadow, Fire, and Chaos to tear open reality and unleash void flames that consume all matter.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowflame',
+      
+      typeConfig: {
+        school: 'force',
+        secondaryElement: 'chaos',
+        icon: 'spell_shadow_shadowflame',
+        tags: ['arcane', 'shadow', 'fire', 'chaos', 'damage', 'aoe', 'ultimate'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'fire_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 15, arcane_sphere: 1, shadow_sphere: 1, fire_sphere: 1, chaos_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'INFERNO VACUI!',
+        somaticText: 'Tear open reality to unleash void flames',
+        spheres: ['Arcane', 'Shadow', 'Fire', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '8d12 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        secondaryElementType: 'necrotic',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 3,
+          tickFrequency: 'round',
+          dotFormula: '2d6',
+          isProgressiveDot: false
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 18,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'moderate',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'constitution',
+        savingThrow: true,
+        effects: [{
+          id: 'blinded',
+          name: 'Blinded',
+          description: 'Blinded by void flames, cannot see and automatically fails sight-based checks',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['arcane', 'shadow', 'fire', 'chaos', 'damage', 'aoe', 'ultimate']
+    },
+
+    {
+      id: 'arc_chaos_storm',
+      name: 'Chaos Storm',
+      description: 'Combine multiple Chaos spheres to create a storm of pure unpredictable energy.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_charm',
+      
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_shadow_charm',
+        tags: ['chaos', 'damage', 'aoe'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 10, chaos_sphere: 3 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempestas Chaos!',
+        somaticText: 'Unleash chaos storm',
+        spheres: ['Chaos', 'Chaos', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d12 + intelligence',
+        elementType: 'chaos',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 17,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['chaos', 'damage', 'aoe']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'arc_elemental_apocalypse',
+      name: 'Elemental Apocalypse',
+      description: 'Combine all eight elements to unleash an apocalypse of pure elemental destruction.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball02',
+      
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_fire_fireball02',
+        tags: ['ultimate', 'damage', 'aoe', 'all-elements'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 20, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'APOCALYPSIS ELEMENTUM!',
+        somaticText: 'Unleash all elements in cataclysmic fusion',
+        spheres: ['Arcane', 'Holy', 'Shadow', 'Fire', 'Ice', 'Nature', 'Healing', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '10d20 + intelligence * 2',
+        elementType: 'chaos',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 20,
+          partialEffect: true,
+          partialEffectFormula: 'damage/4',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'all-elements']
+    },
+
+    {
+      id: 'arc_primordial_chaos',
+      name: 'Primordial Chaos',
+      description: 'Unleash the raw power of chaos itself, dealing massive unpredictable damage.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_charm',
+      
+      typeConfig: {
+        school: 'chaos',
+        icon: 'spell_shadow_charm',
+        tags: ['chaos', 'damage', 'aoe', 'ultimate'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 15, chaos_sphere: 4 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'CHAOS PRIMORDIALIS!',
+        somaticText: 'Unleash primordial chaos',
+        spheres: ['Chaos', 'Chaos', 'Chaos', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '12d12 + intelligence * 2',
+        elementType: 'chaos',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 19,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['chaos', 'damage', 'aoe', 'ultimate']
+    },
+
+    {
+      id: 'arc_ultimate_synthesis',
+      name: 'Ultimate Synthesis',
+      description: 'Synthesize all elements into perfect harmony, creating a devastating explosion of balanced energy.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcanepotency',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_arcanepotency',
+        tags: ['ultimate', 'damage', 'aoe', 'synthesis'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 100,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 45 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere'],
+        resourceValues: { mana: 15, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'SYNTHESIS ULTIMA!',
+        somaticText: 'Synthesize all elements',
+        spheres: ['Arcane', 'Holy', 'Shadow', 'Fire']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '10d12 + intelligence * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 19,
+          partialEffect: true,
+          partialEffectFormula: 'damage/2',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'synthesis']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'arc_omnipotence',
+      name: 'Omnipotence',
+      description: 'Achieve perfect mastery over all elements, unleashing unlimited power.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcanepotency',
+      
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_arcanepotency',
+        tags: ['ultimate', 'damage', 'aoe', 'mastery'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere'],
+        resourceValues: { mana: 25, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'OMNIPOTENTIA!',
+        somaticText: 'Achieve omnipotence',
+        spheres: ['Arcane', 'Holy', 'Shadow', 'Fire', 'Ice', 'Nature', 'Healing']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '15d20 + intelligence * 3',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 22,
+          partialEffect: true,
+          partialEffectFormula: 'damage/4',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'mastery']
+    },
+
+    {
+      id: 'arc_reality_rend',
+      name: 'Reality Rend',
+      description: 'Tear apart the fabric of reality itself, dealing massive damage to all existence.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowflame',
+      
+      typeConfig: {
+        school: 'force',
+        secondaryElement: 'chaos',
+        icon: 'spell_shadow_shadowflame',
+        tags: ['ultimate', 'damage', 'aoe', 'reality'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'chaos_sphere', 'chaos_sphere'],
+        resourceValues: { mana: 20, arcane_sphere: 1, shadow_sphere: 1, chaos_sphere: 2 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'REALITAS SCINDERE!',
+        somaticText: 'Rend reality asunder',
+        spheres: ['Arcane', 'Shadow', 'Chaos', 'Chaos']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '12d20 + intelligence * 3',
+        elementType: 'force',
+        damageType: 'direct',
+        secondaryElementType: 'chaos',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 22,
+          partialEffect: true,
+          partialEffectFormula: 'damage/4',
+          saveOutcome: 'halves'
+        }
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'reality_disruption',
+          name: 'Reality Disruption',
+          description: 'Existence itself is unstable around the target - cannot act or move for the duration',
+          statusType: 'stunned',
+          level: 'severe'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 22,
+        saveType: 'constitution'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'reality']
+    },
+
+    {
+      id: 'arc_elemental_mastery',
+      name: 'Elemental Mastery',
+      description: 'Achieve perfect mastery over all elements, becoming one with elemental power itself.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_fire_fireball02',
+      
+      typeConfig: {
+        school: 'fire',
+        secondaryElement: 'cold',
+        icon: 'spell_fire_fireball02',
+        tags: ['ultimate', 'damage', 'aoe', 'mastery'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 55 },
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'holy_sphere', 'shadow_sphere', 'arcane_sphere'],
+        resourceValues: { mana: 25, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, holy_sphere: 1, shadow_sphere: 1, arcane_sphere: 1 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'DOMINATIO ELEMENTUM!',
+        somaticText: 'Achieve elemental mastery',
+        spheres: ['Fire', 'Ice', 'Nature', 'Holy', 'Shadow', 'Arcane']
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '14d20 + intelligence * 3',
+        elementType: 'fire',
+        damageType: 'direct',
+        secondaryElementType: 'cold',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 22,
+          partialEffect: true,
+          partialEffectFormula: 'damage/4',
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'mastery']
+    },
+
+    {
+      targetingConfig: {
         rangeDistance: 60,
         aoeType: 'circle',
         aoeSize: 30
@@ -753,156 +2740,7 @@ MANA COSTS:
     },
 
     // Mixed Element Combos
-    {
-      id: 'arc_steam_burst',
-      name: 'Steam Burst',
-      description: 'Fire + Ice: Alternating fire and ice creates a disorienting steam explosion.',
-      spellType: 'ACTION',
-      icon: 'spell_frost_frostbolt',
-      school: 'Evocation',
-      level: 2,
-      sphereCost: ['Fire', 'Ice'],
 
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'cone',
-        rangeType: 'cone',
-        rangeDistance: 20,
-        aoeType: 'cone',
-        aoeSize: 20
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant burst'
-      },
-
-      resourceCost: {
-        mana: 5,
-        spheres: ['Fire', 'Ice'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'Vapor Eruptio!',
-        somaticText: 'Combine opposing hands of fire and ice'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '1d6',
-        damageType: 'cold',
-        additionalDamage: [
-          {
-            formula: '1d6',
-            damageType: 'fire'
-          }
-        ],
-        scalingType: 'none'
-      },
-
-      debuffConfig: {
-        statusEffects: [
-          {
-            id: 'disoriented',
-            name: 'Disoriented',
-            description: 'Blinded by scalding steam',
-            durationType: 'rounds',
-            durationValue: 2,
-            saveType: 'constitution',
-            saveDC: 15
-          }
-        ]
-      },
-
-      effectTypes: ['damage', 'debuff'],
-
-      tags: ['2-sphere', 'fire', 'ice', 'mixed-element', 'control'],
-      flavorText: 'Opposing elements collide in a scalding burst of steam that blinds and burns.'
-    },
-
-    {
-      id: 'arc_celestial_ray',
-      name: 'Celestial Ray',
-      description: 'Arcane + Holy: A beam of pure magical light that damages enemies and heals allies.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_holybolt',
-      school: 'Evocation',
-      level: 2,
-      sphereCost: ['Arcane', 'Holy'],
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'line',
-        rangeType: 'line',
-        rangeDistance: 60,
-        aoeType: 'line',
-        aoeSize: 60
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant beam'
-      },
-
-      resourceCost: {
-        mana: 5,
-        spheres: ['Arcane', 'Holy'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'Lux Arcanum!',
-        somaticText: 'Point finger to fire beam of light'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '1d8',
-        damageType: 'radiant',
-        scalingType: 'none'
-      },
-
-      healingConfig: {
-        formula: '1d8',
-        healingType: 'instant',
-        targetType: 'allies'
-      },
-
-      buffConfig: {
-        statusEffects: [
-          {
-            id: 'temporary_hp',
-            name: 'Celestial Protection',
-            description: 'Blessed with temporary hit points',
-            temporaryHitPoints: '1d8',
-            durationType: 'rounds',
-            durationValue: 3
-          }
-        ]
-      },
-
-      effectTypes: ['damage', 'healing', 'buff'],
-
-      tags: ['2-sphere', 'arcane', 'holy', 'mixed-element', 'healing', 'support'],
-      flavorText: 'Divine arcane energy flows in a brilliant ray, harming the wicked and healing the righteous.'
-    },
 
     {
       id: 'arc_pandemonium',
@@ -915,6 +2753,7 @@ MANA COSTS:
       sphereCost: ['Chaos', 'Chaos'],
 
       typeConfig: {
+        school: 'chaos',
         castTime: 1,
         castTimeType: 'ACTION'
       },
@@ -957,14 +2796,14 @@ MANA COSTS:
           diceType: 'd8'
         },
         entries: [
-          { roll: 1, name: 'Force Explosion', effect: '4d6 force damage to all in area' },
-          { roll: 2, name: 'Holy Nova', effect: '3d8 holy damage to enemies, heals allies 3d8' },
-          { roll: 3, name: 'Shadow Burst', effect: '3d8 shadow damage, enemies cursed' },
-          { roll: 4, name: 'Inferno', effect: '4d6 fire damage, ignites for 1d6/round' },
-          { roll: 5, name: 'Blizzard', effect: '4d6 ice damage, freezes targets' },
-          { roll: 6, name: 'Nature\'s Wrath', effect: '4d6 nature damage, creates difficult terrain' },
-          { roll: 7, name: 'Mass Healing', effect: 'Heals all allies 4d8 HP' },
-          { roll: 8, name: 'Reality Tear', effect: 'Grants +4 AC and resistance to all damage for 1 minute to allies' }
+          { roll: 1, name: 'Force Explosion', effect: '4d6 force damage to all targets in 40ft radius area.' },
+          { roll: 2, name: 'Holy Nova', effect: '3d8 radiant damage to all enemies in area. All allies in area are healed for 3d8 HP. Enemies must make Dexterity save DC 15 for half damage.' },
+          { roll: 3, name: 'Shadow Burst', effect: '3d8 necrotic damage to all enemies in area. Enemies must make Constitution save DC 15 or be cursed (disadvantage on attack rolls and ability checks) for 2 rounds.' },
+          { roll: 4, name: 'Inferno', effect: '4d6 fire damage to all targets in area. Targets must make Dexterity save DC 15 for half damage. Targets that fail the save are ignited, taking 1d6 fire damage at the start of each of their turns for 3 rounds (Constitution save DC 15 ends early).' },
+          { roll: 5, name: 'Blizzard', effect: '4d6 cold damage to all targets in area. Targets must make Constitution save DC 15 for half damage. Targets that fail the save are frozen (paralyzed) for 1 round - cannot move or take actions, attacks against them have advantage.' },
+          { roll: 6, name: 'Nature\'s Wrath', effect: '4d6 poison damage to all enemies in area. Enemies must make Constitution save DC 15 for half damage. The area becomes difficult terrain for 3 rounds - movement costs double movement speed, creatures moving through it take 1d4 piercing damage from thorns.' },
+          { roll: 7, name: 'Mass Healing', effect: 'All allies within 40ft radius are healed for 4d8 HP. This healing cannot exceed maximum HP. Allies also gain temporary HP equal to half the healing received (2d8 temp HP).' },
+          { roll: 8, name: 'Reality Tear', effect: 'All allies within 40ft radius gain +4 armor and resistance to all damage types for 1 minute (10 rounds). Resistance means they take half damage from all sources. This effect cannot be dispelled.' }
         ]
       },
 
@@ -978,7 +2817,10 @@ MANA COSTS:
       },
 
       tags: ['2-sphere', 'chaos', 'random', 'unpredictable', 'entropy-weaver'],
-      flavorText: 'Reality itself fractures as pure chaos is unleashed upon the world.'
+      flavorText: 'Reality itself fractures as pure chaos is unleashed upon the world.',
+      
+      // Explicitly no utility - spell only uses rollable table
+      effectTypes: []
     },
 
     // ========================================
@@ -986,485 +2828,12 @@ MANA COSTS:
     // Powerful combinations requiring specific elements
     // ========================================
 
-    {
-      id: 'arc_glacial_blessing',
-      name: 'Glacial Blessing',
-      description: 'Holy + Ice + Nature: A blessing that heals allies and freezes enemies in protective icy terrain.',
-      spellType: 'ACTION',
-      icon: 'spell_frost_frostarmor',
-      school: 'Abjuration',
-      level: 3,
-      sphereCost: ['Holy', 'Ice', 'Nature'],
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 30
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Terrain lasts 1 minute'
-      },
-
-      resourceCost: {
-        mana: 10,
-        spheres: ['Holy', 'Ice', 'Nature'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'Benedictio Glacialis!',
-        somaticText: 'Spread arms to create blessed frozen terrain'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '3d6',
-        damageType: 'cold',
-        scalingType: 'none'
-      },
-
-      healingConfig: {
-        formula: '4d8',
-        healingType: 'instant',
-        targetType: 'allies'
-      },
-
-      terrainConfig: {
-        terrainType: 'difficult',
-        duration: 60,
-        description: 'Creates difficult icy terrain'
-      },
-
-      effectTypes: ['damage', 'healing', 'terrain'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Holy', 'Ice', 'Nature'],
-          comboType: '3-sphere-recipe',
-          sphereArchitectBonus: 'Costs 7 mana instead of 10'
-        }
-      },
-
-      tags: ['3-sphere', 'holy', 'ice', 'nature', 'healing', 'terrain', 'sphere-architect'],
-      flavorText: 'Divine frost spreads across the ground, blessing allies while freezing foes in place.'
-    },
-
-    {
-      id: 'arc_thermal_surge',
-      name: 'Thermal Surge',
-      description: 'Fire + Ice + Healing: Alternating fire and ice that heals allies while devastating enemies with thermal shock.',
-      spellType: 'ACTION',
-      icon: 'spell_fire_twilightflamebreath',
-      school: 'Evocation',
-      level: 3,
-      sphereCost: ['Fire', 'Ice', 'Healing'],
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'cone',
-        rangeType: 'cone',
-        rangeDistance: 30,
-        aoeType: 'cone',
-        aoeSize: 30
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant surge'
-      },
-
-      resourceCost: {
-        mana: 10,
-        spheres: ['Fire', 'Ice', 'Healing'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'Thermalis Unda!',
-        somaticText: 'Sweep arms in wave motion'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '4d6+4d6',
-        damageType: 'fire',
-        damageTypes: ['fire', 'cold'],
-        scalingType: 'none'
-      },
-
-      healingConfig: {
-        formula: '3d8',
-        healingType: 'instant',
-        targetType: 'allies'
-      },
-
-      effectTypes: ['damage', 'healing'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Fire', 'Ice', 'Healing'],
-          comboType: '3-sphere-recipe',
-          sphereArchitectBonus: 'Costs 7 mana instead of 10'
-        }
-      },
-
-      tags: ['3-sphere', 'fire', 'ice', 'healing', 'mixed-element', 'sphere-architect'],
-      flavorText: 'A wave of alternating heat and cold washes over the battlefield, healing friends and burning foes.'
-    },
-
-    {
-      id: 'arc_primal_arcane_tempest',
-      name: 'Primal Arcane Tempest',
-      description: 'Arcane + Chaos + Nature: A tempest of chaotic arcane and nature magic that devastates and rejuvenates.',
-      spellType: 'ACTION',
-      icon: 'spell_nature_cyclone',
-      school: 'Evocation',
-      level: 4,
-      sphereCost: ['Arcane', 'Chaos', 'Nature'],
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 40
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Terrain lasts 1 minute'
-      },
-
-      resourceCost: {
-        mana: 10,
-        spheres: ['Arcane', 'Chaos', 'Nature'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempestas Primordialis!',
-        somaticText: 'Spin arms to create swirling tempest'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '5d6+5d6',
-        damageType: 'force',
-        damageTypes: ['force', 'nature'],
-        scalingType: 'none'
-      },
-
-      healingConfig: {
-        formula: '4d8',
-        healingType: 'instant',
-        targetType: 'allies'
-      },
-
-      terrainConfig: {
-        terrainType: 'difficult',
-        duration: 60,
-        description: 'Creates chaotic difficult terrain'
-      },
-
-      effectTypes: ['damage', 'healing', 'terrain'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Arcane', 'Chaos', 'Nature'],
-          comboType: '3-sphere-recipe',
-          sphereArchitectBonus: 'Costs 7 mana instead of 10',
-          entropyWeaverBonus: 'Double damage on all effects'
-        }
-      },
-
-      tags: ['3-sphere', 'arcane', 'chaos', 'nature', 'aoe', 'terrain', 'entropy-weaver'],
-      flavorText: 'Primal chaos and arcane power merge into a devastating storm that reshapes the battlefield.'
-    },
-
+    
+    
+    
     // ========================================
     // 4-SPHERE ULTIMATE RECIPES
     // The most powerful combinations
     // ========================================
-
-    {
-      id: 'arc_elemental_fury',
-      name: 'Elemental Fury',
-      description: 'Arcane + Fire + Ice + Nature: Unleashes a devastating combination of all four elements that ravages enemies.',
-      spellType: 'ACTION',
-      icon: 'spell_nature_wispsplode',
-      school: 'Evocation',
-      level: 5,
-      sphereCost: ['Arcane', 'Fire', 'Ice', 'Nature'],
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 40
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Terrain lasts 1 minute'
-      },
-
-      resourceCost: {
-        mana: 15,
-        spheres: ['Arcane', 'Fire', 'Ice', 'Nature'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'ELEMENTUM FURIA!',
-        somaticText: 'Slam fists together releasing all elements'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '6d6+6d6+6d6+6d6',
-        damageType: 'force',
-        damageTypes: ['force', 'fire', 'cold', 'nature'],
-        scalingType: 'none'
-      },
-
-      terrainConfig: {
-        terrainType: 'difficult',
-        duration: 60,
-        description: 'Creates elemental difficult terrain'
-      },
-
-      effectTypes: ['damage', 'terrain'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Arcane', 'Fire', 'Ice', 'Nature'],
-          comboType: '4-sphere-ultimate',
-          description: 'Ultimate 4-element combination'
-        }
-      },
-
-      tags: ['4-sphere', 'arcane', 'fire', 'ice', 'nature', 'ultimate', 'aoe'],
-      flavorText: 'The four fundamental elements converge in a cataclysmic explosion of raw power.'
-    },
-
-    {
-      id: 'arc_divine_cataclysm',
-      name: 'Divine Cataclysm',
-      description: 'Holy + Shadow + Healing + Chaos: A cataclysmic event dealing holy and shadow damage while healing allies.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing',
-      school: 'Evocation',
-      level: 5,
-      sphereCost: ['Holy', 'Shadow', 'Healing', 'Chaos'],
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 40
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant cataclysm'
-      },
-
-      resourceCost: {
-        mana: 15,
-        spheres: ['Holy', 'Shadow', 'Healing', 'Chaos'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'CATACLYSMUS DIVINUS!',
-        somaticText: 'Raise hands to sky and bring down divine wrath'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'wisdom',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '6d8+6d8',
-        damageType: 'radiant',
-        damageTypes: ['radiant', 'necrotic'],
-        scalingType: 'none'
-      },
-
-      healingConfig: {
-        formula: '5d8',
-        healingType: 'instant',
-        targetType: 'allies'
-      },
-
-      debuffConfig: {
-        statusEffects: [
-          {
-            id: 'stunned',
-            name: 'Stunned',
-            description: 'Overwhelmed by divine judgment',
-            durationType: 'rounds',
-            durationValue: 1
-          }
-        ]
-      },
-
-      effectTypes: ['damage', 'healing', 'debuff'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Holy', 'Shadow', 'Healing', 'Chaos'],
-          comboType: '4-sphere-ultimate',
-          entropyWeaverBonus: 'Double damage and healing',
-          description: 'Ultimate divine/shadow combination'
-        }
-      },
-
-      tags: ['4-sphere', 'holy', 'shadow', 'healing', 'chaos', 'ultimate', 'entropy-weaver'],
-      flavorText: 'Light and darkness collide in a divine cataclysm that judges all within its reach.'
-    },
-
-    {
-      id: 'arc_void_inferno',
-      name: 'Void Inferno',
-      description: 'Arcane + Shadow + Fire + Chaos: A chaotic inferno that consumes everything with void energy.',
-      spellType: 'ACTION',
-      icon: 'spell_shadow_shadowfiend',
-      school: 'Evocation',
-      level: 5,
-      sphereCost: ['Arcane', 'Shadow', 'Fire', 'Chaos'],
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 40
-      },
-
-      durationConfig: {
-        durationType: 'instant',
-        description: 'Instant void explosion'
-      },
-
-      resourceCost: {
-        mana: 15,
-        spheres: ['Arcane', 'Shadow', 'Fire', 'Chaos'],
-        components: ['verbal', 'somatic'],
-        verbalText: 'INFERNO VACUI!',
-        somaticText: 'Tear open reality to unleash void flames'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'dexterity',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '6d6+6d6+6d6',
-        damageType: 'force',
-        damageTypes: ['force', 'necrotic', 'fire'],
-        scalingType: 'none'
-      },
-
-      debuffConfig: {
-        statusEffects: [
-          {
-            id: 'blinded',
-            name: 'Blinded',
-            description: 'Blinded by void flames',
-            durationType: 'rounds',
-            durationValue: 1
-          },
-          {
-            id: 'stunned',
-            name: 'Stunned',
-            description: 'Stunned by chaotic void energy',
-            durationType: 'rounds',
-            durationValue: 1
-          }
-        ]
-      },
-
-      effectTypes: ['damage', 'debuff'],
-
-      specialMechanics: {
-        sphereCombo: {
-          enabled: true,
-          elements: ['Arcane', 'Shadow', 'Fire', 'Chaos'],
-          comboType: '4-sphere-ultimate',
-          entropyWeaverBonus: 'Double damage, enemies also take 2d6 void damage per round for 3 rounds',
-          description: 'Ultimate destruction combination'
-        }
-      },
-
-      tags: ['4-sphere', 'arcane', 'shadow', 'fire', 'chaos', 'ultimate', 'entropy-weaver'],
-      flavorText: 'A tear in reality unleashes void flames that consume all matter and energy.'
-    }
   ]
 };
-
-

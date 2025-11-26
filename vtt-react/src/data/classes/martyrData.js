@@ -960,18 +960,22 @@ INTERVENE COUNT: 1
   },
 
   // Example Spells - showcasing the spell wizard system
-  exampleSpells: [
-    // Basic Healing Spells
+  spells: [
+    // ========================================
+    // LEVEL 1 STARTING SPELLS (5 options, pick 3)
+    // ========================================
     {
       id: 'martyr_restorative_prayer',
       name: 'Restorative Prayer',
       description: 'A gentle prayer that mends wounds and restores vitality to an ally.',
+      level: 1,
       spellType: 'ACTION',
       icon: 'spell_holy_heal',
-      school: 'Restoration',
-      level: 1,
 
       typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_heal',
+        tags: ['healing', 'basic', 'devotion-amplifiable', 'level-1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -979,48 +983,289 @@ INTERVENE COUNT: 1
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 5,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 5 },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Sanatio Divina',
         somaticText: 'Hands clasped in prayer'
       },
 
       resolution: 'DICE',
+      effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '1d4',
-        modifier: 'SPIRIT',
-        healingType: 'single_target'
+        formula: '1d4 + spirit',
+        healingType: 'direct',
+        hasHotEffect: false
       },
 
-      effects: {
+      devotionRequired: 0,
+      devotionGain: 1,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['healing', 'basic', 'devotion-amplifiable', 'level-1']
+    },
+
+    {
+      id: 'martyr_intervene',
+      name: 'Intervene',
+      description: 'Step in front of an ally to intercept an attack, taking the damage yourself.',
+      level: 1,
+      spellType: 'REACTION',
+      icon: 'ability_warrior_shieldwall',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'ability_warrior_shieldwall',
+        tags: ['protection', 'reaction', 'devotion-amplifiable', 'level-1'],
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 4 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Protector!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'protection',
+        selectedEffects: [{
+          id: 'intercept_attack',
+          name: 'Intercept Attack',
+          description: 'Take damage meant for ally this turn'
+        }],
+        duration: 1,
+        durationUnit: 'turns',
+        concentration: false,
+        power: 'minor'
+      },
+
+      devotionRequired: 0,
+      devotionGain: 2,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['protection', 'reaction', 'devotion-amplifiable', 'level-1']
+    },
+
+    {
+      id: 'martyr_penance_of_pain',
+      name: 'Penance of Pain',
+      description: 'Convert your own pain into healing power for an ally.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_holy_penance',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_penance',
+        tags: ['healing', 'sacrificial', 'devotion-amplifiable', 'level-1'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Dolor pro Beneficio!',
+        somaticText: 'Press hand to own wound'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '(maxHealth - currentHealth) / 4',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      devotionRequired: 1,
+      devotionGain: 1,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['healing', 'sacrificial', 'devotion-amplifiable', 'level-1']
+    },
+
+    {
+      id: 'martyr_radiant_burst',
+      name: 'Radiant Burst',
+      description: 'Release a burst of radiant energy that damages undead and heals the living.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holybolt',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holybolt',
+        tags: ['damage', 'healing', 'radiant', 'devotion-amplifiable', 'level-1'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingMode: 'effect',
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 20,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: []
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 20,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 10 },
+          targetRestrictions: ['enemy']
+        },
         healing: {
-          instant: {
-            formula: '1d4',
-            modifier: 'SPIRIT',
-            target: 'single'
-          }
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 20,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 10 },
+          targetRestrictions: ['ally']
         }
       },
 
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 1,
-          amplifiedEffect: 'Heal for 4d4 + Spirit modifier HP instead'
-        }
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Lux Divina!',
+        somaticText: 'Release radiant energy'
       },
 
-      tags: ['healing', 'basic', 'devotion-amplifiable']
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '1d6 + spirit/2',
+        elementType: 'radiant',
+        damageType: 'direct'
+      },
+
+      healingConfig: {
+        formula: '1d6 + spirit/2',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      devotionRequired: 0,
+      devotionGain: 1,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['damage', 'healing', 'radiant', 'devotion-amplifiable', 'level-1']
+    },
+
+    {
+      id: 'martyr_devoted_strike',
+      name: 'Devoted Strike',
+      description: 'Strike an enemy with radiant power, dealing damage and healing yourself through devotion.',
+      level: 1,
+      spellType: 'ACTION',
+      icon: 'ability_paladin_blessedhands',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'ability_paladin_blessedhands',
+        tags: ['damage', 'melee', 'radiant', 'healing', 'devotion-amplifiable', 'level-1'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: []
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Strike with radiant energy'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '1d8 + strength',
+        elementType: 'radiant',
+        damageType: 'direct'
+      },
+
+      healingConfig: {
+        formula: 'strength / 2',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      devotionRequired: 0,
+      devotionGain: 2,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['damage', 'melee', 'radiant', 'healing', 'devotion-amplifiable', 'level-1']
     },
 
     {
@@ -1079,95 +1324,7 @@ INTERVENE COUNT: 1
 
       tags: ['buff', 'temporary-hp', 'aoe', 'devotion-amplifiable']
     },
-
-    // Self-Sacrifice Spells
     {
-      id: 'martyr_penance_of_pain',
-      name: 'Penance of Pain',
-      description: 'Inflict grievous wounds upon yourself, channeling that suffering into healing energy for all allies.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_penance',
-      school: 'Restoration',
-      level: 4,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 30
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 25,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Dolor Pro Salus',
-        somaticText: 'Strike yourself with divine energy'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '3d6',
-        damageType: 'radiant',
-        target: 'self',
-        description: 'Inflict damage to yourself'
-      },
-
-      healingConfig: {
-        formula: 'DAMAGE_DEALT_TO_SELF',
-        healingType: 'area',
-        description: 'Heal all allies for the damage you inflicted on yourself'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d6',
-            type: 'radiant',
-            target: 'self'
-          }
-        },
-        healing: {
-          instant: {
-            formula: 'DAMAGE_DEALT_TO_SELF',
-            targets: 'all_allies_in_area'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 2,
-          amplifiedEffect: 'Inflict 4d8 damage to yourself and heal allies for that amount'
-        },
-        selfDamage: {
-          buildsDevotion: true,
-          description: 'Self-damage counts toward Devotion Level accumulation'
-        }
-      },
-
-      tags: ['healing', 'self-damage', 'aoe', 'sacrifice', 'devotion-amplifiable']
-    },
-
-    {
-      id: 'martyr_purifying_pain',
-      name: 'Purifying Pain',
-      description: 'Purify yourself through suffering, converting your pain into potent healing for an ally.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_restoration',
       school: 'Restoration',
       level: 2,
 
@@ -1239,136 +1396,6 @@ INTERVENE COUNT: 1
       tags: ['healing', 'self-damage', 'sacrifice', 'devotion-amplifiable']
     },
 
-    // Radiant Damage Spells
-    {
-      id: 'martyr_radiant_burst',
-      name: 'Radiant Burst',
-      description: 'Unleash a burst of holy light that sears your enemy and blinds them with divine radiance.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_holysmite',
-      school: 'Evocation',
-      level: 3,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 15,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Lux Divina!',
-        somaticText: 'Thrust palm forward'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '3d6',
-        damageType: 'radiant',
-        scalingType: 'none'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d6',
-            type: 'radiant'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 2,
-          amplifiedEffect: 'Deal 4d6 radiant damage and blind the enemy for 1 minute'
-        }
-      },
-
-      tags: ['damage', 'radiant', 'blind', 'devotion-amplifiable']
-    },
-
-    {
-      id: 'martyr_devoted_strike',
-      name: 'Devoted Strike',
-      description: 'Channel your devotion into a powerful melee attack, dealing radiant damage and healing yourself.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_crusaderstrike',
-      school: 'Evocation',
-      level: 3,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'melee'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 20,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Devotio Ferrum!',
-        somaticText: 'Strike with weapon wreathed in holy light'
-      },
-
-      resolution: 'FIXED',
-
-      damageConfig: {
-        formula: '25',
-        damageType: 'radiant',
-        scalingType: 'none'
-      },
-
-      healingConfig: {
-        formula: '10',
-        healingType: 'self'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '25',
-            type: 'radiant'
-          }
-        },
-        healing: {
-          instant: {
-            formula: '10',
-            target: 'self'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 3,
-          amplifiedEffect: 'Deal 35 radiant damage and heal for 20 HP instead'
-        }
-      },
-
-      tags: ['damage', 'radiant', 'healing', 'melee', 'devotion-amplifiable']
-    },
 
     // Buff and Protection Spells
     {
@@ -1432,218 +1459,15 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_blessed_resilience',
       name: 'Blessed Resilience',
-      description: 'Divine power fortifies your body, granting resistance to physical harm.',
+      description: 'Bless allies with divine resilience, granting bonuses to saving throws and reducing damage taken.',
+      level: 2,
       spellType: 'ACTION',
-      icon: 'spell_holy_blessedresilience',
-      school: 'Abjuration',
-      level: 3,
+      icon: 'spell_holy_blessingofprotection',
 
       typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'turns'
-      },
-
-      resourceCost: {
-        mana: 15,
-        components: ['verbal'],
-        verbalText: 'Fortitudo Divina'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          resistance: {
-            type: 'physical_damage',
-            duration: 1,
-            durationUnit: 'turns',
-            target: 'self'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 5,
-          amplifiedEffect: 'Grants resistance to both magical and physical damage for 1 minute'
-        }
-      },
-
-      tags: ['buff', 'resistance', 'self', 'devotion-amplifiable']
-    },
-
-    // Combo Spells (Healing + Damage)
-    {
-      id: 'martyr_redeemers_flame',
-      name: "Redeemer's Flame",
-      description: 'Holy fire that heals an ally while burning a nearby enemy with righteous fury.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_searinglightpriest',
-      school: 'Evocation',
-      level: 4,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'dual',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        description: 'Target one ally and one enemy within range'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 20,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Flamma Redemptoris!',
-        somaticText: 'Gesture toward ally and enemy'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '4d6',
-        damageType: 'radiant'
-      },
-
-      healingConfig: {
-        formula: '5d6',
-        healingType: 'single_target'
-      },
-
-      effects: {
-        healing: {
-          instant: {
-            formula: '5d6',
-            target: 'ally'
-          }
-        },
-        damage: {
-          instant: {
-            formula: '4d6',
-            type: 'radiant',
-            target: 'enemy'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 3,
-          amplifiedEffect: 'Heal for 6d6 HP and deal 5d6 radiant damage'
-        }
-      },
-
-      tags: ['healing', 'damage', 'radiant', 'combo', 'devotion-amplifiable']
-    },
-
-    {
-      id: 'martyr_martyrs_fire',
-      name: "Martyr's Fire",
-      description: 'The ultimate expression of sacrifice—inflict grievous wounds upon yourself to heal an ally and smite an enemy.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_summonlightwell',
-      school: 'Evocation',
-      level: 5,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'dual',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        description: 'Target one ally and one enemy within range'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 20,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Ignis Martyris!',
-        somaticText: 'Strike yourself then gesture outward'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '5d6',
-        damageType: 'radiant',
-        targets: ['self', 'enemy']
-      },
-
-      healingConfig: {
-        formula: '7d6',
-        healingType: 'single_target'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '5d6',
-            type: 'radiant',
-            targets: ['self', 'enemy']
-          }
-        },
-        healing: {
-          instant: {
-            formula: '7d6',
-            target: 'ally'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 3,
-          amplifiedEffect: 'Heal for 8d6 HP and deal 6d6 radiant damage to enemy'
-        },
-        selfDamage: {
-          buildsDevotion: true
-        }
-      },
-
-      tags: ['healing', 'damage', 'radiant', 'self-damage', 'combo', 'devotion-amplifiable']
-    },
-
-    // Ultimate Abilities
-    {
-      id: 'martyr_ultimate_sacrifice',
-      name: 'Ultimate Sacrifice',
-      description: 'Become an invulnerable beacon of protection, redirecting all damage from nearby allies to yourself.',
-      spellType: 'ACTION',
-      icon: 'spell_holy_guardianspirit',
-      school: 'Abjuration',
-      level: 6,
-
-      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_blessingofprotection',
+        tags: ['buff', 'saving-throws', 'damage-reduction', 'aoe', 'devotion-amplifiable', 'level-2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1652,141 +1476,195 @@ INTERVENE COUNT: 1
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 20
-        }
-      },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes'
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 25,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        useFormulas: {},
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Sacrificium Ultimum!',
-        somaticText: 'Arms spread wide, accepting all harm'
+        verbalText: 'Benedictio Fortis',
+        somaticText: 'Make blessing gesture'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'NONE',
+      effectTypes: ['buff'],
 
-      effects: {
-        buff: {
-          immunity: {
-            type: 'all_damage',
-            duration: 1,
-            durationUnit: 'minutes',
-            target: 'self'
-          },
-          damageRedirection: {
-            from: 'all_allies_in_area',
-            to: 'self',
-            duration: 1,
-            durationUnit: 'minutes'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'blessed_resilience_saves',
+          name: 'Blessed Resilience (Saves)',
+          description: 'Bonus to saving throws',
+          statModifier: {
+            stat: 'savingThrows',
+            magnitude: 2,
+            magnitudeType: 'flat'
           }
-        }
+        }, {
+          id: 'blessed_resilience_damage',
+          name: 'Blessed Resilience (Damage)',
+          description: 'Reduces damage taken',
+          statModifier: {
+            stat: 'damageReduction',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'turns',
+        durationUnit: 'turns',
+        concentrationRequired: false,
+        canBeDispelled: true
       },
 
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 4,
-          amplifiedEffect: 'Become immune to all damage for 2 minutes'
-        }
+      devotionRequired: 0,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
-      tags: ['buff', 'immunity', 'protection', 'ultimate', 'devotion-amplifiable']
+      tags: ['buff', 'saving-throws', 'damage-reduction', 'aoe', 'devotion-amplifiable', 'level-2']
     },
 
+    // ========================================
+    // LEVEL 3 SPELLS
+    // ========================================
     {
-      id: 'martyr_searing_devotion',
-      name: 'Searing Devotion',
-      description: 'The pinnacle of martyrdom—burn yourself with holy fire to unleash devastating radiant damage and massive healing.',
+      id: 'martyr_sacrificial_bond',
+      name: 'Sacrificial Bond',
+      description: 'Create a sacred bond with an ally. While active, you take half of the damage they would receive.',
+      level: 3,
       spellType: 'ACTION',
-      icon: 'spell_holy_divineprovidence',
-      school: 'Evocation',
-      level: 7,
+      icon: 'spell_holy_powerwordshield',
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordshield',
+        tags: ['buff', 'protection', 'sacrifice', 'level-3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'dual_area',
+        targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60,
-        description: 'Target one enemy; all allies within 20 feet of you are healed'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 25,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 15 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Devotio Ardens!',
-        somaticText: 'Immolate yourself with holy fire'
+        verbalText: 'Vinculum Sacrificii',
+        somaticText: 'Touch heart then extend hand'
       },
 
-      resolution: 'DICE',
+      resolution: 'NONE',
+      effectTypes: ['buff'],
 
-      damageConfig: {
-        formula: '6d6',
-        damageType: 'radiant',
-        targets: ['self', 'enemy']
+      buffConfig: {
+        buffType: 'protection',
+        effects: [{
+          id: 'sacrificial_bond',
+          name: 'Sacrificial Bond',
+          description: 'You take 50% of damage dealt to bonded ally'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
 
-      healingConfig: {
-        formula: '8d6',
-        healingType: 'area'
+      devotionRequired: 0,
+      devotionGain: 2,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '6d6',
-            type: 'radiant',
-            targets: ['self', 'enemy']
-          }
-        },
-        healing: {
-          instant: {
-            formula: '8d6',
-            targets: 'all_allies_within_20ft'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 5,
-          amplifiedEffect: 'Deal 10d6 radiant damage to enemy and heal allies for 10d6 HP'
-        },
-        selfDamage: {
-          buildsDevotion: true
-        }
-      },
-
-      tags: ['healing', 'damage', 'radiant', 'self-damage', 'aoe', 'ultimate', 'devotion-amplifiable']
+      tags: ['buff', 'protection', 'sacrifice', 'level-3']
     },
 
     {
-      id: 'martyr_martyrs_embrace',
-      name: "Martyr's Embrace",
-      description: 'Revive a fallen ally with the power of your devotion, restoring them to full health.',
+      id: 'martyr_burning_sacrifice',
+      name: 'Burning Sacrifice',
+      description: 'Sacrifice your own life force to deal radiant damage to enemies around you.',
+      level: 3,
       spellType: 'ACTION',
-      icon: 'spell_holy_resurrection',
-      school: 'Restoration',
-      level: 6,
+      icon: 'spell_holy_holyfire',
 
       typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holyfire',
+        tags: ['damage', 'self-damage', 'radiant', 'aoe', 'level-3'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 10, hp: 15 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Ignis Sacrificii!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '4d6 + wisdom',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 14,
+          saveOutcome: 'halves'
+        }
+      },
+
+      devotionRequired: 0,
+      devotionGain: 3,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['damage', 'self-damage', 'radiant', 'aoe', 'level-3']
+    },
+
+    {
+      id: 'martyr_cleansing_touch',
+      name: 'Cleansing Touch',
+      description: 'Remove negative conditions from an ally by taking the affliction upon yourself briefly.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'spell_holy_purify',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_purify',
+        tags: ['purification', 'sacrifice', 'utility', 'level-3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1794,172 +1672,229 @@ INTERVENE COUNT: 1
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'touch',
-        description: 'Target a dead ally'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 25,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Vita Redde!',
-        somaticText: 'Embrace the fallen'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Lay hands on ally'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'NONE',
+      effectTypes: ['purification'],
 
-      healingConfig: {
-        formula: 'FULL_HEALTH',
-        healingType: 'resurrection'
+      purificationConfig: {
+        purificationType: 'cleanse',
+        targetType: 'single',
+        power: 'moderate',
+        duration: 'instant',
+        selfEffect: 'You suffer the removed condition for 1 round'
       },
 
-      effects: {
-        resurrection: {
-          instant: {
-            healthRestored: 'FULL',
-            temporaryHP: 'SPIRIT_MODIFIER'
-          }
-        }
+      devotionRequired: 0,
+      devotionGain: 1,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
       },
 
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 4,
-          amplifiedEffect: 'Grant the revived ally an additional 2d6 temporary HP'
-        }
-      },
-
-      tags: ['resurrection', 'healing', 'ultimate', 'devotion-amplifiable']
+      tags: ['purification', 'sacrifice', 'utility', 'level-3']
     },
 
-    // Utility and Reaction Spells
+    // ========================================
+    // LEVEL 4 SPELLS
+    // ========================================
     {
-      id: 'martyr_rapturous_devotion',
-      name: 'Rapturous Devotion',
-      description: 'Channel your devotion into supernatural speed and energy, gaining additional action points.',
+      id: 'martyr_shield_of_faith',
+      name: 'Shield of Faith',
+      description: 'Create a divine shield around an ally that absorbs damage until broken.',
+      level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_surgeoflight',
-      school: 'Enhancement',
-      level: 5,
+      icon: 'spell_holy_divineprotection',
 
       typeConfig: {
-        castTime: 0,
+        school: 'abjuration',
+        icon: 'spell_holy_divineprotection',
+        tags: ['buff', 'shield', 'protection', 'level-4'],
+        castTime: 1,
         castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes'
-      },
-
-      resourceCost: {
-        mana: 30,
-        components: ['verbal'],
-        verbalText: 'Celeritas Divina!'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          actionPoints: {
-            bonus: 1,
-            duration: 1,
-            durationUnit: 'minutes',
-            target: 'self'
-          }
-        }
-      },
-
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 3,
-          amplifiedEffect: 'Gain 2 additional AP for 1 minute instead'
-        }
-      },
-
-      tags: ['buff', 'utility', 'action-points', 'devotion-amplifiable']
-    },
-
-    {
-      id: 'martyr_intervene',
-      name: "Martyr's Intervene",
-      description: 'Rush in front of an ally to take damage meant for them, increasing your Devotion Gauge.',
-      spellType: 'REACTION',
-      icon: 'spell_holy_layonhands',
-      school: 'Abjuration',
-      level: 1,
-
-      typeConfig: {
-        castTime: 0,
-        castTimeType: 'REACTION',
-        trigger: 'Ally within 10 feet is about to take damage'
       },
 
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 10,
-        description: 'Target an ally about to take damage'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 0,
-        components: ['somatic'],
-        somaticText: 'Rush in front of ally'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Scutum Fidei',
+        somaticText: 'Create shield gesture'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'DICE',
+      effectTypes: ['buff'],
 
-      effects: {
-        utility: {
-          damageRedirection: {
-            from: 'target_ally',
-            to: 'self',
-            description: 'Take all damage meant for the ally'
+      buffConfig: {
+        buffType: 'shield',
+        effects: [{
+          id: 'faith_shield',
+          name: 'Shield of Faith',
+          description: 'Absorbs damage until broken',
+          shieldValue: {
+            formula: '3d8 + wisdom * 2',
+            shieldType: 'absorption'
           }
-        }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
       },
 
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          advanceBy: 1,
-          description: 'Increases Devotion Gauge by 1 level each time used'
-        },
-        canAmplify: true,
-        amplifiedCost: 1,
-        amplifiedEffect: 'Gain advantage on all attacks for 1 minute after intervening'
+      devotionRequired: 2,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
       },
 
-      tags: ['reaction', 'protection', 'devotion-builder', 'core-mechanic']
+      tags: ['buff', 'shield', 'protection', 'level-4']
     },
 
     {
-      id: 'martyr_mass_restoration',
-      name: 'Mass Restoration',
-      description: 'A wave of healing energy washes over all nearby allies, mending their wounds.',
+      id: 'martyr_life_transfer',
+      name: 'Life Transfer',
+      description: 'Transfer your own health to heal an ally for twice the amount sacrificed.',
+      level: 4,
       spellType: 'ACTION',
-      icon: 'spell_holy_prayerofhealing02',
-      school: 'Restoration',
-      level: 3,
+      icon: 'spell_holy_flashheal',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_holy_flashheal',
+        tags: ['healing', 'sacrifice', 'self-damage', 'level-4'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 8, hp: 20 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Channel life force'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '40 + wisdom',
+        healingType: 'direct',
+        hasHotEffect: false
+      },
+
+      devotionRequired: 0,
+      devotionGain: 2,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['healing', 'sacrifice', 'self-damage', 'level-4']
+    },
+
+    {
+      id: 'martyr_martyrs_mark',
+      name: "Martyr's Mark",
+      description: 'Mark an enemy. Allies attacking the marked target heal for a portion of damage dealt.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_holy_sealofblood',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_sealofblood',
+        tags: ['debuff', 'utility', 'healing', 'mark', 'level-4'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 15 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Signum Martyris!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'mark',
+        effects: [{
+          id: 'martyrs_mark',
+          name: "Martyr's Mark",
+          description: 'Allies heal for 25% of damage dealt to marked target'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      devotionRequired: 1,
+      devotionGain: 1,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['debuff', 'utility', 'healing', 'mark', 'level-4']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS
+    // ========================================
+    {
+      id: 'martyr_righteous_suffering',
+      name: 'Righteous Suffering',
+      description: 'Embrace suffering to become immune to crowd control while slowly healing allies around you.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_divineillumination',
+        tags: ['buff', 'healing', 'immunity', 'aoe', 'level-5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1967,125 +1902,1109 @@ INTERVENE COUNT: 1
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'sphere',
-        aoeParameters: {
-          radius: 10
-        }
-      },
-
-      durationConfig: {
-        durationType: 'instant'
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 10,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Sanatio Omnibus',
-        somaticText: 'Raise hands and release healing wave'
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 20, hp: 10 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Passio Justa!'
       },
 
       resolution: 'DICE',
+      effectTypes: ['buff', 'healing'],
+
+      buffConfig: {
+        buffType: 'immunity',
+        effects: [{
+          id: 'righteous_immunity',
+          name: 'Righteous Immunity',
+          description: 'You become immune to stun, fear, and charm'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
 
       healingConfig: {
-        formula: '1d4',
-        modifier: 'SPIRIT',
-        healingType: 'area'
+        formula: '2d6',
+        healingType: 'hot',
+        hasHotEffect: true,
+        hotFormula: '2d6',
+        hotDuration: 3,
+        hotTickType: 'round'
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '1d4',
-            modifier: 'SPIRIT',
-            targets: 'all_allies_in_area'
-          }
-        }
+      devotionRequired: 3,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
       },
 
-      specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 2,
-          amplifiedEffect: 'Heal for 4d4 + Spirit modifier HP instead'
-        }
-      },
-
-      tags: ['healing', 'aoe', 'devotion-amplifiable']
+      tags: ['buff', 'healing', 'immunity', 'aoe', 'level-5']
     },
 
     {
-      id: 'martyr_sacrificial_strike',
-      name: 'Sacrificial Strike',
-      description: 'Inflict pain upon yourself to empower your attacks with holy fury.',
+      id: 'martyr_blood_pact',
+      name: 'Blood Pact',
+      description: 'Forge a blood pact with allies. All party members share damage equally.',
+      level: 5,
       spellType: 'ACTION',
-      icon: 'spell_holy_retributionaura',
-      school: 'Enhancement',
-      level: 3,
+      icon: 'spell_shadow_bloodboil',
 
       typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_bloodboil',
+        tags: ['buff', 'protection', 'sacrifice', 'party', 'level-5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'timed',
-        duration: 1,
-        durationUnit: 'minutes'
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
       },
 
       resourceCost: {
-        mana: 15,
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 25, hp: 15 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'Dolor Potentia!',
-        somaticText: 'Strike yourself to empower weapon'
+        verbalText: 'Pactum Sanguinis',
+        somaticText: 'Cut palm and raise hand'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'link',
+        effects: [{
+          id: 'blood_pact',
+          name: 'Blood Pact',
+          description: 'All damage is distributed evenly among linked allies'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      devotionRequired: 2,
+      devotionGain: 3,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['buff', 'protection', 'sacrifice', 'party', 'level-5']
+    },
+
+    {
+      id: 'martyr_divine_retribution',
+      name: 'Divine Retribution',
+      description: 'When you take damage, store it as holy energy. Release it all as a burst of radiant damage.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_holy_avengersshield',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_avengersshield',
+        tags: ['damage', 'radiant', 'aoe', 'stored-damage', 'level-5'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Vindicta Divina!'
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d6',
-        damageType: 'radiant',
-        target: 'self'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d6',
-            type: 'radiant',
-            target: 'self'
-          }
-        },
-        buff: {
-          attackBonus: {
-            formula: '2d6',
-            duration: 1,
-            durationUnit: 'minutes',
-            description: 'Add 2d6 to all melee attacks'
-          }
+        formula: '6d8 + stored_damage',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 15,
+          saveOutcome: 'halves'
         }
       },
 
       specialMechanics: {
-        devotionLevel: {
-          required: 0,
-          canAmplify: true,
-          amplifiedCost: 2,
-          amplifiedEffect: 'Empower your next attack with 4d6 radiant damage and heal for half the damage dealt'
-        },
-        selfDamage: {
-          buildsDevotion: true
+        storedDamage: {
+          description: 'Deals additional damage equal to damage taken since last rest',
+          cap: 50
         }
       },
 
-      tags: ['buff', 'self-damage', 'melee', 'devotion-amplifiable']
+      devotionRequired: 4,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'radiant', 'aoe', 'stored-damage', 'level-5']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
+      id: 'martyr_sanctified_ground',
+      name: 'Sanctified Ground',
+      description: 'Create a zone of holy ground that heals allies and damages undead/demons standing in it.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holynova',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holynova',
+        tags: ['healing', 'damage', 'zone', 'aoe', 'level-6'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 30 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Terra Sancta!',
+        somaticText: 'Touch ground with staff'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing', 'damage', 'zone'],
+
+      healingConfig: {
+        formula: '2d8 + wisdom',
+        healingType: 'hot',
+        hasHotEffect: true,
+        hotFormula: '2d8',
+        hotDuration: 5,
+        hotTickType: 'round'
+      },
+
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'radiant',
+        damageType: 'persistent',
+        targetRestrictions: ['undead', 'demon']
+      },
+
+      zoneConfig: {
+        duration: 5,
+        durationUnit: 'rounds',
+        effects: ['healing', 'damage'],
+        movable: false
+      },
+
+      devotionRequired: 3,
+      devotionGain: 2,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['healing', 'damage', 'zone', 'aoe', 'level-6']
+    },
+
+    {
+      id: 'martyr_willing_vessel',
+      name: 'Willing Vessel',
+      description: 'Become a vessel for divine energy. Redirect all ally damage to yourself and gain massive damage reduction.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerwordbarrier',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['buff', 'protection', 'sacrifice', 'tank', 'level-6'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Ego Sum Vas!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'protection',
+        effects: [{
+          id: 'willing_vessel',
+          name: 'Willing Vessel',
+          description: 'All ally damage redirects to you. You take 50% reduced damage.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      devotionRequired: 5,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['buff', 'protection', 'sacrifice', 'tank', 'level-6']
+    },
+
+    {
+      id: 'martyr_redemption_strike',
+      name: 'Redemption Strike',
+      description: 'Strike an enemy with holy might. The lower your health, the more damage this deals.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_holy_crusaderstrike',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_crusaderstrike',
+        tags: ['damage', 'radiant', 'single-target', 'level-6'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 25 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Melee weapon strike'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '5d10 + wisdom + missing_hp_percentage',
+        elementType: 'radiant',
+        damageType: 'direct'
+      },
+
+      specialMechanics: {
+        scalingDamage: {
+          description: 'Deals +1d10 damage for every 10% health you are missing',
+          maxBonus: '10d10'
+        }
+      },
+
+      devotionRequired: 2,
+      devotionGain: 2,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'radiant', 'single-target', 'level-6']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'martyr_mass_resurrection',
+      name: 'Mass Restoration',
+      description: 'Channel divine energy to restore all fallen allies to consciousness with partial health.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_resurrection',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_holy_resurrection',
+        tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level-7'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally', 'unconscious']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 50, hp: 30 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Resurge Omnes!',
+        somaticText: 'Raise both arms to sky'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: '4d10 + wisdom',
+        healingType: 'resurrection',
+        hasHotEffect: false
+      },
+
+      devotionRequired: 6,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level-7']
+    },
+
+    {
+      id: 'martyr_guardian_spirit',
+      name: 'Guardian Spirit',
+      description: 'Place a guardian spirit on an ally. If they would die, the spirit sacrifices itself to restore them.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_guardianspirit',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_holy_guardianspirit',
+        tags: ['buff', 'protection', 'cheat-death', 'level-7'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Spiritus Custos',
+        somaticText: 'Draw angel sigil'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'cheat_death',
+        effects: [{
+          id: 'guardian_spirit',
+          name: 'Guardian Spirit',
+          description: 'If target would die, restore them to 50% health instead'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      devotionRequired: 4,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'protection', 'cheat-death', 'level-7']
+    },
+
+    {
+      id: 'martyr_holy_wrath',
+      name: 'Holy Wrath',
+      description: 'Unleash accumulated devotion as devastating holy damage to all enemies.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holywrath',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_holywrath',
+        tags: ['damage', 'radiant', 'aoe', 'devotion-spend', 'level-7'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'devotion'],
+        resourceValues: { mana: 35, devotion: 'all' },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'IRA SANCTA!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d8 + devotion_spent * 2',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves'
+        }
+      },
+
+      specialMechanics: {
+        devotionSpend: {
+          description: 'Consumes all Devotion. Deals +2 damage per Devotion spent.',
+          minimum: 5
+        }
+      },
+
+      devotionRequired: 5,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['damage', 'radiant', 'aoe', 'devotion-spend', 'level-7']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'martyr_divine_intervention',
+      name: 'Divine Intervention',
+      description: 'Call upon divine power to completely negate one incoming attack or spell against any ally.',
+      level: 8,
+      spellType: 'REACTION',
+      icon: 'spell_holy_divineprovidence',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_divineprovidence',
+        tags: ['protection', 'reaction', 'negate', 'level-8'],
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'PROHIBERE!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['protection'],
+
+      specialMechanics: {
+        negate: {
+          description: 'Completely negates one attack or spell targeting the ally',
+          trigger: 'on_ally_targeted'
+        }
+      },
+
+      devotionRequired: 5,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['protection', 'reaction', 'negate', 'level-8']
+    },
+
+    {
+      id: 'martyr_shared_agony',
+      name: 'Shared Agony',
+      description: 'Link an enemy to yourself. When you take damage, they take the same amount as psychic damage.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_shadow_curseofsargeras',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_shadow_curseofsargeras',
+        tags: ['debuff', 'damage', 'link', 'psychic', 'level-8'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Dolor Communis',
+        somaticText: 'Create psychic link'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'link',
+        effects: [{
+          id: 'shared_agony',
+          name: 'Shared Agony',
+          description: 'Enemy takes psychic damage equal to damage you take'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      devotionRequired: 4,
+      devotionGain: 3,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['debuff', 'damage', 'link', 'psychic', 'level-8']
+    },
+
+    {
+      id: 'martyr_supreme_sacrifice',
+      name: 'Supreme Sacrifice',
+      description: 'Sacrifice a massive amount of health to fully heal all allies in range.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_holy_layonhands',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_holy_layonhands',
+        tags: ['healing', 'sacrifice', 'self-damage', 'aoe', 'level-8'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 40, hp: 50 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Sacrificium Supremum!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
+
+      healingConfig: {
+        formula: 'max_hp',
+        healingType: 'full_heal',
+        hasHotEffect: false
+      },
+
+      devotionRequired: 6,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['healing', 'sacrifice', 'self-damage', 'aoe', 'level-8']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'martyr_avatar_of_sacrifice',
+      name: 'Avatar of Sacrifice',
+      description: 'Transform into an Avatar of Sacrifice, gaining immense power and the ability to absorb all party damage.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_divineillumination',
+        tags: ['transformation', 'buff', 'protection', 'ultimate', 'level-9'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Ego Sum Sacrificium!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'divine',
+        formName: 'Avatar of Sacrifice',
+        formDescription: 'A glowing divine form radiating protective light.',
+        duration: 5,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'armorClass', magnitude: 5, magnitudeType: 'flat' },
+          { stat: 'maxHp', magnitude: 50, magnitudeType: 'temporary' },
+          { stat: 'damageReduction', magnitude: 50, magnitudeType: 'percentage' }
+        ],
+        specialAbilities: [{
+          name: 'Absolute Protection',
+          description: 'All ally damage is redirected to you. You cannot be reduced below 1 HP while transformed.'
+        }],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      devotionRequired: 8,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['transformation', 'buff', 'protection', 'ultimate', 'level-9']
+    },
+
+    {
+      id: 'martyr_judgment_day',
+      name: 'Judgment Day',
+      description: 'Call down divine judgment. Heal all allies to full and deal massive damage to all enemies.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_reckoning',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_reckoning',
+        tags: ['damage', 'healing', 'aoe', 'ultimate', 'level-9'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy', 'ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 70, hp: 40 },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'DIES IUDICII!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'healing'],
+
+      damageConfig: {
+        formula: '12d10 + wisdom * 2',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 20,
+          saveOutcome: 'halves'
+        }
+      },
+
+      healingConfig: {
+        formula: 'max_hp',
+        healingType: 'full_heal',
+        hasHotEffect: false
+      },
+
+      devotionRequired: 10,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'healing', 'aoe', 'ultimate', 'level-9']
+    },
+
+    {
+      id: 'martyr_eternal_bond',
+      name: 'Eternal Bond',
+      description: 'Create unbreakable bonds with all allies. As long as one linked ally lives, none can truly die.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_powerwordshield',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_powerwordshield',
+        tags: ['buff', 'protection', 'party', 'immortality', 'level-9'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 80 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Vinculum Aeternum',
+        somaticText: 'Connect all allies with light'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'cheat_death',
+        effects: [{
+          id: 'eternal_bond',
+          name: 'Eternal Bond',
+          description: 'Linked allies cannot die unless all linked allies would die simultaneously'
+        }],
+        durationValue: 1,
+        durationType: 'combat',
+        durationUnit: 'combat',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      devotionRequired: 8,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'protection', 'party', 'immortality', 'level-9']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'martyr_ultimate_sacrifice',
+      name: 'Ultimate Sacrifice',
+      description: 'The ultimate act of martyrdom. Sacrifice yourself to fully resurrect and empower all fallen allies.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_resurrection',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_holy_resurrection',
+        tags: ['resurrection', 'sacrifice', 'ultimate', 'level-10'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['ally', 'dead']
+      },
+
+      resourceCost: {
+        resourceTypes: ['hp'],
+        resourceValues: { hp: 'all' },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'SACRIFICIUM ULTIMUM!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['resurrection', 'buff'],
+
+      healingConfig: {
+        formula: 'max_hp',
+        healingType: 'resurrection',
+        hasHotEffect: false
+      },
+
+      buffConfig: {
+        buffType: 'empowerment',
+        effects: [{
+          id: 'martyrs_blessing',
+          name: "Martyr's Blessing",
+          description: 'Resurrected allies gain +5 to all stats for 10 rounds'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      specialMechanics: {
+        selfSacrifice: {
+          description: 'You are reduced to 0 HP. All dead allies are resurrected at full health.',
+          resurrection: true
+        }
+      },
+
+      devotionRequired: 10,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['resurrection', 'sacrifice', 'ultimate', 'level-10']
+    },
+
+    {
+      id: 'martyr_divine_apotheosis',
+      name: 'Divine Apotheosis',
+      description: 'Transcend mortality and become one with the divine. Gain godlike power for a brief time.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_surgeoflight',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_surgeoflight',
+        tags: ['transformation', 'buff', 'ultimate', 'level-10'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'devotion'],
+        resourceValues: { mana: 100, devotion: 'all' },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'APOTHEOSIS!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'divine',
+        formName: 'Divine Apotheosis',
+        formDescription: 'You become a being of pure divine light.',
+        duration: 3,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'all', magnitude: 10, magnitudeType: 'flat' },
+          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' },
+          { stat: 'spellPower', magnitude: 100, magnitudeType: 'percentage' }
+        ],
+        resistances: [
+          { type: 'all', resistanceAmount: 'immunity' }
+        ],
+        specialAbilities: [{
+          name: 'Divine Form',
+          description: 'All spells cost no mana. All healing is doubled. All damage is tripled. Immune to all damage.'
+        }],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      devotionRequired: 10,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['transformation', 'buff', 'ultimate', 'level-10']
+    },
+
+    {
+      id: 'martyr_final_blessing',
+      name: 'Final Blessing',
+      description: 'Bestow your final blessing upon allies. They become immune to death for the rest of the encounter.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_greaterblessingofkings',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_greaterblessingofkings',
+        tags: ['buff', 'protection', 'ultimate', 'party', 'level-10'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'hp'],
+        resourceValues: { mana: 80, hp: 50 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Benedictio Finalis',
+        somaticText: 'Grand blessing gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'immortality',
+        effects: [{
+          id: 'final_blessing',
+          name: 'Final Blessing',
+          description: 'Allies cannot be reduced below 1 HP for the rest of the encounter.'
+        }],
+        durationValue: 1,
+        durationType: 'combat',
+        durationUnit: 'combat',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      devotionRequired: 10,
+      devotionGain: 0,
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'protection', 'ultimate', 'party', 'level-10']
     }
+
   ]
 };
-
-

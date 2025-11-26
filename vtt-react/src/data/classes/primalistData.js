@@ -1035,7 +1035,7 @@ BATTLE MAP:
         effects: [
           {
             type: 'BUFF',
-            stat: 'DAMAGE_ABSORPTION',
+            stat: 'damageAbsorption',
             amount: 5,
             description: 'Absorbs 5 damage per attack'
           },
@@ -1102,13 +1102,13 @@ BATTLE MAP:
         effects: [
           {
             type: 'BUFF',
-            stat: 'AC',
+            stat: 'armor',
             amount: 2,
             description: 'Increases AC by 2'
           },
           {
             type: 'BUFF',
-            stat: 'RESISTANCE',
+            stat: 'resistance',
             damageType: 'NON_MAGICAL',
             description: 'Grants resistance to non-magical damage'
           },
@@ -1176,7 +1176,7 @@ BATTLE MAP:
         effects: [
           {
             type: 'BUFF',
-            stat: 'WEAPON_DAMAGE',
+            stat: 'weaponDamage',
             damageType: 'FIRE',
             amount: '1d6',
             description: 'Adds 1d6 fire damage to weapon attacks'
@@ -1248,13 +1248,13 @@ BATTLE MAP:
         effects: [
           {
             type: 'BUFF',
-            stat: 'SPELL_ATTACK',
+            stat: 'spellAttack',
             amount: 1,
             description: 'Grants +1 to spell attack rolls'
           },
           {
             type: 'BUFF',
-            stat: 'SPELL_DC',
+            stat: 'spellDc',
             amount: 1,
             description: 'Grants +1 to spell save DCs'
           },
@@ -1321,13 +1321,13 @@ BATTLE MAP:
         effects: [
           {
             type: 'DEBUFF',
-            stat: 'MOVEMENT_SPEED',
+            stat: 'movementSpeed',
             amount: -10,
             description: 'Reduces enemy movement speed by 10 feet'
           },
           {
             type: 'DEBUFF',
-            stat: 'ATTACK_SPEED',
+            stat: 'attackSpeed',
             description: 'Reduces enemy attack speed'
           },
           {
@@ -1393,13 +1393,13 @@ BATTLE MAP:
         effects: [
           {
             type: 'BUFF',
-            stat: 'MOVEMENT_SPEED',
+            stat: 'movementSpeed',
             amount: 10,
             description: 'Increases movement speed by 10 feet'
           },
           {
             type: 'BUFF',
-            stat: 'SAVING_THROW',
+            stat: 'savingThrows',
             saveType: 'DEXTERITY',
             description: 'Grants advantage on Dexterity saving throws'
           },
@@ -1473,7 +1473,7 @@ BATTLE MAP:
           },
           {
             type: 'BUFF',
-            stat: 'DAMAGE_REDUCTION',
+            stat: 'damageReduction',
             amount: 50,
             unit: 'PERCENT',
             duration: '2 turns',
@@ -1534,33 +1534,33 @@ BATTLE MAP:
         effects: [
           {
             type: 'BUFF',
-            stat: 'WEAPON_DAMAGE',
+            stat: 'weaponDamage',
             damageType: 'FIRE',
             amount: '2d6',
             description: 'Adds 2d6 fire damage to attacks'
           },
           {
             type: 'BUFF',
-            stat: 'WEAPON_DAMAGE',
+            stat: 'weaponDamage',
             damageType: 'LIGHTNING',
             amount: '2d6',
             description: 'Adds 2d6 lightning damage to attacks'
           },
           {
             type: 'BUFF',
-            stat: 'WEAPON_DAMAGE',
+            stat: 'weaponDamage',
             damageType: 'FROST',
             amount: '2d6',
             description: 'Adds 2d6 frost damage to attacks'
           },
           {
             type: 'BUFF',
-            stat: 'ATTACK_SPEED',
+            stat: 'attackSpeed',
             description: 'Increases attack speed'
           },
           {
             type: 'BUFF',
-            stat: 'MOVEMENT_SPEED',
+            stat: 'movementSpeed',
             amount: 10,
             description: 'Increases movement speed by 10 feet'
           }
@@ -1758,6 +1758,1445 @@ BATTLE MAP:
 
       tags: ['utility', 'damage', 'earth', 'aoe', 'ultimate', 'all-specs']
     }
-  ]
+  ],
+
+  // Comprehensive Spell List (Levels 1-10, 3 spells each, following template)
+  spells: [
+    // ===== LEVEL 1 SPELLS =====
+    {
+      id: 'primalist_earth_bolt',
+      name: 'Earth Bolt',
+      description: 'Hurl a bolt of solid earth at your enemy, dealing bludgeoning damage.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_stoneclawtotem',
+        tags: ['attack', 'damage', 'earth', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '2d6 + spirit',
+        elementType: 'bludgeoning',
+        damageType: 'direct'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 5 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'earth', 'primalist']
+    },
+
+    {
+      id: 'primalist_basic_healing_totem',
+      name: 'Basic Healing Totem',
+      description: 'Place a totem that heals nearby allies each round.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['healing', 'summoning'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_healingtouch',
+        tags: ['healing', 'totem', 'support', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '1d6 + spirit/2',
+        healingType: 'hot',
+        hasHotEffect: true,
+        hotFormula: '1d6 + spirit/2',
+        hotDuration: 3,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'healing_totem_basic',
+          name: 'Basic Healing Totem',
+          description: 'A simple totem that channels healing energy',
+          size: 'Small',
+          type: 'construct',
+          tokenIcon: 'spell_nature_healingtouch',
+          stats: {
+            maxHp: 15,
+            armor: 10,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 3,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'autonomous',
+            controlRange: 0
+          }
+        }],
+        duration: 3,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 0,
+        controlType: 'autonomous'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['healing', 'totem', 'support', 'primalist']
+    },
+
+    {
+      id: 'primalist_natures_blessing',
+      name: "Nature's Blessing",
+      description: 'Bless an ally with the power of nature, granting them bonus damage on their next attack.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_natureguardian',
+        tags: ['buff', 'support', 'nature', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'nature_damage_boost',
+          name: "Nature's Blessing",
+          description: 'Next attack deals +1d6 nature damage for 2 rounds',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 1,
+            magnitudeType: 'dice'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 7 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'support', 'nature', 'primalist']
+    },
+
+    // ===== LEVEL 4 SPELLS =====
+    {
+      id: 'primalist_earthquake_strike',
+      name: 'Earthquake Strike',
+      description: 'Slam your weapon into the ground, creating a localized earthquake that damages and knocks down enemies.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_earthquake',
+        tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '5d6 + spirit',
+        elementType: 'bludgeoning',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 15,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'knockdown',
+        strength: 'moderate',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'agility',
+        savingThrow: true,
+        effects: [{
+          id: 'trip',
+          name: 'Knocked Prone',
+          description: 'Target is knocked prone and must use movement to stand',
+          config: {}
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 8,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist']
+    },
+
+    {
+      id: 'primalist_spirit_wolves',
+      name: 'Spirit Wolves',
+      description: 'Summon two spectral wolves to fight alongside you.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_hunter_pet_wolf',
+        tags: ['summoning', 'spirit', 'nature', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'spirit_wolf',
+          name: 'Spirit Wolf',
+          description: 'A spectral wolf made of primal energy',
+          size: 'Medium',
+          type: 'spirit',
+          tokenIcon: 'ability_hunter_pet_wolf',
+          stats: {
+            maxHp: 30,
+            armor: 13,
+            maxMana: 0
+          },
+          config: {
+            quantity: 2,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 60
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 60,
+        controlType: 'mental'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'spirit', 'nature', 'primalist']
+    },
+
+    {
+      id: 'primalist_primal_fury',
+      name: 'Primal Fury',
+      description: 'Channel primal rage into yourself or an ally, increasing damage output.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_shamanrage',
+        tags: ['buff', 'damage', 'nature', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'primal_fury_damage',
+          name: 'Primal Fury',
+          description: 'All damage increased by 25% for 3 rounds',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 25,
+            magnitudeType: 'percentage'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 16 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'damage', 'nature', 'primalist']
+    },
+
+    // ===== LEVEL 5 SPELLS (need 2 more) =====
+    {
+      id: 'primalist_thorn_barrier',
+      name: 'Thorn Barrier',
+      description: 'Create a wall of thorns that damages enemies who pass through it.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['utility', 'damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_thorns',
+        tags: ['utility', 'damage', 'terrain', 'nature', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '3d6 + spirit',
+        elementType: 'piercing',
+        damageType: 'area',
+        description: 'Creatures that enter or start their turn in the thorns take damage'
+      },
+      utilityConfig: {
+        utilityType: 'environment',
+        selectedEffects: [{
+          id: 'thorn_wall',
+          name: 'Thorn Barrier',
+          description: 'Creates a 30-foot wall of thorns that blocks movement and damages creatures'
+        }],
+        duration: 5,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'moderate'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'wall',
+        aoeParameters: { length: 30, height: 10, width: 5 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['utility', 'damage', 'terrain', 'nature', 'primalist']
+    },
+
+    {
+      id: 'primalist_ancestral_guardian',
+      name: 'Ancestral Guardian',
+      description: 'Summon a powerful ancestral spirit to protect and fight for you.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_guardianward',
+        tags: ['summoning', 'spirit', 'nature', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'ancestral_guardian',
+          name: 'Ancestral Guardian',
+          description: 'A powerful spirit of the ancestors',
+          size: 'Large',
+          type: 'spirit',
+          tokenIcon: 'spell_nature_guardianward',
+          stats: {
+            maxHp: 50,
+            armor: 15,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 4,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: true,
+            controlType: 'mental',
+            controlRange: 60
+          }
+        }],
+        duration: 4,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: true,
+        controlRange: 60,
+        controlType: 'mental'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 24 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'spirit', 'nature', 'primalist']
+    },
+
+    // ===== LEVEL 6 SPELLS (need 2 more) =====
+    {
+      id: 'primalist_elemental_fury_totem',
+      name: 'Elemental Fury Totem',
+      description: 'Place a powerful totem that unleashes elemental fury on enemies.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'summoning'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_wrathv2',
+        tags: ['damage', 'totem', 'elemental', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '4d8 + spirit',
+        elementType: 'fire',
+        secondaryElementType: 'lightning',
+        damageType: 'area',
+        description: 'Totem deals damage to all enemies in range each round'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'elemental_fury_totem',
+          name: 'Elemental Fury Totem',
+          description: 'A totem channeling elemental destruction',
+          size: 'Medium',
+          type: 'construct',
+          tokenIcon: 'spell_nature_wrathv2',
+          stats: {
+            maxHp: 40,
+            armor: 12,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 4,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'autonomous',
+            controlRange: 0
+          }
+        }],
+        duration: 4,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 0,
+        controlType: 'autonomous'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 26 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'totem', 'elemental', 'primalist']
+    },
+
+    {
+      id: 'primalist_stone_skin',
+      name: 'Stone Skin',
+      description: 'Transform your skin into stone, granting massive damage reduction.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_stoneskintotem',
+        tags: ['buff', 'defense', 'earth', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'stone_skin_armor',
+          name: 'Stone Skin',
+          description: 'Reduces incoming damage by 50% (percentage reduction) for 3 rounds',
+          statModifier: {
+            stat: 'damage_reduction',
+            magnitude: 50,
+            magnitudeType: 'percentage'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 25 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'defense', 'earth', 'primalist']
+    },
+
+    // ===== LEVEL 7 SPELLS (need 2 more) =====
+    {
+      id: 'primalist_meteor_storm',
+      name: 'Meteor Storm',
+      description: 'Call down meteors from the sky to devastate your enemies.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_fire_selfdestruct',
+        tags: ['attack', 'damage', 'aoe', 'fire', 'primalist'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '10d6 + spirit * 2',
+        elementType: 'fire',
+        secondaryElementType: 'bludgeoning',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 100,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 15,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'A fragment of a meteor'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'aoe', 'fire', 'primalist']
+    },
+
+    {
+      id: 'primalist_natures_wrath',
+      name: "Nature's Wrath",
+      description: 'Unleash the full wrath of nature, empowering all totems and dealing massive damage.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_naturetouchgrow',
+        tags: ['damage', 'buff', 'totem', 'nature', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '8d8 + spirit * 1.5',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'natures_wrath_totem_power',
+          name: "Nature's Wrath",
+          description: 'All active totems deal +2d6 damage and grant +2 to all stats for 4 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 10,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 32 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'buff', 'totem', 'nature', 'primalist']
+    },
+
+    // ===== LEVEL 8 SPELLS (need 2 more) =====
+    {
+      id: 'primalist_primal_apocalypse',
+      name: 'Primal Apocalypse',
+      description: 'Summon the apocalyptic fury of nature, dealing massive damage and creating permanent terrain changes.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_earthbind',
+        tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '15d8 + spirit * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      utilityConfig: {
+        utilityType: 'environment',
+        selectedEffects: [{
+          id: 'primal_terrain',
+          name: 'Primal Terrain',
+          description: 'Creates permanent difficult terrain and natural hazards in the area'
+        }],
+        duration: 0,
+        durationUnit: 'permanent',
+        concentration: false,
+        power: 'major'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 20,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The heart of an ancient earth elemental'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist']
+    },
+
+    {
+      id: 'primalist_grand_totem_circle',
+      name: 'Grand Totem Circle',
+      description: 'Place four powerful totems simultaneously, creating an unbreakable circle of power.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['summoning', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_reincarnation',
+        tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [
+          {
+            id: 'grand_healing_totem',
+            name: 'Grand Healing Totem',
+            description: 'A powerful healing totem',
+            size: 'Medium',
+            type: 'construct',
+            tokenIcon: 'spell_nature_healingtouch',
+            stats: { maxHp: 60, armor: 15, maxMana: 0 },
+            config: {
+              quantity: 1,
+              duration: 5,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'autonomous',
+              controlRange: 0
+            }
+          },
+          {
+            id: 'grand_damage_totem',
+            name: 'Grand Damage Totem',
+            description: 'A powerful offensive totem',
+            size: 'Medium',
+            type: 'construct',
+            tokenIcon: 'spell_nature_lightningshield',
+            stats: { maxHp: 60, armor: 15, maxMana: 0 },
+            config: {
+              quantity: 1,
+              duration: 5,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'autonomous',
+              controlRange: 0
+            }
+          },
+          {
+            id: 'grand_defense_totem',
+            name: 'Grand Defense Totem',
+            description: 'A powerful defensive totem',
+            size: 'Medium',
+            type: 'construct',
+            tokenIcon: 'spell_nature_stoneskintotem',
+            stats: { maxHp: 60, armor: 15, maxMana: 0 },
+            config: {
+              quantity: 1,
+              duration: 5,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'autonomous',
+              controlRange: 0
+            }
+          },
+          {
+            id: 'grand_utility_totem',
+            name: 'Grand Utility Totem',
+            description: 'A powerful utility totem',
+            size: 'Medium',
+            type: 'construct',
+            tokenIcon: 'spell_nature_earthbindtotem',
+            stats: { maxHp: 60, armor: 15, maxMana: 0 },
+            config: {
+              quantity: 1,
+              duration: 5,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'autonomous',
+              controlRange: 0
+            }
+          }
+        ],
+        duration: 5,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: true,
+        controlRange: 0,
+        controlType: 'autonomous'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'grand_circle_power',
+          name: 'Grand Totem Circle',
+          description: 'All allies gain +3 to all stats and regenerate 2d8 HP per round for 5 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 42 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist']
+    },
+
+    // ===== LEVEL 9 SPELLS =====
+    {
+      id: 'primalist_world_tree_avatar',
+      name: 'World Tree Avatar',
+      description: 'Transform into an avatar of the World Tree, gaining immense power and control over nature.',
+      level: 9,
+      spellType: 'STATE',
+      effectTypes: ['transformation', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_tranquility',
+        tags: ['transformation', 'buff', 'nature', 'legendary', 'primalist'],
+        stateVisibility: 'visible',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
+      },
+      transformationConfig: {
+        transformationType: 'elemental',
+        targetType: 'self',
+        duration: 5,
+        durationUnit: 'rounds',
+        power: 'major',
+        specialEffects: ['Immunity to nature damage', 'All totems become indestructible', 'Totem placement is instant and free']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'world_tree_power',
+            name: 'World Tree Power',
+            description: 'All stats increased by +5, all healing doubled, and immunity to crowd control for 5 rounds',
+            statModifier: {
+              stat: 'all_stats',
+              magnitude: 5,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'world_tree_defense',
+            name: 'World Tree Defense',
+            description: 'Gain 80% damage reduction for 5 rounds',
+            statModifier: {
+              stat: 'damage_reduction',
+              magnitude: 80,
+              magnitudeType: 'percentage'
+            }
+          }
+        ],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['transformation', 'buff', 'nature', 'legendary', 'primalist']
+    },
+
+    {
+      id: 'primalist_cataclysm',
+      name: 'Cataclysm',
+      description: 'Unleash a natural cataclysm that devastates the entire battlefield.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_earthquake',
+        tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist'],
+        castTime: 4,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '20d10 + spirit * 3',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 19,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'knockdown',
+        strength: 'extreme',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'stagger',
+          name: 'Staggered by Cataclysm',
+          description: 'Target is knocked prone and stunned for 2 rounds. Requires DC 19 Strength save to negate.',
+          config: {}
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 80 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 30,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'A shard of the primordial earth, worth 50,000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist']
+    },
+
+    {
+      id: 'primalist_eternal_totem',
+      name: 'Eternal Totem',
+      description: 'Place a legendary totem that can never be destroyed and empowers all nearby allies.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['summoning', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_strengthofearth',
+        tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'eternal_totem',
+          name: 'Eternal Totem',
+          description: 'An indestructible totem of legendary power',
+          size: 'Large',
+          type: 'construct',
+          tokenIcon: 'spell_nature_strengthofearth',
+          stats: {
+            maxHp: 99999,
+            armor: 30,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 10,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'autonomous',
+            controlRange: 0
+          }
+        }],
+        duration: 10,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 0,
+        controlType: 'autonomous'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'eternal_empowerment',
+          name: 'Eternal Empowerment',
+          description: 'All allies gain +4 to all stats, regenerate 3d10 HP per round, and gain immunity to one damage type of their choice for 10 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 58 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The essence of the World Tree'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist']
+    },
+
+    // ===== LEVEL 10 SPELLS =====
+    {
+      id: 'primalist_primal_ascension',
+      name: 'Primal Ascension',
+      description: 'Ascend to become one with nature itself, gaining godlike power.',
+      level: 10,
+      spellType: 'PASSIVE',
+      effectTypes: ['buff', 'transformation'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_wispheal',
+        tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist'],
+        toggleable: true
+      },
+      transformationConfig: {
+        transformationType: 'elemental',
+        targetType: 'self',
+        duration: 0,
+        durationUnit: 'permanent',
+        power: 'major',
+        specialEffects: ['Become immune to all damage types', 'All totems become permanent', 'Can place unlimited totems', 'Totem effects doubled']
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'primal_godhood',
+          name: 'Primal Ascension',
+          description: 'You have become one with nature. Immunity to all damage, unlimited totem placement, all totem effects doubled, and totems are permanent',
+          customDescription: 'You have achieved primal ascension and become a living avatar of nature itself. You are immune to all damage while at least one totem is active. You can place unlimited totems, and all totem effects are doubled. Your totems are permanent and cannot be destroyed by any means.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'The blessing of the primordial spirits, 100,000 gold worth of natural artifacts'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist', 'toggleable']
+    },
+
+    {
+      id: 'primalist_gaia_wrath',
+      name: "Gaia's Wrath",
+      description: 'Channel the wrath of the earth mother, obliterating all enemies on the battlefield.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_earthbind',
+        tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist'],
+        castTime: 5,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '25d12 + spirit * 4',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 20,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 150 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 100,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 75 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'A tear of the earth mother, priceless'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist']
+    },
+
+    {
+      id: 'primalist_genesis',
+      name: 'Genesis',
+      description: 'Create life itself, summoning an army of nature spirits and creatures.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_naturetouchgrow',
+        tags: ['summoning', 'nature', 'legendary', 'primalist'],
+        castTime: 4,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [
+          {
+            id: 'nature_army_treants',
+            name: 'Treant',
+            description: 'Massive tree creatures',
+            size: 'Huge',
+            type: 'plant',
+            tokenIcon: 'ability_druid_treeoflife',
+            stats: { maxHp: 100, armor: 18, maxMana: 0 },
+            config: {
+              quantity: 3,
+              duration: 10,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'mental',
+              controlRange: 120
+            }
+          },
+          {
+            id: 'nature_army_elementals',
+            name: 'Earth Elemental',
+            description: 'Powerful earth elementals',
+            size: 'Large',
+            type: 'elemental',
+            tokenIcon: 'spell_nature_strength',
+            stats: { maxHp: 80, armor: 16, maxMana: 0 },
+            config: {
+              quantity: 5,
+              duration: 10,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'mental',
+              controlRange: 120
+            }
+          },
+          {
+            id: 'nature_army_beasts',
+            name: 'Primal Beast',
+            description: 'Ferocious primal beasts',
+            size: 'Large',
+            type: 'beast',
+            tokenIcon: 'ability_druid_catform',
+            stats: { maxHp: 60, armor: 14, maxMana: 0 },
+            config: {
+              quantity: 10,
+              duration: 10,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'mental',
+              controlRange: 120
+            }
+          }
+        ],
+        duration: 10,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 120,
+        controlType: 'mental'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 80,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 70 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Seeds from the World Tree, worth 80,000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'nature', 'legendary', 'primalist']
+    }
+  ],
+
+  // Spell Pools by Level
+  spellPools: {
+    1: [
+      'primalist_earth_bolt',
+      'primalist_basic_healing_totem',
+      'primalist_natures_blessing'
+    ],
+    2: [],
+    3: [],
+    4: [
+      'primalist_earthquake_strike',
+      'primalist_spirit_wolves',
+      'primalist_primal_fury'
+    ],
+    5: [
+      'primalist_thorn_barrier',
+      'primalist_ancestral_guardian'
+    ],
+    6: [
+      'primalist_elemental_fury_totem',
+      'primalist_stone_skin'
+    ],
+    7: [
+      'primalist_meteor_storm',
+      'primalist_natures_wrath'
+    ],
+    8: [
+      'primalist_primal_apocalypse',
+      'primalist_grand_totem_circle'
+    ],
+    9: [
+      'primalist_world_tree_avatar',
+      'primalist_cataclysm',
+      'primalist_eternal_totem'
+    ],
+    10: [
+      'primalist_primal_ascension',
+      'primalist_gaia_wrath',
+      'primalist_genesis'
+    ]
+  }
 };
 

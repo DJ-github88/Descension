@@ -774,121 +774,121 @@ const AppContent = ({
     return (
         <>
             <Routes>
-                        {/* Landing page route - accessible to both authenticated and unauthenticated users */}
-                        <Route path="/" element={
-                            <LandingPage
-                                onEnterSinglePlayer={handleEnterSinglePlayer}
-                                onEnterMultiplayer={handleEnterMultiplayer}
+                {/* Landing page route - accessible to both authenticated and unauthenticated users */}
+                <Route path="/" element={
+                    <LandingPage
+                        onEnterSinglePlayer={handleEnterSinglePlayer}
+                        onEnterMultiplayer={handleEnterMultiplayer}
+                        onShowLogin={handleShowLogin}
+                        onShowRegister={handleShowRegister}
+                        onShowUserProfile={handleShowUserProfile}
+                        isAuthenticated={isAuthenticated}
+                        user={user}
+                    />
+                } />
+
+                {/* Account management routes */}
+                <Route path="/account" element={
+                    isAuthenticated ? (
+                        <Suspense fallback={<LoadingFallback message="Loading account..." />}>
+                            <AccountDashboard user={user} />
+                        </Suspense>
+                    ) : (
+                        <Navigate to="/" replace />
+                    )
+                } />
+
+                <Route path="/account/characters" element={
+                    isAuthenticated ? (
+                        <Suspense fallback={<LoadingFallback message="Loading characters..." />}>
+                            <CharacterManagement user={user} />
+                        </Suspense>
+                    ) : (
+                        <Navigate to="/" replace />
+                    )
+                } />
+
+                <Route path="/account/characters/create" element={
+                    isAuthenticated ? (
+                        <Suspense fallback={<LoadingFallback message="Loading character creation..." />}>
+                            <CharacterCreationPage user={user} />
+                        </Suspense>
+                    ) : (
+                        <Navigate to="/" replace />
+                    )
+                } />
+
+                <Route path="/account/characters/edit/:characterId" element={
+                    isAuthenticated ? (
+                        <Suspense fallback={<LoadingFallback message="Loading character editor..." />}>
+                            <CharacterCreationPage user={user} isEditing={true} />
+                        </Suspense>
+                    ) : (
+                        <Navigate to="/" replace />
+                    )
+                } />
+
+                <Route path="/account/characters/view/:characterId" element={
+                    isAuthenticated ? (
+                        <Suspense fallback={<LoadingFallback message="Loading character..." />}>
+                            <CharacterViewPage />
+                        </Suspense>
+                    ) : (
+                        <Navigate to="/" replace />
+                    )
+                } />
+
+                {/* Game routes */}
+                <Route path="/game" element={
+                    <div className="spell-wizard-container">
+                        <GameScreen />
+                        <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
+                            <Navigation
+                                onReturnToLanding={handleReturnToLandingWithNavigation}
                                 onShowLogin={handleShowLogin}
-                                onShowRegister={handleShowRegister}
                                 onShowUserProfile={handleShowUserProfile}
                                 isAuthenticated={isAuthenticated}
                                 user={user}
                             />
-                        } />
+                        </Suspense>
+                    </div>
+                } />
 
-                        {/* Account management routes */}
-                        <Route path="/account" element={
-                            isAuthenticated ? (
-                                <Suspense fallback={<LoadingFallback message="Loading account..." />}>
-                                    <AccountDashboard user={user} />
-                                </Suspense>
-                            ) : (
-                                <Navigate to="/" replace />
-                            )
-                        } />
+                <Route path="/multiplayer" element={
+                    <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
+                        <MultiplayerApp
+                            onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
+                            onShowLogin={handleShowLogin}
+                            onShowUserProfile={handleShowUserProfile}
+                            isAuthenticated={isAuthenticated}
+                            user={user}
+                        />
+                    </Suspense>
+                } />
 
-                        <Route path="/account/characters" element={
-                            isAuthenticated ? (
-                                <Suspense fallback={<LoadingFallback message="Loading characters..." />}>
-                                    <CharacterManagement user={user} />
-                                </Suspense>
-                            ) : (
-                                <Navigate to="/" replace />
-                            )
-                        } />
+                {/* CRITICAL FIX: Room code routing - allows /multiplayer/room-code */}
+                <Route path="/multiplayer/:roomCode" element={
+                    <Suspense fallback={<LoadingFallback message="Loading multiplayer room..." />}>
+                        <MultiplayerApp
+                            onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
+                            onShowLogin={handleShowLogin}
+                            onShowUserProfile={handleShowUserProfile}
+                            isAuthenticated={isAuthenticated}
+                            user={user}
+                        />
+                    </Suspense>
+                } />
 
-                        <Route path="/account/characters/create" element={
-                            isAuthenticated ? (
-                                <Suspense fallback={<LoadingFallback message="Loading character creation..." />}>
-                                    <CharacterCreationPage user={user} />
-                                </Suspense>
-                            ) : (
-                                <Navigate to="/" replace />
-                            )
-                        } />
-
-                        <Route path="/account/characters/edit/:characterId" element={
-                            isAuthenticated ? (
-                                <Suspense fallback={<LoadingFallback message="Loading character editor..." />}>
-                                    <CharacterCreationPage user={user} isEditing={true} />
-                                </Suspense>
-                            ) : (
-                                <Navigate to="/" replace />
-                            )
-                        } />
-
-                        <Route path="/account/characters/view/:characterId" element={
-                            isAuthenticated ? (
-                                <Suspense fallback={<LoadingFallback message="Loading character..." />}>
-                                    <CharacterViewPage />
-                                </Suspense>
-                            ) : (
-                                <Navigate to="/" replace />
-                            )
-                        } />
-
-                        {/* Game routes */}
-                        <Route path="/game" element={
-                            <div className="spell-wizard-container">
-                                <GameScreen />
-                                <Suspense fallback={<LoadingFallback message="Loading navigation..." />}>
-                                    <Navigation
-                                        onReturnToLanding={handleReturnToLandingWithNavigation}
-                                        onShowLogin={handleShowLogin}
-                                        onShowUserProfile={handleShowUserProfile}
-                                        isAuthenticated={isAuthenticated}
-                                        user={user}
-                                    />
-                                </Suspense>
-                            </div>
-                        } />
-
-                        <Route path="/multiplayer" element={
-                            <Suspense fallback={<LoadingFallback message="Loading multiplayer..." />}>
-                                <MultiplayerApp
-                                    onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                                    onShowLogin={handleShowLogin}
-                                    onShowUserProfile={handleShowUserProfile}
-                                    isAuthenticated={isAuthenticated}
-                                    user={user}
-                                />
-                            </Suspense>
-                        } />
-                        
-                        {/* CRITICAL FIX: Room code routing - allows /multiplayer/room-code */}
-                        <Route path="/multiplayer/:roomCode" element={
-                            <Suspense fallback={<LoadingFallback message="Loading multiplayer room..." />}>
-                                <MultiplayerApp
-                                    onReturnToSinglePlayer={handleReturnToLandingWithNavigation}
-                                    onShowLogin={handleShowLogin}
-                                    onShowUserProfile={handleShowUserProfile}
-                                    isAuthenticated={isAuthenticated}
-                                    user={user}
-                                />
-                            </Suspense>
-                        } />
-
-                        {/* Test routes */}
-                        <Route path="/test/triggers" element={
-                            <Suspense fallback={<LoadingFallback message="Loading test..." />}>
-                                <TestTriggerDisplay />
-                            </Suspense>
-                        } />
+                {/* Test routes */}
+                <Route path="/test/triggers" element={
+                    <Suspense fallback={<LoadingFallback message="Loading test..." />}>
+                        <TestTriggerDisplay />
+                    </Suspense>
+                } />
 
 
-                        {/* Redirect unknown routes to home */}
-                        <Route path="*" element={<Navigate to="/" replace />} />
+                {/* Redirect unknown routes to home */}
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
 
             {/* Global modals */}

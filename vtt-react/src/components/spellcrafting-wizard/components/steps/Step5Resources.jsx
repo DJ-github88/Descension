@@ -111,6 +111,16 @@ const Step5Resources = () => {
       ]
     },
     {
+      id: 'berserker_rage_states',
+      name: 'Rage States',
+      description: 'Berserker rage state requirements',
+      icon: faFire,
+      color: '#FF4500',
+      subcategories: [
+        { id: 'rage_state', name: 'Rage State', shortName: 'State', icon: faFire, color: '#FF4500', isStateSelector: true, stateOptions: ['Smoldering', 'Frenzied', 'Primal', 'Carnage', 'Cataclysm', 'Obliteration'] }
+      ]
+    },
+    {
       id: 'chaos_mechanics',
       name: 'Chaos Mechanics',
       description: 'Chaos Weaver mayhem modifiers',
@@ -183,6 +193,64 @@ const Step5Resources = () => {
         { id: 'devotion_required', name: 'Requires Devotion Level', shortName: 'Required', icon: faHeart, color: '#FFD700' },
         { id: 'devotion_cost', name: 'Devotion Level Cost', shortName: 'Cost', icon: faShield, color: '#FFD700' },
         { id: 'devotion_gain', name: 'Devotion Level Gain', shortName: 'Gain', icon: faArrowUp, color: '#32CD32' },
+      ]
+    },
+    {
+      id: 'necrotic_ascension',
+      name: 'Necrotic Ascension',
+      description: 'Deathcaller blood magic and ascension mechanics',
+      icon: faSkull,
+      color: '#8B0000',
+      subcategories: [
+        { id: 'bloodTokens', name: 'Blood Tokens', shortName: 'Blood Tokens', icon: faSkull, color: '#8B0000' },
+        { id: 'ascension_required', name: 'Ascension Path Required', shortName: 'Ascension Req', icon: faSkull, color: '#8B0000' },
+        { id: 'health', name: 'Health Cost', shortName: 'Health', icon: faHeart, color: '#8B0000' },
+      ]
+    },
+    {
+      id: 'dark_resilience_points',
+      name: 'Dark Resilience Points',
+      description: 'Dreadnaught damage-to-power conversion mechanics',
+      icon: faShield,
+      color: '#2F4F4F',
+      subcategories: [
+        { id: 'drp', name: 'Dark Resilience Points', shortName: 'DRP', icon: faShield, color: '#2F4F4F' },
+      ]
+    },
+    {
+      id: 'wild_instinct',
+      name: 'Wild Instinct',
+      description: 'Formbender shapeshifting and primal energy mechanics',
+      icon: faPaw,
+      color: '#228B22',
+      subcategories: [
+        { id: 'wild_instinct', name: 'Wild Instinct Cost', shortName: 'WI', icon: faPaw, color: '#228B22' },
+        { id: 'wild_instinct_generate', name: 'Wild Instinct Generate', shortName: 'WI Gen', icon: faPaw, color: '#228B22' },
+        { id: 'wild_instinct_cost', name: 'Wild Instinct Spend', shortName: 'WI Cost', icon: faPaw, color: '#228B22' },
+      ]
+    },
+    {
+      id: 'quarry_marks',
+      name: 'Quarry Marks',
+      description: 'Huntress tracking and coordination mechanics',
+      icon: faCrosshairs,
+      color: '#8B4513',
+      subcategories: [
+        { id: 'quarry_marks', name: 'Quarry Marks Cost', shortName: 'QM', icon: faCrosshairs, color: '#8B4513' },
+        { id: 'quarry_marks_generate', name: 'Quarry Marks Generate', shortName: 'QM Gen', icon: faCrosshairs, color: '#8B4513' },
+        { id: 'quarry_marks_cost', name: 'Quarry Marks Spend', shortName: 'QM Cost', icon: faCrosshairs, color: '#8B4513' },
+      ]
+    },
+    {
+      id: 'vengeance_points',
+      name: 'Vengeance Points',
+      description: 'Warden justice and retribution mechanics',
+      icon: faBalanceScale,
+      color: '#8B0000',
+      subcategories: [
+        { id: 'vengeance_points', name: 'Vengeance Points Cost', shortName: 'VP', icon: faBalanceScale, color: '#8B0000' },
+        { id: 'vengeance_points_generate', name: 'Vengeance Points Generate', shortName: 'VP Gen', icon: faBalanceScale, color: '#8B0000' },
+        { id: 'vengeance_points_cost', name: 'Vengeance Points Spend', shortName: 'VP Cost', icon: faBalanceScale, color: '#8B0000' },
       ]
     }
   ];
@@ -272,6 +340,32 @@ const Step5Resources = () => {
         return 'Threads generated from failures/negative outcomes (e.g., 1 or 2, or formula)';
       case 'threads_spend':
         return 'Threads spent to manipulate cards (typically 1-8 depending on spell)';
+      case 'bloodTokens':
+        return 'Number of Blood Tokens that can be spent on this spell (0-20, generates +1d6 damage each)';
+      case 'ascension_required':
+        return 'Ascension Path required to cast (e.g., "shrouded_veil", "crimson_pact", "spectral_command")';
+      case 'health':
+        return 'Health cost formula (e.g., "1d6", "2d8", "level * 3")';
+      case 'drp':
+        return 'Dark Resilience Points cost (0-50, generated from damage taken at 1 DRP per 5 damage)';
+      case 'wild_instinct':
+        return 'Wild Instinct cost (0-15, spent on form abilities and transformations)';
+      case 'wild_instinct_generate':
+        return 'Wild Instinct generated from form-specific actions (typically 1-3 WI)';
+      case 'wild_instinct_cost':
+        return 'Wild Instinct spent on abilities (1-5 WI depending on spell tier)';
+      case 'quarry_marks':
+        return 'Quarry Marks cost (0-10, spent on companion commands and glaive enhancements)';
+      case 'quarry_marks_generate':
+        return 'Quarry Marks generated from successful attacks (typically 1-2 QM per hit)';
+      case 'quarry_marks_cost':
+        return 'Quarry Marks spent on abilities (1-5 QM depending on effect)';
+      case 'vengeance_points':
+        return 'Vengeance Points cost (0-10, spent on vengeance abilities and transformations)';
+      case 'vengeance_points_generate':
+        return 'Vengeance Points generated from attacks and evasions (typically 1-2 VP)';
+      case 'vengeance_points_cost':
+        return 'Vengeance Points spent on abilities (1-10 VP depending on power)';
       default:
         return `Suggested cost for level ${level}: ${level * 5}-${level * 10}`;
     }
@@ -551,7 +645,9 @@ const Step5Resources = () => {
                 <div className="resource-cost-details">
                   <div className="resource-cost-label">{resourceInfo.name}</div>
                   <div className="resource-cost-value">
-                    {useFormulas[resourceType] ? (
+                    {resourceType === 'rage_state' ? (
+                      <span className="state-text">{resourceValues[resourceType] || 'Select State'}</span>
+                    ) : useFormulas[resourceType] ? (
                       <span className="formula-text">{resourceFormulas[resourceType] || 'Formula'}</span>
                     ) : (
                       resourceValues[resourceType] ||
@@ -719,8 +815,25 @@ const Step5Resources = () => {
                       </div>
                     ) : (
                       <div className="resource-input-group">
-                        {/* Musical notes use +/- toggle instead of number input */}
-                        {resourceType.startsWith('note_') ? (
+                        {/* Rage state selector */}
+                        {resourceType === 'rage_state' ? (
+                          <div className="rage-state-selector">
+                            <select
+                              className="resource-input"
+                              value={resourceValues[resourceType] || ''}
+                              onChange={(e) => handleResourceValueChange(resourceType, e.target.value)}
+                            >
+                              <option value="">Select Rage State</option>
+                              <option value="Smoldering">Smoldering (0-20 Rage)</option>
+                              <option value="Frenzied">Frenzied (21-40 Rage)</option>
+                              <option value="Primal">Primal (41-60 Rage)</option>
+                              <option value="Carnage">Carnage (61-80 Rage)</option>
+                              <option value="Cataclysm">Cataclysm (81-100 Rage)</option>
+                              <option value="Obliteration">Obliteration (101+ Rage)</option>
+                            </select>
+                          </div>
+                        ) : /* Musical notes use +/- toggle instead of number input */
+                        resourceType.startsWith('note_') ? (
                           <div className="musical-note-toggle-group">
                             <button
                               type="button"

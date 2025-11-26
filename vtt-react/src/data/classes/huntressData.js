@@ -835,8 +835,8 @@ Use a die or paper to track companion HP:
 
       targetingConfig: {
         targetingType: 'chain',
-        rangeType: 'melee',
-        rangeDistance: 15,
+        rangeType: 'ranged',
+        rangeDistance: 30,
         chainDistance: 5,
         maxChains: 4
       },
@@ -1483,11 +1483,20 @@ Use a die or paper to track companion HP:
       },
 
       debuffConfig: {
-        effects: [
-          'Target must make DC 14 Constitution save',
-          'On failure: Blinded for 1 round',
-          'Blinded creatures have disadvantage on attack rolls'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
+        effects: [{
+          id: 'blinded',
+          name: 'Blinded',
+          description: 'Blinded creatures have disadvantage on attack rolls - cannot see, automatically fails sight-based checks',
+          statusType: 'blinded',
+          level: 'moderate'
+        }]
       },
 
       effects: {
@@ -1705,6 +1714,1182 @@ Use a die or paper to track companion HP:
       },
 
       tags: ['physical', 'damage', 'multi-target', 'universal']
+    },
+
+    // ===== ADDITIONAL SPELLS TO REACH 3 PER LEVEL =====
+
+    // LEVEL 2 (needs 1 more)
+    {
+      id: 'huntress_hunters_mark',
+      name: "Hunter's Mark",
+      description: 'Mark a target, making it easier for you and your companion to hunt.',
+      spellType: 'ACTION',
+      icon: 'ability_hunter_snipershot',
+      school: 'Physical',
+      level: 2,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
+      resourceCost: {
+        mana: 8,
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        buff: {
+          description: '+2d6 damage on attacks against marked target',
+          duration: 5,
+          durationUnit: 'rounds'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          generated: 2,
+          perHit: true,
+          description: 'Attacks against marked target generate +1 additional Quarry Mark'
+        },
+        companionSynergy: {
+          description: 'Companion deals +1d8 damage to marked target'
+        }
+      },
+
+      tags: ['buff', 'mark', 'companion-synergy', 'universal']
+    },
+
+    // LEVEL 4 (needs 3)
+    {
+      id: 'huntress_shadow_assault',
+      name: 'Shadow Assault',
+      description: 'Dash to a target and strike with overwhelming force.',
+      spellType: 'ACTION',
+      icon: 'ability_rogue_shadowstep',
+      school: 'Physical',
+      level: 4,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 12,
+        actionPoints: 1,
+        components: ['somatic']
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '4d8 + agility',
+        damageType: 'slashing'
+      },
+
+      effects: {
+        movement: {
+          description: 'Teleport to target before attacking',
+          distance: 40
+        },
+        damage: {
+          formula: '4d8 + agility',
+          type: 'slashing'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          generated: 2,
+          description: 'Generate 2 Quarry Marks on hit'
+        }
+      },
+
+      tags: ['physical', 'damage', 'mobility', 'universal']
+    },
+
+    {
+      id: 'huntress_feral_bond',
+      name: 'Feral Bond',
+      description: 'Strengthen your bond with your companion, enhancing both of your combat abilities.',
+      spellType: 'ACTION',
+      icon: 'ability_hunter_beastcall',
+      school: 'Nature',
+      level: 4,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 4
+      },
+
+      resourceCost: {
+        mana: 14,
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        buff: {
+          self: {
+            description: '+2 to attack rolls and damage',
+            duration: 4,
+            durationUnit: 'rounds'
+          },
+          companion: {
+            description: '+2 to attack rolls and +2d6 damage',
+            duration: 4,
+            durationUnit: 'rounds'
+          }
+        }
+      },
+
+      specialMechanics: {
+        companionSynergy: {
+          description: 'Companion can act twice per turn while bonded'
+        },
+        quarryMarks: {
+          costReduction: true,
+          description: 'Quarry Mark abilities cost -1 QM while bonded'
+        }
+      },
+
+      tags: ['buff', 'companion-synergy', 'enhancement', 'universal']
+    },
+
+    {
+      id: 'huntress_glaive_dance',
+      name: 'Glaive Dance',
+      description: 'Spin through enemies in a deadly dance, striking all in your path.',
+      spellType: 'ACTION',
+      icon: 'ability_rogue_bladefurry',
+      school: 'Physical',
+      level: 4,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self',
+        areaType: 'circle',
+        areaSize: 15
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 15,
+        actionPoints: 2,
+        components: ['somatic']
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '3d10 + agility',
+        damageType: 'slashing'
+      },
+
+      effects: {
+        damage: {
+          formula: '3d10 + agility',
+          type: 'slashing',
+          aoe: 'All enemies within 15 feet'
+        },
+        movement: {
+          description: 'Can move up to 15 feet during the dance without provoking opportunity attacks'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          generated: 1,
+          perHit: true,
+          description: 'Generate 1 Quarry Mark per enemy hit'
+        }
+      },
+
+      tags: ['physical', 'damage', 'aoe', 'mobility', 'universal']
+    },
+
+    // LEVEL 6 (needs 3)
+    {
+      id: 'huntress_apex_predator',
+      name: 'Apex Predator',
+      description: 'Transform into the ultimate hunter, enhancing all your abilities.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_catform',
+      school: 'Nature',
+      level: 6,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
+      resourceCost: {
+        mana: 20,
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        buff: {
+          description: '+3 to all attack rolls, +10 movement speed, advantage on Agility saves, and +3d6 damage on all attacks for 5 rounds'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          generation: 'double',
+          description: 'Generate double Quarry Marks from all sources'
+        },
+        companionSynergy: {
+          description: 'Companion gains same bonuses'
+        }
+      },
+
+      tags: ['buff', 'transformation', 'companion-synergy', 'universal']
+    },
+
+    {
+      id: 'huntress_death_from_above',
+      name: 'Death From Above',
+      description: 'Leap high into the air and crash down on enemies with devastating force.',
+      spellType: 'ACTION',
+      icon: 'ability_hunter_pet_cat',
+      school: 'Physical',
+      level: 6,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        areaType: 'circle',
+        areaSize: 20
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 22,
+        actionPoints: 2,
+        components: ['somatic']
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '6d10 + agility * 1.5',
+        damageType: 'bludgeoning',
+        savingThrow: 'Agility',
+        saveDC: 16,
+        saveEffect: 'half'
+      },
+
+      effects: {
+        movement: {
+          description: 'Leap up to 50 feet to target location'
+        },
+        damage: {
+          formula: '6d10 + agility * 1.5',
+          type: 'bludgeoning',
+          save: 'DC 16 Agility for half damage'
+        },
+        control: {
+          description: 'Targets that fail save are knocked prone'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          generated: 3,
+          description: 'Generate 3 Quarry Marks on successful hit'
+        }
+      },
+
+      tags: ['physical', 'damage', 'control', 'aoe', 'mobility', 'universal']
+    },
+
+    {
+      id: 'huntress_pack_tactics',
+      name: 'Pack Tactics',
+      description: 'Coordinate a devastating assault with your companion.',
+      spellType: 'ACTION',
+      icon: 'ability_hunter_pet_wolf',
+      school: 'Nature',
+      level: 6,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 20,
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '5d8 + agility',
+        damageType: 'slashing'
+      },
+
+      effects: {
+        damage: {
+          huntress: {
+            formula: '5d8 + agility',
+            type: 'slashing'
+          },
+          companion: {
+            formula: '4d10 + companion_attack',
+            type: 'piercing',
+            description: 'Companion attacks immediately with advantage'
+          }
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          cost: 3,
+          description: 'Costs 3 Quarry Marks to use'
+        },
+        companionSynergy: {
+          description: 'Companion attacks with advantage and deals +4d10 damage'
+        }
+      },
+
+      tags: ['physical', 'damage', 'companion-synergy', 'coordinated', 'universal']
+    },
+
+    // LEVEL 7 (needs 3)
+    {
+      id: 'huntress_shadow_glaive_mastery',
+      name: 'Shadow Glaive Mastery',
+      description: 'Master the Shadow Glaive, unlocking its full devastating potential.',
+      spellType: 'ACTION',
+      icon: 'ability_rogue_deadlybrew',
+      school: 'Physical',
+      level: 7,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
+      resourceCost: {
+        mana: 26,
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        buff: {
+          description: 'All glaive attacks chain to +2 additional targets, chain damage does not reduce, and all glaive attacks deal +50% damage for 5 rounds'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          generation: 'enhanced',
+          description: 'Generate +1 additional Quarry Mark per target hit'
+        },
+        glassiveSynergy: {
+          description: 'Glaive chains ignore distance restrictions (chains to all enemies within 30 feet)'
+        }
+      },
+
+      tags: ['buff', 'enhancement', 'glaive', 'chain', 'universal']
+    },
+
+    {
+      id: 'huntress_savage_roar',
+      name: 'Savage Roar',
+      description: 'Your companion unleashes a terrifying roar that frightens all enemies.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_challangingroar',
+      school: 'Nature',
+      level: 7,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        areaType: 'circle',
+        areaSize: 30,
+        origin: 'companion'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3
+      },
+
+      resourceCost: {
+        mana: 24,
+        actionPoints: 1,
+        components: ['verbal']
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        control: {
+          description: 'All enemies within 30 feet of companion must make DC 17 Spirit save or be frightened for 3 rounds',
+          save: 'DC 17 Spirit',
+          saveEffect: 'negates',
+          duration: 3,
+          durationUnit: 'rounds'
+        },
+        damage: {
+          description: 'Frightened enemies take 3d8 psychic damage at the start of their turns'
+        }
+      },
+
+      specialMechanics: {
+        companionSynergy: {
+          description: 'Companion must be alive and within 100 feet'
+        },
+        quarryMarks: {
+          cost: 2,
+          description: 'Costs 2 Quarry Marks to use'
+        }
+      },
+
+      tags: ['control', 'fear', 'companion-synergy', 'aoe', 'universal']
+    },
+
+    {
+      id: 'huntress_hunters_fury',
+      name: "Hunter's Fury",
+      description: 'Channel all your fury into a devastating flurry of glaive strikes.',
+      spellType: 'ACTION',
+      icon: 'ability_warrior_bladestorm',
+      school: 'Physical',
+      level: 7,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch',
+        maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 28,
+        actionPoints: 3,
+        components: ['somatic']
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '12d8 + agility * 2',
+        damageType: 'slashing'
+      },
+
+      effects: {
+        damage: {
+          formula: '12d8 + agility * 2',
+          type: 'slashing',
+          description: 'Make 5 rapid glaive strikes'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          cost: 5,
+          description: 'Costs 5 Quarry Marks (maximum) to use'
+        },
+        criticalHit: {
+          description: 'Each strike that rolls max damage counts as a critical hit'
+        }
+      },
+
+      tags: ['physical', 'damage', 'single-target', 'burst', 'universal']
+    },
+
+    // LEVEL 8 (needs 3)
+    {
+      id: 'huntress_shadow_storm',
+      name: 'Shadow Storm',
+      description: 'Create a storm of shadow energy that devastates all enemies.',
+      spellType: 'ACTION',
+      icon: 'spell_shadow_shadowwordpain',
+      school: 'Shadow',
+      level: 8,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        areaType: 'circle',
+        areaSize: 50
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 4
+      },
+
+      resourceCost: {
+        mana: 35,
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '10d10 + agility',
+        damageType: 'shadow',
+        dot: {
+          formula: '3d10',
+          duration: 4,
+          tickFrequency: 'round'
+        }
+      },
+
+      effects: {
+        damage: {
+          initial: {
+            formula: '10d10 + agility',
+            type: 'shadow'
+          },
+          dot: {
+            formula: '3d10 shadow per round',
+            duration: 4,
+            durationUnit: 'rounds'
+          }
+        },
+        zone: {
+          description: 'Storm persists for 4 rounds, dealing 3d10 shadow damage per round to enemies in the area'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          cost: 4,
+          description: 'Costs 4 Quarry Marks to use'
+        }
+      },
+
+      tags: ['shadow', 'damage', 'aoe', 'dot', 'zone', 'universal']
+    },
+
+    {
+      id: 'huntress_primal_bond',
+      name: 'Primal Bond',
+      description: 'Merge your essence with your companion, becoming one unstoppable force.',
+      spellType: 'ACTION',
+      icon: 'ability_druid_ferociousbite',
+      school: 'Nature',
+      level: 8,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
+      resourceCost: {
+        mana: 32,
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        transformation: {
+          description: 'Merge with companion, gaining +5 to all stats, +30 HP, and both your attacks combined'
+        },
+        buff: {
+          description: '+5 to all stats, +30 maximum HP, regenerate 5d10 HP per round, and can attack twice per turn for 5 rounds'
+        }
+      },
+
+      specialMechanics: {
+        companionSynergy: {
+          description: 'Companion merges with you - cannot be targeted separately'
+        },
+        quarryMarks: {
+          generation: 'triple',
+          description: 'Generate triple Quarry Marks from all sources'
+        }
+      },
+
+      tags: ['transformation', 'buff', 'companion-synergy', 'merge', 'universal']
+    },
+
+    {
+      id: 'huntress_glaive_storm',
+      name: 'Glaive Storm',
+      description: 'Summon a storm of shadow glaives that strike all enemies repeatedly.',
+      spellType: 'CHANNELED',
+      icon: 'ability_rogue_fanofknives',
+      school: 'Physical',
+      level: 8,
+      specialization: 'universal',
+
+      typeConfig: {
+        maxChannelDuration: 5,
+        durationUnit: 'ROUNDS',
+        interruptible: true,
+        movementAllowed: false,
+        concentrationDC: 15,
+        dcType: 'CONSTITUTION',
+        tickFrequency: 'END_OF_TURN'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        areaType: 'circle',
+        areaSize: 40
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
+      resourceCost: {
+        mana: 30,
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        channelingFrequency: 'per_round'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '8d8 + agility',
+        damageType: 'slashing'
+      },
+
+      effects: {
+        damage: {
+          formula: '8d8 + agility slashing per round',
+          duration: 'up to 5 rounds',
+          description: 'Rain shadow glaives on all enemies in 40-foot radius each round'
+        }
+      },
+
+      specialMechanics: {
+        channeling: {
+          description: 'Must maintain concentration. Deals damage at end of each of your turns.'
+        },
+        quarryMarks: {
+          generated: 2,
+          perRound: true,
+          description: 'Generate 2 Quarry Marks per round channeled'
+        }
+      },
+
+      tags: ['physical', 'damage', 'aoe', 'channeled', 'dot', 'universal']
+    },
+
+    // LEVEL 9 (needs 3)
+    {
+      id: 'huntress_ultimate_hunter',
+      name: 'Ultimate Hunter',
+      description: 'Become the ultimate hunter, transcending mortal limitations.',
+      spellType: 'ACTION',
+      icon: 'ability_hunter_pet_bear',
+      school: 'Nature',
+      level: 9,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 10
+      },
+
+      resourceCost: {
+        mana: 50,
+        actionPoints: 4,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        transformation: {
+          description: 'Transform into ultimate hunter form - gain +8 to all stats, triple movement speed, immunity to crowd control, and all attacks deal triple damage for 10 rounds'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          unlimited: true,
+          description: 'Generate unlimited Quarry Marks, all Quarry Mark abilities cost 0'
+        },
+        companionSynergy: {
+          description: 'Companion gains same bonuses and cannot be killed'
+        },
+        glaiveMastery: {
+          description: 'All glaive attacks chain to unlimited targets within 50 feet'
+        }
+      },
+
+      tags: ['transformation', 'buff', 'legendary', 'companion-synergy', 'universal']
+    },
+
+    {
+      id: 'huntress_deaths_embrace',
+      name: "Death's Embrace",
+      description: 'Channel the essence of death through your glaive, instantly killing weak enemies.',
+      spellType: 'ACTION',
+      icon: 'spell_shadow_deathanddecay',
+      school: 'Shadow',
+      level: 9,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'chain',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        chainDistance: 10,
+        maxChains: 10
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 45,
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'A black diamond worth 5000 gold'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '20d12 + agility * 2',
+        damageType: 'shadow',
+        savingThrow: 'Constitution',
+        saveDC: 20,
+        saveEffect: 'half'
+      },
+
+      effects: {
+        damage: {
+          formula: '20d12 + agility * 2',
+          type: 'shadow',
+          save: 'DC 20 Constitution for half damage',
+          chain: 'Chains to up to 10 enemies'
+        },
+        execute: {
+          description: 'Enemies below 30% HP that fail the save are instantly killed'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          cost: 8,
+          description: 'Costs 8 Quarry Marks to use'
+        },
+        execute: {
+          description: 'Enemies below 30% health are instantly killed on failed save'
+        }
+      },
+
+      tags: ['shadow', 'damage', 'execute', 'chain', 'legendary', 'universal']
+    },
+
+    {
+      id: 'huntress_eternal_hunt',
+      name: 'Eternal Hunt',
+      description: 'Begin an eternal hunt that never ends until your quarry falls.',
+      spellType: 'PASSIVE',
+      icon: 'ability_hunter_markedfordeath',
+      school: 'Nature',
+      level: 9,
+      specialization: 'universal',
+
+      typeConfig: {
+        toggleable: true
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'permanent'
+      },
+
+      resourceCost: {
+        mana: 0,
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'The essence of the eternal hunter, priceless artifact'
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        passive: {
+          description: 'Generate 5 Quarry Marks per round automatically. All Quarry Mark abilities cost 50% less. Companion cannot be permanently killed (revives automatically after 1 round). All glaive attacks chain to +5 additional targets.'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          automaticGeneration: 5,
+          costReduction: 0.5,
+          description: 'Automatically generate 5 Quarry Marks per round, all abilities cost 50% less QM'
+        },
+        companionSynergy: {
+          description: 'Companion automatically revives after 1 round if killed'
+        }
+      },
+
+      tags: ['passive', 'legendary', 'companion-synergy', 'enhancement', 'universal', 'toggleable']
+    },
+
+    // LEVEL 10 (needs 3)
+    {
+      id: 'huntress_godslayer',
+      name: 'Godslayer',
+      description: 'Strike with enough force to slay even gods.',
+      spellType: 'ACTION',
+      icon: 'ability_warrior_decisivestrike',
+      school: 'Physical',
+      level: 10,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 5,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch',
+        maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 70,
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The edge of mortality itself, priceless'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '50d20 + agility * 5',
+        damageType: 'force'
+      },
+
+      effects: {
+        damage: {
+          formula: '50d20 + agility * 5',
+          type: 'force',
+          description: 'Deals massive damage that ignores all resistances and immunities'
+        },
+        execute: {
+          description: 'If target HP drops below 50% after this attack, target is instantly killed'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          cost: 10,
+          description: 'Costs 10 Quarry Marks (maximum) to use'
+        },
+        ignoresDefenses: {
+          description: 'Ignores armor, resistances, and immunities. Cannot be prevented or reduced.'
+        },
+        execute: {
+          threshold: 0.5,
+          description: 'Instantly kills target if their remaining HP is below 50% of maximum'
+        }
+      },
+
+      tags: ['physical', 'damage', 'execute', 'legendary', 'single-target', 'universal']
+    },
+
+    {
+      id: 'huntress_primal_apocalypse',
+      name: 'Primal Apocalypse',
+      description: 'Summon the primal fury of nature itself to devastate the battlefield.',
+      spellType: 'ACTION',
+      icon: 'spell_nature_earthquake',
+      school: 'Nature',
+      level: 10,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 5,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        areaType: 'circle',
+        areaSize: 100
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
+      resourceCost: {
+        mana: 80,
+        actionPoints: 6,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The heart of a primal beast, worth 100,000 gold'
+      },
+
+      resolution: 'DICE',
+
+      damageConfig: {
+        formula: '30d12 + agility * 3',
+        damageType: 'nature',
+        savingThrow: 'Constitution',
+        saveDC: 22,
+        saveEffect: 'half',
+        dot: {
+          formula: '10d10',
+          duration: 5,
+          tickFrequency: 'round'
+        }
+      },
+
+      effects: {
+        damage: {
+          initial: {
+            formula: '30d12 + agility * 3',
+            type: 'nature',
+            save: 'DC 22 Constitution for half'
+          },
+          dot: {
+            formula: '10d10 nature per round',
+            duration: 5,
+            durationUnit: 'rounds'
+          }
+        },
+        summon: {
+          description: 'Summons 10 primal beasts that attack enemies for 5 rounds'
+        }
+      },
+
+      specialMechanics: {
+        quarryMarks: {
+          cost: 10,
+          description: 'Costs 10 Quarry Marks to use'
+        },
+        summons: {
+          description: 'Summons 10 primal beast spirits (50 HP, 15 armor each) that attack autonomously'
+        }
+      },
+
+      tags: ['nature', 'damage', 'aoe', 'summoning', 'legendary', 'dot', 'universal']
+    },
+
+    {
+      id: 'huntress_perfect_hunt',
+      name: 'Perfect Hunt',
+      description: 'Achieve the perfect hunt - unlimited power, unlimited fury.',
+      spellType: 'PASSIVE',
+      icon: 'ability_hunter_mastermarksman',
+      school: 'Nature',
+      level: 10,
+      specialization: 'universal',
+
+      typeConfig: {
+        toggleable: true
+      },
+
+      targetingConfig: {
+        targetingType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'permanent'
+      },
+
+      resourceCost: {
+        mana: 0,
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'Ascension to perfect hunter, beyond price'
+      },
+
+      resolution: 'DICE',
+
+      effects: {
+        passive: {
+          description: 'All spells cost 0 mana and 0 action points. Generate unlimited Quarry Marks. All attacks deal triple damage. Companion shares all bonuses and cannot die. All glaive attacks chain infinitely.'
+        }
+      },
+
+      specialMechanics: {
+        ascension: {
+          description: 'You have transcended mortality and become the perfect hunter'
+        },
+        quarryMarks: {
+          unlimited: true,
+          automaticGeneration: 'infinite',
+          description: 'Generate unlimited Quarry Marks, all abilities cost 0 QM'
+        },
+        companionSynergy: {
+          description: 'Companion is immortal and shares all bonuses'
+        },
+        glaiveMastery: {
+          description: 'Glaive chains infinitely to all enemies on the battlefield'
+        }
+      },
+
+      tags: ['passive', 'legendary', 'ascension', 'companion-synergy', 'universal', 'toggleable']
     }
   ]
 };

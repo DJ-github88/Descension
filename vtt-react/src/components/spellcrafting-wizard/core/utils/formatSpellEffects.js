@@ -345,7 +345,15 @@ export const formatDebuffEffects = (spell) => {
         // Add save information - prioritize status effect's own saveDC, then debuff config
         const saveDC = statusEffect.saveDC || spell.debuffConfig.difficultyClass;
         if (saveDC) {
-          const saveType = statusEffect.saveType || 'wisdom';
+          let saveType = statusEffect.saveType || 'spirit';
+          // Map D&D stat names to our system: dexterity -> agility, wisdom -> spirit
+          const saveTypeMap = {
+            'dexterity': 'agility',
+            'dex': 'agility',
+            'wisdom': 'spirit',
+            'wis': 'spirit'
+          };
+          saveType = saveTypeMap[saveType.toLowerCase()] || saveType.toLowerCase();
           description += ` - ${saveType.charAt(0).toUpperCase() + saveType.slice(1)} save DC ${saveDC}`;
 
           // Add save outcome information

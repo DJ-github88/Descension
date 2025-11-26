@@ -2,6 +2,230 @@
 
 This document provides a complete mapping of EVERY field from the SpellWizard (Steps 1-10) to how it appears on the UnifiedSpellCard. This is intended as a reference for AI-generated spell creation prompts to ensure all fields are properly configured and formatted.
 
+---
+
+# 🚀 AI QUICK REFERENCE (READ THIS FIRST)
+
+> **This section is a condensed summary. Detailed documentation follows below.**
+
+## Pre-Generation Validation Checklist
+
+Before generating any spell, verify:
+
+- [ ] **effectTypes array** - Contains ONLY effect types that have corresponding config objects
+- [ ] **Effect configs exist** - Each effect in `effectTypes` has its `*Config` object (damageConfig, buffConfig, etc.)
+- [ ] **effects[] array** - For buff/debuff/control: use `effects[]` array (NOT deprecated `statModifiers[]`)
+- [ ] **durationUnit matches** - `durationUnit` MUST match `durationType` (e.g., both = 'rounds')
+- [ ] **actionPoints set** - `resourceCost.actionPoints` is explicitly set (not undefined)
+- [ ] **Concrete values** - All amounts are specific numbers, not vague descriptions
+- [ ] **Valid damage types** - Use D&D types: `fire`, `cold`, `lightning`, `acid`, `thunder`, `force`, `necrotic`, `poison`, `psychic`, `radiant`, `bludgeoning`, `piercing`, `slashing` (NOT "physical")
+- [ ] **No redundancy** - Information appears in EITHER description OR mechanicsText, never both
+
+## The Golden Rule: description vs mechanicsText
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│  IF description HAS the info  →  mechanicsText MUST BE EMPTY            │
+│  IF description IS empty      →  mechanicsText HAS the formula/details  │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Quick Reference Table
+
+| Effect Type | `description` field | `mechanicsText` field |
+|-------------|---------------------|----------------------|
+| **Damage** (instant/DoT) | Empty or trigger info | `"2d6 + INT Fire Damage"` |
+| **Healing** (instant/HoT/shield) | Empty or trigger info | `"2d8 + Spirit Healing"` |
+| **Buff** (status/stat) | `"Gain +2 Strength for 3 rounds"` | **ALWAYS EMPTY** |
+| **Debuff** (status/stat) | `"Slowed • DC 14 Con save • 2 rounds"` | **ALWAYS EMPTY** |
+| **Control** | `"Stunned • DC 15 Con • 1 round"` | Movement distance, restraint details |
+| **Summoning** | `"Medium undead • Mental (60ft)"` | `"HP: 20 • Armor: 12"` |
+| **Utility** | `"Teleport up to 30 feet"` | Speed, distance details |
+| **Purification** | `"Removes poison effects"` | Effects list, strength |
+| **Restoration** | `"Restores mana over time"` | Formula, timing |
+| **Transformation** | `"Physical • Self • 5 rounds"` | Special effects |
+
+## Minimal Working Examples
+
+### Damage Spell (Simplest)
+```javascript
+{
+  name: "Fire Bolt",
+  effectTypes: ['damage'],
+  typeConfig: { school: 'fire' },
+  damageConfig: {
+    formula: '2d6 + intelligence',
+    damageType: 'direct',
+    elementType: 'fire'
+  },
+  resourceCost: { actionPoints: 2, resourceTypes: ['mana'], resourceValues: { mana: 8 } }
+}
+```
+
+### Buff Spell (Status Effect)
+```javascript
+{
+  name: "Protection",
+  effectTypes: ['buff'],
+  buffConfig: {
+    buffType: 'statEnhancement',
+    effects: [{  // ⚠️ REQUIRED: Must use effects[] array
+      id: 'armor_boost',
+      name: 'Armor Boost',
+      description: 'Gain +2 armor for 3 rounds',  // ALL INFO HERE - mechanicsText will be empty
+      statModifier: { stat: 'armor', magnitude: 2, magnitudeType: 'flat' }
+    }],
+    durationValue: 3,
+    durationType: 'rounds',
+    durationUnit: 'rounds'  // ⚠️ MUST match durationType
+  },
+  resourceCost: { actionPoints: 1, resourceTypes: ['mana'], resourceValues: { mana: 6 } }
+}
+```
+
+### Debuff Spell (With Save)
+```javascript
+{
+  name: "Slow",
+  effectTypes: ['debuff'],
+  debuffConfig: {
+    debuffType: 'statusEffect',
+    effects: [{  // ⚠️ REQUIRED: Must use effects[] array
+      id: 'slow',
+      name: 'Slow',
+      description: 'Movement speed reduced by 15 feet'  // Concrete amount, not "reduced"
+    }],
+    durationValue: 2,
+    durationType: 'rounds',
+    durationUnit: 'rounds',  // ⚠️ MUST match durationType
+    saveDC: 14,
+    saveType: 'constitution',
+    saveOutcome: 'negates'
+  },
+  resourceCost: { actionPoints: 2, resourceTypes: ['mana'], resourceValues: { mana: 10 } }
+}
+```
+
+### Control Spell (Forced Movement)
+```javascript
+{
+  name: "Repelling Blast",
+  effectTypes: ['control'],
+  controlConfig: {
+    controlType: 'forcedMovement',
+    duration: 0,
+    durationUnit: 'instant',
+    saveDC: 12,
+    saveType: 'strength',
+    effects: [{  // ⚠️ REQUIRED: Must use effects[] array
+      id: 'push',
+      name: 'Push',
+      description: 'Pushes target away from caster',
+      config: { movementType: 'push', distance: 15 }
+    }]
+  },
+  resourceCost: { actionPoints: 1 }
+}
+```
+
+## Common Mistakes to Avoid
+
+| ❌ WRONG | ✅ CORRECT |
+|----------|-----------|
+| `damageType: 'physical'` | `damageType: 'bludgeoning'` (or piercing/slashing) |
+| `durationType: 'rounds'` without `durationUnit` | Add `durationUnit: 'rounds'` |
+| `statModifiers: [...]` | `effects: [{ statModifier: {...} }]` |
+| Missing `actionPoints` in resourceCost | Always include `actionPoints: N` |
+| `description: "Movement reduced"` | `description: "Movement speed reduced by 15 feet"` |
+| Same info in description AND mechanicsText | Put in ONE field only |
+| `effectTypes: ['buff']` without buffConfig | Always add the config object |
+| Custom effect IDs like `primal_terror` | Use predefined IDs: `fear`, `stun`, `push` |
+| Description contains "DC 14 Con save negates" | Put DC/save in config fields, not description |
+| `controlType: 'knockdown'` with `id: 'stun'` | Use correct type: `controlType: 'incapacitation'` |
+
+## ⚠️ CRITICAL: Valid Effect IDs (Combat-Ready Data)
+
+**Descriptions should NOT contain mechanical data like DC, save type, or duration - these should be in config fields so the combat system can process them.**
+
+### Control Effect Types & Valid IDs
+
+| controlType | Valid effect IDs | Notes |
+|-------------|------------------|-------|
+| `forcedMovement` | `push`, `pull`, `slide`, `teleport` | Config needs `movementType` and `distance` |
+| `restraint` | `bind`, `slow`, `snare`, `web` | For speed reduction/root effects |
+| `knockdown` | `trip`, `stagger`, `repel`, `throw` | For prone/knockback effects |
+| `incapacitation` | `sleep`, `stun`, `paralyze`, `daze` | For stun/paralyze - NOT knockdown |
+| `mind_control` | `command`, `confuse`, `dominate`, `fear` | For fear/charm effects |
+| `restriction` | `actions`, `reactions`, `attack_types`, `damage_types` | Action denial effects |
+
+### Buff Status Effect IDs
+
+| Category | Valid IDs |
+|----------|-----------|
+| `combat_advantage` | `attack_rolls`, `damage_rolls`, `healing_rolls`, `saving_throws`, `initiative` |
+| `skill_mastery` | `physical`, `mental`, `social` |
+| `empower_next` | `spell`, `heal`, `weapon` |
+| `damage_shield` | `physical`, `magical`, `complete` |
+| `haste` | `movement`, `action`, `reaction` |
+| `elemental_infusion` | `fire`, `frost`, `lightning` |
+| `invisibility` | `partial`, `complete`, `greater` |
+
+### ❌ BAD: Descriptive strings (not combat-ready)
+```javascript
+controlConfig: {
+  controlType: 'mind_control',
+  effects: [{
+    id: 'primal_terror',  // ❌ Custom ID - combat system won't recognize
+    name: 'Primal Terror',
+    description: 'Enemies flee in blind panic. DC 14 Con save negates'  // ❌ DC in description
+  }]
+}
+```
+
+### ✅ GOOD: Data-driven structure (combat-ready)
+```javascript
+controlConfig: {
+  controlType: 'mind_control',
+  duration: 2,
+  durationUnit: 'rounds',
+  saveDC: 14,  // ✅ DC as data field
+  saveType: 'constitution',  // ✅ Save type as data field
+  savingThrow: true,
+  effects: [{
+    id: 'fear',  // ✅ Valid predefined ID
+    name: 'Primal Terror',  // Display name can be custom
+    description: 'Enemies flee in blind panic',  // ✅ No mechanical data
+    config: {
+      fearStrength: 'moderate'  // ✅ Effect-specific config
+    }
+  }]
+}
+```
+
+## Wizard Steps Quick Map
+
+| Step | Primary Config Fields |
+|------|----------------------|
+| 1. Basic Info | `name`, `description`, `typeConfig.school`, `typeConfig.secondaryElement`, `typeConfig.icon`, `typeConfig.tags` |
+| 2. Spell Type | `spellType` (ACTION/CHANNELED/PASSIVE/REACTION/TRAP/STATE/ZONE), `typeConfig.*` |
+| 3. Effects | `effectTypes[]`, `damageConfig`, `healingConfig`, `buffConfig`, `debuffConfig`, `controlConfig`, `utilityConfig`, `summonConfig`, `transformationConfig`, `purificationConfig`, `restorationConfig` |
+| 4. Targeting | `targetingConfig`, `targetingMode`, `effectTargeting`, `propagation` |
+| 5. Resources | `resourceCost.resourceTypes[]`, `resourceCost.resourceValues`, `resourceCost.actionPoints`, `resourceCost.components` |
+| 6. Cooldown | `cooldownConfig.type`, `cooldownConfig.value`, `cooldownConfig.charges` |
+| 7. Triggers | `triggerConfig.global`, `triggerConfig.effectTriggers`, `triggerConfig.requiredConditions` |
+| 7. Mechanics | `effectMechanicsConfigs`, `mechanicsConfig` |
+| 8. Channeling | `channelingConfig` (for CHANNELED spells) |
+| 9. Balance | Auto-calculated, suggestions only |
+| 10. Review | Final preview, save to library |
+
+---
+
+# DETAILED DOCUMENTATION
+
+> **Everything below provides comprehensive details. The Quick Reference above covers 90% of use cases.**
+
+---
+
 ## ⚠️ Critical Display Rules
 
 ### Unconfigured Fields Handling
@@ -39,6 +263,64 @@ This document provides a complete mapping of EVERY field from the SpellWizard (S
   - Only shown if `propagation.method !== 'none'`
   - Requires `propagation.parameters` with appropriate values
 
+### ⚠️ CRITICAL: Description vs MechanicsText Rules
+
+**IMPORTANT**: The UnifiedSpellCard uses two separate fields for displaying effect information:
+
+1. **`description`** - Shown in grey/italic text, contains the main effect information
+2. **`mechanicsText`** - Shown below description, contains additional mechanical details
+
+**Key Rules for All Effect Types:**
+
+#### Status Effects (Buff/Debuff)
+- **Description contains**: Effect description + Save info + Duration (e.g., "Movement speed reduced by 10 feet • DC 12 Constitution save (negates) • for 1 round")
+- **Description must be CONCRETE**: Specify exact amounts (e.g., "Movement speed reduced by 10 feet" not "Movement speed reduced" or "target's movement speed is reduced")
+- **Description must explain gameplay mechanics**: For status effects like blinded, explain what it means (e.g., "cannot see, automatically fails sight-based checks, disadvantage on attack rolls (roll two d20s and take the lower result when attacking)")
+- **mechanicsText should be EMPTY** - All information is in the description
+- **DO NOT** add duration, save DC, or save outcome to mechanicsText for status effects
+- **DO NOT** add redundant mechanics like "Movement speed reduced by 50%" when description already has "Movement speed reduced by 10 feet"
+- **DO NOT** repeat information (e.g., "Movement speed reduced by 10 feet - target's movement speed is reduced by 10 feet" is redundant)
+
+#### ⚠️ CRITICAL: Stat Modifier Display Rules (Buff/Debuff Effects)
+- **NO SEPARATE STAT MODIFIER TEXT**: Stat modifier values (like "+1 ActionPoints", "+2 RageDecay") are NEVER displayed as separate black text
+- **ALL INFORMATION IN DESCRIPTION**: All stat modifier information must be written in natural language within the grey description text
+- **Description Format**: Use natural, complete sentences with exact amounts and durations
+  - ✅ **GOOD**: "1 Extra action point from adrenaline surge, but your rage decays by 2 per round for 2 rounds"
+  - ✅ **GOOD**: "Gain +2 armor for 3 rounds"
+  - ✅ **GOOD**: "Your rage decays by 2 points per round for 2 rounds"
+  - ❌ **BAD**: "Extra action points from adrenaline surge, but rage decays faster" (missing amounts and duration)
+  - ❌ **BAD**: "Adrenaline causes rage to decay 2 points per round" (missing duration)
+- **Include Duration**: Always specify the duration in the description (e.g., "for 2 rounds", "for 1 minute")
+- **Include Exact Amounts**: Always specify exact numerical values (e.g., "1 Extra action point", "2 points per round", "+2 armor")
+- **mechanicsText is ALWAYS EMPTY**: UnifiedSpellCard automatically suppresses stat modifier display - descriptions must contain everything
+
+#### Control Effects
+- **Description contains**: Effect name + Duration + Save DC (if applicable)
+- **mechanicsText contains**: Effect-specific mechanical details (e.g., control type, range, restrictions)
+- **DO NOT** duplicate duration/save info in mechanicsText
+
+#### Utility Effects
+- **Description contains**: Effect name + Duration (if applicable)
+- **mechanicsText contains**: Effect-specific utility details (e.g., flight speed, teleport distance)
+- **DO NOT** duplicate duration in mechanicsText
+
+#### Purification Effects
+- **Description contains**: Purification type + Target effects
+- **mechanicsText contains**: Specific effects removed, strength level
+- **DO NOT** duplicate information between description and mechanicsText
+
+#### Summoning Effects
+- **Description contains**: Creature name + Quantity + Control type
+- **mechanicsText contains**: Creature-specific stats, abilities, or special rules
+- **DO NOT** duplicate creature name/quantity in mechanicsText
+
+#### Restoration Effects
+- **Description contains**: Restoration type + Resource type
+- **mechanicsText contains**: Formula, restoration amount, timing details
+- **DO NOT** duplicate resource type in mechanicsText
+
+**General Rule**: If information appears in the description, it should NOT appear in mechanicsText. The description is the primary display, mechanicsText is for supplementary details only.
+
 ### Best Practices for Clean Previews
 
 1. **Effect Types**: Only include effect types that have been configured:
@@ -75,6 +357,57 @@ This document provides a complete mapping of EVERY field from the SpellWizard (S
    }
    ```
 
+### Fallback Behavior When Effects Arrays Are Missing
+
+**⚠️ CRITICAL - Effects Array Requirements:**
+
+The UnifiedSpellCard component **requires properly structured effects arrays** for detailed effect display. When these are missing, the component falls back to generic placeholders:
+
+**Buff Effects:**
+- **Missing `buffConfig.effects[]`**: Shows "BUFF EFFECT - {duration} Configure stat modifiers or status effects below"
+- **Missing `buffConfig` entirely**: Shows "Buff Effect - Effect details not configured"
+
+**Debuff Effects:**
+- **Missing `debuffConfig.effects[]`**: Only shows saving throw information, no actual debuff effects
+- **Missing `debuffConfig` entirely**: Shows "Debuff Effect - Effect details not configured"
+
+**Control Effects:**
+- **Missing `controlConfig.effects[]`**: Shows "Control Effect - Effect details not configured"
+- **Missing `controlConfig` entirely**: Shows "Control Effect - Effect details not configured"
+
+**⚠️ COMMON ISSUE - Frost Nova Example:**
+
+The Frost Nova spell has this structure:
+```javascript
+debuffConfig: {
+  debuffType: 'statusEffect',
+  durationValue: 2,
+  durationType: 'rounds',
+  saveDC: 14,
+  saveType: 'constitution'
+  // MISSING: effects: [{ id: 'slow', name: 'Slow', description: 'Movement speed reduced' }]
+}
+```
+
+**Result**: Only shows "DC 14 Constitution save" with no actual "Slow" effect details.
+
+**Correct Structure**:
+```javascript
+debuffConfig: {
+  debuffType: 'statusEffect',
+  durationValue: 2,
+  durationType: 'rounds',
+  saveDC: 14,
+  saveType: 'constitution',
+  effects: [{
+    id: 'slow',
+    name: 'Slow',
+    description: 'Movement speed reduced by half',
+    // Additional status effect configuration
+  }]
+}
+```
+
 ### Preview in Wizard (Step 10)
 The `Step10Review` component uses `mapWizardStateToPreviewState()` to transform wizard state into preview format. This function:
 - Filters out unconfigured fields
@@ -105,9 +438,18 @@ The `Step10Review` component uses `mapWizardStateToPreviewState()` to transform 
 - **name** (string, required)
 - **description** (string, required)
 - **typeConfig.school** (string) - Primary damage/healing type
-- **typeConfig.secondaryElement** (string) - Secondary damage/healing type
+- **typeConfig.secondaryElement** (string) - Secondary damage/healing type ⚠️ **IMPORTANT: Set this for spells with multiple damage types!**
 - **typeConfig.icon** (string) - WoW icon identifier
 - **typeConfig.tags** (array) - Array of tag strings
+
+**⚠️ CRITICAL - Multiple Damage Types:**
+- **You can set up to 2 damage types per spell** using `typeConfig.school` (primary) and `typeConfig.secondaryElement` (secondary)
+- **If your spell deals multiple types of damage** (e.g., "Fire and Cold" or "Lightning and Thunder"), you **MUST** set both:
+  - `typeConfig.school` = First damage type (e.g., "fire")
+  - `typeConfig.secondaryElement` = Second damage type (e.g., "cold")
+- **The spell card will display both types** as separate badges: "Fire" and "Cold"
+- **The damage formula will show**: "2d6 Fire and Cold Damage"
+- **If you only set `school`**, the spell will only show one damage type badge
 
 ### SpellCard Display Mapping:
 
@@ -135,15 +477,30 @@ The `Step10Review` component uses `mapWizardStateToPreviewState()` to transform 
   Primary: typeConfig.school || damageConfig.elementType || damageTypes[0]
   Secondary: typeConfig.secondaryElement (if exists)
   ```
-- **Display**: 
+- **Display**:
   - Badge format: "Fire" (primary), "Cold" (secondary if exists)
   - Color-coded badges
   - Maximum 2 damage types displayed
-- **Normalization**: 
-  - `ice/frost` → `cold`
-  - `electric` → `lightning`
-  - `holy` → `radiant`
-  - `shadow` → `necrotic`
+- **⚠️ HOW TO SET MULTIPLE DAMAGE TYPES:**
+  1. In Step 1 (Basic Info), select your **Primary** damage type from the element selector
+  2. **Then select a SECOND element** - this will automatically become your **Secondary** damage type
+  3. Both will appear as separate badges on the spell card
+  4. The damage formula will show both types: "2d6 Fire and Cold Damage"
+  5. **If you want only one damage type**, only select the primary element
+- **⚠️ CRITICAL - Valid Damage Types (D&D 5e Standard + Custom):**
+  - Physical: `bludgeoning`, `piercing`, `slashing` (use one of these, NOT "physical")
+  - Elemental: `acid`, `cold`, `fire`, `lightning`, `thunder`
+  - Magical: `force`, `necrotic`, `poison`, `psychic`, `radiant`
+  - Custom: `chaos` (unpredictable magic that defies categorization)
+  - Healing: `healing` (for positive effects)
+  - **Normalization Rules:**
+    - `ice/frost` → `cold`
+    - `electric` → `lightning`
+    - `holy` → `radiant`
+    - `shadow` → `necrotic`
+    - `magical` → `force` (default)
+  - **Invalid/Non-Standard Types:** `physical`, `ice`, `frost`, `electric`, `holy`, `shadow`, `arcane`, `nature`, `void`, etc.
+  - **⚠️ IMPORTANT:** "physical" is NOT a valid damage type. Use `bludgeoning`, `piercing`, or `slashing` instead.
 
 #### Tags
 - **Location**: Card footer
@@ -287,10 +644,11 @@ The `Step10Review` component uses `mapWizardStateToPreviewState()` to transform 
 - `typeConfig.trailDurationUnit` (enum: 'seconds', 'minutes', 'hours', 'days', 'weeks', 'rounds', 'turns') - Unit for trail duration
 
 **PASSIVE:**
-- Toggleable: `"toggleable"` (if `toggleable === true`)
+- Toggleable: Displayed as part of the spell tags (if `toggleable === true`), not as a separate bullet
 
 **Fields Used:**
 - `typeConfig.toggleable` (boolean) - Whether the passive effect can be turned on and off
+- **⚠️ IMPORTANT:** When `toggleable === true`, it **MUST** be included in the spell's `tags` array (e.g., `tags: ['passive', 'toggleable', ...]`) to appear in the tag display. The toggleable property will NOT appear as a separate bullet point in the type-specific bullets section.
 
 ---
 
@@ -315,23 +673,41 @@ The `Step10Review` component uses `mapWizardStateToPreviewState()` to transform 
 **Damage Type Suffix Logic:**
 - **Priority**: `damageTypes[]` array → `typeConfig.school` + `typeConfig.secondaryElement` → `damageConfig.elementType`
 - **Multiple Types**: "Cold and Lightning Damage" (joined with "and")
+  - **To get multiple types**: Set both `typeConfig.school` AND `typeConfig.secondaryElement` in Step 1
+  - Example: `school: "fire"` + `secondaryElement: "cold"` → "Fire and Cold Damage"
 - **Single Type**: "Fire Damage" (capitalized)
+  - **To get single type**: Only set `typeConfig.school` in Step 1
 - **Normalization**: `ice/frost` → `cold`, `electric` → `lightning`, `holy` → `radiant`, `shadow` → `necrotic`
+- **⚠️ REMINDER**: If your spell should deal multiple damage types, make sure to set BOTH `school` and `secondaryElement` in Step 1!
 
 **Instant Damage:**
 ```
 Resolution = DICE:
   "{cleanedFormula}{damageTypeSuffix}"
   Example: "2d6 + Intelligence Fire Damage"
+  
+  With Chance On Hit:
+  "{cleanedFormula}{damageTypeSuffix} • {chanceInfo}"
+  Example: "2d6 + Intelligence Fire Damage • 15% chance on hit: Target is stunned"
 
 Resolution = CARDS:
   "Draw {drawCount} cards: {cleanedFormula}{damageTypeSuffix}"
   Example: "Draw 3 cards: CARD_VALUE + POKER_HAND_RANK * 3 Fire Damage"
+  
+  With Chance On Hit:
+  "Draw {drawCount} cards: {cleanedFormula}{damageTypeSuffix} • {chanceInfo}"
+  Example: "Draw 3 cards: CARD_VALUE + POKER_HAND_RANK * 3 Fire Damage • 25% chance (Face Cards): Target burns"
 
 Resolution = COINS:
   "Flip {flipCount} coins: {cleanedFormula}{damageTypeSuffix}"
   Example: "Flip 4 coins: HEADS_COUNT * 6 + LONGEST_STREAK * 2 Fire Damage"
+  
+  With Chance On Hit:
+  "Flip {flipCount} coins: {cleanedFormula}{damageTypeSuffix} • {chanceInfo}"
+  Example: "Flip 4 coins: HEADS_COUNT * 6 + LONGEST_STREAK * 2 Fire Damage • 15% chance (All Heads): Target is stunned"
 ```
+
+**Note**: Chance on hit is integrated directly into the instant damage mechanics text with a bullet separator (•), not shown as a separate "Chance Effect" entry.
 
 **DoT (Damage Over Time):**
 ```
@@ -376,6 +752,7 @@ Different formulas:
 - `damageConfig.triggerCondition` (string) - When damage occurs: 'area_entry', 'damage_taken', etc.
 - `damageConfig.triggerDescription` (string) - Description of trigger condition
 - `damageConfig.description` (string) - General damage effect description
+- `damageConfig.chanceOnHitConfig` (object) - Chance-based additional effects (integrated into instant damage display)
 - `cardConfig.formula` / `cardConfig.drawCount`
 - `coinConfig.formula` / `coinConfig.flipCount`
 - `resolution` ('DICE', 'CARDS', 'COINS')
@@ -426,6 +803,22 @@ Example: "Area Damage: 1d6 Fire - Creatures that enter or start their turn in fl
 - **Format**: `"DC {dc} {saveType} ({outcome})"`
 - **Display Location**: Below damage text
 - **Legacy Support**: Also supports `damageConfig.savingThrow`, `damageConfig.difficultyClass`, `damageConfig.partialEffect`, `damageConfig.partialEffectFormula`
+
+**⚠️ CRITICAL - Saving Throw Display Rules:**
+
+**For Damage Effects:**
+- Saving throws are **integrated into the damage mechanics text**, not shown as separate effects
+- They appear as part of the damage description: `"DC {dc} {saveType} ({outcome})"`
+- Example: `"3d6 Cold Damage • DC 14 Constitution (halves)"`
+
+**For Debuff/Control Effects:**
+- Saving throws are **shown as separate "Saving Throw" effect entries**
+- Format: `"Saving Throw - DC {dc} {saveType} save • {outcome}"`
+- Example: `"Saving Throw - DC 14 Constitution save • negates"`
+
+**For Buff Effects:**
+- Saving throws are **not typically used** for buff effects (buffs are beneficial)
+- If present, they follow the same rules as debuff/control effects
 
 #### Healing Effects (formatHealing function)
 
@@ -506,7 +899,7 @@ Example: "2d8 + Spirit Healing. 1d4 + Spirit/2 per round for 3 rounds. 2d6 + Spi
 - **If `buffConfig` exists**: Shows detailed buff effects based on configuration
 - **If `buffConfig` missing but 'buff' in `effectTypes`**: Shows generic "Buff Effect - Effect details not configured"
 
-**Stat Modifiers:**
+**Stat Enhancements:**
 ```
 "+{magnitude} {statName}" or "+{magnitude}% {statName}"
 Example: "+2 Strength" or "+10% Intelligence"
@@ -524,9 +917,10 @@ Example: "Haste: +1 action per turn"
 Example: "1d6 + Constitution Temporary Hit Points"
 ```
 
-**Custom Description:**
+**Progressive Buffs:**
 ```
-"{customDescription}" (if provided)
+"Round 1: {formula1} → Round 2: {formula2}"
+Example: "Round 1: +1 Strength → Round 2: +2 Strength → Round 3: +3 Strength"
 ```
 
 **Duration Display:**
@@ -541,53 +935,173 @@ Concentration: "{duration} ({durationUnit}) (Concentration)"
 ```
 
 **Fields Used:**
-- `buffConfig.buffType` ('statEnhancement', 'temporaryHP', 'statusEffect', 'custom')
-- `buffConfig.statModifiers[]` - **Array of stat modifier objects** (preferred format)
-  - `statModifier.id` (string) - Unique identifier for the modifier
-  - `statModifier.name` (string) - Display name (e.g., "Heat Shield", "Damage Reduction")
-  - `statModifier.stat` (string) - Stat being modified (e.g., 'damage_reduction', 'armor', 'strength', 'intelligence')
-  - `statModifier.value` (number) - The numeric value (same as magnitude, for clarity)
-  - `statModifier.magnitude` (number | string) - The amount of change (number or dice formula like '2d6 + 4')
-  - `statModifier.magnitudeType` ('flat' or 'percentage') - Whether the magnitude is flat or percentage
-  - `statModifier.isPercentage` (boolean) - Whether this is a percentage modifier
-  - `statModifier.description` (string, optional) - Human-readable description of what this modifier does
-- `buffConfig.effects[]` - Alternative format (legacy, but still supported)
-  - `effect.id` / `effect.name`
-  - `effect.statModifier.stat`
-  - `effect.statModifier.magnitude`
-  - `effect.statModifier.magnitudeType` ('flat' or 'percentage')
-  - `effect.description`
-- `buffConfig.durationValue` / `buffConfig.duration` (number) - Duration value
-- `buffConfig.durationType` ('instant', 'rounds', 'turns', 'permanent', 'rest', 'minutes', 'hours')
+- `buffConfig.buffType` ('statEnhancement', 'temporaryHP', 'statusEffect', 'progressive', 'custom')
+- `buffConfig.effects[]` - **REQUIRED**: Array of effect objects (preferred structure)
+- `buffConfig.statModifiers[]` - **DEPRECATED**: Legacy array of stat modifier objects (use `effects` instead)
+- `buffConfig.durationValue` / `buffConfig.duration` - **REQUIRED**: Duration value
+- `buffConfig.durationType` - **REQUIRED**: 'instant', 'rounds', 'turns', 'minutes', 'hours', 'permanent', etc.
 - `buffConfig.durationUnit` (string) - **REQUIRED**: Must match durationType (e.g., 'rounds', 'turns', 'minutes')
 - `buffConfig.concentrationRequired` (boolean)
 - `buffConfig.canBeDispelled` (boolean)
+- `buffConfig.isProgressive` (boolean)
+- `buffConfig.progressiveStages[]` - Array of stage objects for progressive buffs
 - `buffConfig.maxStacks` (number)
 - `buffConfig.stackingRule` ('replace', 'stack', 'refresh')
 - `buffConfig.customDescription` (string)
+
+**⚠️ CRITICAL - buffConfig.effects Array Structure:**
+
+The `buffConfig.effects[]` array is the **REQUIRED** structure for all buff effects. Each effect object can have:
+
+**For Stat Enhancement Effects:**
+```javascript
+buffConfig: {
+  buffType: 'statEnhancement',
+  effects: [{
+    id: 'strength_boost',
+    name: 'Strength Boost',
+    description: 'Increases target strength', // Optional
+    statModifier: {
+      stat: 'strength', // Required: stat name (no underscores, use 'armor' not 'armor_class')
+      magnitude: 2, // Required: enhancement amount
+      magnitudeType: 'flat' // Required: 'flat' or 'percentage'
+    }
+  }],
+  durationValue: 3,
+  durationType: 'rounds',
+  durationUnit: 'rounds', // ⚠️ Required!
+  concentrationRequired: false,
+  canBeDispelled: true
+}
+```
+
+**Display Format:**
+- Effect Name: "{effect.name}" (e.g., "Strength Boost")
+- Description: "{description with complete natural language including amounts and duration}" (e.g., "Gain +2 Strength for 3 rounds")
+- Mechanics: **ALWAYS EMPTY** - All information must be in the description
+- **⚠️ CRITICAL - Stat Modifier Display Rules**:
+  - **NO SEPARATE STAT MODIFIER TEXT**: Stat modifier values (like "+1 ActionPoints", "+2 RageDecay") are NEVER displayed as separate black text
+  - **ALL INFORMATION IN DESCRIPTION**: All stat modifier information must be written in natural language within the grey description text
+  - **Description Format**: Use natural, complete sentences with exact amounts and durations
+    - ✅ **GOOD**: "1 Extra action point from adrenaline surge, but your rage decays by 2 per round for 2 rounds"
+    - ✅ **GOOD**: "Gain +2 armor for 3 rounds"
+    - ✅ **GOOD**: "Your rage decays by 2 points per round for 2 rounds"
+    - ❌ **BAD**: "Extra action points from adrenaline surge, but rage decays faster" (missing amounts and duration)
+    - ❌ **BAD**: "Adrenaline causes rage to decay 2 points per round" (missing duration)
+  - **Include Duration**: Always specify the duration in the description (e.g., "for 2 rounds", "for 1 minute")
+  - **Include Exact Amounts**: Always specify exact numerical values (e.g., "1 Extra action point", "2 points per round", "+2 armor")
+  - **UnifiedSpellCard automatically suppresses stat modifier display** - descriptions must contain everything
+
+**⚠️ STAT NAMING CONVENTIONS:**
+- Use single words without underscores: `strength`, `armor`, `defense`, `damage_resistance`
+- Common stat names: `strength`, `constitution`, `agility` (not dexterity), `intelligence`, `spirit` (not wisdom), `charisma`, `armor`, `saving_throws`, `damage_resistance`, `damage_immunity`, etc.
+- Avoid: `armor_class` (use `armor`), `saving_throw_advantage` (use `saving_throws`)
+- **Variable references**: Use camelCase without underscores: `drpSpent` (not `drp_spent`), `healthCost` (not `health_cost`)
+
+**For Status Effects:**
+```javascript
+buffConfig: {
+  buffType: 'statusEffect',
+  effects: [{
+    id: 'haste',
+    name: 'Haste',
+    description: 'Increases action speed',
+    statusType: 'haste', // Optional: status effect type
+    level: 'moderate', // Optional: severity level
+    // Can include status-specific configs (speedMultiplier, actionBonus, etc.)
+  }],
+  durationValue: 2,
+  durationType: 'rounds',
+  durationUnit: 'rounds', // ⚠️ Required!
+  concentrationRequired: true,
+  canBeDispelled: false
+}
+```
+
+**Display Format:**
+- Effect Name: "{effect.name}" (e.g., "Haste")
+- Description: "{description} • {durationValue} {durationType}"
+- Mechanics: **EMPTY** - All information is in the description
+- **⚠️ CRITICAL**: **mechanicsText MUST be empty** for status effects - description contains all information
+
+**For Temporary HP:**
+```javascript
+buffConfig: {
+  buffType: 'temporaryHP',
+  effects: [{
+    id: 'temp_hp',
+    name: 'Temporary Hit Points',
+    description: 'Grants temporary health',
+    tempHPFormula: '1d6 + constitution', // Formula for temp HP
+    tempHPType: 'standard' // 'standard', 'barrier', 'shield'
+  }],
+  durationValue: 1,
+  durationType: 'hours',
+  durationUnit: 'hours', // ⚠️ Required!
+  concentrationRequired: false,
+  canBeDispelled: false
+}
+```
+
+**Display Format:**
+- Effect Name: "{effect.name}" (e.g., "Temporary Hit Points")
+- Description: "{description} • {durationValue} {durationType}"
+- Mechanics: "{tempHPFormula} Temporary Hit Points" (e.g., "1d6 + Constitution Temporary Hit Points")
+
+**For Progressive Buffs:**
+```javascript
+buffConfig: {
+  buffType: 'progressive',
+  isProgressive: true,
+  progressiveStages: [{
+    round: 1,
+    formula: '+1',
+    description: 'Minor enhancement'
+  }, {
+    round: 2,
+    formula: '+2',
+    description: 'Moderate enhancement'
+  }, {
+    round: 3,
+    formula: '+3',
+    description: 'Major enhancement'
+  }],
+  durationValue: 3,
+  durationType: 'rounds',
+  durationUnit: 'rounds', // ⚠️ Required!
+  concentrationRequired: false,
+  canBeDispelled: true
+}
+```
+
+**Display Format:**
+- Shows progressive enhancement over time
+- "Round 1: +1 enhancement → Round 2: +2 enhancement → Round 3: +3 enhancement"
+
+**⚠️ IMPORTANT**:
+- Always configure `buffConfig.effects[]` array when 'buff' is in `effectTypes`
+- Always include `durationValue` and `durationType` (even if instant)
+- Always include `durationUnit` that matches `durationType`
+- The component will show "BUFF EFFECT - {duration} Configure stat modifiers or status effects below" if `effects` array is missing or empty
+- Use `buffConfig.effects[]` instead of deprecated `statModifiers[]` array for new spells
 
 **⚠️ CRITICAL - Damage Reduction and Protection Buffs:**
 
 When creating buffs that provide damage reduction or protection, you **MUST** include complete details and clearly specify the mechanic type:
 
-1. **Use `statModifiers` array** (preferred format):
+1. **Use `effects` array** (preferred format):
 ```javascript
 buffConfig: {
   buffType: 'statEnhancement',
-  statModifiers: [{
+  effects: [{
     id: 'unique_id_for_this_modifier',
     name: 'Display Name',  // e.g., "Heat Shield", "Protective Aura"
-    stat: 'damage_reduction',  // Use 'damage_reduction' for flat damage reduction
-    value: 2,  // The amount of damage reduction
-    magnitude: 2,  // Same as value
-    magnitudeType: 'flat',  // 'flat' for fixed amount, 'percentage' for %
-    isPercentage: false,
-    // ⚠️ CRITICAL: Description must clearly specify the mechanic type
-    description: 'Reduces incoming damage by 2 (flat reduction)'  // OR
-    description: 'Provides 2 flat damage reduction per hit'  // OR
-    description: 'Reduces all incoming damage by 2 points (not absorption)'
-    // DO NOT use vague terms like "protection" or "shield" without clarification
-    // DO NOT imply absorption/barrier mechanics unless that's the actual mechanic
+    description: 'Reduces incoming damage by 2 (flat reduction)',  // ⚠️ CRITICAL: Description must clearly specify the mechanic type
+    statModifier: {
+      stat: 'damage_reduction',  // Use 'damage_reduction' for flat damage reduction
+      magnitude: 2,  // The amount of damage reduction
+      magnitudeType: 'flat'  // 'flat' for fixed amount, 'percentage' for %
+    }
   }],
   durationValue: 2,
   durationType: 'rounds',
@@ -618,12 +1132,12 @@ buffConfig: {
      - Description: "Grants 1d6 + Constitution temporary hit points"
 
 3. **Always include:**
-   - ✅ `statModifiers[].id` - Unique identifier
-   - ✅ `statModifiers[].name` - Display name
-   - ✅ `statModifiers[].stat` - The stat being modified
-   - ✅ `statModifiers[].value` and `statModifiers[].magnitude` - The amount
-   - ✅ `statModifiers[].magnitudeType` - 'flat' or 'percentage'
-   - ✅ `statModifiers[].description` - Clear description of the effect
+   - ✅ `effects[].id` - Unique identifier
+   - ✅ `effects[].name` - Display name
+   - ✅ `effects[].statModifier.stat` - The stat being modified
+   - ✅ `effects[].statModifier.magnitude` - The amount
+   - ✅ `effects[].statModifier.magnitudeType` - 'flat' or 'percentage'
+   - ✅ `effects[].description` - Clear description of the effect
    - ✅ `durationUnit` - Must match `durationType` (e.g., if `durationType: 'rounds'`, then `durationUnit: 'rounds'`)
 
 4. **Example - Complete Damage Reduction Buff (Pyrofiend Heat Shield):**
@@ -641,17 +1155,16 @@ buffConfig: {
   },
   buffConfig: {
     buffType: 'statEnhancement',
-    statModifiers: [{
+    effects: [{
       id: 'heat_shield_damage_reduction',
       name: 'Heat Shield',
-      stat: 'damage_reduction',
-      value: 2,
-      magnitude: 2,
-      magnitudeType: 'flat',
-      isPercentage: false,
       // ⚠️ CRITICAL: Description must specify this is flat reduction, not absorption
-      description: 'Reduces incoming damage by 2 (flat reduction per hit)'
-      // Alternative: 'Provides 2 flat damage reduction (not an absorption pool)'
+      description: 'Reduces incoming damage by 2 (flat reduction per hit)',
+      statModifier: {
+        stat: 'damage_reduction',  // Use 'damage_reduction' for flat damage reduction
+        magnitude: 2,  // The amount of damage reduction
+        magnitudeType: 'flat'  // 'flat' for fixed amount, 'percentage' for %
+      }
     }],
     durationValue: 2,
     durationType: 'rounds',
@@ -686,11 +1199,20 @@ buffConfig: {
 }
 ```
 
-**⚠️ IMPORTANT**: 
-- Always configure `buffConfig` when 'buff' is in `effectTypes`. The component will show "Buff Effect - Effect details not configured" if only the effect type is present without proper configuration.
-- **Never leave damage reduction or protection effects without complete details** - always include `statModifiers` with full information including `description` and ensure `durationUnit` matches `durationType`.
+**⚠️ IMPORTANT**:
+- Always configure `buffConfig.effects[]` array when 'buff' is in `effectTypes`
+- Always include `durationValue` and `durationType` (even if instant)
+- Always include `durationUnit` that matches `durationType`
+- The component will show "BUFF EFFECT - {duration} Configure stat modifiers or status effects below" if `effects` array is missing or empty
+- **Never leave damage reduction or protection effects without complete details** - always include `effects` with full information including `description` and ensure `durationUnit` matches `durationType`.
 - **For damage reduction**: Always specify in the description that it's a "flat reduction" (not absorption/barrier) to avoid confusion.
 - **For Pyrofiend spells**: Always include `actionPoints` (2 for most spells, 1 for weaker utility spells) and include `inferno_ascend`/`inferno_descend` in `resourceTypes` and `resourceValues` when applicable.
+- **For Deathcaller spells**: Always use formulas for health costs (`useFormulas.health = true`), include `bloodTokens` in `resourceTypes` if spell can spend tokens for bonus damage, and include `ascension_required` as string values (e.g., "crimson_pact").
+- **For Dreadnaught spells**: Always include `drp` in `resourceTypes` and `resourceValues` for spells that consume Dark Resilience Points. DRP is generated at 1 point per 5 damage taken (maximum 50).
+- **For summoning effects**: Use `summonConfig` with a `creatures` array containing complete creature objects (not the legacy `summoningConfig` format).
+- **For advanced targeting**: Include `targetSelectionMethod`, `requiresLineOfSight`, `propagationMethod`, and `propagationBehavior` for sophisticated spell targeting behavior.
+- **For effect-specific targeting**: Use `targetingMode: 'effect'` and `effectTargeting` object when different effects in the same spell need different targeting (e.g., damage targets enemies while healing targets self).
+- Use `buffConfig.effects[]` instead of deprecated `statModifiers[]` array for new spells
 
 #### Debuff Effects
 
@@ -723,11 +1245,17 @@ Example: "DC 15 Constitution (negates)" or "DC 14 Strength (halves)"
 
 **Fields Used:**
 - `debuffConfig.debuffType` ('statReduction', 'statusEffect', 'progressive', 'custom')
-- `debuffConfig.effects[]` - Array of effect objects (same structure as buff)
-- `debuffConfig.durationValue` / `debuffConfig.duration`
-- `debuffConfig.durationType`
-- `debuffConfig.difficultyClass` (number)
-- `debuffConfig.savingThrow` (stat name)
+- `debuffConfig.effects[]` - **REQUIRED**: Array of effect objects (preferred structure)
+- `debuffConfig.statPenalties[]` - **DEPRECATED**: Legacy array of stat penalty objects (use `effects` instead)
+- `debuffConfig.statModifiers[]` - **DEPRECATED**: Legacy array of stat modifier objects (use `effects` instead)
+- `debuffConfig.statusEffects[]` - **DEPRECATED**: Legacy array of status effect objects (use `effects` instead)
+- `debuffConfig.durationValue` / `debuffConfig.duration` - **REQUIRED**: Duration value
+- `debuffConfig.durationType` - **REQUIRED**: 'instant', 'rounds', 'turns', 'minutes', 'hours', 'permanent', etc.
+- `debuffConfig.difficultyClass` (number) - Alternative to `saveDC`
+- `debuffConfig.saveDC` (number) - Alternative to `difficultyClass`
+- `debuffConfig.savingThrow` (stat name) - Alternative to `saveType` or `savingThrowType`
+- `debuffConfig.saveType` (stat name) - Alternative to `savingThrow` or `savingThrowType`
+- `debuffConfig.savingThrowType` (stat name) - Alternative to `saveType` or `savingThrow`
 - `debuffConfig.saveOutcome` ('negates', 'halves_effects', 'ends_early', etc.)
 - `debuffConfig.canBeDispelled` (boolean)
 - `debuffConfig.concentrationRequired` (boolean)
@@ -737,7 +1265,71 @@ Example: "DC 15 Constitution (negates)" or "DC 14 Strength (halves)"
 - `debuffConfig.stackingRule`
 - `debuffConfig.maxStacks`
 
-**⚠️ IMPORTANT**: Always configure `debuffConfig` when 'debuff' is in `effectTypes`. The component will show "Debuff Effect - Effect details not configured" if only the effect type is present without proper configuration.
+**⚠️ CRITICAL - debuffConfig.effects Array Structure:**
+
+The `debuffConfig.effects[]` array is the **REQUIRED** structure for all debuff effects. Each effect object can have:
+
+**For Stat Reduction Effects:**
+```javascript
+debuffConfig: {
+  debuffType: 'statReduction',
+  effects: [{
+    id: 'weakened',
+    name: 'Weakened',
+    description: 'Reduces target strength', // Optional
+    statModifier: {
+      stat: 'strength', // Required: stat name
+      magnitude: 2, // Required: reduction amount
+      magnitudeType: 'flat' // Required: 'flat' or 'percentage'
+    }
+  }],
+  durationValue: 4,
+  durationType: 'rounds',
+  saveDC: 14, // or difficultyClass
+  saveType: 'constitution' // or savingThrowType
+}
+```
+
+**Display Format:**
+- Effect Name: "{effect.name}" (e.g., "Weakened")
+- Description: "{description} • DC {saveDC} {saveType} save • {durationValue} {durationType}"
+- Mechanics: "-{magnitude}{%} {statName}" (e.g., "-2 Strength")
+
+**For Status Effects:**
+```javascript
+debuffConfig: {
+  debuffType: 'statusEffect',
+  effects: [{
+    id: 'slow',
+    name: 'Slow',
+    description: 'Reduces movement speed',
+    statusType: 'slow', // Optional: status effect type
+    level: 'moderate', // Optional: severity level
+    // Can include status-specific configs (charmType, fearStrength, etc.)
+  }],
+  durationValue: 3,
+  durationType: 'rounds',
+  durationUnit: 'rounds', // ⚠️ REQUIRED: Must match durationType
+  saveDC: 15,
+  saveType: 'constitution',
+  saveOutcome: 'negates' // ⚠️ RECOMMENDED: Specify save outcome ('negates', 'halves', etc.)
+}
+```
+
+**Display Format:**
+- Effect Name: "{effect.name}" (e.g., "Slow")
+- Description: "{description} • DC {saveDC} {saveType} save ({saveOutcome}) • for {durationValue} {durationType}"
+- Mechanics: **EMPTY** - All information is in the description
+- **⚠️ CRITICAL**: 
+  - Save information is integrated into the description - NO separate "Saving Throw" effect is created
+  - **mechanicsText MUST be empty** for status effects - description contains all information
+  - **DO NOT** add redundant mechanics like "Movement speed reduced by 50%" when description already has "Movement speed reduced by 10 feet"
+
+**⚠️ IMPORTANT**: 
+- Always configure `debuffConfig.effects[]` array when 'debuff' is in `effectTypes`
+- Always include `durationValue` and `durationType` (even if instant)
+- The component will show "DEBUFF EFFECT - {duration} Configure stat penalties or status effects below" if `effects` array is missing or empty
+- Use `debuffConfig.effects[]` instead of deprecated `statPenalties[]`, `statModifiers[]`, or `statusEffects[]` arrays
 
 #### Status Effect Detailed Configurations
 
@@ -749,7 +1341,8 @@ Status effects (both buffs and debuffs) can have detailed configurations:
 
 **Status Effect Save Configurations:**
 Each status effect can have its own save configuration:
-- `saveType` (enum: 'strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'wisdom', 'none')
+- `saveType` (enum: 'strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'none')
+  - **⚠️ IMPORTANT**: Use `agility` (not `dexterity` or `dex`) and `spirit` (not `wisdom` or `wis`)
 - `saveDC` (number) - Difficulty class for this specific effect
 - `saveOutcome` (enum):
   - 'negates' - Negates the effect completely
@@ -857,202 +1450,36 @@ With description:
 
 #### Control Effects
 
-**Display Format:**
-```
-"{controlType} (DC {saveDC} {saveType} save)"
-Example: "Forced Movement (DC 14 Strength save)"
-```
-
-**Fields Used:**
-- `controlConfig.controlType` ('forcedMovement', 'restraint', 'mental', 'environmental')
-- `controlConfig.strength` ('weak', 'moderate', 'strong')
-- `controlConfig.duration` (number)
-- `controlConfig.saveDC` (number)
-- `controlConfig.saveType` (stat name)
-- `controlConfig.specialEffects[]`
-
-#### Summoning Effects
-
-**Display Format:**
-```
-"Summon {creatureType} ({creatureStrength})"
-"Duration: {duration} rounds"
-"Minions: {minions}"
-"Control: {controlType}"
-```
-
-**Fields Used:**
-- `summoningConfig.creatureType` ('elemental', 'undead', 'beast', 'construct', etc.)
-- `summoningConfig.creatureStrength` ('weak', 'moderate', 'strong')
-- `summoningConfig.duration` (number)
-- `summoningConfig.minions` (number)
-- `summoningConfig.controlType` ('mental', 'pact', 'bound')
-
-#### Transformation Effects
-
-**Display Format:**
-```
-"{transformationType} Transformation"
-"Target: {targetType}"
-"Duration: {duration} rounds"
-"Power: {power}"
-```
-
-**Fields Used:**
-- `transformationConfig.transformationType` ('physical', 'mental', 'elemental', 'shapechange')
-- `transformationConfig.targetType` ('self', 'target')
-- `transformationConfig.duration` (number)
-- `transformationConfig.power` ('minor', 'moderate', 'major')
-- `transformationConfig.specialEffects[]`
-
-#### Purification Effects
-
-**Display Format:**
-```
-"{purificationType} - {targetType}"
-"Power: {power}"
-"Duration: {duration}"
-```
-
-**Fields Used:**
-- `purificationConfig.purificationType` ('dispel', 'cleanse', 'remove_curse', 'banish')
-- `purificationConfig.targetType` ('self', 'single', 'area')
-- `purificationConfig.power` ('minor', 'moderate', 'major')
-- `purificationConfig.duration` ('instant' or number)
-- `purificationConfig.specialEffects[]`
-
-#### Restoration Effects
-
-**Display Format Logic:**
-- **If `restorationConfig` exists**: Shows detailed restoration effects based on configuration
-- **If `restorationConfig` missing but 'restoration' in `effectTypes`**: Shows generic "Restoration Effect - Effect details not configured"
-
-**Instant Restoration:**
-```
-"{resourceDisplayName} Restoration: {cleanedFormula} {resourceName} Restored"
-Example: "Mana Restoration: 2d6 + Spirit Mana Restored"
-```
-
-**Over Time Restoration:**
-```
-"{resourceDisplayName} Over Time"
-"Every {frequency} for {duration} {frequency}s - {applicationText}"
-"{cleanedFormula} {resourceName} per {frequency}"
-```
-
-**Resurrection Effects:**
-```
-"Resurrection"
-"Brings the dead back to life"
-"Restores {restoredHealth} health • {restoredMana} mana • Removes: {removesConditions}"
-"Casting time: {castingTime} {timeUnit}"
-"Must be cast within {timeLimit} {limitUnit} of death"
-"Penalty: {penalty.type} level {penalty.level}" (if applicable)
-```
-
-**Fields Used:**
-- `restorationConfig.resourceType` ('mana', 'health', 'stamina', etc.)
-- `restorationConfig.resolution` ('DICE', 'CARDS', 'COINS')
-- `restorationConfig.formula`
-- `restorationConfig.isOverTime` (boolean)
-- `restorationConfig.overTimeFormula`
-- `restorationConfig.overTimeDuration`
-- `restorationConfig.tickFrequency`
-- `restorationConfig.application` ('start', 'end', 'both')
-- `restorationConfig.scalingType` ('flat', 'percentage')
-- `restorationConfig.restorationType` ('resurrection', etc.)
-- `restorationConfig.restoredHealth` / `restorationConfig.restoredMana`
-- `restorationConfig.removesConditions[]`
-- `restorationConfig.castingTime` / `restorationConfig.castingTimeUnit`
-- `restorationConfig.timeLimit` / `restorationConfig.timeLimitUnit`
-- `restorationConfig.penaltyOnRevive`
-
-**⚠️ IMPORTANT**: Always configure `restorationConfig` when 'restoration' is in `effectTypes`. The component will show "Restoration Effect - Effect details not configured" if only the effect type is present without proper configuration.
-
-#### Utility Effects
-
-**Display Format Logic:**
-- **If `utilityConfig` exists**: Shows detailed utility effects based on configuration
-- **If `utilityConfig` missing but 'utility' in `effectTypes`**: Shows generic "Utility Effect - Effect details not configured"
-
-**Movement Effects:**
-```
-"Flight: {flightType} at {flightSpeed} ft/round, max altitude {maxAltitude} ft"
-"Teleport: Teleport up to {distance} ft ({needsLineOfSight}, {takesOthers})"
-```
-
-**Information Effects:**
-```
-"Detect Magic: Reveals magical auras within {range} ft"
-"True Sight: See through illusions and invisibility within {range} ft"
-```
-
-**Transformation Effects:**
-```
-"Water Breathing: Breathe underwater for the duration"
-"Water Walking: Walk on water as if it were solid ground"
-"Invisibility: Become invisible ({breaksOnAttack})"
-```
-
-**Environmental Effects:**
-```
-"Light: Create {lightType} light in {radius} ft radius"
-"Darkness: Create magical darkness in {radius} ft radius"
-```
-
-**Fields Used:**
-- `utilityConfig.utilityType` ('movement', 'information', 'transformation', 'environment', etc.)
-- `utilityConfig.selectedEffects[]` - Array of utility effects
-- `utilityConfig.enhancementType` / `utilityConfig.enhancementValue`
-- `utilityConfig.duration` / `utilityConfig.durationUnit`
-- `utilityConfig.concentration` (boolean)
-- `utilityConfig.power` ('minor', 'moderate', 'major')
-
-**⚠️ IMPORTANT**: Always configure `utilityConfig` when 'utility' is in `effectTypes`. The component will show "Utility Effect - Effect details not configured" if only the effect type is present without proper configuration.
-
-#### Control Effects
-
 **Display Format Logic:**
 - **If `controlConfig` exists**: Shows detailed control effects based on configuration
 - **If `controlConfig` missing but 'control' in `effectTypes`**: Shows generic "Control Effect - Effect details not configured"
 
-**Forced Movement:**
+**Display Format:**
 ```
-"Forced Movement (DC {saveDC} {saveType} save)"
-"Pull: Pulls target {distance} feet toward caster"
-"Push: Pushes target {distance} feet away from caster"
-"Slide: Slides target {distance} feet in any direction"
-"Teleport: Teleports target up to {distance} feet"
-```
-
-**Restraint:**
-```
-"Restraint (DC {saveDC} {saveType} save)"
-"Binding: Target cannot move or take reactions"
-"Slow: Target's movement speed reduced"
-"Snare: Target is rooted in place"
-```
-
-**Mental Control:**
-```
-"Mental Control (DC {saveDC} {saveType} save)"
-"Charm: Target treats you as a friendly ally"
-"Dominate: Target obeys your commands"
+Effect Name: "{effect.name}" (e.g., "Stun")
+Description: "{description} • {duration} {durationUnit} • DC {saveDC} {saveType} save"
+Mechanics: Effect-specific mechanical details (e.g., movement distance, restraint type) - **DO NOT duplicate duration/save info**
 ```
 
 **Fields Used:**
-- `controlConfig.controlType` ('forcedMovement', 'restraint', 'knockdown', 'incapacitation', 'mind_control', 'restriction')
+- `controlConfig.controlType` ('forcedMovement', 'restraint', 'incapacitation', 'mind_control', 'knockdown', 'restriction')
 - `controlConfig.strength` ('weak', 'moderate', 'strong')
 - `controlConfig.duration` (number) - Duration in rounds (0 for instant)
-- `controlConfig.durationUnit` (string) - 'instant', 'rounds', 'turns', etc.
-- `controlConfig.saveDC` (number) - Difficulty class for saving throw
-- `controlConfig.saveType` (string) - Stat name for saving throw ('strength', 'agility', 'constitution', etc.)
-- `controlConfig.savingThrow` (boolean) - Whether a saving throw is required
+- `controlConfig.durationUnit` (string) - **REQUIRED**: 'instant', 'rounds', 'turns', etc. (must match duration)
+- `controlConfig.saveDC` (number) - Difficulty class for saving throw (alternative to `difficultyClass`)
+- `controlConfig.difficultyClass` (number) - Difficulty class for saving throw (alternative to `saveDC`)
+- `controlConfig.saveType` (string) - Stat used for saving throw ('strength', 'agility', 'constitution', etc.) (alternative to `savingThrowType`)
+- `controlConfig.savingThrowType` (string) - Stat used for saving throw (alternative to `saveType`)
+- `controlConfig.savingThrow` (boolean) - Whether saving throw is required
 - `controlConfig.effects[]` - **REQUIRED**: Array of effect objects with proper configuration
 
-**⚠️ CRITICAL - Forced Movement Configuration:**
+**⚠️ CRITICAL - Control Effects Configuration:**
 
-For forced movement effects (push, pull, slide, teleport), you **MUST** use the `effects` array format:
+For ALL control effects, you **MUST** use the `effects` array format. The `effects` array is **REQUIRED** for proper display.
+
+**Forced Movement Configuration:**
+
+For forced movement effects (push, pull, slide, teleport), use the `effects` array format:
 
 ```javascript
 controlConfig: {
@@ -1081,70 +1508,175 @@ controlConfig: {
 - `'slide'` - Slides target in any direction
 - `'teleport'` - Instantaneously relocates target
 
-**Example - Complete Pull Effect:**
+**Restraint Configuration:**
+
+For restraint effects (bind, slow, snare, web), use the `effects` array format:
+
 ```javascript
-{
-  id: 'pyro_flame_lash',
-  name: 'Flame Lash',
-  effectTypes: ['damage', 'control'],
-  controlConfig: {
-    controlType: 'forcedMovement',
-    strength: 'weak',
-    duration: 0,
-    durationUnit: 'instant',
-    saveDC: 12,
-    saveType: 'strength',
-    savingThrow: true,
-    effects: [{
-      id: 'pull',
-      name: 'Pull',
-      description: 'Pulls the target toward the caster',
-      config: {
-        movementType: 'pull',
-        distance: 15
-      }
-    }]
-  }
+controlConfig: {
+  controlType: 'restraint',
+  strength: 'moderate',
+  duration: 2,
+  durationUnit: 'rounds',
+  saveDC: 14,
+  saveType: 'strength',
+  savingThrow: true,
+  effects: [{
+    id: 'bind', // 'bind', 'slow', 'snare', or 'web'
+    name: 'Binding',
+    description: 'Physically restrains the target, preventing movement',
+    config: {
+      restraintType: 'physical'
+    }
+  }]
 }
 ```
 
-**⚠️ IMPORTANT**: 
-- Always use the `effects` array format for control effects
+**Common Restraint Types:**
+- `'bind'` - Physically restrains target
+- `'slow'` - Reduces movement speed
+- `'snare'` - Roots target in place
+- `'web'` - Entangles multiple targets
+
+**Incapacitation Configuration:**
+
+For incapacitation effects (sleep, stun, paralyze, daze), use the `effects` array format:
+
+```javascript
+controlConfig: {
+  controlType: 'incapacitation',
+  strength: 'moderate',
+  duration: 1,
+  durationUnit: 'rounds',
+  saveDC: 14,
+  saveType: 'constitution',
+  savingThrow: true,
+  effects: [{
+    id: 'stun', // 'sleep', 'stun', 'paralyze', or 'daze'
+    name: 'Stun',
+    description: 'Leaves the target stunned, unable to act or react',
+    config: {
+      durationType: 'temporary',
+      recoveryMethod: 'automatic'
+    }
+  }]
+}
+```
+
+**Common Incapacitation Types:**
+- `'sleep'` - Puts target to sleep
+- `'stun'` - Stuns target (cannot act or react)
+- `'paralyze'` - Paralyzes target
+- `'daze'` - Dazes target
+
+**Mind Control Configuration:**
+
+For mind control effects (command, confuse, dominate, fear), use the `effects` array format:
+
+```javascript
+controlConfig: {
+  controlType: 'mind_control',
+  strength: 'moderate',
+  duration: 3,
+  durationUnit: 'rounds',
+  saveDC: 15,
+  saveType: 'charisma',
+  savingThrow: true,
+  effects: [{
+    id: 'dominate', // 'command', 'confuse', 'dominate', or 'fear'
+    name: 'Dominate',
+    description: 'Target obeys your commands',
+    config: {
+      controlLevel: 'suggestion',
+      mentalApproach: 'subtle'
+    }
+  }]
+}
+```
+
+**⚠️ IMPORTANT:**
+- **ALWAYS use the `effects` array format** for ALL control effects - it is REQUIRED
 - Each effect must have `id`, `name`, `description`, and `config` with proper settings
 - For forced movement, `config.movementType` must match the effect `id` ('pull', 'push', etc.)
 - Always include `distance` in the config for forced movement effects
-- Never leave control effects without complete details in the `effects` array
+- **Never use `specialEffects` array** - always use `effects` array instead
+- **Never leave control effects without the `effects` array** - spells will show "Effect details not configured" if missing
+- **Match controlType to effect type**: 'stun' requires `controlType: 'incapacitation'`, not 'restraint'
 
 #### Summoning Effects
 
-**Display Format Logic:**
-- **If `summoningConfig` exists**: Shows detailed summoning effects based on configuration
-- **If `summoningConfig` missing but 'summoning' in `effectTypes`**: Shows generic "Summoning Effect - Effect details not configured"
-
-**Creature Summoning:**
+**Display Format:**
 ```
-"Summon {creatureType} ({creatureStrength})"
-"Minions: {minions}"
-"Duration: {duration} rounds"
-"Control: {controlType}"
-```
-
-**Elemental Summoning:**
-```
-"Summon {quantity}x {creatureType} Elementals"
-"Power: {creatureStrength}"
-"Control Range: {controlRange} ft"
+Effect Name: "Summon {creatureName} (×{quantity})"
+Description: "{size} {type} - {duration} {durationUnit} - {controlType} ({controlRange})"
+Mechanics: "HP: {hp} • Armor: {armor} • {description}" - Creature stats and abilities
 ```
 
 **Fields Used:**
-- `summoningConfig.creatureType` ('elemental', 'undead', 'beast', 'construct', etc.)
-- `summoningConfig.creatureStrength` ('weak', 'moderate', 'strong')
-- `summoningConfig.duration` (number)
-- `summoningConfig.minions` (number)
-- `summoningConfig.controlType` ('mental', 'pact', 'bound')
-- `summoningConfig.controlRange` (number)
+- `summonConfig.creatures[]` - Array of creature objects with:
+  - `id` (string) - Unique creature identifier
+  - `name` (string) - Display name of the creature
+  - `description` (string) - Creature description
+  - `size` (string) - Creature size ('Small', 'Medium', 'Large', etc.)
+  - `type` (string) - Creature type ('undead', 'elemental', 'beast', etc.)
+  - `tokenIcon` (string) - WoW icon for the creature
+  - `stats` (object) - Creature stats (maxHp, armor, maxMana, etc.)
+  - `config` (object) - Individual creature configuration:
+    - `quantity` (number) - How many of this creature to summon
+    - `duration` (number) - Duration value
+    - `durationUnit` (string) - Duration unit ('rounds', 'minutes', 'hours')
+    - `hasDuration` (boolean) - Whether the summon has a duration limit
+    - `concentration` (boolean) - Whether maintaining the summon requires concentration
+    - `controlType` (string) - Control method ('verbal', 'mental', 'empathic', 'autonomous')
+    - `controlRange` (number) - Maximum control distance in feet (0 = unlimited)
 
-**⚠️ IMPORTANT**: Always configure `summoningConfig` when 'summoning' is in `effectTypes`. The component will show "Summoning Effect - Effect details not configured" if only the effect type is present without proper configuration.
+**⚠️ CRITICAL - Summoning Format:**
+- **Use `summonConfig`, not `summoningConfig`** - The spell wizard uses `summonConfig` with a `creatures` array
+- **Each creature needs a complete creature object** - Include `id`, `name`, `description`, `size`, `type`, `tokenIcon`, `stats`, and `config`
+- **Creature stats should be dynamic** - Use formulas like `'health_sacrificed'` for HP that scales with spell mechanics
+- **Individual configuration per creature** - Each creature in the array can have different settings
+- **Legacy format supported** - `summoningConfig` with `creatureType`, `creatureStrength`, etc. still works for backward compatibility
+
+**Example - Complete Summoning Spell:**
+```javascript
+summonConfig: {
+  creatures: [{
+    id: 'spectral_warrior',
+    name: 'Spectral Warrior',
+    description: 'A ghostly warrior bound by necrotic energy',
+    size: 'Medium',
+    type: 'undead',
+    tokenIcon: 'ability_ghoulfrenzy',
+    stats: {
+      maxHp: 'health_sacrificed',  // Dynamic HP based on spell
+      armor: 12,
+      maxMana: 0
+    },
+    config: {
+      quantity: 1,
+      duration: 1,
+      durationUnit: 'minutes',
+      hasDuration: true,
+      concentration: false,
+      controlType: 'mental',
+      controlRange: 60
+    }
+  }],
+  duration: 1,        // Global duration fallback
+  durationUnit: 'minutes',
+  hasDuration: true,
+  concentration: false,
+  controlRange: 60,   // Global control range fallback
+  controlType: 'mental'
+}
+```
+
+**Display Result:**
+```
+Summon Spectral Warrior
+Medium undead - 1 minutes - Mental Link (60ft)
+HP: health_sacrificed • Armor: 12 • A ghostly warrior bound by necrotic energy
+```
 
 #### Transformation Effects
 
@@ -1152,62 +1684,30 @@ controlConfig: {
 - **If `transformationConfig` exists**: Shows detailed transformation effects based on configuration
 - **If `transformationConfig` missing but 'transformation' in `effectTypes`**: Shows generic "Transformation Effect - Effect details not configured"
 
-**Physical Transformation:**
+**Display Format:**
 ```
-"Physical Transformation"
-"Target: {targetType}"
-"Duration: {duration} rounds"
-"Power: {power}"
-```
-
-**Elemental Transformation:**
-```
-"Elemental Form: {elementType}"
-"Transform {transformPercent}% into elemental essence"
-"Duration: {duration} rounds"
-```
-
-**Shapechange:**
-```
-"Shapechange into {creatureType}"
-"Size: {size}"
-"Abilities: {abilities}"
+Effect Name: "{transformationType} Transformation"
+Description: "Target: {targetType} • Duration: {duration} {durationUnit} • Power: {power}"
+Mechanics: Special effects details (if any) - **DO NOT duplicate transformation type or duration**
 ```
 
 **Fields Used:**
 - `transformationConfig.transformationType` ('physical', 'mental', 'elemental', 'shapechange')
 - `transformationConfig.targetType` ('self', 'target')
 - `transformationConfig.duration` (number)
+- `transformationConfig.durationUnit` (string) - **REQUIRED**: 'rounds', 'minutes', 'hours', etc.
 - `transformationConfig.power` ('minor', 'moderate', 'major')
-- `transformationConfig.specialEffects[]`
+- `transformationConfig.specialEffects[]` - Array of special transformation effects
 
 **⚠️ IMPORTANT**: Always configure `transformationConfig` when 'transformation' is in `effectTypes`. The component will show "Transformation Effect - Effect details not configured" if only the effect type is present without proper configuration.
 
 #### Purification Effects
 
-**Display Format Logic:**
-- **If `purificationConfig` exists**: Shows detailed purification effects based on configuration
-- **If `purificationConfig` missing but 'purification' in `effectTypes`**: Shows generic "Purification Effect - Effect details not configured"
-
-**Dispel Effects:**
+**Display Format:**
 ```
-"Dispel Magic"
-"Removes {selectedEffects.length} magical effects"
-"Power: {power}"
-```
-
-**Cleanse Effects:**
-```
-"Cleanse: Remove {selectedEffects.length} conditions"
-"Conditions: {conditions.join(', ')}"
-"Power: {power}"
-```
-
-**Banishment:**
-```
-"Banish {targetType}"
-"Power: {power}"
-"Duration: {duration}"
+Effect Name: "{purificationType}" (e.g., "Cleanse All")
+Description: "{purificationType} - {targetType} • DC {saveDC} {saveType} save" (if save exists)
+Mechanics: "Removes: {effectsList}" or "Removes all negative effects" - **DO NOT duplicate purification type**
 ```
 
 **Fields Used:**
@@ -1217,7 +1717,52 @@ controlConfig: {
 - `purificationConfig.duration` ('instant' or number)
 - `purificationConfig.specialEffects[]`
 
-**⚠️ IMPORTANT**: Always configure `purificationConfig` when 'purification' is in `effectTypes`. The component will show "Purification Effect - Effect details not configured" if only the effect type is present without proper configuration.
+#### Restoration Effects
+
+**Display Format Logic:**
+- **If `restorationConfig` exists**: Shows detailed restoration effects based on configuration
+- **If `restorationConfig` missing but 'restoration' in `effectTypes`**: Shows generic "Restoration Effect - Effect details not configured"
+
+**Instant Restoration:**
+```
+Effect Name: "{resourceDisplayName} Restoration"
+Description: "" (empty - all info in mechanics)
+Mechanics: "{cleanedFormula} {resourceName} Restored"
+Example: "Mana Restoration" with mechanics "2d6 + Spirit Mana Restored"
+```
+
+**Over Time Restoration:**
+```
+Effect Name: "{resourceDisplayName} Over Time"
+Description: "Every {frequency} for {duration} {frequency}s - {applicationText}"
+Mechanics: "{cleanedFormula} {resourceName} per {frequency}"
+```
+
+**Resurrection Effects:**
+```
+Effect Name: "Resurrection"
+Description: "Brings the dead back to life"
+Mechanics: "Restores {restoredHealth} health • {restoredMana} mana • Removes: {removesConditions} • Casting time: {castingTime} {timeUnit} • Must be cast within {timeLimit} {limitUnit} of death • Penalty: {penalty.type} level {penalty.level}" (if applicable)
+```
+
+**Fields Used:**
+- `restorationConfig.resourceType` ('mana', 'health', 'stamina', etc.)
+- `restorationConfig.resolution` ('DICE', 'CARDS', 'COINS')
+- `restorationConfig.formula`
+- `restorationConfig.isOverTime` (boolean)
+- `restorationConfig.overTimeFormula`
+- `restorationConfig.overTimeDuration`
+- `restorationConfig.tickFrequency`
+- `restorationConfig.application` ('start', 'end', 'both')
+- `restorationConfig.scalingType` ('flat', 'percentage')
+- `restorationConfig.restorationType` ('resurrection', etc.)
+- `restorationConfig.restoredHealth` / `restorationConfig.restoredMana`
+- `restorationConfig.removesConditions[]`
+- `restorationConfig.castingTime` / `restorationConfig.castingTimeUnit`
+- `restorationConfig.timeLimit` / `restorationConfig.timeLimitUnit`
+- `restorationConfig.penaltyOnRevive`
+
+**⚠️ IMPORTANT**: Always configure `restorationConfig` when 'restoration' is in `effectTypes`. The component will show "Restoration Effect - Effect details not configured" if only the effect type is present without proper configuration.
 
 ---
 
@@ -1296,7 +1841,11 @@ With restrictions:
 ```
 
 **Fields Used:**
-- `targetingConfig.targetRestrictions[]` - Array of ('enemy', 'ally', 'self', 'object', 'creature')
+- `targetingConfig.targetRestrictions[]` - Array of ('enemy', 'ally', 'self', 'object', 'creature', 'undead', 'construct', 'elemental', 'demon', 'beast', 'friendly_player', 'hostile_player', etc.)
+- `targetingConfig.targetSelectionMethod` - ('manual', 'random', 'nearest', 'farthest', 'lowest_health', 'highest_health')
+- `targetingConfig.requiresLineOfSight` - (boolean) Whether spell requires line of sight to target
+- `targetingConfig.propagationMethod` - ('none', 'chain', 'bounce', 'seeking', 'explosion', 'spreading', 'forking')
+- `targetingConfig.propagationBehavior` - Behavior specific to propagation method (e.g., 'nearest', 'random', 'opportunistic', 'standard', 'contagion')
 
 #### Propagation (formatPropagation function)
 
@@ -1491,6 +2040,86 @@ Example: "⚡ 2" or "💎 25"
 - `devotion_cost`: "Devotion Level -{amount}"
 - `devotion_gain`: "Devotion Level +{amount}"
 
+**Necrotic Ascension (Deathcaller):**
+- `bloodTokens`: "Blood Tokens {amount}" - Number of Blood Tokens that can be spent (0-20, each adds +1d6 necrotic damage)
+- `ascension_required`: "Requires {ascensionPath}" - Ascension Path required to cast (e.g., "shrouded_veil", "crimson_pact")
+- `health`: "Health Cost {formula}" - Health sacrifice formula (e.g., "1d6", "2d8", "level * 3")
+- **⚠️ CRITICAL REQUIREMENTS FOR DEATHCALLER SPELLS**:
+
+**Dark Resilience Points (Dreadnaught):**
+- `drp`: "DRP {amount}" - Dark Resilience Points consumed by the spell (0-50)
+- **⚠️ CRITICAL REQUIREMENTS FOR DREADNAUGHT SPELLS**:
+  - **DRP is ALWAYS required for active abilities** - All spells that consume DRP must include `drp` in `resourceTypes` and `resourceValues`
+  - **DRP generation**: Players gain 1 DRP per 5 damage taken (maximum 50 DRP)
+  - **DRP costs**: Typical costs range from 5-50 DRP depending on spell power
+  - **Passive benefits**: At 10+ DRP, gain damage resistance and HP regeneration
+  - **Dark Rebirth**: Automatic revival at 0 HP, spending all DRP for 2× DRP healing
+  - **Example - Basic DRP spell:**
+    ```javascript
+    resourceCost: {
+      resourceTypes: ['drp'],
+      resourceValues: { drp: 10 },
+      useFormulas: {},
+      actionPoints: 1,
+      components: ['verbal', 'somatic']
+    }
+    ```
+  - **Example - Variable DRP spell (Shadow Shield):**
+    ```javascript
+    resourceCost: {
+      resourceTypes: ['drp'],
+      resourceValues: { drp: 'variable' }, // Player chooses how many DRP to spend
+      useFormulas: {},
+      actionPoints: 1,
+      components: ['somatic']
+    }
+    ```
+  - **Health costs ALWAYS use formulas** - Set `useFormulas.health = true` and provide formula in `resourceFormulas.health`
+  - **Blood Tokens are optional** - Only include `bloodTokens` in `resourceTypes` if the spell can spend tokens for bonus damage
+  - **Ascension requirements are string values** - Use path names like "shrouded_veil", "crimson_pact", etc.
+  - **Example - Basic necrotic spell:**
+    ```javascript
+    resourceCost: {
+      resourceTypes: [],  // No special resources needed
+      resourceValues: {},
+      useFormulas: {
+        health: true
+      },
+      resourceFormulas: {
+        health: '1d6'  // Basic health cost
+      },
+      actionPoints: 1
+    }
+    ```
+  - **Example - Blood Token enhanced spell:**
+    ```javascript
+    resourceCost: {
+      resourceTypes: ['bloodTokens'],
+      resourceValues: { bloodTokens: 3 },  // Can spend up to 3 tokens
+      useFormulas: {
+        health: true
+      },
+      resourceFormulas: {
+        health: '2d8'
+      },
+      actionPoints: 1
+    }
+    ```
+  - **Example - Ascension path required:**
+    ```javascript
+    resourceCost: {
+      resourceTypes: ['ascension_required'],
+      resourceValues: { ascension_required: 'crimson_pact' },
+      useFormulas: {
+        health: true
+      },
+      resourceFormulas: {
+        health: '1d8'
+      },
+      actionPoints: 1
+    }
+    ```
+
 **Chaos Mechanics (Chaos Weaver):**
 - `mayhem_generate`: "Mayhem Modifiers +{amount}"
 - `mayhem_spend`: "Mayhem Modifiers -{amount}"
@@ -1498,6 +2127,13 @@ Example: "⚡ 2" or "💎 25"
 **Fate Mechanics (Fate Weaver):**
 - `threads_generate`: "Threads of Destiny +{amount}"
 - `threads_spend`: "Threads of Destiny -{amount}"
+
+**Rage States (Berserker):**
+- `rage_state`: "Requires [{stateName}]"
+- States: Smoldering (0-20), Frenzied (21-40), Primal (41-60), Carnage (61-80), Cataclysm (81-100), Obliteration (101+)
+- **Display**: Shows the required rage state name in brackets
+- **Format**: Clean state requirement display
+- **Example**: "Requires [Carnage]"
 
 **Formulas:**
 - If `useFormulas[resourceType] === true`, display the formula instead of fixed value
@@ -1616,18 +2252,43 @@ Example: "1d4 cooldown"
 ### Fields Configured:
 - **triggerConfig** (object)
 
+### ⚠️ Key Concepts - Understanding Trigger Types:
+
+**Three Types of Triggers:**
+
+1. **Global Triggers** (`triggerConfig.global`):
+   - Apply to the **entire spell**
+   - Used for REACTION, PASSIVE, TRAP, and STATE spell types
+   - Determine when the spell itself activates
+   - Displayed as a header section before all effects
+
+2. **Effect-Specific Triggers** (`triggerConfig.effectTriggers`):
+   - Apply to **specific effects** (damage, healing, buff, etc.)
+   - Determine **when** a specific effect activates
+   - Can be stored under base types (`damage`, `healing`) OR subtypes (`damage_direct`, `healing_hot`, etc.)
+   - Displayed as a header section **before** the specific effect they apply to
+   - Format: "Triggers - ALL/ANY" followed by list of trigger conditions
+   - **Display regardless** of whether the effect is conditional
+
+3. **Conditional Effects** (`triggerConfig.conditionalEffects`):
+   - Modify **how** an effect works based on triggers
+   - Maps trigger IDs to different formulas/settings
+   - Displayed **below** the main effect text as "If {trigger}: {formula}"
+   - Requires both `effectTriggers` (for trigger definitions) and `conditionalFormulas` (for formula mappings)
+
+**Important Relationships:**
+- Effect-specific triggers can exist **without** conditional effects (just determines when effect activates)
+- Conditional effects **require** effect-specific triggers (to get trigger IDs and formatting)
+- Both check all possible subtypes when looking for triggers/configs
+
 ### SpellCard Display Mapping:
 
 #### Trigger Configuration
 
 **Global Triggers:**
 - Used for REACTION, PASSIVE, TRAP, and STATE spell types
-- Displayed in spell description or as separate section
-- Format: Condition-based text describing when spell activates
-
-**Effect-Specific Triggers:**
-- Conditional effects based on triggers
-- Displayed with effect description
+- Displayed as a header section before all effects (when wrapped together)
+- Format: "Triggers - ALL/ANY" followed by list of trigger conditions
 
 **Trigger Role:**
 - `mode`: 'CONDITIONAL', 'AUTO_CAST', 'BOTH'
@@ -1679,20 +2340,39 @@ Example: "1d4 cooldown"
 - `triggerConfig.requiredConditions.conditions[]` - Array of trigger objects that must be met before spell can be cast
 
 **Effect-Specific Triggers:**
-- `triggerConfig.effectTriggers{}` - Object mapping effect types to trigger configs:
-  - `effectTriggers.damage` - Triggers for damage effects
-  - `effectTriggers.healing` - Triggers for healing effects
-  - `effectTriggers.buff` - Triggers for buff effects
-  - `effectTriggers.debuff` - Triggers for debuff effects
-  - `effectTriggers.utility` - Triggers for utility effects
-  - `effectTriggers.control` - Triggers for control effects
-  - Each contains:
-    - `logicType` ('AND' | 'OR') - How multiple triggers are combined
-    - `compoundTriggers[]` - Array of trigger objects
-    - `targetingOverride` (string, optional) - Override targeting for this effect when triggered (e.g., 'nearest', 'farthest', 'lowest_health')
+- `triggerConfig.effectTriggers{}` - Object mapping effect types/subtypes to trigger configs
+- **⚠️ CRITICAL - Subtype Support**: Triggers can be stored under base types OR subtypes:
+  - **Damage subtypes**: `damage`, `damage_direct`, `damage_dot`, `damage_area`, `damage_combined`
+  - **Healing subtypes**: `healing`, `healing_direct`, `healing_hot`, `healing_shield`
+  - The spellcard checks ALL possible subtypes when looking for triggers
+  - Example: Triggers configured for "Direct Damage" are stored as `effectTriggers.damage_direct`
+- Each trigger config contains:
+  - `logicType` ('AND' | 'OR') - How multiple triggers are combined
+  - `compoundTriggers[]` - Array of trigger objects (same structure as global triggers)
+  - `targetingOverride` (string, optional) - Override targeting for this effect when triggered (e.g., 'nearest', 'farthest', 'lowest_health')
+- **Display Behavior**:
+  - Effect-specific triggers display **regardless** of whether the effect is marked as conditional
+  - They appear as a header section **before** the effect they apply to
+  - Format: "Triggers - ALL" or "Triggers - ANY" (if multiple triggers)
+  - Each trigger is formatted using `formatTriggerText()` and displayed as a list item
+- **Trigger Detection Logic**:
+  - The spellcard uses `getEffectTriggersForType()` to find triggers
+  - Checks subtypes in order: base type first, then specific subtypes
+  - For damage: checks `damage` → `damage_direct` → `damage_dot` → `damage_area` → `damage_combined`
+  - For healing: checks `healing` → `healing_direct` → `healing_hot` → `healing_shield`
+  - Returns the **first** subtype found that has triggers (does not combine multiple subtypes)
+  - This means if you configure triggers for both `damage` and `damage_direct`, only one will be used
 
 **Conditional Effects:**
-- `triggerConfig.conditionalEffects{}` - Object mapping effect types to conditional configs:
+- `triggerConfig.conditionalEffects{}` - Object mapping effect types/subtypes to conditional configs
+- **⚠️ CRITICAL - Subtype Support**: Conditional effects can be stored under base types OR subtypes (same as effect-specific triggers)
+- **Relationship with Effect-Specific Triggers**:
+  - Effect-specific triggers (`effectTriggers`) determine **when** an effect activates
+  - Conditional effects (`conditionalEffects`) determine **how** an effect changes based on triggers
+  - They work together: `conditionalFormulas` maps trigger IDs to formulas, and looks up trigger details from `effectTriggers`
+  - Effect-specific triggers display as headers **even if** the effect is not conditional
+  - Conditional formulas display **below** the main effect text when triggers modify the formula
+- Each conditional config contains:
   - `conditionalEffects[effectType].isConditional` (boolean) - Whether this effect is conditional
   - `conditionalEffects[effectType].defaultEnabled` (boolean) - Whether effect is enabled by default (when no trigger conditions are met)
   - `conditionalEffects[effectType].baseFormula` (string) - Base formula for the effect (from Step 3)
@@ -1704,9 +2384,10 @@ Example: "1d4 cooldown"
     - For control: `{ duration, savingThrow, difficultyClass, controlType, effects, ... }`
     - For restoration: `{ resourceType, resolution, isOverTime, overTimeFormula, ... }`
   - `conditionalEffects[effectType].conditionalFormulas{}` - Map of trigger ID to formula:
-    - Key: trigger ID (e.g., 'health_threshold_30', 'damage_taken', 'default')
+    - Key: trigger ID (e.g., 'health_threshold_30', 'damage_taken', 'enter_area', 'default')
     - Value: formula string (e.g., '2d6 + INT', 'damage * 1.5')
     - Special key 'default' contains the base formula
+    - **Trigger ID Matching**: The trigger ID in `conditionalFormulas` must match a trigger `id` in `effectTriggers[effectType].compoundTriggers[]`
   - `conditionalEffects[effectType].conditionalSettings{}` - Map of trigger ID to settings object:
     - Key: trigger ID
     - Value: settings object that can override baseSettings for that trigger
@@ -1761,23 +2442,137 @@ The wizard supports 7 trigger categories with multiple trigger types each:
    - `weight_pressure`, `magical_trigger`, `trap_chain`, `trap_damage`
 
 **Display Format:**
-```
-Global Triggers:
-  "Triggers: {condition1} AND {condition2}"
-  Displayed in spell description or as separate section
 
-Required Conditions:
-  "Requires: {condition1} AND {condition2}"
-  Displayed before spell effects
+**Global Triggers:**
+- **Location**: Displayed as a header section before all effects (when wrapped together)
+- **Format**:
+  ```
+  Triggers - ALL (or ANY if logicType === 'OR')
+  When {trigger1}
+  When {trigger2}
+  ```
+- **Example**:
+  ```
+  Triggers - ALL
+  When I take 10 pts of fire damage
+  When my health falls below 50%
+  ```
 
-Effect-Specific Triggers:
-  "When {trigger}: {effect description with modified formula}"
-  Displayed with individual effect descriptions
+**Required Conditions:**
+- **Location**: Displayed as a header section before all effects
+- **Format**:
+  ```
+  Required - ALL (or ANY if logicType === 'OR')
+  When {condition1}
+  When {condition2}
+  ```
+- **Example**:
+  ```
+  Required - ALL
+  When combat starts
+  When I have at least 50 mana
+  ```
 
-Conditional Effects:
-  "{baseFormula} (or {conditionalFormula} when {trigger})"
-  Displayed inline with effect descriptions
-```
+**Effect-Specific Triggers:**
+- **Location**: Displayed as a header section **immediately before** the specific effect they apply to
+- **When Wrapped with Global Triggers**: Appears before the damage/healing section
+- **When Wrapped Individually**: Appears before the individual effect section
+- **Format**:
+  ```
+  Triggers - ALL (or ANY if logicType === 'OR')
+  When {trigger1}
+  When {trigger2}
+  ```
+- **Example for Damage**:
+  ```
+  Triggers - ALL
+  When I enter area
+  
+  Instant Damage
+  2d6 Fire Damage
+  ```
+- **Example for Healing**:
+  ```
+  Triggers - ANY
+  When my health falls below 30%
+  When an ally takes damage
+  
+  Healing
+  2d8 + Spirit Healing
+  ```
+- **Note**: Effect-specific triggers are found by checking all subtypes:
+  - For damage: checks `damage`, `damage_direct`, `damage_dot`, `damage_area`, `damage_combined`
+  - For healing: checks `healing`, `healing_direct`, `healing_hot`, `healing_shield`
+  - Uses the first subtype found that has triggers
+
+**Conditional Effects (Conditional Formulas):**
+- **Location**: Displayed **below** the main effect mechanics text, separated by a border
+- **Format**:
+  ```
+  If {trigger}: {formattedFormula} {damageType/healingType}
+  ```
+- **Note**: Trigger text is converted from "When" to "If" for conditional display
+- **Example**:
+  ```
+  Instant Damage
+  2d6 Fire Damage
+  
+  If I take 10 pts of fire damage: 4d6 Fire Damage
+  If my health falls below 50%: 3d6 Fire Damage
+  ```
+- **Display Logic**:
+  - Only shown if `conditionalEffects[effectType].conditionalFormulas` exists
+  - Maps trigger IDs from `conditionalFormulas` to trigger objects from `effectTriggers`
+  - Uses `formatTriggerText()` to format each trigger
+  - Uses `formatFormulaToPlainEnglish()` to format the formula
+
+**Trigger Text Formatting (formatTriggerText function):**
+
+The `formatTriggerText()` function converts trigger objects into human-readable text. Common formats:
+
+- **Damage Triggers**:
+  - `damage_taken`: "When {perspective} takes {amount} pts of {damageType} damage"
+  - `damage_dealt`: "When {perspective} deals {amount} pts of {damageType} damage"
+  - `critical_hit`: "When {perspective} lands a critical hit"
+  - `critical_hit_taken`: "When {perspective} receives a critical hit"
+
+- **Movement Triggers**:
+  - `enter_area`: "When {perspective} enters {areaType}"
+  - `leave_area`: "When {perspective} leaves {areaType}"
+  - `proximity`: "When {entityType} comes within {distance} ft"
+  - `movement_start`: "When {perspective} starts moving"
+  - `movement_end`: "When {perspective}'s movement stops"
+
+- **Health/Resource Triggers**:
+  - `health_threshold`: "When {perspective}'s health {comparison} {percentage}%"
+  - `resource_threshold`: "When {resourceType} {comparison} {threshold}%"
+  - `low_health`: "When below {threshold}% health"
+
+- **Combat Triggers**:
+  - `combat_start`: "When combat starts"
+  - `combat_end`: "When combat ends"
+  - `turn_start`: "When {perspective}'s turn starts"
+  - `turn_end`: "When {perspective}'s turn ends"
+
+- **Status Triggers**:
+  - `effect_applied`: "When {perspective} gains {effectType}"
+  - `effect_removed`: "When {perspective} loses {effectType}"
+
+- **Spell Triggers**:
+  - `spell_cast`: "When {perspective} casts {spellName} (or level {spellLevel} spell)"
+  - `spell_interrupt`: "When a spell {perspective} casts is interrupted"
+
+**Perspective Mapping:**
+- `'self'` → "I" / "my" / "me"
+- `'target'` → "my target" / "target's"
+- `'ally'` → "an ally" / "ally's"
+- `'enemy'` → "an enemy" / "enemy's"
+- `'any'` → "anyone" / "anyone's"
+
+**Comparison Mapping:**
+- `'less_than'` or `'below'` → "falls below"
+- `'greater_than'` or `'above'` → "rises above"
+- `'equal'` or `'equals'` → "equals"
 
 ---
 
@@ -1917,6 +2712,150 @@ Conditional Effects:
 
 ---
 
+## Most Common Spell Configuration Issues & Fixes
+
+### Issue 1: Status Effects (Slow, Stun, etc.) Not Showing - Only Saving Throws Display
+
+**Problem**: Spells like Frost Nova show "DC 14 Constitution save" but no actual "Slow" or "Stun" effect details.
+
+**Root Cause**: Missing `effects` array in `debuffConfig` or `controlConfig`.
+
+**Incorrect Structure (Frost Nova)**:
+```javascript
+debuffConfig: {
+  debuffType: 'statusEffect',
+  durationValue: 2,
+  durationType: 'rounds',
+  saveDC: 14,
+  saveType: 'constitution'
+  // MISSING: effects array!
+}
+```
+
+**Correct Structure**:
+```javascript
+debuffConfig: {
+  debuffType: 'statusEffect',
+  durationValue: 2,
+  durationType: 'rounds',
+  durationUnit: 'rounds', // REQUIRED!
+  saveDC: 14,
+  saveType: 'constitution',
+  effects: [{
+    id: 'slow',
+    name: 'Slow',
+    description: 'Movement speed reduced by half',
+    // Additional status effect configuration
+  }]
+}
+```
+
+### Issue 2: Control Effects Not Showing Effect Details
+
+**Problem**: Control spells show generic "Control Effect" instead of specific effects like "Pull" or "Stun".
+
+**Root Cause**: Using deprecated `specialEffects` array instead of `effects` array.
+
+**Incorrect Structure**:
+```javascript
+controlConfig: {
+  controlType: 'forcedMovement',
+  specialEffects: ['pull'] // WRONG!
+}
+```
+
+**Correct Structure**:
+```javascript
+controlConfig: {
+  controlType: 'forcedMovement',
+  duration: 0,
+  durationUnit: 'instant',
+  saveDC: 12,
+  saveType: 'strength',
+  savingThrow: true,
+  effects: [{
+    id: 'pull',
+    name: 'Pull',
+    description: 'Pulls the target toward the caster',
+    config: {
+      movementType: 'pull',
+      distance: 15
+    }
+  }]
+}
+```
+
+### Issue 3: Debuff Effects Missing Stat Changes
+
+**Problem**: Debuff spells show only duration/save info but no stat reduction details.
+
+**Root Cause**: Missing `effects` array with `statModifier` configurations.
+
+**Incorrect Structure**:
+```javascript
+debuffConfig: {
+  debuffType: 'statReduction',
+  durationValue: 3,
+  durationType: 'rounds',
+  saveDC: 15,
+  saveType: 'constitution'
+  // MISSING: effects array with statModifier!
+}
+```
+
+**Correct Structure**:
+```javascript
+debuffConfig: {
+  debuffType: 'statReduction',
+  durationValue: 3,
+  durationType: 'rounds',
+  durationUnit: 'rounds', // REQUIRED!
+  saveDC: 15,
+  saveType: 'constitution',
+  effects: [{
+    id: 'weakened',
+    name: 'Weakened',
+    description: 'Reduces target strength',
+    statModifier: {
+      stat: 'strength',
+      magnitude: 2,
+      magnitudeType: 'flat'
+    }
+  }]
+}
+```
+
+### Issue 4: Buff Effects Not Showing
+
+**Problem**: Buff spells show generic "Buff Effect" instead of specific stat enhancements.
+
+**Root Cause**: Missing `effects` array in `buffConfig`.
+
+**Solution**: Always include `effects` array with proper effect objects (see Buff Effects section above).
+
+### Issue 5: Duration Unit Missing
+
+**Problem**: Effects show duration but with missing or incorrect units.
+
+**Root Cause**: Missing `durationUnit` field that matches `durationType`.
+
+**Solution**: Always include both `durationValue` and `durationUnit`:
+```javascript
+durationValue: 2,
+durationType: 'rounds',
+durationUnit: 'rounds' // Must match durationType
+```
+
+### Quick Fix Checklist
+
+- ✅ **Debuff Effects**: Include `effects: [{ id: 'slow', name: 'Slow', description: '...' }]`
+- ✅ **Control Effects**: Use `effects` array, not `specialEffects`
+- ✅ **Buff Effects**: Include `effects` array with `statModifier` or status effect configs
+- ✅ **Duration**: Always include `durationUnit` matching `durationType`
+- ✅ **Saving Throws**: For damage effects, they're integrated into damage text; for debuff/control, they're separate effects
+
+---
+
 ## Step 10: Review
 
 ### Display Mapping:
@@ -1974,7 +2913,7 @@ Formulas support rich mathematical expressions using character stats, dice rolls
 
 **Primary Attributes:**
 - `strength` - Physical power and melee damage
-- `agility` - Dexterity, reflexes, and ranged accuracy
+- `agility` - Agility, reflexes, and ranged accuracy (use `agility`, not `dexterity` or `dex`)
 - `constitution` - Health, stamina, and physical resilience
 - `intelligence` - Magical power, knowledge, and spell effectiveness
 - `spirit` - Willpower, spiritual energy, and mana regeneration
@@ -2157,9 +3096,18 @@ formula: 'currentMana >= 50 ? spellDamage * 1.5 : spellDamage'
     controlType: string,
     strength: string,
     duration: number,
+    durationUnit: string, // REQUIRED: 'instant', 'rounds', 'turns', etc.
     saveDC: number,
     saveType: string,
-    specialEffects: array
+    savingThrow: boolean,
+    effects: [{ // REQUIRED: Array of effect objects
+      id: string, // Effect identifier
+      name: string, // Display name
+      description: string, // Effect description
+      config: { // Effect-specific configuration
+        // movementType, distance, restraintType, etc.
+      }
+    }]
   },
   summoningConfig: {
     creatureType: string,
@@ -2305,10 +3253,13 @@ Rollable tables allow spells to have random effects based on dice rolls, card dr
 {
   id: string,
   range: { min: number, max: number }, // For DICE
+  roll: number, // For DICE (single roll value, alternative to range)
   cardPattern: string, // For CARDS (e.g., "Hearts", "Ace of Spades")
   coinPattern: string, // For COINS (e.g., "All Heads", "Majority Tails")
   customName: string, // Entry name
-  effect: string, // Description of effect
+  name: string, // Entry name (alternative to customName)
+  effect: string, // **CRITICAL: Detailed description of effect with concrete mechanics**
+  description: string, // Alternative to effect field
   modifiesBaseSpell: boolean,
   spellReference: string | null, // Reference to another spell
   effectModifications: object, // Modifications to base spell
@@ -2329,20 +3280,41 @@ Rollable tables allow spells to have random effects based on dice rolls, card dr
 }
 ```
 
+**⚠️ CRITICAL: Rollable Table Entry Effect Descriptions**
+
+Rollable table entries MUST have detailed, concrete effect descriptions that explain:
+- **What happens** (damage amount, healing amount, status effect, etc.)
+- **Who it affects** (all targets, enemies only, allies only, etc.)
+- **Saving throws** (if applicable: save type, DC, outcome)
+- **Duration** (if applicable: rounds, minutes, etc.)
+- **Mechanical details** (what "frozen" means, what "difficult terrain" does, etc.)
+
+**BAD Examples:**
+- ❌ "4d6 ice damage, freezes targets" - Too vague, what does "freezes" mean?
+- ❌ "Blizzard" - No information at all
+- ❌ "Provides utility benefits" - Meaningless
+
+**GOOD Examples:**
+- ✅ "4d6 cold damage to all targets in area. Targets must make Constitution save DC 15 for half damage. Targets that fail the save are frozen (paralyzed) for 1 round - cannot move or take actions, attacks against them have advantage."
+- ✅ "All allies within 40ft radius are healed for 4d8 HP. This healing cannot exceed maximum HP. Allies also gain temporary HP equal to half the healing received (2d8 temp HP)."
+- ✅ "4d6 fire damage to all targets in area. Targets must make Agility save DC 15 for half damage. Targets that fail the save are ignited, taking 1d6 fire damage at the start of each of their turns for 3 rounds (Constitution save DC 15 ends early)."
+
 #### SpellCard Display:
 - **Location**: Card body, special mechanics section
 - **Format**: 
   - Shows table name and description
-  - Displays resolution type (e.g., "Roll 1d20" or "Draw 3 Cards")
-  - Lists all entries with their ranges/patterns and effects
-  - For DICE: Shows "On a roll of X-Y: Effect description"
-  - For CARDS: Shows "When drawing [Pattern]: Effect description"
-  - For COINS: Shows "When pattern [Pattern]: Effect description"
+  - Displays resolution type (e.g., "Roll 1d8" or "Draw 3 Cards")
+  - Lists all entries with their ranges/patterns and **detailed effect descriptions**
+  - For DICE: Shows "On a roll of X: [Entry Name] - [Detailed Effect Description]"
+  - For CARDS: Shows "When drawing [Pattern]: [Entry Name] - [Detailed Effect Description]"
+  - For COINS: Shows "When pattern [Pattern]: [Entry Name] - [Detailed Effect Description]"
+- **⚠️ CRITICAL**: Each entry's `effect` field must contain detailed, concrete mechanics (see "Rollable Table Entry Effect Descriptions" above)
 - **Special Features**:
   - Entries can reference creatures from creature library
   - Entries can modify base spell effects
   - Entries can have their own damage/healing formulas
   - Entries can summon creatures with full configuration
+- **⚠️ IMPORTANT**: Spells with rollable tables should NOT have utility components unless the utility is explicitly part of the spell description. If a spell's description only mentions the rollable table (e.g., "Roll 1d8 to determine the chaotic effect"), do NOT include utility in `effectTypes` or `utilityConfig`.
 
 #### Card Patterns (CARDS):
 - Suits: 'Hearts', 'Diamonds', 'Clubs', 'Spades'
@@ -2459,36 +3431,107 @@ The spell wizard integrates with the creature library for summoning and transfor
 
 ---
 
-### Tag-Based Targeting
+### Effect-Specific Targeting (Split Targeting)
 
-Allows different effect types to target different entities (split targeting mode).
+Allows different effect types to target different entities with separate targeting configurations.
 
 #### Fields Configured:
 - **targetingMode** (enum):
-  - 'unified' - All effects use same targeting
-  - 'tagged' - Each effect type has separate targeting
-- **targetingTags** (object) - Map of effect type to targeting:
+  - 'unified' - All effects use same targeting (default)
+  - 'effect' - Each effect type has separate targeting configuration
+- **effectTargeting** (object) - **REQUIRED** when `targetingMode === 'effect'`: Map of effect type to full targeting config:
   ```javascript
   {
-    damage: { targetOption: 'target' },
-    healing: { targetOption: 'self' },
-    buff: { targetOption: 'self' },
-    debuff: { targetOption: 'target' }
+    damage: {
+      targetingType: 'ground',
+      rangeType: 'ranged',
+      rangeDistance: 60,
+      aoeShape: 'circle',
+      aoeParameters: { radius: 30 },
+      targetRestrictions: ['enemy']
+    },
+    healing: {
+      targetingType: 'ground',
+      rangeType: 'ranged',
+      rangeDistance: 60,
+      aoeShape: 'circle',
+      aoeParameters: { radius: 30 },
+      targetRestrictions: ['ally']
+    },
+    control: {
+      targetingType: 'area',
+      rangeType: 'ranged',
+      rangeDistance: 30,
+      aoeShape: 'cone',
+      aoeParameters: { length: 20 },
+      targetRestrictions: ['enemy']
+    }
   }
   ```
-- **targetOption** (enum):
-  - 'target' - Apply to spell's target
-  - 'self' - Apply to caster
-  - 'both' - Apply to both target and caster
+
+**Example - Life Leech (Deathcaller):**
+  ```javascript
+  targetingMode: 'effect',
+  effectTargeting: {
+    damage: {
+      targetingType: 'single',
+      rangeType: 'ranged',
+      rangeDistance: 40,
+      targetRestrictions: ['enemy'],
+      maxTargets: 1,
+      targetSelectionMethod: 'manual',
+      requiresLineOfSight: true,
+      propagationMethod: 'chain',
+      propagationBehavior: 'lowest_health'
+    },
+    healing: {
+      targetingType: 'self'
+    }
+  }
+  ```
+
+**⚠️ CRITICAL - Effect-Specific Targeting Structure:**
+
+Each effect type in `effectTargeting` must have a **complete targeting configuration** with:
+- `targetingType` - 'single', 'area', 'ground', 'cone', 'line', 'self', etc.
+- `rangeType` - 'touch', 'ranged', 'sight', 'unlimited', 'self_centered'
+- `rangeDistance` - Number (for ranged)
+- `aoeShape` - 'circle', 'square', 'cone', 'line', etc. (for area effects)
+- `aoeParameters` - Object with shape-specific parameters (e.g., `{ radius: 30 }`, `{ length: 20 }`)
+- `targetRestrictions` - Array of restrictions: `['enemy']`, `['ally']`, `['self']`, `['enemy', 'ally']`, etc.
+
+**⚠️ AVOID REDUNDANCY**: When `targetingType: 'self'`, do NOT include `targetRestrictions: ['self']` or `rangeType: 'self'` - this creates redundant "self" references that can cause issues. Self-targeting only needs `targetingType: 'self'`.
+
+**Note**: The wizard also uses `targetingTags` internally with `targetOption` ('target', 'self', 'both'), but the final spell structure uses `effectTargeting` with full targeting configs. The mapping function converts `targetingTags` to `effectTargeting` when saving.
 
 #### SpellCard Display:
-- **Location**: Card body, targeting section
+- **Location**: 
+  - Header: Shows "Varies" for range when using effect-specific targeting
+  - Individual effects: Each effect shows its own targeting badges (range, targeting type, restrictions)
 - **Format**: 
-  - If unified: Standard targeting display
-  - If tagged: Shows split targeting:
-    - "Damage: Targets enemy"
-    - "Healing: Targets self"
-    - "Buff: Targets self"
+  - If unified: Standard targeting display in header
+  - If effect-specific: 
+    - Header shows "Varies" for range
+    - Each effect displays its own targeting badges:
+      - Range badge (e.g., "60 ft")
+      - Targeting type badge (e.g., "Area Effect", "Circle 30ft radius")
+      - Restrictions badge (e.g., "Enemies", "Allies")
+- **Example Display**:
+  ```
+  Range: Varies
+  
+  Instant Damage
+  3d6 Cold Damage
+  [60 ft] [Area Effect] [Circle 30ft radius] [Enemies]
+  
+  Healing
+  4d8 Healing
+  [60 ft] [Area Effect] [Circle 30ft radius] [Allies]
+  
+  Control Effect
+  Frozen (DC 15 Constitution save)
+  [60 ft] [Area Effect] [Circle 30ft radius] [Enemies]
+  ```
 
 ---
 
@@ -2789,6 +3832,18 @@ For mechanics that use recipes (like Chord System), spells can have graduated ef
 
 Detailed critical hit configuration system for damage effects.
 
+**Configuration Location**: `damageConfig.criticalConfig`
+
+**Capabilities**:
+- Configure critical mechanics using dice (d20), cards, or coins
+- Apply damage multipliers (1-10x)
+- Add extra dice on crit
+- Enable exploding dice mechanics
+- Apply additional effects (knockback, stun, burning, shock, freeze, disarm)
+- Reference other spells from library
+- Use rollable tables for randomized crit effects
+- Option for effect-only crits (no damage bonus)
+
 #### Fields Configured:
 - **criticalConfig.enabled** (boolean)
 - **criticalConfig.critOnlyEffect** (boolean) - Effect-only crits (no damage bonus)
@@ -2842,23 +3897,43 @@ Detailed critical hit configuration system for damage effects.
   - 'shock' - Target shocked, reducing action economy
   - 'freeze' - Target slowed by 50% for 1 round
   - 'disarm' - Target drops their weapon
+  - 'life_drain' - Life drain effect (requires `lifeDrainConfig` for details)
+
+**Life Drain Effect Configuration:**
+- **criticalConfig.lifeDrainConfig** (object, optional) - Configuration for life drain effect:
+  - `percentage` (number) - Percentage of critical damage restored as healing (e.g., 50 = 50% of crit damage)
+  - `formula` (string) - Alternative formula for life drain (e.g., "critDamage / 2")
+- **Display Format**: 
+  - With percentage: "Life Drain (restores 50% of critical damage)"
+  - With formula: "Life Drain (restores critDamage / 2 of critical damage)"
+- **⚠️ IMPORTANT**: When using 'life_drain' in `critEffects`, always configure `lifeDrainConfig` to specify how much damage is restored
 
 #### SpellCard Display:
 - **Location**: Card body, damage section
 - **Format**: 
   - "Critical Hit: [Details]"
-  - Dice: "On crit: [Multiplier]× damage [extra dice] [exploding details]"
-  - Cards: "On [Rule]: [Resolution method]"
-  - Coins: "On [Rule] with [Count] coins: [Resolution method]"
-  - Effects: Lists additional effects (knockback, stun, etc.)
+  - Dice: "Max roll: [Multiplier]× damage [extra dice] [exploding details] + [Effects]"
+  - Cards: "On [Rule]: [Resolution method] + [Effects]"
+  - Coins: "On [Rule] with [Count] coins: [Resolution method] + [Effects]"
+  - Effects: Lists additional effects with details (e.g., "Life Drain (restores 50% of critical damage)")
   - If using spell reference: "Triggers spell: [Spell Name]"
   - If using rollable table: "Uses rollable table: [Table Name]"
+- **⚠️ IMPORTANT**: The `mechanicsText` field for Critical Hit effects is empty - all information is displayed in the `description` field. Do NOT add "Enhanced damage on critical" or similar text to `mechanicsText`.
 
 ---
 
 ### Chance On Hit Configuration
 
 Chance-based additional effects that trigger when spell hits target.
+
+**Configuration Location**: `damageConfig.chanceOnHitConfig` or `healingConfig.chanceOnHitConfig`
+
+**Capabilities**:
+- Configure chance mechanics using dice (d20), cards, or coins
+- Apply custom effects (stun, burning, slow, knockback, shock, disarm)
+- Reference other spells from library
+- Use rollable tables for randomized effects
+- Only applies to instant damage/healing (not DoT or area effects)
 
 #### Fields Configured:
 - **chanceOnHitConfig.enabled** (boolean)
@@ -2891,28 +3966,128 @@ Chance-based additional effects that trigger when spell hits target.
 - **chanceOnHitConfig.spellEffect** (string | null) - Reference to spell from library
 - **chanceOnHitConfig.useRollableTable** (boolean) - Use rollable table for proc effects
 - **chanceOnHitConfig.customEffects** (array) - Additional effects:
-  - 'burning' - Target burns for 1d4 damage per round for 2 rounds
-  - 'stun' - Target stunned for 1 round (15% chance)
-  - 'slow' - Target slowed by 30% for 2 rounds
-  - 'knockback' - Target pushed back 10 feet
-  - 'shock' - Target shocked, reducing action economy
-  - 'disarm' - Target drops their weapon (10% chance)
+  - 'burning' - Target burns for fire damage over time
+  - 'stun' - Target stunned (cannot take actions or reactions)
+  - 'slow' - Target slowed (reduced movement speed)
+  - 'knockback' - Target pushed back
+  - 'shock' - Target shocked (reduces action economy)
+  - 'freeze' - Target frozen (reduced movement speed)
+  - 'disarm' - Target drops their weapon
+  - 'fear' - Target frightened (reduced effectiveness, may flee)
+
+**⚠️ CRITICAL - Custom Effect Configuration:**
+
+When using custom effects, you **MUST** provide detailed configuration so players understand what the effect does. The spell card will automatically format effects with detailed descriptions:
+
+**Burning Effect:**
+- **chanceOnHitConfig.burningConfig** (object, optional):
+  - `damagePerRound` (string) - Damage formula per round (default: '1d6')
+  - `duration` (number) - Duration in rounds (default: 2)
+  - `durationUnit` (string) - Duration unit (default: 'rounds')
+  - `saveDC` (number) - Save DC to end early (optional)
+  - `saveType` (string) - Save type (default: 'constitution')
+- **Display Format**: "Burning (1d6 fire damage per round for 2 rounds, DC 15 Constitution save ends early)"
+
+**Stun Effect:**
+- **chanceOnHitConfig.stunConfig** (object, optional):
+  - `duration` (number) - Duration in rounds (default: 1)
+  - `durationUnit` (string) - Duration unit (default: 'round')
+  - `saveDC` (number) - Save DC to negate (optional)
+  - `saveType` (string) - Save type (default: 'constitution')
+- **Display Format**: "Stun (cannot take actions or reactions for 1 round, DC 14 Constitution save negates)"
+
+**Slow Effect:**
+- **chanceOnHitConfig.slowConfig** (object, optional):
+  - `speedReduction` (number) - Speed reduction amount (default: 30)
+  - `speedReductionType` (enum: 'flat', 'percentage') - Whether reduction is flat (feet) or percentage (default: 'percentage')
+  - `duration` (number) - Duration in rounds (default: 2)
+  - `durationUnit` (string) - Duration unit (default: 'rounds')
+  - `saveDC` (number) - Save DC (optional)
+  - `saveType` (string) - Save type (default: 'constitution')
+- **Display Format**: 
+  - Flat: "Slow (15 feet speed reduction, 2 rounds, DC 14 Constitution save)"
+  - Percentage: "Slow (30% speed reduction, 2 rounds, DC 14 Constitution save)"
+- **⚠️ IMPORTANT**: Use `speedReductionType: 'flat'` for flat speed reduction in feet (e.g., "15 feet speed reduction"), or `speedReductionType: 'percentage'` for percentage-based reduction (e.g., "30% speed reduction")
+
+**Knockback Effect:**
+- **chanceOnHitConfig.knockbackConfig** (object, optional):
+  - `distance` (number) - Push distance in feet (default: 10)
+- **Display Format**: "Knockback (pushed back 10 feet)"
+
+**Shock Effect:**
+- **chanceOnHitConfig.shockConfig** (object, optional):
+  - `duration` (number) - Duration in rounds (default: 1)
+  - `durationUnit` (string) - Duration unit (default: 'round')
+- **Display Format**: "Shock (reduces action economy for 1 round)"
+
+**Freeze Effect:**
+- **chanceOnHitConfig.freezeConfig** (object, optional):
+  - `speedReduction` (number) - Speed reduction percentage (default: 50)
+  - `duration` (number) - Duration in rounds (default: 1)
+  - `durationUnit` (string) - Duration unit (default: 'round')
+  - `saveDC` (number) - Save DC to negate (optional)
+  - `saveType` (string) - Save type (default: 'constitution')
+- **Display Format**: "Freeze (50% speed reduction for 1 round, DC 14 Constitution save negates)"
+
+**Disarm Effect:**
+- No additional config needed
+- **Display Format**: "Disarm (target drops their weapon)"
+
+**Fear Effect:**
+- **chanceOnHitConfig.fearConfig** (object, optional):
+  - `duration` (number) - Duration in rounds (default: 2)
+  - `durationUnit` (string) - Duration unit (default: 'rounds')
+  - `saveDC` (number) - Save DC to negate (optional)
+  - `saveType` (string) - Save type (default: 'spirit')
+- **Display Format**: "Fear (target is frightened for 2 rounds, DC 15 Spirit save negates)"
+
+**⚠️ IMPORTANT**: If you don't provide effect-specific configs, the system will use sensible defaults. However, for clarity and proper gameplay, always configure:
+- Damage amounts for burning
+- Duration for all timed effects
+- Save DCs and types when applicable
+- Distance for knockback effects
 
 #### SpellCard Display:
-- **Location**: Card body, special effects section
+- **Location**: Integrated into Instant Damage mechanics text (not shown as separate effect)
 - **Format**: 
-  - "[Chance]% chance on hit: [Effect Details]"
-  - Dice: "[Chance]% chance ([Threshold]+ on d20): [Effects]"
-  - Cards: "[Chance]% chance ([Rule]): [Effects]"
-  - Coins: "[Chance]% chance ([Rule] with [Count] coins): [Effects]"
-  - If using spell reference: "Triggers spell: [Spell Name]"
-  - If using rollable table: "Uses rollable table: [Table Name]"
+  - For instant damage: "{damageFormula} • {chanceInfo}"
+  - **Dice-based**: "{damageFormula} • Roll d20: {Threshold}+ ({Chance}%) {EffectWithDetails}"
+    - Example: "3d6 + Intelligence Fire Damage • Roll d20: 18+ (15%) Burning (1d6 fire damage per round for 2 rounds)"
+    - Example: "2d8 + Strength Bludgeoning Damage • Roll d20: 18+ (15%) Stun (cannot take actions or reactions for 1 round)"
+  - **Card-based**: "{damageFormula} • Draw card: {Rule} ({Chance}) {EffectWithDetails}"
+    - Example: "3d6 + Intelligence Fire Damage • Draw card: Face Cards (J,Q,K) (23%) Burning (1d6 fire damage per round for 2 rounds)"
+  - **Coin-based**: "{damageFormula} • Flip {Count} coins: {Rule} ({Chance}) {EffectWithDetails}"
+    - Example: "3d6 + Intelligence Fire Damage • Flip 3 coins: All Heads (12.5%) Knockback (pushed back 10 feet)"
+  - **Spell reference**: "{damageFormula} • Roll d20: {Threshold}+ ({Chance}%) casts {Spell Name}"
+  - **Rollable table**: "{damageFormula} • Roll d20: {Threshold}+ ({Chance}%) triggers rollable table"
+- **⚠️ CRITICAL - Effect Details**: Custom effects are automatically formatted with detailed descriptions:
+  - **Burning**: Shows damage per round, duration, and save info if configured
+  - **Stun**: Shows duration and what it prevents (actions/reactions)
+  - **Slow**: Shows speed reduction (flat in feet or percentage), duration, and save info
+  - **Knockback**: Shows push distance
+  - **Shock**: Shows duration and effect description
+  - **Freeze**: Shows speed reduction, duration, and save info
+  - **Disarm**: Shows what happens (target drops weapon)
+  - **Fear**: Shows duration and save info
+- **Note**: 
+  - Chance on hit is appended to the instant damage mechanics text with a bullet separator (•), not shown as a separate "Chance Effect" entry
+  - **Always configure effect details** - Don't just use the effect name, provide configs so players understand what happens
+  - Only applies to instant damage (not DoT or area damage)
 
 ---
 
 ### Saving Throw Configuration
 
 Allows targets to make saving throws to reduce or negate spell effects.
+
+**Configuration Location**: `damageConfig.savingThrowConfig`, `debuffConfig`, `controlConfig`, or top-level `savingThrowConfig`
+
+**Capabilities**:
+- Configure saving throw type (Strength, Agility, Constitution, Intelligence, Spirit, Charisma)
+- Set difficulty class (DC 5-30)
+- Configure save outcomes (negate, halves, partial effect with formula)
+- Apply to damage, debuff, control, or status effects
+- Partial effects allow reduced damage/effect on successful save
 
 #### Fields Configured:
 - **savingThrow.enabled** (boolean)
@@ -2933,11 +4108,20 @@ Allows targets to make saving throws to reduce or negate spell effects.
   - 'none' - No effect on save
 
 #### SpellCard Display:
-- **Location**: Card body, effects section
+- **Location**: Card body, effects section (shown as separate effect entry)
 - **Format**: 
-  - "Saving Throw: [Type] DC [DC]"
-  - "On save: [Outcome]" (e.g., "On save: Half damage" or "On save: No effect")
-  - If partial effect: "On successful save: [Formula] (e.g., 'half damage', 'quarter damage')"
+  - **Name**: "Saving Throw"
+  - **Description**: "{SaveType} save DC {DC}"
+    - Example: "Constitution save DC 14"
+  - **Mechanics Text**: "{Outcome}"
+    - Examples: "negate", "halves", "ends next turn on save"
+    - For partial effects: Shows the formula (e.g., "damage/2 on save")
+- **Example Display**:
+  ```
+  Saving Throw - Constitution save DC 14
+  negate
+  ```
+- **Note**: Saving throws are shown as a separate effect entry, not integrated into damage mechanics text
 
 ---
 
@@ -2980,22 +4164,62 @@ Damage that applies over multiple rounds/turns.
 
 ### UnifiedSpellCard Formatting Functions:
 
-1. **formatCastTime()** - Cast time display
-2. **formatRange()** - Range and targeting display
-3. **formatAoeShape()** - AOE shape formatting
-4. **formatTargetingType()** - Targeting type description
-5. **formatPropagation()** - Propagation effect description
-6. **formatDuration()** - Duration display
-7. **formatCooldown()** - Cooldown display
-8. **formatResourceCosts()** - Resource cost badges
-9. **formatDamage()** - Damage effect text
-10. **formatHealing()** - Healing effect text
-11. **formatMechanics()** - Mechanics display
-12. **formatTypeSpecificBullets()** - Type-specific configuration bullets
-13. **getSpellTags()** - Tag extraction
-14. **getDamageTypes()** - Damage type extraction
-15. **cleanFormula()** - Formula cleaning
-16. **enhanceFormulaDisplay()** - Formula enhancement
+**Core Formatting Functions:**
+1. **formatCastTime()** - Cast time display (handles IMMEDIATE, START_OF_TURN, END_OF_TURN, CHANNELED, REACTION, PASSIVE, etc.)
+2. **formatRange()** - Range and targeting display (handles touch, ranged, sight, unlimited, self_centered, effect-specific targeting)
+3. **formatAoeShape()** - AOE shape formatting (circle, square, rectangle, line, cone, cylinder, sphere, wall)
+4. **formatEffectTargeting()** - Effect-specific targeting display (for split targeting mode)
+5. **formatTargetingType()** - Targeting type description (single, multi, area, ground, cone, line, chain, self)
+6. **formatPropagation()** - Propagation effect description (chain, bounce, seeking, explosion, spreading, forking)
+7. **formatDuration()** - Duration display (instant, rounds, turns, minutes, hours, permanent, concentration)
+8. **formatCooldown()** - Cooldown display (turn_based, short_rest, long_rest, charge_based, dice_based)
+9. **formatResourceCosts()** - Resource cost badges (handles all resource types including class-specific)
+10. **formatSpellComponents()** - Spell components display (V, S, M with custom text)
+11. **formatMaterialComponentsText()** - Material components text formatting
+
+**Effect Formatting Functions:**
+12. **formatDamage()** - Damage effect text (instant, DoT, area, with all resolution types)
+13. **formatHealing()** - Healing effect text (direct, HoT, shield, with all resolution types)
+14. **formatBuffEffects()** - Buff effects display (stat enhancements, status effects, temporary HP, progressive)
+15. **formatDebuffEffects()** - Debuff effects display (stat reductions, status effects, progressive)
+16. **formatStatusEffectDetails()** - Detailed status effect formatting with all configurations
+17. **formatCriticalHit()** - Critical hit display (dice, cards, coins, with effects and life drain)
+18. **formatChanceOnHit()** - Chance on hit display (integrated into damage text)
+19. **formatSavingThrow()** - Saving throw display (for damage, debuff, control effects)
+
+**Mechanics Formatting Functions:**
+20. **formatMechanics()** - Mechanics display (combo points, proc system, state requirements, form system, toxic system, chord system)
+21. **formatGraduatedEffects()** - Graduated recipe effects (toxic system, chord system)
+22. **processMechanicConfig()** - Process individual mechanic configurations
+
+**Helper Functions:**
+23. **cleanFormula()** - Formula cleaning (handles resource variables, camelCase, underscores)
+24. **enhanceFormulaDisplay()** - Formula enhancement with damage type context
+25. **formatFormulaToPlainEnglish()** - Converts technical formulas to readable text (from SpellCardUtils)
+26. **getSpellTags()** - Tag extraction and filtering
+27. **getDamageTypes()** - Damage type extraction (handles multiple types, normalization)
+28. **getDamageTypeSuffix()** - Damage type suffix formatting ("Fire Damage", "Cold and Lightning Damage")
+29. **formatResourceName()** - Resource name formatting (handles all class-specific resources)
+30. **getResourceIcon()** - Resource icon retrieval
+31. **getResourceColor()** - Resource color retrieval
+32. **formatComponentName()** - Component name formatting (hyphenated to title case)
+33. **formatTriggerText()** - Trigger text formatting (converts trigger objects to readable text)
+34. **formatTriggerId()** - Trigger ID formatting
+35. **normalizeSaveType()** - Save type normalization (maps D&D names to system names)
+36. **getEnhancedStatName()** - Enhanced stat name formatting with magnitude
+37. **getStatType()** - Stat type determination
+38. **getThematicResistanceDescription()** - Thematic resistance descriptions (vampiric, draining, siphoning, etc.)
+39. **getInfernoStageName()** - Inferno stage name formatting (for Pyrofiend)
+40. **getInfernoStageNameWithSuffix()** - Inferno stage name with suffix (for requirements)
+
+**Special Display Functions:**
+41. **formatCombinedHealing()** - Combined healing display (direct + HoT + shield)
+42. **formatPurificationEffects()** - Purification effects display (dispel, cleanse, remove curse, banish)
+43. **formatRestorationEffects()** - Restoration effects display (mana, health, stamina, resurrection)
+44. **formatUtilityEffects()** - Utility effects display (movement, information, transformation, environment)
+45. **formatSummoningEffects()** - Summoning effects display (creature summoning with stats and control)
+46. **formatTransformationEffects()** - Transformation effects display (physical, mental, elemental, shapechange)
+47. **formatControlEffects()** - Control effects display (forced movement, restraint, incapacitation, mind control)
 
 ### SpellCardUtils Functions:
 
@@ -3022,6 +4246,8 @@ Damage that applies over multiple rounds/turns.
     - **Pyrofiend**: `inferno_required`, `inferno_ascend`, `inferno_descend` → flattened to `infernoRequired`, `infernoAscend`, `infernoDescend`
     - **Martyr**: `devotion_required`, `devotion_cost`, `devotion_gain` → flattened to `devotionRequired`, `devotionCost`, `devotionGain`
     - **Chronarch**: `time_shard_generate`, `time_shard_cost`, `temporal_strain_gain`, `temporal_strain_reduce` → flattened to `timeShardGenerate`, `timeShardCost`, `temporalStrainGain`, `temporalStrainReduce`
+    - **Deathcaller**: `bloodTokens`, `ascension_required` → flattened to `bloodTokens`, `ascensionRequired`
+    - **Dreadnaught**: `drp` → flattened to `drp` (Dark Resilience Points)
     - **Action Points**: Always set `resourceCost.actionPoints` explicitly (not in resourceTypes/resourceValues)
     - The normalizer handles this automatically, so spells from class data files will display correctly in the library
 
@@ -3140,10 +4366,87 @@ The `UnifiedSpellCard` component is used throughout the application in the follo
     - Variant: `compact` or tooltip variant
     - Purpose: Show spell details on hover
 
-11. **Character Sheet**
-    - Location: Character sheet spell display components
-    - Variant: `compact` or `spellbook`
-    - Purpose: Display known/prepared spells
+---
 
-**Important**: All these locations use the same `UnifiedSpellCard` component, ensuring consistent formatting across the entire application. Any changes to spell card formatting should be made in `UnifiedSpellCard.jsx` to maintain consistency.
+## 📋 Quick Reference: Advanced Topics
+
+> **💡 TIP**: For effect types and description/mechanicsText rules, see the **"AI QUICK REFERENCE"** section at the top of this document. This section covers **triggers, targeting, and resources** in detail.
+
+### Trigger Types Summary
+
+**Three Types of Triggers:**
+
+1. **Global Triggers** (`triggerConfig.global`)
+   - Apply to entire spell
+   - Used for REACTION, PASSIVE, TRAP, STATE spell types
+   - Displayed as header before all effects
+
+2. **Effect-Specific Triggers** (`triggerConfig.effectTriggers`)
+   - Apply to specific effects (damage, healing, etc.)
+   - Can be stored under base types OR subtypes
+   - Displayed as header before the specific effect
+   - Display regardless of whether effect is conditional
+
+3. **Required Conditions** (`triggerConfig.requiredConditions`)
+   - Conditions that must be met before spell can be cast
+   - Displayed as header before all effects
+   - Format: "Required - ALL/ANY"
+
+4. **Conditional Effects** (`triggerConfig.conditionalEffects`)
+   - Modify how effects work based on triggers
+   - Require effect-specific triggers to exist
+   - Displayed below main effect text as "If {trigger}: {formula}"
+
+### Targeting Modes Summary
+
+**Two Targeting Modes:**
+
+1. **Unified Targeting** (`targetingMode: 'unified'`)
+   - Single `targetingConfig` applies to all effects
+   - Displayed in header only
+   - Individual effects don't show targeting badges
+
+2. **Effect-Specific Targeting** (`targetingMode: 'effect'`)
+   - Each effect has its own `effectTargeting[effectType]` config
+   - Each effect shows its own targeting badges
+   - Header doesn't show unified targeting
+
+**⚠️ CRITICAL**: When `targetingType: 'self'`, do NOT include `targetRestrictions: ['self']` or `rangeType: 'self'` - this creates redundancy.
+
+### Resource Costs Summary
+
+**Resource Types:**
+- **Basic**: Action Points, Mana, Rage, Energy, Focus, etc.
+- **Class-Specific**: Elemental Spheres, Inferno, Musical Notes, Temporal Mechanics, Devotion, Blood Tokens, DRP, Chaos, Fate, Rage States
+
+**Resource Cost Structure:**
+```javascript
+resourceCost: {
+  resourceTypes: ['mana', 'inferno_ascend'],  // Array of resource types
+  resourceValues: {                           // Values for each type
+    mana: 8,
+    inferno_ascend: 2
+  },
+  resourceFormulas: {                         // Formulas (if useFormulas[type] === true)
+    health: '1d6'
+  },
+  useFormulas: {                              // Which resources use formulas
+    health: true
+  },
+  actionPoints: 2,                            // ⚠️ ALWAYS specify explicitly
+  channelingFrequency: 'per_round',           // For CHANNELED spells only
+  components: ['verbal', 'somatic', 'material'] // Spell components
+}
+```
+
+**Spell Components:**
+- `components[]`: Array of 'verbal', 'somatic', 'material'
+- `verbalText`: Custom verbal component text
+- `somaticText`: Custom somatic component text
+- `materialComponents`: Material component description
+
+
+---
+
+**This template provides complete mapping from every wizard step to every possible display format on the spell card. Use this as a reference when generating spells through prompts to ensure all fields are properly configured and will display correctly.**
 

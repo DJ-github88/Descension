@@ -1807,6 +1807,1154 @@ Ogoun: ✓ (poison applied, ally nearby)
       tags: ['totem', 'buff', 'immunity', 'war-priest', 'essence-generator'],
       flavorText: 'The war spirits rally around the totem, their courage infectious.'
     }
-  ]
+  ],
+
+  // Comprehensive Spell List (Levels 1-10, 3 spells each, following template)
+  spells: [
+    // ===== LEVEL 1 SPELLS =====
+    {
+      id: 'witch_doctor_basic_curse',
+      name: 'Basic Curse',
+      description: 'Place a simple curse on your enemy that deals necrotic damage over time.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_darkritual',
+        tags: ['attack', 'damage', 'curse', 'necrotic', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '1d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 3,
+          tickFrequency: 'round',
+          dotFormula: '1d6 + spirit',
+          isProgressiveDot: false
+        }
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 5 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'curse', 'necrotic', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_voodoo_bolt',
+      name: 'Voodoo Bolt',
+      description: 'Hurl a bolt of voodoo energy at your target.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_shadowbolt',
+        tags: ['attack', 'damage', 'necrotic', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '2d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'necrotic', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_spirit_link',
+      name: 'Spirit Link',
+      description: 'Link yourself to an ally, sharing damage between you.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_ancestralguardian',
+        tags: ['buff', 'support', 'spirit', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'spirit_link',
+          name: 'Spirit Link',
+          description: 'Damage taken is split 50/50 between linked allies for 3 rounds',
+          customDescription: 'You are spiritually linked. When either of you takes damage, both of you share that damage equally.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'support', 'spirit', 'witch-doctor']
+    },
+
+    // ===== LEVEL 4 SPELLS =====
+    {
+      id: 'witch_doctor_mass_curse',
+      name: 'Mass Curse',
+      description: 'Curse multiple enemies at once, dealing damage over time.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_deathanddecay',
+        tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '2d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 4,
+          tickFrequency: 'round',
+          dotFormula: '2d6 + spirit',
+          isProgressiveDot: false
+        }
+      },
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 3,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 16 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_voodoo_doll',
+      name: 'Voodoo Doll',
+      description: 'Create a voodoo doll of your enemy. When you damage the doll, the enemy takes damage.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'inv_misc_bone_humanskull_02',
+        tags: ['damage', 'utility', 'voodoo', 'witch-doctor'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '4d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        description: 'Doll lasts 3 rounds. Each round, you can attack the doll to deal damage to the target.'
+      },
+      utilityConfig: {
+        utilityType: 'special',
+        selectedEffects: [{
+          id: 'voodoo_doll',
+          name: 'Voodoo Doll',
+          description: 'Creates a voodoo doll linked to target. Damage the doll to hurt the target.'
+        }],
+        duration: 3,
+        durationUnit: 'rounds',
+        concentration: true,
+        power: 'moderate'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'A cloth doll and a strand of target hair'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'utility', 'voodoo', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_invoke_simbi',
+      name: 'Invoke Simbi',
+      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['healing', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_healingwavegreater',
+        tags: ['healing', 'buff', 'loa', 'support', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '4d8 + spirit',
+        healingType: 'instant',
+        hasHotEffect: true,
+        hotFormula: '1d8 + spirit/2',
+        hotDuration: 3,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'simbi_blessing',
+          name: "Simbi's Blessing",
+          description: 'Gain +2 to spirit-based saves for 3 rounds',
+          statModifier: {
+            stat: 'saving_throws',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['healing', 'buff', 'loa', 'support', 'witch-doctor']
+    },
+
+    // ===== LEVEL 5 SPELLS (need 2 more) =====
+    {
+      id: 'witch_doctor_hex',
+      name: 'Hex',
+      description: 'Place a powerful hex on your enemy that amplifies all damage they take.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['debuff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_shadetruesight',
+        tags: ['debuff', 'curse', 'hex', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      debuffConfig: {
+        debuffType: 'custom',
+        effects: [{
+          id: 'hex',
+          name: 'Hex',
+          description: 'Target takes 25% more damage from all sources for 4 rounds',
+          customDescription: 'You are hexed. All damage you take is increased by 25%.'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'spirit',
+        saveOutcome: 'negates',
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['debuff', 'curse', 'hex', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_zombie_swarm',
+      name: 'Zombie Swarm',
+      description: 'Summon a swarm of zombies to fight for you.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_raisedead',
+        tags: ['summoning', 'undead', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'zombie',
+          name: 'Zombie',
+          description: 'Shambling undead minion',
+          size: 'Medium',
+          type: 'undead',
+          tokenIcon: 'spell_shadow_raisedead',
+          stats: {
+            maxHp: 25,
+            armor: 11,
+            maxMana: 0
+          },
+          config: {
+            quantity: 4,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 60
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 60,
+        controlType: 'mental'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 24 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Four corpses or grave dirt'
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'undead', 'witch-doctor']
+    },
+
+    // ===== LEVEL 6 SPELLS (need 1 more) =====
+    {
+      id: 'witch_doctor_death_ward',
+      name: 'Death Ward',
+      description: 'Protect an ally from death, preventing them from dying once.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_shadow_deathanddecay',
+        tags: ['buff', 'defense', 'protection', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'death_ward',
+          name: 'Death Ward',
+          description: 'When you would be reduced to 0 HP, instead be reduced to 1 HP. This effect can only trigger once and lasts for 5 rounds.',
+          customDescription: 'You are protected by a death ward. The next time you would be reduced to 0 HP within 5 rounds, you are instead reduced to 1 HP. This effect then ends.'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'defense', 'protection', 'witch-doctor']
+    },
+
+    // ===== LEVEL 7 SPELLS (need 1 more) =====
+    {
+      id: 'witch_doctor_invoke_ogoun',
+      name: 'Invoke Ogoun',
+      description: 'Invoke Ogoun, the loa of war and iron, to devastate your enemies.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_warrior_battleshout',
+        tags: ['damage', 'buff', 'loa', 'war', 'witch-doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '8d8 + spirit * 2',
+        elementType: 'slashing',
+        damageType: 'direct'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'ogoun_fury',
+          name: "Ogoun's Fury",
+          description: 'All allies gain +3 to attack rolls and +2d6 damage for 4 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'buff', 'loa', 'war', 'witch-doctor']
+    },
+
+    // ===== LEVEL 8 SPELLS =====
+    {
+      id: 'witch_doctor_invoke_baron_samedi',
+      name: 'Invoke Baron Samedi',
+      description: 'Invoke Baron Samedi, the loa of death, to obliterate all cursed enemies.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_deathcoil',
+        tags: ['damage', 'loa', 'death', 'epic', 'witch-doctor'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '12d10 + spirit * 3',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        description: 'Deals triple damage to cursed enemies'
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 15,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Rum, cigars, and grave dirt'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'loa', 'death', 'epic', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_mass_resurrection',
+      name: 'Mass Resurrection',
+      description: 'Invoke the spirits to resurrect all dead allies.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['healing', 'restoration'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_holy_prayerofhealing02',
+        tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch-doctor'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '6d8 + spirit',
+        healingType: 'instant',
+        description: 'Resurrects all dead allies within range at half HP'
+      },
+      restorationConfig: {
+        restorationType: 'resurrection',
+        resourceType: 'health',
+        resolution: 'DICE',
+        formula: '6d8 + spirit',
+        restoredHealth: '50%',
+        restoredMana: 0,
+        removesConditions: ['dead'],
+        castingTime: 3,
+        castingTimeUnit: 'actions',
+        timeLimit: 5,
+        timeLimitUnit: 'minutes',
+        penaltyOnRevive: null
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally'],
+        maxTargets: 10,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Ancestral bones and offerings'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_plague_storm',
+      name: 'Plague Storm',
+      description: 'Summon a storm of disease and decay that ravages all enemies.',
+      level: 8,
+      spellType: 'ZONE',
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_plaguecloud',
+        tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch-doctor'],
+        zoneDuration: 5,
+        zoneDurationUnit: 'rounds',
+        leaveTrail: false
+      },
+      damageConfig: {
+        formula: '6d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'area',
+        description: 'All enemies in the zone take damage at the start of their turn'
+      },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'diseased',
+          name: 'Diseased',
+          description: 'Movement speed reduced by 20 feet and healing received reduced by 50%'
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 80,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 35 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 20,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 42 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Diseased flesh or plague rat'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch-doctor']
+    },
+
+    // ===== LEVEL 9 SPELLS =====
+    {
+      id: 'witch_doctor_invoke_erzulie',
+      name: 'Invoke Erzulie',
+      description: 'Invoke Erzulie, the loa of love and beauty, to empower and protect all allies.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'healing'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_holy_layonhands',
+        tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch-doctor'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '10d8 + spirit * 2',
+        healingType: 'instant',
+        hasHotEffect: true,
+        hotFormula: '3d8 + spirit',
+        hotDuration: 5,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'erzulie_blessing',
+          name: "Erzulie's Blessing",
+          description: 'All allies gain +4 to all stats, regenerate 3d8 HP per round, and gain +50% healing received for 5 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 20,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Perfume, jewelry, and flowers'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_voodoo_apocalypse',
+      name: 'Voodoo Apocalypse',
+      description: 'Unleash a devastating voodoo apocalypse that curses and destroys all enemies.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_painandsuffering',
+        tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch-doctor'],
+        castTime: 4,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '20d8 + spirit * 3',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 19,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'constitution',
+        saveOutcome: 'halves_effects',
+        effects: [{
+          id: 'cursed',
+          name: 'Voodoo Curse',
+          description: 'All cursed enemies take 3d8 necrotic damage per round and have disadvantage on all rolls'
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 80 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 30,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The skull of a powerful enemy, worth 50,000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_spirit_ascension',
+      name: 'Spirit Ascension',
+      description: 'Ascend to become a pure spirit, gaining incredible power and near invulnerability.',
+      level: 9,
+      spellType: 'STATE',
+      effectTypes: ['transformation', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_astralrecal',
+        tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch-doctor'],
+        stateVisibility: 'visible',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
+      },
+      transformationConfig: {
+        transformationType: 'elemental',
+        targetType: 'self',
+        duration: 5,
+        durationUnit: 'rounds',
+        power: 'major',
+        specialEffects: ['Become immune to physical damage', 'All voodoo spells cost 50% less mana', 'Generate 3 Voodoo Essence per round']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'spirit_form_power',
+            name: 'Spirit Form Power',
+            description: 'All stats increased by +5, all spell damage increased by 50%, and regenerate 4d10 HP per round for 5 rounds',
+            statModifier: {
+              stat: 'all_stats',
+              magnitude: 5,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'spirit_form_defense',
+            name: 'Spirit Form Defense',
+            description: 'Gain immunity to physical damage and 75% magical damage reduction for 5 rounds',
+            statModifier: {
+              stat: 'damage_reduction',
+              magnitude: 75,
+              magnitudeType: 'percentage'
+            }
+          }
+        ],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 58 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch-doctor']
+    },
+
+    // ===== LEVEL 10 SPELLS =====
+    {
+      id: 'witch_doctor_eternal_voodoo',
+      name: 'Eternal Voodoo',
+      description: 'Become one with the loa, gaining permanent voodoo powers.',
+      level: 10,
+      spellType: 'PASSIVE',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_shadow_sealofkings',
+        tags: ['buff', 'passive', 'loa', 'legendary', 'witch-doctor'],
+        toggleable: true
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'eternal_voodoo',
+          name: 'Eternal Voodoo',
+          description: 'You have become one with the loa. Generate 5 Voodoo Essence per round, all voodoo spells deal double damage, and you are immune to curses',
+          customDescription: 'You have achieved eternal voodoo mastery. You generate 5 Voodoo Essence per round automatically. All of your voodoo spells deal double damage. You are immune to all curses and necrotic damage. Your loa invocations cost 50% less essence.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'The blessing of all the loa, 100,000 gold worth of offerings'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'passive', 'loa', 'legendary', 'witch-doctor', 'toggleable']
+    },
+
+    {
+      id: 'witch_doctor_invoke_papa_legba',
+      name: 'Invoke Papa Legba',
+      description: 'Invoke Papa Legba, the loa of crossroads and gateways, to control the battlefield.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['utility', 'control'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_earthbindtotem',
+        tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch-doctor'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+      utilityConfig: {
+        utilityType: 'special',
+        selectedEffects: [{
+          id: 'papa_legba',
+          name: 'Papa Legba',
+          description: 'Opens portals across the battlefield. Allies can teleport freely between them for 10 rounds. Enemies who enter take 6d10 necrotic damage.'
+        }],
+        duration: 10,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'major'
+      },
+      controlConfig: {
+        controlType: 'restriction',
+        strength: 'strong',
+        duration: 10,
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'portal_trap',
+          name: 'Portal Trap',
+          description: 'Enemies who enter portals are trapped for 1 round and take damage'
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 100 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 70 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Keys, crossroads dirt, and rum'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch-doctor']
+    },
+
+    {
+      id: 'witch_doctor_ultimate_curse',
+      name: 'Ultimate Curse',
+      description: 'Place the ultimate voodoo curse that dooms your enemy to death.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'spell_shadow_deathscream',
+        tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch-doctor'],
+        castTime: 5,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '25d10 + spirit * 4',
+        elementType: 'necrotic',
+        damageType: 'direct',
+        description: 'If target survives, they are cursed to die in 3 rounds unless the curse is removed'
+      },
+      debuffConfig: {
+        debuffType: 'custom',
+        effects: [{
+          id: 'doom_curse',
+          name: 'Doom Curse',
+          description: 'If you survive the initial damage, you are doomed to die in 3 rounds unless this curse is removed by powerful magic',
+          customDescription: 'You are cursed with the ultimate doom. If you are still alive after 3 rounds, you die instantly. This curse can only be removed by legendary magic or intervention of the gods.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 20,
+        saveType: 'constitution',
+        saveOutcome: 'reduces_level',
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 100,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 75 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'A piece of the target soul, worth immeasurable value'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch-doctor']
+    }
+  ],
+
+  // Spell Pools by Level
+  spellPools: {
+    1: [
+      'witch_doctor_basic_curse',
+      'witch_doctor_voodoo_bolt',
+      'witch_doctor_spirit_link'
+    ],
+    2: [],
+    3: [],
+    4: [
+      'witch_doctor_mass_curse',
+      'witch_doctor_voodoo_doll',
+      'witch_doctor_invoke_simbi'
+    ],
+    5: [
+      'witch_doctor_hex',
+      'witch_doctor_zombie_swarm'
+    ],
+    6: [
+      'witch_doctor_death_ward'
+    ],
+    7: [
+      'witch_doctor_invoke_ogoun'
+    ],
+    8: [
+      'witch_doctor_invoke_baron_samedi',
+      'witch_doctor_mass_resurrection',
+      'witch_doctor_plague_storm'
+    ],
+    9: [
+      'witch_doctor_invoke_erzulie',
+      'witch_doctor_voodoo_apocalypse',
+      'witch_doctor_spirit_ascension'
+    ],
+    10: [
+      'witch_doctor_eternal_voodoo',
+      'witch_doctor_invoke_papa_legba',
+      'witch_doctor_ultimate_curse'
+    ]
+  }
 };
 

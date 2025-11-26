@@ -729,6 +729,7 @@ const DAMAGE_ICONS = {
 const damageTypeColors = {
     acid: '#32CD32',
     bludgeoning: '#8B4513',
+    chaos: '#ec4899',
     cold: '#87CEEB',
     fire: '#FF4500',
     force: '#ff66ff',

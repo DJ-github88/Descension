@@ -772,11 +772,17 @@ Many players enhance the titan experience with:
       },
 
       debuffConfig: {
-        effects: [
-          'All enemies within 10 feet are blinded for 1 turn',
-          'Blinded creatures have disadvantage on attack rolls',
-          'Attack rolls against blinded creatures have advantage'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'blinded',
+          name: 'Blinded',
+          description: 'Blinded creatures have disadvantage on attack rolls and attacks against them have advantage - cannot see, automatically fails sight-based checks',
+          statusType: 'blinded',
+          level: 'moderate'
+        }]
       },
 
       effects: {
@@ -1072,11 +1078,17 @@ Many players enhance the titan experience with:
       },
 
       debuffConfig: {
-        effects: [
-          'Target is stunned for 1 turn',
-          'Stunned creatures cannot move or take actions',
-          'Attacks against stunned creatures have advantage'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'stunned',
+          name: 'Stunned',
+          description: 'Stunned creatures cannot move or take actions - cannot act or move for the duration',
+          statusType: 'stunned',
+          level: 'moderate'
+        }]
       },
 
       effects: {
@@ -1217,12 +1229,17 @@ Many players enhance the titan experience with:
       },
 
       debuffConfig: {
-        effects: [
-          'All enemies within 20 feet are knocked prone',
-          'Prone creatures have disadvantage on attack rolls',
-          'Melee attacks against prone creatures have advantage',
-          'Standing up costs half movement'
-        ]
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'prone',
+          name: 'Prone',
+          description: 'Knocked to the ground - disadvantage on attacks, advantage against melee, half movement to stand',
+          statusType: 'prone',
+          level: 'moderate'
+        }]
       },
 
       effects: {
@@ -1485,6 +1502,1280 @@ Many players enhance the titan experience with:
       },
 
       tags: ['utility', 'devotion', 'switching', 'astral-warrior', 'titan']
+    },
+
+    // ========================================
+    // LEVEL 4 SPELLS
+    // ========================================
+    {
+      id: 'titan_celestial_strike',
+      name: 'Celestial Strike',
+      description: 'Channel celestial energy into a devastating melee strike that deals damage based on your devotion.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'spell_holy_crusaderstrike',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_crusaderstrike',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 15 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Weapon strike infused with celestial power'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '4d8 + strength + devotion_bonus',
+        elementType: 'varies_by_devotion',
+        damageType: 'direct'
+      },
+
+      specialMechanics: {
+        devotionVariants: {
+          solara: { element: 'radiant', bonus: '+2d6 fire' },
+          lunara: { element: 'cold', bonus: '+2d6 healing to self' },
+          astraeus: { element: 'force', bonus: 'Extra attack if target dies' },
+          terranox: { element: 'bludgeoning', bonus: 'Knockback 10 feet' },
+          zephyra: { element: 'lightning', bonus: 'Chain to nearby enemy' }
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['damage', 'melee', 'devotion', 'level-4', 'titan']
+    },
+
+    {
+      id: 'titan_celestial_armor',
+      name: 'Celestial Armor',
+      description: 'Summon celestial armor around yourself, gaining significant damage reduction and resistances.',
+      level: 4,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_holy_powerwordbarrier',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Armor of the stars!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'armor',
+        effects: [{
+          id: 'celestial_armor',
+          name: 'Celestial Armor',
+          description: '+4 AC and resistance to your devotion\'s damage type'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'armor', 'protection', 'level-4', 'titan']
+    },
+
+    {
+      id: 'titan_divine_challenge',
+      name: 'Divine Challenge',
+      description: 'Issue a divine challenge to an enemy. They must attack you or suffer radiant damage.',
+      level: 4,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_holy_sealofblood',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'spell_holy_sealofblood',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Face me, coward!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['debuff', 'taunt'],
+
+      debuffConfig: {
+        debuffType: 'taunt',
+        effects: [{
+          id: 'divine_challenge',
+          name: 'Divine Challenge',
+          description: 'Target must attack you. If they attack someone else, they take 3d6 radiant damage.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['debuff', 'taunt', 'control', 'level-4', 'titan']
+    },
+
+    // ========================================
+    // LEVEL 5 SPELLS
+    // ========================================
+    {
+      id: 'titan_solar_flare',
+      name: 'Solar Flare',
+      description: 'Release a burst of solar energy, dealing fire and radiant damage to all nearby enemies.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_fire_sealoffire',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_fire_sealoffire',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Solara, ignite!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '5d8 + strength',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 15,
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['damage', 'aoe', 'radiant', 'solara', 'level-5', 'titan']
+    },
+
+    {
+      id: 'titan_lunar_shield',
+      name: 'Lunar Shield',
+      description: 'Create a shield of moonlight that protects allies and heals them over time.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_holy_holybolt',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_holybolt',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 25 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Lunara, protect us!',
+        somaticText: 'Raise hand to moon'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff', 'healing'],
+
+      buffConfig: {
+        buffType: 'shield',
+        effects: [{
+          id: 'lunar_shield',
+          name: 'Lunar Shield',
+          description: '+3 AC and regeneration'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+
+      healingConfig: {
+        formula: '2d6',
+        healingType: 'hot',
+        hasHotEffect: true,
+        hotFormula: '2d6',
+        hotDuration: 4,
+        hotTickType: 'round'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'healing', 'protection', 'lunara', 'level-5', 'titan']
+    },
+
+    {
+      id: 'titan_starfall',
+      name: 'Starfall',
+      description: 'Call down a meteor of starlight on an area, dealing massive force damage.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'spell_arcane_arcane04',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_arcane_arcane04',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Stars, fall!',
+        somaticText: 'Point at sky then ground'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '6d10 + strength',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 16,
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'aoe', 'force', 'astraeus', 'level-5', 'titan']
+    },
+
+    // ========================================
+    // LEVEL 6 SPELLS
+    // ========================================
+    {
+      id: 'titan_earthquake',
+      name: 'Earthquake',
+      description: 'Cause the ground to shake violently, knocking enemies prone and creating difficult terrain.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_nature_earthquake',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_earthquake',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 32 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Terranox, shake the earth!',
+        somaticText: 'Stomp ground'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '4d8 + strength',
+        elementType: 'bludgeoning',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 16,
+          saveOutcome: 'halves'
+        }
+      },
+
+      controlConfig: {
+        controlType: 'knockdown',
+        strength: 'strong',
+        duration: 0,
+        durationUnit: 'instant',
+        saveDC: 16,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'prone',
+          name: 'Prone',
+          description: 'Enemies are knocked prone'
+        }]
+      },
+
+      zoneConfig: {
+        duration: 3,
+        durationUnit: 'rounds',
+        effects: ['difficult_terrain'],
+        movable: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'control', 'zone', 'terranox', 'level-6', 'titan']
+    },
+
+    {
+      id: 'titan_lightning_storm',
+      name: 'Lightning Storm',
+      description: 'Summon a storm of lightning that strikes multiple enemies and increases your attack speed.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'spell_nature_lightning',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_lightning',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'Zephyra, storm!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'buff'],
+
+      damageConfig: {
+        formula: '6d8 + strength',
+        elementType: 'lightning',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 17,
+          saveOutcome: 'halves'
+        }
+      },
+
+      buffConfig: {
+        buffType: 'haste',
+        effects: [{
+          id: 'storm_speed',
+          name: 'Storm Speed',
+          description: 'Gain an extra attack this turn'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'aoe', 'lightning', 'zephyra', 'level-6', 'titan']
+    },
+
+    {
+      id: 'titan_celestial_convergence',
+      name: 'Celestial Convergence',
+      description: 'Combine the power of two devotions temporarily, gaining benefits from both.',
+      level: 6,
+      spellType: 'BONUS_ACTION',
+      icon: 'spell_arcane_prismaticcloak',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_arcane_prismaticcloak',
+        castTime: 1,
+        castTimeType: 'BONUS'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 30 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'Celestials, converge!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'dual_devotion',
+        effects: [{
+          id: 'celestial_convergence',
+          name: 'Celestial Convergence',
+          description: 'Gain benefits from your current devotion AND one other of your choice'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['buff', 'devotion', 'dual', 'level-6', 'titan']
+    },
+
+    // ========================================
+    // LEVEL 7 SPELLS
+    // ========================================
+    {
+      id: 'titan_avatar_of_solara',
+      name: 'Avatar of Solara',
+      description: 'Transform into an avatar of the radiant sun, gaining immense fire and radiant powers.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_fire_immolation',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_fire_immolation',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'SOLARA, EMBODY ME!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'celestial',
+        formName: 'Avatar of Solara',
+        formDescription: 'You become wreathed in solar flames.',
+        duration: 5,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'damage', magnitude: '2d6 fire', magnitudeType: 'dice' },
+          { stat: 'armorClass', magnitude: 2, magnitudeType: 'flat' }
+        ],
+        resistances: [
+          { type: 'fire', resistanceAmount: 'immunity' }
+        ],
+        specialAbilities: [{
+          name: 'Burning Aura',
+          description: 'Enemies within 10 feet take 2d6 fire damage at start of their turn'
+        }],
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['transformation', 'solara', 'fire', 'level-7', 'titan']
+    },
+
+    {
+      id: 'titan_lunara_blessing',
+      name: "Lunara's Blessing",
+      description: 'Receive the full blessing of the moon, gaining massive regeneration and protective powers.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_holy_renew',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_renew',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 45 },
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Lunara, bless us!',
+        somaticText: 'Arms raised to moon'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing', 'buff'],
+
+      healingConfig: {
+        formula: '4d10 + strength',
+        healingType: 'direct',
+        hasHotEffect: true,
+        hotFormula: '3d6',
+        hotDuration: 5,
+        hotTickType: 'round'
+      },
+
+      buffConfig: {
+        buffType: 'regeneration',
+        effects: [{
+          id: 'lunara_blessing',
+          name: "Lunara's Blessing",
+          description: 'All allies gain +3 AC and regenerate HP each turn'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['healing', 'buff', 'lunara', 'level-7', 'titan']
+    },
+
+    {
+      id: 'titan_meteor_swarm',
+      name: 'Meteor Swarm',
+      description: 'Call down a barrage of meteors from the stars, devastating a massive area.',
+      level: 7,
+      spellType: 'ACTION',
+      icon: 'spell_fire_meteorstorm',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_fire_meteorstorm',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'multi_ground',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        maxTargets: 4,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Astraeus, meteors!',
+        somaticText: 'Pull stars from sky'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '8d6 + strength',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 17,
+          saveOutcome: 'halves'
+        },
+        specialRules: 'Each point can be targeted separately. Areas can overlap for stacking damage.'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['damage', 'aoe', 'astraeus', 'level-7', 'titan']
+    },
+
+    // ========================================
+    // LEVEL 8 SPELLS
+    // ========================================
+    {
+      id: 'titan_mountain_fortress',
+      name: 'Mountain Fortress',
+      description: 'Transform into an immovable mountain fortress, becoming nearly invulnerable.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_nature_stoneclawtotem',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_nature_stoneclawtotem',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'TERRANOX, FORTRESS!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'elemental',
+        formName: 'Mountain Fortress',
+        formDescription: 'You become a living mountain of stone.',
+        duration: 3,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' },
+          { stat: 'damageReduction', magnitude: 10, magnitudeType: 'flat' }
+        ],
+        resistances: [
+          { type: 'physical', resistanceAmount: 'resistance' },
+          { type: 'fire', resistanceAmount: 'resistance' },
+          { type: 'cold', resistanceAmount: 'resistance' }
+        ],
+        specialAbilities: [{
+          name: 'Immovable',
+          description: 'Cannot be moved, knocked prone, or teleported against your will'
+        }],
+        restrictions: ['Cannot move', 'Disadvantage on Dexterity checks'],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 6
+      },
+
+      tags: ['transformation', 'terranox', 'defense', 'level-8', 'titan']
+    },
+
+    {
+      id: 'titan_storm_lord',
+      name: 'Storm Lord',
+      description: 'Become the lord of storms, commanding lightning and wind to devastate enemies.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_nature_stormreach',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_nature_stormreach',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'ZEPHYRA, STORM LORD!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '10d8 + strength',
+        elementType: 'lightning',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 18,
+          saveOutcome: 'halves'
+        }
+      },
+
+      controlConfig: {
+        controlType: 'stun',
+        strength: 'strong',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'constitution',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['damage', 'control', 'lightning', 'zephyra', 'level-8', 'titan']
+    },
+
+    {
+      id: 'titan_celestial_judgment',
+      name: 'Celestial Judgment',
+      description: 'Call upon all celestials to pass judgment on an enemy, dealing massive damage.',
+      level: 8,
+      spellType: 'ACTION',
+      icon: 'spell_holy_reckoning',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_reckoning',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 90,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        actionPoints: 2,
+        components: ['verbal'],
+        verbalText: 'CELESTIALS, JUDGE THIS ONE!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '12d10 + strength * 2',
+        elementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 19,
+          saveOutcome: 'halves'
+        },
+        bonusEffects: 'Deals double damage to undead and fiends'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+
+      tags: ['damage', 'radiant', 'single-target', 'level-8', 'titan']
+    },
+
+    // ========================================
+    // LEVEL 9 SPELLS
+    // ========================================
+    {
+      id: 'titan_celestial_avatar',
+      name: 'Celestial Avatar',
+      description: 'Transform into a full celestial avatar, gaining the ultimate power of your devotion.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineillumination',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_divineillumination',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 75 },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'I BECOME THE CELESTIAL!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'celestial',
+        formName: 'Celestial Avatar',
+        formDescription: 'You become one with your chosen celestial, gaining godlike power.',
+        duration: 5,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'all', magnitude: 5, magnitudeType: 'flat' },
+          { stat: 'armorClass', magnitude: 5, magnitudeType: 'flat' },
+          { stat: 'damage', magnitude: 50, magnitudeType: 'percentage' }
+        ],
+        resistances: [
+          { type: 'all', resistanceAmount: 'resistance' }
+        ],
+        specialAbilities: [{
+          name: 'Avatar Power',
+          description: 'All devotion abilities are enhanced. Can fly. Immune to fear and charm.'
+        }],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['transformation', 'ultimate', 'devotion', 'level-9', 'titan']
+    },
+
+    {
+      id: 'titan_celestial_bombardment',
+      name: 'Celestial Bombardment',
+      description: 'Call down a devastating bombardment from all celestials simultaneously.',
+      level: 9,
+      spellType: 'ACTION',
+      icon: 'spell_holy_surgeoflight',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_holy_surgeoflight',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 120,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 80 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'ALL CELESTIALS, STRIKE!',
+        somaticText: 'Raise weapon to sky'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '5d10 radiant + 5d10 fire + 5d10 lightning + 5d10 cold + 5d10 force',
+        elementType: 'mixed',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'dexterity',
+          difficultyClass: 20,
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'aoe', 'ultimate', 'level-9', 'titan']
+    },
+
+    {
+      id: 'titan_divine_protection',
+      name: 'Divine Protection',
+      description: 'Grant divine protection to all allies, making them immune to damage for a brief time.',
+      level: 9,
+      spellType: 'REACTION',
+      icon: 'spell_holy_powerwordbarrier',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 70 },
+        actionPoints: 0,
+        components: ['verbal'],
+        verbalText: 'CELESTIALS, PROTECT US!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'invulnerability',
+        effects: [{
+          id: 'divine_protection',
+          name: 'Divine Protection',
+          description: 'All allies are immune to damage until start of your next turn'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['buff', 'protection', 'reaction', 'level-9', 'titan']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS
+    // ========================================
+    {
+      id: 'titan_celestial_fusion',
+      name: 'Celestial Fusion',
+      description: 'Fuse with ALL celestials at once, becoming an avatar of cosmic power beyond comprehension.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_divineprovidence',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_holy_divineprovidence',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['verbal'],
+        verbalText: 'ALL CELESTIALS, FUSE WITH ME!'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['transformation'],
+
+      transformationConfig: {
+        transformType: 'divine',
+        formName: 'Celestial Fusion',
+        formDescription: 'You become one with all five celestials - the ultimate form of cosmic power.',
+        duration: 3,
+        durationUnit: 'rounds',
+        statModifiers: [
+          { stat: 'all', magnitude: 10, magnitudeType: 'flat' },
+          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' },
+          { stat: 'maxHp', magnitude: 100, magnitudeType: 'temporary' }
+        ],
+        resistances: [
+          { type: 'all', resistanceAmount: 'immunity' }
+        ],
+        specialAbilities: [
+          { name: 'Solara\'s Wrath', description: 'All attacks deal +4d6 fire damage' },
+          { name: 'Lunara\'s Grace', description: 'Regenerate 20 HP per turn' },
+          { name: 'Astraeus\'s Speed', description: 'Gain an extra action each turn' },
+          { name: 'Terranox\'s Might', description: 'Cannot be moved or knocked prone' },
+          { name: 'Zephyra\'s Fury', description: 'Lightning strikes nearby enemies each turn' }
+        ],
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['transformation', 'ultimate', 'all-celestials', 'level-10', 'titan']
+    },
+
+    {
+      id: 'titan_apocalypse',
+      name: 'Apocalypse',
+      description: 'Unleash the full destructive power of the celestials, devastating everything in a massive area.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_fire_burnout',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'spell_fire_burnout',
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 100 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'APOCALYPSE!',
+        somaticText: 'Release all power'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '20d10 + strength * 3',
+        elementType: 'mixed',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 22,
+          saveOutcome: 'halves'
+        }
+      },
+
+      specialMechanics: {
+        apocalypse: {
+          description: 'The battlefield is devastated. All enemies take massive damage. Terrain is transformed into difficult terrain.',
+          aftermath: 'Creates difficult terrain in the entire area for 1 hour'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['damage', 'aoe', 'ultimate', 'level-10', 'titan']
+    },
+
+    {
+      id: 'titan_celestial_rebirth',
+      name: 'Celestial Rebirth',
+      description: 'Call upon the celestials to revive all fallen allies and fully restore the party.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_holy_resurrection',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'spell_holy_resurrection',
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['ally', 'dead']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 100 },
+        actionPoints: 3,
+        components: ['verbal', 'somatic'],
+        verbalText: 'CELESTIALS, GRANT REBIRTH!',
+        somaticText: 'Arms raised in prayer'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['healing', 'resurrection'],
+
+      healingConfig: {
+        formula: 'max_hp',
+        healingType: 'resurrection',
+        hasHotEffect: false
+      },
+
+      specialMechanics: {
+        rebirth: {
+          description: 'All fallen allies within range are resurrected at full HP. All living allies are fully healed and cleansed of all negative conditions.',
+          additionalEffect: 'All allies gain +5 to all stats for 10 minutes'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+
+      tags: ['healing', 'resurrection', 'ultimate', 'level-10', 'titan']
     }
   ]
 };

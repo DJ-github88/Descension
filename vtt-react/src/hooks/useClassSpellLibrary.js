@@ -46,6 +46,10 @@ export const useClassSpellLibrary = () => {
     try {
       // Get class spells from generated data
       const spellsForClass = ALL_CLASS_SPELLS[className] || [];
+      console.log(`📚 Loading spells for ${className}:`, {
+        totalSpells: spellsForClass.length,
+        spellIds: spellsForClass.map(s => s.id).slice(0, 10) // First 10 IDs
+      });
 
       // Create categories for this class
       const categories = createSpellLibraryCategoriesForClass(className);
@@ -60,10 +64,12 @@ export const useClassSpellLibrary = () => {
           };
         }
 
-        // Find spells for this specialization
-        const specializationId = category.id.replace(`${className.toLowerCase()}_`, '');
-        const specializationSpells = spellsForClass.filter(spell => {
-          return spell.specialization === specializationId;
+        // Find spells for this level category
+        const levelMatch = category.id.match(/_level_(\d+)$/);
+        const targetLevel = levelMatch ? parseInt(levelMatch[1]) : null;
+
+        const levelSpells = spellsForClass.filter(spell => {
+          return spell.level === targetLevel;
         });
 
         return {
@@ -79,6 +85,9 @@ export const useClassSpellLibrary = () => {
       try {
         const store = require('../store/characterStore').default;
         const assigned = await store.getState().ensureClassStarterSpells(className);
+        if (assigned) {
+          console.log(`✨ Starter spells assigned for ${className}`);
+        }
       } catch (e) {
         console.warn('Could not ensure starter spells:', e);
       }
@@ -135,14 +144,26 @@ export const useClassSpellLibrary = () => {
       allSpells.push(...category.spells);
     });
 
+    console.log('🔍 getAllSpells:', {
+      totalSpellsInCategories: allSpells.length,
+      knownSpellsCount: knownSpells.length,
+      knownSpellIds: knownSpells,
+      allSpellIds: allSpells.map(s => s.id).slice(0, 10)
+    });
+
     // Filter to only show spells the character has learned
     // The spellbook should only display spells the character knows
     if (knownSpells.length > 0) {
       const filtered = allSpells.filter(spell => knownSpells.includes(spell.id));
+      console.log('✅ Filtered spells:', {
+        filteredCount: filtered.length,
+        filteredIds: filtered.map(s => s.id)
+      });
       return filtered;
     }
 
     // If no known spells, return empty array (character hasn't learned any spells yet)
+    console.warn('⚠️ No known spells, returning empty array');
     return [];
   }, [spellCategories, knownSpells]);
 

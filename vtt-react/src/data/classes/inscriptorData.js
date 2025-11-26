@@ -1711,7 +1711,1354 @@ Many players enhance the Inscriptor experience with:
       tags: ['summon', 'utility', 'servant', 'ink', 'enchanter'],
       flavorText: 'Ink flows from your fingertips, coalescing into a loyal servant.'
     }
-  ]
+  ],
+
+  // Comprehensive Spell List (Levels 1-10, following template)
+  spells: [
+    // ===== LEVEL 1 SPELLS (has 2, need 1 more) =====
+    {
+      id: 'inscriptor_arcane_inscription',
+      name: 'Arcane Inscription',
+      description: 'Inscribe a temporary rune of power on a target to enhance their abilities.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'inv_inscription_tarot_repose',
+        tags: ['buff', 'support', 'inscription', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'arcane_inscription',
+          name: 'Arcane Inscription',
+          description: 'Gain +1 to spell damage rolls for 3 rounds',
+          statModifier: {
+            stat: 'spell_damage',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch',
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'support', 'inscription', 'inscriptor']
+    },
+
+    // ===== LEVEL 2 SPELLS (has 7, complete) =====
+
+    // ===== LEVEL 3 SPELLS (has 4, complete) =====
+
+    // ===== LEVEL 4 SPELLS =====
+    {
+      id: 'inscriptor_glyph_of_binding',
+      name: 'Glyph of Binding',
+      description: 'Inscribe a glyph that binds enemies within an area, restricting their movement.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['control', 'damage'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_holyguidance',
+        tags: ['control', 'damage', 'glyph', 'aoe', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      controlConfig: {
+        controlType: 'restraint',
+        strength: 'moderate',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'bind',
+          name: 'Bound',
+          description: 'Movement speed reduced to 0 for 2 rounds',
+          config: {
+            restraintType: 'magical'
+          }
+        }]
+      },
+      damageConfig: {
+        formula: '3d6',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 5,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 15 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['control', 'damage', 'glyph', 'aoe', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_runic_shield',
+      name: 'Runic Shield',
+      description: 'Create a shield of protective runes around yourself or an ally.',
+      level: 4,
+      spellType: 'ACTION',
+      effectTypes: ['healing'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['protection', 'shield', 'rune', 'support', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        healingType: 'shield',
+        hasShieldEffect: true,
+        shieldFormula: '3d8 + intelligence',
+        shieldDuration: 4,
+        shieldDamageTypes: 'all',
+        shieldOverflow: 'absorb',
+        shieldBreakBehavior: 'fade'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 14 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['protection', 'shield', 'rune', 'support', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_sigil_of_power',
+      name: 'Sigil of Power',
+      description: 'Place a sigil that empowers allies who stand within it.',
+      level: 4,
+      spellType: 'ZONE',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_prismaticcloak',
+        tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor'],
+        zoneDuration: 5,
+        zoneDurationUnit: 'rounds',
+        leaveTrail: false
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'sigil_power',
+          name: 'Empowered by Sigil',
+          description: 'Gain +2 to all damage rolls while in the sigil for 5 rounds',
+          statModifier: {
+            stat: 'damage_rolls',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor']
+    },
+
+    // ===== LEVEL 5 SPELLS =====
+    {
+      id: 'inscriptor_rune_of_devastation',
+      name: 'Rune of Devastation',
+      description: 'Inscribe a devastating rune that explodes with massive force.',
+      level: 5,
+      spellType: 'TRAP',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_fire_selfdestruct',
+        tags: ['damage', 'trap', 'rune', 'aoe', 'inscriptor'],
+        placementTime: 1,
+        visibility: 'magical',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
+      },
+      damageConfig: {
+        formula: '6d8 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      trapConfig: {
+        placementRadius: 5,
+        detectionMethod: 'arcana',
+        disarmMethod: 'dispel_magic',
+        detectionDC: 18,
+        disarmDC: 18,
+        visibility: 'magical',
+        trapDuration: 'timed',
+        durationValue: 10,
+        durationUnit: 'minutes',
+        maxTriggers: 1,
+        resetTime: 0
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Arcane chalk worth 50 gold'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'trap', 'rune', 'aoe', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_glyph_mastery',
+      name: 'Glyph Mastery',
+      description: 'Enhance all your glyphs and runes for a short duration.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_divineillumination',
+        tags: ['buff', 'enhancement', 'glyph', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'glyph_mastery',
+          name: 'Glyph Mastery',
+          description: 'All your glyphs and runes deal +50% damage and have +2 DC for 4 rounds',
+          customDescription: 'All your placed glyphs, runes, and inscriptions are enhanced. Damage increased by 50%, saving throw DCs increased by 2, and durations extended by 1 round.'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 16 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'enhancement', 'glyph', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_inscription_of_warding',
+      name: 'Inscription of Warding',
+      description: 'Inscribe powerful wards on multiple allies, granting them protection.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_sealofprotection',
+        tags: ['buff', 'protection', 'inscription', 'support', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'ward_inscription',
+          name: 'Warded',
+          description: 'Gain +3 armor and resistance to the first damage type received for 5 rounds',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 4,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 17 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'protection', 'inscription', 'support', 'inscriptor']
+    },
+
+    // ===== LEVEL 6 SPELLS =====
+    {
+      id: 'inscriptor_runic_array',
+      name: 'Runic Array',
+      description: 'Create a complex array of interlocking runes that damage and control enemies.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_blast',
+        tags: ['damage', 'control', 'rune', 'aoe', 'inscriptor'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '8d6 + intelligence',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'intelligence',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'restraint',
+        strength: 'strong',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'intelligence',
+        savingThrow: true,
+        effects: [{
+          id: 'slow',
+          name: 'Slowed by Runes',
+          description: 'Movement speed reduced by 20 feet for 3 rounds',
+          config: {
+            restraintType: 'magical'
+          }
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 8,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'control', 'rune', 'aoe', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_sigil_of_power_major',
+      name: 'Sigil of Power (Greater)',
+      description: 'Place a powerful sigil that greatly enhances allies within.',
+      level: 6,
+      spellType: 'ZONE',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_arcanepotency',
+        tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor'],
+        zoneDuration: 6,
+        zoneDurationUnit: 'rounds',
+        leaveTrail: false
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'major_sigil_damage',
+            name: 'Greater Empowerment',
+            description: 'Gain +3 to all damage rolls while in the sigil for 6 rounds',
+            statModifier: {
+              stat: 'damage_rolls',
+              magnitude: 3,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'major_sigil_armor',
+            name: 'Greater Protection',
+            description: 'Gain +2 armor while in the sigil for 6 rounds',
+            statModifier: {
+              stat: 'armor',
+              magnitude: 2,
+              magnitudeType: 'flat'
+            }
+          }
+        ],
+        durationValue: 6,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_glyph_nexus',
+      name: 'Glyph Nexus',
+      description: 'Connect all your glyphs into a networked system that amplifies their power.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'utility'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_powerwordfortitude',
+        tags: ['buff', 'utility', 'glyph', 'network', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'glyph_nexus',
+          name: 'Glyph Nexus',
+          description: 'All your glyphs are connected. Triggering one triggers all nearby glyphs (within 30 feet) for 5 rounds',
+          customDescription: 'Creates a magical network linking all your placed glyphs and runes. When any glyph is triggered, all glyphs within 30 feet also trigger simultaneously. Additionally, all glyphs deal +2d6 damage while networked.'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 21 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'utility', 'glyph', 'network', 'inscriptor']
+    },
+
+    // ===== LEVEL 7 SPELLS =====
+    {
+      id: 'inscriptor_ancient_rune',
+      name: 'Ancient Rune',
+      description: 'Inscribe an ancient rune of immense power.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_arcanetorrent',
+        tags: ['damage', 'rune', 'ancient', 'aoe', 'inscriptor'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '12d8 + intelligence * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 18,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 35 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 15,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Ancient rune stone worth 500 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'rune', 'ancient', 'aoe', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_inscribed_fortress',
+      name: 'Inscribed Fortress',
+      description: 'Transform the battlefield into a fortress of protective inscriptions.',
+      level: 7,
+      spellType: 'ZONE',
+      effectTypes: ['buff', 'healing'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_innerfire',
+        tags: ['buff', 'healing', 'zone', 'fortress', 'inscriptor'],
+        zoneDuration: 5,
+        zoneDurationUnit: 'rounds',
+        leaveTrail: false
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'fortress_protection',
+          name: 'Fortress Protection',
+          description: 'Gain +4 armor and 50% damage reduction while in the fortress for 5 rounds',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      healingConfig: {
+        healingType: 'hot',
+        hasHotEffect: true,
+        hotFormula: '3d8',
+        hotDuration: 5,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'square',
+        aoeParameters: { size: 40 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 26 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'healing', 'zone', 'fortress', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_master_inscriber',
+      name: 'Master Inscriber',
+      description: 'Become a master inscriber for a short duration, empowering all your abilities.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_holyprotection',
+        tags: ['buff', 'enhancement', 'mastery', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'master_inscriber',
+          name: 'Master Inscriber',
+          description: 'All inscription, glyph, and rune spells cost 50% less mana, have +3 DC, and deal +100% damage for 5 rounds',
+          customDescription: 'You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 3. All damage increased by 100%. You can place inscriptions as a free action.'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 30 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'enhancement', 'mastery', 'inscriptor']
+    },
+
+    // ===== LEVEL 8 SPELLS =====
+    {
+      id: 'inscriptor_primordial_glyph',
+      name: 'Primordial Glyph',
+      description: 'Inscribe a glyph from the dawn of magic itself.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_holynova',
+        tags: ['damage', 'control', 'glyph', 'primordial', 'aoe', 'epic', 'inscriptor'],
+        castTime: 4,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '16d10 + intelligence * 2',
+        elementType: 'force',
+        secondaryElementType: 'radiant',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 19,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'extreme',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'stun',
+          name: 'Stunned by Primordial Power',
+          description: 'Target is stunned, unable to act or react for 3 rounds',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 50 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 20,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Primordial essence worth 2000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'control', 'glyph', 'primordial', 'aoe', 'epic', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_runic_apocalypse',
+      name: 'Runic Apocalypse',
+      description: 'Detonate all your runes simultaneously in a cataclysmic explosion.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_fire_fireball',
+        tags: ['damage', 'rune', 'aoe', 'detonation', 'epic', 'inscriptor'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '20d8 + intelligence * 3',
+        elementType: 'force',
+        damageType: 'direct',
+        description: 'Damage multiplied by number of active runes (minimum 3, maximum 8)',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 19,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 100 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 50,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'rune', 'aoe', 'detonation', 'epic', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_eternal_inscription',
+      name: 'Eternal Inscription',
+      description: 'Create inscriptions that last forever and cannot be dispelled.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'utility'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_greaterheal',
+        tags: ['buff', 'utility', 'inscription', 'permanent', 'epic', 'inscriptor'],
+        castTime: 3,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'eternal_inscription',
+          name: 'Eternal Inscription',
+          description: 'Your next 3 inscriptions are permanent and cannot be dispelled',
+          customDescription: 'The next 3 inscriptions you place become permanent and immune to dispelling. They persist indefinitely until you dismiss them or replace them with new eternal inscriptions.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 38 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Diamond dust worth 5000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'utility', 'inscription', 'permanent', 'epic', 'inscriptor']
+    },
+
+    // ===== LEVEL 9 SPELLS =====
+    {
+      id: 'inscriptor_worldscript',
+      name: 'Worldscript',
+      description: 'Inscribe reality itself with runes that reshape the battlefield.',
+      level: 9,
+      spellType: 'ZONE',
+      effectTypes: ['buff', 'control', 'damage'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_arcane04',
+        tags: ['buff', 'control', 'damage', 'zone', 'reality', 'legendary', 'inscriptor'],
+        zoneDuration: 10,
+        zoneDurationUnit: 'rounds',
+        leaveTrail: false
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'worldscript',
+          name: 'Worldscript',
+          description: 'Allies gain +5 to all stats, immunity to control effects, and regenerate 5d10 HP per round in the zone for 10 rounds',
+          customDescription: 'You have inscribed the laws of reality itself. Within the zone, allies gain godlike power while enemies are severely weakened. Allies gain +5 to all stats, immunity to all control effects, and regenerate 5d10 HP per round. Enemies take 10d10 damage per round and have all stats reduced by 5.'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      damageConfig: {
+        formula: '10d10',
+        elementType: 'force',
+        damageType: 'dot',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 10,
+          tickFrequency: 'round',
+          dotFormula: '10d10',
+          isProgressiveDot: false
+        }
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Fragment of reality worth 10,000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'control', 'damage', 'zone', 'reality', 'legendary', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_master_of_runes',
+      name: 'Master of Runes',
+      description: 'Become the ultimate master of runic magic.',
+      level: 9,
+      spellType: 'PASSIVE',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_prayerofhealing',
+        tags: ['buff', 'passive', 'mastery', 'legendary', 'inscriptor'],
+        toggleable: true
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'master_of_runes',
+          name: 'Master of Runes',
+          description: 'All rune, glyph, and inscription spells cost 0 mana. You can place unlimited runes. All rune damage tripled.',
+          customDescription: 'You have achieved ultimate mastery over runic magic. All rune, glyph, inscription, and sigil spells cost 0 mana. You can place unlimited runes simultaneously. All rune/glyph/inscription damage is tripled. All saving throw DCs increased by 5. You can inscribe items as a free action.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'The complete Book of Runes, priceless artifact'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'passive', 'mastery', 'legendary', 'inscriptor', 'toggleable']
+    },
+
+    {
+      id: 'inscriptor_inscription_of_eternity',
+      name: 'Inscription of Eternity',
+      description: 'Inscribe yourself with eternal runes, gaining immortal power.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_spiritualguidence',
+        tags: ['buff', 'eternal', 'inscription', 'legendary', 'inscriptor'],
+        castTime: 5,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'eternal_inscription',
+          name: 'Inscribed with Eternity',
+          description: 'Gain +10 to all stats, immunity to all damage, and cannot be killed for 10 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 55 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Your life force, temporarily sacrificing 50% of max HP'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'eternal', 'inscription', 'legendary', 'inscriptor']
+    },
+
+    // ===== LEVEL 10 SPELLS =====
+    {
+      id: 'inscriptor_omniscript',
+      name: 'Omniscript',
+      description: 'Inscribe the entire battlefield with omnipotent runes.',
+      level: 10,
+      spellType: 'ZONE',
+      effectTypes: ['damage', 'control', 'buff'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_arcane_arcane01',
+        tags: ['damage', 'control', 'buff', 'zone', 'omnipotent', 'legendary', 'inscriptor'],
+        zoneDuration: 15,
+        zoneDurationUnit: 'rounds',
+        leaveTrail: false
+      },
+      damageConfig: {
+        formula: '25d12 + intelligence * 5',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 22,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'extreme',
+        duration: 5,
+        durationUnit: 'rounds',
+        saveDC: 22,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'paralyze',
+          name: 'Paralyzed by Omniscript',
+          description: 'Target is paralyzed, unable to move or act for 5 rounds',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }]
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'omniscript_power',
+          name: 'Omniscript',
+          description: 'Allies gain +10 to all stats, immunity to everything, and limitless power for 15 rounds',
+          customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, complete immunity to all damage and effects, regenerate to full HP and mana each round, and all their abilities cost 0 resources. Enemies are paralyzed, take massive damage per round, and cannot act.'
+        }],
+        durationValue: 15,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 200 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 80 },
+        useFormulas: {},
+        actionPoints: 6,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The Omniscript Codex, artifact of ultimate power'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'control', 'buff', 'zone', 'omnipotent', 'legendary', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_rune_of_creation',
+      name: 'Rune of Creation',
+      description: 'Create a rune that births new reality itself.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['summoning', 'utility'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_divineprovidence',
+        tags: ['summoning', 'utility', 'creation', 'legendary', 'inscriptor'],
+        castTime: 10,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'inscribed_titan',
+          name: 'Inscribed Titan',
+          description: 'A colossal being made entirely of living runes',
+          size: 'Colossal',
+          type: 'construct',
+          tokenIcon: 'spell_arcane_arcane02',
+          stats: {
+            maxHp: 500,
+            armor: 25,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 15,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 0
+          }
+        }],
+        duration: 15,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 0,
+        controlType: 'mental'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 100,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 75 },
+        useFormulas: {},
+        actionPoints: 6,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The essence of creation, worth 100,000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'utility', 'creation', 'legendary', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_universal_inscription',
+      name: 'Universal Inscription',
+      description: 'Inscribe the universe itself with your will.',
+      level: 10,
+      spellType: 'PASSIVE',
+      effectTypes: ['buff', 'utility'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'spell_holy_holybolt',
+        tags: ['buff', 'utility', 'passive', 'universal', 'legendary', 'inscriptor'],
+        toggleable: true
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'universal_inscription',
+          name: 'Universal Inscription',
+          description: 'The universe itself is your canvas. All spells cost 0 resources. All your inscriptions are reality-warping.',
+          customDescription: 'You have inscribed your will upon the fabric of reality itself. All your spells cost 0 mana and 0 action points. All your inscriptions, glyphs, runes, and sigils are permanent unless you dismiss them. You can place unlimited inscriptions. All inscriptions are reality-warping and cannot be dispelled by any means. You can reshape the battlefield at will.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'The Universal Codex, knowledge of all inscriptions ever created'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'utility', 'passive', 'universal', 'legendary', 'inscriptor', 'toggleable']
+    }
+  ],
+
+  // Spell Pools by Level
+  spellPools: {
+    1: [
+      'inscriptor_arcane_inscription'
+    ],
+    2: [],
+    3: [],
+    4: [
+      'inscriptor_glyph_of_binding',
+      'inscriptor_runic_shield',
+      'inscriptor_sigil_of_power'
+    ],
+    5: [
+      'inscriptor_rune_of_devastation',
+      'inscriptor_glyph_mastery',
+      'inscriptor_inscription_of_warding'
+    ],
+    6: [
+      'inscriptor_runic_array',
+      'inscriptor_sigil_of_power_major',
+      'inscriptor_glyph_nexus'
+    ],
+    7: [
+      'inscriptor_ancient_rune',
+      'inscriptor_inscribed_fortress',
+      'inscriptor_master_inscriber'
+    ],
+    8: [
+      'inscriptor_primordial_glyph',
+      'inscriptor_runic_apocalypse',
+      'inscriptor_eternal_inscription'
+    ],
+    9: [
+      'inscriptor_worldscript',
+      'inscriptor_master_of_runes',
+      'inscriptor_inscription_of_eternity'
+    ],
+    10: [
+      'inscriptor_omniscript',
+      'inscriptor_rune_of_creation',
+      'inscriptor_universal_inscription'
+    ]
+  }
 };
 
 

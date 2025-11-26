@@ -190,6 +190,8 @@ const UnifiedSpellCard = ({
       'current_action_points': 'Current Action Points',
       'health_regen': 'Health Regen',
       'mana_regen': 'Mana Regen',
+      'damage_dealt': 'Damage Dealt',
+      'damage dealt': 'Damage Dealt',
       // Add comprehensive stat names for proper formatting
       'strength': 'Strength',
       'agility': 'Agility',
@@ -212,10 +214,19 @@ const UnifiedSpellCard = ({
       cleanedFormula = cleanedFormula.replace(regex, properName);
     });
 
+    // Convert camelCase to underscores before mapping (currentHealth -> current_health)
+    cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
+
+    // Replace specific resource variable names with proper formatting
+    Object.entries(resourceVariableMap).forEach(([variable, properName]) => {
+      const regex = new RegExp(`\\b${variable}\\b`, 'gi');
+      cleanedFormula = cleanedFormula.replace(regex, properName);
+    });
+
     // Handle remaining underscores for any missed variables
     cleanedFormula = cleanedFormula.replace(/_/g, ' ');
 
-    // Handle camelCase conversion
+    // Handle any remaining camelCase conversion (for display)
     cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1 $2');
 
     return cleanedFormula;
@@ -673,13 +684,25 @@ const UnifiedSpellCard = ({
       if (shape) {
         const shapeInfo = formatAoeShape(shape, params);
         if (shapeInfo) {
-          rangeStr += ` (${shapeInfo})`;
+          // For line/cone effects, if rangeDistance equals the length, replace range with shape info instead of appending
+          if ((shape === 'line' || shape === 'cone') && params.length && rangeDistance && 
+              Math.abs(rangeDistance - params.length) < 1) {
+            rangeStr = shapeInfo; // Replace range with shape info (e.g., "60ft line" instead of "60 ft (60ft line)")
+          } else {
+            rangeStr += ` (${shapeInfo})`;
+          }
         }
       }
     } else if (targetingType === 'area' && aoeShape) {
       const shapeInfo = formatAoeShape(aoeShape, aoeParameters);
       if (shapeInfo) {
-        rangeStr += ` (${shapeInfo})`;
+        // For line/cone effects, if rangeDistance equals the length, replace range with shape info
+        if ((aoeShape === 'line' || aoeShape === 'cone') && aoeParameters?.length && rangeDistance && 
+            Math.abs(rangeDistance - aoeParameters.length) < 1) {
+          rangeStr = shapeInfo;
+        } else {
+          rangeStr += ` (${shapeInfo})`;
+        }
       }
     } else if (targetingType === 'multi') {
       const maxTargets = config.maxTargets || 3;
@@ -813,6 +836,13 @@ const UnifiedSpellCard = ({
         const shapeInfo = formatAoeShape(shape, params);
         if (shapeInfo && shapeInfo.trim() !== '') {
           targetingInfo = shapeInfo;
+          
+          // For line/cone effects, if rangeDistance equals the length, don't show redundant range
+          if ((shape === 'line' || shape === 'cone') && params.length && rangeDistance && 
+              Math.abs(rangeDistance - params.length) < 1) {
+            // Suppress the range string since it's redundant with the line/cone length
+            rangeStr = '';
+          }
         } else {
           // If shape formatting failed, show generic area with shape name
           const shapeName = shape.charAt(0).toUpperCase() + shape.slice(1).replace(/_/g, ' ');
@@ -1475,23 +1505,12 @@ const UnifiedSpellCard = ({
         break;
 
       case 'PASSIVE':
-        if (typeConfig.toggleable) {
-          bullets.push('toggleable');
-        }
+        // Toggleable is now displayed as part of the "Passive" tag, not as a bullet
+        // No bullets for PASSIVE type
         break;
 
       case 'ACTION':
-        const actionBullets = [];
-
-        // Show cast time type if not immediate (fix underscore formatting)
-        if (typeConfig.castTimeType && typeConfig.castTimeType !== 'IMMEDIATE') {
-          actionBullets.push(typeConfig.castTimeType.replace(/_/g, ' ').toLowerCase());
-        }
-
-        // Removed interruptible and castingVisibility as requested
-        // Removed partialEffectOnInterrupt as requested
-
-        bullets.push(...actionBullets);
+        // No bullets for ACTION type - removed to reduce header clutter
         break;
     }
 
@@ -1517,9 +1536,7 @@ const UnifiedSpellCard = ({
           break;
 
         case 'explosion':
-          if (parameters?.secondaryRadius) {
-            bullets.push(`${parameters.secondaryRadius}ft explosion on impact`);
-          }
+          // Don't add explosion bullet - it's already shown in the propagation badge
           break;
 
         case 'forking':
@@ -1666,8 +1683,17 @@ const UnifiedSpellCard = ({
 
     // Check for wizard format resource costs
     if (spell.resourceCost) {
-      // Check all selected resource types
-      const selectedTypes = spell.resourceCost.resourceTypes || [];
+      // Check all selected resource types and consolidate duplicates
+      const selectedTypesRaw = spell.resourceCost.resourceTypes || [];
+      
+      // Consolidate duplicate resource types - count occurrences and use value from resourceValues
+      const resourceTypeCounts = {};
+      selectedTypesRaw.forEach(type => {
+        resourceTypeCounts[type] = (resourceTypeCounts[type] || 0) + 1;
+      });
+      
+      // Create deduplicated list (keep unique types only)
+      const selectedTypes = Object.keys(resourceTypeCounts);
 
       // List of sphere resource types to skip (they're handled separately below)
       const sphereTypes = ['arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere', 'chaos_sphere'];
@@ -1689,6 +1715,22 @@ const UnifiedSpellCard = ({
 
       // List of Musical Note resource types to skip (they're handled separately below)
       const musicalNoteTypes = ['note_i', 'note_ii', 'note_iii', 'note_iv', 'note_v', 'note_vi', 'note_vii'];
+
+      // List of Berserker Rage State types to skip (handled separately below)
+      const rageStateTypes = ['rage_state'];
+
+      // List of Formbender Wild Instinct types to skip (handled separately below)
+      const wildInstinctTypes = ['wild_instinct', 'wild_instinct_generate', 'wild_instinct_cost'];
+
+      // List of Dreadnaught and Deathcaller types to skip (handled separately below)
+      const drpTypes = ['drp'];
+      const deathcallerTypes = ['bloodTokens', 'ascension_required'];
+
+      // List of Huntress Quarry Mark types to skip (handled separately below)
+      const quarryMarkTypes = ['quarry_marks', 'quarry_marks_generate', 'quarry_marks_cost'];
+
+      // List of Warden Vengeance Point types to skip (handled separately below)
+      const vengeancePointTypes = ['vengeance_points', 'vengeance_points_generate', 'vengeance_points_cost'];
 
       selectedTypes.forEach(type => {
         // Skip sphere types - they're handled separately below
@@ -1723,6 +1765,36 @@ const UnifiedSpellCard = ({
 
         // Skip Musical Note types - handled below
         if (musicalNoteTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Rage State types - handled below
+        if (rageStateTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Wild Instinct types - handled below
+        if (wildInstinctTypes.includes(type)) {
+          return;
+        }
+
+        // Skip DRP types - handled below
+        if (drpTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Deathcaller types - handled below
+        if (deathcallerTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Quarry Mark types - handled below
+        if (quarryMarkTypes.includes(type)) {
+          return;
+        }
+
+        // Skip Vengeance Point types - handled below
+        if (vengeancePointTypes.includes(type)) {
           return;
         }
 
@@ -1859,8 +1931,54 @@ const UnifiedSpellCard = ({
       }
     }
 
-    // Check for Arcanoneer sphere costs (legacy array format)
-    if (spell.resourceCost && spell.resourceCost.spheres && Array.isArray(spell.resourceCost.spheres)) {
+    // Check for sphere resources from wizard (new format) - process this FIRST
+    const sphereResourceMap = {
+      'arcane_sphere': { name: 'Arcane Sphere', color: '#9370DB', icon: faAtom },
+      'holy_sphere': { name: 'Holy Sphere', color: '#FFD700', icon: faSun },
+      'shadow_sphere': { name: 'Shadow Sphere', color: '#1C1C1C', icon: faMoon },
+      'fire_sphere': { name: 'Fire Sphere', color: '#FF4500', icon: faFire },
+      'ice_sphere': { name: 'Ice Sphere', color: '#4169E1', icon: faSnowflake },
+      'nature_sphere': { name: 'Nature Sphere', color: '#32CD32', icon: faLeaf },
+      'healing_sphere': { name: 'Healing Sphere', color: '#FFFF00', icon: faHeart },
+      'chaos_sphere': { name: 'Chaos Sphere', color: '#FF00FF', icon: faBolt }
+    };
+
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      // Consolidate duplicate sphere types - deduplicate the resourceTypes array
+      const uniqueSphereTypes = [...new Set(spell.resourceCost.resourceTypes.filter(type => sphereResourceMap[type]))];
+      
+      // Process each unique sphere type once, using the value from resourceValues
+      uniqueSphereTypes.forEach(type => {
+        const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+        const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+        const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+
+        if ((useFormula && formula) || (amount > 0)) {
+          const sphereInfo = sphereResourceMap[type];
+          // Check if already added to avoid duplicates
+          if (!resources.some(r => r.type === `sphere-${type}`)) {
+            resources.push({
+              type: `sphere-${type}`,
+              amount: useFormula ? formula : amount,
+              name: sphereInfo.name,
+              icon: sphereInfo.icon,
+              color: sphereInfo.color,
+              isSphere: true,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Check for Arcanoneer sphere costs (legacy array format) - ONLY if new format wasn't processed
+    // Only use legacy format if resourceTypes doesn't contain any sphere types
+    const hasNewFormatSpheres = spell.resourceCost?.resourceTypes?.some(type => 
+      ['arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 
+       'nature_sphere', 'healing_sphere', 'chaos_sphere'].includes(type)
+    );
+
+    if (!hasNewFormatSpheres && spell.resourceCost && spell.resourceCost.spheres && Array.isArray(spell.resourceCost.spheres)) {
       // Count sphere types
       const sphereCounts = {};
       spell.resourceCost.spheres.forEach(sphere => {
@@ -1902,48 +2020,17 @@ const UnifiedSpellCard = ({
           'Holy': faSun
         };
 
-        resources.push({
-          type: `sphere-${sphereType.toLowerCase()}`,
-          amount: count,
-          name: nameMap[sphereType] || `${sphereType} Sphere`,
-          icon: iconMap[sphereType] || faAtom,
-          color: colorMap[sphereType] || '#9370DB',
-          isSphere: true
-        });
-      });
-    }
-
-    // Check for sphere resources from wizard (new format)
-    const sphereResourceMap = {
-      'arcane_sphere': { name: 'Arcane Sphere', color: '#9370DB', icon: faAtom },
-      'holy_sphere': { name: 'Holy Sphere', color: '#FFD700', icon: faSun },
-      'shadow_sphere': { name: 'Shadow Sphere', color: '#1C1C1C', icon: faMoon },
-      'fire_sphere': { name: 'Fire Sphere', color: '#FF4500', icon: faFire },
-      'ice_sphere': { name: 'Ice Sphere', color: '#4169E1', icon: faSnowflake },
-      'nature_sphere': { name: 'Nature Sphere', color: '#32CD32', icon: faLeaf },
-      'healing_sphere': { name: 'Healing Sphere', color: '#FFFF00', icon: faHeart },
-      'chaos_sphere': { name: 'Chaos Sphere', color: '#FF00FF', icon: faBolt }
-    };
-
-    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
-      spell.resourceCost.resourceTypes.forEach(type => {
-        if (sphereResourceMap[type]) {
-          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
-          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
-          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
-
-          if ((useFormula && formula) || (amount > 0)) {
-            const sphereInfo = sphereResourceMap[type];
-            resources.push({
-              type: `sphere-${type}`,
-              amount: useFormula ? formula : amount,
-              name: sphereInfo.name,
-              icon: sphereInfo.icon,
-              color: sphereInfo.color,
-              isSphere: true,
-              isFormula: useFormula
-            });
-          }
+        // Check if already added to avoid duplicates
+        const sphereTypeKey = `sphere-${sphereType.toLowerCase()}`;
+        if (!resources.some(r => r.type === sphereTypeKey)) {
+          resources.push({
+            type: sphereTypeKey,
+            amount: count,
+            name: nameMap[sphereType] || `${sphereType} Sphere`,
+            icon: iconMap[sphereType] || faAtom,
+            color: colorMap[sphereType] || '#9370DB',
+            isSphere: true
+          });
         }
       });
     }
@@ -1970,32 +2057,35 @@ const UnifiedSpellCard = ({
           amount: spell.resourceCost.actionPoints,
           name: 'Action Points',
           icon: faBolt,
-          color: '#E67E22'
+          color: '#ffffff' // Use white to match other resources in header
         });
       }
     }
 
-    // Add Pyrofiend Inferno costs
+    // Add Pyrofiend Inferno costs - compact display
     const infernoRequired = spell.infernoRequired || spell.resourceCost?.resourceValues?.inferno_required;
     if (infernoRequired !== undefined && infernoRequired > 0) {
       resources.push({
         type: 'inferno-required',
-        amount: `Requires [${getInfernoStageNameWithSuffix(infernoRequired)}]`,
+        amount: `[${getInfernoStageNameWithSuffix(infernoRequired).replace(' Inferno', '')}]`,
         name: '',
         icon: faFire,
         color: '#8b0000',
-        isInferno: true
+        isInferno: true,
+        isRequired: true,
+        fullText: `Requires [${getInfernoStageNameWithSuffix(infernoRequired)}]`
       });
     }
     const infernoAscend = spell.infernoAscend || spell.resourceCost?.resourceValues?.inferno_ascend;
     if (infernoAscend !== undefined && infernoAscend > 0) {
       resources.push({
         type: 'inferno-ascend',
-        amount: `Ascend Inferno +${infernoAscend}`,
-        name: '',
+        amount: `+${infernoAscend}`,
+        name: 'Inferno',
         icon: faFire,
         color: '#ff4500',
-        isInferno: true
+        isInferno: true,
+        fullText: `Ascend Inferno +${infernoAscend}`
       });
     }
     const infernoDescend = spell.infernoDescend || spell.resourceCost?.resourceValues?.inferno_descend;
@@ -2004,11 +2094,12 @@ const UnifiedSpellCard = ({
       const descendValue = typeof infernoDescend === 'string' ? infernoDescend : infernoDescend;
       resources.push({
         type: 'inferno-descend',
-        amount: `Descend Inferno -${descendValue}`,
-        name: '',
+        amount: `-${descendValue}`,
+        name: 'Inferno',
         icon: faFire,
         color: '#4682b4',
-        isInferno: true
+        isInferno: true,
+        fullText: `Descend Inferno -${descendValue}`
       });
     }
 
@@ -2268,6 +2359,176 @@ const UnifiedSpellCard = ({
       });
     }
 
+    // Add Berserker Rage State requirements
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (type === 'rage_state') {
+          const rageState = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if (rageState) {
+            resources.push({
+              type: 'rage-state',
+              amount: `Requires [${rageState}]`,
+              name: '',
+              icon: faFire,
+              color: '#FF4500',
+              isRageState: true
+            });
+          }
+        }
+      });
+    }
+
+    // Add Formbender Wild Instinct (generate/cost)
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const wildInstinctMap = {
+        'wild_instinct_generate': { name: 'Wild Instinct', color: '#228B22', icon: faPaw, sign: '+' },
+        'wild_instinct_cost': { name: 'Wild Instinct', color: '#228B22', icon: faPaw, sign: '' },
+        'wild_instinct': { name: 'Wild Instinct', color: '#228B22', icon: faPaw, sign: '' }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (wildInstinctMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
+            const config = wildInstinctMap[type];
+            resources.push({
+              type: type,
+              amount: `${config.sign}${useFormula ? formula : amount}`,
+              name: config.name,
+              icon: config.icon,
+              color: config.color,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Add Dreadnaught DRP (Dark Resilience Points)
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (type === 'drp') {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0) || amount === 'variable') {
+            const displayAmount = amount === 'variable' ? 'Variable' : (useFormula ? formula : amount);
+            resources.push({
+              type: 'drp',
+              amount: displayAmount,
+              name: 'DRP',
+              icon: faShield,
+              color: '#4B0082',
+              isFormula: useFormula,
+              isDRP: true
+            });
+          }
+        }
+      });
+    }
+
+    // Add Deathcaller Blood Tokens
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (type === 'bloodTokens') {
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if (typeof amount === 'number' && amount > 0) {
+            resources.push({
+              type: 'blood-tokens',
+              amount: amount,
+              name: 'Blood Tokens',
+              icon: faTint,
+              color: '#8B0000',
+              isBloodTokens: true
+            });
+          }
+        }
+      });
+    }
+
+    // Add Deathcaller Ascension Path requirements
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (type === 'ascension_required') {
+          const ascensionPath = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if (ascensionPath) {
+            const pathNames = {
+              'shrouded_veil': 'Shrouded Veil',
+              'crimson_pact': 'Crimson Pact',
+              'eternal_hunger': 'Eternal Hunger'
+            };
+            const displayName = pathNames[ascensionPath] || ascensionPath;
+            resources.push({
+              type: 'ascension-required',
+              amount: `Requires ${displayName}`,
+              name: '',
+              icon: faSkull,
+              color: '#2F4F4F',
+              isAscensionRequired: true
+            });
+          }
+        }
+      });
+    }
+
+    // Add Huntress Quarry Marks (generate/cost)
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const quarryMarkMap = {
+        'quarry_marks_generate': { name: 'Quarry Marks', color: '#8B4513', icon: faCrosshairs, sign: '+' },
+        'quarry_marks_cost': { name: 'Quarry Marks', color: '#8B4513', icon: faCrosshairs, sign: '' },
+        'quarry_marks': { name: 'Quarry Marks', color: '#8B4513', icon: faCrosshairs, sign: '' }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (quarryMarkMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
+            const config = quarryMarkMap[type];
+            resources.push({
+              type: type,
+              amount: `${config.sign}${useFormula ? formula : amount}`,
+              name: config.name,
+              icon: config.icon,
+              color: config.color,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
+    // Add Warden Vengeance Points (generate/cost)
+    if (spell.resourceCost && spell.resourceCost.resourceTypes) {
+      const vengeancePointMap = {
+        'vengeance_points_generate': { name: 'Vengeance Points', color: '#8B0000', icon: faBalanceScale, sign: '+' },
+        'vengeance_points_cost': { name: 'Vengeance Points', color: '#8B0000', icon: faBalanceScale, sign: '' },
+        'vengeance_points': { name: 'Vengeance Points', color: '#8B0000', icon: faBalanceScale, sign: '' }
+      };
+
+      spell.resourceCost.resourceTypes.forEach(type => {
+        if (vengeancePointMap[type]) {
+          const useFormula = spell.resourceCost.useFormulas && spell.resourceCost.useFormulas[type];
+          const formula = spell.resourceCost.resourceFormulas && spell.resourceCost.resourceFormulas[type];
+          const amount = spell.resourceCost.resourceValues && spell.resourceCost.resourceValues[type];
+          if ((useFormula && formula) || (typeof amount === 'number' && amount !== 0)) {
+            const config = vengeancePointMap[type];
+            resources.push({
+              type: type,
+              amount: `${config.sign}${useFormula ? formula : amount}`,
+              name: config.name,
+              icon: config.icon,
+              color: config.color,
+              isFormula: useFormula
+            });
+          }
+        }
+      });
+    }
+
     // Add Minstrel Musical Combo costs - check both spell.musicalCombo and spell.specialMechanics.musicalCombo
     const musicalCombo = spell.musicalCombo || spell.specialMechanics?.musicalCombo;
     if (musicalCombo) {
@@ -2418,33 +2679,46 @@ const UnifiedSpellCard = ({
     return (
       <div className="pf-spell-resources">
         {resources.map((resource, index) => {
-          // Special rendering for Inferno costs
+          // Special rendering for Inferno costs - compact display
           if (resource.isInferno) {
             return (
               <div
                 key={index}
                 className={`pf-resource-cost ${resource.type}`}
-                title={resource.amount}
+                title={resource.fullText || resource.amount}
               >
                 <FontAwesomeIcon
                   icon={resource.icon}
                   className="pf-resource-icon"
                   style={{ color: resource.color }}
                 />
-                <span className="pf-resource-amount" style={{ color: '#ffffff' }}>
+                <span
+                  className="pf-resource-amount"
+                  style={{
+                    color: resource.isRequired ? '#ff6b6b !important' : '#ffffff',
+                    fontWeight: resource.isRequired ? 'bold' : 'normal'
+                  }}
+                >
                   {resource.amount}
                 </span>
+                {resource.name && !resource.isRequired && (
+                  <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '11px' }}>
+                    {resource.name}
+                  </span>
+                )}
               </div>
             );
           }
 
-          // Special rendering for sphere costs
+          // Special rendering for sphere costs - compact display
           if (resource.isSphere) {
+            // Extract sphere type for abbreviation
+            const sphereType = resource.name.replace(' Sphere', '').replace(' Spheres', '');
             return (
               <div
                 key={index}
                 className="pf-resource-cost sphere-cost"
-                title={`${resource.amount} ${resource.name}`}
+                title={`${resource.amount} ${resource.amount === 1 ? sphereType + ' Sphere' : sphereType + ' Spheres'}`}
                 style={{
                   color: '#ffffff',
                   background: 'transparent',
@@ -2457,8 +2731,11 @@ const UnifiedSpellCard = ({
                   className="pf-resource-icon"
                   style={{ color: '#ffffff' }}
                 />
-                <span className="pf-resource-text" style={{ color: '#ffffff' }}>
-                  {resource.amount} {resource.name}
+                <span className="pf-resource-amount" style={{ color: '#ffffff' }}>
+                  {resource.amount}
+                </span>
+                <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '11px' }}>
+                  {sphereType}
                 </span>
               </div>
             );
@@ -2503,6 +2780,29 @@ const UnifiedSpellCard = ({
                 </span>
                 <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '11px' }}>
                   {resource.name}
+                </span>
+              </div>
+            );
+          }
+
+          // Special rendering for action points - compact display
+          if (resource.type === 'action-points' || resource.type === 'action_points' || resource.type === 'actionpoints') {
+            return (
+              <div
+                key={index}
+                className={`pf-resource-cost ${resource.type}`}
+                title={`${resource.amount} ${resource.amount === 1 ? 'Action Point' : 'Action Points'}`}
+              >
+                <FontAwesomeIcon
+                  icon={resource.icon}
+                  className="pf-resource-icon"
+                  style={{ color: '#ffffff' }}
+                />
+                <span className="pf-resource-amount">
+                  {resource.amount}
+                </span>
+                <span className="pf-resource-name">
+                  {resource.amount === 1 ? 'AP' : 'AP'}
                 </span>
               </div>
             );
@@ -3067,9 +3367,161 @@ const UnifiedSpellCard = ({
       // Try to get spell name from library or use ID
       effectText = `casts ${spellEffect}`;
     } else if (customEffects && customEffects.length > 0) {
-      // Format custom effects (like burning, stun, knockback, etc.)
+      // Format custom effects with detailed information
       const formattedEffects = customEffects.map(effect => {
-        return effect.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        const effectName = effect.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        
+        // Special handling for slow effect - show detailed information
+        if (effect === 'slow' || effect === 'slowed') {
+          const slowConfig = chanceConfig.slowConfig || {};
+          const speedReduction = slowConfig.speedReduction || slowConfig.slowAmount || 30;
+          const speedReductionType = slowConfig.speedReductionType || 'percentage';
+          const duration = slowConfig.duration || slowConfig.durationValue || 2;
+          const durationUnit = slowConfig.durationUnit || slowConfig.durationType || 'rounds';
+          const saveDC = slowConfig.saveDC || slowConfig.difficultyClass || chanceConfig.saveDC;
+          const saveType = slowConfig.saveType || slowConfig.savingThrowType || chanceConfig.saveType || 'constitution';
+          
+          const speedText = speedReductionType === 'flat' 
+            ? `${speedReduction} feet speed reduction`
+            : `${speedReduction}% speed reduction`;
+          
+          let slowDetails = `${effectName} (${speedText}`;
+          if (duration) {
+            const durationText = duration === 1 ? `1 ${durationUnit}` : `${duration} ${durationUnit}`;
+            slowDetails += `, ${durationText}`;
+          }
+          if (saveDC) {
+            slowDetails += `, DC ${saveDC} ${saveType} save`;
+          }
+          slowDetails += ')';
+          return slowDetails;
+        }
+        
+        // Special handling for burning effect - show detailed information
+        if (effect === 'burning' || effect === 'burn') {
+          const burningConfig = chanceConfig.burningConfig || {};
+          const damagePerRound = burningConfig.damagePerRound || burningConfig.damage || '1d6';
+          const duration = burningConfig.duration || burningConfig.durationValue || 2;
+          const durationUnit = burningConfig.durationUnit || burningConfig.durationType || 'rounds';
+          const saveDC = burningConfig.saveDC || burningConfig.difficultyClass || chanceConfig.saveDC;
+          const saveType = burningConfig.saveType || burningConfig.savingThrowType || chanceConfig.saveType || 'constitution';
+          
+          let burningDetails = `${effectName} (${damagePerRound} fire damage per round`;
+          if (duration) {
+            const durationText = duration === 1 ? `1 ${durationUnit}` : `${duration} ${durationUnit}`;
+            burningDetails += ` for ${durationText}`;
+          }
+          if (saveDC) {
+            burningDetails += `, DC ${saveDC} ${saveType} save ends early`;
+          }
+          burningDetails += ')';
+          return burningDetails;
+        }
+        
+        // Special handling for stun effect - show detailed information
+        if (effect === 'stun' || effect === 'stunned') {
+          const stunConfig = chanceConfig.stunConfig || {};
+          const duration = stunConfig.duration || stunConfig.durationValue || 1;
+          const durationUnit = stunConfig.durationUnit || stunConfig.durationType || 'round';
+          const saveDC = stunConfig.saveDC || stunConfig.difficultyClass || chanceConfig.saveDC;
+          const saveType = stunConfig.saveType || stunConfig.savingThrowType || chanceConfig.saveType || 'constitution';
+          
+          let stunDetails = `${effectName} (cannot take actions or reactions`;
+          if (duration) {
+            // Fix pluralization - don't add 's' if durationUnit already ends with 's' (like 'rounds')
+            const durationText = duration === 1 
+              ? `1 ${durationUnit.replace(/s$/, '')}` // Remove 's' for singular
+              : `${duration} ${durationUnit}`; // Use as-is if already plural
+            stunDetails += ` for ${durationText}`;
+          }
+          if (saveDC) {
+            stunDetails += `, DC ${saveDC} ${saveType} save negates`;
+          }
+          stunDetails += ')';
+          return stunDetails;
+        }
+        
+        // Special handling for knockback effect - show detailed information
+        if (effect === 'knockback' || effect === 'push') {
+          const knockbackConfig = chanceConfig.knockbackConfig || {};
+          const distance = knockbackConfig.distance || knockbackConfig.pushDistance || 10;
+          
+          return `${effectName} (pushed back ${distance} feet)`;
+        }
+        
+        // Special handling for shock effect - show detailed information
+        if (effect === 'shock' || effect === 'shocked') {
+          const shockConfig = chanceConfig.shockConfig || {};
+          const duration = shockConfig.duration || shockConfig.durationValue || 1;
+          const durationUnit = shockConfig.durationUnit || shockConfig.durationType || 'round';
+          
+          let shockDetails = `${effectName} (reduces action economy`;
+          if (duration) {
+            // Fix pluralization - don't add 's' if durationUnit already ends with 's' (like 'rounds')
+            const durationText = duration === 1 
+              ? `1 ${durationUnit.replace(/s$/, '')}` // Remove 's' for singular
+              : `${duration} ${durationUnit}`; // Use as-is if already plural
+            shockDetails += ` for ${durationText}`;
+          }
+          shockDetails += ')';
+          return shockDetails;
+        }
+        
+        // Special handling for freeze effect - show detailed information
+        if (effect === 'freeze' || effect === 'frozen') {
+          const freezeConfig = chanceConfig.freezeConfig || {};
+          const speedReduction = freezeConfig.speedReduction || 50;
+          const duration = freezeConfig.duration || freezeConfig.durationValue || 1;
+          const durationUnit = freezeConfig.durationUnit || freezeConfig.durationType || 'round';
+          const saveDC = freezeConfig.saveDC || freezeConfig.difficultyClass || chanceConfig.saveDC;
+          const saveType = freezeConfig.saveType || freezeConfig.savingThrowType || chanceConfig.saveType || 'constitution';
+          
+          let freezeDetails = `${effectName} (${speedReduction}% speed reduction`;
+          if (duration) {
+            // Fix pluralization - don't add 's' if durationUnit already ends with 's' (like 'rounds')
+            const durationText = duration === 1 
+              ? `1 ${durationUnit.replace(/s$/, '')}` // Remove 's' for singular
+              : `${duration} ${durationUnit}`; // Use as-is if already plural
+            freezeDetails += ` for ${durationText}`;
+          }
+          if (saveDC) {
+            freezeDetails += `, DC ${saveDC} ${saveType} save negates`;
+          }
+          freezeDetails += ')';
+          return freezeDetails;
+        }
+        
+        // Special handling for disarm effect - show detailed information
+        if (effect === 'disarm' || effect === 'disarmed') {
+          return `${effectName} (target drops their weapon)`;
+        }
+        
+        // Special handling for fear effect - show detailed information
+        if (effect === 'fear' || effect === 'frightened') {
+          const fearConfig = chanceConfig.fearConfig || {};
+          const duration = fearConfig.duration || fearConfig.durationValue || 2;
+          const durationUnit = fearConfig.durationUnit || fearConfig.durationType || 'rounds';
+          const saveDC = fearConfig.saveDC || fearConfig.difficultyClass || chanceConfig.saveDC;
+          const saveType = fearConfig.saveType || fearConfig.savingThrowType || chanceConfig.saveType || 'spirit';
+          
+          let fearDetails = `${effectName} (target is frightened`;
+          if (duration) {
+            // Fix pluralization - don't add 's' if durationUnit already ends with 's' (like 'rounds')
+            const isPlural = durationUnit.endsWith('s') || duration !== 1;
+            const durationText = duration === 1 
+              ? `1 ${durationUnit.replace(/s$/, '')}` // Remove 's' for singular
+              : `${duration} ${durationUnit}`; // Use as-is if already plural
+            fearDetails += ` for ${durationText}`;
+          }
+          if (saveDC) {
+            fearDetails += `, DC ${saveDC} ${saveType} save negates`;
+          }
+          fearDetails += ')';
+          return fearDetails;
+        }
+        
+        // Default: return capitalized effect name
+        return effectName;
       }).join(', ');
       effectText = formattedEffects;
     } else {
@@ -3801,6 +4253,103 @@ const UnifiedSpellCard = ({
     // Add special effects if any are selected
     if (critEffects && critEffects.length > 0) {
       const effectNames = critEffects.map(effect => {
+        // Special handling for life_drain - show percentage if configured
+        if (effect === 'life_drain' && critConfig.lifeDrainConfig) {
+          const lifeDrainConfig = critConfig.lifeDrainConfig;
+          if (lifeDrainConfig.percentage) {
+            return `Life Drain (restores ${lifeDrainConfig.percentage}% of critical damage)`;
+          } else if (lifeDrainConfig.formula) {
+            return `Life Drain (restores ${lifeDrainConfig.formula} of critical damage)`;
+          }
+        }
+        
+        // Special handling for knockback - show distance if configured
+        if (effect === 'knockback' || effect === 'push') {
+          const knockbackConfig = critConfig.knockbackConfig || {};
+          const distance = knockbackConfig.distance || knockbackConfig.pushDistance || 10;
+          return `Knockback (target is pushed back ${distance} feet)`;
+        }
+        
+        // Special handling for stun - show duration and save info if configured
+        if (effect === 'stun' || effect === 'stunned') {
+          const stunConfig = critConfig.stunConfig || {};
+          const duration = stunConfig.duration || stunConfig.durationValue || 1;
+          const durationUnit = stunConfig.durationUnit || stunConfig.durationType || 'round';
+          const saveDC = stunConfig.saveDC || stunConfig.difficultyClass;
+          const saveType = stunConfig.saveType || stunConfig.savingThrowType || 'constitution';
+          
+          let stunDetails = 'Stun (target cannot take actions or reactions';
+          if (duration) {
+            const durationText = duration === 1 
+              ? `1 ${durationUnit.replace(/s$/, '')}` 
+              : `${duration} ${durationUnit}`;
+            stunDetails += ` for ${durationText}`;
+          }
+          if (saveDC) {
+            stunDetails += `, DC ${saveDC} ${saveType} save negates`;
+          }
+          stunDetails += ')';
+          return stunDetails;
+        }
+        
+        // Special handling for bleeding - show damage and duration if configured
+        if (effect === 'bleeding' || effect === 'bleed') {
+          const bleedingConfig = critConfig.bleedingConfig || {};
+          const damagePerRound = bleedingConfig.damagePerRound || bleedingConfig.damage || '1d4';
+          const duration = bleedingConfig.duration || bleedingConfig.durationValue || 2;
+          const durationUnit = bleedingConfig.durationUnit || bleedingConfig.durationType || 'rounds';
+          const saveDC = bleedingConfig.saveDC || bleedingConfig.difficultyClass;
+          const saveType = bleedingConfig.saveType || bleedingConfig.savingThrowType || 'constitution';
+          
+          let bleedingDetails = `Bleeding (${damagePerRound} damage per round`;
+          if (duration) {
+            const durationText = duration === 1 
+              ? `1 ${durationUnit.replace(/s$/, '')}` 
+              : `${duration} ${durationUnit}`;
+            bleedingDetails += ` for ${durationText}`;
+          }
+          if (saveDC) {
+            bleedingDetails += `, DC ${saveDC} ${saveType} save ends early`;
+          }
+          bleedingDetails += ')';
+          return bleedingDetails;
+        }
+        
+        // Special handling for burning - show damage and duration if configured
+        if (effect === 'burning' || effect === 'burn') {
+          const burningConfig = critConfig.burningConfig || {};
+          const damagePerRound = burningConfig.damagePerRound || burningConfig.damage || '1d6';
+          const duration = burningConfig.duration || burningConfig.durationValue || 2;
+          const durationUnit = burningConfig.durationUnit || burningConfig.durationType || 'rounds';
+          const saveDC = burningConfig.saveDC || burningConfig.difficultyClass;
+          const saveType = burningConfig.saveType || burningConfig.savingThrowType || 'constitution';
+          
+          let burningDetails = `Burning (${damagePerRound} fire damage per round`;
+          if (duration) {
+            const durationText = duration === 1 
+              ? `1 ${durationUnit.replace(/s$/, '')}` 
+              : `${duration} ${durationUnit}`;
+            burningDetails += ` for ${durationText}`;
+          }
+          if (saveDC) {
+            burningDetails += `, DC ${saveDC} ${saveType} save ends early`;
+          }
+          burningDetails += ')';
+          return burningDetails;
+        }
+        
+        // Special handling for disarm - show save info if configured
+        if (effect === 'disarm' || effect === 'disarmed') {
+          const disarmConfig = critConfig.disarmConfig || {};
+          const saveDC = disarmConfig.saveDC || disarmConfig.difficultyClass;
+          const saveType = disarmConfig.saveType || disarmConfig.savingThrowType || 'strength';
+          
+          if (saveDC) {
+            return `Disarm (target drops their weapon, DC ${saveDC} ${saveType} save negates)`;
+          }
+          return 'Disarm (target drops their weapon)';
+        }
+        
         // Format effect names nicely - convert underscores to spaces and capitalize each word
         return effect.split('_')
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -3810,6 +4359,31 @@ const UnifiedSpellCard = ({
     }
 
     return critText;
+  };
+
+  // Helper function to normalize and format save types (maps D&D names to our system)
+  const normalizeSaveType = (saveType) => {
+    if (!saveType) return 'Constitution';
+    
+    const saveTypeMap = {
+      'dexterity': 'agility',
+      'dex': 'agility',
+      'wisdom': 'spirit',
+      'wis': 'spirit',
+      'strength': 'strength',
+      'str': 'strength',
+      'constitution': 'constitution',
+      'con': 'constitution',
+      'intelligence': 'intelligence',
+      'int': 'intelligence',
+      'spirit': 'spirit',
+      'spi': 'spirit',
+      'charisma': 'charisma',
+      'cha': 'charisma'
+    };
+    
+    const normalized = saveTypeMap[saveType.toLowerCase()] || saveType.toLowerCase();
+    return normalized.charAt(0).toUpperCase() + normalized.slice(1);
   };
 
   // ===== STANDARDIZED SAVING THROW FORMATTING =====
@@ -3830,7 +4404,7 @@ const UnifiedSpellCard = ({
                      saveConfig.savingThrow ||
                      'constitution';
 
-    const formattedSaveType = saveType.charAt(0).toUpperCase() + saveType.slice(1);
+    const formattedSaveType = normalizeSaveType(saveType);
     const dc = saveConfig.difficultyClass || 15;
 
     // Determine save outcome based on effect type and config
@@ -3864,7 +4438,8 @@ const UnifiedSpellCard = ({
       formatted: `DC ${dc} ${formattedSaveType}${outcomeText}`,
       saveType: formattedSaveType,
       dc: dc,
-      outcome: outcomeText.replace(/[()]/g, '').trim()
+      outcome: outcomeText.replace(/[()]/g, '').trim(),
+      saveOutcome: saveConfig.saveOutcome || null
     };
   };
   const formatDamage = () => {
@@ -4399,7 +4974,17 @@ const UnifiedSpellCard = ({
     // Use a Set to automatically handle duplicates
     const damageTypesSet = new Set();
 
-    // Priority order: damageTypes array first (check both top-level and damageConfig), then other sources
+    // Priority order: typeConfig (Step 1) -> damageTypes array -> other sources
+    // Check typeConfig.school and typeConfig.secondaryElement FIRST (from Step 1 wizard)
+    const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
+    if (spell.typeConfig?.school && !magicSchools.includes(spell.typeConfig.school.toLowerCase())) {
+      damageTypesSet.add(spell.typeConfig.school.toLowerCase().trim());
+    }
+    if (spell.typeConfig?.secondaryElement) {
+      damageTypesSet.add(spell.typeConfig.secondaryElement.toLowerCase().trim());
+    }
+
+    // Then check damageTypes array (check both top-level and damageConfig)
     const damageTypesArray = spell.damageTypes || spell.damageConfig?.damageTypes;
     if (damageTypesArray && Array.isArray(damageTypesArray) && damageTypesArray.length > 0) {
       damageTypesArray.forEach(type => {
@@ -4452,8 +5037,9 @@ const UnifiedSpellCard = ({
       }
     }
 
-    // Infer damage type from spell effects if still not found
-    if (damageTypesSet.size === 0) {
+    // Only infer damage type from spell effects if we have damage configuration
+    // Don't infer for pure healing/buff/utility spells
+    if (damageTypesSet.size === 0 && hasDamageConfig) {
       // Check damage config for type hints
       if (spell.damageConfig?.formula) {
         const formula = spell.damageConfig.formula.toLowerCase();
@@ -4466,9 +5052,10 @@ const UnifiedSpellCard = ({
         else if (formula.includes('acid')) damageTypesSet.add('acid');
         else if (formula.includes('psychic')) damageTypesSet.add('psychic');
         else if (formula.includes('force')) damageTypesSet.add('force');
+        else if (formula.includes('chaos')) damageTypesSet.add('chaos');
       }
 
-      // Check spell name and description for type hints
+      // Only check spell name and description for type hints if we have damage config
       const spellText = `${spell.name || ''} ${spell.description || ''}`.toLowerCase();
       if (spellText.includes('fire') || spellText.includes('flame') || spellText.includes('burn')) damageTypesSet.add('fire');
       else if (spellText.includes('cold') || spellText.includes('frost') || spellText.includes('ice')) damageTypesSet.add('cold');
@@ -4479,10 +5066,11 @@ const UnifiedSpellCard = ({
       else if (spellText.includes('acid') || spellText.includes('corrosive')) damageTypesSet.add('acid');
       else if (spellText.includes('psychic') || spellText.includes('mind') || spellText.includes('mental')) damageTypesSet.add('psychic');
       else if (spellText.includes('force') || spellText.includes('arcane')) damageTypesSet.add('force');
+      else if (spellText.includes('chaos') || spellText.includes('chaotic') || spellText.includes('unpredictable')) damageTypesSet.add('chaos');
 
-      // Check buff/debuff effects for damage type hints
+      // Check buff/debuff effects for damage type hints (only if we have damage)
       if (spell.buffConfig?.statusEffects) {
-        spell.buffConfig.statusEffects.forEach(effect => {
+        spell.buffConfig?.statusEffects.forEach(effect => {
           const effectText = `${effect.name || ''} ${effect.description || ''}`.toLowerCase();
           if (effectText.includes('radiant') || effectText.includes('holy')) damageTypesSet.add('radiant');
           else if (effectText.includes('necrotic') || effectText.includes('shadow')) damageTypesSet.add('necrotic');
@@ -4494,7 +5082,7 @@ const UnifiedSpellCard = ({
     const validDamageTypes = ['fire', 'cold', 'lightning', 'thunder', 'electric',
                              'poison', 'acid', 'necrotic', 'shadow', 'radiant', 'holy',
                              'arcane', 'force', 'physical', 'slashing', 'piercing', 'bludgeoning',
-                             'nature', 'void', 'psychic', 'magical'];
+                             'nature', 'void', 'psychic', 'magical', 'chaos'];
 
     // Normalize similar types
     const normalizedTypes = Array.from(damageTypesSet).map(type => {
@@ -4561,7 +5149,8 @@ const UnifiedSpellCard = ({
       'stamina': isPositive ? 'Endurance Boost' : 'Stamina Penalty',
       'speed': isPositive ? 'Swiftness' : 'Sluggishness',
       'armor': isPositive ? 'Protective Ward' : 'Armor Reduction',
-      'damage': isPositive ? 'Combat Prowess' : 'Damage Penalty'
+      'damage': isPositive ? 'Combat Prowess' : 'Damage Penalty',
+      'damage_reduction': 'Damage Resistance'
     };
 
     return statEnhancements[baseName] || (statName.charAt(0).toUpperCase() + statName.slice(1));
@@ -4883,7 +5472,7 @@ const UnifiedSpellCard = ({
     else if (effectId === 'blessed') {
       const blessType = status.blessType || 'protection';
       if (blessType === 'protection') {
-        mechanicsParts.push('Gain AC bonus and resistance to certain damage types');
+        mechanicsParts.push('Gain Armor bonus and resistance to certain damage types');
       } else if (blessType === 'fortune') {
         mechanicsParts.push('Can reroll one die roll per round');
       } else if (blessType === 'life') {
@@ -4969,35 +5558,14 @@ const UnifiedSpellCard = ({
       const linkType = status.linkType || 'damage_to_healing';
       const percentage = status.percentage || 25;
       if (linkType === 'damage_to_healing') {
-        mechanicsParts.push(`Convert ${percentage}% of damage dealt to healing`);
+        mechanicsParts.push(`Convert ${percentage}% of Damage Dealt to healing`);
       } else if (linkType === 'healing_to_damage') {
         mechanicsParts.push(`Convert ${percentage}% of healing done to bonus damage`);
       }
     }
 
-    // Add duration if available from parent config or status itself
-    const duration = status.duration || (parentConfig && (parentConfig.durationValue || parentConfig.duration));
-    const durationType = status.durationType || (parentConfig && parentConfig.durationType);
-
-    if (duration && durationType && durationType !== 'instant') {
-      let durationText = '';
-      if (durationType === 'permanent') {
-        durationText = 'Permanent';
-      } else if (durationType === 'rounds') {
-        durationText = `${duration} ${duration === 1 ? 'round' : 'rounds'}`;
-      } else if (durationType === 'minutes') {
-        durationText = `${duration} ${duration === 1 ? 'minute' : 'minutes'}`;
-      } else if (durationType === 'hours') {
-        durationText = `${duration} ${duration === 1 ? 'hour' : 'hours'}`;
-      } else if (durationType === 'time') {
-        const unit = status.durationUnit || (parentConfig && parentConfig.durationUnit) || 'rounds';
-        durationText = `${duration} ${unit}`;
-      }
-
-      if (durationText) {
-        mechanicsParts.push(`Duration: ${durationText}`);
-      }
-    }
+    // REMOVED: Duration is now included in description, not mechanicsText
+    // This prevents duplicate "Duration: X round" display
 
     // DEBUFF EFFECTS
 
@@ -5158,9 +5726,10 @@ const UnifiedSpellCard = ({
     }
 
     // SLOWED EFFECT
+    // REMOVED: Mechanics text for slowed - description already contains the effect details
+    // (e.g., "Movement speed reduced by 10 feet" is in the description)
     else if (effectId === 'slowed' || effectId === 'slow') {
-      const speedReduction = status.speedReduction || 50;
-      mechanicsParts.push(`Movement speed reduced by ${speedReduction}%`);
+      // Don't add mechanics text - description already has the details
     }
 
     // FROZEN EFFECT
@@ -5250,24 +5819,8 @@ const UnifiedSpellCard = ({
       mechanicsParts.push(`Add ${inspirationDie} to ability checks, attacks, or saves`);
     }
 
-    // Add save information if available
-    // Check both status-level and parent config-level save information
-    const saveType = status.saveType || (parentConfig && (parentConfig.savingThrow || parentConfig.saveType));
-    const saveDC = status.saveDC || (parentConfig && parentConfig.difficultyClass) || 15;
-    const saveOutcome = status.saveOutcome || (parentConfig && parentConfig.saveOutcome) || 'negates';
-
-    if (saveType && saveType !== 'none') {
-      const outcomeMap = {
-        'negates': 'negate',
-        'halves_effects': 'halves',
-        'halves': 'halves',
-        'none': 'no save allowed'
-      };
-
-      const saveTypeName = saveType.charAt(0).toUpperCase() + saveType.slice(1);
-      const outcomeText = outcomeMap[saveOutcome] || 'negate';
-      mechanicsParts.push(`${saveTypeName} save DC ${saveDC} (${outcomeText})`);
-    }
+    // REMOVED: Save information is now included in description, not mechanicsText
+    // This prevents duplicate "Constitution save DC X (negate)" display
 
     // Combine all mechanics parts
     mechanicsText = mechanicsParts.length > 0 ? mechanicsParts.join(', ') : (status.mechanicsText || description);
@@ -5282,8 +5835,10 @@ const UnifiedSpellCard = ({
     if (!spell?.buffConfig) {
       // If spell has buff effect type but no config, show a basic effect
       if (spell?.effectTypes?.includes('buff')) {
+        // Use customName from buffConfig if provided
+        const buffName = spell?.buffConfig?.customName || 'Buff Effect';
         return [{
-          name: 'Buff Effect',
+          name: buffName,
           description: 'Provides beneficial effects',
           mechanicsText: 'Effect details not configured'
         }];
@@ -5310,7 +5865,7 @@ const UnifiedSpellCard = ({
     }
 
     // Format stat modifiers with special handling for resistance and absorption
-    if (buffConfig.statModifiers && buffConfig.statModifiers.length > 0) {
+    if (buffConfig?.statModifiers && buffConfig.statModifiers.length > 0) {
       const regularStats = [];
       const resistanceStats = [];
       const absorptionStats = [];
@@ -5347,10 +5902,10 @@ const UnifiedSpellCard = ({
           class: hasIncompleteName ? 'incomplete-data' : ''
         };
 
-        // Enhanced stat name formatting with thematic descriptions (only if not incomplete)
+        // Simple stat name formatting (no verbose descriptions)
         if (!hasIncompleteName) {
-          const enhancedStatName = getEnhancedStatName(stat.name, stat.magnitude, stat.magnitudeType);
-          statDisplay.name = enhancedStatName;
+          // Use simple capitalized stat name
+          statDisplay.name = stat.name.charAt(0).toUpperCase() + stat.name.slice(1);
         }
 
         if (typeof stat.magnitude === 'string') {
@@ -5363,17 +5918,8 @@ const UnifiedSpellCard = ({
             }
             statDisplay.class = 'absorption-formula';
           } else {
-            // Enhanced dice formula display with context
-            const statType = getStatType(stat.name);
-            if (statType === 'physical') {
-              statDisplay.value = `${stat.magnitude} enhancement to physical prowess`;
-            } else if (statType === 'mental') {
-              statDisplay.value = `${stat.magnitude} enhancement to mental faculties`;
-            } else if (statType === 'magical') {
-              statDisplay.value = `${stat.magnitude} enhancement to magical abilities`;
-            } else {
-              statDisplay.value = `${stat.magnitude} enhancement`;
-            }
+            // Simple dice formula display
+            statDisplay.value = stat.magnitude;
             statDisplay.class = 'formula';
           }
         } else if (isAbsorptionStat) {
@@ -5518,57 +6064,27 @@ const UnifiedSpellCard = ({
                 statDisplay.class = 'thematic-resistance';
               }
             } else {
-              // Enhanced percentage descriptions for non-resistance stats
-              if (Math.abs(magnitude) >= 50) {
-                const intensity = magnitude >= 0 ? 'dramatically enhances' : 'severely impairs';
-                statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
-              } else if (Math.abs(magnitude) >= 25) {
-                const intensity = magnitude >= 0 ? 'significantly enhances' : 'notably impairs';
-                statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
-              } else if (Math.abs(magnitude) >= 10) {
-                const intensity = magnitude >= 0 ? 'moderately enhances' : 'moderately impairs';
-                statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
-              } else {
-                const intensity = magnitude >= 0 ? 'slightly enhances' : 'slightly impairs';
-                statDisplay.value = `${intensity} by ${Math.abs(magnitude)}%`;
-              }
+              // Simple percentage formatting for non-resistance stats
+              const sign = magnitude >= 0 ? '+' : '';
+              statDisplay.value = `${sign}${magnitude}%`;
               statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
             }
           } else {
             // Special handling for damage_reduction stat
             if (stat.stat === 'damage_reduction' || statName.includes('damage_reduction') || statName.includes('damage reduction')) {
-              // Use description if provided, otherwise create clear text
-              if (stat.description) {
-                statDisplay.value = stat.description;
-              } else {
-                statDisplay.value = `Reduces incoming damage by ${Math.abs(magnitude)}`;
-              }
+              statDisplay.value = `Reduces incoming damage by ${Math.abs(magnitude)}`;
               statDisplay.class = 'damage-reduction';
             } else if (stat.stat === 'armor' || statName.includes('armor')) {
               // Special handling for armor
-              if (stat.description) {
-                statDisplay.value = stat.description;
-              } else {
-                statDisplay.value = `+${magnitude} Armor Class`;
-              }
+              statDisplay.value = `+${magnitude} Armor`;
               statDisplay.class = 'armor-bonus';
-            } else {
-              // Enhanced flat number descriptions for other stats
-              if (stat.description) {
-                // Use description if provided
-                statDisplay.value = stat.description;
-              } else if (Math.abs(magnitude) >= 10) {
-                const intensity = magnitude >= 0 ? 'greatly increases' : 'greatly decreases';
-                statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
-              } else if (Math.abs(magnitude) >= 5) {
-                const intensity = magnitude >= 0 ? 'increases' : 'decreases';
-                statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
               } else {
-                const intensity = magnitude >= 0 ? 'slightly increases' : 'slightly decreases';
-                statDisplay.value = `${intensity} by ${Math.abs(magnitude)} points`;
+                // Simple flat number formatting for other stats
+                // Always use simple format, never use verbose stat descriptions
+                const sign = magnitude >= 0 ? '+' : '';
+                statDisplay.value = `${sign}${magnitude}`;
+                statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
               }
-              statDisplay.class = magnitude >= 0 ? 'positive' : 'negative';
-            }
           }
         }
 
@@ -5614,7 +6130,7 @@ const UnifiedSpellCard = ({
       }
     }
     // Format status effects with enhanced configuration display
-    if (buffConfig.statusEffects && buffConfig.statusEffects.length > 0) {
+    if (buffConfig?.statusEffects && buffConfig.statusEffects.length > 0) {
       buffConfig.statusEffects.forEach(effect => {
         // Handle both string IDs and full effect objects
         let effectName, effectData;
@@ -6636,7 +7152,8 @@ const UnifiedSpellCard = ({
     // Handle buffConfig.buffs array (used by enhanced spell library spells)
     if (buffConfig.buffs && buffConfig.buffs.length > 0) {
       buffConfig.buffs.forEach(buff => {
-        const buffName = buff.name || 'Buff Effect';
+        // Use customName from buffConfig if buff doesn't have its own name
+        const buffName = buff.name || buffConfig?.customName || 'Buff Effect';
         const buffDescription = buff.description || '';
         let mechanicsText = '';
         const mechanicsParts = [];
@@ -7080,7 +7597,7 @@ const UnifiedSpellCard = ({
     };
 
     // Format status effects with enhanced configuration display
-    if (debuffConfig.statusEffects && debuffConfig.statusEffects.length > 0) {
+    if (debuffConfig?.statusEffects && debuffConfig.statusEffects.length > 0) {
       debuffConfig.statusEffects.forEach(effect => {
         // Handle both string IDs and full effect objects
         let displayName, effectData;
@@ -7290,7 +7807,7 @@ const UnifiedSpellCard = ({
         const saveType = effectData.saveType || getDefaultSaveType(effectData.id || effect);
 
         if (saveType && saveType !== 'none') {
-          mechanicsParts.push(`${saveType.charAt(0).toUpperCase() + saveType.slice(1)} save DC ${saveDC}`);
+          mechanicsParts.push(`${normalizeSaveType(saveType)} save DC ${saveDC}`);
 
           if (effectData.saveOutcome) {
             mechanicsParts.push(`(${effectData.saveOutcome})`);
@@ -7414,8 +7931,16 @@ const UnifiedSpellCard = ({
       });
     }
 
-    // Add saving throw information
-    if (debuffConfig.savingThrow && debuffConfig.difficultyClass) {
+    // Add saving throw information only if not already included in effect descriptions
+    const hasSaveInDescription = effects.some(effect =>
+      effect.description && (
+        effect.description.includes('save DC') ||
+        effect.description.includes('save DC') ||
+        effect.description.includes('saving throw')
+      )
+    );
+
+    if (!hasSaveInDescription && debuffConfig.savingThrow && debuffConfig.difficultyClass) {
       const saveInfo = formatSavingThrow(debuffConfig, 'debuff');
       if (saveInfo) {
         effects.push({
@@ -7760,12 +8285,16 @@ const UnifiedSpellCard = ({
                   {/* Damage Types - Top row */}
                   {damageTypes.length > 0 && (
                   <div className="pf-damage-types-header">
-                    {damageTypes.map((damageType, index) => (
-                      <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`}>
-                        <div className="pf-damage-type-icon"></div>
-                        <span className="pf-damage-type-text">{damageType}</span>
-                      </div>
-                    ))}
+                    {damageTypes.map((damageType, index) => {
+                      // Format damage type name: capitalize first letter
+                      const formattedType = damageType.charAt(0).toUpperCase() + damageType.slice(1);
+                      return (
+                        <div key={index} className={`pf-damage-type-badge ${damageType.toLowerCase()}`}>
+                          <div className="pf-damage-type-icon"></div>
+                          <span className="pf-damage-type-text">{formattedType}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
 
@@ -7886,13 +8415,31 @@ const UnifiedSpellCard = ({
                                          hasTriggerConfig.requiredConditions.conditions?.length > 0;
             const hasGlobalTriggerOrRequired = (globalTriggersEnabled && hasGlobalTriggers) || hasRequiredConditions;
 
-            // Check for effect-specific triggers
-            const damageEffectTriggers = spell?.triggerConfig?.effectTriggers?.damage;
-            const healingEffectTriggers = spell?.triggerConfig?.effectTriggers?.healing;
+            // Check for effect-specific triggers - check all possible subtypes
+            // Damage subtypes: damage, damage_direct, damage_dot, damage_area, damage_combined
+            // Healing subtypes: healing, healing_direct, healing_hot, healing_shield
+            const getEffectTriggersForType = (baseType) => {
+              const subtypes = baseType === 'damage' 
+                ? ['damage', 'damage_direct', 'damage_dot', 'damage_area', 'damage_combined']
+                : ['healing', 'healing_direct', 'healing_hot', 'healing_shield'];
+              
+              // Check all subtypes and return the first one that has triggers
+              for (const subtype of subtypes) {
+                const triggers = spell?.triggerConfig?.effectTriggers?.[subtype];
+                if (triggers?.compoundTriggers?.length > 0) {
+                  return triggers;
+                }
+              }
+              return null;
+            };
+            
+            const damageEffectTriggers = getEffectTriggersForType('damage');
+            const healingEffectTriggers = getEffectTriggersForType('healing');
             const isDamageConditional = spell?.triggerConfig?.conditionalEffects?.damage?.isConditional;
             const isHealingConditional = spell?.triggerConfig?.conditionalEffects?.healing?.isConditional;
-            const hasDamageEffectTriggers = damageEffectTriggers?.compoundTriggers?.length > 0 && isDamageConditional;
-            const hasHealingEffectTriggers = healingEffectTriggers?.compoundTriggers?.length > 0 && isHealingConditional;
+            // Effect-specific triggers should display regardless of conditional status
+            const hasDamageEffectTriggers = damageEffectTriggers?.compoundTriggers?.length > 0;
+            const hasHealingEffectTriggers = healingEffectTriggers?.compoundTriggers?.length > 0;
 
             // Build trigger/required state header if needed
             let triggerHeader = null;
@@ -8026,8 +8573,17 @@ const UnifiedSpellCard = ({
 
                       {/* Damage Display - Only show if damage is actually configured */}
                       {shouldRenderDamage && (
-                        <div className="damage-effects">
-                          <div className="damage-effects-section">
+                        <>
+                          {/* Effect-specific trigger header for damage when wrapped with global triggers */}
+                          {damageTriggerHeader && (
+                            <div className="healing-formula-line">
+                              <div className="healing-effects-list">
+                                {damageTriggerHeader}
+                              </div>
+                            </div>
+                          )}
+                          <div className="damage-effects">
+                            <div className="damage-effects-section">
                             {(() => {
                               const damageData = spell?.damageConfig;
                               if (!damageData) return null;
@@ -8093,17 +8649,31 @@ const UnifiedSpellCard = ({
 
                                   // Build mechanics text for area damage with triggers
                                   let mechanicsText = damageResult;
+                                  let effectName = isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage');
+                                  
+                                  // For area damage with triggers, format mechanics text with trigger description
+                                  // Name stays as "Area Damage" per template - trigger info goes in mechanics text
                                   if (isAreaDamage && damageData?.triggerDescription) {
                                     mechanicsText = `${damageResult} - ${damageData.triggerDescription}`;
                                   }
 
+                                  // Add chance on hit to instant damage mechanics text if enabled
+                                  // Skip if there's a saving throw config (saving throw entry will show the chance info)
+                                  if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
+                                    const chanceInfo = formatChanceOnHit();
+                                    if (chanceInfo) {
+                                      mechanicsText = mechanicsText ? `${mechanicsText} • ${chanceInfo}` : chanceInfo;
+                                    }
+                                  }
+
                                   effects.push({
-                                    name: isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage'),
+                                    name: effectName,
                                     description: damageData?.description || '',
                                     mechanicsText: mechanicsText,
                                     conditionalFormulas: effectTriggers?.formulas || [],
                                     targeting: effectTargeting,
-                                    triggerCondition: damageData?.triggerCondition
+                                    triggerCondition: damageData?.triggerCondition,
+                                    isTriggeredArea: false
                                   });
                                 }
                               }
@@ -8112,10 +8682,46 @@ const UnifiedSpellCard = ({
                               if (damageData?.savingThrowConfig?.enabled) {
                                 const saveInfo = formatSavingThrow(damageData.savingThrowConfig, 'damage');
                                 if (saveInfo) {
+                                  // Check if this is for a chance-on-hit effect
+                                  const chanceConfig = damageData?.chanceOnHitConfig;
+                                  let effectName = 'Saving Throw';
+                                  let chanceText = '';
+                                  
+                                  if (chanceConfig?.enabled && chanceConfig?.customEffects?.length > 0) {
+                                    // Use the first custom effect name (capitalized)
+                                    const effectId = chanceConfig.customEffects[0];
+                                    effectName = effectId.split('_').map(word => 
+                                      word.charAt(0).toUpperCase() + word.slice(1)
+                                    ).join(' ');
+                                    
+                                    // Format chance information
+                                    if (chanceConfig.procType === 'dice') {
+                                      chanceText = ` (${chanceConfig.diceThreshold}+ on d20 (${chanceConfig.procChance}%))`;
+                                    } else if (chanceConfig.procType === 'cards') {
+                                      let cardChance = '';
+                                      if (chanceConfig.cardProcRule === 'face_cards') cardChance = '23%';
+                                      else if (chanceConfig.cardProcRule === 'aces') cardChance = '8%';
+                                      else if (chanceConfig.cardProcRule === 'specific_suit') cardChance = '25%';
+                                      else if (chanceConfig.cardProcRule === 'red_cards' || chanceConfig.cardProcRule === 'black_cards') cardChance = '50%';
+                                      else if (chanceConfig.cardProcRule === 'pairs') cardChance = '6%';
+                                      else cardChance = '25%';
+                                      chanceText = ` (${cardChance} chance)`;
+                                    } else if (chanceConfig.procType === 'coins') {
+                                      const coinChance = (Math.pow(0.5, chanceConfig.coinCount || 3) * 100).toFixed(1);
+                                      chanceText = ` (${coinChance}% chance)`;
+                                    }
+                                  }
+                                  
+                                  // Format outcome as "Negates on fail" instead of just "negate"
+                                  const saveOutcome = damageData.savingThrowConfig?.saveOutcome;
+                                  const outcomeText = saveOutcome === 'negates' 
+                                    ? 'Negates on fail' 
+                                    : (saveInfo.outcome || 'Negates on fail');
+                                  
                                   effects.push({
-                                    name: 'Saving Throw',
-                                    description: `${saveInfo.saveType} save DC ${saveInfo.dc}`,
-                                    mechanicsText: saveInfo.outcome
+                                    name: effectName,
+                                    description: `${saveInfo.saveType} save DC ${saveInfo.dc}${chanceText} (${outcomeText})`,
+                                    mechanicsText: ''
                                   });
                                 }
                               }
@@ -8127,24 +8733,13 @@ const UnifiedSpellCard = ({
                                   effects.push({
                                     name: 'Critical Hit',
                                     description: critInfo,
-                                    mechanicsText: 'Enhanced damage on critical'
+                                    mechanicsText: ''
                                   });
                                 }
                               }
 
                               // Note: Effect-specific triggers are shown as headers when wrapped, not in the effects list
-
-                              // Add chance on hit info
-                              if (damageData?.chanceOnHitConfig?.enabled) {
-                                const chanceInfo = formatChanceOnHit();
-                                if (chanceInfo) {
-                                  effects.push({
-                                    name: 'Chance Effect',
-                                    description: chanceInfo,
-                                    mechanicsText: 'Additional effect on trigger'
-                                  });
-                                }
-                              }
+                              // Note: Chance on hit is now integrated into instant damage mechanics text, not shown as separate effect
 
                               return effects.length > 0 ? (
                                 <div className="damage-formula-line">
@@ -8154,6 +8749,21 @@ const UnifiedSpellCard = ({
                                         <div className="damage-effect">
                                           <span className="damage-effect-name">
                                             {effect.name}
+                                            {effect.isTriggeredArea && (
+                                              <span className="trigger-badge" style={{
+                                                marginLeft: '8px',
+                                                fontSize: '0.75em',
+                                                padding: '2px 6px',
+                                                background: 'rgba(255, 140, 0, 0.15)',
+                                                border: '1px solid rgba(255, 140, 0, 0.4)',
+                                                borderRadius: '4px',
+                                                color: '#ff8c00',
+                                                fontWeight: '600'
+                                              }}>
+                                                <i className="fas fa-bolt" style={{ marginRight: '4px' }}></i>
+                                                Triggered
+                                              </span>
+                                            )}
                                           </span>
                                           {effect.description && effect.description !== effect.name && (
                                             <span className="damage-effect-description">
@@ -8188,7 +8798,7 @@ const UnifiedSpellCard = ({
                                         </div>
                                         {effect.mechanicsText && (
                                           <div className="damage-effect-details">
-                                            <div className="damage-effect-mechanics">
+                                            <div className={`damage-effect-mechanics ${effect.isTriggeredArea ? 'triggered-area-damage' : ''}`}>
                                               {effect.mechanicsText}
                                             </div>
                                           </div>
@@ -8217,11 +8827,19 @@ const UnifiedSpellCard = ({
                             })()}
                           </div>
                         </div>
+                        </>
                       )}
 
                       {/* Healing Display - Only show if healing is actually configured */}
                       {shouldRenderDamage && shouldRenderHealing && (
                         <div style={{ marginTop: '8px' }}></div>
+                      )}
+                      {shouldRenderHealing && healingTriggerHeader && (
+                        <div className="healing-formula-line">
+                          <div className="healing-effects-list">
+                            {healingTriggerHeader}
+                          </div>
+                        </div>
                       )}
                       {shouldRenderHealing && (() => {
                         if (!healingData) return null;
@@ -8386,11 +9004,7 @@ const UnifiedSpellCard = ({
                                         <span className="healing-effect-name">
                                           {effect.name}
                                         </span>
-                                        {effect.description && effect.description !== effect.name && (
-                                          <span className="healing-effect-description">
-                                            {" - "}{effect.description}
-                                          </span>
-                                        )}
+                                        {/* Description removed - already shown in UnifiedSpellCard main description */}
                                         {/* Targeting/Range badges */}
                                         {effect.targeting && (
                                           <div className="healing-effect-targeting">
@@ -8586,15 +9200,47 @@ const UnifiedSpellCard = ({
                                   } else {
                                     // Single damage effect
                                     const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
-                                    const effectSubType = isDotOnly ? 'damage_dot' : 'damage_direct';
+                                    const isAreaDamage = damageData?.damageType === 'area';
+                                    const effectSubType = isDotOnly ? 'damage_dot' : (isAreaDamage ? 'damage_area' : 'damage_direct');
                                     const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
                                     const effectTargeting = formatEffectTargeting('damage', effectSubType);
+                                    
+                                    // ⚠️ CRITICAL: All information must be in description (grey cursive text)
+                                    // Use damageConfig.description if provided, otherwise build from damageResult
+                                    let effectName = isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage');
+                                    
+                                    // Prioritize damageConfig.description if it exists (contains all info in natural language)
+                                    let descriptionText = damageData?.description;
+                                    
+                                    // If no description provided, build from damageResult and other configs
+                                    if (!descriptionText) {
+                                      descriptionText = damageResult;
+                                      
+                                      // For area damage with triggers, add trigger description
+                                      if (isAreaDamage && damageData?.triggerDescription) {
+                                        descriptionText = `${damageResult} - ${damageData.triggerDescription}`;
+                                      }
+
+                                      // Add chance on hit to instant damage description if enabled
+                                      // Skip if there's a saving throw config (saving throw entry will show the chance info)
+                                      if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
+                                        const chanceInfo = formatChanceOnHit();
+                                        if (chanceInfo) {
+                                          descriptionText = descriptionText ? `${descriptionText} • ${chanceInfo}` : chanceInfo;
+                                        }
+                                      }
+                                    }
+                                    
+                                    // ⚠️ CRITICAL: Damage should ONLY be in black text (mechanicsText), NOT in grey description
+                                    // Description should be empty for damage effects - range/area info is already in header tags
                                     effects.push({
-                                      name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
-                                      description: '',
-                                      mechanicsText: damageResult,
+                                      name: effectName,
+                                      description: '', // Always empty for damage - info is in mechanicsText and header tags
+                                      mechanicsText: mechanicsText,
                                       conditionalFormulas: effectTriggers?.formulas || [],
-                                      targeting: effectTargeting
+                                      targeting: effectTargeting,
+                                      triggerCondition: damageData?.triggerCondition,
+                                      isTriggeredArea: false
                                     });
                                   }
                                 }
@@ -8603,10 +9249,46 @@ const UnifiedSpellCard = ({
                                 if (damageData?.savingThrowConfig?.enabled) {
                                   const saveInfo = formatSavingThrow(damageData.savingThrowConfig, 'damage');
                                   if (saveInfo) {
+                                    // Check if this is for a chance-on-hit effect
+                                    const chanceConfig = damageData?.chanceOnHitConfig;
+                                    let effectName = 'Saving Throw';
+                                    let chanceText = '';
+                                    
+                                    if (chanceConfig?.enabled && chanceConfig?.customEffects?.length > 0) {
+                                      // Use the first custom effect name (capitalized)
+                                      const effectId = chanceConfig.customEffects[0];
+                                      effectName = effectId.split('_').map(word => 
+                                        word.charAt(0).toUpperCase() + word.slice(1)
+                                      ).join(' ');
+                                      
+                                      // Format chance information
+                                      if (chanceConfig.procType === 'dice') {
+                                        chanceText = ` (${chanceConfig.diceThreshold}+ on d20 (${chanceConfig.procChance}%))`;
+                                      } else if (chanceConfig.procType === 'cards') {
+                                        let cardChance = '';
+                                        if (chanceConfig.cardProcRule === 'face_cards') cardChance = '23%';
+                                        else if (chanceConfig.cardProcRule === 'aces') cardChance = '8%';
+                                        else if (chanceConfig.cardProcRule === 'specific_suit') cardChance = '25%';
+                                        else if (chanceConfig.cardProcRule === 'red_cards' || chanceConfig.cardProcRule === 'black_cards') cardChance = '50%';
+                                        else if (chanceConfig.cardProcRule === 'pairs') cardChance = '6%';
+                                        else cardChance = '25%';
+                                        chanceText = ` (${cardChance} chance)`;
+                                      } else if (chanceConfig.procType === 'coins') {
+                                        const coinChance = (Math.pow(0.5, chanceConfig.coinCount || 3) * 100).toFixed(1);
+                                        chanceText = ` (${coinChance}% chance)`;
+                                      }
+                                    }
+                                    
+                                    // Format outcome as "Negates on fail" instead of just "negate"
+                                    const saveOutcome = damageData.savingThrowConfig?.saveOutcome;
+                                    const outcomeText = saveOutcome === 'negates' 
+                                      ? 'Negates on fail' 
+                                      : (saveInfo.outcome || 'Negates on fail');
+                                    
                                     effects.push({
-                                      name: 'Saving Throw',
-                                      description: `${saveInfo.saveType} save DC ${saveInfo.dc}`,
-                                      mechanicsText: saveInfo.outcome
+                                      name: effectName,
+                                      description: `${saveInfo.saveType} save DC ${saveInfo.dc}${chanceText} (${outcomeText})`,
+                                      mechanicsText: ''
                                     });
                                   }
                                 }
@@ -8618,24 +9300,13 @@ const UnifiedSpellCard = ({
                                     effects.push({
                                       name: 'Critical Hit',
                                       description: critInfo,
-                                      mechanicsText: 'Enhanced damage on critical'
+                                      mechanicsText: ''
                                     });
                                   }
                                 }
 
                                 // Note: Effect-specific triggers are shown as headers when wrapped individually, not in the effects list
-
-                                // Add chance on hit info
-                                if (damageData?.chanceOnHitConfig?.enabled) {
-                                  const chanceInfo = formatChanceOnHit();
-                                  if (chanceInfo) {
-                                    effects.push({
-                                      name: 'Chance Effect',
-                                      description: chanceInfo,
-                                      mechanicsText: 'Additional effect on trigger'
-                                    });
-                                  }
-                                }
+                                // Note: Chance on hit is integrated into damage mechanicsText or saving throw entry, not shown as separate effect
 
                                 return effects.length > 0 ? (
                                   <div className="damage-formula-line">
@@ -8742,10 +9413,11 @@ const UnifiedSpellCard = ({
                                 // Instant damage
                                 const instantTriggers = getEffectTriggersAndFormulas('damage_direct');
                                 const instantTargeting = formatEffectTargeting('damage', 'damage_direct');
+                                // ⚠️ CRITICAL: All information must be in description (grey cursive text)
                                 effects.push({
                                   name: 'Instant Damage',
-                                  description: '',
-                                  mechanicsText: damageResult.instant,
+                                  description: damageResult.instant || '', // Put damage formula in description
+                                  mechanicsText: '', // Always empty - all info in description
                                   conditionalFormulas: instantTriggers?.formulas || [],
                                   targeting: instantTargeting
                                 });
@@ -8755,24 +9427,48 @@ const UnifiedSpellCard = ({
                                 const dotTargeting = formatEffectTargeting('damage', 'damage_dot');
                                 effects.push({
                                   name: 'Damage Over Time',
-                                  description: '',
-                                  mechanicsText: damageResult.dot,
+                                  description: damageResult.dot || '', // Put DoT formula in description
+                                  mechanicsText: '', // Always empty - all info in description
                                   conditionalFormulas: dotTriggers?.formulas || [],
                                   targeting: dotTargeting
                                 });
                               } else {
                                 // Single damage effect
                                 const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
-                                const effectSubType = isDotOnly ? 'damage_dot' : 'damage_direct';
+                                const isAreaDamage = damageData?.damageType === 'area';
+                                const effectSubType = isDotOnly ? 'damage_dot' : (isAreaDamage ? 'damage_area' : 'damage_direct');
                                 const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
                                 const effectTargeting = formatEffectTargeting('damage', effectSubType);
-                                effects.push({
-                                  name: isDotOnly ? 'Damage Over Time' : 'Instant Damage',
-                                  description: '',
-                                  mechanicsText: damageResult,
-                                  conditionalFormulas: effectTriggers?.formulas || [],
-                                  targeting: effectTargeting
-                                });
+                                
+                                    // Build mechanics text for area damage with triggers
+                                    let mechanicsText = damageResult;
+                                    let effectName = isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage');
+                                    
+                                    // For area damage with triggers, format mechanics text with trigger description
+                                    if (isAreaDamage && damageData?.triggerDescription) {
+                                      mechanicsText = `${damageResult} - ${damageData.triggerDescription}`;
+                                    }
+
+                                    // Add chance on hit to instant damage mechanics text if enabled
+                                    // Skip if there's a saving throw config (saving throw entry will show the chance info)
+                                    if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
+                                      const chanceInfo = formatChanceOnHit();
+                                      if (chanceInfo) {
+                                        mechanicsText = mechanicsText ? `${mechanicsText} • ${chanceInfo}` : chanceInfo;
+                                      }
+                                    }
+                                    
+                                    // ⚠️ CRITICAL: Damage should ONLY be in black text (mechanicsText), NOT in grey description
+                                    // Description should be empty for damage effects - range/area info is already in header tags
+                                    effects.push({
+                                      name: effectName,
+                                      description: '', // Always empty for damage - info is in mechanicsText and header tags
+                                      mechanicsText: mechanicsText,
+                                      conditionalFormulas: effectTriggers?.formulas || [],
+                                      targeting: effectTargeting,
+                                      triggerCondition: damageData?.triggerCondition,
+                                      isTriggeredArea: false
+                                    });
                               }
                             }
 
@@ -8780,10 +9476,46 @@ const UnifiedSpellCard = ({
                             if (damageData?.savingThrowConfig?.enabled) {
                               const saveInfo = formatSavingThrow(damageData.savingThrowConfig, 'damage');
                               if (saveInfo) {
+                                // Check if this is for a chance-on-hit effect
+                                const chanceConfig = damageData?.chanceOnHitConfig;
+                                let effectName = 'Saving Throw';
+                                let chanceText = '';
+                                
+                                if (chanceConfig?.enabled && chanceConfig?.customEffects?.length > 0) {
+                                  // Use the first custom effect name (capitalized)
+                                  const effectId = chanceConfig.customEffects[0];
+                                  effectName = effectId.split('_').map(word => 
+                                    word.charAt(0).toUpperCase() + word.slice(1)
+                                  ).join(' ');
+                                  
+                                  // Format chance information
+                                  if (chanceConfig.procType === 'dice') {
+                                    chanceText = ` (${chanceConfig.diceThreshold}+ on d20 (${chanceConfig.procChance}%))`;
+                                  } else if (chanceConfig.procType === 'cards') {
+                                    let cardChance = '';
+                                    if (chanceConfig.cardProcRule === 'face_cards') cardChance = '23%';
+                                    else if (chanceConfig.cardProcRule === 'aces') cardChance = '8%';
+                                    else if (chanceConfig.cardProcRule === 'specific_suit') cardChance = '25%';
+                                    else if (chanceConfig.cardProcRule === 'red_cards' || chanceConfig.cardProcRule === 'black_cards') cardChance = '50%';
+                                    else if (chanceConfig.cardProcRule === 'pairs') cardChance = '6%';
+                                    else cardChance = '25%';
+                                    chanceText = ` (${cardChance} chance)`;
+                                  } else if (chanceConfig.procType === 'coins') {
+                                    const coinChance = (Math.pow(0.5, chanceConfig.coinCount || 3) * 100).toFixed(1);
+                                    chanceText = ` (${coinChance}% chance)`;
+                                  }
+                                }
+                                
+                                // Format outcome as "Negates on fail" instead of just "negate"
+                                const saveOutcome = damageData.savingThrowConfig?.saveOutcome;
+                                const outcomeText = saveOutcome === 'negates' 
+                                  ? 'Negates on fail' 
+                                  : (saveInfo.outcome || 'Negates on fail');
+                                
                                 effects.push({
-                                  name: 'Saving Throw',
-                                  description: `${saveInfo.saveType} save DC ${saveInfo.dc}`,
-                                  mechanicsText: saveInfo.outcome
+                                  name: effectName,
+                                  description: `${saveInfo.saveType} save DC ${saveInfo.dc}${chanceText} (${outcomeText})`,
+                                  mechanicsText: ''
                                 });
                               }
                             }
@@ -8795,72 +9527,77 @@ const UnifiedSpellCard = ({
                                 effects.push({
                                   name: 'Critical Hit',
                                   description: critInfo,
-                                  mechanicsText: 'Enhanced damage on critical'
+                                  mechanicsText: ''
                                 });
                               }
                             }
 
                             // Note: Effect-specific triggers are shown as headers when wrapped individually, not in the effects list
 
-                            // Add chance on hit info
-                            if (damageData?.chanceOnHitConfig?.enabled) {
-                              const chanceInfo = formatChanceOnHit();
-                              if (chanceInfo) {
-                                effects.push({
-                                  name: 'Chance Effect',
-                                  description: chanceInfo,
-                                  mechanicsText: 'Additional effect on trigger'
-                                });
-                              }
-                            }
+                            // Note: Chance on hit is now integrated into instant damage mechanics text, not shown as separate effect
 
                             return effects.length > 0 ? (
                               <div className="damage-formula-line">
                                 <div className="damage-effects-list">
-                                  {effects.map((effect, index) => (
-                                    <div key={`damage-${index}`} className="damage-effect-item">
-                                      <div className="damage-effect">
-                                        <span className="damage-effect-name">
-                                          {effect.name}
-                                        </span>
-                                        {effect.description && effect.description !== effect.name && (
-                                          <span className="damage-effect-description">
-                                            {" - "}{effect.description}
-                                          </span>
-                                        )}
-                                        {/* Targeting/Range badges */}
-                                        {effect.targeting && (
-                                          <div className="damage-effect-targeting">
-                                            {effect.targeting.range && (
-                                              <span className="targeting-badge range-badge">
-                                                {effect.targeting.range}
+                                      {effects.map((effect, index) => (
+                                        <div key={`damage-${index}`} className="damage-effect-item">
+                                          <div className="damage-effect">
+                                            <span className="damage-effect-name">
+                                              {effect.name}
+                                              {effect.isTriggeredArea && (
+                                                <span className="trigger-badge" style={{
+                                                  marginLeft: '8px',
+                                                  fontSize: '0.75em',
+                                                  padding: '2px 6px',
+                                                  background: 'rgba(255, 140, 0, 0.15)',
+                                                  border: '1px solid rgba(255, 140, 0, 0.4)',
+                                                  borderRadius: '4px',
+                                                  color: '#ff8c00',
+                                                  fontWeight: '600'
+                                                }}>
+                                                  <i className="fas fa-bolt" style={{ marginRight: '4px' }}></i>
+                                                  Triggered
+                                                </span>
+                                              )}
+                                            </span>
+                                            {effect.description && effect.description !== effect.name && (
+                                              <span className="damage-effect-description">
+                                                {" - "}{effect.description}
                                               </span>
                                             )}
-                                            {effect.targeting.targeting && (
-                                              <span className="targeting-badge targeting-info-badge">
-                                                {effect.targeting.targeting}
-                                              </span>
-                                            )}
-                                            {effect.targeting.restrictions && (
-                                              <span className="targeting-badge restrictions-badge">
-                                                {effect.targeting.restrictions}
-                                              </span>
-                                            )}
-                                            {effect.targeting.propagation && (
-                                              <span className="targeting-badge propagation-badge">
-                                                {effect.targeting.propagation}
-                                              </span>
+                                            {/* Targeting/Range badges */}
+                                            {effect.targeting && (
+                                              <div className="damage-effect-targeting">
+                                                {effect.targeting.range && (
+                                                  <span className="targeting-badge range-badge">
+                                                    {effect.targeting.range}
+                                                  </span>
+                                                )}
+                                                {effect.targeting.targeting && (
+                                                  <span className="targeting-badge targeting-info-badge">
+                                                    {effect.targeting.targeting}
+                                                  </span>
+                                                )}
+                                                {effect.targeting.restrictions && (
+                                                  <span className="targeting-badge restrictions-badge">
+                                                    {effect.targeting.restrictions}
+                                                  </span>
+                                                )}
+                                                {effect.targeting.propagation && (
+                                                  <span className="targeting-badge propagation-badge">
+                                                    {effect.targeting.propagation}
+                                                  </span>
+                                                )}
+                                              </div>
                                             )}
                                           </div>
-                                        )}
-                                      </div>
-                                      {effect.mechanicsText && (
-                                        <div className="damage-effect-details">
-                                          <div className="damage-effect-mechanics">
-                                            {effect.mechanicsText}
-                                          </div>
-                                        </div>
-                                      )}
+                                          {effect.mechanicsText && (
+                                            <div className="damage-effect-details">
+                                              <div className={`damage-effect-mechanics ${effect.isTriggeredArea ? 'triggered-area-damage' : ''}`}>
+                                                {effect.mechanicsText}
+                                              </div>
+                                            </div>
+                                          )}
                                       {/* Conditional formulas */}
                                       {effect.conditionalFormulas && effect.conditionalFormulas.length > 0 && (
                                         <div className="damage-effect-details" style={{ marginTop: '4px', paddingTop: '4px', borderTop: '1px solid rgba(139, 115, 85, 0.2)' }}>
@@ -9031,11 +9768,7 @@ const UnifiedSpellCard = ({
                                           <span className="healing-effect-name">
                                             {effect.name}
                                           </span>
-                                          {effect.description && effect.description !== effect.name && (
-                                            <span className="healing-effect-description">
-                                              {" - "}{effect.description}
-                                            </span>
-                                          )}
+                                          {/* Description removed - already shown in UnifiedSpellCard main description */}
                                         </div>
                                         {effect.mechanicsText && (
                                           <div className="healing-effect-details">
@@ -9236,11 +9969,7 @@ const UnifiedSpellCard = ({
                                         <span className="healing-effect-name">
                                           {effect.name}
                                         </span>
-                                        {effect.description && effect.description !== effect.name && (
-                                          <span className="healing-effect-description">
-                                            {" - "}{effect.description}
-                                          </span>
-                                        )}
+                                        {/* Description removed - already shown in UnifiedSpellCard main description */}
                                         {/* Targeting/Range badges */}
                                         {effect.targeting && (
                                           <div className="healing-effect-targeting">
@@ -9487,7 +10216,7 @@ const UnifiedSpellCard = ({
                     });
                   }
                   
-                  // Handle armor class buff
+                  // Handle armor buff
                   if (actualLegacyBuff.armorClass) {
                     const acBonus = actualLegacyBuff.armorClass;
                     const duration = actualLegacyBuff.duration || spell?.durationConfig?.duration || spell?.duration || 1;
@@ -9495,9 +10224,9 @@ const UnifiedSpellCard = ({
                     const durationText = `${duration} ${durationUnit}`;
                     
                     buffEffectsToRender.push({
-                      name: 'Armor Class',
+                      name: 'Armor',
                       description: durationText,
-                      mechanicsText: `Grants +${acBonus} AC`
+                      mechanicsText: `Grants +${acBonus} Armor`
                     });
                   }
                   
@@ -9537,63 +10266,301 @@ const UnifiedSpellCard = ({
                   }
                 }
                 
-                // Handle buffConfig.effects array (string descriptions)
+                // Handle buffConfig.effects array (new structure with statModifier)
                 if (buffData?.effects && Array.isArray(buffData.effects) && buffData.effects.length > 0) {
-                  const duration = buffData.durationValue || buffData.duration || spell?.durationConfig?.duration || 1;
-                  const durationType = buffData.durationType || spell?.durationConfig?.durationType || 'rounds';
-                  let durationText = '';
-                  
-                  if (durationType !== 'instant') {
-                    if (durationType === 'permanent') {
-                      durationText = 'Permanent';
-                    } else if (durationType === 'rounds') {
-                      durationText = `${duration} ${duration === 1 ? 'round' : 'rounds'}`;
-                    } else if (durationType === 'minutes') {
-                      durationText = `${duration} ${duration === 1 ? 'minute' : 'minutes'}`;
+                  const statEffects = [];
+                  const otherEffects = [];
+
+                  buffData.effects.forEach(effect => {
+                    // Check if this effect has statModifier (stat enhancement)
+                    if (effect.statModifier) {
+                      const statMod = effect.statModifier;
+                      const statMap = {
+                        // Primary stats
+                        'strength': 'Strength',
+                        'agility': 'Agility',
+                        'constitution': 'Constitution',
+                        'intelligence': 'Intelligence',
+                        'spirit': 'Spirit',
+                        'charisma': 'Charisma',
+                        'str': 'Strength',
+                        'agi': 'Agility',
+                        'con': 'Constitution',
+                        'int': 'Intelligence',
+                        'spi': 'Spirit',
+                        'spir': 'Spirit',
+                        'cha': 'Charisma',
+                        // Secondary/Combat stats
+                        'speed': 'Speed',
+                        'armor': 'Armor',
+                        'attack': 'Attack',
+                        'damage': 'Damage',
+                        'dodge': 'Dodge',
+                        'hp_regen': 'Health Regeneration',
+                        'mp_regen': 'Mana Regeneration',
+                        'healing_power': 'Healing Power',
+                        'initiative': 'Initiative',
+                        'lifesteal': 'Lifesteal',
+                        'damage_reflection': 'Damage Reflection',
+                        'actionpoints': 'Action Points',
+                        'action_points': 'Action Points',
+                        'damagereduction': 'Damage Reduction',
+                        'damage_reduction': 'Damage Reduction',
+                        'healingperkill': 'Healing Per Kill',
+                        'healing_per_kill': 'Healing Per Kill',
+                        'ragegeneration': 'Rage Generation',
+                        'rage_generation': 'Rage Generation',
+                        'all_resistances': 'All Resistances',
+                        'all_primary_stats': 'All Primary Stats',
+                        // Spell power stats
+                        'fire_spell_power': 'Fire Spell Power',
+                        'cold_spell_power': 'Cold Spell Power',
+                        'lightning_spell_power': 'Lightning Spell Power',
+                        'acid_spell_power': 'Acid Spell Power',
+                        'force_spell_power': 'Force Spell Power',
+                        'necrotic_spell_power': 'Necrotic Spell Power',
+                        'radiant_spell_power': 'Radiant Spell Power',
+                        'poison_spell_power': 'Poison Spell Power',
+                        'psychic_spell_power': 'Psychic Spell Power',
+                        'thunder_spell_power': 'Thunder Spell Power',
+                        // Resistance stats
+                        'fire_resistance': 'Fire Resistance',
+                        'cold_resistance': 'Cold Resistance',
+                        'lightning_resistance': 'Lightning Resistance',
+                        'acid_resistance': 'Acid Resistance',
+                        'force_resistance': 'Force Resistance',
+                        'necrotic_resistance': 'Necrotic Resistance',
+                        'radiant_resistance': 'Radiant Resistance',
+                        'poison_resistance': 'Poison Resistance',
+                        'psychic_resistance': 'Psychic Resistance',
+                        'thunder_resistance': 'Thunder Resistance',
+                        'physical_resistance': 'Physical Resistance',
+                        'damage_immunity': 'Damage Immunity'
+                      };
+
+                      // Get stat name from map, or format the stat name properly
+                      const rawStat = statMod.stat?.toLowerCase() || '';
+                      const statName = statMap[rawStat] ||
+                                       (statMod.stat ? statMod.stat.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
+                      const magnitude = statMod.magnitude || 0;
+                      const magnitudeType = statMod.magnitudeType || 'flat';
+                      const typeText = magnitudeType === 'percentage' ? '%' : '';
+
+                      // Check if this is a resistance stat (from statModifier category or stat name)
+                      const statNameLower = statName.toLowerCase();
+                      const isResistanceStat = statMod.category === 'resistance' ||
+                                            statNameLower.includes('resistance') ||
+                                            statNameLower.includes('resist') ||
+                                            statNameLower.includes('all_resistances') ||
+                                            statMod.stat?.toLowerCase().includes('resistance') ||
+                                            statMod.stat?.toLowerCase().includes('resist');
+
+                      // Check if description already contains the stat modifier information
+                      const description = effect.description || '';
+                      const descriptionLower = description.toLowerCase();
+                      
+                      // Normalize stat names for comparison (handle spaces, camelCase, etc.)
+                      const normalizedStatName = statNameLower.replace(/\s+/g, '').replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+                      const normalizedDescription = descriptionLower.replace(/\s+/g, ' ');
+                      
+                      // Special handling for rageGeneration - if description mentions rage generation, suppress mechanicsText
+                      const isRageGeneration = statNameLower.includes('ragegeneration') || statNameLower.includes('rage generation');
+                      const descriptionMentionsRage = descriptionLower.includes('rage') && (descriptionLower.includes('generate') || descriptionLower.includes('generation'));
+                      
+                      // Check for patterns like "+2 armor", "armor +2", "+2 armor class", "grants +2 armor", etc.
+                      const hasMagnitudeAndStat = (
+                        descriptionLower.includes(`+${magnitude}`) || 
+                        descriptionLower.includes(`${magnitude}${typeText.replace('%', '')}`) ||
+                        descriptionLower.includes(`+ ${magnitude}`) ||
+                        descriptionLower.includes(`- +${magnitude}`) // Handle "- +1 Rage Generation" format
+                      ) && (
+                        descriptionLower.includes(statNameLower) ||
+                        descriptionLower.includes(normalizedStatName) ||
+                        // Handle stat names with spaces (e.g., "Rage Generation" vs "RageGeneration")
+                        (statNameLower.includes('ragegeneration') && descriptionLower.includes('rage generation')) ||
+                        (statNameLower.includes('ragegeneration') && descriptionLower.includes('ragegeneration')) ||
+                        (statNameLower === 'armor' && (descriptionLower.includes('armor class') || descriptionLower.includes('armor')))
+                      );
+                      
+                      // Also check for percentage patterns
+                      const hasPercentagePattern = magnitudeType === 'percentage' && 
+                        descriptionLower.includes(`${magnitude}%`) &&
+                        (descriptionLower.includes(statNameLower) || descriptionLower.includes(normalizedStatName));
+
+                      // Generate formatted stat modifier text for display
+                      // This ensures stat values are always visible even if description is flavor text
+                      let mechanicsText = '';
+                      
+                      // If description already clearly contains the stat modifier info, don't duplicate
+                      const hasStatInDescription = hasMagnitudeAndStat || hasPercentagePattern;
+                      
+                      // For rage generation and similar special stats that are mentioned in description, suppress
+                      const suppressMechanicsText = (isRageGeneration && descriptionMentionsRage) || hasStatInDescription;
+                      
+                      if (!suppressMechanicsText && !isResistanceStat) {
+                        // Generate formatted stat modifier: "+2 Armor" or "+50% Damage"
+                        const sign = magnitude >= 0 ? '+' : '';
+                        mechanicsText = `${sign}${magnitude}${typeText} ${statName}`;
+                      }
+
+                      // Strip leading dashes and whitespace from descriptions to prevent double dashes
+                      let cleanDescription = (effect.description || '').trim();
+                      // Remove leading dash followed by space or just dash
+                      cleanDescription = cleanDescription.replace(/^-\s*/, '').trim();
+                      
+                      // For resistance stats, format with thematic description
+                      if (isResistanceStat && magnitudeType === 'percentage') {
+                        const percentage = Math.round(parseFloat(magnitude) || 0);
+                        const damageType = statMod.resistanceType === 'general' ? 'all damage' : 
+                                         statMod.stat?.replace(/_/g, ' ').toLowerCase() || 'damage';
+                        
+                        // Use thematic resistance description
+                        let resistanceText = '';
+                        if (percentage === 0) {
+                          resistanceText = getThematicResistanceDescription('immune', damageType);
+                        } else if (percentage === 25) {
+                          resistanceText = getThematicResistanceDescription('highly_resistant', damageType);
+                        } else if (percentage === 50) {
+                          resistanceText = getThematicResistanceDescription('resistant', damageType);
+                        } else if (percentage === 75) {
+                          resistanceText = getThematicResistanceDescription('guarded', damageType);
+                        } else {
+                          resistanceText = `${damageType.charAt(0).toUpperCase() + damageType.slice(1)} resistance (takes ${percentage}% damage)`;
+                        }
+                        
+                        // Use the thematic description if description doesn't already have it
+                        if (!cleanDescription || cleanDescription.toLowerCase().includes('resistance') || cleanDescription.toLowerCase().includes('damage reduction')) {
+                          cleanDescription = resistanceText;
+                        }
+                      }
+                      
+                      statEffects.push({
+                        name: effect.name || statName,
+                        description: cleanDescription,
+                        mechanicsText: mechanicsText,
+                        isResistance: isResistanceStat,
+                        statModifier: statMod // Store for later grouping
+                      });
                     } else {
-                      durationText = `${duration} ${durationType}`;
+                      // Handle other effect types (custom effects, status effects, etc.)
+                      const duration = buffData.durationValue || buffData.duration || spell?.durationConfig?.duration || 1;
+                      const durationType = buffData.durationType || spell?.durationConfig?.durationType || 'rounds';
+                      let durationText = '';
+
+                      if (durationType !== 'instant') {
+                        if (durationType === 'permanent') {
+                          durationText = 'Permanent';
+                        } else if (durationType === 'rounds') {
+                          durationText = `${duration} ${duration === 1 ? 'round' : 'rounds'}`;
+                        } else if (durationType === 'turns') {
+                          durationText = `${duration} ${duration === 1 ? 'turn' : 'turns'}`;
+                        } else if (durationType === 'minutes') {
+                          durationText = `${duration} ${duration === 1 ? 'minute' : 'minutes'}`;
+                        } else if (durationType === 'hours') {
+                          durationText = `${duration} ${duration === 1 ? 'hour' : 'hours'}`;
+                        } else {
+                          durationText = `${duration} ${durationType}`;
+                        }
+                      }
+
+                      // Use customDescription or description as mechanicsText
+                      // Strip leading dashes and whitespace from descriptions to prevent double dashes
+                      let rawDescription = effect.customDescription || effect.description || '';
+                      let cleanDescription = rawDescription.trim().replace(/^-\s*/, '').trim();
+                      
+                      // Use customName from buffConfig if effect doesn't have its own name
+                      const defaultBuffName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
+                      buffEffectsToRender.push({
+                        name: effect.name || defaultBuffName,
+                        description: durationText ? durationText : '',
+                        mechanicsText: cleanDescription
+                      });
                     }
-                  }
-                  
-                  // Extract effect names/descriptions from effect objects
-                  const effectDescriptions = buffData.effects.map(effect => {
-                    if (typeof effect === 'string') return effect;
-                    const baseName = effect.name || 'Unknown effect';
-                    const desc = effect.description ? ` (${effect.description})` : '';
-                    return `${baseName}${desc}`;
                   });
 
-                  buffEffectsToRender.push({
-                    name: effectDescriptions.join(' • ') + (durationText ? ` - ${durationText}` : ''),
-                    description: '',
-                    mechanicsText: ''
+                  // Add stat effects - each as a separate entry
+                  statEffects.forEach(effect => {
+                    buffEffectsToRender.push({
+                      name: effect.name,
+                      description: effect.description,
+                      mechanicsText: effect.mechanicsText
+                    });
                   });
+                  
+                  // Add other effects (non-statModifier effects)
+                  otherEffects.forEach(effect => {
+                    // Use customName from buffConfig if effect doesn't have its own name
+                    const otherDefaultName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
+                    buffEffectsToRender.push({
+                      name: effect.name || otherDefaultName,
+                      description: effect.description,
+                      mechanicsText: effect.mechanicsText
+                    });
+                  });
+                  
+                  // Add duration to the first effect's name if we have effects and duration
+                  if (buffEffectsToRender.length > 0 && buffData) {
+                    const durationValue = buffData.durationValue || buffData.duration;
+                    if (durationValue && buffData.durationType !== 'instant') {
+                      let durationText = '';
+                      if (buffData.durationType === 'permanent') {
+                        durationText = 'Permanent';
+                      } else if (buffData.durationType === 'rounds') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`;
+                      } else if (buffData.durationType === 'turns') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`;
+                      } else if (buffData.durationType === 'minutes') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Minute' : 'Minutes'}`;
+                      } else if (buffData.durationType === 'hours') {
+                        durationText = `${durationValue} ${durationValue === 1 ? 'Hour' : 'Hours'}`;
+                      } else if (buffData.durationType === 'time' && durationValue) {
+                        const unit = buffData.durationUnit || 'rounds';
+                        const capitalizedUnit = unit.charAt(0).toUpperCase() + unit.slice(1);
+                        durationText = `${durationValue} ${capitalizedUnit}`;
+                      } else if (durationValue) {
+                        durationText = `${durationValue} Rounds`;
+                      }
+                      
+                      // Add concentration if required
+                      if (buffData.concentrationRequired && durationText) {
+                        durationText += ' (Concentration)';
+                      }
+                      
+                      // Add duration to first effect name
+                      if (durationText) {
+                        buffEffectsToRender[0].name = `${buffEffectsToRender[0].name} - ${durationText}`;
+                      }
+                    }
+                  }
                 }
 
                 // Handle stat modifiers with proper formatting - consolidate into single block
-                if (buffData?.statModifiers?.length > 0) {
+                // Only process statModifiers if we haven't already processed effects array (effects array takes priority)
+                if (buffData?.statModifiers?.length > 0 && (!buffData?.effects || buffData.effects.length === 0)) {
                   const statModifierTexts = [];
 
                   buffData.statModifiers.forEach(modifier => {
-                            // Proper stat name mapping
+                            // Comprehensive stat name mapping
                             const statMap = {
-                              'strength': 'Strength',
-                              'agility': 'Agility',
-                              'constitution': 'Constitution',
-                              'intelligence': 'Intelligence',
-                              'spirit': 'Spirit',
-                              'charisma': 'Charisma',
-                              'str': 'Strength',
-                              'agi': 'Agility',
-                              'con': 'Constitution',
-                              'int': 'Intelligence',
-                              'spi': 'Spirit',
-                              'spir': 'Spirit',
-                              'cha': 'Charisma'
+                              'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+                              'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+                              'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+                              'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                              'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
+                              'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
+                              'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
+                              'action_points': 'Action Points', 'damagereduction': 'Damage Reduction',
+                              'damage_reduction': 'Damage Reduction', 'healingperkill': 'Healing Per Kill',
+                              'healing_per_kill': 'Healing Per Kill', 'ragegeneration': 'Rage Generation',
+                              'rage_generation': 'Rage Generation', 'all_resistances': 'All Resistances',
+                              'all_primary_stats': 'All Primary Stats'
                             };
 
                             // Use the correct property names: name/id for stat, magnitude for value, magnitudeType for percentage
-                            let statName = modifier.name || statMap[modifier.id?.toLowerCase()] || modifier.id?.charAt(0).toUpperCase() + modifier.id?.slice(1) || 'Stat';
+                            const rawId = modifier.id?.toLowerCase() || '';
+                            let statName = modifier.name || statMap[rawId] || 
+                                          (modifier.id ? modifier.id.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
 
                             // Check for incomplete stat names and show warning
                             const hasIncompleteName = !modifier.name || (statName.toLowerCase().includes('stat') && !statName.toLowerCase().includes('strength') && !statName.toLowerCase().includes('agility'));
@@ -9667,24 +10634,12 @@ const UnifiedSpellCard = ({
                             } else {
                               // Special handling for damage_reduction stat
                               if (modifier.stat === 'damage_reduction' || modifierName.includes('damage_reduction') || modifierName.includes('damage reduction')) {
-                                // Use description if provided, otherwise create clear text
-                                if (modifier.description) {
-                                  statModifierTexts.push(modifier.description);
-                                } else {
-                                  statModifierTexts.push(`Reduces incoming damage by ${value}`);
-                                }
+                                statModifierTexts.push(`Reduces incoming damage by ${value}`);
                               } else if (modifier.stat === 'armor' || modifierName.includes('armor')) {
                                 // Special handling for armor
-                                if (modifier.description) {
-                                  statModifierTexts.push(modifier.description);
-                                } else {
-                                  statModifierTexts.push(`+${value} Armor Class`);
-                                }
-                              } else if (modifier.description) {
-                                // Use description if provided for any stat
-                                statModifierTexts.push(modifier.description);
+                                statModifierTexts.push(`+${value} Armor`);
                               } else {
-                                // Use generic formatting for other stats
+                                // Simple formatting for all other stats
                                 statModifierTexts.push(`${sign}${value}${typeText} ${statName}`);
                               }
                             }
@@ -9764,21 +10719,20 @@ const UnifiedSpellCard = ({
                                                triggerUnit === 'turn' ? 'Turn' :
                                                triggerUnit.charAt(0).toUpperCase() + triggerUnit.slice(1);
 
-                              // Format each stage with stat modifiers
+                              // Format each stage with stat modifiers - comprehensive stat name mapping
                               const statMap = {
-                                'strength': 'Strength',
-                                'agility': 'Agility',
-                                'constitution': 'Constitution',
-                                'intelligence': 'Intelligence',
-                                'spirit': 'Spirit',
-                                'charisma': 'Charisma',
-                                'str': 'Strength',
-                                'agi': 'Agility',
-                                'con': 'Constitution',
-                                'int': 'Intelligence',
-                                'spi': 'Spirit',
-                                'spir': 'Spirit',
-                                'cha': 'Charisma'
+                                'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+                                'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+                                'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+                                'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                                'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
+                                'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
+                                'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
+                                'action_points': 'Action Points', 'damagereduction': 'Damage Reduction',
+                                'damage_reduction': 'Damage Reduction', 'all_resistances': 'All Resistances',
+                                'all_primary_stats': 'All Primary Stats', 'ragegeneration': 'Rage Generation',
+                                'rage_generation': 'Rage Generation'
                               };
 
                               const progressiveStagesText = buffData.progressiveStages.map((stage, stageIndex) => {
@@ -9786,7 +10740,9 @@ const UnifiedSpellCard = ({
                                 
                                 // Format stat modifiers with actual numbers for this stage
                                 const stageStatTexts = stage.statModifiers?.map(stat => {
-                                  const statName = stat.name || statMap[stat.id?.toLowerCase()] || stat.id?.charAt(0).toUpperCase() + stat.id?.slice(1) || 'Stat';
+                                  const rawId = stat.id?.toLowerCase() || '';
+                                  const statName = stat.name || statMap[rawId] || 
+                                                  (stat.id ? stat.id.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
                                   const value = stat.magnitude || stat.value || 0;
                                   const sign = value >= 0 ? '+' : '';
                                   const typeText = stat.magnitudeType === 'percentage' ? '%' : '';
@@ -9799,8 +10755,10 @@ const UnifiedSpellCard = ({
                               finalMechanicsText = progressiveStagesText;
                             }
 
+                            // Use customName from buffConfig if provided
+                            const progressiveBaseName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
                             buffEffectsToRender.push({
-                              name: `Buff Effect${finalDescription ? ` - ${finalDescription}` : ''}`,
+                              name: `${progressiveBaseName}${finalDescription ? ` - ${finalDescription}` : ''}`,
                               description: '',
                               mechanicsText: finalMechanicsText
                             });
@@ -9813,69 +10771,111 @@ const UnifiedSpellCard = ({
                   // Format status effect based on its configuration
                   const formattedEffect = formatStatusEffectDetails(status, 'buff');
 
+                  // For status effects, don't show mechanicsText if description already contains all info
+                  // The description already contains all the information (e.g., duration, save info)
                   buffEffectsToRender.push({
                     name: formattedEffect.name,
                     description: formattedEffect.description,
-                    mechanicsText: formattedEffect.mechanicsText
+                    mechanicsText: '' // Don't show mechanicsText for status effects - description has everything
                   });
                 });
               }
 
+              // Handle custom buffs with customDescription
+              if (buffData?.buffType === 'custom' && buffData?.customDescription) {
+                const durationValue = buffData.durationValue || buffData.duration;
+                const durationParts = [];
+                
+                if (durationValue && buffData.durationType !== 'instant') {
+                  if (buffData.durationType === 'permanent') {
+                    durationParts.push('Permanent');
+                  } else if (buffData.durationType === 'rounds') {
+                    durationParts.push(`${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`);
+                  } else if (buffData.durationType === 'turns') {
+                    durationParts.push(`${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`);
+                  } else if (buffData.durationType === 'rest') {
+                    const restType = buffData.restType || 'long';
+                    durationParts.push(`Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`);
+                  } else if (buffData.durationType === 'minutes') {
+                    durationParts.push(`${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'}`);
+                  } else if (buffData.durationType === 'hours') {
+                    durationParts.push(`${durationValue} ${durationValue === 1 ? 'hour' : 'hours'}`);
+                  } else if (buffData.durationType === 'time' && durationValue) {
+                    const unit = buffData.durationUnit || 'rounds';
+                    durationParts.push(`${durationValue} ${unit}`);
+                  } else if (durationValue) {
+                    durationParts.push(`${durationValue} rounds`);
+                  }
+                }
+
+                if (buffData.concentrationRequired) {
+                  durationParts.push('Concentration');
+                }
+
+                const durationText = durationParts.length > 0 ? `(${durationParts.join(' • ')})` : '';
+                // Use customName from buffConfig if provided, otherwise fallback to 'Buff Effect'
+                const baseName = buffData.customName || buffConfig?.customName || 'Buff Effect';
+                const effectName = durationText ? `${baseName} ${durationText}` : baseName;
+
+                buffEffectsToRender.push({
+                  name: effectName,
+                  description: '',
+                  mechanicsText: buffData.customDescription
+                });
+              }
               // If spell has buff effect type but no config, show a basic effect with duration if available
-              if ((hasBuffType || legacyBuffData) && buffEffectsToRender.length === 0) {
+              else if ((hasBuffType || legacyBuffData) && buffEffectsToRender.length === 0) {
                 let mechanicsText = 'Effect details not configured';
-                let effectName = 'Buff Effect';
+                // Use customName from buffConfig if provided, otherwise fallback to 'Buff Effect'
+                let effectName = buffData?.customName || buffConfig?.customName || 'Buff Effect';
 
                 // Add duration information if configured
                 if (buffData) {
                   const durationValue = buffData.durationValue || buffData.duration;
-                  let durationText = '';
+                  const durationParts = [];
 
                   if (durationValue && buffData.durationType !== 'instant') {
                     if (buffData.durationType === 'permanent') {
-                      durationText = ' (Permanent)';
+                      durationParts.push('Permanent');
                     } else if (buffData.durationType === 'rounds') {
-                      durationText = ` (${durationValue} ${durationValue === 1 ? 'round' : 'rounds'})`;
+                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`);
                     } else if (buffData.durationType === 'turns') {
-                      durationText = ` (${durationValue} ${durationValue === 1 ? 'turn' : 'turns'})`;
+                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`);
                     } else if (buffData.durationType === 'rest') {
                       const restType = buffData.restType || 'long';
-                      durationText = ` (Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest)`;
+                      durationParts.push(`Until ${restType.charAt(0).toUpperCase() + restType.slice(1)} Rest`);
                     } else if (buffData.durationType === 'minutes') {
-                      durationText = ` (${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'})`;
+                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'minute' : 'minutes'}`);
                     } else if (buffData.durationType === 'hours') {
-                      durationText = ` (${durationValue} ${durationValue === 1 ? 'hour' : 'hours'})`;
+                      durationParts.push(`${durationValue} ${durationValue === 1 ? 'hour' : 'hours'}`);
                     } else if (buffData.durationType === 'time' && durationValue) {
                       const unit = buffData.durationUnit || 'rounds';
-                      durationText = ` (${durationValue} ${unit})`;
+                      durationParts.push(`${durationValue} ${unit}`);
                     } else if (durationValue) {
-                      durationText = ` (${durationValue} rounds)`;
+                      durationParts.push(`${durationValue} rounds`);
                     }
                   }
 
-                  // Add concentration requirement if applicable
                   if (buffData.concentrationRequired) {
-                    durationText += ' (Concentration)';
+                    durationParts.push('Concentration');
                   }
 
-                  // Add dispellable information for permanent effects
                   if (buffData.durationType === 'permanent') {
                     if (buffData.canBeDispelled === false) {
-                      durationText += ' (Cannot be dispelled)';
+                      durationParts.push('Cannot be dispelled');
                     } else if (buffData.canBeDispelled === true) {
-                      durationText += ' (Dispellable)';
+                      durationParts.push('Dispellable');
                     }
                   }
 
-                  // If we have duration info, include it in the name
-                  if (durationText) {
-                    effectName = `Buff Effect - ${durationText.trim().replace(/^\(|\)$/g, '')}`;
+                  if (durationParts.length > 0) {
+                    effectName = `${effectName} (${durationParts.join(' • ')})`;
                   }
                 }
 
                 buffEffectsToRender.push({
                   name: effectName,
-                  description: 'Provides beneficial effects',
+                  description: '',
                   mechanicsText: mechanicsText
                 });
               }
@@ -10000,8 +11000,10 @@ const UnifiedSpellCard = ({
                   spell.debuffConfig.statPenalties?.length > 0 ||
                   spell.debuffConfig.statModifiers?.length > 0 ||
                   spell.debuffConfig.statusEffects?.length > 0 ||
+                  spell.debuffConfig.effects?.length > 0 ||
                   spell.debuffConfig.duration ||
-                  spell.debuffConfig.durationType
+                  spell.debuffConfig.durationType ||
+                  spell.debuffConfig.durationValue
                 );
 
                 if (!hasDebuffType && !hasAnyDebuffConfiguration) return null;
@@ -10051,27 +11053,25 @@ const UnifiedSpellCard = ({
                         // Collect stat penalties
                         if (debuffData?.statPenalties?.length > 0) {
                           debuffData.statPenalties.forEach(penalty => {
-                            // Proper stat name mapping
+                            // Comprehensive stat name mapping
                             const statMap = {
-                              'strength': 'Strength',
-                              'agility': 'Agility',
-                              'constitution': 'Constitution',
-                              'intelligence': 'Intelligence',
-                              'spirit': 'Spirit',
-                              'charisma': 'Charisma',
-                              'speed': 'Speed',
-                              'str': 'Strength',
-                              'agi': 'Agility',
-                              'con': 'Constitution',
-                              'int': 'Intelligence',
-                              'spi': 'Spirit',
-                              'spir': 'Spirit',
-                              'cha': 'Charisma'
+                              'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+                              'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+                              'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+                              'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                              'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
+                              'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
+                              'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
+                              'action_points': 'Action Points', 'damagereduction': 'Damage Reduction',
+                              'damage_reduction': 'Damage Reduction', 'all_resistances': 'All Resistances',
+                              'all_primary_stats': 'All Primary Stats'
                             };
 
                             // Get stat name from either penalty.name or penalty.stat
                             const rawStatName = penalty.name || penalty.stat || 'Stat';
-                            const statName = statMap[rawStatName.toLowerCase()] || rawStatName.charAt(0).toUpperCase() + rawStatName.slice(1);
+                            const statName = statMap[rawStatName.toLowerCase()] || 
+                                            rawStatName.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
                             const value = penalty.value || penalty.magnitude || penalty.amount || 0;
                             const amount = Math.abs(value);
                             const typeText = penalty.isPercentage || penalty.type === 'percentage' || penalty.magnitudeType === 'percentage' ? '%' : '';
@@ -10134,24 +11134,24 @@ const UnifiedSpellCard = ({
                         // Collect stat modifiers
                         if (debuffData?.statModifiers?.length > 0) {
                           debuffData.statModifiers.forEach(modifier => {
-                            // Proper stat name mapping
+                            // Comprehensive stat name mapping
                             const statMap = {
-                              'strength': 'Strength',
-                              'agility': 'Agility',
-                              'constitution': 'Constitution',
-                              'intelligence': 'Intelligence',
-                              'spirit': 'Spirit',
-                              'charisma': 'Charisma',
-                              'str': 'Strength',
-                              'agi': 'Agility',
-                              'con': 'Constitution',
-                              'int': 'Intelligence',
-                              'spi': 'Spirit',
-                              'spir': 'Spirit',
-                              'cha': 'Charisma'
+                              'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+                              'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+                              'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+                              'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                              'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
+                              'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
+                              'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
+                              'action_points': 'Action Points', 'damagereduction': 'Damage Reduction',
+                              'damage_reduction': 'Damage Reduction', 'all_resistances': 'All Resistances',
+                              'all_primary_stats': 'All Primary Stats'
                             };
 
-                            const statName = modifier.name || statMap[modifier.id?.toLowerCase()] || modifier.id?.charAt(0).toUpperCase() + modifier.id?.slice(1) || 'Stat';
+                            const rawId = modifier.id?.toLowerCase() || '';
+                            const statName = modifier.name || statMap[rawId] || 
+                                            (modifier.id ? modifier.id.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
                             const value = modifier.magnitude || modifier.value || 0;
                             const sign = value >= 0 ? '+' : '';
                             const typeText = modifier.magnitudeType === 'percentage' ? '%' : '';
@@ -10229,7 +11229,7 @@ const UnifiedSpellCard = ({
                               'none': 'no save'
                             };
 
-                            const saveTypeName = saveType.charAt(0).toUpperCase() + saveType.slice(1);
+                            const saveTypeName = normalizeSaveType(saveType);
                             const outcomeText = outcomeMap[saveOutcome] || 'negate';
                             saveText = `${saveTypeName} DC ${saveDC} (${outcomeText})`;
                           }
@@ -10269,7 +11269,171 @@ const UnifiedSpellCard = ({
                           });
                         }
 
-                        // Handle status effects with enhanced formatting
+                        // Handle debuffConfig.effects array (new structure)
+                        if (debuffData?.effects?.length > 0) {
+                          debuffData.effects.forEach(effect => {
+                            // Check if this effect has statModifier (stat reduction)
+                            if (effect.statModifier) {
+                              const statMod = effect.statModifier;
+                              const statMap = {
+                                'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+                                'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+                                'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+                                'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge',
+                                'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
+                                'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
+                                'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
+                                'action_points': 'Action Points', 'damagereduction': 'Damage Reduction',
+                                'damage_reduction': 'Damage Reduction', 'all_resistances': 'All Resistances',
+                                'all_primary_stats': 'All Primary Stats'
+                              };
+
+                              const rawStat = statMod.stat?.toLowerCase() || '';
+                              const statName = statMap[rawStat] || 
+                                             (statMod.stat ? statMod.stat.replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : 'Stat');
+                              const magnitude = statMod.magnitude || 0;
+                              const magnitudeType = statMod.magnitudeType || 'flat';
+                              const typeText = magnitudeType === 'percentage' ? '%' : '';
+                              
+                              // Build mechanics text
+                              const mechanicsText = `-${magnitude}${typeText} ${statName}`;
+                              
+                              // Build description with duration and save
+                              const descriptionParts = [];
+                              
+                              // Add save info if available
+                              const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
+                              const saveDC = debuffData.difficultyClass || debuffData.saveDC;
+                              if (saveType && saveType !== 'none' && saveDC) {
+                                const saveTypeName = normalizeSaveType(saveType);
+                                descriptionParts.push(`DC ${saveDC} ${saveTypeName} save`);
+                              }
+                              
+                              // Add duration
+                              const durationValue = debuffData.durationValue || debuffData.duration;
+                              if (durationValue && debuffData.durationType && debuffData.durationType !== 'instant') {
+                                if (debuffData.durationType === 'rounds') {
+                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`);
+                                } else if (debuffData.durationType === 'turns') {
+                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`);
+                                } else {
+                                  descriptionParts.push(`${durationValue} ${debuffData.durationType}`);
+                                }
+                              }
+                              
+                              const description = descriptionParts.length > 0 ? descriptionParts.join(' • ') : 
+                                                 (effect.description || effect.name || 'Stat reduction');
+                              
+                              const debuffTargeting = formatEffectTargeting('debuff');
+                              effects.push({
+                                name: effect.name || effect.id || 'Stat Reduction',
+                                description: description,
+                                mechanicsText: mechanicsText,
+                                targeting: debuffTargeting
+                              });
+                            } 
+                            // Check if this is a status effect
+                            else if (effect.id || effect.name || effect.statusType) {
+                              // Format as status effect with improved duration formatting
+                              const formattedEffect = formatStatusEffectDetails(effect, 'debuff', debuffData);
+                              const debuffTargeting = formatEffectTargeting('debuff');
+
+                              // Build better description format for status effects
+                              let descriptionParts = [effect.description || formattedEffect.description];
+
+                              // Add save info if available
+                              const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
+                              const saveDC = debuffData.difficultyClass || debuffData.saveDC;
+                              if (saveType && saveType !== 'none' && saveDC) {
+                                const saveTypeName = normalizeSaveType(saveType);
+
+                                // Determine save outcome
+                                let outcomeText = '';
+                                if (debuffData.saveOutcome) {
+                                  const outcomeMap = {
+                                    'negates': 'negates',
+                                    'halves_effects': 'halves',
+                                    'halves': 'halves',
+                                    'ends_early': 'ends next turn on save',
+                                    'resists_commands': 'can resist commands on save',
+                                    'broken': 'broken on save',
+                                    'overcome': 'overcome on save'
+                                  };
+                                  outcomeText = outcomeMap[debuffData.saveOutcome] || 'negates';
+                                } else {
+                                  // Default outcome for debuff effects
+                                  outcomeText = 'negates';
+                                }
+
+                                descriptionParts.push(`DC ${saveDC} ${saveTypeName} save (${outcomeText})`);
+                              }
+
+                              // Add duration in a more natural format
+                              const durationValue = debuffData.durationValue || debuffData.duration;
+                              if (durationValue && debuffData.durationType && debuffData.durationType !== 'instant') {
+                                if (debuffData.durationType === 'rounds') {
+                                  descriptionParts.push(`for ${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`);
+                                } else if (debuffData.durationType === 'turns') {
+                                  descriptionParts.push(`for ${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`);
+                                } else {
+                                  descriptionParts.push(`for ${durationValue} ${debuffData.durationType}`);
+                                }
+                              }
+
+                              const finalDescription = descriptionParts.join(' • ');
+
+                              // For status effects with descriptions, don't show mechanicsText
+                              // The description already contains all the information (e.g., "Movement speed reduced by 10 feet")
+                              // This prevents redundant mechanics text like "Movement speed reduced by 50%"
+                              effects.push({
+                                name: formattedEffect.name,
+                                description: finalDescription,
+                                mechanicsText: '', // Don't show mechanicsText for status effects - description has everything
+                                targeting: debuffTargeting
+                              });
+                            }
+                            // Generic effect with description
+                            else if (effect.description || effect.name) {
+                              const descriptionParts = [];
+                              
+                              // Add save info if available
+                              const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
+                              const saveDC = debuffData.difficultyClass || debuffData.saveDC;
+                              if (saveType && saveType !== 'none' && saveDC) {
+                                const saveTypeName = normalizeSaveType(saveType);
+                                descriptionParts.push(`DC ${saveDC} ${saveTypeName} save`);
+                              }
+                              
+                              // Add duration
+                              const durationValue = debuffData.durationValue || debuffData.duration;
+                              if (durationValue && debuffData.durationType && debuffData.durationType !== 'instant') {
+                                if (debuffData.durationType === 'rounds') {
+                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`);
+                                } else if (debuffData.durationType === 'turns') {
+                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`);
+                                } else {
+                                  descriptionParts.push(`${durationValue} ${debuffData.durationType}`);
+                                }
+                              }
+                              
+                              const description = descriptionParts.length > 0 ? descriptionParts.join(' • ') : 
+                                                 (effect.description || 'Debuff effect');
+                              
+                              const debuffTargeting = formatEffectTargeting('debuff');
+                              // Use customName from debuffConfig if effect doesn't have its own name
+                              const defaultName = debuffData?.customName || debuffConfig?.customName || 'Debuff Effect';
+                              effects.push({
+                                name: effect.name || effect.id || defaultName,
+                                description: description,
+                                mechanicsText: effect.mechanicsText || effect.description || '',
+                                targeting: debuffTargeting
+                              });
+                            }
+                          });
+                        }
+
+                        // Handle status effects with enhanced formatting (legacy structure)
                         if (debuffData?.statusEffects?.length > 0) {
                           debuffData.statusEffects.forEach(status => {
                             // Format status effect based on its configuration
@@ -10285,93 +11449,10 @@ const UnifiedSpellCard = ({
                           });
                         }
 
-                        // Always show duration/save info when configured, even if no stat penalties/status effects
-                        if (hasDurationConfig && effects.length === 0) {
-                          // Build save information
-                          let saveText = '';
-                          const saveType = debuffData.savingThrow || debuffData.saveType;
-                          const saveDC = debuffData.difficultyClass || debuffData.saveDC || 15;
-                          const saveOutcome = debuffData.saveOutcome || 'negates';
+                        // REMOVED: Always show duration/save info - now handled by individual effects
+                        // This was causing duplicate save/duration display
 
-                          if (saveType && saveType !== 'none') {
-                            const outcomeMap = {
-                              'negates': 'negate',
-                              'halves_effects': 'halves',
-                              'halves': 'halves',
-                              'none': 'no save'
-                            };
-
-                            const saveTypeName = saveType.charAt(0).toUpperCase() + saveType.slice(1);
-                            const outcomeText = outcomeMap[saveOutcome] || 'negate';
-                            saveText = `${saveTypeName} DC ${saveDC} (${outcomeText})`;
-                          }
-
-                          // Build duration information
-                          let durationText = '';
-                          const durationValue = debuffData.durationValue || debuffData.duration;
-                          if (durationValue && debuffData.durationType !== 'instant') {
-                            if (debuffData.durationType === 'permanent') {
-                              durationText = 'Permanent';
-                            } else if (debuffData.durationType === 'rounds') {
-                              durationText = `${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`;
-                            } else if (debuffData.durationType === 'turns') {
-                              durationText = `${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`;
-                            } else if (debuffData.durationType === 'rest') {
-                              const restType = debuffData.restType || 'long';
-                              durationText = `Until ${restType} rest`;
-                            } else if (debuffData.durationType === 'minutes') {
-                              durationText = `${durationValue} ${durationValue === 1 ? 'Minute' : 'Minutes'}`;
-                            } else if (debuffData.durationType === 'hours') {
-                              durationText = `${durationValue} ${durationValue === 1 ? 'Hour' : 'Hours'}`;
-                            } else if (debuffData.durationType === 'time' && durationValue) {
-                              const unit = debuffData.durationUnit || 'rounds';
-                              durationText = `${durationValue} ${unit}`;
-                            } else if (durationValue) {
-                              durationText = `${durationValue} rounds`;
-                            }
-                          }
-
-                          // Add concentration requirement if applicable
-                          if (debuffData.concentrationRequired && durationText) {
-                            durationText += ', Concentration';
-                          }
-
-                          // Add dispellable information for permanent effects
-                          if (debuffData.durationType === 'permanent') {
-                            if (debuffData.canBeDispelled === false) {
-                              durationText += ', Cannot be dispelled';
-                            } else if (debuffData.canBeDispelled === true) {
-                              durationText += ', Dispellable';
-                            }
-                          }
-
-                          // Combine save and duration text
-                          let descriptionParts = [];
-                          if (saveText) descriptionParts.push(saveText);
-                          if (durationText) descriptionParts.push(durationText);
-                          const descriptionText = descriptionParts.length > 0 ? descriptionParts.join(' | ') : 'Provides harmful effects';
-
-                          const debuffTriggers = getDebuffTriggersAndFormulas('debuff');
-                          const debuffTargeting = formatEffectTargeting('debuff');
-                          effects.push({
-                            name: 'Debuff Effect',
-                            description: descriptionText,
-                            mechanicsText: 'Configure stat penalties or status effects below',
-                            conditionalFormulas: debuffTriggers?.formulas || [],
-                            targeting: debuffTargeting
-                          });
-                        }
-
-                        // Fallback if spell has debuff effect type but absolutely no config
-                        if (hasDebuffType && effects.length === 0) {
-                          const debuffTriggers = getDebuffTriggersAndFormulas('debuff');
-                          effects.push({
-                            name: 'Debuff Effect',
-                            description: 'Provides harmful effects',
-                            mechanicsText: 'Effect details not configured',
-                            conditionalFormulas: debuffTriggers?.formulas || []
-                          });
-                        }
+                        // REMOVED: Fallback debuff effects - individual effects should handle all cases
 
                         return effects.length > 0 ? (
                           <div className="healing-formula-line">
@@ -10452,12 +11533,18 @@ const UnifiedSpellCard = ({
                 const hasAnyUtilityConfiguration = hasUtilityConfig && (
                   hasSelectedEffects ||
                   spell.utilityConfig.duration ||
-                  spell.utilityConfig.utilityType ||
                   spell.utilityConfig.enhancementType ||
                   spell.utilityConfig.enhancementValue
                 );
 
+                // Only show utility section if there are actually configured utility effects
+                // Don't show just because utilityType is set - need actual effects or enhancements
                 if (!hasUtilityType && !hasAnyUtilityConfiguration) return null;
+                
+                // If utilityType is set but no actual effects/enhancements, don't show generic utility
+                if (hasUtilityType && !hasSelectedEffects && !spell.utilityConfig?.enhancementType && !spell.utilityConfig?.enhancementValue) {
+                  return null;
+                }
 
                 const utilityData = spell?.utilityConfig;
                 const effects = [];
@@ -10683,9 +11770,7 @@ const UnifiedSpellCard = ({
                             <div key={`utility-${index}`} className="healing-effect-item">
                               <div className="healing-effect">
                                 <span className="healing-effect-name">{effect.name}</span>
-                                {effect.description && effect.description !== effect.name && (
-                                  <span className="healing-effect-description"> - {effect.description}</span>
-                                )}
+                                {/* Description removed - already shown in UnifiedSpellCard main description */}
                                 {/* Targeting/Range badges */}
                                 {effect.targeting && (
                                   <div className="healing-effect-targeting">
@@ -10750,23 +11835,35 @@ const UnifiedSpellCard = ({
                         let durationText = '';
                         if (controlData?.duration !== null && controlData?.duration !== undefined) {
                           const durationUnit = controlData.durationUnit || 'rounds';
-                          durationText = `${controlData.duration} ${durationUnit}`;
-                          if (controlData.concentration === true) {
-                            durationText += ' (Concentration)';
+                          // Skip "0 instant" - don't show duration for instant effects
+                          if (controlData.duration !== 0 || durationUnit !== 'instant') {
+                            durationText = `${controlData.duration} ${durationUnit}`;
+                            if (controlData.concentration === true) {
+                              durationText += ' (Concentration)';
+                            }
                           }
                         }
 
                         // Build saving throw text to append to effect descriptions
+                        // Support both difficultyClass and saveDC field names
+                        const controlDC = controlData?.difficultyClass !== null && controlData?.difficultyClass !== undefined ? controlData.difficultyClass : controlData?.saveDC;
+                        const controlSaveType = controlData?.savingThrowType || controlData?.saveType;
                         let saveText = '';
-                        if (controlData?.savingThrow !== null && controlData?.savingThrow !== false && controlData?.savingThrowType) {
-                          const saveType = controlData.savingThrowType.charAt(0).toUpperCase() + controlData.savingThrowType.slice(1);
+                        if (controlData?.savingThrow !== null && controlData?.savingThrow !== false && controlSaveType) {
+                          const saveType = normalizeSaveType(controlSaveType);
                           saveText = `${saveType}`;
-                          if (controlData?.difficultyClass) {
-                            saveText = `DC ${controlData.difficultyClass} ${saveText}`;
+                          if (controlDC) {
+                            saveText = `DC ${controlDC} ${saveText} save`;
+                          } else {
+                            saveText = `${saveType} save`;
                           }
-                        } else if (controlData?.difficultyClass) {
+                        } else if (controlDC && controlSaveType) {
+                          // Show DC and save type even if savingThrow flag isn't set
+                          const saveType = normalizeSaveType(controlSaveType);
+                          saveText = `DC ${controlDC} ${saveType} save`;
+                        } else if (controlDC) {
                           // Show DC even without saving throws if it exists
-                          saveText = `DC ${controlData.difficultyClass}`;
+                          saveText = `DC ${controlDC}`;
                         }
 
                         // Handle selected effects with their individual configurations
@@ -10780,49 +11877,67 @@ const UnifiedSpellCard = ({
                             const effectDuration = effectConfig.duration !== null && effectConfig.duration !== undefined ? effectConfig.duration : controlData.duration;
                             const effectDurationUnit = effectConfig.durationUnit !== null && effectConfig.durationUnit !== undefined ? effectConfig.durationUnit : (controlData.durationUnit || 'rounds');
                             const effectConcentration = effectConfig.concentration !== null && effectConfig.concentration !== undefined ? effectConfig.concentration : (controlData.concentration !== undefined ? controlData.concentration : false);
-                            const effectSavingThrowType = effectConfig.savingThrowType !== null && effectConfig.savingThrowType !== undefined ? effectConfig.savingThrowType : (controlData.savingThrowType || 'strength');
-                            const effectDifficultyClass = effectConfig.difficultyClass !== null && effectConfig.difficultyClass !== undefined ? effectConfig.difficultyClass : controlData.difficultyClass;
+                            const effectSavingThrowType = effectConfig.savingThrowType !== null && effectConfig.savingThrowType !== undefined ? effectConfig.savingThrowType : (controlData.savingThrowType || controlData.saveType || 'strength');
+                            // Support both difficultyClass and saveDC field names
+                            const effectDifficultyClass = effectConfig.difficultyClass !== null && effectConfig.difficultyClass !== undefined ? effectConfig.difficultyClass : 
+                                                          (effectConfig.saveDC !== null && effectConfig.saveDC !== undefined ? effectConfig.saveDC :
+                                                          (controlData.difficultyClass !== null && controlData.difficultyClass !== undefined ? controlData.difficultyClass : controlData.saveDC));
                             const effectSavingThrow = effectConfig.savingThrow !== null && effectConfig.savingThrow !== undefined ? effectConfig.savingThrow : (controlData.savingThrow !== null && controlData.savingThrow !== false ? controlData.savingThrow : null);
 
                             // Build duration text for this effect
+                            // ⚠️ CRITICAL: Forced movement effects (push/pull) don't need duration
+                            // Also prevent double formatting by only using effect-level duration if available
                             let effectDurationText = '';
-                            if (effectDuration !== null && effectDuration !== undefined) {
-                              effectDurationText = `${effectDuration} ${effectDurationUnit}`;
-                              if (effectConcentration === true) {
-                                effectDurationText += ' (Concentration)';
+                            const isForcedMovement = controlData?.controlType === 'forcedMovement';
+                            
+                            if (!isForcedMovement) {
+                              // Only use effect-level duration if explicitly set, otherwise use top-level
+                              if (effectDuration !== null && effectDuration !== undefined && effectConfig.duration !== undefined) {
+                                // Skip "0 instant" - don't show duration for instant effects
+                                if (effectDuration !== 0 || effectDurationUnit !== 'instant') {
+                                  const durationLabel = effectDuration === 1 && effectDurationUnit === 'rounds' ? 'round' : 
+                                                       effectDuration === 1 && effectDurationUnit === 'turns' ? 'turn' :
+                                                       effectDurationUnit;
+                                  effectDurationText = `Duration: ${effectDuration} ${durationLabel}`;
+                                  if (effectConcentration === true) {
+                                    effectDurationText += ' (Concentration)';
+                                  }
+                                }
+                              } else if (durationText && !effectDurationText) {
+                                // Use top-level duration only if effect-level wasn't set
+                                // Also skip "0 instant" from top-level duration
+                                if (!durationText.includes('0 instant')) {
+                                  const durationValue = controlData?.duration;
+                                  const durationLabel = durationValue === 1 && controlData.durationUnit === 'rounds' ? 'round' :
+                                                       durationValue === 1 && controlData.durationUnit === 'turns' ? 'turn' :
+                                                       controlData.durationUnit || 'rounds';
+                                  effectDurationText = `Duration: ${durationValue} ${durationLabel}`;
+                                }
                               }
-                            } else if (durationText) {
-                              effectDurationText = durationText;
                             }
 
                             // Build saving throw text for this effect
                             let effectSaveText = '';
                             if (effectSavingThrow && effectSavingThrow !== false && effectSavingThrowType && effectDifficultyClass) {
-                              const saveType = effectSavingThrowType.charAt(0).toUpperCase() + effectSavingThrowType.slice(1);
-                              effectSaveText = `DC ${effectDifficultyClass} ${saveType}`;
+                              const saveType = normalizeSaveType(effectSavingThrowType);
+                              effectSaveText = `DC ${effectDifficultyClass} ${saveType} save`;
+                            } else if (effectDifficultyClass && effectSavingThrowType) {
+                              // Show DC and save type even if savingThrow flag isn't explicitly set
+                              const saveType = normalizeSaveType(effectSavingThrowType);
+                              effectSaveText = `DC ${effectDifficultyClass} ${saveType} save`;
                             } else if (saveText) {
                               effectSaveText = saveText;
                             }
 
-                            // Add effect-specific configuration details (NOT duration/save/DC)
+                            // Add effect-specific configuration details (NOT duration/save/DC/distance)
+                            // Distance should be in description, not mechanicsText
                             const configDetails = [];
 
                             if (effect.config) {
-                              // Distance for forced movement
-                              if (effect.config.distance) {
-                                configDetails.push(`${effect.config.distance} feet`);
-                              }
+                              // Distance for forced movement - REMOVED: Should be in description only, not mechanicsText
 
-                              // Movement type for forced movement
-                              if (effect.config.movementType) {
-                                const movementTypeNames = {
-                                  'push': 'Push',
-                                  'pull': 'Pull',
-                                  'slide': 'Slide',
-                                  'teleport': 'Teleport'
-                                };
-                                configDetails.push(movementTypeNames[effect.config.movementType] || effect.config.movementType);
-                              }
+                              // Movement type for forced movement - REMOVED: Already shown in description
+                              // Don't add movement type to mechanicsText as it's redundant with the description
 
                               // Stat modifiers
                               if (effect.config.statModifiers && effect.config.statModifiers.length > 0) {
@@ -10844,12 +11959,31 @@ const UnifiedSpellCard = ({
                             }
 
                             // Build the inline description with duration and save
+                            // ⚠️ CRITICAL: Check if description already contains duration/save info to avoid duplication
                             let baseDescription = effect.customDescription || effect.description || '';
                             const inlineDetails = [];
-                            if (effectDurationText) inlineDetails.push(effectDurationText);
-                            if (effectSaveText) inlineDetails.push(effectSaveText);
+                            
+                            // Only add duration if not already in description and not a forced movement effect
+                            if (effectDurationText && !isForcedMovement) {
+                              // Check if description already contains duration info
+                              const hasDurationInDesc = baseDescription.toLowerCase().includes('duration') || 
+                                                       baseDescription.toLowerCase().includes('round') ||
+                                                       baseDescription.toLowerCase().includes('turn');
+                              if (!hasDurationInDesc) {
+                                inlineDetails.push(effectDurationText);
+                              }
+                            }
+                            
+                            // Only add save info if not already in description
+                            if (effectSaveText) {
+                              const hasSaveInDesc = baseDescription.toLowerCase().includes('dc ') || 
+                                                   baseDescription.toLowerCase().includes('save');
+                              if (!hasSaveInDesc) {
+                                inlineDetails.push(effectSaveText);
+                              }
+                            }
 
-                            // Combine base description with duration/save info
+                            // Combine base description with duration/save info (only if not already present)
                             let inlineDescription = '';
                             if (inlineDetails.length > 0) {
                               if (baseDescription) {
@@ -10861,9 +11995,12 @@ const UnifiedSpellCard = ({
                               inlineDescription = baseDescription;
                             }
 
+                            // Build effect name without DC (DC info goes in description)
+                            let effectName = effect.customName || effect.name || 'Control Effect';
+
                             const controlTargeting = formatEffectTargeting('control');
                             effects.push({
-                              name: effect.customName || effect.name || 'Control Effect',
+                              name: effectName,
                               description: inlineDescription,
                               // Only show mechanicsText if we have config details, otherwise leave empty (don't show DC/save here)
                               mechanicsText: mechanicsText,
@@ -11127,7 +12264,7 @@ const UnifiedSpellCard = ({
                             stats.push(`HP: ${creatureStats.health}`);
                           }
                           if (creatureStats.armor) {
-                            stats.push(`AC: ${creatureStats.armor}`);
+                            stats.push(`Armor: ${creatureStats.armor}`);
                           }
                           if (creatureStats.damage) {
                             stats.push(`Damage: ${creatureStats.damage}`);
@@ -11307,8 +12444,7 @@ const UnifiedSpellCard = ({
                             'spirit': 'Spirit',
                             'cha': 'Charisma'
                           };
-                          const saveTypeText = saveTypeMap[transformationData.saveType] ||
-                            transformationData.saveType.charAt(0).toUpperCase() + transformationData.saveType.slice(1);
+                          const saveTypeText = saveTypeMap[transformationData.saveType] || normalizeSaveType(transformationData.saveType);
                           const dc = transformationData.difficultyClass || 15;
                           inlineDetails.push(`DC ${dc} ${saveTypeText}`);
                         }
@@ -11475,7 +12611,7 @@ const UnifiedSpellCard = ({
                             'spi': 'Spirit',
                             'cha': 'Charisma'
                           };
-                          const saveText = saveTypeMap[saveType] || saveType.charAt(0).toUpperCase() + saveType.slice(1);
+                          const saveText = saveTypeMap[saveType] || normalizeSaveType(saveType);
                           inlineDetails.push(`DC ${purificationData.difficultyClass} ${saveText}`);
                         }
 

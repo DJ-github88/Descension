@@ -643,7 +643,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Ignis!',
         somaticText: 'Snap fingers to create spark'
       },
@@ -699,7 +699,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 5, inferno_ascend: 1, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Ardeo!',
         somaticText: 'Touch with glowing hand'
       },
@@ -756,7 +756,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 2, inferno_ascend: 1, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V'],
+        components: ['verbal'],
         verbalText: 'Flicker!'
       },
 
@@ -803,7 +803,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 5, inferno_descend: 2, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Pax Ignis',
         somaticText: 'Place hand over heart'
       },
@@ -851,7 +851,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 6, inferno_descend: 1, inferno_required: 1 },  // Heat Shield - minor descend
         useFormulas: {},
         actionPoints: 1,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Scutum Calor!',
         somaticText: 'Raise hands to create barrier'
       },
@@ -861,15 +861,15 @@ Many players enhance the experience by adding thematic elements:
 
       buffConfig: {
         buffType: 'statEnhancement',
-        statModifiers: [{
+        effects: [{
           id: 'heat_shield_damage_reduction',
           name: 'Heat Shield',
-          stat: 'damage_reduction',
-          value: 2,
-          magnitude: 2,
-          magnitudeType: 'flat',
-          isPercentage: false,
-          description: 'Reduces incoming damage by 2 (flat reduction per hit)'
+          description: 'Reduces incoming damage by 2 (flat reduction per hit)',
+          statModifier: {
+            stat: 'damageReduction',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
         }],
         durationValue: 2,
         durationType: 'rounds',
@@ -916,7 +916,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 8, inferno_ascend: 1, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Ardeo!',
         somaticText: 'Grasp with burning hand'
       },
@@ -966,7 +966,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 10, inferno_ascend: 1, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Flagellum Ignis!',
         somaticText: 'Whip hand forward'
       },
@@ -987,6 +987,7 @@ Many players enhance the experience by adding thematic elements:
         durationUnit: 'instant',
         saveDC: 12,
         saveType: 'strength',
+        saveOutcome: 'negates',
         savingThrow: true,
         effects: [{
           id: 'pull',
@@ -1037,7 +1038,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 12, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Cinis Sagitta!',
         somaticText: 'Hurl cinder bolt'
       },
@@ -1092,7 +1093,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Ignis Globus!',
         somaticText: 'Hurl ball of flame'
       },
@@ -1143,7 +1144,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 15, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Manus Ardens!',
         somaticText: 'Spread fingers wide'
       },
@@ -1191,7 +1192,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 12, inferno_ascend: 1, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 1,  // Utility spell
-        components: ['V'],
+        components: ['verbal'],
         verbalText: 'Saltus Ignis!'
       },
 
@@ -1215,14 +1216,24 @@ Many players enhance the experience by adding thematic elements:
       damageConfig: {
         formula: '1d6',
         elementType: 'fire',
-        damageType: 'area',
-        description: 'Flames left at departure and arrival points',
-        areaShape: 'circle',
-        areaParameters: { radius: 5 },
-        duration: 1,
-        durationUnit: 'rounds',
-        triggerCondition: 'area_entry',
-        triggerDescription: 'Creatures that enter or start their turn in flame areas take 1d6 fire damage'
+        damageType: 'direct'
+      },
+
+      triggerConfig: {
+        effectTriggers: {
+          damage_direct: {
+            logicType: 'AND',
+            compoundTriggers: [{
+              id: 'enter_area',
+              category: 'movement',
+              name: 'Enter Area',
+              parameters: {
+                perspective: 'any',
+                area_type: 'flame area'
+              }
+            }]
+          }
+        }
       },
 
       cooldownConfig: {
@@ -1264,7 +1275,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 20, inferno_ascend: 2, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Infernus Ictus!',
         somaticText: 'Thrust palm forward'
       },
@@ -1314,7 +1325,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Radius Ardens!',
         somaticText: 'Point finger'
       },
@@ -1362,19 +1373,25 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 22, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Aura Ignis!',
         somaticText: 'Spread arms wide'
       },
 
-      resolution: 'DICE',
+      resolution: 'NONE',
       effectTypes: ['buff'],
 
       buffConfig: {
         buffType: 'custom',
-        customDescription: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns.',
+        effects: [{
+          id: 'fieryAura',
+          name: 'Fiery Aura',
+          description: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns',
+          customDescription: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns.'
+        }],
         durationValue: 3,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: true,
         canBeDispelled: true
       },
@@ -1419,7 +1436,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 25, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Infernus Unda!',
         somaticText: 'Sweep arms forward'
       },
@@ -1469,7 +1486,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 28, inferno_ascend: 3, inferno_required: 3 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Immolatio!',
         somaticText: 'Clench fist'
       },
@@ -1509,7 +1526,7 @@ Many players enhance the experience by adding thematic elements:
       typeConfig: {
         school: 'fire',
         icon: 'spell_fire_flare',
-        tags: ['fire', 'damage', 'control'],
+        tags: ['fire', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1526,27 +1543,38 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 3 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Flagellum Infernus!',
         somaticText: 'Crack whip motion'
       },
 
       resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '3d6 + intelligence',
         elementType: 'fire',
-        damageType: 'direct'
-      },
-
-      controlConfig: {
-        controlType: 'restraint',
-        strength: 'moderate',
-        duration: 1,
-        saveDC: 14,
-        saveType: 'constitution',
-        specialEffects: ['stun']
+        damageType: 'direct',
+        chanceOnHitConfig: {
+          enabled: true,
+          procType: 'dice',
+          diceThreshold: 18,
+          procChance: 15,
+          customEffects: ['stun'],
+          stunConfig: {
+            duration: 1,
+            durationUnit: 'round',
+            saveDC: 14,
+            saveType: 'constitution'
+          }
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 14,
+          saveOutcome: 'negates',
+          partialEffect: false
+        }
       },
 
       cooldownConfig: {
@@ -1554,7 +1582,7 @@ Many players enhance the experience by adding thematic elements:
         value: 2
       },
 
-      tags: ['fire', 'damage', 'control']
+      tags: ['fire', 'damage']
     },
 
     // ========================================
@@ -1590,7 +1618,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 3 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S', 'M'],
+        components: ['verbal', 'somatic', 'material'],
         verbalText: 'Terra Ignea!',
         somaticText: 'Slam fist downward',
         materialComponents: 'A piece of volcanic rock'
@@ -1643,7 +1671,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 35, inferno_ascend: 2, inferno_required: 4 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Tempestas Ignis!',
         somaticText: 'Raise arms and swirl'
       },
@@ -1700,7 +1728,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 30, inferno_ascend: 2, inferno_required: 4 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Sigillum Infernus!',
         somaticText: 'Draw burning sigil'
       },
@@ -1778,7 +1806,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 6 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S', 'M'],
+        components: ['verbal', 'somatic', 'material'],
         verbalText: 'Eruptio Volcanica!',
         somaticText: 'Slam both hands down',
         materialComponents: 'Volcanic ash'
@@ -1830,7 +1858,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 38, inferno_ascend: 3, inferno_required: 5 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Halitus Infernus!',
         somaticText: 'Inhale deeply and exhale'
       },
@@ -1878,7 +1906,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 35, inferno_ascend: 2, inferno_required: 5 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Potentia Daemonis!',
         somaticText: 'Clench fists and channel'
       },
@@ -1944,7 +1972,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 45, inferno_ascend: 3, inferno_required: 7 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Meteorus Infernus!',
         somaticText: 'Raise arms to the sky'
       },
@@ -1995,7 +2023,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 42, inferno_ascend: 3, inferno_required: 8 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Nova Infernus!',
         somaticText: 'Spread arms wide and explode'
       },
@@ -2047,7 +2075,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 48, inferno_ascend: 3, inferno_required: 8 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Flamma Phoenix!',
         somaticText: 'Summon phoenix gesture'
       },
@@ -2090,7 +2118,7 @@ Many players enhance the experience by adding thematic elements:
       typeConfig: {
         school: 'fire',
         icon: 'spell_fire_elemental_totem',
-        tags: ['fire', 'buff', 'transformation'],
+        tags: ['fire', 'transformation'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2105,21 +2133,35 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 50, inferno_ascend: 3, inferno_required: 7 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Ego Sum Ignis!',
         somaticText: 'Spread arms wide'
       },
 
       resolution: 'NONE',
-      effectTypes: ['buff'],
+      effectTypes: ['transformation'],
 
-      buffConfig: {
-        buffType: 'custom',
-        customDescription: 'Gain +5 fire damage to all spells, +3 AC, immunity to fire damage, and enemies within 10 feet take 2d6 fire damage at start of their turn.',
+      transformationConfig: {
+        customName: 'Infernal Avatar',
+        transformType: 'elemental',
+        formName: 'Fire Elemental Avatar',
+        formDescription: 'You become a being of pure demonic fire, wreathed in flames and radiating intense heat.',
         durationValue: 10,
         durationType: 'rounds',
         concentrationRequired: true,
-        canBeDispelled: true
+        statModifiers: [
+          { stat: 'fire_spell_power', magnitude: 5, magnitudeType: 'flat' },
+          { stat: 'armor', magnitude: 3, magnitudeType: 'flat' }
+        ],
+        resistances: [
+          { damageType: 'fire', resistanceType: 'immunity' }
+        ],
+        specialAbilities: [
+          {
+            name: 'Burning Aura',
+            description: 'Enemies within 10 feet take 2d6 fire damage at the start of their turn'
+          }
+        ]
       },
 
       cooldownConfig: {
@@ -2127,7 +2169,7 @@ Many players enhance the experience by adding thematic elements:
         value: 10
       },
 
-      tags: ['fire', 'buff', 'transformation']
+      tags: ['fire', 'transformation']
     },
 
     {
@@ -2160,7 +2202,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 60, inferno_ascend: 3, inferno_required: 9 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Apocalypsis!',
         somaticText: 'Raise arms and channel all power'
       },
@@ -2208,7 +2250,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 55, inferno_ascend: 3, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S', 'M'],
+        components: ['verbal', 'somatic', 'material'],
         verbalText: 'Ritualis Infernus!',
         somaticText: 'Perform ritual gestures',
         materialComponents: 'Demonic essence'
@@ -2230,6 +2272,7 @@ Many players enhance the experience by adding thematic elements:
         }],
         durationValue: 3,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: true,
         canBeDispelled: true
       },
@@ -2271,7 +2314,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 30, inferno_ascend: 1, inferno_required: 8 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V'],
+        components: ['verbal'],
         verbalText: 'Teleportatio Infernus!'
       },
 
@@ -2279,20 +2322,37 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['utility', 'damage'],
 
       utilityConfig: {
-        utilityType: 'movement',
-        selectedEffects: ['teleport'],
-        enhancementType: 'distance',
-        enhancementValue: 60,
-        duration: 0,
+        utilityType: 'Teleport',
+        selectedEffects: [{
+          duration: 0,
         durationUnit: 'instant',
         concentration: false,
         power: 'major'
+        }]
       },
 
       damageConfig: {
         formula: '4d6 + intelligence * 1.5',
         elementType: 'fire',
         damageType: 'direct'
+      },
+
+      triggerConfig: {
+        effectTriggers: {
+          damage_direct: {
+            logicType: 'AND',
+            compoundTriggers: [{
+              id: 'proximity',
+              category: 'movement',
+              name: 'Proximity',
+              parameters: {
+                perspective: 'self',
+                entity_type: 'enemy',
+                distance: 10
+              }
+            }]
+          }
+        }
       },
 
       cooldownConfig: {
@@ -2329,7 +2389,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 70, inferno_ascend: 3, inferno_required: 9 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Ascensio Daemonis!',
         somaticText: 'Channel ultimate power'
       },
@@ -2339,9 +2399,15 @@ Many players enhance the experience by adding thematic elements:
 
       buffConfig: {
         buffType: 'custom',
-        customDescription: 'Gain +15 fire damage to all spells, +5 AC, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn.',
+        effects: [{
+          id: 'demonicAscension',
+          name: 'Demonic Ascension',
+          description: 'Gain +15 fire damage to all spells, +5 Armor, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn',
+          customDescription: 'Gain +15 fire damage to all spells, +5 Armor, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn.'
+        }],
         durationValue: 5,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: true,
         canBeDispelled: false
       },
@@ -2384,7 +2450,7 @@ Many players enhance the experience by adding thematic elements:
         resourceValues: { mana: 80, inferno_ascend: 3, inferno_required: 9 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['V', 'S'],
+        components: ['verbal', 'somatic'],
         verbalText: 'Dominatio Infernus!',
         somaticText: 'Command all fire'
       },

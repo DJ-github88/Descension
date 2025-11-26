@@ -40,7 +40,7 @@ export const POSITIVE_STATUS_EFFECTS = [
       category: 'divine',
       actionPointCost: 2,
       options: [
-        { id: 'protection', name: 'Protection', description: 'Gain AC bonus and resistance to certain damage types' },
+        { id: 'protection', name: 'Protection', description: 'Gain Armor bonus and resistance to certain damage types' },
         { id: 'fortune', name: 'Fortune', description: 'Can reroll one die roll per round' },
         { id: 'life', name: 'Life', description: 'Gain bonus to healing received' }
       ],

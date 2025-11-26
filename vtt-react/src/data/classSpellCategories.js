@@ -1082,18 +1082,49 @@ export const getAllClassNames = () => {
 
 // Helper function to create spell library categories for a class
 export const createSpellLibraryCategoriesForClass = (className) => {
-  const specializations = getClassSpecializations(className);
-  
-  const categories = specializations.map(spec => ({
-    id: `${className.toLowerCase()}_${spec.id}`,
-    name: spec.name,
-    description: spec.description,
-    color: spec.color,
-    icon: spec.icon,
-    classRestricted: true,
-    className: className,
-    spellIds: [] // Will be populated with spell IDs
-  }));
+  // Create level-based categories instead of specialization-based
+  const categories = [
+    {
+      id: `${className.toLowerCase()}_level_1`,
+      name: 'Level 1',
+      description: 'Basic spells available at character level 1',
+      color: '#32CD32',
+      icon: 'spell_nature_lightning',
+      classRestricted: true,
+      className: className,
+      spellIds: []
+    },
+    {
+      id: `${className.toLowerCase()}_level_2`,
+      name: 'Level 2',
+      description: 'Advanced spells available at character level 2',
+      color: '#FFD700',
+      icon: 'spell_fire_fireball02',
+      classRestricted: true,
+      className: className,
+      spellIds: []
+    },
+    {
+      id: `${className.toLowerCase()}_level_4`,
+      name: 'Level 4',
+      description: 'Powerful spells available at character level 4',
+      color: '#FF4500',
+      icon: 'spell_shadow_shadowbolt',
+      classRestricted: true,
+      className: className,
+      spellIds: []
+    },
+    {
+      id: `${className.toLowerCase()}_level_6`,
+      name: 'Level 6',
+      description: 'Master spells available at character level 6',
+      color: '#8A2BE2',
+      icon: 'spell_arcane_starfire',
+      classRestricted: true,
+      className: className,
+      spellIds: []
+    }
+  ];
 
   // Add the custom spells category
   categories.push({

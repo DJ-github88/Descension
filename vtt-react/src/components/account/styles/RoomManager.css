@@ -567,7 +567,28 @@
     align-items: flex-start;
     gap: 16px;
   }
-  
+
+  .header-actions {
+    flex-direction: row !important;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .refresh-rooms-btn,
+  .refresh-status-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .refresh-rooms-btn i,
+  .refresh-status-btn i {
+    font-size: 11px;
+  }
+
   .room-limits {
     flex-direction: column;
     align-items: flex-start;

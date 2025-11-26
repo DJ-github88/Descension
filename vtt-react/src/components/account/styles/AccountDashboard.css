@@ -1678,6 +1678,40 @@
   .feature-item span {
     font-size: var(--pf-font-size-mobile-sm);
   }
+
+  /* Characters Header Mobile Layout */
+  .characters-header {
+    flex-direction: column;
+    gap: var(--pf-space-mobile-4);
+    text-align: center;
+    padding-bottom: var(--pf-space-mobile-4);
+  }
+
+  .characters-header-left {
+    align-items: center;
+  }
+
+  .characters-header h2 {
+    font-size: var(--pf-font-size-mobile-xl);
+    margin-bottom: var(--pf-space-mobile-2);
+  }
+
+  .character-limit-info {
+    justify-content: center;
+    gap: var(--pf-space-mobile-3);
+  }
+
+  .create-character-btn {
+    width: 100%;
+    max-width: 280px;
+    font-size: var(--pf-font-size-mobile-sm);
+    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-2);
+    margin: 0 auto;
+  }
+
+  .create-character-btn + .create-character-btn {
+    margin-top: var(--pf-space-mobile-2);
+  }
 }
 
 /* Small mobile devices */

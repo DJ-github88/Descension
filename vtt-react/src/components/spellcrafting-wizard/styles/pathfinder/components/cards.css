@@ -567,7 +567,7 @@
 .pf-propagation-badge {
   display: flex;
   align-items: center;
-  gap: var(--pf-space-1);
+  gap: 4px;
   padding: 2px 6px;
   border-radius: var(--pf-border-radius-sm);
   font-size: var(--pf-text-xs);
@@ -595,12 +595,9 @@
 }
 
 .pf-propagation-icon {
-  width: 12px;
-  height: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
+  width: 0;
+  height: 0;
+  display: none;
   flex-shrink: 0;
 }
 
@@ -813,8 +810,7 @@
   content: "";
 }
 
-/* Physical */
-.pf-damage-type-badge.physical,
+/* Physical damage types (bludgeoning, piercing, slashing) */
 .pf-damage-type-badge.slashing,
 .pf-damage-type-badge.piercing,
 .pf-damage-type-badge.bludgeoning {
@@ -823,7 +819,6 @@
   color: #d1d5db;
 }
 
-.pf-damage-type-badge.physical .pf-damage-type-icon::before,
 .pf-damage-type-badge.slashing .pf-damage-type-icon::before,
 .pf-damage-type-badge.piercing .pf-damage-type-icon::before,
 .pf-damage-type-badge.bludgeoning .pf-damage-type-icon::before {
@@ -945,7 +940,7 @@
 
 .pf-resource-cost {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--pf-space-1);
   padding: 2px var(--pf-space-2);
   border-radius: var(--pf-border-radius);
@@ -958,6 +953,7 @@
   white-space: nowrap;
   flex-direction: row;
   justify-content: flex-start;
+  align-content: baseline;
 }
 
 .pf-resource-cost:hover {
@@ -979,6 +975,11 @@
   color: #ffffff !important;
   font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-bold);
+  line-height: 1;
+  align-self: center;
+  vertical-align: baseline;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 /* Resource name styling - make white */
@@ -987,6 +988,11 @@
   font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-medium);
   opacity: 0.9;
+  line-height: 1;
+  align-self: center;
+  vertical-align: baseline;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 .pf-resource-icon {
@@ -997,6 +1003,7 @@
   justify-content: center;
   font-size: 10px;
   flex-shrink: 0;
+  align-self: baseline;
 }
 
 .pf-resource-amount {
@@ -1912,7 +1919,7 @@
 .unified-spell-resource-costs {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   flex-shrink: 1;
   flex-wrap: wrap; /* Allow wrapping when there are many resources */
   max-width: 100%; /* Ensure it doesn't overflow */
@@ -1921,7 +1928,7 @@
 .unified-spell-resource-costs .pf-spell-resources {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   flex-wrap: wrap; /* Allow wrapping for multiple resources */
 }
 
@@ -1932,31 +1939,31 @@
 .unified-spell-resource-costs .pf-resource-cost {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   background: transparent;
   border: none;
-  padding: 2px 4px;
-  font-size: 11px;
+  padding: 1px 3px;
+  font-size: 10px;
   font-weight: var(--pf-font-bold);
   color: #ffffff;
   min-width: auto;
   justify-content: flex-start;
   line-height: 1;
-  margin-right: var(--pf-space-2);
+  margin-right: 4px;
 }
 
 .unified-spell-resource-costs .pf-resource-icon {
-  font-size: 12px;
-  margin-right: 2px;
+  font-size: 10px;
+  margin-right: 1px;
   color: #ffffff !important;
 }
 
 .unified-spell-resource-costs .pf-resource-amount {
   font-weight: var(--pf-font-bold);
   color: #ffffff;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1;
-  margin-right: 2px;
+  margin-right: 1px;
 }
 
 /* Formula resources styling */
@@ -1997,6 +2004,24 @@
   color: #ffffff !important;
 }
 
+.unified-spell-resource-costs .pf-resource-cost.actionpoints .pf-resource-icon,
+.unified-spell-resource-costs .pf-resource-cost.action-points .pf-resource-icon,
+.unified-spell-resource-costs .pf-resource-cost.action_points .pf-resource-icon {
+  color: #ffffff !important;
+}
+
+.unified-spell-resource-costs .pf-resource-cost.actionpoints .pf-resource-amount,
+.unified-spell-resource-costs .pf-resource-cost.action-points .pf-resource-amount,
+.unified-spell-resource-costs .pf-resource-cost.action_points .pf-resource-amount {
+  color: #ffffff !important;
+}
+
+.unified-spell-resource-costs .pf-resource-cost.actionpoints .pf-resource-name,
+.unified-spell-resource-costs .pf-resource-cost.action-points .pf-resource-name,
+.unified-spell-resource-costs .pf-resource-cost.action_points .pf-resource-name {
+  color: #ffffff !important;
+}
+
 .unified-spell-resource-costs .pf-resource-cost.mana {
   color: #ffffff !important;
 }
@@ -2016,7 +2041,7 @@
 /* Ensure resource names are also white and same shade as numbers */
 .unified-spell-resource-costs .pf-resource-name {
   color: #ffffff !important;
-  font-size: 11px;
+  font-size: 9px;
   font-weight: var(--pf-font-bold);
 }
 
@@ -3017,9 +3042,11 @@
 }
 
 .buff-effect-description,
-.debuff-effect-description {
+.debuff-effect-description,
+.healing-effect-description {
   color: var(--pf-text-secondary);
   font-size: var(--pf-font-size-xs);
+  font-style: italic;
 }
 
 .buff-effect-details,

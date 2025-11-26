@@ -655,7 +655,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   // Render spells tab
   const renderSpells = () => {
     // Use spells from classData.spells or exampleSpells
-    const spells = classData.spells || classData.exampleSpells || [];
+    let spells = classData.spells || classData.exampleSpells || [];
 
     if (!spells || spells.length === 0) {
       return (
@@ -665,301 +665,78 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       );
     }
 
-    // Group spells based on class type
-    let spellsByCategory = {};
-    let categoryIcon = 'fas fa-fire';
+    // Filter out buff effects that are part of other spells
+    // These are spells whose IDs are referenced in other spells' buffConfig
+    const buffEffectIds = new Set();
+    spells.forEach(spell => {
+      if (spell.buffConfig?.effects) {
+        spell.buffConfig.effects.forEach(effect => {
+          if (effect.id) {
+            buffEffectIds.add(effect.id);
+          }
+        });
+      }
+      // Also check debuffConfig effects
+      if (spell.debuffConfig?.effects) {
+        spell.debuffConfig.effects.forEach(effect => {
+          if (effect.id) {
+            buffEffectIds.add(effect.id);
+          }
+        });
+      }
+    });
 
-    if (classData.id === 'pyrofiend') {
-      // Group by spell level
-      spellsByCategory = {
-        'Level 1 Spells': spells.filter(s => s.level === 1),
-        'Level 2 Spells': spells.filter(s => s.level === 2),
-        'Level 3 Spells': spells.filter(s => s.level === 3),
-        'Level 4 Spells': spells.filter(s => s.level === 4),
-        'Level 5 Spells': spells.filter(s => s.level === 5),
-        'Level 6 Spells': spells.filter(s => s.level === 6),
-        'Level 7 Spells': spells.filter(s => s.level === 7),
-        'Level 8 Spells': spells.filter(s => s.level === 8),
-        'Level 9 Spells': spells.filter(s => s.level === 9),
-        'Level 10 Spells': spells.filter(s => s.level === 10)
-      };
-      categoryIcon = 'fas fa-fire';
-    } else if (classData.id === 'minstrel') {
-      // Group by Builder vs Resolver
-      spellsByCategory = {
-        'Builder Spells': spells.filter(s => s.specialMechanics?.musicalCombo?.type === 'builder'),
-        'Resolving Spells (Cadences)': spells.filter(s => s.specialMechanics?.musicalCombo?.type === 'resolver'),
-        'Utility Spells': spells.filter(s => s.tags?.includes('utility') || s.tags?.includes('ritual'))
-      };
-      categoryIcon = 'fas fa-music';
-    } else if (classData.id === 'gambler') {
-      // Group by gambling mechanic type
-      spellsByCategory = {
-        'Coin Flip Spells': spells.filter(s => s.tags?.includes('coin-flip') || s.resolution === 'COIN_FLIP'),
-        'Dice Roll Spells': spells.filter(s => s.tags?.includes('damage') && s.resolution === 'DICE' && !s.tags?.includes('coin-flip')),
-        'Betting & High Stakes': spells.filter(s => s.tags?.includes('betting') || s.tags?.includes('high-risk') || s.tags?.includes('life-or-death')),
-        'Utility & Social': spells.filter(s => s.tags?.includes('utility') || s.tags?.includes('social') || s.tags?.includes('illusion'))
-      };
-      categoryIcon = 'fas fa-dice';
-    } else if (classData.id === 'chaos-weaver') {
-      // Group by chaos mechanic type
-      spellsByCategory = {
-        'Random Table Spells': spells.filter(s => s.tags?.includes('table') || s.tags?.includes('random')),
-        'Wild Magic & AOE': spells.filter(s => s.tags?.includes('wild-magic') || s.tags?.includes('aoe')),
-        'Entropy & Debuffs': spells.filter(s => s.tags?.includes('entropy') || s.tags?.includes('debuff')),
-        'Utility & Resource': spells.filter(s => s.tags?.includes('utility') || s.tags?.includes('resource-generation'))
-      };
-      categoryIcon = 'fas fa-random';
-    } else if (classData.id === 'martyr') {
-      // Group by martyr mechanic type
-      spellsByCategory = {
-        'Healing & Support': spells.filter(s => s.tags?.includes('healing') && !s.tags?.includes('ultimate')),
-        'Sacrifice & Self-Damage': spells.filter(s => s.tags?.includes('sacrifice') || s.tags?.includes('self-damage')),
-        'Protection & Buffs': spells.filter(s => s.tags?.includes('protection') || s.tags?.includes('buff') || s.tags?.includes('resistance')),
-        'Ultimate Abilities': spells.filter(s => s.tags?.includes('ultimate') || s.tags?.includes('resurrection'))
-      };
-      categoryIcon = 'fas fa-heart';
-    } else if (classData.id === 'chronarch') {
-      // Group by temporal mechanic type
-      spellsByCategory = {
-        'Stasis & Control': spells.filter(s => s.tags?.includes('stasis') || s.tags?.includes('control') || s.tags?.includes('freeze')),
-        'Displacement & Teleport': spells.filter(s => s.tags?.includes('displacement') || s.tags?.includes('teleport')),
-        'Rewinding & Healing': spells.filter(s => s.tags?.includes('rewinding') || s.tags?.includes('healing')),
-        'Temporal Flux': spells.filter(s => s.tags?.includes('flux') || s.tags?.includes('ultimate'))
-      };
-      categoryIcon = 'fas fa-clock';
-    } else if (classData.id === 'fate-weaver') {
-      // Group by card game type
-      spellsByCategory = {
-        'Poker & Card Games': spells.filter(s => s.tags?.includes('poker') || s.tags?.includes('pattern-matching') || s.tags?.includes('matching')),
-        'Blackjack & Risk Games': spells.filter(s => s.tags?.includes('blackjack') || s.tags?.includes('self-damage') || s.tags?.includes('risk-reward')),
-        'Competitive Games': spells.filter(s => s.tags?.includes('competitive') || s.tags?.includes('ally-cooperation')),
-        'Utility & Support': spells.filter(s => s.tags?.includes('utility') || s.tags?.includes('support') || s.tags?.includes('teleport'))
-      };
-      categoryIcon = 'fas fa-cards';
-    } else if (classData.id === 'lichborne') {
-      // Group by frost magic categories
-      spellsByCategory = {
-        'Basic Frost Spells': spells.filter(s => s.category === 'basic_frost'),
-        'Freeze & Control': spells.filter(s => s.category === 'freeze_control'),
-        'AoE Devastation': spells.filter(s => s.category === 'aoe_devastation'),
-        'Hybrid Frost/Necrotic': spells.filter(s => s.category === 'hybrid_necrotic'),
-        'Utility & Support': spells.filter(s => s.category === 'utility_support')
-      };
-      categoryIcon = 'fas fa-snowflake';
-    } else if (classData.id === 'inscriptor') {
-      // Group by specialization
-      spellsByCategory = {
-        'Runebinder - Zone Control': spells.filter(s => s.tags?.includes('runebinder')),
-        'Enchanter - Equipment Enhancement': spells.filter(s => s.tags?.includes('enchanter')),
-        'Glyphweaver - Explosive Traps': spells.filter(s => s.tags?.includes('glyphweaver'))
-      };
-      categoryIcon = 'fas fa-scroll';
-    } else if (classData.id === 'arcanoneer') {
-      // Group by spell level
-      spellsByCategory = {
-        'Level 1 Spells': spells.filter(s => s.level === 1),
-        'Level 2 Spells': spells.filter(s => s.level === 2),
-        'Level 3 Spells': spells.filter(s => s.level === 3),
-        'Level 4 Spells': spells.filter(s => s.level === 4),
-        'Level 5 Spells': spells.filter(s => s.level === 5),
-        'Level 6 Spells': spells.filter(s => s.level === 6),
-        'Level 7 Spells': spells.filter(s => s.level === 7),
-        'Level 8 Spells': spells.filter(s => s.level === 8),
-        'Level 9 Spells': spells.filter(s => s.level === 9),
-        'Level 10 Spells': spells.filter(s => s.level === 10)
-      };
-      categoryIcon = 'fas fa-atom';
-    } else if (classData.id === 'witch-doctor') {
-      // Group by specialization
-      spellsByCategory = {
-        'Shadow Priest - Curses & Necromancy': spells.filter(s => s.tags?.includes('shadow-priest')),
-        'Spirit Healer - Healing & Protection': spells.filter(s => s.tags?.includes('spirit-healer')),
-        'War Priest - Combat & Poisons': spells.filter(s => s.tags?.includes('war-priest')),
-        'Universal Spells': spells.filter(s => s.tags?.includes('all-specs') || s.specialization === 'all')
-      };
-      categoryIcon = 'fas fa-skull';
-    } else if (classData.id === 'deathcaller') {
-      // Group by specialization
-      spellsByCategory = {
-        'Blood Reaver - Life Drain & Sustain': spells.filter(s => s.tags?.includes('blood-reaver')),
-        'Spectral Master - Summoning & Control': spells.filter(s => s.tags?.includes('spectral-master')),
-        'Void Caller - Psychic Devastation': spells.filter(s => s.tags?.includes('void-caller')),
-        'Universal Blood Magic': spells.filter(s => s.tags?.includes('blood-magic') && !s.tags?.includes('blood-reaver') && !s.tags?.includes('spectral-master') && !s.tags?.includes('void-caller'))
-      };
-      categoryIcon = 'fas fa-skull';
-    } else if (classData.id === 'spellguard') {
-      // Group by spell function
-      spellsByCategory = {
-        'Defensive Shields & Protection': spells.filter(s => s.tags?.includes('defense') || s.tags?.includes('shield') || s.tags?.includes('ally-protection')),
-        'Offensive & Anti-Mage': spells.filter(s => s.tags?.includes('damage') || s.tags?.includes('anti-mage') || s.tags?.includes('silence')),
-        'Utility & Support': spells.filter(s => s.tags?.includes('utility') || s.tags?.includes('healing') || s.tags?.includes('buff')),
-        'Ultimate Abilities': spells.filter(s => s.tags?.includes('ultimate'))
-      };
-      categoryIcon = 'fas fa-shield-alt';
-    } else if (classData.id === 'exorcist') {
-      // Group by demon binding mechanics
-      spellsByCategory = {
-        'Demon Binding & Summoning': spells.filter(s => s.tags?.includes('binding') || s.tags?.includes('summon')),
-        'Dominance & Control': spells.filter(s => s.tags?.includes('dominance') || s.tags?.includes('control')),
-        'Demon Enhancement': spells.filter(s => s.tags?.includes('buff') || s.tags?.includes('enhancement')),
-        'Utility & Support': spells.filter(s => s.tags?.includes('utility') || s.tags?.includes('support'))
-      };
-      categoryIcon = 'fas fa-cross';
-    } else if (classData.id === 'false-prophet') {
-      // Group by madness mechanics
-      spellsByCategory = {
-        'Madness Generators': spells.filter(s => s.specialMechanics?.madnessGeneration),
-        'Madness Spenders': spells.filter(s => s.specialMechanics?.madnessSpending),
-        'Mind Control & Manipulation': spells.filter(s => s.school === 'Mind Control' || s.specialMechanics?.mindControl),
-        'Eldritch Powers': spells.filter(s => s.specialMechanics?.madnessRequirement || s.specialMechanics?.temptationAbility)
-      };
-      categoryIcon = 'fas fa-eye';
-    } else if (classData.id === 'plaguebringer') {
-      // Group by affliction mechanics
-      spellsByCategory = {
-        'Fester - Spreading Afflictions': spells.filter(s => s.tags?.includes('fester') || s.tags?.includes('spread')),
-        'Infect - Direct Damage': spells.filter(s => s.tags?.includes('infect') || s.tags?.includes('damage')),
-        'Corrupt - Debuffs & Control': spells.filter(s => s.tags?.includes('corrupt') || s.tags?.includes('debuff')),
-        'Ultimate Plagues': spells.filter(s => s.tags?.includes('ultimate'))
-      };
-      categoryIcon = 'fas fa-biohazard';
-    } else if (classData.id === 'false_prophet') {
-      // Group by madness mechanics
-      spellsByCategory = {
-        'Shadow Damage & Madness': spells.filter(s => s.tags?.includes('shadow') || s.tags?.includes('damage')),
-        'Crowd Control & Debuffs': spells.filter(s => s.tags?.includes('control') || s.tags?.includes('debuff') || s.tags?.includes('fear')),
-        'Void Manipulation': spells.filter(s => s.tags?.includes('void') || s.tags?.includes('eldritch')),
-        'Ultimate Abilities': spells.filter(s => s.tags?.includes('ultimate'))
-      };
-      categoryIcon = 'fas fa-eye';
-    } else if (classData.id === 'formbender') {
-      // Group by wild form
-      spellsByCategory = {
-        'Nightstalker Form - Stealth & Burst': spells.filter(s => s.specialization === 'nightstalker'),
-        'Ironhide Form - Tank & Defense': spells.filter(s => s.specialization === 'ironhide'),
-        'Skyhunter Form - Aerial & Mobility': spells.filter(s => s.specialization === 'skyhunter'),
-        'Frostfang Form - Pack & Frost': spells.filter(s => s.specialization === 'frostfang'),
-        'Universal Nature Magic': spells.filter(s => s.specialization === 'universal' || s.tags?.includes('all-specs'))
-      };
-      categoryIcon = 'fas fa-paw';
-    } else if (classData.id === 'primalist') {
-      // Group by totem type
-      spellsByCategory = {
-        'Healing Totems': spells.filter(s => s.specialization === 'healing-totems'),
-        'Defensive Totems': spells.filter(s => s.specialization === 'defensive-totems'),
-        'Elemental Totems': spells.filter(s => s.specialization === 'elemental-totems'),
-        'Synergy Effects': spells.filter(s => s.specialization === 'synergy-effects'),
-        'Utility & Ultimate Spells': spells.filter(s => s.specialization === 'utility')
-      };
-      categoryIcon = 'fas fa-mountain';
-    } else if (classData.id === 'berserker') {
-      // Group by spell level
-      spellsByCategory = {
-        'Level 1 - Basic Abilities': spells.filter(s => s.level === 1),
-        'Level 2 - Enhanced Abilities': spells.filter(s => s.level === 2),
-        'Level 3 - Advanced Abilities': spells.filter(s => s.level === 3),
-        'Level 4 - Elite Abilities': spells.filter(s => s.level === 4),
-        'Level 5 - Legendary Abilities': spells.filter(s => s.level === 5),
-        'Level 6 - Ultimate Abilities': spells.filter(s => s.level === 6),
-        'Level 7 - Mythic Abilities': spells.filter(s => s.level === 7),
-        'Level 8 - Legendary Abilities': spells.filter(s => s.level === 8),
-        'Level 9 - Transcendent Abilities': spells.filter(s => s.level === 9),
-        'Level 10 - Godlike Abilities': spells.filter(s => s.level === 10)
-      };
-      categoryIcon = 'fas fa-axe-battle';
-    } else if (classData.id === 'dreadnaught') {
-      // Group by ability type
-      spellsByCategory = {
-        'Defensive Abilities - Shields & Protection': spells.filter(s => s.tags?.includes('defense') || s.tags?.includes('shield') || s.tags?.includes('absorption')),
-        'Offensive Abilities - Wraith Strike & Damage': spells.filter(s => s.tags?.includes('damage') || s.tags?.includes('necrotic') || s.tags?.includes('counterattack')),
-        'Passive Effects - Resistance & Regeneration': spells.filter(s => s.tags?.includes('passive') || s.tags?.includes('regeneration') || s.tags?.includes('resistance')),
-        'Ultimate & Utility': spells.filter(s => s.tags?.includes('ultimate') || s.tags?.includes('revival') || s.tags?.includes('conversion'))
-      };
-      categoryIcon = 'fas fa-shield';
-    } else if (classData.id === 'titan') {
-      // Group by celestial devotion
-      spellsByCategory = {
-        'Solara (Radiant Sun) - Offensive Power': spells.filter(s => s.tags?.includes('solara')),
-        'Lunara (Moon Guardian) - Defense & Regeneration': spells.filter(s => s.tags?.includes('lunara')),
-        'Astraeus (Star Sage) - Mobility & Speed': spells.filter(s => s.tags?.includes('astraeus')),
-        'Terranox (Earth Titan) - Tankiness & Control': spells.filter(s => s.tags?.includes('terranox')),
-        'Zephyra (Wind Spirit) - Attack Speed & Lightning': spells.filter(s => s.tags?.includes('zephyra')),
-        'Specialization Abilities': spells.filter(s => s.tags?.includes('astral-warrior') || s.tags?.includes('devotion'))
-      };
-      categoryIcon = 'fas fa-sun';
-    } else if (classData.id === 'bladedancer') {
-      // Group by specialization
-      spellsByCategory = {
-        'Flow Master - Rapid Transitions': spells.filter(s => s.specialization === 'blade-dancer'),
-        'Duelist - Precision & Counter': spells.filter(s => s.specialization === 'duelist'),
-        'Shadow Dancer - Stealth & Burst': spells.filter(s => s.specialization === 'shadow-dancer'),
-        'Universal Abilities': spells.filter(s => s.specialization === 'universal')
-      };
-      categoryIcon = 'fas fa-wind';
-    } else if (classData.id === 'toxicologist') {
-      // Group by specialization
-      spellsByCategory = {
-        'Venomancer - Deadly Poisons': spells.filter(s => s.specialization === 'venomancer'),
-        'Gadgeteer - Contraptions & Traps': spells.filter(s => s.specialization === 'gadgeteer'),
-        'Saboteur - Debuffs & Disruption': spells.filter(s => s.specialization === 'saboteur'),
-        'Universal Abilities': spells.filter(s => s.specialization === 'universal')
-      };
-      categoryIcon = 'fas fa-flask';
-    } else if (classData.id === 'covenbane') {
-      // Group by specialization
-      spellsByCategory = {
-        'Shadowbane - Stealth & Assassination': spells.filter(s => s.specialization === 'shadowbane'),
-        'Spellbreaker - Anti-Magic & Dispelling': spells.filter(s => s.specialization === 'spellbreaker'),
-        'Demonhunter - Tracking & Pursuit': spells.filter(s => s.specialization === 'demonhunter'),
-        'Universal Abilities': spells.filter(s => s.specialization === 'universal')
-      };
-      categoryIcon = 'fas fa-ban';
-    } else if (classData.id === 'lunarch') {
-      // Group by specialization
-      spellsByCategory = {
-        'Moonlight Sentinel - Precision Archery': spells.filter(s => s.specialization === 'moonlight-sentinel'),
-        'Starfall Invoker - Celestial Bombardment': spells.filter(s => s.specialization === 'starfall-invoker'),
-        'Moonwell Guardian - Healing & Support': spells.filter(s => s.specialization === 'moonwell-guardian'),
-        'Universal Abilities - Phase Manipulation': spells.filter(s => s.specialization === 'universal')
-      };
-      categoryIcon = 'fas fa-moon';
-    } else if (classData.id === 'huntress') {
-      // Group by specialization
-      spellsByCategory = {
-        'Bladestorm - Multi-Target Glaive Attacks': spells.filter(s => s.specialization === 'bladestorm'),
-        'Beastmaster - Companion Synergy': spells.filter(s => s.specialization === 'beastmaster'),
-        'Shadowdancer - Stealth & Mobility': spells.filter(s => s.specialization === 'shadowdancer'),
-        'Universal Abilities - Core Huntress Skills': spells.filter(s => s.specialization === 'universal')
-      };
-      categoryIcon = 'fas fa-crosshairs';
-    } else if (classData.id === 'warden') {
-      // Group by specialization
-      spellsByCategory = {
-        'Shadowblade - Stealth Assassin': spells.filter(s => s.specialization === 'shadowblade'),
-        'Jailer - Cage Master': spells.filter(s => s.specialization === 'jailer'),
-        'Vengeance Seeker - Relentless Pursuit': spells.filter(s => s.specialization === 'vengeance-seeker'),
-        'Universal Abilities - Core Warden Skills': spells.filter(s => s.specialization === 'universal')
-      };
-      categoryIcon = 'fas fa-gavel';
-    } else if (classData.id === 'oracle') {
-      // Group by specialization
-      spellsByCategory = {
-        'Seer - Future Sight & Prediction': spells.filter(s => s.specialization === 'seer'),
-        'Truthseeker - Past Sight & Hidden Knowledge': spells.filter(s => s.specialization === 'truthseeker'),
-        'Fateweaver - Destiny Manipulation': spells.filter(s => s.specialization === 'fateweaver'),
-        'Universal Abilities - Core Oracle Powers': spells.filter(s => s.specialization === 'universal')
-      };
-      categoryIcon = 'fas fa-eye';
-    } else {
-      // Default grouping by spell level (fallback for any remaining classes)
-      spellsByCategory = {
-        'Low Level (1-3)': spells.filter(s => s.level <= 3),
-        'Mid Level (4-6)': spells.filter(s => s.level >= 4 && s.level <= 6),
-        'High Level (7+)': spells.filter(s => s.level >= 7)
-      };
-      categoryIcon = 'fas fa-magic';
-    }
+    // Filter out spells that are just buff/debuff effects of other spells
+    spells = spells.filter(spell => !buffEffectIds.has(spell.id));
+
+    // Get class-specific icon
+    const classIcons = {
+      'pyrofiend': 'fas fa-fire',
+      'minstrel': 'fas fa-music',
+      'gambler': 'fas fa-dice',
+      'chaos-weaver': 'fas fa-dice',
+      'martyr': 'fas fa-heart',
+      'chronarch': 'fas fa-clock',
+      'fate-weaver': 'fas fa-cards',
+      'lichborne': 'fas fa-snowflake',
+      'inscriptor': 'fas fa-scroll',
+      'covenbane': 'fas fa-cross',
+      'arcanoneer': 'fas fa-atom',
+      'witch-doctor': 'fas fa-skull',
+      'deathcaller': 'fas fa-skull',
+      'spellguard': 'fas fa-shield-alt',
+      'exorcist': 'fas fa-cross',
+      'false-prophet': 'fas fa-eye',
+      'false_prophet': 'fas fa-eye',
+      'plaguebringer': 'fas fa-biohazard',
+      'formbender': 'fas fa-paw',
+      'primalist': 'fas fa-mountain',
+      'berserker': 'fas fa-axe-battle',
+      'bladedancer': 'fas fa-wind',
+      'dreadnaught': 'fas fa-shield',
+      'titan': 'fas fa-sun',
+      'toxicologist': 'fas fa-flask',
+      'lunarch': 'fas fa-moon',
+      'huntress': 'fas fa-crosshairs',
+      'warden': 'fas fa-gavel',
+      'oracle': 'fas fa-eye'
+    };
+    
+    let categoryIcon = classIcons[classData.id] || 'fas fa-magic';
+    
+    // Universal level-based grouping for ALL classes (Level 1-10)
+    let spellsByCategory = {
+      'Level 1': spells.filter(s => s.level === 1),
+      'Level 2': spells.filter(s => s.level === 2),
+      'Level 3': spells.filter(s => s.level === 3),
+      'Level 4': spells.filter(s => s.level === 4),
+      'Level 5': spells.filter(s => s.level === 5),
+      'Level 6': spells.filter(s => s.level === 6),
+      'Level 7': spells.filter(s => s.level === 7),
+      'Level 8': spells.filter(s => s.level === 8),
+      'Level 9': spells.filter(s => s.level === 9),
+      'Level 10': spells.filter(s => s.level === 10)
+    };
 
     // Split categories into pages (2 categories per page, one on each side)
     const categoryEntries = Object.entries(spellsByCategory).filter(([_, spells]) => spells.length > 0);
@@ -1018,7 +795,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
               >
                 <div className="spellbook-spell-icon-image">
                   <img
-                    src={`https://wow.zamimg.com/images/wow/icons/large/${spell.icon}.jpg`}
+                    src={`https://wow.zamimg.com/images/wow/icons/large/${spell.icon || spell.typeConfig?.icon || 'inv_misc_questionmark'}.jpg`}
                     alt={spell.name}
                     onError={(e) => {
                       e.target.onerror = null;

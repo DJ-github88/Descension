@@ -84,7 +84,8 @@ const getDamageTypeColor = (damageType) => {
     force: '#87CEFA',
     bludgeoning: '#A0522D',
     piercing: '#708090',
-    slashing: '#B22222'
+    slashing: '#B22222',
+    chaos: '#ec4899'
   };
 
   return damageColors[damageType?.toLowerCase()] || '#FFFFFF';

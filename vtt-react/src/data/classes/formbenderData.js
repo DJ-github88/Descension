@@ -738,7 +738,7 @@ Frostfang
     {
       id: 'fb_ambush_strike',
       name: 'Ambush Strike',
-      description: 'Strike from the shadows with devastating precision. Damage and effects scale with Wild Instinct spent.',
+      description: 'Strike from the shadows with devastating precision. Damage and effects scale with Wild Instinct spent (1-5 WI). Must be used from stealth for full effect.',
       spellType: 'ACTION',
       icon: 'ability_rogue_ambush',
       school: 'Physical',
@@ -747,74 +747,93 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['physical', 'stealth', 'burst-damage', 'nightstalker']
       },
 
       targetingConfig: {
-        type: 'SINGLE',
-        range: 5,
-        rangeUnit: 'feet',
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
         requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        wildInstinct: {
-          min: 1,
-          max: 5,
-          description: 'Spend 1-5 Wild Instinct for escalating effects'
-        }
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Strike from stealth with deadly precision'
       },
 
-      resolution: 'ATTACK_ROLL',
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff', 'control'],
 
       damageConfig: {
-        baseDamage: {
-          diceCount: 1,
-          diceType: 4,
-          damageType: 'slashing',
-          scaling: 'per_wi_spent'
+        formula: '1d4 per Wild Instinct spent',
+        elementType: 'slashing',
+        damageType: 'direct',
+        description: 'Tier 1: 1d4, Tier 2: 2d4 + Bleeding, Tier 3: 3d4 + Stun, Tier 4: 4d4 + Slow, Tier 5: 5d4 + Paralyze',
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 3,
+          tickFrequency: 'round',
+          dotFormula: '1d4',
+          isProgressiveDot: false
         }
       },
 
-      effects: {
-        tier1: {
-          wiCost: 1,
-          damage: '1d4',
-          effect: 'None'
-        },
-        tier2: {
-          wiCost: 2,
-          damage: '2d4',
-          effect: 'Apply Bleeding (1d4 damage per round for 3 rounds)'
-        },
-        tier3: {
-          wiCost: 3,
-          damage: '3d4',
-          effect: 'Stun target for 1 round'
-        },
-        tier4: {
-          wiCost: 4,
-          damage: '4d4',
-          effect: 'Reduce target movement speed by 50% for 2 rounds'
-        },
-        tier5: {
-          wiCost: 5,
-          damage: '5d4',
-          effect: 'Paralyze target for 1 round'
-        }
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'bleeding',
+          name: 'Bleeding',
+          description: '1d4 damage per round for 3 rounds (Tier 2+)'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'moderate',
+        duration: 1,
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'stun',
+          name: 'Stun',
+          description: 'Target is stunned for 1 round (Tier 3: Stun, Tier 5: Paralyze)',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }]
+      },
+
+      wildInstinctScaling: {
+        minCost: 1,
+        maxCost: 5,
+        tiers: [
+          { cost: 1, damage: '1d4', effect: 'None' },
+          { cost: 2, damage: '2d4', effect: 'Apply Bleeding (1d4 damage per round for 3 rounds)' },
+          { cost: 3, damage: '3d4', effect: 'Stun target for 1 round' },
+          { cost: 4, damage: '4d4', effect: 'Reduce target movement speed by 50% for 2 rounds' },
+          { cost: 5, damage: '5d4', effect: 'Paralyze target for 1 round' }
+        ]
       },
 
       specialMechanics: {
         stealthRequirement: {
           description: 'Must be used from stealth for full effect',
           bonus: 'Advantage on attack roll if attacking from stealth'
-        },
-        wildInstinctScaling: {
-          description: 'Effects scale based on Wild Instinct spent',
-          tiers: 5
         }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
       tags: ['physical', 'stealth', 'burst-damage', 'nightstalker', 'feral-shifter'],
@@ -824,7 +843,7 @@ Frostfang
     {
       id: 'fb_shadowmeld',
       name: 'Shadowmeld',
-      description: 'Blend into the shadows, becoming invisible and creating illusionary duplicates at higher tiers.',
+      description: 'Blend into the shadows, becoming invisible and creating illusionary duplicates at higher tiers. Broken by attacking or taking damage.',
       spellType: 'ACTION',
       icon: 'spell_shadow_charm',
       school: 'Illusion',
@@ -833,13 +852,68 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['stealth', 'buff', 'illusion', 'nightstalker']
       },
 
       targetingConfig: {
-        type: 'SELF',
-        range: 0,
-        rangeUnit: 'self'
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Fade into the shadows'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff', 'utility'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'invisibility',
+          name: 'Shadow Invisibility',
+          description: 'Become invisible for 1 minute or until you attack or take damage'
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      utilityConfig: {
+        utilityType: 'illusion',
+        selectedEffects: [{
+          id: 'illusionary_duplicates',
+          name: 'Illusionary Duplicates',
+          description: 'At higher Wild Instinct tiers, create 1-2 illusionary duplicates that confuse enemies'
+        }],
+        duration: 1,
+        durationUnit: 'minutes',
+        concentration: false,
+        power: 'moderate'
+      },
+
+      wildInstinctScaling: {
+        minCost: 1,
+        maxCost: 5,
+        tiers: [
+          { cost: 1, effect: 'Advantage on Stealth checks for 1 minute' },
+          { cost: 2, effect: 'Become invisible for 1 minute or until you attack' },
+          { cost: 3, effect: 'Teleport to darkness within 30 feet and become invisible' },
+          { cost: 4, effect: 'Create 1 illusionary duplicate for 1 minute' },
+          { cost: 5, effect: 'Become invisible and create 2 illusionary duplicates' }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
       },
 
       durationConfig: {
@@ -850,7 +924,7 @@ Frostfang
         breakCondition: 'Attacking or taking damage'
       },
 
-      resourceCost: {
+      legacyResourceCost: {
         wildInstinct: {
           min: 1,
           max: 5,
@@ -1561,7 +1635,1259 @@ Frostfang
       tags: ['transformation', 'utility', 'universal', 'all-specs', 'balance-shifter'],
       flavorText: 'The wild flows through you, reshaping your form.'
     }
-  ]
+  ],
+
+  // Comprehensive Spell List (Levels 1-10, 3 spells each, following template)
+  spells: [
+    // ===== LEVEL 1 SPELLS (Already has 1, need 2 more) =====
+    {
+      id: 'formbender_primal_strike',
+      name: 'Primal Strike',
+      description: 'Channel primal energy into a devastating melee attack.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_druid_ferociousbite',
+        tags: ['attack', 'damage', 'physical', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '2d8 + strength',
+        elementType: 'bludgeoning',
+        damageType: 'direct'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch',
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'physical', 'formbender']
+    },
+
+    {
+      id: 'formbender_wild_regeneration',
+      name: 'Wild Regeneration',
+      description: 'Channel primal healing energy to restore your vitality.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['healing'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_rejuvenation',
+        tags: ['healing', 'support', 'nature', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '2d6 + constitution',
+        healingType: 'instant',
+        hasHotEffect: true,
+        hotFormula: '1d6',
+        hotDuration: 2,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['healing', 'support', 'nature', 'formbender']
+    },
+
+    // ===== LEVEL 2 SPELLS (Already has 3, complete) =====
+
+    // ===== LEVEL 3 SPELLS (Already has 4, complete) =====
+
+    // ===== LEVEL 4 SPELLS (Already has 3, complete) =====
+
+    // ===== LEVEL 5 SPELLS =====
+    {
+      id: 'formbender_pack_leader',
+      name: 'Pack Leader',
+      description: 'Summon spectral wolves to fight alongside you, empowering your pack tactics.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['summoning', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_hunter_pet_wolf',
+        tags: ['summoning', 'buff', 'pack', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'spectral_wolf',
+          name: 'Spectral Wolf',
+          description: 'A ghostly wolf made of primal energy',
+          size: 'Medium',
+          type: 'spirit',
+          tokenIcon: 'ability_hunter_pet_wolf',
+          stats: {
+            maxHp: 35,
+            armor: 13,
+            maxMana: 0
+          },
+          config: {
+            quantity: 3,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'mental',
+            controlRange: 60
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 60,
+        controlType: 'mental'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'pack_tactics',
+          name: 'Pack Tactics',
+          description: 'You and summoned wolves gain +2 to attack rolls when adjacent to each other for 5 rounds',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 3 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'buff', 'pack', 'formbender']
+    },
+
+    {
+      id: 'formbender_primal_rage',
+      name: 'Primal Rage',
+      description: 'Channel wild fury into a devastating multi-attack.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_druid_ravage',
+        tags: ['attack', 'damage', 'physical', 'multi-hit', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '4d6 + strength',
+        elementType: 'slashing',
+        damageType: 'direct',
+        description: 'Make 3 rapid claw attacks at the target'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'touch',
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 3 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'physical', 'multi-hit', 'formbender']
+    },
+
+    {
+      id: 'formbender_adaptive_form',
+      name: 'Adaptive Form',
+      description: 'Shift between forms instantly without cost for a short duration.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'utility'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_druid_catform',
+        tags: ['buff', 'utility', 'transformation', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'adaptive_form',
+          name: 'Adaptive Form',
+          description: 'Form transformations are free (cost 0 Wild Instinct) for 3 rounds',
+          customDescription: 'You can shift between all forms freely without paying the normal 1 Wild Instinct cost. This allows rapid adaptation to combat situations.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 2 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'short_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'utility', 'transformation', 'formbender']
+    },
+
+    // ===== LEVEL 6 SPELLS =====
+    {
+      id: 'formbender_titan_form',
+      name: 'Titan Form',
+      description: 'Transform into a massive titan, gaining incredible size and strength.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['transformation', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_reincarnation',
+        tags: ['transformation', 'buff', 'size', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 4,
+        durationUnit: 'rounds',
+        power: 'major',
+        specialEffects: ['Size becomes Huge', 'Reach increases to 15 feet', 'Advantage on Strength checks']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'titan_strength',
+            name: 'Titan Strength',
+            description: 'Gain +4 Strength and +50 HP for 4 rounds',
+            statModifier: {
+              stat: 'strength',
+              magnitude: 4,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'titan_armor',
+            name: 'Titan Armor',
+            description: 'Gain +3 armor for 4 rounds',
+            statModifier: {
+              stat: 'armor',
+              magnitude: 3,
+              magnitudeType: 'flat'
+            }
+          }
+        ],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 4 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['transformation', 'buff', 'size', 'formbender']
+    },
+
+    {
+      id: 'formbender_primal_fury_leap',
+      name: 'Primal Fury Leap',
+      description: 'Leap high into the air and crash down, dealing massive AoE damage.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_hunter_pet_cat',
+        tags: ['attack', 'damage', 'control', 'aoe', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '6d8 + strength * 1.5',
+        elementType: 'bludgeoning',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'agility',
+          difficultyClass: 16,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'knockdown',
+        strength: 'moderate',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'agility',
+        savingThrow: true,
+        effects: [{
+          id: 'stagger',
+          name: 'Staggered',
+          description: 'Target is knocked prone and must use movement to stand',
+          config: {}
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 10,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 4 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'control', 'aoe', 'formbender']
+    },
+
+    {
+      id: 'formbender_natures_gift',
+      name: "Nature's Gift",
+      description: 'Heal yourself or an ally with the regenerative power of nature.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['healing'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_healingtouch',
+        tags: ['healing', 'support', 'nature', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '5d8 + spirit',
+        healingType: 'instant',
+        hasHotEffect: true,
+        hotFormula: '2d6',
+        hotDuration: 3,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 3 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['healing', 'support', 'nature', 'formbender']
+    },
+
+    // ===== LEVEL 7 SPELLS =====
+    {
+      id: 'formbender_primal_avatar',
+      name: 'Primal Avatar',
+      description: 'Transform into a primal avatar, embodying all forms simultaneously.',
+      level: 7,
+      spellType: 'STATE',
+      effectTypes: ['transformation', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_forceofnature',
+        tags: ['transformation', 'buff', 'primal', 'formbender'],
+        stateVisibility: 'visible',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 5,
+        durationUnit: 'rounds',
+        power: 'major',
+        specialEffects: ['Gain benefits of all forms', 'Form switching is free', 'Generate +2 Wild Instinct per round']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'primal_avatar_power',
+          name: 'Primal Avatar',
+          description: 'Gain +3 to all stats, +2 Wild Instinct per round, and benefits of all forms for 5 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 5 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['transformation', 'buff', 'primal', 'formbender']
+    },
+
+    {
+      id: 'formbender_savage_roar',
+      name: 'Savage Roar',
+      description: 'Unleash a roar that terrifies all enemies and empowers allies.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['control', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_druid_challangingroar',
+        tags: ['control', 'buff', 'fear', 'aoe', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      controlConfig: {
+        controlType: 'mind_control',
+        strength: 'strong',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'fear',
+          name: 'Terrified',
+          description: 'Enemies are frightened and must move away from you for 3 rounds',
+          config: {
+            fearStrength: 'strong'
+          }
+        }]
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'roar_empowerment',
+          name: 'Empowered by Roar',
+          description: 'All allies gain +2 to damage rolls for 3 rounds',
+          statModifier: {
+            stat: 'damage_rolls',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: [],
+        maxTargets: 20,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 4 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+      resolution: 'DICE',
+      tags: ['control', 'buff', 'fear', 'aoe', 'formbender']
+    },
+
+    {
+      id: 'formbender_apex_predator',
+      name: 'Apex Predator',
+      description: 'Become the ultimate predator, gaining enhanced senses and lethal strikes.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_druid_primalprecision',
+        tags: ['buff', 'damage', 'predator', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'apex_predator',
+          name: 'Apex Predator',
+          description: 'Gain advantage on all attacks, +3d6 damage, and +10 movement speed for 4 rounds',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 3,
+            magnitudeType: 'dice'
+          }
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 4 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 5
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'damage', 'predator', 'formbender']
+    },
+
+    // ===== LEVEL 8 SPELLS =====
+    {
+      id: 'formbender_savage_maelstrom',
+      name: 'Savage Maelstrom',
+      description: 'Transform into all forms rapidly, creating a whirlwind of savage attacks.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_cyclone',
+        tags: ['attack', 'damage', 'aoe', 'transformation', 'epic', 'formbender'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '12d8 + strength * 2 + agility * 2',
+        elementType: 'slashing',
+        secondaryElementType: 'bludgeoning',
+        damageType: 'direct',
+        description: 'Shift through all forms rapidly, attacking all nearby enemies'
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 15,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 5 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'aoe', 'transformation', 'epic', 'formbender']
+    },
+
+    {
+      id: 'formbender_natures_champion',
+      name: "Nature's Champion",
+      description: 'Become an avatar of nature, gaining incredible resilience and power.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'transformation'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_natureguardian',
+        tags: ['buff', 'transformation', 'defense', 'epic', 'formbender'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      transformationConfig: {
+        transformationType: 'elemental',
+        targetType: 'self',
+        duration: 5,
+        durationUnit: 'rounds',
+        power: 'major',
+        specialEffects: ['Immunity to physical damage', 'Regenerate 3d10 HP per round', 'All Wild Instinct costs reduced by 1']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          {
+            id: 'natures_champion_power',
+            name: "Nature's Champion",
+            description: 'Gain +4 to all stats and regenerate 3d10 HP per round for 5 rounds',
+            statModifier: {
+              stat: 'all_stats',
+              magnitude: 4,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'natures_champion_defense',
+            name: 'Champion Defense',
+            description: 'Gain 70% damage reduction for 5 rounds',
+            statModifier: {
+              stat: 'damage_reduction',
+              magnitude: 70,
+              magnitudeType: 'percentage'
+            }
+          }
+        ],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 5 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'transformation', 'defense', 'epic', 'formbender']
+    },
+
+    {
+      id: 'formbender_wild_hunt',
+      name: 'Wild Hunt',
+      description: 'Summon the spirits of the wild hunt to chase down and destroy all enemies.',
+      level: 8,
+      spellType: 'ACTION',
+      effectTypes: ['summoning', 'damage'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'ability_hunter_pet_dragonhawk',
+        tags: ['summoning', 'damage', 'spirit', 'epic', 'formbender'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'wild_hunt_spirit',
+          name: 'Wild Hunt Spirit',
+          description: 'Spectral hunters that chase and destroy enemies',
+          size: 'Large',
+          type: 'spirit',
+          tokenIcon: 'ability_hunter_pet_dragonhawk',
+          stats: {
+            maxHp: 60,
+            armor: 16,
+            maxMana: 0
+          },
+          config: {
+            quantity: 5,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'autonomous',
+            controlRange: 0
+          }
+        }],
+        duration: 5,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 0,
+        controlType: 'autonomous'
+      },
+      damageConfig: {
+        formula: '6d10 + spirit',
+        elementType: 'force',
+        damageType: 'direct',
+        description: 'Wild Hunt spirits deal this damage to enemies they catch'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 40 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 5 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'damage', 'spirit', 'epic', 'formbender']
+    },
+
+    // ===== LEVEL 9 SPELLS =====
+    {
+      id: 'formbender_primordial_form',
+      name: 'Primordial Form',
+      description: 'Transform into a primordial beast of legend, gaining godlike power.',
+      level: 9,
+      spellType: 'STATE',
+      effectTypes: ['transformation', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_wispsplode',
+        tags: ['transformation', 'buff', 'primordial', 'legendary', 'formbender'],
+        stateVisibility: 'visible',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 5,
+        durationUnit: 'rounds',
+        power: 'major',
+        specialEffects: ['Size becomes Gargantuan', 'Immunity to all damage types', 'All Wild Instinct abilities cost 0', 'Generate 5 Wild Instinct per round']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'primordial_power',
+          name: 'Primordial Power',
+          description: 'Gain +6 to all stats, immunity to all damage, unlimited Wild Instinct, and regenerate 5d10 HP per round for 5 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 6,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 8 },
+        useFormulas: {},
+        actionPoints: 4,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['transformation', 'buff', 'primordial', 'legendary', 'formbender']
+    },
+
+    {
+      id: 'formbender_natures_apocalypse',
+      name: "Nature's Apocalypse",
+      description: 'Unleash the fury of nature itself, devastating all enemies on the battlefield.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_earthquake',
+        tags: ['attack', 'damage', 'control', 'aoe', 'legendary', 'formbender'],
+        castTime: 4,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '20d10 + strength * 2 + spirit * 2',
+        elementType: 'force',
+        damageType: 'direct',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 19,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'knockdown',
+        strength: 'extreme',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 19,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'stagger',
+          name: 'Devastated',
+          description: 'Target is knocked prone and stunned for 3 rounds',
+          config: {}
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'sight',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 100 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 50,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 10 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The fang of a primordial beast, worth 50,000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'control', 'aoe', 'legendary', 'formbender']
+    },
+
+    {
+      id: 'formbender_eternal_wild',
+      name: 'Eternal Wild',
+      description: 'Merge permanently with the wild, gaining limitless transformations.',
+      level: 9,
+      spellType: 'PASSIVE',
+      effectTypes: ['buff', 'transformation'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_tranquility',
+        tags: ['buff', 'transformation', 'passive', 'legendary', 'formbender'],
+        toggleable: true
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'eternal_wild',
+          name: 'Eternal Wild',
+          description: 'Gain unlimited Wild Instinct, instant form transformations, and regenerate 3d10 HP per round in any form',
+          customDescription: 'You have become one with the wild. You generate 5 Wild Instinct per round automatically. All form transformations are instant and free. You regenerate 3d10 HP per round in any form. Your Wild Instinct maximum is increased to 30.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'The essence of the wild, 100,000 gold worth of natural artifacts'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'transformation', 'passive', 'legendary', 'formbender', 'toggleable']
+    },
+
+    // ===== LEVEL 10 SPELLS =====
+    {
+      id: 'formbender_world_beast',
+      name: 'World Beast',
+      description: 'Transform into the World Beast, a legendary creature of immense power.',
+      level: 10,
+      spellType: 'STATE',
+      effectTypes: ['transformation', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_unyeildingstamina',
+        tags: ['transformation', 'buff', 'legendary', 'formbender'],
+        stateVisibility: 'visible',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 10,
+        durationUnit: 'rounds',
+        power: 'major',
+        specialEffects: ['Size becomes Colossal', 'Immunity to all damage', 'All attacks deal triple damage', 'Cannot be controlled or stopped']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'world_beast_power',
+          name: 'World Beast',
+          description: 'Gain +10 to all stats, immunity to all damage, triple damage on all attacks, and regenerate to full HP each round for 10 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 15 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'The heart of the World Beast, priceless artifact'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['transformation', 'buff', 'legendary', 'formbender']
+    },
+
+    {
+      id: 'formbender_genesis_storm',
+      name: 'Genesis Storm',
+      description: 'Summon a storm of creation that births countless primal creatures.',
+      level: 10,
+      spellType: 'ACTION',
+      effectTypes: ['summoning'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_starfall',
+        tags: ['summoning', 'legendary', 'formbender'],
+        castTime: 5,
+        castTimeType: 'IMMEDIATE'
+      },
+      summonConfig: {
+        creatures: [
+          {
+            id: 'primal_beast_pack',
+            name: 'Primal Beast',
+            description: 'Savage beasts of pure primal energy',
+            size: 'Large',
+            type: 'beast',
+            tokenIcon: 'ability_druid_catform',
+            stats: { maxHp: 80, armor: 15, maxMana: 0 },
+            config: {
+              quantity: 10,
+              duration: 10,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'mental',
+              controlRange: 100
+            }
+          },
+          {
+            id: 'elemental_guardians',
+            name: 'Elemental Guardian',
+            description: 'Powerful elemental protectors',
+            size: 'Huge',
+            type: 'elemental',
+            tokenIcon: 'spell_nature_strengthofearth',
+            stats: { maxHp: 120, armor: 18, maxMana: 0 },
+            config: {
+              quantity: 5,
+              duration: 10,
+              durationUnit: 'rounds',
+              hasDuration: true,
+              concentration: false,
+              controlType: 'mental',
+              controlRange: 100
+            }
+          }
+        ],
+        duration: 10,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 100,
+        controlType: 'mental'
+      },
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 80,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 12 },
+        useFormulas: {},
+        actionPoints: 5,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Seeds of creation, worth 80,000 gold'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['summoning', 'legendary', 'formbender']
+    },
+
+    {
+      id: 'formbender_perfect_evolution',
+      name: 'Perfect Evolution',
+      description: 'Evolve beyond all limits, creating your own perfect form.',
+      level: 10,
+      spellType: 'PASSIVE',
+      effectTypes: ['transformation', 'buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'spell_nature_naturetouchgrow',
+        tags: ['transformation', 'buff', 'passive', 'legendary', 'formbender'],
+        toggleable: true
+      },
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 0,
+        durationUnit: 'permanent',
+        power: 'major',
+        specialEffects: ['Create your own custom form', 'Combine benefits of all forms', 'No weaknesses', 'Unlimited transformations']
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'perfect_evolution',
+          name: 'Perfect Evolution',
+          description: 'You have achieved perfect evolution. Create your own custom form with benefits of all forms and no weaknesses. Generate 10 Wild Instinct per round. All abilities cost 50% less.',
+          customDescription: 'You have evolved beyond the limitations of normal shapeshifting. You can create your own perfect form, combining the stealth of Nightstalker, the durability of Ironhide, the mobility of Skyhunter, and the pack tactics of Frostfang. You generate 10 Wild Instinct per round. All Wild Instinct abilities cost 50% less. You can transform instantly and freely without limit.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: ['ritual'],
+        materialComponents: 'The essence of perfect evolution, 150,000 gold worth of primal artifacts'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['transformation', 'buff', 'passive', 'legendary', 'formbender', 'toggleable']
+    }
+  ],
+
+  // Spell Pools by Level
+  spellPools: {
+    1: [
+      'formbender_primal_strike',
+      'formbender_wild_regeneration'
+    ],
+    2: [],
+    3: [],
+    4: [],
+    5: [
+      'formbender_pack_leader',
+      'formbender_primal_rage',
+      'formbender_adaptive_form'
+    ],
+    6: [
+      'formbender_titan_form',
+      'formbender_primal_fury_leap',
+      'formbender_natures_gift'
+    ],
+    7: [
+      'formbender_primal_avatar',
+      'formbender_savage_roar',
+      'formbender_apex_predator'
+    ],
+    8: [
+      'formbender_savage_maelstrom',
+      'formbender_natures_champion',
+      'formbender_wild_hunt'
+    ],
+    9: [
+      'formbender_primordial_form',
+      'formbender_natures_apocalypse',
+      'formbender_eternal_wild'
+    ],
+    10: [
+      'formbender_world_beast',
+      'formbender_genesis_storm',
+      'formbender_perfect_evolution'
+    ]
+  }
 };
 
 

@@ -928,7 +928,7 @@ export const formatControlEffects = (spell) => {
           if (effect.toLowerCase() === 'immobilized') {
             effects.push(`Immobilized: Target cannot move`);
           } else if (effect.toLowerCase() === 'restrained') {
-            effects.push(`Restrained: Target has disadvantage on attacks and Dexterity saving throws`);
+            effects.push(`Restrained: Target has disadvantage on attacks and Agility saving throws`);
           } else if (effect.toLowerCase() === 'stunned') {
             effects.push(`Stunned: Target cannot take actions or reactions`);
           } else if (effect.toLowerCase() === 'prone') {
@@ -949,7 +949,7 @@ export const formatControlEffects = (spell) => {
           if (effectName.toLowerCase() === 'immobilized') {
             effects.push(`Immobilized: ${effect.description || 'Target cannot move'}`);
           } else if (effectName.toLowerCase() === 'restrained') {
-            effects.push(`Restrained: ${effect.description || 'Target has disadvantage on attacks and Dexterity saving throws'}`);
+            effects.push(`Restrained: ${effect.description || 'Target has disadvantage on attacks and Agility saving throws'}`);
           } else if (effectName.toLowerCase() === 'stunned') {
             effects.push(`Stunned: ${effect.description || 'Target cannot take actions or reactions'}`);
           } else if (effectName.toLowerCase() === 'prone') {
@@ -983,7 +983,7 @@ export const formatControlEffects = (spell) => {
             if (effect.type.toLowerCase() === 'immobilized') {
               effects.push(`Immobilized: ${effect.description || 'Target cannot move'}`);
             } else if (effect.type.toLowerCase() === 'restrained') {
-              effects.push(`Restrained: ${effect.description || 'Target has disadvantage on attacks and Dexterity saving throws'}`);
+              effects.push(`Restrained: ${effect.description || 'Target has disadvantage on attacks and Agility saving throws'}`);
             } else if (effect.type.toLowerCase() === 'stunned') {
               effects.push(`Stunned: ${effect.description || 'Target cannot take actions or reactions'}`);
             } else {
@@ -996,7 +996,7 @@ export const formatControlEffects = (spell) => {
           if (effect.toLowerCase().includes('immobilized')) {
             effects.push(`Immobilized: Target cannot move`);
           } else if (effect.toLowerCase().includes('restrained')) {
-            effects.push(`Restrained: Target has disadvantage on attacks and Dexterity saving throws`);
+            effects.push(`Restrained: Target has disadvantage on attacks and Agility saving throws`);
           } else if (effect.toLowerCase().includes('stunned')) {
             effects.push(`Stunned: Target cannot take actions or reactions`);
           } else {

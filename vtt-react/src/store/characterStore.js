@@ -862,7 +862,7 @@ const useCharacterStore = create((set, get) => ({
                 }
 
                 // Auto-assign starting spells for spell-casting classes
-                const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Chaos Weaver', 'Fate Weaver'];
+                const SPELL_CLASSES = ['Arcanoneer', 'Pyrofiend', 'Minstrel', 'Chronarch', 'Martyr', 'Chaos Weaver', 'Fate Weaver', 'Berserker'];
                 const previousClass = state.class;
 
                 // Check if we're switching TO a spell-casting class
@@ -890,25 +890,31 @@ const useCharacterStore = create((set, get) => ({
                     } else if (value === 'Fate Weaver') {
                         const { FATE_WEAVER_DATA } = require('../data/classes/fateWeaverData');
                         classData = FATE_WEAVER_DATA;
+                    } else if (value === 'Berserker') {
+                        const { BERSERKER_DATA } = require('../data/classes/berserkerData');
+                        classData = BERSERKER_DATA;
                     }
 
                     if (classData && classData.spellPools && classData.spellPools[1]) {
                         const level1SpellIds = classData.spellPools[1];
 
                         // If switching from a different spell class, or if no spells assigned yet
+                        const hasNoSpells = !state.class_spells?.known_spells || state.class_spells.known_spells.length === 0;
                         const shouldReassignSpells = previousClass !== value &&
-                            (SPELL_CLASSES.includes(previousClass) || !state.class_spells?.known_spells || state.class_spells.known_spells.length === 0);
+                            (SPELL_CLASSES.includes(previousClass) || hasNoSpells);
 
-                        if (shouldReassignSpells || !state.class_spells?.known_spells || state.class_spells.known_spells.length === 0) {
-                            // Randomly select 3 spells from the pool
-                            const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
-                            const selectedSpells = shuffled.slice(0, 3);
+                        if (shouldReassignSpells || hasNoSpells) {
+                            // Randomly select 3 spells from the pool (ensure we have at least 3 available)
+                            const availableSpells = level1SpellIds.length >= 3 ? level1SpellIds : level1SpellIds;
+                            const shuffled = [...availableSpells].sort(() => Math.random() - 0.5);
+                            const selectedSpells = shuffled.slice(0, Math.min(3, availableSpells.length));
 
                             newState.class_spells = {
-                                ...state.class_spells,
+                                ...(state.class_spells || {}),
                                 known_spells: selectedSpells
                             };
 
+                            console.log(`✨ Auto-assigned ${selectedSpells.length} starter spells for ${value}:`, selectedSpells);
                         }
                     }
                 }

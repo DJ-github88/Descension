@@ -473,31 +473,10 @@ const BuffEffects = ({ state, dispatch, actionCreators }) => {
             {effect.description}
           </div>
 
-          {effect.category === 'primary' && (
-            <div className="pathfinder-tooltip-effect">
-              Increases your character's {effect.name.toLowerCase()} attribute.
-            </div>
-          )}
-          {effect.category === 'secondary' && (
-            <div className="pathfinder-tooltip-effect">
-              Enhances your {effect.name.toLowerCase()} stat.
-            </div>
-          )}
-          {effect.category === 'resistance' && (
-            <div className="pathfinder-tooltip-effect">
-              Provides protection against {effect.name.toLowerCase()} damage.
-            </div>
-          )}
-          {effect.category === 'spell_damage' && (
-            <div className="pathfinder-tooltip-effect">
-              Increases the damage you deal with {effect.name.toLowerCase()} spells.
-            </div>
-          )}
-          {effect.category === 'utility' && (
-            <div className="pathfinder-tooltip-effect">
-              Grants utility benefits related to {effect.name.toLowerCase()}.
-            </div>
-          )}
+          {/* Show simple buff description */}
+          <div className="pathfinder-tooltip-effect">
+            +2 {effect.name.charAt(0).toUpperCase() + effect.name.slice(1)}
+          </div>
 
           {/* Show configured options if this effect is selected */}
           {isSelected && (

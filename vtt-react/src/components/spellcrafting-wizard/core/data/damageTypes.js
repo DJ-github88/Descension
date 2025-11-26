@@ -123,6 +123,15 @@ const DAMAGE_TYPES = [
       commonResistance: 'mindless creatures, constructs',
       commonVulnerability: 'intelligent creatures, psionic beings'
     },
+    {
+      id: 'chaos',
+      name: 'Chaos',
+      description: 'Unpredictable magical energy that defies categorization and creates random effects',
+      icon: 'spell_shadow_charm',
+      category: 'otherworldly',
+      commonResistance: 'order-aligned creatures, constructs',
+      commonVulnerability: 'chaos-aligned creatures, wild magic users'
+    },
     // End of standard D&D damage types
 ];
 

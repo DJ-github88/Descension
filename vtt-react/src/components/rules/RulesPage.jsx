@@ -108,6 +108,7 @@ const RulesPage = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [popoutCategory, setPopoutCategory] = useState(null);
   const [popoutPosition, setPopoutPosition] = useState({ top: 0, left: 0 });
+  const [tablePage, setTablePage] = useState(0);
   const buttonRefs = useRef({});
 
   // Handle subcategory selection
@@ -160,43 +161,108 @@ const RulesPage = () => {
     return RULES_CATEGORIES;
   }, []);
 
+  // Reset table page when table changes
+  const previousTableTitleRef = useRef(null);
+  useEffect(() => {
+    const currentTableTitle = currentContent?.tables?.[0]?.title || null;
+    if (currentTableTitle && currentTableTitle !== previousTableTitleRef.current) {
+      setTablePage(0);
+      previousTableTitleRef.current = currentTableTitle;
+    }
+  }, [currentContent]);
+
   // Render a table
   const renderTable = (table) => {
     const clickableColumn = table.clickableColumn !== undefined ? table.clickableColumn : -1;
+    
+    // Pagination: Show rows per page (split between left and right)
+    // Approximately 6-7 rows per side to fit without scrolling
+    const rowsPerPage = 12; // 6 rows per side
+    const totalPages = Math.ceil(table.rows.length / rowsPerPage);
+    
+    // Get rows for current page
+    const startIdx = tablePage * rowsPerPage;
+    const endIdx = startIdx + rowsPerPage;
+    const pageRows = table.rows.slice(startIdx, endIdx);
+    
+    // Split page rows evenly between left and right pages
+    // Each side gets exactly half (6 rows per side for 12 total)
+    const rowsPerSide = Math.floor(rowsPerPage / 2); // 6 rows per side
+    const leftPageRows = pageRows.slice(0, rowsPerSide);
+    const rightPageRows = pageRows.slice(rowsPerSide, rowsPerSide * 2);
+
+    const renderTablePage = (rows, startRowIndex) => (
+      <table className="rules-table">
+        <thead>
+          <tr>
+            {table.headers.map((header, idx) => (
+              <th key={idx}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIdx) => (
+            <tr key={rowIdx + startRowIndex}>
+              {row.map((cell, cellIdx) => {
+                // Check if this is a clickable cell (for class names)
+                const isClickable = cellIdx === clickableColumn && selectedSubcategory === 'classes';
+
+                return (
+                  <td
+                    key={cellIdx}
+                    className={isClickable ? 'clickable-cell' : ''}
+                    onClick={isClickable ? () => handleClassClick(cell) : undefined}
+                    style={isClickable ? { cursor: 'pointer', color: '#d4af37', fontWeight: '600' } : {}}
+                  >
+                    {cell}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
 
     return (
       <div className="rules-table-container" key={table.title}>
         {table.title && <h5 className="rules-table-title">{table.title}</h5>}
-        <table className="rules-table">
-          <thead>
-            <tr>
-              {table.headers.map((header, idx) => (
-                <th key={idx}>{header}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {table.rows.map((row, rowIdx) => (
-              <tr key={rowIdx}>
-                {row.map((cell, cellIdx) => {
-                  // Check if this is a clickable cell (for class names)
-                  const isClickable = cellIdx === clickableColumn && selectedSubcategory === 'classes';
+        <div className="rules-table-wrapper">
+          {/* Left Page */}
+          <div className="rules-table-page-left">
+            {renderTablePage(leftPageRows, startIdx)}
+          </div>
 
-                  return (
-                    <td
-                      key={cellIdx}
-                      className={isClickable ? 'clickable-cell' : ''}
-                      onClick={isClickable ? () => handleClassClick(cell) : undefined}
-                      style={isClickable ? { cursor: 'pointer', color: '#d4af37', fontWeight: '600' } : {}}
-                    >
-                      {cell}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          {/* Right Page */}
+          <div className="rules-table-page-right">
+            {renderTablePage(rightPageRows, startIdx + rowsPerSide)}
+          </div>
+        </div>
+
+        {/* Page Navigation */}
+        {totalPages > 1 && (
+          <div className="rules-table-pagination">
+            <button
+              className="rules-table-page-button"
+              onClick={() => setTablePage(Math.max(0, tablePage - 1))}
+              disabled={tablePage === 0}
+              aria-label="Previous page"
+            >
+              <i className="fas fa-chevron-left"></i>
+            </button>
+            <span className="rules-table-page-indicator">
+              Page {tablePage + 1} / {totalPages}
+            </span>
+            <button
+              className="rules-table-page-button"
+              onClick={() => setTablePage(Math.min(totalPages - 1, tablePage + 1))}
+              disabled={tablePage >= totalPages - 1}
+              aria-label="Next page"
+            >
+              <i className="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        )}
       </div>
     );
   };

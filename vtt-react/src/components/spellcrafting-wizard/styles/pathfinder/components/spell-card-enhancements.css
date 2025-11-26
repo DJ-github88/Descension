@@ -101,6 +101,7 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 4px !important; /* Consistent spacing between elements */
+    position: relative !important; /* For absolute positioning of effect name */
 }
 
 .damage-effect-item:last-child,
@@ -109,8 +110,7 @@
 }
 
 /* Fix critical hit text wrapping and ensure box stretches */
-.damage-effect-name,
-.healing-effect-name,
+/* Note: .damage-effect-name and .healing-effect-name are styled separately with absolute positioning */
 .damage-effect-description,
 .healing-effect-description,
 .damage-effect-mechanics,
@@ -121,6 +121,21 @@
     max-width: 100% !important;
     display: block !important;
     width: 100% !important;
+}
+
+/* Triggered Area Damage Styling */
+.damage-effect-mechanics.triggered-area-damage {
+    padding: 8px 12px !important;
+    background: rgba(255, 140, 0, 0.08) !important;
+    border-left: 3px solid rgba(255, 140, 0, 0.5) !important;
+    border-radius: 4px !important;
+    margin-top: 4px !important;
+}
+
+.trigger-badge {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
 }
 
 /* Ensure damage/healing effects sections fit content */
@@ -312,12 +327,24 @@
 }
 
 /* ===== EFFECT SECTION HEADERS ===== */
-/* Make effect type headers more prominent */
+/* Make effect type headers prominent with consistent styling across all contexts */
 .damage-effect-name,
 .healing-effect-name {
-    font-weight: 700 !important;
-    color: var(--pf-text-primary, #2d1810) !important;
-    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--pf-text-primary, #5a1e12) !important;
+    font-size: 14px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    font-family: 'Cinzel', serif !important;
+    /* Remove absolute positioning - use normal flow for consistency */
+    position: relative !important;
+    display: block !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 4px !important;
+    box-shadow: none !important;
+    line-height: 1.4 !important;
 }
 
 .damage-effect-description,
@@ -327,14 +354,14 @@
     font-style: italic !important;
 }
 
-/* Targeting/Range badges for effect items */
+/* Targeting/Range badges for effect items - inline flow */
 .damage-effect-targeting,
 .healing-effect-targeting {
     display: flex !important;
     flex-wrap: wrap !important;
     gap: 4px !important;
-    margin-top: 4px !important;
     align-items: center !important;
+    margin-top: 4px !important;
 }
 
 .targeting-badge {
@@ -348,6 +375,7 @@
     letter-spacing: 0.3px !important;
     white-space: nowrap !important;
     line-height: 1.2 !important;
+    flex-shrink: 0 !important; /* Prevent badges from shrinking when absolutely positioned */
 }
 
 .range-badge {
@@ -375,21 +403,24 @@
     font-weight: 600 !important;
 }
 
-.damage-effect {
+.damage-effect,
+.healing-effect {
     display: flex !important;
     flex-direction: column !important;
     gap: 4px !important;
     width: 100% !important;
+    padding: 0 !important; /* Remove extra padding - using normal flow now */
 }
 
 .damage-effect-mechanics,
 .healing-effect-mechanics {
     color: var(--pf-text-primary, #2d1810) !important;
-    font-size: 12px !important;
-    margin-top: 4px !important;
-    padding: 4px 8px !important;
-    background: rgba(139, 115, 85, 0.1) !important;
-    border-radius: 4px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin-top: 2px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
 }
 
 /* Trigger mechanics need special handling for multiple items */
@@ -519,13 +550,16 @@
     margin-top: 8px !important;
 }
 
-/* Typography consistency for spell library/wizard */
+/* Typography consistency for spell library/wizard/tooltip - UNIFIED STYLING */
+/* All spell card contexts now use the same styling for effect names and mechanics */
 .spell-library-tab .damage-effect-name,
 .spell-library-tab .healing-effect-name,
 .spellbook-layout .damage-effect-name,
 .spellbook-layout .healing-effect-name,
 .wizard-view .damage-effect-name,
-.wizard-view .healing-effect-name {
+.wizard-view .healing-effect-name,
+.spellbook-hover-tooltip .damage-effect-name,
+.spellbook-hover-tooltip .healing-effect-name {
     font-family: 'Cinzel', serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
@@ -540,7 +574,9 @@
 .spellbook-layout .damage-effect-description,
 .spellbook-layout .healing-effect-description,
 .wizard-view .damage-effect-description,
-.wizard-view .healing-effect-description {
+.wizard-view .healing-effect-description,
+.spellbook-hover-tooltip .damage-effect-description,
+.spellbook-hover-tooltip .healing-effect-description {
     font-family: 'Crimson Text', 'Times New Roman', serif !important;
     font-size: 13px !important;
     font-style: italic !important;
@@ -553,7 +589,9 @@
 .spellbook-layout .damage-effect-mechanics,
 .spellbook-layout .healing-effect-mechanics,
 .wizard-view .damage-effect-mechanics,
-.wizard-view .healing-effect-mechanics {
+.wizard-view .healing-effect-mechanics,
+.spellbook-hover-tooltip .damage-effect-mechanics,
+.spellbook-hover-tooltip .healing-effect-mechanics {
     font-family: 'Crimson Text', 'Times New Roman', serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
@@ -623,11 +661,14 @@
     color: #60a5fa !important; /* Blue for Arcane */
 }
 
-.pf-damage-type-badge.physical,
 .pf-damage-type-badge.slashing,
 .pf-damage-type-badge.piercing,
 .pf-damage-type-badge.bludgeoning {
-    color: #9ca3af !important; /* Gray for Physical */
+    color: #9ca3af !important; /* Gray for Physical damage types */
+}
+
+.pf-damage-type-badge.chaos {
+    color: #ec4899 !important; /* Pink/Magenta for Chaos */
 }
 
 /* Fix any background color issues in description areas */
