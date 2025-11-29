@@ -1719,7 +1719,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'inscriptor_arcane_inscription',
       name: 'Arcane Inscription',
-      description: 'Inscribe a temporary rune of power on a target to enhance their abilities.',
+      description: 'Inscribe a rune of power on a target to enhance their abilities for 3 rounds.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['buff'],

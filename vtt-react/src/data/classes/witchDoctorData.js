@@ -2011,7 +2011,7 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'witch_doctor_voodoo_doll',
       name: 'Voodoo Doll',
-      description: 'Create a voodoo doll of your enemy. When you damage the doll, the enemy takes damage.',
+      description: 'Create a voodoo doll of your enemy for 3 rounds (concentration). When you damage the doll, the enemy takes the same damage. Each round, you can attack the doll to deal 4d6 + Spirit necrotic damage to the target.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
@@ -2026,14 +2026,14 @@ Ogoun: ✓ (poison applied, ally nearby)
         formula: '4d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
-        description: 'Doll lasts 3 rounds. Each round, you can attack the doll to deal damage to the target.'
+        description: 'Doll lasts 3 rounds (concentration). Each round, you can attack the doll to deal damage to the target.'
       },
       utilityConfig: {
         utilityType: 'special',
         selectedEffects: [{
           id: 'voodoo_doll',
           name: 'Voodoo Doll',
-          description: 'Creates a voodoo doll linked to target. Damage the doll to hurt the target.'
+          description: 'Creates a voodoo doll linked to target for 3 rounds (requires concentration). Damage the doll to hurt the target.'
         }],
         duration: 3,
         durationUnit: 'rounds',
@@ -2068,7 +2068,7 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'witch_doctor_invoke_simbi',
       name: 'Invoke Simbi',
-      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies.',
+      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies. Heal target for 4d8 + Spirit instantly, then 1d8 + Spirit/2 per round for 3 rounds. Target also gains +2 to spirit-based saves for 3 rounds.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['healing', 'buff'],
@@ -2134,7 +2134,7 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'witch_doctor_hex',
       name: 'Hex',
-      description: 'Place a powerful hex on your enemy that amplifies all damage they take.',
+      description: 'Place a powerful hex on your enemy for 4 rounds that amplifies all damage they take. Target takes 25% more damage from all sources. Target may save to resist.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['debuff'],
@@ -2151,7 +2151,7 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'hex',
           name: 'Hex',
           description: 'Target takes 25% more damage from all sources for 4 rounds',
-          customDescription: 'You are hexed. All damage you take is increased by 25%.'
+          customDescription: 'You are hexed. All damage you take is increased by 25% for 4 rounds.'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2188,7 +2188,7 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'witch_doctor_zombie_swarm',
       name: 'Zombie Swarm',
-      description: 'Summon a swarm of zombies to fight for you.',
+      description: 'Summon 4 zombies to fight for you for 5 rounds. The zombies follow your mental commands within 60 feet.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['summoning'],
@@ -2689,20 +2689,27 @@ Ogoun: ✓ (poison applied, ally nearby)
         maxTriggers: 1
       },
       transformationConfig: {
-        transformationType: 'elemental',
+        transformationType: 'spectral',
         targetType: 'self',
         duration: 5,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Become immune to physical damage', 'All voodoo spells cost 50% less mana', 'Generate 3 Voodoo Essence per round']
+        newForm: 'Spirit Form',
+        description: 'Become one with the spirit world, transcending physical limitations.',
+        grantedAbilities: [
+          { id: 'spirit_resistance', name: 'Spirit Resistance', description: 'Resistance to physical damage' },
+          { id: 'voodoo_discount', name: 'Voodoo Efficiency', description: 'All voodoo spells cost 50% less mana' },
+          { id: 'essence_gen', name: 'Essence Generation', description: 'Generate +3 Voodoo Essence per round' },
+          { id: 'spirit_stats', name: '+5 All Stats', description: '+5 to all attributes' }
+        ]
       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [
           {
             id: 'spirit_form_power',
-            name: 'Spirit Form Power',
-            description: 'All stats increased by +5, all spell damage increased by 50%, and regenerate 4d10 HP per round for 5 rounds',
+            name: 'Spirit Stats',
+            description: '+5 to all stats',
             statModifier: {
               stat: 'all_stats',
               magnitude: 5,

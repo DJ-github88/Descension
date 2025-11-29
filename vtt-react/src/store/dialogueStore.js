@@ -57,6 +57,7 @@ const useDialogueStore = create(
         color: options.color || state.defaultColor,
         speed: options.speed || state.defaultSpeed,
         position: options.position || state.defaultPosition,
+        backdropEffect: options.backdropEffect || 'none',
         autoHide: options.autoHide,
         closeable: options.closeable !== false,
         timestamp: new Date().toISOString(),

@@ -20,6 +20,33 @@
   pointer-events: auto;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
+  transition: background-color 0.8s ease-in-out, backdrop-filter 0.8s ease-in-out;
+}
+
+/* Backdrop effect variants */
+.dialogue-system-overlay.backdrop-dim {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+}
+
+.dialogue-system-overlay.backdrop-brighten {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px) brightness(1.2);
+}
+
+.dialogue-system-overlay.backdrop-reddish {
+  background: rgba(139, 0, 0, 0.4);
+  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(-15deg);
+}
+
+.dialogue-system-overlay.backdrop-blueish {
+  background: rgba(0, 0, 139, 0.4);
+  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(200deg);
+}
+
+.dialogue-system-overlay.backdrop-greenish {
+  background: rgba(0, 139, 0, 0.4);
+  backdrop-filter: blur(3px) sepia(0.3) saturate(1.5) hue-rotate(90deg);
 }
 
 .dialogue-container {

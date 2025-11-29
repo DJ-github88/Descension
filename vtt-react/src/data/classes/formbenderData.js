@@ -2107,7 +2107,7 @@ Frostfang
     {
       id: 'formbender_savage_charge',
       name: 'Savage Charge',
-      description: 'Charge forward with primal fury, knocking down enemies and dealing massive damage.',
+      description: 'Charge forward with primal fury, dealing massive damage and knocking down enemies for 1 round. Targets must save or be knocked prone.',
       spellType: 'ACTION',
       icon: 'ability_hunter_charge',
       school: 'Physical',
@@ -2141,7 +2141,7 @@ Frostfang
         somaticText: 'Charge forward with primal fury'
       },
 
-      resolution: 'DICE',
+      resolution: 'SAVE',
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
@@ -2162,7 +2162,7 @@ Frostfang
         effects: [{
           id: 'knockdown',
           name: 'Knocked Down',
-          description: 'Target is knocked prone',
+          description: 'Target is knocked prone for 1 round',
           config: {}
         }]
       },
@@ -2235,7 +2235,7 @@ Frostfang
     {
       id: 'formbender_beast_form_partial',
       name: 'Beast Form (Partial)',
-      description: 'Temporarily take on aspects of one of your forms without fully transforming.',
+      description: 'Take on aspects of one of your forms for 1 minute without fully transforming. Gain benefits of one form aspect: Nightstalker (stealth), Ironhide (armor), Skyhunter (flight), or Frostfang (pack tactics).',
       spellType: 'ACTION',
       icon: 'ability_druid_supriseattack',
       school: 'Physical',
@@ -2261,7 +2261,7 @@ Frostfang
         somaticText: 'Take on beast aspects'
       },
 
-      resolution: 'DICE',
+      resolution: 'NONE',
       effectTypes: ['buff'],
 
       buffConfig: {
@@ -2269,7 +2269,7 @@ Frostfang
         effects: [{
           id: 'beast_form_partial',
           name: 'Beast Form (Partial)',
-          description: 'Gain benefits of one form aspect: Nightstalker (stealth), Ironhide (armor), Skyhunter (flight), or Frostfang (pack tactics) for 1 minute'
+          description: 'Gain benefits of one form aspect for 1 minute'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2290,7 +2290,7 @@ Frostfang
     {
       id: 'formbender_pack_leader',
       name: 'Pack Leader',
-      description: 'Summon spectral wolves to fight alongside you, empowering your pack tactics.',
+      description: 'Summon 3 spectral wolves to fight alongside you for 5 rounds, empowering your pack tactics. You and the wolves gain +2 to attack rolls when adjacent to each other.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['summoning', 'buff'],
@@ -2419,7 +2419,7 @@ Frostfang
     {
       id: 'formbender_adaptive_form',
       name: 'Adaptive Form',
-      description: 'Shift between forms instantly without cost for a short duration.',
+      description: 'Shift between forms instantly without cost for 3 rounds. All form transformations are free (cost 0 Wild Instinct), allowing rapid adaptation to combat situations.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['buff', 'utility'],
@@ -2469,11 +2469,11 @@ Frostfang
       description: 'Transform into a massive titan, gaining incredible size and strength.',
       level: 6,
       spellType: 'ACTION',
-      effectTypes: ['transformation', 'buff'],
+      effectTypes: ['transformation'],
       typeConfig: {
         school: 'nature',
         icon: 'spell_nature_reincarnation',
-        tags: ['transformation', 'buff', 'size', 'formbender'],
+        tags: ['transformation', 'size', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2483,37 +2483,15 @@ Frostfang
         duration: 4,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Size becomes Huge', 'Reach increases to 15 feet', 'Advantage on Strength checks']
-      },
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [
-          {
-            id: 'titan_strength',
-            name: 'Titan Strength',
-            description: 'Gain +4 Strength and +50 HP for 4 rounds',
-            statModifier: {
-              stat: 'strength',
-              magnitude: 4,
-              magnitudeType: 'flat'
-            }
-          },
-          {
-            id: 'titan_armor',
-            name: 'Titan Armor',
-            description: 'Gain +3 armor for 4 rounds',
-            statModifier: {
-              stat: 'armor',
-              magnitude: 3,
-              magnitudeType: 'flat'
-            }
-          }
-        ],
-        durationValue: 4,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: true,
-        canBeDispelled: true
+        newForm: 'Titan Form',
+        description: 'Your body swells to massive proportions.',
+        concentration: true,
+        grantedAbilities: [
+          { id: 'huge_size', name: 'Huge Size', description: 'Size becomes Huge, reach increases to 15 feet' },
+          { id: 'titan_strength', name: '+4 Strength', description: 'Gain +4 to Strength attribute' },
+          { id: 'titan_armor', name: '+3 Armor', description: 'Gain +3 armor from thickened hide' },
+          { id: 'titan_hp', name: '+50 Temp HP', description: 'Gain 50 temporary hit points' }
+        ]
       },
       targetingConfig: {
         targetingType: 'self'
@@ -2666,19 +2644,26 @@ Frostfang
         maxTriggers: 1
       },
       transformationConfig: {
-        transformationType: 'physical',
+        transformationType: 'primal',
         targetType: 'self',
         duration: 5,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Gain benefits of all forms', 'Form switching is free', 'Generate +2 Wild Instinct per round']
+        newForm: 'Primal Avatar',
+        description: 'Channel the essence of all primal forms simultaneously.',
+        grantedAbilities: [
+          { id: 'all_form_benefits', name: 'All Form Benefits', description: 'Gain passive benefits of all four forms' },
+          { id: 'free_switching', name: 'Free Switching', description: 'Form transitions cost 0 Wild Instinct' },
+          { id: 'avatar_instinct', name: '+2 Wild Instinct/Round', description: 'Generate +2 Wild Instinct each round' },
+          { id: 'avatar_stats', name: '+3 All Stats', description: 'Gain +3 to all attributes' }
+        ]
       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'primal_avatar_power',
-          name: 'Primal Avatar',
-          description: 'Gain +3 to all stats, +2 Wild Instinct per round, and benefits of all forms for 5 rounds',
+          name: 'Primal Avatar Stats',
+          description: '+3 to all stats',
           statModifier: {
             stat: 'all_stats',
             magnitude: 3,
@@ -2900,15 +2885,22 @@ Frostfang
         duration: 5,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Immunity to physical damage', 'Regenerate 3d10 HP per round', 'All Wild Instinct costs reduced by 1']
+        newForm: "Nature's Champion",
+        description: 'Become one with primal nature, gaining its protection and power.',
+        grantedAbilities: [
+          { id: 'physical_resistance', name: 'Physical Resistance', description: 'Resistance to bludgeoning, slashing, and piercing damage' },
+          { id: 'nature_regen', name: 'Primal Regeneration', description: 'Regenerate 3d10 HP at the start of each turn' },
+          { id: 'reduced_costs', name: 'Primal Efficiency', description: 'All Wild Instinct costs reduced by 1' },
+          { id: 'champion_stats', name: '+4 All Stats', description: 'Gain +4 to all attributes' }
+        ]
       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [
           {
             id: 'natures_champion_power',
-            name: "Nature's Champion",
-            description: 'Gain +4 to all stats and regenerate 3d10 HP per round for 5 rounds',
+            name: "Champion Stats",
+            description: '+4 to all stats',
             statModifier: {
               stat: 'all_stats',
               magnitude: 4,
@@ -3044,26 +3036,34 @@ Frostfang
         maxTriggers: 1
       },
       transformationConfig: {
-        transformationType: 'physical',
+        transformationType: 'primal',
         targetType: 'self',
-        duration: 5,
+        duration: 4,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Size becomes Gargantuan', 'Immunity to all damage types', 'All Wild Instinct abilities cost 0', 'Generate 5 Wild Instinct per round']
+        newForm: 'Primordial Form',
+        description: 'Take the form of an ancient primordial beast.',
+        grantedAbilities: [
+          { id: 'gargantuan_size', name: 'Gargantuan Size', description: 'Size becomes Gargantuan, reach 15 feet' },
+          { id: 'primordial_resistance', name: 'Primordial Resistance', description: 'Resistance to all damage types' },
+          { id: 'free_instinct', name: 'Primal Flow', description: 'All Wild Instinct abilities cost 1 less' },
+          { id: 'instinct_gen', name: '+3 Wild Instinct/Round', description: 'Generate +3 Wild Instinct per round' },
+          { id: 'primordial_stats', name: '+5 All Stats', description: 'Gain +5 to all attributes' }
+        ]
       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'primordial_power',
-          name: 'Primordial Power',
-          description: 'Gain +6 to all stats, immunity to all damage, unlimited Wild Instinct, and regenerate 5d10 HP per round for 5 rounds',
+          name: 'Primordial Stats',
+          description: '+5 to all stats',
           statModifier: {
             stat: 'all_stats',
-            magnitude: 6,
+            magnitude: 5,
             magnitudeType: 'flat'
           }
         }],
-        durationValue: 5,
+        durationValue: 4,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: false,
@@ -3205,44 +3205,33 @@ Frostfang
     {
       id: 'formbender_world_beast',
       name: 'World Beast',
-      description: 'Transform into the World Beast, a legendary creature of immense power.',
+      description: 'Transform into a legendary beast of immense power. The transformation is overwhelming and leaves you exhausted when it ends.',
       level: 10,
-      spellType: 'STATE',
-      effectTypes: ['transformation', 'buff'],
+      spellType: 'ACTION',
+      effectTypes: ['transformation'],
       typeConfig: {
         school: 'nature',
         icon: 'spell_nature_unyeildingstamina',
-        tags: ['transformation', 'buff', 'legendary', 'formbender'],
-        stateVisibility: 'visible',
-        cooldownAfterTrigger: 0,
-        cooldownUnit: 'seconds',
-        maxTriggers: 1
+        tags: ['transformation', 'ultimate', 'formbender'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
       },
       transformationConfig: {
-        transformationType: 'physical',
+        transformationType: 'primal',
         targetType: 'self',
-        duration: 10,
+        duration: 3,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Size becomes Colossal', 'Immunity to all damage', 'All attacks deal triple damage', 'Cannot be controlled or stopped']
-      },
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'world_beast_power',
-          name: 'World Beast',
-          description: 'Gain +10 to all stats, immunity to all damage, triple damage on all attacks, and regenerate to full HP each round for 10 rounds',
-          statModifier: {
-            stat: 'all_stats',
-            magnitude: 10,
-            magnitudeType: 'flat'
-          }
-        }],
-        durationValue: 10,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
+        newForm: 'World Beast',
+        description: 'Become a colossal primal creature of legend.',
+        grantedAbilities: [
+          { id: 'colossal_size', name: 'Colossal Size', description: 'Size becomes Colossal, reach 20 feet' },
+          { id: 'world_beast_stats', name: '+6 All Stats', description: 'Gain +6 to all attributes' },
+          { id: 'damage_resistance', name: 'Damage Resistance', description: 'Resistance to all damage types (half damage)' },
+          { id: 'world_beast_attacks', name: 'Devastating Attacks', description: 'All attacks deal +4d10 extra damage' },
+          { id: 'world_beast_regen', name: 'Primal Regeneration', description: 'Regenerate 3d10 HP at start of each turn' },
+          { id: 'world_beast_exhaustion', name: 'Exhaustion (On End)', description: 'Gain 3 levels of exhaustion when transformation ends' }
+        ]
       },
       targetingConfig: {
         targetingType: 'self'
@@ -3353,37 +3342,30 @@ Frostfang
     {
       id: 'formbender_perfect_evolution',
       name: 'Perfect Evolution',
-      description: 'Evolve beyond all limits, creating your own perfect form.',
+      description: 'Master the art of shapeshifting to seamlessly blend form benefits.',
       level: 10,
       spellType: 'PASSIVE',
-      effectTypes: ['transformation', 'buff'],
+      effectTypes: ['transformation'],
       typeConfig: {
         school: 'nature',
         icon: 'spell_nature_naturetouchgrow',
-        tags: ['transformation', 'buff', 'passive', 'legendary', 'formbender'],
+        tags: ['transformation', 'passive', 'mastery', 'formbender'],
         toggleable: true
       },
       transformationConfig: {
-        transformationType: 'physical',
+        transformationType: 'primal',
         targetType: 'self',
         duration: 0,
         durationUnit: 'permanent',
         power: 'major',
-        specialEffects: ['Create your own custom form', 'Combine benefits of all forms', 'No weaknesses', 'Unlimited transformations']
-      },
-      buffConfig: {
-        buffType: 'custom',
-        effects: [{
-          id: 'perfect_evolution',
-          name: 'Perfect Evolution',
-          description: 'You have achieved perfect evolution. Create your own custom form with benefits of all forms and no weaknesses. Generate 10 Wild Instinct per round. All abilities cost 50% less.',
-          customDescription: 'You have evolved beyond the limitations of normal shapeshifting. You can create your own perfect form, combining the stealth of Nightstalker, the durability of Ironhide, the mobility of Skyhunter, and the pack tactics of Frostfang. You generate 10 Wild Instinct per round. All Wild Instinct abilities cost 50% less. You can transform instantly and freely without limit.'
-        }],
-        durationValue: 0,
-        durationType: 'permanent',
-        durationUnit: 'permanent',
-        concentrationRequired: false,
-        canBeDispelled: false
+        newForm: 'Evolved Form',
+        description: 'Master shapeshifter who has transcended normal limitations.',
+        grantedAbilities: [
+          { id: 'hybrid_forms', name: 'Hybrid Forms', description: 'Can maintain benefits of 2 forms simultaneously' },
+          { id: 'instant_shift', name: 'Instant Shift', description: 'Form transitions cost 0 Wild Instinct' },
+          { id: 'evolved_instinct', name: 'Evolved Instinct', description: 'Generate +2 Wild Instinct per round' },
+          { id: 'ability_discount', name: 'Primal Efficiency', description: 'All Wild Instinct costs reduced by 1 (minimum 1)' }
+        ]
       },
       targetingConfig: {
         targetingType: 'self'
@@ -3393,15 +3375,13 @@ Frostfang
         resourceValues: {},
         useFormulas: {},
         actionPoints: 0,
-        components: ['ritual'],
-        materialComponents: 'The essence of perfect evolution, 150,000 gold worth of primal artifacts'
+        components: []
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'none'
       },
-      resolution: 'DICE',
-      tags: ['transformation', 'buff', 'passive', 'legendary', 'formbender', 'toggleable']
+      resolution: 'NONE',
+      tags: ['transformation', 'passive', 'mastery', 'formbender', 'toggleable']
     }
   ],
 

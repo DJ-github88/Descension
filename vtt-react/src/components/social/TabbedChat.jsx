@@ -164,6 +164,39 @@ const TabbedChat = () => {
       );
     }
 
+    if (message.type === 'achievement') {
+      return (
+        <div key={message.id} className="chat-message achievement-message">
+          <div className="achievement-content">
+            <div className="achievement-header">
+              <img
+                src={message.achievementData?.icon || 'https://wow.zamimg.com/images/wow/icons/large/achievement_bg_winwsg.jpg'}
+                alt="Achievement"
+                className="achievement-icon"
+              />
+              <div className="achievement-text">
+                <div className="achievement-title">
+                  Achievement Earned!
+                </div>
+                <div className="achievement-details">
+                  <strong>{message.achievementData?.questName}</strong>
+                  <span className="achievement-skill">({message.achievementData?.skillName})</span>
+                </div>
+                <div className="achievement-description">
+                  {message.achievementData?.questDescription}
+                </div>
+              </div>
+            </div>
+            <div className="achievement-reward">
+              <i className="fas fa-trophy achievement-trophy"></i>
+              <span className="achievement-points">+10 Achievement Points</span>
+            </div>
+          </div>
+          <span className="timestamp">{new Date(message.timestamp).toLocaleTimeString()}</span>
+        </div>
+      );
+    }
+
     if (message.type === 'whisper_sent') {
       return (
         <div key={message.id} className="chat-message whisper-sent">

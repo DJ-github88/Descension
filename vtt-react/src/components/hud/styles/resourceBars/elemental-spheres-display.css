@@ -18,11 +18,14 @@
 
 .elemental-spheres-container.large {
     gap: 6px;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center; /* Center for large */
     margin-top: 0;
     padding: 12px; /* Larger padding for large size */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Top controls container (specialization + sphere count) */
@@ -210,7 +213,9 @@
     grid-template-rows: 1fr;
     gap: 7px;
     align-items: center;
-    width: auto; /* Full width for large */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Individual Sphere Slot */

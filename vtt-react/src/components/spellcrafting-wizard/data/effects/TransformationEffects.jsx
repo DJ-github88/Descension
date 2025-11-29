@@ -17,7 +17,7 @@ import CreatureSelectionWindow from '../../components/common/CreatureSelectionWi
 // Pathfinder styles imported via main.css
 import './summoning-effects.css';
 
-// Transformation types
+// Transformation types (for creature library)
 export const TRANSFORMATION_TYPES = {
   BEAST_FORM: {
     id: 'beast_form',
@@ -55,6 +55,27 @@ export const TRANSFORMATION_TYPES = {
     effectIcon: FaEarthAmericas
   }
 };
+
+// Custom transformation types (for self-enhancement / non-creature transformations)
+export const CUSTOM_TRANSFORMATION_TYPES = [
+  { id: 'physical', name: 'Physical Transformation', icon: 'ability_warrior_strengthofarms', description: 'Enhance physical attributes - strength, muscles, resilience' },
+  { id: 'elemental', name: 'Elemental Transformation', icon: 'spell_fire_burnout', description: 'Take on elemental properties - fire, ice, lightning, etc.' },
+  { id: 'mental', name: 'Mental Transformation', icon: 'spell_holy_mindvision', description: 'Enhance mental capabilities - focus, perception, willpower' },
+  { id: 'spectral', name: 'Spectral Form', icon: 'spell_shadow_possession', description: 'Become ghostly or ethereal' },
+  { id: 'ascended', name: 'Ascended Form', icon: 'spell_holy_divineillumination', description: 'Transcend mortal limitations temporarily' },
+  { id: 'demonic', name: 'Demonic Form', icon: 'spell_shadow_metamorphosis', description: 'Take on demonic characteristics' },
+  { id: 'divine', name: 'Divine Form', icon: 'spell_holy_holyprotection', description: 'Channel divine power through your form' },
+  { id: 'primal', name: 'Primal Form', icon: 'ability_druid_primalprecision', description: 'Tap into primal, bestial energy' },
+  { id: 'shadow', name: 'Shadow Form', icon: 'spell_shadow_shadowform', description: 'Merge with shadows, becoming darkness' },
+  { id: 'arcane', name: 'Arcane Form', icon: 'spell_arcane_arcane04', description: 'Infuse your form with raw arcane energy' }
+];
+
+// Power levels for custom transformations
+const POWER_LEVELS = [
+  { id: 'minor', name: 'Minor', description: 'Small enhancement, subtle changes' },
+  { id: 'moderate', name: 'Moderate', description: 'Noticeable transformation, significant bonuses' },
+  { id: 'major', name: 'Major', description: 'Dramatic transformation, powerful effects' }
+];
 
 // Duration types
 const DURATION_TYPES = [
@@ -101,6 +122,11 @@ const ABILITY_OPTIONS = [
 ];
 
 const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) => {
+  // Mode: 'creature' for creature library, 'custom' for custom transformations
+  const [transformMode, setTransformMode] = useState(
+    state.transformConfig?.isCustom ? 'custom' : 'creature'
+  );
+
   // Initialize with default transform type from state or 'beast_form'
   const [activeTransformType, setActiveTransformType] = useState(
     state.transformConfig?.transformType || 'beast_form'
@@ -111,6 +137,15 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
 
   // Initialize with selected abilities from state or empty array
   const [selectedAbilities, setSelectedAbilities] = useState([]);
+
+  // Custom transformation state
+  const [customFormName, setCustomFormName] = useState(state.transformConfig?.newForm || '');
+  const [customDescription, setCustomDescription] = useState(state.transformConfig?.description || '');
+  const [customTransformationType, setCustomTransformationType] = useState(state.transformConfig?.transformationType || 'physical');
+  const [customPower, setCustomPower] = useState(state.transformConfig?.power || 'moderate');
+  const [customAbilities, setCustomAbilities] = useState(state.transformConfig?.grantedAbilities || []);
+  const [newAbilityName, setNewAbilityName] = useState('');
+  const [newAbilityDescription, setNewAbilityDescription] = useState('');
 
   // State for tooltip
   const [showTooltip, setShowTooltip] = useState(false);
@@ -133,7 +168,8 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     difficultyCr: 'moderate',
     saveType: 'spirit',
     grantedAbilities: [],
-    formula: getDefaultFormula ? getDefaultFormula() : '1d6'
+    formula: getDefaultFormula ? getDefaultFormula() : '1d6',
+    isCustom: false
   };
 
   // Effect to update state when transform type changes
@@ -325,11 +361,385 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
     setShowCreatureSelection(false);
   };
 
-  // Transformation type selection removed - simplified to just creature selection
+  // Handle mode change
+  const handleModeChange = (mode) => {
+    setTransformMode(mode);
+    
+    // Update the config with the mode
+    const newConfig = {
+      ...transformConfig,
+      isCustom: mode === 'custom'
+    };
+    
+    // If switching to custom mode, clear creature data
+    if (mode === 'custom') {
+      newConfig.selectedCreature = null;
+      newConfig.formId = null;
+      // Set custom defaults
+      newConfig.transformationType = customTransformationType;
+      newConfig.newForm = customFormName;
+      newConfig.description = customDescription;
+      newConfig.power = customPower;
+      newConfig.grantedAbilities = customAbilities;
+    } else {
+      // If switching to creature mode, clear custom data
+      newConfig.transformationType = null;
+      newConfig.newForm = null;
+      newConfig.description = null;
+      newConfig.power = null;
+    }
+    
+    dispatch(actionCreators.updateTransformConfig(newConfig));
+  };
 
-  // Target type selection removed - moved to creature config section
+  // Handle custom transformation field changes
+  const handleCustomFieldChange = (field, value) => {
+    // Update local state
+    switch (field) {
+      case 'transformationType':
+        setCustomTransformationType(value);
+        break;
+      case 'newForm':
+        setCustomFormName(value);
+        break;
+      case 'description':
+        setCustomDescription(value);
+        break;
+      case 'power':
+        setCustomPower(value);
+        break;
+    }
+    
+    // Update the config
+    const newConfig = {
+      ...transformConfig,
+      isCustom: true,
+      [field]: value
+    };
+    dispatch(actionCreators.updateTransformConfig(newConfig));
+  };
 
-  // Duration and equipment settings removed as per user request
+  // Add custom ability
+  const handleAddCustomAbility = () => {
+    if (!newAbilityName.trim()) return;
+    
+    const newAbility = {
+      id: `custom_ability_${Date.now()}`,
+      name: newAbilityName.trim(),
+      description: newAbilityDescription.trim() || newAbilityName.trim()
+    };
+    
+    const updatedAbilities = [...customAbilities, newAbility];
+    setCustomAbilities(updatedAbilities);
+    setNewAbilityName('');
+    setNewAbilityDescription('');
+    
+    // Update config
+    const newConfig = {
+      ...transformConfig,
+      isCustom: true,
+      grantedAbilities: updatedAbilities
+    };
+    dispatch(actionCreators.updateTransformConfig(newConfig));
+  };
+
+  // Remove custom ability
+  const handleRemoveCustomAbility = (abilityId) => {
+    const updatedAbilities = customAbilities.filter(a => a.id !== abilityId);
+    setCustomAbilities(updatedAbilities);
+    
+    // Update config
+    const newConfig = {
+      ...transformConfig,
+      isCustom: true,
+      grantedAbilities: updatedAbilities
+    };
+    dispatch(actionCreators.updateTransformConfig(newConfig));
+  };
+
+  // Render mode selection
+  const renderModeSelection = () => {
+    return (
+      <div className="section">
+        <h3 className="section-title">Transformation Mode</h3>
+        <div className="section-panel">
+          <div className="section-panel-content">
+            <div className="transform-mode-toggle">
+              <button
+                className={`transform-mode-btn ${transformMode === 'creature' ? 'active' : ''}`}
+                onClick={() => handleModeChange('creature')}
+              >
+                <FaDragon style={{ marginRight: '8px' }} />
+                Creature Library
+              </button>
+              <button
+                className={`transform-mode-btn ${transformMode === 'custom' ? 'active' : ''}`}
+                onClick={() => handleModeChange('custom')}
+              >
+                <FaPlus style={{ marginRight: '8px' }} />
+                Custom Transformation
+              </button>
+            </div>
+            <div className="range-description" style={{ marginTop: '8px' }}>
+              {transformMode === 'creature' 
+                ? 'Select a creature from the library to transform into. Use for shapeshifting, polymorph, or beast form spells.'
+                : 'Create a custom transformation effect. Use for self-enhancement, power-ups, or unique transformation abilities.'}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Render custom transformation form
+  const renderCustomTransformationForm = () => {
+    if (transformMode !== 'custom') return null;
+
+    return (
+      <div className="section">
+        <h3 className="section-title">Custom Transformation</h3>
+        <div className="section-panel">
+          <div className="section-panel-content">
+            {/* Transformation Type Selection */}
+            <div className="creature-config-section" style={{ marginBottom: '16px' }}>
+              <div className="creature-config-header">
+                <h6>Transformation Type</h6>
+              </div>
+              <div className="spell-wizard-card-grid small" style={{ marginTop: '8px' }}>
+                {CUSTOM_TRANSFORMATION_TYPES.map(type => (
+                  <div
+                    key={type.id}
+                    className={`spell-wizard-card ${customTransformationType === type.id ? 'selected' : ''}`}
+                    onClick={() => handleCustomFieldChange('transformationType', type.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <div className="spell-wizard-card-icon">
+                      <img
+                        src={getIconUrl(type.icon)}
+                        alt={type.name}
+                      />
+                    </div>
+                    <h4>{type.name}</h4>
+                    <p>{type.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Form Name & Power */}
+            <div className="creature-config-section" style={{ marginBottom: '16px' }}>
+              <div className="creature-config-header">
+                <h6>Transformation Details</h6>
+              </div>
+              <div className="creature-config-controls" style={{ marginTop: '8px' }}>
+                <div className="creature-config-control" style={{ flex: 2 }}>
+                  <label>Form Name (optional)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Primal Apex, Shadow Form, etc."
+                    value={customFormName}
+                    onChange={(e) => handleCustomFieldChange('newForm', e.target.value)}
+                  />
+                </div>
+                <div className="creature-config-control">
+                  <label>Power Level</label>
+                  <select
+                    value={customPower}
+                    onChange={(e) => handleCustomFieldChange('power', e.target.value)}
+                  >
+                    {POWER_LEVELS.map(level => (
+                      <option key={level.id} value={level.id}>{level.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="creature-config-section" style={{ marginBottom: '16px' }}>
+              <div className="creature-config-header">
+                <h6>Description</h6>
+              </div>
+              <textarea
+                className="custom-transform-description"
+                placeholder="Describe what happens during this transformation..."
+                value={customDescription}
+                onChange={(e) => handleCustomFieldChange('description', e.target.value)}
+                style={{ 
+                  width: '100%', 
+                  minHeight: '80px', 
+                  marginTop: '8px',
+                  padding: '8px',
+                  borderRadius: '4px',
+                  border: '1px solid var(--pf-border-light, #444)',
+                  background: 'var(--pf-input-bg, #1a1a1a)',
+                  color: 'var(--pf-text, #e0e0e0)',
+                  resize: 'vertical'
+                }}
+              />
+            </div>
+
+            {/* Duration & Target (same as creature mode) */}
+            <div className="creature-config-section" style={{ marginBottom: '16px' }}>
+              <div className="creature-config-header">
+                <h6>Transformation Settings</h6>
+              </div>
+              <div className="creature-config-controls" style={{ marginTop: '8px' }}>
+                <div className="creature-config-control">
+                  <label>Target Type</label>
+                  <select
+                    value={transformConfig.targetType || 'self'}
+                    onChange={(e) => handleTransformConfigChange('targetType', e.target.value)}
+                  >
+                    <option value="self">Self</option>
+                    <option value="willing">Willing Creature</option>
+                    <option value="unwilling">Unwilling Creature</option>
+                  </select>
+                </div>
+                <div className="creature-config-control">
+                  <label>Duration</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="100"
+                    value={transformConfig.duration || 10}
+                    onChange={(e) => handleTransformConfigChange('duration', parseInt(e.target.value) || 10)}
+                  />
+                </div>
+                <div className="creature-config-control">
+                  <label>Duration Unit</label>
+                  <select
+                    value={transformConfig.durationUnit || 'minutes'}
+                    onChange={(e) => handleTransformConfigChange('durationUnit', e.target.value)}
+                  >
+                    <option value="rounds">Rounds</option>
+                    <option value="minutes">Minutes</option>
+                    <option value="hours">Hours</option>
+                  </select>
+                </div>
+              </div>
+              {transformConfig.targetType === 'unwilling' && (
+                <div className="creature-config-controls" style={{ marginTop: '8px' }}>
+                  <div className="creature-config-control">
+                    <label>Saving Throw</label>
+                    <select
+                      value={transformConfig.saveType || 'spirit'}
+                      onChange={(e) => handleTransformConfigChange('saveType', e.target.value)}
+                    >
+                      <option value="con">Constitution</option>
+                      <option value="str">Strength</option>
+                      <option value="agi">Agility</option>
+                      <option value="int">Intelligence</option>
+                      <option value="spirit">Spirit</option>
+                      <option value="cha">Charisma</option>
+                    </select>
+                  </div>
+                  <div className="creature-config-control">
+                    <label>Difficulty Class</label>
+                    <input
+                      type="number"
+                      min="5"
+                      max="30"
+                      value={transformConfig.difficultyClass || 15}
+                      onChange={(e) => handleTransformConfigChange('difficultyClass', parseInt(e.target.value) || 15)}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Custom Granted Abilities */}
+            <div className="creature-config-section">
+              <div className="creature-config-header">
+                <h6>Granted Abilities</h6>
+              </div>
+              <div className="range-description" style={{ marginTop: '4px', marginBottom: '8px' }}>
+                Add custom abilities granted by this transformation.
+              </div>
+              
+              {/* Existing abilities list */}
+              {customAbilities.length > 0 && (
+                <div className="selected-abilities" style={{ marginBottom: '12px' }}>
+                  {customAbilities.map((ability, index) => (
+                    <div key={ability.id} className="selected-ability" style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center',
+                      padding: '8px',
+                      background: 'var(--pf-bg-dark, #1a1a1a)',
+                      borderRadius: '4px',
+                      marginBottom: '4px'
+                    }}>
+                      <div>
+                        <span className="ability-number" style={{ marginRight: '8px', color: 'var(--pf-gold, #ffd100)' }}>{index + 1}.</span>
+                        <span className="ability-name" style={{ fontWeight: 'bold' }}>{ability.name}</span>
+                        {ability.description && ability.description !== ability.name && (
+                          <span style={{ marginLeft: '8px', opacity: 0.7 }}>- {ability.description}</span>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => handleRemoveCustomAbility(ability.id)}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: '#ff4444',
+                          cursor: 'pointer',
+                          padding: '4px 8px'
+                        }}
+                      >
+                        <FaCircleXmark />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {/* Add new ability form */}
+              <div className="creature-config-controls" style={{ marginTop: '8px' }}>
+                <div className="creature-config-control" style={{ flex: 1 }}>
+                  <label>Ability Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Damage Bonus, Fear Immunity"
+                    value={newAbilityName}
+                    onChange={(e) => setNewAbilityName(e.target.value)}
+                  />
+                </div>
+                <div className="creature-config-control" style={{ flex: 2 }}>
+                  <label>Description</label>
+                  <input
+                    type="text"
+                    placeholder="e.g., +8 damage to all attacks"
+                    value={newAbilityDescription}
+                    onChange={(e) => setNewAbilityDescription(e.target.value)}
+                  />
+                </div>
+                <div className="creature-config-control" style={{ flex: 0, alignSelf: 'flex-end' }}>
+                  <button
+                    onClick={handleAddCustomAbility}
+                    disabled={!newAbilityName.trim()}
+                    style={{
+                      padding: '8px 16px',
+                      background: newAbilityName.trim() ? 'var(--pf-accent, #4a90d9)' : '#444',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#fff',
+                      cursor: newAbilityName.trim() ? 'pointer' : 'not-allowed',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    <FaPlus /> Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   // Render form selection
   const renderFormSelection = () => {
@@ -557,15 +967,22 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
 
   return (
     <div className="effects-container">
-      {/* Form Selection */}
-      {renderFormSelection()}
+      {/* Mode Selection - Choose between creature library and custom */}
+      {renderModeSelection()}
 
-      {/* Ability Selection - only if a form is selected */}
-      {renderAbilitySelection()}
+      {/* Creature Library Mode */}
+      {transformMode === 'creature' && (
+        <>
+          {/* Form Selection */}
+          {renderFormSelection()}
 
+          {/* Ability Selection - only if a form is selected */}
+          {renderAbilitySelection()}
+        </>
+      )}
 
-
-      {/* Tooltip */}
+      {/* Custom Transformation Mode */}
+      {renderCustomTransformationForm()}
 
       {/* Creature Selection Window */}
       <CreatureSelectionWindow
@@ -577,6 +994,37 @@ const TransformationEffects = ({ state, dispatch, actionCreators, getDefaultForm
         title="Select Transformation Target"
         effectType="transform"
       />
+
+      <style>{`
+        .transform-mode-toggle {
+          display: flex;
+          gap: 8px;
+        }
+        .transform-mode-btn {
+          flex: 1;
+          padding: 12px 16px;
+          background: var(--pf-bg-dark, #1a1a1a);
+          border: 2px solid var(--pf-border-light, #444);
+          border-radius: 6px;
+          color: var(--pf-text, #e0e0e0);
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 500;
+          transition: all 0.2s ease;
+        }
+        .transform-mode-btn:hover {
+          border-color: var(--pf-accent, #4a90d9);
+          background: var(--pf-bg-hover, #252525);
+        }
+        .transform-mode-btn.active {
+          border-color: var(--pf-accent, #4a90d9);
+          background: var(--pf-accent-bg, rgba(74, 144, 217, 0.15));
+          color: var(--pf-accent, #4a90d9);
+        }
+      `}</style>
     </div>
   );
 };

@@ -1058,7 +1058,7 @@ START: Always New Moon
     {
       id: 'lunarch_celestial_beam',
       name: 'Celestial Beam',
-      description: 'Channel a concentrated beam of celestial energy in a line, dealing radiant damage and potentially blinding targets.',
+      description: 'Channel a concentrated beam of celestial energy in a line, dealing radiant damage. Targets must save or be blinded for 1 round.',
       spellType: 'ACTION',
       icon: 'spell_arcane_starfire',
       school: 'Evocation',
@@ -1089,7 +1089,7 @@ START: Always New Moon
         somaticText: 'Extend both hands forward'
       },
 
-      resolution: 'DICE',
+      resolution: 'SAVE',
 
       damageConfig: {
         formula: '4d6',
@@ -1114,7 +1114,7 @@ START: Always New Moon
         effects: [{
           id: 'blinded',
           name: 'Blinded',
-          description: 'Blinded creatures have disadvantage on attack rolls - cannot see, automatically fails sight-based checks',
+          description: 'Blinded for 1 round - disadvantage on attack rolls, cannot see, automatically fails sight-based checks',
           statusType: 'blinded',
           level: 'moderate'
         }]
@@ -1153,7 +1153,7 @@ START: Always New Moon
     {
       id: 'lunarch_lunar_eclipse',
       name: 'Lunar Eclipse',
-      description: 'Channel the power of both the New Moon and Full Moon simultaneously, gaining defensive and offensive benefits for a brief period.',
+      description: 'Channel the power of both the New Moon and Full Moon simultaneously for 2 rounds, gaining defensive and offensive benefits. Gain New Moon benefits (+1d4 mana/turn, -1d4 incoming damage), Full Moon benefits (+1d6 damage, +2 crit range), and a radiant aura dealing 1d4 damage to enemies within 10 feet.',
       spellType: 'ACTION',
       icon: 'spell_nature_nullifydisease',
       school: 'Transmutation',
@@ -2164,24 +2164,20 @@ START: Always New Moon
       effectTypes: ['transformation'],
 
       transformationConfig: {
-        transformType: 'celestial',
-        formName: 'Avatar of the Moon',
-        formDescription: 'You become one with the moon, a being of pure moonlight.',
-        duration: 5,
+        transformationType: 'celestial',
+        targetType: 'self',
+        duration: 4,
         durationUnit: 'rounds',
-        statModifiers: [
-          { stat: 'all', magnitude: 6, magnitudeType: 'flat' },
-          { stat: 'armorClass', magnitude: 8, magnitudeType: 'flat' },
-          { stat: 'damage', magnitude: 100, magnitudeType: 'percentage' }
-        ],
-        resistances: [
-          { type: 'radiant', resistanceAmount: 'immunity' },
-          { type: 'necrotic', resistanceAmount: 'immunity' }
-        ],
-        specialAbilities: [
-          { name: 'Moonlight Phasing', description: 'Can phase through solid objects. Immune to opportunity attacks.' },
-          { name: 'Lunar Gravity', description: 'Can fly. All ranged attacks have triple range.' },
-          { name: 'Moon\'s Judgment', description: 'All attacks deal additional radiant damage equal to your level.' }
+        power: 'major',
+        newForm: 'Avatar of the Moon',
+        description: 'Become one with the moon, a being of pure moonlight.',
+        grantedAbilities: [
+          { id: 'lunar_stats', name: 'Lunar Enhancement', description: '+5 to all attributes, +5 armor' },
+          { id: 'lunar_damage', name: 'Moonlight Empowerment', description: '+50% damage on all attacks' },
+          { id: 'lunar_immunity', name: 'Celestial Immunity', description: 'Immune to radiant and necrotic damage' },
+          { id: 'moonlight_phase', name: 'Moonlight Phasing', description: 'Can phase through solid objects, immune to opportunity attacks' },
+          { id: 'lunar_flight', name: 'Lunar Gravity', description: 'Gain 60ft flying speed' },
+          { id: 'lunar_exhaustion', name: 'Lunar Drain (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
         ],
         concentrationRequired: false,
         canBeDispelled: false

@@ -1051,7 +1051,7 @@ Many players enhance the warden experience with:
     {
       id: 'warden_cage_of_vengeance',
       name: 'Cage of Vengeance',
-      description: 'Summon a spectral cage around your target, trapping them and preventing escape.',
+      description: 'Summon a spectral cage around your target for 3 rounds, trapping them and preventing escape. Target must save or be trapped for the full duration (save reduces to 1 round).',
       spellType: 'ACTION',
       icon: 'spell_shadow_shackleundead',
       school: 'Shadow',
@@ -1082,7 +1082,7 @@ Many players enhance the warden experience with:
         somaticText: 'Summon spectral cage'
       },
 
-      resolution: 'SAVING_THROW',
+      resolution: 'SAVE',
 
       savingThrow: {
         ability: 'strength',
@@ -1095,13 +1095,13 @@ Many players enhance the warden experience with:
         durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
-        saveDC: 14,
+        saveDC: 15,
         saveType: 'strength',
-        saveOutcome: 'ends_early',
+        saveOutcome: 'halves_duration',
         effects: [{
           id: 'caged',
           name: 'Caged',
-          description: 'Trapped in spectral cage - cannot move beyond boundaries or teleport - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
+          description: 'Trapped in spectral cage for 3 rounds (or 1 round if save succeeds) - cannot move beyond boundaries or teleport - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
           statusType: 'restrained',
           level: 'strong'
         }]
@@ -1512,26 +1512,20 @@ Many players enhance the warden experience with:
       effectTypes: ['transformation'],
 
       transformationConfig: {
-        customName: 'Avatar of Vengeance',
-        transformType: 'spectral',
-        formName: 'Spectral Avatar',
-        formDescription: 'You become an unstoppable embodiment of vengeance, wreathed in shadowy energy with glowing eyes and enhanced glaives.',
-        durationValue: 6,
-        durationType: 'rounds',
+        transformationType: 'spectral',
+        targetType: 'self',
+        duration: 6,
+        durationUnit: 'rounds',
+        power: 'major',
+        newForm: 'Avatar of Vengeance',
+        description: 'Become an embodiment of vengeance, wreathed in shadowy energy.',
         concentrationRequired: false,
-        statModifiers: [
-          { stat: 'attack_rolls', magnitude: 4, magnitudeType: 'flat' },
-          { stat: 'damage', magnitude: '2d6', magnitudeType: 'dice' },
-          { stat: 'armor', magnitude: 4, magnitudeType: 'flat' }
-        ],
-        resistances: [
-          { damageType: 'all', resistanceType: 'reduction', formula: '1d6' }
-        ],
-        specialAbilities: [
-          {
-            name: 'Enhanced VP Generation',
-            description: 'Generate +1 VP per attack (total 2 VP, or 3 VP against marked targets)'
-          }
+        grantedAbilities: [
+          { id: 'avatar_attack', name: '+4 Attack Rolls', description: '+4 bonus to all attack rolls' },
+          { id: 'avatar_damage', name: '+2d6 Damage', description: '+2d6 bonus damage on all attacks' },
+          { id: 'avatar_armor', name: '+4 Armor', description: '+4 armor class' },
+          { id: 'damage_reduction', name: 'Damage Reduction', description: 'Reduce all incoming damage by 1d6' },
+          { id: 'enhanced_vp', name: 'Enhanced VP Generation', description: 'Generate +1 VP per attack (2 VP base, 3 VP against marked)' }
         ]
       },
 
@@ -1610,7 +1604,7 @@ Many players enhance the warden experience with:
     {
       id: 'warden_whirling_glaive',
       name: 'Whirling Glaive',
-      description: 'Throw your glaive in a sweeping arc, hitting multiple enemies and slowing them.',
+      description: 'Throw your glaive in a sweeping arc, hitting multiple enemies and slowing them for 1 round. Enemies hit have movement speed reduced by 10 feet.',
       spellType: 'ACTION',
       icon: 'ability_rogue_fanofknives',
       school: 'Physical',
@@ -1657,7 +1651,7 @@ Many players enhance the warden experience with:
         effects: [{
           id: 'slowed',
           name: 'Slowed',
-          description: 'Movement speed reduced by 10 feet',
+          description: 'Movement speed reduced by 10 feet for 1 round',
           statusType: 'slow',
           level: 'minor'
         }]
@@ -1698,7 +1692,7 @@ Many players enhance the warden experience with:
     {
       id: 'warden_hunters_resolve',
       name: 'Hunter\'s Resolve',
-      description: 'Call upon your inner strength to heal yourself and gain damage resistance.',
+      description: 'Call upon your inner strength to heal yourself for 2d8 HP and gain +2 AC for 2 rounds. If marked targets are within sight, effects are doubled (4d8 HP, +4 AC).',
       spellType: 'ACTION',
       icon: 'spell_holy_restoration',
       school: 'Physical',
@@ -1736,9 +1730,8 @@ Many players enhance the warden experience with:
 
       buffConfig: {
         effects: [
-          'Heal 2d8 HP',
-          'Gain +2 AC for 2 rounds',
-          'If marked targets are within sight, effects are doubled (4d8 HP, +4 AC)'
+          'Heal 2d8 HP (or 4d8 if marked target visible)',
+          'Gain +2 AC for 2 rounds (or +4 AC if marked target visible)'
         ]
       },
 

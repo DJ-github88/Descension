@@ -1998,6 +1998,9 @@ const useCharacterStore = create((set, get) => ({
             return character;
         } else {
             console.error(`Character not found: ${characterId}`);
+
+            // Clear active character and inventory when character not found
+            get().clearActiveCharacter();
             return null;
         }
     },
@@ -2138,6 +2141,17 @@ const useCharacterStore = create((set, get) => ({
     clearActiveCharacter: () => {
         localStorage.removeItem('mythrill-active-character');
         set({ currentCharacterId: null });
+
+        // Clear inventory when no character is active
+        try {
+            const inventoryStore = require('./inventoryStore').default;
+            const inventoryState = inventoryStore.getState();
+            inventoryState.clearInventory();
+            // Clear currency as well
+            inventoryState.updateCurrency({ platinum: 0, gold: 0, silver: 0, copper: 0 });
+        } catch (error) {
+            console.warn('Could not clear inventory:', error);
+        }
     },
 
     saveCurrentCharacter: () => {

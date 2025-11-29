@@ -2975,17 +2975,19 @@ Many players enhance the Plaguebringer experience with:
             },
 
             transformationConfig: {
-              transformationType: 'full',
-              newForm: 'Plague Incarnate',
+              transformationType: 'elemental',
+              targetType: 'self',
               duration: 5,
               durationUnit: 'rounds',
-              statsBonus: {
-                intelligence: 5,
-                constitution: 5
-              },
-              newAbilities: ['Plague Touch', 'Contagion Aura', 'Disease Immunity'],
-              resistances: ['poison', 'necrotic'],
-              immunities: ['poison']
+              power: 'major',
+              newForm: 'Plague Incarnate',
+              description: 'Become a living vessel of disease and decay.',
+              grantedAbilities: [
+                { id: 'plague_stats', name: 'Plague Enhancement', description: '+5 Intelligence, +5 Constitution' },
+                { id: 'plague_touch', name: 'Plague Touch', description: 'Melee attacks spread disease to targets' },
+                { id: 'contagion_aura', name: 'Contagion Aura', description: 'Enemies within 15ft must save or contract disease' },
+                { id: 'plague_resist', name: 'Disease Immunity', description: 'Immune to poison and disease effects' }
+              ]
             },
 
             resourceCost: {
@@ -3321,18 +3323,20 @@ Many players enhance the Plaguebringer experience with:
             },
 
             transformationConfig: {
-              transformationType: 'ascended',
-              newForm: 'Plague God',
-              duration: 10,
+              transformationType: 'elemental',
+              targetType: 'self',
+              duration: 4,
               durationUnit: 'rounds',
-              statsBonus: {
-                intelligence: 10,
-                constitution: 10,
-                spirit: 8
-              },
-              newAbilities: ['Divine Plague', 'Apocalyptic Contagion', 'Death Touch', 'Immunity Aura', 'Mass Affliction'],
-              resistances: ['all'],
-              immunities: ['poison', 'necrotic', 'disease']
+              power: 'major',
+              newForm: 'Plague Lord',
+              description: 'Become a lord of pestilence and decay.',
+              grantedAbilities: [
+                { id: 'lord_stats', name: 'Pestilence Enhancement', description: '+8 Intelligence, +8 Constitution, +6 Spirit' },
+                { id: 'divine_plague', name: 'Divine Plague', description: 'All diseases you spread are enhanced (+50% damage)' },
+                { id: 'death_touch', name: 'Death Touch', description: 'Melee attacks deal +3d10 necrotic damage' },
+                { id: 'plague_immunity', name: 'Plague Immunity', description: 'Immune to poison, necrotic, and disease effects' },
+                { id: 'plague_exhaustion', name: 'Decay (On End)', description: 'Take 3d10 necrotic damage and gain 2 levels of exhaustion when transformation ends' }
+              ]
             },
 
             resourceCost: {

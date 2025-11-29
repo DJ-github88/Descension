@@ -8,7 +8,7 @@
 export const BERSERKER_DATA = {
   id: 'berserker',
   name: 'Berserker',
-  icon: 'fas fa-axe-battle',
+  icon: 'fas fa-skull',
   role: 'Damage',
 
   // Overview section
@@ -1943,7 +1943,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_commanding_shout',
       name: 'Commanding Shout',
-      description: 'A powerful shout that rallies allies and demoralizes enemies.',
+      description: 'A powerful shout that rallies allies and demoralizes enemies for 2 rounds. Allies gain +2 attack bonus, enemies must save or suffer -2 attack penalty.',
       level: 5,
       spellType: 'ACTION',
       icon: 'ability_warrior_commandingshout',
@@ -1980,7 +1980,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'commanding_buff',
           name: 'Commanding Presence',
-          description: 'Gain +2 attack bonus. Your leadership inspires allies to fight with greater precision and ferocity',
+          description: 'Gain +2 attack bonus for 2 rounds',
           statModifier: {
             stat: 'attack',
             magnitude: 2,
@@ -2167,7 +2167,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_wrath_berserker',
       name: 'Wrath of the Berserker',
-      description: 'The ultimate expression of fury, channeling the full power of your rage into every strike. Gain +5 damage bonus and advantage on all attack rolls.',
+      description: 'The ultimate expression of fury, channeling the full power of your rage into every strike for 3 rounds. Gain +5 damage bonus and advantage on all attack rolls.',
       level: 6,
       spellType: 'ACTION',
       icon: 'ability_warrior_innerrage',
@@ -2202,7 +2202,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'wrath_damage',
           name: 'Wrath of the Berserker',
-          description: 'Gain +5 damage bonus and advantage on all attack rolls. Your fury reaches its absolute peak, making every strike devastating and unerring',
+          description: 'Gain +5 damage bonus and advantage on all attack rolls for 3 rounds',
           statModifier: {
             stat: 'damage',
             magnitude: 5,
@@ -2227,7 +2227,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_final_stand',
       name: 'Final Stand',
-      description: 'Make a last stand against overwhelming odds, becoming nearly invincible but unable to move.',
+      description: 'Make a last stand against overwhelming odds for 2 rounds, becoming nearly invincible but unable to move.',
       level: 6,
       spellType: 'ACTION',
       icon: 'ability_warrior_laststand',
@@ -2262,7 +2262,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'final_stand_defense',
           name: 'Final Stand',
-          description: 'Gain 75% damage reduction',
+          description: 'Gain 75% damage reduction for 2 rounds. Cannot move from your position.',
           statModifier: {
             stat: 'damageReduction',
             magnitude: 75,
@@ -2327,30 +2327,20 @@ When you cross a Rage State threshold, announce it dramatically:
         duration: 5,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: [],
-        grantedAbilities: [{
-          name: 'Physical Transformation',
-          description: 'Your physical form is enhanced by pure fury, transforming you into a primal force of destruction. Your body swells with primal energy, your muscles bulge with supernatural strength, and your eyes burn with pure rage. Gain +8 damage bonus and become a devastating combatant.'
-        }]
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'berserkers_rage_buff',
-          name: 'Primal Transformation',
-          description: 'Gain +8 damage bonus. Your physical form is enhanced by pure fury, transforming you into a primal force of destruction. Every strike becomes devastating',
-          statModifier: {
-            stat: 'damage',
-            magnitude: 8,
-            magnitudeType: 'flat'
+        newForm: 'Berserker\'s Rage',
+        description: 'Your body swells with primal energy as you embrace your fury.',
+        grantedAbilities: [
+          {
+            id: 'rage_damage_bonus',
+            name: '+8 Damage Bonus',
+            description: 'All attacks deal +8 additional damage'
+          },
+          {
+            id: 'rage_resistance',
+            name: 'Pain Resistance',
+            description: 'Reduce incoming damage by 2'
           }
-        }],
-        durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
+        ]
       },
 
       damageConfig: {
@@ -2589,7 +2579,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_immortal_rage',
       name: 'Immortal Rage',
-      description: 'Your fury transcends death itself, granting immortality for a brief moment.',
+      description: 'Your fury transcends death itself, granting immortality for 3 rounds. You become immune to death and all lethal damage, but the strain is immense.',
       level: 8,
       spellType: 'ACTION',
       icon: 'spell_shadow_deathscream',
@@ -2624,7 +2614,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'immortal_rage',
           name: 'Immortal Rage',
-          description: 'Immune to death and all lethal damage',
+          description: 'Immune to death and all lethal damage for 3 rounds',
           statusType: 'immortality',
           level: 'extreme'
         }],
@@ -2719,13 +2709,13 @@ When you cross a Rage State threshold, announce it dramatically:
     },
 
     // ========================================
-    // LEVEL 9 SPELLS - Transcendent Abilities
+    // LEVEL 9 SPELLS - Legendary Rage Abilities
     // ========================================
 
     {
-      id: 'berserk_cosmic_fury',
-      name: 'Cosmic Fury',
-      description: 'Harness the fury of the cosmos itself, becoming a conduit for universal destruction.',
+      id: 'berserk_primal_cataclysm',
+      name: 'Primal Cataclysm',
+      description: 'Channel all your accumulated fury into a devastating ground-shaking impact. The sheer violence of the attack strains your body as much as it devastates your enemies.',
       level: 9,
       spellType: 'ACTION',
       icon: 'spell_arcane_starfire',
@@ -2733,7 +2723,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'spell_arcane_starfire',
-        tags: ['aoe', 'damage', 'cosmic', 'obliteration'],
+        tags: ['aoe', 'damage', 'primal', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2742,7 +2732,7 @@ When you cross a Rage State threshold, announce it dramatically:
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
-        aoeParameters: { radius: 30 },
+        aoeParameters: { radius: 20 },
         targetRestrictions: ['enemy']
       },
 
@@ -2751,55 +2741,62 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 80 },
         actionPoints: 4,
         components: ['verbal', 'somatic'],
-        verbalText: 'THE COSMOS BENDS TO MY WILL!',
-        somaticText: 'Draw cosmic energy into your being'
+        verbalText: 'FEEL MY FURY!',
+        somaticText: 'Slam fists into the ground with devastating force'
       },
 
       resolution: 'SAVE',
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '6d8 + strength + 5d6',
-        elementType: 'force',
+        formula: '4d10 + strength',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'intelligence',
-          difficultyClass: 20,
+          savingThrowType: 'constitution',
+          difficultyClass: 18,
           saveOutcome: 'halves'
         },
       },
 
+      selfDamageConfig: {
+        formula: '2d6',
+        damageType: 'bludgeoning',
+        description: 'The violent impact strains your own body'
+      },
+
       controlConfig: {
-        controlType: 'incapacitation',
+        controlType: 'knockdown',
         effects: [{
-          id: 'stun',
-          name: 'Cosmic Overload',
-          description: 'Enemies are stunned by cosmic fury',
+          id: 'trip',
+          name: 'Ground Tremor',
+          description: 'Enemies are knocked prone by the shockwave',
           config: {
-            durationType: 'temporary',
-            recoveryMethod: 'automatic'
+            durationType: 'instant',
+            recoveryMethod: 'stand_action'
           }
         }],
-        duration: 3,
-        durationUnit: 'rounds',
-        saveDC: 20,
-        saveType: 'intelligence',
+        duration: 0,
+        durationUnit: 'instant',
+        saveDC: 18,
+        saveType: 'strength',
         savingThrow: true
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 8
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
       },
 
-      tags: ['aoe', 'damage', 'cosmic', 'obliteration', 'berserker']
+      tags: ['aoe', 'damage', 'primal', 'obliteration', 'berserker', 'self-damage']
     },
 
     {
-      id: 'berserk_eternal_warrior',
-      name: 'Eternal Warrior',
-      description: 'Become the embodiment of eternal warfare, gaining god-like combat prowess.',
+      id: 'berserk_veterans_resolve',
+      name: 'Veteran\'s Resolve',
+      description: 'Draw upon years of brutal combat experience, hardening your strikes with deadly precision for 3 rounds. This focused fury demands you remain aggressive - if you do not attack on your turn, the effect ends immediately.',
       level: 9,
       spellType: 'ACTION',
       icon: 'ability_warrior_endlessrage',
@@ -2807,7 +2804,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'ability_warrior_endlessrage',
-        tags: ['buff', 'godlike', 'obliteration'],
+        tags: ['buff', 'damage', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2819,11 +2816,11 @@ When you cross a Rage State threshold, announce it dramatically:
 
       resourceCost: {
         resourceTypes: ['mana', 'rage_state', 'rage_cost'],
-        resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 85 },
-        actionPoints: 4,
+        resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 60 },
+        actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'I AM WAR INCARNATE!',
-        somaticText: 'Embrace the eternal spirit of battle'
+        verbalText: 'I WILL NOT YIELD!',
+        somaticText: 'Focus your fury into controlled devastation'
       },
 
       resolution: 'NONE',
@@ -2832,42 +2829,110 @@ When you cross a Rage State threshold, announce it dramatically:
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
-          id: 'eternal_warrior',
-          name: 'Eternal Warrior',
-          description: 'Gain +10 damage bonus. You have ascended to god-like combat mastery',
+          id: 'veterans_resolve',
+          name: 'Veteran\'s Resolve',
+          description: 'Gain +4 damage bonus for 3 rounds. Effect ends immediately if you do not attack on your turn',
           statModifier: {
             stat: 'damage',
-            magnitude: 10,
+            magnitude: 4,
             magnitudeType: 'flat'
           }
         }],
-        durationValue: 5,
+        durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
+        conditionalEnd: 'Must attack each turn or effect ends'
       },
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 10
+        value: 5
       },
 
-      tags: ['buff', 'godlike', 'obliteration', 'berserker']
+      tags: ['buff', 'damage', 'obliteration', 'berserker']
     },
 
     {
-      id: 'berserk_time_dilation',
-      name: 'Time Dilation',
-      description: 'Bend time itself, slowing enemies to a crawl while you move at blinding speed.',
+      id: 'berserk_bloodrage_frenzy',
+      name: 'Bloodrage Frenzy',
+      description: 'Toggle a blood-soaked frenzy where every wound you inflict heals your body. The longer you maintain this savage state, the more it exhausts you - each round increases the toll taken when you finally emerge.',
       level: 9,
-      spellType: 'ACTION',
-      icon: 'spell_arcane_time',
+      spellType: 'TOGGLE',
+      icon: 'spell_shadow_bloodboil',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'spell_arcane_time',
-        tags: ['buff', 'control', 'time', 'obliteration'],
+        icon: 'spell_shadow_bloodboil',
+        tags: ['buff', 'healing', 'lifesteal', 'toggle', 'obliteration'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE',
+        toggleable: true
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_cost'],
+        resourceValues: { mana: 0, rage_cost: 30 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'BLOOD FOR BLOOD!',
+        somaticText: 'Enter a savage blood-fueled state'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'custom',
+        customName: 'Bloodrage Frenzy',
+        customDescription: 'Heal for 25% of melee damage dealt. When toggled off or after 5 rounds (max), take exhaustion damage equal to 1d8 per round maintained.',
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false,
+        isToggle: true,
+        maxDuration: 5,
+        afterEffect: {
+          type: 'scaling_damage',
+          baseFormula: '1d8',
+          scaling: 'per_round_maintained',
+          description: 'Exhaustion damage scales with rounds: 1d8 × rounds maintained'
+        }
+      },
+
+      mechanicsText: '25% lifesteal on melee attacks. Toggle off anytime or auto-ends at 5 rounds. Exhaustion: 1d8 × rounds maintained.',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['buff', 'healing', 'lifesteal', 'toggle', 'obliteration', 'berserker']
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS - Ultimate Berserker Abilities
+    // ========================================
+
+    {
+      id: 'berserk_cataclysmic_fury',
+      name: 'Cataclysmic Fury',
+      description: 'Release every ounce of accumulated rage in a devastating explosion of primal violence. The sheer force of the attack takes a severe toll on your body - you emerge victorious but badly shaken.',
+      level: 10,
+      spellType: 'ACTION',
+      icon: 'spell_fire_meteorstorm',
+
+      typeConfig: {
+        school: 'bludgeoning',
+        icon: 'spell_fire_meteorstorm',
+        tags: ['aoe', 'damage', 'ultimate', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2881,109 +2946,48 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_cost'],
-        resourceValues: { mana: 0, rage_cost: 40 },
-        actionPoints: 4,
-        components: ['verbal', 'somatic'],
-        verbalText: 'TIME BENDS TO MY WILL!',
-        somaticText: 'Manipulate the flow of time'
-      },
-
-      resolution: 'SAVE',
-      effectTypes: ['control'],
-
-      controlConfig: {
-        controlType: 'restraint',
-        effects: [{
-          id: 'slow',
-          name: 'Time Dilation',
-          description: 'Time slows to a crawl around enemies',
-          config: {
-            speedReduction: 75,
-            speedReductionType: 'percentage',
-            actionReduction: 1
-          }
-        }],
-        duration: 3,
-        durationUnit: 'rounds',
-        saveDC: 20,
-        saveType: 'intelligence',
-        savingThrow: true
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 9
-      },
-
-      tags: ['buff', 'control', 'time', 'obliteration', 'berserker']
-    },
-
-    // ========================================
-    // LEVEL 10 SPELLS - Godlike Abilities
-    // ========================================
-
-    {
-      id: 'berserk_armageddon_rage',
-      name: 'Armageddon Rage',
-      description: 'Unleash the fury of Armageddon itself, destroying everything within a 40-foot radius. The apocalypse itself answers your call.',
-      level: 10,
-      spellType: 'ACTION',
-      icon: 'spell_fire_meteorstorm',
-
-      typeConfig: {
-        school: 'bludgeoning',
-        icon: 'spell_fire_meteorstorm',
-        tags: ['aoe', 'damage', 'apocalypse', 'obliteration'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 50,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 40 },
-        targetRestrictions: ['enemy']
-      },
-
-      resourceCost: {
         resourceTypes: ['mana', 'rage_state', 'rage_cost'],
         resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 90 },
-        actionPoints: 5,
+        actionPoints: 4,
         components: ['verbal', 'somatic'],
-        verbalText: 'THE END OF ALL THINGS!',
-        somaticText: 'Call forth the apocalypse'
+        verbalText: 'WITNESS MY FURY!',
+        somaticText: 'Explode with devastating primal force'
       },
 
       resolution: 'SAVE',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d8 + strength + 6d6',
-        elementType: 'fire',
+        formula: '5d10 + strength',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
-          difficultyClass: 20,
+          difficultyClass: 18,
           saveOutcome: 'halves'
         },
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
+      selfDamageConfig: {
+        formula: '3d6',
+        damageType: 'bludgeoning',
+        description: 'The devastating release of fury takes a severe toll on your body'
       },
 
-      tags: ['aoe', 'damage', 'apocalypse', 'obliteration', 'berserker']
+      cooldownConfig: {
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
+      },
+
+      tags: ['aoe', 'damage', 'ultimate', 'obliteration', 'berserker', 'self-damage']
     },
 
     {
-      id: 'berserk_god_of_war',
-      name: 'God of War',
-      description: 'Divine wrath incarnate flows through your veins as you transcend mortality and become the living embodiment of war itself. Gods tremble at your approach, for you are the eternal conflict, the unending battle, the apocalypse given flesh.',
+      id: 'berserk_battle_incarnate',
+      name: 'Battle Incarnate',
+      description: 'Become a living engine of war, your every movement optimized for destruction. This state of perfect violence demands total commitment - you cannot retreat or defend, only attack.',
       level: 10,
       spellType: 'ACTION',
       icon: 'ability_warrior_bloodnova',
@@ -2991,7 +2995,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'ability_warrior_bloodnova',
-        tags: ['buff', 'ascension', 'obliteration'],
+        tags: ['transformation', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -3003,47 +3007,56 @@ When you cross a Rage State threshold, announce it dramatically:
 
       resourceCost: {
         resourceTypes: ['mana', 'rage_state', 'rage_cost'],
-        resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 95 },
-        actionPoints: 5,
+        resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 80 },
+        actionPoints: 4,
         components: ['verbal', 'somatic'],
-        verbalText: 'I AM THE GOD OF WAR!',
-        somaticText: 'Ascend to divine fury'
+        verbalText: 'I AM WAR ITSELF!',
+        somaticText: 'Transform into a perfect instrument of violence'
       },
 
       resolution: 'NONE',
-      effectTypes: ['buff'],
+      effectTypes: ['transformation'],
 
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'god_of_war',
-          name: 'Divine Wrath Incarnate',
-          description: 'Gain +15 damage bonus. You have transcended mortality to become the living embodiment of eternal conflict',
-          statModifier: {
-            stat: 'damage',
-            magnitude: 15,
-            magnitudeType: 'flat'
-          }
-        }],
-        durationValue: 10,
-        durationType: 'rounds',
+      transformationConfig: {
+        transformationType: 'physical',
+        targetType: 'self',
+        duration: 3,
         durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
+        power: 'major',
+        newForm: 'Battle Incarnate',
+        description: 'Become a perfect instrument of violence, optimized for destruction.',
+        grantedAbilities: [
+          {
+            id: 'incarnate_damage',
+            name: '+6 Damage Bonus',
+            description: '+6 bonus damage on all attacks'
+          },
+          {
+            id: 'incarnate_advantage',
+            name: 'Combat Advantage',
+            description: 'Advantage on all melee attack rolls'
+          },
+          {
+            id: 'incarnate_restrictions',
+            name: 'Total Commitment',
+            description: 'Cannot take defensive actions, disengage, or move away from enemies'
+          }
+        ]
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 12
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
       },
 
-      tags: ['buff', 'ascension', 'obliteration', 'berserker']
+      tags: ['transformation', 'obliteration', 'berserker']
     },
 
     {
-      id: 'berserk_omega_rage',
-      name: 'Omega Rage',
-      description: 'You become the Omega - the final, ultimate expression of rage that existed before the universe and will remain after its end. Reality itself bends to your will as you transcend all limits, becoming the living embodiment of apocalyptic fury.',
+      id: 'berserk_primal_apex',
+      name: 'Primal Apex',
+      description: 'Reach the absolute pinnacle of berserker rage - a state of pure, unthinking violence that few warriors ever achieve. The transformation is overwhelming, leaving you temporarily drained when it ends.',
       level: 10,
       spellType: 'ACTION',
       icon: 'spell_shadow_unholyfrenzy',
@@ -3064,10 +3077,10 @@ When you cross a Rage State threshold, announce it dramatically:
       resourceCost: {
         resourceTypes: ['mana', 'rage_state', 'rage_cost'],
         resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 100 },
-        actionPoints: 5,
+        actionPoints: 4,
         components: ['verbal', 'somatic'],
-        verbalText: 'THE ALPHA AND OMEGA OF DESTRUCTION!',
-        somaticText: 'Achieve ultimate berserk transformation'
+        verbalText: 'UNSTOPPABLE!',
+        somaticText: 'Achieve the primal apex of berserker fury'
       },
 
       resolution: 'NONE',
@@ -3076,41 +3089,37 @@ When you cross a Rage State threshold, announce it dramatically:
       transformationConfig: {
         transformationType: 'physical',
         targetType: 'self',
-        duration: 5,
+        duration: 3,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: [],
-        grantedAbilities: [{
-          name: 'Physical Transformation',
-          description: 'You become the Omega - the final, ultimate expression of rage that existed before the universe and will remain after its end. Reality itself bends to your will as you transcend all limits, becoming the living embodiment of apocalyptic fury. Gain +20 damage bonus and achieve ultimate berserk transformation.'
-        }]
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'omega_rage',
-          name: 'Omega Incarnation',
-          description: 'Gain +20 damage bonus. You have transcended all mortal limits to become the living apocalypse, the alpha and omega of destruction',
-          statModifier: {
-            stat: 'damage',
-            magnitude: 20,
-            magnitudeType: 'flat'
+        newForm: 'Primal Apex',
+        description: 'Reach the absolute pinnacle of berserker rage, transcending mortal limits.',
+        grantedAbilities: [
+          {
+            id: 'apex_damage',
+            name: '+8 Damage Bonus',
+            description: 'All attacks deal +8 additional damage'
+          },
+          {
+            id: 'apex_immunity',
+            name: 'Fear & Stun Immunity',
+            description: 'Immune to fear and stun effects'
+          },
+          {
+            id: 'apex_exhaustion',
+            name: 'Exhaustion (On End)',
+            description: 'Take 2d8 exhaustion damage when transformation ends'
           }
-        }],
-        durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
+        ]
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 15
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
       },
 
-      tags: ['buff', 'transformation', 'obliteration', 'berserker']
+      tags: ['buff', 'transformation', 'obliteration', 'berserker', 'self-damage']
     }
   ],
 

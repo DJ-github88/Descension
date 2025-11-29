@@ -12,6 +12,8 @@ const DialogueControls = () => {
   const [selectedPosition, setSelectedPosition] = useState('bottom');
   const [speed, setSpeed] = useState(50);
   const [selectedCreatureId, setSelectedCreatureId] = useState(null);
+  const [selectedSpeaker, setSelectedSpeaker] = useState('character');
+  const [selectedBackdropEffect, setSelectedBackdropEffect] = useState('none');
   const [previewText, setPreviewText] = useState('');
   const [isReplaying, setIsReplaying] = useState(false);
   
@@ -41,6 +43,7 @@ const DialogueControls = () => {
     setSelectedColor(settings.color);
     setSelectedPosition(settings.position);
     setSpeed(settings.speed);
+    setSelectedBackdropEffect(settings.backdropEffect || 'none');
   }, [getSettings]);
 
   // Close controls when clicking outside
@@ -153,25 +156,31 @@ const DialogueControls = () => {
   const handleSendDialogue = () => {
     if (!message.trim()) return;
 
-    // Get selected creature or use character
+    // Get selected speaker
     let character = {
       name: characterName,
       characterImage: lore?.characterImage,
       lore: lore
     };
 
-    if (selectedCreatureId) {
-      const creature = creatures.find(c => c.id === selectedCreatureId);
-      if (creature) {
-        character = {
-          name: creature.name || 'Creature',
-          characterImage: creature.image || creature.token || lore?.characterImage,
-          lore: {
-            ...creature,
-            isCreature: true
-          }
-        };
+    if (selectedSpeaker === 'custom') {
+      // Use custom speaker name from creature selection or character
+      if (selectedCreatureId) {
+        const creature = creatures.find(c => c.id === selectedCreatureId);
+        if (creature) {
+          character = {
+            name: creature.name || 'Creature',
+            characterImage: creature.image || creature.token || lore?.characterImage,
+            lore: {
+              ...creature,
+              isCreature: true
+            }
+          };
+        }
       }
+    } else {
+      // Use predefined speaker
+      character.name = selectedSpeaker;
     }
 
     showDialogue(message, {
@@ -181,6 +190,7 @@ const DialogueControls = () => {
       color: selectedColor,
       position: selectedPosition,
       speed: parseInt(speed),
+      backdropEffect: selectedBackdropEffect,
       closeable: true
     });
 
@@ -189,7 +199,8 @@ const DialogueControls = () => {
       effect: selectedEffect,
       color: selectedColor,
       position: selectedPosition,
-      speed: parseInt(speed)
+      speed: parseInt(speed),
+      backdropEffect: selectedBackdropEffect
     });
 
     setMessage('');
@@ -296,19 +307,46 @@ const DialogueControls = () => {
                   <h4 className="control-section-title">Speaker</h4>
                 </div>
                 <div className="control-item">
-                  <label>Select Character:</label>
+                  <label>Select Speaker:</label>
                   <select
-                    value={selectedCreatureId || ''}
-                    onChange={(e) => setSelectedCreatureId(e.target.value || null)}
+                    value={selectedSpeaker}
+                    onChange={(e) => {
+                      setSelectedSpeaker(e.target.value);
+                      // Reset creature selection when switching to predefined speakers
+                      if (e.target.value !== 'custom') {
+                        setSelectedCreatureId(null);
+                      }
+                    }}
                   >
-                    <option value="">Character ({characterName})</option>
-                    {creatures.map((creature) => (
-                      <option key={creature.id} value={creature.id}>
-                        {creature.name || 'Unnamed Creature'}
-                      </option>
-                    ))}
+                    <option value="character">Character ({characterName})</option>
+                    <option value="Thorin Blackforge">Thorin Blackforge</option>
+                    <option value="Snicksnack the Prankster">Snicksnack the Prankster</option>
+                    <option value="Gigglegut the Explosive">Gigglegut the Explosive</option>
+                    <option value="Wobblestick the Unbalanced">Wobblestick the Unbalanced</option>
+                    <option value="Grubfingers the Collector">Grubfingers the Collector</option>
+                    <option value="Frostbite the Yeti">Frostbite the Yeti</option>
+                    <option value="Thornroo">Thornroo</option>
+                    <option value="custom">Custom Creature...</option>
                   </select>
                 </div>
+
+                {/* Show creature selection when custom is selected */}
+                {selectedSpeaker === 'custom' && (
+                  <div className="control-item">
+                    <label>Select Creature:</label>
+                    <select
+                      value={selectedCreatureId || ''}
+                      onChange={(e) => setSelectedCreatureId(e.target.value || null)}
+                    >
+                      <option value="">Select a creature...</option>
+                      {creatures.map((creature) => (
+                        <option key={creature.id} value={creature.id}>
+                          {creature.name || 'Unnamed Creature'}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
 
               {/* Visual Effects Section */}
@@ -345,6 +383,21 @@ const DialogueControls = () => {
                           {key.charAt(0).toUpperCase() + key.slice(1)}
                         </option>
                       ))}
+                    </select>
+                  </div>
+
+                  <div className="control-item">
+                    <label>Backdrop Effect:</label>
+                    <select
+                      value={selectedBackdropEffect}
+                      onChange={(e) => setSelectedBackdropEffect(e.target.value)}
+                    >
+                      <option value="none">None</option>
+                      <option value="dim">Dim</option>
+                      <option value="brighten">Brighten</option>
+                      <option value="reddish">Reddish Tint</option>
+                      <option value="blueish">Blueish Tint</option>
+                      <option value="greenish">Greenish Tint</option>
                     </select>
                   </div>
                 </div>

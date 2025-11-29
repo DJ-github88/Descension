@@ -166,15 +166,23 @@
     }
 }
 
+/* Achievement notification styling */
+.player-notification.achievement {
+    border-color: #4facfe;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        0 0 25px rgba(79, 172, 254, 0.4);
+}
+
 /* Stack multiple notifications */
 .player-notification:nth-of-type(2) {
-    top: calc(25% + 80px);
+    top: calc(20% + 80px);
 }
 
 .player-notification:nth-of-type(3) {
-    top: calc(25% + 160px);
+    top: calc(20% + 160px);
 }
 
 .player-notification:nth-of-type(4) {
-    top: calc(25% + 240px);
+    top: calc(20% + 240px);
 }

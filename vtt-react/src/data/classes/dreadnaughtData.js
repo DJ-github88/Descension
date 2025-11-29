@@ -1071,7 +1071,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_unholy_fortitude',
       name: 'Unholy Fortitude',
-      description: 'Enhance your resilience with dark power, increasing armor by 1 for every 5 DRP spent.',
+      description: 'Enhance your resilience with dark power for 1 minute, increasing armor by 1 for every 5 DRP spent. Spend variable DRP to scale the armor bonus.',
       level: 2,
       spellType: 'ACTION',
       icon: 'spell_shadow_unholyfrenzy',
@@ -1105,7 +1105,7 @@ Many players enhance the dreadnaught experience with:
         effects: [{
           id: 'unholy_fortitude_buff',
           name: 'Unholy Fortitude',
-          description: 'Increase armor by 1 for every 5 DRP spent',
+          description: 'Increase armor by 1 for every 5 DRP spent for 1 minute',
           statModifier: {
             stat: 'armor',
             magnitude: 'drpSpent / 5',
@@ -1453,7 +1453,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_death_embrace',
       name: 'Death Embrace',
-      description: 'Embrace the power of death, becoming resistant to all damage while healing from necrotic damage.',
+      description: 'Embrace the power of death for 1 minute (concentration), becoming resistant to all damage types while healing from necrotic damage instead of taking it.',
       level: 5,
       spellType: 'ACTION',
       icon: 'spell_shadow_deathsembrace',
@@ -1488,7 +1488,7 @@ Many players enhance the dreadnaught experience with:
           {
             id: 'death_embrace_resistance',
             name: 'Death Resistance',
-            description: 'Resistance to all damage types',
+            description: 'Resistance to all damage types for 1 minute (requires concentration)',
             statModifier: {
               stat: 'damageResistance',
               magnitude: 1,
@@ -1499,7 +1499,7 @@ Many players enhance the dreadnaught experience with:
           {
             id: 'death_embrace_healing',
             name: 'Necrotic Healing',
-            description: 'Heal from necrotic damage instead of taking it',
+            description: 'Heal from necrotic damage instead of taking it for 1 minute (requires concentration)',
             healingModifier: {
               elementType: 'necrotic',
               formula: 'damage_taken',
@@ -1520,7 +1520,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_necrotic_wave',
       name: 'Necrotic Wave',
-      description: 'Send out a wave of necrotic energy that damages and weakens enemies in a line.',
+      description: 'Send out a wave of necrotic energy that damages and weakens enemies in a 60-foot line. Enemies hit take damage and suffer disadvantage on saving throws against necrotic effects for 1 minute.',
       level: 5,
       spellType: 'ACTION',
       icon: 'spell_shadow_unholyfrenzy',
@@ -1564,7 +1564,7 @@ Many players enhance the dreadnaught experience with:
         effects: [{
           id: 'necrotic_wave_weakness',
           name: 'Necrotic Weakness',
-          description: 'Disadvantage on saving throws against necrotic effects',
+          description: 'Disadvantage on saving throws against necrotic effects for 1 minute',
           statModifier: {
             stat: 'savingThrows',
             magnitude: -1,
@@ -1585,7 +1585,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_abyssal_shield',
       name: 'Abyssal Shield',
-      description: 'Create a powerful shield that blocks all damage and reflects a portion back at attackers.',
+      description: 'Create a powerful shield for 1 turn that blocks all damage and reflects 50% back at attackers as necrotic damage. Spend variable DRP to activate.',
       level: 5,
       spellType: 'REACTION',
       icon: 'spell_shadow_sealofkings',
@@ -1618,7 +1618,7 @@ Many players enhance the dreadnaught experience with:
         effects: [{
           id: 'abyssal_shield_reflection',
           name: 'Abyssal Shield',
-          description: 'Block all damage and reflect half back at attacker',
+          description: 'Block all damage for 1 turn and reflect 50% back at attacker as necrotic damage',
           damageReflection: {
             percentage: 50,
             elementType: 'necrotic'
@@ -2076,12 +2076,19 @@ Many players enhance the dreadnaught experience with:
       },
 
       transformationConfig: {
-        form: 'immortal_fortress',
-        description: 'Body transforms into living darkness',
-        abilities: ['flying', 'incorporeal_passage'],
-        durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes'
+        transformationType: 'shadow',
+        targetType: 'self',
+        duration: 1,
+        durationUnit: 'minutes',
+        power: 'major',
+        newForm: 'Immortal Fortress',
+        description: 'Your body becomes living darkness, an indestructible bastion.',
+        concentration: true,
+        grantedAbilities: [
+          { id: 'fortress_immunity', name: 'Damage Immunity', description: 'Immune to poison, disease, necrotic, and psychic damage' },
+          { id: 'fortress_resistance', name: 'Damage Resistance', description: 'Resistance to all other damage types' },
+          { id: 'incorporeal', name: 'Incorporeal Passage', description: 'Can move through solid objects' }
+        ]
       },
 
       tags: ['buff', 'transformation', 'immunity', 'resistance', 'drp', 'level-8', 'dreadnaught']
@@ -2347,18 +2354,19 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['transformation', 'damage'],
 
       transformationConfig: {
-        form: 'cosmic_devourer',
-        description: 'Transform into a cosmic entity of destruction',
-        abilities: ['flying', 'incorporeal_passage', 'devour'],
-        stats: {
-          size: 'huge',
-          speed: 60,
-          strength: 30,
-          hitPoints: '9999'
-        },
-        durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes'
+        transformationType: 'shadow',
+        targetType: 'self',
+        duration: 3,
+        durationUnit: 'rounds',
+        power: 'major',
+        newForm: 'Cosmic Devourer',
+        description: 'Transform into a massive entity of cosmic hunger.',
+        grantedAbilities: [
+          { id: 'huge_size', name: 'Huge Size', description: 'Size becomes Huge, gain +100 temporary HP' },
+          { id: 'flying', name: 'Flight', description: 'Gain 60ft flying speed' },
+          { id: 'devour', name: 'Devour', description: 'Melee attacks heal you for damage dealt' },
+          { id: 'cosmic_exhaustion', name: 'Exhaustion (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
+        ]
       },
 
       damageConfig: {

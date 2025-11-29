@@ -8,7 +8,7 @@
 export const FATE_WEAVER_DATA = {
   id: 'fate-weaver',
   name: 'Fate Weaver',
-  icon: 'fas fa-cards',
+  icon: 'fas fa-magic',
   role: 'Support/Control',
 
   // Level-based spell pools for starter/auto-assignment

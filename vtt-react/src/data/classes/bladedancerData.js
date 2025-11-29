@@ -1643,7 +1643,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flowing_dodge',
       name: 'Flowing Dodge',
-      description: 'Flow like water around attacks, gaining enhanced evasion and positioning yourself for devastating counters.',
+      description: 'Flow like water around attacks, gaining +4 dodge bonus for 1 round and positioning yourself for devastating counters.',
       level: 3,
       spellType: 'REACTION',
       icon: 'ability_rogue_feint',
@@ -1677,7 +1677,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'flowing_dodge_evasion',
           name: 'Flowing Evasion',
-          description: 'Enhanced dodge chance and movement from flowing around attacks',
+          description: '+4 dodge bonus for 1 round',
           statModifier: {
             stat: 'dodge',
             magnitude: 4,
@@ -1701,7 +1701,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_mastery',
       name: 'Stance Mastery',
-      description: 'Demonstrate mastery of your current stance, enhancing its effects and gaining a powerful bonus ability.',
+      description: 'Demonstrate mastery of your current stance for 2 rounds, doubling its effects and gaining enhanced capabilities.',
       level: 3,
       spellType: 'ACTION',
       icon: 'ability_warrior_innerrage',
@@ -1735,7 +1735,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_mastery_power',
           name: 'Stance Mastery',
-          description: 'Doubled effects from current stance abilities and enhanced capabilities',
+          description: 'Double all effects from current stance abilities for 2 rounds',
           statModifier: {
             stat: 'stancePower',
             magnitude: 2,
@@ -2068,7 +2068,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_vanishing_blade',
       name: 'Vanishing Blade',
-      description: 'Fade into invisibility and strike with a guaranteed critical hit, the ultimate assassin technique.',
+      description: 'Fade into invisibility for 1 round and strike with a devastating attack. The invisibility grants advantage on the attack.',
       level: 6,
       spellType: 'ACTION',
       icon: 'ability_vanish',
@@ -2112,7 +2112,7 @@ Many players enhance the stance-dancing experience with:
           critMultiplier: 2,
           critEffects: ['surprise']
         },
-        description: 'Guaranteed critical strike from invisibility, target cannot react'
+        description: 'Devastating strike with advantage from invisibility'
       },
 
       buffConfig: {
@@ -2120,7 +2120,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'vanishing_invisibility',
           name: 'Shadow Veil',
-          description: 'Become invisible, gaining advantage on attacks',
+          description: 'Become invisible for 1 round, gaining advantage on attacks',
           statusType: 'invisibility',
           level: 'major'
         }],
@@ -2142,7 +2142,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_harmony',
       name: 'Stance Harmony',
-      description: 'Achieve perfect harmony between all stances, gaining enhanced effects from multiple forms simultaneously.',
+      description: 'Achieve perfect harmony between all stances for 3 rounds (concentration), gaining enhanced effects from multiple forms simultaneously.',
       level: 6,
       spellType: 'ACTION',
       icon: 'ability_druid_treeoflife',
@@ -2176,7 +2176,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_harmony_power',
           name: 'Harmonic Power',
-          description: 'Combine benefits from multiple stances simultaneously',
+          description: 'Combine benefits from multiple stances simultaneously for 3 rounds (requires concentration)',
           statModifier: {
             stat: 'multiStanceBenefits',
             magnitude: 1,
@@ -2717,13 +2717,13 @@ Many players enhance the stance-dancing experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d6 + agility * 2',
+        formula: '6d8 + agility * 2',
         elementType: 'force',
         damageType: 'direct',
         canCrit: true,
-        critMultiplier: 4,
+        critMultiplier: 2,
         critDiceOnly: false,
-        description: 'A single strike embodying the power of all six stances'
+        description: 'A devastating strike channeling the essence of all six stances'
       },
 
       cooldownConfig: {
@@ -2769,7 +2769,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'perfect_harmony_mastery',
           name: 'Harmonic Mastery',
-          description: 'All stance abilities are maximized and transitions are free',
+          description: 'Stance transitions cost 1 Momentum (instead of 2-4), all stance abilities deal +1d6 damage',
           statModifier: {
             stat: 'perfectStanceMastery',
             magnitude: 1,
@@ -2795,9 +2795,9 @@ Many players enhance the stance-dancing experience with:
     // ========================================
 
     {
-      id: 'bladedancer_transcendent_dance_of_the_six_winds',
-      name: 'Transcendent Dance - Six Winds',
-      description: 'Transcend mortal limitations, becoming a living embodiment of all six stances simultaneously.',
+      id: 'bladedancer_dance_of_the_six_winds',
+      name: 'Dance of the Six Winds',
+      description: 'Enter a state of perfect martial focus, embodying all six stances simultaneously for a brief but devastating duration.',
       level: 10,
       spellType: 'ACTION',
       icon: 'ability_druid_earthandsky',
@@ -2826,43 +2826,34 @@ Many players enhance the stance-dancing experience with:
       },
 
       resolution: 'NONE',
-      effectTypes: ['transformation', 'buff'],
+      effectTypes: ['transformation'],
 
       transformationConfig: {
-        transformationType: 'stance_mastery',
+        transformationType: 'physical',
         targetType: 'self',
         duration: 1,
         durationUnit: 'minutes',
-        power: 'ultimate',
-        specialEffects: ['all_stance_passives', 'instant_transitions', 'enhanced_abilities']
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'transcendent_power',
-          name: 'Six Winds Embodiment',
-          description: 'Gain all passive effects from all six stances simultaneously',
-          statModifier: {
-            stat: 'allStanceBenefits',
-            magnitude: 1,
-            magnitudeType: 'flat'
+        power: 'major',
+        newForm: 'Dance of the Six Winds',
+        description: 'Enter a state of perfect martial focus, embodying all six stances simultaneously.',
+        concentration: true,
+        grantedAbilities: [
+          {
+            id: 'six_winds_passives',
+            name: 'Six Winds Embodiment',
+            description: 'Gain all passive effects from all six stances simultaneously'
+          },
+          {
+            id: 'instant_transitions',
+            name: 'Instant Transitions',
+            description: 'Switch between any stance instantly without Momentum cost'
+          },
+          {
+            id: 'doubled_momentum',
+            name: 'Endless Flow',
+            description: 'Momentum generation doubled'
           }
-        }, {
-          id: 'infinite_momentum',
-          name: 'Endless Flow',
-          description: 'Momentum generation doubled, instant transitions to any stance',
-          statModifier: {
-            stat: 'momentumGeneration',
-            magnitude: 1,
-            magnitudeType: 'percentage'
-          }
-        }],
-        durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes',
-        concentrationRequired: true,
-        canBeDispelled: false
+        ]
       },
 
       cooldownConfig: {
@@ -2907,7 +2898,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'zenith_mastery',
           name: 'Zenith Mastery',
-          description: 'All blade attacks become legendary, all stances reach perfection',
+          description: '+2 to all attack rolls, +1d8 damage to all stance abilities, +2 Momentum generated per action',
           statModifier: {
             stat: 'ultimateBladeMastery',
             magnitude: 1,

@@ -1138,7 +1138,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_arcane_nova',
       name: 'Arcane Nova',
-      description: 'Release stored arcane energy in a devastating burst around you. All enemies within 20 feet take arcane damage and have their spell damage reduced for 1 turn.',
+      description: 'Release stored arcane energy in a devastating burst around you. All enemies within 20 feet take arcane damage (save for half) and have their spell damage reduced by 2 for 1 turn.',
       spellType: 'ACTION',
       icon: 'spell_arcane_blast',
       school: 'Evocation',
@@ -2416,21 +2416,19 @@ Many players enhance the Spellguard experience with:
       effectTypes: ['transformation'],
 
       transformationConfig: {
-        transformType: 'arcane',
-        formName: 'Avatar of Negation',
-        formDescription: 'You become a being of pure anti-magic.',
+        transformationType: 'arcane',
+        targetType: 'self',
         duration: 3,
         durationUnit: 'rounds',
-        statModifiers: [
-          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' }
-        ],
-        resistances: [
-          { type: 'magic', resistanceAmount: 'immunity' }
-        ],
-        specialAbilities: [
-          { name: 'Anti-Magic Aura', description: 'All spells within 30 feet automatically fail. All magical effects are suppressed.' },
-          { name: 'Magic Devourer', description: 'When you negate a spell, deal 5d10 force damage to the caster.' },
-          { name: 'Unstoppable', description: 'You cannot be affected by any magical effect, positive or negative.' }
+        power: 'major',
+        newForm: 'Avatar of Negation',
+        description: 'Become a being of pure anti-magic.',
+        grantedAbilities: [
+          { id: 'negation_armor', name: 'Negation Armor', description: '+8 armor against magical attacks' },
+          { id: 'spell_immunity', name: 'Spell Immunity', description: 'Immune to all spell damage' },
+          { id: 'antimagic_aura', name: 'Anti-Magic Aura', description: 'Spells cast within 20ft have disadvantage on attack rolls' },
+          { id: 'magic_devourer', name: 'Magic Devourer', description: 'When you negate a spell, deal 3d10 force damage to the caster' },
+          { id: 'negation_drain', name: 'Negation Drain (On End)', description: 'Lose all remaining AEP when transformation ends' }
         ],
         concentrationRequired: false,
         canBeDispelled: false

@@ -36,7 +36,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     const element = event.currentTarget;
     if (!element) return;
     
-    // Set up delayed tooltip display (1.5 seconds)
+    // Set up delayed tooltip display (500ms)
     hoverDelayTimeoutRef.current = setTimeout(() => {
       // Re-check element is still available
       if (!element || !document.body.contains(element)) {
@@ -74,7 +74,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       
       setHoverPosition({ x, y });
       setHoveredSpell(spell);
-    }, 1500); // 1.5 second delay
+    }, 500); // 500ms delay
   };
 
   const handleSpellLeave = () => {
@@ -967,6 +967,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
               spheres: []
             }}
             size="large"
+            context="rules"
             isGMMode={false}
           />
         </div>

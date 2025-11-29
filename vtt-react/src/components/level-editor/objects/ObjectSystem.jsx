@@ -93,11 +93,11 @@ const ObjectSystem = () => {
 
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
-        
+
         // Set canvas size to match container
         canvas.width = rect.width;
         canvas.height = rect.height;
-        
+
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -294,6 +294,7 @@ const ObjectSystem = () => {
 
         ctx.restore();
     };
+
 
     // Convert screen coordinates to world coordinates
     const screenToWorld = useCallback((screenX, screenY) => {
@@ -664,6 +665,7 @@ const ObjectSystem = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [renderObjects]);
+
 
     return (
         <>

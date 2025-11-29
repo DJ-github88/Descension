@@ -291,7 +291,7 @@ export const CLASS_RESOURCE_TYPES = {
             activeColor: '#9333EA', // Bright purple
             glowColor: '#D946EF', // Magenta glow
             vortexColor: '#7C3AED', // Violet vortex
-            icon: '🌀',
+            icon: 'fas fa-dice',
             effects: ['chaos', 'reality-distortion', 'swirling-energy'],
             specializations: {
                 'reality-bending': {

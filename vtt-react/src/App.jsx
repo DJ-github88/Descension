@@ -22,6 +22,7 @@ const Grid = lazy(() => import("./components/Grid"));
 const Navigation = lazy(() => import("./components/Navigation"));
 const HUDContainer = lazy(() => import("./components/hud/HUDContainer"));
 const GridItemsManager = lazy(() => import("./components/grid/GridItemsManager"));
+const AchievementNotificationOverlay = lazy(() => import("./components/AchievementNotificationOverlay"));
 
 const DynamicFogManager = lazy(() => import("./components/level-editor/DynamicFogManager"));
 const DynamicLightingManager = lazy(() => import("./components/level-editor/DynamicLightingManager"));
@@ -497,6 +498,7 @@ function GameScreen() {
                 <Suspense fallback={<LoadingFallback message="Loading game..." />}>
                     <Grid />
                     <GridItemsManager />
+                    <AchievementNotificationOverlay />
                     <HUDContainer />
                     <ActionBar />
                     <CombatSelectionWindow />
@@ -507,7 +509,7 @@ function GameScreen() {
                     <AtmosphericEffectsManager disabled={!isGMMode} />
                     <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
                     <DialogueSystem />
-                    <DialogueControls />
+                    {isGMMode && <DialogueControls />}
                     <DiceRollingSystem />
 
                     {/* Local Room Indicator - only show when in a local room */}

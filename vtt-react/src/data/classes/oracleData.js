@@ -1067,7 +1067,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prophecy_of_doom',
       name: 'Prophecy of Doom',
-      description: 'Declare a dire prophecy about an enemy\'s fate. If your prediction comes true, they suffer the prophesied doom.',
+      description: 'Declare a dire prophecy about an enemy\'s fate for 3 rounds (concentration). If your prediction comes true within that time, they suffer the prophesied doom: 3d8 psychic damage and frightened for 1 round.',
       spellType: 'ACTION',
       icon: 'spell_shadow_curseofachimonde',
       school: 'Divination',
@@ -1123,7 +1123,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_reveal_truth',
       name: 'Reveal Truth',
-      description: 'Compel a creature to speak only truth, unable to lie or deceive.',
+      description: 'Compel a creature to speak only truth for 1 minute (concentration). Target must save or answer one question with complete honesty, unable to lie or deceive.',
       spellType: 'ACTION',
       icon: 'spell_holy_searinglightpriest',
       school: 'Divination',
@@ -1570,7 +1570,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_reveal_weakness',
       name: 'Reveal Weakness',
-      description: 'Peer into a target\'s timeline to discover their greatest weakness, making them vulnerable to all damage.',
+      description: 'Peer into a target\'s timeline to discover their greatest weakness for 4 rounds, making them vulnerable to all damage. Target takes 50% more damage from all sources. Target may save to halve the duration.',
       level: 6,
       spellType: 'ACTION',
       icon: 'spell_shadow_detectinvisibility',
@@ -1598,7 +1598,7 @@ Many players enhance the Oracle experience with:
         verbalText: 'Reveal your weakness!'
       },
 
-      resolution: 'NONE',
+      resolution: 'SAVE',
       effectTypes: ['debuff'],
 
       debuffConfig: {
@@ -1606,7 +1606,7 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'revealed_weakness',
           name: 'Revealed Weakness',
-          description: 'Target takes 50% more damage from all sources'
+          description: 'Target takes 50% more damage from all sources for 4 rounds (or 2 rounds if save succeeds)'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -1679,7 +1679,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prescient_dodge',
       name: 'Prescient Dodge',
-      description: 'See all incoming attacks before they happen. Become nearly impossible to hit.',
+      description: 'See all incoming attacks before they happen for 3 rounds (concentration). Enemies have disadvantage on all attacks against you, and you automatically succeed on Dexterity saving throws.',
       level: 7,
       spellType: 'BONUS_ACTION',
       icon: 'spell_holy_elunesgrace',
@@ -1713,7 +1713,7 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'prescient_dodge',
           name: 'Prescient Dodge',
-          description: 'Enemies have disadvantage on all attacks against you. You automatically succeed on Dexterity saving throws.'
+          description: 'Enemies have disadvantage on all attacks against you for 3 rounds (requires concentration). You automatically succeed on Dexterity saving throws.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1733,7 +1733,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_expose_secrets',
       name: 'Expose Secrets',
-      description: 'Read the hidden truths in a creature\'s past, exposing all their secrets and weaknesses.',
+      description: 'Read the hidden truths in a creature\'s past for 1 minute, exposing all their secrets and weaknesses. All attacks against target have advantage, and target cannot benefit from invisibility, cover, or concealment. Target may save to resist.',
       level: 7,
       spellType: 'ACTION',
       icon: 'spell_shadow_mindtwisting',
@@ -1762,7 +1762,7 @@ Many players enhance the Oracle experience with:
         somaticText: 'Eye contact'
       },
 
-      resolution: 'NONE',
+      resolution: 'SAVE',
       effectTypes: ['debuff', 'damage'],
 
       debuffConfig: {
@@ -1770,7 +1770,7 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'exposed_secrets',
           name: 'Exposed Secrets',
-          description: 'All attacks against target have advantage. Target cannot benefit from invisibility, cover, or concealment.'
+          description: 'All attacks against target have advantage for 1 minute. Target cannot benefit from invisibility, cover, or concealment.'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2353,18 +2353,20 @@ Many players enhance the Oracle experience with:
       effectTypes: ['transformation'],
 
       transformationConfig: {
-        transformType: 'divine',
-        formName: 'Master of Fate',
-        formDescription: 'You become one with the cosmic forces of destiny.',
-        duration: 1,
-        durationUnit: 'minutes',
-        statModifiers: [
-          { stat: 'all', magnitude: 5, magnitudeType: 'flat' }
+        transformationType: 'divine',
+        targetType: 'self',
+        duration: 3,
+        durationUnit: 'rounds',
+        power: 'major',
+        newForm: 'Master of Fate',
+        description: 'Become one with the cosmic forces of destiny.',
+        grantedAbilities: [
+          { id: 'fate_stats', name: 'Cosmic Insight', description: '+5 to all attributes' },
+          { id: 'fate_control', name: 'Fate Control', description: 'Reroll any die roll 3 times per transformation' },
+          { id: 'fate_sight', name: 'Perfect Foresight', description: 'Cannot be surprised, advantage on all saving throws' },
+          { id: 'fate_protection', name: 'Fate Shield', description: 'Once per transformation, negate a lethal blow' },
+          { id: 'fate_exhaustion', name: 'Cosmic Drain (On End)', description: 'Gain 2 levels of exhaustion and lose all remaining Vision Points' }
         ],
-        specialAbilities: [{
-          name: 'Absolute Fate Control',
-          description: 'You can change any die roll result to any number you want, unlimited times. You cannot die while transformed. All your spells automatically succeed.'
-        }],
         concentrationRequired: false,
         canBeDispelled: false
       },

@@ -3305,7 +3305,13 @@ Many players enhance the Lichborne experience with:
         duration: 5,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Eternal Frost Aura no longer drains HP', 'Phylactery auto-resurrects even if empty', 'Immunity to cold damage']
+        newForm: 'Eternal Winter',
+        description: 'Become one with the endless cold, transcending the limitations of undeath.',
+        grantedAbilities: [
+          { id: 'frost_control', name: 'Frost Aura Mastery', description: 'Eternal Frost Aura no longer drains your HP' },
+          { id: 'phylactery_boost', name: 'Phylactery Surge', description: 'Phylactery can resurrect you once even if empty' },
+          { id: 'cold_immunity', name: 'Cold Immunity', description: 'Immune to cold damage' }
+        ]
       },
       targetingConfig: {
         targetingType: 'self'

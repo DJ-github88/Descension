@@ -1861,6 +1861,59 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Handle game session launch (GM only)
+  socket.on('launch_game_session', (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only GM can launch game sessions' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Send game session launch notification to all players in the room
+    io.to(player.roomId).emit('game_session_launched', {
+      gmName: player.name,
+      roomName: room.name,
+      message: `${player.name} has launched a game session!`,
+      timestamp: new Date()
+    });
+
+    console.log(`🎮 GM ${player.name} launched game session in room: ${room.name}`);
+  });
+
+  // Handle player response to game session launch
+  socket.on('respond_to_game_session', (data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Notify GM of player's response
+    const gmSocketId = room.gm.socketId;
+    if (gmSocketId) {
+      io.to(gmSocketId).emit('game_session_response', {
+        playerId: player.id,
+        playerName: player.name,
+        accepted: data.accepted,
+        timestamp: new Date()
+      });
+    }
+
+    console.log(`🎮 ${player.name} ${data.accepted ? 'accepted' : 'declined'} game session invitation`);
+  });
+
   // Handle player color updates
   socket.on('update_player_color', (data) => {
     const player = players.get(socket.id);

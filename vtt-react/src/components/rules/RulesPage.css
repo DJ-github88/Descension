@@ -592,6 +592,46 @@
   background: linear-gradient(180deg, #f5ead6 0%, #f0e5d0 100%);
 }
 
+/* Remove top padding when showing class detail to eliminate gap with breadcrumbs */
+.rules-content-area .class-detail-display {
+  margin-top: -20px;
+  padding-top: 0;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+/* Disable scrolling on rules-content-area when displaying class details or custom components */
+.rules-content-area.class-detail-view,
+.rules-content-area.custom-component-view {
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+}
+
+/* Ensure class-detail-content never scrolls - use most specific selector */
+.rules-content-area .class-detail-display .class-detail-content,
+.rules-content-area > .class-detail-display .class-detail-content,
+div.rules-content-area .class-detail-display .class-detail-content {
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  max-height: none !important;
+  height: auto !important;
+  position: relative !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  contain: none !important;
+}
+
+.rules-content-area .class-detail-display .class-detail-content::-webkit-scrollbar,
+.rules-content-area > .class-detail-display .class-detail-content::-webkit-scrollbar,
+div.rules-content-area .class-detail-display .class-detail-content::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
 /* Custom scrollbar for content */
 .rules-content-area::-webkit-scrollbar {
   width: 10px;
@@ -912,15 +952,15 @@
 }
 
 .rules-table th:nth-child(2) {
-  width: 15%;
+  width: 25%;
 }
 
 .rules-table th:nth-child(3) {
-  width: 30%;
+  width: 25%;
 }
 
 .rules-table th:nth-child(4) {
-  width: 30%;
+  width: 25%;
 }
 
 .rules-table th:last-child {
@@ -950,8 +990,8 @@
   vertical-align: top;
   background: transparent;
   height: auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .rules-table td:last-child {
@@ -975,11 +1015,29 @@
   font-weight: 700;
   transition: all 0.2s ease;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .rules-table td.clickable-cell:hover {
   color: #a07828;
   text-decoration: underline;
+}
+
+/* Class cell icons */
+.class-cell-icon {
+  font-size: 1rem;
+  color: #a08050;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.rules-table td.clickable-cell:hover .class-cell-icon {
+  color: #8b6830;
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 /* ===== TABBED CONTENT ===== */

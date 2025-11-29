@@ -490,8 +490,22 @@ const DialogueSystem = () => {
     cursor: isDragging ? 'grabbing' : 'grab'
   };
 
+  // Get backdrop effect class
+  const getBackdropEffectClass = (effect) => {
+    switch (effect) {
+      case 'dim': return 'backdrop-dim';
+      case 'brighten': return 'backdrop-brighten';
+      case 'reddish': return 'backdrop-reddish';
+      case 'blueish': return 'backdrop-blueish';
+      case 'greenish': return 'backdrop-greenish';
+      default: return '';
+    }
+  };
+
+  const backdropEffectClass = getBackdropEffectClass(activeDialogue.backdropEffect);
+
   return (
-    <div className="dialogue-system-overlay" onClick={handleDialogueClick}>
+    <div className={`dialogue-system-overlay ${backdropEffectClass}`} onClick={handleDialogueClick}>
       <div
         ref={dialogueRef}
         className={`dialogue-container ${customPosition ? 'custom-position' : (activeDialogue.position || 'bottom')} ${isDragging ? 'dragging' : ''}`}

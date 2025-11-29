@@ -79,6 +79,7 @@ const ClassResourceBar = ({
 
     const rageBarRef = useRef(null);
     const tooltipRef = useRef(null);
+    const tooltipTimeoutRef = useRef(null);
 
     // Class-specific states consolidated
     const [berserkerState, setBerserkerState] = useState({
@@ -603,6 +604,15 @@ const ClassResourceBar = ({
         };
     }, [showDRPMenu]);
 
+    // Cleanup tooltip timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (tooltipTimeoutRef.current) {
+                clearTimeout(tooltipTimeoutRef.current);
+            }
+        };
+    }, []);
+
     useEffect(() => {
         if (!showTooltip || !tooltipRef.current) return;
 
@@ -763,25 +773,40 @@ const ClassResourceBar = ({
     const percentage = finalClassResource.max > 0 ? (finalClassResource.current / finalClassResource.max) * 100 : 0;
 
     // Handle mouse events for tooltip (following item tooltip pattern)
+    // Add 4 second delay before showing tooltip
     const handleMouseEnter = (e) => {
-        setShowTooltip(true);
+        // Clear any existing timeout
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+        }
+        
+        // Set initial position
         setTooltipPosition({
             x: e.clientX + 15,
             y: e.clientY - 10
         });
+        
+        // Show tooltip after 4 seconds
+        tooltipTimeoutRef.current = setTimeout(() => {
+            setShowTooltip(true);
+        }, 4000);
     };
 
     const handleMouseLeave = () => {
+        // Clear timeout if mouse leaves before 4 seconds
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+            tooltipTimeoutRef.current = null;
+        }
         setShowTooltip(false);
     };
 
     const handleMouseMove = (e) => {
-        if (showTooltip) {
-            setTooltipPosition({
-                x: e.clientX + 15,
-                y: e.clientY - 10
-            });
-        }
+        // Update position even if tooltip isn't shown yet (so it's ready when it does show)
+        setTooltipPosition({
+            x: e.clientX + 15,
+            y: e.clientY - 10
+        });
     };
 
     // Handle click events for GM mode
@@ -1712,7 +1737,7 @@ const ClassResourceBar = ({
         };
 
         // For small size (HUD), show compact bar with controls
-        if (size === 'small') {
+        if (size === 'small' || size === 'normal') {
             return (
                 <div
                     className={`class-resource-bar mayhem-modifiers-display ${size}`}
@@ -1741,6 +1766,11 @@ const ClassResourceBar = ({
 
                         <div
                             className="mayhem-bar-container-hud"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowModifierMenu(v => !v);
+                            }}
+                            style={{ cursor: 'pointer' }}
                             onMouseEnter={(e) => {
                                 setChaosWeaverHoverSection('modifiers');
                                 const rect = e.currentTarget.getBoundingClientRect();
@@ -1778,10 +1808,6 @@ const ClassResourceBar = ({
                         >
                             <div 
                                 className="mayhem-bar-background"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowModifierMenu(v => !v);
-                                }}
                             >
                                 <div
                                     className="mayhem-bar-fill-hud"
@@ -1858,7 +1884,7 @@ const ClassResourceBar = ({
                             }}
                         />
                         <div className="mayhem-count-display">
-                            <span className="mayhem-icon">{finalConfig.visual?.icon || '🌀'}</span>
+                            <span className="mayhem-icon">{finalConfig.visual?.icon ? <i className={finalConfig.visual.icon}></i> : null}</span>
                             <span className="mayhem-count">{modifierCount}/{maxModifiers}</span>
                         </div>
                     </div>
@@ -5102,33 +5128,9 @@ const ClassResourceBar = ({
         };
 
 
-        // Handle tooltip hover
-        const handleMouseEnter = (e) => {
-            setShowTooltip(true);
-            setTooltipPosition({
-                x: e.clientX,
-                y: e.clientY
-            });
-            setTooltipPlacement('above');
-        };
-
-        const handleMouseLeave = () => {
-            setShowTooltip(false);
-        };
-
-        const handleMouseMove = (e) => {
-            setTooltipPosition({
-                x: e.clientX,
-                y: e.clientY
-            });
-        };
-
         return (
             <div
                 className={`elemental-spheres-container ${size}`}
-                onMouseEnter={handleMouseEnter}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
                 onContextMenu={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -5344,48 +5346,6 @@ const ClassResourceBar = ({
                     )}
 
                 </div>
-
-                {/* Pathfinder-style Resource Tooltip */}
-                {showTooltip && (
-                    <TooltipPortal>
-                        <div
-                            className="pathfinder-resource-tooltip"
-                            style={{
-                                position: 'fixed',
-                                left: tooltipPosition.x,
-                                top: tooltipPosition.y,
-                                transform: 'translate(15px, -50%)',
-                                pointerEvents: 'none',
-                                zIndex: 999999999
-                            }}
-                        >
-                            <div className="pathfinder-tooltip-content">
-                                <div className="pathfinder-tooltip-title">ELEMENTAL SPHERES</div>
-                                <div className="pathfinder-tooltip-description">
-                                    Roll {activeSpecialization === 'entropy-weaver' ? '5d8' : '4d8'} each turn to generate elemental spheres that can be combined to cast spells. Spheres persist during combat but vanish when combat ends.
-                                </div>
-                                <div className="pathfinder-tooltip-controls">
-                                    <strong>BAR CONTROLS:</strong><br/>
-                                    • <em>Left-click spheres</em> to spend them for spells<br/>
-                                    • <em>Right-click bar</em> to remove one sphere<br/>
-                                    • <em>Right-click dice button</em> to cycle: Roll → Spec Switch → {activeSpecialization === 'prism-mage' ? 'Reroll' : activeSpecialization === 'sphere-architect' ? 'Swap Mode' : 'Spec Switch'}
-                                </div>
-                                <div className="pathfinder-tooltip-spec">
-                                    <strong>{activeSpecialization === 'prism-mage' ? 'PRISM MAGE' :
-                                             activeSpecialization === 'entropy-weaver' ? 'ENTROPY WEAVER' :
-                                             'SPHERE ARCHITECT'}</strong>
-                                    {activeSpecialization === 'prism-mage' && ': Reroll spheres, pure element combos +50% damage'}
-                                    {activeSpecialization === 'entropy-weaver' && ': Extra sphere per turn, chaos combos x2 damage, wild magic surges'}
-                                    {activeSpecialization === 'sphere-architect' && ': Swap spheres (1/turn), 3-sphere spells -3 mana, efficient banking'}
-                                </div>
-                                <div className="pathfinder-tooltip-limits">
-                                    CURRENT: {activeSpheres.length} • MAXIMUM: unlimited during combat
-                                </div>
-                            </div>
-                        </div>
-                    </TooltipPortal>
-                )}
-
             </div>
         );
     };
@@ -5887,22 +5847,39 @@ const ClassResourceBar = ({
                                                 setShowSpecPassiveMenu(false);
                                             }}
                                             style={{
-                                                background: selectedSpecialization === spec ? 'rgba(52, 73, 94, 0.6)' : 'rgba(52, 73, 94, 0.3)',
-                                                border: selectedSpecialization === spec ? '2px solid rgba(139, 69, 19, 0.8)' : '1px solid rgba(139, 69, 19, 0.4)',
+                                                background: selectedSpecialization === spec 
+                                                    ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(139, 69, 19, 0.15) 100%)' 
+                                                    : 'linear-gradient(135deg, rgba(245, 245, 220, 0.95) 0%, rgba(240, 240, 210, 0.9) 100%)',
+                                                border: selectedSpecialization === spec 
+                                                    ? '2px solid rgba(139, 69, 19, 0.8)' 
+                                                    : '1px solid rgba(139, 69, 19, 0.4)',
                                                 borderRadius: '4px',
                                                 padding: '8px',
-                                                color: '#d8c9a9',
+                                                color: selectedSpecialization === spec ? '#3a0e08' : '#5a1e12',
                                                 fontFamily: "'Crimson Text', serif",
                                                 fontSize: '10px',
                                                 cursor: 'pointer',
                                                 textAlign: 'left',
                                                 display: 'flex',
                                                 flexDirection: 'column',
-                                                gap: '2px'
+                                                gap: '2px',
+                                                transition: 'all 0.2s ease'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                if (selectedSpecialization !== spec) {
+                                                    e.currentTarget.style.background = 'linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(240, 240, 210, 0.95) 100%)';
+                                                    e.currentTarget.style.borderColor = 'rgba(139, 69, 19, 0.6)';
+                                                }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (selectedSpecialization !== spec) {
+                                                    e.currentTarget.style.background = 'linear-gradient(135deg, rgba(245, 245, 220, 0.95) 0%, rgba(240, 240, 210, 0.9) 100%)';
+                                                    e.currentTarget.style.borderColor = 'rgba(139, 69, 19, 0.4)';
+                                                }
                                             }}
                                         >
-                                            <div style={{ fontWeight: 700, fontSize: '11px' }}>{spec}</div>
-                                            <div style={{ fontSize: '9px', opacity: 0.8 }}>{passive}</div>
+                                            <div style={{ fontWeight: 700, fontSize: '11px', color: selectedSpecialization === spec ? '#3a0e08' : '#5a1e12' }}>{spec}</div>
+                                            <div style={{ fontSize: '9px', color: selectedSpecialization === spec ? '#5a1e12' : '#6b4423', opacity: 1 }}>{passive}</div>
                                         </button>
                                     );
                                 })}
@@ -5915,10 +5892,11 @@ const ClassResourceBar = ({
                 {size === 'large' && (
                     <div style={{
                         marginTop: '8px',
+                        marginBottom: '0',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        gap: '4px',
+                        gap: '0',
                         position: 'relative'
                     }}>
                         <button
@@ -5953,15 +5931,6 @@ const ClassResourceBar = ({
                             <i className="fas fa-star" style={{ marginRight: '6px', color: '#F39C12' }}></i>
                             Specialization: {selectedSpecialization}
                         </button>
-                        <div style={{
-                            fontSize: '9px',
-                            color: '#7a6a4a',
-                            fontStyle: 'italic',
-                            fontFamily: "'Crimson Text', serif",
-                            textAlign: 'center'
-                        }}>
-                            {getSpecPassive().name}: {getSpecPassive().description.split('.')[0]}
-                        </div>
                     </div>
                 )}
             </div>

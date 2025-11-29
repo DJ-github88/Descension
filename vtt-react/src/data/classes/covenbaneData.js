@@ -1,7 +1,7 @@
 export const COVENBANE_DATA = {
   id: 'covenbane',
   name: 'Covenbane',
-  icon: 'ability_hunter_snipershot',
+  icon: 'fas fa-crosshairs',
   color: '#8B4513',
   role: 'Anti-Magic Hunter',
 
@@ -1010,7 +1010,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_shadow_eruption',
       name: 'Shadow Eruption',
-      description: 'Cause shadows to erupt from the ground, damaging and disorienting evil magic users.',
+      description: 'Cause shadows to erupt from the ground, damaging and disorienting evil magic users. Enemies within 15 feet take damage and must save or be blinded for 2 rounds.',
       level: 6,
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
@@ -1042,13 +1042,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         critMultiplier: 2,
         critDiceOnly: false
       },
-      resolution: 'DICE',
+      resolution: 'SAVE',
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
           id: 'shadow_blindness',
           name: 'Shadow Blindness',
-          description: 'Shadows cloud vision and senses - cannot see, automatically fails sight-based checks, disadvantage on attack rolls',
+          description: 'Blinded for 2 rounds - cannot see, automatically fails sight-based checks, disadvantage on attack rolls',
           statusType: 'blinded',
           level: 'moderate'
         }],
@@ -1059,7 +1059,6 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         saveDC: 17,
         saveOutcome: 'negates'
       },
-      resolution: 'SAVING_THROW',
       tags: ['aoe', 'damage', 'debuff', 'vision', 'shadowbane']
     },
 
@@ -1106,8 +1105,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hexbreaker_storm',
       name: 'Hexbreaker Storm',
-      description: 'Summon a raging storm of anti-magic energy that tears through evil magic users.',
-      level: 5,
+      description: 'Summon a raging storm of anti-magic energy for 1 minute (concentration) that tears through evil magic users within 30 feet. Deals 3d8 radiant damage per round and weakens spellcasters.',
       level: 7,
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
@@ -1146,13 +1144,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         critMultiplier: 2,
         critDiceOnly: false
       },
-      resolution: 'DICE',
+      resolution: 'NONE',
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
           id: 'anti_magic_weakening',
           name: 'Anti-Magic Weakening',
-          description: 'Spells have disadvantage and mana cannot be regained - damage output and spell effectiveness reduced',
+          description: 'Spells have disadvantage and mana cannot be regained for 1 minute (requires concentration) - damage output and spell effectiveness reduced',
           statusType: 'weakened',
           level: 'major'
         }],
@@ -1161,14 +1159,14 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         durationUnit: 'minutes',
         concentrationRequired: true
       },
-      resolution: 'AUTOMATIC',
       tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
     },
 
     {
       id: 'cov_apex_predator',
       name: 'Apex Predator',
-      description: 'Transform into a perfect hunter, becoming invisible to evil creatures and gaining supernatural hunting abilities.',
+      description: 'Transform into a perfect hunter for 10 minutes, becoming invisible to evil creatures and gaining supernatural hunting abilities. Detect evil within 60ft, see in magical darkness, and gain +15ft movement speed.',
+      level: 7,
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'shadow',
@@ -1195,7 +1193,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         duration: 10,
         durationUnit: 'minutes',
         power: 'major',
-        specialEffects: ['invisibility_to_evil', 'supernatural_senses', 'enhanced_speed']
+        newForm: 'Apex Predator',
+        description: 'Become a perfect supernatural hunter for 10 minutes.',
+        grantedAbilities: [
+          { id: 'invisibility_evil', name: 'Invisible to Evil', description: 'Evil creatures cannot perceive you' },
+          { id: 'supernatural_senses', name: 'Supernatural Senses', description: 'Detect evil within 60ft, see in magical darkness' },
+          { id: 'enhanced_speed', name: 'Enhanced Speed', description: '+15ft movement speed' }
+        ]
       },
       tags: ['transformation', 'stealth', 'buff', 'shadowbane']
     },
@@ -1203,7 +1207,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_final_hour',
       name: 'Final Hour',
-      description: 'Enter a state of ultimate focus where every attack triggers Witch Hunter\'s Precision.',
+      description: 'Enter a state of ultimate focus for 1 minute where every attack triggers Witch Hunter\'s Precision and grants major enhancements.',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'radiant',
@@ -1229,7 +1233,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         effects: [{
           id: 'ultimate_focus',
           name: 'Ultimate Focus',
-          description: 'Every attack triggers Witch Hunter\'s Precision and grants major enhancements',
+          description: 'Every attack triggers Witch Hunter\'s Precision and grants major enhancements for 1 minute',
           statusType: 'enhanced',
           level: 'extreme'
         }],
@@ -1321,12 +1325,18 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 0
       },
       transformationConfig: {
-        transformationType: 'elemental',
+        transformationType: 'shadow',
         targetType: 'self',
         duration: 1,
         durationUnit: 'minutes',
         power: 'major',
-        specialEffects: ['shadow_entity', 'teleportation', 'damage_reduction', 'wall_phasing']
+        newForm: 'Shadow Ascendant',
+        description: 'Become an entity of pure shadow and anti-magic.',
+        grantedAbilities: [
+          { id: 'shadow_entity', name: 'Shadow Entity', description: 'Physical damage reduced by 50%' },
+          { id: 'shadow_teleport', name: 'Shadow Step', description: 'Teleport 30ft as bonus action' },
+          { id: 'wall_phasing', name: 'Wall Phasing', description: 'Pass through non-magical barriers' }
+        ]
       },
       tags: ['transformation', 'mobility', 'damage', 'shadowbane']
     },
@@ -1477,12 +1487,18 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 0
       },
       transformationConfig: {
-        transformationType: 'phaseshift',
+        transformationType: 'spectral',
         targetType: 'self',
-        duration: 10,
-        durationUnit: 'minutes',
+        duration: 5,
+        durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['void_existence', 'teleport_anywhere', 'ignore_defenses', 'complete_immunity']
+        newForm: 'Void Hunter',
+        description: 'Exist partially in the void, striking from impossible angles.',
+        grantedAbilities: [
+          { id: 'void_existence', name: 'Void Existence', description: 'Immune to non-magical damage' },
+          { id: 'teleport_strike', name: 'Teleport Strike', description: 'Teleport to any visible target as part of an attack' },
+          { id: 'ignore_defenses', name: 'Ignore Defenses', description: 'Attacks ignore armor and magical shields' }
+        ]
       },
       tags: ['transformation', 'mobility', 'damage', 'shadowbane']
     },
@@ -1513,12 +1529,18 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 0
       },
       transformationConfig: {
-        transformationType: 'physical',
+        transformationType: 'divine',
         targetType: 'self',
-        duration: 10,
-        durationUnit: 'minutes',
+        duration: 5,
+        durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['divine_judge', 'instant_execution', 'evil_immunity', 'truth_compulsion', 'zone_creation']
+        newForm: 'Divine Executioner',
+        description: 'Become an instrument of divine justice.',
+        grantedAbilities: [
+          { id: 'divine_judge', name: 'Divine Judge', description: 'Instantly know the alignment of any creature' },
+          { id: 'execution_strike', name: 'Execution Strike', description: 'Deal 4d10 extra radiant damage to evil creatures' },
+          { id: 'evil_immunity', name: 'Evil Immunity', description: 'Immune to damage from evil-aligned creatures' }
+        ]
       },
       tags: ['transformation', 'damage', 'mobility', 'demonhunter']
     },
@@ -1584,13 +1606,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_shadow_god',
       name: 'Shadow God',
-      description: 'Become a god of shadows, wielding ultimate power over darkness and anti-magic.',
+      description: 'Become a master of shadows for 3 rounds, wielding ultimate power over darkness and anti-magic. Gain immunity to non-radiant damage, instant teleportation, and auto-crit against evil. When transformation ends, gain 2 levels of exhaustion.',
       level: 10,
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'shadow',
         icon: 'spell_shadow_nethercloak',
-        tags: ['transformation', 'permanent', 'godlike', 'shadowbane']
+        tags: ['transformation', 'ultimate', 'shadowbane']
       },
       targetingConfig: {
         targetingType: 'self',
@@ -1598,35 +1620,41 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 8 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest'
       },
       transformationConfig: {
-        transformationType: 'physical',
+        transformationType: 'shadow',
         targetType: 'self',
-        duration: 0,
-        durationUnit: 'permanent',
+        duration: 3,
+        durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['complete_immunity', 'instant_teleport', 'auto_crit', 'shadow_manipulation', 'evil_banishment']
+        newForm: 'Shadow God',
+        description: 'Ascend to the pinnacle of shadow mastery for 3 rounds.',
+        grantedAbilities: [
+          { id: 'shadow_immunity', name: 'Shadow Immunity', description: 'Immune to all non-radiant damage' },
+          { id: 'instant_teleport', name: 'Instant Teleport', description: 'Teleport anywhere within 120ft as free action' },
+          { id: 'auto_crit_evil', name: 'Auto-Crit Evil', description: 'All attacks against evil creatures automatically crit' },
+          { id: 'shadow_exhaustion', name: 'Shadow Exhaustion (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
+        ]
       },
-      tags: ['transformation', 'permanent', 'godlike', 'shadowbane']
+      tags: ['transformation', 'ultimate', 'shadowbane']
     },
 
     {
       id: 'cov_divine_incarnation',
       name: 'Divine Incarnation',
-      description: 'Become the physical incarnation of divine justice and anti-magic wrath.',
+      description: 'Channel the full power of divine justice for 3 rounds, becoming an avatar of righteous wrath. Evil creatures within 30ft take 3d8 radiant damage per round, you are immune to all damage from evil creatures, and can instantly kill evil creatures below 50 HP once per round. When transformation ends, gain 2 levels of exhaustion.',
       level: 10,
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'radiant',
         icon: 'spell_holy_divineintervention',
-        tags: ['transformation', 'permanent', 'godlike', 'demonhunter']
+        tags: ['transformation', 'ultimate', 'demonhunter']
       },
       targetingConfig: {
         targetingType: 'self',
@@ -1634,23 +1662,29 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       },
       resourceCost: {
         resourceTypes: ['hexbreakerCharges'],
-        resourceValues: { hexbreakerCharges: 6 },
-        actionPoints: 1,
+        resourceValues: { hexbreakerCharges: 8 },
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest'
       },
       transformationConfig: {
-        transformationType: 'physical',
+        transformationType: 'divine',
         targetType: 'self',
-        duration: 0,
-        durationUnit: 'permanent',
+        duration: 3,
+        durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['instant_death_zone', 'complete_evil_immunity', 'divine_judgment', 'truth_compulsion', 'zone_of_purity']
+        newForm: 'Divine Incarnation',
+        description: 'Become an avatar of divine justice for 3 rounds.',
+        grantedAbilities: [
+          { id: 'divine_aura', name: 'Divine Aura', description: 'Evil creatures within 30ft take 3d8 radiant damage per round' },
+          { id: 'evil_immunity_full', name: 'Complete Evil Immunity', description: 'Immune to all damage and effects from evil creatures' },
+          { id: 'execution_blow', name: 'Execution Blow', description: 'Once per round, instantly kill an evil creature below 50 HP' },
+          { id: 'divine_exhaustion', name: 'Divine Exhaustion (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
+        ]
       },
-      tags: ['transformation', 'permanent', 'godlike', 'demonhunter']
+      tags: ['transformation', 'ultimate', 'demonhunter']
     }
   ],
 

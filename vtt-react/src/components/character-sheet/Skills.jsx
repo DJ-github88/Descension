@@ -6,6 +6,8 @@ import { SKILL_QUESTS } from '../../constants/skillQuests';
 import { ROLLABLE_TABLES } from '../../constants/rollableTables';
 import { calculateStatModifier } from '../../utils/characterUtils';
 import { showSkillRollNotification } from '../../utils/skillRollNotification';
+import { showAchievementNotification } from '../../utils/achievementNotification';
+import usePresenceStore from '../../store/presenceStore';
 
 import '../../styles/skills.css';
 
@@ -107,6 +109,66 @@ export default function Skills() {
             ...progress,
             completedQuests: newCompletedQuests
         });
+
+        // Broadcast achievement if quest was just completed (not uncompleted)
+        if (!isCompleted && newCompletedQuests.includes(questId)) {
+            broadcastAchievement(skillId, questId);
+        }
+    };
+
+    // Broadcast achievement completion to party chat with cooldown
+    const broadcastAchievement = (skillId, questId) => {
+        const skill = SKILL_DEFINITIONS[skillId];
+        const quest = SKILL_QUESTS[skillId]?.find(q => q.id === questId);
+
+        if (!skill || !quest) return;
+
+        // Check cooldown to prevent spam
+        const cooldownKey = `achievement_${skillId}_${questId}`;
+        const lastBroadcast = localStorage.getItem(cooldownKey);
+        const now = Date.now();
+        const cooldownPeriod = 30000; // 30 seconds cooldown
+
+        if (lastBroadcast && (now - parseInt(lastBroadcast)) < cooldownPeriod) {
+            console.log('🏆 Achievement on cooldown, skipping broadcast');
+            return;
+        }
+
+        // Set cooldown timestamp
+        localStorage.setItem(cooldownKey, now.toString());
+
+        const characterName = dataSource.name || 'Adventurer';
+        const characterClass = dataSource.class || 'Unknown';
+
+        // Create WoW-style achievement message
+        const achievementMessage = {
+            id: `achievement_${Date.now()}`,
+            senderId: 'system',
+            senderName: 'System',
+            senderClass: 'Achievement',
+            senderLevel: null,
+            content: `${characterName} has earned the achievement: ${quest.name} - ${quest.description}`,
+            timestamp: new Date().toISOString(),
+            type: 'achievement',
+            achievementData: {
+                skillName: skill.name,
+                questName: quest.name,
+                questDescription: quest.description,
+                icon: quest.icon,
+                rank: quest.rank,
+                characterName: characterName,
+                characterClass: characterClass
+            }
+        };
+
+        // Add to party chat
+        const { addPartyChatMessage } = usePresenceStore.getState();
+        addPartyChatMessage(achievementMessage);
+
+        // Show achievement notification on canvas
+        showAchievementNotification(skill, quest, characterName, characterClass);
+
+        console.log('🏆 Achievement broadcasted:', achievementMessage);
     };
 
     // Get current rollable table for skill based on rank and selected die

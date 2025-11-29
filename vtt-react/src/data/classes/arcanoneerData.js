@@ -577,15 +577,15 @@ MANA COSTS:
     ],
     9: [
       // Level 9 spells
-      'arc_elemental_apocalypse',
-      'arc_primordial_chaos',
-      'arc_ultimate_synthesis'
+      'arc_primal_cataclysm',
+      'arc_chaos_vortex',
+      'arc_elemental_synthesis'
     ],
     10: [
       // Level 10 spells
-      'arc_omnipotence',
-      'arc_reality_rend',
-      'arc_elemental_mastery'
+      'arc_elemental_convergence',
+      'arc_dimensional_rift',
+      'arc_sphere_mastery'
     ]
   },
 
@@ -2299,9 +2299,9 @@ MANA COSTS:
     // LEVEL 9 SPELLS
     // ========================================
     {
-      id: 'arc_elemental_apocalypse',
-      name: 'Elemental Apocalypse',
-      description: 'Combine all eight elements to unleash an apocalypse of pure elemental destruction.',
+      id: 'arc_primal_cataclysm',
+      name: 'Primal Cataclysm',
+      description: 'Channel all eight elemental spheres into a volatile prismatic detonation. The unstable fusion of opposing elements causes significant backlash to the caster.',
       level: 9,
       spellType: 'ACTION',
       icon: 'spell_fire_fireball02',
@@ -2317,20 +2317,20 @@ MANA COSTS:
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
-        rangeDistance: 120,
+        rangeDistance: 90,
         aoeShape: 'circle',
-        aoeParameters: { radius: 50 },
+        aoeParameters: { radius: 25 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 20, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
+        resourceValues: { mana: 30, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1, chaos_sphere: 1 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'APOCALYPSIS ELEMENTUM!',
-        somaticText: 'Unleash all elements in cataclysmic fusion',
+        verbalText: 'Elementum Cataclysmos!',
+        somaticText: 'Force all eight spheres into unstable fusion',
         spheres: ['Arcane', 'Holy', 'Shadow', 'Fire', 'Ice', 'Nature', 'Healing', 'Chaos']
       },
 
@@ -2338,31 +2338,38 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '10d20 + intelligence * 2',
+        formula: '5d10 + intelligence',
         elementType: 'chaos',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'dexterity',
-          difficultyClass: 20,
+          difficultyClass: 18,
           partialEffect: true,
-          partialEffectFormula: 'damage/4',
+          partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
+      selfDamageConfig: {
+        formula: '2d6',
+        damageType: 'force',
+        description: 'Elemental backlash from combining opposing elements'
       },
 
-      tags: ['ultimate', 'damage', 'aoe', 'all-elements']
+      cooldownConfig: {
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'all-elements', 'self-damage']
     },
 
     {
-      id: 'arc_primordial_chaos',
-      name: 'Primordial Chaos',
-      description: 'Unleash the raw power of chaos itself, dealing massive unpredictable damage.',
+      id: 'arc_chaos_vortex',
+      name: 'Chaos Vortex',
+      description: 'Concentrate pure chaotic energy into a swirling vortex of unpredictable destruction. The volatile nature of concentrated chaos may affect the caster as well.',
       level: 9,
       spellType: 'ACTION',
       icon: 'spell_shadow_charm',
@@ -2378,20 +2385,20 @@ MANA COSTS:
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
-        rangeDistance: 90,
+        rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 40 },
+        aoeParameters: { radius: 25 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 15, chaos_sphere: 4 },
+        resourceValues: { mana: 25, chaos_sphere: 4 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'CHAOS PRIMORDIALIS!',
-        somaticText: 'Unleash primordial chaos',
+        verbalText: 'Chaos Vorticem!',
+        somaticText: 'Spiral hands to concentrate chaos energy',
         spheres: ['Chaos', 'Chaos', 'Chaos', 'Chaos']
       },
 
@@ -2399,31 +2406,38 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '12d12 + intelligence * 2',
+        formula: '5d10 + intelligence',
         elementType: 'chaos',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'dexterity',
-          difficultyClass: 19,
+          difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
+      selfDamageConfig: {
+        formula: '1d8',
+        damageType: 'chaos',
+        description: 'Chaotic energy feedback'
       },
 
-      tags: ['chaos', 'damage', 'aoe', 'ultimate']
+      cooldownConfig: {
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
+      },
+
+      tags: ['chaos', 'damage', 'aoe', 'ultimate', 'self-damage']
     },
 
     {
-      id: 'arc_ultimate_synthesis',
-      name: 'Ultimate Synthesis',
-      description: 'Synthesize all elements into perfect harmony, creating a devastating explosion of balanced energy.',
+      id: 'arc_elemental_synthesis',
+      name: 'Elemental Synthesis',
+      description: 'Harmonize four opposing elements into a focused beam of synthesized energy. The careful balance required leaves the caster temporarily drained.',
       level: 9,
       spellType: 'ACTION',
       icon: 'spell_arcane_arcanepotency',
@@ -2439,20 +2453,20 @@ MANA COSTS:
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
-        rangeDistance: 100,
+        rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 45 },
+        aoeParameters: { radius: 20 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere'],
-        resourceValues: { mana: 15, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1 },
+        resourceValues: { mana: 25, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'SYNTHESIS ULTIMA!',
-        somaticText: 'Synthesize all elements',
+        verbalText: 'Synthesis Elementum!',
+        somaticText: 'Weave opposing elements into harmony',
         spheres: ['Arcane', 'Holy', 'Shadow', 'Fire']
       },
 
@@ -2460,22 +2474,35 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '10d12 + intelligence * 2',
+        formula: '5d8 + intelligence',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'dexterity',
-          difficultyClass: 19,
+          difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
         }
       },
 
+      debuffConfig: {
+        debuffType: 'self',
+        effects: [{
+          id: 'synthesis_drain',
+          name: 'Synthesis Drain',
+          description: 'The caster has -2 to spell attack rolls until end of next turn',
+          isSelfDebuff: true
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
       cooldownConfig: {
         type: 'turn_based',
-        value: 2
+        value: 3
       },
 
       tags: ['ultimate', 'damage', 'aoe', 'synthesis']
@@ -2485,9 +2512,9 @@ MANA COSTS:
     // LEVEL 10 SPELLS
     // ========================================
     {
-      id: 'arc_omnipotence',
-      name: 'Omnipotence',
-      description: 'Achieve perfect mastery over all elements, unleashing unlimited power.',
+      id: 'arc_elemental_convergence',
+      name: 'Elemental Convergence',
+      description: 'Force seven elemental spheres into a devastating convergence point. The immense strain of controlling this much raw elemental power causes severe backlash and leaves the caster exhausted.',
       level: 10,
       spellType: 'ACTION',
       icon: 'spell_arcane_arcanepotency',
@@ -2502,20 +2529,21 @@ MANA COSTS:
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'sight',
+        rangeType: 'ranged',
+        rangeDistance: 90,
         aoeShape: 'circle',
-        aoeParameters: { radius: 60 },
+        aoeParameters: { radius: 30 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'arcane_sphere', 'holy_sphere', 'shadow_sphere', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'healing_sphere'],
-        resourceValues: { mana: 25, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1 },
+        resourceValues: { mana: 40, arcane_sphere: 1, holy_sphere: 1, shadow_sphere: 1, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, healing_sphere: 1 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'OMNIPOTENTIA!',
-        somaticText: 'Achieve omnipotence',
+        verbalText: 'Convergentia Elementum!',
+        somaticText: 'Force all spheres into a single convergence point',
         spheres: ['Arcane', 'Holy', 'Shadow', 'Fire', 'Ice', 'Nature', 'Healing']
       },
 
@@ -2523,31 +2551,51 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '15d20 + intelligence * 3',
+        formula: '6d10 + intelligence',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'dexterity',
-          difficultyClass: 22,
+          difficultyClass: 18,
           partialEffect: true,
-          partialEffectFormula: 'damage/4',
+          partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+      selfDamageConfig: {
+        formula: '3d6',
+        damageType: 'force',
+        description: 'Severe elemental backlash from convergence strain'
       },
 
-      tags: ['ultimate', 'damage', 'aoe', 'mastery']
+      debuffConfig: {
+        debuffType: 'self',
+        effects: [{
+          id: 'convergence_exhaustion',
+          name: 'Convergence Exhaustion',
+          description: 'The caster cannot cast spells requiring 3+ spheres until end of next turn',
+          isSelfDebuff: true
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'mastery', 'self-damage', 'exhaustion']
     },
 
     {
-      id: 'arc_reality_rend',
-      name: 'Reality Rend',
-      description: 'Tear apart the fabric of reality itself, dealing massive damage to all existence.',
+      id: 'arc_dimensional_rift',
+      name: 'Dimensional Rift',
+      description: 'Tear open a temporary rift between dimensions, unleashing unstable void energy. The rift is difficult to control and may pull the caster partially into the void.',
       level: 10,
       spellType: 'ACTION',
       icon: 'spell_shadow_shadowflame',
@@ -2556,76 +2604,87 @@ MANA COSTS:
         school: 'force',
         secondaryElement: 'chaos',
         icon: 'spell_shadow_shadowflame',
-        tags: ['ultimate', 'damage', 'aoe', 'reality'],
+        tags: ['ultimate', 'damage', 'aoe', 'void'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'sight',
+        rangeType: 'ranged',
+        rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 50 },
+        aoeParameters: { radius: 25 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'arcane_sphere', 'shadow_sphere', 'chaos_sphere', 'chaos_sphere'],
-        resourceValues: { mana: 20, arcane_sphere: 1, shadow_sphere: 1, chaos_sphere: 2 },
+        resourceValues: { mana: 35, arcane_sphere: 1, shadow_sphere: 1, chaos_sphere: 2 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'REALITAS SCINDERE!',
-        somaticText: 'Rend reality asunder',
+        verbalText: 'Rima Dimensio!',
+        somaticText: 'Tear open a rift between dimensions',
         spheres: ['Arcane', 'Shadow', 'Chaos', 'Chaos']
       },
 
       resolution: 'DICE',
-      effectTypes: ['damage', 'debuff'],
+      effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '12d20 + intelligence * 3',
+        formula: '7d10 + intelligence',
         elementType: 'force',
         damageType: 'direct',
-        secondaryElementType: 'chaos',
+        secondaryElementType: 'necrotic',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'dexterity',
-          difficultyClass: 22,
+          difficultyClass: 18,
           partialEffect: true,
-          partialEffectFormula: 'damage/4',
+          partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
         }
       },
 
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'reality_disruption',
-          name: 'Reality Disruption',
-          description: 'Existence itself is unstable around the target - cannot act or move for the duration',
-          statusType: 'stunned',
-          level: 'severe'
-        }],
-        durationValue: 2,
-        durationType: 'rounds',
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'moderate',
+        duration: 1,
         durationUnit: 'rounds',
-        saveDC: 22,
-        saveType: 'constitution'
+        saveDC: 18,
+        saveType: 'constitution',
+        savingThrow: true,
+        effects: [{
+          id: 'void_disorientation',
+          name: 'Void Disorientation',
+          description: 'Targets are disoriented by void energy - disadvantage on attacks and cannot take reactions',
+          config: {
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
+          }
+        }]
+      },
+
+      selfDamageConfig: {
+        formula: '2d8',
+        damageType: 'necrotic',
+        description: 'Void energy feedback from unstable rift'
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
       },
 
-      tags: ['ultimate', 'damage', 'aoe', 'reality']
+      tags: ['ultimate', 'damage', 'aoe', 'void', 'self-damage']
     },
 
     {
-      id: 'arc_elemental_mastery',
-      name: 'Elemental Mastery',
-      description: 'Achieve perfect mastery over all elements, becoming one with elemental power itself.',
+      id: 'arc_sphere_mastery',
+      name: 'Sphere Mastery',
+      description: 'Demonstrate true mastery of elemental combination by weaving six different elements into a precise, focused detonation. Requires intense concentration that leaves the caster vulnerable afterward.',
       level: 10,
       spellType: 'ACTION',
       icon: 'spell_fire_fireball02',
@@ -2641,20 +2700,21 @@ MANA COSTS:
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'sight',
+        rangeType: 'ranged',
+        rangeDistance: 90,
         aoeShape: 'circle',
-        aoeParameters: { radius: 55 },
+        aoeParameters: { radius: 30 },
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'fire_sphere', 'ice_sphere', 'nature_sphere', 'holy_sphere', 'shadow_sphere', 'arcane_sphere'],
-        resourceValues: { mana: 25, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, holy_sphere: 1, shadow_sphere: 1, arcane_sphere: 1 },
+        resourceValues: { mana: 40, fire_sphere: 1, ice_sphere: 1, nature_sphere: 1, holy_sphere: 1, shadow_sphere: 1, arcane_sphere: 1 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic'],
-        verbalText: 'DOMINATIO ELEMENTUM!',
-        somaticText: 'Achieve elemental mastery',
+        verbalText: 'Dominatio Spherae!',
+        somaticText: 'Weave six elements into perfect harmony',
         spheres: ['Fire', 'Ice', 'Nature', 'Holy', 'Shadow', 'Arcane']
       },
 
@@ -2662,26 +2722,46 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '14d20 + intelligence * 3',
+        formula: '8d10 + intelligence',
         elementType: 'fire',
         damageType: 'direct',
         secondaryElementType: 'cold',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'dexterity',
-          difficultyClass: 22,
+          difficultyClass: 18,
           partialEffect: true,
-          partialEffectFormula: 'damage/4',
+          partialEffectFormula: 'damage/2',
           saveOutcome: 'halves'
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+      selfDamageConfig: {
+        formula: '2d6',
+        damageType: 'force',
+        description: 'Elemental strain from controlling six opposing elements'
       },
 
-      tags: ['ultimate', 'damage', 'aoe', 'mastery']
+      debuffConfig: {
+        debuffType: 'self',
+        effects: [{
+          id: 'mastery_strain',
+          name: 'Mastery Strain',
+          description: 'The caster has -2 to AC and saving throws until end of next turn',
+          isSelfDebuff: true
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      cooldownConfig: {
+        type: 'combat',
+        value: 1,
+        description: 'Once per combat'
+      },
+
+      tags: ['ultimate', 'damage', 'aoe', 'mastery', 'self-damage']
     },
 
     {

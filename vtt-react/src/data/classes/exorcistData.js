@@ -1689,7 +1689,7 @@ RESTORATION AVAILABLE: Yes
     {
       id: 'exo_empower_demon',
       name: 'Empower Demon',
-      description: 'Channel energy into a bound demon, temporarily enhancing its abilities.',
+      description: 'Channel energy into a bound demon for 3 rounds, enhancing its abilities. Demon gains +2 to attacks, +1d8 damage, and +2 AC.',
       spellType: 'ACTION',
       icon: 'spell_shadow_unholystrength',
       school: 'Enhancement',
@@ -1746,7 +1746,7 @@ RESTORATION AVAILABLE: Yes
     {
       id: 'exo_channel_demon_strength',
       name: 'Channel Demon Strength',
-      description: 'Channel your internal demon\'s strength, gaining enhanced physical power. Possessed spec only.',
+      description: 'Channel your internal demon\'s strength for 5 rounds, gaining enhanced physical power. Gain +4 Strength and +2d6 necrotic damage on melee attacks. Possessed spec only.',
       spellType: 'ACTION',
       icon: 'spell_shadow_possession',
       school: 'Enhancement',
@@ -2587,18 +2587,20 @@ RESTORATION AVAILABLE: Yes
       },
 
       transformationConfig: {
-        transformationType: 'full',
-        newForm: 'Demon',
+        transformationType: 'demonic',
+        targetType: 'self',
         duration: 6,
         durationUnit: 'rounds',
-        statsBonus: {
-          strength: 6,
-          agility: 4,
-          constitution: 6
-        },
-        newAbilities: ['Claw Attack', 'Demonic Roar', 'Flame Aura'],
-        resistances: ['fire', 'necrotic', 'poison'],
-        vulnerabilities: ['radiant']
+        power: 'major',
+        newForm: 'Demon Form',
+        description: 'Embrace the demon within, gaining terrible power at great risk.',
+        grantedAbilities: [
+          { id: 'demon_stats', name: 'Demonic Might', description: '+6 Strength, +4 Agility, +6 Constitution' },
+          { id: 'claw_attack', name: 'Claw Attack', description: 'Natural weapon dealing 2d8+Str slashing damage' },
+          { id: 'demonic_roar', name: 'Demonic Roar', description: 'Frighten enemies within 30ft (once per transformation)' },
+          { id: 'flame_aura', name: 'Flame Aura', description: 'Deal 1d6 fire damage to attackers' },
+          { id: 'demon_resistances', name: 'Resistances', description: 'Resist fire, necrotic, poison; Vulnerable to radiant' }
+        ]
       },
 
       resourceCost: {
@@ -2925,21 +2927,21 @@ RESTORATION AVAILABLE: Yes
       },
 
       transformationConfig: {
-        transformationType: 'ascended',
-        newForm: 'Demon God',
-        duration: 10,
+        transformationType: 'demonic',
+        targetType: 'self',
+        duration: 5,
         durationUnit: 'rounds',
-        statsBonus: {
-          strength: 10,
-          agility: 8,
-          constitution: 10,
-          intelligence: 8,
-          spirit: 8,
-          charisma: 10
-        },
-        newAbilities: ['Reality Warp', 'Infernal Command', 'Divine Destruction', 'Aura of Terror', 'Immortal Resilience'],
-        resistances: ['all'],
-        immunities: ['necrotic', 'poison', 'fire']
+        power: 'major',
+        newForm: 'Demon Lord',
+        description: 'Fully embrace the demon, becoming a terrifying lord of the infernal.',
+        grantedAbilities: [
+          { id: 'lord_stats', name: 'Infernal Might', description: '+8 to all attributes' },
+          { id: 'reality_warp', name: 'Reality Warp', description: 'Teleport up to 60ft as bonus action' },
+          { id: 'infernal_command', name: 'Infernal Command', description: 'Command demons and undead within 60ft' },
+          { id: 'terror_aura', name: 'Aura of Terror', description: 'Enemies within 30ft must save or be frightened' },
+          { id: 'demon_immunities', name: 'Infernal Immunity', description: 'Immune to fire, necrotic, poison damage' },
+          { id: 'demon_exhaustion', name: 'Corruption (On End)', description: 'Take 4d10 psychic damage and gain 2 exhaustion levels when transformation ends' }
+        ]
       },
 
       resourceCost: {

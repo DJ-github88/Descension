@@ -1,4 +1,10 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faSkull, faCrosshairs, faMagic, faAtom, faClock, faDice, faShield,
+  faMountain, faGavel, faEye, faShieldAlt, faMoon, faCross, faPaw,
+  faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire
+} from '@fortawesome/free-solid-svg-icons';
 import { RULES_CATEGORIES, getRuleContent } from '../../data/rulesData';
 
 // Lazy load RaceSelector for better performance
@@ -71,6 +77,38 @@ const CLASS_DATA_MAP = {
   'Warden': WARDEN_DATA,
   'Oracle': ORACLE_DATA,
   // Add other classes as they are created
+};
+
+// Map of class names to their FontAwesome icons
+const CLASS_ICON_MAP = {
+  'Arcanoneer': faAtom,
+  'Berserker': faSkull,
+  'Bladedancer': faWind,
+  'Chaos Weaver': faDice,
+  'Chronarch': faClock,
+  'Covenbane': faCrosshairs,
+  'Deathcaller': faSkull,
+  'Dreadnaught': faShield,
+  'Exorcist': faCross,
+  'False Prophet': faEye,
+  'Fate Weaver': faMagic,
+  'Formbender': faPaw,
+  'Gambler': faDice,
+  'Huntress': faMoon,
+  'Inscriptor': faScroll,
+  'Lichborne': faSkull,
+  'Lunarch': faMoon,
+  'Martyr': faCross,
+  'Minstrel': faMusic,
+  'Oracle': faEye,
+  'Plaguebringer': faBiohazard,
+  'Primalist': faMountain,
+  'Pyrofiend': faFire,
+  'Spellguard': faShieldAlt,
+  'Titan': faSun,
+  'Toxicologist': faFlask,
+  'Warden': faGavel,
+  'Witch Doctor': faSkull,
 };
 
 // Simple markdown processor for basic formatting
@@ -176,8 +214,8 @@ const RulesPage = () => {
     const clickableColumn = table.clickableColumn !== undefined ? table.clickableColumn : -1;
     
     // Pagination: Show rows per page (split between left and right)
-    // Approximately 6-7 rows per side to fit without scrolling
-    const rowsPerPage = 12; // 6 rows per side
+    // Approximately 4 rows per side to spread classes across more pages
+    const rowsPerPage = 8; // 4 rows per side
     const totalPages = Math.ceil(table.rows.length / rowsPerPage);
     
     // Get rows for current page
@@ -186,8 +224,8 @@ const RulesPage = () => {
     const pageRows = table.rows.slice(startIdx, endIdx);
     
     // Split page rows evenly between left and right pages
-    // Each side gets exactly half (6 rows per side for 12 total)
-    const rowsPerSide = Math.floor(rowsPerPage / 2); // 6 rows per side
+    // Each side gets exactly half (4 rows per side for 8 total)
+    const rowsPerSide = Math.floor(rowsPerPage / 2); // 4 rows per side
     const leftPageRows = pageRows.slice(0, rowsPerSide);
     const rightPageRows = pageRows.slice(rowsPerSide, rowsPerSide * 2);
 
@@ -206,6 +244,7 @@ const RulesPage = () => {
               {row.map((cell, cellIdx) => {
                 // Check if this is a clickable cell (for class names)
                 const isClickable = cellIdx === clickableColumn && selectedSubcategory === 'classes';
+                const icon = CLASS_ICON_MAP[cell];
 
                 return (
                   <td
@@ -214,6 +253,9 @@ const RulesPage = () => {
                     onClick={isClickable ? () => handleClassClick(cell) : undefined}
                     style={isClickable ? { cursor: 'pointer', color: '#d4af37', fontWeight: '600' } : {}}
                   >
+                    {icon && (
+                      <FontAwesomeIcon icon={icon} className="class-cell-icon" aria-hidden="true" />
+                    )}
                     {cell}
                   </td>
                 );
@@ -331,7 +373,7 @@ const RulesPage = () => {
       const classData = CLASS_DATA_MAP[selectedClassDetail];
 
       return (
-        <div className="rules-content-area">
+        <div className="rules-content-area class-detail-view">
           {classData ? (
             <ClassDetailDisplay classData={classData} onBack={handleBackToClasses} />
           ) : (
@@ -345,14 +387,19 @@ const RulesPage = () => {
       );
     }
 
+    // Determine if using custom component
+    const isUsingCustomComponent = currentSubcategory?.useCustomComponent;
+
     return (
-      <div className="rules-content-area">
-        <div className="rules-content-header">
-          <h2>{currentContent.title}</h2>
-          {currentContent.description && (
-            <p className="rules-content-description">{currentContent.description}</p>
-          )}
-        </div>
+      <div className={`rules-content-area ${isUsingCustomComponent ? 'custom-component-view' : ''}`}>
+        {!isUsingCustomComponent && (
+          <div className="rules-content-header">
+            <h2>{currentContent.title}</h2>
+            {currentContent.description && (
+              <p className="rules-content-description">{currentContent.description}</p>
+            )}
+          </div>
+        )}
 
         {/* Render sections */}
         {currentContent.sections && renderSections(currentContent.sections)}

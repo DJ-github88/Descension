@@ -259,7 +259,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'chrono_bolt',
       name: 'Chrono Bolt',
-      description: 'A bolt of temporal energy that ages the target on impact, dealing force damage and reducing their speed.',
+      description: 'A bolt of temporal energy that ages the target on impact, causing them to move through time at an accelerated rate.',
       level: 1,
       icon: 'spell_arcane_blast',
       spellType: 'ACTION',
@@ -283,7 +283,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 5 },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Decurrit',
+        somaticText: 'Point finger at target'
       },
 
       resolution: 'DICE',
@@ -300,7 +302,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         effects: [{
           id: 'temporal_aging',
           name: 'Temporal Aging',
-          description: 'Reduces target movement speed',
+          description: 'Reduces target movement speed by 10 feet for 2 rounds',
           statModifier: {
             stat: 'speed',
             magnitude: 10,
@@ -351,7 +353,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 6 },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Sanare',
+        somaticText: 'Weave temporal threads with hands'
       },
 
       resolution: 'DICE',
@@ -376,7 +380,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_step',
       name: 'Temporal Step',
-      description: 'Briefly phase through time, teleporting yourself a short distance.',
+      description: 'Briefly phase through time, stepping into a moment that was and emerging elsewhere.',
       level: 1,
       icon: 'spell_arcane_blink',
       spellType: 'ACTION',
@@ -399,7 +403,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 3 },
         actionPoints: 1,
-        components: ['verbal']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus',
+        somaticText: 'Step forward through time'
       },
 
       resolution: 'DICE',
@@ -408,7 +414,16 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       utilityConfig: {
         utilityType: 'movement',
         subtype: 'teleport',
-        description: 'Teleport yourself up to 20 feet to a location you can see',
+        selectedEffects: [{
+          id: 'teleport',
+          name: 'Teleport',
+          distance: 20,
+          needsLineOfSight: true,
+          takesOthers: false
+        }],
+        duration: 0,
+        durationUnit: 'instant',
+        concentration: false,
         power: 'minor'
       },
 
@@ -429,7 +444,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'stasis_field',
       name: 'Stasis Field',
-      description: 'Create a field of temporal stasis that freezes enemies in time.',
+      description: 'Create a field of temporal stasis that freezes enemies in time, trapping them in a moment of suspended animation.',
       level: 2,
       icon: 'spell_frost_frostnova',
       spellType: 'ACTION',
@@ -454,14 +469,16 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 8 },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Immobilis',
+        somaticText: 'Spread hands to create stasis field'
       },
 
-      resolution: 'DICE',
+      resolution: 'SAVE',
       effectTypes: ['control'],
 
       controlConfig: {
-        controlType: 'stasis',
+        controlType: 'incapacitation',
         strength: 'moderate',
         duration: 1,
         durationUnit: 'rounds',
@@ -470,13 +487,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         saveOutcome: 'negates',
         savingThrow: true,
         effects: [{
-          id: 'temporal_stasis',
+          id: 'stun',
           name: 'Temporal Stasis',
-          description: 'Freezes targets in time, preventing all actions',
+          description: 'Freezes targets in time for 1 round, preventing all actions and movement',
           config: {
-            stasisType: 'full_freeze',
-            preventsMovement: true,
-            preventsActions: true
+            durationType: 'temporary',
+            recoveryMethod: 'automatic'
           }
         }]
       },
@@ -485,7 +501,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 2
+        value: 4
       },
 
       tags: ['control', 'stasis', 'aoe'],
@@ -495,7 +511,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_rewind',
       name: 'Temporal Rewind',
-      description: 'Rewind time slightly to undo recent damage taken by an ally.',
+      description: 'Rewind time slightly to undo 50% of damage taken last turn and heal additional wounds.',
       level: 2,
       icon: 'spell_nature_timestop',
       spellType: 'REACTION',
@@ -519,15 +535,25 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 6 },
         actionPoints: 0,
-        components: ['verbal']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Reverti',
+        somaticText: 'Gesture to rewind time'
       },
 
       resolution: 'DICE',
-      effectTypes: ['healing'],
+      effectTypes: ['restoration', 'healing'],
+
+      restorationConfig: {
+        resourceType: 'health',
+        restorationType: 'rewind',
+        scalingType: 'percentage',
+        formula: '0.5',
+        restoredHealth: 'damage_taken_last_turn'
+      },
 
       healingConfig: {
-        formula: '2d6',
-        healingType: 'rewind'
+        formula: '1d6 + spirit',
+        healingType: 'direct'
       },
 
       timeShardGenerate: 1,
@@ -544,7 +570,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'chrono_echo',
       name: 'Chrono Echo',
-      description: 'Create a temporal echo that provides tactical advantage.',
+      description: 'Create temporal echoes of yourself that ripple through time, confusing enemies and providing tactical advantage.',
       level: 2,
       icon: 'spell_arcane_prismaticcloak',
       spellType: 'ACTION',
@@ -569,10 +595,12 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 7 },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Echo',
+        somaticText: 'Create temporal duplicate with gesture'
       },
 
-      resolution: 'DICE',
+      resolution: 'NONE',
       effectTypes: ['control'],
 
       controlConfig: {
@@ -583,11 +611,13 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         effects: [{
           id: 'chrono_echo',
           name: 'Chrono Echo',
-          description: 'Creates temporal echoes that distract and flank enemies',
+          description: 'Creates temporal echoes in a 10ft radius that provide flanking opportunities and grant allies advantage on attacks against enemies within the area for 3 rounds',
           config: {
             echoType: 'tactical',
             flankingBonus: true,
-            distractionEffect: true
+            distractionEffect: true,
+            advantageOnAttacks: true,
+            radius: 10
           }
         }]
       },
@@ -607,70 +637,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     // LEVEL 3 SPELLS (3 spells)
     // ========================================
     {
-      id: 'temporal_flux_blink',
-      name: 'Temporal Flux: Blink',
-      description: 'Spend time shards to teleport yourself or an ally to safety.',
-      level: 3,
-      icon: 'spell_arcane_blink',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_blink',
-        tags: ['teleport', 'flux', 'displacement'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        targetRestrictions: ['ally', 'self']
-      },
-
-      resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 4 },
-        timeShardCost: 2,
-        temporalStrainGain: 1,
-        actionPoints: 1,
-        components: ['verbal']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['control'],
-
-      controlConfig: {
-        controlType: 'forcedMovement',
-        strength: 'moderate',
-        duration: 0,
-        durationUnit: 'instant',
-        effects: [{
-          id: 'temporal_blink',
-          name: 'Temporal Blink',
-          description: 'Instantly teleport target up to 60 feet',
-          config: {
-            movementType: 'teleport',
-            distance: 60,
-            ignoresObstacles: true
-          }
-        }]
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
-
-      tags: ['teleport', 'flux', 'displacement'],
-      specialization: 'displacement'
-    },
-
-    {
-      id: 'temporal_acceleration',
-      name: 'Temporal Acceleration',
-      description: 'Accelerate time for an ally, granting them bonus actions.',
+      id: 'temporal_dilation',
+      name: 'Temporal Dilation',
+      description: 'Create a field where time flows differently, accelerating allies while slowing enemies in the affected area.',
       level: 3,
       icon: 'spell_nature_timestop',
       spellType: 'ACTION',
@@ -678,67 +647,171 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       typeConfig: {
         school: 'transmutation',
         icon: 'spell_nature_timestop',
-        tags: ['buff', 'support', 'haste', 'displacement'],
+        tags: ['control', 'time', 'area', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'single',
+        targetingType: 'ground',
         rangeType: 'ranged',
         rangeDistance: 30,
-        targetRestrictions: ['ally']
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 }
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['time_shard_cost', 'mana'],
         resourceValues: { mana: 8 },
+        timeShardCost: 2,
+        temporalStrainGain: 1,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Dilatare',
+        somaticText: 'Create swirling temporal field'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['buff'],
+      resolution: 'SAVE',
+      effectTypes: ['buff', 'debuff'],
 
       buffConfig: {
         buffType: 'statusEffect',
         effects: [{
-          id: 'temporal_haste',
-          name: 'Temporal Acceleration',
-          description: 'Grants extra action speed',
+          id: 'temporal_acceleration',
+          name: 'Time Acceleration',
+          description: 'Allies in area gain +1 action point per turn for 3 rounds',
           statusType: 'haste',
-          level: 'moderate'
+          level: 'moderate',
+          config: {
+            extraActions: 1
+          }
         }],
-        durationValue: 2,
+        durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: true,
-        canBeDispelled: false
+        canBeDispelled: true
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'temporal_slow',
+          name: 'Time Dilation',
+          description: 'Enemies in area have halved movement speed and attack speed',
+          statusType: 'slow',
+          level: 'moderate'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'wisdom',
+        saveOutcome: 'negates',
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['control', 'time', 'area', 'displacement'],
+      specialization: 'displacement'
+    },
+
+    {
+      id: 'time_crystal',
+      name: 'Time Crystal',
+      description: 'Create a temporal crystal that you can activate by spending 1 AP to either accelerate allies or decelerate enemies in the zone.',
+      level: 3,
+      icon: 'inv_misc_gem_crystal_01',
+      spellType: 'ACTION',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'inv_misc_gem_crystal_01',
+        tags: ['control', 'zone', 'time', 'displacement'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'time_shard_cost'],
+        resourceValues: { mana: 10 },
+        timeShardCost: 2,
+        temporalStrainGain: 1,
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Crystallum',
+        somaticText: 'Form crystal of solidified time'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'zone',
+        strength: 'moderate',
+        duration: 5,
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'time_crystal',
+          name: 'Time Crystal Zone',
+          description: 'Creates a 10ft radius zone with a temporal crystal. Spend 1 AP to choose: Accelerate allies (+50% speed, +2 damage) OR Decelerate enemies (-50% speed, -2 armor)',
+          config: {
+            zoneType: 'temporal_crystal',
+            activationCost: 1,
+            activationCostType: 'ap',
+            modeChoice: true,
+            hasteMode: {
+              alliesOnly: true,
+              speedMultiplier: 1.5,
+              damageBonus: 2,
+              duration: 2
+            },
+            slowMode: {
+              enemiesOnly: true,
+              speedMultiplier: 0.5,
+              armorPenalty: 2,
+              duration: 2
+            },
+            radius: 10
+          }
+        }]
       },
 
       timeShardGenerate: 1,
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 2
+        value: 3
       },
 
-      tags: ['buff', 'support', 'haste', 'displacement'],
+      tags: ['control', 'zone', 'time', 'displacement'],
       specialization: 'displacement'
     },
 
     {
-      id: 'chrono_clone',
-      name: 'Chrono Clone',
-      description: 'Create a temporal duplicate that can distract enemies.',
+      id: 'temporal_foresight',
+      name: 'Temporal Foresight',
+      description: 'Briefly glimpse fragments of future timelines, granting you unparalleled tactical awareness and the ability to act before your enemies.',
       level: 3,
-      icon: 'spell_arcane_prismaticcloak',
+      icon: 'spell_arcane_mindmastery',
       spellType: 'ACTION',
 
       typeConfig: {
-        school: 'illusion',
-        icon: 'spell_arcane_prismaticcloak',
-        tags: ['clone', 'control', 'displacement'],
+        school: 'divination',
+        icon: 'spell_arcane_mindmastery',
+        tags: ['buff', 'tactical', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -752,27 +825,33 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 10 },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Praevidere',
+        somaticText: 'Peer into temporal threads'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['control'],
+      resolution: 'NONE',
+      effectTypes: ['buff'],
 
-      controlConfig: {
-        controlType: 'summon',
-        strength: 'moderate',
-        duration: 3,
-        durationUnit: 'rounds',
+      buffConfig: {
+        buffType: 'statusEffect',
         effects: [{
-          id: 'temporal_clone',
-          name: 'Chrono Clone',
-          description: 'Creates a temporal duplicate that distracts enemies',
+          id: 'temporal_foresight',
+          name: 'Temporal Foresight',
+          description: 'Gain advantage on initiative rolls and attack rolls for 3 rounds. You can also use a reaction to interrupt enemy actions.',
+          statusType: 'enhancement',
+          level: 'moderate',
           config: {
-            cloneType: 'distraction',
-            independentAction: false,
-            providesCover: true
+            initiativeAdvantage: true,
+            attackAdvantage: true,
+            interruptActions: true
           }
-        }]
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
       },
 
       timeShardGenerate: 1,
@@ -782,7 +861,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         value: 3
       },
 
-      tags: ['clone', 'control', 'displacement'],
+      tags: ['buff', 'tactical', 'displacement'],
       specialization: 'displacement'
     },
 
@@ -790,75 +869,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     // LEVEL 4 SPELLS (3 spells)
     // ========================================
     {
-      id: 'temporal_flux_freeze',
-      name: 'Temporal Flux: Freeze',
-      description: 'Spend time shards to freeze an enemy in temporal stasis.',
-      level: 4,
-      icon: 'spell_frost_frostnova',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_frost_frostnova',
-        tags: ['control', 'stasis', 'flux'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        targetRestrictions: ['enemy']
-      },
-
-      resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 6 },
-        timeShardCost: 3,
-        temporalStrainGain: 2,
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['control'],
-
-      controlConfig: {
-        controlType: 'stasis',
-        strength: 'strong',
-        duration: 2,
-        durationUnit: 'rounds',
-        saveDC: 15,
-        saveType: 'constitution',
-        saveOutcome: 'negates',
-        savingThrow: true,
-        effects: [{
-          id: 'temporal_freeze',
-          name: 'Temporal Freeze',
-          description: 'Freezes target in time, preventing all actions and movement',
-          config: {
-            stasisType: 'complete_freeze',
-            preventsAllActions: true,
-            preventsMovement: true,
-            preventsReactions: true
-          }
-        }]
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
-
-      tags: ['control', 'stasis', 'flux'],
-      specialization: 'stasis'
-    },
-
-    {
       id: 'temporal_flux_rewind',
       name: 'Temporal Flux: Rewind',
-      description: 'Spend time shards to rewind damage taken by allies.',
+      description: 'Channel temporal flux to rewind time across an area, undoing recent wounds and removing harmful effects from allies.',
       level: 4,
       icon: 'spell_nature_timestop',
       spellType: 'ACTION',
@@ -866,7 +879,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       typeConfig: {
         school: 'transmutation',
         icon: 'spell_nature_timestop',
-        tags: ['healing', 'aoe', 'flux', 'rewinding'],
+        tags: ['healing', 'purification', 'aoe', 'flux', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -885,15 +898,36 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         timeShardCost: 4,
         temporalStrainGain: 3,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Reverti Multis',
+        somaticText: 'Rewind time for area with sweeping gesture'
       },
 
       resolution: 'DICE',
-      effectTypes: ['healing'],
+      effectTypes: ['healing', 'purification'],
 
       healingConfig: {
         formula: '3d6',
-        healingType: 'area_rewind'
+        healingType: 'area',
+        targetType: 'ally',
+        areaShape: 'circle',
+        areaParameters: { radius: 20 }
+      },
+
+      purificationConfig: {
+        purificationType: 'debuffRemoval',
+        strength: 'moderate',
+        effects: [{
+          id: 'temporal_purification',
+          name: 'Temporal Rewind',
+          description: 'Removes 1 debuff from each affected ally',
+          config: {
+            debuffsRemoved: 1,
+            priorityOrder: ['poison', 'disease', 'curse', 'any']
+          }
+        }],
+        canBeDispelled: false,
+        power: 'moderate'
       },
 
       cooldownConfig: {
@@ -901,22 +935,189 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         value: 3
       },
 
-      tags: ['healing', 'aoe', 'flux', 'rewinding'],
+      tags: ['healing', 'purification', 'aoe', 'flux', 'rewinding'],
       specialization: 'rewinding'
     },
 
     {
-      id: 'temporal_flux_shift',
-      name: 'Temporal Flux: Shift',
-      description: 'Spend time shards to teleport multiple allies to safety.',
+      id: 'temporal_paradox',
+      name: 'Temporal Paradox',
+      description: 'Create a temporal paradox that forces enemies to experience multiple conflicting timelines simultaneously.',
       level: 4,
-      icon: 'spell_arcane_blink',
+      icon: 'spell_arcane_portalshattrath',
       spellType: 'ACTION',
 
       typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_blink',
-        tags: ['teleport', 'aoe', 'flux', 'displacement'],
+        school: 'illusion',
+        icon: 'spell_arcane_portalshattrath',
+        tags: ['control', 'confusion', 'aoe', 'displacement'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['time_shard_cost', 'mana'],
+        resourceValues: { mana: 8 },
+        timeShardCost: 3,
+        temporalStrainGain: 2,
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Paradoxus',
+        somaticText: 'Twist reality with paradoxical gesture'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'mind_control',
+        strength: 'strong',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'intelligence',
+        saveOutcome: 'negates',
+        savingThrow: true,
+        effects: [{
+          id: 'temporal_paradox',
+          name: 'Temporal Paradox',
+          description: 'Enemies experience multiple timelines simultaneously, causing confusion',
+          config: {
+            controlType: 'confusion',
+            confusionDuration: 3
+          }
+        }]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      rollableTable: {
+        enabled: true,
+        name: 'Paradox Behavior',
+        description: 'Determine what confused enemies do each turn',
+        resolutionType: 'DICE',
+        resolutionConfig: {
+          diceType: 'd8'
+        },
+        entries: [
+          {
+            id: 'timeline-assault',
+            range: { min: 1, max: 1 },
+            name: 'Timeline Assault',
+            description: 'Attack nearest creature',
+            effect: 'The creature attacks the nearest creature to it, regardless of whether it is friend or foe',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'chaotic-timeline',
+            range: { min: 2, max: 2 },
+            name: 'Chaotic Timeline',
+            description: 'Attack random ally',
+            effect: 'The creature attacks one of its allies chosen randomly',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'temporal-displacement',
+            range: { min: 3, max: 3 },
+            name: 'Temporal Displacement',
+            description: 'Move randomly north',
+            effect: 'The creature moves 30 feet north',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'paradox-shift',
+            range: { min: 4, max: 4 },
+            name: 'Paradox Shift',
+            description: 'Move randomly east',
+            effect: 'The creature moves 30 feet east',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'future-echo',
+            range: { min: 5, max: 5 },
+            name: 'Future Echo',
+            description: 'Move randomly south',
+            effect: 'The creature moves 30 feet south',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'past-reflection',
+            range: { min: 6, max: 6 },
+            name: 'Past Reflection',
+            description: 'Move randomly west',
+            effect: 'The creature moves 30 feet west',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'paradox-stasis',
+            range: { min: 7, max: 7 },
+            name: 'Paradox Stasis',
+            description: 'Do nothing',
+            effect: 'The creature does nothing this turn, lost in temporal confusion',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'self-conflict',
+            range: { min: 8, max: 8 },
+            name: 'Self-Conflict',
+            description: 'Attack themselves',
+            effect: 'The creature attacks itself, dealing 1d6 psychic damage',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          }
+        ]
+      },
+
+      tags: ['control', 'confusion', 'aoe', 'displacement'],
+      specialization: 'displacement'
+    },
+
+    {
+      id: 'temporal_vortex',
+      name: 'Temporal Vortex',
+      description: 'Create a swirling vortex of temporal energy that damages enemies and accelerates allies within its area.',
+      level: 4,
+      icon: 'spell_arcane_portaldarkmoon',
+      spellType: 'ACTION',
+
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'spell_arcane_portaldarkmoon',
+        tags: ['summon', 'damage', 'healing', 'aoe', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -935,35 +1136,88 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         timeShardCost: 3,
         temporalStrainGain: 2,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Vortex Totem',
+        somaticText: 'Create temporal vortex totem'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['control'],
+      resolution: 'NONE',
+      effectTypes: ['summon'],
 
-      controlConfig: {
-        controlType: 'forcedMovement',
-        strength: 'moderate',
-        duration: 0,
-        durationUnit: 'instant',
-        effects: [{
-          id: 'temporal_shift',
-          name: 'Temporal Shift',
-          description: 'Teleports all allies in area up to 40 feet to safety',
+      summonConfig: {
+        creatures: [{
+          id: 'temporal_vortex_totem',
+          name: 'Temporal Anomaly',
+          description: 'A swirling anomaly in the time stream that damages enemies and accelerates allies',
+          size: 'Medium',
+          type: 'elemental',
+          tokenIcon: 'spell_arcane_portaldarkmoon',
+          stats: {
+            maxHp: 50,
+            armor: 15,
+            maxMana: 0
+          },
           config: {
-            movementType: 'group_teleport',
-            alliesOnly: true,
-            maxDistance: 40
+            quantity: 1,
+            duration: 5,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: true,
+            controlType: 'autonomous',
+            controlRange: 0,
+            attachedEffects: {
+              auraDamage: {
+                effectType: 'damage',
+                formula: '2d6',
+                elementType: 'force',
+                damageType: 'direct',
+                areaShape: 'circle',
+                areaRadius: 15,
+                targetType: 'enemy',
+                tickRate: 1,
+                tickUnit: 'rounds'
+              },
+              auraHealing: {
+                effectType: 'healing',
+                formula: '1d8',
+                healingType: 'direct',
+                areaShape: 'circle',
+                areaRadius: 15,
+                targetType: 'ally',
+                tickRate: 1,
+                tickUnit: 'rounds'
+              },
+              auraBuff: {
+                effectType: 'buff',
+                buffType: 'statusEffect',
+                effects: [{
+                  name: 'Temporal Acceleration',
+                  description: 'Movement speed increased by 50%',
+                  statusType: 'haste',
+                  statModifier: {
+                    stat: 'speed',
+                    magnitude: 1.5,
+                    magnitudeType: 'multiplier'
+                  }
+                }],
+                durationValue: 1,
+                durationType: 'rounds',
+                durationUnit: 'rounds',
+                targetType: 'ally',
+                areaShape: 'circle',
+                areaRadius: 15
+              }
+            }
           }
         }]
       },
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 2
+        value: 4
       },
 
-      tags: ['teleport', 'aoe', 'flux', 'displacement'],
+      tags: ['summon', 'damage', 'healing', 'aoe', 'displacement'],
       specialization: 'displacement'
     },
 
@@ -971,71 +1225,95 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     // LEVEL 5 SPELLS (4 spells)
     // ========================================
     {
-      id: 'chronal_shift',
-      name: 'Chronal Shift',
-      description: 'Shift yourself or an ally forward in time, avoiding incoming attacks.',
+      id: 'temporal_anchor',
+      name: 'Temporal Anchor',
+      description: 'Create a temporal anchor that slows time around enemies, causing them to age rapidly while speeding up nearby allies.',
       level: 5,
-      icon: 'spell_arcane_blink',
-      spellType: 'REACTION',
+      icon: 'spell_holy_powerwordbarrier',
+      spellType: 'ACTION',
 
       typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_blink',
-        tags: ['defense', 'teleport', 'reaction', 'displacement'],
+        school: 'abjuration',
+        icon: 'spell_holy_powerwordbarrier',
+        tags: ['control', 'debuff', 'aoe', 'displacement'],
         castTime: 1,
-        castTimeType: 'REACTION'
+        castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        targetingType: 'single',
+        targetingType: 'ground',
         rangeType: 'ranged',
         rangeDistance: 30,
-        targetRestrictions: ['ally', 'self']
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 }
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['time_shard_cost', 'mana'],
         resourceValues: { mana: 12 },
-        actionPoints: 0,
-        components: ['verbal']
+        timeShardCost: 3,
+        temporalStrainGain: 2,
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Ancora',
+        somaticText: 'Create temporal anchor field'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['control'],
+      resolution: 'SAVE',
+      effectTypes: ['buff', 'debuff'],
 
-      controlConfig: {
-        controlType: 'phase',
-        strength: 'moderate',
-        duration: 1,
-        durationUnit: 'rounds',
+      buffConfig: {
+        buffType: 'statusEffect',
         effects: [{
-          id: 'chronal_shift',
-          name: 'Chronal Shift',
-          description: 'Target phases out of reality, avoiding all attacks and effects',
+          id: 'temporal_acceleration',
+          name: 'Time Acceleration',
+          description: 'Allies in area gain +1 action point per turn',
+          statusType: 'haste',
+          level: 'moderate',
           config: {
-            phaseType: 'temporal_shift',
-            immuneToDamage: true,
-            immuneToEffects: true,
-            canStillMove: true
+            extraActions: 1
           }
-        }]
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
 
-      timeShardGenerate: 1,
+      debuffConfig: {
+        debuffType: 'damageOverTime',
+        effects: [{
+          id: 'temporal_decay',
+          name: 'Temporal Decay',
+          description: 'Enemies take 2d6 necrotic damage per round from accelerated aging',
+          damageFormula: '2d6',
+          damageType: 'necrotic',
+          tickRate: 1,
+          tickUnit: 'rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
+        canBeDispelled: true
+      },
 
       cooldownConfig: {
         type: 'turn_based',
         value: 4
       },
 
-      tags: ['defense', 'teleport', 'reaction', 'displacement'],
+      tags: ['control', 'debuff', 'aoe', 'displacement'],
       specialization: 'displacement'
     },
 
     {
       id: 'temporal_barrier',
       name: 'Temporal Barrier',
-      description: 'Create a powerful barrier of temporal energy that absorbs damage.',
+      description: 'Weave a barrier of temporal energy that slows incoming attacks, causing them to age and weaken before reaching the target.',
       level: 5,
       icon: 'spell_holy_powerwordshield',
       spellType: 'ACTION',
@@ -1059,28 +1337,31 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 14 },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Protegere',
+        somaticText: 'Create temporal barrier with hands'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['buff'],
+      resolution: 'NONE',
+      effectTypes: ['debuff'],
 
-      buffConfig: {
-        buffType: 'statEnhancement',
+      debuffConfig: {
+        debuffType: 'damageOverTime',
         effects: [{
-          id: 'temporal_shield',
-          name: 'Temporal Barrier',
-          description: 'Absorbs incoming damage',
-          statModifier: {
-            stat: 'damageReduction',
-            magnitude: 10,
-            magnitudeType: 'flat'
-          }
+          id: 'temporal_barrier_effect',
+          name: 'Temporal Aging',
+          description: 'Attackers age rapidly, taking 1d6 necrotic damage and having disadvantage on attacks against the protected target',
+          damageFormula: '1d6',
+          damageType: 'necrotic',
+          tickRate: 1,
+          tickUnit: 'rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
-        concentrationRequired: false,
+        saveDC: 15,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
         canBeDispelled: true
       },
 
@@ -1096,17 +1377,17 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     },
 
     {
-      id: 'temporal_flux_heal',
-      name: 'Temporal Flux: Heal',
-      description: 'Spend time shards to completely restore an ally\'s health.',
+      id: 'temporal_flux_shield',
+      name: 'Temporal Flux: Shield',
+      description: 'Channel temporal flux to weave protective temporal threads around an ally, healing their wounds and shielding them from future harm.',
       level: 5,
-      icon: 'spell_nature_timestop',
+      icon: 'spell_holy_powerwordshield',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
-        tags: ['healing', 'flux', 'rewinding'],
+        icon: 'spell_holy_powerwordshield',
+        tags: ['healing', 'protection', 'flux', 'rewinding'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1124,15 +1405,37 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         timeShardCost: 4,
         temporalStrainGain: 2,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Protegere Restituere',
+        somaticText: 'Weave temporal shield around ally'
       },
 
       resolution: 'DICE',
-      effectTypes: ['healing'],
+      effectTypes: ['healing', 'buff'],
 
       healingConfig: {
-        formula: '5d6',
-        healingType: 'complete_restoration'
+        formula: '4d6',
+        healingType: 'direct',
+        targetType: 'ally'
+      },
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'temporal_shield_flux',
+          name: 'Temporal Shield',
+          description: 'Gain 15 temporary hit points for 3 rounds',
+          statusType: 'protection',
+          level: 'moderate',
+          config: {
+            temporaryHP: 15
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
       },
 
       cooldownConfig: {
@@ -1140,14 +1443,14 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         value: 4
       },
 
-      tags: ['healing', 'flux', 'rewinding'],
+      tags: ['healing', 'protection', 'flux', 'rewinding'],
       specialization: 'rewinding'
     },
 
     {
       id: 'temporal_flux_speed',
       name: 'Temporal Flux: Speed',
-      description: 'Spend time shards to accelerate multiple allies dramatically.',
+      description: 'Channel temporal flux to accelerate time for multiple allies, allowing them to move and act with incredible speed.',
       level: 5,
       icon: 'spell_nature_timestop',
       spellType: 'ACTION',
@@ -1174,7 +1477,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         timeShardCost: 3,
         temporalStrainGain: 2,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Celeritas',
+        somaticText: 'Accelerate multiple allies with gesture'
       },
 
       resolution: 'DICE',
@@ -1185,9 +1490,13 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         effects: [{
           id: 'temporal_speed',
           name: 'Temporal Speed',
-          description: 'Dramatically increases movement and action speed',
+          description: 'Grants +1 action point per turn and doubles movement speed for 3 rounds (requires concentration, costs 3 time shards)',
           statusType: 'haste',
-          level: 'major'
+          level: 'major',
+          config: {
+            extraActions: 1,
+            speedMultiplier: 2
+          }
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1209,17 +1518,17 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     // LEVEL 6 SPELLS (3 spells)
     // ========================================
     {
-      id: 'temporal_flux_storm',
-      name: 'Temporal Flux: Storm',
-      description: 'Spend time shards to unleash a storm of temporal energy.',
+      id: 'temporal_fracture',
+      name: 'Temporal Fracture',
+      description: 'Tear fractures in the temporal fabric around enemies, causing them to rapidly age and decay as time accelerates unnaturally around them.',
       level: 6,
-      icon: 'spell_arcane_arcanepower',
+      icon: 'spell_shadow_unstableaffliction',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_arcane_arcanepower',
-        tags: ['damage', 'control', 'aoe', 'flux', 'stasis'],
+        icon: 'spell_shadow_unstableaffliction',
+        tags: ['damage', 'debuff', 'aoe', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1234,66 +1543,69 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 12 },
         timeShardCost: 5,
         temporalStrainGain: 4,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Fractura',
+        somaticText: 'Tear temporal fractures with clawed gesture'
       },
 
       resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
+      effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '4d6',
-        elementType: 'force',
+        formula: '3d6',
+        elementType: 'necrotic',
         damageType: 'area',
         areaShape: 'circle',
         areaParameters: { radius: 25 }
       },
 
-      controlConfig: {
-        controlType: 'disorient',
-        strength: 'strong',
-        duration: 2,
+      debuffConfig: {
+        debuffType: 'damageOverTime',
+        effects: [{
+          id: 'temporal_decay',
+          name: 'Temporal Decay',
+          description: 'Take 2d6 necrotic damage at the start of each turn for 4 rounds as accelerated aging weakens the body',
+          damageFormula: '2d6',
+          damageType: 'necrotic',
+          tickRate: 1,
+          tickUnit: 'rounds'
+        }],
+        durationValue: 4,
+        durationType: 'rounds',
         durationUnit: 'rounds',
         saveDC: 16,
-        saveType: 'intelligence',
+        saveType: 'constitution',
         saveOutcome: 'negates',
-        savingThrow: true,
-        effects: [{
-          id: 'temporal_disorientation',
-          name: 'Temporal Disorientation',
-          description: 'Causes confusion and action loss',
-          config: {
-            disorientType: 'temporal_confusion',
-            randomActions: true,
-            actionLoss: true
-          }
-        }]
+        canBeDispelled: true
       },
+
+      timeShardGenerate: 1,
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 3
+        value: 4
       },
 
-      tags: ['damage', 'control', 'aoe', 'flux', 'stasis'],
+      tags: ['damage', 'debuff', 'aoe', 'stasis'],
       specialization: 'stasis'
     },
 
     {
-      id: 'time_lock',
-      name: 'Time Lock',
-      description: 'Lock a powerful enemy in temporal stasis.',
+      id: 'temporal_echoes',
+      name: 'Temporal Echoes',
+      description: 'Surround the target with temporal echoes that repeat their actions, creating multiple versions of their attacks and movements.',
       level: 6,
-      icon: 'spell_frost_frostnova',
+      icon: 'spell_arcane_echoofdamned',
       spellType: 'ACTION',
 
       typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_frost_frostnova',
-        tags: ['control', 'stasis', 'single-target'],
+        school: 'illusion',
+        icon: 'spell_arcane_echoofdamned',
+        tags: ['damage', 'control', 'echoes', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1301,64 +1613,141 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 50,
+        rangeDistance: 40,
         targetRestrictions: ['enemy']
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 15 },
+        resourceTypes: ['time_shard_cost', 'mana'],
+        resourceValues: { mana: 14 },
+        timeShardCost: 4,
+        temporalStrainGain: 3,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Echoes',
+        somaticText: 'Surround target with temporal echoes'
       },
 
-      resolution: 'DICE',
+      resolution: 'SAVE',
       effectTypes: ['control'],
 
       controlConfig: {
-        controlType: 'stasis',
-        strength: 'extreme',
+        controlType: 'echo_effects',
+        strength: 'major',
         duration: 3,
         durationUnit: 'rounds',
         saveDC: 17,
-        saveType: 'constitution',
+        saveType: 'wisdom',
         saveOutcome: 'negates',
         savingThrow: true,
         effects: [{
-          id: 'time_lock',
-          name: 'Time Lock',
-          description: 'Locks target in temporal stasis, completely preventing all actions',
+          id: 'temporal_echoes',
+          name: 'Temporal Echoes',
+          description: 'Target is surrounded by temporal echoes that repeat their actions, dealing damage and creating tactical duplicates',
           config: {
-            lockType: 'complete_stasis',
-            preventsEverything: true,
-            immuneToDispel: true
+            echoType: 'action_repetition',
+            damageEchoes: true,
+            echoDamage: '2d6 force',
+            createsIllusoryCopies: true,
+            copyCount: 2,
+            providesFlanking: true
           }
         }]
       },
 
-      timeShardGenerate: 2,
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'control', 'echoes', 'stasis'],
+      specialization: 'stasis'
+    },
+
+    {
+      id: 'temporal_loop',
+      name: 'Temporal Loop',
+      description: 'Trap enemies in a time loop where they endlessly repeat their previous actions, unable to break free from the cycle.',
+      level: 6,
+      icon: 'spell_arcane_arcanepower',
+      spellType: 'ACTION',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_arcane_arcanepower',
+        tags: ['control', 'time', 'aoe', 'rewinding'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['time_shard_cost', 'mana'],
+        resourceValues: { mana: 15 },
+        timeShardCost: 5,
+        temporalStrainGain: 3,
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Repetere',
+        somaticText: 'Create looping temporal field'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'mind_control',
+        strength: 'extreme',
+        duration: 4,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'wisdom',
+        saveOutcome: 'ends_early',
+        savingThrow: true,
+        effects: [{
+          id: 'temporal_loop',
+          name: 'Time Loop',
+          description: 'Enemies are trapped in a loop, forced to repeat their last turn\'s actions exactly',
+          config: {
+            loopType: 'action_repetition',
+            copiesPreviousTurn: true,
+            preventsNewActions: true,
+            breaksOnSave: true
+          }
+        }]
+      },
 
       cooldownConfig: {
         type: 'turn_based',
         value: 5
       },
 
-      tags: ['control', 'stasis', 'single-target'],
-      specialization: 'stasis'
+      tags: ['control', 'time', 'aoe', 'rewinding'],
+      specialization: 'rewinding'
     },
 
+    // ========================================
+    // LEVEL 7 SPELLS (3 spells)
+    // ========================================
     {
-      id: 'temporal_flux_mass_rewind',
-      name: 'Temporal Flux: Mass Rewind',
-      description: 'Spend time shards to rewind damage for all allies in an area.',
-      level: 6,
-      icon: 'spell_nature_timestop',
+      id: 'chronal_disruption',
+      name: 'Chronal Disruption',
+      description: 'Disrupt the flow of time in an area, causing random temporal effects that accelerate some creatures while aging others.',
+      level: 7,
+      icon: 'spell_arcane_arcanestorm',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
-        icon: 'spell_nature_timestop',
-        tags: ['healing', 'aoe', 'flux', 'rewinding'],
+        icon: 'spell_arcane_arcanestorm',
+        tags: ['damage', 'control', 'aoe', 'time', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1373,102 +1762,56 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 12 },
+        resourceValues: { mana: 14 },
         timeShardCost: 6,
         temporalStrainGain: 4,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Disruptus',
+        somaticText: 'Disrupt time flow with chaotic energy'
       },
 
       resolution: 'DICE',
-      effectTypes: ['healing'],
+      effectTypes: ['damage', 'control'],
 
-      healingConfig: {
-        formula: '4d6',
-        healingType: 'mass_rewind'
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'force',
+        damageType: 'area',
+        areaShape: 'circle',
+        areaParameters: { radius: 25 }
       },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
-
-      tags: ['healing', 'aoe', 'flux', 'rewinding'],
-      specialization: 'rewinding'
-    },
-
-    // ========================================
-    // LEVEL 7 SPELLS (3 spells)
-    // ========================================
-    {
-      id: 'temporal_flux_teleport_storm',
-      name: 'Temporal Flux: Teleport Storm',
-      description: 'Spend time shards to teleport all enemies in an area randomly.',
-      level: 7,
-      icon: 'spell_arcane_blink',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_blink',
-        tags: ['control', 'teleport', 'aoe', 'flux', 'displacement'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 50,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 12 },
-        timeShardCost: 6,
-        temporalStrainGain: 5,
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['control'],
 
       controlConfig: {
-        controlType: 'forcedMovement',
-        strength: 'extreme',
-        duration: 0,
-        durationUnit: 'instant',
-        saveDC: 17,
-        saveType: 'dexterity',
-        savingThrow: true,
+        controlType: 'status_effect',
+        strength: 'major',
+        duration: 3,
+        durationUnit: 'rounds',
         effects: [{
-          id: 'teleport_storm',
-          name: 'Teleport Storm',
-          description: 'Teleports all affected creatures to random locations within 100 feet',
+          id: 'chronal_disruption',
+          name: 'Temporal Chaos',
+          description: 'Creatures in area suffer random temporal effects: accelerated aging, time dilation, or temporal echoes',
           config: {
-            movementType: 'mass_teleport',
-            randomDestination: true,
-            maxDistance: 100
+            randomEffects: true,
+            possibleEffects: ['aging_damage', 'speed_changes', 'echo_images'],
+            effectDuration: 3
           }
         }]
       },
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 4
+        value: 5
       },
 
-      tags: ['control', 'teleport', 'aoe', 'flux', 'displacement'],
+      tags: ['damage', 'control', 'aoe', 'time', 'displacement'],
       specialization: 'displacement'
     },
 
     {
       id: 'chronal_reversal',
       name: 'Chronal Reversal',
-      description: 'Reverse time for a creature, undoing all damage and effects.',
+      description: 'Completely reverse time for a creature, pulling them back through moments to a state before they were harmed.',
       level: 7,
       icon: 'spell_nature_timestop',
       spellType: 'ACTION',
@@ -1492,7 +1835,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         resourceTypes: ['mana'],
         resourceValues: { mana: 18 },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Revertere',
+        somaticText: 'Completely reverse time for target'
       },
 
       resolution: 'DICE',
@@ -1500,7 +1845,8 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       healingConfig: {
         formula: '6d6',
-        healingType: 'complete_reversal'
+        healingType: 'direct',
+        targetType: 'ally'
       },
 
       timeShardGenerate: 2,
@@ -1515,17 +1861,17 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     },
 
     {
-      id: 'temporal_flux_clone_army',
-      name: 'Temporal Flux: Clone Army',
-      description: 'Spend time shards to create an army of temporal clones.',
+      id: 'temporal_echo_chamber',
+      name: 'Temporal Echo Chamber',
+      description: 'Create a chamber where every action creates damaging temporal echoes that repeat and amplify throughout the area.',
       level: 7,
-      icon: 'spell_arcane_prismaticcloak',
+      icon: 'spell_arcane_echoofdamned',
       spellType: 'ACTION',
 
       typeConfig: {
-        school: 'illusion',
-        icon: 'spell_arcane_prismaticcloak',
-        tags: ['control', 'clones', 'aoe', 'flux', 'displacement'],
+        school: 'transmutation',
+        icon: 'spell_arcane_echoofdamned',
+        tags: ['damage', 'control', 'aoe', 'echoes', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1533,47 +1879,58 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       targetingConfig: {
         targetingType: 'ground',
         rangeType: 'ranged',
-        rangeDistance: 30,
+        rangeDistance: 40,
         aoeShape: 'circle',
         aoeParameters: { radius: 20 }
       },
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 15 },
-        timeShardCost: 5,
-        temporalStrainGain: 4,
+        resourceValues: { mana: 18 },
+        timeShardCost: 6,
+        temporalStrainGain: 5,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Echo',
+        somaticText: 'Create chamber of temporal echoes'
       },
 
       resolution: 'DICE',
-      effectTypes: ['control'],
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'force',
+        damageType: 'area',
+        areaShape: 'circle',
+        areaParameters: { radius: 20 }
+      },
 
       controlConfig: {
-        controlType: 'summon',
-        strength: 'strong',
+        controlType: 'environmental',
+        strength: 'major',
         duration: 4,
         durationUnit: 'rounds',
         effects: [{
-          id: 'clone_army',
-          name: 'Clone Army',
-          description: 'Creates multiple temporal clones that fight alongside you',
+          id: 'echo_chamber',
+          name: 'Echo Chamber',
+          description: 'Every action taken in the chamber creates damaging echoes that repeat for 4 rounds',
           config: {
-            cloneType: 'army',
-            cloneCount: 4,
-            independentAction: true,
-            damageShare: false
+            echoType: 'action_echo',
+            damageEchoes: true,
+            echoDamage: '2d6 force',
+            echoDuration: 4,
+            amplifiesActions: true
           }
         }]
       },
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 5
+        value: 6
       },
 
-      tags: ['control', 'clones', 'aoe', 'flux', 'displacement'],
+      tags: ['damage', 'control', 'aoe', 'echoes', 'displacement'],
       specialization: 'displacement'
     },
 
@@ -1583,7 +1940,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_flux_dominion',
       name: 'Temporal Flux: Dominion',
-      description: 'Spend time shards to take complete control over time in an area.',
+      description: 'Channel ultimate temporal flux to take complete dominion over time itself, bending the flow of moments to your will.',
       level: 8,
       icon: 'spell_arcane_arcanepower',
       spellType: 'ACTION',
@@ -1610,7 +1967,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         timeShardCost: 8,
         temporalStrainGain: 6,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Dominare',
+        somaticText: 'Take complete control of time'
       },
 
       resolution: 'DICE',
@@ -1649,7 +2008,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_flux_resurrection',
       name: 'Temporal Flux: Resurrection',
-      description: 'Spend time shards to bring a fallen ally back to life.',
+      description: 'Channel ultimate temporal flux to pull a fallen ally back from death, rewinding time to restore their life.',
       level: 8,
       icon: 'spell_nature_timestop',
       spellType: 'ACTION',
@@ -1675,7 +2034,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         timeShardCost: 8,
         temporalStrainGain: 5,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Resurgere',
+        somaticText: 'Resurrect ally from death'
       },
 
       resolution: 'DICE',
@@ -1699,17 +2060,17 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     },
 
     {
-      id: 'temporal_flux_phase_army',
-      name: 'Temporal Flux: Phase Army',
-      description: 'Spend time shards to phase an entire group through time.',
+      id: 'fate_manipulation',
+      name: 'Fate Manipulation',
+      description: 'Peer into possible futures and manipulate the threads of fate, granting allies critical successes while cursing enemies with failures.',
       level: 8,
-      icon: 'spell_arcane_blink',
+      icon: 'spell_arcane_farsight',
       spellType: 'ACTION',
 
       typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_blink',
-        tags: ['control', 'phase', 'aoe', 'flux', 'displacement'],
+        school: 'divination',
+        icon: 'spell_arcane_farsight',
+        tags: ['buff', 'debuff', 'fate', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1717,47 +2078,70 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       targetingConfig: {
         targetingType: 'ground',
         rangeType: 'ranged',
-        rangeDistance: 50,
+        rangeDistance: 40,
         aoeShape: 'circle',
-        aoeParameters: { radius: 25 }
+        aoeParameters: { radius: 20 }
       },
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 18 },
-        timeShardCost: 7,
-        temporalStrainGain: 5,
+        resourceValues: { mana: 20 },
+        timeShardCost: 8,
+        temporalStrainGain: 6,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Fatum',
+        somaticText: 'Weave the threads of fate'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['control'],
+      resolution: 'NONE',
+      effectTypes: ['buff', 'debuff'],
 
-      controlConfig: {
-        controlType: 'phase',
-        strength: 'extreme',
-        duration: 2,
-        durationUnit: 'rounds',
+      buffConfig: {
+        buffType: 'statusEffect',
         effects: [{
-          id: 'phase_army',
-          name: 'Phase Army',
-          description: 'Phases all allies in area out of reality, making them immune to damage',
+          id: 'favorable_fate',
+          name: 'Favorable Fate',
+          description: 'Allies automatically succeed on attack rolls and saving throws for 2 rounds',
+          statusType: 'luck',
+          level: 'extreme',
           config: {
-            phaseType: 'group_phase',
-            alliesOnly: true,
-            immuneToAll: true,
-            canStillAttack: true
+            autoSuccess: true,
+            affectsAttacks: true,
+            affectsSaves: true
           }
-        }]
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'cursed_fate',
+          name: 'Cursed Fate',
+          description: 'Enemies automatically fail attack rolls and saving throws',
+          statusType: 'curse',
+          level: 'extreme'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'charisma',
+        saveOutcome: 'negates',
+        canBeDispelled: false
       },
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 6
+        value: 8
       },
 
-      tags: ['control', 'phase', 'aoe', 'flux', 'displacement'],
+      tags: ['buff', 'debuff', 'fate', 'displacement'],
       specialization: 'displacement'
     },
 
@@ -1765,9 +2149,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     // LEVEL 9 SPELLS (3 spells)
     // ========================================
     {
-      id: 'chronal_cataclysm',
-      name: 'Chronal Cataclysm',
-      description: 'Unleash a cataclysmic temporal event that warps reality.',
+      id: 'temporal_shockwave',
+      name: 'Temporal Shockwave',
+      description: 'Release a devastating wave of temporal energy that freezes and damages all caught within.',
       level: 9,
       icon: 'spell_arcane_arcanepower',
       spellType: 'ACTION',
@@ -1775,7 +2159,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       typeConfig: {
         school: 'transmutation',
         icon: 'spell_arcane_arcanepower',
-        tags: ['damage', 'control', 'aoe', 'cataclysm', 'stasis'],
+        tags: ['damage', 'control', 'aoe', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1785,70 +2169,364 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
-        aoeParameters: { radius: 50 }
+        aoeParameters: { radius: 30 }
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 25 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
+        resourceTypes: ['mana', 'time_shard_cost'],
+        resourceValues: { mana: 28 },
+        timeShardCost: 6,
+        temporalStrainGain: 5,
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Immobilis Omnes',
+        somaticText: 'Freeze all enemies in massive stasis'
       },
 
       resolution: 'DICE',
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '8d6',
+        formula: '5d10 + intelligence',
         elementType: 'force',
         damageType: 'area',
-        areaShape: 'circle',
-        areaParameters: { radius: 50 }
+        canCrit: true,
+        critMultiplier: 2
       },
 
       controlConfig: {
-        controlType: 'reality_warp',
-        strength: 'catastrophic',
-        duration: 4,
+        controlType: 'incapacitation',
+        strength: 'major',
+        duration: 2,
         durationUnit: 'rounds',
-        saveDC: 19,
-        saveType: 'intelligence',
+        saveDC: 17,
+        saveType: 'wisdom',
+        saveOutcome: 'ends_early',
         savingThrow: true,
         effects: [{
-          id: 'chronal_cataclysm',
-          name: 'Chronal Cataclysm',
-          description: 'Warps reality, causing random temporal effects',
+          id: 'stun',
+          name: 'Temporal Freeze',
+          description: 'Enemies are frozen in time for 2 rounds, preventing all actions and movement (save ends early)',
           config: {
-            warpType: 'reality_destabilization',
-            randomEffects: true,
-            terrainChange: true
+            durationType: 'temporary',
+            recoveryMethod: 'save_ends'
           }
         }]
       },
 
-      timeShardGenerate: 3,
+      timeShardGenerate: 2,
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 4
+      },
+
+      tags: ['damage', 'control', 'aoe', 'stasis'],
+      specialization: 'stasis'
+    },
+
+    {
+      id: 'reality_fracture',
+      name: 'Reality Fracture',
+      description: 'Tear fractures in the fabric of reality, causing damage and creating unstable temporal anomalies that persist in the area.',
+      level: 9,
+      icon: 'spell_arcane_portaldarkmoon',
+      spellType: 'ACTION',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_arcane_portaldarkmoon',
+        tags: ['damage', 'control', 'aoe', 'reality', 'rewinding'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['time_shard_cost', 'mana'],
+        resourceValues: { mana: 25 },
+        timeShardCost: 8,
+        temporalStrainGain: 7,
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Fractura Realitas',
+        somaticText: 'Tear reality with fracturing gesture'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '5d8',
+        elementType: 'force',
+        damageType: 'area',
+        areaShape: 'circle',
+        areaParameters: { radius: 25 }
+      },
+
+      controlConfig: {
+        controlType: 'environmental',
+        strength: 'major',
+        duration: 5,
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'reality_fracture',
+          name: 'Reality Fracture',
+          description: 'Creates unstable fractures that randomly teleport creatures and cause damage over time',
+          config: {
+            fractureType: 'temporal_rift',
+            randomTeleportation: true,
+            damageOverTime: '2d6 force',
+            persistsAfterCast: true
+          }
+        }]
+      },
 
       cooldownConfig: {
         type: 'turn_based',
         value: 8
       },
 
-      tags: ['damage', 'control', 'aoe', 'cataclysm', 'stasis'],
+      tags: ['damage', 'control', 'aoe', 'reality', 'rewinding'],
+      specialization: 'rewinding'
+    },
+
+    {
+      id: 'temporal_paradox',
+      name: 'Temporal Paradox',
+      description: 'Create a temporal paradox that forces enemies to relive their actions in an endless loop, preventing them from taking new actions.',
+      level: 9,
+      icon: 'spell_arcane_portalshattrath',
+      spellType: 'ACTION',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_arcane_portalshattrath',
+        tags: ['control', 'debuff', 'aoe', 'flux', 'displacement'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['time_shard_cost', 'mana'],
+        resourceValues: { mana: 25 },
+        timeShardCost: 7,
+        temporalStrainGain: 6,
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Paradoxus',
+        somaticText: 'Create temporal loop with spiraling gesture'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['control', 'debuff'],
+
+      controlConfig: {
+        controlType: 'incapacitation',
+        strength: 'extreme',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'wisdom',
+        saveOutcome: 'ends_early',
+        savingThrow: true,
+        effects: [{
+          id: 'temporal_loop',
+          name: 'Temporal Paradox',
+          description: 'Enemies are trapped in a time loop, forced to repeat their last action each turn instead of taking new ones',
+          config: {
+            loopType: 'action_repetition',
+            durationType: 'temporary',
+            recoveryMethod: 'save_ends'
+          }
+        }]
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'temporal_confusion',
+          name: 'Paradox Confusion',
+          description: 'Take 3d6 psychic damage each round from the strain of experiencing the same moment repeatedly',
+          damageFormula: '3d6',
+          damageType: 'psychic',
+          tickRate: 1,
+          tickUnit: 'rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'wisdom',
+        saveOutcome: 'ends_early',
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 8
+      },
+
+      tags: ['control', 'debuff', 'aoe', 'flux', 'displacement'],
+      specialization: 'displacement'
+    },
+
+    // ========================================
+    // LEVEL 10 SPELLS (3 spells)
+    // ========================================
+    {
+      id: 'temporal_mastery',
+      name: 'Temporal Mastery',
+      description: 'Achieve supreme command of temporal forces, freezing and manipulating time around you.',
+      level: 10,
+      icon: 'spell_arcane_arcanepower',
+      spellType: 'ACTION',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_arcane_arcanepower',
+        tags: ['buff', 'control', 'ultimate', 'stasis'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'time_shard_cost'],
+        resourceValues: { mana: 35 },
+        timeShardCost: 10,
+        temporalStrainGain: 8,
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Dominare Supremus',
+        somaticText: 'Achieve supreme mastery of time'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'temporal_mastery',
+          name: 'Temporal Mastery',
+          description: 'Time flows at your command: +3 to all temporal spell DCs, Temporal Flux abilities cost 2 less Strain, enemies in 30ft are slowed',
+          statusType: 'empowerment',
+          level: 'major'
+        }],
+        durationType: 'rounds',
+        durationValue: 3,
+        canBeDispelled: true
+      },
+
+      timeShardGenerate: 3,
+
+      cooldownConfig: {
+        type: 'long_rest'
+      },
+
+      tags: ['buff', 'control', 'ultimate', 'stasis'],
       specialization: 'stasis'
     },
 
     {
-      id: 'temporal_flux_reversal',
-      name: 'Temporal Flux: Reversal',
-      description: 'Spend time shards to reverse time for an entire battlefield.',
-      level: 9,
+      id: 'chronal_restoration',
+      name: 'Chronal Restoration',
+      description: 'Channel the power of time to restore your allies to their peak condition.',
+      level: 10,
       icon: 'spell_nature_timestop',
       spellType: 'ACTION',
 
       typeConfig: {
         school: 'transmutation',
         icon: 'spell_nature_timestop',
-        tags: ['healing', 'aoe', 'flux', 'rewinding'],
+        tags: ['buff', 'healing', 'ultimate', 'rewinding'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'ground',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 }
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'time_shard_cost'],
+        resourceValues: { mana: 30 },
+        timeShardCost: 8,
+        temporalStrainGain: 6,
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Restituere Omnes',
+        somaticText: 'Restore all allies to peak condition'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['healing', 'buff'],
+
+      healingConfig: {
+        formula: '6d8 + intelligence',
+        healingType: 'direct',
+        targetType: 'ally',
+        description: 'Rewind injuries and restore vitality to all allies in the area'
+      },
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'chronal_restoration',
+          name: 'Chronal Restoration',
+          description: 'Allies are protected by temporal echoes: take 50% less damage for 2 rounds',
+          statusType: 'protection',
+          level: 'major'
+        }],
+        durationType: 'rounds',
+        durationValue: 2,
+        canBeDispelled: true
+      },
+
+      cooldownConfig: {
+        type: 'once_per_combat'
+      },
+
+      tags: ['buff', 'healing', 'ultimate', 'rewinding'],
+      specialization: 'rewinding'
+    },
+
+    {
+      id: 'chronal_vortex',
+      name: 'Chronal Vortex',
+      description: 'Create a swirling vortex of temporal energy that pulls creatures through different moments in time, aging some while rejuvenating others.',
+      level: 10,
+      icon: 'spell_arcane_portalshattrath',
+      spellType: 'ACTION',
+
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'spell_arcane_portalshattrath',
+        tags: ['damage', 'control', 'healing', 'ultimate', 'time', 'displacement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1862,269 +2540,58 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       },
 
       resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 20 },
+        resourceTypes: ['mana', 'time_shard_cost'],
+        resourceValues: { mana: 35 },
         timeShardCost: 10,
         temporalStrainGain: 8,
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Tempus Vortex',
+        somaticText: 'Create swirling chronal vortex'
       },
 
       resolution: 'DICE',
-      effectTypes: ['healing'],
-
-      healingConfig: {
-        formula: '6d6',
-        healingType: 'battlefield_reversal'
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
-
-      tags: ['healing', 'aoe', 'flux', 'rewinding'],
-      specialization: 'rewinding'
-    },
-
-    {
-      id: 'temporal_flux_apocalypse',
-      name: 'Temporal Flux: Apocalypse',
-      description: 'Spend time shards to unleash temporal apocalypse on your enemies.',
-      level: 9,
-      icon: 'spell_arcane_blink',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_blink',
-        tags: ['damage', 'control', 'aoe', 'flux', 'displacement'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'ground',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 40 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 18 },
-        timeShardCost: 8,
-        temporalStrainGain: 7,
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
+      effectTypes: ['damage', 'healing', 'control'],
 
       damageConfig: {
-        formula: '10d6',
-        elementType: 'force',
+        formula: '5d10',
+        elementType: 'necrotic',
         damageType: 'area',
         areaShape: 'circle',
-        areaParameters: { radius: 40 }
+        areaParameters: { radius: 30 },
+        targetType: 'enemy'
+      },
+
+      healingConfig: {
+        formula: '5d10',
+        healingType: 'area',
+        targetType: 'ally',
+        areaShape: 'circle',
+        areaParameters: { radius: 30 }
       },
 
       controlConfig: {
-        controlType: 'temporal_apocalypse',
-        strength: 'ultimate',
-        duration: 3,
-        durationUnit: 'rounds',
-        saveDC: 19,
-        saveType: 'constitution',
-        savingThrow: true,
+        controlType: 'forcedMovement',
+        strength: 'extreme',
+        duration: 0,
+        durationUnit: 'instant',
         effects: [{
-          id: 'temporal_apocalypse',
-          name: 'Temporal Apocalypse',
-          description: 'Unleashes apocalyptic temporal effects on all enemies',
+          id: 'chronal_vortex',
+          name: 'Temporal Displacement',
+          description: 'Pulls creatures through time, randomly aging or rejuvenating them',
           config: {
-            apocalypseType: 'enemy_only',
-            randomTemporalEffects: true,
-            massTeleport: true
+            vortexType: 'time_pull',
+            randomEffects: true,
+            possibleEffects: ['age_damage', 'rejuvenate_heal', 'time_displacement']
           }
         }]
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 8
+        type: 'once_per_combat'
       },
 
-      tags: ['damage', 'control', 'aoe', 'flux', 'displacement'],
-      specialization: 'displacement'
-    },
-
-    // ========================================
-    // LEVEL 10 SPELLS (3 spells)
-    // ========================================
-    {
-      id: 'temporal_apotheosis',
-      name: 'Temporal Apotheosis',
-      description: 'Achieve temporal godhood, gaining ultimate control over time.',
-      level: 10,
-      icon: 'spell_arcane_arcanepower',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_arcanepower',
-        tags: ['buff', 'control', 'godhood', 'ultimate', 'stasis'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 50 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['buff'],
-
-      buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'temporal_godhood',
-          name: 'Temporal Apotheosis',
-          description: 'Achieve temporal godhood with ultimate time control',
-          statusType: 'godhood',
-          level: 'ultimate'
-        }],
-        durationType: 'permanent',
-        canBeDispelled: false
-      },
-
-      timeShardGenerate: 10,
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-
-      tags: ['buff', 'control', 'godhood', 'ultimate', 'stasis'],
-      specialization: 'stasis'
-    },
-
-    {
-      id: 'chronal_ascension',
-      name: 'Chronal Ascension',
-      description: 'Ascend beyond time itself, becoming a chronal being.',
-      level: 10,
-      icon: 'spell_nature_timestop',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_nature_timestop',
-        tags: ['buff', 'healing', 'ascension', 'rewinding'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['buff'],
-
-      buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'chronal_ascension',
-          name: 'Chronal Ascension',
-          description: 'Become a being of pure time, immune to temporal effects and able to rewind at will',
-          statusType: 'ascension',
-          level: 'transcendent'
-        }],
-        durationType: 'permanent',
-        canBeDispelled: false
-      },
-
-      timeShardGenerate: 15,
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-
-      tags: ['buff', 'healing', 'ascension', 'rewinding'],
-      specialization: 'rewinding'
-    },
-
-    {
-      id: 'temporal_omnipotence',
-      name: 'Temporal Omnipotence',
-      description: 'Gain complete mastery over all temporal forces.',
-      level: 10,
-      icon: 'spell_arcane_blink',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'spell_arcane_blink',
-        tags: ['buff', 'control', 'omnipotence', 'displacement'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['buff'],
-
-      buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'temporal_omnipotence',
-          name: 'Temporal Omnipotence',
-          description: 'Gain complete control over time, space, and reality within your domain',
-          statusType: 'omnipotence',
-          level: 'divine'
-        }],
-        durationType: 'permanent',
-        canBeDispelled: false
-      },
-
-      timeShardGenerate: 20,
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-
-      tags: ['buff', 'control', 'omnipotence', 'displacement'],
+      tags: ['damage', 'control', 'healing', 'ultimate', 'time', 'displacement'],
       specialization: 'displacement'
     }
   ],
@@ -2142,45 +2609,44 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       'chrono_echo'
     ],
     3: [
-      'temporal_flux_blink',
-      'temporal_acceleration',
-      'chrono_clone'
+      'temporal_dilation',
+      'time_crystal',
+      'temporal_foresight'
     ],
     4: [
-      'temporal_flux_freeze',
+      'temporal_vortex',
       'temporal_flux_rewind',
-      'temporal_flux_shift'
+      'temporal_paradox'
     ],
     5: [
-      'chronal_shift',
+      'temporal_anchor',
       'temporal_barrier',
-      'temporal_flux_heal',
+      'temporal_flux_shield',
       'temporal_flux_speed'
     ],
     6: [
-      'temporal_flux_storm',
+      'temporal_fracture',
       'time_lock',
-      'temporal_flux_mass_rewind'
+      'temporal_loop'
     ],
     7: [
-      'temporal_flux_teleport_storm',
+      'chronal_disruption',
       'chronal_reversal',
-      'temporal_flux_clone_army'
+      'temporal_echo_chamber'
     ],
     8: [
       'temporal_flux_dominion',
       'temporal_flux_resurrection',
-      'temporal_flux_phase_army'
+      'fate_manipulation'
     ],
     9: [
-      'chronal_cataclysm',
-      'temporal_flux_reversal',
-      'temporal_flux_apocalypse'
+      'temporal_shockwave',
+      'reality_fracture'
     ],
     10: [
-      'temporal_apotheosis',
-      'chronal_ascension',
-      'temporal_omnipotence'
+      'temporal_mastery',
+      'chronal_restoration',
+      'chronal_vortex'
     ]
   }
 };

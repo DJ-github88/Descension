@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import LocalhostMultiplayerSimulator from './LocalhostMultiplayerSimulator';
+import GameSessionInvitation from './GameSessionInvitation';
 // Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
 
@@ -49,6 +50,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState(null);
   const [actualPlayerCount, setActualPlayerCount] = useState(1); // Track actual player count from server
+  const [pendingGameSessionInvitations, setPendingGameSessionInvitations] = useState([]);
 
   // Get stores for state synchronization
   const { setGMMode, setMultiplayerState, isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
@@ -73,6 +75,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // Performance optimization: Batch updates to prevent lag spikes
   const updateBatchRef = useRef([]);
   const batchTimeoutRef = useRef(null);
+
+  // Handle game session invitation responses
+  const handleAcceptGameSession = (invitation) => {
+    if (socket && socket.connected) {
+      socket.emit('respond_to_game_session', { accepted: true });
+    }
+    setPendingGameSessionInvitations(prev => prev.filter(inv => inv.id !== invitation.id));
+  };
+
+  const handleDeclineGameSession = (invitation) => {
+    if (socket && socket.connected) {
+      socket.emit('respond_to_game_session', { accepted: false });
+    }
+    setPendingGameSessionInvitations(prev => prev.filter(inv => inv.id !== invitation.id));
+  };
 
   // Refs for values used in socket event handlers to prevent dependency issues
   const currentRoomRef = useRef(currentRoom);
@@ -1578,6 +1595,33 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     // Duplicate character movement handler disabled to prevent double processing
     // The main character_moved handler above handles all character movements
 
+    // Handle game session launch
+    socket.on('game_session_launched', (data) => {
+      // Show game session invitation popup for players (not GM)
+      if (!isGM) {
+        // Show popup invitation
+        setPendingGameSessionInvitations(prev => [...prev, {
+          id: `session_${Date.now()}`,
+          gmName: data.gmName,
+          roomName: data.roomName,
+          timestamp: data.timestamp
+        }]);
+      }
+    });
+
+    // Handle game session response (for GM)
+    socket.on('game_session_response', (data) => {
+      if (isGM) {
+        addNotification('social', {
+          sender: { name: data.playerName, class: 'player', level: 0 },
+          content: `${data.playerName} has ${data.accepted ? 'accepted' : 'declined'} the game session invitation.`,
+          type: 'game_session_response',
+          accepted: data.accepted,
+          timestamp: data.timestamp
+        });
+      }
+    });
+
     // Handle reconnection
     socket.on('reconnect', (attemptNumber) => {
 
@@ -2150,7 +2194,7 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
         {isGMMode && <AtmosphericEffectsManager />}
         {!isGMMode && <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />}
         <DialogueSystem />
-        <DialogueControls />
+        {isGMMode && <DialogueControls />}
         <DiceRollingSystem />
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
 
@@ -2167,11 +2211,44 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
           <i className="fas fa-sign-out-alt"></i>
           Leave Room
         </button>
+
+        {/* GM-only: Launch Game Session button */}
+        {isGM && actualPlayerCount > 1 && (
+          <button
+            className="launch-session-btn"
+            onClick={() => {
+              if (socket && socket.connected) {
+                socket.emit('launch_game_session');
+                addNotification('social', {
+                  sender: { name: 'System', class: 'system', level: 0 },
+                  content: 'Game session launched! Waiting for players to respond...',
+                  type: 'system',
+                  timestamp: new Date().toISOString()
+                });
+              }
+            }}
+            title="Launch a game session for your party"
+          >
+            <i className="fas fa-play-circle"></i>
+            Launch Game Session
+          </button>
+        )}
+
         <div className="room-info">
           <span className="room-name">{currentRoom.name}</span>
           <span className="player-count">{actualPlayerCount} players</span>
         </div>
       </div>
+
+      {/* Game Session Invitations */}
+      {pendingGameSessionInvitations.map((invitation) => (
+        <GameSessionInvitation
+          key={invitation.id}
+          invitation={invitation}
+          onAccept={handleAcceptGameSession}
+          onDecline={handleDeclineGameSession}
+        />
+      ))}
     </div>
   );
 };

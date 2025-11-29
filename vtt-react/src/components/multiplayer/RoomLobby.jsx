@@ -741,7 +741,25 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
         alignment: activeCharacter.alignment,
         background: activeCharacter.background,
         classResource: activeCharacter.classResource,
-        inventory: activeCharacter.inventory,
+        // CRITICAL FIX: Get current inventory from inventory store to ensure latest data
+        inventory: (() => {
+          try {
+            const inventoryStore = require('../../store/inventoryStore').default;
+            const inventoryState = inventoryStore.getState();
+            return {
+              items: inventoryState.items || [],
+              currency: inventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+              encumbranceState: inventoryState.encumbranceState || 'normal'
+            };
+          } catch (error) {
+            console.warn('Could not get current inventory, using character inventory:', error);
+            return activeCharacter.inventory || {
+              items: [],
+              currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+              encumbranceState: 'normal'
+            };
+          }
+        })(),
         equipment: activeCharacter.equipment,
         stats: activeCharacter.stats,
         lore: activeCharacter.lore,

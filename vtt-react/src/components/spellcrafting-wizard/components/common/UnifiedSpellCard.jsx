@@ -8507,8 +8507,7 @@ const UnifiedSpellCard = ({
             const hasCardDamage = spell?.resolution === 'CARDS' && spell?.cardConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
             const hasCoinDamage = spell?.resolution === 'COINS' && spell?.coinConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
             const hasDiceDamage = spell?.resolution === 'DICE' && spell?.diceConfig?.formula && spell.diceConfig.formula.trim() && spell?.damageConfig && spell?.effectTypes?.includes('damage');
-            const hasDamageEffect = spell?.effectTypes?.includes('damage');
-            const shouldRenderDamage = hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage || hasDamageEffect;
+            const shouldRenderDamage = hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage;
 
             // Check if healing should be rendered
             const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
@@ -10470,20 +10469,22 @@ const UnifiedSpellCard = ({
                       
                       // Use customName from buffConfig if effect doesn't have its own name
                       const defaultBuffName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
+                      
+                      // Don't show duration as separate line - it should be in the description text
                       buffEffectsToRender.push({
                         name: effect.name || defaultBuffName,
-                        description: durationText ? durationText : '',
+                        description: '', // No separate duration line
                         mechanicsText: cleanDescription
                       });
                     }
                   });
 
                   // Add stat effects - each as a separate entry
-                  statEffects.forEach(effect => {
+                  statEffects.forEach((effect) => {
                     buffEffectsToRender.push({
                       name: effect.name,
-                      description: effect.description,
-                      mechanicsText: effect.mechanicsText
+                      description: '', // Don't show duration separately - it's in mechanicsText
+                      mechanicsText: effect.mechanicsText || effect.description
                     });
                   });
                   
@@ -10498,40 +10499,8 @@ const UnifiedSpellCard = ({
                     });
                   });
                   
-                  // Add duration to the first effect's name if we have effects and duration
-                  if (buffEffectsToRender.length > 0 && buffData) {
-                    const durationValue = buffData.durationValue || buffData.duration;
-                    if (durationValue && buffData.durationType !== 'instant') {
-                      let durationText = '';
-                      if (buffData.durationType === 'permanent') {
-                        durationText = 'Permanent';
-                      } else if (buffData.durationType === 'rounds') {
-                        durationText = `${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`;
-                      } else if (buffData.durationType === 'turns') {
-                        durationText = `${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`;
-                      } else if (buffData.durationType === 'minutes') {
-                        durationText = `${durationValue} ${durationValue === 1 ? 'Minute' : 'Minutes'}`;
-                      } else if (buffData.durationType === 'hours') {
-                        durationText = `${durationValue} ${durationValue === 1 ? 'Hour' : 'Hours'}`;
-                      } else if (buffData.durationType === 'time' && durationValue) {
-                        const unit = buffData.durationUnit || 'rounds';
-                        const capitalizedUnit = unit.charAt(0).toUpperCase() + unit.slice(1);
-                        durationText = `${durationValue} ${capitalizedUnit}`;
-                      } else if (durationValue) {
-                        durationText = `${durationValue} Rounds`;
-                      }
-                      
-                      // Add concentration if required
-                      if (buffData.concentrationRequired && durationText) {
-                        durationText += ' (Concentration)';
-                      }
-                      
-                      // Add duration to first effect name
-                      if (durationText) {
-                        buffEffectsToRender[0].name = `${buffEffectsToRender[0].name} - ${durationText}`;
-                      }
-                    }
-                  }
+                  // Duration is now shown in the description field (cursive format)
+                  // NOT appended to the name header to avoid duplication
                 }
 
                 // Handle stat modifiers with proper formatting - consolidate into single block
@@ -10757,10 +10726,11 @@ const UnifiedSpellCard = ({
 
                             // Use customName from buffConfig if provided
                             const progressiveBaseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
+                            // Don't show duration as separate line
                             buffEffectsToRender.push({
-                              name: `${progressiveBaseName}${finalDescription ? ` - ${finalDescription}` : ''}`,
-                              description: '',
-                              mechanicsText: finalMechanicsText
+                              name: progressiveBaseName,
+                              description: '', // No separate duration line
+                              mechanicsText: finalMechanicsText || (isProgressive ? '' : mechanicsText)
                             });
                           }
                 }
@@ -10815,11 +10785,10 @@ const UnifiedSpellCard = ({
                 const durationText = durationParts.length > 0 ? `(${durationParts.join(' • ')})` : '';
                 // Use customName from buffConfig if provided, otherwise fallback to 'Buff Effect'
                 const baseName = buffData?.customName || spell?.buffConfig?.customName || 'Buff Effect';
-                const effectName = durationText ? `${baseName} ${durationText}` : baseName;
-
+                // Don't show duration as separate line - it's in the customDescription
                 buffEffectsToRender.push({
-                  name: effectName,
-                  description: '',
+                  name: baseName,
+                  description: '', // No separate duration line
                   mechanicsText: buffData.customDescription
                 });
               }
@@ -10868,14 +10837,12 @@ const UnifiedSpellCard = ({
                     }
                   }
 
-                  if (durationParts.length > 0) {
-                    effectName = `${effectName} (${durationParts.join(' • ')})`;
-                  }
                 }
 
+                // Don't show duration as separate line for fallback buffs either
                 buffEffectsToRender.push({
                   name: effectName,
-                  description: '',
+                  description: '', // No separate duration line
                   mechanicsText: mechanicsText
                 });
               }
@@ -11301,45 +11268,76 @@ const UnifiedSpellCard = ({
                               const descriptionLower = effectDescription.toLowerCase();
                               const statNameLower = statName.toLowerCase();
                               
-                              // Check if description mentions the magnitude and stat (e.g., "+50% damage", "Take +50% damage")
-                              const hasMagnitudeAndStat = (
-                                descriptionLower.includes(`+${magnitude}`) ||
-                                descriptionLower.includes(`${magnitude}%`) ||
-                                descriptionLower.includes(`${magnitude} `)
-                              ) && (
-                                descriptionLower.includes(statNameLower) ||
-                                descriptionLower.includes('damage') ||
-                                descriptionLower.includes('vulnerable')
-                              );
+                              // Check if description already contains the stat reduction info
+                              // If description has both the magnitude and stat name, suppress mechanicsText to avoid duplication
+                              // This prevents double dashes like "--1 Armor" when description is "-1 Armor for 3 Rounds"
+                              const hasMagnitude = descriptionLower.includes(`${magnitude}`) || 
+                                                   descriptionLower.includes(`${magnitude} `) ||
+                                                   descriptionLower.includes(`-${magnitude}`) ||
+                                                   descriptionLower.includes(`- ${magnitude}`);
+                              
+                              const hasStatName = descriptionLower.includes(statNameLower);
+                              
+                              // If description already has both magnitude and stat name, don't add mechanicsText
+                              const descriptionHasStatReduction = hasMagnitude && hasStatName;
                               
                               // Build mechanics text - suppress if description already explains the effect
-                              const mechanicsText = hasMagnitudeAndStat ? '' : `-${magnitude}${typeText} ${statName}`;
+                              const mechanicsText = descriptionHasStatReduction ? '' : `-${magnitude}${typeText} ${statName}`;
                               
                               // Build description with duration and save
+                              // Check if description already includes duration information
+                              // Check if description has duration info - look for patterns like "for X rounds", "-X for Y", etc.
+                              const hasDurationInDescription = effectDescription.toLowerCase().includes('for') && 
+                                                               (effectDescription.toLowerCase().includes('round') || 
+                                                                effectDescription.toLowerCase().includes('turn') ||
+                                                                effectDescription.toLowerCase().includes('minute')) ||
+                                                               /-?\d+\s+(armor|strength|constitution|etc)\s+for\s+\d+/i.test(effectDescription) ||
+                                                               /for\s+\d+\s+rounds?/i.test(effectDescription);
+                              
                               const descriptionParts = [];
                               
-                              // Add save info if available
-                              const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
-                              const saveDC = debuffData.difficultyClass || debuffData.saveDC;
-                              if (saveType && saveType !== 'none' && saveDC) {
-                                const saveTypeName = normalizeSaveType(saveType);
-                                descriptionParts.push(`DC ${saveDC} ${saveTypeName} save`);
-                              }
+                              // Strip leading "-" from description if present (used for indentation but shouldn't display)
+                              const cleanDescription = effectDescription.trim().replace(/^-\s*/, '');
                               
-                              // Add duration
-                              const durationValue = debuffData.durationValue || debuffData.duration;
-                              if (durationValue && debuffData.durationType && debuffData.durationType !== 'instant') {
-                                if (debuffData.durationType === 'rounds') {
-                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`);
-                                } else if (debuffData.durationType === 'turns') {
-                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`);
-                                } else {
-                                  descriptionParts.push(`${durationValue} ${debuffData.durationType}`);
+                              // If description already has duration, use it as-is (don't add duration again)
+                              if (hasDurationInDescription && cleanDescription) {
+                                descriptionParts.push(cleanDescription);
+                              } else {
+                                // Build description from parts - start with the effect description if it exists
+                                if (cleanDescription) {
+                                  descriptionParts.push(cleanDescription);
+                                }
+                                
+                                // Add save info if available
+                                const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
+                                const saveDC = debuffData.difficultyClass || debuffData.saveDC;
+                                if (saveType && saveType !== 'none' && saveDC) {
+                                  const saveTypeName = normalizeSaveType(saveType);
+                                  descriptionParts.push(`DC ${saveDC} ${saveTypeName} save`);
+                                }
+                                
+                                // Add duration if not already in description
+                                const durationValue = debuffData.durationValue || debuffData.duration;
+                                if (durationValue && debuffData.durationType && debuffData.durationType !== 'instant') {
+                                  if (debuffData.durationType === 'rounds') {
+                                    descriptionParts.push(`for ${durationValue} ${durationValue === 1 ? 'round' : 'rounds'}`);
+                                  } else if (debuffData.durationType === 'turns') {
+                                    descriptionParts.push(`for ${durationValue} ${durationValue === 1 ? 'turn' : 'turns'}`);
+                                  } else {
+                                    descriptionParts.push(`for ${durationValue} ${debuffData.durationType}`);
+                                  }
+                                }
+                                
+                                // If no description parts and no effect description, use fallback
+                                if (descriptionParts.length === 0) {
+                                  descriptionParts.push(effect.name || 'Stat reduction');
                                 }
                               }
                               
-                              const description = descriptionParts.length > 0 ? descriptionParts.join(' • ') : 
-                                                 (effect.description || effect.name || 'Stat reduction');
+                              // Strip leading "-" from final description if present
+                              const rawDescription = descriptionParts.length > 0 ? descriptionParts.join(' • ') : 
+                                                     (effect.description || effect.name || 'Stat reduction');
+                              const description = rawDescription.replace(/^-\s*/, '');
                               
                               const debuffTargeting = formatEffectTargeting('debuff');
                               effects.push({
@@ -11356,7 +11354,10 @@ const UnifiedSpellCard = ({
                               const debuffTargeting = formatEffectTargeting('debuff');
 
                               // Build better description format for status effects
-                              let descriptionParts = [effect.description || formattedEffect.description];
+                              // Strip leading "-" from description if present (used for indentation but shouldn't display)
+                              const rawEffectDescription = effect.description || formattedEffect.description;
+                              const cleanEffectDescription = rawEffectDescription.replace(/^-\s*/, '');
+                              let descriptionParts = [cleanEffectDescription];
 
                               // Add save info if available
                               const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
@@ -11411,25 +11412,43 @@ const UnifiedSpellCard = ({
                             }
                             // Generic effect with description
                             else if (effect.description || effect.name) {
+                              // Check if description already includes duration information
+                              const effectDescription = effect.description || '';
+                              const hasDurationInDescription = effectDescription.toLowerCase().includes('for') && 
+                                                               (effectDescription.toLowerCase().includes('round') || 
+                                                                effectDescription.toLowerCase().includes('turn') ||
+                                                                effectDescription.toLowerCase().includes('minute'));
+                              
                               const descriptionParts = [];
                               
-                              // Add save info if available
-                              const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
-                              const saveDC = debuffData.difficultyClass || debuffData.saveDC;
-                              if (saveType && saveType !== 'none' && saveDC) {
-                                const saveTypeName = normalizeSaveType(saveType);
-                                descriptionParts.push(`DC ${saveDC} ${saveTypeName} save`);
-                              }
-                              
-                              // Add duration
-                              const durationValue = debuffData.durationValue || debuffData.duration;
-                              if (durationValue && debuffData.durationType && debuffData.durationType !== 'instant') {
-                                if (debuffData.durationType === 'rounds') {
-                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`);
-                                } else if (debuffData.durationType === 'turns') {
-                                  descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`);
-                                } else {
-                                  descriptionParts.push(`${durationValue} ${debuffData.durationType}`);
+                              // If description already has duration, use it as-is (don't add duration again)
+                              if (hasDurationInDescription && effectDescription.trim()) {
+                                descriptionParts.push(effectDescription);
+                              } else {
+                                // Build description from parts
+                                // Add save info if available
+                                const saveType = debuffData.savingThrow || debuffData.saveType || debuffData.savingThrowType;
+                                const saveDC = debuffData.difficultyClass || debuffData.saveDC;
+                                if (saveType && saveType !== 'none' && saveDC) {
+                                  const saveTypeName = normalizeSaveType(saveType);
+                                  descriptionParts.push(`DC ${saveDC} ${saveTypeName} save`);
+                                }
+                                
+                                // Add duration if not already in description
+                                const durationValue = debuffData.durationValue || debuffData.duration;
+                                if (durationValue && debuffData.durationType && debuffData.durationType !== 'instant') {
+                                  if (debuffData.durationType === 'rounds') {
+                                    descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Round' : 'Rounds'}`);
+                                  } else if (debuffData.durationType === 'turns') {
+                                    descriptionParts.push(`${durationValue} ${durationValue === 1 ? 'Turn' : 'Turns'}`);
+                                  } else {
+                                    descriptionParts.push(`${durationValue} ${debuffData.durationType}`);
+                                  }
+                                }
+                                
+                                // If no description parts and no effect description, use fallback
+                                if (descriptionParts.length === 0 && !effectDescription.trim()) {
+                                  descriptionParts.push(effect.name || 'Debuff effect');
                                 }
                               }
                               
@@ -12184,22 +12203,106 @@ const UnifiedSpellCard = ({
                               inlineDetails.push(controlTypeText);
                             }
 
-                            // Build creature stats text
+                            // Build enhanced creature stats text with AP
                             const stats = [];
                             if (creature.stats?.maxHp || creature.stats?.hp) {
                               stats.push(`HP: ${creature.stats.maxHp || creature.stats.hp}`);
                             }
-                            if (creature.stats?.armorClass || creature.stats?.armor) {
-                              stats.push(`Armor: ${creature.stats.armorClass || creature.stats.armor}`);
-                            }
                             if (creature.stats?.maxMana) {
                               stats.push(`Mana: ${creature.stats.maxMana}`);
                             }
+                            if (creature.stats?.maxAp || creature.stats?.ap) {
+                              stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
+                            }
+                            if (creature.stats?.armorClass || creature.stats?.armor) {
+                              stats.push(`Armor: ${creature.stats.armorClass || creature.stats.armor}`);
+                            }
 
-                            // Add creature description if available
-                            let mechanicsText = stats.join(' • ');
+                            // Build enhanced mechanics text with proper hierarchy
+                            let mechanicsText = '';
                             if (creature.description) {
-                              mechanicsText = creature.description + (stats.length > 0 ? ' • ' + mechanicsText : '');
+                              mechanicsText = creature.description;
+                              if (stats.length > 0) {
+                                mechanicsText += ' • ' + stats.join(' • ');
+                              }
+                            } else {
+                              mechanicsText = stats.length > 0 ? stats.join(' • ') : `Summons ${creature.name}`;
+                            }
+
+                            // Add attached effects to mechanics text
+                            if (creatureConfig.attachedEffects) {
+                              const attachedMechanics = [];
+
+                              Object.entries(creatureConfig.attachedEffects).forEach(([effectKey, effectData]) => {
+                                if (!effectData) return;
+
+                              let attachedText = '';
+                              switch (effectData.effectType) {
+                                case 'damage':
+                                  attachedText = `${effectData.formula} ${effectData.elementType || 'force'} damage in ${effectData.areaRadius || 10}ft radius`;
+                                  if (effectData.tickRate && effectData.tickRate > 1) {
+                                    attachedText += ` every ${effectData.tickRate} ${effectData.tickUnit || 'rounds'}`;
+                                  }
+                                  break;
+                                case 'healing':
+                                  attachedText = `${effectData.formula} healing in ${effectData.areaRadius || 10}ft radius`;
+                                  if (effectData.tickRate && effectData.tickRate > 1) {
+                                    attachedText += ` every ${effectData.tickRate} ${effectData.tickUnit || 'rounds'}`;
+                                  }
+                                  break;
+                                case 'buff':
+                                  const buffValue = effectData.magnitudeType === 'multiplier' ? `x${effectData.magnitude}` :
+                                                   effectData.magnitudeType === 'percentage' ? `${effectData.magnitude}%` :
+                                                   `${effectData.magnitude > 0 ? '+' : ''}${effectData.magnitude}`;
+                                  attachedText = `${effectData.stat || 'stat'} ${buffValue} in ${effectData.areaRadius || 10}ft radius`;
+                                  break;
+                                case 'debuff':
+                                  const debuffValue = effectData.magnitudeType === 'multiplier' ? `x${effectData.magnitude}` :
+                                                     effectData.magnitudeType === 'percentage' ? `${effectData.magnitude}%` :
+                                                     `${effectData.magnitude}`;
+                                  attachedText = `${effectData.stat || 'stat'} ${debuffValue} in ${effectData.areaRadius || 10}ft radius`;
+                                  if (effectData.saveDC) {
+                                    attachedText += ` • DC ${effectData.saveDC} ${effectData.saveType} save (${effectData.saveOutcome})`;
+                                  }
+                                  break;
+                                case 'control':
+                                  let controlDesc = '';
+                                  switch (effectData.controlType) {
+                                    case 'push':
+                                      controlDesc = `Push ${effectData.distance || 10}ft`;
+                                      break;
+                                    case 'pull':
+                                      controlDesc = `Pull ${effectData.distance || 10}ft`;
+                                      break;
+                                    case 'incapacitation':
+                                      controlDesc = 'Stun';
+                                      break;
+                                    case 'knockdown':
+                                      controlDesc = 'Knock prone';
+                                      break;
+                                    case 'restraint':
+                                      controlDesc = 'Restrain';
+                                      break;
+                                    default:
+                                      controlDesc = 'Control effect';
+                                  }
+                                  attachedText = `${controlDesc} in ${effectData.areaRadius || 10}ft radius`;
+                                  if (effectData.saveDC) {
+                                    attachedText += ` • DC ${effectData.saveDC} ${effectData.saveType} save (${effectData.saveOutcome})`;
+                                  }
+                                  break;
+                                default:
+                                  attachedText = 'Attached effect';
+                              }
+
+                                if (attachedText) {
+                                  attachedMechanics.push(attachedText);
+                                }
+                              });
+
+                              if (attachedMechanics.length > 0) {
+                                mechanicsText += (mechanicsText ? ' • ' : '') + attachedMechanics.join(' • ');
+                              }
                             }
 
                             // Will attach conditional formulas after helper is defined
@@ -12465,52 +12568,56 @@ const UnifiedSpellCard = ({
                           inlineDetails.push(`DC ${dc} ${saveTypeText}`);
                         }
 
-                        // Handle transformation with targetForm or selectedCreature
+                        // Handle transformation with targetForm or selectedCreature (creature library)
                         if (transformationData?.targetForm || transformationData?.selectedCreature) {
                           const creature = transformationData.selectedCreature;
                           const targetForm = transformationData.targetForm;
                           const transformationType = transformationData.transformationType || 'creature';
 
-                          // Build stats text
+                          // Build enhanced stats text
                           const stats = [];
 
                           if (creature) {
-                            // Full creature data available
+                            // Full creature data available with enhanced stat display
                             if (creature.stats?.maxHp || creature.stats?.hp) {
                               stats.push(`HP: ${creature.stats.maxHp || creature.stats.hp}`);
+                            }
+                            if (creature.stats?.maxMana || creature.stats?.mana) {
+                              stats.push(`Mana: ${creature.stats.maxMana || creature.stats.mana}`);
+                            }
+                            if (creature.stats?.maxAp || creature.stats?.ap) {
+                              stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
                             }
                             if (creature.stats?.armorClass || creature.stats?.armor) {
                               stats.push(`Armor: ${creature.stats.armorClass || creature.stats.armor}`);
                             }
                           }
 
-                          // Add equipment maintenance info
-                          if (transformationData.maintainEquipment) {
+                          // Add equipment and ability handling info
+                          if (transformationData.maintainEquipment === true) {
                             stats.push('Equipment maintained');
-                          } else if (transformationData.retainsAbilities === false) {
-                            stats.push('Loses abilities');
+                          } else if (transformationData.maintainEquipment === false) {
+                            stats.push('Equipment lost');
+                          }
+                          if (transformationData.retainsAbilities === false) {
+                            stats.push('Loses original abilities');
                           }
 
-                          // Add saving throw info
-                          if (transformationData.savingThrow && transformationData.difficultyClass) {
-                            const saveTypeMap = {
-                              'spirit': 'Spirit',
-                              'charisma': 'Charisma',
-                              'intelligence': 'Intelligence',
-                              'constitution': 'Constitution',
-                              'strength': 'Strength',
-                              'agility': 'Agility'
-                            };
-                            const saveType = saveTypeMap[transformationData.savingThrow] || transformationData.savingThrow;
+                          // Enhanced saving throw info with proper normalization
+                          if (transformationData.targetType === 'unwilling' && transformationData.saveType && transformationData.difficultyClass) {
+                            const saveType = normalizeSaveType(transformationData.saveType);
                             stats.push(`${saveType} save DC ${transformationData.difficultyClass}`);
                           }
 
-                          // Add creature description if available
-                          let mechanicsText = stats.join(' • ');
+                          // Build mechanics text with proper hierarchy
+                          let mechanicsText = '';
                           if (creature?.description) {
-                            mechanicsText = creature.description + (stats.length > 0 ? ' • ' + mechanicsText : '');
-                          } else if (!mechanicsText) {
-                            mechanicsText = `Transform into ${transformationType}`;
+                            mechanicsText = creature.description;
+                            if (stats.length > 0) {
+                              mechanicsText += ' • ' + stats.join(' • ');
+                            }
+                          } else {
+                            mechanicsText = stats.length > 0 ? stats.join(' • ') : `Transform into ${transformationType}`;
                           }
 
                           const formName = creature?.name || (targetForm ? targetForm.charAt(0).toUpperCase() + targetForm.slice(1) : 'creature');
@@ -12524,14 +12631,97 @@ const UnifiedSpellCard = ({
                             conditionalFormulas: transformationTriggers?.formulas || []
                           });
                         }
+                        // Handle CUSTOM transformations (enhanced custom mode with isCustom flag or transformationType + form name)
+                        else if (transformationData?.isCustom || transformationData?.transformationType || transformationData?.newForm || transformationData?.formName || transformationData?.customName || transformationData?.transformType || transformationData?.form) {
+                          // Get the form/transformation name from various possible fields
+                          const formName = transformationData.newForm ||
+                                          transformationData.formName ||
+                                          transformationData.customName ||
+                                          transformationData.form ||
+                                          null;
+                          
+                          // Get the transformation type
+                          const transformationType = transformationData.transformationType || 
+                                                    transformationData.transformType || 
+                                                    'physical';
+                          
+                          // Format transformation type for display
+                          const formatTransformType = (type) => {
+                            if (!type) return 'Transformation';
+                            const typeMap = {
+                              'physical': 'Physical Transformation',
+                              'elemental': 'Elemental Transformation',
+                              'mental': 'Mental Transformation',
+                              'shapechange': 'Shapechange',
+                              'ascended': 'Ascended Form',
+                              'spectral': 'Spectral Form',
+                              'phaseshift': 'Phase Shift',
+                              'stance_mastery': 'Stance Mastery',
+                              'arcane': 'Arcane Transformation',
+                              'celestial': 'Celestial Transformation',
+                              'divine': 'Divine Transformation',
+                              'full': 'Full Transformation'
+                            };
+                            return typeMap[type] || type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                          };
 
-                        // Handle granted abilities
+                          // Build the description with inline details
+                          let description = formatTransformType(transformationType);
+                          if (inlineDetails.length > 0) {
+                            description += ' - ' + inlineDetails.join(' - ');
+                          }
+                          
+                          // Get power level if specified
+                          const power = transformationData.power;
+                          const powerText = power ? ` (${power.charAt(0).toUpperCase() + power.slice(1)})` : '';
+
+                          // Build mechanics text from description field if available
+                          let mechanicsText = transformationData.description || '';
+                          
+                          // Add special effects if present
+                          if (transformationData.specialEffects?.length > 0) {
+                            const effectsText = transformationData.specialEffects.join(', ');
+                            mechanicsText = mechanicsText ? `${mechanicsText} • ${effectsText}` : effectsText;
+                          }
+
+                          const transformationTriggers = getTransformationTriggersAndFormulas('transformation');
+                          
+                          // Only add the main transformation effect if we have a form name
+                          if (formName) {
+                            effects.push({
+                              name: formName + powerText,
+                              description: description,
+                              mechanicsText: mechanicsText || `Transforms into ${formName}`,
+                              conditionalFormulas: transformationTriggers?.formulas || []
+                            });
+                          } else {
+                            // No specific form name, just show the transformation type
+                            effects.push({
+                              name: formatTransformType(transformationType) + powerText,
+                              description: inlineDetails.length > 0 ? inlineDetails.join(' - ') : '',
+                              mechanicsText: mechanicsText || 'Enhances your physical form',
+                              conditionalFormulas: transformationTriggers?.formulas || []
+                            });
+                          }
+                        }
+
+                        // Add resistance effect for unwilling targets
+                        if (transformationData?.targetType === 'unwilling' && transformationData?.saveType && transformationData?.difficultyClass) {
+                          effects.push({
+                            name: 'Transformation Resistance',
+                            description: `${normalizeSaveType(transformationData.saveType)} save DC ${transformationData.difficultyClass}`,
+                            mechanicsText: 'Target can resist transformation with a successful saving throw'
+                          });
+                        }
+
+                        // Handle granted abilities (enhanced with categories and better formatting)
                         if (transformationData?.grantedAbilities?.length > 0) {
                           transformationData.grantedAbilities.forEach(ability => {
+                            const categoryText = ability.category ? `${ability.category.charAt(0).toUpperCase() + ability.category.slice(1)} Ability` : 'Special Ability';
                             effects.push({
                               name: `Granted: ${ability.name}`,
-                              description: 'Special ability',
-                              mechanicsText: ability.description || 'Grants special transformation ability'
+                              description: categoryText,
+                              mechanicsText: ability.description || `Grants ${ability.name.toLowerCase()}`
                             });
                           });
                         }

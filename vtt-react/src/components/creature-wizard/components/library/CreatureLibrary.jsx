@@ -256,11 +256,11 @@ const CreatureLibrary = ({ onEdit }) => {
       clearTimeout(tooltipTimeoutRef.current);
     }
 
-    // Set a 3-second delay before showing the tooltip
+    // Set a 500ms delay before showing the tooltip
     tooltipTimeoutRef.current = setTimeout(() => {
       setHoveredCreature(creature);
       updateTooltipPosition(event);
-    }, 3000);
+    }, 500);
   };
 
   // Handle mouse move for tooltip

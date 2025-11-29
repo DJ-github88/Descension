@@ -2673,17 +2673,19 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
       transformationConfig: {
         transformationType: 'ascended',
-        newForm: 'Prophet of Lies',
-        duration: 10,
+        targetType: 'self',
+        duration: 5,
         durationUnit: 'rounds',
-        statsBonus: {
-          intelligence: 10,
-          spirit: 10,
-          charisma: 10
-        },
-        newAbilities: ['Reality Warp', 'Mass Manipulation', 'Ultimate Deception', 'Mind Control', 'Illusion Mastery'],
-        resistances: ['psychic', 'all'],
-        immunities: ['charm', 'fear', 'confusion']
+        power: 'major',
+        newForm: 'Prophet of Lies',
+        description: 'Become a vessel for eldritch truths, your mind fracturing as power floods through you.',
+        grantedAbilities: [
+          { id: 'prophet_stats', name: 'Eldritch Insight', description: '+6 Intelligence, +6 Spirit, +6 Charisma' },
+          { id: 'mass_manipulation', name: 'Mass Manipulation', description: 'Charm or frighten all enemies within 30ft (once per transformation)' },
+          { id: 'illusion_mastery', name: 'Illusion Mastery', description: 'All illusion spells are automatically believed' },
+          { id: 'mind_shield', name: 'Mind Shield', description: 'Immune to charm, fear, and confusion effects' },
+          { id: 'prophet_madness', name: 'Madness (On End)', description: 'Gain 3d10 Madness Points when transformation ends' }
+        ]
       },
 
       resourceCost: {

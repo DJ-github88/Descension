@@ -1499,7 +1499,7 @@ BATTLE MAP:
     {
       id: 'prim_elemental_fury',
       name: 'Elemental Fury',
-      description: 'Unleash a devastating elemental storm when Flamecaller, Storm, Frost, and Wind totems are active, enhancing allies with fire, lightning, and frost.',
+      description: 'Unleash a devastating elemental storm for 3 rounds when Flamecaller, Storm, Frost, and Wind totems are active, enhancing allies with +2d6 fire, lightning, and frost damage to attacks, plus increased attack speed and +10ft movement speed.',
       spellType: 'REACTION',
       icon: 'spell_nature_wispheal',
       school: 'Elemental',
@@ -1585,7 +1585,7 @@ BATTLE MAP:
     {
       id: 'prim_totemic_call',
       name: 'Totemic Call',
-      description: 'Summon all eight sacred totems at once in a powerful ritual, creating a complete totemic circle.',
+      description: 'Summon all eight sacred totems at once in a powerful ritual for 1 minute (concentration), creating a complete totemic circle. Places all 8 totems simultaneously in optimal positions.',
       spellType: 'ACTION',
       icon: 'spell_nature_nullward',
       school: 'Nature',
@@ -2736,15 +2736,22 @@ BATTLE MAP:
         duration: 5,
         durationUnit: 'rounds',
         power: 'major',
-        specialEffects: ['Immunity to nature damage', 'All totems become indestructible', 'Totem placement is instant and free']
+        newForm: 'World Tree Avatar',
+        description: 'Channel the essence of the World Tree, becoming a conduit of nature.',
+        grantedAbilities: [
+          { id: 'nature_immunity', name: 'Nature Immunity', description: 'Immune to nature damage' },
+          { id: 'totem_protection', name: 'Totem Protection', description: 'All totems gain +50 HP and resistance to all damage' },
+          { id: 'instant_totems', name: 'Instant Totems', description: 'Totem placement costs 0 action points' },
+          { id: 'world_tree_stats', name: '+5 All Stats', description: 'Gain +5 to all attributes' }
+        ]
       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [
           {
             id: 'world_tree_power',
-            name: 'World Tree Power',
-            description: 'All stats increased by +5, all healing doubled, and immunity to crowd control for 5 rounds',
+            name: 'World Tree Stats',
+            description: '+5 to all stats',
             statModifier: {
               stat: 'all_stats',
               magnitude: 5,
@@ -2963,15 +2970,22 @@ BATTLE MAP:
         duration: 0,
         durationUnit: 'permanent',
         power: 'major',
-        specialEffects: ['Become immune to all damage types', 'All totems become permanent', 'Can place unlimited totems', 'Totem effects doubled']
+        newForm: 'Primal Ascendant',
+        description: 'Achieve perfect harmony with nature, enhancing your totemic powers.',
+        grantedAbilities: [
+          { id: 'totem_link', name: 'Totem Link', description: 'Gain damage resistance while at least one totem is active' },
+          { id: 'extended_totems', name: 'Extended Totems', description: 'Totem durations increased by 100%' },
+          { id: 'totem_master', name: 'Totem Master', description: 'Can maintain 2 additional totems simultaneously' },
+          { id: 'enhanced_effects', name: 'Enhanced Effects', description: 'All totem healing and damage effects increased by 25%' }
+        ]
       },
       buffConfig: {
         buffType: 'custom',
         effects: [{
-          id: 'primal_godhood',
+          id: 'primal_ascension',
           name: 'Primal Ascension',
-          description: 'You have become one with nature. Immunity to all damage, unlimited totem placement, all totem effects doubled, and totems are permanent',
-          customDescription: 'You have achieved primal ascension and become a living avatar of nature itself. You are immune to all damage while at least one totem is active. You can place unlimited totems, and all totem effects are doubled. Your totems are permanent and cannot be destroyed by any means.'
+          description: 'Enhanced totem mastery with damage resistance while totems are active',
+          customDescription: 'You have achieved primal ascension. Gain damage resistance while at least one totem is active. Totem durations doubled, can maintain 2 extra totems, and all totem effects enhanced by 25%.'
         }],
         durationValue: 0,
         durationType: 'permanent',

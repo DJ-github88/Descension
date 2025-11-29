@@ -1629,6 +1629,50 @@ Mechanics: "HP: {hp} • Armor: {armor} • {description}" - Creature stats and 
     - `concentration` (boolean) - Whether maintaining the summon requires concentration
     - `controlType` (string) - Control method ('verbal', 'mental', 'empathic', 'autonomous')
     - `controlRange` (number) - Maximum control distance in feet (0 = unlimited)
+    - `attachedEffects` (object) - **OPTIONAL**: Effects that emanate from the summoned creature
+
+**Attached Effects Structure:**
+```javascript
+attachedEffects: {
+  auraDamage: {  // Damage effect in area around creature
+    effectType: 'damage',
+    formula: '2d6',
+    elementType: 'force',
+    damageType: 'direct',
+    areaShape: 'circle',
+    areaRadius: 15,
+    targetType: 'enemy',  // 'enemy', 'ally', or 'all'
+    tickRate: 1,  // How often effect triggers (1 = every round)
+    tickUnit: 'rounds'
+  },
+  auraHealing: {  // Healing effect in area around creature
+    effectType: 'healing',
+    formula: '1d8',
+    healingType: 'direct',
+    areaShape: 'circle',
+    areaRadius: 15,
+    targetType: 'ally',
+    tickRate: 1,
+    tickUnit: 'rounds'
+  },
+  auraBuff: {  // Buff effect in area around creature
+    effectType: 'buff',
+    buffType: 'statusEffect',
+    effects: [{
+      name: 'Aura Buff',
+      description: 'Enhanced by aura',
+      statusType: 'empowerment',
+      statModifier: { stat: 'damage', magnitude: 2, magnitudeType: 'flat' }
+    }],
+    durationValue: 1,
+    durationType: 'rounds',
+    durationUnit: 'rounds',
+    targetType: 'ally',
+    areaShape: 'circle',
+    areaRadius: 15
+  }
+}
+```
 
 **⚠️ CRITICAL - Summoning Format:**
 - **Use `summonConfig`, not `summoningConfig`** - The spell wizard uses `summonConfig` with a `creatures` array
@@ -1680,26 +1724,146 @@ HP: health_sacrificed • Armor: 12 • A ghostly warrior bound by necrotic ener
 
 #### Transformation Effects
 
+**Two Modes of Transformation:**
+
+1. **Creature Library Mode**: Transform into a creature from the creature library (uses `selectedCreature` or `formId`)
+2. **Custom Transformation Mode**: Custom self-enhancement or unique transformations (uses `transformationType` + `newForm`)
+
 **Display Format Logic:**
-- **If `transformationConfig` exists**: Shows detailed transformation effects based on configuration
+- **If `selectedCreature` or `formId` exists**: Shows creature transformation with creature stats and granted abilities
+- **If `isCustom` is true OR `transformationType` + `newForm`/`formName`/`customName` exists**: Shows custom transformation with enhanced details
+- **If only `transformationType` exists**: Shows transformation type header
 - **If `transformationConfig` missing but 'transformation' in `effectTypes`**: Shows generic "Transformation Effect - Effect details not configured"
 
-**Display Format:**
+---
+
+**Enhanced Creature Library Transformation Display:**
 ```
-Effect Name: "{transformationType} Transformation"
-Description: "Target: {targetType} • Duration: {duration} {durationUnit} • Power: {power}"
-Mechanics: Special effects details (if any) - **DO NOT duplicate transformation type or duration**
+Effect Name: "Transform into {creature.name}"
+Description: "{creature.size} {creature.type} • {duration} {durationUnit} • {targetType}"
+Mechanics: "{creature.description} • HP: {creature.stats.maxHp} • Armor: {creature.stats.armor} • AP: {creature.stats.maxAp}"
 ```
 
-**Fields Used:**
-- `transformationConfig.transformationType` ('physical', 'mental', 'elemental', 'shapechange')
-- `transformationConfig.targetType` ('self', 'target')
+**Enhanced Custom Transformation Display:**
+```
+Effect Name: "{newForm || formName || customName} ({power})"
+Description: "{formatted transformationType} • {duration} {durationUnit} • {targetType}"
+Mechanics: "{description || enhanced form description}"
+```
+
+**Unwilling Target Saving Throw (when targetType = 'unwilling'):**
+```
+Effect Name: "Transformation Resistance"
+Description: "{saveType} save DC {difficultyClass}"
+Mechanics: "Target can resist transformation with a successful saving throw"
+```
+
+**Granted Abilities (enhanced for both modes):**
+```
+Effect Name: "Granted: {ability.name}"
+Description: "{ability.category || 'Special Ability'}"
+Mechanics: "{ability.description}"
+```
+
+**Transformation Mode Indicators:**
+- **Creature Library**: Shows creature stats, type, and size
+- **Custom Mode**: Shows transformation type, power level, and custom description
+- **Equipment Handling**: Indicates if equipment is maintained or lost during transformation
+
+---
+
+**Fields Used for Creature Library Mode:**
+- `transformationConfig.selectedCreature` (object) - Full creature data from library
+- `transformationConfig.formId` (string) - Creature ID reference
+- `transformationConfig.targetForm` (string) - Form name fallback
+- `transformationConfig.targetType` ('self', 'willing', 'unwilling')
 - `transformationConfig.duration` (number)
-- `transformationConfig.durationUnit` (string) - **REQUIRED**: 'rounds', 'minutes', 'hours', etc.
-- `transformationConfig.power` ('minor', 'moderate', 'major')
-- `transformationConfig.specialEffects[]` - Array of special transformation effects
+- `transformationConfig.durationUnit` ('rounds', 'minutes', 'hours')
+- `transformationConfig.concentration` (boolean) - Requires concentration to maintain
+- `transformationConfig.saveType` (string) - Save type for unwilling targets ('con', 'str', 'agi', 'int', 'spirit', 'cha')
+- `transformationConfig.difficultyClass` (number) - DC for unwilling target saves
+- `transformationConfig.maintainEquipment` (boolean) - Whether equipment is maintained during transformation
+- `transformationConfig.retainsAbilities` (boolean) - Whether original abilities are retained
+- `transformationConfig.grantedAbilities[]` - Array of {id, name, description, category}
+
+**Fields Used for Custom Transformation Mode:**
+- `transformationConfig.transformationType` ('physical', 'elemental', 'mental', 'spectral', 'ascended', 'demonic', 'divine', 'primal', 'shadow', 'arcane')
+- `transformationConfig.newForm` or `formName` or `customName` (string) - The transformation name
+- `transformationConfig.power` ('minor', 'moderate', 'major') - Power level of the transformation
+- `transformationConfig.description` (string) - What the transformation does
+- `transformationConfig.targetType` ('self', 'willing', 'unwilling')
+- `transformationConfig.duration` (number)
+- `transformationConfig.durationUnit` ('rounds', 'minutes', 'hours')
+- `transformationConfig.concentration` (boolean) - Requires concentration to maintain
+- `transformationConfig.isCustom` (boolean) - True for custom mode
+- `transformationConfig.saveType` (string) - Save type for unwilling targets
+- `transformationConfig.difficultyClass` (number) - DC for unwilling target saves
+- `transformationConfig.grantedAbilities[]` - Array of {id, name, description, category}
+- `transformationConfig.specialEffects[]` - Array of special effect strings
+- `transformationConfig.maintainEquipment` (boolean) - Equipment handling during transformation
 
 **⚠️ IMPORTANT**: Always configure `transformationConfig` when 'transformation' is in `effectTypes`. The component will show "Transformation Effect - Effect details not configured" if only the effect type is present without proper configuration.
+
+**Example Custom Transformation (Berserker Style):**
+```javascript
+transformationConfig: {
+  isCustom: true,
+  transformationType: 'physical',
+  targetType: 'self',
+  duration: 3,
+  durationUnit: 'rounds',
+  concentration: false,
+  power: 'major',
+  newForm: 'Primal Apex',
+  description: 'Your body swells with primal fury, muscles bulging beyond natural limits. Strength and resilience increase dramatically.',
+  maintainEquipment: true,
+  grantedAbilities: [{
+    id: 'primal_power',
+    name: 'Primal Power',
+    description: 'Gain +8 damage bonus to all attacks and immunity to fear and stun effects.',
+    category: 'combat'
+  }, {
+    id: 'feral_instincts',
+    name: 'Feral Instincts',
+    description: 'Enhanced senses and predatory awareness.',
+    category: 'utility'
+  }],
+  specialEffects: ['rage_buildup', 'combat_focus']
+}
+```
+
+**Example Creature Library Transformation (Druid Wild Shape):**
+```javascript
+transformationConfig: {
+  selectedCreature: {
+    id: 'bear_dire',
+    name: 'Dire Bear',
+    size: 'Large',
+    type: 'beast',
+    description: 'A massive, ferocious bear with incredible strength.',
+    stats: { maxHp: 85, armor: 16, maxAp: 30 },
+    tokenIcon: 'ability_druid_kingofthejungle'
+  },
+  formId: 'bear_dire',
+  targetType: 'self',
+  duration: 2,
+  durationUnit: 'hours',
+  concentration: false,
+  maintainEquipment: false,
+  retainsAbilities: false,
+  grantedAbilities: [{
+    id: 'natural_weapons',
+    name: 'Natural Weapons',
+    description: 'Powerful claws and bite attacks.',
+    category: 'combat'
+  }, {
+    id: 'enhanced_senses',
+    name: 'Enhanced Senses',
+    description: 'Keen smell and hearing.',
+    category: 'utility'
+  }]
+}
+```
 
 #### Purification Effects
 

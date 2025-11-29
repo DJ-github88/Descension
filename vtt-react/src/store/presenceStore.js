@@ -84,9 +84,9 @@ const usePresenceStore = create((set, get) => ({
 
     set({ onlineUsers: usersMap });
 
-    // Start automated chat
-    const addGlobalMessage = get().addGlobalMessage;
-    mockPresenceService.startAutomatedChat(addGlobalMessage);
+    // DISABLED: Remove automated chat test messages
+    // const addGlobalMessage = get().addGlobalMessage;
+    // mockPresenceService.startAutomatedChat(addGlobalMessage);
 
     // Start online/offline simulation
     const updateUserStatus = get().updateUserStatus;

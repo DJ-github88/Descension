@@ -45,7 +45,7 @@ export const RACE_DATA = {
                     {
                         id: 'frostborn_nordmark',
                         name: 'Frostborn',
-                        description: 'Born of the eternal winter, you are resistant to cold and thrive in arctic conditions.',
+                        description: 'Born of the eternal winter, your blood runs cold as the glaciers - reduce cold damage taken by 50%.',
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
@@ -58,27 +58,32 @@ export const RACE_DATA = {
                         },
                         buffConfig: {
                             buffType: 'statEnhancement',
-                            statModifiers: [
+                            effects: [
                                 {
                                     id: 'cold_resistance',
                                     name: 'Cold Resistance',
-                                    magnitude: 50,
-                                    magnitudeType: 'percentage',
-                                    category: 'resistance'
+                                    description: 'Born of eternal winter - reduce cold damage by 50%',
+                                    statModifier: {
+                                        stat: 'cold_resistance',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
-                            targetingType: 'single',
-                            rangeType: 'touch'
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
                         }
                     },
                     {
                         id: 'battle_fury_nordmark',
                         name: 'Battle Fury',
-                        description: 'When bloodied, unleash the ancestral fury that birthed your people from the endless white.',
+                        description: '+2 attack damage • -2 armor • -2 saves • 1 minute',
                         level: 1,
                         icon: 'ability_warrior_rampage',
                         spellType: 'REACTION',
@@ -90,31 +95,42 @@ export const RACE_DATA = {
                             tags: ['rage', 'combat', 'berserker']
                         },
                         buffConfig: {
-                            statModifiers: [
+                            buffType: 'statEnhancement',
+                            effects: [
                                 {
                                     id: 'berserker_damage',
-                                    name: 'Attack Damage Bonus',
-                                    magnitude: 2,
-                                    magnitudeType: 'flat',
-                                    category: 'combat'
+                                    name: 'Rage Damage',
+                                    description: 'Gain +2 attack damage',
+                                    statModifier: {
+                                        stat: 'attack_damage',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    }
                                 },
                                 {
                                     id: 'berserker_defense',
-                                    name: 'Armor Class Penalty',
-                                    magnitude: -2,
-                                    magnitudeType: 'flat',
-                                    category: 'combat'
+                                    name: 'Reckless Defense',
+                                    description: 'Lose -2 armor',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    }
                                 },
                                 {
                                     id: 'berserker_saves',
-                                    name: 'Saving Throw Penalty',
-                                    magnitude: -2,
-                                    magnitudeType: 'flat',
-                                    category: 'combat'
+                                    name: 'Reckless Courage',
+                                    description: 'Lose -2 to saving throws',
+                                    statModifier: {
+                                        stat: 'saving_throws',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    }
                                 }
                             ],
                             durationValue: 1,
                             durationType: 'minutes',
+                            durationUnit: 'minutes',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -136,8 +152,9 @@ export const RACE_DATA = {
                             }
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'long_rest',
@@ -147,7 +164,7 @@ export const RACE_DATA = {
                     {
                         id: 'rage_burn_nordmark',
                         name: 'Rage Burn',
-                        description: 'Your burning fury leaves you vulnerable to opposing forces that can extinguish or shatter your rage.',
+                        description: 'Fire & Psychic Vulnerability • Permanent',
                         level: 1,
                         icon: 'spell_fire_soulburn',
                         spellType: 'PASSIVE',
@@ -159,23 +176,30 @@ export const RACE_DATA = {
                             tags: ['vulnerability', 'rage', 'passive']
                         },
                         debuffConfig: {
-                            statModifiers: [
+                            debuffType: 'vulnerability',
+                            effects: [
                                 {
-                                    id: 'fire_vulnerability',
+                                    id: 'damage_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    magnitude: 50,
-                                    magnitudeType: 'percentage',
-                                    category: 'vulnerability'
+                                    description: 'Take 50% more fire damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'fire',
+                                        vulnerabilityPercent: 50
+                                    }
                                 },
                                 {
-                                    id: 'psychic_vulnerability',
+                                    id: 'damage_vulnerability',
                                     name: 'Psychic Vulnerability',
-                                    magnitude: 50,
-                                    magnitudeType: 'percentage',
-                                    category: 'vulnerability'
+                                    description: 'Take 50% more psychic damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'psychic',
+                                        vulnerabilityPercent: 50
+                                    }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -201,7 +225,7 @@ export const RACE_DATA = {
                     {
                         id: 'frostborn_rune_keeper',
                         name: 'Frostborn',
-                        description: 'Born of the eternal winter, you are resistant to cold and thrive in arctic conditions.',
+                        description: 'Born of the eternal winter, your blood runs cold as the glaciers - reduce cold damage taken by 50%.',
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
@@ -214,21 +238,26 @@ export const RACE_DATA = {
                         },
                         buffConfig: {
                             buffType: 'statEnhancement',
-                            statModifiers: [
+                            effects: [
                                 {
                                     id: 'cold_resistance',
                                     name: 'Cold Resistance',
-                                    magnitude: 50,
-                                    magnitudeType: 'percentage',
-                                    category: 'resistance'
+                                    description: 'Born of eternal winter - reduce cold damage by 50%',
+                                    statModifier: {
+                                        stat: 'cold_resistance',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
-                            targetingType: 'single',
-                            rangeType: 'touch'
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
                         }
                     },
                     {
@@ -278,8 +307,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -304,21 +334,21 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    description: 'Take +50% damage from fire sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more fire damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'fire',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Necrotic Vulnerability',
-                                    description: 'Take +50% damage from necrotic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more necrotic damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'necrotic',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
@@ -356,7 +386,7 @@ export const RACE_DATA = {
                     {
                         id: 'deep_frost_nordmark',
                         name: 'Deep Frost',
-                        description: 'Your body has become one with the eternal winter, granting complete immunity to cold and endless endurance in arctic conditions.',
+                        description: 'Cold Immunity • Weather Endurance • Arctic Survival',
                         level: 1,
                         icon: 'spell_frost_frozenorb',
                         spellType: 'PASSIVE',
@@ -371,6 +401,7 @@ export const RACE_DATA = {
                             buffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'cold_immunity',
                                     name: 'Cold Immunity',
                                     description: 'Complete immunity to cold damage',
                                     statusEffect: {
@@ -379,23 +410,26 @@ export const RACE_DATA = {
                                     }
                                 },
                                 {
-                                    name: 'Exhaustion Immunity',
-                                    description: 'Immunity to exhaustion from harsh weather',
+                                    id: 'weather_endurance',
+                                    name: 'Weather Endurance',
+                                    description: 'Immunity to exhaustion from cold weather',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Never suffer exhaustion from cold weather'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         utilityConfig: {
                             utilityType: 'survival',
-                            selectedEffects: [{
-                                id: 'arctic',
-                                name: 'Arctic',
-                                description: 'Can survive in arctic conditions indefinitely without any shelter or supplies.'
+                            effects: [{
+                                id: 'arctic_survival',
+                                name: 'Arctic Survival',
+                                description: 'Survive in arctic conditions indefinitely without shelter or supplies'
                             }],
                             duration: 0,
                             durationUnit: 'instant',
@@ -436,8 +470,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -447,7 +482,7 @@ export const RACE_DATA = {
                     {
                         id: 'heat_frailty_nordmark',
                         name: 'Heat Frailty',
-                        description: 'Your frozen body cannot withstand heat, becoming vulnerable to fire and suffering damage in warm climates.',
+                        description: 'Fire Vulnerability • Heat Damage • Disorientation',
                         level: 1,
                         icon: 'spell_fire_fire',
                         spellType: 'PASSIVE',
@@ -462,32 +497,28 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    description: 'Take +50% damage from fire sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more fire damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'fire',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
+                                    id: 'heat_damage',
                                     name: 'Heat Damage',
-                                    description: 'Take 1d4 fire damage per hour in temperatures above 60°F',
-                                    statusEffect: {
-                                        level: 'severe',
-                                        description: 'Warm climates cause continuous fire damage'
-                                    }
+                                    description: '1d4 fire damage per hour in warm climates'
                                 },
                                 {
-                                    name: 'Warm Climate Disorientation',
-                                    description: 'Disadvantage on checks and saves in warm climates',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Difficulty functioning in warm environments'
-                                    }
+                                    id: 'climate_disorientation',
+                                    name: 'Climate Disorientation',
+                                    description: 'Disadvantage on checks and saves in warm climates'
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -540,11 +571,11 @@ export const RACE_DATA = {
                     {
                         id: 'prophetic_glimpse_corvani',
                         name: 'Prophetic Glimpse',
-                        description: 'Can peer into possible futures. Gain advantage on one attack, save, or ability check, but take 1d6 psychic damage from temporal strain.',
+                        description: 'Advantage on one roll • 1d6 psychic damage',
                         level: 1,
                         icon: 'spell_holy_prophecy',
                         spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
+                        effectTypes: ['buff', 'damage'],
                         typeConfig: {
                             school: 'divination',
                             secondaryElement: 'time',
@@ -553,11 +584,11 @@ export const RACE_DATA = {
                         },
                         buffConfig: {
                             buffType: 'custom',
-                            customDescription: 'Gain advantage on one attack, save, or ability check',
                             effects: [
                                 {
+                                    id: 'prophetic_insight',
                                     name: 'Prophetic Insight',
-                                    description: 'Advantage on one roll',
+                                    description: 'Advantage on one attack, save, or ability check',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'You glimpse possible futures'
@@ -569,24 +600,19 @@ export const RACE_DATA = {
                             durationUnit: 'rounds',
                             canBeDispelled: false
                         },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'precognition',
-                                name: 'Precognition',
-                                description: 'Peer briefly into possible futures, taking psychic strain to gain insight.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
+                        damageConfig: {
+                            formula: '1d6',
+                            damageType: 'direct',
+                            elementType: 'psychic'
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -596,7 +622,7 @@ export const RACE_DATA = {
                     {
                         id: 'raven_sight_corvani',
                         name: 'Raven Sight',
-                        description: 'Advantage on Perception checks and can detect illusions within 30 feet. However, you have disadvantage on saves against psychic damage.',
+                        description: 'Enhanced Perception • Illusion Detection • Psychic Vulnerability',
                         level: 1,
                         icon: 'ability_hunter_eagleeye',
                         spellType: 'PASSIVE',
@@ -611,6 +637,7 @@ export const RACE_DATA = {
                             buffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'enhanced_perception',
                                     name: 'Enhanced Perception',
                                     description: 'Advantage on Perception checks',
                                     statusEffect: {
@@ -619,31 +646,28 @@ export const RACE_DATA = {
                                     }
                                 },
                                 {
+                                    id: 'illusion_detection',
                                     name: 'Illusion Detection',
-                                    description: 'Detect illusions within 30 feet',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'You can see through deceptions'
-                                    }
+                                    description: 'Detect illusions within 30 feet'
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
-                                    name: 'Psychic Sensitivity',
-                                    description: 'Disadvantage on saves against psychic damage',
-                                    statModifier: {
-                                        stat: 'saving_throws',
-                                        magnitude: -1,
-                                        magnitudeType: 'disadvantage'
-                                    }
+                                    id: 'psychic_vulnerability',
+                                    name: 'Psychic Vulnerability',
+                                    description: 'Disadvantage on saves against psychic damage'
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -654,7 +678,7 @@ export const RACE_DATA = {
                     {
                         id: 'fates_burden_corvani',
                         name: 'Fate\'s Burden',
-                        description: 'Vulnerable to necrotic and psychic damage (+50% damage) due to your connection to the threads of fate.',
+                        description: 'Necrotic & Psychic Vulnerability • Permanent',
                         level: 1,
                         icon: 'spell_shadow_curseofsargeras',
                         spellType: 'PASSIVE',
@@ -666,28 +690,26 @@ export const RACE_DATA = {
                             tags: ['vulnerability', 'fate', 'passive']
                         },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
+                                    id: 'necrotic_vulnerability',
                                     name: 'Necrotic Vulnerability',
-                                    description: 'Take +50% damage from necrotic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
+                                    description: '50% more necrotic damage • Fate\'s burden'
                                 },
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Psychic Vulnerability',
-                                    description: 'Take +50% damage from psychic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more psychic damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'psychic',
+                                        vulnerabilityPercent: 50
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -793,8 +815,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -853,8 +876,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -906,7 +930,7 @@ export const RACE_DATA = {
                     {
                         id: 'stone_skin_grimheart',
                         name: 'Stone Skin',
-                        description: 'Your flesh has hardened into living stone, providing natural armor but slowing your movement.',
+                        description: '+2 armor • -5 speed • Permanent',
                         level: 1,
                         icon: 'inv_misc_stonetablet_04',
                         spellType: 'PASSIVE',
@@ -921,20 +945,28 @@ export const RACE_DATA = {
                             buffType: 'statEnhancement',
                             effects: [
                                 {
+                                    id: 'stone_armor',
+                                    name: 'Stone Armor',
+                                    description: 'Gain +2 armor from stone-hardened flesh',
                                     statModifier: {
-                                        stat: 'armor_class',
+                                        stat: 'armor',
                                         magnitude: 2,
                                         magnitudeType: 'flat'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         debuffConfig: {
                             debuffType: 'statEnhancement',
                             effects: [
                                 {
+                                    id: 'stone_slow',
+                                    name: 'Stone Slow',
+                                    description: 'Movement reduced by 5 feet',
                                     statModifier: {
                                         stat: 'movement_speed',
                                         magnitude: -5,
@@ -942,7 +974,9 @@ export const RACE_DATA = {
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -985,8 +1019,9 @@ export const RACE_DATA = {
                             }
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -1011,12 +1046,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Acid Vulnerability',
-                                    description: 'Take +50% damage from acid sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more acid damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'acid',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
@@ -1078,7 +1113,7 @@ export const RACE_DATA = {
                             effects: [
                                 {
                                     name: 'Sacrificial Strain',
-                                    description: 'Take +50% of absorbed damage as extra harm',
+                                    description: '50% of absorbed damage as extra harm • Warding backlash',
                                     statusEffect: {
                                         level: 'severe',
                                         description: 'Protecting others causes additional damage to yourself'
@@ -1098,8 +1133,9 @@ export const RACE_DATA = {
                             targetRestrictions: ['ally']
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -1166,17 +1202,17 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Lightning Vulnerability',
-                                    description: 'Take +50% damage from lightning sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more lightning damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'lightning',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
                                     name: 'Conductive Body',
-                                    description: 'Lightning damage can chain to nearby allies',
+                                    description: 'Lightning damage you take can deal half damage to allies within 5 feet',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Lightning strikes may arc to nearby creatures'
@@ -1184,7 +1220,7 @@ export const RACE_DATA = {
                                 },
                                 {
                                     name: 'Stone Shattering',
-                                    description: 'Massive lightning damage can temporarily reduce armor',
+                                    description: 'Lightning damage over 20 can reduce armor by 2 for 1 minute',
                                     statusEffect: {
                                         level: 'severe',
                                         description: 'Electrical forces can crack stone-hardened defenses'
@@ -1217,7 +1253,7 @@ export const RACE_DATA = {
                     {
                         id: 'stone_resilience_grimheart',
                         name: 'Stone Resilience',
-                        description: 'Your stone-hardened flesh resists fire and poison, providing natural protection.',
+                        description: 'Fire & Poison Resistance • +1 armor • Permanent',
                         level: 1,
                         icon: 'spell_fire_fire',
                         spellType: 'PASSIVE',
@@ -1232,32 +1268,33 @@ export const RACE_DATA = {
                             buffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'fire_resistance',
                                     name: 'Fire Resistance',
-                                    description: 'Resistance to fire damage (take half damage)',
+                                    description: 'Take half damage from fire',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Take half damage from fire sources'
                                     }
                                 },
                                 {
+                                    id: 'poison_resistance',
                                     name: 'Poison Resistance',
-                                    description: 'Resistance to poison damage (take half damage)',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Take half damage from poison sources'
-                                    }
+                                    description: 'Take half damage from poison'
                                 },
                                 {
+                                    id: 'stone_armor',
                                     name: 'Stone Armor',
-                                    description: 'Natural armor provides +1 to armor',
+                                    description: 'Gain +1 armor from stone-hardened flesh',
                                     statModifier: {
-                                        stat: 'armor_class',
+                                        stat: 'armor',
                                         magnitude: 1,
                                         magnitudeType: 'flat'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -1268,7 +1305,7 @@ export const RACE_DATA = {
                     {
                         id: 'forge_craft_grimheart',
                         name: 'Forge Craft',
-                        description: 'Channel the power of the earth to temporarily enhance weapons and armor with stone-hardening.',
+                        description: '+1 weapon damage • +1 armor • 1 hour',
                         level: 1,
                         icon: 'inv_hammer_20',
                         spellType: 'ACTION',
@@ -1283,6 +1320,9 @@ export const RACE_DATA = {
                             buffType: 'statEnhancement',
                             effects: [
                                 {
+                                    id: 'enhanced_weapon',
+                                    name: 'Enhanced Weapon',
+                                    description: 'Weapon gains +1 damage',
                                     statModifier: {
                                         stat: 'weapon_damage',
                                         magnitude: 1,
@@ -1290,8 +1330,11 @@ export const RACE_DATA = {
                                     }
                                 },
                                 {
+                                    id: 'enhanced_armor',
+                                    name: 'Enhanced Armor',
+                                    description: 'Armor gains +1 protection',
                                     statModifier: {
-                                        stat: 'armor_class',
+                                        stat: 'armor',
                                         magnitude: 1,
                                         magnitudeType: 'flat'
                                     }
@@ -1299,6 +1342,7 @@ export const RACE_DATA = {
                             ],
                             durationValue: 1,
                             durationType: 'hours',
+                            durationUnit: 'hours',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -1307,8 +1351,9 @@ export const RACE_DATA = {
                             targetRestrictions: ['object']
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -1333,12 +1378,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Acid Vulnerability',
-                                    description: 'Take +50% damage from acid sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more acid damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'acid',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
@@ -1448,8 +1493,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -1516,12 +1562,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 }
                             ],
@@ -1591,8 +1637,9 @@ export const RACE_DATA = {
                             }
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -1659,12 +1706,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Force Vulnerability',
-                                    description: 'Take +50% damage from force sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more force damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'force',
+                                        vulnerabilityPercent: 50
                                     }
                                 }
                             ],
@@ -1748,8 +1795,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -1804,8 +1852,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -1830,21 +1879,21 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Silver Vulnerability',
-                                    description: 'Take +50% damage from silver weapons',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more damage from silver weapons',
+                                    statusEffect: {
+                                        vulnerabilityType: 'silver',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 }
                             ],
@@ -1961,8 +2010,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -2096,8 +2146,9 @@ export const RACE_DATA = {
                             targetRestrictions: ['willing']
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'long_rest',
@@ -2240,8 +2291,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -2368,8 +2420,9 @@ export const RACE_DATA = {
                             rangeDistance: 30
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -2428,12 +2481,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability (Day)',
-                                    description: 'Take +50% damage from radiant sources during daylight',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage during daylight',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
@@ -2499,7 +2552,7 @@ export const RACE_DATA = {
                     {
                         id: 'forest_guardian_groven',
                         name: 'Forest Guardian',
-                        description: 'Sense threats to natural areas within 1 mile. Gain +1 armor when defending nature.',
+                        description: 'Nature Sense • +1 armor when defending • Permanent',
                         level: 1,
                         icon: 'spell_nature_natureguard',
                         spellType: 'PASSIVE',
@@ -2514,32 +2567,32 @@ export const RACE_DATA = {
                             buffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'nature_sense',
                                     name: 'Nature Sense',
-                                    description: 'Sense threats to natural areas within 1 mile',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your connection to nature alerts you to danger'
-                                    }
+                                    description: 'Sense threats to natural areas within 1 mile'
                                 },
                                 {
+                                    id: 'natures_shield',
                                     name: 'Nature\'s Shield',
-                                    description: '+1 armor when defending nature',
+                                    description: 'Gain +1 armor when defending nature',
                                     statModifier: {
-                                        stat: 'armor_class',
+                                        stat: 'armor',
                                         magnitude: 1,
                                         magnitudeType: 'flat'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         utilityConfig: {
                             utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'detection',
-                                name: 'Detection',
-                                description: 'Sense threats to natural areas within 1 mile radius.'
+                            effects: [{
+                                id: 'nature_detection',
+                                name: 'Nature Detection',
+                                description: 'Sense threats to natural areas within 1 mile radius'
                             }],
                             duration: 0,
                             durationUnit: 'instant',
@@ -2812,8 +2865,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -2850,8 +2904,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -2876,12 +2931,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 }
                             ],
@@ -3096,8 +3151,9 @@ export const RACE_DATA = {
                             targetRestrictions: ['object']
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -3107,7 +3163,7 @@ export const RACE_DATA = {
                     {
                         id: 'fire_immunity_emberth',
                         name: 'Fire Immunity',
-                        description: 'Immune to fire damage and can walk through lava unharmed.',
+                        description: 'Fire Immunity • Lava Walking • Permanent',
                         level: 1,
                         icon: 'spell_fire_firearmor',
                         spellType: 'PASSIVE',
@@ -3122,15 +3178,14 @@ export const RACE_DATA = {
                             buffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'fire_immunity',
                                     name: 'Fire Immunity',
-                                    description: 'Complete immunity to fire damage',
-                                    statusEffect: {
-                                        level: 'extreme',
-                                        description: 'Take no damage from fire or lava'
-                                    }
+                                    description: 'Complete immunity to fire damage and lava'
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -3141,7 +3196,7 @@ export const RACE_DATA = {
                     {
                         id: 'cold_vulnerability_forgeborn',
                         name: 'Cold Vulnerability',
-                        description: 'Vulnerable to cold damage (+50% damage) as your inner fire can be extinguished.',
+                        description: 'Cold Vulnerability • Permanent',
                         level: 1,
                         icon: 'spell_frost_frostbolt02',
                         spellType: 'PASSIVE',
@@ -3153,15 +3208,21 @@ export const RACE_DATA = {
                             tags: ['vulnerability', 'cold', 'passive']
                         },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
-                                    id: 'cold_vulnerability',
+                                    id: 'damage_vulnerability',
                                     name: 'Cold Vulnerability',
-                                    description: 'Take +50% damage from cold sources'
+                                    description: 'Take 50% more cold damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'cold',
+                                        vulnerabilityPercent: 50
+                                    }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -3214,8 +3275,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -3271,8 +3333,9 @@ export const RACE_DATA = {
                             aoeSize: 10
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -3380,8 +3443,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -3559,8 +3623,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -3704,8 +3769,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         savingThrow: {
                             enabled: true,
@@ -3889,8 +3955,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -3965,12 +4032,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 }
                             ],
@@ -4083,12 +4150,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 }
                             ],
@@ -4183,8 +4250,9 @@ export const RACE_DATA = {
                             aoeSize: 15
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -4306,8 +4374,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -4440,8 +4509,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -4496,8 +4566,9 @@ export const RACE_DATA = {
                             aoeSize: 20
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -4683,12 +4754,12 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
@@ -4781,8 +4852,9 @@ export const RACE_DATA = {
                             rangeDistance: 30
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -4856,17 +4928,17 @@ export const RACE_DATA = {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
+                                    id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Take 50% more radiant damage',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
                                     name: 'Light Damage',
-                                    description: 'Take damage in bright light',
+                                    description: '1d4 radiant damage per minute in bright light',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Bright light harms your adapted eyes'
@@ -4956,8 +5028,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -5072,8 +5145,9 @@ export const RACE_DATA = {
                             rangeDistance: 60
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -5197,8 +5271,9 @@ export const RACE_DATA = {
                             aoeSize: 10
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 1
+                            actionPoints: 1,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 6 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -5311,8 +5386,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
@@ -5363,8 +5439,9 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            actionPoints: 2
+                            actionPoints: 2,
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
