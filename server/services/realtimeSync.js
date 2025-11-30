@@ -39,6 +39,7 @@ class RealtimeSyncEngine {
     this.roomStates = new Map(); // roomId -> complete game state
     this.syncTimers = new Map(); // roomId -> category timers
     this.pendingUpdates = new Map(); // roomId -> pending updates by category
+    this.playerViewports = new Map(); // roomId -> playerId -> viewport data
 
     console.log('🔄 Advanced Real-time Sync Engine initialized');
   }
@@ -149,6 +150,69 @@ class RealtimeSyncEngine {
     }
     
     this.syncTimers.set(roomId, timers);
+  }
+
+  /**
+   * Update player viewport for selective sync
+   */
+  updatePlayerViewport(roomId, playerId, viewportData) {
+    if (!this.playerViewports.has(roomId)) {
+      this.playerViewports.set(roomId, new Map());
+    }
+
+    this.playerViewports.get(roomId).set(playerId, {
+      ...viewportData,
+      lastUpdated: Date.now()
+    });
+  }
+
+  /**
+   * Check if a position is visible to a player
+   */
+  isPositionVisibleToPlayer(roomId, playerId, position, visibilityRadius = 1000) {
+    const roomViewports = this.playerViewports.get(roomId);
+    if (!roomViewports) return true; // If no viewport data, assume visible
+
+    const viewport = roomViewports.get(playerId);
+    if (!viewport) return true; // If no viewport for player, assume visible
+
+    const { cameraX, cameraY, zoomLevel, viewportWidth, viewportHeight } = viewport;
+
+    // Calculate visible area bounds
+    const halfWidth = (viewportWidth / zoomLevel) / 2;
+    const halfHeight = (viewportHeight / zoomLevel) / 2;
+
+    const leftBound = cameraX - halfWidth - visibilityRadius;
+    const rightBound = cameraX + halfWidth + visibilityRadius;
+    const topBound = cameraY - halfHeight - visibilityRadius;
+    const bottomBound = cameraY + halfHeight + visibilityRadius;
+
+    return position.x >= leftBound && position.x <= rightBound &&
+           position.y >= topBound && position.y <= bottomBound;
+  }
+
+  /**
+   * Filter tokens based on player visibility
+   */
+  filterTokensForPlayer(roomId, playerId, tokens) {
+    const filteredTokens = {};
+
+    for (const [tokenId, token] of Object.entries(tokens)) {
+      if (this.isPositionVisibleToPlayer(roomId, playerId, token.position)) {
+        filteredTokens[tokenId] = token;
+      }
+    }
+
+    return filteredTokens;
+  }
+
+  /**
+   * Filter map data based on player visibility
+   */
+  filterMapDataForPlayer(roomId, playerId, mapData) {
+    // For now, send all map data - could be optimized later
+    // Map data filtering would be complex due to dependencies
+    return mapData;
   }
 
   /**
@@ -359,7 +423,7 @@ class RealtimeSyncEngine {
   }
 
   /**
-   * Process synchronization for a specific category
+   * Process synchronization for a specific category with selective sync
    */
   async processCategorySync(roomId, category) {
     const pending = this.pendingUpdates.get(roomId);
@@ -371,10 +435,10 @@ class RealtimeSyncEngine {
     // Get all updates for this category
     const categoryUpdates = updates.splice(0); // Remove all updates
     const config = this.syncCategories[category];
+    const state = this.roomStates.get(roomId);
 
     try {
       // Create delta update
-      const state = this.roomStates.get(roomId);
       const deltaUpdate = await this.deltaSync.createStateUpdate(
         roomId,
         state,
@@ -385,14 +449,19 @@ class RealtimeSyncEngine {
         }
       );
 
-      // Batch events for network efficiency
-      for (const update of categoryUpdates) {
-        this.eventBatcher.addEvent(roomId, {
-          type: `${category}_sync`,
-          category: category,
-          data: update,
-          deltaUpdate: deltaUpdate
-        }, config.priority);
+      // For selective sync categories, filter data per player
+      if (category === 'tokens' || category === 'map') {
+        await this.processSelectiveSync(roomId, category, categoryUpdates, config, deltaUpdate);
+      } else {
+        // For non-selective categories, send to entire room as before
+        for (const update of categoryUpdates) {
+          this.eventBatcher.addEvent(roomId, {
+            type: `${category}_sync`,
+            category: category,
+            data: update,
+            deltaUpdate: deltaUpdate
+          }, config.priority);
+        }
       }
 
       // Persist to Firebase if category requires it
@@ -408,9 +477,69 @@ class RealtimeSyncEngine {
 
     } catch (error) {
       console.error(`❌ Failed to sync ${category} for room ${roomId}:`, error);
-      
+
       // Re-queue failed updates
       pending.get(category).unshift(...categoryUpdates);
+    }
+  }
+
+  /**
+   * Process selective sync for categories that benefit from filtering
+   */
+  async processSelectiveSync(roomId, category, categoryUpdates, config, deltaUpdate) {
+    const roomViewports = this.playerViewports.get(roomId) || new Map();
+
+    // If no viewport data, fall back to room-wide sync
+    if (roomViewports.size === 0) {
+      for (const update of categoryUpdates) {
+        this.eventBatcher.addEvent(roomId, {
+          type: `${category}_sync`,
+          category: category,
+          data: update,
+          deltaUpdate: deltaUpdate
+        }, config.priority);
+      }
+      return;
+    }
+
+    // Process updates for each player based on their viewport
+    for (const [playerId, viewport] of roomViewports) {
+      const filteredUpdates = this.filterUpdatesForPlayer(category, categoryUpdates, roomId, playerId);
+
+      // Only send updates if there are relevant changes for this player
+      if (filteredUpdates.length > 0) {
+        for (const update of filteredUpdates) {
+          this.eventBatcher.addPlayerEvent(roomId, playerId, {
+            type: `${category}_sync`,
+            category: category,
+            data: update,
+            deltaUpdate: deltaUpdate
+          }, config.priority);
+        }
+      }
+    }
+  }
+
+  /**
+   * Filter updates based on player visibility
+   */
+  filterUpdatesForPlayer(category, updates, roomId, playerId) {
+    switch (category) {
+      case 'tokens':
+        return updates.filter(update => {
+          if (update.type === 'token_move' && update.data && update.data.position) {
+            return this.isPositionVisibleToPlayer(roomId, playerId, update.data.position);
+          }
+          // For other token updates, send them (they might be relevant)
+          return true;
+        });
+
+      case 'map':
+        // For map updates, currently send all (could be optimized later)
+        return updates;
+
+      default:
+        return updates;
     }
   }
 

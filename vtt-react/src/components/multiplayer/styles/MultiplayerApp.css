@@ -361,3 +361,30 @@
     padding: 16px;
   }
 }
+
+/* Connection Status Indicator */
+.connection-status-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #d4af37;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.connection-status-indicator i {
+  font-size: 1rem;
+}
+
+.connection-status-indicator span {
+  white-space: nowrap;
+}

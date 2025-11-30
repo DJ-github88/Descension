@@ -108,6 +108,123 @@ class EventBatcher {
   }
 
   /**
+   * Add event for specific player (selective sync)
+   */
+  addPlayerEvent(roomId, playerId, event, priority = 'normal') {
+    const batchData = this.roomBatches.get(roomId);
+    if (!batchData) {
+      console.warn(`Room ${roomId} not initialized for batching`);
+      return false;
+    }
+
+    // Enhance event with metadata and target player
+    const enhancedEvent = {
+      id: uuidv4(),
+      timestamp: Date.now(),
+      priority: priority,
+      targetPlayer: playerId,
+      ...event
+    };
+
+    // Add to appropriate queue based on priority
+    if (priority === 'high' || priority === 'critical') {
+      batchData.highPriorityEvents.push(enhancedEvent);
+
+      // Flush immediately for critical events
+      if (priority === 'critical') {
+        this.flushPlayerBatch(roomId, playerId, true);
+        return true;
+      }
+    } else {
+      batchData.events.push(enhancedEvent);
+    }
+
+    batchData.metrics.totalEvents++;
+
+    // Check if we should flush due to batch size
+    if (batchData.events.length >= this.maxBatchSize) {
+      this.flushPlayerBatch(roomId, playerId);
+    }
+
+    return true;
+  }
+
+  /**
+   * Flush batch for specific player
+   */
+  flushPlayerBatch(roomId, targetPlayerId, force = false) {
+    const batchData = this.roomBatches.get(roomId);
+    if (!batchData) return;
+
+    const now = Date.now();
+    const timeSinceLastFlush = now - batchData.lastFlush;
+
+    // Don't flush if not enough time has passed and not forced
+    if (!force && timeSinceLastFlush < this.defaultBatchInterval) {
+      return;
+    }
+
+    // Collect events for this player
+    const playerEvents = [];
+    const playerHighPriorityEvents = [];
+
+    // Filter events for this player
+    batchData.events = batchData.events.filter(event => {
+      if (event.targetPlayer === targetPlayerId) {
+        playerEvents.push(event);
+        return false; // Remove from batch
+      }
+      return true; // Keep in batch
+    });
+
+    batchData.highPriorityEvents = batchData.highPriorityEvents.filter(event => {
+      if (event.targetPlayer === targetPlayerId) {
+        playerHighPriorityEvents.push(event);
+        return false; // Remove from batch
+      }
+      return true; // Keep in batch
+    });
+
+    // Combine and sort by priority/timestamp
+    const allPlayerEvents = [...playerHighPriorityEvents, ...playerEvents]
+      .sort((a, b) => {
+        if (a.priority !== b.priority) {
+          const priorityOrder = { critical: 0, high: 1, normal: 2, low: 3 };
+          return priorityOrder[a.priority] - priorityOrder[b.priority];
+        }
+        return a.timestamp - b.timestamp;
+      });
+
+    if (allPlayerEvents.length > 0) {
+      try {
+        // Send to specific player in room
+        const roomSockets = this.io.sockets.adapter.rooms.get(roomId);
+        if (roomSockets) {
+          for (const socketId of roomSockets) {
+            const socket = this.io.sockets.sockets.get(socketId);
+            if (socket && socket.playerId === targetPlayerId) {
+              socket.emit('batched_events', {
+                events: allPlayerEvents,
+                batchId: uuidv4(),
+                timestamp: now
+              });
+              break; // Found the target player
+            }
+          }
+        }
+
+        batchData.lastFlush = now;
+        batchData.metrics.batchesSent++;
+        batchData.metrics.averageBatchSize =
+          (batchData.metrics.averageBatchSize + allPlayerEvents.length) / 2;
+
+      } catch (error) {
+        console.error('Failed to send player batch:', error);
+      }
+    }
+  }
+
+  /**
    * Flush batch to all clients in room
    */
   flushBatch(roomId, forceCritical = false) {

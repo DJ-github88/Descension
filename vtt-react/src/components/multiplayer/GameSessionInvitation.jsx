@@ -33,8 +33,11 @@ const GameSessionInvitation = ({ invitation, onAccept, onDecline }) => {
 
   // Handle accept
   const handleAccept = () => {
-    onAccept && onAccept(invitation);
+    // Show immediate feedback
     setIsVisible(false);
+
+    // Call the accept handler
+    onAccept && onAccept(invitation);
   };
 
   // Handle decline
@@ -47,6 +50,8 @@ const GameSessionInvitation = ({ invitation, onAccept, onDecline }) => {
 
   return (
     <div className={`game-session-invitation-overlay ${isExpiring ? 'expiring' : ''}`}>
+      {/* Add pulsing background for attention */}
+      <div className="invitation-pulse-background"></div>
       <div className="game-session-invitation-modal">
         <div className="invitation-header">
           <i className="fas fa-play-circle"></i>

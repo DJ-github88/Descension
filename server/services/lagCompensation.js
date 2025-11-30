@@ -440,6 +440,153 @@ class LagCompensationSystem {
   }
 
   /**
+   * Combat-specific lag compensation methods
+   */
+
+  /**
+   * Predict combat action with lag compensation
+   */
+  predictCombatAction(socketId, actionData) {
+    const clientState = this.clientStates.get(socketId);
+    if (!clientState) return null;
+
+    const predictedAction = {
+      id: uuidv4(),
+      type: actionData.type,
+      sequence: ++clientState.lastInputSequence,
+      timestamp: Date.now(),
+      predicted: true,
+      data: actionData.data
+    };
+
+    // Add to pending inputs for server processing
+    const pending = this.pendingInputs.get(socketId);
+    pending.push({
+      action: predictedAction,
+      clientTime: actionData.clientTime || Date.now(),
+      predicted: true
+    });
+
+    return predictedAction;
+  }
+
+  /**
+   * Process combat state update with reconciliation
+   */
+  processCombatStateUpdate(roomId, combatState, serverTime) {
+    const serverHistory = this.serverStates.get(roomId);
+    if (!serverHistory) return;
+
+    // Store server state
+    serverHistory.push({
+      timestamp: serverTime,
+      state: { ...combatState }
+    });
+
+    // Keep only recent history
+    if (serverHistory.length > this.stateHistorySize) {
+      serverHistory.shift();
+    }
+
+    // Find clients in this room and reconcile their predictions
+    for (const [socketId, clientState] of this.clientStates) {
+      if (clientState.roomId === roomId) {
+        this.reconcileCombatPrediction(socketId, combatState, serverTime);
+      }
+    }
+  }
+
+  /**
+   * Reconcile client prediction with server state
+   */
+  reconcileCombatPrediction(socketId, serverCombatState, serverTime) {
+    const clientState = this.clientStates.get(socketId);
+    if (!clientState || !clientState.predictedState) return;
+
+    const predictedState = clientState.predictedState.combat;
+    const discrepancies = this.findCombatDiscrepancies(predictedState, serverCombatState);
+
+    if (discrepancies.length > 0) {
+      // Send correction to client
+      const correction = {
+        type: 'combat_correction',
+        serverState: serverCombatState,
+        timestamp: serverTime,
+        discrepancies: discrepancies
+      };
+
+      // This would be sent via socket to the client
+      console.log(`🔄 Sending combat correction to ${socketId}:`, discrepancies.length, 'discrepancies');
+    }
+  }
+
+  /**
+   * Find discrepancies between predicted and server combat state
+   */
+  findCombatDiscrepancies(predictedState, serverState) {
+    const discrepancies = [];
+
+    // Check current turn
+    if (predictedState.currentTurnIndex !== serverState.currentTurnIndex) {
+      discrepancies.push({
+        field: 'currentTurnIndex',
+        predicted: predictedState.currentTurnIndex,
+        server: serverState.currentTurnIndex
+      });
+    }
+
+    // Check round
+    if (predictedState.round !== serverState.round) {
+      discrepancies.push({
+        field: 'round',
+        predicted: predictedState.round,
+        server: serverState.round
+      });
+    }
+
+    // Check turn order
+    const predictedOrder = predictedState.turnOrder.map(c => ({ id: c.tokenId, initiative: c.initiative }));
+    const serverOrder = serverState.turnOrder.map(c => ({ id: c.tokenId, initiative: c.initiative }));
+
+    if (JSON.stringify(predictedOrder) !== JSON.stringify(serverOrder)) {
+      discrepancies.push({
+        field: 'turnOrder',
+        predicted: predictedOrder,
+        server: serverOrder
+      });
+    }
+
+    return discrepancies;
+  }
+
+  /**
+   * Get combat prediction quality metrics
+   */
+  getCombatPredictionMetrics(roomId) {
+    const serverHistory = this.serverStates.get(roomId);
+    if (!serverHistory || serverHistory.length < 2) return null;
+
+    let totalCorrections = 0;
+    let totalClients = 0;
+
+    // Count clients in room
+    for (const clientState of this.clientStates.values()) {
+      if (clientState.roomId === roomId) {
+        totalClients++;
+      }
+    }
+
+    return {
+      roomId,
+      clientCount: totalClients,
+      predictionQuality: totalCorrections === 0 ? 'excellent' :
+                        totalCorrections < totalClients * 0.1 ? 'good' :
+                        totalCorrections < totalClients * 0.3 ? 'fair' : 'poor',
+      correctionsNeeded: totalCorrections
+    };
+  }
+
+  /**
    * Cleanup room data
    */
   cleanupRoom(roomId) {

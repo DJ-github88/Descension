@@ -230,6 +230,37 @@ const useCombatStore = create((set, get) => ({
                 return state.turnStartPositions.get(tokenId);
             },
 
+            // Update initiative for a combatant (for delayed joins or corrections)
+            updateInitiative: (tokenId, newInitiative) => set(state => {
+                const updatedTurnOrder = state.turnOrder.map(combatant => {
+                    if (combatant.tokenId === tokenId) {
+                        return { ...combatant, initiative: newInitiative };
+                    }
+                    return combatant;
+                });
+
+                // Re-sort by initiative
+                const sortedTurnOrder = updatedTurnOrder.sort((a, b) => b.initiative - a.initiative);
+
+                // Update current turn index if needed
+                let newCurrentTurnIndex = state.currentTurnIndex;
+                const currentCombatant = state.turnOrder[state.currentTurnIndex];
+                if (currentCombatant && currentCombatant.tokenId === tokenId) {
+                    // If we updated the current combatant's initiative, find their new position
+                    newCurrentTurnIndex = sortedTurnOrder.findIndex(c => c.tokenId === tokenId);
+                }
+
+                return {
+                    turnOrder: sortedTurnOrder,
+                    currentTurnIndex: newCurrentTurnIndex
+                };
+            }),
+
+            // Set turn order (for synchronization)
+            setTurnOrder: (newTurnOrder) => set({
+                turnOrder: newTurnOrder
+            }),
+
             // End current turn and move to next
             nextTurn: () => set(state => {
                 const currentTime = Date.now();

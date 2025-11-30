@@ -74,6 +74,11 @@ const initialState = {
     movementLineColor: '#FFD700', // Gold color for movement lines
     movementLineWidth: 3,
     movementLineDashArray: '8,4', // Dotted line pattern
+
+    // Cursor tracking settings for multiplayer
+    showCursorTracking: true, // Whether to show other players' cursors
+    cursorUpdateThrottle: 50, // How often to send cursor updates (ms)
+    cursorFadeTime: 3000, // How long cursors stay visible when not moving (ms)
 };
 
 // Handle storage quota exceeded for game store

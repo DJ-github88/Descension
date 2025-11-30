@@ -75,6 +75,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
   const [userRooms, setUserRooms] = useState([]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState('');
+  const [isJoiningRoom, setIsJoiningRoom] = useState(false);
+  const [isCreatingRoom, setIsCreatingRoom] = useState(false);
   const [activeTab, setActiveTab] = useState('join'); // 'join', 'create', or 'my-rooms'
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [preselectedRoom, setPreselectedRoom] = useState(null);
@@ -305,6 +307,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const handleRoomCreated = (data) => {
       setIsConnecting(false);
+      setIsCreatingRoom(false);
 
       // CRITICAL FIX: Update URL with room code for shareable links
       const roomCode = data.room.persistentRoomId || data.room.id;
@@ -347,6 +350,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
     const handleRoomJoined = (data) => {
       setIsConnecting(false);
+      setIsJoiningRoom(false);
 
       // CRITICAL FIX: Update URL with room code for shareable links
       const roomCode = data.room.persistentRoomId || data.room.id;
@@ -391,6 +395,9 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       const errorMsg = data.message || 'An unknown error occurred';
       setError(translateErrorToFantasy(errorMsg));
       setIsConnecting(false);
+      setIsCreatingRoom(false);
+      setIsJoiningRoom(false);
+      setIsCreatingRoom(false);
     };
 
     const handleRoomListUpdated = (rooms) => {
@@ -515,6 +522,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
 
     setIsConnecting(true);
+    setIsCreatingRoom(true);
     setError('');
 
     try {
@@ -606,6 +614,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
       const errorMsg = error.message || 'Failed to create room';
       setError(translateErrorToFantasy(errorMsg));
       setIsConnecting(false);
+      setIsCreatingRoom(false);
     }
   };
 
@@ -616,6 +625,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
 
     setIsConnecting(true);
+    setIsCreatingRoom(true);
     setError('');
 
     // For persistent rooms, we need to connect to the live session
@@ -663,6 +673,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
 
     setIsConnecting(true);
+    setIsCreatingRoom(true);
     setError('');
 
     const roomData = {
@@ -719,6 +730,7 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
     }
 
     setIsConnecting(true);
+    setIsJoiningRoom(true);
     setError('');
 
     // Include full character data in join request to avoid race conditions
@@ -821,7 +833,22 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
 
         {error && (
           <div className="error-message">
-            {error}
+            <div className="error-content">
+              <i className="fas fa-exclamation-triangle"></i>
+              <span>{error}</span>
+            </div>
+            <button
+              className="error-retry-btn"
+              onClick={() => {
+                setError('');
+                setIsConnecting(false);
+                setIsJoiningRoom(false);
+                setIsCreatingRoom(false);
+              }}
+              title="Clear error and try again"
+            >
+              <i className="fas fa-times"></i>
+            </button>
           </div>
         )}
 
@@ -1090,8 +1117,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                           className="room-card-modern-button"
                           title={room.playerCount >= room.maxPlayers ? 'Room is full' : 'Join this room'}
                         >
-                          <i className={room.playerCount >= room.maxPlayers ? 'fas fa-ban' : 'fas fa-play'}></i>
-                          {room.playerCount >= room.maxPlayers ? 'Room Full' : 'Join Room'}
+                          <i className={room.playerCount >= room.maxPlayers ? 'fas fa-ban' : (isJoiningRoom ? 'fas fa-spinner fa-spin' : 'fas fa-play')}></i>
+                          {room.playerCount >= room.maxPlayers ? 'Room Full' : (isJoiningRoom ? 'Joining...' : 'Join Room')}
                         </button>
                       </div>
                     </div>
@@ -1164,7 +1191,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                 disabled={isConnecting || !roomName.trim()}
                 className="create-button"
               >
-                {isConnecting ? 'Creating...' : 'Create Temporary Room'}
+                <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-magic'}></i>
+                {isCreatingRoom ? 'Creating...' : 'Create Temporary Room'}
               </button>
 
               {isAuthenticated && (
@@ -1173,7 +1201,8 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
                   disabled={isConnecting || !getActiveCharacter() || !roomName.trim()}
                   className="create-button persistent"
                 >
-                  {isConnecting ? 'Creating...' : 'Create Persistent Room'}
+                  <i className={isCreatingRoom ? 'fas fa-spinner fa-spin' : 'fas fa-save'}></i>
+                  {isCreatingRoom ? 'Creating...' : 'Create Persistent Room'}
                 </button>
               )}
             </div>
@@ -1302,8 +1331,10 @@ const RoomLobby = ({ socket, onJoinRoom, onReturnToLanding }) => {
               <button
                 className="password-modal-btn primary"
                 onClick={handlePasswordSubmit}
+                disabled={isJoiningRoom}
               >
-                Join Room
+                <i className={isJoiningRoom ? 'fas fa-spinner fa-spin' : 'fas fa-play'}></i>
+                {isJoiningRoom ? 'Joining...' : 'Join Room'}
               </button>
             </div>
           </div>

@@ -4,8 +4,10 @@ import io from 'socket.io-client';
 import RoomLobby from './RoomLobby';
 import LocalhostMultiplayerSimulator from './LocalhostMultiplayerSimulator';
 import GameSessionInvitation from './GameSessionInvitation';
+import CursorOverlay from './CursorOverlay';
 // Removed: Debug utils - not used in production
 import gameStateManager from '../../services/gameStateManager';
+import optimisticUpdatesService from '../../services/optimisticUpdatesService';
 
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
@@ -37,6 +39,47 @@ import DialogueSystem from "../dialogue/DialogueSystem";
 import DialogueControls from "../dialogue/DialogueControls";
 import DiceRollingSystem from "../dice/DiceRollingSystem";
 
+// Connection Status Indicator Component
+const ConnectionStatusIndicator = ({ status, isJoiningRoom, playerCount }) => {
+  const getStatusInfo = () => {
+    switch (status) {
+      case 'connected':
+        return {
+          icon: 'fas fa-wifi',
+          color: '#4caf50',
+          text: `Connected (${playerCount} players)`
+        };
+      case 'connecting':
+        return {
+          icon: 'fas fa-spinner fa-spin',
+          color: '#ff9800',
+          text: 'Connecting...'
+        };
+      case 'error':
+        return {
+          icon: 'fas fa-exclamation-triangle',
+          color: '#f44336',
+          text: 'Connection Error'
+        };
+      default:
+        return {
+          icon: 'fas fa-wifi-slash',
+          color: '#9e9e9e',
+          text: 'Disconnected'
+        };
+    }
+  };
+
+  const statusInfo = getStatusInfo();
+
+  return (
+    <div className="connection-status-indicator">
+      <i className={statusInfo.icon} style={{ color: statusInfo.color }}></i>
+      <span style={{ color: statusInfo.color }}>{statusInfo.text}</span>
+    </div>
+  );
+};
+
 const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   // CRITICAL FIX: Get room code from URL params for room code routing
   const { roomCode } = useParams();
@@ -51,14 +94,17 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [error, setError] = useState(null);
   const [actualPlayerCount, setActualPlayerCount] = useState(1); // Track actual player count from server
   const [pendingGameSessionInvitations, setPendingGameSessionInvitations] = useState([]);
+  const [connectionStatus, setConnectionStatus] = useState('disconnected'); // 'disconnected', 'connecting', 'connected', 'error'
+  const [isJoiningRoom, setIsJoiningRoom] = useState(false);
 
   // Get stores for state synchronization
-  const { setGMMode, setMultiplayerState, isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
+  const { setGMMode, setMultiplayerState, isGMMode, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, showCursorTracking, cursorUpdateThrottle } = useGameStore();
   const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
   const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore();
   const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
   const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken } = useCreatureStore();
   const { setMultiplayerSocket } = useDialogueStore();
+  const { nextTurn, startCombat, getCombatState } = useCombatStore();
 
   // Remove enhanced multiplayer - causes conflicts with main system
 
@@ -66,6 +112,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const tokenUpdateThrottleRef = useRef(new Map());
   const PLAYER_THROTTLE_MS = 50; // 20fps for players (reduced from 60fps to prevent performance issues)
   const GM_THROTTLE_MS = 66; // 15fps for GMs (reduced from 30fps to prevent performance issues)
+
+  // Cursor tracking
+  const cursorThrottleRef = useRef(0);
+  const [otherPlayerCursors, setOtherPlayerCursors] = useState({});
 
   const THROTTLE_CLEANUP_INTERVAL = 15000; // Clean up throttle map every 15 seconds
   const THROTTLE_ENTRY_LIFETIME = 30000; // Remove entries older than 30 seconds
@@ -110,6 +160,83 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     currentRoomRef.current = currentRoom;
   }, [currentRoom]);
+
+  // Track viewport changes for selective sync optimization
+  useEffect(() => {
+    if (socket && currentPlayer && currentRoom) {
+      const viewportData = {
+        cameraX: cameraX,
+        cameraY: cameraY,
+        zoomLevel: zoomLevel,
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight
+      };
+
+      // Throttle viewport updates to prevent spam
+      const updateViewport = () => {
+        socket.emit('update_viewport', viewportData);
+      };
+
+      // Debounce viewport updates
+      const timeoutId = setTimeout(updateViewport, 100);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [socket, currentPlayer, currentRoom, cameraX, cameraY, zoomLevel]);
+
+  // Cursor tracking for multiplayer awareness
+  useEffect(() => {
+    if (!socket || !currentPlayer || !showCursorTracking) return;
+
+    const handleMouseMove = (e) => {
+      const now = Date.now();
+      if (now - cursorThrottleRef.current < cursorUpdateThrottle) return;
+
+      cursorThrottleRef.current = now;
+
+      // Convert screen coordinates to world coordinates
+      const rect = e.currentTarget.getBoundingClientRect();
+      const screenX = e.clientX - rect.left;
+      const screenY = e.clientY - rect.top;
+
+      // Send cursor position
+      socket.emit('cursor_update', {
+        x: screenX,
+        y: screenY,
+        timestamp: now
+      });
+    };
+
+    // Add mouse move listener to the main grid area
+    const gridElement = document.querySelector('.grid-container');
+    if (gridElement) {
+      gridElement.addEventListener('mousemove', handleMouseMove);
+    }
+
+    return () => {
+      if (gridElement) {
+        gridElement.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
+  }, [socket, currentPlayer, showCursorTracking, cursorUpdateThrottle]);
+
+  // Clean up old cursors
+  useEffect(() => {
+    const cleanup = () => {
+      setOtherPlayerCursors(prev => {
+        const now = Date.now();
+        const cleaned = { ...prev };
+        Object.keys(cleaned).forEach(playerId => {
+          if (now - cleaned[playerId].lastUpdate > 5000) { // Remove after 5 seconds
+            delete cleaned[playerId];
+          }
+        });
+        return cleaned;
+      });
+    };
+
+    const interval = setInterval(cleanup, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     addPartyMemberRef.current = addPartyMember;
@@ -183,13 +310,37 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Removed enhanced multiplayer system - was causing conflicts
 
-    // Basic connection event listeners
+    // Enhanced connection event listeners with status feedback
     newSocket.on('connect', () => {
       setIsConnecting(false);
+      setConnectionStatus('connected');
+
+      // Show connection success notification
+      addNotificationRef.current('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: 'Successfully connected to multiplayer server!',
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
     });
 
     newSocket.on('disconnect', (reason) => {
       setIsConnecting(false);
+      setConnectionStatus('disconnected');
+
+      // Show disconnection notification with reason
+      const reasonMessage = reason === 'io server disconnect' ? 'Server disconnected' :
+                           reason === 'io client disconnect' ? 'Client disconnected' :
+                           reason === 'ping timeout' ? 'Connection timed out' :
+                           reason === 'transport close' ? 'Connection closed' :
+                           'Connection lost';
+
+      addNotificationRef.current('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `Disconnected from multiplayer server: ${reasonMessage}`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
     });
 
     newSocket.on('error', (error) => {
@@ -579,6 +730,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             requestAnimationFrame(() => {
               batch.forEach(update => {
                 if (update.type === 'token') {
+                  // Check if this is a confirmation for an optimistic update
+                  if (data.actionId) {
+                    // This is a server confirmation for our optimistic update
+                    optimisticUpdatesService.resolveUpdate(data.actionId, { position: update.position });
+                    return; // Don't process position update since optimistic update already applied it
+                  }
+
                   // CRITICAL FIX: Find token by creatureId (not tokenId) to ensure correct token is updated
                   const currentTokens = useCreatureStore.getState().tokens;
                   const token = currentTokens.find(t => t.creatureId === update.targetId);
@@ -590,12 +748,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
                       Math.pow(update.position.x - currentTokenPosition.x, 2) +
                       Math.pow(update.position.y - currentTokenPosition.y, 2)
                     );
-                    
+
                     // CRITICAL FIX: Always update position when dragging starts or when distance is significant
                     // When GM starts dragging a player token, accept the first position update even if distance is small
                     // This prevents the player from seeing the token start from the wrong position
                     const shouldUpdate = data.isDragging || distance > 1 || distance === 0; // Accept dragging, significant changes, or exact matches
-                    
+
                     if (shouldUpdate) {
                       updateCreatureTokenPosition(token.id, update.position);
                     }
@@ -677,6 +835,68 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         setTimeout(() => {
           tokenUpdateThrottleRef.current.delete(throttleKey);
         }, 100);
+      }
+    });
+
+    // Combat lag compensation event handlers
+    socket.on('combat_action', (data) => {
+      // Handle predicted combat actions from other players
+      if (data.playerId !== currentPlayer?.id) {
+        // Apply the action with lag compensation
+        console.log('Received combat action:', data);
+      }
+    });
+
+    socket.on('combat_correction', (data) => {
+      // Handle server corrections for predicted combat state
+      console.log('Received combat correction:', data);
+      // Apply corrections to local combat state
+      if (data.discrepancies && data.discrepancies.length > 0) {
+        // Update local combat state to match server
+        console.log('Applying combat corrections:', data.discrepancies.length);
+      }
+    });
+
+    socket.on('combat_state_sync', (data) => {
+      // Full combat state synchronization
+      console.log('Received combat state sync:', data);
+      // Update local combat state completely
+    });
+
+    socket.on('combat_action', (data) => {
+      // Handle real-time combat actions
+      console.log('Received combat action:', data);
+
+      switch (data.type) {
+        case 'turn_changed':
+          // Update turn index and round
+          if (data.newTurnIndex !== undefined) {
+            // The combat store will be updated through the normal sync process
+            console.log('Turn changed to:', data.newTurnIndex, 'Round:', data.newRound);
+          }
+          break;
+
+        case 'initiative_updated':
+          // Update initiative for a specific combatant
+          if (data.combatantId && data.newInitiative !== undefined) {
+            const combatStore = useCombatStore.getState();
+            combatStore.updateInitiative(data.combatantId, data.newInitiative);
+            console.log('Updated initiative for', data.combatantId, 'to', data.newInitiative);
+          }
+          break;
+      }
+    });
+
+    // Handle cursor updates from other players
+    socket.on('cursor_update', (data) => {
+      if (data.playerId !== currentPlayer?.id && showCursorTracking) {
+        setOtherPlayerCursors(prev => ({
+          ...prev,
+          [data.playerId]: {
+            ...data,
+            lastUpdate: Date.now()
+          }
+        }));
       }
     });
 
@@ -1659,6 +1879,9 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('player_color_updated');
       socket.off('character_token_created');
       socket.off('character_moved');
+      socket.off('combat_action');
+      socket.off('combat_correction');
+      socket.off('combat_state_sync');
       socket.off('full_game_state_sync');
       socket.off('sync_error');
       socket.off('connect_error');
@@ -1667,6 +1890,16 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
   const handleJoinRoom = async (room, socketConnection, isGameMaster) => {
+    setIsJoiningRoom(true);
+    setConnectionStatus('connecting');
+
+    // Show joining notification
+    addNotificationRef.current('social', {
+      sender: { name: 'System', class: 'system', level: 0 },
+      content: `Joining room: ${room.name}...`,
+      type: 'system',
+      timestamp: new Date().toISOString()
+    });
 
     let currentPlayerData;
 
@@ -1869,200 +2102,235 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     }
 
-    // Simple: Room creator = GM, others = players
-    setGMMode(isGameMaster);
+    try {
+      // Simple: Room creator = GM, others = players
+      setGMMode(isGameMaster);
 
-    // Create/update party with multiplayer players
-    // Include GM and all regular players
-    const allPlayers = [room.gm];
+      // Create/update party with multiplayer players
+      // Include GM and all regular players
+      const allPlayers = [room.gm];
 
-    // Handle different room.players formats (Map, Array, or Object)
-    if (room.players) {
-      if (room.players instanceof Map) {
-        allPlayers.push(...Array.from(room.players.values()));
-      } else if (Array.isArray(room.players)) {
-        allPlayers.push(...room.players);
-      } else if (typeof room.players === 'object') {
-        allPlayers.push(...Object.values(room.players));
+      // Handle different room.players formats (Map, Array, or Object)
+      if (room.players) {
+        if (room.players instanceof Map) {
+          allPlayers.push(...Array.from(room.players.values()));
+        } else if (Array.isArray(room.players)) {
+          allPlayers.push(...room.players);
+        } else if (typeof room.players === 'object') {
+          allPlayers.push(...Object.values(room.players));
+        }
       }
-    }
 
-    // Remove duplicates based on player ID and exclude current player from connected list
-    const uniquePlayers = allPlayers.filter((player, index, self) =>
-      index === self.findIndex(p => p.id === player.id) && player.id !== currentPlayerData?.id
-    );
+      // Remove duplicates based on player ID and exclude current player from connected list
+      const uniquePlayers = allPlayers.filter((player, index, self) =>
+        index === self.findIndex(p => p.id === player.id) && player.id !== currentPlayerData?.id
+      );
 
-    setConnectedPlayers(uniquePlayers);
+      setConnectedPlayers(uniquePlayers);
 
-    // Set initial player count (GM + regular players)
-    const initialPlayerCount = (room.players?.size || 0) + 1; // +1 for GM
-    setActualPlayerCount(initialPlayerCount);
+      // Set initial player count (GM + regular players)
+      const initialPlayerCount = (room.players?.size || 0) + 1; // +1 for GM
+      setActualPlayerCount(initialPlayerCount);
 
-    // Integrate multiplayer players into party system
-    // Get active character data for current player
-    const activeCharacter = getActiveCharacter();
-    const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
+      // Integrate multiplayer players into party system
+      // Get active character data for current player
+      const activeCharacter = getActiveCharacter();
+      const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
 
-    // Removed: Unused variable
+      // Removed: Unused variable
 
-    // Create party with current player's character name (not user name)
-    // Note: createParty automatically adds the current player, so we don't need to add them again
-    createParty(room.name, currentPlayerCharacterName);
+      // Create party with current player's character name (not user name)
+      // Note: createParty automatically adds the current player, so we don't need to add them again
+      createParty(room.name, currentPlayerCharacterName);
 
-    // Update the current player that was automatically added by createParty with full character data
-    const currentPlayerMember = {
-      id: 'current-player',
-      name: currentPlayerCharacterName,
-      isGM: isGameMaster, // Include GM status for current player
-      character: {
+      // Update the current player that was automatically added by createParty with full character data
+      const currentPlayerMember = {
+        id: 'current-player',
+        name: currentPlayerCharacterName,
+        isGM: isGameMaster, // Include GM status for current player
+        character: {
+          class: activeCharacter?.class || 'Unknown',
+          level: activeCharacter?.level || 1,
+          health: activeCharacter?.health || { current: 100, max: 100 },
+          mana: activeCharacter?.mana || { current: 50, max: 50 },
+          actionPoints: activeCharacter?.actionPoints || { current: 3, max: 3 },
+          race: activeCharacter?.race || 'Unknown',
+          raceDisplayName: activeCharacter?.raceDisplayName || 'Unknown',
+          tokenSettings: activeCharacter?.tokenSettings || {}, // Include token settings, default to empty object
+          lore: activeCharacter?.lore || {} // Include lore (which contains characterImage), default to empty object
+        }
+      };
+
+      // Update the existing current player instead of adding a duplicate
+      updatePartyMember('current-player', currentPlayerMember);
+
+      // Broadcast current player's party member data to other players
+      if (socketConnection) {
+        socketConnection.emit('party_member_added', {
+          member: currentPlayerMember
+        });
+      }
+
+      // Add current player to chat system
+      addUser({
+        id: currentPlayerData?.id,
+        name: currentPlayerCharacterName,
         class: activeCharacter?.class || 'Unknown',
         level: activeCharacter?.level || 1,
-        health: activeCharacter?.health || { current: 100, max: 100 },
-        mana: activeCharacter?.mana || { current: 50, max: 50 },
-        actionPoints: activeCharacter?.actionPoints || { current: 3, max: 3 },
-        race: activeCharacter?.race || 'Unknown',
-        raceDisplayName: activeCharacter?.raceDisplayName || 'Unknown',
-        tokenSettings: activeCharacter?.tokenSettings || {}, // Include token settings, default to empty object
-        lore: activeCharacter?.lore || {} // Include lore (which contains characterImage), default to empty object
-      }
-    };
-
-    // Update the existing current player instead of adding a duplicate
-    updatePartyMember('current-player', currentPlayerMember);
-
-    // Broadcast current player's party member data to other players
-    if (socketConnection) {
-      socketConnection.emit('party_member_added', {
-        member: currentPlayerMember
-      });
-    }
-
-    // Add current player to chat system
-    addUser({
-      id: currentPlayerData?.id,
-      name: currentPlayerCharacterName,
-      class: activeCharacter?.class || 'Unknown',
-      level: activeCharacter?.level || 1,
-      status: 'online'
-    });
-
-    // Add GM to party if GM is not the current player
-    if (room.gm && room.gm.id !== currentPlayerData?.id) {
-      const gmCharacterName = room.gm.character?.name || room.gm.name;
-
-      addPartyMember({
-        id: room.gm.id,
-        name: gmCharacterName,
-        isGM: true, // Mark as GM
-        character: {
-          class: room.gm.character?.class || 'Unknown',
-          level: room.gm.character?.level || 1,
-          health: room.gm.character?.health || { current: 100, max: 100 },
-          mana: room.gm.character?.mana || { current: 50, max: 50 },
-          actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 },
-          race: room.gm.character?.race || 'Unknown',
-          subrace: room.gm.character?.subrace || '',
-          raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
-          classResource: room.gm.character?.classResource || { current: 0, max: 0 }, // Include class resource
-          tokenSettings: room.gm.character?.tokenSettings || {}, // Include token settings, default to empty object
-          lore: room.gm.character?.lore || {} // Include lore (which contains characterImage), default to empty object
-        }
-      });
-
-      addUser({
-        id: room.gm.id,
-        name: gmCharacterName,
-        class: room.gm.character?.class || 'Unknown',
-        level: room.gm.character?.level || 1,
         status: 'online'
       });
-    }
 
-    // Add other players to party and chat (only non-current players)
-    if (room.players && room.players.size > 0) {
-      Array.from(room.players.values()).forEach(player => {
-        const isCurrentPlayer = player.id === currentPlayerData?.id;
+      // Add GM to party if GM is not the current player
+      if (room.gm && room.gm.id !== currentPlayerData?.id) {
+        const gmCharacterName = room.gm.character?.name || room.gm.name;
 
-        if (!isCurrentPlayer) {
-          const playerCharacterName = player.character?.name || player.name;
-
-          const playerMember = {
-            id: player.id,
-            name: playerCharacterName,
-            isGM: player.isGM || false, // Check if player is GM (for GM reconnecting)
-            character: {
-              class: player.character?.class || 'Unknown',
-              level: player.character?.level || 1,
-              health: player.character?.health || { current: 100, max: 100 },
-              mana: player.character?.mana || { current: 50, max: 50 },
-              actionPoints: player.character?.actionPoints || { current: 3, max: 3 },
-              race: player.character?.race || 'Unknown',
-              subrace: player.character?.subrace || '',
-              raceDisplayName: player.character?.raceDisplayName || 'Unknown',
-              classResource: player.character?.classResource || { current: 0, max: 0 }, // Include class resource
-              tokenSettings: player.character?.tokenSettings || {}, // Include token settings, default to empty object
-              lore: player.character?.lore || {} // Include lore (which contains characterImage), default to empty object
-            }
-          };
-
-          addPartyMember(playerMember);
-
-          addUser({
-            id: player.id,
-            name: playerCharacterName,
-            class: player.character?.class || 'Unknown',
-            level: player.character?.level || 1,
-            status: 'online'
-          });
-        }
-      });
-    }
-
-    // Simple: Room creator is GM, others are players (no leadership transfer needed)
-
-    // Set multiplayer state in game store with socket
-    setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection);
-
-    // Set up chat integration for multiplayer
-    const sendChatMessage = (message) => {
-      if (socketConnection && socketConnection.connected) {
-        // Get current player data for the message
-        const activeCharacter = getActiveCharacter();
-        const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
-        
-        socketConnection.emit('chat_message', {
-          message: message,
-          type: 'chat' // This will be handled as party chat on the server
+        addPartyMember({
+          id: room.gm.id,
+          name: gmCharacterName,
+          isGM: true, // Mark as GM
+          character: {
+            class: room.gm.character?.class || 'Unknown',
+            level: room.gm.character?.level || 1,
+            health: room.gm.character?.health || { current: 100, max: 100 },
+            mana: room.gm.character?.mana || { current: 50, max: 50 },
+            actionPoints: room.gm.character?.actionPoints || { current: 3, max: 3 },
+            race: room.gm.character?.race || 'Unknown',
+            subrace: room.gm.character?.subrace || '',
+            raceDisplayName: room.gm.character?.raceDisplayName || 'Unknown',
+            classResource: room.gm.character?.classResource || { current: 0, max: 0 }, // Include class resource
+            tokenSettings: room.gm.character?.tokenSettings || {}, // Include token settings, default to empty object
+            lore: room.gm.character?.lore || {} // Include lore (which contains characterImage), default to empty object
+          }
         });
-      } else {
-        console.error('No socket connection for chat or socket disconnected');
-        // Show error to user
-        addNotification('social', {
-          sender: { name: 'System', class: 'system', level: 0 },
-          content: 'Cannot send message: disconnected from server',
-          type: 'system',
-          timestamp: new Date().toISOString()
+
+        addUser({
+          id: room.gm.id,
+          name: gmCharacterName,
+          class: room.gm.character?.class || 'Unknown',
+          level: room.gm.character?.level || 1,
+          status: 'online'
         });
       }
-    };
-    setMultiplayerIntegration(socketConnection, sendChatMessage);
 
-    // Set up dialogue system for multiplayer
-    setMultiplayerSocket(socketConnection, true);
+      // Add other players to party and chat (only non-current players)
+      if (room.players && room.players.size > 0) {
+        Array.from(room.players.values()).forEach(player => {
+          const isCurrentPlayer = player.id === currentPlayerData?.id;
 
-    // Initialize game state manager for persistent room state
-    if (room.persistentRoomId || room.id) {
-      // Removed: Unused roomId variable
+          if (!isCurrentPlayer) {
+            const playerCharacterName = player.character?.name || player.name;
 
-      // DISABLED: Game state loading causes old tokens to appear in fresh rooms
-      // Only enable auto-save for GMs, but don't load old state for fresh rooms
-      // gameStateManager.initialize(roomId, isGameMaster).then(() => {
-      //   // Game state manager initialized successfully
-      // }).catch((error) => {
-      //   console.error('❌ Failed to initialize game state manager:', error);
-      // });
+            const playerMember = {
+              id: player.id,
+              name: playerCharacterName,
+              isGM: player.isGM || false, // Check if player is GM (for GM reconnecting)
+              character: {
+                class: player.character?.class || 'Unknown',
+                level: player.character?.level || 1,
+                health: player.character?.health || { current: 100, max: 100 },
+                mana: player.character?.mana || { current: 50, max: 50 },
+                actionPoints: player.character?.actionPoints || { current: 3, max: 3 },
+                race: player.character?.race || 'Unknown',
+                subrace: player.character?.subrace || '',
+                raceDisplayName: player.character?.raceDisplayName || 'Unknown',
+                classResource: player.character?.classResource || { current: 0, max: 0 }, // Include class resource
+                tokenSettings: player.character?.tokenSettings || {}, // Include token settings, default to empty object
+                lore: player.character?.lore || {} // Include lore (which contains characterImage), default to empty object
+              }
+            };
 
-      // Skip game state loading to prevent old tokens in fresh rooms
+            addPartyMember(playerMember);
+
+            addUser({
+              id: player.id,
+              name: playerCharacterName,
+              class: player.character?.class || 'Unknown',
+              level: player.character?.level || 1,
+              status: 'online'
+            });
+          }
+        });
+      }
+
+      // Simple: Room creator is GM, others are players (no leadership transfer needed)
+
+      // Set multiplayer state in game store with socket
+      setMultiplayerState(true, room, handleReturnToSinglePlayer, socketConnection);
+
+      // Set up chat integration for multiplayer
+      const sendChatMessage = (message) => {
+        if (socketConnection && socketConnection.connected) {
+          // Get current player data for the message
+          const activeCharacter = getActiveCharacter();
+          const currentPlayerCharacterName = activeCharacter?.name || currentPlayerData?.name || 'Unknown Player';
+          
+          socketConnection.emit('chat_message', {
+            message: message,
+            type: 'chat' // This will be handled as party chat on the server
+          });
+        } else {
+          console.error('No socket connection for chat or socket disconnected');
+          // Show error to user
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: 'Cannot send message: disconnected from server',
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
+        }
+      };
+      setMultiplayerIntegration(socketConnection, sendChatMessage);
+
+      // Set up dialogue system for multiplayer
+      setMultiplayerSocket(socketConnection, true);
+
+      // Initialize game state manager for persistent room state
+      if (room.persistentRoomId || room.id) {
+        // DISABLED: Game state loading causes old tokens to appear in fresh rooms
+        // Skip game state loading to prevent old tokens in fresh rooms
+      }
+
+      // Show successful join notification
+      setIsJoiningRoom(false);
+      setConnectionStatus('connected');
+
+      // Welcome notification
+      addNotificationRef.current('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `🎉 Welcome to ${room.name}! You have joined as ${isGameMaster ? 'Game Master' : 'Player'}. The adventure awaits!`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
+
+      // Additional helpful notification for new players
+      if (!isGameMaster) {
+        setTimeout(() => {
+          addNotificationRef.current('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: '💡 Tip: Use the chat to communicate with your party. Press Enter to send messages.',
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
+        }, 2000);
+      }
+    } catch (error) {
+      console.error('Error in handleJoinRoom:', error);
+      setIsJoiningRoom(false);
+      setConnectionStatus('error');
+
+      // Show user-friendly error message
+      const errorMessage = error.message?.includes('character')
+        ? error.message
+        : 'Failed to join room. Please try again.';
+
+      setError(errorMessage);
+
+      addNotificationRef.current('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: `Failed to join room: ${errorMessage}`,
+        type: 'system',
+        timestamp: new Date().toISOString()
+      });
     }
   };
 
@@ -2146,13 +2414,15 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       <MultiplayerGameContent
         currentRoom={currentRoom}
         handleReturnToSinglePlayer={handleReturnToSinglePlayer}
+        connectionStatus={connectionStatus}
+        isJoiningRoom={isJoiningRoom}
       />
     </RoomProvider>
   );
 };
 
 // Separate component that can use room context
-const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => {
+const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer, connectionStatus, isJoiningRoom }) => {
   const { enterMultiplayerRoom, exitRoom } = useRoomContext();
 
   // Update room context when currentRoom changes
@@ -2196,7 +2466,15 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer }) => 
         <DialogueSystem />
         {isGMMode && <DialogueControls />}
         <DiceRollingSystem />
+        <CursorOverlay cursors={otherPlayerCursors} />
         <Navigation onReturnToLanding={handleReturnToSinglePlayer} />
+
+        {/* Connection Status Indicator */}
+        <ConnectionStatusIndicator
+          status={connectionStatus}
+          isJoiningRoom={isJoiningRoom}
+          playerCount={actualPlayerCount}
+        />
 
         {/* Performance monitor removed - was causing overhead */}
       </div>

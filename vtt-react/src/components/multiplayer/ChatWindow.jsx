@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useChatStore from '../../store/chatStore';
 import './styles/ChatWindow.css';
 
 const ChatWindow = ({ socket, room, currentPlayer }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [typingUsers, setTypingUsers] = useState([]);
   const messagesEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
+
+  // Use chat store for typing indicators
+  const { typingUsers, setUserTyping, cleanupTypingIndicators } = useChatStore();
 
   useEffect(() => {
     if (!socket) return;
@@ -22,20 +25,15 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
       setMessages(prev => [...prev, message]);
     });
 
-    // Listen for typing indicators (to be implemented)
+    // Listen for typing indicators
     socket.on('user_typing', (data) => {
       if (data.playerId !== currentPlayer?.id) {
-        setTypingUsers(prev => {
-          if (!prev.includes(data.playerName)) {
-            return [...prev, data.playerName];
-          }
-          return prev;
-        });
+        setUserTyping(data.playerId, data.playerName, true);
       }
     });
 
     socket.on('user_stopped_typing', (data) => {
-      setTypingUsers(prev => prev.filter(name => name !== data.playerName));
+      setUserTyping(data.playerId, data.playerName, false);
     });
 
     return () => {
@@ -49,6 +47,13 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
     // Auto-scroll to bottom when new messages arrive
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Clean up stale typing indicators
+  useEffect(() => {
+    const cleanup = () => cleanupTypingIndicators();
+    const interval = setInterval(cleanup, 5000); // Clean every 5 seconds
+    return () => clearInterval(interval);
+  }, [cleanupTypingIndicators]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -65,7 +70,10 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
     // Stop typing indicator
     if (isTyping) {
       setIsTyping(false);
-      socket.emit('stop_typing');
+      socket.emit('user_stopped_typing', {
+        playerId: currentPlayer?.id,
+        playerName: currentPlayer?.name || 'Unknown'
+      });
     }
   };
 
@@ -75,7 +83,10 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
     // Typing indicator logic
     if (!isTyping && e.target.value.trim()) {
       setIsTyping(true);
-      socket?.emit('start_typing');
+      socket?.emit('user_typing', {
+        playerId: currentPlayer?.id,
+        playerName: currentPlayer?.name || 'Unknown'
+      });
     }
 
     // Clear existing timeout
@@ -87,7 +98,10 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
     typingTimeoutRef.current = setTimeout(() => {
       if (isTyping) {
         setIsTyping(false);
-        socket?.emit('stop_typing');
+        socket?.emit('user_stopped_typing', {
+          playerId: currentPlayer?.id,
+          playerName: currentPlayer?.name || 'Unknown'
+        });
       }
     }, 1000);
   };
@@ -151,10 +165,10 @@ const ChatWindow = ({ socket, room, currentPlayer }) => {
           </div>
         ))}
         
-        {typingUsers.length > 0 && (
+        {Object.keys(typingUsers).length > 0 && (
           <div className="typing-indicator">
             <span className="typing-text">
-              {typingUsers.join(', ')} {typingUsers.length === 1 ? 'is' : 'are'} typing...
+              {Object.values(typingUsers).map(user => user.name).join(', ')} {Object.keys(typingUsers).length === 1 ? 'is' : 'are'} typing...
             </span>
             <div className="typing-dots">
               <span></span>

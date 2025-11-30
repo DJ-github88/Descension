@@ -11,7 +11,6 @@ import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
-import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import '../../styles/pathfinder/main.css';
 import '../../styles/pathfinder/components/wow-spellbook.css';

@@ -1377,7 +1377,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
             Create Custom
           </button>
         </div>
-        {selectedCreatures.length > 0 && (
+        {(summonConfig.creatures || []).length > 0 && (
           <button
             className="pf-button pf-button-danger"
             onClick={handleClearAllCreatures}
@@ -1390,17 +1390,17 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
       {/* Main Content Area */}
       <div className="summon-main-content">
         {/* Selected Creatures Display */}
-        {selectedCreatures.length > 0 && (
+        {(summonConfig.creatures || []).length > 0 && (
           <div className="summon-creatures-section">
             <div className="section-header">
-              <h3>Summoned Creatures ({selectedCreatures.length})</h3>
+              <h3>Summoned Creatures ({(summonConfig.creatures || []).length})</h3>
             </div>
             {renderCreatureSelection()}
           </div>
         )}
 
         {/* Empty State */}
-        {selectedCreatures.length === 0 && (
+        {(summonConfig.creatures || []).length === 0 && (
           <div className="summon-empty-state">
             <div className="empty-state-content">
               <FaPaw className="empty-state-icon" />
@@ -1411,7 +1411,7 @@ const SummoningEffects = ({ state, dispatch, actionCreators, getDefaultFormula, 
         )}
 
         {/* Advanced Settings - Collapsible */}
-        {selectedCreatures.length > 0 && (
+        {(summonConfig.creatures || []).length > 0 && (
           <div className="summon-advanced-settings">
             <details className="settings-accordion">
               <summary className="settings-accordion-header">

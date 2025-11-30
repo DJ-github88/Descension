@@ -267,7 +267,7 @@ controlConfig: {
 
 **IMPORTANT**: The UnifiedSpellCard uses two separate fields for displaying effect information:
 
-1. **`description`** - Shown in grey/italic text, contains the main effect information
+1. **`description`** - Shown in grey/italic text, contains the main effect information (but NOT damage formulas)
 2. **`mechanicsText`** - Shown below description, contains additional mechanical details
 
 **Key Rules for All Effect Types:**
@@ -276,7 +276,7 @@ controlConfig: {
 - **Description contains**: Effect description + Save info + Duration (e.g., "Movement speed reduced by 10 feet • DC 12 Constitution save (negates) • for 1 round")
 - **Description must be CONCRETE**: Specify exact amounts (e.g., "Movement speed reduced by 10 feet" not "Movement speed reduced" or "target's movement speed is reduced")
 - **Description must explain gameplay mechanics**: For status effects like blinded, explain what it means (e.g., "cannot see, automatically fails sight-based checks, disadvantage on attack rolls (roll two d20s and take the lower result when attacking)")
-- **mechanicsText should be EMPTY** - All information is in the description
+- **mechanicsText should be EMPTY** - All information is in the description (except for damage formulas which go in mechanicsText for bold formatting)
 - **DO NOT** add duration, save DC, or save outcome to mechanicsText for status effects
 - **DO NOT** add redundant mechanics like "Movement speed reduced by 50%" when description already has "Movement speed reduced by 10 feet"
 - **DO NOT** repeat information (e.g., "Movement speed reduced by 10 feet - target's movement speed is reduced by 10 feet" is redundant)
@@ -669,6 +669,8 @@ The `Step10Review` component uses `mapWizardStateToPreviewState()` to transform 
 ### SpellCard Display Mapping:
 
 #### Damage Effects (formatDamage function)
+
+**⚠️ FORMATTING RULE**: Damage formulas are displayed in the `mechanicsText` field (bold plain text), never in `description`.
 
 **Damage Type Suffix Logic:**
 - **Priority**: `damageTypes[]` array → `typeConfig.school` + `typeConfig.secondaryElement` → `damageConfig.elementType`

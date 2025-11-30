@@ -61,6 +61,67 @@ const io = socketIo(server, {
 const eventBatcher = new EventBatcher(io);
 const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
 
+// Combat action handler with lag compensation
+const handleCombatAction = (roomId, playerId, actionData, predictedAction) => {
+  const room = rooms.get(roomId);
+  if (!room) return;
+
+  console.log('🎯 Processing combat action:', actionData.type, 'from player:', playerId);
+
+  switch (actionData.type) {
+    case 'next_turn':
+      // Handle turn advancement with lag compensation
+      if (room.gameState && room.gameState.combat && room.gameState.combat.isActive) {
+        const combat = room.gameState.combat;
+        const nextIndex = (combat.currentTurnIndex + 1) % combat.turnOrder.length;
+        const newRound = nextIndex === 0 ? combat.round + 1 : combat.round;
+
+        combat.currentTurnIndex = nextIndex;
+        combat.round = newRound;
+        combat.currentTurnStartTime = Date.now();
+
+        // Notify all players of the turn change
+        io.to(roomId).emit('combat_action', {
+          type: 'turn_changed',
+          newTurnIndex: nextIndex,
+          newRound: newRound,
+          timestamp: Date.now()
+        });
+
+        // Update lag compensation system
+        if (lagCompensation && typeof lagCompensation.processCombatStateUpdate === 'function') {
+          lagCompensation.processCombatStateUpdate(roomId, combat, Date.now());
+        }
+      }
+      break;
+
+    case 'initiative_roll':
+      // Handle initiative changes
+      if (actionData.data && actionData.data.combatantId && actionData.data.newInitiative) {
+        if (room.gameState && room.gameState.combat && room.gameState.combat.turnOrder) {
+          const combatant = room.gameState.combat.turnOrder.find(c => c.tokenId === actionData.data.combatantId);
+          if (combatant) {
+            combatant.initiative = actionData.data.newInitiative;
+            // Re-sort turn order
+            room.gameState.combat.turnOrder.sort((a, b) => b.initiative - a.initiative);
+
+            // Notify all players
+            io.to(roomId).emit('combat_action', {
+              type: 'initiative_updated',
+              combatantId: actionData.data.combatantId,
+              newInitiative: actionData.data.newInitiative,
+              newTurnOrder: room.gameState.combat.turnOrder.map(c => ({ tokenId: c.tokenId, initiative: c.initiative }))
+            });
+          }
+        }
+      }
+      break;
+
+    default:
+      console.log('Unknown combat action type:', actionData.type);
+  }
+};
+
 // Enhanced error handling with rate limiting
 const errorHandler = {
   errorCounts: new Map(),
@@ -917,6 +978,95 @@ io.on('connection', (socket) => {
     io.to(player.roomId).emit('chat_message', message);
 
     console.log(`✅ Chat message from ${player.name} in room ${room.name}: ${data.message}`);
+  });
+
+  // Handle typing indicators
+  socket.on('user_typing', (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Broadcast typing indicator to other players in the room
+    socket.to(room.id).emit('user_typing', {
+      playerId: player.id,
+      playerName: player.name
+    });
+  });
+
+  socket.on('user_stopped_typing', (data) => {
+    const player = players.get(socket.id);
+    if (!player) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Broadcast stopped typing to other players in the room
+    socket.to(room.id).emit('user_stopped_typing', {
+      playerId: player.id,
+      playerName: player.name
+    });
+  });
+
+  // Handle viewport updates for selective sync
+  socket.on('update_viewport', (viewportData) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) return;
+
+    // Update player's viewport in the real-time sync engine
+    if (realtimeSync && typeof realtimeSync.updatePlayerViewport === 'function') {
+      realtimeSync.updatePlayerViewport(player.roomId, player.id, viewportData);
+    }
+  });
+
+  // Handle cursor position updates for multiplayer awareness
+  socket.on('cursor_update', (cursorData) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) return;
+
+    // Broadcast cursor position to other players in the room
+    socket.to(player.roomId).emit('cursor_update', {
+      playerId: player.id,
+      playerName: player.name,
+      x: cursorData.x,
+      y: cursorData.y,
+      timestamp: cursorData.timestamp
+    });
+  });
+
+  // Handle combat actions with lag compensation
+  socket.on('combat_action', (actionData) => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) return;
+
+    // Use lag compensation to predict the action
+    if (lagCompensation && typeof lagCompensation.predictCombatAction === 'function') {
+      const predictedAction = lagCompensation.predictCombatAction(socket.id, actionData);
+
+      // Process the combat action
+      handleCombatAction(player.roomId, player.id, actionData, predictedAction);
+    }
+  });
+
+  // Handle combat state synchronization requests
+  socket.on('request_combat_sync', () => {
+    const player = players.get(socket.id);
+    if (!player || !player.roomId) return;
+
+    const room = rooms.get(player.roomId);
+    if (!room) return;
+
+    // Send current combat state
+    socket.emit('combat_state_sync', {
+      combat: room.gameState?.combat || {
+        isActive: false,
+        currentTurn: null,
+        turnOrder: [],
+        round: 0
+      },
+      timestamp: Date.now()
+    });
   });
 
   // Handle dialogue messages

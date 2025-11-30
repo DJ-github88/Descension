@@ -12,6 +12,18 @@
   animation: fadeIn 0.3s ease-out;
 }
 
+.invitation-pulse-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: invitationPulse 2s ease-in-out infinite;
+}
+
 .game-session-invitation-modal {
   background: linear-gradient(135deg, #2c1810 0%, #1a0f08 100%);
   border: 2px solid #d4af37;
@@ -163,6 +175,21 @@
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes invitationPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
   }
 }
 

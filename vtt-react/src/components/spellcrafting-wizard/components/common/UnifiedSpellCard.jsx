@@ -1931,6 +1931,33 @@ const UnifiedSpellCard = ({
       }
     }
 
+    // Add Action Points (moved here to appear early in resource list, after main resources but before spheres)
+    if (spell.resourceCost && spell.resourceCost.actionPoints !== undefined && spell.resourceCost.actionPoints > 0) {
+      // Check if actionPoints is already in resourceTypes (wizard format)
+      const actionPointsInTypes = spell.resourceCost.resourceTypes && spell.resourceCost.resourceTypes.includes('action_points');
+
+      // Check if already added (check all possible type variations: 'actionpoints', 'action-points', 'action_points')
+      const alreadyAdded = resources.some(r =>
+        r.type === 'action-points' ||
+        r.type === 'action_points' ||
+        r.type === 'actionpoints'
+      );
+
+      // Only add if:
+      // 1. Not in resourceTypes (so it's not being handled by the wizard format loop above)
+      // 2. Not already added from legacy format
+      // 3. This is a wizard format spell (has resourceTypes) OR legacy format (no resourceTypes but actionPoints exists)
+      if (!actionPointsInTypes && !alreadyAdded) {
+        resources.push({
+          type: 'action-points',
+          amount: spell.resourceCost.actionPoints,
+          name: 'Action Points',
+          icon: faBolt,
+          color: '#ffffff' // Use white to match other resources in header
+        });
+      }
+    }
+
     // Check for sphere resources from wizard (new format) - process this FIRST
     const sphereResourceMap = {
       'arcane_sphere': { name: 'Arcane Sphere', color: '#9370DB', icon: faAtom },
@@ -2035,32 +2062,6 @@ const UnifiedSpellCard = ({
       });
     }
 
-    // Add Action Points (for wizard format spells or legacy format that wasn't already added)
-    if (spell.resourceCost && spell.resourceCost.actionPoints !== undefined && spell.resourceCost.actionPoints > 0) {
-      // Check if actionPoints is already in resourceTypes (wizard format)
-      const actionPointsInTypes = spell.resourceCost.resourceTypes && spell.resourceCost.resourceTypes.includes('action_points');
-      
-      // Check if already added (check all possible type variations: 'actionpoints', 'action-points', 'action_points')
-      const alreadyAdded = resources.some(r => 
-        r.type === 'action-points' || 
-        r.type === 'action_points' || 
-        r.type === 'actionpoints'
-      );
-      
-      // Only add if:
-      // 1. Not in resourceTypes (so it's not being handled by the wizard format loop above)
-      // 2. Not already added from legacy format
-      // 3. This is a wizard format spell (has resourceTypes) OR legacy format (no resourceTypes but actionPoints exists)
-      if (!actionPointsInTypes && !alreadyAdded) {
-        resources.push({
-          type: 'action-points',
-          amount: spell.resourceCost.actionPoints,
-          name: 'Action Points',
-          icon: faBolt,
-          color: '#ffffff' // Use white to match other resources in header
-        });
-      }
-    }
 
     // Add Pyrofiend Inferno costs - compact display
     const infernoRequired = spell.infernoRequired || spell.resourceCost?.resourceValues?.inferno_required;
@@ -2785,24 +2786,30 @@ const UnifiedSpellCard = ({
             );
           }
 
-          // Special rendering for action points - compact display
+          // Special rendering for action points - compact display like spheres
           if (resource.type === 'action-points' || resource.type === 'action_points' || resource.type === 'actionpoints') {
             return (
               <div
                 key={index}
-                className={`pf-resource-cost ${resource.type}`}
+                className={`pf-resource-cost ${resource.type} action-point-cost`}
                 title={`${resource.amount} ${resource.amount === 1 ? 'Action Point' : 'Action Points'}`}
+                style={{
+                  color: '#ffffff',
+                  background: 'transparent',
+                  border: 'none',
+                  padding: '2px 4px'
+                }}
               >
                 <FontAwesomeIcon
                   icon={resource.icon}
                   className="pf-resource-icon"
-                  style={{ color: '#ffffff' }}
+                  style={{ color: '#ffffff', fontSize: '14px' }}
                 />
-                <span className="pf-resource-amount">
+                <span className="pf-resource-amount" style={{ color: '#ffffff', fontSize: '12px' }}>
                   {resource.amount}
                 </span>
-                <span className="pf-resource-name">
-                  {resource.amount === 1 ? 'AP' : 'AP'}
+                <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '10px', marginLeft: '1px' }}>
+                  AP
                 </span>
               </div>
             );
@@ -8646,10 +8653,11 @@ const UnifiedSpellCard = ({
                                   const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
                                   const effectTargeting = formatEffectTargeting('damage', effectSubType);
 
+                                  let effectName = isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage');
+
                                   // Build mechanics text for area damage with triggers
                                   let mechanicsText = damageResult;
-                                  let effectName = isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage');
-                                  
+
                                   // For area damage with triggers, format mechanics text with trigger description
                                   // Name stays as "Area Damage" per template - trigger info goes in mechanics text
                                   if (isAreaDamage && damageData?.triggerDescription) {
@@ -9206,31 +9214,25 @@ const UnifiedSpellCard = ({
                                     
                                     // ⚠️ CRITICAL: All information must be in description (grey cursive text)
                                     // Use damageConfig.description if provided, otherwise build from damageResult
+                                    // Build mechanics text for area damage with triggers
+                                    let mechanicsText = damageResult;
                                     let effectName = isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage');
-                                    
-                                    // Prioritize damageConfig.description if it exists (contains all info in natural language)
-                                    let descriptionText = damageData?.description;
-                                    
-                                    // If no description provided, build from damageResult and other configs
-                                    if (!descriptionText) {
-                                      descriptionText = damageResult;
-                                      
-                                      // For area damage with triggers, add trigger description
-                                      if (isAreaDamage && damageData?.triggerDescription) {
-                                        descriptionText = `${damageResult} - ${damageData.triggerDescription}`;
-                                      }
 
-                                      // Add chance on hit to instant damage description if enabled
-                                      // Skip if there's a saving throw config (saving throw entry will show the chance info)
-                                      if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
-                                        const chanceInfo = formatChanceOnHit();
-                                        if (chanceInfo) {
-                                          descriptionText = descriptionText ? `${descriptionText} • ${chanceInfo}` : chanceInfo;
-                                        }
+                                    // For area damage with triggers, format mechanics text with trigger description
+                                    if (isAreaDamage && damageData?.triggerDescription) {
+                                      mechanicsText = `${damageResult} - ${damageData.triggerDescription}`;
+                                    }
+
+                                    // Add chance on hit to instant damage mechanics text if enabled
+                                    // Skip if there's a saving throw config (saving throw entry will show the chance info)
+                                    if (!isDotOnly && !isAreaDamage && damageData?.chanceOnHitConfig?.enabled && !damageData?.savingThrowConfig?.enabled) {
+                                      const chanceInfo = formatChanceOnHit();
+                                      if (chanceInfo) {
+                                        mechanicsText = mechanicsText ? `${mechanicsText} • ${chanceInfo}` : chanceInfo;
                                       }
                                     }
-                                    
-                                    // ⚠️ CRITICAL: Damage should ONLY be in black text (mechanicsText), NOT in grey description
+
+                                    // ⚠️ CRITICAL: Damage should be in bold text (mechanicsText), NOT in grey italic description
                                     // Description should be empty for damage effects - range/area info is already in header tags
                                     effects.push({
                                       name: effectName,
@@ -9412,11 +9414,10 @@ const UnifiedSpellCard = ({
                                 // Instant damage
                                 const instantTriggers = getEffectTriggersAndFormulas('damage_direct');
                                 const instantTargeting = formatEffectTargeting('damage', 'damage_direct');
-                                // ⚠️ CRITICAL: All information must be in description (grey cursive text)
                                 effects.push({
                                   name: 'Instant Damage',
-                                  description: damageResult.instant || '', // Put damage formula in description
-                                  mechanicsText: '', // Always empty - all info in description
+                                  description: '',
+                                  mechanicsText: damageResult.instant,
                                   conditionalFormulas: instantTriggers?.formulas || [],
                                   targeting: instantTargeting
                                 });
@@ -9426,8 +9427,8 @@ const UnifiedSpellCard = ({
                                 const dotTargeting = formatEffectTargeting('damage', 'damage_dot');
                                 effects.push({
                                   name: 'Damage Over Time',
-                                  description: damageResult.dot || '', // Put DoT formula in description
-                                  mechanicsText: '', // Always empty - all info in description
+                                  description: '',
+                                  mechanicsText: damageResult.dot,
                                   conditionalFormulas: dotTriggers?.formulas || [],
                                   targeting: dotTargeting
                                 });
@@ -9438,11 +9439,11 @@ const UnifiedSpellCard = ({
                                 const effectSubType = isDotOnly ? 'damage_dot' : (isAreaDamage ? 'damage_area' : 'damage_direct');
                                 const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
                                 const effectTargeting = formatEffectTargeting('damage', effectSubType);
-                                
+
                                     // Build mechanics text for area damage with triggers
                                     let mechanicsText = damageResult;
                                     let effectName = isDotOnly ? 'Damage Over Time' : (isAreaDamage ? 'Area Damage' : 'Instant Damage');
-                                    
+
                                     // For area damage with triggers, format mechanics text with trigger description
                                     if (isAreaDamage && damageData?.triggerDescription) {
                                       mechanicsText = `${damageResult} - ${damageData.triggerDescription}`;
@@ -9456,8 +9457,8 @@ const UnifiedSpellCard = ({
                                         mechanicsText = mechanicsText ? `${mechanicsText} • ${chanceInfo}` : chanceInfo;
                                       }
                                     }
-                                    
-                                    // ⚠️ CRITICAL: Damage should ONLY be in black text (mechanicsText), NOT in grey description
+
+                                    // ⚠️ CRITICAL: Damage should be in bold text (mechanicsText), NOT in grey italic description
                                     // Description should be empty for damage effects - range/area info is already in header tags
                                     effects.push({
                                       name: effectName,
@@ -10974,6 +10975,20 @@ const UnifiedSpellCard = ({
                 );
 
                 if (!hasDebuffType && !hasAnyDebuffConfiguration) return null;
+
+                // For rules variant (racial traits), only show debuff effects if they provide unique information
+                // Hide them if they would just duplicate the description
+                if (variant === 'rules' && spell?.description && (
+                  spell.description.toLowerCase().includes('frailty') ||
+                  spell.description.toLowerCase().includes('vulnerability') ||
+                  spell.description.toLowerCase().includes('weakness')
+                )) {
+                  // For traits like "surface frailty", show the effects as they provide specific mechanical details
+                  // Continue to show effects
+                } else if (variant === 'rules') {
+                  // For other racial traits, hide detailed effects to avoid duplication with description
+                  return null;
+                }
 
                 return (
                   <div className="healing-effects">
@@ -13109,20 +13124,37 @@ const UnifiedSpellCard = ({
         const cooldownText = formatCooldown();
         const shouldShowCooldown = (variant === 'spellbook' || variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'rules') && cooldownText;
 
-        return (shouldShowTags && tags.length > 0) || shouldShowCooldown ? (
+        // For rules variant (racial traits), always show tags even if empty, and add level info
+        const forceShowTagsSection = variant === 'rules';
+
+        return (shouldShowTags && tags.length > 0) || shouldShowCooldown || forceShowTagsSection ? (
           <>
             {/* Divider bar before tags */}
             <div className="spell-divider"></div>
             
             <div className="unified-spell-tags-footer">
               {/* Tags on the left */}
-              {shouldShowTags && tags.length > 0 && (
+              {(shouldShowTags || forceShowTagsSection) && (
                 <div className="unified-spell-tags">
+                  {/* Show level for rules variant */}
+                  {variant === 'rules' && spell?.level !== undefined && spell.level >= 0 && (
+                    <span className="unified-spell-tag trait-level">
+                      Level {spell.level}
+                    </span>
+                  )}
+                  {/* Show tags */}
                   {tags.map((tag, index) => (
                     <span key={index} className="unified-spell-tag">
                       {tag}
                     </span>
                   ))}
+                  {/* Show default racial/trait tags if no other tags */}
+                  {tags.length === 0 && variant === 'rules' && (
+                    <>
+                      <span className="unified-spell-tag">racial</span>
+                      <span className="unified-spell-tag">trait</span>
+                    </>
+                  )}
                 </div>
               )}
 

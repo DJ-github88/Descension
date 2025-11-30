@@ -1175,6 +1175,16 @@ const useCharacterStore = create((set, get) => ({
     initializeCharacter: () => {
         const state = get();
 
+        // Auto-assign spells if character has a class and level but missing spells
+        if (state.characterClass && state.level && state.level > 1) {
+            const knownSpells = state.class_spells?.known_spells || [];
+            const expectedSpellCount = 3 + (state.level - 1); // 3 level 1 + 1 per level after
+
+            if (knownSpells.length < expectedSpellCount) {
+                get().assignSpellsForLevel(state.level, state.characterClass);
+            }
+        }
+
         // Update race display name if race and subrace are set
         // Also update if the raceDisplayName doesn't contain parentheses (old format)
         if (state.race && state.subrace && (!state.raceDisplayName || !state.raceDisplayName.includes('('))) {
@@ -2597,6 +2607,73 @@ const useCharacterStore = create((set, get) => ({
         get().updateExperience(newXP);
     },
 
+    // Helper function to assign spells based on character level
+    assignSpellsForLevel: (targetLevel, characterClass) => {
+        const state = get();
+        if (!characterClass) return;
+
+        // Import class data dynamically
+        const classData = getClassData(characterClass);
+        if (!classData || !classData.spellPools) return;
+
+        const currentKnownSpells = state.class_spells?.known_spells || [];
+        let spellsToAdd = [];
+
+        // Always ensure 3 level 1 spells
+        if (targetLevel >= 1) {
+            const level1Spells = classData.spellPools[1] || [];
+            const currentLevel1Spells = currentKnownSpells.filter(spellId =>
+                level1Spells.includes(spellId)
+            );
+
+            if (currentLevel1Spells.length < 3) {
+                const availableLevel1Spells = level1Spells.filter(id =>
+                    !currentKnownSpells.includes(id)
+                );
+                const shuffled = [...availableLevel1Spells].sort(() => Math.random() - 0.5);
+                const needed = Math.min(3 - currentLevel1Spells.length, shuffled.length);
+                spellsToAdd.push(...shuffled.slice(0, needed));
+            }
+        }
+
+        // Add 1 spell from each level 2 to targetLevel
+        for (let level = 2; level <= targetLevel; level++) {
+            const levelSpells = classData.spellPools[level] || [];
+            const currentLevelSpells = currentKnownSpells.filter(spellId =>
+                levelSpells.includes(spellId)
+            );
+
+            if (currentLevelSpells.length === 0 && levelSpells.length > 0) {
+                // No spells from this level yet, add one randomly
+                const availableSpells = levelSpells.filter(id =>
+                    !currentKnownSpells.includes(id)
+                );
+                if (availableSpells.length > 0) {
+                    const randomSpell = availableSpells[Math.floor(Math.random() * availableSpells.length)];
+                    spellsToAdd.push(randomSpell);
+                }
+            }
+        }
+
+        // Add the new spells to known_spells
+        if (spellsToAdd.length > 0) {
+            const updatedKnownSpells = [...currentKnownSpells, ...spellsToAdd];
+
+            set({
+                class_spells: {
+                    ...state.class_spells,
+                    known_spells: updatedKnownSpells
+                }
+            });
+
+            console.log(`✨ Auto-assigned ${spellsToAdd.length} spells for level ${targetLevel}:`, {
+                spellsToAdd,
+                totalKnownSpells: updatedKnownSpells.length,
+                characterClass
+            });
+        }
+    },
+
     // Adjust level directly (adds or removes levels)
     adjustLevel: (levelChange) => {
         const { getXPForLevel } = require('../utils/experienceUtils');
@@ -2629,6 +2706,12 @@ const useCharacterStore = create((set, get) => ({
             set({ experience: newXP });
         }
 
+        // Auto-assign spells based on new level
+        const characterClass = state.characterClass;
+        if (characterClass) {
+            get().assignSpellsForLevel(newLevel, characterClass);
+        }
+
         // Record character change for persistence
         if (state.currentCharacterId && newLevel !== currentLevel) {
             get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
@@ -2647,18 +2730,27 @@ const useCharacterStore = create((set, get) => ({
 
     updateLevel: (newLevel) => {
         set(state => {
+            const oldLevel = state.level;
+
             // Record character change for persistence
-            if (state.currentCharacterId && newLevel !== state.level) {
+            if (state.currentCharacterId && newLevel !== oldLevel) {
                 get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
                     stat: 'level',
                     value: newLevel,
-                    previousValue: state.level,
+                    previousValue: oldLevel,
                     timestamp: new Date()
                 });
             }
 
             return { level: newLevel };
         });
+
+        // Auto-assign spells based on new level
+        const state = get();
+        const characterClass = state.characterClass;
+        if (characterClass) {
+            get().assignSpellsForLevel(newLevel, characterClass);
+        }
     },
 
     updateExhaustionLevel: (newExhaustionLevel) => {

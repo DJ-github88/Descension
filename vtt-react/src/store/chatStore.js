@@ -37,7 +37,10 @@ const initialState = {
 
   // Multiplayer integration
   multiplayerSocket: null,
-  sendMultiplayerMessage: null
+  sendMultiplayerMessage: null,
+
+  // Typing indicators
+  typingUsers: {} // userId -> { name, timestamp, isTyping }
 };
 
 // Maximum number of messages to keep per tab
@@ -218,6 +221,42 @@ const useChatStore = create(
       clearMultiplayerIntegration: () => set({
         multiplayerSocket: null,
         sendMultiplayerMessage: null
+      }),
+
+      // Typing indicators
+      setUserTyping: (userId, userName, isTyping) => set(state => {
+        const typingUsers = { ...state.typingUsers };
+
+        if (isTyping) {
+          typingUsers[userId] = {
+            name: userName,
+            timestamp: Date.now(),
+            isTyping: true
+          };
+        } else {
+          delete typingUsers[userId];
+        }
+
+        return { typingUsers };
+      }),
+
+      // Clean up stale typing indicators (older than 10 seconds)
+      cleanupTypingIndicators: () => set(state => {
+        const now = Date.now();
+        const typingUsers = { ...state.typingUsers };
+
+        Object.keys(typingUsers).forEach(userId => {
+          if (now - typingUsers[userId].timestamp > 10000) { // 10 seconds
+            delete typingUsers[userId];
+          }
+        });
+
+        return { typingUsers };
+      }),
+
+      // Clear all typing indicators
+      clearTypingIndicators: () => set({
+        typingUsers: {}
       }),
 
       // Reset store to initial state

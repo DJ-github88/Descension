@@ -13,6 +13,7 @@ import useCharacterStore from '../../store/characterStore';
 import TurnTimer from '../combat/TurnTimer';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
+import optimisticUpdatesService from '../../services/optimisticUpdatesService';
 import '../../styles/creature-token.css';
 import '../../styles/unified-context-menu.css';
 import WowWindow from '../windows/WowWindow';
@@ -179,20 +180,23 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
   // Helper function to update token position with enhanced multiplayer sync
   const updateTokenPositionWithSync = (tokenId, position, sendToServer = true) => {
-    // Update local position using creatureStore only (avoid dual store updates)
-    updateTokenPosition(tokenId, position);
-
-    // Track local movement to prevent race conditions
-    if (sendToServer && token) {
-      window[`recent_move_${token.creatureId}`] = Date.now();
-    }
-
-    // Use regular socket system for token movement (server handles these properly)
+    // Use optimistic updates for immediate feedback in multiplayer
     if (sendToServer && isInMultiplayer && multiplayerSocket && token) {
-      multiplayerSocket.emit('token_moved', {
-        tokenId: token.creatureId,
-        position: position
+      // Apply optimistic update immediately
+      const actionId = optimisticUpdatesService.optimisticTokenMove(tokenId, position, (actionId) => {
+        // Track local movement to prevent race conditions
+        window[`recent_move_${token.creatureId}`] = Date.now();
+
+        // Send to server with actionId for tracking
+        multiplayerSocket.emit('token_moved', {
+          tokenId: token.creatureId,
+          position: position,
+          actionId: actionId // For server confirmation tracking
+        });
       });
+    } else {
+      // Not multiplayer - just update locally
+      updateTokenPosition(tokenId, position);
     }
   };
 

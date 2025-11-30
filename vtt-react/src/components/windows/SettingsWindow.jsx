@@ -27,6 +27,10 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const movementLineWidth = useGameStore(state => state.movementLineWidth);
     const setMovementLineWidth = useGameStore(state => state.setMovementLineWidth);
 
+    // Cursor tracking settings (multiplayer only)
+    const showCursorTracking = useGameStore(state => state.showCursorTracking);
+    const setShowCursorTracking = useGameStore(state => state.setShowCursorTracking);
+
     // Character store
     const characterLevel = useCharacterStore(state => state.level);
     const characterExperience = useCharacterStore(state => state.experience);
@@ -278,6 +282,58 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                         </button>
                     </div>
                 </div>
+
+                {/* Cursor Tracking Settings (Multiplayer Only) */}
+                {isInMultiplayer && (
+                    <div style={{ marginTop: '32px' }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            gap: '12px'
+                        }}>
+                            <i className="fas fa-mouse-pointer" style={{
+                                fontSize: '20px',
+                                color: '#7a3b2e'
+                            }}></i>
+                            <div>
+                                <h3 style={{
+                                    margin: '0 0 4px 0',
+                                    color: '#7a3b2e',
+                                    fontSize: '18px',
+                                    fontWeight: '600'
+                                }}>
+                                    Cursor Tracking
+                                </h3>
+                                <p style={{
+                                    margin: '0',
+                                    color: '#8b6f47',
+                                    fontSize: '14px',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Show other players' cursors in real-time
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="settings-group">
+                            <div className="control-group">
+                                <label className="control-label control-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        checked={showCursorTracking}
+                                        onChange={(e) => setShowCursorTracking(e.target.checked)}
+                                        style={{ marginRight: '8px' }}
+                                    />
+                                    Enable Cursor Tracking
+                                </label>
+                                <div className="control-help">
+                                    <p>Display animated cursors showing where other players are looking and interacting on the map.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -397,6 +453,29 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 Path preview
                             </div>
                         </div>
+                        {isInMultiplayer && (
+                            <div style={{
+                                padding: '16px',
+                                background: showCursorTracking ? 'rgba(74, 147, 74, 0.1)' : 'rgba(199, 69, 69, 0.1)',
+                                borderRadius: '6px',
+                                border: `1px solid ${showCursorTracking ? 'rgba(74, 147, 74, 0.2)' : 'rgba(199, 69, 69, 0.2)'}`
+                            }}>
+                                <div style={{
+                                    fontSize: '24px',
+                                    fontWeight: '600',
+                                    color: showCursorTracking ? '#4a934a' : '#c74545',
+                                    marginBottom: '4px'
+                                }}>
+                                    {showCursorTracking ? 'ON' : 'OFF'}
+                                </div>
+                                <div style={{ fontSize: '12px', color: '#8b6f47', fontWeight: '500' }}>
+                                    Cursor Tracking
+                                </div>
+                                <div style={{ fontSize: '11px', color: '#a08c70', marginTop: '4px' }}>
+                                    Show other players' cursors
+                                </div>
+                            </div>
+                        )}
                         <div style={{
                             padding: '16px',
                             background: 'rgba(122, 59, 46, 0.05)',

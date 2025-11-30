@@ -1735,11 +1735,20 @@ MANA COSTS:
         effects: [{
           id: 'frost_armor',
           name: 'Frost Armor',
-          description: 'Grants +2 armor class and resistance to cold damage',
+          description: 'Grants +2 armor class',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
             magnitudeType: 'flat'
+          }
+        }, {
+          id: 'cold_resistance',
+          name: 'Cold Resistance',
+          description: 'Reduces cold damage taken by 50%',
+          statModifier: {
+            stat: 'cold_resistance',
+            magnitude: 50,
+            magnitudeType: 'percentage'
           }
         }],
         durationValue: 3,

@@ -181,7 +181,8 @@ const ClassResourceBar = ({
         gamblerSpec: 'high-roller', // Default to High Roller
         showFPMenu: false,
         showSpecMenu: false,
-        gamblerHoverSection: null // 'fp' | null
+        gamblerHoverSection: null, // 'fp' | null
+        menuPosition: { top: '100%', bottom: 'auto', left: '0', right: '0' }
     });
     const fpBarRef = useRef(null);
 
@@ -362,7 +363,8 @@ const ClassResourceBar = ({
         gamblerSpec,
         showFPMenu,
         showSpecMenu,
-        gamblerHoverSection
+        gamblerHoverSection,
+        menuPosition
     } = gamblerState;
 
     const {
@@ -461,6 +463,72 @@ const ClassResourceBar = ({
     const setShowSpecMenu = (value) => setGamblerState(prev => ({ ...prev, showSpecMenu: value }));
     const setGamblerSpec = (value) => setGamblerState(prev => ({ ...prev, gamblerSpec: value }));
     const setLocalFortunePoints = (value) => setGamblerState(prev => ({ ...prev, localFortunePoints: value }));
+
+    const calculateMenuPosition = () => {
+        if (!fpBarRef.current) return;
+
+        const rect = fpBarRef.current.getBoundingClientRect();
+        const menuWidth = 340; // Menu max-width from CSS
+        const menuHeight = 350; // Estimated menu height
+        const margin = 10;
+
+        // Check vertical space
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceAbove = rect.top;
+
+        // Check horizontal space
+        const spaceRight = window.innerWidth - rect.right;
+        const spaceLeft = rect.left;
+
+        let verticalPosition = 'below';
+        let horizontalPosition = 'left';
+
+        // Determine vertical position
+        if (spaceBelow >= menuHeight + margin) {
+            verticalPosition = 'below';
+        } else if (spaceAbove >= menuHeight + margin) {
+            verticalPosition = 'above';
+        } else {
+            verticalPosition = 'below'; // Default to below even if it overflows
+        }
+
+        // Determine horizontal position - try to center first, then adjust if needed
+        if (rect.left + rect.width / 2 - menuWidth / 2 < margin) {
+            // Not enough space on left, align to left edge
+            horizontalPosition = 'left';
+        } else if (rect.right - rect.width / 2 + menuWidth / 2 > window.innerWidth - margin) {
+            // Not enough space on right, align to right edge
+            horizontalPosition = 'right';
+        } else {
+            // Enough space, center the menu
+            horizontalPosition = 'center';
+        }
+
+        // Set position styles based on calculations
+        let position = {};
+        if (verticalPosition === 'below') {
+            position.top = '100%';
+            position.bottom = 'auto';
+        } else {
+            position.top = 'auto';
+            position.bottom = '100%';
+        }
+
+        if (horizontalPosition === 'left') {
+            position.left = '0';
+            position.right = 'auto';
+        } else if (horizontalPosition === 'right') {
+            position.left = 'auto';
+            position.right = '0';
+        } else { // center
+            position.left = '50%';
+            position.right = 'auto';
+            position.transform = 'translateX(-50%)';
+        }
+
+        setGamblerState(prev => ({ ...prev, menuPosition: position }));
+    };
+
     const setShowQMMenu = (value) => setHuntressState(prev => ({ ...prev, showQMMenu: value }));
     const setShowHuntressSpecMenu = (value) => setHuntressState(prev => ({ ...prev, showHuntressSpecMenu: value }));
     const setShowRunesMenu = (value) => setInscriptorState(prev => ({ ...prev, showRunesMenu: value }));
@@ -3077,14 +3145,21 @@ const ClassResourceBar = ({
         const specColor = currentSpec.color || '#FFD700';
 
         return (
-            <div className={`class-resource-bar fortune-points-gambling ${size}`}>
+            <div className={`class-resource-bar fortune-points-gambling ${size} ${context === 'party' ? 'party-context' : ''}`}>
                 <div className="gambler-container">
 
                     {/* Fortune Points Bar */}
                     <div
                         className="fp-bar-wrapper"
                         ref={fpBarRef}
-                        onClick={() => setShowFPMenu(!showFPMenu)}
+                        onClick={() => {
+                            const newShowState = !showFPMenu;
+                            setShowFPMenu(newShowState);
+                            if (newShowState) {
+                                // Calculate position when opening the menu
+                                setTimeout(calculateMenuPosition, 0);
+                            }
+                        }}
                         onMouseEnter={(e) => {
                             if (!showFPMenu) {
                                 setGamblerHoverSection('fp');
@@ -3201,6 +3276,14 @@ const ClassResourceBar = ({
                         {showFPMenu && (
                             <div
                                 className="fp-menu inline-menu"
+                                style={{
+                                    position: 'absolute',
+                                    top: menuPosition.top,
+                                    bottom: menuPosition.bottom,
+                                    left: menuPosition.left,
+                                    right: menuPosition.right,
+                                    transform: menuPosition.transform || 'none'
+                                }}
                                 onMouseEnter={() => setGamblerHoverSection(null)}
                                 onClick={(e) => e.stopPropagation()}
                             >
@@ -3215,11 +3298,6 @@ const ClassResourceBar = ({
                                             onClick={() => {
                                                 setGamblerSpec(key);
                                                 setLocalFortunePoints(Math.min(localFortunePoints, spec.max));
-                                            }}
-                                            style={{
-                                                borderColor: spec.color,
-                                                color: gamblerSpec === key ? '#000' : spec.color,
-                                                background: gamblerSpec === key ? spec.color : 'transparent'
                                             }}
                                             title={spec.name}
                                         >
