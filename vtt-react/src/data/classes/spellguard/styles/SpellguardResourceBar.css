@@ -473,10 +473,10 @@
 }
 
 /* Tooltip Styles */
-.spellguard-tooltip {
+.unified-resourcebar-tooltip {
     background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
     border: 2px solid #a08c70;
-    border-radius: 8px;
+    border-radius: 0;
     padding: 10px 12px;
     min-width: 240px;
     max-width: 300px;
@@ -487,7 +487,7 @@
     font-size: 11px;
 }
 
-.spellguard-tooltip.top::after {
+.unified-resourcebar-tooltip.top::after {
     content: '';
     position: absolute;
     bottom: -8px;
@@ -500,7 +500,7 @@
     border-top: 8px solid #a08c70;
 }
 
-.spellguard-tooltip.bottom::after {
+.unified-resourcebar-tooltip.bottom::after {
     content: '';
     position: absolute;
     top: -8px;

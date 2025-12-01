@@ -12,7 +12,6 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
     
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
-    const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0, placement: 'top' });
 
     const maxAEP = 100;
 
@@ -63,33 +62,81 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
     // Auto-adjust tooltip position
     useEffect(() => {
-        if (showTooltip && barRef.current && tooltipRef.current) {
-            const barRect = barRef.current.getBoundingClientRect();
-            const tooltipRect = tooltipRef.current.getBoundingClientRect();
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+        if (showTooltip && tooltipRef.current && barRef.current) {
+            const updatePosition = () => {
+                const tooltip = tooltipRef.current;
+                const bar = barRef.current;
+                if (!tooltip || !bar) {
+                    requestAnimationFrame(updatePosition);
+                    return;
+                }
 
-            let top = barRect.top - tooltipRect.height - 10;
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-            let placement = 'top';
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const barRect = bar.getBoundingClientRect();
 
-            // Check if tooltip goes off top of screen
-            if (top < 10) {
-                top = barRect.bottom + 10;
-                placement = 'bottom';
-            }
+                if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                    requestAnimationFrame(updatePosition);
+                    return;
+                }
 
-            // Check if tooltip goes off right side
-            if (left + tooltipRect.width > viewportWidth - 10) {
-                left = viewportWidth - tooltipRect.width - 10;
-            }
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const margin = 8;
 
-            // Check if tooltip goes off left side
-            if (left < 10) {
-                left = 10;
-            }
+                let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                let hudBottom = barRect.bottom;
 
-            setTooltipPosition({ top, left, placement });
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    hudBottom = hudRect.bottom;
+                }
+
+                const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
+                const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+
+                let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
+                let top = hudBottom + margin;
+
+                if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                    requestAnimationFrame(updatePosition);
+                }
+
+                if (left < margin) {
+                    left = margin;
+                }
+                if (left + tooltipWidth > viewportWidth - margin) {
+                    left = viewportWidth - tooltipWidth - margin;
+                }
+
+                if (top + tooltipHeight > viewportHeight - margin) {
+                    if (hudContainer) {
+                        const hudRect = hudContainer.getBoundingClientRect();
+                        top = hudRect.top - tooltipHeight - margin;
+                    } else {
+                        top = barRect.top - tooltipHeight - margin;
+                    }
+                    if (top < margin) {
+                        top = margin;
+                    }
+                }
+
+                tooltip.style.position = 'fixed';
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.style.transform = 'none';
+                tooltip.style.zIndex = '2147483647';
+                tooltip.style.borderRadius = '0';
+                tooltip.style.padding = '10px 12px';
+            };
+
+            updatePosition();
+            requestAnimationFrame(() => {
+                requestAnimationFrame(updatePosition);
+            });
+
+            const timeoutId = setTimeout(updatePosition, 50);
+
+            return () => clearTimeout(timeoutId);
         }
     }, [showTooltip, localAEP, selectedSpec]);
 
@@ -184,38 +231,41 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
             {/* Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div
-                    ref={tooltipRef}
-                    className={`spellguard-tooltip ${tooltipPosition.placement}`}
-                    style={{
-                        position: 'fixed',
-                        top: `${tooltipPosition.top}px`,
-                        left: `${tooltipPosition.left}px`,
-                        zIndex: 100000
-                    }}
-                >
-                    <div className="tooltip-header">
-                        AEP: {localAEP}/{maxAEP}
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                    <div className="tooltip-header">Arcane Energy Points</div>
+
+                    <div className="tooltip-section">
+                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
+                            <strong>Current:</strong> {localAEP}/{maxAEP} AEP
+                        </div>
+                        <div style={{ fontSize: '0.9rem' }}>
+                            <strong>Status:</strong> {
+                                localAEP === 0 ? 'Empty' :
+                                localAEP <= 15 ? 'Critical Low' :
+                                localAEP <= 40 ? 'Building' :
+                                localAEP <= 75 ? 'Optimal' : 'Maximum'
+                            }
+                        </div>
                     </div>
-                    
-                    <div className="tooltip-compact-grid">
-                        <div className="tooltip-compact-item">
-                            <span className="tooltip-compact-label">Status:</span>
-                            <span className="tooltip-compact-value">
-                                {localAEP === 0 && 'Empty'}
-                                {localAEP > 0 && localAEP <= 15 && 'Critical Low'}
-                                {localAEP > 15 && localAEP <= 40 && 'Building'}
-                                {localAEP > 40 && localAEP <= 75 && 'Optimal'}
-                                {localAEP > 75 && 'Maximum'}
-                            </span>
+
+                    <div className="tooltip-divider"></div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">AEP Management</div>
+                        <div className="level-management">
+                            <strong>Generate:</strong>
+                            <span>Magical +2, Physical +1/2, Mana +1</span>
+                            <strong>Spend:</strong>
+                            <span>Arcane shields, spell reflections, magical strikes</span>
                         </div>
-                        <div className="tooltip-compact-item">
-                            <span className="tooltip-compact-label">Generate:</span>
-                            <span className="tooltip-compact-value">Magical +2, Physical +1/2, Mana +1</span>
-                        </div>
-                        <div className="tooltip-compact-item spec-compact">
-                            <span className="tooltip-compact-label">{currentSpec.name}:</span>
-                            <span className="tooltip-compact-value">{currentSpec.passiveDesc}</span>
+                    </div>
+
+                    <div className="tooltip-divider"></div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
+                        <div className="passive-desc">
+                            {currentSpec.passiveDesc}
                         </div>
                     </div>
                 </div>,

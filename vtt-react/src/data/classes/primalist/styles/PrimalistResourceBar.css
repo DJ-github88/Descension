@@ -275,76 +275,78 @@
 }
 
 /* Tooltip Styles */
-.primalist-tooltip {
+.unified-resourcebar-tooltip {
     position: fixed;
-    background: rgba(20, 15, 10, 0.98);
-    border: 2px solid #8B4513;
-    border-radius: 6px;
+    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
+    border: 2px solid #8B7355;
+    border-radius: 0;
     padding: 12px;
     min-width: 300px;
     max-width: 350px;
     z-index: 100000;
     pointer-events: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.primalist-tooltip.below {
+.unified-resourcebar-tooltip.below {
     /* Additional styling when tooltip is below the bar */
 }
 
-.primalist-tooltip .tooltip-header {
-    font-size: 14px;
-    font-weight: bold;
-    color: #CD853F;
+.unified-resourcebar-tooltip .tooltip-header {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2C2416;
     margin-bottom: 8px;
     text-align: center;
-    border-bottom: 1px solid rgba(139, 69, 19, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #8B7355;
     padding-bottom: 6px;
 }
 
-.primalist-tooltip .tooltip-section {
+.unified-resourcebar-tooltip .tooltip-section {
     margin: 8px 0;
-    color: #D4C4A8;
-    font-size: 12px;
-    line-height: 1.5;
+    color: #3a2a1a;
+    font-size: 0.85rem;
+    line-height: 1.4;
 }
 
-.primalist-tooltip .tooltip-label {
-    font-weight: bold;
-    color: #CD853F;
+.unified-resourcebar-tooltip .tooltip-label {
+    font-weight: 600;
+    color: #2C2416;
     margin-bottom: 4px;
-    font-size: 12px;
+    font-size: 0.9rem;
 }
 
-.primalist-tooltip .tooltip-divider {
+.unified-resourcebar-tooltip .tooltip-divider {
     height: 1px;
-    background: rgba(139, 69, 19, 0.3);
+    background: linear-gradient(90deg, transparent, #8B7355, transparent);
     margin: 8px 0;
 }
 
-.primalist-tooltip .synergy-status,
-.primalist-tooltip .synergy-gen {
+.unified-resourcebar-tooltip .synergy-status,
+.unified-resourcebar-tooltip .synergy-gen {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.primalist-tooltip .synergy-gen {
+.unified-resourcebar-tooltip .synergy-gen {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 4px 8px;
     align-items: start;
 }
 
-.primalist-tooltip .synergy-gen strong {
+.unified-resourcebar-tooltip .synergy-gen strong {
     color: #CD853F;
 }
 
-.primalist-tooltip .synergy-gen span {
+.unified-resourcebar-tooltip .synergy-gen span {
     color: #D4C4A8;
 }
 
-.primalist-tooltip .passive-desc {
+.unified-resourcebar-tooltip .passive-desc {
     color: #D4C4A8;
     font-size: 11px;
     line-height: 1.4;

@@ -360,7 +360,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
 
             {/* Simplified Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="warden-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                     <div className="tooltip-title">Vengeance Points: {localVP}/{maxVP}</div>
                     <div className="tooltip-spec">{currentSpec.name}</div>
 

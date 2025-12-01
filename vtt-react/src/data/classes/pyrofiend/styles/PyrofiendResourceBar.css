@@ -380,85 +380,85 @@
     }
 }
 
-/* ===== TOOLTIP STYLES ===== */
+/* ===== UNIFIED RESOURCE BAR TOOLTIP STYLES ===== */
 
-.pyrofiend-tooltip.pathfinder-tooltip {
+.unified-resourcebar-tooltip.pathfinder-tooltip {
     position: fixed;
-    background: linear-gradient(180deg, rgba(245, 222, 179, 0.98) 0%, rgba(222, 184, 135, 0.98) 100%);
-    border: 2px solid rgba(160, 82, 45, 0.8);
-    border-radius: 6px;
+    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
+    border: 2px solid #8B7355;
+    border-radius: 0;
     padding: 10px 12px;
     z-index: 100000;
     box-shadow:
-        0 4px 16px rgba(0, 0, 0, 0.7),
-        inset 0 1px 2px rgba(160, 82, 45, 0.3);
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
     max-width: 320px;
     pointer-events: none;
 }
 
-.pyrofiend-tooltip .tooltip-header {
+.unified-resourcebar-tooltip .tooltip-header {
     font-size: 1rem;
     font-weight: 700;
-    color: rgba(101, 67, 33, 1);
+    color: #2C2416;
     margin-bottom: 8px;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(160, 82, 45, 0.6);
+    border-bottom: 1px solid #8B7355;
     padding-bottom: 6px;
 }
 
-.pyrofiend-tooltip .tooltip-section {
+.unified-resourcebar-tooltip .tooltip-section {
     margin-bottom: 8px;
-    color: rgba(101, 67, 33, 0.95);
+    color: #3a2a1a;
     font-size: 0.85rem;
     line-height: 1.4;
 }
 
-.pyrofiend-tooltip .tooltip-section strong {
-    color: rgba(139, 69, 19, 1);
+.unified-resourcebar-tooltip .tooltip-section strong {
+    color: #1a0a00;
 }
 
-.pyrofiend-tooltip .tooltip-section:last-child {
+.unified-resourcebar-tooltip .tooltip-section:last-child {
     margin-bottom: 0;
 }
 
-.pyrofiend-tooltip .tooltip-label {
+.unified-resourcebar-tooltip .tooltip-label {
     font-weight: 600;
-    color: rgba(101, 67, 33, 1);
+    color: #2C2416;
     margin-bottom: 4px;
     font-size: 0.9rem;
 }
 
-.pyrofiend-tooltip .tooltip-divider {
+.unified-resourcebar-tooltip .tooltip-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(160, 82, 45, 0.6) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent, #8B7355, transparent);
     margin: 8px 0;
 }
 
-.pyrofiend-tooltip .drawback-text {
+.unified-resourcebar-tooltip .drawback-text {
     color: rgba(178, 34, 52, 1);
     font-size: 0.85rem;
     font-style: italic;
 }
 
-.pyrofiend-tooltip .level-management {
+.unified-resourcebar-tooltip .level-management {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 4px 8px;
     font-size: 0.85rem;
 }
 
-.pyrofiend-tooltip .level-management strong {
-    color: rgba(139, 69, 19, 1);
+.unified-resourcebar-tooltip .level-management strong {
+    color: #1a0a00;
 }
 
-.pyrofiend-tooltip .level-management span {
-    color: rgba(101, 67, 33, 0.85);
+.unified-resourcebar-tooltip .level-management span {
+    color: #3a2a1a;
 }
 
-.pyrofiend-tooltip .passive-desc {
-    color: rgba(101, 67, 33, 0.9);
+.unified-resourcebar-tooltip .passive-desc {
+    color: #3a2a1a;
     font-size: 0.85rem;
     line-height: 1.4;
 }

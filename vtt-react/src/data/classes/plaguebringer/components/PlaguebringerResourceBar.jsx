@@ -50,18 +50,46 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             const barRect = barRef.current.getBoundingClientRect();
             const tooltipRect = tooltipRef.current.getBoundingClientRect();
             const tooltip = tooltipRef.current;
-            let top = barRect.top - tooltipRect.height - 10;
+            const viewportHeight = window.innerHeight;
+            const margin = 10;
+            
+            // Find the HUD container to position tooltip below it
+            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
+            
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
+            }
+            
+            // Position tooltip below the HUD container, centered horizontally
             let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-            if (top < 10) { 
-                top = barRect.bottom + 10; 
-                tooltip.classList.add('below'); 
-            } else { 
-                tooltip.classList.remove('below'); 
+            let top = hudBottom + margin;
+            
+            // Adjust horizontal position
+            if (left < margin) left = margin;
+            if (left + tooltipRect.width > window.innerWidth - margin) {
+                left = window.innerWidth - tooltipRect.width - margin;
             }
-            if (left < 10) left = 10;
-            if (left + tooltipRect.width > window.innerWidth - 10) {
-                left = window.innerWidth - tooltipRect.width - 10;
+            
+            // Ensure tooltip doesn't go off bottom of viewport
+            if (top + tooltipRect.height > viewportHeight - margin) {
+                // If there's not enough space below, position above the HUD instead
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    top = hudRect.top - tooltipRect.height - margin;
+                    tooltip.classList.remove('below');
+                } else {
+                    top = barRect.top - tooltipRect.height - margin;
+                }
+                // But ensure it doesn't go off top either
+                if (top < margin) {
+                    top = margin;
+                }
+            } else {
+                tooltip.classList.add('below');
             }
+            
             tooltip.style.top = `${top}px`;
             tooltip.style.left = `${left}px`;
         }
@@ -123,7 +151,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             
             {/* Simple Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="plaguebringer-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                     <div className="tooltip-header">Plaguebringer</div>
 
                     <div className="tooltip-section">

@@ -386,91 +386,58 @@
 
 /* ===== TOOLTIP STYLES ===== */
 
-.toxicologist-tooltip {
+.unified-resourcebar-tooltip {
     position: fixed;
-    background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
-    border: 2px solid #8b7355;
-    border-radius: 6px;
+    background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
+    border: 2px solid #8B7355;
+    border-radius: 0;
     padding: 12px;
     min-width: 300px;
     max-width: 350px;
     z-index: 100000;
     pointer-events: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     font-family: 'Cinzel', 'Times New Roman', serif;
-    color: #5a1e12;
+    color: #2C2416;
 }
 
-.toxicologist-tooltip .tooltip-section {
+.unified-resourcebar-tooltip .tooltip-section {
     margin: 8px 0;
 }
 
-.toxicologist-tooltip .tooltip-label {
-    font-weight: 700;
-    font-size: 13px;
-    color: #7a3b2e;
-    margin-bottom: 6px;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+.unified-resourcebar-tooltip .tooltip-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2C2416;
+    margin-bottom: 4px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.toxicologist-tooltip .tooltip-columns {
+.unified-resourcebar-tooltip .tooltip-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
 }
 
-.toxicologist-tooltip .tooltip-col {
+.unified-resourcebar-tooltip .tooltip-col {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.toxicologist-tooltip .col-title {
-    font-weight: 600;
-    font-size: 11px;
-    color: #daa520;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.1);
-}
+/* Note: Obsolete tooltip classes removed - all tooltips now use Pathfinder style */
 
-.toxicologist-tooltip ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.toxicologist-tooltip li {
-    font-size: 11px;
-    color: #5a1e12;
-    line-height: 1.5;
-    padding-left: 8px;
-    position: relative;
-    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.05);
-}
-
-.toxicologist-tooltip li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: #8b7355;
-}
-
-.toxicologist-tooltip .tooltip-divider {
+.unified-resourcebar-tooltip .tooltip-divider {
     height: 1px;
     background: linear-gradient(90deg, transparent 0%, #8b7355 50%, transparent 100%);
     margin: 8px 0;
 }
 
-.toxicologist-tooltip .passive-desc {
-    font-size: 11px;
-    color: #8b7355;
-    line-height: 1.5;
-    font-style: italic;
-    text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.05);
+.unified-resourcebar-tooltip .passive-desc {
+    font-size: 0.85rem;
+    color: #3a2a1a;
+    line-height: 1.4;
 }
 
 /* ===== SPECIALIZATION MENU ===== */

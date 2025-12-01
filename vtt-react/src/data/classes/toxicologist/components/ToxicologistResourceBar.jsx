@@ -66,16 +66,18 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             const viewportHeight = window.innerHeight;
             const padding = 10;
             
-            let top = barRect.top - tooltipRect.height - padding;
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            // Find the HUD container to position tooltip below it
+            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
             
-            // Check if tooltip goes off top
-            if (top < padding) {
-                top = barRect.bottom + padding;
-                tooltip.classList.add('below');
-            } else {
-                tooltip.classList.remove('below');
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
             }
+            
+            // Position tooltip below the HUD container, centered horizontally
+            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            let top = hudBottom + padding;
             
             // Check if tooltip goes off left
             if (left < padding) {
@@ -89,7 +91,20 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             
             // Check if tooltip goes off bottom
             if (top + tooltipRect.height > viewportHeight - padding) {
-                top = viewportHeight - tooltipRect.height - padding;
+                // If there's not enough space below, position above the HUD instead
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    top = hudRect.top - tooltipRect.height - padding;
+                    tooltip.classList.remove('below');
+                } else {
+                    top = viewportHeight - tooltipRect.height - padding;
+                }
+                // But ensure it doesn't go off top either
+                if (top < padding) {
+                    top = padding;
+                }
+            } else {
+                tooltip.classList.add('below');
             }
             
             tooltip.style.top = `${top}px`;
@@ -292,27 +307,23 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
             {/* Tooltip */}
             {showTooltip && hoverSection && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="toxicologist-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                     {hoverSection === 'toxins' && (
                         <>
+                            <div className="tooltip-header">Toxin Vials</div>
                             <div className="tooltip-section">
-                                <div className="tooltip-label">Toxin Vials: {localToxinVials}/{maxToxinVials}</div>
-                                <div className="tooltip-columns">
-                                    <div className="tooltip-col">
-                                        <div className="col-title">Generation</div>
-                                        <ul>
-                                            <li><strong>1d4</strong> per short rest</li>
-                                            <li><strong>All</strong> per long rest</li>
-                                        </ul>
-                                    </div>
-                                    <div className="tooltip-col">
-                                        <div className="col-title">Usage</div>
-                                        <ul>
-                                            <li><strong>1-2</strong> for poisons</li>
-                                            <li><strong>2-3</strong> for concoctions</li>
-                                            <li><strong>3</strong> for explosives</li>
-                                        </ul>
-                                    </div>
+                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
+                                    <strong>Current:</strong> {localToxinVials}/{maxToxinVials} vials
+                                </div>
+                            </div>
+                            <div className="tooltip-divider"></div>
+                            <div className="tooltip-section">
+                                <div className="tooltip-label">Vial Management</div>
+                                <div className="level-management">
+                                    <strong>Gain:</strong>
+                                    <span>1d4 per short rest, all per long rest</span>
+                                    <strong>Spend:</strong>
+                                    <span>1-2 for poisons, 2-3 for concoctions, 3 for explosives</span>
                                 </div>
                             </div>
                             <div className="tooltip-divider"></div>
@@ -329,23 +340,20 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                     )}
                     {hoverSection === 'contraptions' && (
                         <>
+                            <div className="tooltip-header">Contraption Parts</div>
                             <div className="tooltip-section">
-                                <div className="tooltip-label">Contraption Parts: {localContraptionParts}/{maxContraptionParts}</div>
-                                <div className="tooltip-columns">
-                                    <div className="tooltip-col">
-                                        <div className="col-title">Generation</div>
-                                        <ul>
-                                            <li><strong>1</strong> per short rest</li>
-                                            <li><strong>All</strong> per long rest</li>
-                                        </ul>
-                                    </div>
-                                    <div className="tooltip-col">
-                                        <div className="col-title">Usage</div>
-                                        <ul>
-                                            <li><strong>1-2</strong> per contraption</li>
-                                            <li>Traps, devices, mechanisms</li>
-                                        </ul>
-                                    </div>
+                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
+                                    <strong>Current:</strong> {localContraptionParts}/{maxContraptionParts} parts
+                                </div>
+                            </div>
+                            <div className="tooltip-divider"></div>
+                            <div className="tooltip-section">
+                                <div className="tooltip-label">Part Management</div>
+                                <div className="level-management">
+                                    <strong>Gain:</strong>
+                                    <span>1 per short rest, all per long rest</span>
+                                    <strong>Spend:</strong>
+                                    <span>1-2 per contraption (traps, devices, mechanisms)</span>
                                 </div>
                             </div>
                             <div className="tooltip-divider"></div>

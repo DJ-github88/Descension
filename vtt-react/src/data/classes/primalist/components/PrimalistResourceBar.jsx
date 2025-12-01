@@ -55,24 +55,81 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
     const canActivateSynergy = activeTotems >= synergyThreshold;
 
     useEffect(() => {
-        if (showTooltip && barRef.current && tooltipRef.current) {
-            const barRect = barRef.current.getBoundingClientRect();
-            const tooltipRect = tooltipRef.current.getBoundingClientRect();
-            const tooltip = tooltipRef.current;
-            let top = barRect.top - tooltipRect.height - 10;
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-            if (top < 10) { 
-                top = barRect.bottom + 10; 
-                tooltip.classList.add('below'); 
-            } else { 
-                tooltip.classList.remove('below'); 
-            }
-            if (left < 10) left = 10;
-            if (left + tooltipRect.width > window.innerWidth - 10) {
-                left = window.innerWidth - tooltipRect.width - 10;
-            }
-            tooltip.style.top = `${top}px`;
-            tooltip.style.left = `${left}px`;
+        if (showTooltip && tooltipRef.current && barRef.current) {
+            const updatePosition = () => {
+                const tooltip = tooltipRef.current;
+                const bar = barRef.current;
+                if (!tooltip || !bar) {
+                    requestAnimationFrame(updatePosition);
+                    return;
+                }
+
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const barRect = bar.getBoundingClientRect();
+
+                if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                    requestAnimationFrame(updatePosition);
+                    return;
+                }
+
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const margin = 8;
+
+                let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                let hudBottom = barRect.bottom;
+
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    hudBottom = hudRect.bottom;
+                }
+
+                const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
+                const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+
+                let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
+                let top = hudBottom + margin;
+
+                if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                    requestAnimationFrame(updatePosition);
+                }
+
+                if (left < margin) {
+                    left = margin;
+                }
+                if (left + tooltipWidth > viewportWidth - margin) {
+                    left = viewportWidth - tooltipWidth - margin;
+                }
+
+                if (top + tooltipHeight > viewportHeight - margin) {
+                    if (hudContainer) {
+                        const hudRect = hudContainer.getBoundingClientRect();
+                        top = hudRect.top - tooltipHeight - margin;
+                    } else {
+                        top = barRect.top - tooltipHeight - margin;
+                    }
+                    if (top < margin) {
+                        top = margin;
+                    }
+                }
+
+                tooltip.style.position = 'fixed';
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.style.transform = 'none';
+                tooltip.style.zIndex = '2147483647';
+                tooltip.style.borderRadius = '0';
+                tooltip.style.padding = '10px 12px';
+            };
+
+            updatePosition();
+            requestAnimationFrame(() => {
+                requestAnimationFrame(updatePosition);
+            });
+
+            const timeoutId = setTimeout(updatePosition, 50);
+
+            return () => clearTimeout(timeoutId);
         }
     }, [showTooltip, localSynergy, activeTotems, selectedSpec]);
 
@@ -158,62 +215,37 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
             
             {/* Pathfinder-styled Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="primalist-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                     <div className="tooltip-header">Totemic Synergy</div>
-                    
+
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                            <strong>Synergy Energy:</strong> {localSynergy}/{maxSynergy}
+                            <strong>Current:</strong> {localSynergy}/{maxSynergy} Synergy
                         </div>
                         <div style={{ fontSize: '0.9rem' }}>
-                            <strong>Active Totems:</strong> {activeTotems}/{maxTotems}
+                            <strong>Totems:</strong> {activeTotems}/{maxTotems} active
                         </div>
                     </div>
-                    
+
                     <div className="tooltip-divider"></div>
-                    
+
                     <div className="tooltip-section">
-                        <div className="tooltip-label">Synergy Status</div>
-                        <div className="synergy-status">
-                            {canActivateSynergy ? (
-                                <div style={{ color: currentSpec.glow }}>
-                                    <strong>READY:</strong> {synergyThreshold}+ totems active - can trigger synergy effects
-                                </div>
-                            ) : (
-                                <div>
-                                    <strong>Building:</strong> Need {synergyThreshold - activeTotems} more totem(s) for synergy
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Synergy Generation</div>
-                        <div className="synergy-gen">
+                        <div className="tooltip-label">Synergy Management</div>
+                        <div className="level-management">
                             <strong>Gain:</strong>
                             <span>+1 per totem placed, +1 per totem per turn</span>
                             <strong>Spend:</strong>
-                            <span>Variable (synergy effects cost 4-10)</span>
+                            <span>Variable (4-10 per synergy effect)</span>
                         </div>
                     </div>
-                    
+
                     <div className="tooltip-divider"></div>
-                    
+
                     <div className="tooltip-section">
-                        <div className="tooltip-label">Totemic Mastery (Shared)</div>
+                        <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
                         <div className="passive-desc">
-                            Place and maintain up to 8 totems. Trigger synergy effects when {synergyThreshold === 3 ? '3' : '4'} totems are active. 
-                            Totems have 10 HP, 12 AC, and 10-foot radius.
+                            {currentSpec.passiveDesc}
                         </div>
-                    </div>
-                    
-                    <div className="tooltip-divider"></div>
-                    
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">{currentSpec.passive}</div>
-                        <div className="passive-desc">{currentSpec.passiveDesc}</div>
                     </div>
                 </div>,
                 document.body

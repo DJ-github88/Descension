@@ -595,55 +595,7 @@
     margin-top: 4px;
 }
 
-.bladedancer-stance-bonus-col {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.bladedancer-stance-bonus-col .col-title {
-    font-weight: 600;
-    font-size: 10px;
-    text-align: center;
-    margin-bottom: 2px;
-}
-
-.bladedancer-stance-bonus-col.bonuses .col-title {
-    color: #2E7D32;
-}
-
-.bladedancer-stance-bonus-col.penalties .col-title {
-    color: #C62828;
-}
-
-.bladedancer-stance-bonus-col ul {
-    margin: 0;
-    padding-left: 12px;
-    list-style: none;
-}
-
-.bladedancer-stance-bonus-col li {
-    font-size: 9px;
-    line-height: 1.4;
-    position: relative;
-    padding-left: 8px;
-}
-
-.bladedancer-stance-bonus-col.bonuses li::before {
-    content: '+';
-    position: absolute;
-    left: 0;
-    color: #2E7D32;
-    font-weight: 700;
-}
-
-.bladedancer-stance-bonus-col.penalties li::before {
-    content: '−';
-    position: absolute;
-    left: 0;
-    color: #C62828;
-    font-weight: 700;
-}
+/* Note: Obsolete bladedancer-stance-bonus-col classes removed - all tooltips now use Pathfinder style */
 
 .bladedancer-stance-type {
     font-size: 10px;

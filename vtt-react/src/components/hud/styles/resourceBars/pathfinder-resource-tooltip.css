@@ -2,7 +2,7 @@
 .pathfinder-resource-tooltip {
     background: linear-gradient(135deg, rgba(245, 245, 220, 0.95), rgba(240, 240, 210, 0.9));
     border: 2px solid #8b7355;
-    border-radius: 6px;
+    border-radius: 0;
     padding: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     min-width: 220px;

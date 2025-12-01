@@ -144,11 +144,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
         if (!showTooltip) return null;
 
         const tooltipContent = (
-            <div
-                ref={tooltipRef}
-                className="witchdoctor-tooltip compact-tooltip"
-                style={{ position: 'fixed', zIndex: 2147483647 }}
-            >
+            <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                 <div className="tooltip-header">
                     <div className="tooltip-title">⚝ ☥ ⚶ {localEssence}/{maxEssence} - {currentSpec.name}</div>
                 </div>

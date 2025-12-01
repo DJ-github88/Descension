@@ -566,11 +566,11 @@
 }
 
 /* Simplified Tooltip - Beige Pathfinder Style */
-.warden-tooltip {
+.unified-resourcebar-tooltip {
     position: fixed;
     background: linear-gradient(135deg, #E8DCC8 0%, #D4C5B0 100%);
     border: 2px solid #8B7355;
-    border-radius: 4px;
+    border-radius: 0;
     padding: 10px 12px;
     min-width: 280px;
     max-width: 360px;

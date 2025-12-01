@@ -443,10 +443,10 @@
 }
 
 /* Tooltip Styling */
-.titan-tooltip {
+.unified-resourcebar-tooltip {
     background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
     border: 1px solid #8B4513;
-    border-radius: 4px;
+    border-radius: 0;
     padding: 6px 8px;
     min-width: 240px;
     max-width: 300px;
@@ -455,7 +455,7 @@
     pointer-events: none;
 }
 
-.titan-tooltip.top::after {
+.unified-resourcebar-tooltip.top::after {
     content: '';
     position: absolute;
     bottom: -6px;
@@ -468,7 +468,7 @@
     border-top: 6px solid #8B4513;
 }
 
-.titan-tooltip.bottom::after {
+.unified-resourcebar-tooltip.bottom::after {
     content: '';
     position: absolute;
     top: -6px;

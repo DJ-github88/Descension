@@ -13,7 +13,6 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
     
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
-    const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0, placement: 'top' });
 
     const maxCharge = 100;
 
@@ -113,32 +112,81 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
 
     // Auto-adjust tooltip position
     useEffect(() => {
-        if (showTooltip && barRef.current && tooltipRef.current) {
-            const barRect = barRef.current.getBoundingClientRect();
-            const tooltipRect = tooltipRef.current.getBoundingClientRect();
-            const viewportWidth = window.innerWidth;
+        if (showTooltip && tooltipRef.current && barRef.current) {
+            const updatePosition = () => {
+                const tooltip = tooltipRef.current;
+                const bar = barRef.current;
+                if (!tooltip || !bar) {
+                    requestAnimationFrame(updatePosition);
+                    return;
+                }
 
-            let top = barRect.top - tooltipRect.height - 10;
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-            let placement = 'top';
+                const tooltipRect = tooltip.getBoundingClientRect();
+                const barRect = bar.getBoundingClientRect();
 
-            // Check if tooltip goes off top of screen
-            if (top < 10) {
-                top = barRect.bottom + 10;
-                placement = 'bottom';
-            }
+                if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                    requestAnimationFrame(updatePosition);
+                    return;
+                }
 
-            // Check if tooltip goes off right side
-            if (left + tooltipRect.width > viewportWidth - 10) {
-                left = viewportWidth - tooltipRect.width - 10;
-            }
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const margin = 8;
 
-            // Check if tooltip goes off left side
-            if (left < 10) {
-                left = 10;
-            }
+                let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                let hudBottom = barRect.bottom;
 
-            setTooltipPosition({ top, left, placement });
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    hudBottom = hudRect.bottom;
+                }
+
+                const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
+                const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+
+                let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
+                let top = hudBottom + margin;
+
+                if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                    requestAnimationFrame(updatePosition);
+                }
+
+                if (left < margin) {
+                    left = margin;
+                }
+                if (left + tooltipWidth > viewportWidth - margin) {
+                    left = viewportWidth - tooltipWidth - margin;
+                }
+
+                if (top + tooltipHeight > viewportHeight - margin) {
+                    if (hudContainer) {
+                        const hudRect = hudContainer.getBoundingClientRect();
+                        top = hudRect.top - tooltipHeight - margin;
+                    } else {
+                        top = barRect.top - tooltipHeight - margin;
+                    }
+                    if (top < margin) {
+                        top = margin;
+                    }
+                }
+
+                tooltip.style.position = 'fixed';
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.style.transform = 'none';
+                tooltip.style.zIndex = '2147483647';
+                tooltip.style.borderRadius = '0';
+                tooltip.style.padding = '10px 12px';
+            };
+
+            updatePosition();
+            requestAnimationFrame(() => {
+                requestAnimationFrame(updatePosition);
+            });
+
+            const timeoutId = setTimeout(updatePosition, 50);
+
+            return () => clearTimeout(timeoutId);
         }
     }, [showTooltip, localCharge, selectedDevotion, selectedSpec]);
 
@@ -237,27 +285,46 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
 
             {/* Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div
-                    ref={tooltipRef}
-                    className={`titan-tooltip ${tooltipPosition.placement}`}
-                    style={{
-                        position: 'fixed',
-                        top: `${tooltipPosition.top}px`,
-                        left: `${tooltipPosition.left}px`,
-                        zIndex: 100000
-                    }}
-                >
-                    <div className="tooltip-content">
-                        <div className="tooltip-devotion">{currentDevotion.name}</div>
-                        <div className="tooltip-stage">
-                            {localCharge === 0 && 'Dormant - No divine connection'}
-                            {localCharge > 0 && localCharge <= 20 && 'Faint - Weak divine presence'}
-                            {localCharge > 20 && localCharge <= 40 && 'Awakening - Divine power stirring'}
-                            {localCharge > 40 && localCharge <= 60 && 'Channeling - Active divine flow'}
-                            {localCharge > 60 && localCharge <= 80 && 'Empowered - Strong celestial connection'}
-                            {localCharge > 80 && 'Divine - Maximum celestial favor'}
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                    <div className="tooltip-header">Celestial Devotion</div>
+
+                    <div className="tooltip-section">
+                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
+                            <strong>Current:</strong> {localCharge}/100 Charge
                         </div>
-                        <div className="tooltip-benefit">{currentDevotion.benefit}</div>
+                        <div style={{ fontSize: '0.9rem' }}>
+                            <strong>Devotion:</strong> {currentDevotion.name} ({currentDevotion.title})
+                        </div>
+                    </div>
+
+                    <div className="tooltip-divider"></div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">Devotion Benefit</div>
+                        <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
+                            {currentDevotion.benefit}
+                        </div>
+                    </div>
+
+                    <div className="tooltip-divider"></div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">Charge Management</div>
+                        <div className="level-management">
+                            <strong>Gain:</strong>
+                            <span>Channel divine energy (varies by action)</span>
+                            <strong>Spend:</strong>
+                            <span>Ultimate abilities, devotion switches</span>
+                        </div>
+                    </div>
+
+                    <div className="tooltip-divider"></div>
+
+                    <div className="tooltip-section">
+                        <div className="tooltip-label">{currentSpec.passive} ({currentSpec.name})</div>
+                        <div className="passive-desc">
+                            {currentSpec.passiveDesc}
+                        </div>
                     </div>
                 </div>,
                 document.body

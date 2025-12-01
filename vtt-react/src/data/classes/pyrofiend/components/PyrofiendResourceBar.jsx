@@ -49,30 +49,77 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     // Auto-adjust tooltip position
     useEffect(() => {
         if (showTooltip && tooltipRef.current && barRef.current) {
-            const tooltip = tooltipRef.current;
-            const bar = barRef.current;
-            const barRect = bar.getBoundingClientRect();
-            const tooltipRect = tooltip.getBoundingClientRect();
+            const updatePosition = () => {
+                const tooltip = tooltipRef.current;
+                const bar = barRef.current;
+                if (!tooltip || !bar) return;
+                
+                const barRect = bar.getBoundingClientRect();
+                const tooltipRect = tooltip.getBoundingClientRect();
+                
+                // Check if tooltip has valid dimensions (not 0x0)
+                if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                    // Try again on next frame if dimensions aren't ready
+                    requestAnimationFrame(updatePosition);
+                    return;
+                }
+                
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const margin = 8;
+                
+                // Find the HUD container to position tooltip below it
+                let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                let hudBottom = barRect.bottom;
+                
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    hudBottom = hudRect.bottom;
+                }
+                
+                // Position tooltip below the HUD container, centered horizontally
+                let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+                let top = hudBottom + margin;
+                
+                // Adjust horizontal position
+                if (left < margin) left = margin;
+                if (left + tooltipRect.width > viewportWidth - margin) {
+                    left = viewportWidth - tooltipRect.width - margin;
+                }
+                
+                // Ensure tooltip doesn't go off bottom of viewport
+                if (top + tooltipRect.height > viewportHeight - margin) {
+                    // If there's not enough space below, position above the HUD instead
+                    if (hudContainer) {
+                        const hudRect = hudContainer.getBoundingClientRect();
+                        top = hudRect.top - tooltipRect.height - margin;
+                    } else {
+                        top = barRect.top - tooltipRect.height - margin;
+                    }
+                    // But ensure it doesn't go off top either
+                    if (top < margin) {
+                        top = margin;
+                    }
+                }
+                
+                // Apply position directly to tooltip element
+                tooltip.style.position = 'fixed';
+                tooltip.style.left = `${left}px`;
+                tooltip.style.top = `${top}px`;
+                tooltip.style.transform = 'none';
+                tooltip.style.zIndex = '2147483647';
+            };
             
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+            // Run immediately and on multiple frames to ensure dimensions are available
+            updatePosition();
+            requestAnimationFrame(() => {
+                requestAnimationFrame(updatePosition);
+            });
             
-            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-            let top = barRect.top - tooltipRect.height - 8;
+            // Also add a small timeout as fallback for portal rendering
+            const timeoutId = setTimeout(updatePosition, 50);
             
-            // Adjust horizontal position
-            if (left < 8) left = 8;
-            if (left + tooltipRect.width > viewportWidth - 8) {
-                left = viewportWidth - tooltipRect.width - 8;
-            }
-            
-            // Adjust vertical position (flip to bottom if needed)
-            if (top < 8) {
-                top = barRect.bottom + 8;
-            }
-            
-            tooltip.style.left = `${left}px`;
-            tooltip.style.top = `${top}px`;
+            return () => clearTimeout(timeoutId);
         }
     }, [showTooltip, localInfernoLevel, selectedSpec]);
 
@@ -197,14 +244,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                     {renderInfernoSegments()}
                 </div>
 
-                <div className="inferno-overlay">
-                    <div className="inferno-level-display">
-                        <span className="level-label">INFERNO</span>
-                        <span className="level-number" style={{ color: currentSpec.glowColor }}>
-                            {localInfernoLevel}
-                        </span>
-                    </div>
-                </div>
 
                 {/* Heat distortion effect at high levels */}
                 {localInfernoLevel >= 7 && (
@@ -216,7 +255,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             
             {/* Pathfinder-styled Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="pyrofiend-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                     <div className="tooltip-header">Inferno Veil</div>
 
                     <div className="tooltip-section">
