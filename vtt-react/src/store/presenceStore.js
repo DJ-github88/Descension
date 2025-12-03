@@ -90,6 +90,7 @@ const usePresenceStore = create((set, get) => ({
 
     // Start online/offline simulation
     const updateUserStatus = get().updateUserStatus;
+    const addGlobalMessage = get().addGlobalMessage;
     mockPresenceService.startOnlineOfflineSimulation(updateUserStatus, addGlobalMessage);
 
   },

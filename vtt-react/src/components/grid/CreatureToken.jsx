@@ -21,7 +21,6 @@ import CreatureWindow from '../windows/CreatureWindow';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
-import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import ShopWindow from '../shop/ShopWindow';
 
 
@@ -82,6 +81,8 @@ const logMovementToCombat = (tokenId, creatures, distance, startPos, endPos) => 
 const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+  const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
+  const contextMenuRef = useRef(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
@@ -103,7 +104,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const isMouseDownRef = useRef(false);
   // Remove local state - use global store state instead
 
-  const contextMenuRef = useRef(null);
   const tokenRef = useRef(null);
   const lastPositionUpdateRef = useRef(Date.now());
 
@@ -1390,6 +1390,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     setShowContextMenu(false);
   };
 
+  // Handle click outside to close context menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showContextMenu && contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
+        setShowContextMenu(false);
+        setHoveredMenuItem(null);
+      }
+    };
+
+    if (showContextMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showContextMenu]);
+
   // If token not found, don't render anything
   if (!token) {
     console.error('Token not found with ID:', tokenId);
@@ -2045,13 +2060,151 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         });
 
         return createPortal(
-          <UnifiedContextMenu
-            visible={true}
-            x={contextMenuPosition.x}
-            y={contextMenuPosition.y}
-            onClose={() => setShowContextMenu(false)}
-            items={menuItems}
-          />,
+          <div
+            ref={contextMenuRef}
+            className="context-menu-container"
+            style={{
+              position: 'fixed',
+              left: contextMenuPosition.x,
+              top: contextMenuPosition.y,
+              zIndex: 10000,
+              backgroundColor: '#f0e6d2',
+              border: '2px solid #a08c70',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+              fontFamily: "'Bookman Old Style', 'Garamond', serif",
+              color: '#7a3b2e',
+              padding: '8px',
+              display: 'flex',
+              gap: '0',
+              minWidth: hoveredMenuItem !== null && menuItems[hoveredMenuItem]?.submenu ? '280px' : '160px'
+            }}
+            onMouseLeave={() => {
+              // Close menu when mouse leaves entire container
+              setHoveredMenuItem(null);
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Main menu items */}
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+              {menuItems.map((item, index) => (
+                <React.Fragment key={index}>
+                  {item.type === 'separator' ? (
+                    <hr style={{
+                      border: 'none',
+                      borderTop: '1px solid #a08c70',
+                      margin: '4px 0',
+                      width: '100%'
+                    }} />
+                  ) : (
+                    <button
+                      className="context-menu-button"
+                      style={{
+                        pointerEvents: 'auto',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '6px 12px',
+                        border: '1px solid #a08c70',
+                        borderRadius: '4px',
+                        backgroundColor: hoveredMenuItem === index ? '#e8dcc0' : (item.className === 'danger' ? '#ffebee' : '#d4c4a8'),
+                        color: '#7a3b2e',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                        width: '100%',
+                        textAlign: 'left',
+                        margin: '2px 0',
+                        minWidth: '140px'
+                      }}
+                      onMouseEnter={() => {
+                        setHoveredMenuItem(index);
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (item.submenu) {
+                          // Don't close on submenu items, just keep submenu open
+                          return;
+                        }
+                        if (item.onClick) {
+                          item.onClick(e);
+                        }
+                      }}
+                      disabled={item.disabled}
+                      title={item.title}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                      {item.submenu && <i className="fas fa-chevron-right" style={{ marginLeft: 'auto', fontSize: '10px' }} />}
+                    </button>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+
+            {/* Submenu - always rendered but only visible when hovering */}
+            {menuItems[hoveredMenuItem]?.submenu && (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  backgroundColor: '#f0e6d2',
+                  border: '1px solid #a08c70',
+                  borderLeft: 'none',
+                  borderRadius: '0 4px 4px 0',
+                  padding: '8px 4px',
+                  minWidth: '130px',
+                  marginLeft: '4px',
+                  opacity: hoveredMenuItem !== null ? 1 : 0,
+                  visibility: hoveredMenuItem !== null ? 'visible' : 'hidden',
+                  transition: 'opacity 0.1s ease, visibility 0.1s ease'
+                }}
+              >
+                {menuItems[hoveredMenuItem].submenu.map((subItem, subIndex) => (
+                  <React.Fragment key={subIndex}>
+                    {subItem.type === 'separator' ? (
+                      <hr style={{
+                        border: 'none',
+                        borderTop: '1px solid #a08c70',
+                        margin: '2px 0',
+                        width: '100%'
+                      }} />
+                    ) : (
+                      <button
+                        className="context-menu-button"
+                        style={{
+                          pointerEvents: 'auto',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '4px 8px',
+                          border: '1px solid #a08c70',
+                          borderRadius: '3px',
+                          backgroundColor: subItem.className === 'danger' ? '#ffebee' : '#d4c4a8',
+                          color: '#7a3b2e',
+                          cursor: 'pointer',
+                          fontSize: '11px',
+                          fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                          width: '100%',
+                          textAlign: 'left',
+                          margin: '1px 0'
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (subItem.onClick) {
+                            subItem.onClick(e);
+                          }
+                        }}
+                      >
+                        {subItem.icon}
+                        <span>{subItem.label}</span>
+                      </button>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
+          </div>,
           document.body
         );
       })()}

@@ -411,7 +411,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             baseValue: creature.stats.maxHp,
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_54.jpg',
-            color: '#ff4444',
             description: 'Current and maximum hit points'
           },
           {
@@ -420,7 +419,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             baseValue: creature.stats.maxMana,
             tooltip: creature.stats.maxMana > 0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_72.jpg',
-            color: '#4444ff',
             description: 'Current and maximum mana points'
           },
           {
@@ -428,7 +426,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: creature.stats.armorClass || 10,
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate09.jpg',
-            color: '#888888',
             description: 'Defense against physical attacks'
           },
           {
@@ -436,7 +433,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: formatModifier(creature.stats.initiative || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-            color: '#00ff00',
             description: 'Combat turn order modifier'
           }
         ].filter(stat => stat.tooltip !== false)
@@ -516,7 +512,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: 10 + calculateModifier(creature.stats.spirit || 10),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg',
-            color: '#FFD700',
             description: 'Passive awareness of surroundings (10 + Spirit modifier)'
           }
         ]
@@ -531,7 +526,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.damage || Math.floor((creature.stats.strength || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_cleave.jpg',
-            color: '#8B4513',
             description: 'Damage with swords, axes, and slashing weapons'
           },
           {
@@ -539,7 +533,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.damage || Math.floor((creature.stats.strength || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_mace_02.jpg',
-            color: '#8B4513',
             description: 'Damage with maces, clubs, and bludgeoning weapons'
           },
           {
@@ -547,7 +540,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.rangedDamage || Math.floor((creature.stats.agility || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_33.jpg',
-            color: '#8B4513',
             description: 'Damage with spears, daggers, and piercing weapons'
           },
           {
@@ -555,7 +547,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.rangedDamage || Math.floor((creature.stats.agility || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aimedshot.jpg',
-            color: '#228B22',
             description: 'Damage with bows, crossbows, and thrown weapons'
           }
         ]
@@ -570,7 +561,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.armor || creature.stats.armorClass || Math.floor((creature.stats.agility || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
-            color: '#C0C0C0',
             description: 'Physical damage reduction'
           },
           {
@@ -578,7 +568,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(Math.floor((creature.stats.agility || 10) / 3) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_evasion.jpg',
-            color: '#AAD372',
             description: 'Chance to avoid attacks entirely'
           },
           {
@@ -586,7 +575,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.maxHp || creature.stats.hitPoints || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_54.jpg',
-            color: '#ff4444',
             description: 'Maximum hit points'
           },
           {
@@ -594,7 +582,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.maxMana || creature.stats.manaPoints || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_72.jpg',
-            color: '#4444ff',
             description: 'Maximum mana points'
           }
         ]
@@ -609,7 +596,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.healthRegen || Math.floor((creature.stats.constitution || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_rejuvenation.jpg',
-            color: '#44ff44',
             description: 'Health recovered per turn'
           },
           {
@@ -617,7 +603,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.manaRegen || Math.floor(((creature.stats.intelligence || 10) + (creature.stats.spirit || 10)) / 4) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_magic_managain.jpg',
-            color: '#6666ff',
             description: 'Mana recovered per turn'
           },
           {
@@ -625,7 +610,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: Math.round(creature.stats.healingPower || Math.floor((creature.stats.spirit || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_flashheal.jpg',
-            color: '#ffff44',
             description: 'Bonus to healing spells and abilities'
           }
         ]
@@ -640,7 +624,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: `${Math.round(creature.stats.visionRange || 60)} ft`,
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg',
-            color: '#ffff44',
             description: 'Normal vision range in feet'
           },
           {
@@ -648,7 +631,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: `${Math.round(creature.stats.darkvision || 0)} ft`,
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_detectinvisibility.jpg',
-            color: '#9370DB',
             description: 'Dark vision range in feet'
           },
           {
@@ -656,7 +638,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             value: formatModifier(creature.stats.initiative || Math.floor((creature.stats.agility || 10) / 5) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
-            color: '#ff4444',
             description: 'Initiative bonus for combat order'
           }
         ]
@@ -745,7 +726,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               value: getResistanceValue(levelStr),
               tooltip: true,
               icon: getWowIconUrl(damageTypeId),
-              color: getResistanceColor(levelStr),
               description: `${levelStr.charAt(0).toUpperCase() + levelStr.slice(1)} to ${damageType.name.toLowerCase()} damage`,
               resistanceLevel: levelStr,
               damageType: damageType
@@ -792,7 +772,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
               value: formatModifier(totalBonus),
               tooltip: true,
               icon: getAbilityIcon(ability),
-              color: '#4CAF50',
               description: `Proficient saving throw (${formatModifier(modifier)} ability + ${profBonus} proficiency)`,
               statName: ability,
               baseValue: modifier
@@ -831,7 +810,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                 </div>
               </div>
               <div className="stat-value-container">
-                <span className="stat-value" style={stat.color ? { color: stat.color } : {}}>
+                <span className="stat-value">
                   {stat.value}
                 </span>
                 {stat.modifier !== undefined && (
