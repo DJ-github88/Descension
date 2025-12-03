@@ -56,7 +56,7 @@ export const LUNARCH_MOONLIGHT_SENTINEL = [
   {
     id: 'moonlight_sentinel_t2_radiant_burst',
     name: 'Radiant Burst',
-    description: 'When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 1d8 radiant damage per rank.',
+    description: 'Rank 1: When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 1d8 radiant damage. Rank 2: When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 2d8 radiant damage. Rank 3: When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 3d8 radiant damage. Rank 4: When you crit with a ranged attack during Full Moon, all enemies within 10ft of the target take 4d8 radiant damage.',
     icon: 'spell_holy_searinglight',
     maxRanks: 4,
     position: { x: 4, y: 2 },

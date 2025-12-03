@@ -11,8 +11,113 @@ import {
     rotateShape
 } from '../utils/itemShapeUtils';
 
+// Helper function to sync inventory to multiplayer server
+// This function is called with the current inventory state to avoid circular dependencies
+const syncInventoryToMultiplayer = (changeType, changeData, currentInventoryState) => {
+    try {
+        // Check if we're in multiplayer mode
+        const gameStore = require('./gameStore').default;
+        const gameState = gameStore.getState();
+        
+        if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
+            // Get current character ID for player identification
+            const characterStore = require('./characterStore').default;
+            const characterState = characterStore.getState();
+            const playerId = characterState.currentCharacterId;
+            
+            if (playerId && currentInventoryState) {
+                // Prepare inventory data based on change type
+                let inventoryData = {};
+                
+                switch (changeType) {
+                    case 'inventory_add':
+                        inventoryData = {
+                            item: changeData.item,
+                            changeType: 'add_item'
+                        };
+                        break;
+                    case 'inventory_remove':
+                        inventoryData = {
+                            itemId: changeData.itemId,
+                            changeType: 'remove_item'
+                        };
+                        break;
+                    case 'inventory_move':
+                        inventoryData = {
+                            itemId: changeData.itemId,
+                            newPosition: changeData.newPosition,
+                            changeType: 'move_item'
+                        };
+                        break;
+                    case 'inventory_rotate':
+                        inventoryData = {
+                            itemId: changeData.itemId,
+                            newRotation: changeData.newRotation,
+                            newPosition: changeData.newPosition || null,
+                            changeType: 'move_item' // Rotation is treated as a move
+                        };
+                        break;
+                    case 'inventory_split':
+                        inventoryData = {
+                            originalItemId: changeData.originalItemId,
+                            newItemId: changeData.newItemId,
+                            splitQuantity: changeData.splitQuantity,
+                            changeType: 'add_item' // Split adds a new item
+                        };
+                        break;
+                    case 'inventory_merge':
+                        inventoryData = {
+                            sourceItemId: changeData.sourceItemId,
+                            targetItemId: changeData.targetItemId,
+                            mergedQuantity: changeData.mergedQuantity,
+                            changeType: 'full' // Merge requires full sync
+                        };
+                        break;
+                    case 'inventory_modify':
+                        inventoryData = {
+                            itemId: changeData.itemId,
+                            changes: changeData.changes,
+                            changeType: 'full' // Modify requires full sync
+                        };
+                        break;
+                    case 'currency_gain':
+                    case 'currency_spend':
+                        // For currency changes, send full inventory
+                        inventoryData = {
+                            items: currentInventoryState.items || [],
+                            currency: currentInventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+                            encumbranceState: currentInventoryState.encumbranceState || 'normal',
+                            changeType: 'full'
+                        };
+                        break;
+                    default:
+                        // For any other change, send full inventory
+                        inventoryData = {
+                            items: currentInventoryState.items || [],
+                            currency: currentInventoryState.currency || { platinum: 0, gold: 0, silver: 0, copper: 0 },
+                            encumbranceState: currentInventoryState.encumbranceState || 'normal',
+                            changeType: 'full'
+                        };
+                }
+                
+                // Send inventory update to server
+                gameState.multiplayerSocket.emit('inventory_update', {
+                    playerId: playerId,
+                    inventoryData: inventoryData,
+                    changeType: inventoryData.changeType || 'full',
+                    timestamp: Date.now()
+                });
+            }
+        }
+    } catch (error) {
+        // Silently fail - multiplayer sync is optional
+        console.debug('Could not sync inventory to multiplayer:', error);
+    }
+};
+
 // Helper function to get current character and record changes
-const recordCharacterChange = (changeType, changeData) => {
+// This function is called with the current inventory state to avoid circular dependencies
+const recordCharacterChange = (changeType, changeData, currentInventoryState) => {
     try {
         // Import character store dynamically to avoid circular dependencies
         const characterStore = require('./characterStore').default;
@@ -26,6 +131,11 @@ const recordCharacterChange = (changeType, changeData) => {
             setTimeout(() => {
                 state.saveCurrentCharacter();
             }, 100); // Small delay to ensure state is updated
+        }
+        
+        // Also sync to multiplayer if in multiplayer mode
+        if (currentInventoryState) {
+            syncInventoryToMultiplayer(changeType, changeData, currentInventoryState);
         }
     } catch (error) {
         console.warn('Could not record character change:', error);
@@ -286,11 +396,12 @@ const useInventoryStore = create(persist((set, get) => ({
         });
 
         // Record character change for persistence
+        const currentState = get();
         if (hasGains) {
-            recordCharacterChange('currency_gain', currencyDiff);
+            recordCharacterChange('currency_gain', currencyDiff, currentState);
         }
         if (hasSpending) {
-            recordCharacterChange('currency_spend', currencyDiff);
+            recordCharacterChange('currency_spend', currencyDiff, currentState);
         }
 
         return { currency: convertedCurrency };
@@ -329,11 +440,12 @@ const useInventoryStore = create(persist((set, get) => ({
             set(updateResult.newState);
 
             // Record character change for persistence
+            const newState = get();
             recordCharacterChange('inventory_add', {
                 item: itemData,
                 addedItemId: updateResult.result.addedItemId,
                 timestamp: new Date()
-            });
+            }, newState);
         }
 
         return updateResult.result;
@@ -806,12 +918,13 @@ const useInventoryStore = create(persist((set, get) => ({
             };
 
             // Record character change for persistence
+            const currentState = get();
             recordCharacterChange('inventory_modify', {
                 itemId: itemId,
                 changes: { quantity: item.quantity - quantity },
                 previousQuantity: item.quantity,
                 timestamp: new Date()
-            });
+            }, { ...currentState, items: updatedItems });
 
             // Update encumbrance after removing item
             setTimeout(() => get().updateEncumbranceState(), 0);
@@ -823,11 +936,12 @@ const useInventoryStore = create(persist((set, get) => ({
         const updatedItems = state.items.filter(item => item.id !== itemId);
 
         // Record character change for persistence
+        const currentState = get();
         recordCharacterChange('inventory_remove', {
             itemId: itemId,
             item: item,
             timestamp: new Date()
-        });
+        }, { ...currentState, items: updatedItems });
 
         // Update encumbrance after removing item
         setTimeout(() => get().updateEncumbranceState(), 0);
@@ -856,12 +970,13 @@ const useInventoryStore = create(persist((set, get) => ({
         );
 
         // Record character change for persistence
+        const currentState = get();
         recordCharacterChange('inventory_move', {
             itemId: itemId,
             oldPosition: item.position,
             newPosition: newPosition,
             timestamp: new Date()
-        });
+        }, { ...currentState, items: updatedItems });
 
         // Update encumbrance state after moving
         setTimeout(() => get().updateEncumbranceState(), 0);
@@ -899,12 +1014,13 @@ const useInventoryStore = create(persist((set, get) => ({
             );
 
             // Record character change for persistence
+            const currentState = get();
             recordCharacterChange('inventory_rotate', {
                 itemId: itemId,
                 oldRotation: currentRotation,
                 newRotation: newRotation,
                 timestamp: new Date()
-            });
+            }, { ...currentState, items: updatedItems });
 
             // Update encumbrance state after rotating
             setTimeout(() => get().updateEncumbranceState(), 0);
@@ -929,12 +1045,13 @@ const useInventoryStore = create(persist((set, get) => ({
             );
 
             // Record character change for persistence
+            const currentState = get();
             recordCharacterChange('inventory_rotate', {
                 itemId: itemId,
                 oldRotation: currentRotation,
                 newRotation: newRotation,
                 timestamp: new Date()
-            });
+            }, { ...currentState, items: updatedItems });
 
             // Update encumbrance state after rotating
             setTimeout(() => get().updateEncumbranceState(), 0);
@@ -987,6 +1104,7 @@ const useInventoryStore = create(persist((set, get) => ({
                 );
 
                 // Record character change for persistence
+                const currentState = get();
                 recordCharacterChange('inventory_rotate', {
                     itemId: itemId,
                     oldRotation: currentRotation,
@@ -994,7 +1112,7 @@ const useInventoryStore = create(persist((set, get) => ({
                     oldPosition: { row, col },
                     newPosition: pos,
                     timestamp: new Date()
-                });
+                }, { ...currentState, items: updatedItems });
 
                 // Update encumbrance state after rotating
                 setTimeout(() => get().updateEncumbranceState(), 0);
@@ -1052,12 +1170,13 @@ const useInventoryStore = create(persist((set, get) => ({
         };
 
         // Record character change for persistence
+        const currentState = get();
         recordCharacterChange('inventory_split', {
             originalItemId: itemId,
             newItemId: newItem.id,
             splitQuantity: quantity,
             timestamp: new Date()
-        });
+        }, { ...currentState, items: [...updatedItems, newItem] });
 
         return { items: [...updatedItems, newItem] };
     }),
@@ -1147,12 +1266,13 @@ const useInventoryStore = create(persist((set, get) => ({
         }
 
         // Record character change for persistence
+        const currentState = get();
         recordCharacterChange('inventory_merge', {
             sourceItemId: sourceItemId,
             targetItemId: targetItemId,
             mergedQuantity: amountToMerge,
             timestamp: new Date()
-        });
+        }, { ...currentState, items: updatedItems });
 
         // Update encumbrance after merging
         setTimeout(() => get().updateEncumbranceState(), 0);

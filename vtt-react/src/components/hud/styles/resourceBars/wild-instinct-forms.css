@@ -83,55 +83,5 @@
     filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.8));
 }
 
-/* Form Menu */
-.form-menu {
-    min-width: 200px;
-}
-
-.form-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.form-buttons button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid;
-    border-radius: 4px;
-    color: #E8DCC8;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 11px;
-}
-
-.form-buttons button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(2px);
-}
-
-.form-buttons button.active {
-    font-weight: bold;
-    box-shadow: 0 0 8px currentColor;
-}
-
-.form-buttons button i {
-    font-size: 14px;
-}
-
-/* WI Menu */
-.wi-menu .menu-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
-}
-
-.wi-menu .menu-buttons button {
-    font-size: 10px;
-    padding: 4px 6px;
-}
 
 /* Size variations for Formbender */

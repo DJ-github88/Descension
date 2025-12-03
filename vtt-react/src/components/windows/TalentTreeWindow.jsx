@@ -114,56 +114,112 @@ const generateProgressiveTooltip = (talent, currentRank) => {
     return progressiveDescription + (progressiveDescription ? '.' : '');
 };
 
-// Helper function to calculate dynamic tooltip description based on current rank
-const getDynamicDescription = (talent, currentRank) => {
-    if (!talent.description) return '';
-
+// Helper function to get description for a specific rank
+const getDescriptionForRank = (talent, rank) => {
     // Check if this talent has progressive tooltips defined
-    if (PROGRESSIVE_TOOLTIPS[talent.id] && PROGRESSIVE_TOOLTIPS[talent.id][currentRank]) {
-        return PROGRESSIVE_TOOLTIPS[talent.id][currentRank];
+    if (PROGRESSIVE_TOOLTIPS[talent.id] && PROGRESSIVE_TOOLTIPS[talent.id][rank]) {
+        return PROGRESSIVE_TOOLTIPS[talent.id][rank];
     }
 
-    // Only use progressive tooltips for talents that have custom definitions
-    // Most talents should show their full description at all ranks
+    // Check if description uses rank-specific format (e.g., "Rank 1: effect. Rank 2: effect.")
+    const rankSpecificPattern = /Rank\s+(\d+)(?:-(\d+))?:\s*([^]+?)(?=\s*Rank\s+\d+:|\s*$)/gi;
+    const rankMatches = [];
+    let match;
 
-    // Show what you CURRENTLY have (currentRank)
-    // This shows your actual bonuses
-    const displayRank = currentRank;
+    // Extract all rank-specific descriptions
+    while ((match = rankSpecificPattern.exec(talent.description)) !== null) {
+        const startRank = parseInt(match[1]);
+        const endRank = match[2] ? parseInt(match[2]) : startRank;
+        const description = match[3].trim();
 
-    // Replace "per rank" calculations with actual values
+        rankMatches.push({
+            startRank,
+            endRank,
+            description
+        });
+    }
+
+    // If rank-specific descriptions found, find the one for this rank
+    if (rankMatches.length > 0) {
+        for (const rankMatch of rankMatches) {
+            if (rank >= rankMatch.startRank && rank <= rankMatch.endRank) {
+                return rankMatch.description;
+            }
+        }
+        // Fallback to last rank if specific rank not found
+        return rankMatches[rankMatches.length - 1].description;
+    }
+
+    // For "per rank" talents, calculate individual rank effect
     let description = talent.description;
 
     // Pattern: "X per rank" or "+X per rank" where X can be a number or dice notation
-    // Show cumulative total effect based on ranks invested
     const perRankPattern = /(\+?)(\d+(?:d\d+)?)\s+([a-zA-Z\s]+?)\s*per\s+rank\.?/gi;
     description = description.replace(perRankPattern, (match, plus, value, type) => {
         // Check if it's dice notation (e.g., "1d4")
         if (value.includes('d')) {
-            const [numDice, diceSize] = value.split('d').map(Number);
-            const scaledDice = numDice * displayRank;
-            return `${plus}${scaledDice}d${diceSize} ${type.trim()}`;
+            return `${plus}${value} ${type.trim()}`;
         } else {
             // It's a flat number
-            const scaledValue = parseInt(value) * displayRank;
-            return `${plus}${scaledValue} ${type.trim()}`;
+            return `${plus}${value} ${type.trim()}`;
         }
     });
 
     // Pattern: "X% per rank" for percentage calculations
     const percentPerRankPattern = /(\d+)%\s+([a-zA-Z\s]+)\s+per rank/gi;
     description = description.replace(percentPerRankPattern, (match, percent, type) => {
-        const scaledPercent = parseInt(percent) * displayRank;
-        return `${scaledPercent}% ${type}`;
+        return `${percent}% ${type}`;
     });
 
     // Pattern: "on X+ per rank" for DC/difficulty scaling
     const dcPerRankPattern = /on\s+(\d+)\+\s+per rank/gi;
     description = description.replace(dcPerRankPattern, (match, baseDC) => {
-        const scaledDC = parseInt(baseDC) + (displayRank - 1);
-        return `on ${scaledDC}+`;
+        return `on ${baseDC}+`;
     });
 
     return description;
+};
+
+// Helper function to calculate dynamic tooltip description based on current rank (WoW Classic style)
+const getDynamicDescription = (talent, currentRank) => {
+    if (!talent.description) return '';
+
+    const tooltipParts = [];
+
+    // Show current rank effect (if any ranks invested)
+    if (currentRank > 0) {
+        const currentEffect = getDescriptionForRank(talent, currentRank);
+        tooltipParts.push(
+            <div key="current" style={{ marginBottom: '8px' }}>
+                <div style={{ color: '#8B4513', fontWeight: 'bold', marginBottom: '4px', fontSize: '0.9rem' }}>
+                    Rank {currentRank}:
+                </div>
+                <div style={{ color: '#2d1810' }}>{currentEffect}</div>
+            </div>
+        );
+    }
+
+    // Show next rank effect (if not maxed out)
+    if (currentRank < talent.maxRanks) {
+        const nextRank = currentRank + 1;
+        const nextEffect = getDescriptionForRank(talent, nextRank);
+        tooltipParts.push(
+            <div key="next" style={{ marginTop: currentRank > 0 ? '8px' : '0', paddingTop: currentRank > 0 ? '8px' : '0', borderTop: currentRank > 0 ? '1px solid rgba(139, 69, 19, 0.3)' : 'none' }}>
+                <div style={{ color: '#b8860b', fontWeight: 'bold', marginBottom: '4px', fontSize: '0.9rem' }}>
+                    Next Rank {nextRank}:
+                </div>
+                <div style={{ color: '#5a1e12' }}>{nextEffect}</div>
+            </div>
+        );
+    }
+
+    // For rank 0 talents, just show the next rank effect without "Next Rank" label
+    if (currentRank === 0) {
+        const nextEffect = getDescriptionForRank(talent, 1);
+        return nextEffect;
+    }
+
+    return <div>{tooltipParts}</div>;
 };
 
 // Constants for grid layout - Compact fit for better usability

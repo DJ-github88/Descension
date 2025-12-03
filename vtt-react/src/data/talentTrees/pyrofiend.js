@@ -7,7 +7,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t0_burst_mastery',
     name: 'Burst Mastery',
-    description: 'Your fire spells deal +1d6 damage per rank. Critical hits with fire spells ascend your Inferno Level by 1.',
+    description: 'Rank 1: Fire spells have +5 ft range. Rank 2: Fire spells have +10 ft range. Rank 3: Fire spells have +10 ft range and ignore half cover. Rank 4: Fire spells have +15 ft range and ignore half cover. Rank 5: Fire spells have +15 ft range and ignore half and three-quarters cover.',
     icon: 'spell_fire_fireball02',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -18,7 +18,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t1_critical_blast',
     name: 'Critical Blast',
-    description: 'When you cast fire spells, roll 1d20. On 16+ per rank, the spell gains advantage on attack rolls. Critical hits deal double damage dice.',
+    description: 'Rank 1: Fire spells can be cast as reactions when you take fire damage. Rank 2: Fire spells can be cast as reactions when you take fire damage, and deal +2 fire damage. Rank 3: Fire spells can be cast as reactions when you take fire damage, deal +2 fire damage, and have +5 ft range. Rank 4: Fire spells can be cast as reactions when you take fire damage, deal +2 fire damage, have +5 ft range, and can be cast through allies.',
     icon: 'spell_fire_incinerate',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -27,7 +27,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t1_rapid_ascent',
     name: 'Rapid Ascent',
-    description: 'Your Inferno Level increases twice as fast. Draw a card when you deal fire damage: red cards grant +1 Inferno Level.',
+    description: 'Rank 1: You can spend 1 Action Point to reduce your Inferno Level by 1. Rank 2: You can spend 1 Action Point to reduce your Inferno Level by 1d3. Rank 3: You can spend 1 Action Point to reduce your Inferno Level by 1d4.',
     icon: 'spell_fire_soulburn',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -38,7 +38,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t2_inner_fire',
     name: 'Inner Fire',
-    description: 'You gain +1d4 bonus fire damage per rank for each point of Inferno Level you have.',
+    description: 'Rank 1: You have resistance to fire damage. Rank 2: You have resistance to fire damage and can spend 1 Action Point to extinguish flames affecting you. Rank 3: You have resistance to fire damage, can spend 1 Action Point to extinguish flames affecting you, and take 2 less damage from Inferno drawbacks. Rank 4: You have resistance to fire damage, can spend 1 Action Point to extinguish flames affecting you, take 2 less damage from Inferno drawbacks, and can spend 1 Action Point to reduce your Inferno Level by 1.',
     icon: 'spell_fire_flamebolt',
     maxRanks: 4,
     position: { x: 0, y: 2 },
@@ -47,7 +47,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t2_detonation',
     name: 'Detonation',
-    description: 'Unlocks Detonation - consume your Inferno Level to deal 1d12 fire damage per point consumed in a 20ft radius.',
+    description: 'Rank 1: Unlocks Detonation - spend 1 Action Point to teleport 15ft to an unoccupied space within fire terrain. Rank 2: Unlocks Detonation - spend 1 Action Point to teleport 20ft to an unoccupied space within fire terrain. Rank 3: Unlocks Detonation - spend 1 Action Point to teleport 25ft to an unoccupied space within fire terrain.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -56,7 +56,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t2_fiery_resurgence',
     name: 'Fiery Resurgence',
-    description: 'When you spend Inferno Levels, draw a card. Red cards restore 1d6 HP per Inferno Level spent.',
+    description: 'Rank 1: You can spend 1 Action Point to create a 5ft radius zone of fire terrain that lasts 1 minute. Rank 2: You can spend 1 Action Point to create a 10ft radius zone of fire terrain that lasts 1 minute. Rank 3: You can spend 1 Action Point to create a 10ft radius zone of fire terrain that lasts 1 minute and deals 1d4 fire damage to creatures that enter it. Rank 4: You can spend 1 Action Point to create a 15ft radius zone of fire terrain that lasts 1 minute and deals 1d4 fire damage to creatures that enter it.',
     icon: 'spell_fire_fire',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -67,7 +67,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t3_overcharge',
     name: 'Overcharge',
-    description: 'When you reach maximum Inferno Level, your next fire spell costs no resources and deals +1d6 fire damage per rank.',
+    description: 'Rank 1: When you take fire damage, you can spend 1 Action Point to deal 1d6 fire damage to one creature within 30ft. Rank 2: When you take fire damage, you can spend 1 Action Point to deal 1d8 fire damage to one creature within 30ft. Rank 3: When you take fire damage, you can spend 1 Action Point to deal 1d10 fire damage to one creature within 30ft.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -76,7 +76,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t3_ascended_burst',
     name: 'Ascended Burst',
-    description: 'Unlocks Ascended Burst - deal 4d8 fire damage. For each Inferno Level above 5, add +1d8.',
+    description: 'Rank 1: Unlocks Ascended Burst - create a 20ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. Rank 2: Unlocks Ascended Burst - create a 25ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. You have advantage on attack rolls against enemies in the zone. Rank 3: Unlocks Ascended Burst - create a 30ft radius zone of bright light centered on you for 1 minute. Enemies in the zone have disadvantage on attack rolls. You have advantage on attack rolls against enemies in the zone. Enemies that enter the zone take 2d6 radiant damage.',
     icon: 'spell_fire_fireball',
     maxRanks: 3,
     position: { x: 2, y: 3 },
@@ -85,7 +85,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t3_immolation',
     name: 'Immolation',
-    description: 'Enemies within 5ft take 1d6 fire damage per rank at the start of your turn.',
+    description: 'Rank 1: Enemies within 5ft take 3 fire damage at the start of your turn. Rank 2: Enemies within 5ft take 6 fire damage at the start of your turn. Rank 3: Enemies within 5ft take 9 fire damage at the start of your turn. Rank 4: Enemies within 5ft take 12 fire damage at the start of your turn. Rank 5: Enemies within 5ft take 15 fire damage at the start of your turn.',
     icon: 'spell_fire_sealoffire',
     maxRanks: 5,
     position: { x: 3, y: 3 },
@@ -96,7 +96,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t4_maximum_power',
     name: 'Maximum Power',
-    description: 'At Inferno Level 9, all fire damage dice roll twice, take higher result.',
+    description: 'Rank 1: At Inferno Level 9, your fire spells have their range doubled. Rank 2: At Inferno Level 8, your fire spells have their range doubled and ignore half cover.',
     icon: 'spell_fire_twilightfireward',
     maxRanks: 2,
     position: { x: 0, y: 4 },
@@ -105,7 +105,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t4_power_surge',
     name: 'Power Surge',
-    description: 'After spending 3+ Inferno Levels in one turn, gain advantage on all attack rolls for 1 round.',
+    description: 'Rank 1: After spending 3+ Inferno Levels in one turn, gain advantage on all attack rolls for 1 round. Rank 2: After spending 2+ Inferno Levels in one turn, gain advantage on all attack rolls for 1 round and regain 1 action point.',
     icon: 'spell_fire_burnout',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -114,7 +114,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t4_heat_death',
     name: 'Heat Death',
-    description: 'When an enemy dies from your fire damage, draw a card. Black cards ascend your Inferno Level by 1.',
+    description: 'Rank 1: When an enemy dies from your fire damage, draw a card. Black cards ascend your Inferno Level by 1. Rank 2: When an enemy dies from your fire damage, draw a card. Black cards ascend your Inferno Level by 1. Red cards restore 5 HP to you. Rank 3: When an enemy dies from your fire damage, flip a coin. Heads: draw a card with double effects. Tails: you take 3 fire damage.',
     icon: 'spell_fire_meteorstorm',
     maxRanks: 3,
     position: { x: 4, y: 4 },
@@ -125,7 +125,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t5_critical_cascade',
     name: 'Critical Cascade',
-    description: 'Critical fire hits cause a chain reaction. Flip a coin: on heads, hit another nearby enemy for half damage.',
+    description: 'Rank 1: When you crit with a fire spell, gain 1 action point. Rank 2: When you crit with a fire spell, gain 1 action point and restore 1 Inferno Level. Rank 3: When you crit with a fire spell, flip a coin. Heads: gain 2 action points. Tails: lose 1 Inferno Level.',
     icon: 'spell_fire_flare',
     maxRanks: 3,
     position: { x: 1, y: 5 },
@@ -135,7 +135,7 @@ export const PYROFIEND_INFERNO = [
   {
     id: 'inferno_t5_permanent_inferno',
     name: 'Permanent Inferno',
-    description: 'You can no longer descend below Inferno Level 3. At Level 9, you deal +1d12 fire damage with all attacks per rank.',
+    description: 'Rank 1: You can no longer descend below Inferno Level 3. Rank 2: You can no longer descend below Inferno Level 3. At Level 9, you deal +1d12 fire damage with all attacks. Rank 3: You can no longer descend below Inferno Level 3. At Level 9, you deal +2d12 fire damage with all attacks.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 3,
     position: { x: 3, y: 5 },
@@ -162,7 +162,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t0_spread',
     name: 'Flame Spread',
-    description: 'When you deal fire damage, roll 1d20. On 16+ per rank, the damage jumps to a nearby enemy for half damage.',
+    description: 'Rank 1: When you deal fire damage, roll 1d20. On 16+ the damage jumps to a nearby enemy for half damage. Rank 2: When you deal fire damage, roll 1d20. On 15+ the damage jumps to a nearby enemy for half damage. Rank 3: When you deal fire damage, roll 1d20. On 14+ the damage jumps to a nearby enemy for half damage. Rank 4: When you deal fire damage, roll 1d20. On 13+ the damage jumps to a nearby enemy for half damage.',
     icon: 'spell_fire_flare',
     maxRanks: 4,
     position: { x: 1, y: 0 },
@@ -171,7 +171,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t0_ground_fire',
     name: 'Ground Fire',
-    description: 'Fire spells create patches of flame. Enemies entering these areas take 1d8 fire damage per rank.',
+    description: 'Rank 1: Fire spells create patches of flame. Enemies entering these areas take 1d8 fire damage. Rank 2: Fire spells create patches of flame. Enemies entering these areas take 2d8 fire damage. Rank 3: Fire spells create patches of flame. Enemies entering these areas take 3d8 fire damage. Rank 4: Fire spells create patches of flame. Enemies entering these areas take 4d8 fire damage.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 4,
     position: { x: 3, y: 0 },
@@ -200,7 +200,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t1_wild_growth',
     name: 'Wild Growth',
-    description: 'Ground fire patches grow larger. Each patch now affects 10ft radius instead of 5ft per rank.',
+    description: 'Rank 1: Ground fire patches grow larger. Each patch now affects 10ft radius instead of 5ft. Rank 2: Ground fire patches grow larger. Each patch now affects 15ft radius instead of 5ft. Rank 3: Ground fire patches grow larger. Each patch now affects 20ft radius instead of 5ft.',
     icon: 'spell_fire_moltenblood',
     maxRanks: 3,
     position: { x: 4, y: 1 },
@@ -220,7 +220,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t2_searing_heat',
     name: 'Searing Heat',
-    description: 'Enemies take +1d6 fire damage per rank when they take fire damage while already burning.',
+    description: 'Rank 1: Enemies take +1d6 fire damage when they take fire damage while already burning. Rank 2: Enemies take +2d6 fire damage when they take fire damage while already burning. Rank 3: Enemies take +3d6 fire damage when they take fire damage while already burning. Rank 4: Enemies take +4d6 fire damage when they take fire damage while already burning.',
     icon: 'spell_fire_incinerate',
     maxRanks: 4,
     position: { x: 2, y: 2 },
@@ -240,7 +240,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t3_pandemic',
     name: 'Pandemic',
-    description: 'Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 4+ per rank, spread.',
+    description: 'Rank 1: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 4+ spread. Rank 2: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 3+ spread. Rank 3: Your fire DoT effects can spread to nearby enemies. Roll 1d6 when a DoT ticks: on 2+ spread.',
     icon: 'spell_fire_flare',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -269,7 +269,7 @@ export const PYROFIEND_WILDFIRE = [
   {
     id: 'wildfire_t3_lingering_flames',
     name: 'Lingering Flames',
-    description: 'Your fire DoT effects reduce enemy movement speed by 5ft per rank.',
+    description: 'Rank 1: Your fire DoT effects reduce enemy movement speed by 5ft. Rank 2: Your fire DoT effects reduce enemy movement speed by 10ft. Rank 3: Your fire DoT effects reduce enemy movement speed by 15ft. Rank 4: Your fire DoT effects reduce enemy movement speed by 20ft.',
     icon: 'spell_fire_burnout',
     maxRanks: 4,
     position: { x: 4, y: 3 },
@@ -348,7 +348,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t0_demonic_resilience',
     name: 'Demonic Resilience',
-    description: 'You gain +1 HP per rank when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP.',
+    description: 'Rank 1: You gain +1 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 2: You gain +2 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 3: You gain +3 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 4: You gain +4 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP. Rank 5: You gain +5 HP when ascending Inferno Levels. Fire damage cannot reduce you below 1 HP.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 5,
     position: { x: 2, y: 3 },
@@ -377,7 +377,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t1_soul_fire',
     name: 'Soul Fire',
-    description: 'Your fire spells drain life. Deal +1d4 fire damage per rank, heal for half the fire damage you deal.',
+    description: 'Rank 1: Your fire spells drain life. Deal +1d4 extra fire damage, heal for half the fire damage you deal. Rank 2: Your fire spells drain life. Deal +1d4 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened. Rank 3: Your fire spells drain life. Deal +1d6 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened. Rank 4: Your fire spells drain life. Deal +1d6 extra fire damage, heal for half the fire damage you deal. You have advantage on saving throws against being frightened and charmed.',
     icon: 'spell_fire_soulburn',
     maxRanks: 4,
     position: { x: 2, y: 1 },
@@ -388,7 +388,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t2_soul_link',
     name: 'Soul Link',
-    description: 'Link your life force to an enemy. Roll 1d6 per rank when they take damage: on 4+, you heal for 1d6.',
+    description: 'Rank 1: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 1d6. Rank 2: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 2d6. Rank 3: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 3d6. Rank 4: Link your life force to an enemy. Roll 1d6 when they take damage: on 4+ you heal for 4d6.',
     icon: 'spell_shadow_soulburn',
     maxRanks: 4,
     position: { x: 0, y: 2 },
@@ -397,7 +397,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t2_demonic_shield',
     name: 'Demonic Shield',
-    description: 'When you ascend to a new Inferno Level, gain a shield absorbing 1d6 damage per level reached per rank.',
+    description: 'Rank 1: When you ascend to a new Inferno Level, gain a shield absorbing 1d6 damage per level reached. Rank 2: When you ascend to a new Inferno Level, gain a shield absorbing 2d6 damage per level reached. Rank 3: When you ascend to a new Inferno Level, gain a shield absorbing 3d6 damage per level reached.',
     icon: 'spell_fire_twilightfireward',
     maxRanks: 3,
     position: { x: 4, y: 2 },
@@ -417,7 +417,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t3_life_steal',
     name: 'Life Steal',
-    description: 'Your fire damage heals you for 1 HP per rank for every 4 damage dealt.',
+    description: 'Rank 1: Your fire damage heals you for 1 HP for every 4 damage dealt. Rank 2: Your fire damage heals you for 1 HP for every 4 damage dealt. You can spend 1 action point to regain 1d8 HP when below half health. Rank 3: Your fire damage heals you for 1 HP for every 4 damage dealt. You can spend 1 action point to regain 1d8 HP when below half health. Rank 4: Your fire damage heals you for 2 HP for every 4 damage dealt. You can spend 1 action point to regain 1d10 HP when below half health.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 4,
     position: { x: 1, y: 4 },
@@ -435,7 +435,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t3_demon_form',
     name: 'Demon Form',
-    description: 'Unlocks Demon Form - transform for 1 minute. +2 armor per rank, +1 to all saves, regenerate 1d8 HP per round.',
+    description: 'Rank 1: Unlocks Demon Form - transform for 1 minute. +2 armor, +1 to all saves, regenerate 1d8 HP per round. Rank 2: Unlocks Demon Form - transform for 1 minute. +4 armor, +2 to all saves, regenerate 2d8 HP per round. Rank 3: Unlocks Demon Form - transform for 1 minute. +6 armor, +3 to all saves, regenerate 3d8 HP per round.',
     icon: 'spell_shadow_metamorphosis',
     maxRanks: 3,
     position: { x: 0, y: 4 },
@@ -446,7 +446,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t4_hellish_aura',
     name: 'Hellish Aura',
-    description: 'Enemies within 20ft take 1d6 fire damage per rank at the start of your turn and have -1 to attack rolls per rank.',
+    description: 'Rank 1: Enemies within 20ft take 1d6 fire damage at the start of your turn and have -1 to attack rolls. Rank 2: Enemies within 20ft take 2d6 fire damage at the start of your turn and have -2 to attack rolls. Rank 3: Enemies within 20ft take 3d6 fire damage at the start of your turn and have -3 to attack rolls.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 3,
     position: { x: 4, y: 4 },
@@ -494,7 +494,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t5_demonic_dominion',
     name: 'Demonic Dominion',
-    description: 'Your summoned demons gain +2 to all rolls per rank and deal +1d6 fire damage.',
+    description: 'Rank 1: Your summoned demons gain +2 to all rolls and deal +1d6 fire damage. Rank 2: Your summoned demons gain +4 to all rolls and deal +2d6 fire damage. Rank 3: Your summoned demons gain +6 to all rolls and deal +3d6 fire damage.',
     icon: 'spell_shadow_antishadow',
     maxRanks: 3,
     position: { x: 2, y: 6 },

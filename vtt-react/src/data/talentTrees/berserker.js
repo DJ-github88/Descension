@@ -18,7 +18,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t1_fury_damage',
     name: 'Fury Damage',
-    description: 'Weapon damage +1 per rank for each Rage State above Smoldering.',
+    description: 'Rank 1: Weapon damage +1 for each Rage State above Smoldering. Rank 2: Weapon damage +1 for each Rage State above Smoldering. You can spend 1 Rage to gain advantage on your next attack. Rank 3: Weapon damage +1 for each Rage State above Smoldering. You can spend 1 Rage to gain advantage on your next attack. Rank 4: Weapon damage +2 for each Rage State above Smoldering. You can spend 1 Rage to gain advantage on your next attack.',
     icon: 'ability_warrior_savageblow',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -56,7 +56,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t1_bloodlust',
     name: 'Bloodlust',
-    description: 'Critical hits generate +1d4 Rage per rank.',
+    description: 'Rank 1: Critical hits generate +1d4 Rage. Rank 2: Critical hits generate +1d4 Rage. You can enter a Frenzied Rage State as a bonus action. Rank 3: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State as a bonus action. Rank 4: Critical hits generate +1d6 Rage. You can enter a Frenzied Rage State as a bonus action and reduce Rage decay by 1.',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 4,
     position: { x: 0, y: 2 },

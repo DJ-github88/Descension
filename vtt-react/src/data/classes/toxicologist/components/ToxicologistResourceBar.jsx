@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/ToxicologistResourceBar.css';
+import '../../../../styles/unified-context-menu.css';
 
 const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
     // Local state for dev testing
@@ -373,139 +374,297 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             )}
 
             {/* Specialization Menu */}
-            {showSpecMenu && (
-                <div className="toxicologist-spec-menu">
-                    <div className="spec-menu-title">Specialization</div>
-                    <div className="spec-menu-options">
-                        <button
-                            className={`spec-option ${selectedSpec === 'venomancer' ? 'active' : ''}`}
-                            onClick={() => {
-                                setSelectedSpec('venomancer');
-                                setShowSpecMenu(false);
-                            }}
-                        >
-                            <i className="fas fa-skull-crossbones"></i>
-                            <span>Venomancer</span>
-                        </button>
-                        <button
-                            className={`spec-option ${selectedSpec === 'gadgeteer' ? 'active' : ''}`}
-                            onClick={() => {
-                                setSelectedSpec('gadgeteer');
-                                setShowSpecMenu(false);
-                            }}
-                        >
-                            <i className="fas fa-cog"></i>
-                            <span>Gadgeteer</span>
-                        </button>
-                        <button
-                            className={`spec-option ${selectedSpec === 'saboteur' ? 'active' : ''}`}
-                            onClick={() => {
-                                setSelectedSpec('saboteur');
-                                setShowSpecMenu(false);
-                            }}
-                        >
-                            <i className="fas fa-user-secret"></i>
-                            <span>Saboteur</span>
-                        </button>
+            {showSpecMenu && barRef.current && ReactDOM.createPortal(
+                <div
+                    className={`unified-context-menu compact toxicologist-spec-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                        position: 'fixed',
+                        top: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                            let hudBottom = rect.bottom;
+                            if (hudContainer) {
+                                const hudRect = hudContainer.getBoundingClientRect();
+                                hudBottom = hudRect.bottom;
+                            }
+                            return hudBottom + 8;
+                        })(),
+                        left: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            return rect.left + (rect.width / 2);
+                        })(),
+                        transform: 'translateX(-50%)',
+                        zIndex: 100000
+                    }}
+                >
+                    <div className="context-menu-main toxicologist-menu">
+                        <div className="menu-title">Specialization</div>
+                        <div className="toxicologist-spec-grid">
+                            {Object.entries(specConfigs).map(([specKey, spec]) => (
+                                <button
+                                    key={specKey}
+                                    className={`toxicologist-spec-btn ${selectedSpec === specKey ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedSpec(specKey);
+                                        setShowSpecMenu(false);
+                                    }}
+                                    title={spec.name}
+                                >
+                                    <i className={`fas ${spec.icon}`}></i>
+                                    <span>{spec.name}</span>
+                                </button>
+                            ))}
+                        </div>
+                        <div className="toxicologist-quick-actions">
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowSpecMenu(false);
+                                }} 
+                                className="toxicologist-quick-btn"
+                                title="Close"
+                            >
+                                <i className="fas fa-times"></i>
+                                <span>Close</span>
+                            </button>
+                        </div>
                     </div>
-                    <button className="menu-close-btn" onClick={() => setShowSpecMenu(false)}>
-                        Close
-                    </button>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Toxin Vials Menu */}
-            {showToxinMenu && (
-                <div className="toxicologist-resource-menu">
-                    <div className="menu-title">Toxin Vials ({localToxinVials}/{maxToxinVials})</div>
-                    <div className="menu-info-row">
-                        <span className="info-label">Generation:</span>
-                        <span className="info-value">+1d4 per short rest</span>
+            {showToxinMenu && barRef.current && ReactDOM.createPortal(
+                <div
+                    className={`unified-context-menu compact toxicologist-toxin-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                        position: 'fixed',
+                        top: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                            let hudBottom = rect.bottom;
+                            if (hudContainer) {
+                                const hudRect = hudContainer.getBoundingClientRect();
+                                hudBottom = hudRect.bottom;
+                            }
+                            return hudBottom + 8;
+                        })(),
+                        left: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            return rect.left + (rect.width / 2);
+                        })(),
+                        transform: 'translateX(-50%)',
+                        zIndex: 100000
+                    }}
+                >
+                    <div className="context-menu-main toxicologist-menu">
+                        <div className="menu-title">Toxin Vials: {localToxinVials}/{maxToxinVials}</div>
+
+                        <div className="toxicologist-info-text">
+                            <div>Generation: +1d4 per short rest</div>
+                            <div>Crafting: Bonus action</div>
+                        </div>
+
+                        {/* Gain Actions */}
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">Gain</div>
+                            <div className="toxicologist-action-grid single-col">
+                                <button
+                                    className="context-menu-button gain"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setLocalToxinVials(Math.min(maxToxinVials, localToxinVials + 1));
+                                    }}
+                                    title="+1 Vial"
+                                >
+                                    <i className="fas fa-plus"></i> +1
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Spend Actions */}
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">Spend</div>
+                            <div className="toxicologist-action-grid">
+                                <button
+                                    className="context-menu-button spend"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setLocalToxinVials(Math.max(0, localToxinVials - 1));
+                                    }}
+                                    title="-1 Poison"
+                                >
+                                    <i className="fas fa-minus"></i> -1
+                                </button>
+                                <button
+                                    className="context-menu-button spend"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setLocalToxinVials(Math.max(0, localToxinVials - 2));
+                                    }}
+                                    title="-2 Concoction"
+                                >
+                                    <i className="fas fa-minus"></i> -2
+                                </button>
+                                <button
+                                    className="context-menu-button spend"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setLocalToxinVials(Math.max(0, localToxinVials - 3));
+                                    }}
+                                    title="-3 Explosive"
+                                >
+                                    <i className="fas fa-minus"></i> -3
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Quick Actions */}
+                        <div className="toxicologist-quick-actions">
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setLocalToxinVials(maxToxinVials);
+                                    setShowToxinMenu(false);
+                                }} 
+                                className="toxicologist-quick-btn"
+                                title="Reset to Max"
+                            >
+                                <i className="fas fa-undo"></i>
+                                <span>Max</span>
+                            </button>
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowToxinMenu(false);
+                                }} 
+                                className="toxicologist-quick-btn"
+                                title="Close"
+                            >
+                                <i className="fas fa-times"></i>
+                                <span>Close</span>
+                            </button>
+                        </div>
                     </div>
-                    <div className="menu-info-row">
-                        <span className="info-label">Crafting:</span>
-                        <span className="info-value">Bonus action</span>
-                    </div>
-                    <div className="menu-action-buttons">
-                        <button
-                            className="menu-action-btn gain"
-                            onClick={() => setLocalToxinVials(Math.min(maxToxinVials, localToxinVials + 1))}
-                        >
-                            +1 Vial
-                        </button>
-                        <button
-                            className="menu-action-btn spend"
-                            onClick={() => setLocalToxinVials(Math.max(0, localToxinVials - 1))}
-                        >
-                            -1 Poison
-                        </button>
-                        <button
-                            className="menu-action-btn spend"
-                            onClick={() => setLocalToxinVials(Math.max(0, localToxinVials - 2))}
-                        >
-                            -2 Concoction
-                        </button>
-                        <button
-                            className="menu-action-btn spend"
-                            onClick={() => setLocalToxinVials(Math.max(0, localToxinVials - 3))}
-                        >
-                            -3 Explosive
-                        </button>
-                    </div>
-                    <button className="menu-reset-btn" onClick={() => {
-                        setLocalToxinVials(maxToxinVials);
-                        setShowToxinMenu(false);
-                    }}>
-                        Reset to Max
-                    </button>
-                    <button className="menu-close-btn" onClick={() => setShowToxinMenu(false)}>
-                        Close
-                    </button>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Contraption Parts Menu */}
-            {showContraptionMenu && (
-                <div className="toxicologist-resource-menu">
-                    <div className="menu-title">Contraption Parts ({localContraptionParts}/{maxContraptionParts})</div>
-                    <div className="menu-info-row">
-                        <span className="info-label">Generation:</span>
-                        <span className="info-value">+1 per short rest</span>
+            {showContraptionMenu && barRef.current && ReactDOM.createPortal(
+                <div
+                    className={`unified-context-menu compact toxicologist-contraption-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                        position: 'fixed',
+                        top: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                            let hudBottom = rect.bottom;
+                            if (hudContainer) {
+                                const hudRect = hudContainer.getBoundingClientRect();
+                                hudBottom = hudRect.bottom;
+                            }
+                            return hudBottom + 8;
+                        })(),
+                        left: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            return rect.left + (rect.width / 2);
+                        })(),
+                        transform: 'translateX(-50%)',
+                        zIndex: 100000
+                    }}
+                >
+                    <div className="context-menu-main toxicologist-menu">
+                        <div className="menu-title">Contraption Parts: {localContraptionParts}/{maxContraptionParts}</div>
+
+                        <div className="toxicologist-info-text">
+                            <div>Generation: +1 per short rest</div>
+                            <div>Deployment: {selectedSpec === 'gadgeteer' ? 'Bonus action' : 'Action'}</div>
+                        </div>
+
+                        {/* Gain Actions */}
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">Gain</div>
+                            <div className="toxicologist-action-grid single-col">
+                                <button
+                                    className="context-menu-button gain"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setLocalContraptionParts(Math.min(maxContraptionParts, localContraptionParts + 1));
+                                    }}
+                                    title="+1 Part"
+                                >
+                                    <i className="fas fa-plus"></i> +1
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Spend Actions */}
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">Spend</div>
+                            <div className="toxicologist-action-grid two-col">
+                                <button
+                                    className="context-menu-button spend"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setLocalContraptionParts(Math.max(0, localContraptionParts - 1));
+                                    }}
+                                    title="-1 Deploy Contraption"
+                                >
+                                    <i className="fas fa-minus"></i> -1
+                                </button>
+                                <button
+                                    className="context-menu-button spend"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setLocalContraptionParts(Math.max(0, localContraptionParts - 2));
+                                    }}
+                                    title="-2 Deploy Complex Device"
+                                >
+                                    <i className="fas fa-minus"></i> -2
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Quick Actions */}
+                        <div className="toxicologist-quick-actions">
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setLocalContraptionParts(maxContraptionParts);
+                                    setShowContraptionMenu(false);
+                                }} 
+                                className="toxicologist-quick-btn"
+                                title="Reset to Max"
+                            >
+                                <i className="fas fa-undo"></i>
+                                <span>Max</span>
+                            </button>
+                            <button 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowContraptionMenu(false);
+                                }} 
+                                className="toxicologist-quick-btn"
+                                title="Close"
+                            >
+                                <i className="fas fa-times"></i>
+                                <span>Close</span>
+                            </button>
+                        </div>
                     </div>
-                    <div className="menu-info-row">
-                        <span className="info-label">Deployment:</span>
-                        <span className="info-value">{selectedSpec === 'gadgeteer' ? 'Bonus action' : 'Action'}</span>
-                    </div>
-                    <div className="menu-action-buttons">
-                        <button
-                            className="menu-action-btn gain"
-                            onClick={() => setLocalContraptionParts(Math.min(maxContraptionParts, localContraptionParts + 1))}
-                        >
-                            +1 Part
-                        </button>
-                        <button
-                            className="menu-action-btn spend"
-                            onClick={() => setLocalContraptionParts(Math.max(0, localContraptionParts - 1))}
-                        >
-                            -1 Deploy Contraption
-                        </button>
-                        <button
-                            className="menu-action-btn spend"
-                            onClick={() => setLocalContraptionParts(Math.max(0, localContraptionParts - 2))}
-                        >
-                            -2 Deploy Complex Device
-                        </button>
-                    </div>
-                    <button className="menu-reset-btn" onClick={() => {
-                        setLocalContraptionParts(maxContraptionParts);
-                        setShowContraptionMenu(false);
-                    }}>
-                        Reset to Max
-                    </button>
-                    <button className="menu-close-btn" onClick={() => setShowContraptionMenu(false)}>
-                        Close
-                    </button>
-                </div>
+                </div>,
+                document.body
             )}
 
 

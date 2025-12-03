@@ -12,6 +12,50 @@
     padding: 4px;
 }
 
+/* Party member frame specific styling - ensure it fits in resource-bars-container */
+.party-member-frame .mayhem-modifiers-display {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 2px !important;
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.party-member-frame .mayhem-modifiers-display.small {
+    padding: 2px !important;
+}
+
+.party-member-frame .mayhem-bar-wrapper {
+    width: 100% !important;
+    gap: 4px !important;
+}
+
+.party-member-frame .mayhem-bar-container-hud {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.party-member-frame .mayhem-bar-background {
+    height: 10px !important;
+}
+
+.party-member-frame .mayhem-bar-text {
+    font-size: 9px !important;
+}
+
+.party-member-frame .mayhem-controls-hud {
+    gap: 2px !important;
+}
+
+.party-member-frame .mayhem-btn {
+    min-width: 18px !important;
+    height: 18px !important;
+    font-size: 8px !important;
+    padding: 1px 3px !important;
+}
+
 .mayhem-modifiers-display.normal {
     min-height: auto;
     padding: 8px;
@@ -143,14 +187,6 @@
     color: #D946EF;
 }
 
-/* Mayhem popup menu */
-/* .mayhem-menu styles moved to chaosweaver.css for Chaos Weaver specific styling */
-
-.mayhem-menu-row {
-    display: contents;
-}
-
-/* .mayhem-menu-item styles moved to chaosweaver.css for Chaos Weaver specific styling */
 
 /* Full display - clean bar container */
 .mayhem-bar-container {
@@ -769,134 +805,6 @@
     transform: scale(0.95);
 }
 
-/* Mayhem Control Menu */
-.mayhem-control-menu {
-    position: absolute;
-    top: 0;
-    right: 45px;
-    background: linear-gradient(145deg, rgba(30, 20, 15, 0.98), rgba(20, 10, 5, 0.98));
-    border: 2px solid rgba(147, 51, 234, 0.6);
-    border-radius: 8px;
-    padding: 8px;
-    min-width: 200px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-    animation: menuSlideIn 0.2s ease-out;
-}
-
-@keyframes menuSlideIn {
-    from {
-        opacity: 0;
-        transform: translateX(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.mayhem-menu-header {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: #D946EF;
-    text-align: center;
-    padding: 4px 8px;
-    margin-bottom: 8px;
-    border-bottom: 1px solid rgba(147, 51, 234, 0.4);
-    text-shadow: 0 0 4px rgba(217, 70, 239, 0.6);
-}
-
-.mayhem-explanation {
-    background: rgba(74, 14, 78, 0.3);
-    border: 1px solid rgba(147, 51, 234, 0.3);
-    border-radius: 4px;
-    padding: 8px;
-    margin-bottom: 8px;
-}
-
-.explanation-title {
-    font-size: 10px;
-    font-weight: 700;
-    color: #D946EF;
-    margin-bottom: 4px;
-    font-family: 'Cinzel', serif;
-}
-
-.explanation-text {
-    font-size: 10px;
-    color: #E5D4C1;
-    line-height: 1.4;
-    font-family: 'Crimson Text', serif;
-}
-
-.mayhem-menu-section {
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(139, 115, 85, 0.3);
-}
-
-.mayhem-menu-section:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-.mayhem-menu-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: #9333EA;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-    padding-left: 4px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.section-help {
-    font-size: 9px;
-    color: rgba(147, 51, 234, 0.6);
-    cursor: help;
-    font-weight: normal;
-    text-transform: none;
-}
-
-.section-help:hover {
-    color: #D946EF;
-}
-
-.mayhem-menu-option {
-    width: 100%;
-    padding: 6px 10px;
-    margin-bottom: 3px;
-    background: linear-gradient(135deg, rgba(74, 14, 78, 0.4), rgba(124, 58, 237, 0.2));
-    border: 1px solid rgba(147, 51, 234, 0.3);
-    border-radius: 4px;
-    color: #E5D4C1;
-    font-size: 11px;
-    font-family: 'Crimson Text', serif;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-}
-
-.mayhem-menu-option:hover {
-    background: linear-gradient(135deg, rgba(147, 51, 234, 0.5), rgba(124, 58, 237, 0.3));
-    border-color: rgba(217, 70, 239, 0.5);
-    color: #FFF;
-    transform: translateX(2px);
-}
-
-.mayhem-menu-option:active {
-    background: linear-gradient(135deg, rgba(217, 70, 239, 0.6), rgba(147, 51, 234, 0.4));
-    transform: translateX(0);
-}
-
-.mayhem-menu-option:last-child {
-    margin-bottom: 0;
-}
 
 /* Card Deck Display (Fate Weaver) */
 .card-deck {

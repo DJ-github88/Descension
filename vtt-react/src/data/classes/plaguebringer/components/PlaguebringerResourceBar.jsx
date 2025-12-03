@@ -178,57 +178,144 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             )}
             
             {/* Plaguebringer Menu */}
-            {showControls && (
-                <div className="plaguebringer-menu" onClick={(e) => e.stopPropagation()}>
-                    <div className="menu-section">
-                        <div className="menu-title">Corruption</div>
-                        <div className="menu-controls">
-                            <button onClick={() => setLocalCorruption(Math.max(0, localCorruption - 10))}>-10</button>
-                            <span className="menu-value">{localCorruption}/{maxCorruption}</span>
-                            <button onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 10))}>+10</button>
+            {showControls && barRef.current && ReactDOM.createPortal(
+                <div
+                    className={`unified-context-menu compact plaguebringer-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                        position: 'fixed',
+                        top: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                            let hudBottom = rect.bottom;
+                            if (hudContainer) {
+                                const hudRect = hudContainer.getBoundingClientRect();
+                                hudBottom = hudRect.bottom;
+                            }
+                            return hudBottom + 8;
+                        })(),
+                        left: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            return rect.left + (rect.width / 2);
+                        })(),
+                        transform: 'translateX(-50%)',
+                        zIndex: 100000
+                    }}
+                >
+                    <div className="context-menu-main plaguebringer-menu">
+                        {/* Corruption Section */}
+                        <div className="menu-title">Corruption: {localCorruption}/{maxCorruption}</div>
+                        <div className="plaguebringer-controls">
+                            <button 
+                                className="plaguebringer-action-btn"
+                                onClick={() => setLocalCorruption(Math.max(0, localCorruption - 10))}
+                            >
+                                -10
+                            </button>
+                            <button 
+                                className="plaguebringer-action-btn"
+                                onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 10))}
+                            >
+                                +10
+                            </button>
                         </div>
-                        <div className="menu-quick-buttons">
-                            <button onClick={() => setLocalCorruption(Math.max(0, localCorruption - 5))}>-5</button>
-                            <button onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 5))}>+5</button>
-                            <button onClick={() => setLocalCorruption(0)}>Clear</button>
-                            <button onClick={() => setLocalCorruption(maxCorruption)}>Max</button>
+                        <div className="plaguebringer-quick-actions">
+                            <button 
+                                className="plaguebringer-quick-btn"
+                                onClick={() => setLocalCorruption(Math.max(0, localCorruption - 5))}
+                            >
+                                -5
+                            </button>
+                            <button 
+                                className="plaguebringer-quick-btn"
+                                onClick={() => setLocalCorruption(Math.min(maxCorruption, localCorruption + 5))}
+                            >
+                                +5
+                            </button>
+                            <button 
+                                className="plaguebringer-quick-btn"
+                                onClick={() => setLocalCorruption(0)}
+                            >
+                                Clear
+                            </button>
+                            <button 
+                                className="plaguebringer-quick-btn"
+                                onClick={() => setLocalCorruption(maxCorruption)}
+                            >
+                                Max
+                            </button>
                         </div>
-                    </div>
 
-                    <div className="menu-section">
-                        <div className="menu-title">Active Afflictions</div>
-                        <div className="menu-controls">
-                            <button onClick={() => setLocalAfflictions(Math.max(0, localAfflictions - 1))}>-1</button>
-                            <span className="menu-value">{localAfflictions}/{maxAfflictions}</span>
-                            <button onClick={() => setLocalAfflictions(Math.min(maxAfflictions, localAfflictions + 1))}>+1</button>
+                        {/* Afflictions Section */}
+                        <div className="menu-title" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
+                            Active Afflictions: {localAfflictions}/{maxAfflictions}
                         </div>
-                        <div className="menu-quick-buttons">
-                            <button onClick={() => setLocalAfflictions(0)}>Clear</button>
-                            <button onClick={() => setLocalAfflictions(maxAfflictions)}>Max</button>
+                        <div className="plaguebringer-controls">
+                            <button 
+                                className="plaguebringer-action-btn"
+                                onClick={() => setLocalAfflictions(Math.max(0, localAfflictions - 1))}
+                            >
+                                -1
+                            </button>
+                            <button 
+                                className="plaguebringer-action-btn"
+                                onClick={() => setLocalAfflictions(Math.min(maxAfflictions, localAfflictions + 1))}
+                            >
+                                +1
+                            </button>
                         </div>
-                    </div>
+                        <div className="plaguebringer-quick-actions">
+                            <button 
+                                className="plaguebringer-quick-btn"
+                                onClick={() => setLocalAfflictions(0)}
+                            >
+                                Clear
+                            </button>
+                            <button 
+                                className="plaguebringer-quick-btn"
+                                onClick={() => setLocalAfflictions(maxAfflictions)}
+                            >
+                                Max
+                            </button>
+                        </div>
 
-                    <div className="menu-section">
-                        <div className="menu-title">Specialization</div>
-                        <div className="spec-icons-row">
+                        {/* Specialization Section */}
+                        <div className="menu-title" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
+                            Specialization
+                        </div>
+                        <div className="plaguebringer-specs">
                             {Object.entries(specConfigs).map(([key, spec]) => {
                                 const isSelected = selectedSpec === key;
                                 return (
-                                    <div
+                                    <button
                                         key={key}
-                                        className={`spec-icon-option ${isSelected ? 'selected' : ''}`}
+                                        className={`plaguebringer-spec-btn ${isSelected ? 'active' : ''}`}
                                         onClick={() => {
                                             setSelectedSpec(key);
                                         }}
                                         title={`${spec.name}: ${spec.passive}`}
                                     >
                                         <i className={`fas ${spec.icon}`}></i>
-                                    </div>
+                                    </button>
                                 );
                             })}
                         </div>
+
+                        {/* Close Button */}
+                        <div className="plaguebringer-quick-actions" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
+                            <button 
+                                className="plaguebringer-quick-btn"
+                                onClick={() => setShowControls(false)}
+                                style={{ flex: '1' }}
+                            >
+                                <i className="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

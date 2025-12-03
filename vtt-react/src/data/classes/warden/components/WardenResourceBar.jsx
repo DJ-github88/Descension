@@ -192,9 +192,12 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                 <div
                     ref={barRef}
                     className={`warden-resource-bar ${size} state-${visualState} clickable`}
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}
-                    onClick={() => setShowControls(!showControls)}
+                onMouseEnter={() => { if (!showControls) setShowTooltip(true); }}
+                onMouseLeave={() => setShowTooltip(false)}
+                onClick={() => {
+                    setShowControls(!showControls);
+                    if (showControls) setShowTooltip(false);
+                }}
                     style={{
                         '--spec-base-color': currentSpec.baseColor,
                         '--spec-active-color': currentSpec.activeColor,
@@ -241,125 +244,209 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                 </div>
             </div>
 
-            {/* Warden Menu - Pathfinder Beige Style */}
-            {showControls && (
-                <div className="warden-menu" onClick={(e) => e.stopPropagation()}>
-                    <div className="menu-header">
-                        <div className="menu-title">Adjust Vengeance Points</div>
-                    </div>
-                    <div className="menu-buttons">
-                        <div className="button-row">
-                            <button onClick={() => { handleVPChange(1); setShowControls(false); }}>
-                                +1 <span className="button-desc">Attack</span>
-                            </button>
-                            <button onClick={() => { if (isMarked) handleVPChange(2); setShowControls(false); }}>
-                                +2 <span className="button-desc">Marked</span>
-                            </button>
-                            <button onClick={() => { handleVPChange(-1); setShowControls(false); }}>
-                                -1 <span className="button-desc">Strike</span>
-                            </button>
-                        </div>
-                        <div className="button-row">
-                            <button onClick={() => { handleVPChange(-2); setShowControls(false); }}>
-                                -2 <span className="button-desc">Whirl</span>
-                            </button>
-                            <button onClick={() => { handleVPChange(-3); setShowControls(false); }}>
-                                -3 <span className="button-desc">Resolve</span>
-                            </button>
-                            <button onClick={() => { handleVPChange(selectedSpec === 'jailer' ? -3 : -5); setShowControls(false); }}>
-                                {selectedSpec === 'jailer' ? '-3' : '-5'} <span className="button-desc">Cage</span>
-                            </button>
-                        </div>
-                        <div className="button-row">
-                            <button onClick={() => { setLocalVP(0); setShowControls(false); }}>
-                                0 <span className="button-desc">Reset</span>
-                            </button>
-                            <button onClick={() => { setLocalVP(maxVP); setShowControls(false); }}>
-                                {maxVP} <span className="button-desc">Max</span>
-                            </button>
-                            <button className="menu-reset" onClick={() => setShowControls(false)}>
-                                ✕
-                            </button>
-                        </div>
-                    </div>
-                    <div className="menu-divider"></div>
-                    
-                    {/* Shadowblade State Controls */}
-                    {selectedSpec === 'shadowblade' && (
-                        <div className="menu-section">
-                            <div className="section-label">Shadowblade State</div>
-                            <div className="button-row">
+            {/* Warden Menu - Compact Unified Style */}
+            {showControls && barRef.current && ReactDOM.createPortal(
+                <div
+                    className={`unified-context-menu compact warden-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                        position: 'fixed',
+                        top: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                            let hudBottom = rect.bottom;
+                            if (hudContainer) {
+                                const hudRect = hudContainer.getBoundingClientRect();
+                                hudBottom = hudRect.bottom;
+                            }
+                            return hudBottom + 8;
+                        })(),
+                        left: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            return rect.left + (rect.width / 2);
+                        })(),
+                        transform: 'translateX(-50%)',
+                        zIndex: 100000
+                    }}
+                >
+                    <div className="context-menu-main">
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">VP: {localVP}/{maxVP}</div>
+
+                            {/* Gain Section */}
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
                                 <button 
-                                    className={isInStealth ? 'active' : ''}
-                                    onClick={() => setIsInStealth(!isInStealth)}
+                                    className="context-menu-button gain" 
+                                    onClick={(e) => { e.stopPropagation(); handleVPChange(1); }}
                                 >
-                                    {isInStealth ? '✓' : ''} Stealth Mode
+                                    <i className="fas fa-plus"></i> +1
+                                </button>
+                                <button 
+                                    className="context-menu-button gain" 
+                                    onClick={(e) => { e.stopPropagation(); if (isMarked) handleVPChange(2); }}
+                                >
+                                    <i className="fas fa-plus-circle"></i> +2
+                                </button>
+                            </div>
+
+                            {/* Spend Section */}
+                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>Spend</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                <button 
+                                    className="context-menu-button spend" 
+                                    onClick={(e) => { e.stopPropagation(); handleVPChange(-1); }}
+                                >
+                                    <i className="fas fa-minus"></i> -1
+                                </button>
+                                <button 
+                                    className="context-menu-button spend" 
+                                    onClick={(e) => { e.stopPropagation(); handleVPChange(-2); }}
+                                >
+                                    <i className="fas fa-minus"></i> -2
+                                </button>
+                                <button 
+                                    className="context-menu-button spend" 
+                                    onClick={(e) => { e.stopPropagation(); handleVPChange(-3); }}
+                                >
+                                    <i className="fas fa-minus"></i> -3
+                                </button>
+                                <button 
+                                    className="context-menu-button spend" 
+                                    onClick={(e) => { e.stopPropagation(); handleVPChange(selectedSpec === 'jailer' ? -3 : -5); }}
+                                >
+                                    <i className="fas fa-minus"></i> {selectedSpec === 'jailer' ? '-3' : '-5'}
+                                </button>
+                            </div>
+
+                            {/* Shadowblade State */}
+                            {selectedSpec === 'shadowblade' && (
+                                <>
+                                    <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>Shadowblade</div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                        <button 
+                                            className={`context-menu-button ${isInStealth ? 'active' : ''}`}
+                                            onClick={(e) => { e.stopPropagation(); setIsInStealth(!isInStealth); }}
+                                        >
+                                            <i className={`fas ${isInStealth ? 'fa-check-circle' : 'fa-circle'}`}></i>
+                                            Stealth
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Jailer State */}
+                            {selectedSpec === 'jailer' && (
+                                <>
+                                    <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>Cages: {activeCages}/2</div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => { e.stopPropagation(); setActiveCages(Math.max(0, activeCages - 1)); }}
+                                        >
+                                            <i className="fas fa-minus"></i> -1
+                                        </button>
+                                        <button 
+                                            className="context-menu-button" 
+                                            onClick={(e) => { e.stopPropagation(); setActiveCages(0); }}
+                                        >
+                                            Clear
+                                        </button>
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => { e.stopPropagation(); setActiveCages(2); }}
+                                        >
+                                            Max
+                                        </button>
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => { e.stopPropagation(); setActiveCages(Math.min(2, activeCages + 1)); }}
+                                        >
+                                            <i className="fas fa-plus"></i> +1
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Vengeance Seeker State */}
+                            {selectedSpec === 'vengeanceSeeker' && (
+                                <>
+                                    <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>Vengeance Seeker</div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                        <button 
+                                            className={`context-menu-button ${isInAvatar ? 'active' : ''}`}
+                                            onClick={(e) => { e.stopPropagation(); setIsInAvatar(!isInAvatar); }}
+                                        >
+                                            <i className={`fas ${isInAvatar ? 'fa-check-circle' : 'fa-circle'}`}></i>
+                                            Avatar
+                                        </button>
+                                        <button 
+                                            className={`context-menu-button ${isMarked ? 'active' : ''}`}
+                                            onClick={(e) => { e.stopPropagation(); setIsMarked(!isMarked); }}
+                                        >
+                                            <i className={`fas ${isMarked ? 'fa-check-circle' : 'fa-circle'}`}></i>
+                                            Marked
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Specialization */}
+                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>Specialization</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '4px', marginBottom: '8px' }}>
+                                {Object.entries(specConfigs).map(([key, spec]) => (
+                                    <button
+                                        key={key}
+                                        className={`context-menu-button ${selectedSpec === key ? 'active' : ''}`}
+                                        onClick={(e) => { e.stopPropagation(); handleSpecChange(key); }}
+                                    >
+                                        <i className={`fas ${spec.icon}`}></i> {spec.name}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="context-menu-separator" style={{margin: '12px 0'}}></div>
+
+                            {/* Quick Actions */}
+                            <div style={{ display: 'flex', gap: '4px' }}>
+                                <button 
+                                    className="context-menu-button danger" 
+                                    onClick={(e) => { e.stopPropagation(); handleVPChange(-10); setIsInAvatar(true); setShowControls(false); }}
+                                    style={{flex: 1}}
+                                >
+                                    <i className="fas fa-star"></i> Avatar
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setLocalVP(0); setShowControls(false); }}
+                                    style={{flex: 1}}
+                                >
+                                    <i className="fas fa-undo"></i> Reset
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setLocalVP(maxVP); setShowControls(false); }}
+                                    style={{flex: 1}}
+                                >
+                                    <i className="fas fa-arrow-up"></i> Max
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setShowControls(false); }}
+                                    style={{flex: 1}}
+                                >
+                                    <i className="fas fa-times"></i> Close
                                 </button>
                             </div>
                         </div>
-                    )}
-
-                    {/* Jailer State Controls */}
-                    {selectedSpec === 'jailer' && (
-                        <div className="menu-section">
-                            <div className="section-label">Active Cages: {activeCages}/2</div>
-                            <div className="button-row">
-                                <button onClick={() => setActiveCages(Math.max(0, activeCages - 1))}>-1</button>
-                                <button onClick={() => setActiveCages(0)}>Clear</button>
-                                <button onClick={() => setActiveCages(2)}>Max</button>
-                                <button onClick={() => setActiveCages(Math.min(2, activeCages + 1))}>+1</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Vengeance Seeker State Controls */}
-                    {selectedSpec === 'vengeanceSeeker' && (
-                        <div className="menu-section">
-                            <div className="section-label">Vengeance Seeker State</div>
-                            <div className="button-row">
-                                <button 
-                                    className={isInAvatar ? 'active' : ''}
-                                    onClick={() => setIsInAvatar(!isInAvatar)}
-                                >
-                                    {isInAvatar ? '✓' : ''} Avatar
-                                </button>
-                                <button 
-                                    className={isMarked ? 'active' : ''}
-                                    onClick={() => setIsMarked(!isMarked)}
-                                >
-                                    {isMarked ? '✓' : ''} Marked
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Quick Actions */}
-                    <div className="menu-section">
-                        <div className="section-label">Quick Actions</div>
-                        <div className="button-row">
-                            <button onClick={() => { handleVPChange(-10); setIsInAvatar(true); setShowControls(false); }}>
-                                Avatar <span className="button-desc">-10 VP</span>
-                            </button>
-                        </div>
                     </div>
-
-                    <div className="menu-divider"></div>
-                    <div className="spec-buttons">
-                        {Object.entries(specConfigs).map(([key, spec]) => (
-                            <button
-                                key={key}
-                                className={`spec-button ${selectedSpec === key ? 'active' : ''}`}
-                                onClick={() => handleSpecChange(key)}
-                            >
-                                <i className={`fas ${spec.icon}`}></i> {spec.name}
-                            </button>
-                        ))}
-                    </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Simplified Tooltip */}
-            {showTooltip && ReactDOM.createPortal(
+            {showTooltip && !showControls && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                     <div className="tooltip-title">Vengeance Points: {localVP}/{maxVP}</div>
                     <div className="tooltip-spec">{currentSpec.name}</div>

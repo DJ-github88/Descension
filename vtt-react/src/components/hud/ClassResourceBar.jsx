@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { getClassResourceConfig } from '../../data/classResources';
 import TooltipPortal from '../tooltips/TooltipPortal';
@@ -11,6 +11,7 @@ import TitanResourceBar from '../../data/classes/titan/components/TitanResourceB
 import ToxicologistResourceBar from '../../data/classes/toxicologist/components/ToxicologistResourceBar';
 import WardenResourceBar from '../../data/classes/warden/components/WardenResourceBar';
 import WitchDoctorResourceBar from '../../data/classes/witchdoctor/components/WitchDoctorResourceBar';
+import '../../styles/unified-context-menu.css';
 
 const ClassResourceBar = ({
     characterClass,
@@ -79,6 +80,7 @@ const ClassResourceBar = ({
     });
 
     const rageBarRef = useRef(null);
+    const mayhemBarRef = useRef(null);
     const tooltipRef = useRef(null);
     const tooltipTimeoutRef = useRef(null);
     const resourceBarWrapperRef = useRef(null);
@@ -115,9 +117,10 @@ const ClassResourceBar = ({
         showChargesMenu: false,
         covenbaneHoverSection: null // 'charges' | 'counter' | null
     });
+    const chargesDisplayRef = useRef(null);
 
     const [deathcallerState, setDeathcallerState] = useState({
-        localAscensionPaths: [true, true, true, false, false, false, false], // Start with 3 paths active
+        localAscensionPaths: [true, false, false, false, false, false, false], // Start with 1 path active (first path only)
         localBloodTokens: 12, // Start with 12 tokens for demo
         showPathsMenu: false,
         showTokensMenu: false,
@@ -177,6 +180,9 @@ const ClassResourceBar = ({
         primalistSpec: 'earthwarden' // Default to Earthwarden
     });
     const synergyBarRef = useRef(null);
+    const momentumBarRef = useRef(null);
+    const flourishBarRef = useRef(null);
+    const stanceBarRef = useRef(null);
 
     const [gamblerState, setGamblerState] = useState({
         localFortunePoints: 5, // Start with 5 for demo
@@ -255,6 +261,19 @@ const ClassResourceBar = ({
         showMinstrelSpecMenu: false
     });
     const minstrelBarRef = useRef(null);
+    const [minstrelPositions, setMinstrelPositions] = useState({});
+    const timeShardsBarRef = useRef(null);
+    const temporalStrainBarRef = useRef(null);
+    const [chronarchPositions, setChronarchPositions] = useState({});
+    const [mayhemPositions, setMayhemPositions] = useState({});
+    const [dominancePositions, setDominancePositions] = useState({});
+    const [madnessPositions, setMadnessPositions] = useState({});
+    const [threadsPositions, setThreadsPositions] = useState({});
+    const [fortunePointsPositions, setFortunePointsPositions] = useState({});
+    const [wildInstinctPositions, setWildInstinctPositions] = useState({});
+    const [totemicSynergyPositions, setTotemicSynergyPositions] = useState({});
+    const [quarryMarksPositions, setQuarryMarksPositions] = useState({});
+    const [runesInscriptionsPositions, setRunesInscriptionsPositions] = useState({});
 
     const [oracleState, setOracleState] = useState({
         localVisions: 6, // Start with 6 for demo
@@ -269,6 +288,8 @@ const ClassResourceBar = ({
         oracleHoverSection: null // 'visions' | null
     });
     const visionsBarRef = useRef(null);
+    const pathsBarRef = useRef(null);
+    const tokensBarRef = useRef(null);
 
     // Destructure local variables from state objects for easier access
     const {
@@ -446,6 +467,14 @@ const ClassResourceBar = ({
     const setLocalAttackCounter = (value) => setCovenbaneState(prev => ({ ...prev, localAttackCounter: value }));
     const setShowPathsMenu = (value) => setDeathcallerState(prev => ({ ...prev, showPathsMenu: value }));
     const setShowTokensMenu = (value) => setDeathcallerState(prev => ({ ...prev, showTokensMenu: value }));
+    const setLocalAscensionPaths = (valueOrFn) => setDeathcallerState(prev => ({ 
+        ...prev, 
+        localAscensionPaths: typeof valueOrFn === 'function' ? valueOrFn(prev.localAscensionPaths) : valueOrFn 
+    }));
+    const setLocalBloodTokens = (valueOrFn) => setDeathcallerState(prev => ({ 
+        ...prev, 
+        localBloodTokens: typeof valueOrFn === 'function' ? valueOrFn(prev.localBloodTokens) : valueOrFn 
+    }));
     const setShowDRPMenu = (value) => setDreadnaughtState(prev => ({ ...prev, showDRPMenu: value }));
     const setLocalDRP = (value) => setDreadnaughtState(prev => ({ ...prev, localDRP: value }));
     const setSelectedResistanceType = (value) => setDreadnaughtState(prev => ({ ...prev, selectedResistanceType: value }));
@@ -643,7 +672,7 @@ const ClassResourceBar = ({
     // Close modifier menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (showModifierMenu && !event.target.closest('.mayhem-menu')) {
+            if (showModifierMenu && !event.target.closest('.unified-context-menu')) {
                 setShowModifierMenu(false);
             }
         };
@@ -862,6 +891,183 @@ const ClassResourceBar = ({
 
     const finalConfig = config || defaultConfig;
     const finalClassResource = classResource || { current: 0, max: finalConfig.mechanics?.max || 20 };
+
+    // Calculate and store menu positions
+    const updateMinstrelPositions = useCallback(() => {
+        if (minstrelBarRef.current) {
+            const rect = minstrelBarRef.current.getBoundingClientRect();
+            const notes = finalConfig.visual?.notes || [];
+            const positions = {};
+
+            // Calculate positions for each note menu
+            notes.forEach((note, index) => {
+                positions[`note-${index}`] = {
+                    top: rect.bottom + 6,
+                    left: rect.left + (index * (rect.width / notes.length)) + ((rect.width / notes.length) / 2)
+                };
+            });
+
+            // Calculate position for spec menu
+            positions.spec = {
+                top: rect.bottom + 8,
+                left: rect.right - 10
+            };
+
+            setMinstrelPositions(positions);
+        }
+    }, [finalConfig.visual?.notes]);
+
+    // Calculate and store Chronarch menu positions
+    const updateChronarchPositions = useCallback(() => {
+        const positions = {};
+
+        if (timeShardsBarRef.current) {
+            const rect = timeShardsBarRef.current.getBoundingClientRect();
+            positions.timeShards = {
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            };
+        }
+
+        if (temporalStrainBarRef.current) {
+            const rect = temporalStrainBarRef.current.getBoundingClientRect();
+            positions.temporalStrain = {
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            };
+        }
+
+        setChronarchPositions(positions);
+    }, []);
+
+    // Calculate and store Mayhem menu positions
+    const updateMayhemPositions = useCallback(() => {
+        if (mayhemBarRef.current) {
+            const rect = mayhemBarRef.current.getBoundingClientRect();
+            setMayhemPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Dominance menu positions
+    const updateDominancePositions = useCallback(() => {
+        if (dominanceBarRef.current) {
+            const rect = dominanceBarRef.current.getBoundingClientRect();
+            setDominancePositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Madness menu positions
+    const updateMadnessPositions = useCallback(() => {
+        if (madnessBarRef.current) {
+            const rect = madnessBarRef.current.getBoundingClientRect();
+            setMadnessPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Threads menu positions
+    const updateThreadsPositions = useCallback(() => {
+        if (threadsBarRef.current) {
+            const rect = threadsBarRef.current.getBoundingClientRect();
+            setThreadsPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Fortune Points menu positions
+    const updateFortunePointsPositions = useCallback(() => {
+        if (fpBarRef.current) {
+            const rect = fpBarRef.current.getBoundingClientRect();
+            setFortunePointsPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Wild Instinct menu positions
+    const updateWildInstinctPositions = useCallback(() => {
+        if (wiBarRef.current) {
+            const rect = wiBarRef.current.getBoundingClientRect();
+            setWildInstinctPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Totemic Synergy menu positions
+    const updateTotemicSynergyPositions = useCallback(() => {
+        if (synergyBarRef.current) {
+            const rect = synergyBarRef.current.getBoundingClientRect();
+            setTotemicSynergyPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Quarry Marks menu positions
+    const updateQuarryMarksPositions = useCallback(() => {
+        if (qmBarRef.current) {
+            const rect = qmBarRef.current.getBoundingClientRect();
+            setQuarryMarksPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Calculate and store Runes & Inscriptions menu positions
+    const updateRunesInscriptionsPositions = useCallback(() => {
+        if (inscriptorBarRef.current) {
+            const rect = inscriptorBarRef.current.getBoundingClientRect();
+            setRunesInscriptionsPositions({
+                top: rect.bottom + 8,
+                left: rect.left + (rect.width / 2) // Center under the bar
+            });
+        }
+    }, []);
+
+    // Update positions when the component mounts and when window resizes
+    useLayoutEffect(() => {
+        updateMinstrelPositions();
+        updateChronarchPositions();
+        updateMayhemPositions();
+        updateDominancePositions();
+        updateMadnessPositions();
+        updateThreadsPositions();
+        updateFortunePointsPositions();
+        updateWildInstinctPositions();
+        updateTotemicSynergyPositions();
+        updateQuarryMarksPositions();
+        updateRunesInscriptionsPositions();
+        const handleResize = () => {
+            updateMinstrelPositions();
+            updateChronarchPositions();
+            updateMayhemPositions();
+            updateDominancePositions();
+            updateMadnessPositions();
+            updateThreadsPositions();
+            updateFortunePointsPositions();
+            updateWildInstinctPositions();
+            updateTotemicSynergyPositions();
+            updateQuarryMarksPositions();
+            updateRunesInscriptionsPositions();
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [updateMinstrelPositions, updateChronarchPositions, updateMayhemPositions, updateDominancePositions, updateMadnessPositions, updateThreadsPositions, updateFortunePointsPositions, updateWildInstinctPositions, updateTotemicSynergyPositions, updateQuarryMarksPositions, updateRunesInscriptionsPositions]);
 
     // Apply specialization-specific visual and mechanical config for Fate Weaver
     const modifiedConfig = characterClass === 'Fate Weaver' ? {
@@ -1169,6 +1375,7 @@ const ClassResourceBar = ({
                 <div className="chronarch-single-bar">
                     {/* Time Shards Bar (Left Side) */}
                     <div
+                        ref={timeShardsBarRef}
                         className="time-shards-bar"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -1217,6 +1424,7 @@ const ClassResourceBar = ({
 
                     {/* Temporal Strain Bar (Right Side) */}
                     <div
+                        ref={temporalStrainBarRef}
                         className={`temporal-strain-bar ${shouldPulse ? 'pulse' : ''} ${shouldFlash ? 'flash' : ''}`}
                         onClick={(e) => {
                             e.stopPropagation();
@@ -1253,30 +1461,175 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Time Shards Adjustment Menu */}
-                    {showTimeShardsMenu && (
-                        <div className="resource-adjust-menu shards-menu">
-                            <div className="menu-header">Adjust Time Shards ({shardsValue}/{shardsMax})</div>
-                            <div className="menu-buttons">
-                                <button onClick={() => setLocalTimeShards(Math.min(shardsMax, shardsValue + 1))}>+1 Cast Spell</button>
-                                <button onClick={() => setLocalTimeShards(Math.max(0, shardsValue - 2))}>-2 Flux Ability</button>
-                                <button onClick={() => setLocalTimeShards(Math.max(0, shardsValue - 5))}>-5 Flux Ability</button>
+                    {showTimeShardsMenu && timeShardsBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact chronarch-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!timeShardsBarRef.current) return '50%';
+                                    const rect = timeShardsBarRef.current.getBoundingClientRect();
+                                    let hudContainer = timeShardsBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!timeShardsBarRef.current) return '50%';
+                                    const rect = timeShardsBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main chronarch-menu">
+                                <div className="menu-title">Time Shards: {shardsValue}/{shardsMax}</div>
+
+                                <div className="chronarch-actions">
+                                    <div className="chronarch-action-row">
+                                        <button 
+                                            className="chronarch-action-btn gain" 
+                                            onClick={() => setLocalTimeShards(Math.min(shardsMax, shardsValue + 1))}
+                                            title="Cast Spell (+1 Shard)"
+                                        >
+                                            <i className="fas fa-magic"></i>
+                                            <span>+1</span>
+                                        </button>
+                                    </div>
+                                    <div className="chronarch-action-row">
+                                        <button 
+                                            className="chronarch-action-btn spend" 
+                                            onClick={() => setLocalTimeShards(Math.max(0, shardsValue - 2))}
+                                            title="Flux (-2 Shards)"
+                                        >
+                                            <i className="fas fa-bolt"></i>
+                                            <span>-2</span>
+                                        </button>
+                                        <button 
+                                            className="chronarch-action-btn spend" 
+                                            onClick={() => setLocalTimeShards(Math.max(0, shardsValue - 5))}
+                                            title="Major (-5 Shards)"
+                                        >
+                                            <i className="fas fa-fire"></i>
+                                            <span>-5</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="chronarch-quick-actions">
+                                    <button 
+                                        onClick={() => { setLocalTimeShards(0); setShowTimeShardsMenu(false); }} 
+                                        className="chronarch-quick-btn"
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                    </button>
+                                    <button 
+                                        onClick={() => setShowTimeShardsMenu(false)} 
+                                        className="chronarch-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button className="menu-reset" onClick={() => { setLocalTimeShards(0); setShowTimeShardsMenu(false); }}>Reset to 0</button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
 
                     {/* Temporal Strain Adjustment Menu */}
-                    {showTemporalStrainMenu && (
-                        <div className="resource-adjust-menu strain-menu">
-                            <div className="menu-header">Adjust Temporal Strain ({strainValue}/{strainMax})</div>
-                            <div className="menu-buttons">
-                                <button onClick={() => setLocalTemporalStrain(Math.min(strainMax, strainValue + 1))}>+1 Strain</button>
-                                <button onClick={() => setLocalTemporalStrain(Math.min(strainMax, strainValue + 3))}>+3 Strain</button>
-                                <button onClick={() => setLocalTemporalStrain(Math.max(0, strainValue - 1))}>-1 Decay</button>
-                                <button onClick={() => setLocalTemporalStrain(10)}>Set to 10 (Backlash!)</button>
+                    {showTemporalStrainMenu && temporalStrainBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact chronarch-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!temporalStrainBarRef.current) return '50%';
+                                    const rect = temporalStrainBarRef.current.getBoundingClientRect();
+                                    let hudContainer = temporalStrainBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!temporalStrainBarRef.current) return '50%';
+                                    const rect = temporalStrainBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main chronarch-menu">
+                                <div className="menu-title">Temporal Strain: {strainValue}/{strainMax}</div>
+
+                                <div className="chronarch-actions">
+                                    <div className="chronarch-action-row">
+                                        <button 
+                                            className="chronarch-action-btn gain" 
+                                            onClick={() => setLocalTemporalStrain(Math.min(strainMax, strainValue + 1))}
+                                            title="Minor Strain (+1)"
+                                        >
+                                            <i className="fas fa-clock"></i>
+                                            <span>+1</span>
+                                        </button>
+                                        <button 
+                                            className="chronarch-action-btn gain" 
+                                            onClick={() => setLocalTemporalStrain(Math.min(strainMax, strainValue + 3))}
+                                            title="Major Strain (+3)"
+                                        >
+                                            <i className="fas fa-history"></i>
+                                            <span>+3</span>
+                                        </button>
+                                    </div>
+                                    <div className="chronarch-action-row">
+                                        <button 
+                                            className="chronarch-action-btn heal" 
+                                            onClick={() => setLocalTemporalStrain(Math.max(0, strainValue - 1))}
+                                            title="Decay (-1 Strain)"
+                                        >
+                                            <i className="fas fa-leaf"></i>
+                                            <span>-1</span>
+                                        </button>
+                                        <button 
+                                            className="chronarch-action-btn danger" 
+                                            onClick={() => setLocalTemporalStrain(10)}
+                                            title="Backlash (Set to 10)"
+                                        >
+                                            <i className="fas fa-exclamation-triangle"></i>
+                                            <span>10</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="chronarch-quick-actions">
+                                    <button 
+                                        onClick={() => { setLocalTemporalStrain(0); setShowTemporalStrainMenu(false); }} 
+                                        className="chronarch-quick-btn"
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                    </button>
+                                    <button 
+                                        onClick={() => setShowTemporalStrainMenu(false)} 
+                                        className="chronarch-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button className="menu-reset" onClick={() => { setLocalTemporalStrain(0); setShowTemporalStrainMenu(false); }}>Reset to 0</button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -1311,6 +1664,7 @@ const ClassResourceBar = ({
                 <div className="hexbreaker-container">
                     {/* Charges Display */}
                     <div
+                        ref={chargesDisplayRef}
                         className="charges-display"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -1387,23 +1741,140 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Charges Adjustment Menu */}
-                    {showChargesMenu && (
+                    {showChargesMenu && chargesDisplayRef.current && ReactDOM.createPortal(
                         <div
-                            className="resource-adjust-menu charges-menu"
+                            className={`unified-context-menu compact covenbane-charges-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
                             onMouseEnter={() => setShowTooltip(false)}
                             onMouseLeave={() => setShowTooltip(false)}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!chargesDisplayRef.current) return '50%';
+                                    const rect = chargesDisplayRef.current.getBoundingClientRect();
+                                    let hudContainer = chargesDisplayRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!chargesDisplayRef.current) return '50%';
+                                    const rect = chargesDisplayRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
                         >
-                            <div className="menu-header">Adjust Hexbreaker Charges ({chargesValue}/{maxCharges})</div>
-                            <div className="menu-buttons">
-                                <button onClick={() => setLocalHexbreakerCharges(Math.min(maxCharges, chargesValue + 1))}>+1 Attack Evil Caster</button>
-                                <button onClick={() => setLocalHexbreakerCharges(Math.min(maxCharges, chargesValue + 1))}>+1 Targeted by Spell</button>
-                                <button onClick={() => setLocalHexbreakerCharges(Math.max(0, chargesValue - 1))}>-1 Shadow Step</button>
-                                <button onClick={() => setLocalHexbreakerCharges(Math.max(0, chargesValue - 2))}>-2 Curse Eater</button>
-                                <button onClick={() => setLocalHexbreakerCharges(Math.max(0, chargesValue - 3))}>-3 Dark Pursuit</button>
-                                <button onClick={() => setLocalHexbreakerCharges(Math.max(0, chargesValue - 6))}>-6 Hexbreaker Fury</button>
+                            <div className="context-menu-main covenbane-menu">
+                                <div className="menu-title">Hexbreaker Charges: {chargesValue}/{maxCharges}</div>
+
+                                {/* Gain Actions */}
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header">Gain</div>
+                                    <div className="covenbane-action-grid">
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setLocalHexbreakerCharges(Math.min(maxCharges, chargesValue + 1));
+                                            }}
+                                            title="+1 Attack Evil Caster"
+                                        >
+                                            <i className="fas fa-plus"></i> +1
+                                        </button>
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setLocalHexbreakerCharges(Math.min(maxCharges, chargesValue + 1));
+                                            }}
+                                            title="+1 Targeted by Spell"
+                                        >
+                                            <i className="fas fa-plus-circle"></i> +1
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Spend Actions */}
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header">Spend</div>
+                                    <div className="covenbane-action-grid four-col">
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 1));
+                                            }}
+                                            title="-1 Shadow Step"
+                                        >
+                                            <i className="fas fa-minus"></i> -1
+                                        </button>
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 2));
+                                            }}
+                                            title="-2 Curse Eater"
+                                        >
+                                            <i className="fas fa-minus"></i> -2
+                                        </button>
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 3));
+                                            }}
+                                            title="-3 Dark Pursuit"
+                                        >
+                                            <i className="fas fa-minus"></i> -3
+                                        </button>
+                                        <button 
+                                            className="context-menu-button danger" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setLocalHexbreakerCharges(Math.max(0, chargesValue - 6));
+                                            }}
+                                            title="-6 Hexbreaker Fury"
+                                        >
+                                            <i className="fas fa-star"></i> -6
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Quick Actions */}
+                                <div className="covenbane-quick-actions">
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setLocalHexbreakerCharges(0);
+                                            setShowChargesMenu(false);
+                                        }} 
+                                        className="covenbane-quick-btn"
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                        <span>Reset</span>
+                                    </button>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowChargesMenu(false);
+                                        }} 
+                                        className="covenbane-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                        <span>Close</span>
+                                    </button>
+                                </div>
                             </div>
-                            <button className="menu-reset" onClick={() => { setLocalHexbreakerCharges(0); setShowChargesMenu(false); }}>Reset to 0</button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -1414,7 +1885,9 @@ const ClassResourceBar = ({
     const renderAscensionBlood = () => {
         const pathsMax = finalConfig.visual?.ascensionPaths?.max || 7;
         const tokensMax = finalConfig.visual?.bloodTokens?.max || 30;
-        const activePaths = localAscensionPaths.filter(p => p).length;
+        // Ensure localAscensionPaths is always an array
+        const pathsArray = Array.isArray(localAscensionPaths) ? localAscensionPaths : [true, false, false, false, false, false, false];
+        const activePaths = pathsArray.filter(p => p).length;
         const tokensValue = localBloodTokens;
 
         // Get token color based on count (warning/danger thresholds)
@@ -1433,22 +1906,36 @@ const ClassResourceBar = ({
         // Helper functions for path management
         const togglePath = (index) => {
             setLocalAscensionPaths(prev => {
-                const newPaths = [...prev];
-                // Can only activate paths sequentially (can't skip)
-                if (!newPaths[index]) {
-                    // Check if all previous paths are active
-                    const canActivate = index === 0 || newPaths.slice(0, index).every(p => p);
-                    if (canActivate) {
-                        newPaths[index] = true;
+                // Ensure prev is always an array with correct length
+                let currentPaths;
+                if (!Array.isArray(prev) || prev.length !== 7) {
+                    // If invalid state, start fresh with first path active
+                    currentPaths = [true, false, false, false, false, false, false];
+                } else {
+                    currentPaths = [...prev];
+                }
+                
+                // If path is currently inactive, try to activate it
+                if (!currentPaths[index]) {
+                    // Can only activate paths sequentially (can't skip)
+                    // First path can always be activated, others need all previous paths active
+                    if (index === 0) {
+                        currentPaths[index] = true;
+                    } else {
+                        // Check if all previous paths are active
+                        const allPreviousActive = currentPaths.slice(0, index).every(p => p === true);
+                        if (allPreviousActive) {
+                            currentPaths[index] = true;
+                        }
                     }
                 }
-                // Can deactivate, but must deactivate all subsequent paths too
+                // If path is currently active, deactivate it and all subsequent paths
                 else {
-                    for (let i = index; i < newPaths.length; i++) {
-                        newPaths[i] = false;
+                    for (let i = index; i < currentPaths.length; i++) {
+                        currentPaths[i] = false;
                     }
                 }
-                return newPaths;
+                return currentPaths;
             });
         };
 
@@ -1474,6 +1961,7 @@ const ClassResourceBar = ({
                 <div className="deathcaller-dual-bars">
                     {/* Ascension Paths Bar (Top) */}
                     <div
+                        ref={pathsBarRef}
                         className="ascension-paths-bar"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -1493,7 +1981,7 @@ const ClassResourceBar = ({
                     >
                         <div className="paths-container">
                             {Array.from({ length: pathsMax }, (_, i) => {
-                                const isActive = localAscensionPaths[i];
+                                const isActive = pathsArray[i];
                                 const pathData = finalConfig.paths[i];
 
                                 return (
@@ -1520,6 +2008,7 @@ const ClassResourceBar = ({
 
                     {/* Blood Tokens Bar (Bottom) */}
                     <div
+                        ref={tokensBarRef}
                         className="blood-tokens-bar"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -1551,43 +2040,227 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Paths Menu */}
-                    {showPathsMenu && (
-                        <div className="resource-adjust-menu paths-menu" onClick={(e) => e.stopPropagation()}>
-                            <div className="menu-header">Necrotic Ascension Paths ({activePaths}/{pathsMax})</div>
-                            <div className="menu-buttons paths-grid">
-                                {finalConfig.paths.map((path, i) => (
-                                    <button
-                                        key={i}
-                                        className={localAscensionPaths[i] ? 'active' : 'inactive'}
-                                        onClick={() => togglePath(i)}
-                                        disabled={!localAscensionPaths[i] && i > 0 && !localAscensionPaths[i - 1]}
+                    {showPathsMenu && pathsBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact deathcaller-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!pathsBarRef.current) return '50%';
+                                    const rect = pathsBarRef.current.getBoundingClientRect();
+                                    let hudContainer = pathsBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!pathsBarRef.current) return '50%';
+                                    const rect = pathsBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main deathcaller-menu">
+                                <div className="menu-title">Ascension Paths: {activePaths}/{pathsMax}</div>
+
+                                <div className="deathcaller-paths-grid">
+                                    {finalConfig.paths.map((path, i) => {
+                                        // Get current paths array - use the one from renderAscensionBlood scope
+                                        const currentPaths = Array.isArray(localAscensionPaths) ? localAscensionPaths : [true, false, false, false, false, false, false];
+                                        
+                                        // Path is disabled if: it's not active AND it's not the first path AND the previous path is not active
+                                        const isDisabled = !currentPaths[i] && i > 0 && !currentPaths[i - 1];
+                                        
+                                        // Path can be activated if: it's the first path OR all previous paths are active
+                                        const canActivate = i === 0 || currentPaths.slice(0, i).every(p => p === true);
+                                        
+                                        return (
+                                            <button
+                                                key={i}
+                                                className={`deathcaller-path-btn ${currentPaths[i] ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                    // Only allow toggle if not disabled
+                                                    if (isDisabled) {
+                                                        return;
+                                                    }
+                                                    // Call togglePath for enabled paths
+                                                    togglePath(i);
+                                                }}
+                                                title={path.name}
+                                                style={{
+                                                    opacity: isDisabled ? 0.4 : 1,
+                                                    cursor: isDisabled ? 'not-allowed' : 'pointer',
+                                                    pointerEvents: isDisabled ? 'none' : 'auto'
+                                                }}
+                                            >
+                                                <span className="deathcaller-path-number">{i + 1}</span>
+                                                <i className={`fas ${currentPaths[i] ? 'fa-check-circle' : 'fa-circle'}`}></i>
+                                                <span className="deathcaller-path-name">{path.shortName || path.name}</span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                <div className="deathcaller-quick-actions">
+                                    <button 
+                                        onClick={() => { setLocalAscensionPaths([false, false, false, false, false, false, false]); setShowPathsMenu(false); }} 
+                                        className="deathcaller-quick-btn"
+                                        title="Reset All Paths"
                                     >
-                                        {path.shortName || path.name}
+                                        <i className="fas fa-undo"></i>
+                                        <span>Reset</span>
                                     </button>
-                                ))}
+                                    <button 
+                                        onClick={() => setShowPathsMenu(false)} 
+                                        className="deathcaller-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                        <span>Close</span>
+                                    </button>
+                                </div>
                             </div>
-                            <button className="menu-reset" onClick={() => { setLocalAscensionPaths([false, false, false, false, false, false, false]); setShowPathsMenu(false); }}>
-                                Reset All Paths
-                            </button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
 
                     {/* Tokens Menu */}
-                    {showTokensMenu && (
-                        <div className="resource-adjust-menu tokens-menu" onClick={(e) => e.stopPropagation()}>
-                            <div className="menu-header">Blood Tokens ({tokensValue})</div>
-                            <div className="menu-buttons">
-                                <button onClick={() => addTokens(rollDice(1, 6))}>+1d6 HP Sacrifice</button>
-                                <button onClick={() => addTokens(rollDice(2, 8))}>+2d8 HP Sacrifice</button>
-                                <button onClick={() => addTokens(rollDice(4, 10))}>+4d10 HP Sacrifice</button>
-                                <button onClick={() => removeTokens(5)}>-5 Enhance Spell</button>
-                                <button onClick={() => removeTokens(10)}>-10 Enhance Spell</button>
-                                <button onClick={() => removeTokens(tokensValue)}>Spend All ({tokensValue}d10 burst!)</button>
+                    {showTokensMenu && tokensBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact deathcaller-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!tokensBarRef.current) return '50%';
+                                    const rect = tokensBarRef.current.getBoundingClientRect();
+                                    let hudContainer = tokensBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!tokensBarRef.current) return '50%';
+                                    const rect = tokensBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main deathcaller-menu">
+                                <div className="menu-title">Blood Tokens: {tokensValue}/{tokensMax}</div>
+
+                                <div style={{ marginBottom: '6px' }}>
+                                    <div className="deathcaller-menu-section-label">Gain Tokens</div>
+                                    <div className="deathcaller-tokens-grid">
+                                        <button 
+                                            className="deathcaller-token-btn gain"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addTokens(rollDice(1, 6));
+                                            }}
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>+1d6</span>
+                                        </button>
+                                        <button 
+                                            className="deathcaller-token-btn gain"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addTokens(rollDice(2, 8));
+                                            }}
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>+2d8</span>
+                                        </button>
+                                        <button 
+                                            className="deathcaller-token-btn gain"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addTokens(rollDice(4, 10));
+                                            }}
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>+4d10</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div style={{ marginBottom: '6px', paddingTop: '6px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
+                                    <div className="deathcaller-menu-section-label">Spend Tokens</div>
+                                    <div className="deathcaller-tokens-grid">
+                                        <button 
+                                            className="deathcaller-token-btn spend"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeTokens(5);
+                                            }}
+                                        >
+                                            <i className="fas fa-minus-circle"></i>
+                                            <span>-5</span>
+                                        </button>
+                                        <button 
+                                            className="deathcaller-token-btn spend"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeTokens(10);
+                                            }}
+                                        >
+                                            <i className="fas fa-minus-circle"></i>
+                                            <span>-10</span>
+                                        </button>
+                                    </div>
+                                    <button 
+                                        className="deathcaller-token-btn spend danger"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            removeTokens(tokensValue);
+                                        }}
+                                        style={{ width: '100%', marginTop: '4px' }}
+                                    >
+                                        <i className="fas fa-bolt"></i>
+                                        <span>Spend All ({tokensValue}d10)</span>
+                                    </button>
+                                </div>
+
+                                <div className="deathcaller-quick-actions" style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
+                                    <button 
+                                        className="deathcaller-quick-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setLocalBloodTokens(0);
+                                            setShowTokensMenu(false);
+                                        }}
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                        <span>Reset</span>
+                                    </button>
+                                    <button 
+                                        className="deathcaller-quick-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowTokensMenu(false);
+                                        }}
+                                    >
+                                        <i className="fas fa-times"></i>
+                                        <span>Close</span>
+                                    </button>
+                                </div>
                             </div>
-                            <button className="menu-reset" onClick={() => { setLocalBloodTokens(0); setShowTokensMenu(false); }}>
-                                Reset to 0
-                            </button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -1712,47 +2385,168 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Control menu */}
-                    {showDRPMenu && (
-                        <div className="drp-menu" onClick={(e) => e.stopPropagation()}>
-                            <div className="drp-menu-section">
-                                <div className="menu-label">Adjust DRP</div>
-                                <div className="drp-menu-row">
-                                    <button className="drp-menu-item" onClick={() => addDRP(5)}>+5</button>
-                                    <button className="drp-menu-item" onClick={() => removeDRP(5)}>-5</button>
+                    {showDRPMenu && drpBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact dreadnaught-drp-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!drpBarRef.current) return '50%';
+                                    const rect = drpBarRef.current.getBoundingClientRect();
+                                    let hudContainer = drpBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!drpBarRef.current) return '50%';
+                                    const rect = drpBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main dreadnaught-menu">
+                                <div className="menu-title">DRP: {drpValue}/{drpMax}</div>
+
+                                {/* Gain/Spend Actions */}
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header">Adjust</div>
+                                    <div className="dreadnaught-action-grid">
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addDRP(5);
+                                            }}
+                                            title="Gain 5 DRP"
+                                        >
+                                            <i className="fas fa-plus"></i> +5
+                                        </button>
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addDRP(10);
+                                            }}
+                                            title="Gain 10 DRP"
+                                        >
+                                            <i className="fas fa-plus-circle"></i> +10
+                                        </button>
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeDRP(5);
+                                            }}
+                                            title="Spend 5 DRP"
+                                        >
+                                            <i className="fas fa-minus"></i> -5
+                                        </button>
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                removeDRP(10);
+                                            }}
+                                            title="Spend 10 DRP"
+                                        >
+                                            <i className="fas fa-minus-circle"></i> -10
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="drp-menu-row">
-                                    <button className="drp-menu-item" onClick={() => addDRP(10)}>+10</button>
-                                    <button className="drp-menu-item" onClick={() => removeDRP(10)}>-10</button>
+
+                                {/* Damage Simulation */}
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header">Simulate Damage</div>
+                                    <div className="dreadnaught-damage-grid">
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                simulateDamage(25);
+                                            }}
+                                            title="Take 25 Damage (+5 DRP)"
+                                        >
+                                            <i className="fas fa-heart-broken"></i> 25
+                                        </button>
+                                        <button 
+                                            className="context-menu-button danger" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                simulateDamage(50);
+                                            }}
+                                            title="Take 50 Damage (+10 DRP)"
+                                        >
+                                            <i className="fas fa-heart-broken"></i> 50
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="drp-menu-row set-row">
-                                    <button className="drp-menu-item" onClick={() => setLocalDRP(0)}>Reset</button>
-                                    <button className="drp-menu-item" onClick={() => setLocalDRP(drpMax)}>Max</button>
-                                </div>
-                            </div>
-                            <div className="drp-menu-section">
-                                <div className="menu-label">Simulate Damage</div>
-                                <div className="drp-menu-row">
-                                    <button className="drp-menu-item" onClick={() => simulateDamage(25)}>Take 25 dmg (+5 DRP)</button>
-                                </div>
-                                <div className="drp-menu-row">
-                                    <button className="drp-menu-item" onClick={() => simulateDamage(50)}>Take 50 dmg (+10 DRP)</button>
-                                </div>
-                            </div>
-                            {hasPassiveBenefits && (
-                                <div className="drp-menu-section">
-                                    <div className="menu-label">Resistance Type</div>
-                                    <select
-                                        className="drp-resistance-select"
-                                        value={selectedResistanceType}
-                                        onChange={(e) => setSelectedResistanceType(e.target.value)}
+
+                                {/* Resistance Selection */}
+                                {hasPassiveBenefits && (
+                                    <div className="context-menu-section">
+                                        <div className="context-menu-section-header">Resistance</div>
+                                        <select
+                                            className="dreadnaught-resistance-select"
+                                            value={selectedResistanceType}
+                                            onChange={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedResistanceType(e.target.value);
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {Object.keys(damageTypes).map(type => (
+                                                <option key={type} value={type}>{type}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )}
+
+                                {/* Quick Actions */}
+                                <div className="dreadnaught-quick-actions">
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setLocalDRP(0);
+                                        }} 
+                                        className="dreadnaught-quick-btn"
+                                        title="Reset to 0"
                                     >
-                                        {Object.keys(damageTypes).map(type => (
-                                            <option key={type} value={type}>{type}</option>
-                                        ))}
-                                    </select>
+                                        <i className="fas fa-undo"></i>
+                                        <span>Reset</span>
+                                    </button>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setLocalDRP(drpMax);
+                                        }} 
+                                        className="dreadnaught-quick-btn"
+                                        title={`Set to Max (${drpMax})`}
+                                    >
+                                        <i className="fas fa-maximize"></i>
+                                        <span>Max</span>
+                                    </button>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowDRPMenu(false);
+                                        }} 
+                                        className="dreadnaught-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                        <span>Close</span>
+                                    </button>
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        </div>,
+                        document.body
                     )}
 
                 </div>
@@ -1844,28 +2638,92 @@ const ClassResourceBar = ({
                     className={`class-resource-bar mayhem-modifiers-display ${size}`}
                 >
                     <div className="mayhem-bar-wrapper">
-                        {showModifierMenu && (
-                            <div className="mayhem-menu" onClick={(e) => e.stopPropagation()}>
-                                <div className="mayhem-menu-row">
-                                    <button className="mayhem-menu-item" onClick={() => addModifiers(1)}>+1</button>
-                                    <button className="mayhem-menu-item" onClick={() => removeModifiers(1)}>-1</button>
+                        {showModifierMenu && mayhemBarRef.current && ReactDOM.createPortal(
+                            <div
+                                className={`unified-context-menu compact ${context === 'party' ? 'chronarch-party' : ''}`}
+                                onClick={(e) => e.stopPropagation()}
+                                style={{
+                                    position: 'fixed',
+                                    top: (() => {
+                                        if (!mayhemBarRef.current) return '50%';
+                                        const rect = mayhemBarRef.current.getBoundingClientRect();
+                                        let hudContainer = mayhemBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                        let hudBottom = rect.bottom;
+                                        if (hudContainer) {
+                                            const hudRect = hudContainer.getBoundingClientRect();
+                                            hudBottom = hudRect.bottom;
+                                        }
+                                        return hudBottom + 8;
+                                    })(),
+                                    left: (() => {
+                                        if (!mayhemBarRef.current) return '50%';
+                                        const rect = mayhemBarRef.current.getBoundingClientRect();
+                                        return rect.left + (rect.width / 2);
+                                    })(),
+                                    transform: 'translateX(-50%)',
+                                    zIndex: 100000
+                                }}
+                            >
+                                <div className="context-menu-main">
+                                    <div className="menu-title">Mayhem Modifiers: {modifierCount}/{maxModifiers}</div>
+
+                                    <div className="context-menu-section">
+                                        <div className="context-menu-section-title">Adjust</div>
+                                        <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                            <button className="context-menu-button" onClick={() => addModifiers(1)}>
+                                                <i className="fas fa-plus"></i>
+                                                <span>1</span>
+                                            </button>
+                                            <button className="context-menu-button" onClick={() => removeModifiers(1)}>
+                                                <i className="fas fa-minus"></i>
+                                                <span>1</span>
+                                            </button>
+                                            <button className="context-menu-button" onClick={() => addModifiers(5)}>
+                                                <i className="fas fa-plus"></i>
+                                                <span>5</span>
+                                            </button>
+                                            <button className="context-menu-button" onClick={() => removeModifiers(5)}>
+                                                <i className="fas fa-minus"></i>
+                                                <span>5</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="context-menu-section">
+                                        <div className="context-menu-section-title">Random</div>
+                                        <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px' }}>
+                                            <button className="context-menu-button" onClick={() => addModifiers(rollDice(1, 4))}>
+                                                <i className="fas fa-dice"></i>
+                                                <span>1d4</span>
+                                            </button>
+                                            <button className="context-menu-button" onClick={() => addModifiers(rollDice(2, 4))}>
+                                                <i className="fas fa-dice"></i>
+                                                <span>2d4</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="menu-buttons">
+                                        <button className="context-menu-button" onClick={maxModifiersFunc}>
+                                            <i className="fas fa-maximize"></i>
+                                            <span>Set to Max</span>
+                                        </button>
+                                        <button className="context-menu-button" onClick={() => { resetModifiers(); setShowModifierMenu(false); }}>
+                                            <i className="fas fa-undo"></i>
+                                            <span>Reset to 0</span>
+                                        </button>
+                                    </div>
+
+                                    <button className="menu-reset" onClick={() => setShowModifierMenu(false)}>
+                                        Close
+                                    </button>
                                 </div>
-                                <div className="mayhem-menu-row">
-                                    <button className="mayhem-menu-item" onClick={() => addModifiers(5)}>+5</button>
-                                    <button className="mayhem-menu-item" onClick={() => removeModifiers(5)}>-5</button>
-                                </div>
-                                <div className="mayhem-menu-row">
-                                    <button className="mayhem-menu-item" onClick={() => addModifiers(rollDice(1, 4))}>+1d4</button>
-                                    <button className="mayhem-menu-item" onClick={() => addModifiers(rollDice(2, 4))}>+2d4</button>
-                                </div>
-                                <div className="mayhem-menu-row set-row">
-                                    <button className="mayhem-menu-item" onClick={resetModifiers}>Reset</button>
-                                    <button className="mayhem-menu-item" onClick={maxModifiersFunc}>Max</button>
-                                </div>
-                            </div>
+                            </div>,
+                            document.body
                         )}
 
                         <div
+                            ref={mayhemBarRef}
                             className="mayhem-bar-container-hud"
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -2003,15 +2861,76 @@ const ClassResourceBar = ({
                                 <i className="fas fa-sliders-h"></i>
                             </button>
 
-                            {showModifierMenu && (
-                                <div className="mayhem-control-menu">
-                                    <button className="mayhem-menu-option" onClick={() => addModifiers(1)}>+1</button>
-                                    <button className="mayhem-menu-option" onClick={() => removeModifiers(1)}>-1</button>
-                                    <button className="mayhem-menu-option" onClick={() => addModifiers(rollDice(1, 4))}> +1d4</button>
-                                    <button className="mayhem-menu-option" onClick={() => addModifiers(rollDice(2, 4))}>+2d4</button>
-                                    <button className="mayhem-menu-option" onClick={resetModifiers}>Reset</button>
-                                    <button className="mayhem-menu-option" onClick={maxModifiersFunc}>Max</button>
-                                </div>
+                            {showModifierMenu && mayhemBarRef.current && ReactDOM.createPortal(
+                                <div
+                                    className={`unified-context-menu compact ${context === 'party' ? 'chronarch-party' : ''}`}
+                                    onClick={(e) => e.stopPropagation()}
+                                    style={{
+                                        position: 'fixed',
+                                        top: (() => {
+                                            if (!mayhemBarRef.current) return '50%';
+                                            const rect = mayhemBarRef.current.getBoundingClientRect();
+                                            let hudContainer = mayhemBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                            let hudBottom = rect.bottom;
+                                            if (hudContainer) {
+                                                const hudRect = hudContainer.getBoundingClientRect();
+                                                hudBottom = hudRect.bottom;
+                                            }
+                                            return hudBottom + 8;
+                                        })(),
+                                        left: (() => {
+                                            if (!mayhemBarRef.current) return '50%';
+                                            const rect = mayhemBarRef.current.getBoundingClientRect();
+                                            return rect.left + (rect.width / 2);
+                                        })(),
+                                        transform: 'translateX(-50%)',
+                                        zIndex: 100000
+                                    }}
+                                >
+                                    <div className="context-menu-main">
+                                        <div className="menu-title">Mayhem Control: {modifierCount}/{maxModifiers}</div>
+                                        <div className="context-menu-section">
+                                            <div className="context-menu-section-title">Adjust</div>
+                                            <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                                <button className="context-menu-button" onClick={() => addModifiers(1)}>
+                                                    <i className="fas fa-plus"></i>
+                                                    <span>1</span>
+                                                </button>
+                                                <button className="context-menu-button" onClick={() => removeModifiers(1)}>
+                                                    <i className="fas fa-minus"></i>
+                                                    <span>1</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="context-menu-section">
+                                            <div className="context-menu-section-title">Random</div>
+                                            <div className="menu-buttons" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '4px' }}>
+                                                <button className="context-menu-button" onClick={() => addModifiers(rollDice(1, 4))}>
+                                                    <i className="fas fa-dice"></i>
+                                                    <span>1d4</span>
+                                                </button>
+                                                <button className="context-menu-button" onClick={() => addModifiers(rollDice(2, 4))}>
+                                                    <i className="fas fa-dice"></i>
+                                                    <span>2d4</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="menu-buttons">
+                                            <button className="context-menu-button" onClick={maxModifiersFunc}>
+                                                <i className="fas fa-maximize"></i>
+                                                <span>Set to Max</span>
+                                            </button>
+                                            <button className="context-menu-button" onClick={() => { resetModifiers(); setShowModifierMenu(false); }}>
+                                                <i className="fas fa-undo"></i>
+                                                <span>Reset to 0</span>
+                                            </button>
+                                        </div>
+                                        <button className="menu-reset" onClick={() => setShowModifierMenu(false)}>
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>,
+                                document.body
                             )}
                         </div>
                     )}
@@ -2239,120 +3158,184 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Dominance Adjustment Menu */}
-                    {showDominanceMenu && (
+                    {showDominanceMenu && dominanceBarRef.current && ReactDOM.createPortal(
                         <div
-                            className="resource-adjust-menu dominance-menu"
-                            onMouseEnter={(e) => {
-                                e.stopPropagation();
-                                setExorcistHoverSection(null); // Hide tooltip when hovering menu
-                                setShowTooltip(false); // Also hide the tooltip
-                            }}
-                            onMouseLeave={(e) => {
-                                e.stopPropagation();
+                            className={`unified-context-menu compact exorcist-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!dominanceBarRef.current) return '50%';
+                                    const rect = dominanceBarRef.current.getBoundingClientRect();
+                                    let hudContainer = dominanceBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!dominanceBarRef.current) return '50%';
+                                    const rect = dominanceBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
                             }}
                         >
-                            <div className="menu-header">
-                                {isDemonBound ? `Dominance Control - ${demonName}` : 'Demon Binding'}
-                            </div>
+                            <div className="context-menu-main exorcist-menu">
+                                <div className="menu-title">
+                                    {isDemonBound ? `${demonName} (DD: ${currentDD}/12)` : `Slot ${selectedDemonIndex + 1}/${boundDemons.length}`}
+                                </div>
 
-                            <div className="menu-section">
-                                <div className="section-label">Demon Slot ({selectedDemonIndex + 1}/{boundDemons.length})</div>
-                                <div className="menu-buttons">
-                                    <button onClick={prevDemon} disabled={boundDemons.length <= 1}>
-                                        <i className="fas fa-chevron-left"></i> Previous Slot
+                                <div className="exorcist-slot-controls">
+                                    <button 
+                                        className="exorcist-control-btn" 
+                                        onClick={prevDemon} 
+                                        disabled={boundDemons.length <= 1}
+                                        title="Previous Slot"
+                                    >
+                                        <i className="fas fa-chevron-left"></i>
                                     </button>
-                                    <button onClick={nextDemon} disabled={boundDemons.length <= 1}>
-                                        Next Slot <i className="fas fa-chevron-right"></i>
+                                    <span className="exorcist-slot-display">{selectedDemonIndex + 1}/{boundDemons.length}</span>
+                                    <button 
+                                        className="exorcist-control-btn" 
+                                        onClick={nextDemon} 
+                                        disabled={boundDemons.length <= 1}
+                                        title="Next Slot"
+                                    >
+                                        <i className="fas fa-chevron-right"></i>
                                     </button>
                                 </div>
-                            </div>
 
-                            {isDemonBound && (
-                                <div className="menu-section">
-                                    <div className="section-label">Dominance Die Adjustment</div>
-                                    <div className="menu-buttons">
-                                        <button onClick={decreaseDD} disabled={currentDD === 0}>
-                                            <i className="fas fa-arrow-down"></i> Demon Acts/Hit Taken
-                                        </button>
-                                        <button onClick={increaseDD} disabled={currentDD === 12}>
-                                            <i className="fas fa-arrow-up"></i> Replenish (+1 Step)
-                                        </button>
-                                        <button onClick={restoreDD} disabled={currentDD === 12}>
-                                            <i className="fas fa-redo"></i> Reassert Dominance (Max)
-                                        </button>
+                                {isDemonBound && (
+                                    <div className="exorcist-dominance-controls">
+                                        <div className="exorcist-dominance-row">
+                                            <button 
+                                                className="exorcist-action-btn decrease" 
+                                                onClick={decreaseDD} 
+                                                disabled={currentDD === 0}
+                                                title="Demon Acts (-1 DD)"
+                                            >
+                                                <i className="fas fa-arrow-down"></i>
+                                                <span>-1</span>
+                                            </button>
+                                            <button 
+                                                className="exorcist-action-btn increase" 
+                                                onClick={increaseDD} 
+                                                disabled={currentDD === 12}
+                                                title="Replenish (+1 DD)"
+                                            >
+                                                <i className="fas fa-arrow-up"></i>
+                                                <span>+1</span>
+                                            </button>
+                                            <button 
+                                                className="exorcist-action-btn restore" 
+                                                onClick={restoreDD} 
+                                                disabled={currentDD === 12}
+                                                title="Max Dominance (d12)"
+                                            >
+                                                <i className="fas fa-redo"></i>
+                                                <span>Max</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
 
-                            <div className="menu-section">
-                                <div className="section-label">Demon Management</div>
-                                <div className="menu-buttons">
+                                <div className="exorcist-demon-management">
                                     {!currentDemon || currentDD === 0 ? (
-                                        <button onClick={() => {
-                                            setDemonConfigMode('create');
-                                            setDemonConfigInitialData(null);
-                                            setShowDemonConfigModal(true);
-                                        }}>
-                                            <i className="fas fa-plus-circle"></i> Bind New Demon
+                                        <button 
+                                            className="exorcist-demon-btn" 
+                                            onClick={() => {
+                                                setDemonConfigMode('create');
+                                                setDemonConfigInitialData(null);
+                                                setShowDemonConfigModal(true);
+                                            }}
+                                            title="Bind New Demon"
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
                                         </button>
                                     ) : (
                                         <>
-                                            <button onClick={() => {
-                                                setDemonConfigMode('edit');
-                                                setDemonConfigInitialData(currentDemon);
-                                                setShowDemonConfigModal(true);
-                                            }}>
-                                                <i className="fas fa-edit"></i> Edit Demon Info
+                                            <button 
+                                                className="exorcist-demon-btn" 
+                                                onClick={() => {
+                                                    setDemonConfigMode('edit');
+                                                    setDemonConfigInitialData(currentDemon);
+                                                    setShowDemonConfigModal(true);
+                                                }}
+                                                title="Edit Demon"
+                                            >
+                                                <i className="fas fa-edit"></i>
                                             </button>
-                                            <button onClick={() => {
-                                                if (confirm(`Release ${currentDemon.name}?`)) {
-                                                    const updatedDemons = [...boundDemons];
-                                                    updatedDemons[selectedDemonIndex] = null;
-                                                    setBoundDemons(updatedDemons);
-                                                    setLocalDominanceDie(0);
-                                                }
-                                            }}>
-                                                <i className="fas fa-unlink"></i> Release Demon
+                                            <button 
+                                                className="exorcist-demon-btn danger" 
+                                                onClick={() => {
+                                                    if (confirm(`Release ${currentDemon.name}?`)) {
+                                                        const updatedDemons = [...boundDemons];
+                                                        updatedDemons[selectedDemonIndex] = null;
+                                                        setBoundDemons(updatedDemons);
+                                                        setLocalDominanceDie(0);
+                                                    }
+                                                }}
+                                                title="Release Demon"
+                                            >
+                                                <i className="fas fa-unlink"></i>
                                             </button>
                                         </>
                                     )}
                                 </div>
-                            </div>
 
-                            <div className="menu-section">
-                                <div className="section-label">Specialization Slots</div>
-                                <div className="menu-buttons">
-                                    <button onClick={() => {
-                                        if (boundDemons.length >= 4) {
-                                            alert('Maximum 4 demon slots (Demonologist spec)');
-                                            return;
-                                        }
-                                        setBoundDemons([...boundDemons, null]);
-                                    }} disabled={boundDemons.length >= 4}>
-                                        <i className="fas fa-plus"></i> Add Demon Slot ({boundDemons.length}/4)
+                                <div className="exorcist-slots-controls">
+                                    <button 
+                                        className="exorcist-slot-btn" 
+                                        onClick={() => {
+                                            if (boundDemons.length >= 4) {
+                                                alert('Maximum 4 demon slots (Demonologist spec)');
+                                                return;
+                                            }
+                                            setBoundDemons([...boundDemons, null]);
+                                        }} 
+                                        disabled={boundDemons.length >= 4}
+                                        title={`Add Slot (${boundDemons.length}/4 max)`}
+                                    >
+                                        <i className="fas fa-plus"></i>
                                     </button>
-                                    <button onClick={() => {
-                                        if (boundDemons.length <= 1) {
-                                            alert('Must have at least 1 demon slot');
-                                            return;
-                                        }
-                                        const updatedDemons = [...boundDemons];
-                                        updatedDemons.pop();
-                                        setBoundDemons(updatedDemons);
-                                        if (selectedDemonIndex >= updatedDemons.length) {
-                                            setSelectedDemonIndex(updatedDemons.length - 1);
-                                            setLocalDominanceDie(updatedDemons[updatedDemons.length - 1]?.dd || 0);
-                                        }
-                                    }} disabled={boundDemons.length <= 1}>
-                                        <i className="fas fa-minus"></i> Remove Demon Slot
+                                    <button 
+                                        className="exorcist-slot-btn danger" 
+                                        onClick={() => {
+                                            if (boundDemons.length <= 1) {
+                                                alert('Must have at least 1 demon slot');
+                                                return;
+                                            }
+                                            const updatedDemons = [...boundDemons];
+                                            updatedDemons.pop();
+                                            setBoundDemons(updatedDemons);
+                                            if (selectedDemonIndex >= updatedDemons.length) {
+                                                setSelectedDemonIndex(updatedDemons.length - 1);
+                                                setLocalDominanceDie(updatedDemons[updatedDemons.length - 1]?.dd || 0);
+                                            }
+                                        }} 
+                                        disabled={boundDemons.length <= 1}
+                                        title="Remove Slot"
+                                    >
+                                        <i className="fas fa-minus"></i>
+                                    </button>
+                                </div>
+
+                                <div className="exorcist-quick-actions">
+                                    <button 
+                                        onClick={() => setShowDominanceMenu(false)} 
+                                        className="exorcist-quick-btn" 
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
                                     </button>
                                 </div>
                             </div>
-
-                            <button className="menu-close" onClick={() => setShowDominanceMenu(false)}>
-                                <i className="fas fa-times"></i> Close
-                            </button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -2463,62 +3446,100 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Adjustment Menu */}
-                    {showMadnessMenu && (
-                        <div className="madness-adjustment-menu">
-                            <div className="menu-section">
-                                <div className="menu-section-title">Madness Adjustment</div>
-                                <div className="menu-buttons">
-                                    <button onClick={() => gainMadness(1)} title="Gain 1 Madness">
-                                        <i className="fas fa-plus"></i> +1
+                    {showMadnessMenu && madnessBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact falseprophet-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!madnessBarRef.current) return '50%';
+                                    const rect = madnessBarRef.current.getBoundingClientRect();
+                                    let hudContainer = madnessBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!madnessBarRef.current) return '50%';
+                                    const rect = madnessBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main falseprophet-menu">
+                                <div className="menu-title">Madness: {currentMadness}/{maxMadness}</div>
+
+                                <div className="falseprophet-actions">
+                                    <div className="falseprophet-action-row">
+                                        <button onClick={() => gainMadness(1)} className="falseprophet-action-btn gain" title="Gain 1 Madness">
+                                            <i className="fas fa-plus"></i>
+                                            <span>+1</span>
+                                        </button>
+                                        <button onClick={() => gainMadness(3)} className="falseprophet-action-btn gain" title="Gain 1d4 Madness (3)">
+                                            <i className="fas fa-dice-d6"></i>
+                                            <span>+3</span>
+                                        </button>
+                                        <button onClick={() => gainMadness(4)} className="falseprophet-action-btn gain" title="Gain 1d6 Madness (4)">
+                                            <i className="fas fa-dice-d6"></i>
+                                            <span>+4</span>
+                                        </button>
+                                        <button onClick={() => gainMadness(5)} className="falseprophet-action-btn gain" title="Gain 1d8 Madness (5)">
+                                            <i className="fas fa-dice-d8"></i>
+                                            <span>+5</span>
+                                        </button>
+                                    </div>
+                                    <div className="falseprophet-action-row">
+                                        <button onClick={() => spendMadness(1)} className="falseprophet-action-btn spend" title="Spend 1 Madness">
+                                            <i className="fas fa-minus"></i>
+                                            <span>-1</span>
+                                        </button>
+                                        <button onClick={() => spendMadness(3)} className="falseprophet-action-btn spend" title="Spend 1d4 Madness (3)">
+                                            <i className="fas fa-dice-d6"></i>
+                                            <span>-3</span>
+                                        </button>
+                                        <button onClick={() => spendMadness(4)} className="falseprophet-action-btn spend" title="Spend 1d6 Madness (4)">
+                                            <i className="fas fa-dice-d6"></i>
+                                            <span>-4</span>
+                                        </button>
+                                        <button onClick={() => spendMadness(5)} className="falseprophet-action-btn spend" title="Spend 1d8 Madness (5)">
+                                            <i className="fas fa-dice-d8"></i>
+                                            <span>-5</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="falseprophet-quick-actions">
+                                    <button 
+                                        onClick={() => { resetMadness(); setShowMadnessMenu(false); }} 
+                                        className="falseprophet-quick-btn danger" 
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
                                     </button>
-                                    <button onClick={() => gainMadness(3)} title="Simulate 1d4 average">
-                                        <i className="fas fa-dice-d6"></i> +1d4 (3)
+                                    <button 
+                                        onClick={setToConvulsion} 
+                                        className="falseprophet-quick-btn danger" 
+                                        title="Set to 20 (Convulsion)"
+                                    >
+                                        <i className="fas fa-exclamation-triangle"></i>
                                     </button>
-                                    <button onClick={() => gainMadness(4)} title="Simulate 1d6 average">
-                                        <i className="fas fa-dice-d6"></i> +1d6 (4)
-                                    </button>
-                                    <button onClick={() => gainMadness(5)} title="Simulate 1d8 average">
-                                        <i className="fas fa-dice-d8"></i> +1d8 (5)
+                                    <button 
+                                        onClick={() => setShowMadnessMenu(false)} 
+                                        className="falseprophet-quick-btn" 
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
                                     </button>
                                 </div>
                             </div>
-
-                            <div className="menu-section">
-                                <div className="menu-section-title">Spend Madness</div>
-                                <div className="menu-buttons">
-                                    <button onClick={() => spendMadness(1)} title="Spend 1 Madness">
-                                        <i className="fas fa-minus"></i> -1
-                                    </button>
-                                    <button onClick={() => spendMadness(3)} title="Spend 1d4 average">
-                                        <i className="fas fa-dice-d6"></i> -1d4 (3)
-                                    </button>
-                                    <button onClick={() => spendMadness(4)} title="Spend 1d6 average">
-                                        <i className="fas fa-dice-d6"></i> -1d6 (4)
-                                    </button>
-                                    <button onClick={() => spendMadness(5)} title="Spend 1d8 average">
-                                        <i className="fas fa-dice-d8"></i> -1d8 (5)
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="menu-section">
-                                <div className="menu-section-title">Quick Actions</div>
-                                <div className="menu-buttons">
-                                    <button onClick={resetMadness} title="Reset to 0">
-                                        <i className="fas fa-undo"></i> Reset to 0
-                                    </button>
-                                    <button onClick={setToConvulsion} title="Set to Convulsion threshold" style={{ color: '#DC143C' }}>
-                                        <i className="fas fa-exclamation-triangle"></i> Set to 20 (Convulsion)
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="menu-section">
-                                <button onClick={() => setShowMadnessMenu(false)} className="close-menu-btn">
-                                    <i className="fas fa-times"></i> Close
-                                </button>
-                            </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -2675,125 +3696,102 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Adjustment Menu */}
-                    {showThreadsMenu && ReactDOM.createPortal(
-                        <div className="threads-adjustment-menu" style={{
-                            position: 'fixed',
-                            top: (() => {
-                                if (!threadsBarRef.current) return '50%';
-                                const rect = threadsBarRef.current.getBoundingClientRect();
-                                const menuHeight = 300; // Approximate menu height
-                                const bottom = rect.bottom + 8;
-                                const viewportHeight = window.innerHeight;
+                    {showThreadsMenu && threadsBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact fateweaver-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!threadsBarRef.current) return '50%';
+                                    const rect = threadsBarRef.current.getBoundingClientRect();
+                                    // Find the HUD container to position menu below it
+                                    let hudContainer = threadsBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!threadsBarRef.current) return '50%';
+                                    const rect = threadsBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main fateweaver-menu">
+                                <div className="menu-title">Threads: {currentThreads}/{maxThreads}</div>
 
-                                // If menu would go off bottom, position above the bar
-                                if (bottom + menuHeight > viewportHeight) {
-                                    return Math.max(rect.top - menuHeight - 8, 10) + 'px';
-                                }
-
-                                return bottom + 'px';
-                            })(),
-                            left: (() => {
-                                if (!threadsBarRef.current) return '50%';
-                                const rect = threadsBarRef.current.getBoundingClientRect();
-                                const menuWidth = 340; // Min width from CSS
-                                const left = rect.left;
-                                const viewportWidth = window.innerWidth;
-
-                                // Center on bar, but keep within viewport
-                                let finalLeft = left;
-                                if (finalLeft + menuWidth > viewportWidth) {
-                                    finalLeft = viewportWidth - menuWidth - 10;
-                                }
-                                if (finalLeft < 10) {
-                                    finalLeft = 10;
-                                }
-
-                                return finalLeft + 'px';
-                            })(),
-                            transform: threadsBarRef.current ? 'translateX(0)' : 'translate(-50%, -50%)'
-                        }}>
-                            <div className="menu-section">
-                                <div className="menu-section-title">Gain Threads (Failures)</div>
-                                <div className="menu-buttons">
-                                    <button onClick={() => gainThreads(1)} title="Minor failure">
-                                        <i className="fas fa-plus"></i> Minor
-                                    </button>
-                                    <button onClick={() => gainThreads(2)} title="Major failure">
-                                        <i className="fas fa-plus-circle"></i> Major
-                                    </button>
-                                    <button onClick={() => gainThreads(3)} title="Destiny Weaver bonus">
-                                        <i className="fas fa-star"></i> Weaver
-                                    </button>
+                                <div className="fateweaver-actions">
+                                    <div className="fateweaver-action-row">
+                                        <button onClick={() => gainThreads(1)} className="fateweaver-action-btn gain" title="Gain 1 Thread (Minor Failure)">
+                                            <i className="fas fa-plus"></i>
+                                            <span>+1</span>
+                                        </button>
+                                        <button onClick={() => gainThreads(2)} className="fateweaver-action-btn gain" title="Gain 2 Threads (Major Failure)">
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>+2</span>
+                                        </button>
+                                        <button onClick={() => gainThreads(3)} className="fateweaver-action-btn gain" title="Gain 3 Threads (Destiny Weaver)">
+                                            <i className="fas fa-star"></i>
+                                            <span>+3</span>
+                                        </button>
+                                    </div>
+                                    <div className="fateweaver-action-row">
+                                        <button onClick={() => spendThreads(2)} className="fateweaver-action-btn spend" title="Call Card (-2 Threads)">
+                                            <i className="fas fa-hand-sparkles"></i>
+                                            <span>-2</span>
+                                        </button>
+                                        <button onClick={() => spendThreads(3)} className="fateweaver-action-btn spend" title="Force Failure (-3 Threads)">
+                                            <i className="fas fa-times-circle"></i>
+                                            <span>-3</span>
+                                        </button>
+                                        <button onClick={() => spendThreads(5)} className="fateweaver-action-btn spend" title="Force Success (-5 Threads)">
+                                            <i className="fas fa-check-circle"></i>
+                                            <span>-5</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="menu-section">
-                                <div className="menu-section-title">Spend Threads</div>
-                                <div className="menu-buttons">
-                                    <button onClick={() => spendThreads(2)} title="Call specific card">
-                                        <i className="fas fa-hand-sparkles"></i> Call Card
-                                    </button>
-                                    <button onClick={() => spendThreads(3)} title="Force failure">
-                                        <i className="fas fa-times-circle"></i> Force Fail
-                                    </button>
-                                    <button onClick={() => spendThreads(5)} title="Force success">
-                                        <i className="fas fa-check-circle"></i> Force Success
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="menu-section">
-                                <div className="menu-section-title">Specialization</div>
-                                <div className="menu-buttons">
+                                <div className="fateweaver-specs">
                                     <button
+                                        className={`fateweaver-spec-btn ${selectedFateWeaverSpec === 'fortune-teller' ? 'active' : ''}`}
                                         onClick={() => setSelectedFateWeaverSpec('fortune-teller')}
-                                        title="Fortune Teller: Predictive support and ally buffs"
-                                        style={{
-                                            backgroundColor: selectedFateWeaverSpec === 'fortune-teller' ? '#9370DB' : undefined,
-                                            borderColor: selectedFateWeaverSpec === 'fortune-teller' ? '#9370DB' : '#9370DB'
-                                        }}
+                                        title="Fortune Teller"
                                     >
-                                        <i className="fas fa-eye"></i> Fortune Teller
+                                        <i className="fas fa-eye"></i>
                                     </button>
                                     <button
+                                        className={`fateweaver-spec-btn ${selectedFateWeaverSpec === 'card-master' ? 'active' : ''}`}
                                         onClick={() => setSelectedFateWeaverSpec('card-master')}
-                                        title="Card Master: Deck control and combo assembly"
-                                        style={{
-                                            backgroundColor: selectedFateWeaverSpec === 'card-master' ? '#FFD700' : undefined,
-                                            borderColor: selectedFateWeaverSpec === 'card-master' ? '#FFD700' : '#FFD700'
-                                        }}
+                                        title="Card Master"
                                     >
-                                        <i className="fas fa-crown"></i> Card Master
+                                        <i className="fas fa-crown"></i>
                                     </button>
                                     <button
+                                        className={`fateweaver-spec-btn ${selectedFateWeaverSpec === 'thread-weaver' ? 'active' : ''}`}
                                         onClick={() => setSelectedFateWeaverSpec('thread-weaver')}
-                                        title="Thread Weaver: High-risk Thread generation"
-                                        style={{
-                                            backgroundColor: selectedFateWeaverSpec === 'thread-weaver' ? '#FF1493' : undefined,
-                                            borderColor: selectedFateWeaverSpec === 'thread-weaver' ? '#FF1493' : '#FF1493'
-                                        }}
+                                        title="Thread Weaver"
                                     >
-                                        <i className="fas fa-spider"></i> Thread Weaver
+                                        <i className="fas fa-spider"></i>
                                     </button>
                                 </div>
-                            </div>
 
-                            <div className="menu-section">
-                                <div className="menu-section-title">Quick Actions</div>
-                                <div className="menu-buttons">
-                                    <button onClick={resetThreads} title="Reset to 0">
-                                        <i className="fas fa-undo"></i> Reset to 0
+                                <div className="fateweaver-quick-actions">
+                                    <button onClick={() => { resetThreads(); setShowThreadsMenu(false); }} className="fateweaver-quick-btn" title="Reset to 0">
+                                        <i className="fas fa-undo"></i>
                                     </button>
-                                    <button onClick={setToMax} title="Set to maximum" style={{ color: '#FFD700' }}>
-                                        <i className="fas fa-crown"></i> Set to {modifiedConfig.mechanics?.max ?? 13} (King)
+                                    <button onClick={setToMax} className="fateweaver-quick-btn" title={`Set to Max (${modifiedConfig.mechanics?.max ?? 13})`}>
+                                        <i className="fas fa-crown"></i>
+                                    </button>
+                                    <button onClick={() => setShowThreadsMenu(false)} className="fateweaver-quick-btn" title="Close">
+                                        <i className="fas fa-times"></i>
                                     </button>
                                 </div>
-                            </div>
-
-                            <div className="menu-section">
-                                <button onClick={() => setShowThreadsMenu(false)} className="close-menu-btn">
-                                    <i className="fas fa-times"></i> Close
-                                </button>
                             </div>
                         </div>,
                         document.body
@@ -2893,62 +3891,212 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* WI Adjustment Menu */}
-                    {showWIMenu && (
+                    {showWIMenu && wiBarRef.current && ReactDOM.createPortal(
                         <div
-                            className="resource-adjust-menu wi-menu"
-                            onMouseEnter={() => setShowTooltip(false)}
+                            className={`unified-context-menu compact formbender-wi-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!wiBarRef.current) return '50%';
+                                    const rect = wiBarRef.current.getBoundingClientRect();
+                                    let hudContainer = wiBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!wiBarRef.current) return '50%';
+                                    const rect = wiBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
                         >
-                            <div className="menu-header">Adjust Wild Instinct ({wiValue}/{maxWI})</div>
-                            <div className="menu-buttons">
-                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 1) }))}>+1 WI</button>
-                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 2) }))}>+2 Form Action</button>
-                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 1) }))}>−1 Transform</button>
-                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 3) }))}>−3 Ability</button>
-                                <button onClick={() => setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 5) }))}>−5 Ultimate</button>
-                            </div>
+                            <div className="context-menu-main formbender-menu">
+                                <div className="menu-title">Wild Instinct: {wiValue}/{maxWI}</div>
 
-                            {/* Specialization Section */}
-                            <div className="menu-section">
-                                <div className="menu-section-title">Specialization</div>
-                                <div className="spec-buttons">
-                                    {Object.entries(finalConfig.visual?.specializations || {}).map(([specKey, spec]) => (
-                                        <button
-                                            key={specKey}
-                                            onClick={() => setFormbenderState(prev => ({ ...prev, formbenderSpec: specKey }))}
-                                            className={formbenderSpec === specKey ? 'active' : ''}
+                                {/* Gain Actions */}
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header">Gain</div>
+                                    <div className="formbender-action-grid gain-grid">
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 1) }));
+                                            }}
+                                            title="Gain 1 WI (Combat)"
                                         >
-                                            <i className={spec.icon}></i> {spec.name}
+                                            <i className="fas fa-plus"></i> +1
                                         </button>
-                                    ))}
+                                        <button 
+                                            className="context-menu-button gain" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.min(maxWI, wiValue + 2) }));
+                                            }}
+                                            title="Gain 2 WI (Action)"
+                                        >
+                                            <i className="fas fa-plus-circle"></i> +2
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Spend Actions */}
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header">Spend</div>
+                                    <div className="formbender-action-grid">
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 1) }));
+                                            }}
+                                            title="Spend 1 WI (Transform)"
+                                        >
+                                            <i className="fas fa-minus"></i> -1
+                                        </button>
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 3) }));
+                                            }}
+                                            title="Spend 3 WI (Ability)"
+                                        >
+                                            <i className="fas fa-minus-circle"></i> -3
+                                        </button>
+                                        <button 
+                                            className="context-menu-button spend" 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 5) }));
+                                            }}
+                                            title="Spend 5 WI (Ultimate)"
+                                        >
+                                            <i className="fas fa-star"></i> -5
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Specialization Selection */}
+                                <div className="formbender-spec-section">
+                                    <div className="formbender-spec-buttons">
+                                        {Object.entries(finalConfig.visual?.specializations || {}).map(([specKey, spec]) => (
+                                            <button
+                                                key={specKey}
+                                                className={`formbender-spec-btn ${formbenderSpec === specKey ? 'active' : ''}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setFormbenderState(prev => ({ ...prev, formbenderSpec: specKey }));
+                                                }}
+                                                title={spec.name}
+                                            >
+                                                <i className={spec.icon}></i>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Quick Actions */}
+                                <div className="formbender-quick-actions">
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setFormbenderState(prev => ({ ...prev, localWildInstinct: 0 }));
+                                            setShowWIMenu(false);
+                                        }} 
+                                        className="formbender-quick-btn"
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                        <span>Reset</span>
+                                    </button>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowWIMenu(false);
+                                        }} 
+                                        className="formbender-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                        <span>Close</span>
+                                    </button>
                                 </div>
                             </div>
-
-                            <button className="menu-reset" onClick={() => { setFormbenderState(prev => ({ ...prev, localWildInstinct: 0 })); setShowWIMenu(false); }}>Reset to 0</button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
 
                     {/* Form Selection Menu */}
-                    {showFormMenu && (
-                        <div className="resource-adjust-menu form-menu">
-                            <div className="menu-header">Transform (1 WI)</div>
-                            <div className="form-buttons">
-                                {Object.entries(forms).map(([formId, form]) => (
-                                    <button
-                                        key={formId}
-                                        title=""
-                                        onClick={() => handleTransform(formId)}
-                                        className={currentForm === formId ? 'active' : ''}
-                                        style={{
-                                            borderColor: form.borderColor,
-                                            backgroundColor: currentForm === formId ? form.color : 'transparent'
-                                        }}
+                    {showFormMenu && wiBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact formbender-form-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!wiBarRef.current) return '50%';
+                                    const rect = wiBarRef.current.getBoundingClientRect();
+                                    let hudContainer = wiBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!wiBarRef.current) return '50%';
+                                    const rect = wiBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main formbender-menu">
+                                <div className="menu-title">Transform (1 WI)</div>
+
+                                <div className="formbender-forms-grid">
+                                    {Object.entries(forms).map(([formId, form]) => (
+                                        <button
+                                            key={formId}
+                                            className={`formbender-form-btn ${currentForm === formId ? 'active' : ''}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleTransform(formId);
+                                            }}
+                                            title={form.name}
+                                        >
+                                            <i className={form.icon}></i>
+                                            <span className="formbender-form-name">{form.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="formbender-quick-actions">
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowFormMenu(false);
+                                        }} 
+                                        className="formbender-quick-btn"
+                                        title="Close"
                                     >
-                                        <i className={form.icon}></i> {form.name}
+                                        <i className="fas fa-times"></i>
+                                        <span>Close</span>
                                     </button>
-                                ))}
+                                </div>
                             </div>
-                            <button className="menu-reset" title="" onClick={() => setShowFormMenu(false)}>Close</button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -3114,55 +4262,167 @@ const ClassResourceBar = ({
                 </div>
 
                 {/* Synergy Adjustment Menu */}
-                {showSynergyMenu && (
+                {showSynergyMenu && synergyBarRef.current && ReactDOM.createPortal(
                     <div
-                        className="resource-adjust-menu synergy-menu"
-                        onMouseEnter={() => setShowTooltip(false)}
+                        className={`unified-context-menu compact primalist-synergy-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                            position: 'fixed',
+                            top: (() => {
+                                if (!synergyBarRef.current) return '50%';
+                                const rect = synergyBarRef.current.getBoundingClientRect();
+                                let hudContainer = synergyBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                let hudBottom = rect.bottom;
+                                if (hudContainer) {
+                                    const hudRect = hudContainer.getBoundingClientRect();
+                                    hudBottom = hudRect.bottom;
+                                }
+                                return hudBottom + 8;
+                            })(),
+                            left: (() => {
+                                if (!synergyBarRef.current) return '50%';
+                                const rect = synergyBarRef.current.getBoundingClientRect();
+                                return rect.left + (rect.width / 2);
+                            })(),
+                            transform: 'translateX(-50%)',
+                            zIndex: 100000
+                        }}
                     >
-                        <div className="menu-header">Adjust Totemic Synergy ({synergyValue}/{maxSynergy})</div>
-                        <div className="menu-buttons">
-                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 10) }))}>-10 TS</button>
-                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 5) }))}>-5 TS</button>
-                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 5) }))} >+5 TS</button>
-                            <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 10) }))} >+10 TS</button>
-                        </div>
+                        <div className="context-menu-main primalist-menu">
+                            <div className="menu-title">Synergy: {synergyValue}/{maxSynergy}</div>
 
-                        {/* Totem Section */}
-                        <div className="menu-section">
-                            <div className="menu-section-title">Active Totems ({totemCount}/{maxTotems})</div>
-                            <div className="menu-buttons">
-                                <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, activeTotems: Math.max(0, totemCount - 1) }))}>-1 Totem</button>
-                                <button title="" onClick={() => setPrimalistState(prev => ({ ...prev, activeTotems: Math.min(maxTotems, totemCount + 1) }))} >+1 Totem</button>
-                            </div>
-                            <div className="synergy-status" style={{
-                                fontSize: '10px',
-                                color: canActivateSynergy ? currentSpec.glowColor : '#888',
-                                textAlign: 'center',
-                                marginTop: '4px'
-                            }}>
-                                {canActivateSynergy ? `SYNERGY READY (${synergyThreshold}+ totems)` : `Need ${synergyThreshold - totemCount} more totem(s)`}
-                            </div>
-                        </div>
-
-                        {/* Specialization Section */}
-                        <div className="menu-section">
-                            <div className="menu-section-title">Specialization</div>
-                            <div className="spec-buttons">
-                                {Object.entries(specs).map(([specKey, spec]) => (
-                                    <button
-                                        key={specKey}
-                                        title=""
-                                        onClick={() => setPrimalistSpec(specKey)}
-                                        className={primalistSpec === specKey ? 'active' : ''}
+                            {/* Gain Actions */}
+                            <div className="context-menu-section">
+                                <div className="context-menu-section-header">Gain</div>
+                                <div className="primalist-action-grid">
+                                    <button 
+                                        className="context-menu-button gain" 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 5) }));
+                                        }}
+                                        title="Gain 5 Synergy"
                                     >
-                                        <i className={spec.icon}></i> {spec.name}
+                                        <i className="fas fa-plus"></i> +5
                                     </button>
-                                ))}
+                                    <button 
+                                        className="context-menu-button gain" 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.min(maxSynergy, synergyValue + 10) }));
+                                        }}
+                                        title="Gain 10 Synergy"
+                                    >
+                                        <i className="fas fa-plus-circle"></i> +10
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Spend Actions */}
+                            <div className="context-menu-section">
+                                <div className="context-menu-section-header">Spend</div>
+                                <div className="primalist-action-grid">
+                                    <button 
+                                        className="context-menu-button spend" 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 5) }));
+                                        }}
+                                        title="Spend 5 Synergy"
+                                    >
+                                        <i className="fas fa-minus"></i> -5
+                                    </button>
+                                    <button 
+                                        className="context-menu-button spend" 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setPrimalistState(prev => ({ ...prev, localSynergy: Math.max(0, synergyValue - 10) }));
+                                        }}
+                                        title="Spend 10 Synergy"
+                                    >
+                                        <i className="fas fa-minus-circle"></i> -10
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Totems Section */}
+                            <div className="context-menu-section">
+                                <div className="context-menu-section-header">Totems: {totemCount}/{maxTotems}</div>
+                                <div className="primalist-totem-controls">
+                                    <button 
+                                        className="context-menu-button" 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setPrimalistState(prev => ({ ...prev, activeTotems: Math.max(0, totemCount - 1) }));
+                                        }}
+                                        title="Remove 1 Totem"
+                                    >
+                                        <i className="fas fa-minus"></i> -1
+                                    </button>
+                                    <button 
+                                        className="context-menu-button" 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setPrimalistState(prev => ({ ...prev, activeTotems: Math.min(maxTotems, totemCount + 1) }));
+                                        }}
+                                        title="Add 1 Totem"
+                                    >
+                                        <i className="fas fa-plus"></i> +1
+                                    </button>
+                                </div>
+                                <div className={`primalist-synergy-status ${canActivateSynergy ? 'ready' : ''}`}>
+                                    {canActivateSynergy ? `⚡ READY` : `Need ${synergyThreshold - totemCount} more`}
+                                </div>
+                            </div>
+
+                            {/* Specialization Selection */}
+                            <div className="primalist-spec-section">
+                                <div className="primalist-spec-buttons">
+                                    {Object.entries(specs).map(([specKey, spec]) => (
+                                        <button
+                                            key={specKey}
+                                            className={`primalist-spec-btn ${primalistSpec === specKey ? 'active' : ''}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setPrimalistSpec(specKey);
+                                            }}
+                                            title={spec.name}
+                                        >
+                                            <i className={spec.icon}></i>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Quick Actions */}
+                            <div className="primalist-quick-actions">
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setPrimalistState(prev => ({ ...prev, localSynergy: 0, activeTotems: 0 }));
+                                        setShowSynergyMenu(false);
+                                    }} 
+                                    className="primalist-quick-btn"
+                                    title="Reset All"
+                                >
+                                    <i className="fas fa-undo"></i>
+                                    <span>Reset</span>
+                                </button>
+                                <button 
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowSynergyMenu(false);
+                                    }} 
+                                    className="primalist-quick-btn"
+                                    title="Close"
+                                >
+                                    <i className="fas fa-times"></i>
+                                    <span>Close</span>
+                                </button>
                             </div>
                         </div>
-
-                        <button className="menu-reset" title="" onClick={() => { setPrimalistState(prev => ({ ...prev, localSynergy: 0, activeTotems: 0 })); setShowSynergyMenu(false); }}>Reset to 0</button>
-                    </div>
+                    </div>,
+                    document.body
                 )}
             </div>
         );
@@ -3306,70 +4566,131 @@ const ClassResourceBar = ({
                         </div>
 
                         {/* FP Adjustment Menu */}
-                        {showFPMenu && (
+                        {showFPMenu && fpBarRef.current && ReactDOM.createPortal(
                             <div
-                                className="fp-menu inline-menu"
-                                style={{
-                                    position: 'absolute',
-                                    top: menuPosition.top,
-                                    bottom: menuPosition.bottom,
-                                    left: menuPosition.left,
-                                    right: menuPosition.right,
-                                    transform: menuPosition.transform || 'none'
-                                }}
-                                onMouseEnter={() => setGamblerHoverSection(null)}
+                                className={`unified-context-menu compact gambler-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                                 onClick={(e) => e.stopPropagation()}
+                                style={{
+                                    position: 'fixed',
+                                    top: (() => {
+                                        if (!fpBarRef.current) return '50%';
+                                        const rect = fpBarRef.current.getBoundingClientRect();
+                                        let hudContainer = fpBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                        let hudBottom = rect.bottom;
+                                        if (hudContainer) {
+                                            const hudRect = hudContainer.getBoundingClientRect();
+                                            hudBottom = hudRect.bottom;
+                                        }
+                                        return hudBottom + 8;
+                                    })(),
+                                    left: (() => {
+                                        if (!fpBarRef.current) return '50%';
+                                        const rect = fpBarRef.current.getBoundingClientRect();
+                                        return rect.left + (rect.width / 2);
+                                    })(),
+                                    transform: 'translateX(-50%)',
+                                    zIndex: 100000
+                                }}
                             >
-                                <div className="menu-title">Adjust Fortune Points</div>
+                            <div className="context-menu-main gambler-menu">
+                                <div className="menu-title">Fortune Points: {fpValue}/{maxFP}</div>
 
-                                {/* Specialization Selection */}
-                                <div className="spec-selection">
+                                <div className="gambler-specs">
                                     {Object.entries(specs).map(([key, spec]) => (
                                         <button
                                             key={key}
-                                            className={`spec-select-button ${gamblerSpec === key ? 'active' : ''}`}
+                                            className={`gambler-spec-btn ${gamblerSpec === key ? 'active' : ''}`}
                                             onClick={() => {
                                                 setGamblerSpec(key);
                                                 setLocalFortunePoints(Math.min(localFortunePoints, spec.max));
                                             }}
                                             title={spec.name}
                                         >
-                                            <i className={key === 'card-sharp' ? 'fas fa-cards' : (spec.icon || 'fas fa-question')}></i>
-                                            <span className="spec-name">{spec.name}</span>
+                                            <i className={key === 'card-sharp' ? 'fas fa-hand-paper' : key === 'high-roller' ? 'fas fa-dice' : key === 'fortune-teller' ? 'fas fa-crystal-ball' : (spec.icon || 'fas fa-question')}></i>
                                         </button>
                                     ))}
                                 </div>
 
-                                <div className="menu-buttons">
-                                    <button onClick={() => setLocalFortunePoints(Math.min(maxFP, fpValue + 1))}>
-                                        +1 FP (Successful Action)
+                                <div className="gambler-actions">
+                                    <div className="gambler-action-row">
+                                        <button 
+                                            className="gambler-action-btn gain" 
+                                            onClick={() => setLocalFortunePoints(Math.min(maxFP, fpValue + 1))}
+                                            title="Gain 1 FP (Success)"
+                                        >
+                                            <i className="fas fa-plus"></i>
+                                            <span>+1</span>
+                                        </button>
+                                        <button 
+                                            className="gambler-action-btn gain" 
+                                            onClick={() => setLocalFortunePoints(Math.min(maxFP, fpValue + 2))}
+                                            title="Gain 2 FP (Crit)"
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>+2</span>
+                                        </button>
+                                    </div>
+                                    <div className="gambler-action-row">
+                                        <button 
+                                            className="gambler-action-btn spend" 
+                                            onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 1))}
+                                            title="Spend 1 FP (Minor)"
+                                        >
+                                            <i className="fas fa-minus"></i>
+                                            <span>-1</span>
+                                        </button>
+                                        <button 
+                                            className="gambler-action-btn spend" 
+                                            onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 3))}
+                                            title="Spend 3 FP (Moderate)"
+                                        >
+                                            <i className="fas fa-minus-circle"></i>
+                                            <span>-3</span>
+                                        </button>
+                                        <button 
+                                            className="gambler-action-btn spend" 
+                                            onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 5))}
+                                            title="Spend 5 FP (Major)"
+                                        >
+                                            <i className="fas fa-star"></i>
+                                            <span>-5</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="gambler-quick-actions">
+                                    <button 
+                                        onClick={() => setLocalFortunePoints(0)} 
+                                        className="gambler-quick-btn"
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
                                     </button>
-                                    <button onClick={() => setLocalFortunePoints(Math.min(maxFP, fpValue + 2))}>
-                                        +2 FP (Critical Hit)
+                                    <button 
+                                        onClick={() => setLocalFortunePoints(Math.floor(maxFP / 2))} 
+                                        className="gambler-quick-btn"
+                                        title={`Set to Half (${Math.floor(maxFP / 2)})`}
+                                    >
+                                        <i className="fas fa-balance-scale"></i>
                                     </button>
-                                    <button onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 1))}>
-                                        -1 FP (Minor Adjustment)
+                                    <button 
+                                        onClick={() => setLocalFortunePoints(maxFP)} 
+                                        className="gambler-quick-btn"
+                                        title={`Set to Max (${maxFP})`}
+                                    >
+                                        <i className="fas fa-crown"></i>
                                     </button>
-                                    <button onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 3))}>
-                                        -3 FP (Moderate Adjustment)
-                                    </button>
-                                    <button onClick={() => setLocalFortunePoints(Math.max(0, fpValue - 5))}>
-                                        -5 FP (Major Adjustment)
-                                    </button>
-                                    <button onClick={() => setLocalFortunePoints(0)}>
-                                        Set to 0
-                                    </button>
-                                    <button onClick={() => setLocalFortunePoints(Math.floor(maxFP / 2))}>
-                                        Set to {Math.floor(maxFP / 2)}
-                                    </button>
-                                    <button onClick={() => setLocalFortunePoints(maxFP)}>
-                                        Set to {maxFP} (Max)
+                                    <button 
+                                        onClick={() => setShowFPMenu(false)} 
+                                        className="gambler-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
                                     </button>
                                 </div>
-                                <button className="menu-reset" onClick={() => setShowFPMenu(false)}>
-                                    Close
-                                </button>
                             </div>
+                            </div>,
+                            document.body
                         )}
                     </div>
                 </div>
@@ -3481,71 +4802,140 @@ const ClassResourceBar = ({
                         </div>
 
                         {/* QM Adjustment Menu */}
-                        {showQMMenu && (
+                        {showQMMenu && qmBarRef.current && ReactDOM.createPortal(
                             <div
-                                className="qm-menu"
+                                className={`unified-context-menu compact huntress-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
                                 onClick={(e) => e.stopPropagation()}
+                                style={{
+                                    position: 'fixed',
+                                    top: (() => {
+                                        if (!qmBarRef.current) return '50%';
+                                        const rect = qmBarRef.current.getBoundingClientRect();
+                                        let hudContainer = qmBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                        let hudBottom = rect.bottom;
+                                        if (hudContainer) {
+                                            const hudRect = hudContainer.getBoundingClientRect();
+                                            hudBottom = hudRect.bottom;
+                                        }
+                                        return hudBottom + 8;
+                                    })(),
+                                    left: (() => {
+                                        if (!qmBarRef.current) return '50%';
+                                        const rect = qmBarRef.current.getBoundingClientRect();
+                                        return rect.left + (rect.width / 2);
+                                    })(),
+                                    transform: 'translateX(-50%)',
+                                    zIndex: 100000
+                                }}
                             >
-                                <div className="menu-header">
-                                    <div className="menu-title">Adjust Quarry Marks</div>
-                                </div>
-                                <div className="menu-buttons">
-                                    <div className="button-row">
-                                        <button onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 1)); setShowQMMenu(false); }}>
-                                            +1 <span className="button-desc">Hit</span>
+                                <div className="context-menu-main huntress-menu">
+                                    <div className="menu-title">Quarry Marks: {qmValue}/{maxQM}</div>
+
+                                    <div className="huntress-actions">
+                                        <div className="huntress-action-row">
+                                            <button 
+                                                className="huntress-action-btn gain" 
+                                                onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 1)); setShowQMMenu(false); }}
+                                                title="Gain 1 Mark (Hit)"
+                                            >
+                                                <i className="fas fa-plus"></i>
+                                                <span>+1</span>
+                                            </button>
+                                            <button 
+                                                className="huntress-action-btn gain" 
+                                                onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 2)); setShowQMMenu(false); }}
+                                                title="Gain 2 Marks (Critical)"
+                                            >
+                                                <i className="fas fa-plus-circle"></i>
+                                                <span>+2</span>
+                                            </button>
+                                        </div>
+                                        <div className="huntress-action-row">
+                                            <button 
+                                                className="huntress-action-btn spend" 
+                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 1)); setShowQMMenu(false); }}
+                                                title="Spend 1 Mark (Companion)"
+                                            >
+                                                <i className="fas fa-minus"></i>
+                                                <span>-1</span>
+                                            </button>
+                                            <button 
+                                                className="huntress-action-btn spend" 
+                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 2)); setShowQMMenu(false); }}
+                                                title="Spend 2 Marks (Chain Attack)"
+                                            >
+                                                <i className="fas fa-minus-circle"></i>
+                                                <span>-2</span>
+                                            </button>
+                                            <button 
+                                                className="huntress-action-btn spend" 
+                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 3)); setShowQMMenu(false); }}
+                                                title="Spend 3 Marks (Specialization)"
+                                            >
+                                                <i className="fas fa-star"></i>
+                                                <span>-3</span>
+                                            </button>
+                                            <button 
+                                                className="huntress-action-btn spend" 
+                                                onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 5)); setShowQMMenu(false); }}
+                                                title="Spend 5 Marks (Ultimate)"
+                                            >
+                                                <i className="fas fa-fire"></i>
+                                                <span>-5</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="huntress-specs">
+                                        <button
+                                            className={`huntress-spec-btn ${huntressSpec === 'bladestorm' ? 'active' : ''}`}
+                                            onClick={() => setHuntressSpec('bladestorm')}
+                                            title="Bladestorm"
+                                        >
+                                            <i className="fas fa-khanda"></i>
                                         </button>
-                                        <button onClick={() => { setLocalQuarryMarks(Math.min(maxQM, qmValue + 2)); setShowQMMenu(false); }}>
-                                            +2 <span className="button-desc">Crit</span>
+                                        <button
+                                            className={`huntress-spec-btn ${huntressSpec === 'beastmaster' ? 'active' : ''}`}
+                                            onClick={() => setHuntressSpec('beastmaster')}
+                                            title="Beastmaster"
+                                        >
+                                            <i className="fas fa-paw"></i>
                                         </button>
-                                        <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 1)); setShowQMMenu(false); }}>
-                                            -1 <span className="button-desc">Comp</span>
+                                        <button
+                                            className={`huntress-spec-btn ${huntressSpec === 'shadowdancer' ? 'active' : ''}`}
+                                            onClick={() => setHuntressSpec('shadowdancer')}
+                                            title="Shadowdancer"
+                                        >
+                                            <i className="fas fa-moon"></i>
                                         </button>
                                     </div>
-                                    <div className="button-row">
-                                        <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 2)); setShowQMMenu(false); }}>
-                                            -2 <span className="button-desc">Chain</span>
+
+                                    <div className="huntress-quick-actions">
+                                        <button 
+                                            onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }} 
+                                            className="huntress-quick-btn"
+                                            title="Reset to 0"
+                                        >
+                                            <i className="fas fa-undo"></i>
                                         </button>
-                                        <button onClick={() => { setLocalQuarryMarks(Math.max(0, qmValue - 3)); setShowQMMenu(false); }}>
-                                            -3 <span className="button-desc">Spec</span>
+                                        <button 
+                                            onClick={() => { setLocalQuarryMarks(maxQM); setShowQMMenu(false); }} 
+                                            className="huntress-quick-btn"
+                                            title={`Set to Max (${maxQM})`}
+                                        >
+                                            <i className="fas fa-crown"></i>
                                         </button>
-                                        <button onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }}>
-                                            -5 <span className="button-desc">Ult</span>
-                                        </button>
-                                    </div>
-                                    <div className="button-row">
-                                        <button onClick={() => { setLocalQuarryMarks(0); setShowQMMenu(false); }}>
-                                            0 <span className="button-desc">Reset</span>
-                                        </button>
-                                        <button onClick={() => { setLocalQuarryMarks(maxQM); setShowQMMenu(false); }}>
-                                            {maxQM} <span className="button-desc">Max</span>
-                                        </button>
-                                        <button className="menu-reset" onClick={() => setShowQMMenu(false)}>
-                                            ✕
+                                        <button 
+                                            onClick={() => setShowQMMenu(false)} 
+                                            className="huntress-quick-btn"
+                                            title="Close"
+                                        >
+                                            <i className="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <div className="menu-divider"></div>
-                                <div className="spec-buttons">
-                                    <button
-                                        className={`spec-button ${huntressSpec === 'bladestorm' ? 'active' : ''}`}
-                                        onClick={() => setHuntressSpec('bladestorm')}
-                                    >
-                                        <i className="fas fa-khanda"></i> Bladestorm
-                                    </button>
-                                    <button
-                                        className={`spec-button ${huntressSpec === 'beastmaster' ? 'active' : ''}`}
-                                        onClick={() => setHuntressSpec('beastmaster')}
-                                    >
-                                        <i className="fas fa-paw"></i> Beastmaster
-                                    </button>
-                                    <button
-                                        className={`spec-button ${huntressSpec === 'shadowdancer' ? 'active' : ''}`}
-                                        onClick={() => setHuntressSpec('shadowdancer')}
-                                    >
-                                        <i className="fas fa-moon"></i> Shadowdancer
-                                    </button>
-                                </div>
-                            </div>
+                            </div>,
+                            document.body
                         )}
                     </div>
                 </div>
@@ -3749,83 +5139,164 @@ const ClassResourceBar = ({
                         </div>
 
                         {/* Adjustment Menu */}
-                        {showRunesMenu && (
-                            <div className="ri-menu" onClick={(e) => e.stopPropagation()}>
-                                <div className="menu-title">Adjust Runes & Inscriptions</div>
-                                
-                                {/* Specialization Selection */}
-                                <div className="menu-section spec-section-menu">
-                                    <div className="menu-section-title">Specialization</div>
-                                    <div className="spec-options-grid">
-                                        {Object.entries(specs).filter(([key]) =>
-                                            key === 'runebinder' || key === 'enchanter' || key === 'glyphweaver'
-                                        ).map(([key, spec]) => (
-                                            <button
-                                                key={key}
-                                                className={`spec-option-button ${key} ${inscriptorSpec === key ? 'active' : ''}`}
-                                                onClick={() => {
-                                                    setInscriptorState(prev => ({
-                                                        ...prev,
-                                                        inscriptorSpec: key,
-                                                        localRunes: Math.min(localRunes, spec.maxRunes),
-                                                        localInscriptions: Math.min(localInscriptions, spec.maxInscriptions)
-                                                    }));
-                                                }}
-                                                style={{
-                                                    borderColor: spec.color,
-                                                    color: inscriptorSpec === key ? spec.color : '#3a3a3a'
-                                                }}
-                                            >
-                                                <i className={`fas ${spec.icon}`}></i>
-                                                <span>{spec.name}</span>
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
+                        {showRunesMenu && ReactDOM.createPortal(
+                            <div 
+                                className="unified-context-menu compact inscriptor-menu-container" 
+                                onClick={(e) => e.stopPropagation()}
+                                style={{
+                                    position: 'fixed',
+                                    top: (() => {
+                                        if (!inscriptorBarRef.current) return '50%';
+                                        const rect = inscriptorBarRef.current.getBoundingClientRect();
+                                        let hudContainer = inscriptorBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                        let hudBottom = rect.bottom;
+                                        if (hudContainer) {
+                                            const hudRect = hudContainer.getBoundingClientRect();
+                                            hudBottom = hudRect.bottom;
+                                        }
+                                        return hudBottom + 8;
+                                    })(),
+                                    left: (() => {
+                                        if (!inscriptorBarRef.current) return '50%';
+                                        const rect = inscriptorBarRef.current.getBoundingClientRect();
+                                        return rect.left + (rect.width / 2);
+                                    })(),
+                                    transform: 'translateX(-50%)',
+                                    zIndex: 100000
+                                }}
+                            >
+                                <div className="context-menu-main inscriptor-menu">
+                                    <div className="menu-title">Runes: {runesValue}/{maxRunes} | Inscriptions: {inscriptionsValue}/{maxInscriptions}</div>
 
-                                <div className="menu-section">
-                                    <div className="menu-section-title">Runes</div>
-                                    <div className="menu-buttons">
-                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 1) })); }}>
-                                            +1 Rune (Place)
+                                    {/* Specialization Selection */}
+                                    <div className="inscriptor-spec-section">
+                                        <div className="inscriptor-spec-buttons">
+                                            {Object.entries(specs).filter(([key]) =>
+                                                key === 'runebinder' || key === 'enchanter' || key === 'glyphweaver'
+                                            ).map(([key, spec]) => (
+                                                <button
+                                                    key={key}
+                                                    className={`inscriptor-spec-btn ${inscriptorSpec === key ? 'active' : ''}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setInscriptorState(prev => ({
+                                                            ...prev,
+                                                            inscriptorSpec: key,
+                                                            localRunes: Math.min(localRunes, spec.maxRunes),
+                                                            localInscriptions: Math.min(localInscriptions, spec.maxInscriptions)
+                                                        }));
+                                                    }}
+                                                    title={spec.name}
+                                                >
+                                                    <i className={`fas ${spec.icon}`}></i>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Runes Section */}
+                                    <div className="context-menu-section">
+                                        <div className="context-menu-section-header">Runes</div>
+                                        <div className="inscriptor-action-grid">
+                                            <button 
+                                                className="context-menu-button gain" 
+                                                onClick={(e) => { 
+                                                    e.stopPropagation();
+                                                    setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 1) })); 
+                                                }} 
+                                                title="+1 Place"
+                                            >
+                                                <i className="fas fa-plus"></i> +1
+                                            </button>
+                                            <button 
+                                                className="context-menu-button gain" 
+                                                onClick={(e) => { 
+                                                    e.stopPropagation();
+                                                    setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 3) })); 
+                                                }} 
+                                                title="+3 Zone"
+                                            >
+                                                <i className="fas fa-plus"></i> +3
+                                            </button>
+                                            <button 
+                                                className="context-menu-button spend" 
+                                                onClick={(e) => { 
+                                                    e.stopPropagation();
+                                                    setInscriptorState(prev => ({ ...prev, localRunes: Math.max(0, runesValue - 1) })); 
+                                                }} 
+                                                title="-1 Detonate"
+                                            >
+                                                <i className="fas fa-minus"></i> -1
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Inscriptions Section */}
+                                    <div className="context-menu-section">
+                                        <div className="context-menu-section-header">Inscriptions</div>
+                                        <div className="inscriptor-action-grid inscriptions-grid">
+                                            <button 
+                                                className="context-menu-button gain" 
+                                                onClick={(e) => { 
+                                                    e.stopPropagation();
+                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: Math.min(maxInscriptions, inscriptionsValue + 1) })); 
+                                                }} 
+                                                title="+1 Inscribe"
+                                            >
+                                                <i className="fas fa-plus"></i> +1
+                                            </button>
+                                            <button 
+                                                className="context-menu-button spend" 
+                                                onClick={(e) => { 
+                                                    e.stopPropagation();
+                                                    setInscriptorState(prev => ({ ...prev, localInscriptions: Math.max(0, inscriptionsValue - 1) })); 
+                                                }} 
+                                                title="-1 Remove"
+                                            >
+                                                <i className="fas fa-minus"></i> -1
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Quick Actions */}
+                                    <div className="inscriptor-quick-actions">
+                                        <button 
+                                            className="inscriptor-quick-btn" 
+                                            onClick={(e) => { 
+                                                e.stopPropagation();
+                                                setInscriptorState(prev => ({ ...prev, localRunes: 0, localInscriptions: 0 })); 
+                                            }} 
+                                            title="Reset All"
+                                        >
+                                            <i className="fas fa-undo"></i>
+                                            <span>Reset</span>
                                         </button>
-                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: Math.min(maxRunes, runesValue + 3) })); }}>
-                                            +3 Runes (Form Zone)
+                                        <button 
+                                            className="inscriptor-quick-btn" 
+                                            onClick={(e) => { 
+                                                e.stopPropagation();
+                                                setInscriptorState(prev => ({ ...prev, localRunes: maxRunes, localInscriptions: maxInscriptions })); 
+                                            }} 
+                                            title="Set to Max"
+                                        >
+                                            <i className="fas fa-crown"></i>
+                                            <span>Max</span>
                                         </button>
-                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: Math.max(0, runesValue - 1) })); }}>
-                                            -1 Rune (Detonate)
-                                        </button>
-                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: 0 })); }}>
-                                            Clear All Runes
+                                        <button 
+                                            className="inscriptor-quick-btn" 
+                                            onClick={(e) => { 
+                                                e.stopPropagation();
+                                                setShowRunesMenu(false); 
+                                            }} 
+                                            title="Close"
+                                        >
+                                            <i className="fas fa-times"></i>
+                                            <span>Close</span>
                                         </button>
                                     </div>
                                 </div>
-                                <div className="menu-section">
-                                    <div className="menu-section-title">Inscriptions</div>
-                                    <div className="menu-buttons">
-                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localInscriptions: Math.min(maxInscriptions, inscriptionsValue + 1) })); }}>
-                                            +1 Inscription (Inscribe Item)
-                                        </button>
-                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localInscriptions: Math.max(0, inscriptionsValue - 1) })); }}>
-                                            -1 Inscription (Remove)
-                                        </button>
-                                        <button onClick={() => { setInscriptorState(prev => ({ ...prev, localInscriptions: 0 })); }}>
-                                            Clear All Inscriptions
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="menu-buttons">
-                                    <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: 0, localInscriptions: 0 })); }}>
-                                        Reset All
-                                    </button>
-                                    <button onClick={() => { setInscriptorState(prev => ({ ...prev, localRunes: maxRunes, localInscriptions: maxInscriptions })); }}>
-                                        Set to Max
-                                    </button>
-                                </div>
-                                <button className="menu-reset" onClick={() => setShowRunesMenu(false)}>
-                                    Close
-                                </button>
-                            </div>
+                            </div>,
+                            document.body
                         )}
                     </div>
                 </div>
@@ -3951,75 +5422,105 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Adjustment Menu */}
-                    {showPhylacteryMenu && (
-                        <div className="phylactery-menu">
-                            <div className="menu-section">
-                                <div className="menu-title">Phylactery HP</div>
-                                <div className="menu-value">{phylacteryValue}/{maxPhylactery}</div>
-                                <div className="menu-buttons">
-                                    <button onClick={() => handleAdjustPhylactery(-10)}>-10</button>
-                                    <button onClick={() => handleAdjustPhylactery(-5)}>-5</button>
-                                    <button onClick={() => handleAdjustPhylactery(5)}>+5</button>
-                                    <button onClick={() => handleAdjustPhylactery(10)}>+10</button>
-                                </div>
-                                <div className="menu-info">
-                                    {lichborneSpec === 'phylactery_guardian'
-                                        ? 'Ritual: Transfer 10 HP (1 hour) | Resurrection: 8 HP → revive at 15 HP (once per combat)'
-                                        : 'Ritual: Transfer 10 HP (1 hour) | Resurrection: 10 HP → revive at 10 HP (once per combat)'}
-                                </div>
-                            </div>
-
-                            <div className="menu-section">
-                                <div className="menu-title">Eternal Frost Aura</div>
-                                <button
-                                    className={`aura-toggle-btn ${auraActive ? 'active' : 'inactive'}`}
-                                    onClick={handleToggleAura}
-                                >
-                                    {auraActive ? 'ACTIVE' : 'INACTIVE'}
-                                </button>
-                                <div className="menu-info">
-                                    Active: +1d6 frost damage, chilling DC 17, drains 1d6 HP/turn
-                                </div>
-                            </div>
-
-                            {/* Specialization Selector */}
-                            <div className="menu-section">
-                                <div className="menu-title">
-                                    Specialization: {Object.entries(specs)
-                                        .filter(([key]) => key !== 'type' && key !== 'arrangement' && key !== 'baseColor' && key !== 'activeColor' && key !== 'glowColor' && key !== 'icon')
-                                        .find(([key]) => key === lichborneSpec)?.[1]?.name || 'Frostbound Tyrant'}
-                                </div>
-                                <div className="menu-info">
-                                    <div className="spec-buttons-inline">
-                                        {Object.entries(specs)
-                                            .filter(([key]) => key !== 'type' && key !== 'arrangement' && key !== 'baseColor' && key !== 'activeColor' && key !== 'glowColor' && key !== 'icon')
-                                            .map(([key, spec]) => (
-                                                <button
-                                                    key={key}
-                                                    className={`spec-button ${lichborneSpec === key ? 'selected' : ''}`}
-                                                    onClick={() => {
-                                                        setLichborneSpec(key);
-                                                        // Adjust phylactery HP if switching to/from Phylactery Guardian
-                                                        if (key === 'phylactery_guardian') {
-                                                            // Can now store up to 75
-                                                        } else {
-                                                            // Cap at 50 if switching away from Phylactery Guardian
-                                                            setLocalPhylacteryHP(Math.min(localPhylacteryHP, 50));
-                                                        }
-                                                    }}
-                                                    style={{ borderColor: lichborneSpec === key ? spec.glow : 'rgba(0, 255, 255, 0.4)' }}
-                                                    title={spec.name}
-                                                >
-                                                    <i className={`fas ${spec.icon}`} style={{ color: lichborneSpec === key ? spec.glow : '#87CEEB' }}></i>
-                                                </button>
-                                            ))}
+                    {showPhylacteryMenu && phylacteryBarRef.current && ReactDOM.createPortal(
+                        <div 
+                            className="unified-context-menu compact lichborne-menu-container" 
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!phylacteryBarRef.current) return '50%';
+                                    const rect = phylacteryBarRef.current.getBoundingClientRect();
+                                    let hudContainer = phylacteryBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!phylacteryBarRef.current) return '50%';
+                                    const rect = phylacteryBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main">
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header" style={{ fontSize: '10px', marginBottom: '6px' }}>
+                                        Phylactery HP: {phylacteryValue}/{maxPhylactery}
                                     </div>
-                                    <div className="spec-passive-text">
-                                        {getSpecPassive()}
+
+                                    {/* Adjust HP */}
+                                    <div className="action-row" style={{ marginBottom: '6px' }}>
+                                        <button className="context-menu-button compact-action spend" onClick={() => handleAdjustPhylactery(-10)} title="-10 HP">
+                                            <i className="fas fa-minus"></i> -10
+                                        </button>
+                                        <button className="context-menu-button compact-action spend" onClick={() => handleAdjustPhylactery(-5)} title="-5 HP">
+                                            <i className="fas fa-minus"></i> -5
+                                        </button>
+                                        <button className="context-menu-button compact-action gain" onClick={() => handleAdjustPhylactery(5)} title="+5 HP">
+                                            <i className="fas fa-plus"></i> +5
+                                        </button>
+                                        <button className="context-menu-button compact-action gain" onClick={() => handleAdjustPhylactery(10)} title="+10 HP">
+                                            <i className="fas fa-plus"></i> +10
+                                        </button>
+                                    </div>
+
+                                    {/* Eternal Frost Aura */}
+                                    <div style={{ marginBottom: '6px' }}>
+                                        <div style={{ fontSize: '9px', color: '#8b7355', marginBottom: '3px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                            Eternal Frost Aura
+                                        </div>
+                                        <button
+                                            className={`context-menu-button compact-action ${auraActive ? 'active' : ''}`}
+                                            onClick={handleToggleAura}
+                                            title={auraActive ? 'Active: +1d6 frost damage, chilling DC 17, drains 1d6 HP/turn' : 'Inactive'}
+                                        >
+                                            <i className={`fas ${auraActive ? 'fa-snowflake' : 'fa-circle'}`}></i> {auraActive ? 'ON' : 'OFF'}
+                                        </button>
+                                    </div>
+
+                                    {/* Specialization Selector - Icon Only */}
+                                    <div style={{ marginBottom: '6px' }}>
+                                        <div style={{ display: 'flex', gap: '3px', justifyContent: 'center' }}>
+                                            {Object.entries(specs)
+                                                .filter(([key]) => key !== 'type' && key !== 'arrangement' && key !== 'baseColor' && key !== 'activeColor' && key !== 'glowColor' && key !== 'icon')
+                                                .map(([key, spec]) => (
+                                                    <button
+                                                        key={key}
+                                                        className={`context-menu-button compact-spec-button ${lichborneSpec === key ? 'active' : ''}`}
+                                                        onClick={() => {
+                                                            setLichborneSpec(key);
+                                                            // Adjust phylactery HP if switching to/from Phylactery Guardian
+                                                            if (key === 'phylactery_guardian') {
+                                                                // Can now store up to 75
+                                                            } else {
+                                                                // Cap at 50 if switching away from Phylactery Guardian
+                                                                setLocalPhylacteryHP(Math.min(localPhylacteryHP, 50));
+                                                            }
+                                                        }}
+                                                        title={`${spec.name}: ${getSpecPassive()}`}
+                                                    >
+                                                        <i className={`fas ${spec.icon}`}></i>
+                                                    </button>
+                                                ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Quick Actions */}
+                                    <div className="action-row" style={{ marginTop: '6px' }}>
+                                        <button className="context-menu-button compact-action danger" onClick={() => setShowPhylacteryMenu(false)} title="Close">
+                                            <i className="fas fa-times"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -4240,63 +5741,105 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Phase Menu */}
-                    {showLunarPhaseMenu && (
-                        <div className="lunar-phase-menu">
-                            <div className="menu-section">
-                                <div className="menu-title">Current Phase: {currentPhaseConfig.name}</div>
-                                <div className="menu-value">Round {roundsInPhase + 1}/3</div>
-                                <button className="advance-round-btn" onClick={handleAdvanceRound}>
-                                    <i className="fas fa-forward"></i> Advance Round
-                                </button>
-                            </div>
+                    {showLunarPhaseMenu && lunarPhaseBarRef.current && ReactDOM.createPortal(
+                        <div 
+                            className="unified-context-menu compact lunarch-menu-container" 
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!lunarPhaseBarRef.current) return '50%';
+                                    const rect = lunarPhaseBarRef.current.getBoundingClientRect();
+                                    let hudContainer = lunarPhaseBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!lunarPhaseBarRef.current) return '50%';
+                                    const rect = lunarPhaseBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main">
+                                <div className="context-menu-section">
+                                    <div className="context-menu-section-header" style={{ fontSize: '10px', marginBottom: '6px' }}>
+                                        {currentPhaseConfig.name} - Round {roundsInPhase + 1}/3
+                                    </div>
 
-                            <div className="menu-section">
-                                <div className="menu-title">Manual Phase Shift (8 Mana)</div>
-                                <div className="phase-shift-grid">
-                                    {phaseOrder.map((phase) => {
-                                        const phaseConfig = phases[phase];
-                                        const bonuses = getPhaseBonuses(phase);
-                                        const isCurrentPhase = phase === currentLunarPhase;
+                                    {/* Advance Round */}
+                                    <div style={{ marginBottom: '6px' }}>
+                                        <button className="context-menu-button compact-action" onClick={handleAdvanceRound} title="Advance Round">
+                                            <i className="fas fa-forward"></i> Advance
+                                        </button>
+                                    </div>
 
-                                        return (
-                                            <div
-                                                key={phase}
-                                                className={`phase-shift-option ${isCurrentPhase ? 'current' : ''}`}
-                                                onClick={() => !isCurrentPhase && handleManualShift(phase)}
-                                                style={{
-                                                    borderColor: phaseConfig.glow,
-                                                    cursor: isCurrentPhase ? 'default' : 'pointer',
-                                                    opacity: isCurrentPhase ? 0.5 : 1
-                                                }}
-                                            >
-                                                <i className={`fas ${phaseConfig.icon}`} style={{ color: phaseConfig.glow }}></i>
-                                                <div className="phase-shift-name">{phaseConfig.name}</div>
-                                                <div className="phase-shift-bonus">{bonuses.bonus}</div>
-                                            </div>
-                                        );
-                                    })}
+                                    {/* Manual Phase Shift */}
+                                    <div style={{ marginBottom: '6px' }}>
+                                        <div style={{ fontSize: '9px', color: '#8b7355', marginBottom: '3px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                            Phase Shift (8 Mana)
+                                        </div>
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '3px' }}>
+                                            {phaseOrder.map((phase) => {
+                                                const phaseConfig = phases[phase];
+                                                const bonuses = getPhaseBonuses(phase);
+                                                const isCurrentPhase = phase === currentLunarPhase;
+
+                                                return (
+                                                    <button
+                                                        key={phase}
+                                                        className={`context-menu-button compact-action ${isCurrentPhase ? 'active' : ''}`}
+                                                        onClick={() => !isCurrentPhase && handleManualShift(phase)}
+                                                        disabled={isCurrentPhase}
+                                                        style={{
+                                                            opacity: isCurrentPhase ? 0.5 : 1,
+                                                            fontSize: '9px',
+                                                            padding: '4px 6px'
+                                                        }}
+                                                        title={`${phaseConfig.name}: ${bonuses.bonus}`}
+                                                    >
+                                                        <i className={`fas ${phaseConfig.icon}`} style={{ color: phaseConfig.glow, marginRight: '3px' }}></i>
+                                                        <span style={{ fontSize: '8px' }}>{phaseConfig.name}</span>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Specialization Selector - Icon Only */}
+                                    <div style={{ marginBottom: '6px' }}>
+                                        <div style={{ display: 'flex', gap: '3px', justifyContent: 'center' }}>
+                                            {Object.entries(phases)
+                                                .filter(([key]) => key === 'moonlight_sentinel' || key === 'starfall_invoker' || key === 'lunar_guardian')
+                                                .map(([key, spec]) => (
+                                                    <button
+                                                        key={key}
+                                                        className={`context-menu-button compact-spec-button ${lunarchSpec === key ? 'active' : ''}`}
+                                                        onClick={() => setLunarchSpec(key)}
+                                                        title={spec.name}
+                                                    >
+                                                        <i className={`fas ${spec.icon}`}></i>
+                                                    </button>
+                                                ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Quick Actions */}
+                                    <div className="action-row" style={{ marginTop: '6px' }}>
+                                        <button className="context-menu-button compact-action danger" onClick={() => setShowLunarPhaseMenu(false)} title="Close">
+                                            <i className="fas fa-times"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
-                            {/* Specialization Selector */}
-                            <div className="menu-section">
-                                <div className="menu-title">Specialization</div>
-                                <div className="spec-row">
-                                    {Object.entries(phases)
-                                        .filter(([key]) => key === 'moonlight_sentinel' || key === 'starfall_invoker' || key === 'lunar_guardian')
-                                        .map(([key, spec]) => (
-                                            <div
-                                                key={key}
-                                                className={`spec-option ${lunarchSpec === key ? 'selected' : ''}`}
-                                                onClick={() => setLunarchSpec(key)}
-                                            >
-                                                <i className={`fas ${spec.icon}`}></i>
-                                                <span>{spec.name}</span>
-                                            </div>
-                                        ))}
-                                </div>
-                            </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </>
             </div>
@@ -4314,12 +5857,17 @@ const ClassResourceBar = ({
         const handleNoteClick = (noteIndex) => {
             console.log('Minstrel note clicked:', noteIndex);
             const newMenus = [...showNoteMenus];
-            newMenus[noteIndex] = !newMenus[noteIndex];
+            // Close all other note menus first
+            newMenus.fill(false);
+            // Then toggle the clicked menu
+            newMenus[noteIndex] = !showNoteMenus[noteIndex];
             setShowNoteMenus(newMenus);
             console.log('Show note menus:', newMenus);
             if (newMenus[noteIndex]) {
                 setShowTooltip(false);
                 setMinstrelHoverSection(null);
+                // Close spec menu when opening note menu
+                setShowMinstrelSpecMenu(false);
             }
         };
 
@@ -4365,6 +5913,10 @@ const ClassResourceBar = ({
 
         const handleSpecClick = () => {
             setShowMinstrelSpecMenu(!showMinstrelSpecMenu);
+            // Close all note menus when opening spec menu
+            if (!showMinstrelSpecMenu) {
+                setMinstrelState(prev => ({ ...prev, showNoteMenus: [false, false, false, false, false, false, false] }));
+            }
         };
 
         return (
@@ -4406,30 +5958,71 @@ const ClassResourceBar = ({
                                         </div>
 
                                         {/* Adjustment Menu */}
-                                        {showNoteMenus[index] && document.body && ReactDOM.createPortal(
-                                            <div className="note-adjustment-menu" onClick={(e) => e.stopPropagation()} style={{
-                                                position: 'fixed',
-                                                top: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().bottom + 8 : '50%',
-                                                left: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().left + (index * (minstrelBarRef.current.getBoundingClientRect().width / notes.length)) + ((minstrelBarRef.current.getBoundingClientRect().width / notes.length) / 2) : '50%',
-                                                transform: minstrelBarRef.current ? 'translateX(-50%)' : 'translate(-50%, -50%)'
-                                            }}>
-                                                <div className="menu-header">{note.name} ({note.numeral})</div>
-                                                <div className="menu-controls">
-                                                    <button onClick={() => handleNoteAdjust(index, -1)} disabled={count === 0}>
-                                                        <i className="fas fa-minus"></i>
-                                                    </button>
-                                                    <span className="menu-value">{count}/{maxPerNote}</span>
-                                                    <button onClick={() => handleNoteAdjust(index, 1)} disabled={count === maxPerNote}>
-                                                        <i className="fas fa-plus"></i>
-                                                    </button>
+                                        {showNoteMenus[index] && minstrelBarRef.current && ReactDOM.createPortal(
+                                            <div
+                                                className="unified-context-menu compact minstrel-menu-container"
+                                                onClick={(e) => e.stopPropagation()}
+                                                style={{
+                                                    position: 'fixed',
+                                                    top: (() => {
+                                                        if (!minstrelBarRef.current) return '50%';
+                                                        const rect = minstrelBarRef.current.getBoundingClientRect();
+                                                        let hudContainer = minstrelBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                                        let hudBottom = rect.bottom;
+                                                        if (hudContainer) {
+                                                            const hudRect = hudContainer.getBoundingClientRect();
+                                                            hudBottom = hudRect.bottom;
+                                                        }
+                                                        return hudBottom + 8;
+                                                    })(),
+                                                    left: (() => {
+                                                        if (!minstrelBarRef.current) return '50%';
+                                                        const rect = minstrelBarRef.current.getBoundingClientRect();
+                                                        // Position menu relative to the clicked note segment
+                                                        const noteWidth = rect.width / notes.length;
+                                                        return rect.left + (noteWidth * index) + (noteWidth / 2);
+                                                    })(),
+                                                    transform: 'translateX(-50%)',
+                                                    zIndex: 100000
+                                                }}
+                                            >
+                                                <div className="context-menu-main">
+                                                    <div className="context-menu-section">
+                                                        <div className="context-menu-section-header" style={{ fontSize: '10px', marginBottom: '6px' }}>
+                                                            {note.name} ({note.numeral}): {count}/{maxPerNote}
+                                                        </div>
+
+                                                        {/* Adjust Count */}
+                                                        <div className="action-row" style={{ marginBottom: '6px' }}>
+                                                            <button
+                                                                className="context-menu-button compact-action spend"
+                                                                onClick={() => handleNoteAdjust(index, -1)}
+                                                                disabled={count === 0}
+                                                                title="-1"
+                                                            >
+                                                                <i className="fas fa-minus"></i> -1
+                                                            </button>
+                                                            <button
+                                                                className="context-menu-button compact-action gain"
+                                                                onClick={() => handleNoteAdjust(index, 1)}
+                                                                disabled={count === maxPerNote}
+                                                                title="+1"
+                                                            >
+                                                                <i className="fas fa-plus"></i> +1
+                                                            </button>
+                                                        </div>
+
+                                                        {/* Quick Actions */}
+                                                        <div className="action-row" style={{ marginTop: '6px' }}>
+                                                            <button className="context-menu-button compact-action danger" onClick={() => handleNoteReset(index)} title="Reset to 0">
+                                                                <i className="fas fa-undo"></i>
+                                                            </button>
+                                                            <button className="context-menu-button compact-action danger" onClick={() => setShowNoteMenus(prev => ({ ...prev, [index]: false }))} title="Close">
+                                                                <i className="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="menu-info">
-                                                    <div className="info-label">Generated By:</div>
-                                                    <div className="info-value">{note.generatedBy}</div>
-                                                </div>
-                                                <button className="menu-reset" onClick={() => handleNoteReset(index)}>
-                                                    Reset to 0
-                                                </button>
                                             </div>,
                                             document.body
                                         )}
@@ -4453,31 +6046,57 @@ const ClassResourceBar = ({
                             <i className="fas fa-cog" style={{ color: currentSpec.glow }}></i>
 
                             {/* Specialization Menu */}
-                            {showMinstrelSpecMenu && document.body && ReactDOM.createPortal(
-                                <div className="minstrel-spec-menu" onClick={(e) => e.stopPropagation()} style={{
-                                    position: 'fixed',
-                                    top: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().bottom + 8 : '50%',
-                                    left: minstrelBarRef.current ? minstrelBarRef.current.getBoundingClientRect().right - 10 : '50%',
-                                    transform: minstrelBarRef.current ? 'translateX(-100%)' : 'translate(-50%, -50%)'
-                                }}>
-                                    <div className="menu-title">Select Specialization</div>
-                                    {specs.map((spec) => (
-                                        <div
-                                            key={spec.id}
-                                            className={`spec-option ${minstrelSpec === spec.id ? 'selected' : ''}`}
-                                            onClick={() => {
-                                                setMinstrelSpec(spec.id);
-                                                setShowMinstrelSpecMenu(false);
-                                            }}
-                                            style={{
-                                                borderColor: spec.glow,
-                                                backgroundColor: minstrelSpec === spec.id ? `${spec.color}22` : 'transparent'
-                                            }}
-                                        >
-                                            <div className="spec-name" style={{ color: spec.glow }}>{spec.name}</div>
-                                            <div className="spec-theme">{spec.theme}</div>
+                            {showMinstrelSpecMenu && minstrelBarRef.current && ReactDOM.createPortal(
+                                <div
+                                    className="unified-context-menu compact"
+                                    onClick={(e) => e.stopPropagation()}
+                                    style={{
+                                        position: 'fixed',
+                                        top: (() => {
+                                            if (!minstrelBarRef.current) return '50%';
+                                            const rect = minstrelBarRef.current.getBoundingClientRect();
+                                            let hudContainer = minstrelBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                            let hudBottom = rect.bottom;
+                                            if (hudContainer) {
+                                                const hudRect = hudContainer.getBoundingClientRect();
+                                                hudBottom = hudRect.bottom;
+                                            }
+                                            return hudBottom + 8;
+                                        })(),
+                                        left: (() => {
+                                            if (!minstrelBarRef.current) return '50%';
+                                            const rect = minstrelBarRef.current.getBoundingClientRect();
+                                            return rect.right;
+                                        })(),
+                                        transform: 'translateX(-100%)',
+                                        zIndex: 100000
+                                    }}
+                                >
+                                    <div className="context-menu-main">
+                                        <div className="context-menu-section">
+                                            <div className="context-menu-section-header">Select Specialization</div>
+                                            {specs.map((spec) => (
+                                                <button
+                                                    key={spec.id}
+                                                    className={`context-menu-button ${minstrelSpec === spec.id ? 'active' : ''}`}
+                                                    onClick={() => {
+                                                        setMinstrelSpec(spec.id);
+                                                        setShowMinstrelSpecMenu(false);
+                                                    }}
+                                                    style={{
+                                                        marginBottom: '4px',
+                                                        textAlign: 'left'
+                                                    }}
+                                                >
+                                                    <i className={`fas ${spec.icon}`}></i>
+                                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                                                        <span style={{ fontWeight: '700' }}>{spec.name}</span>
+                                                        <span style={{ fontSize: '11px', opacity: 0.8, fontWeight: '400' }}>{spec.theme}</span>
+                                                    </div>
+                                                </button>
+                                            ))}
                                         </div>
-                                    ))}
+                                    </div>
                                 </div>,
                                 document.body
                             )}
@@ -4638,73 +6257,160 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Visions Adjustment Menu */}
-                    {showVisionsMenu && (
-                        <div className="visions-menu" onClick={(e) => e.stopPropagation()}>
-                            <div className="menu-section">
-                                <div className="menu-title">Prophetic Visions</div>
-                                <div className="menu-controls">
-                                    <button onClick={() => handleVisionsAdjust(-1)} disabled={visionsValue === 0}>
-                                        <i className="fas fa-minus"></i>
-                                    </button>
-                                    <span className="menu-value">{visionsValue}/{maxVisions}</span>
-                                    <button onClick={() => handleVisionsAdjust(1)} disabled={visionsValue === maxVisions}>
-                                        <i className="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <div className="menu-quick-buttons">
-                                    <button onClick={() => setLocalVisions(0)}>Clear</button>
-                                    <button onClick={() => setLocalVisions(3)}>Reset (3)</button>
-                                    <button onClick={() => setLocalVisions(maxVisions)}>Max</button>
-                                </div>
-                            </div>
+                    {showVisionsMenu && visionsBarRef.current && ReactDOM.createPortal(
+                        <div 
+                            className={`unified-context-menu compact oracle-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!visionsBarRef.current) return '50%';
+                                    const rect = visionsBarRef.current.getBoundingClientRect();
+                                    let hudContainer = visionsBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!visionsBarRef.current) return '50%';
+                                    const rect = visionsBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main oracle-menu">
+                                <div className="menu-title">Visions: {visionsValue}/{maxVisions}</div>
 
-                            <div className="menu-section">
-                                <div className="menu-title">Simulate Prediction</div>
-                                <div className="prediction-buttons">
-                                    <button onClick={() => handlePredictionSuccess('simple')} className="prediction-btn simple">
-                                        Simple (+1)
-                                    </button>
-                                    <button onClick={() => handlePredictionSuccess('moderate')} className="prediction-btn moderate">
-                                        Moderate (+2)
-                                    </button>
-                                    <button onClick={() => handlePredictionSuccess('complex')} className="prediction-btn complex">
-                                        Complex (+3)
-                                    </button>
-                                </div>
-                                <button onClick={handlePredictionFailure} className="prediction-btn failure">
-                                    Failed Prediction
-                                </button>
-                            </div>
-
-                            <div className="menu-section">
-                                <div className="menu-title">Other Actions</div>
-                                <button onClick={handleRevelation} className="action-btn oracle-action-btn">
-                                    <i className="fas fa-lightbulb"></i> Revelation (+1)
-                                </button>
-                            </div>
-
-                            <div className="menu-section">
-                                <div className="menu-title">Specialization</div>
-                                <div className="spec-icons-row">
+                                <div className="oracle-specs">
                                     {['seer', 'truthseeker', 'fateweaver'].map((spec) => {
                                         const specConfig = specs[spec];
                                         const isSelected = oracleSpec === spec;
                                         return (
-                                            <div
+                                            <button
                                                 key={spec}
-                                                className={`spec-icon-option ${isSelected ? 'selected' : ''}`}
-                                                onClick={() => {
-                                                    setOracleSpec(spec);
-                                                }}
+                                                className={`oracle-spec-btn ${isSelected ? 'active' : ''}`}
+                                                onClick={() => setOracleSpec(spec)}
                                                 title={`${specConfig.name}: ${specConfig.theme}`}
                                             >
                                                 <i className={`fas ${specConfig.icon}`}></i>
-                                            </div>
+                                            </button>
                                         );
                                     })}
                                 </div>
+
+                                <div className="oracle-adjust-controls">
+                                    <div className="oracle-adjust-row">
+                                        <button 
+                                            className="oracle-action-btn decrease" 
+                                            onClick={() => handleVisionsAdjust(-1)} 
+                                            disabled={visionsValue === 0}
+                                            title="Decrease Visions (-1)"
+                                        >
+                                            <i className="fas fa-minus"></i>
+                                            <span>-1</span>
+                                        </button>
+                                        <button 
+                                            className="oracle-action-btn increase" 
+                                            onClick={() => handleVisionsAdjust(1)} 
+                                            disabled={visionsValue === maxVisions}
+                                            title="Increase Visions (+1)"
+                                        >
+                                            <i className="fas fa-plus"></i>
+                                            <span>+1</span>
+                                        </button>
+                                    </div>
+                                    <div className="oracle-quick-adjust-row">
+                                        <button 
+                                            className="oracle-quick-btn" 
+                                            onClick={() => setLocalVisions(0)}
+                                            title="Clear (0)"
+                                        >
+                                            <i className="fas fa-eraser"></i>
+                                        </button>
+                                        <button 
+                                            className="oracle-quick-btn" 
+                                            onClick={() => setLocalVisions(3)}
+                                            title="Reset (3)"
+                                        >
+                                            <i className="fas fa-undo"></i>
+                                        </button>
+                                        <button 
+                                            className="oracle-quick-btn" 
+                                            onClick={() => setLocalVisions(maxVisions)}
+                                            title={`Max (${maxVisions})`}
+                                        >
+                                            <i className="fas fa-crown"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="oracle-predictions">
+                                    <div className="oracle-prediction-row">
+                                        <button 
+                                            className="oracle-prediction-btn success" 
+                                            onClick={() => handlePredictionSuccess('simple')}
+                                            title={`Simple (+1${oracleSpec === 'seer' ? '+1' : ''})`}
+                                        >
+                                            <i className="fas fa-check"></i>
+                                            <span>+1</span>
+                                        </button>
+                                        <button 
+                                            className="oracle-prediction-btn success" 
+                                            onClick={() => handlePredictionSuccess('moderate')}
+                                            title={`Moderate (+2${oracleSpec === 'seer' ? '+1' : ''})`}
+                                        >
+                                            <i className="fas fa-check-double"></i>
+                                            <span>+2</span>
+                                        </button>
+                                    </div>
+                                    <div className="oracle-prediction-row">
+                                        <button 
+                                            className="oracle-prediction-btn success" 
+                                            onClick={() => handlePredictionSuccess('complex')}
+                                            title={`Complex (+3${oracleSpec === 'seer' ? '+1' : ''})`}
+                                        >
+                                            <i className="fas fa-star"></i>
+                                            <span>+3</span>
+                                        </button>
+                                        <button 
+                                            className="oracle-prediction-btn danger" 
+                                            onClick={handlePredictionFailure}
+                                            title="Failed Prediction"
+                                        >
+                                            <i className="fas fa-times"></i>
+                                            <span>Fail</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="oracle-other-actions">
+                                    <button 
+                                        className="oracle-action-btn special" 
+                                        onClick={handleRevelation}
+                                        title="Revelation (+1 Vision)"
+                                    >
+                                        <i className="fas fa-lightbulb"></i>
+                                        <span>+1</span>
+                                    </button>
+                                </div>
+
+                                <div className="oracle-quick-actions">
+                                    <button 
+                                        onClick={() => setShowVisionsMenu(false)} 
+                                        className="oracle-quick-btn" 
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -4886,84 +6592,123 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Devotion Menu */}
-                    {showDevotionMenu && (
-                        <div className="devotion-menu">
-                            <div className="menu-section">
-                                <div className="menu-title">Devotion Level: {currentLevel}</div>
-                                <div className="menu-value">{currentStage.name}</div>
-                                <div className="level-controls">
-                                    <button onClick={() => handleLevelChange(currentLevel - 1)} disabled={currentLevel === 0}>
+                    {showDevotionMenu && devotionBarRef.current && ReactDOM.createPortal(
+                        <div 
+                            className="unified-context-menu compact martyr-menu-container" 
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!devotionBarRef.current) return '50%';
+                                    const rect = devotionBarRef.current.getBoundingClientRect();
+                                    let hudContainer = devotionBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!devotionBarRef.current) return '50%';
+                                    const rect = devotionBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main martyr-menu">
+                                <div className="menu-title">Level {currentLevel}: {currentStage.name}</div>
+
+                                <div className="martyr-level-controls">
+                                    <button 
+                                        className="martyr-control-btn" 
+                                        onClick={() => handleLevelChange(currentLevel - 1)} 
+                                        disabled={currentLevel === 0}
+                                        title="Decrease Level"
+                                    >
                                         <i className="fas fa-minus"></i>
                                     </button>
-                                    <span>{currentLevel}/{maxLevel}</span>
-                                    <button onClick={() => handleLevelChange(currentLevel + 1)} disabled={currentLevel === maxLevel}>
+                                    <span className="martyr-level-display">{currentLevel}/{maxLevel}</span>
+                                    <button 
+                                        className="martyr-control-btn" 
+                                        onClick={() => handleLevelChange(currentLevel + 1)} 
+                                        disabled={currentLevel === maxLevel}
+                                        title="Increase Level"
+                                    >
                                         <i className="fas fa-plus"></i>
                                     </button>
                                 </div>
-                            </div>
 
-                            <div className="menu-section">
-                                <div className="menu-title">Damage Accumulated</div>
-                                <div className="damage-input-group">
-                                    <input
-                                        type="number"
-                                        value={currentDamage}
-                                        onChange={(e) => handleDamageChange(parseInt(e.target.value) || 0)}
-                                        min="0"
-                                        max="150"
-                                    />
-                                    <div className="damage-quick-buttons">
-                                        <button onClick={() => handleDamageChange(currentDamage + 10)}>+10</button>
-                                        <button onClick={() => handleDamageChange(currentDamage + 20)}>+20</button>
-                                        <button onClick={() => handleDamageChange(0)}>Reset</button>
+                                <div className="martyr-damage-section">
+                                    <div className="martyr-damage-input-row">
+                                        <input
+                                            type="number"
+                                            className="martyr-damage-input"
+                                            value={currentDamage}
+                                            onChange={(e) => handleDamageChange(parseInt(e.target.value) || 0)}
+                                            min="0"
+                                            max="150"
+                                        />
+                                        <div className="martyr-damage-quick-btns">
+                                            <button 
+                                                onClick={() => handleDamageChange(currentDamage + 10)} 
+                                                className="martyr-quick-btn"
+                                                title="Add 10 Damage"
+                                            >
+                                                +10
+                                            </button>
+                                            <button 
+                                                onClick={() => handleDamageChange(currentDamage + 20)} 
+                                                className="martyr-quick-btn"
+                                                title="Add 20 Damage"
+                                            >
+                                                +20
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="martyr-damage-info">
+                                        Next: {nextThreshold} ({nextThreshold - currentDamage} needed)
                                     </div>
                                 </div>
-                                <div className="damage-info">
-                                    Next Level: {nextThreshold} damage ({nextThreshold - currentDamage} needed)
-                                </div>
-                            </div>
 
-                            {/* Specialization Selector */}
-                            <div className="menu-section">
-                                <div className="menu-title" style={{ color: specColors.activeColor }}>
-                                    {specData?.name || martyrSpec}
-                                </div>
-                                <div className="spec-selector-horizontal">
+                                <div className="martyr-specs">
                                     {['redemption', 'zealot', 'ascetic'].map((spec) => {
                                         const specConfig = finalConfig.specializations?.[spec];
-                                        const specVisual = finalConfig.visual[spec];
                                         const isSelected = martyrSpec === spec;
                                         return (
-                                            <div
+                                            <button
                                                 key={spec}
-                                                className={`spec-option-horizontal ${isSelected ? 'selected' : ''}`}
+                                                className={`martyr-spec-btn ${isSelected ? 'active' : ''}`}
                                                 onClick={() => setMartyrSpec(spec)}
-                                                style={{
-                                                    borderColor: isSelected ? 'rgba(139, 105, 60, 0.8)' : 'rgba(139, 105, 60, 0.4)',
-                                                    background: isSelected
-                                                        ? 'linear-gradient(135deg, rgba(139, 105, 60, 0.4) 0%, rgba(120, 90, 50, 0.4) 100%)'
-                                                        : 'linear-gradient(135deg, rgba(240, 230, 210, 0.6) 0%, rgba(232, 220, 192, 0.6) 100%)',
-                                                    boxShadow: isSelected ? 'inset 0 0 8px rgba(139, 105, 60, 0.3)' : 'none'
-                                                }}
+                                                title={specConfig?.name || spec}
                                             >
-                                                <i
-                                                    className="fas fa-cross"
-                                                    style={{
-                                                        color: isSelected ? '#8b5a3c' : '#5a4a3a'
-                                                    }}
-                                                ></i>
-                                                <span style={{
-                                                    color: isSelected ? '#8b5a3c' : '#5a4a3a',
-                                                    fontWeight: isSelected ? 'bold' : 'normal'
-                                                }}>
-                                                    {specConfig?.name || spec}
-                                                </span>
-                                            </div>
+                                                <i className="fas fa-cross"></i>
+                                            </button>
                                         );
                                     })}
                                 </div>
+
+                                <div className="martyr-quick-actions">
+                                    <button 
+                                        onClick={() => handleDamageChange(0)} 
+                                        className="martyr-quick-btn"
+                                        title="Reset Damage to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                    </button>
+                                    <button 
+                                        onClick={() => setShowDevotionMenu(false)} 
+                                        className="martyr-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
 
@@ -5552,50 +7297,140 @@ const ClassResourceBar = ({
                             {rageValue}/100
                         </div>
                     </div>
-                    {showRageMenu && (
-                        <div className="rage-menu" onClick={(e) => e.stopPropagation()}>
-                            <div className="rage-menu-row">
-                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 5, 150)); setShowRageMenu(false); }}>+5</button>
-                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 5, 0)); setShowRageMenu(false); }}>-5</button>
-                            </div>
-                            <div className="rage-menu-row">
-                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 10, 150)); setShowRageMenu(false); }}>+10</button>
-                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 10, 0)); setShowRageMenu(false); }}>-10</button>
-                            </div>
-                            <div className="rage-menu-row">
-                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.min(rageValue + 20, 150)); setShowRageMenu(false); }}>+20</button>
-                                <button className="rage-menu-item" onClick={() => { setLocalRage(Math.max(rageValue - 20, 0)); setShowRageMenu(false); }}>-20</button>
-                            </div>
-                            <div className="rage-menu-row set-row">
-                                <input
-                                    className="rage-menu-input"
-                                    type="number"
-                                    min="0"
-                                    max="150"
-                                    placeholder={`${rageValue}`}
-                                    value={rageInputValue}
-                                    onChange={(e) => setRageInputValue(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
+                    {showRageMenu && rageBarRef.current && ReactDOM.createPortal(
+                        <div
+                            className="unified-context-menu compact berserker-menu-container"
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!rageBarRef.current) return '50%';
+                                    const rect = rageBarRef.current.getBoundingClientRect();
+                                    let hudContainer = rageBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!rageBarRef.current) return '50%';
+                                    const rect = rageBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main berserker-menu">
+                                <div className="menu-title">Rage: {rageValue}/100</div>
+
+                                <div className="berserker-actions">
+                                    <div className="berserker-action-row">
+                                        <button 
+                                            className="berserker-action-btn gain" 
+                                            onClick={() => { setLocalRage(Math.min(rageValue + 5, 150)); setShowRageMenu(false); }}
+                                            title="Gain 5 Rage"
+                                        >
+                                            <i className="fas fa-plus"></i>
+                                            <span>+5</span>
+                                        </button>
+                                        <button 
+                                            className="berserker-action-btn spend" 
+                                            onClick={() => { setLocalRage(Math.max(rageValue - 5, 0)); setShowRageMenu(false); }}
+                                            title="Spend 5 Rage"
+                                        >
+                                            <i className="fas fa-minus"></i>
+                                            <span>-5</span>
+                                        </button>
+                                    </div>
+                                    <div className="berserker-action-row">
+                                        <button 
+                                            className="berserker-action-btn gain" 
+                                            onClick={() => { setLocalRage(Math.min(rageValue + 10, 150)); setShowRageMenu(false); }}
+                                            title="Gain 10 Rage"
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>+10</span>
+                                        </button>
+                                        <button 
+                                            className="berserker-action-btn spend" 
+                                            onClick={() => { setLocalRage(Math.max(rageValue - 10, 0)); setShowRageMenu(false); }}
+                                            title="Spend 10 Rage"
+                                        >
+                                            <i className="fas fa-minus-circle"></i>
+                                            <span>-10</span>
+                                        </button>
+                                    </div>
+                                    <div className="berserker-action-row">
+                                        <button 
+                                            className="berserker-action-btn gain" 
+                                            onClick={() => { setLocalRage(Math.min(rageValue + 20, 150)); setShowRageMenu(false); }}
+                                            title="Gain 20 Rage"
+                                        >
+                                            <i className="fas fa-arrow-up"></i>
+                                            <span>+20</span>
+                                        </button>
+                                        <button 
+                                            className="berserker-action-btn spend" 
+                                            onClick={() => { setLocalRage(Math.max(rageValue - 20, 0)); setShowRageMenu(false); }}
+                                            title="Spend 20 Rage"
+                                        >
+                                            <i className="fas fa-arrow-down"></i>
+                                            <span>-20</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="berserker-set-controls">
+                                    <input
+                                        className="berserker-set-input"
+                                        type="number"
+                                        min="0"
+                                        max="150"
+                                        placeholder={`${rageValue}`}
+                                        value={rageInputValue}
+                                        onChange={(e) => setRageInputValue(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                const v = parseInt(rageInputValue);
+                                                if (!isNaN(v)) {
+                                                    setLocalRage(Math.max(0, Math.min(v, 150)));
+                                                    setRageInputValue('');
+                                                    setShowRageMenu(false);
+                                                }
+                                            }
+                                        }}
+                                    />
+                                    <button 
+                                        className="berserker-set-btn" 
+                                        onClick={() => {
                                             const v = parseInt(rageInputValue);
                                             if (!isNaN(v)) {
                                                 setLocalRage(Math.max(0, Math.min(v, 150)));
                                                 setRageInputValue('');
                                                 setShowRageMenu(false);
                                             }
-                                        }
-                                    }}
-                                />
-                                <button className="rage-menu-item apply" onClick={() => {
-                                    const v = parseInt(rageInputValue);
-                                    if (!isNaN(v)) {
-                                        setLocalRage(Math.max(0, Math.min(v, 150)));
-                                        setRageInputValue('');
-                                        setShowRageMenu(false);
-                                    }
-                                }}>Set</button>
+                                        }}
+                                        title="Set Rage Value"
+                                    >
+                                        <i className="fas fa-check"></i>
+                                    </button>
+                                </div>
+
+                                <div className="berserker-quick-actions">
+                                    <button 
+                                        onClick={() => setShowRageMenu(false)} 
+                                        className="berserker-quick-btn" 
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
                 </div>
             </div>
@@ -5721,6 +7556,7 @@ const ClassResourceBar = ({
                 <div className="stance-flow-compact">
                     {/* Momentum Bar (Left) */}
                     <div
+                        ref={momentumBarRef}
                         className="momentum-bar-left"
                         onClick={(e) => {
                             if (context === 'account') return;
@@ -5754,6 +7590,7 @@ const ClassResourceBar = ({
 
                     {/* Stance Icon (Center) */}
                     <div
+                        ref={stanceBarRef}
                         className="stance-icon-center"
                         onClick={(e) => {
                             if (context === 'account') return;
@@ -5788,6 +7625,7 @@ const ClassResourceBar = ({
 
                     {/* Flourish Bar (Right) */}
                     <div
+                        ref={flourishBarRef}
                         className="flourish-bar-right"
                         onClick={(e) => {
                             if (context === 'account') return;
@@ -5820,163 +7658,264 @@ const ClassResourceBar = ({
                     </div>
 
                     {/* Momentum Adjustment Menu */}
-                    {showMomentumMenu && context !== 'account' && (
-                        <div className="resource-adjust-menu momentum-menu-left">
-                            <div className="menu-header">Adjust Momentum ({momentumValue}/{momentumMax})</div>
-                            <div className="menu-buttons">
-                                <button onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 1))}>+1 Hit</button>
-                                <button onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 2))}>+2 Crit</button>
-                                <button onClick={() => setLocalMomentum(Math.max(0, momentumValue - 2))}>-2 Spend</button>
-                                <button onClick={() => setLocalMomentum(Math.max(0, momentumValue - 4))}>-4 Spend</button>
+                    {showMomentumMenu && momentumBarRef.current && context !== 'account' && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact bladedancer-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!momentumBarRef.current) return '50%';
+                                    const rect = momentumBarRef.current.getBoundingClientRect();
+                                    let hudContainer = momentumBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!momentumBarRef.current) return '50%';
+                                    const rect = momentumBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main bladedancer-menu">
+                                <div className="menu-title">Momentum: {momentumValue}/{momentumMax}</div>
+
+                                <div className="bladedancer-actions">
+                                    <div className="bladedancer-action-row">
+                                        <button 
+                                            className="bladedancer-action-btn gain" 
+                                            onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 1))}
+                                            title="Gain 1 Momentum (Hit)"
+                                        >
+                                            <i className="fas fa-plus"></i>
+                                            <span>+1</span>
+                                        </button>
+                                        <button 
+                                            className="bladedancer-action-btn gain" 
+                                            onClick={() => setLocalMomentum(Math.min(momentumMax, momentumValue + 2))}
+                                            title="Gain 2 Momentum (Crit)"
+                                        >
+                                            <i className="fas fa-plus-circle"></i>
+                                            <span>+2</span>
+                                        </button>
+                                    </div>
+                                    <div className="bladedancer-action-row">
+                                        <button 
+                                            className="bladedancer-action-btn spend" 
+                                            onClick={() => setLocalMomentum(Math.max(0, momentumValue - 2))}
+                                            title="Spend 2 Momentum (Ability)"
+                                        >
+                                            <i className="fas fa-minus"></i>
+                                            <span>-2</span>
+                                        </button>
+                                        <button 
+                                            className="bladedancer-action-btn spend" 
+                                            onClick={() => setLocalMomentum(Math.max(0, momentumValue - 4))}
+                                            title="Spend 4 Momentum (Ability)"
+                                        >
+                                            <i className="fas fa-minus-circle"></i>
+                                            <span>-4</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="bladedancer-quick-actions">
+                                    <button 
+                                        onClick={() => { setLocalMomentum(0); setShowMomentumMenu(false); }} 
+                                        className="bladedancer-quick-btn"
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                    </button>
+                                    <button 
+                                        onClick={() => { setLocalMomentum(momentumMax); setShowMomentumMenu(false); }} 
+                                        className="bladedancer-quick-btn"
+                                        title={`Set to Max (${momentumMax})`}
+                                    >
+                                        <i className="fas fa-crown"></i>
+                                    </button>
+                                    <button 
+                                        onClick={() => setShowMomentumMenu(false)} 
+                                        className="bladedancer-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div className="menu-custom-input">
-                                <input
-                                    type="text"
-                                    placeholder="e.g., 18 or -5"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            const val = e.target.value.trim();
-                                            if (val.startsWith('+') || val.startsWith('-')) {
-                                                const delta = parseInt(val);
-                                                if (!isNaN(delta)) {
-                                                    setLocalMomentum(Math.max(0, Math.min(momentumMax, momentumValue + delta)));
-                                                }
-                                            } else {
-                                                const abs = parseInt(val);
-                                                if (!isNaN(abs)) {
-                                                    setLocalMomentum(Math.max(0, Math.min(momentumMax, abs)));
-                                                }
-                                            }
-                                            e.target.value = '';
-                                            setShowMomentumMenu(false);
-                                        }
-                                    }}
-                                />
-                            </div>
-                            <button className="menu-reset" onClick={() => { setLocalMomentum(0); setShowMomentumMenu(false); }}>Reset to 0</button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
 
                     {/* Flourish Adjustment Menu */}
-                    {showFlourishMenu && context !== 'account' && (
-                        <div className="resource-adjust-menu flourish-menu-right">
-                            <div className="menu-header">Adjust Flourish ({flourishValue}/{flourishMax})</div>
-                            <div className="menu-buttons">
-                                <button
-                                    onClick={() => setLocalFlourish(Math.min(flourishMax, flourishValue + 1))}
-                                    disabled={flourishValue >= flourishMax}
-                                >
-                                    +1 Earn
-                                </button>
-                                <button
-                                    onClick={() => setLocalFlourish(Math.max(0, flourishValue - 1))}
-                                    disabled={flourishValue === 0}
-                                >
-                                    -1 Spend
-                                </button>
+                    {showFlourishMenu && flourishBarRef.current && context !== 'account' && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact bladedancer-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!flourishBarRef.current) return '50%';
+                                    const rect = flourishBarRef.current.getBoundingClientRect();
+                                    let hudContainer = flourishBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!flourishBarRef.current) return '50%';
+                                    const rect = flourishBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main bladedancer-menu">
+                                <div className="menu-title">Flourish: {flourishValue}/{flourishMax}</div>
+
+                                <div className="bladedancer-actions">
+                                    <div className="bladedancer-action-row">
+                                        <button 
+                                            className="bladedancer-action-btn gain" 
+                                            onClick={() => setLocalFlourish(Math.min(flourishMax, flourishValue + 1))}
+                                            disabled={flourishValue >= flourishMax}
+                                            title="Earn 1 Flourish"
+                                        >
+                                            <i className="fas fa-plus"></i>
+                                            <span>+1</span>
+                                        </button>
+                                        <button 
+                                            className="bladedancer-action-btn spend" 
+                                            onClick={() => setLocalFlourish(Math.max(0, flourishValue - 1))}
+                                            disabled={flourishValue === 0}
+                                            title="Spend 1 Flourish"
+                                        >
+                                            <i className="fas fa-minus"></i>
+                                            <span>-1</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="bladedancer-quick-actions">
+                                    <button 
+                                        onClick={() => { setLocalFlourish(0); setShowFlourishMenu(false); }} 
+                                        className="bladedancer-quick-btn"
+                                        title="Reset to 0"
+                                    >
+                                        <i className="fas fa-undo"></i>
+                                    </button>
+                                    <button 
+                                        onClick={() => { setLocalFlourish(flourishMax); setShowFlourishMenu(false); }} 
+                                        className="bladedancer-quick-btn"
+                                        title={`Set to Max (${flourishMax})`}
+                                    >
+                                        <i className="fas fa-crown"></i>
+                                    </button>
+                                    <button 
+                                        onClick={() => setShowFlourishMenu(false)} 
+                                        className="bladedancer-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div className="menu-custom-input">
-                                <input
-                                    type="text"
-                                    placeholder="e.g., 3 or -1"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            const val = e.target.value.trim();
-                                            if (val.startsWith('+') || val.startsWith('-')) {
-                                                const delta = parseInt(val);
-                                                if (!isNaN(delta)) {
-                                                    setLocalFlourish(Math.max(0, Math.min(flourishMax, flourishValue + delta)));
-                                                }
-                                            } else {
-                                                const abs = parseInt(val);
-                                                if (!isNaN(abs)) {
-                                                    setLocalFlourish(Math.max(0, Math.min(flourishMax, abs)));
-                                                }
-                                            }
-                                            e.target.value = '';
-                                            setShowFlourishMenu(false);
-                                        }
-                                    }}
-                                />
-                            </div>
-                            <button className="menu-reset" onClick={() => { setLocalFlourish(0); setShowFlourishMenu(false); }}>Reset to 0</button>
-                        </div>
+                        </div>,
+                        document.body
                     )}
 
                     {/* Stance Transition Menu */}
-                    {showStanceMenu && context !== 'account' && (
-                        <div className="stance-menu-compact">
-                            <div className="menu-header">
-                                Change Stance (Costs Momentum)
-                                {selectedSpecialization === 'Flow Master' && (
-                                    <div style={{ fontSize: '9px', fontWeight: 500, marginTop: '2px', color: '#3498DB' }}>
-                                        Flow Master: -1 cost (min 1)
-                                    </div>
-                                )}
-                                {selectedSpecialization === 'Shadow Dancer' && (
-                                    <div style={{ fontSize: '9px', fontWeight: 500, marginTop: '2px', color: '#2C3E50' }}>
-                                        Shadow Dancer: Shadow Step from anywhere (3 cost)
-                                    </div>
-                                )}
+                    {showStanceMenu && stanceBarRef.current && context !== 'account' && ReactDOM.createPortal(
+                        <div
+                            className={`unified-context-menu compact bladedancer-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                top: (() => {
+                                    if (!stanceBarRef.current) return '50%';
+                                    const rect = stanceBarRef.current.getBoundingClientRect();
+                                    let hudContainer = stanceBarRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                                    let hudBottom = rect.bottom;
+                                    if (hudContainer) {
+                                        const hudRect = hudContainer.getBoundingClientRect();
+                                        hudBottom = hudRect.bottom;
+                                    }
+                                    return hudBottom + 8;
+                                })(),
+                                left: (() => {
+                                    if (!stanceBarRef.current) return '50%';
+                                    const rect = stanceBarRef.current.getBoundingClientRect();
+                                    return rect.left + (rect.width / 2);
+                                })(),
+                                transform: 'translateX(-50%)',
+                                zIndex: 100000
+                            }}
+                        >
+                            <div className="context-menu-main bladedancer-menu">
+                                <div className="menu-title">
+                                    {currentStance} ({momentumValue}/{momentumMax})
+                                    {selectedSpecialization === 'Flow Master' && (
+                                        <div style={{ fontSize: '8px', fontWeight: 500, marginTop: '2px', color: '#3498DB' }}>
+                                            Flow Master: -1 cost
+                                        </div>
+                                    )}
+                                    {selectedSpecialization === 'Shadow Dancer' && (
+                                        <div style={{ fontSize: '8px', fontWeight: 500, marginTop: '2px', color: '#2C3E50' }}>
+                                            Shadow Dancer: Shadow Step (3)
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="bladedancer-stances">
+                                    {availableTransitions.map((stanceName) => {
+                                        const stanceData = stances[stanceName];
+                                        const cost = getTransitionCost(stanceValue, stanceName);
+                                        const canAfford = momentumValue >= cost;
+                                        const isCurrent = currentStance === stanceName;
+
+                                        return (
+                                            <button
+                                                key={stanceName}
+                                                className={`bladedancer-stance-btn ${isCurrent ? 'active' : ''}`}
+                                                onClick={() => canAfford && transitionToStance(stanceName)}
+                                                disabled={!canAfford}
+                                                title={`${stanceName} - Cost: ${cost} Momentum`}
+                                                style={{
+                                                    borderColor: stanceData.color,
+                                                    opacity: !canAfford ? 0.4 : 1
+                                                }}
+                                            >
+                                                <i className={stanceData.icon} style={{ color: stanceData.color }}></i>
+                                                <span className="bladedancer-stance-name">{stanceName}</span>
+                                                <span className="bladedancer-stance-cost" style={{ color: stanceData.color }}>{cost}</span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                <div className="bladedancer-quick-actions">
+                                    <button 
+                                        onClick={() => setShowStanceMenu(false)} 
+                                        className="bladedancer-quick-btn"
+                                        title="Close"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div className="stance-grid">
-                                {availableTransitions.map((stanceName) => {
-                                    const stanceData = stances[stanceName];
-                                    const cost = getTransitionCost(stanceValue, stanceName);
-                                    const canAfford = momentumValue >= cost;
-
-                                    // Get stance details for tooltip
-                                    const stanceDetails = {
-                                        'Flowing Water': {
-                                            type: 'Defensive/Evasive',
-                                            bonuses: ['+2 armor', '+10 ft movement', 'Reroll 1s on damage dice'],
-                                            penalties: ['-1d4 damage']
-                                        },
-                                        'Striking Serpent': {
-                                            type: 'Offensive/Precision',
-                                            bonuses: ['Crit on highest 2 damage die results', '+1d6 damage'],
-                                            penalties: ['-1 armor', 'Miss on lowest 2 damage die results']
-                                        },
-                                        'Whirling Wind': {
-                                            type: 'AoE/Multi-target',
-                                            bonuses: ['Attacks hit all adjacent enemies', '+5 ft reach'],
-                                            penalties: ['-2 armor', 'Cannot parry']
-                                        },
-                                        'Rooted Stone': {
-                                            type: 'Defensive/Counter',
-                                            bonuses: ['+4 armor', 'Reroll misses once', 'Immune to knockback'],
-                                            penalties: ['-15 ft movement', 'Cannot dash', '-1d4 damage']
-                                        },
-                                        'Dancing Blade': {
-                                            type: 'Balanced/Hub',
-                                            bonuses: ['Can transition to any stance (4 Momentum)', '+1d4 damage'],
-                                            penalties: ['No stance-specific bonuses']
-                                        },
-                                        'Shadow Step': {
-                                            type: 'Stealth/Burst',
-                                            bonuses: ['+2d6 damage from stealth', 'Enemies have disadvantage to detect you', '+10 ft movement'],
-                                            penalties: ['-3 armor in bright light', 'Miss on lowest 3 damage die results in bright light']
-                                        }
-                                    }[stanceName] || { type: '', bonuses: [], penalties: [] };
-
-                                    const tooltipText = `${stanceName}\n${stanceDetails.type}\n\nCost: ${cost} Momentum\n\nBonuses:\n${stanceDetails.bonuses.map(b => `• ${b}`).join('\n')}${stanceDetails.penalties.length > 0 ? `\n\nPenalties:\n${stanceDetails.penalties.map(p => `• ${p}`).join('\n')}` : ''}`;
-
-                                    return (
-                                        <button
-                                            key={stanceName}
-                                            className={`stance-option-compact ${!canAfford ? 'disabled' : ''}`}
-                                            onClick={() => canAfford && transitionToStance(stanceName)}
-                                            disabled={!canAfford}
-                                            title={tooltipText}
-                                            style={{ borderColor: stanceData.color }}
-                                        >
-                                            <i className={stanceData.icon} style={{ color: stanceData.color }}></i>
-                                            <span className="stance-cost-compact">{cost}</span>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        </div>
+                        </div>,
+                        document.body
                     )}
 
                     {/* Specialization Passive Menu (for rules section) */}
@@ -6548,8 +8487,9 @@ const ClassResourceBar = ({
                     {finalConfig.visual?.type === 'ascension-blood' && deathcallerHoverSection && (
                         <div>
                             {deathcallerHoverSection === 'paths' && (() => {
-                                const activePaths = localAscensionPaths.filter(p => p).length;
-                                const activePathsList = finalConfig.paths.filter((_, i) => localAscensionPaths[i]);
+                                const pathsArray = Array.isArray(localAscensionPaths) ? localAscensionPaths : [true, false, false, false, false, false, false];
+                                const activePaths = pathsArray.filter(p => p).length;
+                                const activePathsList = finalConfig.paths.filter((_, i) => pathsArray[i]);
 
                                 return (
                                     <>

@@ -321,44 +321,75 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             
             {/* Dev Controls */}
             {showControls && ReactDOM.createPortal(
-                <div className="pyrofiend-dev-controls pathfinder-panel" style={{
-                    position: 'fixed',
-                    top: barRef.current ? barRef.current.getBoundingClientRect().bottom + 8 : '50%',
-                    left: barRef.current ? barRef.current.getBoundingClientRect().left : '50%',
-                    transform: barRef.current ? 'none' : 'translate(-50%, -50%)'
-                }}>
-                    <div className="controls-header">
-                        <span>Inferno Veil Controls</span>
-                        <button className="close-btn" onClick={() => setShowControls(false)}>×</button>
-                    </div>
-                    
-                    <div className="control-group">
-                        <label>Inferno Level: {localInfernoLevel}</label>
-                        <div className="level-buttons">
-                            <button onClick={() => setLocalInfernoLevel(0)}>0</button>
-                            <button onClick={() => setLocalInfernoLevel(3)}>3</button>
-                            <button onClick={() => setLocalInfernoLevel(5)}>5</button>
-                            <button onClick={() => setLocalInfernoLevel(7)}>7</button>
-                            <button onClick={() => setLocalInfernoLevel(9)}>9</button>
-                        </div>
-                        <div className="increment-buttons">
-                            <button onClick={() => handleInfernoChange(-1)}>-1</button>
-                            <button onClick={() => handleInfernoChange(1)}>+1</button>
-                        </div>
-                    </div>
-                    
-                    <div className="control-group">
-                        <label>Specialization</label>
-                        <div className="spec-buttons">
-                            {Object.entries(specConfigs).map(([key, spec]) => (
-                                <button
-                                    key={key}
-                                    className={selectedSpec === key ? 'active' : ''}
-                                    onClick={() => setSelectedSpec(key)}
-                                >
-                                    <i className={`fas ${spec.icon}`}></i> {spec.name}
+                <div
+                    className="unified-context-menu compact"
+                    style={{
+                        position: 'fixed',
+                        top: barRef.current ? barRef.current.getBoundingClientRect().bottom + 8 : '50%',
+                        left: barRef.current ? barRef.current.getBoundingClientRect().left : '50%',
+                        transform: barRef.current ? 'none' : 'translate(-50%, -50%)',
+                        zIndex: 100000
+                    }}
+                >
+                    <div className="context-menu-main">
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">Inferno Veil Controls</div>
+
+                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>
+                                Inferno Level: {localInfernoLevel}
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '4px', marginBottom: '8px' }}>
+                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(0)}>
+                                    0
                                 </button>
-                            ))}
+                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(3)}>
+                                    3
+                                </button>
+                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(5)}>
+                                    5
+                                </button>
+                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(7)}>
+                                    7
+                                </button>
+                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(9)}>
+                                    9
+                                </button>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                                <button className="context-menu-button" onClick={() => handleInfernoChange(-1)}>
+                                    <i className="fas fa-minus-circle"></i>
+                                    -1
+                                </button>
+                                <button className="context-menu-button" onClick={() => handleInfernoChange(1)}>
+                                    <i className="fas fa-plus-circle"></i>
+                                    +1
+                                </button>
+                            </div>
+
+                            <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>
+                                Specialization
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '4px' }}>
+                                {Object.entries(specConfigs).map(([key, spec]) => (
+                                    <button
+                                        key={key}
+                                        className={`context-menu-button ${selectedSpec === key ? 'active' : ''}`}
+                                        onClick={() => setSelectedSpec(key)}
+                                    >
+                                        <i className={`fas ${spec.icon}`}></i> {spec.name}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="context-menu-separator" style={{margin: '12px 0'}}></div>
+
+                            <button className="context-menu-button danger" onClick={() => setShowControls(false)} style={{width: '100%'}}>
+                                <i className="fas fa-times"></i>
+                                Close
+                            </button>
                         </div>
                     </div>
                 </div>,

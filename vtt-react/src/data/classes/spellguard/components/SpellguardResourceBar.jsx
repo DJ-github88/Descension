@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/SpellguardResourceBar.css';
+import '../../../../styles/unified-context-menu.css';
 
 const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
     const [localAEP, setLocalAEP] = useState(45);
@@ -272,38 +273,52 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                 document.body
             )}
 
-            {/* Dev Controls */}
-            {showControls && (
-                <div className={`spellguard-dev-controls ${context === 'party' ? 'party-context' : ''}`}>
-                    <div className="controls-header">
-                        <span>Arcane Absorption</span>
-                        <button onClick={() => setShowControls(false)}>
-                            <i className="fas fa-times"></i>
-                        </button>
-                    </div>
+            {/* AEP Controls Menu */}
+            {showControls && barRef.current && ReactDOM.createPortal(
+                <div
+                    className={`unified-context-menu compact spellguard-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                        position: 'fixed',
+                        top: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+                            let hudBottom = rect.bottom;
+                            if (hudContainer) {
+                                const hudRect = hudContainer.getBoundingClientRect();
+                                hudBottom = hudRect.bottom;
+                            }
+                            return hudBottom + 8;
+                        })(),
+                        left: (() => {
+                            if (!barRef.current) return '50%';
+                            const rect = barRef.current.getBoundingClientRect();
+                            return rect.left + (rect.width / 2);
+                        })(),
+                        transform: 'translateX(-50%)',
+                        zIndex: 100000
+                    }}
+                >
+                    <div className="context-menu-main spellguard-menu">
+                        <div className="menu-title">AEP: {localAEP}/{maxAEP}</div>
 
-                    <div className="control-group">
                         {/* Specialization Selection */}
-                        <div className="spec-selector-group">
+                        <div className="spellguard-spec-section">
                             <button
-                                className="spec-display-btn"
+                                className="spellguard-spec-btn"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     cycleSpec();
                                 }}
                                 title={`${currentSpec.name}\n${currentSpec.passiveDesc}`}
-                                style={{
-                                    borderColor: context === 'party' ? '#a08c70' : currentSpec.activeColor,
-                                    background: context === 'party' ? 'rgba(240, 230, 210, 0.8)' : 'rgba(15, 23, 42, 0.8)',
-                                    color: context === 'party' ? '#5e2e23' : currentSpec.glowColor
-                                }}
                             >
                                 <i className={`fas ${currentSpec.icon}`}></i>
                                 <span>{currentSpec.name}</span>
                             </button>
                         </div>
 
-                        <div className="aep-info">
+                        <div className="spellguard-info-text">
                             {context === 'party' ? (
                                 'Absorb magical damage to build AEP. Use for arcane shields, spell reflections, and magical strikes.'
                             ) : (
@@ -311,30 +326,93 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                             )}
                         </div>
 
-                        <div className="control-sections">
-                            <div className="control-section">
-                                <div className="section-label">Quick Set AEP</div>
-                                <div className="preset-buttons">
-                                    <button onClick={() => setLocalAEP(0)} title="Empty (0 AEP)">0</button>
-                                    <button onClick={() => setLocalAEP(25)} title="Quarter (25 AEP)">¼</button>
-                                    <button onClick={() => setLocalAEP(50)} title="Half (50 AEP)">½</button>
-                                    <button onClick={() => setLocalAEP(75)} title="Three Quarters (75 AEP)">¾</button>
-                                    <button onClick={() => setLocalAEP(100)} title="Full (100 AEP)">100</button>
-                                </div>
-                            </div>
-
-                            <div className="control-section">
-                                <div className="section-label">Adjust AEP</div>
-                                <div className="adjust-buttons">
-                                    <button onClick={() => adjustAEP(-10)} className="adjust-btn negative">-10</button>
-                                    <button onClick={() => adjustAEP(-5)} className="adjust-btn negative">-5</button>
-                                    <button onClick={() => adjustAEP(5)} className="adjust-btn positive">+5</button>
-                                    <button onClick={() => adjustAEP(10)} className="adjust-btn positive">+10</button>
-                                </div>
+                        {/* Quick Set AEP */}
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">Quick Set</div>
+                            <div className="spellguard-preset-grid">
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(0); }} 
+                                    title="Empty (0 AEP)"
+                                >
+                                    0
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(25); }} 
+                                    title="Quarter (25 AEP)"
+                                >
+                                    ¼
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(50); }} 
+                                    title="Half (50 AEP)"
+                                >
+                                    ½
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(75); }} 
+                                    title="Three Quarters (75 AEP)"
+                                >
+                                    ¾
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={(e) => { e.stopPropagation(); setLocalAEP(100); }} 
+                                    title="Full (100 AEP)"
+                                >
+                                    100
+                                </button>
                             </div>
                         </div>
+
+                        {/* Adjust AEP */}
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-header">Adjust</div>
+                            <div className="spellguard-adjust-grid">
+                                <button 
+                                    className="context-menu-button negative" 
+                                    onClick={(e) => { e.stopPropagation(); adjustAEP(-10); }}
+                                >
+                                    -10
+                                </button>
+                                <button 
+                                    className="context-menu-button negative" 
+                                    onClick={(e) => { e.stopPropagation(); adjustAEP(-5); }}
+                                >
+                                    -5
+                                </button>
+                                <button 
+                                    className="context-menu-button positive" 
+                                    onClick={(e) => { e.stopPropagation(); adjustAEP(5); }}
+                                >
+                                    +5
+                                </button>
+                                <button 
+                                    className="context-menu-button positive" 
+                                    onClick={(e) => { e.stopPropagation(); adjustAEP(10); }}
+                                >
+                                    +10
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Close Button */}
+                        <div className="spellguard-quick-actions">
+                            <button 
+                                onClick={(e) => { e.stopPropagation(); setShowControls(false); }} 
+                                className="spellguard-quick-btn"
+                                title="Close"
+                            >
+                                <i className="fas fa-times"></i>
+                                <span>Close</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
