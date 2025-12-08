@@ -10272,8 +10272,11 @@ const UnifiedSpellCard = ({
                   const otherEffects = [];
 
                   buffData.effects.forEach(effect => {
-                    // Check if this effect has statModifier (stat enhancement)
-                    if (effect.statModifier) {
+                    // Use mechanicsText if provided, otherwise build from stat modifier
+                    let mechanicsText = effect.mechanicsText || '';
+                    
+                    // Check if this effect has statModifier (stat enhancement) and no mechanicsText provided
+                    if (!mechanicsText && effect.statModifier) {
                       const statMod = effect.statModifier;
                       const statMap = {
                         // Primary stats
@@ -10389,18 +10392,19 @@ const UnifiedSpellCard = ({
 
                       // Generate formatted stat modifier text for display
                       // This ensures stat values are always visible even if description is flavor text
-                      let mechanicsText = '';
-                      
-                      // If description already clearly contains the stat modifier info, don't duplicate
-                      const hasStatInDescription = hasMagnitudeAndStat || hasPercentagePattern;
-                      
-                      // For rage generation and similar special stats that are mentioned in description, suppress
-                      const suppressMechanicsText = (isRageGeneration && descriptionMentionsRage) || hasStatInDescription;
-                      
-                      if (!suppressMechanicsText && !isResistanceStat) {
-                        // Generate formatted stat modifier: "+2 Armor" or "+50% Damage"
-                        const sign = magnitude >= 0 ? '+' : '';
-                        mechanicsText = `${sign}${magnitude}${typeText} ${statName}`;
+                      // Only build if mechanicsText wasn't already provided
+                      if (!mechanicsText) {
+                        // If description already clearly contains the stat modifier info, don't duplicate
+                        const hasStatInDescription = hasMagnitudeAndStat || hasPercentagePattern;
+                        
+                        // For rage generation and similar special stats that are mentioned in description, suppress
+                        const suppressMechanicsText = (isRageGeneration && descriptionMentionsRage) || hasStatInDescription;
+                        
+                        if (!suppressMechanicsText && !isResistanceStat) {
+                          // Generate formatted stat modifier: "+2 Armor" or "+50% Damage"
+                          const sign = magnitude >= 0 ? '+' : '';
+                          mechanicsText = `${sign}${magnitude}${typeText} ${statName}`;
+                        }
                       }
 
                       // Strip leading dashes and whitespace from descriptions to prevent double dashes
@@ -10463,9 +10467,9 @@ const UnifiedSpellCard = ({
                         }
                       }
 
-                      // Use customDescription or description as mechanicsText
+                      // Use mechanicsText if provided, otherwise use customDescription or description
                       // Strip leading dashes and whitespace from descriptions to prevent double dashes
-                      let rawDescription = effect.customDescription || effect.description || '';
+                      let rawDescription = effect.mechanicsText || effect.customDescription || effect.description || '';
                       let cleanDescription = rawDescription.trim().replace(/^-\s*/, '').trim();
                       
                       // Use customName from buffConfig if effect doesn't have its own name
@@ -11254,8 +11258,11 @@ const UnifiedSpellCard = ({
                         // Handle debuffConfig.effects array (new structure)
                         if (debuffData?.effects?.length > 0) {
                           debuffData.effects.forEach(effect => {
-                            // Check if this effect has statModifier (stat reduction)
-                            if (effect.statModifier) {
+                            // Use mechanicsText if provided, otherwise build from stat modifier
+                            let mechanicsText = effect.mechanicsText || '';
+                            
+                            // Check if this effect has statModifier (stat reduction) and no mechanicsText provided
+                            if (!mechanicsText && effect.statModifier) {
                               const statMod = effect.statModifier;
                               const statMap = {
                                 'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
@@ -11297,7 +11304,7 @@ const UnifiedSpellCard = ({
                               const descriptionHasStatReduction = hasMagnitude && hasStatName;
                               
                               // Build mechanics text - suppress if description already explains the effect
-                              const mechanicsText = descriptionHasStatReduction ? '' : `-${magnitude}${typeText} ${statName}`;
+                              mechanicsText = descriptionHasStatReduction ? '' : `-${magnitude}${typeText} ${statName}`;
                               
                               // Build description with duration and save
                               // Check if description already includes duration information
@@ -11668,24 +11675,24 @@ const UnifiedSpellCard = ({
                       const potency = effect.potency ? `${effect.potency.charAt(0).toUpperCase() + effect.potency.slice(1)}: ` : '';
 
                       mechanicsText = `${potency}Teleport up to ${distance} ft (${needsLineOfSight}${takesOthers})`;
-                    } else if (effect.id === 'invisibility') {
+                    } else if (!mechanicsText && effect.id === 'invisibility') {
                       // Invisibility effect
                       const potency = effect.potency ? `${effect.potency.charAt(0).toUpperCase() + effect.potency.slice(1)}: ` : '';
                       const breaksOnAttack = effect.breaksOnAttack !== false ? 'breaks on attack' : 'persists through attacks';
 
                       mechanicsText = `${potency}Become invisible (${breaksOnAttack})`;
-                    } else if (effect.id === 'water_breathing') {
+                    } else if (!mechanicsText && effect.id === 'water_breathing') {
                       // Water breathing effect
                       const potency = effect.potency ? `${effect.potency.charAt(0).toUpperCase() + effect.potency.slice(1)}: ` : '';
 
                       mechanicsText = `${potency}Breathe underwater for the duration`;
-                    } else if (effect.id === 'water_walking') {
+                    } else if (!mechanicsText && effect.id === 'water_walking') {
                       // Water walking effect
                       const potency = effect.potency ? `${effect.potency.charAt(0).toUpperCase() + effect.potency.slice(1)}: ` : '';
 
                       mechanicsText = `${potency}Walk on water as if it were solid ground`;
-                    } else {
-                      // Generic effect formatting
+                    } else if (!mechanicsText) {
+                      // Fall back to description only if mechanicsText not provided
                       mechanicsText = effect.description || '';
 
                       // Add potency information if available
@@ -11919,8 +11926,8 @@ const UnifiedSpellCard = ({
                         // Handle selected effects with their individual configurations
                         if (controlData?.effects?.length > 0) {
                           controlData.effects.forEach(effect => {
-                            // Start with empty mechanicsText - only add effect-specific details, NOT duration/save/DC
-                            let mechanicsText = '';
+                            // Start with mechanicsText from effect if provided, otherwise build from config
+                            let mechanicsText = effect.mechanicsText || '';
 
                             // Use individual effect config if available, otherwise use top-level control config
                             const effectConfig = effect.config || {};
@@ -12004,7 +12011,8 @@ const UnifiedSpellCard = ({
                             }
 
                             // Only set mechanicsText if we have config details (NOT duration/save/DC)
-                            if (configDetails.length > 0) {
+                            // But only if mechanicsText wasn't already provided
+                            if (!mechanicsText && configDetails.length > 0) {
                               mechanicsText = configDetails.join(' • ');
                             }
 

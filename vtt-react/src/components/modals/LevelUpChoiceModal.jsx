@@ -96,11 +96,16 @@ const getLevelSpellIds = (classData, level) => {
         }
     }
     
-    // Fallback: filter spells array for spells of this level
-    if (classData.spells && Array.isArray(classData.spells)) {
-        return classData.spells
-            .filter(spell => spell.level === level)
-            .map(spell => spell.id);
+    // Fallback: filter spells/exampleSpells array for spells of this level
+    const spellsArray = classData.spells || classData.exampleSpells || [];
+    if (Array.isArray(spellsArray) && spellsArray.length > 0) {
+        return spellsArray
+            .filter(spell => {
+                const spellLevel = spell.level || 1;
+                return spellLevel === level;
+            })
+            .map(spell => spell.id)
+            .filter(id => id); // Remove any undefined/null IDs
     }
     
     return [];
@@ -130,56 +135,91 @@ const LevelUpChoiceModal = ({
             return [];
         }
 
-        // Get the appropriate class data
+        // Try to get spells from ALL_CLASS_SPELLS first (to ensure IDs match)
+        let availableSpells = [];
+        try {
+            const { ALL_CLASS_SPELLS } = require('../../data/classSpellGenerator');
+            availableSpells = ALL_CLASS_SPELLS[characterClass] || [];
+            
+            console.log('🔍 [Level-Up] Using ALL_CLASS_SPELLS:', {
+                characterClass,
+                currentLevel,
+                totalSpells: availableSpells.length,
+                sampleSpellIds: availableSpells.map(s => s.id).slice(0, 10)
+            });
+        } catch (e) {
+            console.warn('Could not load ALL_CLASS_SPELLS, using classData:', e);
+        }
+
+        // Get the appropriate class data for fallback
         const classData = CLASS_DATA_MAP[characterClass];
-        if (!classData) {
+        if (!classData && availableSpells.length === 0) {
             return [];
         }
 
-        // When leveling up to level N, show spells from level N's pool
-        const spellIds = getLevelSpellIds(classData, currentLevel);
+        // When leveling up to level N, show spells from level N
+        // Filter to spells of the current level
+        let levelSpells = [];
+        if (availableSpells.length > 0) {
+            // Use ALL_CLASS_SPELLS
+            levelSpells = availableSpells.filter(spell => {
+                const spellLevel = spell.level || 1;
+                return spellLevel === currentLevel;
+            });
+        } else {
+            // Fallback to classData
+            const spellIds = getLevelSpellIds(classData, currentLevel);
+            const allSpells = classData.spells || classData.exampleSpells || [];
+            levelSpells = allSpells.filter(spell =>
+                spellIds.includes(spell.id)
+            );
+        }
         
-        console.log('🔍 Level-up spell selection:', {
+        console.log('🔍 [Level-Up] Level spells found:', {
             currentLevel,
-            availablePools: Object.keys(classData.spellPools || {}),
-            spellIdsFound: spellIds.length,
-            knownSpells,
-            characterClass
+            characterClass,
+            levelSpellsCount: levelSpells.length,
+            levelSpellIds: levelSpells.map(s => s.id),
+            knownSpellsCount: knownSpells.length
         });
 
-        if (spellIds.length === 0) {
-            console.warn('⚠️ No spell pool found for level', currentLevel, 'for class', characterClass);
+        if (levelSpells.length === 0) {
+            console.warn('⚠️ No spells found for level', currentLevel, 'for class', characterClass);
             return [];
         }
-        // Support both 'spells' (new format) and 'exampleSpells' (legacy format)
-        const allSpells = classData.spells || classData.exampleSpells || [];
 
         // Filter out already known spells
-        const unknownSpells = allSpells.filter(spell =>
-            spellIds.includes(spell.id) && !knownSpells.includes(spell.id)
+        const unknownSpells = levelSpells.filter(spell =>
+            !knownSpells.includes(spell.id)
         );
+        
+        console.log('🔍 [Level-Up] Unknown spells:', {
+            unknownCount: unknownSpells.length,
+            unknownSpellIds: unknownSpells.map(s => s.id)
+        });
 
+        // Process spells for special class mechanics
+        let processedSpells = unknownSpells;
+        
         // For Pyrofiend, flatten Inferno Level mechanics for spell card display
         if (characterClass === 'Pyrofiend') {
-            return unknownSpells.map(spell => ({
+            processedSpells = unknownSpells.map(spell => ({
                 ...spell,
                 infernoRequired: spell.specialMechanics?.infernoLevel?.required,
                 infernoAscend: spell.specialMechanics?.infernoLevel?.ascendBy,
                 infernoDescend: spell.specialMechanics?.infernoLevel?.descendBy
             }));
         }
-
         // For Minstrel, include musical combo mechanics
-        if (characterClass === 'Minstrel') {
-            return unknownSpells.map(spell => ({
+        else if (characterClass === 'Minstrel') {
+            processedSpells = unknownSpells.map(spell => ({
                 ...spell,
                 musicalCombo: spell.specialMechanics?.musicalCombo
             }));
         }
-
         // For Chronarch, flatten Temporal mechanics for spell card display
-        if (characterClass === 'Chronarch') {
-            return unknownSpells.map(spell => ({
+        else if (characterClass === 'Chronarch') {
+            processedSpells = unknownSpells.map(spell => ({
                 ...spell,
                 timeShardGenerate: spell.specialMechanics?.timeShards?.generated,
                 timeShardCost: spell.specialMechanics?.temporalFlux?.shardCost,
@@ -187,10 +227,9 @@ const LevelUpChoiceModal = ({
                 temporalStrainReduce: spell.specialMechanics?.temporalFlux?.strainReduced
             }));
         }
-
         // For Martyr, flatten Devotion Level mechanics for spell card display
-        if (characterClass === 'Martyr') {
-            return unknownSpells.map(spell => ({
+        else if (characterClass === 'Martyr') {
+            processedSpells = unknownSpells.map(spell => ({
                 ...spell,
                 devotionRequired: spell.specialMechanics?.devotionLevel?.required,
                 devotionCost: spell.specialMechanics?.devotionLevel?.cost || spell.specialMechanics?.devotionLevel?.amplifiedCost,
@@ -199,13 +238,13 @@ const LevelUpChoiceModal = ({
         }
 
         // For level 2, present only 3 random options
-        if (currentLevel === 2 && unknownSpells.length > 3) {
-            const shuffled = [...unknownSpells].sort(() => Math.random() - 0.5);
+        if (currentLevel === 2 && processedSpells.length > 3) {
+            const shuffled = [...processedSpells].sort(() => Math.random() - 0.5);
             return shuffled.slice(0, 3);
         }
 
         // Return all unknown spells from the pool
-        return unknownSpells;
+        return processedSpells;
     }, [characterClass, currentLevel, knownSpells]);
 
     // Helper functions for point spending

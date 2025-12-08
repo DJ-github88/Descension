@@ -15,6 +15,8 @@ import { createInventoryItem, isOffHandDisabled } from '../../utils/equipmentUti
 import { calculateDerivedStats } from '../../utils/characterUtils';
 import { getClassResourceConfig, getResourceDisplayText } from '../../data/classResources';
 import { getRaceList, getSubraceList, getRaceData } from '../../data/raceData';
+import { ENHANCED_PATHS, getAllEnhancedPaths } from '../../data/enhancedPathData';
+import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
 import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
@@ -229,6 +231,8 @@ export default function CharacterPanel() {
         racialLanguages = [],
         racialSpeed,
         class: characterClass,
+        path,
+        pathDisplayName,
         level,
         alignment,
         exhaustionLevel,
@@ -240,6 +244,10 @@ export default function CharacterPanel() {
         immunities = [], // Default to empty array if not provided
         lore = {} // Get lore data for character image
     } = dataSource;
+
+    // Get spell library dispatch and state for adding spells
+    const libraryDispatch = useSpellLibraryDispatch();
+    const spellLibrary = useSpellLibrary();
 
     // State for navigation
     const [activeSection, setActiveSection] = useState('character');
@@ -270,7 +278,7 @@ export default function CharacterPanel() {
     const [tooltipDelay, setTooltipDelay] = useState(null);
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
     const [selectedTraitIndex, setSelectedTraitIndex] = useState(0);
-
+    const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '' });
 
     useEffect(() => {
         return () => {
@@ -279,6 +287,101 @@ export default function CharacterPanel() {
             }
         };
     }, [tooltipDelay]);
+
+    // Handle spell addition and passives when race/subrace/path changes
+    useEffect(() => {
+        // Only run if we're not in inspection mode and if something actually changed
+        if (inspectionData) return; // Skip in inspection mode
+        
+        const current = { race: race || '', subrace: subrace || '', path: path || '' };
+        const last = lastRaceSubracePath;
+        
+        // Check if anything changed
+        if (current.race === last.race && current.subrace === last.subrace && current.path === last.path) {
+            return; // No changes
+        }
+
+        // Update last state
+        setLastRaceSubracePath(current);
+
+        // Get available spells from path
+        let availableSpells = [];
+        if (path) {
+            const pathData = ENHANCED_PATHS[path];
+            if (pathData && pathData.abilities) {
+                availableSpells = pathData.abilities;
+            }
+        }
+
+        // If we have spells available, add one randomly
+        if (availableSpells.length > 0) {
+            const randomSpell = availableSpells[Math.floor(Math.random() * availableSpells.length)];
+            if (randomSpell && randomSpell.id) {
+                // Check if spell already exists in library
+                const spellExists = spellLibrary.spells.some(s => s.id === randomSpell.id);
+                
+                if (!spellExists) {
+                    // Add spell to library
+                    libraryDispatch(libraryActionCreators.addSpell(randomSpell));
+                }
+            }
+        }
+
+        // Store passives from path and convert non-stat passives to spell cards
+        if (path) {
+            const pathData = ENHANCED_PATHS[path];
+            if (pathData && pathData.mechanicalBenefits) {
+                // Store passives in character store
+                updateCharacterInfo('pathPassives', pathData.mechanicalBenefits);
+                
+                // Convert non-stat passives to spell cards and add to library
+                pathData.mechanicalBenefits.forEach(passive => {
+                    // Skip stat bonuses - they're applied automatically
+                    if (passive.type === 'stat') {
+                        return;
+                    }
+                    
+                    // Create spell card from passive
+                    const spellCard = {
+                        id: `passive_${passive.name?.toLowerCase().replace(/\s+/g, '_') || 'unknown'}`,
+                        name: passive.name || 'Unknown Passive',
+                        description: passive.description || '',
+                        level: 1,
+                        spellType: 'PASSIVE',
+                        tags: ['passive', 'discipline'],
+                        effectTypes: ['utility'],
+                        damageTypes: [],
+                        icon: 'spell_holy_devotion',
+                        typeConfig: {
+                            school: 'divine',
+                            icon: 'spell_holy_devotion',
+                            tags: ['passive', 'discipline']
+                        },
+                        targetingConfig: {
+                            targetingType: 'self'
+                        },
+                        resourceCost: {
+                            actionPoints: 0
+                        },
+                        resolution: 'AUTO',
+                        visualTheme: 'holy',
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString()
+                    };
+                    
+                    // Check if spell already exists in library
+                    const spellExists = spellLibrary.spells.some(s => s.id === spellCard.id);
+                    
+                    if (!spellExists) {
+                        // Add spell to library
+                        libraryDispatch(libraryActionCreators.addSpell(spellCard));
+                    }
+                });
+            }
+        } else {
+            updateCharacterInfo('pathPassives', []);
+        }
+    }, [race, subrace, path, inspectionData, libraryDispatch, updateCharacterInfo, lastRaceSubracePath, spellLibrary.spells]);
 
     const updateTooltipPosition = (e) => {
         // Position tooltip near cursor but with a small offset
@@ -378,6 +481,31 @@ export default function CharacterPanel() {
                             <option value="Lunarch">Lunarch</option>
                             <option value="Huntress">Huntress</option>
                             <option value="Warden">Warden</option>
+                        </select>
+                    </div>
+
+                    <div className="character-field">
+                        <label className="character-field-label">Discipline</label>
+                        <select
+                            value={path || ''}
+                            onChange={(e) => {
+                                const selectedPath = e.target.value;
+                                const pathData = selectedPath ? ENHANCED_PATHS[selectedPath] : null;
+                                updateCharacterInfo('path', selectedPath);
+                                if (pathData) {
+                                    updateCharacterInfo('pathDisplayName', pathData.name);
+                                } else {
+                                    updateCharacterInfo('pathDisplayName', '');
+                                }
+                            }}
+                            className="character-field-input"
+                        >
+                            <option value="">Select a discipline</option>
+                            {getAllEnhancedPaths().map(pathOption => (
+                                <option key={pathOption.id} value={pathOption.id}>
+                                    {pathOption.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
 

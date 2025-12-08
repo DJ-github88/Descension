@@ -1062,7 +1062,7 @@
     justify-content: flex-end;
     gap: 6px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #000000 !important;
 }
 
 .stat-modifier {
@@ -1238,7 +1238,7 @@
     align-items: center;
     gap: 6px;
     font-size: 1.0rem;
-    color: #1a1a1a;
+    color: #000000 !important;
     font-weight: 700;
     font-family: 'Bookman Old Style', 'Garamond', serif;
 }
@@ -1918,6 +1918,8 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     position: relative;
+    min-width: 0;
+    overflow: visible;
 }
 
 .stat-row:hover {
@@ -1934,6 +1936,8 @@
     align-items: center;
     gap: 12px;
     flex: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .stat-icon {
@@ -1957,6 +1961,9 @@
     font-weight: 600;
     color: #7a3b2e;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
 }
 
 .stat-description {
@@ -1971,10 +1978,13 @@
     font-family: 'Cinzel', serif;
     font-size: 13px;
     font-weight: bold;
-    color: #5a1e12;
+    color: #000000 !important;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-    min-width: 60px;
+    min-width: fit-content;
     text-align: right;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
 }
 
 .stat-value-container {
@@ -2763,11 +2773,11 @@
 .stat-row .stat-value {
   text-align: right;
   font-weight: bold;
-  color: #1a1a1a;
+  color: #000000 !important;
 }
 
 .stat-row:has(.stat-label:contains("Resistances")) .stat-value {
-  color: #5a1e12; /* Darker rustic red for better contrast */
+  color: #000000 !important;
   font-weight: bold;
 }
 
@@ -3086,7 +3096,7 @@
 
 .character-summary-stats .stat-value {
     font-weight: bold !important;
-    color: #5a1e12 !important;
+    color: #000000 !important;
     font-size: 14px !important;
     text-align: right !important;
 }
@@ -3105,6 +3115,32 @@
     border-radius: 4px !important;
     border: 1px solid #a08c70 !important;
     transition: all 0.2s ease !important;
+}
+
+/* Stats Container */
+.stats-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* Stats Navigation */
+.stats-navigation {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg,
+        rgba(213, 203, 176, 0.9) 0%,
+        rgba(203, 193, 166, 0.8) 100%);
+    border-right: 3px solid #8b7355;
+    padding: 20px 15px;
+    gap: 8px;
+    box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .stats-nav-button {
@@ -3165,6 +3201,8 @@
     flex: 1;
     padding: 30px;
     overflow-y: auto;
+    overflow-x: visible;
+    min-width: 0;
 }
 
 .stats-section-header {
@@ -3564,7 +3602,7 @@
 }
 
 .resource-stat .stat-value {
-    color: #5a1e12;
+    color: #000000 !important;
     font-weight: bold;
     font-size: 13px;
 }
@@ -3607,6 +3645,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
+    min-width: fit-content;
 }
 
 .stat-total-value {

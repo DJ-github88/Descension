@@ -96,8 +96,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const [mouseDownPosition, setMouseDownPosition] = useState(null);
   const [localPosition, setLocalPosition] = useState(position); // Local position for smooth dragging
 
-  // Drag threshold in pixels - token must move this distance before dragging starts
-  const DRAG_THRESHOLD = 8;
 
   // Refs to track current state in event handlers
   const isDraggingRef = useRef(false);
@@ -373,35 +371,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     const handleMouseMove = (e) => {
       // Removed excessive logging for performance
 
-      // Check if mouse is down but not yet dragging (threshold check)
-      if (isMouseDownRef.current && !isDraggingRef.current && mouseDownPosition) {
-        const deltaX = e.clientX - mouseDownPosition.x;
-        const deltaY = e.clientY - mouseDownPosition.y;
-        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      // Start dragging immediately if mouse is down and we're not dragging yet
+      if (isMouseDownRef.current && !isDraggingRef.current) {
+        setIsDragging(true);
+        isDraggingRef.current = true;
 
-        // Only start dragging if we've moved beyond the threshold
-        if (distance >= DRAG_THRESHOLD) {
-          // Removed excessive logging for performance
-          setIsDragging(true);
-          isDraggingRef.current = true;
+        // Track drag state globally to prevent feedback loops in multiplayer
+        if (!window.multiplayerDragState) {
+          window.multiplayerDragState = new Map();
+        }
+        window.multiplayerDragState.set(`token_${token.creatureId}`, true);
+        // Removed excessive logging for performance
 
-          // Use the drag offset that was already calculated in handleMouseDown
-          // Don't recalculate it here to prevent any jumps or misalignment
-
-          // Track drag state globally to prevent feedback loops in multiplayer
-          if (!window.multiplayerDragState) {
-            window.multiplayerDragState = new Map();
-          }
-          window.multiplayerDragState.set(`token_${token.creatureId}`, true);
-          // Removed excessive logging for performance
-
-          // Start movement visualization if enabled (works in and out of combat)
-          if (showMovementVisualization) {
-            startMovementVisualization(tokenId, { x: position.x, y: position.y });
-          }
-        } else {
-          // Still within threshold, don't start dragging yet
-          return;
+        // Start movement visualization if enabled (works in and out of combat)
+        if (showMovementVisualization) {
+          startMovementVisualization(tokenId, { x: position.x, y: position.y });
         }
       }
 
@@ -487,7 +471,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
       // If we were just mouse down but never started dragging, this is a simple click
       if (isMouseDownRef.current && !isDraggingRef.current) {
-        // Removed excessive logging for performance
         setIsMouseDown(false);
         isMouseDownRef.current = false;
         setMouseDownPosition(null);
@@ -637,13 +620,25 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       }
     };
 
+    const handlePointerMove = (e) => {
+      if (e.pointerType === 'touch') {
+        handleMouseMove(e);
+      }
+    };
+
+    const handlePointerUp = (e) => {
+      if (e.pointerType === 'touch') {
+        handleMouseUp(e);
+      }
+    };
+
     if (isDragging || isMouseDown) {
       // Use passive: false for both mousemove and mouseup to allow preventDefault
-      document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
-      document.addEventListener('mouseup', handleMouseUp, { passive: false, capture: true });
-
-      // Also add a fallback mouseup listener without capture to ensure we catch it
+      document.addEventListener('mousemove', handleMouseMove, { passive: false });
       document.addEventListener('mouseup', handleMouseUp, { passive: false });
+      document.addEventListener('pointermove', handlePointerMove, { passive: false });
+      document.addEventListener('pointerup', handlePointerUp, { passive: false });
+      document.addEventListener('pointercancel', handlePointerUp, { passive: false });
 
       // Safety timeout to reset dragging state if mouse up is missed
       // CRITICAL FIX: Increased from 5s to 30s to prevent interrupting long drags
@@ -661,9 +656,11 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     return () => {
       // Removed excessive logging for performance
-      document.removeEventListener('mousemove', handleMouseMove, { capture: true });
-      document.removeEventListener('mouseup', handleMouseUp, { capture: true });
+      document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener('pointercancel', handlePointerUp);
       if (dragTimeoutId) {
         clearTimeout(dragTimeoutId);
       }
@@ -1602,6 +1599,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           position: 'absolute',
           transform: 'translate(-50%, -50%)',
           pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
+          touchAction: 'none',
           borderRadius: '50%',
           border: `3px solid ${creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder)}`,
           overflow: 'hidden',

@@ -35,6 +35,7 @@ import { TITAN_DATA } from './classes/titanData';
 import { TOXICOLOGIST_DATA } from './classes/toxicologistData';
 import { WARDEN_DATA } from './classes/wardenData';
 import { WITCH_DOCTOR_DATA } from './classes/witchDoctorData';
+import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
 // Maps class names to their data files for dynamic loading
@@ -658,6 +659,20 @@ console.log('🎲 SPELL GENERATOR SUMMARY:', {
     totalSpells: results.totalSpells,
     validSpells: results.validSpells
   })).filter(c => c.totalSpells > 0)
+});
+
+// ===== ADD UNIVERSAL COMBAT SPELLS TO ALL CLASSES =====
+// These spells are available to all classes
+const allClassNames = Object.keys(CLASS_DATA_MAP);
+allClassNames.forEach(className => {
+  if (!generatedSpells[className]) {
+    generatedSpells[className] = [];
+  }
+  // Add universal spells to each class (they're available to everyone)
+  generatedSpells[className] = [
+    ...UNIVERSAL_COMBAT_SPELLS,
+    ...generatedSpells[className]
+  ];
 });
 
 export const ALL_CLASS_SPELLS = generatedSpells;

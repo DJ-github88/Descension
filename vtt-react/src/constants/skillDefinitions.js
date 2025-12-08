@@ -40,60 +40,25 @@ export const SKILL_DEFINITIONS = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
         rollableTables: {
             UNTRAINED: {
-                d4: 'weaponmastery_untrained_d4',
-                d6: 'weaponmastery_untrained_d6',
-                d8: 'weaponmastery_untrained_d8',
-                d10: 'weaponmastery_untrained_d10',
-                d12: 'weaponmastery_untrained_d12',
-                d20: 'weaponmastery_untrained_d20'
+                d8: 'weaponmastery_untrained_d8'
             },
             NOVICE: {
-                d4: 'weaponmastery_novice_d4',
-                d6: 'weaponmastery_novice_d6',
-                d8: 'weaponmastery_novice_d8',
-                d10: 'weaponmastery_novice_d10',
-                d12: 'weaponmastery_novice_d12',
-                d20: 'weaponmastery_novice_d20'
+                d8: 'weaponmastery_novice_d8'
             },
             TRAINED: {
-                d4: 'weaponmastery_trained_d4',
-                d6: 'weaponmastery_trained_d6',
-                d8: 'weaponmastery_trained_d8',
-                d10: 'weaponmastery_trained_d10',
-                d12: 'weaponmastery_trained_d12',
-                d20: 'weaponmastery_trained_d20'
+                d8: 'weaponmastery_trained_d8'
             },
             APPRENTICE: {
-                d4: 'weaponmastery_apprentice_d4',
-                d6: 'weaponmastery_apprentice_d6',
-                d8: 'weaponmastery_apprentice_d8',
-                d10: 'weaponmastery_apprentice_d10',
-                d12: 'weaponmastery_apprentice_d12',
-                d20: 'weaponmastery_apprentice_d20'
+                d8: 'weaponmastery_apprentice_d8'
             },
             ADEPT: {
-                d4: 'weaponmastery_adept_d4',
-                d6: 'weaponmastery_adept_d6',
-                d8: 'weaponmastery_adept_d8',
-                d10: 'weaponmastery_adept_d10',
-                d12: 'weaponmastery_adept_d12',
-                d20: 'weaponmastery_adept_d20'
+                d8: 'weaponmastery_adept_d8'
             },
             EXPERT: {
-                d4: 'weaponmastery_expert_d4',
-                d6: 'weaponmastery_expert_d6',
-                d8: 'weaponmastery_expert_d8',
-                d10: 'weaponmastery_expert_d10',
-                d12: 'weaponmastery_expert_d12',
-                d20: 'weaponmastery_expert_d20'
+                d8: 'weaponmastery_expert_d8'
             },
             MASTER: {
-                d4: 'weaponmastery_master_d4',
-                d6: 'weaponmastery_master_d6',
-                d8: 'weaponmastery_master_d8',
-                d10: 'weaponmastery_master_d10',
-                d12: 'weaponmastery_master_d12',
-                d20: 'weaponmastery_master_d20'
+                d8: 'weaponmastery_master_d8'
             }
         }
     },
@@ -160,72 +125,6 @@ export const SKILL_DEFINITIONS = {
                 d10: 'tacticalcombat_master_d10',
                 d12: 'tacticalcombat_master_d12',
                 d20: 'tacticalcombat_master_d20'
-            }
-        }
-    },
-    defensiveTechniques: {
-        name: 'Defensive Techniques',
-        category: SKILL_CATEGORIES.COMBAT.name,
-        primaryStat: 'constitution',
-        secondaryStat: 'agility',
-        description: 'Master the art of protection and damage mitigation',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_defensivestance.jpg',
-        rollableTables: {
-            UNTRAINED: {
-                d4: 'defensivetechniques_untrained_d4',
-                d6: 'defensivetechniques_untrained_d6',
-                d8: 'defensivetechniques_untrained_d8',
-                d10: 'defensivetechniques_untrained_d10',
-                d12: 'defensivetechniques_untrained_d12',
-                d20: 'defensivetechniques_untrained_d20'
-            },
-            NOVICE: {
-                d4: 'defensivetechniques_novice_d4',
-                d6: 'defensivetechniques_novice_d6',
-                d8: 'defensivetechniques_novice_d8',
-                d10: 'defensivetechniques_novice_d10',
-                d12: 'defensivetechniques_novice_d12',
-                d20: 'defensivetechniques_novice_d20'
-            },
-            TRAINED: {
-                d4: 'defensivetechniques_trained_d4',
-                d6: 'defensivetechniques_trained_d6',
-                d8: 'defensivetechniques_trained_d8',
-                d10: 'defensivetechniques_trained_d10',
-                d12: 'defensivetechniques_trained_d12',
-                d20: 'defensivetechniques_trained_d20'
-            },
-            APPRENTICE: {
-                d4: 'defensivetechniques_apprentice_d4',
-                d6: 'defensivetechniques_apprentice_d6',
-                d8: 'defensivetechniques_apprentice_d8',
-                d10: 'defensivetechniques_apprentice_d10',
-                d12: 'defensivetechniques_apprentice_d12',
-                d20: 'defensivetechniques_apprentice_d20'
-            },
-            ADEPT: {
-                d4: 'defensivetechniques_adept_d4',
-                d6: 'defensivetechniques_adept_d6',
-                d8: 'defensivetechniques_adept_d8',
-                d10: 'defensivetechniques_adept_d10',
-                d12: 'defensivetechniques_adept_d12',
-                d20: 'defensivetechniques_adept_d20'
-            },
-            EXPERT: {
-                d4: 'defensivetechniques_expert_d4',
-                d6: 'defensivetechniques_expert_d6',
-                d8: 'defensivetechniques_expert_d8',
-                d10: 'defensivetechniques_expert_d10',
-                d12: 'defensivetechniques_expert_d12',
-                d20: 'defensivetechniques_expert_d20'
-            },
-            MASTER: {
-                d4: 'defensivetechniques_master_d4',
-                d6: 'defensivetechniques_master_d6',
-                d8: 'defensivetechniques_master_d8',
-                d10: 'defensivetechniques_master_d10',
-                d12: 'defensivetechniques_master_d12',
-                d20: 'defensivetechniques_master_d20'
             }
         }
     },
@@ -1762,10 +1661,10 @@ export const SKILL_DEFINITIONS = {
 // Skill progression ranks - 7 levels of expertise with 10 quests per skill
 export const SKILL_RANKS = {
     UNTRAINED: { name: 'Untrained', color: '#6b6b6b', questsRequired: 0, statBonus: 0 },
-    NOVICE: { name: 'Novice', color: '#8b7355', questsRequired: 2, statBonus: 1 },
-    TRAINED: { name: 'Trained', color: '#4a7c59', questsRequired: 4, statBonus: 2 },
+    NOVICE: { name: 'Novice', color: '#8b7355', questsRequired: 1, statBonus: 1 },
+    TRAINED: { name: 'Trained', color: '#4a7c59', questsRequired: 3, statBonus: 2 },
     APPRENTICE: { name: 'Apprentice', color: '#5d8a6b', questsRequired: 6, statBonus: 3 },
-    ADEPT: { name: 'Adept', color: '#2563eb', questsRequired: 8, statBonus: 4 },
-    EXPERT: { name: 'Expert', color: '#7a3b2e', questsRequired: 9, statBonus: 5 },
-    MASTER: { name: 'Master', color: '#9d4edd', questsRequired: 10, statBonus: 6 }
+    ADEPT: { name: 'Adept', color: '#2563eb', questsRequired: 9, statBonus: 4 },
+    EXPERT: { name: 'Expert', color: '#7a3b2e', questsRequired: 11, statBonus: 5 },
+    MASTER: { name: 'Master', color: '#9d4edd', questsRequired: 12, statBonus: 6 }
 };

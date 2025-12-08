@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+const DISPLAY_DURATION = 4500;
+const FADE_DURATION = 400;
+const SHOW_DELAY = 10;
 
 /**
  * Achievement Notification Overlay
  * Uses the same styling as player notifications for consistency
  */
 const AchievementNotificationOverlay = () => {
-  const [notifications, setNotifications] = useState([]);
+  const [queue, setQueue] = useState([]);
+  const [currentNotification, setCurrentNotification] = useState(null);
+  const timersRef = useRef([]);
+
+  const clearTimers = () => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  };
 
   useEffect(() => {
     const handleAchievementNotification = (event) => {
       console.log('🏆 Achievement overlay received notification:', event.detail);
       const { skill, quest, characterName, characterClass, timestamp } = event.detail;
 
-      // Add notification to the list
       const newNotification = {
         id: `achievement_${timestamp}`,
         skill,
@@ -23,36 +33,7 @@ const AchievementNotificationOverlay = () => {
         visible: false
       };
 
-      setNotifications(prev => [...prev, newNotification]);
-
-      // Show notification with animation
-      setTimeout(() => {
-        setNotifications(prev =>
-          prev.map(notif =>
-            notif.id === newNotification.id
-              ? { ...notif, visible: true }
-              : notif
-          )
-        );
-      }, 10);
-
-      // Hide notification after display time
-      setTimeout(() => {
-        setNotifications(prev =>
-          prev.map(notif =>
-            notif.id === newNotification.id
-              ? { ...notif, visible: false }
-              : notif
-          )
-        );
-
-        // Remove from array after fade out
-        setTimeout(() => {
-          setNotifications(prev =>
-            prev.filter(notif => notif.id !== newNotification.id)
-          );
-        }, 400);
-      }, 4500);
+      setQueue(prev => [...prev, newNotification]);
     };
 
     // Listen for achievement events
@@ -60,17 +41,52 @@ const AchievementNotificationOverlay = () => {
 
     return () => {
       document.removeEventListener('showAchievementNotification', handleAchievementNotification);
+      clearTimers();
     };
   }, []);
 
+  // Start the next notification once the current one finishes
+  useEffect(() => {
+    if (!currentNotification && queue.length > 0) {
+      const [next, ...rest] = queue;
+      setQueue(rest);
+      setCurrentNotification({ ...next, visible: false });
+    }
+  }, [queue, currentNotification]);
+
+  // Drive the show/hide lifecycle for the active notification
+  useEffect(() => {
+    if (!currentNotification) return;
+
+    clearTimers();
+
+    const showTimer = setTimeout(() => {
+      setCurrentNotification(prev => prev ? { ...prev, visible: true } : null);
+    }, SHOW_DELAY);
+
+    const hideTimer = setTimeout(() => {
+      setCurrentNotification(prev => prev ? { ...prev, visible: false } : null);
+    }, DISPLAY_DURATION);
+
+    const cleanupTimer = setTimeout(() => {
+      setCurrentNotification(null);
+    }, DISPLAY_DURATION + FADE_DURATION);
+
+    timersRef.current = [showTimer, hideTimer, cleanupTimer];
+
+    return clearTimers;
+  }, [currentNotification?.id]);
+
+  const activeNotifications = currentNotification ? [currentNotification] : [];
+
   return (
     <>
-      {notifications.map((notification, index) => (
+      {activeNotifications.map((notification) => (
         <div
           key={notification.id}
           className={`player-notification achievement ${notification.visible ? 'show' : ''} ${!notification.visible ? 'fade-out' : ''}`}
           style={{
-            top: `calc(20% + ${index * 80}px)`, // Stack notifications vertically
+            top: '20%',
             right: '20px'
           }}
         >

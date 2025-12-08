@@ -10,6 +10,53 @@ import '../styles/item-notification.css';
 // Helper to generate a unique ID
 const generateId = () => `grid-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
+// Simple queue so currency notifications never overlap
+const currencyNotificationQueue = [];
+let currencyNotificationActive = false;
+
+const showNextCurrencyNotification = () => {
+  if (typeof document === 'undefined') return;
+  if (currencyNotificationQueue.length === 0) {
+    currencyNotificationActive = false;
+    return;
+  }
+
+  const { html, displayDuration } = currencyNotificationQueue.shift();
+  currencyNotificationActive = true;
+
+  const notification = document.createElement('div');
+  notification.className = 'currency-notification';
+  notification.innerHTML = html;
+
+  document.body.appendChild(notification);
+
+  const showTimer = setTimeout(() => {
+    notification.classList.add('show');
+  }, 10);
+
+  const hideTimer = setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+      currencyNotificationActive = false;
+      showNextCurrencyNotification();
+    }, 500);
+  }, displayDuration);
+
+  // Defensive cleanup in case the timeouts get canceled elsewhere
+  notification.dataset.timers = JSON.stringify([showTimer, hideTimer]);
+};
+
+const enqueueCurrencyNotification = (html, displayDuration = 2000) => {
+  if (typeof document === 'undefined') return;
+  currencyNotificationQueue.push({ html, displayDuration });
+  if (!currencyNotificationActive) {
+    showNextCurrencyNotification();
+  }
+};
+
 // Create the grid item store
 // NOTE: localStorage persistence removed - grid items are now persisted to database via room gameState
 const useGridItemStore = create((set, get) => ({
@@ -427,11 +474,8 @@ const useGridItemStore = create((set, get) => ({
             );
           }
 
-          // Show a notification to the player
+          // Show a notification to the player using a queue so they never overlap
           if (typeof window !== 'undefined') {
-            const notification = document.createElement('div');
-            notification.className = 'currency-notification';
-
             // Get the appropriate icon based on the highest denomination
             let iconId = itemToUse.iconId;
             if (!iconId) {
@@ -451,10 +495,11 @@ const useGridItemStore = create((set, get) => ({
               }
             }
 
+            let notificationHTML = '';
+
             // Create appropriate notification content based on currency type
             if (typeof currencyValue === 'object') {
               // For combined currency with enhanced formatting
-              let notificationHTML = '';
               const parts = [];
 
               if (currencyValue.platinum) {
@@ -473,12 +518,10 @@ const useGridItemStore = create((set, get) => ({
                 parts.push(`<span style="color: #ffffff; font-weight: 700; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">+${currencyValue.copper}</span><span style="color: #cd7f32; font-weight: 700; margin-left: 2px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);">Copper</span>`);
               }
 
-              notificationHTML = parts.join('<span style="margin: 0 4px;"> </span>');
-
-              notification.innerHTML = `
+              notificationHTML = `
                 <div class="currency-notification-content">
                   <img src="https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg" alt="Currency" />
-                  <span>${notificationHTML}</span>
+                  <span>${parts.join('<span style="margin: 0 4px;"> </span>')}</span>
                 </div>
               `;
             } else {
@@ -493,7 +536,7 @@ const useGridItemStore = create((set, get) => ({
 
               const currencyColor = currencyColors[currencyType] || '#ffd700';
 
-              notification.innerHTML = `
+              notificationHTML = `
                 <div class="currency-notification-content">
                   <img src="https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg" alt="Currency" />
                   <span>
@@ -504,20 +547,7 @@ const useGridItemStore = create((set, get) => ({
               `;
             }
 
-            document.body.appendChild(notification);
-
-            // Add animation class after a small delay to trigger the animation
-            setTimeout(() => {
-              notification.classList.add('show');
-            }, 10);
-
-            // Remove the notification after animation completes
-            setTimeout(() => {
-              notification.classList.remove('show');
-              setTimeout(() => {
-                document.body.removeChild(notification);
-              }, 500);
-            }, 2000);
+            enqueueCurrencyNotification(notificationHTML, 2000);
           }
 
           // Handle item removal from grid for currency items

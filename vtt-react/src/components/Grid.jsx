@@ -30,6 +30,7 @@ import StaticFogOverlay from "./level-editor/StaticFogOverlay";
 import AfterimageOverlay from "./level-editor/AfterimageOverlay";
 import TextInteractionOverlay from "./grid/TextInteractionOverlay";
 import { createGridSystem, getGridSystem } from "../utils/InfiniteGridSystem";
+import useLongPressContextMenu from "../hooks/useLongPressContextMenu";
 // Removed unused imports: throttle, rafThrottle
 
 // REMOVED: import '../styles/Grid.css'; // CAUSES CSS POLLUTION - will be loaded conditionally
@@ -226,6 +227,7 @@ function GridComponent({
     const [draggedCreatureId, setDraggedCreatureId] = useState(null);
     const [isDraggingCharacterToken, setIsDraggingCharacterToken] = useState(false);
     const gridRef = useRef(null);
+    const longPressHandlers = useLongPressContextMenu();
 
     // Grid alignment dragging state
     const [isGridAlignmentDragging, setIsGridAlignmentDragging] = useState(false);
@@ -824,6 +826,8 @@ function GridComponent({
             return;
         }
 
+        const pointerType = e.pointerType || e?.nativeEvent?.pointerType;
+
         // Check if the click is on a manipulation handle - if so, ignore it here
         if (e.target.dataset && e.target.dataset.manipulationHandle) {
             return; // Let the handle's own event handler deal with it
@@ -840,6 +844,19 @@ function GridComponent({
             e.target.closest('.creature-token') ||
             e.target.closest('.character-token')) {
             return; // Let the token's own event handler deal with it
+        }
+
+        // Touch-friendly camera drag: single-finger drag pans the grid
+        if (pointerType === 'touch') {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsDraggingCamera(true);
+            gameStore.setState({ isDraggingCamera: true });
+            window._isDraggingCamera = true;
+            setShouldEnableCameraDrag(true);
+            lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+            pendingCameraDeltaRef.current = { deltaX: 0, deltaY: 0 };
+            return;
         }
 
         if (isGridAlignmentMode && e.button === 0) {
@@ -1397,9 +1414,31 @@ function GridComponent({
         const gridElement = gridRef.current;
         if (!gridElement) return;
 
+        const handlePointerDown = (e) => {
+            if (e.pointerType === 'touch') {
+                handleMouseDown(e);
+            }
+        };
+
+        const handlePointerMove = (e) => {
+            if (e.pointerType === 'touch') {
+                handleMouseMove(e);
+            }
+        };
+
+        const handlePointerUp = (e) => {
+            if (e.pointerType === 'touch') {
+                handleMouseUp(e);
+            }
+        };
+
         gridElement.addEventListener('mousedown', handleMouseDown);
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
+        gridElement.addEventListener('pointerdown', handlePointerDown, { passive: false });
+        document.addEventListener('pointermove', handlePointerMove, { passive: false });
+        document.addEventListener('pointerup', handlePointerUp, { passive: true });
+        document.addEventListener('pointercancel', handlePointerUp, { passive: true });
         // Add wheel event listener to prevent default scroll behavior
         // Use capture phase to catch Ctrl+wheel before browser zoom handler
         // Attach to both gridElement and document to catch all Ctrl+scroll events globally
@@ -1410,6 +1449,10 @@ function GridComponent({
             gridElement.removeEventListener('mousedown', handleMouseDown);
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
+            gridElement.removeEventListener('pointerdown', handlePointerDown, { passive: false });
+            document.removeEventListener('pointermove', handlePointerMove, { capture: false });
+            document.removeEventListener('pointerup', handlePointerUp);
+            document.removeEventListener('pointercancel', handlePointerUp);
             gridElement.removeEventListener('wheel', handleWheel, { capture: true });
             document.removeEventListener('wheel', handleWheel, { capture: true });
 
@@ -2661,6 +2704,10 @@ function GridComponent({
                     // TEMPORARILY DISABLE: transform: 'translateZ(0)', // Force hardware acceleration
                     ...getLegacyBackgroundStyle()
                 }}
+                onPointerDown={longPressHandlers.onPointerDown}
+                onPointerMove={longPressHandlers.onPointerMove}
+                onPointerUp={longPressHandlers.onPointerUp}
+                onPointerCancel={longPressHandlers.onPointerCancel}
             >
                 {/* Temporary test button */}
 

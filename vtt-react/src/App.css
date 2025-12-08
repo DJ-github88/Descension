@@ -193,6 +193,48 @@ input, textarea, [contenteditable="true"] {
     opacity: 1;
 }
 
+/* Mobile navigation and window sizing */
+@media (max-width: 768px) {
+    .App {
+        padding: var(--pf-space-mobile-4);
+    }
+
+    .navigation {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%, 0);
+        bottom: var(--pf-space-mobile-4);
+        width: calc(100% - (2 * var(--pf-space-mobile-4)));
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--pf-space-mobile-2);
+        padding: var(--pf-space-mobile-2);
+    }
+
+    .main-nav-button {
+        width: var(--pf-touch-target-comfortable);
+        height: var(--pf-touch-target-comfortable);
+        padding: var(--pf-space-mobile-2);
+    }
+
+    .nav-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .wow-window,
+    .draggable-window,
+    .shop-window,
+    .item-wizard-modal,
+    .quick-item-generator-modal,
+    .categorize-modal {
+        max-width: 95vw;
+        max-height: 80vh;
+        left: 50% !important;
+        transform: translate(-50%, 0);
+    }
+}
+
 .hotkey {
     position: absolute;
     bottom: 2px;

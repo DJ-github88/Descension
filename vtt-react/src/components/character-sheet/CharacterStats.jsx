@@ -10,6 +10,7 @@ import { getXPProgress, formatXP } from '../../utils/experienceUtils';
 import StatTooltip from '../tooltips/StatTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
+import ConditionTooltip from '../tooltips/ConditionTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import '../../styles/character-sheet.css';
 
@@ -91,6 +92,21 @@ const STAT_ICONS = {
     'intelligence': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
     'spirit': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_spiritualguidence.jpg',
     'charisma': 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_holynova.jpg'
+};
+
+const getSoakDieFromArmor = (armorValue = 0) => {
+    const armor = Math.max(0, Math.floor(armorValue));
+    if (armor < 5) return '—';
+    if (armor <= 9) return '1d4';
+    if (armor <= 14) return '1d6';
+    if (armor <= 19) return '1d8';
+    if (armor <= 24) return '1d10';
+    if (armor <= 29) return '1d12';
+    if (armor <= 34) return '1d12 + 1d4';
+    if (armor <= 39) return '1d12 + 1d6';
+    if (armor <= 44) return '2d12';
+    if (armor <= 49) return '2d12 + 1d4';
+    return '2d12 + 1d6';
 };
 
 // Stat Edit Modal Component
@@ -229,6 +245,7 @@ export default function CharacterStats() {
         resistances = {},
         immunities = [],
         exhaustionLevel = 0,
+        pathPassives = [],
         updateStat
     } = dataSource || {};
 
@@ -680,6 +697,11 @@ export default function CharacterStats() {
 
     // Calculate XP progress for display
     const xpProgress = getXPProgress(experience);
+    const baseArmor = Math.round(Math.floor((stats.agility || 10) / 2) || 0);
+    const totalArmor = Math.round(totalStats.armor || baseArmor || 0);
+    const passiveDR = Math.floor(totalArmor / 10);
+    const basePassiveDR = Math.floor(baseArmor / 10);
+    const soakDie = getSoakDieFromArmor(totalArmor);
 
     const statGroups = {
         summary: {
@@ -738,12 +760,30 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Armor',
-                    value: Math.round(totalStats.armor || Math.floor((stats.agility || 10) / 2) || 0),
-                    baseValue: Math.round(Math.floor((stats.agility || 10) / 2) || 0),
+                    value: totalArmor,
+                    baseValue: baseArmor,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
                     color: '#6b6b6b',
-                    description: 'Physical damage reduction'
+                    description: 'Armor score used for passive DR and the Defend soak die'
+                },
+                {
+                    label: 'Passive DR',
+                    value: passiveDR,
+                    baseValue: basePassiveDR,
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_shield_04.jpg',
+                    color: '#4b6b6b',
+                    description: 'Damage reduced automatically each hit (Armor ÷ 10, rounded down)'
+                },
+                {
+                    label: 'Soak Die (Defend)',
+                    value: soakDie,
+                    baseValue: getSoakDieFromArmor(baseArmor),
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldwall.jpg',
+                    color: '#3b5b7b',
+                    description: 'Bonus reduction you roll when you take the Defend action'
                 },
                 {
                     label: 'Movement Speed',
@@ -1060,6 +1100,12 @@ export default function CharacterStats() {
                     description: 'Initiative bonus for combat order'
                 }
             ]
+        },
+        conditions: {
+            title: 'Condition Resistances',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg',
+            description: 'Your character\'s resistance to various conditions and status effects',
+            stats: [] // We'll handle this with custom rendering
         }
     };
 
@@ -1128,7 +1174,7 @@ export default function CharacterStats() {
                                     />
                                     <span className="stat-label">{data.name} Resistance:</span>
                                 </div>
-                                <span className="stat-value" style={{ color: getResistanceColor(resistanceLevel) }}>
+                                <span className="stat-value">
                                     {getResistanceValue(resistanceLevel)}
                                 </span>
                                 <div
@@ -1184,7 +1230,7 @@ export default function CharacterStats() {
                                         />
                                         <span className="stat-label">{damageType.name} Immunity:</span>
                                     </div>
-                                    <span className="stat-value" style={{ color: '#8B4513' }}>
+                                    <span className="stat-value">
                                         Immune
                                     </span>
                                 </div>
@@ -1193,7 +1239,7 @@ export default function CharacterStats() {
                                     <div className="stat-label-container">
                                         <span className="stat-label">{immunity} Immunity:</span>
                                     </div>
-                                    <span className="stat-value" style={{ color: '#8B4513' }}>
+                                    <span className="stat-value">
                                         Immune
                                     </span>
                                 </div>
@@ -1206,6 +1252,168 @@ export default function CharacterStats() {
                             </div>
                         </div>
                     )}
+                </div>
+            );
+        }
+
+        // Special case for conditions section
+        if (selectedStatGroup === 'conditions') {
+            // Define all possible conditions
+            const allConditions = [
+                'fear',
+                'charm',
+                'stun',
+                'paralyze',
+                'poison',
+                'disease',
+                'sleep',
+                'petrify',
+                'blinded',
+                'deafened',
+                'prone',
+                'restrained',
+                'grappled',
+                'exhaustion',
+                'frightened',
+                'incapacitated',
+                'unconscious'
+            ];
+            
+            // Parse passives to extract condition resistances
+            const conditionResistances = {};
+            
+            pathPassives.forEach(passive => {
+                // Skip stat bonuses - they're applied automatically
+                if (passive.type === 'stat') {
+                    return;
+                }
+                
+                // Check for condition resistances
+                if (passive.description) {
+                    const desc = passive.description.toLowerCase();
+                    const conditions = [];
+                    
+                    if (desc.includes('fear') || desc.includes('frightened')) {
+                        conditions.push('fear');
+                    }
+                    if (desc.includes('charm')) {
+                        conditions.push('charm');
+                    }
+                    if (desc.includes('stun')) {
+                        conditions.push('stun');
+                    }
+                    if (desc.includes('paralyze') || desc.includes('paralysis')) {
+                        conditions.push('paralyze');
+                    }
+                    if (desc.includes('poison')) {
+                        conditions.push('poison');
+                    }
+                    if (desc.includes('disease')) {
+                        conditions.push('disease');
+                    }
+                    if (desc.includes('sleep')) {
+                        conditions.push('sleep');
+                    }
+                    if (desc.includes('petrify') || desc.includes('petrification')) {
+                        conditions.push('petrify');
+                    }
+                    if (desc.includes('blind')) {
+                        conditions.push('blinded');
+                    }
+                    if (desc.includes('deaf')) {
+                        conditions.push('deafened');
+                    }
+                    if (desc.includes('prone')) {
+                        conditions.push('prone');
+                    }
+                    if (desc.includes('restrain')) {
+                        conditions.push('restrained');
+                    }
+                    if (desc.includes('grapple')) {
+                        conditions.push('grappled');
+                    }
+                    if (desc.includes('exhaust')) {
+                        conditions.push('exhaustion');
+                    }
+                    if (desc.includes('incapacitat')) {
+                        conditions.push('incapacitated');
+                    }
+                    if (desc.includes('unconscious')) {
+                        conditions.push('unconscious');
+                    }
+                    
+                    // If this passive grants condition resistances, add them
+                    if (conditions.length > 0) {
+                        conditions.forEach(condition => {
+                            if (!conditionResistances[condition]) {
+                                conditionResistances[condition] = [];
+                            }
+                            conditionResistances[condition].push(passive.name);
+                        });
+                    }
+                }
+            });
+
+            return (
+                <div className="stats-content">
+                    {allConditions.map(condition => {
+                        const hasResistance = conditionResistances[condition] && conditionResistances[condition].length > 0;
+                        const conditionName = condition.charAt(0).toUpperCase() + condition.slice(1);
+                        
+                        return (
+                            <div 
+                                key={condition} 
+                                className="stat-row" 
+                                style={{ marginBottom: '6px', cursor: 'help' }}
+                                onMouseEnter={(e) => handleStatHover(e, condition)}
+                                onMouseMove={updateTooltipPosition}
+                                onMouseLeave={handleStatLeave}
+                            >
+                                <div className="stat-label-container">
+                                    <span className="stat-label" style={{ textTransform: 'capitalize', fontSize: '13px' }}>
+                                        {conditionName}:
+                                    </span>
+                                </div>
+                                <div className="stat-value-container">
+                                    {hasResistance ? (
+                                        <span className="stat-value" style={{ 
+                                            fontWeight: 'bold',
+                                            backgroundColor: '#e8f5e9',
+                                            padding: '2px 8px',
+                                            borderRadius: '4px',
+                                            fontSize: '12px'
+                                        }}>
+                                            Advantage
+                                        </span>
+                                    ) : (
+                                        <span className="stat-value" style={{ 
+                                            fontSize: '12px',
+                                            fontStyle: 'italic'
+                                        }}>
+                                            Normal
+                                        </span>
+                                    )}
+                                </div>
+                                {hoveredStat === condition && (
+                                    <TooltipPortal>
+                                        <div
+                                            className="equipment-slot-tooltip"
+                                            style={{
+                                                position: 'fixed',
+                                                left: tooltipPosition.x,
+                                                top: tooltipPosition.y,
+                                                transform: 'translate(10px, -50%)',
+                                                pointerEvents: 'none',
+                                                zIndex: 99999999
+                                            }}
+                                        >
+                                            <ConditionTooltip condition={condition} hasResistance={hasResistance} />
+                                        </div>
+                                    </TooltipPortal>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             );
         }
@@ -1237,7 +1445,7 @@ export default function CharacterStats() {
                             </div>
                         </div>
                         <div className="stat-value-container">
-                            <span className="stat-value" style={stat.color ? { color: stat.color } : {}}>
+                            <span className="stat-value">
                                 {formatStatValue(stat.label, stat.value)}
                             </span>
                             {stat.modifier !== undefined && (

@@ -6,6 +6,7 @@ import { useWeaponEnhancedSpells } from '../../../../hooks/useWeaponEnhancedSpel
 import useCharacterStore from '../../../../store/characterStore';
 import useAuthStore from '../../../../store/authStore';
 import { loadUserSpells } from '../../../../services/firebase/userSpellService';
+import { getSkillAbilitiesForSpellbook } from '../../../../utils/skillAbilitiesIntegration';
 
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
@@ -149,6 +150,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // State for pagination (for compact view)
   const [currentPage, setCurrentPage] = useState(1);
   const spellsPerPage = 12; // 6 per column, 2 columns (WoW-style page)
+  const isManuallyPaginatingRef = useRef(false);
+  const paginationTimeoutRef = useRef(null);
+  const prevFiltersRef = useRef(null);
+  const prevActiveCategoryRef = useRef(null);
 
   // State for spell tooltip (hover preview)
   const [hoveredSpell, setHoveredSpell] = useState(null);
@@ -176,6 +181,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     activeCharacter,
     isLoading: classSpellsLoading,
     error: classSpellsError,
+    classSpells: rawClassSpells,
     getAllSpells,
     getSpellsByCategory,
     getCategoryInfo,
@@ -184,6 +190,15 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     hasActiveCharacter,
     hasClassSpells
   } = useClassSpellLibrary();
+
+  // Get character store for skill abilities
+  const characters = useCharacterStore(state => state.characters);
+  const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
+  const characterLevel = useCharacterStore(state => state.level);
+  
+  // Get active character's level (prefer active character's level if available)
+  const activeChar = characters.find(char => char.id === currentCharacterId);
+  const activeCharacterLevel = activeChar?.level || characterLevel || 1;
   // Reset active category when class changes to avoid stale category filters
   useEffect(() => {
     setActiveCategory(null);
@@ -197,13 +212,48 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     weaponSummary
   } = useWeaponEnhancedSpells();
 
-  // Combine spell categories with general categories
-  const allSpellCategories = useMemo(() => {
-    const combined = [...spellCategories];
+  // Filter out unwanted spells from general spells
+  const filteredGeneralSpells = generalSpells.filter(spell => {
+    const id = spell.id?.toLowerCase() || '';
+    const name = spell.name?.toLowerCase() || '';
+    return (
+      id !== 'universal_attack' && 
+      name !== 'attack (melee or ranged)' &&
+      !id.includes('cast_minor') &&
+      !id.includes('cast_major') &&
+      !name.includes('cast minor') &&
+      !name.includes('cast major')
+    );
+  });
 
-    // Add general categories with spell counts
+  // Helper function to filter out unwanted spells from any spell list
+  const filterUnwantedSpells = (spells) => {
+    return spells.filter(spell => {
+      const id = spell.id?.toLowerCase() || '';
+      const name = spell.name?.toLowerCase() || '';
+      return (
+        id !== 'universal_attack' && 
+        name !== 'attack (melee or ranged)' &&
+        !id.includes('cast_minor') &&
+        !id.includes('cast_major') &&
+        !name.includes('cast minor') &&
+        !name.includes('cast major')
+      );
+    });
+  };
+
+  // Get known spells from character store
+  const knownSpellIds = useCharacterStore(state => state.class_spells?.known_spells || []);
+  const activeCharKnownSpells = activeChar?.class_spells?.known_spells || knownSpellIds;
+
+  // Combine spell categories with general categories
+  // Only show: General Actions, General Reactions, and class name (if class selected)
+  const allSpellCategories = useMemo(() => {
+    const combined = [];
+
+    // Add general categories with spell counts (excluding Attack spell)
     GENERAL_CATEGORIES.forEach(generalCategory => {
-      const categorySpells = generalSpells.filter(spell =>
+      const categorySpells = filteredGeneralSpells.filter(spell =>
         spell.categoryIds && spell.categoryIds.includes(generalCategory.id)
       );
 
@@ -214,8 +264,148 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       });
     });
 
+    // If a class is selected, add a single class category instead of level-based categories
+    if (hasActiveCharacter && hasClassSpells && characterClass) {
+      // Use rawClassSpells and filter manually to ensure we get all known spells
+      const allClassSpells = rawClassSpells || [];
+      const generalSpellIds = new Set(filteredGeneralSpells.map(spell => spell.id));
+      const knownSpellIdsSet = new Set(activeCharKnownSpells);
+      
+      // Check if all known spells are in rawClassSpells
+      const rawSpellIds = new Set(allClassSpells.map(s => s.id));
+      const missingKnownSpells = activeCharKnownSpells.filter(id => !rawSpellIds.has(id));
+      
+      console.log('🔍 [Category Creation - Raw Data]', {
+        characterClass,
+        activeCharacterLevel,
+        rawClassSpellsCount: allClassSpells.length,
+        knownSpellIds: activeCharKnownSpells,
+        knownSpellIdsSetSize: knownSpellIdsSet.size,
+        missingKnownSpells,
+        sampleRawSpellIds: allClassSpells.map(s => s.id).slice(0, 10),
+        sampleRawSpellNames: allClassSpells.map(s => s.name).slice(0, 10)
+      });
+      
+      // If we have missing known spells, log them with details
+      if (missingKnownSpells.length > 0) {
+        console.warn('⚠️ [Category Creation] Some known spells are not in rawClassSpells:', missingKnownSpells);
+      }
+      
+      // Filter to only known spells at or below character level (matching the filtering logic)
+      const filteredClassSpells = allClassSpells.filter(spell => {
+        // Debug logging for known spells
+        const isKnown = knownSpellIdsSet.has(spell.id);
+        if (isKnown) {
+          const spellLevel = spell.level || 1;
+          const levelCheck = spellLevel <= activeCharacterLevel;
+          const isGeneral = generalSpellIds.has(spell.id);
+          const isUniversal = spell.id?.startsWith('universal_');
+          const id = spell.id?.toLowerCase() || '';
+          const name = spell.name?.toLowerCase() || '';
+          const isUnwanted = (
+            id === 'universal_attack' || 
+            name === 'attack (melee or ranged)' ||
+            id.includes('cast_minor') ||
+            id.includes('cast_major') ||
+            name.includes('cast minor') ||
+            name.includes('cast major')
+          );
+          
+          console.log(`🔍 [Category Creation - Spell Filter Check] ${spell.id}`, {
+            name: spell.name,
+            level: spellLevel,
+            activeCharacterLevel,
+            isKnown,
+            isGeneral,
+            isUniversal,
+            isUnwanted,
+            levelCheck,
+            passes: !isGeneral && !isUniversal && !isUnwanted && isKnown && levelCheck
+          });
+        }
+        
+        // Exclude general spells
+        if (generalSpellIds.has(spell.id)) {
+          return false;
+        }
+        // Exclude universal spells (especially universal_attack)
+        if (spell.id?.startsWith('universal_')) {
+          return false;
+        }
+        // Exclude unwanted spells (Attack, Cast Minor/Major)
+        const id = spell.id?.toLowerCase() || '';
+        const name = spell.name?.toLowerCase() || '';
+        if (
+          id === 'universal_attack' || 
+          name === 'attack (melee or ranged)' ||
+          id.includes('cast_minor') ||
+          id.includes('cast_major') ||
+          name.includes('cast minor') ||
+          name.includes('cast major')
+        ) {
+          return false;
+        }
+        // Only show spells the character knows/selected
+        if (!knownSpellIdsSet.has(spell.id)) {
+          return false;
+        }
+        // Filter by spell level - only show spells at or below character level
+        const spellLevel = spell.level || 1;
+        return spellLevel <= activeCharacterLevel;
+      });
+      
+      // Calculate expected spell count based on known spells that actually exist in the library
+      // Count how many known spells are in rawClassSpells and at or below character level
+      const knownSpellsInLibrary = activeCharKnownSpells.filter(knownSpellId => {
+        const spell = allClassSpells.find(s => s.id === knownSpellId);
+        if (!spell) return false; // Spell doesn't exist in library
+        if (generalSpellIds.has(knownSpellId)) return false; // Exclude general spells
+        if (knownSpellId?.startsWith('universal_')) return false; // Exclude universal spells
+        const id = knownSpellId?.toLowerCase() || '';
+        const name = spell.name?.toLowerCase() || '';
+        if (
+          id === 'universal_attack' || 
+          name === 'attack (melee or ranged)' ||
+          id.includes('cast_minor') ||
+          id.includes('cast_major') ||
+          name.includes('cast minor') ||
+          name.includes('cast major')
+        ) return false; // Exclude unwanted spells
+        const spellLevel = spell.level || 1;
+        return spellLevel <= activeCharacterLevel; // Only count spells at or below character level
+      });
+      
+      // Use the count of known spells in library, but ensure minimum of 3 for level 1
+      const expectedSpellCount = Math.max(3, knownSpellsInLibrary.length);
+      
+      console.log('🔍 [Category Creation - Filtered]', {
+        characterClass,
+        activeCharacterLevel,
+        filteredClassSpellsCount: filteredClassSpells.length,
+        knownSpellsInLibraryCount: knownSpellsInLibrary.length,
+        expectedSpellCount,
+        filteredSpellIds: filteredClassSpells.map(s => s.id),
+        filteredSpellNames: filteredClassSpells.map(s => s.name),
+        knownSpellsInLibraryIds: knownSpellsInLibrary
+      });
+      
+      // Create a single class category with the filtered spells
+      combined.push({
+        id: `class_${characterClass.toLowerCase()}`,
+        name: characterClass,
+        description: `${characterClass} class spells`,
+        color: '#8B4513',
+        icon: 'spell_holy_magicalsentry',
+        spells: filteredClassSpells,
+        // Store expected count for display
+        expectedCount: expectedSpellCount,
+        isClassCategory: true,
+        className: characterClass
+      });
+    }
+
     return combined;
-  }, [spellCategories, generalSpells]);
+  }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel]);
 
   // Track deleted spell IDs to prevent reloading them from Firebase
   const getDeletedSpellIds = () => {
@@ -612,8 +802,26 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     // Use class-based spells if available, otherwise fall back to library spells
     let spellsToFilter = [];
 
+    // Check if we're filtering by class category - if so, don't include library spells or skill abilities
+    const isClassCategoryActive = activeCategory && activeCategory.startsWith('class_');
+
     // ALWAYS include library.spells first (custom spells from wizard should always appear)
-    spellsToFilter = [...library.spells];
+    // EXCEPT when viewing a class category - then only show class spells
+    if (!isClassCategoryActive) {
+      spellsToFilter = [...library.spells];
+
+      // Add skill-based abilities if character has skill proficiencies
+      if (hasActiveCharacter && currentCharacterId) {
+        const activeChar = characters.find(char => char.id === currentCharacterId);
+        
+        if (activeChar?.skillRanks) {
+          const skillAbilities = getSkillAbilitiesForSpellbook(activeChar.skillRanks);
+          if (skillAbilities.length > 0) {
+            spellsToFilter = [...spellsToFilter, ...skillAbilities];
+          }
+        }
+      }
+    }
 
     console.log('🔍 [filteredSpells] After including library.spells:', {
       spellsToFilterCount: spellsToFilter.length,
@@ -625,15 +833,115 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       if (activeCategory) {
         // Check if this is a general category
         const isGeneralCategory = GENERAL_CATEGORIES.some(cat => cat.id === activeCategory);
+        
+        // Check if this is a class category (starts with "class_")
+        const isClassCategory = activeCategory.startsWith('class_');
 
         if (isGeneralCategory) {
-          // Filter general spells by category
-          const categoryGeneralSpells = generalSpells.filter(spell =>
+          // Filter general spells by category (excluding Attack spell)
+          const categoryGeneralSpells = filteredGeneralSpells.filter(spell =>
             spell.categoryIds && spell.categoryIds.includes(activeCategory)
           );
           spellsToFilter = [...spellsToFilter, ...categoryGeneralSpells];
+        } else if (isClassCategory) {
+          // Get class spells for the selected class, filtered by character level AND known spells
+          // Only show spells the character actually knows/selected
+          // Use rawClassSpells and filter manually to ensure we get all known spells
+          const generalSpellIds = new Set(filteredGeneralSpells.map(spell => spell.id));
+          const knownSpellIdsSet = new Set(activeCharKnownSpells);
+          
+          // Check if all known spells are in rawClassSpells
+          const rawSpellIds = new Set(rawClassSpells.map(s => s.id));
+          const missingKnownSpells = activeCharKnownSpells.filter(id => !rawSpellIds.has(id));
+          
+          console.log('🔍 [Class Category Filter - Raw Data]', {
+            characterClass,
+            activeCharacterLevel,
+            rawClassSpellsCount: rawClassSpells.length,
+            knownSpellIds: activeCharKnownSpells,
+            knownSpellIdsSetSize: knownSpellIdsSet.size,
+            missingKnownSpells,
+            sampleRawSpellIds: rawClassSpells.map(s => s.id).slice(0, 10)
+          });
+          
+          if (missingKnownSpells.length > 0) {
+            console.warn('⚠️ [Class Category Filter] Some known spells are not in rawClassSpells:', missingKnownSpells);
+          }
+          
+          // Filter class spells by level, known spells, exclude general spells, and exclude unwanted spells
+          const levelFilteredClassSpells = rawClassSpells.filter(spell => {
+            // Debug logging for known spells
+            const isKnown = knownSpellIdsSet.has(spell.id);
+            if (isKnown) {
+              const spellLevel = spell.level || 1;
+              const levelCheck = spellLevel <= activeCharacterLevel;
+              const isGeneral = generalSpellIds.has(spell.id);
+              const isUniversal = spell.id?.startsWith('universal_');
+              const id = spell.id?.toLowerCase() || '';
+              const name = spell.name?.toLowerCase() || '';
+              const isUnwanted = (
+                id === 'universal_attack' || 
+                name === 'attack (melee or ranged)' ||
+                id.includes('cast_minor') ||
+                id.includes('cast_major') ||
+                name.includes('cast minor') ||
+                name.includes('cast major')
+              );
+              
+              console.log(`🔍 [Class Category Filter - Spell Filter Check] ${spell.id}`, {
+                name: spell.name,
+                level: spellLevel,
+                activeCharacterLevel,
+                isKnown,
+                isGeneral,
+                isUniversal,
+                isUnwanted,
+                levelCheck,
+                passes: !isGeneral && !isUniversal && !isUnwanted && isKnown && levelCheck
+              });
+            }
+            
+            // Exclude general spells
+            if (generalSpellIds.has(spell.id)) {
+              return false;
+            }
+            // Exclude universal spells (especially universal_attack)
+            if (spell.id?.startsWith('universal_')) {
+              return false;
+            }
+            // Exclude unwanted spells (Attack, Cast Minor/Major)
+            const id = spell.id?.toLowerCase() || '';
+            const name = spell.name?.toLowerCase() || '';
+            if (
+              id === 'universal_attack' || 
+              name === 'attack (melee or ranged)' ||
+              id.includes('cast_minor') ||
+              id.includes('cast_major') ||
+              name.includes('cast minor') ||
+              name.includes('cast major')
+            ) {
+              return false;
+            }
+            // Only show spells the character knows/selected
+            if (!knownSpellIdsSet.has(spell.id)) {
+              return false;
+            }
+            // Filter by spell level - only show spells at or below character level
+            const spellLevel = spell.level || 1;
+            return spellLevel <= activeCharacterLevel;
+          });
+          
+          console.log('🔍 [Class Category Filter - Filtered]', {
+            characterClass,
+            activeCharacterLevel,
+            levelFilteredCount: levelFilteredClassSpells.length,
+            filteredSpellIds: levelFilteredClassSpells.map(s => s.id),
+            filteredSpellNames: levelFilteredClassSpells.map(s => s.name)
+          });
+          
+          spellsToFilter = levelFilteredClassSpells; // Replace, don't add - only show known class spells at appropriate level
         } else {
-          // Use class-based category (but still include library spells)
+          // Fallback: Use class-based category (but still include library spells)
           const categoryClassSpells = getSpellsByCategory(activeCategory);
           spellsToFilter = [...spellsToFilter, ...categoryClassSpells];
         }
@@ -641,12 +949,12 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       } else {
         // Show all spells from all categories (class + general + library spells for custom spells)
         const classSpells = getAllSpells();
-        // Include class spells and general spells
-        spellsToFilter = [...spellsToFilter, ...classSpells, ...generalSpells];
+        // Include class spells and general spells (excluding Attack spell)
+        spellsToFilter = [...spellsToFilter, ...classSpells, ...filteredGeneralSpells];
       }
     } else {
-      // Fall back to traditional library spells + general spells
-      spellsToFilter = [...spellsToFilter, ...generalSpells];
+      // Fall back to traditional library spells + general spells (excluding Attack spell)
+      spellsToFilter = [...spellsToFilter, ...filteredGeneralSpells];
     }
 
     // Deduplicate spells by ID (same spell might be in both class spells and library.spells)
@@ -691,12 +999,41 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     activeCategory,
     getSpellsByCategory,
     getAllSpells,
-    generalSpells
+    filteredGeneralSpells,
+    characters,
+    currentCharacterId,
+    activeCharKnownSpells,
+    rawClassSpells
   ]);
 
-  // Reset page when category changes
+  // Reset page when category or filters actually change (but not when manually paginating)
   useEffect(() => {
-    setCurrentPage(1);
+    // Only reset if we're not manually paginating AND the values actually changed
+    const filtersChanged = JSON.stringify(prevFiltersRef.current) !== JSON.stringify(library.filters);
+    const categoryChanged = prevActiveCategoryRef.current !== activeCategory;
+    
+    // Check flag FIRST before doing anything
+    if (isManuallyPaginatingRef.current) {
+      // User is manually changing category/page, don't reset - just update refs
+      prevFiltersRef.current = library.filters;
+      prevActiveCategoryRef.current = activeCategory;
+      // Don't clear or reset the timeout - let the button handlers manage it
+      return;
+    }
+    
+    // Only clear timeout if we're not manually paginating
+    if (paginationTimeoutRef.current) {
+      clearTimeout(paginationTimeoutRef.current);
+      paginationTimeoutRef.current = null;
+    }
+    
+    if (filtersChanged || categoryChanged) {
+      setCurrentPage(1);
+    }
+    
+    // Update refs
+    prevFiltersRef.current = library.filters;
+    prevActiveCategoryRef.current = activeCategory;
   }, [activeCategory, library.filters]);
 
   // Cleanup tooltip timer on unmount
@@ -707,6 +1044,15 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       }
     };
   }, [tooltipTimer]);
+
+  // Cleanup pagination timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (paginationTimeoutRef.current) {
+        clearTimeout(paginationTimeoutRef.current);
+      }
+    };
+  }, []);
 
 
   // Calculate pagination
@@ -943,6 +1289,17 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // Add event listener for the pseudo-element edit button
   useEffect(() => {
     const handlePseudoElementClick = (e) => {
+      // Ignore clicks on pagination buttons and their children
+      const target = e.target;
+      if (
+        target.closest('.wow-header-pagination') ||
+        target.closest('.wow-header-button') ||
+        target.classList.contains('wow-header-button') ||
+        target.classList.contains('wow-header-pagination')
+      ) {
+        return; // Don't interfere with pagination
+      }
+
       // Check if the click is on the top-right corner of a spell card wrapper
       if (e.target.classList.contains('spell-card-wrapper')) {
         const rect = e.target.getBoundingClientRect();
@@ -1253,7 +1610,44 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             alignItems: 'center'
           }}>
             <button
-              onClick={() => setActiveCategory(null)}
+              type="button"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Set flag BEFORE state updates
+                if (paginationTimeoutRef.current) {
+                  clearTimeout(paginationTimeoutRef.current);
+                }
+                isManuallyPaginatingRef.current = true;
+              }}
+              onMouseUp={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Commit the state change on mouse up
+                setActiveCategory(null);
+                setCurrentPage(1);
+                // Keep flag true for a while to prevent useEffect reset
+                paginationTimeoutRef.current = setTimeout(() => {
+                  isManuallyPaginatingRef.current = false;
+                  paginationTimeoutRef.current = null;
+                }, 2000);
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Ensure flag is still set and commit state
+                if (paginationTimeoutRef.current) {
+                  clearTimeout(paginationTimeoutRef.current);
+                }
+                isManuallyPaginatingRef.current = true;
+                setActiveCategory(null);
+                setCurrentPage(1);
+                // Keep flag true for a while to prevent useEffect reset
+                paginationTimeoutRef.current = setTimeout(() => {
+                  isManuallyPaginatingRef.current = false;
+                  paginationTimeoutRef.current = null;
+                }, 2000);
+              }}
               style={{
                 background: !activeCategory ? '#8B4513' : 'transparent',
                 border: '2px solid #8B4513',
@@ -1273,7 +1667,44 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             {allSpellCategories.map(category => (
               <button
                 key={category.id}
-                onClick={() => setActiveCategory(category.id)}
+                type="button"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // Set flag BEFORE state updates
+                  if (paginationTimeoutRef.current) {
+                    clearTimeout(paginationTimeoutRef.current);
+                  }
+                  isManuallyPaginatingRef.current = true;
+                }}
+                onMouseUp={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // Commit the state change on mouse up
+                  setActiveCategory(category.id);
+                  setCurrentPage(1);
+                  // Keep flag true for a while to prevent useEffect reset
+                  paginationTimeoutRef.current = setTimeout(() => {
+                    isManuallyPaginatingRef.current = false;
+                    paginationTimeoutRef.current = null;
+                  }, 2000);
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // Ensure flag is still set and commit state
+                  if (paginationTimeoutRef.current) {
+                    clearTimeout(paginationTimeoutRef.current);
+                  }
+                  isManuallyPaginatingRef.current = true;
+                  setActiveCategory(category.id);
+                  setCurrentPage(1);
+                  // Keep flag true for a while to prevent useEffect reset
+                  paginationTimeoutRef.current = setTimeout(() => {
+                    isManuallyPaginatingRef.current = false;
+                    paginationTimeoutRef.current = null;
+                  }, 2000);
+                }}
                 style={{
                   background: activeCategory === category.id ? category.color : 'transparent',
                   border: `2px solid ${category.color}`,
@@ -1312,53 +1743,220 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         {/* Compact WoW-style view */}
         {viewMode === 'compact' ? (
           <div className="wow-spellbook-view">
-                {totalPages > 0 && (
-                  <div className="wow-spellbook-header">
-                    <button
-                      className="wow-header-button"
-                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                      aria-label="Previous Page"
-                      title="Previous Page"
+                {/* Header with Category Tabs */}
+                <div className="wow-spellbook-header">
+                  {/* Category Tabs */}
+                  {allSpellCategories.length > 0 ? (
+                    <div className="wow-category-tabs-header">
+                      <button
+                        type="button"
+                        className={`wow-category-tab ${!activeCategory ? 'active' : ''}`}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Set flag BEFORE state updates
+                          if (paginationTimeoutRef.current) {
+                            clearTimeout(paginationTimeoutRef.current);
+                          }
+                          isManuallyPaginatingRef.current = true;
+                        }}
+                        onMouseUp={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Commit the state change on mouse up
+                          setActiveCategory(null);
+                          setCurrentPage(1);
+                          // Keep flag true for a while to prevent useEffect reset
+                          paginationTimeoutRef.current = setTimeout(() => {
+                            isManuallyPaginatingRef.current = false;
+                            paginationTimeoutRef.current = null;
+                          }, 2000);
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Ensure flag is still set and commit state
+                          if (paginationTimeoutRef.current) {
+                            clearTimeout(paginationTimeoutRef.current);
+                          }
+                          isManuallyPaginatingRef.current = true;
+                          setActiveCategory(null);
+                          setCurrentPage(1);
+                          // Keep flag true for a while to prevent useEffect reset
+                          paginationTimeoutRef.current = setTimeout(() => {
+                            isManuallyPaginatingRef.current = false;
+                            paginationTimeoutRef.current = null;
+                          }, 2000);
+                        }}
+                      >
+                        All Spells
+                      </button>
+                      {allSpellCategories.map(category => (
+                        <button
+                          key={category.id}
+                          type="button"
+                          className={`wow-category-tab ${activeCategory === category.id ? 'active' : ''}`}
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Set flag BEFORE state updates
+                            if (paginationTimeoutRef.current) {
+                              clearTimeout(paginationTimeoutRef.current);
+                            }
+                            isManuallyPaginatingRef.current = true;
+                          }}
+                          onMouseUp={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Commit the state change on mouse up
+                            setActiveCategory(category.id);
+                            setCurrentPage(1);
+                            // Keep flag true for a while to prevent useEffect reset
+                            paginationTimeoutRef.current = setTimeout(() => {
+                              isManuallyPaginatingRef.current = false;
+                              paginationTimeoutRef.current = null;
+                            }, 2000);
+                          }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Ensure flag is still set and commit state
+                            if (paginationTimeoutRef.current) {
+                              clearTimeout(paginationTimeoutRef.current);
+                            }
+                            isManuallyPaginatingRef.current = true;
+                            setActiveCategory(category.id);
+                            setCurrentPage(1);
+                            // Keep flag true for a while to prevent useEffect reset
+                            paginationTimeoutRef.current = setTimeout(() => {
+                              isManuallyPaginatingRef.current = false;
+                              paginationTimeoutRef.current = null;
+                            }, 2000);
+                          }}
+                          title={category.description}
+                        >
+                          {category.name} ({category.isClassCategory && category.expectedCount !== undefined 
+                            ? category.expectedCount 
+                            : category.spells?.length || 0})
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="wow-spellbook-title">Spell Library</div>
+                  )}
+                  
+                  {/* Pagination Controls in Header */}
+                  {totalPages > 1 && (
+                    <div 
+                      className="wow-header-pagination" 
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onMouseUp={(e) => e.stopPropagation()}
                     >
-                      <i className="fas fa-chevron-left"></i>
-                    </button>
-                    <div className="wow-spellbook-title">Page {currentPage}</div>
-                    <button
-                      className="wow-header-button"
-                      onClick={() => setCurrentPage(p => Math.min(Math.max(totalPages, 1), p + 1))}
-                      disabled={currentPage === totalPages}
-                      aria-label="Next Page"
-                      title="Next Page"
-                    >
-                      <i className="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                )}
-
-
-
-              {/* Category Tabs - Only show if character is active */}
-              {hasActiveCharacter && allSpellCategories.length > 0 && (
-                <div className="wow-category-tabs">
-                  <button
-                    className={`wow-category-tab ${!activeCategory ? 'active' : ''}`}
-                    onClick={() => setActiveCategory(null)}
-                  >
-                    All Spells
-                  </button>
-                  {allSpellCategories.map(category => (
-                    <button
-                      key={category.id}
-                      className={`wow-category-tab ${activeCategory === category.id ? 'active' : ''}`}
-                      onClick={() => setActiveCategory(category.id)}
-                      title={category.description}
-                    >
-                      {category.name} ({category.spells?.length || 0})
-                    </button>
-                  ))}
+                      <button
+                        type="button"
+                        className="wow-header-button"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Clear any existing timeout
+                          if (paginationTimeoutRef.current) {
+                            clearTimeout(paginationTimeoutRef.current);
+                          }
+                          isManuallyPaginatingRef.current = true;
+                          const newPage = Math.max(1, currentPage - 1);
+                          if (newPage !== currentPage) {
+                            setCurrentPage(newPage);
+                            // Keep flag true for a while
+                            paginationTimeoutRef.current = setTimeout(() => {
+                              isManuallyPaginatingRef.current = false;
+                              paginationTimeoutRef.current = null;
+                            }, 1000);
+                          }
+                        }}
+                        onMouseUp={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Clear any existing timeout
+                          if (paginationTimeoutRef.current) {
+                            clearTimeout(paginationTimeoutRef.current);
+                          }
+                          isManuallyPaginatingRef.current = true;
+                          const newPage = Math.max(1, currentPage - 1);
+                          if (newPage !== currentPage) {
+                            setCurrentPage(newPage);
+                            // Keep flag true for a while
+                            paginationTimeoutRef.current = setTimeout(() => {
+                              isManuallyPaginatingRef.current = false;
+                              paginationTimeoutRef.current = null;
+                            }, 1000);
+                          }
+                        }}
+                        disabled={currentPage <= 1}
+                        aria-label="Previous Page"
+                        title="Previous Page"
+                      >
+                        <i className="fas fa-chevron-left"></i>
+                      </button>
+                      <span className="wow-page-info-header">
+                        Page {currentPage} of {totalPages}
+                      </span>
+                      <button
+                        type="button"
+                        className="wow-header-button"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Clear any existing timeout
+                          if (paginationTimeoutRef.current) {
+                            clearTimeout(paginationTimeoutRef.current);
+                          }
+                          isManuallyPaginatingRef.current = true;
+                          const newPage = Math.min(totalPages, currentPage + 1);
+                          if (newPage !== currentPage) {
+                            setCurrentPage(newPage);
+                            // Keep flag true for a while
+                            paginationTimeoutRef.current = setTimeout(() => {
+                              isManuallyPaginatingRef.current = false;
+                              paginationTimeoutRef.current = null;
+                            }, 1000);
+                          }
+                        }}
+                        onMouseUp={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          // Clear any existing timeout
+                          if (paginationTimeoutRef.current) {
+                            clearTimeout(paginationTimeoutRef.current);
+                          }
+                          isManuallyPaginatingRef.current = true;
+                          const newPage = Math.min(totalPages, currentPage + 1);
+                          if (newPage !== currentPage) {
+                            setCurrentPage(newPage);
+                            // Keep flag true for a while
+                            paginationTimeoutRef.current = setTimeout(() => {
+                              isManuallyPaginatingRef.current = false;
+                              paginationTimeoutRef.current = null;
+                            }, 1000);
+                          }
+                        }}
+                        disabled={currentPage >= totalPages}
+                        aria-label="Next Page"
+                        title="Next Page"
+                      >
+                        <i className="fas fa-chevron-right"></i>
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
 
             {filteredSpells.length === 0 ? (
               <div className="wow-spell-list-container">
@@ -1478,27 +2076,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
                 </div>
 
-                {totalPages > 1 && (
-                  <div className="wow-spellbook-pagination">
-                    <button
-                      className="wow-page-button"
-                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                      disabled={currentPage === 1}
-                    >
-                      <i className="fas fa-chevron-left"></i>
-                    </button>
-                    <span className="wow-page-info">
-                      Page {currentPage} of {totalPages}
-                    </span>
-                    <button
-                      className="wow-page-button"
-                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                      disabled={currentPage === totalPages}
-                    >
-                      <i className="fas fa-chevron-right"></i>
-                    </button>
-                  </div>
-                )}
               </>
             )}
           </div>

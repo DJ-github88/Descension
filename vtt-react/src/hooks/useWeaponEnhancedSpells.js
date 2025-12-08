@@ -8,6 +8,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import useCharacterStore from '../store/characterStore';
 import { ALL_GENERAL_SPELLS } from '../data/generalSpellsData';
+import { UNIVERSAL_COMBAT_SPELLS } from '../data/universalCombatSpells';
 import { 
   createWeaponAttackSpell, 
   getAllWeaponAttackSpells, 
@@ -29,7 +30,11 @@ export const useWeaponEnhancedSpells = () => {
   
   // Create enhanced spells with weapon integration
   const enhancedSpells = useMemo(() => {
-    const spells = [...ALL_GENERAL_SPELLS];
+    // Start with universal combat spells (base actions and reactions)
+    const spells = [...UNIVERSAL_COMBAT_SPELLS];
+
+    // Add general spells (which includes the generic Attack spell)
+    spells.push(...ALL_GENERAL_SPELLS);
 
     // Debug: Check if Arcane Counterstrike has triggerConfig
     const arcaneCounterstrike = spells.find(s => s.name === 'TEST: Arcane Counterstrike');
@@ -42,7 +47,10 @@ export const useWeaponEnhancedSpells = () => {
     }
 
     // Find and replace the Attack spell with weapon-enhanced versions
-    const attackSpellIndex = spells.findIndex(spell => spell.name === 'Attack');
+    // Check both the generic Attack from ALL_GENERAL_SPELLS and universal_attack
+    const attackSpellIndex = spells.findIndex(spell => 
+      spell.name === 'Attack' || spell.id === 'universal_attack'
+    );
 
     if (attackSpellIndex !== -1) {
       // Remove the generic Attack spell

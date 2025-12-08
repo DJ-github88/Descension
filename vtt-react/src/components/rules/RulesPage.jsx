@@ -14,6 +14,8 @@ import BackgroundsDisplay from './BackgroundsDisplay';
 import SkillsDisplay from './SkillsDisplay';
 import LanguagesDisplay from './LanguagesDisplay';
 import ClassDetailDisplay from './ClassDetailDisplay';
+import SpellIconTooltip from './SpellIconTooltip';
+import SkillAbilityIconTooltip from './SkillAbilityIconTooltip';
 import { PYROFIEND_DATA } from '../../data/classes/pyrofiendData';
 import { MINSTREL_DATA } from '../../data/classes/minstrelData';
 import { CHRONARCH_DATA } from '../../data/classes/chronarchData';
@@ -146,7 +148,7 @@ const RulesPage = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [popoutCategory, setPopoutCategory] = useState(null);
   const [popoutPosition, setPopoutPosition] = useState({ top: 0, left: 0 });
-  const [tablePage, setTablePage] = useState(0);
+  const [tablePages, setTablePages] = useState({});
   const buttonRefs = useRef({});
 
   // Handle subcategory selection
@@ -199,33 +201,56 @@ const RulesPage = () => {
     return RULES_CATEGORIES;
   }, []);
 
-  // Reset table page when table changes
-  const previousTableTitleRef = useRef(null);
+  // Reset table pagination when the viewed content changes
   useEffect(() => {
-    const currentTableTitle = currentContent?.tables?.[0]?.title || null;
-    if (currentTableTitle && currentTableTitle !== previousTableTitleRef.current) {
-      setTablePage(0);
-      previousTableTitleRef.current = currentTableTitle;
-    }
+    setTablePages({});
   }, [currentContent]);
 
   // Render a table
-  const renderTable = (table) => {
+  const renderTable = (table, tableIdx) => {
+    // Check if this is the Skill-Based Abilities table
+    const isSkillAbilitiesTable = table.title === 'Skill-Based Abilities' || 
+                                  (table.headers && table.headers.length > 0 && 
+                                   table.headers[0] === 'Skill' && 
+                                   table.headers.includes('Unlocks'));
+    
+    // Custom card layout for compact armor displays
+    if (table.layout === 'armor-grid') {
+      return (
+        <div className="rules-table-container" key={table.title}>
+          {table.title && <h5 className="rules-table-title">{table.title}</h5>}
+          <div className="armor-grid">
+            {table.rows.map((row, idx) => (
+              <div className="armor-card" key={idx}>
+                <h4>{row[0]}</h4>
+                {row[1] && table.headers[1] && <p><strong>{table.headers[1]}:</strong> {row[1]}</p>}
+                {row[2] && table.headers[2] && <p><strong>{table.headers[2]}:</strong> {row[2]}</p>}
+                {row[3] && table.headers[3] && <p><strong>{table.headers[3]}:</strong> {row[3]}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    const rows = table?.rows || [];
     const clickableColumn = table.clickableColumn !== undefined ? table.clickableColumn : -1;
+    const tableKey = table.id || table.title || `table-${tableIdx}`;
     
     // Pagination: Show rows per page (split between left and right)
-    // Approximately 4 rows per side to spread classes across more pages
-    const rowsPerPage = 8; // 4 rows per side
-    const totalPages = Math.ceil(table.rows.length / rowsPerPage);
+    // Further reduced rows per page to give more space to each row and prevent text cutoff
+    const rowsPerSide = 2; // Rows per side (left or right page) - reduced to 2 for more space
+    const rowsPerPage = rowsPerSide * 2; // Total rows per page (both sides) = 4 total
+    const totalPages = Math.max(Math.ceil(rows.length / rowsPerPage), 1);
+    const maxPageIndex = Math.max(totalPages - 1, 0);
+    const tablePage = Math.min(tablePages[tableKey] || 0, maxPageIndex);
     
     // Get rows for current page
     const startIdx = tablePage * rowsPerPage;
     const endIdx = startIdx + rowsPerPage;
-    const pageRows = table.rows.slice(startIdx, endIdx);
+    const pageRows = rows.slice(startIdx, endIdx);
     
     // Split page rows evenly between left and right pages
-    // Each side gets exactly half (4 rows per side for 8 total)
-    const rowsPerSide = Math.floor(rowsPerPage / 2); // 4 rows per side
     const leftPageRows = pageRows.slice(0, rowsPerSide);
     const rightPageRows = pageRows.slice(rowsPerSide, rowsPerSide * 2);
 
@@ -244,7 +269,15 @@ const RulesPage = () => {
               {row.map((cell, cellIdx) => {
                 // Check if this is a clickable cell (for class names)
                 const isClickable = cellIdx === clickableColumn && selectedSubcategory === 'classes';
-                const icon = CLASS_ICON_MAP[cell];
+                
+                // Check if cell is a spell object
+                const isSpellObject = cell && typeof cell === 'object' && cell.spellId;
+                
+                // Get class icon for class names
+                const icon = !isSpellObject && CLASS_ICON_MAP[cell];
+                
+                // Check if this is a skill name in the Skill-Based Abilities table
+                const isSkillName = isSkillAbilitiesTable && cellIdx === 0 && typeof cell === 'string';
 
                 return (
                   <td
@@ -253,10 +286,28 @@ const RulesPage = () => {
                     onClick={isClickable ? () => handleClassClick(cell) : undefined}
                     style={isClickable ? { cursor: 'pointer', color: '#d4af37', fontWeight: '600' } : {}}
                   >
-                    {icon && (
-                      <FontAwesomeIcon icon={icon} className="class-cell-icon" aria-hidden="true" />
+                    {isSpellObject ? (
+                      <>
+                        {cell.prefix && <span style={{ marginRight: '4px', whiteSpace: 'nowrap' }}>{cell.prefix}</span>}
+                        <SpellIconTooltip spellId={cell.spellId} />
+                      </>
+                    ) : (
+                      <>
+                        {isSkillAbilitiesTable && cellIdx === 0 && typeof cell === 'string' ? (
+                          <>
+                            <SkillAbilityIconTooltip skillName={cell} />
+                            <span>{cell}</span>
+                          </>
+                        ) : (
+                          <>
+                            {icon && (
+                              <FontAwesomeIcon icon={icon} className="class-cell-icon" aria-hidden="true" />
+                            )}
+                            {cell}
+                          </>
+                        )}
+                      </>
                     )}
-                    {cell}
                   </td>
                 );
               })}
@@ -265,6 +316,14 @@ const RulesPage = () => {
         </tbody>
       </table>
     );
+
+    const changeTablePage = (nextPage) => {
+      const clamped = Math.min(Math.max(nextPage, 0), maxPageIndex);
+      setTablePages(prev => ({
+        ...prev,
+        [tableKey]: clamped
+      }));
+    };
 
     return (
       <div className="rules-table-container" key={table.title}>
@@ -286,7 +345,7 @@ const RulesPage = () => {
           <div className="rules-table-pagination">
             <button
               className="rules-table-page-button"
-              onClick={() => setTablePage(Math.max(0, tablePage - 1))}
+              onClick={() => changeTablePage(tablePage - 1)}
               disabled={tablePage === 0}
               aria-label="Previous page"
             >
@@ -297,7 +356,7 @@ const RulesPage = () => {
             </span>
             <button
               className="rules-table-page-button"
-              onClick={() => setTablePage(Math.min(totalPages - 1, tablePage + 1))}
+              onClick={() => changeTablePage(tablePage + 1)}
               disabled={tablePage >= totalPages - 1}
               aria-label="Next page"
             >
@@ -429,7 +488,7 @@ const RulesPage = () => {
         )}
 
         {/* Render tables */}
-        {currentContent.tables && currentContent.tables.map(renderTable)}
+        {currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx))}
 
         {/* Render tabs if present (only if not using custom component) */}
         {!currentSubcategory?.useCustomComponent && currentContent.tabs && renderTabbedContent(currentContent.tabs)}

@@ -780,7 +780,11 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   display: flex;
   flex-direction: column;
   min-height: 400px;
-  height: calc(100vh - 350px);
+  /* Remove fixed viewport height to prevent stacking issues */
+  height: auto;
+  /* Create a new stacking context for each table to prevent overlap */
+  contain: layout style;
+  gap: 0;
 }
 
 .rules-table-title {
@@ -800,13 +804,28 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   text-align: center;
 }
 
+/* Additional breathing room when multiple book tables are stacked */
+.rules-table-container + .rules-table-container {
+  margin-top: 50px;
+  /* Ensure proper separation between stacked tables */
+  position: relative;
+  z-index: 1;
+}
+
+/* Space tables away from nearby prose or tabs */
+.rules-section + .rules-table-container,
+.rules-table-container + .rules-section,
+.rules-table-container + .rules-tabs-container {
+  margin-top: 40px;
+}
+
 .rules-table {
   width: 100%;
   border-collapse: collapse;
   font-family: 'Crimson Text', serif;
   border: none;
   border-radius: 0;
-  overflow: hidden;
+  overflow: visible;
   background: transparent;
   position: relative;
   z-index: 2;
@@ -826,6 +845,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 .rules-table tbody {
   display: table-row-group;
   height: auto;
+  overflow: hidden;
 }
 
 /* Book page wrapper */
@@ -838,10 +858,43 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     0 4px 20px rgba(100, 70, 40, 0.2),
     0 1px 4px rgba(100, 70, 40, 0.1);
   overflow: hidden;
-  height: calc(100vh - 380px);
-  min-height: 650px;
-  max-height: 750px;
+  /* Increased height to accommodate fewer rows with more space */
+  height: 750px;
+  min-height: 700px;
+  max-height: 800px;
   border: 2px solid #c4a878;
+  /* Ensure each table wrapper is isolated */
+  isolation: isolate;
+  flex-shrink: 0;
+}
+
+/* Armor layout helpers */
+.armor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  width: 100%;
+  padding: 0 12px 16px;
+}
+
+.armor-card {
+  background: #fdfaf5;
+  border: 1px solid #d8c8a3;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.armor-card h4 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  color: #4b3a2f;
+}
+
+.armor-card p {
+  margin: 0;
+  line-height: 1.4;
+  color: #3a3026;
 }
 
 /* Book spine - center binding */
@@ -881,6 +934,7 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   width: 100%;
   height: 100%;
   display: table;
+  overflow: hidden;
 }
 
 /* Table pagination - part of the book */
@@ -889,11 +943,14 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
   justify-content: center;
   align-items: center;
   gap: 16px;
-  padding: 12px 20px;
-  background: linear-gradient(135deg, #f8f4e6 0%, #ede4d3 100%);
-  border-top: 2px solid #c4a878;
+  padding: 16px 20px;
+  background: transparent;
+  border-top: none;
   margin-top: 0;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: none;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
 }
 
 .rules-table-page-button {
@@ -948,19 +1005,23 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 }
 
 .rules-table th:first-child {
-  width: 25%;
+  width: auto;
+  min-width: 80px;
 }
 
 .rules-table th:nth-child(2) {
-  width: 25%;
+  width: auto;
+  min-width: 40px;
 }
 
 .rules-table th:nth-child(3) {
-  width: 25%;
+  width: auto;
+  min-width: 200px;
 }
 
 .rules-table th:nth-child(4) {
-  width: 25%;
+  width: auto;
+  min-width: 80px;
 }
 
 .rules-table th:last-child {
@@ -980,18 +1041,22 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 }
 
 .rules-table td {
-  padding: 8px 12px;
+  padding: 14px 16px;
   color: #4a3728;
   font-family: 'Crimson Text', serif;
   font-size: 0.9rem;
-  line-height: 1.45;
+  line-height: 1.7;
   border-bottom: 1px solid rgba(180, 150, 100, 0.2);
   border-right: 1px solid rgba(180, 150, 100, 0.15);
   vertical-align: top;
   background: transparent;
   height: auto;
-  word-break: keep-all;
-  overflow-wrap: normal;
+  min-height: 80px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  overflow: visible;
 }
 
 .rules-table td:last-child {
@@ -1006,6 +1071,43 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 .rules-table td:first-child {
   font-weight: 600;
   color: #4a3020;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Skill ability icon styling */
+.skill-ability-icon-tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.skill-ability-icon-tooltip-trigger img {
+  width: 28px !important;
+  height: 28px !important;
+  vertical-align: middle;
+  border: 2px solid #d4af37 !important;
+  border-radius: 6px !important;
+  box-shadow: 
+    0 2px 6px rgba(139, 69, 19, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2) !important;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%) !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.skill-ability-icon-tooltip-trigger:hover img {
+  transform: scale(1.15) !important;
+  box-shadow: 
+    0 3px 10px rgba(139, 69, 19, 0.4),
+    inset 0 1px 3px rgba(255, 255, 255, 0.3),
+    0 0 8px rgba(212, 175, 55, 0.4) !important;
+  border-color: #f4d03f !important;
+  background: linear-gradient(135deg, rgba(244, 208, 63, 0.25) 0%, rgba(212, 175, 55, 0.15) 100%) !important;
 }
 
 /* Clickable table cells */

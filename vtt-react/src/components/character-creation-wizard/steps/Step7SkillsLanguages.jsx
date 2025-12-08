@@ -12,6 +12,7 @@ import { getPathData } from '../../../data/pathData';
 import { SKILL_DEFINITIONS, SKILL_RANKS } from '../../../constants/skillDefinitions';
 import { SKILL_QUESTS } from '../../../constants/skillQuests';
 import { ROLLABLE_TABLES } from '../../../constants/rollableTables';
+import { isSkillProficient } from '../../../data/skillAbilitiesData';
 import {
     calculateTotalSkillPoints,
     calculatePointsSpent,
@@ -261,6 +262,11 @@ const Step7SkillsLanguages = () => {
         return { key: rankKey, ...SKILL_RANKS[rankKey] };
     };
 
+    // Check if a skill is proficient (NOVICE or higher)
+    const isProficient = (skillId) => {
+        return isSkillProficient(skillId, skillRanks);
+    };
+
     // Get available quests for a skill
     const getAvailableQuests = (skillId) => {
         const skillQuests = SKILL_QUESTS[skillId] || [];
@@ -347,7 +353,7 @@ const Step7SkillsLanguages = () => {
                                     <button
                                         key={skill.id}
                                         type="button"
-                                        className={`selection-button ${isSelected ? 'selected' : ''} ${isGranted ? 'granted' : ''} ${isDisabled ? 'disabled' : ''}`}
+                                        className={`selection-button ${isSelected ? 'selected' : ''} ${isGranted ? 'granted' : ''} ${isDisabled ? 'disabled' : ''} ${isProficient(skill.id) ? 'proficient' : ''}`}
                                         onClick={() => !isGranted && !isDisabled && handleSkillToggle(skill.id)}
                                         onMouseEnter={handleMouseEnter(skill.description)}
                                         onMouseLeave={handleMouseLeave}
@@ -357,6 +363,7 @@ const Step7SkillsLanguages = () => {
                                         <img src={skill.icon} alt={skill.name} className="skill-icon" />
                                         <span>{skill.name}</span>
                                         {(isSelected || isGranted) && <i className="fas fa-check check-icon"></i>}
+                                        {isProficient(skill.id) && <span className="proficient-tag" title="Proficient - Unlocks skill-based abilities">Proficient</span>}
                                     </button>
                                 );
                             })}
@@ -693,11 +700,6 @@ const Step7SkillsLanguages = () => {
                                                                     <div className="quest-preview-info">
                                                                         <strong>{quest.name}</strong>
                                                                         <p>{quest.description}</p>
-                                                                        {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
-                                                                            <div className="quest-unlocks">
-                                                                                <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
-                                                                            </div>
-                                                                        )}
                                                                     </div>
                                                                 </div>
                                                             ))}
@@ -789,11 +791,6 @@ const Step7SkillsLanguages = () => {
                                                                     <div className="quest-preview-info">
                                                                         <strong>{quest.name}</strong>
                                                                         <p>{quest.description}</p>
-                                                                        {quest.unlocks && Array.isArray(quest.unlocks) && quest.unlocks.length > 0 && (
-                                                                            <div className="quest-unlocks">
-                                                                                <i className="fas fa-unlock"></i> {quest.unlocks.join(', ')}
-                                                                            </div>
-                                                                        )}
                                                                     </div>
                                                                 </div>
                                                             ))}

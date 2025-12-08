@@ -942,17 +942,29 @@ const CharacterToken = ({
             }
         };
 
+        const handlePointerMove = (e) => {
+            if (e.pointerType === 'touch') {
+                handleMouseMove(e);
+            }
+        };
+
+        const handlePointerUp = (e) => {
+            if (e.pointerType === 'touch') {
+                handleMouseUp(e);
+            }
+        };
+
         if (isDragging || isMouseDown) {
             // Add the event listeners to the document to ensure they work even if the cursor moves outside the token
             // Use passive: false for both mousemove and mouseup to allow preventDefault
-            document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
-            document.addEventListener('mouseup', handleMouseUp, { passive: false, capture: true });
+            document.addEventListener('mousemove', handleMouseMove, { passive: false });
+            document.addEventListener('mouseup', handleMouseUp, { passive: false });
+            document.addEventListener('pointermove', handlePointerMove, { passive: false });
+            document.addEventListener('pointerup', handlePointerUp, { passive: false });
+            document.addEventListener('pointercancel', handlePointerUp, { passive: false });
 
             // CRITICAL FIX: Handle mouse leaving the window to prevent position jumps
             document.addEventListener('mouseleave', handleMouseLeave, { passive: false });
-
-            // Also add a fallback mouseup listener without capture to ensure we catch it
-            document.addEventListener('mouseup', handleMouseUp, { passive: false });
 
             // Safety timeout to reset dragging state if mouse up is missed (e.g., cursor leaves window)
             // CRITICAL FIX: Increased from 5s to 30s to prevent interrupting long drags
@@ -972,10 +984,12 @@ const CharacterToken = ({
         }
 
         return () => {
-            document.removeEventListener('mousemove', handleMouseMove, { capture: true });
-            document.removeEventListener('mouseup', handleMouseUp, { capture: true });
+            document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
             document.removeEventListener('mouseleave', handleMouseLeave);
+            document.removeEventListener('pointermove', handlePointerMove);
+            document.removeEventListener('pointerup', handlePointerUp);
+            document.removeEventListener('pointercancel', handlePointerUp);
             if (dragTimeoutId) {
                 clearTimeout(dragTimeoutId);
             }

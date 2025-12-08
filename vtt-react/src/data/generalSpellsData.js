@@ -97,14 +97,25 @@ export const ALL_GENERAL_SPELLS = [
 // Export the general spells category
 export const GENERAL_SPELLS_CATEGORY = {
   id: 'general_actions',
-  name: 'General',
+  name: 'General Actions',
   description: 'Universal baseline spells and actions available to all classes',
   icon: 'inv_misc_book_07',
   color: '#8B4513',
   spells: ALL_GENERAL_SPELLS.map(spell => spell.id)
 };
 
+// Export the general reactions category
+export const GENERAL_REACTIONS_CATEGORY = {
+  id: 'general_reactions',
+  name: 'General Reactions',
+  description: 'Reactive abilities available to all characters',
+  icon: 'ability_rogue_evasion',
+  color: '#CD853F',
+  spells: [] // Spells will be populated from universal combat spells
+};
+
 // Export categories for organization
 export const GENERAL_CATEGORIES = [
-  GENERAL_SPELLS_CATEGORY
+  GENERAL_SPELLS_CATEGORY,
+  GENERAL_REACTIONS_CATEGORY
 ];

@@ -18,7 +18,7 @@ export const RULES_CATEGORIES = [
           sections: [
             {
               title: 'Core Principles',
-              content: `This is a d20-based tabletop roleplaying game that emphasizes tactical combat, character customization, and collaborative storytelling. The game uses a unified roll system where weapon dice determine both hit and damage, creating streamlined and exciting combat encounters.`
+              content: `This game uses a difficulty-dice system rather than flat Difficulty Classes. The GM picks the die size that matches the task (from d4 for very easy to d20 for very difficult), you roll that die, and your skill rank plus situational modifiers determine the outcome. Combat stays fast with weapon dice that handle both the attack and the damage roll.`
             },
             {
               title: 'Session Structure',
@@ -48,32 +48,32 @@ GMs can mix and match these systems to create the perfect experience for their t
         icon: 'fas fa-dice-d20',
         content: {
           title: 'Dice System',
-          description: 'd20-based mechanics, critical hits/misses, advantage/disadvantage',
+          description: 'Difficulty dice ladder, critical results, advantage/disadvantage',
           sections: [
             {
-              title: 'd20 Core Mechanic',
-              content: `Most actions in the game use a d20 roll. Roll 1d20, add relevant modifiers, and compare to a target number (Difficulty Class or DC). Meeting or exceeding the DC means success.`
+              title: 'Difficulty Dice Core Mechanic',
+              content: `Checks use a selected difficulty die instead of a numeric DC. The GM sets the challenge by choosing the die size: d4 (very easy), d6 (easy), d8 (moderate), d10 (challenging), d12 (difficult), or d20 (very difficult). Roll that die, apply any bonuses from your skill rank, and factor in situational modifiers. Ability scores generally aren’t added directly—if your primary or secondary stat modifier is +5 or higher, you can ask to step the difficulty die down one size (see the Skills rules for details).`
             },
             {
               title: 'Critical Hits & Misses',
-              content: `Rolling a natural 20 on a d20 is a critical success with special effects. Rolling a natural 1 is a critical failure with potential complications. In combat, critical hits trigger weapon-specific effects and exploding dice.`
+              content: `Rolling the highest value on your chosen difficulty die is a critical success; rolling the lowest value is a critical failure with complications. Weapon attacks and other d20-based rolls still treat natural 20s and 1s as extremes, with critical hits triggering weapon-specific effects and exploding dice where applicable.`
             },
             {
               title: 'Advantage & Disadvantage',
-              content: `When you have advantage, roll 2d20 and use the higher result. When you have disadvantage, roll 2d20 and use the lower result. Advantage and disadvantage cancel each other out.`
+              content: `When you have advantage, roll two of the chosen difficulty die and use the higher result. With disadvantage, roll two and use the lower. If you have both, they cancel out.`
             }
           ],
           tables: [
             {
-              title: 'Difficulty Classes',
-              headers: ['DC', 'Difficulty', 'Description'],
+              title: 'Difficulty Dice',
+              headers: ['Die', 'Difficulty', 'Use When'],
               rows: [
-                ['5', 'Very Easy', 'Nearly automatic for trained characters'],
-                ['10', 'Easy', 'Routine task for skilled characters'],
-                ['15', 'Moderate', 'Requires focus and skill'],
-                ['20', 'Hard', 'Challenging even for experts'],
-                ['25', 'Very Hard', 'Heroic effort required'],
-                ['30', 'Nearly Impossible', 'Legendary achievement']
+                ['d4', 'Very Easy', 'Trivial or well-prepared tasks'],
+                ['d6', 'Easy', 'Routine for trained characters'],
+                ['d8', 'Moderate', 'Standard challenge with some risk'],
+                ['d10', 'Challenging', 'Requires focus or good positioning'],
+                ['d12', 'Difficult', 'Demands expertise or strong leverage'],
+                ['d20', 'Very Difficult', 'High stakes, limited margin for error']
               ]
             }
           ]
@@ -668,7 +668,7 @@ Their society values:
                   rows: [
                     ['Frostborn', 'Environmental', 'Resistance to cold damage and advantage on saves against exhaustion from harsh weather. Can survive in arctic conditions without shelter, but breath creates visible frost making stealth difficult.'],
                     ['Battle Fury', 'Combat', 'When reduced to half hit points, enter berserker rage (1 AP). Gain +3 damage but take -3 to Armor and cannot cast spells for 1 minute. Once per long rest.'],
-                    ['Reckless Courage', 'Combat', 'Immunity to fear effects, but must make Spirit save (DC 15) to retreat from combat or avoid direct challenge. Bloodlust makes tactical withdrawal nearly impossible.']
+                    ['Reckless Courage', 'Combat', 'Immunity to fear effects, but retreating or avoiding a direct challenge requires a Spirit save using a challenging difficulty die (GM sets, usually d10). Bloodlust makes tactical withdrawal nearly impossible.']
                   ]
                 },
                 {
@@ -869,16 +869,13 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
               title: 'Combat Actions',
               headers: ['Action', 'Type', 'Description', 'Cost'],
               rows: [
-                ['Attack (Melee or Ranged)', 'A', 'Strike with your weapon against a target. Roll your weapon die (e.g., 1d8 for longsword) - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit, any other result hits and deals damage equal to the roll plus your attribute modifier. Target\'s armor reduces damage based on their Armor Score.', '2 AP (Additional attacks cost 2 AP each)'],
-                ['Cast a Minor Spell', 'A', 'Cast a simple spell from your repertoire. Roll the spell\'s die - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit with enhanced effects. Minor spells typically cost only class resources (e.g., mana, energy) in addition to AP.', '1 AP'],
-                ['Cast a Major Spell', 'A', 'Cast a powerful spell from your talent tree. Roll the spell\'s die - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit with enhanced effects. Major spells typically cost class resources plus additional costs specified in the spell description.', '2 AP'],
-                ['Move', 'A', 'Move up to your movement speed (typically 30 feet). This movement can be broken up between other actions.', '1 AP'],
-                ['Dash', 'A', 'Move up to twice your movement speed.', '2 AP'],
-                ['Disengage', 'A', 'Move without provoking opportunity attacks.', '1 AP'],
-                ['Use an Item', 'A', 'Draw, stow, or use an item in your inventory.', '1 AP'],
-                ['Hide', 'A', 'Make a Stealth check to hide from enemies.', '1 AP'],
-                ['Help', 'A', 'Assist an ally with a task, giving them advantage on their next check.', '1 AP'],
-                ['Ready an Action', 'A', 'Prepare to take an action in response to a specific trigger.', '1 AP (+ action cost)']
+                [{ spellId: 'general_attack' }, 'A', 'Attack with your equipped weapon or unarmed strike. Damage and properties depend on your currently equipped weapon. Roll your weapon die - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit, any other result hits and deals damage equal to the roll plus your attribute modifier.', '2 AP'],
+                [{ spellId: 'universal_move' }, 'A', 'Move up to your movement speed (typically 30 feet). This movement can be broken up between other actions.', '1 AP'],
+                [{ spellId: 'universal_disengage' }, 'A', 'Move away from enemies without provoking opportunity attacks. You can move up to your full movement speed while maintaining your defensive stance.', '1 AP'],
+                [{ spellId: 'universal_use_item' }, 'A', 'Draw, stow, or use an item in your inventory.', '1 AP'],
+                [{ spellId: 'universal_hide' }, 'A', 'Make a Stealth check to hide from enemies.', '1 AP'],
+                [{ spellId: 'universal_help' }, 'A', 'Assist an ally with a task, giving them advantage on their next check.', '1 AP'],
+                [{ spellId: 'universal_ready_action' }, 'A', 'Prepare to take an action in response to a specific trigger.', '1 AP (+ action cost)']
               ]
             }
           ]
@@ -900,30 +897,44 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
 2. Roll Attack: Roll your weapon die (e.g., 1d8 for longsword)
 3. Determine Outcome: 1 = miss (roll again to check for critical miss), maximum die value = critical hit, other rolls hit
 4. Calculate Damage: For weapon attacks: damage equals weapon die roll plus attribute modifier
-5. Apply Armor Reduction: Target's armor reduces damage based on their Armor Score
+5. Apply Armor Reduction: Armor gives passive damage reduction equal to Armor ÷ 10 (rounded down). If the defender used Defend, roll their armor-based soak die and reduce damage by that result.
 6. Apply Damage: Remaining damage reduces target's hit points`
             },
             {
               title: 'Armor & Defense',
-              content: `Armor Score determines how much damage is reduced when you're hit:
+              content: `Armor now works in two simple layers with no bookkeeping:
 
-Armor Score Formula: Base 10 + armor type bonus + enchantment bonus
-Damage Reduction: Armor Score 10: 1d4, Armor Score 20: 1d6, Armor Score 30: 1d8, Armor Score 40+: 1d10
-Scaling: Every +5 Armor Score adds +1 to damage reduction, every +10 increases die size
-Durability: Light: 15, Medium: 28, Heavy: 37 - decreases by 1 with each hit`
+Armor Score = Base 10 + armor bonus + enchantment bonus
+Passive Damage Reduction: Reduce incoming damage by Armor ÷ 10 (rounded down).
+Defend Soak Die: If you take the Defend action, roll a soak die based on your Armor (see table) and reduce damage by the result.`
             }
           ],
           tables: [
             {
-              title: 'Armor Reduction Dice',
-              headers: ['Armor Bonus', 'Reduction Die', 'Average Reduction'],
+              title: 'Passive Damage Reduction Examples',
+              headers: ['Armor', 'Passive DR (Armor ÷ 10, floor)'],
               rows: [
-                ['+0 (Unarmored)', 'None', '0'],
-                ['+1 to +2', '1d4', '2.5'],
-                ['+3 to +4', '1d6', '3.5'],
-                ['+5 to +6', '1d8', '4.5'],
-                ['+7 to +8', '1d10', '5.5'],
-                ['+9+', '1d12', '6.5']
+                ['7', '0'],
+                ['14', '1'],
+                ['22', '2'],
+                ['38', '3'],
+                ['77', '7']
+              ]
+            },
+            {
+              title: 'Soak Die Scale (Defend Action)',
+              headers: ['Armor', 'Soak Die'],
+              rows: [
+                ['0–4', '—'],
+                ['5–9', '1d4'],
+                ['10–14', '1d6'],
+                ['15–19', '1d8'],
+                ['20–24', '1d10'],
+                ['25–29', '1d12'],
+                ['30–34', '1d12 + 1d4'],
+                ['35–39', '1d12 + 1d6'],
+                ['40–44', '2d12'],
+                ['45–49', '2d12 + 1d4']
               ]
             }
           ]
@@ -950,8 +961,8 @@ Critical Miss: Rolling a 1 followed by another 1: roll on the Miss Consequences 
               content: `Different weapon types cause additional effects on critical hits:
 
 Slashing: Bleeding: 1d4 damage for 1d4 rounds
-Piercing: Armor Penetration: Reduce target's armor damage reduction by 2 for 1d4 rounds
-Bludgeoning: Stun: Target stunned for 1 round (CON save DC 12 negates)
+Piercing: Armor Penetration: Reduce target's passive DR by 2 (minimum 0) for 1d4 rounds
+Bludgeoning: Stun: Target stunned for 1 round (Con save using a moderate difficulty die—typically d8—negates)
 Ranged: Pin: Target's movement reduced by half for 1d4 rounds`
             }
           ],
@@ -960,14 +971,14 @@ Ranged: Pin: Target's movement reduced by half for 1d4 rounds`
               title: 'Miss Consequences',
               headers: ['Roll', 'Consequence'],
               rows: [
-                ['1', 'Catastrophic Failure: Weapon breaks/malfunctions (1 AP + DC 12 DEX to fix)'],
+                ['1', 'Catastrophic Failure: Weapon breaks/malfunctions (1 AP + quick Dexterity check with a moderate difficulty die—typically d8—to fix)'],
                 ['2', 'Self-Inflicted Wound: Take 1d4 damage + Bleeding for 1d4 rounds'],
                 ['3', 'Overextension: Fall prone, end movement for this turn'],
                 ['4', 'Tactical Blunder: Next attack against you has advantage'],
                 ['5', 'Fumble: Drop weapon at your feet'],
                 ['6', 'Distraction: Lose 1 AP from your next turn'],
                 ['7', 'Off-Balance: Movement speed halved on next turn'],
-                ['8', 'Exposed: Armor damage reduction reduced by 2 until next turn'],
+                ['8', 'Exposed: Passive DR reduced by 2 until next turn'],
                 ['9', 'Demoralized: Disadvantage on next saving throw'],
                 ['10', 'Simple Miss: No additional consequence']
               ]
@@ -989,7 +1000,7 @@ Ranged: Pin: Target's movement reduced by half for 1d4 rounds`
 
 Application Order:
 1. Base Damage: Calculate the initial damage (dice + modifiers)
-2. Armor Reduction: Apply armor damage reduction
+2. Armor Reduction: Subtract passive DR (Armor ÷ 10) and any Defend soak result
 3. Damage Modifiers: Apply vulnerability/resistance modifiers
 4. Conversion Effects: Apply any leech/absorb/invert effects
 5. Final Damage: Apply the final damage to the target`
@@ -1048,11 +1059,11 @@ Application Order:
                 },
                 {
                   title: 'System Shock',
-                  content: `When you take damage equal to or greater than half your maximum hit points from a single source, you must make a Constitution saving throw (DC 10). On a failure, you suffer system shock and gain one level of exhaustion. This represents the trauma of massive injury.`
+                  content: `When you take damage equal to or greater than half your maximum hit points from a single source, make a Constitution save using an easy difficulty die (typically d6). On a failure, you suffer system shock and gain one level of exhaustion—your body reels from the trauma.`
                 },
                 {
                   title: 'Massive Damage',
-                  content: `If you take damage equal to or greater than your maximum hit points from a single source, you must make a Constitution saving throw (DC 15). On a failure, you die instantly regardless of your current hit points. On a success, you drop to 0 hit points and begin dying normally.`
+                  content: `If you take damage equal to or greater than your maximum hit points from a single source, make a Constitution save using a difficult die (usually d12; the GM may step up to d20 for truly devastating blows). On a failure, you die instantly regardless of your current hit points. On a success, you drop to 0 hit points and begin dying normally.`
                 }
               ]
             },
@@ -1134,7 +1145,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                     },
                     {
                       title: 'Soul Anchor Types',
-                      headers: ['Type', 'Preservation Duration', 'Resurrection DC Modifier', 'Rarity'],
+                      headers: ['Type', 'Preservation Duration', 'Resurrection difficulty shift', 'Rarity'],
                       rows: [
                         ['Minor Anchor', '14 days', 'No change', 'Uncommon'],
                         ['Major Anchor', '30 days', '-2', 'Rare'],
@@ -1203,7 +1214,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                   title: 'Challenge Details',
                   headers: ['Aspect', 'Requirement'],
                   rows: [
-                    ['Resurrection DC', 'Base DC 10, +1 for each previous resurrection, +1 for each day since death'],
+                    ['Resurrection Difficulty', 'Base difficulty die is d10; shift the die one size harder for each previous resurrection and for each day since death'],
                     ['Ritual Components', 'Special components worth at least 500 gp'],
                     ['Ritual Duration', 'Takes 1 hour to perform'],
                     ['Failed Resurrection', 'Consumes the soul fragments but fails to restore life'],
@@ -1251,7 +1262,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                   rows: [
                     ['Offer', 'The character\'s soul is offered a deal for resurrection'],
                     ['Price', 'The price is always significant—a task, sacrifice, or permanent change'],
-                    ['Wisdom Save', 'Upon resurrection, make a DC 18 Wisdom save'],
+                    ['Wisdom Save', 'Upon resurrection, make a very hard Wisdom save (use a difficult die such as d12, up to d20 for severe spiritual resistance)'],
                     ['Failure Consequence', 'On a failed save, roll on the "Resurrection Miracle" table'],
                     ['Soul Debt', 'The character now owes a debt that will come due at a critical moment']
                   ]
@@ -1308,7 +1319,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
               sections: [
                 {
                   title: 'Becoming Stable',
-                  content: `You stabilize when you succeed on three death saves, receive healing, or an ally uses an action to stabilize you (DC 10 Medicine check). Stable creatures remain unconscious at 0 HP but don't make death saves.`
+                  content: `You stabilize when you succeed on three death saves, receive healing, or an ally uses an action to stabilize you (Medicine check with an easy difficulty die—typically d6). Stable creatures remain unconscious at 0 HP but don't make death saves.`
                 }
               ]
             }
@@ -1343,9 +1354,9 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                   title: 'Defensive Reactions',
                   headers: ['Action', 'Type', 'Description', 'Cost'],
                   rows: [
-                    ['Dodge', 'R', 'Increases attacker\'s miss chance by 25% (making rolls of 1-3 on a d8 miss, for example)', '2 AP'],
-                    ['Parry', 'R', 'Roll your weapon die vs. attacker\'s roll; if higher, negate the attack. Even smaller weapons can parry larger attacks through exploding dice', '1 AP'],
-                    ['Raise Shield', 'R', 'Roll a shield die (d8) to reduce additional damage before armor reduction is applied', '1 AP']
+                    [{ spellId: 'universal_dodge' }, 'R', 'Makes it harder for attackers to hit you, increasing their miss chance (making rolls of 1-3 on a d8 miss, for example)', '2 AP'],
+                    [{ spellId: 'universal_parry' }, 'R', 'Roll your weapon die vs. attacker\'s roll; if higher, negate the attack. Even smaller weapons can parry larger attacks through exploding dice', '1 AP'],
+                    [{ spellId: 'universal_raise_shield' }, 'R', 'Roll a shield die (d8) to reduce additional damage before armor reduction is applied', '1 AP']
                   ]
                 }
               ]
@@ -1364,15 +1375,15 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                   title: 'Standard Reactions',
                   headers: ['Action', 'Type', 'Description & Roll', 'Cost'],
                   rows: [
-                    ['Help', 'R', 'Offer advice, gesture, or hint to grant ally 1d8 + to their next action. Applies if reasoning is accepted by the GM.', '1 AP'],
-                    ['Evade', 'R', 'Evade an attack, by rolling 5 ft. into a dodge. Has to be used when player is prompted by the GM. Performing this agile dodge roll, you also gain a better position (Current Level * 1)', '2 AP'],
-                    ['Opportunity of Attack', 'R', 'React to enemy movement out of melee range with a quick strike. Roll your weapon die as normal, with a miss on 1 and crit on maximum value.', '1 AP'],
-                    ['Interpose', 'R', 'When an ally within 10 ft. is attacked, you can push them 5 ft. to safety and take the hit yourself. STR Roll DC 10. If failed they fall prone.', '1 AP (+1 AP for each 10 ft. added)'],
-                    ['Parry', 'R', 'Turn aside melee and ranged attacks. When attacked, roll your weapon die against the attacker\'s roll; if higher, negate the attack.', '1 AP'],
-                    ['{Parry} → Riposte', 'R', 'After a successful parry, immediately counter-attack. Roll your weapon die as normal. This attack ignores the target\'s armor damage reduction.', '1 AP'],
-                    ['Raise Shield', 'R', 'Your shield absorbs the impact (roll a d8 to determine damage reduction before armor reduction). The shield\'s durability decreases by 1.', '1 AP'],
-                    ['{Raise Shield} → Shield Bash', 'R', 'After successfully raising your shield, turn defense into offense. Make a STR vs. CON Save. If opponent fails, they are stunned until end of their next turn.', '1 AP'],
-                    ['Spell Reaction', 'R', 'Cast a reactive spell in response to an enemy action. Roll the spell\'s die as normal. Reactive spells often have special effects.', '2 AP']
+                    [{ spellId: 'universal_help' }, 'R', 'Offer advice, gesture, or hint to grant ally 1d8 + to their next action. Applies if reasoning is accepted by the GM.', '1 AP'],
+                    [{ spellId: 'universal_evade' }, 'R', 'Evade an attack, by rolling 5 ft. into a dodge. Has to be used when player is prompted by the GM. Performing this agile dodge roll, you also gain a better position (Current Level * 1)', '2 AP'],
+                    [{ spellId: 'universal_opportunity_attack' }, 'R', 'React to enemy movement out of melee range with a quick strike. Roll your weapon die as normal, with a miss on 1 and crit on maximum value.', '1 AP'],
+                    [{ spellId: 'universal_interpose' }, 'R', 'When an ally within 10 ft. is attacked, push them 5 ft. to safety and take the hit. Make a Strength save using an easy difficulty die (typically d6); on a miss the ally falls prone.', '1 AP (+1 AP for each 10 ft. added)'],
+                    [{ spellId: 'universal_parry' }, 'R', 'Turn aside melee and ranged attacks. When attacked, roll your weapon die against the attacker\'s roll; if higher, negate the attack.', '1 AP'],
+                    [{ spellId: 'universal_riposte', prefix: '{Parry} → ' }, 'R', 'After a successful parry, immediately counter-attack. Roll your weapon die as normal. This attack ignores the target\'s passive DR and any Defend soak.', '1 AP'],
+                    [{ spellId: 'universal_raise_shield' }, 'R', 'Your shield absorbs the impact (roll a d8 to determine damage reduction before armor reduction). The shield\'s durability decreases by 1.', '1 AP'],
+                    [{ spellId: 'universal_shield_bash', prefix: '{Raise Shield} → ' }, 'R', 'After successfully raising your shield, turn defense into offense. Make a STR vs. CON Save. If opponent fails, they are stunned until end of their next turn.', '1 AP'],
+                    [{ spellId: 'universal_spell_reaction' }, 'R', 'Cast a reactive spell in response to an enemy action. Roll the spell\'s die as normal. Reactive spells often have special effects.', '2 AP']
                   ]
                 }
               ]
@@ -1400,24 +1411,24 @@ Proficient abilities are special actions that can be performed by characters who
               title: 'Skill-Based Abilities',
               headers: ['Skill', 'Unlocks', 'As', 'Note', 'Cost'],
               rows: [
-                ['Acrobatics', 'Charged Squat', 'A', 'Jump up to 10 ft. horizontally or 10 ft. vertically. On a failure, you land prone in the spot where you attempted the leap. Acrobatics Roll DC 12 (You may add 5 ft. horizontally or vertically by increasing the DC by 3)', '1 AP'],
-                ['Animal Handling', 'Beast Command', 'A', 'A quick and concise call to action catches the attention and motivation of your pet, awaiting your command. Animal Handling Roll DC 10 - Pet and PC Intelligence and Wisdom Modifier.', '?'],
-                ['Arcana', 'Arcane Counter', 'A', 'Channeling the Arcane you prepare to counteract the next hostile spell cast on the following turn within 30 ft. Arcana Roll DC 12 + Spell Level Cast', '1 AP'],
+                ['Acrobatics', 'Charged Squat', 'A', 'Jump up to 10 ft. horizontally or vertically. On a miss, you land prone. Acrobatics roll vs a moderate die (d8); add 5 ft. by stepping the die up once (e.g., to d10).', '1 AP'],
+                ['Animal Handling', 'Beast Command', 'A', 'A sharp command snaps your pet to attention. Start with an easy die (d6) and shift it up or down based on pet Int/Wis vs your Int/Wis.', '?'],
+                ['Arcana', 'Arcane Counter', 'A', 'Ready a counterspell for the next hostile cast within 30 ft. Arcana roll vs a moderate die (d8), stepping the die up by one size per spell level.', '1 AP'],
                 ['Athletics', 'Grapple', 'A', 'Using your brute force you restrain an opponent, making it hard for them to move and perform certain actions until your next turn. Athletics Roll vs. Target\'s Strength or Dexterity Roll. Restrained characters have 0 speed, gain disadvantage on rolls and attack rolls made against it have advantage.', '1 AP'],
-                ['Deception', 'Misdirect', 'A', 'With a clever ruse, a creature within 10 ft. of you gains the condition surprised. Deception Roll DC 10 + Opponents Intelligence Modifier. Surprised characters are unable to react and gain disadvantage on their attack rolls.', '1 AP'],
-                ['History', 'Lore Recall', 'A', 'Tapping into your knowledge, you recall the special attacks or abilities of a creature within 30 ft. History Roll DC 12 + Opponents CR (Rounded Up)', '1 AP'],
-                ['Insight', 'Flow State', 'A', 'You enter a calm but clear state of mind, reducing damage taken by 2 until the start of your next turn. Insight Roll DC 12', '1 AP'],
+                ['Deception', 'Misdirect', 'A', 'A quick ruse leaves a creature within 10 ft. surprised. Opponent resists with a difficulty die set by their Intelligence (easy d6 for dull, up to challenging d10 for sharp minds). Surprised targets can’t react and have disadvantage on attacks.', '1 AP'],
+                ['History', 'Lore Recall', 'A', 'Recall a creature’s tricks within 30 ft. Start with a moderate die (d8) and step it up by one size for tougher CRs.', '1 AP'],
+                ['Insight', 'Flow State', 'A', 'You enter a calm, clear state, reducing damage taken by 2 until your next turn. Insight roll vs a moderate die (d8).', '1 AP'],
                 ['Intimidation', 'Taunt', 'R', 'With hostile intent you provoke nearby opponents within 15 ft., forcing them to attack you. (the effect lasts until the opponent succeeds their wisdom check, which is based on your Intimidation Roll) Intimidation Roll vs. Opponents Wisdom Save.', '1 AP'],
-                ['Investigation', 'Deduct', 'A', 'Making use of your deductive skills you analyze and discern an opponents weaknesses within 15. ft. Investigation Roll DC 12 + Opponents CR (Rounded Up)', '1 AP'],
-                ['Medicine', 'First Aid', 'A', 'Using your medical expertise, you can treat a nearby ally (within 5 ft.) suffering from a minor injury as specified by the system shock table. Medicine Roll DC10. Additionally, a successful Medicine check can restore an ally at death\'s door to 1 HP, removing them from the death saving state. Medicine check DC10 + Level of Exhaustion. As a third use, Medicine can be used to apply bandages to a nearby ally of choice once pr. character. Medicine check DC10. Heals 1d4 + Medicine Modifier', '1 AP'],
-                ['Nature', 'Terrain Insight', 'A', 'With an eye for the wild, you spot an advantage in the terrain around you (10 ft.). Nature Roll DC12 (e.g. Loose rubble in a dungeon that could be set up for a trap, visible tree branches or a pit easily covered with leaves, or the occasional helpful plant).', '1 AP'],
+                ['Investigation', 'Deduct', 'A', 'Analyze an opponent within 15 ft. Investigation roll vs a moderate die (d8), stepping the die up for higher-CR foes.', '1 AP'],
+                ['Medicine', 'First Aid', 'A', 'Treat a nearby ally (within 5 ft.) for minor injury using an easy die (d6). To pull an ally from death’s door to 1 HP, roll the easy die but step it up once per exhaustion level. You can also apply bandages once per character; roll the easy die to grant 1d4 + Medicine mod healing.', '1 AP'],
+                ['Nature', 'Terrain Insight', 'A', 'Spot a terrain advantage within 10 ft. Roll Nature vs a moderate die (d8).', '1 AP'],
                 ['Perception', 'Heightened Senses', 'P', 'Your senses are on high alert. Add 2 to your initiative rolls.', '-'],
                 ['Performance', 'Mesmer', 'A', 'Within 15 ft., your captivating tunes cause anyone affected to lose their next turn. Performance Roll vs. Wisdom Saving Throw. All creatures and characters within 15 ft. must make a Wisdom Saving Throw against your Performance roll. On a fail, they lose their next turn. (The following creatures are immune: Creatures without eyes or sight, creatures with multiple heads or eyes, undead, celestials, fiends, fey, dragons and constructs.) (This spell is limited to one use per combat.)', '3 AP'],
                 ['Persuasion', 'Persuade', 'A', 'Amidst the heat of combat you attempt to convince an opponent to reconsider their current action - on a successful persuasion check you confuse an opponent. Persuasion Roll vs Wisdom Saving Throw. The opponent must make a Wisdom Saving Throw against your Persuasion Roll. On a fail, they become confused. (the effect lasts until the creature or character successfully rolls above the persuasion roll; limited to one roll per turn.) Confused creatures or characters must make a d10 roll to determine their action: (1) Runs in a random direction; roll a d8 (2-4) Does nothing; no movement or actions (5-6) Cast a random spell at random target; determined by dice (7-8) Attack a nearby random creature; determined by dice (9-10) Acts and moves normally.', '2 AP'],
                 ['Religion', 'Divine Favor', 'A', 'Preaching teachings of your deity you inspire nearby allies and intellectual creatures within 15 ft. Religion Roll vs Wisdom or Intellect Saving Throw. Roll a d4 to Determine the Boon: Shield of Conviction - Temporary hitpoints until combat has ended, based on the casters religion modifier. Guardian\'s Favor - Take reduced damage for the next turn, based on the casters religion modifier. Zealot\'s Blessing - Temporary boost attack rolls for the next attack, based on the casters religion modifier. Wisdom of the Ancients - Advantage on the next saving throw. All creatures and characters within 15 ft. must make a Wisdom or Intellect Saving Throw (If they roll below your Religion Roll they are granted the boon). (Regardless how you roll you gain the boon - however, the creatures and characters around you need to roll below your Religion Roll to gain the same boon).', '2 AP'],
                 ['Sleight of Hand', 'Disarm', 'R', 'When attacked by an opponent (within 5 ft.), you nimbly disarm the opponent, and if able, you equip the weapon used. (Can\'t be used wielding 2 weapons, as it requires a free hand.) Sleight of Hand Roll vs. Opponents Strength Save', '1 AP'],
-                ['Stealth', 'Stealthy Passage', 'A', 'Without drawing attention to yourself you pass through an opponents space without provoking opportunity of attack. (Succeeding allows you to move 15 ft.) Stealth Roll DC10', '1 AP'],
-                ['Survival', 'Trapping', 'A', 'Utilizing your survival skills you set up a trap on a 5ft. square within 5 ft. of you. Survival Check (DC15 - Intelligence Modifier). Traps: Pitfall Trap [4 AP]: A hidden pit that causes falling damage ((1d6 per 10 ft.) each 4 AP, or entire turn, spent digging adds 10 ft.) and restrains the target until they climb out. Snare Trap [3 AP]: Catches and suspends a creature, leaving it hanging upside down and granting advantage to attacks against it until freed. Tripwire Trap [2 AP]: Causes creatures to fall prone, potentially dropping what they hold.', '1 AP']
+                ['Stealth', 'Stealthy Passage', 'A', 'Slip through an opponent’s space without provoking. Roll Stealth vs an easy die (d6); on a success you move 15 ft.', '1 AP'],
+                ['Survival', 'Trapping', 'A', 'Set a trap on a 5 ft. square within 5 ft. Survival roll starts at a challenging die (d10); step the die down if your INT is high. Traps: Pitfall [4 AP]: 1d6 per 10 ft. depth and restrains until climbed out. Snare [3 AP]: Hoists and leaves target hanging; attacks have advantage. Tripwire [2 AP]: Target falls prone, may drop held items.', '1 AP']
               ]
             }
           ]
@@ -1697,24 +1708,48 @@ These systems add cultural immersion and social interaction opportunities.`
         icon: 'fas fa-axe',
         content: {
           title: 'Weapons',
-          description: 'Damage dice, properties, and attack resolution',
+          description: 'Attacks combine your base attack with weapon damage dice and a weapon mastery roll.',
           sections: [
             {
-              title: 'Weapon Properties',
-              content: `Weapons have various properties: Light (can dual-wield), Heavy (disadvantage for small creatures), Reach (extended range), Finesse (use AGI instead of STR), Versatile (1h or 2h), etc.`
+              title: 'Dynamic Weapon State',
+              content: `Your active weapon card updates to whatever is equipped. Each weapon shows its base damage die and its type (Sword, Axe, Mace, etc.).`
+            },
+            {
+              title: 'Two Dice, One Attack',
+              content: `When you attack you roll:
+• Your Weapon Damage die (varies by weapon type; see table).
+• Your Weapon Mastery die (default **d8** unless modified by feats/gear). If the weapon die rolls max, it counts as a crit and you add the mastery result to the damage.
+
+Both dice use the weapon type to pick the correct outcome text.`
+            },
+            {
+              title: 'Weapon Mastery Skill',
+              content: `Weapon attacks also trigger a Weapon Mastery skill check for the equipped weapon type. Mastery gates special outcomes (disarms, cleaves, rebound mishaps) and can reduce die size with bonuses.`
+            },
+            {
+              title: 'How to Read Results',
+              content: `Outcome lines are keyed by weapon type (e.g., "Sword:", "Greataxe:", "Bow:"). The UI filters to the equipped type so you only see relevant text.`
             }
           ],
           tables: [
             {
-              title: 'Sample Weapons',
-              headers: ['Weapon', 'Damage', 'Properties', 'Cost'],
+              title: 'Weapon Types & Dice',
+              headers: ['Weapon Type', 'Typical Damage Die', 'Mastery Die', 'Notes'],
               rows: [
-                ['Dagger', '1d4', 'Light, Finesse, Thrown', '2 gold'],
-                ['Shortsword', '1d6', 'Light, Finesse', '10 gold'],
-                ['Longsword', '1d8', 'Versatile (1d10)', '15 gold'],
-                ['Greatsword', '2d6', 'Heavy, Two-Handed', '50 gold'],
-                ['Shortbow', '1d6', 'Ranged (80/320)', '25 gold'],
-                ['Longbow', '1d8', 'Heavy, Ranged (150/600)', '50 gold']
+                ['Sword', 'd6', 'd8', 'Balanced slashes/thrusts'],
+                ['Axe', 'd8', 'd8', 'High burst, less control'],
+                ['Mace', 'd6', 'd8', 'Crush armor and bone'],
+                ['Dagger', 'd4', 'd8', 'Quick crit-fishing stabs'],
+                ['Greatsword', '2d6', 'd8', 'Two-handed sweeping arcs'],
+                ['Greataxe', 'd12', 'd8', 'Massive cleaving chops'],
+                ['Maul', '2d6', 'd8', 'Shattering two-handed blows'],
+                ['Polearm', 'd10', 'd8', 'Reach, pulls, and trips'],
+                ['Staff', 'd6', 'd8', 'Deflective jabs and sweeps'],
+                ['Bow', 'd8', 'd8', 'Arced ranged volleys'],
+                ['Crossbow', 'd10', 'd8', 'Precision bolts, reloads'],
+                ['Thrown Weapon', 'd6', 'd8', 'Axes, knives, or javelins'],
+                ['Wand', 'd6', 'd8', 'Channelled spell strikes'],
+                ['Unarmed', 'd4', 'd8', 'Fists, knees, elbows']
               ]
             }
           ]
@@ -1726,20 +1761,64 @@ These systems add cultural immersion and social interaction opportunities.`
         icon: 'fas fa-vest',
         content: {
           title: 'Armor',
-          description: 'Damage absorption, durability system, armor scores',
+          description: 'Total Armor drives passive DR and the Defend soak die',
+          sections: [
+            {
+              title: 'How Armor Works Now',
+              content: `Armor is no longer a separate skill and no longer uses per-piece reduction dice. Your total Armor sets two things:
+
+• Passive Damage Reduction: Reduce every incoming hit by Armor ÷ 10 (rounded down).
+• Defend Soak Die: When you take the Defend action, roll the soak die from the table below and reduce damage by the roll.`
+            },
+            {
+              title: 'Read This Page',
+              content: `1) Use the Soak Die Scale to find the die you roll when you Defend.
+2) Use Armor Benchmarks to quickly see your passive DR (Armor ÷ 10).
+3) Armor Types are just a reference for armor bonuses and cost—the bonus feeds your total Armor.`
+            },
+          ],
           tables: [
             {
-              title: 'Armor Types',
-              headers: ['Armor', 'Armor Bonus', 'Reduction Die', 'Cost'],
+              title: 'Soak Die Scale (Defend)',
+              layout: 'armor-grid',
+              headers: ['Armor', 'Soak Die'],
               rows: [
-                ['Padded', '+1', '1d4', '5 gold'],
-                ['Leather', '+2', '1d4', '10 gold'],
-                ['Studded Leather', '+3', '1d6', '45 gold'],
-                ['Chain Shirt', '+4', '1d6', '50 gold'],
-                ['Scale Mail', '+5', '1d8', '50 gold'],
-                ['Breastplate', '+6', '1d8', '400 gold'],
-                ['Half Plate', '+7', '1d10', '750 gold'],
-                ['Plate Armor', '+9', '1d12', '1,500 gold']
+                ['0–4', '—'],
+                ['5–9', '1d4'],
+                ['10–14', '1d6'],
+                ['15–19', '1d8'],
+                ['20–24', '1d10'],
+                ['25–29', '1d12'],
+                ['30–34', '1d12 + 1d4'],
+                ['35–39', '1d12 + 1d6'],
+                ['40–44', '2d12'],
+                ['45–49', '2d12 + 1d4']
+              ]
+            },
+            {
+              title: 'Armor Benchmarks',
+              layout: 'armor-grid',
+              headers: ['Armor', 'Passive DR (Armor ÷ 10)'],
+              rows: [
+                ['0–9', '0'],
+                ['10–19', '1'],
+                ['20–29', '2'],
+                ['30–39', '3'],
+                ['40–49', '4'],
+                ['50–59', '5'],
+                ['60–69', '6'],
+                ['70–79', '7']
+              ]
+            },
+            {
+              title: 'Armor Types (Reference)',
+              layout: 'armor-grid',
+              headers: ['Armor', 'Armor Bonus', 'Notes', 'Cost'],
+              rows: [
+                ['Cloth', 'Varies by item', 'Light; best for casters and mobility', 'See item library'],
+                ['Leather', 'Varies by item', 'Light/medium; balanced defense and stealth', 'See item library'],
+                ['Mail', 'Varies by item', 'Heavy; solid protection, some noise/weight', 'See item library'],
+                ['Plate', 'Varies by item', 'Heavy; highest protection, hefty weight', 'See item library']
               ]
             }
           ]
@@ -1801,17 +1880,35 @@ These systems add cultural immersion and social interaction opportunities.`
         icon: 'fas fa-droplet',
         content: {
           title: 'Magic Resources',
-          description: 'Class-specific resource management systems',
+          description: 'Action economy plus class resources used by the spell wizard',
           tables: [
             {
-              title: 'Resource Types',
-              headers: ['Resource', 'Used By', 'Regeneration'],
+              title: 'Core Resources',
+              layout: 'armor-grid',
+              headers: ['Resource', 'Used By', 'Regeneration / Notes'],
               rows: [
-                ['Mana', 'Most casters', 'Regenerates slowly in combat, fully on long rest'],
-                ['Rage', 'Berserkers, Reavers', 'Builds through combat, decays out of combat'],
-                ['Focus', 'Rogues, Rangers', 'Regenerates quickly, caps at 100'],
-                ['Energy', 'Monks', 'Regenerates very quickly, caps at 100'],
-                ['Runic Power', 'Death Knights', 'Builds through attacks, decays slowly']
+                ['Action Points', 'Everyone', 'Refills each turn (core action economy)'],
+                ['Mana', 'Most casters', 'Slow in combat; full on long rest'],
+                ['Health', 'Everyone', 'Heals via rests, potions, abilities']
+              ]
+            },
+            {
+              title: 'Class / Spec Resources',
+              layout: 'armor-grid',
+              headers: ['Resource', 'Used By', 'How It Works'],
+              rows: [
+                ['Rage', 'Berserker, Reaver', 'Builds on hits/being hit; decays out of combat'],
+                ['Focus', 'Rogue, Ranger styles', 'Regenerates quickly; capped'],
+                ['Energy', 'Monk-style', 'Regenerates very fast; capped'],
+                ['Runic Power', 'Death Knight style', 'Builds with strikes; slow decay'],
+                ['Holy Power', 'Divine casters', 'Earn via holy actions; spend on finishers'],
+                ['Soul Shards', 'Necrotic/warlock styles', 'Gained from enemies/effects'],
+                ['Astral Power', 'Cosmic casters', 'Build with spells; spend on big effects'],
+                ['Combo Points', 'Weapon/grit styles', 'Generate on builders; spend on finishers'],
+                ['Threads of Destiny', 'Fate weaver', 'Generate/spend threads for fate effects'],
+                ['Inferno', 'Pyrofiend', 'Ascend/descend fire stages to power spells'],
+                ['Chaos Spheres', 'Chaos weaver', 'Generate spheres and spend to twist spells'],
+                ['AEP / Arcane Energy', 'Arcanist/arcane specs', 'Build arcane charges; spend on spikes']
               ]
             }
           ]
@@ -1835,7 +1932,7 @@ These systems add cultural immersion and social interaction opportunities.`
             },
             {
               title: 'Concentration',
-              content: `Some spells require concentration. You can only concentrate on one spell at a time. Taking damage requires a Constitution save (DC = 10 or half damage, whichever is higher) to maintain concentration.`
+              content: `Some spells require concentration. You can only concentrate on one spell at a time. When you take damage, make a Constitution save using a challenging die (d10); if the damage is severe, the GM can step the die up (to d12 or d20) to reflect the hit. Succeed to hold the spell; fail and concentration ends.`
             }
           ]
         }
@@ -1914,13 +2011,13 @@ These systems add cultural immersion and social interaction opportunities.`
               tables: [
                 {
                   title: 'NPC Attitudes',
-                  headers: ['Attitude', 'Description', 'DC Modifier', 'Behavior'],
+                  headers: ['Attitude', 'Description', 'Difficulty Shift', 'Behavior'],
                   rows: [
-                    ['Hostile', 'Actively opposes party', '+10', 'Attacks, refuses aid, spreads rumors'],
-                    ['Unfriendly', 'Dislikes party', '+5', 'Unhelpful, suspicious, demands payment'],
-                    ['Indifferent', 'No strong feelings', '+0', 'Normal interactions, fair treatment'],
-                    ['Friendly', 'Likes party', '-5', 'Helpful, gives advice, small favors'],
-                    ['Helpful', 'Strongly supports party', '-10', 'Goes out of way to assist, shares secrets']
+                    ['Hostile', 'Actively opposes party', '+2 die steps harder', 'Attacks, refuses aid, spreads rumors'],
+                    ['Unfriendly', 'Dislikes party', '+1 die step harder', 'Unhelpful, suspicious, demands payment'],
+                    ['Indifferent', 'No strong feelings', 'No change', 'Normal interactions, fair treatment'],
+                    ['Friendly', 'Likes party', '-1 die step easier', 'Helpful, gives advice, small favors'],
+                    ['Helpful', 'Strongly supports party', '-2 die steps easier', 'Goes out of way to assist, shares secrets']
                   ]
                 }
               ]
@@ -2042,16 +2139,16 @@ These systems add cultural immersion and social interaction opportunities.`
                 },
                 {
                   title: 'Terrain Modifiers',
-                  headers: ['Terrain Type', 'Speed Modifier', 'Navigation DC', 'Special'],
+                  headers: ['Terrain Type', 'Speed Modifier', 'Navigation Die', 'Special'],
                   rows: [
                     ['Road/Path', 'Normal', 'No check', 'Safe travel'],
-                    ['Open Plains', 'Normal', 'DC 10', 'Easy to get lost without landmarks'],
-                    ['Forest', '×0.5', 'DC 15', 'Limited visibility, foraging opportunities'],
-                    ['Hills', '×0.75', 'DC 12', 'Elevated view, moderate difficulty'],
-                    ['Mountains', '×0.5', 'DC 18', 'Altitude effects, avalanche risk'],
-                    ['Swamp', '×0.25', 'DC 20', 'Disease risk, difficult navigation'],
-                    ['Desert', '×0.75', 'DC 15', 'Water scarcity, extreme temperatures'],
-                    ['Arctic', '×0.5', 'DC 18', 'Extreme cold, blizzard risk']
+                    ['Open Plains', 'Normal', 'Easy die (d6)', 'Easy to get lost without landmarks'],
+                    ['Forest', '×0.5', 'Challenging die (d10)', 'Limited visibility, foraging opportunities'],
+                    ['Hills', '×0.75', 'Moderate die (d8)', 'Elevated view, moderate difficulty'],
+                    ['Mountains', '×0.5', 'Difficult die (d12)', 'Altitude effects, avalanche risk'],
+                    ['Swamp', '×0.25', 'Difficult die (d12); step to d20 in storms', 'Disease risk, difficult navigation'],
+                    ['Desert', '×0.75', 'Challenging die (d10)', 'Water scarcity, extreme temperatures'],
+                    ['Arctic', '×0.5', 'Difficult die (d12)', 'Extreme cold, blizzard risk']
                   ]
                 }
               ]
@@ -2072,11 +2169,11 @@ These systems add cultural immersion and social interaction opportunities.`
               tables: [
                 {
                   title: 'Lost Consequences',
-                  headers: ['Severity', 'Effect', 'Recovery'],
+                  headers: ['Severity', 'Effect', 'Recovery Check'],
                   rows: [
-                    ['Slightly Lost', 'Travel time increased by 25%', 'DC 15 Survival check'],
-                    ['Lost', 'Travel time increased by 50%, extra encounter', 'DC 18 Survival check'],
-                    ['Hopelessly Lost', 'Travel time doubled, 2 extra encounters', 'DC 20 Survival check or find landmark']
+                    ['Slightly Lost', 'Travel time increased by 25%', 'Survival vs challenging die (d10)'],
+                    ['Lost', 'Travel time increased by 50%, extra encounter', 'Survival vs difficult die (d12)'],
+                    ['Hopelessly Lost', 'Travel time doubled, 2 extra encounters', 'Survival vs difficult die (d12); step to d20 in severe terrain or until a landmark is found']
                   ]
                 }
               ]
@@ -2117,7 +2214,7 @@ Travel challenges represent obstacles and opportunities encountered during journ
                 {
                   title: 'Challenge Resolution',
                   content: `**Skill Checks:** Each player can contribute one skill check per challenge round
-**Difficulty:** DC varies based on the challenge's severity
+**Difficulty:** The GM sets a difficulty die based on severity (see table)
 **Success Count:** Each successful check counts as one success toward the challenge total
 **Failure Consequences:** Failed checks may result in resource loss, damage, or other complications
 **Group Effort:** Players can assist each other, providing advantage on checks`
@@ -2126,15 +2223,15 @@ Travel challenges represent obstacles and opportunities encountered during journ
               tables: [
                 {
                   title: 'Challenge Severity',
-                  headers: ['Severity', 'Successes Required', 'DC'],
+                  headers: ['Severity', 'Successes Required', 'Difficulty Die'],
                   rows: [
-                    ['Effortless', '1', '10'],
-                    ['Very Easy', '2', '12'],
-                    ['Easy', '3', '15'],
-                    ['Medium', '4', '17'],
-                    ['Hard', '5', '20'],
-                    ['Very Hard', '6', '25'],
-                    ['Extreme', '6+', '30']
+                    ['Effortless', '1', 'd4'],
+                    ['Very Easy', '2', 'd4–d6'],
+                    ['Easy', '3', 'd6'],
+                    ['Medium', '4', 'd8'],
+                    ['Hard', '5', 'd10'],
+                    ['Very Hard', '6', 'd12'],
+                    ['Extreme', '6+', 'd20']
                   ]
                 },
                 {
@@ -2209,16 +2306,16 @@ Travel challenges represent obstacles and opportunities encountered during journ
               tables: [
                 {
                   title: 'Exploration Activities',
-                  headers: ['Activity', 'Time', 'Skill Check', 'Effect'],
+                  headers: ['Activity', 'Time', 'Skill Check (Difficulty Die)', 'Effect'],
                   rows: [
-                    ['Search Area', '10 minutes', 'Investigation DC 15', 'Find hidden objects, secret doors'],
-                    ['Listen Carefully', '1 minute', 'Perception DC 12', 'Detect sounds, movement'],
-                    ['Examine Object', '1 minute', 'Investigation DC 10', 'Learn object properties, history'],
-                    ['Track Creatures', '1 minute', 'Survival DC 15', 'Follow creature tracks'],
-                    ['Identify Plants/Animals', '1 minute', 'Nature DC 12', 'Determine if safe, useful'],
-                    ['Detect Magic', '1 action', 'Arcana DC 15', 'Sense magical auras'],
-                    ['Map Area', '10 minutes', 'Cartographer tools', 'Create accurate map'],
-                    ['Forage', '1 hour', 'Survival DC 15', 'Find food, water, materials']
+                    ['Search Area', '10 minutes', 'Investigation vs challenging die (d10)', 'Find hidden objects, secret doors'],
+                    ['Listen Carefully', '1 minute', 'Perception vs moderate die (d8)', 'Detect sounds, movement'],
+                    ['Examine Object', '1 minute', 'Investigation vs easy die (d6)', 'Learn object properties, history'],
+                    ['Track Creatures', '1 minute', 'Survival vs challenging die (d10)', 'Follow creature tracks'],
+                    ['Identify Plants/Animals', '1 minute', 'Nature vs moderate die (d8)', 'Determine if safe, useful'],
+                    ['Detect Magic', '1 action', 'Arcana vs challenging die (d10)', 'Sense magical auras'],
+                    ['Map Area', '10 minutes', 'Cartographer tools vs moderate die (d8)', 'Create accurate map'],
+                    ['Forage', '1 hour', 'Survival vs challenging die (d10)', 'Find food, water, materials']
                   ]
                 }
               ]
@@ -2235,16 +2332,16 @@ Travel challenges represent obstacles and opportunities encountered during journ
               tables: [
                 {
                   title: 'Discovery Types',
-                  headers: ['Discovery', 'Detection Method', 'Typical DC', 'Reward'],
+                  headers: ['Discovery', 'Detection Method', 'Typical Difficulty Die', 'Reward'],
                   rows: [
-                    ['Secret Door', 'Investigation', 'DC 15-20', 'Access to hidden areas'],
-                    ['Hidden Treasure', 'Perception/Investigation', 'DC 12-18', 'Gold, gems, items'],
-                    ['Ancient Runes', 'Arcana/History', 'DC 15-25', 'Lore, spell knowledge'],
-                    ['Natural Resources', 'Nature/Survival', 'DC 10-15', 'Crafting materials'],
-                    ['Trap', 'Perception', 'DC 12-20', 'Avoid danger'],
-                    ['Clues', 'Investigation', 'DC 10-18', 'Story information'],
-                    ['Shortcut', 'Survival', 'DC 15', 'Faster travel route'],
-                    ['Safe Haven', 'Survival', 'DC 12', 'Secure rest location']
+                    ['Secret Door', 'Investigation', 'd10–d12', 'Access to hidden areas'],
+                    ['Hidden Treasure', 'Perception/Investigation', 'd8–d12', 'Gold, gems, items'],
+                    ['Ancient Runes', 'Arcana/History', 'd10–d20', 'Lore, spell knowledge'],
+                    ['Natural Resources', 'Nature/Survival', 'd6–d10', 'Crafting materials'],
+                    ['Trap', 'Perception', 'd8–d12 (step to d20 for deadly traps)', 'Avoid danger'],
+                    ['Clues', 'Investigation', 'd6–d12', 'Story information'],
+                    ['Shortcut', 'Survival', 'd10', 'Faster travel route'],
+                    ['Safe Haven', 'Survival', 'd8', 'Secure rest location']
                   ]
                 }
               ]
@@ -2261,16 +2358,16 @@ Travel challenges represent obstacles and opportunities encountered during journ
               tables: [
                 {
                   title: 'Common Hazards',
-                  headers: ['Hazard', 'Detection DC', 'Effect', 'Disarm/Avoid'],
+                  headers: ['Hazard', 'Detection Difficulty', 'Effect', 'Disarm/Avoid'],
                   rows: [
-                    ['Pit Trap', 'Perception DC 15', '2d6 falling damage', 'Thieves\' tools DC 15'],
-                    ['Poison Dart', 'Perception DC 18', '1d4 piercing + poison', 'Thieves\' tools DC 18'],
-                    ['Unstable Floor', 'Investigation DC 12', 'Collapse, 3d6 damage', 'Move carefully'],
-                    ['Toxic Gas', 'Perception DC 14', 'Constitution save or poisoned', 'Hold breath, ventilate'],
-                    ['Magical Ward', 'Arcana DC 16', 'Spell effect triggers', 'Dispel magic'],
-                    ['Quicksand', 'Survival DC 13', 'Restrained, sinking', 'Rope, careful movement'],
-                    ['Rockslide', 'Perception DC 15', '4d6 bludgeoning', 'Dexterity save to dodge'],
-                    ['Cursed Object', 'Arcana DC 18', 'Curse effect', 'Remove curse spell']
+                    ['Pit Trap', 'Perception vs challenging die (d10)', '2d6 falling damage', 'Thieves\' tools vs challenging die (d10)'],
+                    ['Poison Dart', 'Perception vs difficult die (d12)', '1d4 piercing + poison', 'Thieves\' tools vs difficult die (d12)'],
+                    ['Unstable Floor', 'Investigation vs moderate die (d8)', 'Collapse, 3d6 damage', 'Move carefully'],
+                    ['Toxic Gas', 'Perception vs challenging die (d10)', 'Constitution save or poisoned', 'Hold breath, ventilate'],
+                    ['Magical Ward', 'Arcana vs challenging/difficult die (d10–d12)', 'Spell effect triggers', 'Dispel magic'],
+                    ['Quicksand', 'Survival vs moderate/challenging die (d8–d10)', 'Restrained, sinking', 'Rope, careful movement'],
+                    ['Rockslide', 'Perception vs challenging die (d10)', '4d6 bludgeoning', 'Dexterity save vs challenging die (d10) to dodge'],
+                    ['Cursed Object', 'Arcana vs difficult die (d12)', 'Curse effect', 'Remove curse spell']
                   ]
                 }
               ]
@@ -2393,7 +2490,7 @@ Travel challenges represent obstacles and opportunities encountered during journ
             },
             {
               title: 'Crafting',
-              content: `To craft an item, you need the recipe, materials, tools, and sufficient profession skill. Make a crafting check against the item's DC. Success creates the item; failure wastes some materials.`
+              content: `To craft an item, you need the recipe, materials, tools, and sufficient profession skill. Make a crafting check using a difficulty die set by the item rarity (common d8, uncommon d10, rare d12, very rare d20). Success creates the item; failure wastes some materials.`
             }
           ]
         }

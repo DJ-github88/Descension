@@ -230,7 +230,7 @@ const GRID_ROWS = 8;     // Number of rows in the grid (reduced for more compact
 const TALENT_SIZE = 56;  // Size of talent icon (optimized for perfect fit)
 
 const TalentTreeWindow = ({ isOpen, onClose }) => {
-    const { class: characterClass } = useCharacterStore();
+    const { class: characterClass, level } = useCharacterStore();
     const [selectedTree, setSelectedTree] = useState(0);
     const [talents, setTalents] = useState({});
     const [unlearnError, setUnlearnError] = useState(null);
@@ -260,11 +260,6 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         }
 
         let requirements = [];
-        const talentTier = Math.floor(talent.position.y);
-        const requiredPoints = (talentTier + 1) * 3;
-        if (talentTier > 0) {
-            requirements.push(`Requires ${requiredPoints} points in ${currentTree.name}`);
-        }
         if (talent.requires) {
             if (typeof talent.requires === 'string') {
                 requirements.push('Requires previous talent');
@@ -306,12 +301,16 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
         }
     }, [talents, tooltipState.isVisible, hoveredTalentId, currentTree, generateTooltipContent, updateTooltipContent]);
 
-    // Calculate total points spent in current tree
-    // We need to count points from talents that belong to the current tree
-    const pointsSpent = currentTree ?
-        currentTree.talents.reduce((sum, talent) => {
+    // Calculate total points spent across ALL trees (shared pool)
+    const pointsSpent = trees.reduce((total, tree) => {
+        return total + tree.talents.reduce((sum, talent) => {
             return sum + (talents[talent.id] || 0);
-        }, 0) : 0;
+        }, 0);
+    }, 0);
+
+    // Calculate available talent points based on level (3 points per level, max 30 at level 10)
+    const availablePoints = Math.min((level || 1) * 3, 30);
+    const pointsRemaining = availablePoints - pointsSpent;
 
     const handleTalentClick = (talentId, talent) => {
         if (!canLearnTalent(talent)) return;
@@ -336,38 +335,58 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
             delete simulatedTalents[talentId];
         }
 
-        // Calculate points spent in simulated state
-        const simulatedPointsSpent = currentTree ?
-            currentTree.talents.reduce((sum, talent) => {
+        // Calculate total points spent across ALL trees in simulated state
+        const simulatedPointsSpent = trees.reduce((total, tree) => {
+            return total + tree.talents.reduce((sum, talent) => {
                 return sum + (simulatedTalents[talent.id] || 0);
-            }, 0) : 0;
+            }, 0);
+        }, 0);
 
         // Check if any currently invested talents would become inaccessible
         for (const [investedTalentId, investedRanks] of Object.entries(currentTalents)) {
             if (investedRanks === 0) continue; // Skip talents with 0 ranks
 
-            const investedTalent = currentTree.talents.find(t => t.id === investedTalentId);
+            // Search across all trees for the invested talent
+            const investedTalent = trees.flatMap(tree => tree.talents).find(t => t.id === investedTalentId);
             if (!investedTalent) continue;
-
-            // Check tier accessibility
-            const accessibleTier = Math.floor(simulatedPointsSpent / 3);
-            const talentTier = Math.floor(investedTalent.position.y);
-            if (talentTier > accessibleTier) {
-                return false; // This invested talent would become inaccessible
-            }
 
             // Check prerequisites
             if (investedTalent.requires) {
                 if (typeof investedTalent.requires === 'string') {
-                    const prereqTalent = currentTree.talents.find(t => t.id === investedTalent.requires);
+                    // Search across all trees for the prerequisite
+                    const prereqTalent = trees.flatMap(tree => tree.talents).find(t => t.id === investedTalent.requires);
                     if (prereqTalent) {
                         const prereqRanks = simulatedTalents[investedTalent.requires] || 0;
                         if (prereqRanks < prereqTalent.maxRanks) {
-                            return false; // Prerequisite would not be met
+                            return false; // Prerequisite would not be met (needs to be fully maxed)
+                        }
+                    }
+                } else if (Array.isArray(investedTalent.requires)) {
+                    // Check array prerequisites
+                    if (investedTalent.requiresAll) {
+                        // ALL prerequisites must be fully maxed
+                        for (const prereqId of investedTalent.requires) {
+                            const prereqTalent = trees.flatMap(tree => tree.talents).find(t => t.id === prereqId);
+                            if (prereqTalent) {
+                                const prereqRanks = simulatedTalents[prereqId] || 0;
+                                if (prereqRanks < prereqTalent.maxRanks) {
+                                    return false;
+                                }
+                            }
+                        }
+                    } else {
+                        // At least ONE prerequisite must be fully maxed
+                        const hasAnyMaxedPrereq = investedTalent.requires.some(prereqId => {
+                            const prereqTalent = trees.flatMap(tree => tree.talents).find(t => t.id === prereqId);
+                            if (!prereqTalent) return false;
+                            const prereqRanks = simulatedTalents[prereqId] || 0;
+                            return prereqRanks >= prereqTalent.maxRanks;
+                        });
+                        if (!hasAnyMaxedPrereq) {
+                            return false;
                         }
                     }
                 }
-                // Add similar checks for array prerequisites if needed
             }
         }
 
@@ -402,18 +421,15 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
     };
 
     const canLearnTalent = (talent) => {
-        // Calculate accessible tier based on points spent (every 3 points unlocks next tier)
-        const accessibleTier = Math.floor(pointsSpent / 3);
-
-        // Check if talent is in an accessible tier
-        const talentTier = Math.floor(talent.position.y);
-        if (talentTier > accessibleTier) return false;
+        // Check if we have available points
+        if (pointsSpent >= availablePoints) return false;
 
         // Check if required talent(s) are FULLY MAXED OUT
         if (talent.requires) {
             if (typeof talent.requires === 'string') {
                 // Single prerequisite - must be fully maxed
-                const prereqTalent = currentTree.talents.find(t => t.id === talent.requires);
+                // Search across all trees for the prerequisite
+                const prereqTalent = trees.flatMap(tree => tree.talents).find(t => t.id === talent.requires);
                 if (!prereqTalent) return false;
 
                 const currentRanks = talents[talent.requires] || 0;
@@ -425,7 +441,8 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                 if (talent.requiresAll) {
                     // AND logic - ALL prerequisites must be fully maxed
                     for (const prereqId of talent.requires) {
-                        const prereqTalent = currentTree.talents.find(t => t.id === prereqId);
+                        // Search across all trees for the prerequisite
+                        const prereqTalent = trees.flatMap(tree => tree.talents).find(t => t.id === prereqId);
                         if (!prereqTalent) return false;
 
                         const currentRanks = talents[prereqId] || 0;
@@ -436,7 +453,8 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                 } else {
                     // OR logic - at least ONE prerequisite must be fully maxed
                     const hasAnyMaxedPrereq = talent.requires.some(prereqId => {
-                        const prereqTalent = currentTree.talents.find(t => t.id === prereqId);
+                        // Search across all trees for the prerequisite
+                        const prereqTalent = trees.flatMap(tree => tree.talents).find(t => t.id === prereqId);
                         if (!prereqTalent) return false;
 
                         const currentRanks = talents[prereqId] || 0;
@@ -630,6 +648,11 @@ const TalentTreeWindow = ({ isOpen, onClose }) => {
                         <div className="points-display">
                             <span className="points-label">Points:</span>
                             <span className="points-value">{pointsSpent}</span>
+                            <span className="points-separator">/</span>
+                            <span className="points-available">{availablePoints}</span>
+                            {pointsRemaining > 0 && (
+                                <span className="points-remaining"> ({pointsRemaining} remaining)</span>
+                            )}
                         </div>
                         <button className="reset-talents-btn" onClick={resetTalents}>
                             Reset

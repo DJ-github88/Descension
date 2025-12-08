@@ -442,13 +442,18 @@ const CanvasGridRenderer = ({
                     left: 0,
                     pointerEvents: (isDraggingItem || isDraggingCharacterToken) ? 'all' : 'none', // Capture events when dragging items or placing character tokens
                     zIndex: (isDraggingItem || isDraggingCharacterToken) ? 50 : 1, // Lower z-index than tokens (100) to allow token interactions
-                    opacity: 0 // Invisible but captures events
+                    opacity: 0, // Invisible but captures events
+                    touchAction: 'none'
                 }}
                 onClick={handleCanvasInteraction}
                 onContextMenu={handleCanvasInteraction}
                 onMouseMove={handleCanvasInteraction}
                 onMouseDown={handleCanvasInteraction}
                 onMouseUp={handleCanvasInteraction}
+                onPointerDown={handleCanvasInteraction}
+                onPointerMove={handleCanvasInteraction}
+                onPointerUp={handleCanvasInteraction}
+                onPointerCancel={handleCanvasInteraction}
                 onDragEnter={(e) => {
                     e.preventDefault();
                     e.dataTransfer.dropEffect = 'copy';

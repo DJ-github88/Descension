@@ -111,6 +111,7 @@ const useCharacterStore = create((set, get) => ({
     backgroundDisplayName: '', // Display name for background
     path: '', // Character path ID (e.g., 'mystic', 'zealot')
     pathDisplayName: '', // Display name for path (e.g., 'Mystic', 'Zealot')
+    pathPassives: [], // Passive abilities from the selected path/discipline
     level: 1,
     experience: 0, // Current XP
     alignment: 'Neutral Good',
@@ -917,11 +918,13 @@ const useCharacterStore = create((set, get) => ({
                         return classData.spellPools[1];
                     }
                     
-                    // Fallback: filter spells array for level 1 spells
-                    if (classData.spells && Array.isArray(classData.spells)) {
-                        return classData.spells
-                            .filter(spell => spell.level === 1)
-                            .map(spell => spell.id);
+                    // Fallback: filter spells/exampleSpells array for level 1 spells
+                    const spellsArray = classData.spells || classData.exampleSpells || [];
+                    if (Array.isArray(spellsArray) && spellsArray.length > 0) {
+                        return spellsArray
+                            .filter(spell => spell.level === 1 || !spell.level) // Include spells without level (default to 1)
+                            .map(spell => spell.id)
+                            .filter(id => id); // Remove any undefined/null IDs
                     }
                     
                     return [];
@@ -930,17 +933,73 @@ const useCharacterStore = create((set, get) => ({
                 // Try to get class data and assign starter spells
                 const classData = getClassData(value);
                 if (classData) {
-                    const level1SpellIds = getLevel1SpellIds(classData);
+                    // Always reassign spells when switching to a different class
+                    const shouldReassignSpells = previousClass !== value;
                     
-                    if (level1SpellIds.length > 0) {
-                        // Always reassign spells when switching to a different class
-                        const shouldReassignSpells = previousClass !== value;
+                    if (shouldReassignSpells) {
+                        // Clear old spells first when switching classes
+                        newState.class_spells = {
+                            ...(state.class_spells || {}),
+                            known_spells: []
+                        };
                         
-                        if (shouldReassignSpells) {
-                            // Randomly select 3 spells from the pool
-                            const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
-                            const selectedSpells = shuffled.slice(0, Math.min(3, level1SpellIds.length));
+                        // Try to get spells from ALL_CLASS_SPELLS first (to ensure IDs match)
+                        let selectedSpells = [];
+                        try {
+                            const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
+                            const available = ALL_CLASS_SPELLS[value] || [];
+                            
+                            console.log(`🔍 [Class Selection] ${value}:`, {
+                                totalSpells: available.length,
+                                sampleSpellIds: available.map(s => s.id).slice(0, 10),
+                                sampleSpellLevels: available.map(s => ({ id: s.id, level: s.level || 1, name: s.name })).slice(0, 10)
+                            });
+                            
+                            const level1Spells = available.filter(s => {
+                                const spellLevel = s.level || 1;
+                                const isLevel1 = spellLevel === 1;
+                                // Also exclude universal spells and unwanted spells
+                                const id = s.id?.toLowerCase() || '';
+                                const name = s.name?.toLowerCase() || '';
+                                const isUnwanted = (
+                                    id.startsWith('universal_') ||
+                                    name === 'attack (melee or ranged)' ||
+                                    id.includes('cast_minor') ||
+                                    id.includes('cast_major') ||
+                                    name.includes('cast minor') ||
+                                    name.includes('cast major')
+                                );
+                                return isLevel1 && !isUnwanted && s.id; // Ensure spell has an ID
+                            });
+                            
+                            console.log(`🔍 [Class Selection] Level 1 spells for ${value}:`, {
+                                level1Count: level1Spells.length,
+                                level1SpellIds: level1Spells.map(s => s.id),
+                                level1SpellNames: level1Spells.map(s => s.name)
+                            });
+                            
+                            if (level1Spells.length > 0) {
+                                const shuffled = [...level1Spells].sort(() => Math.random() - 0.5);
+                                selectedSpells = shuffled.slice(0, Math.min(3, level1Spells.length)).map(s => s.id).filter(id => id);
+                            } else {
+                                console.warn(`⚠️ No level 1 spells found in ALL_CLASS_SPELLS for ${value}`);
+                            }
+                        } catch (e) {
+                            console.warn('Could not load from ALL_CLASS_SPELLS, using classData:', e);
+                        }
+                        
+                        // Fallback to classData if ALL_CLASS_SPELLS didn't work
+                        if (selectedSpells.length === 0) {
+                            console.log(`⚠️ Falling back to classData for ${value}`);
+                            const level1SpellIds = getLevel1SpellIds(classData);
+                            if (level1SpellIds.length > 0) {
+                                const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
+                                selectedSpells = shuffled.slice(0, Math.min(3, level1SpellIds.length));
+                                console.log(`📝 Using classData spell IDs:`, selectedSpells);
+                            }
+                        }
 
+                        if (selectedSpells.length > 0) {
                             newState.class_spells = {
                                 ...(state.class_spells || {}),
                                 known_spells: selectedSpells
@@ -948,9 +1007,25 @@ const useCharacterStore = create((set, get) => ({
 
                             console.log(`✨ Auto-assigned ${selectedSpells.length} starter spells for ${value}:`, {
                                 selectedSpells,
-                                level1PoolSize: level1SpellIds.length,
                                 previousClass,
-                                newClass: value
+                                newClass: value,
+                                characterLevel: state.level || 1
+                            });
+                            
+                            // After setting state, ensure spells are assigned for current level
+                            // This handles cases where character is already level 2+ when class is selected
+                            setTimeout(() => {
+                                const currentState = get();
+                                const currentLevel = currentState.level || 1;
+                                if (currentLevel > 1) {
+                                    console.log(`📈 Character is level ${currentLevel}, assigning additional spells...`);
+                                    get().assignSpellsForLevel(currentLevel, value);
+                                }
+                            }, 100);
+                        } else {
+                            console.error(`❌ Failed to assign any starter spells for ${value}`, {
+                                hasClassData: !!classData,
+                                classDataSpells: classData?.spells?.length || classData?.exampleSpells?.length || 0
                             });
                         }
                     }
@@ -1846,6 +1921,7 @@ const useCharacterStore = create((set, get) => ({
                 backgroundDisplayName: character.backgroundDisplayName || '',
                 path: character.path || '',
                 pathDisplayName: character.pathDisplayName || '',
+                pathPassives: character.pathPassives || [],
                 level: character.level || 1,
                 experience: character.experience || 0,
                 alignment: character.alignment || 'Neutral Good',
@@ -2221,7 +2297,22 @@ const useCharacterStore = create((set, get) => ({
         try {
             if (!className) return false;
             const known = state.class_spells?.known_spells || [];
-            if (known.length > 0) return false;
+            // Only assign if no spells are known OR if we have fewer than 3 level 1 spells
+            // This allows us to fill in missing spells
+            if (known.length >= 3) {
+                // Check if we have at least 3 level 1 spells
+                try {
+                    const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
+                    const available = ALL_CLASS_SPELLS[className] || [];
+                    const level1SpellIds = new Set(available.filter(s => (s.level || 1) === 1).map(s => s.id));
+                    const knownLevel1Count = known.filter(id => level1SpellIds.has(id)).length;
+                    if (knownLevel1Count >= 3) {
+                        return false; // Already have 3+ level 1 spells
+                    }
+                } catch (e) {
+                    // If we can't check, proceed with assignment
+                }
+            }
 
             // Ensure character is level 1 if not set
             if (!state.level || state.level < 1) {
@@ -2233,39 +2324,81 @@ const useCharacterStore = create((set, get) => ({
                 const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
                 const available = ALL_CLASS_SPELLS[className] || [];
                 
-                // Filter to level 1 spells only
-                const level1Spells = available.filter(s => (s.level === 1 || s.level === undefined));
+                // Filter to level 1 spells only (or spells without level, which default to 1)
+                const level1Spells = available.filter(s => {
+                    const spellLevel = s.level || 1;
+                    return spellLevel === 1;
+                });
+                
+                console.log(`🔍 [ensureClassStarterSpells] ${className}:`, {
+                    totalSpells: available.length,
+                    level1SpellsCount: level1Spells.length,
+                    level1SpellIds: level1Spells.map(s => s.id).slice(0, 10)
+                });
                 
                 if (level1Spells.length > 0) {
+                    // Get currently known level 1 spells
+                    const knownLevel1SpellIds = new Set(known.filter(id => 
+                        level1Spells.some(s => s.id === id)
+                    ));
+                    
+                    // If we already have 3+ level 1 spells, don't reassign
+                    if (knownLevel1SpellIds.size >= 3) {
+                        console.log(`✅ Already have ${knownLevel1SpellIds.size} level 1 spells for ${className}, skipping assignment`);
+                        return false;
+                    }
+                    
+                    // Filter out already known spells
+                    const availableLevel1Spells = level1Spells.filter(s => !known.includes(s.id));
+                    
                     let starter = [];
                     if (className === 'Chaos Weaver') {
                         // Prefer spells that showcase chaos rollable tables
-                        const withTables = level1Spells.filter(s => (s.rollableTable && s.rollableTable.enabled) || (s.mechanicsConfig && s.mechanicsConfig.rollableTable && s.mechanicsConfig.rollableTable.enabled));
-                        const ec = level1Spells.filter(s => s.specialization === 'entropy_control');
-                        const rb = level1Spells.filter(s => s.specialization === 'reality_bending');
-                        const cd = level1Spells.filter(s => s.specialization === 'chaos_dice');
+                        const withTables = availableLevel1Spells.filter(s => (s.rollableTable && s.rollableTable.enabled) || (s.mechanicsConfig && s.mechanicsConfig.rollableTable && s.mechanicsConfig.rollableTable.enabled));
+                        const ec = availableLevel1Spells.filter(s => s.specialization === 'entropy_control');
+                        const rb = availableLevel1Spells.filter(s => s.specialization === 'reality_bending');
+                        const cd = availableLevel1Spells.filter(s => s.specialization === 'chaos_dice');
                         starter = (withTables.slice(0, 3).length === 3
                           ? withTables.slice(0, 3)
                           : [...cd, ...ec, ...rb].filter(s => withTables.includes(s) || s.rollableTable?.enabled).slice(0, 3));
                     } else if (className === 'Fate Weaver') {
                         // Prefer card-based spells with rollable tables
-                        const withCards = level1Spells.filter(s => (s.resolution === 'CARDS') || (s.mechanicsConfig?.cards) || (s.rollableTable?.resolutionType === 'CARDS'));
+                        const withCards = availableLevel1Spells.filter(s => (s.resolution === 'CARDS') || (s.mechanicsConfig?.cards) || (s.rollableTable?.resolutionType === 'CARDS'));
                         const withTables = withCards.filter(s => s.rollableTable?.enabled);
                         starter = (withTables.slice(0, 3).length === 3 ? withTables.slice(0, 3) : withCards.slice(0, 3));
                     } else {
-                        // For Pyrofiend and other classes, randomly select 3 from level 1 spells
-                        const shuffled = [...level1Spells].sort(() => Math.random() - 0.5);
-                        starter = shuffled.slice(0, 3);
+                        // For all other classes, randomly select from available level 1 spells
+                        const needed = Math.min(3 - knownLevel1SpellIds.size, availableLevel1Spells.length);
+                        if (needed > 0) {
+                            const shuffled = [...availableLevel1Spells].sort(() => Math.random() - 0.5);
+                            starter = shuffled.slice(0, needed);
+                        }
                     }
+                    
                     if (starter.length > 0) {
+                        const starterIds = starter.map(s => s.id).filter(id => id);
+                        // Merge with existing known spells (keep non-level-1 spells)
+                        const existingNonLevel1 = known.filter(id => 
+                            !level1Spells.some(s => s.id === id)
+                        );
+                        const updatedKnownSpells = [...existingNonLevel1, ...starterIds];
+                        
                         set({
                             class_spells: {
                                 ...state.class_spells,
-                                known_spells: starter.map(s => s.id)
+                                known_spells: updatedKnownSpells
                             }
                         });
+                        console.log(`✨ Assigned ${starterIds.length} starter spells for ${className} (total: ${updatedKnownSpells.length}):`, {
+                            newSpells: starterIds,
+                            allKnownSpells: updatedKnownSpells
+                        });
                         return true;
+                    } else if (knownLevel1SpellIds.size < 3) {
+                        console.warn(`⚠️ Could not assign enough level 1 spells for ${className}. Have ${knownLevel1SpellIds.size}, need 3, but only ${availableLevel1Spells.length} available.`);
                     }
+                } else {
+                    console.warn(`⚠️ No level 1 spells found in ALL_CLASS_SPELLS for ${className}`);
                 }
             } catch (e) {
                 console.warn('Could not load from ALL_CLASS_SPELLS, falling back to spellPools:', e);
@@ -2326,11 +2459,13 @@ const useCharacterStore = create((set, get) => ({
                         return classData.spellPools[1];
                     }
                     
-                    // Fallback: filter spells array for level 1 spells
-                    if (classData.spells && Array.isArray(classData.spells)) {
-                        return classData.spells
-                            .filter(spell => spell.level === 1)
-                            .map(spell => spell.id);
+                    // Fallback: filter spells/exampleSpells array for level 1 spells
+                    const spellsArray = classData.spells || classData.exampleSpells || [];
+                    if (Array.isArray(spellsArray) && spellsArray.length > 0) {
+                        return spellsArray
+                            .filter(spell => spell.level === 1 || !spell.level) // Include spells without level (default to 1)
+                            .map(spell => spell.id)
+                            .filter(id => id); // Remove any undefined/null IDs
                     }
                     
                     return [];
@@ -2340,14 +2475,32 @@ const useCharacterStore = create((set, get) => ({
                 const level1SpellIds = getLevel1SpellIds(classData);
                 
                 if (level1SpellIds.length > 0) {
-                    const shuffled = [...level1SpellIds].sort(() => Math.random() - 0.5);
-                    const selectionFallback = shuffled.slice(0, Math.min(3, level1SpellIds.length));
+                    // Try to match spell IDs with ALL_CLASS_SPELLS to ensure they exist
+                    let validSpellIds = level1SpellIds;
+                    try {
+                        const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
+                        const available = ALL_CLASS_SPELLS[className] || [];
+                        const availableIds = new Set(available.map(s => s.id));
+                        validSpellIds = level1SpellIds.filter(id => availableIds.has(id));
+                        
+                        // If no matches found, use original IDs (might be a new class or different format)
+                        if (validSpellIds.length === 0) {
+                            console.warn(`⚠️ No matching spell IDs found in ALL_CLASS_SPELLS for ${className}, using classData IDs directly`);
+                            validSpellIds = level1SpellIds;
+                        }
+                    } catch (e) {
+                        console.warn('Could not cross-reference with ALL_CLASS_SPELLS in fallback:', e);
+                    }
+                    
+                    const shuffled = [...validSpellIds].sort(() => Math.random() - 0.5);
+                    const selectionFallback = shuffled.slice(0, Math.min(3, validSpellIds.length));
                     set({
                         class_spells: {
                             ...state.class_spells,
                             known_spells: selectionFallback
                         }
                     });
+                    console.log(`✨ Assigned ${selectionFallback.length} starter spells (fallback) for ${className}:`, selectionFallback);
                     return true;
                 }
             } catch (e) {
@@ -2607,27 +2760,108 @@ const useCharacterStore = create((set, get) => ({
         get().updateExperience(newXP);
     },
 
+    // Helper function to get spell IDs for a specific level from class data
+    getSpellIdsForLevel: (classData, level) => {
+        if (!classData) return [];
+        
+        // First try spellPools (if class has spellPools structure)
+        if (classData.spellPools && classData.spellPools[level]) {
+            return classData.spellPools[level];
+        }
+        
+        // Fallback: filter spells/exampleSpells array for spells of this level
+        const spellsArray = classData.spells || classData.exampleSpells || [];
+        if (Array.isArray(spellsArray) && spellsArray.length > 0) {
+            return spellsArray
+                .filter(spell => (spell.level === level || (level === 1 && !spell.level)))
+                .map(spell => spell.id)
+                .filter(id => id); // Remove any undefined/null IDs
+        }
+        
+        return [];
+    },
+
     // Helper function to assign spells based on character level
     assignSpellsForLevel: (targetLevel, characterClass) => {
         const state = get();
         if (!characterClass) return;
 
+        // Helper function to get class data by name
+        const getClassData = (name) => {
+            const classDataMap = {
+                'Arcanoneer': () => require('../data/classes/arcanoneerData').ARCANONEER_DATA,
+                'Berserker': () => require('../data/classes/berserkerData').BERSERKER_DATA,
+                'Bladedancer': () => require('../data/classes/bladedancerData').BLADEDANCER_DATA,
+                'Chaos Weaver': () => require('../data/classes/chaosWeaverData').CHAOS_WEAVER_DATA,
+                'Chronarch': () => require('../data/classes/chronarchData').CHRONARCH_DATA,
+                'Covenbane': () => require('../data/classes/covenbaneData').COVENBANE_DATA,
+                'Deathcaller': () => require('../data/classes/deathcallerData').DEATHCALLER_DATA,
+                'Dreadnaught': () => require('../data/classes/dreadnaughtData').DREADNAUGHT_DATA,
+                'Exorcist': () => require('../data/classes/exorcistData').EXORCIST_DATA,
+                'False Prophet': () => require('../data/classes/falseProphetData').FALSE_PROPHET_DATA,
+                'Fate Weaver': () => require('../data/classes/fateWeaverData').FATE_WEAVER_DATA,
+                'Formbender': () => require('../data/classes/formbenderData').FORMBENDER_DATA,
+                'Gambler': () => require('../data/classes/gamblerData').GAMBLER_DATA,
+                'Huntress': () => require('../data/classes/huntressData').HUNTRESS_DATA,
+                'Inscriptor': () => require('../data/classes/inscriptorData').INSCRIPTOR_DATA,
+                'Lichborne': () => require('../data/classes/lichborneData').LICHBORNE_DATA,
+                'Lunarch': () => require('../data/classes/lunarchData').LUNARCH_DATA,
+                'Martyr': () => require('../data/classes/martyrData').MARTYR_DATA,
+                'Minstrel': () => require('../data/classes/minstrelData').MINSTREL_DATA,
+                'Oracle': () => require('../data/classes/oracleData').ORACLE_DATA,
+                'Plaguebringer': () => require('../data/classes/plaguebringerData').PLAGUEBRINGER_DATA,
+                'Primalist': () => require('../data/classes/primalistData').PRIMALIST_DATA,
+                'Pyrofiend': () => require('../data/classes/pyrofiendData').PYROFIEND_DATA,
+                'Spellguard': () => require('../data/classes/spellguardData').SPELLGUARD_DATA,
+                'Titan': () => require('../data/classes/titanData').TITAN_DATA,
+                'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
+                'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
+                'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA
+            };
+            const loader = classDataMap[name];
+            if (loader) {
+                try {
+                    return loader();
+                } catch (e) {
+                    console.warn(`Failed to load class data for ${name}:`, e);
+                    return null;
+                }
+            }
+            return null;
+        };
+
         // Import class data dynamically
         const classData = getClassData(characterClass);
-        if (!classData || !classData.spellPools) return;
+        if (!classData) return;
+
+        // Try to get spells from ALL_CLASS_SPELLS first (to ensure IDs match)
+        let allClassSpells = [];
+        try {
+            const { ALL_CLASS_SPELLS } = require('../data/classSpellGenerator');
+            allClassSpells = ALL_CLASS_SPELLS[characterClass] || [];
+        } catch (e) {
+            console.warn('Could not load ALL_CLASS_SPELLS, using classData directly:', e);
+        }
 
         const currentKnownSpells = state.class_spells?.known_spells || [];
         let spellsToAdd = [];
 
         // Always ensure 3 level 1 spells
         if (targetLevel >= 1) {
-            const level1Spells = classData.spellPools[1] || [];
+            // Get level 1 spell IDs from class data
+            const level1SpellIds = get().getSpellIdsForLevel(classData, 1);
+            
+            // If we have ALL_CLASS_SPELLS, filter to only use IDs that exist there
+            const validLevel1SpellIds = allClassSpells.length > 0
+                ? level1SpellIds.filter(id => allClassSpells.some(s => s.id === id))
+                : level1SpellIds;
+            
             const currentLevel1Spells = currentKnownSpells.filter(spellId =>
-                level1Spells.includes(spellId)
+                validLevel1SpellIds.includes(spellId)
             );
 
             if (currentLevel1Spells.length < 3) {
-                const availableLevel1Spells = level1Spells.filter(id =>
+                const availableLevel1Spells = validLevel1SpellIds.filter(id =>
                     !currentKnownSpells.includes(id)
                 );
                 const shuffled = [...availableLevel1Spells].sort(() => Math.random() - 0.5);
@@ -2638,14 +2872,21 @@ const useCharacterStore = create((set, get) => ({
 
         // Add 1 spell from each level 2 to targetLevel
         for (let level = 2; level <= targetLevel; level++) {
-            const levelSpells = classData.spellPools[level] || [];
+            // Get spell IDs for this level
+            const levelSpellIds = get().getSpellIdsForLevel(classData, level);
+            
+            // If we have ALL_CLASS_SPELLS, filter to only use IDs that exist there
+            const validLevelSpellIds = allClassSpells.length > 0
+                ? levelSpellIds.filter(id => allClassSpells.some(s => s.id === id))
+                : levelSpellIds;
+            
             const currentLevelSpells = currentKnownSpells.filter(spellId =>
-                levelSpells.includes(spellId)
+                validLevelSpellIds.includes(spellId)
             );
 
-            if (currentLevelSpells.length === 0 && levelSpells.length > 0) {
+            if (currentLevelSpells.length === 0 && validLevelSpellIds.length > 0) {
                 // No spells from this level yet, add one randomly
-                const availableSpells = levelSpells.filter(id =>
+                const availableSpells = validLevelSpellIds.filter(id =>
                     !currentKnownSpells.includes(id)
                 );
                 if (availableSpells.length > 0) {
@@ -2669,7 +2910,8 @@ const useCharacterStore = create((set, get) => ({
             console.log(`✨ Auto-assigned ${spellsToAdd.length} spells for level ${targetLevel}:`, {
                 spellsToAdd,
                 totalKnownSpells: updatedKnownSpells.length,
-                characterClass
+                characterClass,
+                targetLevel
             });
         }
     },
@@ -2834,15 +3076,27 @@ const useCharacterStore = create((set, get) => ({
             timestamp: new Date().toISOString()
         };
 
-        // Handle spell learning (Arcanoneer only)
+        // Handle spell learning (all spell-casting classes)
         if (choice.spellId) {
             const currentSpells = state.class_spells?.known_spells || [];
-            set({
-                class_spells: {
-                    ...state.class_spells,
-                    known_spells: [...currentSpells, choice.spellId]
-                }
-            });
+            // Check if spell is already known (shouldn't happen, but be safe)
+            if (!currentSpells.includes(choice.spellId)) {
+                const updatedSpells = [...currentSpells, choice.spellId];
+                set({
+                    class_spells: {
+                        ...state.class_spells,
+                        known_spells: updatedSpells
+                    }
+                });
+                console.log(`✨ Learned new spell at level ${newLevel}:`, {
+                    spellId: choice.spellId,
+                    characterClass: state.class,
+                    totalKnownSpells: updatedSpells.length,
+                    newLevel
+                });
+            } else {
+                console.warn(`⚠️ Attempted to learn spell ${choice.spellId} that is already known`);
+            }
             historyEntry.spellId = choice.spellId;
         }
 

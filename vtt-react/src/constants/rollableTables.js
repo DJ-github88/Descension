@@ -13,8 +13,8 @@ import { ACROBATICS_TABLES } from './acrobaticsTables.js';
 import { ANIMAL_HANDLING_TABLES } from './animalHandlingTables.js';
 import { NATURE_TABLES } from './natureTables.js';
 import { PERCEPTION_TABLES } from './perceptionTables.js';
-import { DEFENSIVE_TECHNIQUES_TABLES } from './defensiveTechniquesTables.js';
-import { WEAPON_MASTERY_TABLES } from './weaponMasteryTables.js';
+// Defensive Techniques removed
+// Weapon Mastery tables defined inline below to match new weapon-specific flow
 import { TACTICAL_COMBAT_TABLES } from './tacticalCombatTables.js';
 import { ALCHEMY_TABLES } from './alchemyTables.js';
 import { SPELLCRAFT_TABLES } from './spellcraftTables.js';
@@ -24,6 +24,122 @@ import { ARCANE_KNOWLEDGE_TABLES } from './arcaneKnowledgeTables.js';
 import { RITUAL_MAGIC_TABLES } from './ritualMagicTables.js';
 import { ARCANA_TABLES } from './arcanaTables.js';
 import { HISTORY_TABLES } from './historyTables.js';
+
+// Inline Weapon Mastery tables (d8 only, per proficiency) — tuned to scale cleanly per rank
+const WEAPON_MASTERY_TABLES = {
+    weaponmastery_untrained_d8: {
+        name: 'Untrained Weapon Mastery (d8)',
+        description: 'Rough strikes with big swings—could wobble, could wobble into luck.',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
+        requiredRank: 'UNTRAINED',
+        table: [
+            { roll: [1, 1], result: 'Slip: drop stance, lose 1 step of movement.', type: 'failure' },
+            { roll: [2, 2], result: 'Bruised grip: next attack roll is -1.', type: 'failure' },
+            { roll: [3, 3], result: 'Off balance: target gains +1 to hit you once.', type: 'failure' },
+            { roll: [4, 4], result: 'Glancing hit: half damage.', type: 'normal' },
+            { roll: [5, 5], result: 'Solid hit: normal damage.', type: 'normal' },
+            { roll: [6, 6], result: 'Clean edge: +1 damage.', type: 'success' },
+            { roll: [7, 7], result: 'Follow feet: +1 damage and step 1.', type: 'success' },
+            { roll: [8, 8], result: 'Lucky draw: reroll the weapon die, keep the better.', type: 'success' }
+        ]
+    },
+    weaponmastery_novice_d8: {
+        name: 'Novice Weapon Mastery (d8)',
+        description: 'Basic control—fewer fumbles, small payoffs.',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
+        requiredRank: 'NOVICE',
+        table: [
+            { roll: [1, 1], result: 'Telegraph: this attack is -1.', type: 'failure' },
+            { roll: [2, 2], result: 'Skate the edge: half damage.', type: 'failure' },
+            { roll: [3, 3], result: 'Wide show: target gains +1 vs you once.', type: 'failure' },
+            { roll: [4, 4], result: 'Solid swing: normal damage.', type: 'normal' },
+            { roll: [5, 5], result: 'Shoulder behind it: +1 damage.', type: 'normal' },
+            { roll: [6, 6], result: 'Reset grip: reroll one attack die.', type: 'success' },
+            { roll: [7, 7], result: 'Make space: step 1 or give ally +1 to hit this target.', type: 'success' },
+            { roll: [8, 8], result: 'Sweet line: crit range expands by 1 for this attack.', type: 'success' }
+        ]
+    },
+    weaponmastery_trained_d8: {
+        name: 'Trained Weapon Mastery (d8)',
+        description: 'Reliable swings with tactical edges.',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
+        requiredRank: 'TRAINED',
+        table: [
+            { roll: [1, 1], result: 'Bad beat: next defense is -1.', type: 'failure' },
+            { roll: [2, 2], result: 'Overdraw: lose 1 AP after this attack.', type: 'failure' },
+            { roll: [3, 3], result: 'Rooted swing: cannot step this turn.', type: 'normal' },
+            { roll: [4, 4], result: 'Firm hit: +1 damage.', type: 'normal' },
+            { roll: [5, 5], result: 'Hook and tug: slide target 1 on hit.', type: 'success' },
+            { roll: [6, 6], result: 'Sightline: ignore light cover on this attack.', type: 'success' },
+            { roll: [7, 7], result: 'Read them: roll the attack twice, keep better.', type: 'success' },
+            { roll: [8, 8], result: 'Cleaving follow: on hit, roll weapon die again and add half.', type: 'success' }
+        ]
+    },
+    weaponmastery_apprentice_d8: {
+        name: 'Apprentice Weapon Mastery (d8)',
+        description: 'Confident strikes that start to dictate the exchange.',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
+        requiredRank: 'APPRENTICE',
+        table: [
+            { roll: [1, 1], result: 'Trip yourself: this attack -1 and no step.', type: 'failure' },
+            { roll: [2, 2], result: 'Misdirect: half damage.', type: 'failure' },
+            { roll: [3, 3], result: 'Telegraph: target gains +1 vs your next action.', type: 'failure' },
+            { roll: [4, 4], result: 'Solid blow: normal damage.', type: 'normal' },
+            { roll: [5, 5], result: 'Deep cut: +2 damage.', type: 'normal' },
+            { roll: [6, 6], result: 'Trip or pin: target is -1 to next attack.', type: 'success' },
+            { roll: [7, 7], result: 'Flow step: slide target 1 and step 1.', type: 'success' },
+            { roll: [8, 8], result: 'Chain strike: on hit, free basic attack at -2.', type: 'success' }
+        ]
+    },
+    weaponmastery_adept_d8: {
+        name: 'Adept Weapon Mastery (d8)',
+        description: 'Controlled aggression that shapes the field.',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
+        requiredRank: 'ADEPT',
+        table: [
+            { roll: [1, 1], result: 'Overreach: foes gain +1 to hit you this round.', type: 'failure' },
+            { roll: [2, 2], result: 'Set in stone: provoke reactions as normal.', type: 'failure' },
+            { roll: [3, 3], result: 'Guard shred: ignore cover on this attack.', type: 'normal' },
+            { roll: [4, 4], result: 'Anchor stance: foes take -2 to hit you until target’s next turn.', type: 'normal' },
+            { roll: [5, 5], result: 'Soft spot: crit range +1 and +2 damage on hit.', type: 'success' },
+            { roll: [6, 6], result: 'Commanding blow: nearest ally gains +1 to hit this target once.', type: 'success' },
+            { roll: [7, 7], result: 'Relentless: on hit, refresh 1 AP.', type: 'success' },
+            { roll: [8, 8], result: 'Clinical strike: on hit, roll weapon die again and add full.', type: 'success' }
+        ]
+    },
+    weaponmastery_expert_d8: {
+        name: 'Expert Weapon Mastery (d8)',
+        description: 'Reads, punishes, and repositions with intent.',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
+        requiredRank: 'EXPERT',
+        table: [
+            { roll: [1, 1], result: 'Strain: lose 1 AP after this attack.', type: 'failure' },
+            { roll: [2, 2], result: 'Overstride: speed -1 until end of next turn.', type: 'failure' },
+            { roll: [3, 3], result: 'Exploit: +2 to hit and +2 damage.', type: 'normal' },
+            { roll: [4, 4], result: 'Snap recover: if you miss, regain the AP spent (min 1).', type: 'normal' },
+            { roll: [5, 5], result: 'Line up: may target a second adjacent foe at -2.', type: 'success' },
+            { roll: [6, 6], result: 'Wrench: disarm/sunder on hit; else +3 damage.', type: 'success' },
+            { roll: [7, 7], result: 'Pinpoint: ignore resistances/vulnerabilities this hit.', type: 'success' },
+            { roll: [8, 8], result: 'Masterful arc: on hit, add weapon die again and shift 1.', type: 'success' }
+        ]
+    },
+    weaponmastery_master_d8: {
+        name: 'Master Weapon Mastery (d8)',
+        description: 'Signature blows—decisive, mobile, oppressive.',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
+        requiredRank: 'MASTER',
+        table: [
+            { roll: [1, 1], result: 'Hubris: this attack is -2.', type: 'failure' },
+            { roll: [2, 2], result: 'Backfire: lose 1 AP after this attack.', type: 'failure' },
+            { roll: [3, 3], result: 'Debilitate: on hit, target is -2 to next action roll.', type: 'normal' },
+            { roll: [4, 4], result: 'Flow state: foes -2 to hit you; you +2 to hit until next turn.', type: 'normal' },
+            { roll: [5, 5], result: 'Crushing intent: add weapon die again, keep better.', type: 'success' },
+            { roll: [6, 6], result: 'Command the field: step 2 before/after this attack.', type: 'success' },
+            { roll: [7, 7], result: 'Overwhelm: on hit, choose target loses 1 AP next turn or take +4 damage.', type: 'success' },
+            { roll: [8, 8], result: 'Signature strike: on hit choose two: +4 damage, push/pull 2, refresh 1 AP, silence reactions vs you.', type: 'critical' }
+        ]
+    }
+};
 import { RELIGION_TABLES } from './religionTables.js';
 
 export const ROLLABLE_TABLES = {
@@ -40,7 +156,6 @@ export const ROLLABLE_TABLES = {
     ...ANIMAL_HANDLING_TABLES,
     ...NATURE_TABLES,
     ...PERCEPTION_TABLES,
-    ...DEFENSIVE_TECHNIQUES_TABLES,
     ...WEAPON_MASTERY_TABLES,
     ...TACTICAL_COMBAT_TABLES,
     ...ALCHEMY_TABLES,

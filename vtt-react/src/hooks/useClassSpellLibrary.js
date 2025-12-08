@@ -138,7 +138,7 @@ export const useClassSpellLibrary = () => {
   /**
    * Get all spells (class + custom) as a flat array
    * Returns only known spells if the character has learned any
-   * Otherwise returns empty array (spellbook should only show learned spells)
+   * Universal spells (starting with 'universal_') are always visible
    */
   const getAllSpells = useCallback(() => {
     const allSpells = [];
@@ -154,9 +154,11 @@ export const useClassSpellLibrary = () => {
     });
 
     // Filter to only show spells the character has learned
-    // The spellbook should only display spells the character knows
+    // Universal spells are always visible regardless of known spells
     if (knownSpells.length > 0) {
-      const filtered = allSpells.filter(spell => knownSpells.includes(spell.id));
+      const filtered = allSpells.filter(spell => 
+        knownSpells.includes(spell.id) || spell.id?.startsWith('universal_')
+      );
       console.log('✅ Filtered spells:', {
         filteredCount: filtered.length,
         filteredIds: filtered.map(s => s.id)
@@ -164,26 +166,34 @@ export const useClassSpellLibrary = () => {
       return filtered;
     }
 
-    // If no known spells, return empty array (character hasn't learned any spells yet)
-    console.warn('⚠️ No known spells, returning empty array');
-    return [];
+    // If no known spells, still return universal spells (they're always available)
+    const universalSpells = allSpells.filter(spell => spell.id?.startsWith('universal_'));
+    console.log('✅ Returning universal spells only:', {
+      universalCount: universalSpells.length,
+      universalIds: universalSpells.map(s => s.id)
+    });
+    return universalSpells;
   }, [spellCategories, knownSpells]);
 
   /**
    * Get spells by category
-   * Returns only known spells in the category (spellbook should only show learned spells)
+   * Returns only known spells in the category
+   * Universal spells (starting with 'universal_') are always visible
    */
   const getSpellsByCategory = useCallback((categoryId) => {
     const category = spellCategories.find(cat => cat.id === categoryId);
     const categorySpells = category ? category.spells : [];
 
     // Filter to only show spells the character has learned
+    // Universal spells are always visible regardless of known spells
     if (knownSpells.length > 0) {
-      return categorySpells.filter(spell => knownSpells.includes(spell.id));
+      return categorySpells.filter(spell => 
+        knownSpells.includes(spell.id) || spell.id?.startsWith('universal_')
+      );
     }
 
-    // If no known spells, return empty array
-    return [];
+    // If no known spells, still return universal spells from this category
+    return categorySpells.filter(spell => spell.id?.startsWith('universal_'));
   }, [spellCategories, knownSpells]);
 
   /**

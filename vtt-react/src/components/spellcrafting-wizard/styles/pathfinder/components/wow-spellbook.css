@@ -23,6 +23,42 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative;
+  z-index: 5;
+}
+
+.wow-category-tabs-header {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+}
+
+.wow-category-tabs-header .wow-category-tab {
+  border-radius: 4px;
+  margin: 0;
+}
+
+.wow-header-pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.wow-page-info-header {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c4b490;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
 }
 
 .wow-spellbook-title {
@@ -62,17 +98,27 @@
   transition: all 0.2s ease;
   white-space: nowrap;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
 }
 
-.wow-header-button:hover {
+.wow-header-button:hover:not(:disabled) {
   background: linear-gradient(to bottom, #5a4838 0%, #4a3828 100%);
   color: #f0e6d2;
   border-color: #8b7355;
 }
 
+.wow-header-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .wow-header-button i {
   margin-right: 4px;
   font-size: 10px;
+  pointer-events: none;
 }
 
 /* Category Tabs - Compact */
