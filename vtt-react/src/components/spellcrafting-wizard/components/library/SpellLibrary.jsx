@@ -12,6 +12,7 @@ import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
+import { getRacialSpells } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import '../../styles/pathfinder/main.css';
 import '../../styles/pathfinder/components/wow-spellbook.css';
@@ -205,6 +206,18 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     setCurrentPage(1);
   }, [characterClass]);
 
+  // Reset page and category when character changes to show only current character's spells
+  useEffect(() => {
+    setActiveCategory(null);
+    setCurrentPage(1);
+    // Clear manual pagination flag when character changes
+    isManuallyPaginatingRef.current = false;
+    if (paginationTimeoutRef.current) {
+      clearTimeout(paginationTimeoutRef.current);
+      paginationTimeoutRef.current = null;
+    }
+  }, [currentCharacterId]);
+
   // Get general spells with weapon integration
   const {
     enhancedSpells: generalSpells,
@@ -245,6 +258,44 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // Get known spells from character store
   const knownSpellIds = useCharacterStore(state => state.class_spells?.known_spells || []);
   const activeCharKnownSpells = activeChar?.class_spells?.known_spells || knownSpellIds;
+
+  // Get filtered library spells for category population (before final filtering)
+  // This needs to be defined before allSpellCategories uses it
+  const filteredLibrarySpellsForCategories = useMemo(() => {
+    if (!hasActiveCharacter || !currentCharacterId || !activeChar) {
+      return library.spells.filter(spell => {
+        const categoryIds = spell.categoryIds || [];
+        return !categoryIds.includes('Racial Abilities') && 
+               !categoryIds.includes('Discipline Abilities') &&
+               !categoryIds.includes('Discipline Passives');
+      });
+    }
+
+    const currentRacialSpells = activeChar.race && activeChar.subrace 
+      ? getRacialSpells(activeChar.race, activeChar.subrace)
+      : [];
+    const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
+
+    return library.spells.filter(spell => {
+      const categoryIds = spell.categoryIds || [];
+      
+      if (!categoryIds.includes('Racial Abilities') && 
+          !categoryIds.includes('Discipline Abilities') &&
+          !categoryIds.includes('Discipline Passives')) {
+        return true;
+      }
+      
+      if (categoryIds.includes('Racial Abilities')) {
+        return currentRacialSpellIds.has(spell.id);
+      }
+      
+      if (categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives')) {
+        return activeChar.path && activeChar.path !== '';
+      }
+      
+      return true;
+    });
+  }, [library.spells, hasActiveCharacter, currentCharacterId, activeChar]);
 
   // Combine spell categories with general categories
   // Only show: General Actions, General Reactions, and class name (if class selected)
@@ -404,8 +455,48 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       });
     }
 
+    // Add Racial Abilities category if character has racial spells
+    if (hasActiveCharacter && currentCharacterId && activeChar) {
+      const racialSpellsInLibrary = filteredLibrarySpellsForCategories.filter(spell => {
+        const categoryIds = spell.categoryIds || [];
+        return categoryIds.includes('Racial Abilities');
+      });
+      
+      if (racialSpellsInLibrary.length > 0) {
+        combined.push({
+          id: 'racial_abilities',
+          name: 'Racial',
+          description: 'Racial abilities from your race and subrace',
+          color: '#8B4513',
+          icon: 'spell_holy_devotion',
+          spells: racialSpellsInLibrary,
+          isRacial: true
+        });
+      }
+    }
+
+    // Add Discipline Abilities category if character has discipline/path spells
+    if (hasActiveCharacter && currentCharacterId && activeChar && activeChar.path) {
+      const disciplineSpellsInLibrary = filteredLibrarySpellsForCategories.filter(spell => {
+        const categoryIds = spell.categoryIds || [];
+        return categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives');
+      });
+      
+      if (disciplineSpellsInLibrary.length > 0) {
+        combined.push({
+          id: 'discipline_abilities',
+          name: 'Discipline',
+          description: 'Discipline abilities from your chosen path',
+          color: '#8B4513',
+          icon: 'spell_holy_magicalsentry',
+          spells: disciplineSpellsInLibrary,
+          isDiscipline: true
+        });
+      }
+    }
+
     return combined;
-  }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel]);
+  }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories]);
 
   // Track deleted spell IDs to prevent reloading them from Firebase
   const getDeletedSpellIds = () => {
@@ -485,6 +576,9 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   useEffect(() => {
     if (library.selectedSpell && libraryContentRef.current) {
       const updatePosition = () => {
+        // Safety check: ensure the ref still exists
+        if (!libraryContentRef.current) return;
+
         const libraryRect = libraryContentRef.current.getBoundingClientRect();
         const previewWidth = 400; // More conservative width
         const previewHeight = Math.min(600, window.innerHeight - 120); // More conservative height
@@ -520,8 +614,13 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       setTimeout(updatePosition, 10);
 
       // Update position on window resize
-      window.addEventListener('resize', updatePosition);
-      return () => window.removeEventListener('resize', updatePosition);
+      const handleResize = () => {
+        if (libraryContentRef.current) {
+          updatePosition();
+        }
+      };
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }
   }, [library.selectedSpell]);
 
@@ -808,7 +907,77 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     // ALWAYS include library.spells first (custom spells from wizard should always appear)
     // EXCEPT when viewing a class category - then only show class spells
     if (!isClassCategoryActive) {
-      spellsToFilter = [...library.spells];
+      // Filter library.spells to only show spells for the current character
+      let filteredLibrarySpells = [...library.spells];
+      
+      if (hasActiveCharacter && currentCharacterId && activeChar) {
+        // Get current character's racial spells
+        const currentRacialSpells = activeChar.race && activeChar.subrace 
+          ? getRacialSpells(activeChar.race, activeChar.subrace)
+          : [];
+        const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
+        
+        // Filter library spells to only include:
+        // 1. Custom spells (not in character-specific categories) - these are user-created
+        // 2. Racial spells that match current character's race/subrace
+        // 3. Discipline spells that match current character's path (filtered by Equipment component)
+        filteredLibrarySpells = library.spells.filter(spell => {
+          const categoryIds = spell.categoryIds || [];
+          
+          // Always include custom spells (not character-specific categories)
+          // These are spells created by the user in the spell wizard
+          if (!categoryIds.includes('Racial Abilities') && 
+              !categoryIds.includes('Discipline Abilities') &&
+              !categoryIds.includes('Discipline Passives')) {
+            return true;
+          }
+          
+          // For Racial Abilities, only include if it matches current character's race/subrace
+          if (categoryIds.includes('Racial Abilities')) {
+            // Only show if this spell is in the current character's racial spell list
+            const matches = currentRacialSpellIds.has(spell.id);
+            if (!matches) {
+              console.log('🚫 [SpellLibrary] Filtering out racial spell not matching current character:', {
+                spellId: spell.id,
+                spellName: spell.name,
+                currentRace: activeChar.race,
+                currentSubrace: activeChar.subrace,
+                currentRacialSpellIds: Array.from(currentRacialSpellIds)
+              });
+            }
+            return matches;
+          }
+          
+          // For Discipline Abilities/Passives, only include if character has a path
+          // The Equipment component should have already cleaned up old path spells
+          if (categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives')) {
+            // Only show if the character has a path set
+            // The Equipment component manages adding/removing these, so if they're in the library
+            // and the character has a path, they should be valid
+            const hasPath = activeChar.path && activeChar.path !== '';
+            if (!hasPath) {
+              console.log('🚫 [SpellLibrary] Filtering out discipline spell - character has no path:', {
+                spellId: spell.id,
+                spellName: spell.name,
+                characterPath: activeChar.path
+              });
+            }
+            return hasPath;
+          }
+          
+          return true; // Include other spells by default
+        });
+      } else {
+        // If no active character, filter out all character-specific spells
+        filteredLibrarySpells = library.spells.filter(spell => {
+          const categoryIds = spell.categoryIds || [];
+          return !categoryIds.includes('Racial Abilities') && 
+                 !categoryIds.includes('Discipline Abilities') &&
+                 !categoryIds.includes('Discipline Passives');
+        });
+      }
+      
+      spellsToFilter = filteredLibrarySpells;
 
       // Add skill-based abilities if character has skill proficiencies
       if (hasActiveCharacter && currentCharacterId) {
@@ -843,6 +1012,20 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             spell.categoryIds && spell.categoryIds.includes(activeCategory)
           );
           spellsToFilter = [...spellsToFilter, ...categoryGeneralSpells];
+        } else if (activeCategory === 'racial_abilities') {
+          // Show only racial spells
+          const racialSpells = filteredLibrarySpells.filter(spell => {
+            const categoryIds = spell.categoryIds || [];
+            return categoryIds.includes('Racial Abilities');
+          });
+          spellsToFilter = [...spellsToFilter, ...racialSpells];
+        } else if (activeCategory === 'discipline_abilities') {
+          // Show only discipline spells
+          const disciplineSpells = filteredLibrarySpells.filter(spell => {
+            const categoryIds = spell.categoryIds || [];
+            return categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives');
+          });
+          spellsToFilter = [...spellsToFilter, ...disciplineSpells];
         } else if (isClassCategory) {
           // Get class spells for the selected class, filtered by character level AND known spells
           // Only show spells the character actually knows/selected
@@ -948,9 +1131,37 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         // library.spells is already included at the top
       } else {
         // Show all spells from all categories (class + general + library spells for custom spells)
-        const classSpells = getAllSpells();
-        // Include class spells and general spells (excluding Attack spell)
-        spellsToFilter = [...spellsToFilter, ...classSpells, ...filteredGeneralSpells];
+        // BUT only include known class spells, not all class spells
+        const allClassSpells = rawClassSpells || [];
+        const generalSpellIds = new Set(filteredGeneralSpells.map(spell => spell.id));
+        const knownSpellIdsSet = new Set(activeCharKnownSpells);
+        
+        // Filter to only known class spells at or below character level
+        const knownClassSpells = allClassSpells.filter(spell => {
+          // Exclude general spells
+          if (generalSpellIds.has(spell.id)) return false;
+          // Exclude universal spells
+          if (spell.id?.startsWith('universal_')) return false;
+          // Exclude unwanted spells
+          const id = spell.id?.toLowerCase() || '';
+          const name = spell.name?.toLowerCase() || '';
+          if (
+            id === 'universal_attack' || 
+            name === 'attack (melee or ranged)' ||
+            id.includes('cast_minor') ||
+            id.includes('cast_major') ||
+            name.includes('cast minor') ||
+            name.includes('cast major')
+          ) return false;
+          // Only show spells the character knows/selected
+          if (!knownSpellIdsSet.has(spell.id)) return false;
+          // Filter by spell level
+          const spellLevel = spell.level || 1;
+          return spellLevel <= activeCharacterLevel;
+        });
+        
+        // Include only known class spells and general spells (excluding Attack spell)
+        spellsToFilter = [...spellsToFilter, ...knownClassSpells, ...filteredGeneralSpells];
       }
     } else {
       // Fall back to traditional library spells + general spells (excluding Attack spell)
@@ -1057,11 +1268,27 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredSpells.length / spellsPerPage);
+  
+  // Ensure currentPage is within valid bounds
+  const validCurrentPage = useMemo(() => {
+    if (totalPages === 0) return 1;
+    return Math.max(1, Math.min(currentPage, totalPages));
+  }, [currentPage, totalPages]);
+  
+  // Update currentPage if it's out of bounds
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    } else if (currentPage < 1) {
+      setCurrentPage(1);
+    }
+  }, [totalPages, currentPage]);
+  
   const paginatedSpells = useMemo(() => {
-    const startIndex = (currentPage - 1) * spellsPerPage;
+    const startIndex = (validCurrentPage - 1) * spellsPerPage;
     const endIndex = startIndex + spellsPerPage;
     return filteredSpells.slice(startIndex, endIndex);
-  }, [filteredSpells, currentPage, spellsPerPage]);
+  }, [filteredSpells, validCurrentPage, spellsPerPage]);
 
   // Handle spell selection
   const handleSelectSpell = (spellId, isEditing = false) => {
@@ -1856,28 +2083,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                       <button
                         type="button"
                         className="wow-header-button"
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          // Clear any existing timeout
-                          if (paginationTimeoutRef.current) {
-                            clearTimeout(paginationTimeoutRef.current);
-                          }
-                          isManuallyPaginatingRef.current = true;
-                          const newPage = Math.max(1, currentPage - 1);
-                          if (newPage !== currentPage) {
-                            setCurrentPage(newPage);
-                            // Keep flag true for a while
-                            paginationTimeoutRef.current = setTimeout(() => {
-                              isManuallyPaginatingRef.current = false;
-                              paginationTimeoutRef.current = null;
-                            }, 1000);
-                          }
-                        }}
-                        onMouseUp={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                        }}
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -1886,8 +2091,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                             clearTimeout(paginationTimeoutRef.current);
                           }
                           isManuallyPaginatingRef.current = true;
-                          const newPage = Math.max(1, currentPage - 1);
-                          if (newPage !== currentPage) {
+                          const newPage = Math.max(1, validCurrentPage - 1);
+                          if (newPage !== validCurrentPage) {
                             setCurrentPage(newPage);
                             // Keep flag true for a while
                             paginationTimeoutRef.current = setTimeout(() => {
@@ -1896,40 +2101,18 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                             }, 1000);
                           }
                         }}
-                        disabled={currentPage <= 1}
+                        disabled={validCurrentPage <= 1}
                         aria-label="Previous Page"
                         title="Previous Page"
                       >
                         <i className="fas fa-chevron-left"></i>
                       </button>
                       <span className="wow-page-info-header">
-                        Page {currentPage} of {totalPages}
+                        Page {validCurrentPage} of {totalPages}
                       </span>
                       <button
                         type="button"
                         className="wow-header-button"
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          // Clear any existing timeout
-                          if (paginationTimeoutRef.current) {
-                            clearTimeout(paginationTimeoutRef.current);
-                          }
-                          isManuallyPaginatingRef.current = true;
-                          const newPage = Math.min(totalPages, currentPage + 1);
-                          if (newPage !== currentPage) {
-                            setCurrentPage(newPage);
-                            // Keep flag true for a while
-                            paginationTimeoutRef.current = setTimeout(() => {
-                              isManuallyPaginatingRef.current = false;
-                              paginationTimeoutRef.current = null;
-                            }, 1000);
-                          }
-                        }}
-                        onMouseUp={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                        }}
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -1938,8 +2121,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                             clearTimeout(paginationTimeoutRef.current);
                           }
                           isManuallyPaginatingRef.current = true;
-                          const newPage = Math.min(totalPages, currentPage + 1);
-                          if (newPage !== currentPage) {
+                          const newPage = Math.min(totalPages, validCurrentPage + 1);
+                          if (newPage !== validCurrentPage) {
                             setCurrentPage(newPage);
                             // Keep flag true for a while
                             paginationTimeoutRef.current = setTimeout(() => {
@@ -1948,7 +2131,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                             }, 1000);
                           }
                         }}
-                        disabled={currentPage >= totalPages}
+                        disabled={validCurrentPage >= totalPages}
                         aria-label="Next Page"
                         title="Next Page"
                       >

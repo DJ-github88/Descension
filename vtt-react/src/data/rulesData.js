@@ -869,7 +869,7 @@ The Grimheart are a cursed people who delved too deep into the earth and awakene
               title: 'Combat Actions',
               headers: ['Action', 'Type', 'Description', 'Cost'],
               rows: [
-                [{ spellId: 'general_attack' }, 'A', 'Attack with your equipped weapon or unarmed strike. Damage and properties depend on your currently equipped weapon. Roll your weapon die - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit, any other result hits and deals damage equal to the roll plus your attribute modifier.', '2 AP'],
+                ['Attack (Unarmed)', 'A', 'Attack with your fists or improvised weapons. Damage and properties depend on your currently equipped weapon. Roll your weapon die - a 1 is a miss (roll again to check for critical miss), maximum value is a critical hit, any other result hits and deals damage equal to the roll plus your attribute modifier.', '2 AP'],
                 [{ spellId: 'universal_move' }, 'A', 'Move up to your movement speed (typically 30 feet). This movement can be broken up between other actions.', '1 AP'],
                 [{ spellId: 'universal_disengage' }, 'A', 'Move away from enemies without provoking opportunity attacks. You can move up to your full movement speed while maintaining your defensive stance.', '1 AP'],
                 [{ spellId: 'universal_use_item' }, 'A', 'Draw, stow, or use an item in your inventory.', '1 AP'],

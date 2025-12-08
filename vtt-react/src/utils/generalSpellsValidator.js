@@ -126,12 +126,13 @@ export const validateGeneralSpell = (spell) => {
   }
 
   // Validate weapon-dependent spells
-  if (spell.name === 'Attack' || spell.damageConfig?.weaponDependent) {
+  // Note: The generic "Attack" spell has been removed - Attack (Unarmed) is now dynamically generated
+  if (spell.damageConfig?.weaponDependent) {
     if (!spell.damageConfig) {
       errors.push('Weapon-dependent spells must have damageConfig');
     }
     if (spell.damageConfig && !spell.damageConfig.weaponDependent) {
-      warnings.push('Attack spells should have weaponDependent flag set to true');
+      warnings.push('Weapon-dependent spells should have weaponDependent flag set to true');
     }
   }
 

@@ -47,46 +47,7 @@ const createGeneralSpell = (name, description, spellType, actionPoints, icon) =>
 
 // General spells/actions available to all characters
 export const GENERAL_SPELLS = [
-  // Attack - Dynamic weapon-based attack (will be enhanced by useWeaponEnhancedSpells)
-  {
-    ...createGeneralSpell(
-      'Attack',
-      'Attack with your equipped weapon or unarmed strike. Damage and properties depend on your currently equipped weapon.',
-      'ACTION',
-      2,
-      'ability_warrior_savageblow'
-    ),
-    effectTypes: ['damage'],
-    damageTypes: ['weapon_dependent'],
-    damageConfig: {
-      damageType: 'weapon',
-      elementType: 'physical',
-      formula: 'WEAPON_DAMAGE',
-      weaponDependent: true,
-      usesWeaponDice: true,
-      addAttributeModifier: true,
-      attributeModifier: 'strength'
-    },
-    targetingConfig: {
-      targetingType: 'single',
-      range: 'WEAPON_RANGE',
-      validTargets: ['enemy'],
-      requiresLineOfSight: true
-    },
-    mechanicsConfig: {
-      attackRoll: {
-        enabled: true,
-        attribute: 'strength',
-        proficiencyBonus: true,
-        weaponProficiency: true
-      },
-      criticalHit: {
-        enabled: true,
-        critRange: 20,
-        critMultiplier: 2
-      }
-    }
-  }
+  // Note: Attack spell has been removed - use dynamic Attack (Unarmed) from weaponIntegration instead
 ];
 
 // Combine all general actions

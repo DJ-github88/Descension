@@ -23,9 +23,10 @@ const SpellIconTooltip = ({ spellId, className = '', style = {} }) => {
   // If not found in universal spells, check general spells
   if (!spell) {
     // For general spells, match by id or name
-    // Special case: 'general_attack' maps to the Attack spell
+    // Note: 'general_attack' has been removed - Attack (Unarmed) is now dynamically generated
     if (spellId === 'general_attack') {
-      spell = ALL_GENERAL_SPELLS.find(s => s.name === 'Attack');
+      // Return null for removed spell
+      return null;
     } else {
       spell = ALL_GENERAL_SPELLS.find(s => 
         s.id === spellId || 

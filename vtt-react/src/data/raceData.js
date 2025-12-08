@@ -83,16 +83,15 @@ export const RACE_DATA = {
                     {
                         id: 'battle_fury_nordmark',
                         name: 'Battle Fury',
-                        description: '+2 attack damage • -2 armor • -2 saves • 1 minute',
+                        description: 'When reduced to half hit points, enter a berserker rage. Gain increased damage but lose defensive capabilities.',
                         level: 1,
                         icon: 'ability_warrior_rampage',
                         spellType: 'REACTION',
                         effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'combat',
-                            secondaryElement: 'rage',
+                            school: 'physical',
                             icon: 'ability_warrior_rampage',
-                            tags: ['rage', 'combat', 'berserker']
+                            tags: ['rage', 'combat', 'berserker', 'reaction']
                         },
                         buffConfig: {
                             buffType: 'statEnhancement',
@@ -100,9 +99,9 @@ export const RACE_DATA = {
                                 {
                                     id: 'berserker_damage',
                                     name: 'Rage Damage',
-                                    description: 'Gain +2 attack damage',
+                                    description: 'Gain +2 attack damage for 1 minute',
                                     statModifier: {
-                                        stat: 'attack_damage',
+                                        stat: 'damage',
                                         magnitude: 2,
                                         magnitudeType: 'flat'
                                     }
@@ -110,7 +109,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'berserker_defense',
                                     name: 'Reckless Defense',
-                                    description: 'Lose -2 armor',
+                                    description: 'Lose 2 armor for 1 minute',
                                     statModifier: {
                                         stat: 'armor',
                                         magnitude: -2,
@@ -120,7 +119,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'berserker_saves',
                                     name: 'Reckless Courage',
-                                    description: 'Lose -2 to saving throws',
+                                    description: 'Lose 2 to saving throws for 1 minute',
                                     statModifier: {
                                         stat: 'saving_throws',
                                         magnitude: -2,
@@ -135,31 +134,41 @@ export const RACE_DATA = {
                         },
                         targetingConfig: {
                             targetingType: 'self',
-                            rangeType: 'self_centered'
+                            rangeType: 'self_centered',
+                            validTargets: ['self']
                         },
                         triggerConfig: {
                             global: {
+                                enabled: true,
                                 logicType: 'AND',
                                 compoundTriggers: [
                                     {
-                                        triggerType: 'health_threshold',
-                                        conditions: {
-                                            healthPercentage: 50,
-                                            comparison: 'less_than'
+                                        id: 'health_threshold',
+                                        category: 'health',
+                                        name: 'Health Threshold',
+                                        parameters: {
+                                            percentage: 50,
+                                            comparison: 'less_than',
+                                            perspective: 'self',
+                                            threshold_type: 'percentage'
                                         }
                                     }
                                 ]
                             }
                         },
                         resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
                             actionPoints: 1,
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            components: []
                         },
                         cooldownConfig: {
                             type: 'long_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'rage_burn_nordmark',
@@ -307,14 +316,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'vision_vulnerability_nordmark',
@@ -470,14 +483,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'heat_frailty_nordmark',
@@ -610,14 +627,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'raven_sight_corvani',
@@ -1019,14 +1040,18 @@ export const RACE_DATA = {
                             }
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'stone_frailty_grimheart',
@@ -1133,14 +1158,36 @@ export const RACE_DATA = {
                             targetRestrictions: ['ally']
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
+                        },
+                        triggerConfig: {
+                            global: {
+                                enabled: true,
+                                logicType: 'OR',
+                                compoundTriggers: [
+                                    {
+                                        id: 'ally_damage',
+                                        category: 'damage',
+                                        name: 'Ally Takes Damage',
+                                        parameters: {
+                                            perspective: 'ally',
+                                            range: 10,
+                                            damageThreshold: 1
+                                        }
+                                    }
+                                ]
+                            }
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'deep_sight_grimheart',
@@ -1351,14 +1398,18 @@ export const RACE_DATA = {
                             targetRestrictions: ['object']
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'stone_frailty_forgemaster',
@@ -1637,14 +1688,18 @@ export const RACE_DATA = {
                             }
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'reality_anchor_vheil',
@@ -1795,14 +1850,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'adaptive_form_mimir',
@@ -1852,14 +1911,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'silver_vulnerability_mimir',
@@ -2010,14 +2073,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'psychic_vulnerability_mimir',
@@ -2146,14 +2213,18 @@ export const RACE_DATA = {
                             targetRestrictions: ['willing']
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'long_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'court_etiquette_briaran',
@@ -2291,14 +2362,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'thorn_strike_briaran',
@@ -2420,14 +2495,18 @@ export const RACE_DATA = {
                             rangeDistance: 30
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'duality_briaran',
@@ -2904,14 +2983,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'radiant_vulnerability_groven',
@@ -3038,10 +3121,19 @@ export const RACE_DATA = {
                                 ]
                             }
                         },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'size_vulnerability_groven',
@@ -3151,14 +3243,18 @@ export const RACE_DATA = {
                             targetRestrictions: ['object']
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'fire_immunity_emberth',
@@ -3275,14 +3371,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'ash_cloud_emberth',
@@ -3333,14 +3433,18 @@ export const RACE_DATA = {
                             aoeSize: 10
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'cold_vulnerability_cinderborn',
@@ -3443,14 +3547,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'scarred_hide_emberth',
@@ -3623,14 +3731,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'predators_instinct_vreken',
@@ -3769,9 +3881,10 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         savingThrow: {
                             enabled: true,
@@ -3782,7 +3895,10 @@ export const RACE_DATA = {
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'curse_resistance_vreken',
@@ -3955,14 +4071,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'undead_resilience_morthel',
@@ -4250,14 +4370,18 @@ export const RACE_DATA = {
                             aoeSize: 15
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'storm_presence_volketh',
@@ -4374,14 +4498,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'chain_reaction_volketh',
@@ -4509,14 +4637,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'eye_of_the_storm_volketh',
@@ -4852,14 +4984,18 @@ export const RACE_DATA = {
                             rangeDistance: 30
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'ambush_predator_drennar',
@@ -5028,14 +5164,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'pressure_instability_drennar',
@@ -5145,14 +5285,18 @@ export const RACE_DATA = {
                             rangeDistance: 60
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'cosmic_isolation_astren',
@@ -5271,14 +5415,18 @@ export const RACE_DATA = {
                             aoeSize: 10
                         },
                         resourceCost: {
-                            actionPoints: 1,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
+                            resourceValues: { mana: 6 },
+                            actionPoints: 1,
+                            components: ['verbal']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'solar_healing_astren',
@@ -5386,14 +5534,18 @@ export const RACE_DATA = {
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            actionPoints: 2,
                             resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
                             type: 'short_rest',
                             value: 1
-                        }
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'constellation_form_astren',

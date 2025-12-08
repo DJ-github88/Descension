@@ -46,17 +46,17 @@ export const useWeaponEnhancedSpells = () => {
       });
     }
 
-    // Find and replace the Attack spell with weapon-enhanced versions
-    // Check both the generic Attack from ALL_GENERAL_SPELLS and universal_attack
+    // Find and replace the universal_attack spell with weapon-enhanced versions
+    // Note: The generic "Attack" spell has been removed from ALL_GENERAL_SPELLS
     const attackSpellIndex = spells.findIndex(spell => 
-      spell.name === 'Attack' || spell.id === 'universal_attack'
+      spell.id === 'universal_attack'
     );
 
     if (attackSpellIndex !== -1) {
-      // Remove the generic Attack spell
+      // Remove the universal_attack spell
       spells.splice(attackSpellIndex, 1);
 
-      // Add weapon-specific attack spells
+      // Add weapon-specific attack spells (includes Attack (Unarmed) as fallback)
       const weaponAttacks = getAllWeaponAttackSpells();
       spells.splice(attackSpellIndex, 0, ...weaponAttacks);
     }
@@ -136,7 +136,7 @@ export const useWeaponEnhancedSpells = () => {
   // Function to check if a spell is weapon-dependent
   const isWeaponDependentSpell = (spell) => {
     return spell && (
-      spell.name === 'Attack' || 
+      spell.name?.startsWith('Attack (') || // Matches "Attack (Unarmed)", "Attack (Weapon Name)", etc.
       spell.damageConfig?.weaponDependent === true ||
       spell.tags?.includes('weapon')
     );

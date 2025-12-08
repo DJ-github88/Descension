@@ -11,10 +11,14 @@ import { RACE_DATA, getFullRaceData } from '../../../data/raceData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../../item-generation/ItemTooltip';
+import { useSpellLibrary, useSpellLibraryDispatch } from '../../spellcrafting-wizard/context/SpellLibraryContext';
+import { getRacialSpells, addSpellsToLibrary, filterNewSpells, removeSpellsByCategory } from '../../../utils/raceDisciplineSpellUtils';
 
 const Step2RaceSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
+    const spellLibraryDispatch = useSpellLibraryDispatch();
+    const spellLibrary = useSpellLibrary();
     const [selectedRace, setSelectedRace] = useState(state.characterData.race);
     const [selectedSubrace, setSelectedSubrace] = useState(state.characterData.subrace);
     const [hoveredRace, setHoveredRace] = useState(null);
@@ -114,16 +118,34 @@ const Step2RaceSelection = () => {
 
     // Handle race selection
     const handleRaceSelect = (raceId) => {
+        // Remove old racial spells first
+        removeSpellsByCategory(spellLibraryDispatch, 'Racial Abilities', spellLibrary.spells);
+
         setSelectedRace(raceId);
         setSelectedSubrace(null); // Reset subrace when race changes
         dispatch(wizardActionCreators.setRace(raceId));
         dispatch(wizardActionCreators.setSubrace(null));
+
+        // Add racial spells to spell library
+        const racialSpells = getRacialSpells(raceId, null);
+        if (racialSpells.length > 0) {
+            addSpellsToLibrary(spellLibraryDispatch, racialSpells, 'Racial Abilities');
+        }
     };
 
     // Handle subrace selection
     const handleSubraceSelect = (subraceId) => {
+        // Remove old racial spells first (in case we're changing subrace)
+        removeSpellsByCategory(spellLibraryDispatch, 'Racial Abilities', spellLibrary.spells);
+
         setSelectedSubrace(subraceId);
         dispatch(wizardActionCreators.setSubrace(subraceId));
+
+        // Add subrace spells to spell library
+        const racialSpells = getRacialSpells(selectedRace, subraceId);
+        if (racialSpells.length > 0) {
+            addSpellsToLibrary(spellLibraryDispatch, racialSpells, 'Racial Abilities');
+        }
     };
 
     // Get selected race data

@@ -3,6 +3,7 @@ import { calculateEquipmentBonuses, calculateDerivedStats } from '../utils/chara
 import { isTwoHandedWeapon, getSlotsToCleanForTwoHanded } from '../utils/equipmentUtils';
 import { initializeClassResource, updateClassResourceMax } from '../data/classResources';
 import { applyRacialModifiers, getFullRaceData, getRaceData } from '../data/raceData';
+import { getRacialSpells, getRacialStatModifiers } from '../utils/raceDisciplineSpellUtils';
 import useGameStore from './gameStore';
 
 // Import Firebase services for character persistence
@@ -1085,12 +1086,236 @@ const useCharacterStore = create((set, get) => ({
             if (field === 'subrace' && value && value !== state.subrace) {
                 const raceData = getFullRaceData(state.race, value);
                 if (raceData) {
-                    newState.racialTraits = raceData.combinedTraits.traits;
+                    // Only include actual spells in racialTraits (filter out passive stat modifiers)
+                    // Passive stat modifiers are handled separately and applied directly to stats
+                    newState.racialTraits = getRacialSpells(state.race, value);
                     newState.racialLanguages = raceData.combinedTraits.languages;
                     newState.racialSpeed = raceData.combinedTraits.speed;
                     // Format as "Subrace (Race)" e.g. "Face Thief (Mimir)"
                     newState.raceDisplayName = `${raceData.subrace.name} (${raceData.race.name})`;
+                    
+                    // Apply passive stat modifiers (resistances, vulnerabilities, immunities) to character stats
+                    const passiveModifiers = getRacialStatModifiers(state.race, value);
+                    
+                    // Start with current resistances and immunities, or initialize if they don't exist
+                    let updatedResistances = { ...state.resistances };
+                    let updatedImmunities = [...(state.immunities || [])];
+                    
+                    // Initialize all damage type resistances if they don't exist
+                    const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                    damageTypes.forEach(type => {
+                        if (!updatedResistances[type]) {
+                            updatedResistances[type] = { level: 'normal' };
+                        }
+                    });
+                    
+                    // Apply each passive modifier
+                    passiveModifiers.forEach(modifier => {
+                        // Handle buff config (resistances and immunities)
+                        if (modifier.buffConfig?.effects) {
+                            modifier.buffConfig.effects.forEach(effect => {
+                                // Handle stat modifiers (resistances)
+                                if (effect.statModifier) {
+                                    const statName = effect.statModifier.stat;
+                                    const magnitude = effect.statModifier.magnitude;
+                                    const magnitudeType = effect.statModifier.magnitudeType;
+                                    
+                                    // Map resistance stat names to resistance types
+                                    const resistanceMap = {
+                                        'cold_resistance': 'cold',
+                                        'fire_resistance': 'fire',
+                                        'lightning_resistance': 'lightning',
+                                        'acid_resistance': 'acid',
+                                        'force_resistance': 'force',
+                                        'necrotic_resistance': 'necrotic',
+                                        'radiant_resistance': 'radiant',
+                                        'poison_resistance': 'poison',
+                                        'psychic_resistance': 'psychic',
+                                        'thunder_resistance': 'thunder'
+                                    };
+                                    
+                                    const resistanceType = resistanceMap[statName];
+                                    if (resistanceType && updatedResistances[resistanceType]) {
+                                        // Convert percentage to resistance level
+                                        if (magnitudeType === 'percentage') {
+                                            if (magnitude >= 100) {
+                                                updatedResistances[resistanceType].level = 'immune';
+                                                // Add to immunities array if not already there
+                                                if (!updatedImmunities.includes(resistanceType)) {
+                                                    updatedImmunities.push(resistanceType);
+                                                }
+                                            } else if (magnitude >= 50) {
+                                                updatedResistances[resistanceType].level = 'resistant';
+                                            } else if (magnitude <= -50) {
+                                                updatedResistances[resistanceType].level = 'vulnerable';
+                                            } else if (magnitude <= -25) {
+                                                updatedResistances[resistanceType].level = 'exposed';
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // Handle statusEffect immunities (like Undead Resilience)
+                                if (effect.statusEffect && effect.statusEffect.level === 'extreme') {
+                                    const effectName = (effect.name || '').toLowerCase();
+                                    const effectDesc = (effect.description || '').toLowerCase();
+                                    
+                                    // Check if this is an immunity effect
+                                    if (effectName.includes('immunity') || effectName.includes('immune') || 
+                                        effectDesc.includes('immune') || effectDesc.includes('immunity')) {
+                                        
+                                        // Map immunity names to damage types or conditions
+                                        const immunityMap = {
+                                            'poison': 'poison',
+                                            'disease': 'disease',
+                                            'exhaustion': 'exhaustion'
+                                        };
+                                        
+                                        // Try to match by name
+                                        let immunityType = null;
+                                        for (const [key, value] of Object.entries(immunityMap)) {
+                                            if (effectName.includes(key) || effectDesc.includes(key)) {
+                                                immunityType = value;
+                                                break;
+                                            }
+                                        }
+                                        
+                                        // If it's a damage type immunity, add to both resistances and immunities
+                                        if (immunityType && damageTypes.includes(immunityType)) {
+                                            if (!updatedResistances[immunityType]) {
+                                                updatedResistances[immunityType] = { level: 'normal' };
+                                            }
+                                            updatedResistances[immunityType].level = 'immune';
+                                            if (!updatedImmunities.includes(immunityType)) {
+                                                updatedImmunities.push(immunityType);
+                                            }
+                                        } else if (immunityType) {
+                                            // For condition immunities (like exhaustion), just add to immunities
+                                            if (!updatedImmunities.includes(immunityType)) {
+                                                updatedImmunities.push(immunityType);
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        
+                        // Handle debuff config (vulnerabilities)
+                        if (modifier.debuffConfig?.effects) {
+                            modifier.debuffConfig.effects.forEach(effect => {
+                                if (effect.statusEffect?.vulnerabilityType) {
+                                    const vulnerabilityType = effect.statusEffect.vulnerabilityType;
+                                    const vulnerabilityPercent = effect.statusEffect.vulnerabilityPercent || 0;
+                                    
+                                    if (updatedResistances[vulnerabilityType]) {
+                                        // Convert vulnerability percentage to resistance level
+                                        if (vulnerabilityPercent >= 100) {
+                                            updatedResistances[vulnerabilityType].level = 'vulnerable';
+                                        } else if (vulnerabilityPercent >= 50) {
+                                            updatedResistances[vulnerabilityType].level = 'exposed';
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    
+                    newState.resistances = updatedResistances;
+                    newState.immunities = [...new Set(updatedImmunities)]; // Remove duplicates
                 }
+            }
+
+            // If pathPassives is being changed, also update resistances and immunities
+            if (field === 'pathPassives' && Array.isArray(value)) {
+                // Start with current resistances, or initialize if they don't exist
+                let updatedResistances = { ...state.resistances };
+                let updatedImmunities = [...(state.immunities || [])];
+                
+                // Initialize all damage type resistances if they don't exist
+                const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                damageTypes.forEach(type => {
+                    if (!updatedResistances[type]) {
+                        updatedResistances[type] = { level: 'normal' };
+                    }
+                });
+                
+                // Apply each path passive modifier
+                value.forEach(modifier => {
+                    // Handle buff config (resistances)
+                    if (modifier.buffConfig?.effects) {
+                        modifier.buffConfig.effects.forEach(effect => {
+                            if (effect.statModifier) {
+                                const statName = effect.statModifier.stat;
+                                const magnitude = effect.statModifier.magnitude;
+                                const magnitudeType = effect.statModifier.magnitudeType;
+                                
+                                // Map resistance stat names to resistance types
+                                const resistanceMap = {
+                                    'cold_resistance': 'cold',
+                                    'fire_resistance': 'fire',
+                                    'lightning_resistance': 'lightning',
+                                    'acid_resistance': 'acid',
+                                    'force_resistance': 'force',
+                                    'necrotic_resistance': 'necrotic',
+                                    'radiant_resistance': 'radiant',
+                                    'poison_resistance': 'poison',
+                                    'psychic_resistance': 'psychic',
+                                    'thunder_resistance': 'thunder'
+                                };
+                                
+                                const resistanceType = resistanceMap[statName];
+                                if (resistanceType) {
+                                    // Initialize resistance if it doesn't exist
+                                    if (!updatedResistances[resistanceType]) {
+                                        updatedResistances[resistanceType] = { level: 'normal' };
+                                    }
+                                    
+                                    // Convert percentage to resistance level
+                                    if (magnitudeType === 'percentage') {
+                                        if (magnitude >= 100) {
+                                            updatedResistances[resistanceType].level = 'immune';
+                                            // Add to immunities array if not already there
+                                            if (!updatedImmunities.includes(resistanceType)) {
+                                                updatedImmunities.push(resistanceType);
+                                            }
+                                        } else if (magnitude >= 50) {
+                                            updatedResistances[resistanceType].level = 'resistant';
+                                        } else if (magnitude <= -50) {
+                                            updatedResistances[resistanceType].level = 'vulnerable';
+                                        } else if (magnitude <= -25) {
+                                            updatedResistances[resistanceType].level = 'exposed';
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Handle debuff config (vulnerabilities)
+                    if (modifier.debuffConfig?.effects) {
+                        modifier.debuffConfig.effects.forEach(effect => {
+                            if (effect.statusEffect?.vulnerabilityType) {
+                                const vulnerabilityType = effect.statusEffect.vulnerabilityType;
+                                const vulnerabilityPercent = effect.statusEffect.vulnerabilityPercent || 0;
+                                
+                                // Initialize resistance if it doesn't exist
+                                if (!updatedResistances[vulnerabilityType]) {
+                                    updatedResistances[vulnerabilityType] = { level: 'normal' };
+                                }
+                                
+                                // Convert vulnerability percentage to resistance level
+                                if (vulnerabilityPercent >= 100) {
+                                    updatedResistances[vulnerabilityType].level = 'vulnerable';
+                                } else if (vulnerabilityPercent >= 50) {
+                                    updatedResistances[vulnerabilityType].level = 'exposed';
+                                }
+                            }
+                        });
+                    }
+                });
+                
+                newState.resistances = updatedResistances;
+                newState.immunities = [...new Set(updatedImmunities)]; // Remove duplicates
             }
 
             return newState;
@@ -1981,6 +2206,150 @@ const useCharacterStore = create((set, get) => ({
                 }
             } catch (error) {
                 console.error('Error loading character inventory:', error);
+            }
+
+            // Apply racial traits and resistances after loading
+            if (character.race && character.subrace) {
+                const raceData = getFullRaceData(character.race, character.subrace);
+                if (raceData) {
+                    // Only include actual spells in racialTraits (filter out passive stat modifiers)
+                    const updatedRacialTraits = getRacialSpells(character.race, character.subrace);
+                    
+                    // Apply passive stat modifiers (resistances, vulnerabilities, immunities) to character stats
+                    const passiveModifiers = getRacialStatModifiers(character.race, character.subrace);
+                    
+                    // Start with current resistances and immunities
+                    let updatedResistances = { ...get().resistances };
+                    let updatedImmunities = [...(get().immunities || [])];
+                    
+                    // Initialize all damage type resistances if they don't exist
+                    const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                    damageTypes.forEach(type => {
+                        if (!updatedResistances[type]) {
+                            updatedResistances[type] = { level: 'normal' };
+                        }
+                    });
+                    
+                    // Apply each passive modifier
+                    passiveModifiers.forEach(modifier => {
+                        // Handle buff config (resistances and immunities)
+                        if (modifier.buffConfig?.effects) {
+                            modifier.buffConfig.effects.forEach(effect => {
+                                // Handle stat modifiers (resistances)
+                                if (effect.statModifier) {
+                                    const statName = effect.statModifier.stat;
+                                    const magnitude = effect.statModifier.magnitude;
+                                    const magnitudeType = effect.statModifier.magnitudeType;
+                                    
+                                    // Map resistance stat names to resistance types
+                                    const resistanceMap = {
+                                        'cold_resistance': 'cold',
+                                        'fire_resistance': 'fire',
+                                        'lightning_resistance': 'lightning',
+                                        'acid_resistance': 'acid',
+                                        'force_resistance': 'force',
+                                        'necrotic_resistance': 'necrotic',
+                                        'radiant_resistance': 'radiant',
+                                        'poison_resistance': 'poison',
+                                        'psychic_resistance': 'psychic',
+                                        'thunder_resistance': 'thunder'
+                                    };
+                                    
+                                    const resistanceType = resistanceMap[statName];
+                                    if (resistanceType && updatedResistances[resistanceType]) {
+                                        // Convert percentage to resistance level
+                                        if (magnitudeType === 'percentage') {
+                                            if (magnitude >= 100) {
+                                                updatedResistances[resistanceType].level = 'immune';
+                                                // Add to immunities array if not already there
+                                                if (!updatedImmunities.includes(resistanceType)) {
+                                                    updatedImmunities.push(resistanceType);
+                                                }
+                                            } else if (magnitude >= 50) {
+                                                updatedResistances[resistanceType].level = 'resistant';
+                                            } else if (magnitude <= -50) {
+                                                updatedResistances[resistanceType].level = 'vulnerable';
+                                            } else if (magnitude <= -25) {
+                                                updatedResistances[resistanceType].level = 'exposed';
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // Handle statusEffect immunities (like Undead Resilience)
+                                if (effect.statusEffect && effect.statusEffect.level === 'extreme') {
+                                    const effectName = (effect.name || '').toLowerCase();
+                                    const effectDesc = (effect.description || '').toLowerCase();
+                                    
+                                    // Check if this is an immunity effect
+                                    if (effectName.includes('immunity') || effectName.includes('immune') || 
+                                        effectDesc.includes('immune') || effectDesc.includes('immunity')) {
+                                        
+                                        // Map immunity names to damage types or conditions
+                                        const immunityMap = {
+                                            'poison': 'poison',
+                                            'disease': 'disease',
+                                            'exhaustion': 'exhaustion'
+                                        };
+                                        
+                                        // Try to match by name
+                                        let immunityType = null;
+                                        for (const [key, value] of Object.entries(immunityMap)) {
+                                            if (effectName.includes(key) || effectDesc.includes(key)) {
+                                                immunityType = value;
+                                                break;
+                                            }
+                                        }
+                                        
+                                        // If it's a damage type immunity, add to both resistances and immunities
+                                        if (immunityType && damageTypes.includes(immunityType)) {
+                                            if (!updatedResistances[immunityType]) {
+                                                updatedResistances[immunityType] = { level: 'normal' };
+                                            }
+                                            updatedResistances[immunityType].level = 'immune';
+                                            if (!updatedImmunities.includes(immunityType)) {
+                                                updatedImmunities.push(immunityType);
+                                            }
+                                        } else if (immunityType) {
+                                            // For condition immunities (like exhaustion), just add to immunities
+                                            if (!updatedImmunities.includes(immunityType)) {
+                                                updatedImmunities.push(immunityType);
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        
+                        // Handle debuff config (vulnerabilities)
+                        if (modifier.debuffConfig?.effects) {
+                            modifier.debuffConfig.effects.forEach(effect => {
+                                if (effect.statusEffect?.vulnerabilityType) {
+                                    const vulnerabilityType = effect.statusEffect.vulnerabilityType;
+                                    const vulnerabilityPercent = effect.statusEffect.vulnerabilityPercent || 0;
+                                    
+                                    if (updatedResistances[vulnerabilityType]) {
+                                        // Convert vulnerability percentage to resistance level
+                                        if (vulnerabilityPercent >= 100) {
+                                            updatedResistances[vulnerabilityType].level = 'vulnerable';
+                                        } else if (vulnerabilityPercent >= 50) {
+                                            updatedResistances[vulnerabilityType].level = 'exposed';
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    
+                    // Update state with racial traits, resistances, and immunities
+                    set({
+                        racialTraits: updatedRacialTraits,
+                        racialLanguages: raceData.combinedTraits.languages,
+                        racialSpeed: raceData.combinedTraits.speed,
+                        resistances: updatedResistances,
+                        immunities: [...new Set(updatedImmunities)] // Remove duplicates
+                    });
+                }
             }
 
             // Recalculate derived stats

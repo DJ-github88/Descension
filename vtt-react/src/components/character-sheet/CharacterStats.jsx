@@ -7,12 +7,34 @@ import useDebuffStore from '../../store/debuffStore';
 import useGameStore from '../../store/gameStore';
 import { calculateEquipmentBonuses, calculateDerivedStats } from '../../utils/characterUtils';
 import { getXPProgress, formatXP } from '../../utils/experienceUtils';
+import { getRacialStatModifiers } from '../../utils/raceDisciplineSpellUtils';
 import StatTooltip from '../tooltips/StatTooltip';
 import GeneralStatTooltip from '../tooltips/GeneralStatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
 import ConditionTooltip from '../tooltips/ConditionTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import '../../styles/character-sheet.css';
+
+// Condition icons mapping
+const CONDITION_ICONS = {
+    fear: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg',
+    charm: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg',
+    stun: 'https://wow.zamimg.com/images/wow/icons/large/spell_frost_stun.jpg',
+    paralyze: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseoftounges.jpg',
+    poison: 'https://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_02.jpg',
+    disease: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_plaguecloud.jpg',
+    sleep: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg',
+    petrify: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_impphaseshift.jpg',
+    blinded: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindsteal.jpg',
+    deafened: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_soulleech_2.jpg',
+    prone: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
+    restrained: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_chains ofice.jpg',
+    grappled: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
+    exhaustion: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofsargeras.jpg',
+    frightened: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg',
+    incapacitated: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_soulleech_3.jpg',
+    unconscious: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_soulleech_3.jpg'
+};
 
 // Damage types for resistances and spell power
 const DAMAGE_TYPES = {
@@ -246,6 +268,8 @@ export default function CharacterStats() {
         immunities = [],
         exhaustionLevel = 0,
         pathPassives = [],
+        race,
+        subrace,
         updateStat
     } = dataSource || {};
 
@@ -271,6 +295,7 @@ export default function CharacterStats() {
     const { derivedStats, exhaustionLevel: storeExhaustionLevel } = useCharacterStore();
 
     const [selectedStatGroup, setSelectedStatGroup] = useState('summary');
+    const [showLabels, setShowLabels] = useState(false); // Start with icons only
     const [hoveredStat, setHoveredStat] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [statEditModal, setStatEditModal] = useState({ visible: false, stat: null, value: 0, position: { x: 0, y: 0 } });
@@ -716,7 +741,8 @@ export default function CharacterStats() {
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/achievement_level_10.jpg',
                     color: '#D4AF37',
-                    description: 'Current character level'
+                    description: 'Current character level',
+                    isLevel: true // Custom flag for level styling
                 },
                 {
                     label: 'Experience',
@@ -729,7 +755,8 @@ export default function CharacterStats() {
                     color: '#8b6914',
                     description: xpProgress.isMaxLevel
                         ? 'You have reached maximum level!'
-                        : `Progress to level ${level + 1}: ${Math.round(xpProgress.percentage)}%`
+                        : `Progress to level ${level + 1}: ${Math.round(xpProgress.percentage)}%`,
+                    isExperience: true // Custom flag for experience styling
                 },
                 {
                     label: 'Health',
@@ -1164,19 +1191,25 @@ export default function CharacterStats() {
                     {Object.entries(DAMAGE_TYPES).map(([type, data]) => {
                         const resistanceLevel = resistances[type]?.level || 'normal';
                         return (
-                            <div key={type} className="stat-row">
-                                <div className="stat-label-container">
-                                    <img
-                                        src={data.icon}
-                                        alt={data.name}
-                                        className="stat-icon"
-                                        style={{ borderColor: getResistanceColor(resistanceLevel) }}
-                                    />
-                                    <span className="stat-label">{data.name} Resistance:</span>
+                            <div key={type} className="stat-row enhanced-stat-row">
+                                <div className="level-experience-top-row">
+                                    <div className="stat-label-container">
+                                        <img
+                                            src={data.icon}
+                                            alt={data.name}
+                                            className="stat-icon"
+                                            style={{ borderColor: getResistanceColor(resistanceLevel) }}
+                                        />
+                                        <div className="stat-info">
+                                            <span className="stat-label">{data.name} Resistance:</span>
+                                        </div>
+                                    </div>
+                                    <div className="stat-value-container">
+                                        <span className="stat-value">
+                                            {getResistanceValue(resistanceLevel)}
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="stat-value">
-                                    {getResistanceValue(resistanceLevel)}
-                                </span>
                                 <div
                                     className="tooltip-trigger"
                                     onMouseEnter={(e) => handleStatHover(e, `${data.name} Resistance`)}
@@ -1220,35 +1253,51 @@ export default function CharacterStats() {
                         immunities.map((immunity, index) => {
                             const damageType = DAMAGE_TYPES[immunity.toLowerCase()];
                             return damageType ? (
-                                <div key={index} className="stat-row">
-                                    <div className="stat-label-container">
-                                        <img
-                                            src={damageType.icon}
-                                            alt={damageType.name}
-                                            className="stat-icon"
-                                            style={{ borderColor: damageType.color }}
-                                        />
-                                        <span className="stat-label">{damageType.name} Immunity:</span>
+                                <div key={index} className="stat-row enhanced-stat-row">
+                                    <div className="level-experience-top-row">
+                                        <div className="stat-label-container">
+                                            <img
+                                                src={damageType.icon}
+                                                alt={damageType.name}
+                                                className="stat-icon"
+                                                style={{ borderColor: damageType.color }}
+                                            />
+                                            <div className="stat-info">
+                                                <span className="stat-label">{damageType.name} Immunity:</span>
+                                            </div>
+                                        </div>
+                                        <div className="stat-value-container">
+                                            <span className="stat-value">
+                                                Immune
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span className="stat-value">
-                                        Immune
-                                    </span>
                                 </div>
                             ) : (
-                                <div key={index} className="stat-row">
-                                    <div className="stat-label-container">
-                                        <span className="stat-label">{immunity} Immunity:</span>
+                                <div key={index} className="stat-row enhanced-stat-row">
+                                    <div className="level-experience-top-row">
+                                        <div className="stat-label-container">
+                                            <div className="stat-info">
+                                                <span className="stat-label">{immunity} Immunity:</span>
+                                            </div>
+                                        </div>
+                                        <div className="stat-value-container">
+                                            <span className="stat-value">
+                                                Immune
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span className="stat-value">
-                                        Immune
-                                    </span>
                                 </div>
                             );
                         })
                     ) : (
-                        <div className="stat-row">
-                            <div className="stat-label-container">
-                                <span className="stat-label">No immunities</span>
+                        <div className="stat-row enhanced-stat-row">
+                            <div className="level-experience-top-row">
+                                <div className="stat-label-container">
+                                    <div className="stat-info">
+                                        <span className="stat-label">No immunities</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -1282,75 +1331,89 @@ export default function CharacterStats() {
             // Parse passives to extract condition resistances
             const conditionResistances = {};
             
-            pathPassives.forEach(passive => {
+            // Get racial passives
+            const racialPassives = race && subrace ? getRacialStatModifiers(race, subrace) : [];
+            
+            // Combine all passives (racial + path)
+            const allPassives = [...racialPassives, ...pathPassives];
+            
+            // Helper function to extract conditions from a passive
+            const extractConditions = (passive) => {
+                const conditions = [];
+                const desc = (passive.description || '').toLowerCase();
+                const name = (passive.name || '').toLowerCase();
+                const searchText = desc + ' ' + name;
+                
+                if (searchText.includes('fear') || searchText.includes('frightened')) {
+                    conditions.push('fear');
+                }
+                if (searchText.includes('charm')) {
+                    conditions.push('charm');
+                }
+                if (searchText.includes('stun')) {
+                    conditions.push('stun');
+                }
+                if (searchText.includes('paralyze') || searchText.includes('paralysis')) {
+                    conditions.push('paralyze');
+                }
+                if (searchText.includes('poison')) {
+                    conditions.push('poison');
+                }
+                if (searchText.includes('disease')) {
+                    conditions.push('disease');
+                }
+                if (searchText.includes('sleep')) {
+                    conditions.push('sleep');
+                }
+                if (searchText.includes('petrify') || searchText.includes('petrification')) {
+                    conditions.push('petrify');
+                }
+                if (searchText.includes('blind')) {
+                    conditions.push('blinded');
+                }
+                if (searchText.includes('deaf')) {
+                    conditions.push('deafened');
+                }
+                if (searchText.includes('prone')) {
+                    conditions.push('prone');
+                }
+                if (searchText.includes('restrain')) {
+                    conditions.push('restrained');
+                }
+                if (searchText.includes('grapple')) {
+                    conditions.push('grappled');
+                }
+                if (searchText.includes('exhaust')) {
+                    conditions.push('exhaustion');
+                }
+                if (searchText.includes('incapacitat')) {
+                    conditions.push('incapacitated');
+                }
+                if (searchText.includes('unconscious')) {
+                    conditions.push('unconscious');
+                }
+                
+                return conditions;
+            };
+            
+            allPassives.forEach(passive => {
                 // Skip stat bonuses - they're applied automatically
                 if (passive.type === 'stat') {
                     return;
                 }
                 
-                // Check for condition resistances
-                if (passive.description) {
-                    const desc = passive.description.toLowerCase();
-                    const conditions = [];
-                    
-                    if (desc.includes('fear') || desc.includes('frightened')) {
-                        conditions.push('fear');
-                    }
-                    if (desc.includes('charm')) {
-                        conditions.push('charm');
-                    }
-                    if (desc.includes('stun')) {
-                        conditions.push('stun');
-                    }
-                    if (desc.includes('paralyze') || desc.includes('paralysis')) {
-                        conditions.push('paralyze');
-                    }
-                    if (desc.includes('poison')) {
-                        conditions.push('poison');
-                    }
-                    if (desc.includes('disease')) {
-                        conditions.push('disease');
-                    }
-                    if (desc.includes('sleep')) {
-                        conditions.push('sleep');
-                    }
-                    if (desc.includes('petrify') || desc.includes('petrification')) {
-                        conditions.push('petrify');
-                    }
-                    if (desc.includes('blind')) {
-                        conditions.push('blinded');
-                    }
-                    if (desc.includes('deaf')) {
-                        conditions.push('deafened');
-                    }
-                    if (desc.includes('prone')) {
-                        conditions.push('prone');
-                    }
-                    if (desc.includes('restrain')) {
-                        conditions.push('restrained');
-                    }
-                    if (desc.includes('grapple')) {
-                        conditions.push('grappled');
-                    }
-                    if (desc.includes('exhaust')) {
-                        conditions.push('exhaustion');
-                    }
-                    if (desc.includes('incapacitat')) {
-                        conditions.push('incapacitated');
-                    }
-                    if (desc.includes('unconscious')) {
-                        conditions.push('unconscious');
-                    }
-                    
-                    // If this passive grants condition resistances, add them
-                    if (conditions.length > 0) {
-                        conditions.forEach(condition => {
-                            if (!conditionResistances[condition]) {
-                                conditionResistances[condition] = [];
-                            }
-                            conditionResistances[condition].push(passive.name);
-                        });
-                    }
+                // Check for condition resistances in description or name
+                const conditions = extractConditions(passive);
+                
+                // If this passive grants condition resistances, add them
+                if (conditions.length > 0) {
+                    const passiveName = passive.name || 'Unknown Passive';
+                    conditions.forEach(condition => {
+                        if (!conditionResistances[condition]) {
+                            conditionResistances[condition] = [];
+                        }
+                        conditionResistances[condition].push(passiveName);
+                    });
                 }
             });
 
@@ -1363,37 +1426,48 @@ export default function CharacterStats() {
                         return (
                             <div 
                                 key={condition} 
-                                className="stat-row" 
-                                style={{ marginBottom: '6px', cursor: 'help' }}
+                                className="stat-row enhanced-stat-row" 
+                                style={{ cursor: 'help' }}
                                 onMouseEnter={(e) => handleStatHover(e, condition)}
                                 onMouseMove={updateTooltipPosition}
                                 onMouseLeave={handleStatLeave}
                             >
-                                <div className="stat-label-container">
-                                    <span className="stat-label" style={{ textTransform: 'capitalize', fontSize: '13px' }}>
-                                        {conditionName}:
-                                    </span>
+                                <div className="level-experience-top-row">
+                                    <div className="stat-label-container">
+                                        {CONDITION_ICONS[condition] && (
+                                            <img
+                                                src={CONDITION_ICONS[condition]}
+                                                alt={conditionName}
+                                                className="stat-icon"
+                                                style={{ borderColor: hasResistance ? '#4caf50' : '#8b7355' }}
+                                            />
+                                        )}
+                                        <div className="stat-info">
+                                            <span className="stat-label" style={{ textTransform: 'capitalize' }}>
+                                                {conditionName}:
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="stat-value-container">
+                                        {hasResistance ? (
+                                            <span className="stat-value" style={{ 
+                                                fontWeight: 'bold',
+                                                backgroundColor: '#e8f5e9',
+                                                padding: '4px 12px',
+                                                borderRadius: '4px'
+                                            }}>
+                                                Advantage
+                                            </span>
+                                        ) : (
+                                            <span className="stat-value" style={{ 
+                                                fontStyle: 'italic'
+                                            }}>
+                                                Normal
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="stat-value-container">
-                                    {hasResistance ? (
-                                        <span className="stat-value" style={{ 
-                                            fontWeight: 'bold',
-                                            backgroundColor: '#e8f5e9',
-                                            padding: '2px 8px',
-                                            borderRadius: '4px',
-                                            fontSize: '12px'
-                                        }}>
-                                            Advantage
-                                        </span>
-                                    ) : (
-                                        <span className="stat-value" style={{ 
-                                            fontSize: '12px',
-                                            fontStyle: 'italic'
-                                        }}>
-                                            Normal
-                                        </span>
-                                    )}
-                                </div>
+                                <div className="tooltip-trigger" />
                                 {hoveredStat === condition && (
                                     <TooltipPortal>
                                         <div
@@ -1424,36 +1498,43 @@ export default function CharacterStats() {
                 {currentGroup.stats.map((stat, index) => (
                     <div
                         key={index}
-                        className="stat-row"
+                        className={`stat-row ${stat.isExperience ? 'experience-stat-row' : ''} ${stat.isLevel ? 'level-stat-row' : ''} enhanced-stat-row`}
                         onContextMenu={(e) => handleStatRightClick(e, stat)}
                         style={{ cursor: isGMMode && stat.statName ? 'context-menu' : 'default' }}
                     >
-                        <div className="stat-label-container">
-                            {(stat.icon || STAT_ICONS[stat.label.toLowerCase()]) && (
-                                <img
-                                    src={stat.icon || STAT_ICONS[stat.label.toLowerCase()]}
-                                    alt={stat.label}
-                                    className="stat-icon"
-                                    style={stat.color ? { borderColor: stat.color } : {}}
-                                />
-                            )}
-                            <div className="stat-info">
-                                <span className="stat-label">{stat.label}:</span>
-                                {stat.description && (
-                                    <span className="stat-description">{stat.description}</span>
-                                )}
+                        {/* Apply same layout to all stats: icon/label on left, value on right, description footer */}
+                        <>
+                            <div className="level-experience-top-row">
+                                <div className="stat-label-container">
+                                    {(stat.icon || STAT_ICONS[stat.label.toLowerCase()]) && (
+                                        <img
+                                            src={stat.icon || STAT_ICONS[stat.label.toLowerCase()]}
+                                            alt={stat.label}
+                                            className="stat-icon"
+                                            style={stat.color ? { borderColor: stat.color } : {}}
+                                        />
+                                    )}
+                                    <div className="stat-info">
+                                        <span className="stat-label">{stat.label}:</span>
+                                    </div>
+                                </div>
+                                <div className="stat-value-container">
+                                    <span className="stat-value">
+                                        {formatStatValue(stat.label, stat.value)}
+                                    </span>
+                                    {stat.modifier !== undefined && (
+                                        <span className="stat-modifier">
+                                            ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
+                                        </span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                        <div className="stat-value-container">
-                            <span className="stat-value">
-                                {formatStatValue(stat.label, stat.value)}
-                            </span>
-                            {stat.modifier !== undefined && (
-                                <span className="stat-modifier">
-                                    ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
-                                </span>
+                            {stat.description && (
+                                <div className="stat-description-footer">
+                                    <span className="stat-description">{stat.description}</span>
+                                </div>
                             )}
-                        </div>
+                        </>
                         {stat.tooltip && (
                             <div
                                 className="tooltip-trigger"
@@ -1511,15 +1592,23 @@ export default function CharacterStats() {
 
     return (
         <div className="stats-container">
-            <div className="stats-navigation">
+            <div className={`stats-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
+                <button
+                    className="stats-label-toggle-button"
+                    onClick={() => setShowLabels(!showLabels)}
+                    title={showLabels ? 'Hide Labels' : 'Show Labels'}
+                >
+                    <span className="stats-toggle-icon">{showLabels ? '◀' : '▶'}</span>
+                </button>
                 {Object.entries(statGroups).map(([key, group]) => (
                     <button
                         key={key}
                         className={`stats-nav-button ${selectedStatGroup === key ? 'active' : ''}`}
                         onClick={() => setSelectedStatGroup(key)}
+                        title={group.title}
                     >
                         <img src={group.icon} alt="" className="stats-nav-icon" />
-                        <span className="stats-nav-text">{group.title}</span>
+                        {showLabels && <span className="stats-nav-text">{group.title}</span>}
                     </button>
                 ))}
             </div>

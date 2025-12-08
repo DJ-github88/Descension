@@ -205,7 +205,11 @@ const UnifiedSpellCard = ({
       'int': 'Intelligence',
       'spi': 'Spirit',
       'spir': 'Spirit',
-      'cha': 'Charisma'
+      'cha': 'Charisma',
+      // Handle weapon-related formulas that should not be converted
+      'weapon_die': 'weapon_die', // Keep as-is, will be replaced with actual dice in weapon-dependent spells
+      'weapon_damage': 'weapon_damage', // Keep as-is
+      'attribute_modifier': 'attribute_modifier' // Keep as-is, will be replaced with actual attribute name
     };
 
     // Replace resource variables in the formula
@@ -223,8 +227,31 @@ const UnifiedSpellCard = ({
       cleanedFormula = cleanedFormula.replace(regex, properName);
     });
 
-    // Handle remaining underscores for any missed variables
-    cleanedFormula = cleanedFormula.replace(/_/g, ' ');
+    // Handle remaining underscores for any missed variables (but preserve weapon_die, weapon_damage, attribute_modifier)
+    // These are placeholders that should be replaced with actual values, not converted to spaces
+    const preservedPlaceholders = ['weapon_die', 'weapon_damage', 'attribute_modifier'];
+    let hasPlaceholder = false;
+    preservedPlaceholders.forEach(placeholder => {
+      if (cleanedFormula.includes(placeholder)) {
+        hasPlaceholder = true;
+      }
+    });
+    
+    if (!hasPlaceholder) {
+      // Only replace underscores if there are no placeholders
+      cleanedFormula = cleanedFormula.replace(/_/g, ' ');
+    } else {
+      // Replace underscores but preserve placeholders
+      preservedPlaceholders.forEach(placeholder => {
+        cleanedFormula = cleanedFormula.replace(new RegExp(placeholder.replace(/_/g, ' '), 'g'), placeholder);
+      });
+      cleanedFormula = cleanedFormula.replace(/_/g, ' ');
+      // Restore placeholders
+      preservedPlaceholders.forEach(placeholder => {
+        const spacedPlaceholder = placeholder.replace(/_/g, ' ');
+        cleanedFormula = cleanedFormula.replace(new RegExp(spacedPlaceholder, 'g'), placeholder);
+      });
+    }
 
     // Handle any remaining camelCase conversion (for display)
     cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1 $2');
@@ -4534,14 +4561,35 @@ const UnifiedSpellCard = ({
       } else if (spell.resolution === 'DICE' && (spell.diceConfig?.formula || spell.damageConfig?.formula)) {
           const formula = spell.diceConfig?.formula || spell.damageConfig?.formula || '1d6 + intelligence';
 
+          // Handle weapon-dependent spells that have addAttributeModifier flag
+          let finalFormula = formula;
+          if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
+            // For weapon attacks, combine dice notation with attribute modifier
+            const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
+            // Only add attribute if it's not already in the formula
+            if (!formula.toLowerCase().includes(attributeName.toLowerCase()) && !formula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
+              finalFormula = `${formula} + ${attributeName}`;
+            }
+          }
+
           // Enhanced formula formatting - don't pass elementType if we have a specific damage type suffix
           const enhancedFormula = damageTypeSuffix ?
-            cleanFormula(formula) :
-            enhanceFormulaDisplay(formula, spell.damageConfig?.elementType);
+            cleanFormula(finalFormula) :
+            enhanceFormulaDisplay(finalFormula, spell.damageConfig?.elementType);
           damageText = `${enhancedFormula}${damageTypeSuffix}`;
       } else if (spell.damageConfig?.formula) {
+          // Handle weapon-dependent spells that have addAttributeModifier flag
+          let finalFormula = spell.damageConfig.formula;
+          if (spell.damageConfig?.weaponDependent && spell.damageConfig?.addAttributeModifier && spell.damageConfig?.attributeModifier) {
+            // For weapon attacks, combine dice notation with attribute modifier
+            const attributeName = spell.damageConfig.attributeModifier.charAt(0).toUpperCase() + spell.damageConfig.attributeModifier.slice(1);
+            // Only add attribute if it's not already in the formula
+            if (!finalFormula.toLowerCase().includes(attributeName.toLowerCase()) && !finalFormula.toLowerCase().includes(spell.damageConfig.attributeModifier.toLowerCase())) {
+              finalFormula = `${finalFormula} + ${attributeName}`;
+            }
+          }
           // Just clean up spacing and formatting, don't convert to readable text
-          damageText = `${cleanFormula(spell.damageConfig.formula)}${damageTypeSuffix}`;
+          damageText = `${cleanFormula(finalFormula)}${damageTypeSuffix}`;
       } else if (spell.primaryDamage?.dice) {
           const dice = spell.primaryDamage.dice;
           const flat = spell.primaryDamage.flat > 0 ? ` + ${spell.primaryDamage.flat}` : '';

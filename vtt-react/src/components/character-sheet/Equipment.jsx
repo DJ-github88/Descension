@@ -17,6 +17,7 @@ import { getClassResourceConfig, getResourceDisplayText } from '../../data/class
 import { getRaceList, getSubraceList, getRaceData } from '../../data/raceData';
 import { ENHANCED_PATHS, getAllEnhancedPaths } from '../../data/enhancedPathData';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import { selectRandomSpells, filterNewSpells, getRacialSpells, getRacialStatModifiers, addSpellsToLibrary, removeSpellsByCategory } from '../../utils/raceDisciplineSpellUtils';
 import '../../styles/character-sheet.css';
 import '../../styles/resistance-styles.css';
 import '../../styles/racial-traits.css';
@@ -227,9 +228,7 @@ export default function CharacterPanel() {
         baseName,
         race,
         subrace,
-        racialTraits = [],
-        racialLanguages = [],
-        racialSpeed,
+        pathPassives = [],
         class: characterClass,
         path,
         pathDisplayName,
@@ -251,6 +250,7 @@ export default function CharacterPanel() {
 
     // State for navigation
     const [activeSection, setActiveSection] = useState('character');
+    const [showLabels, setShowLabels] = useState(false); // Start with icons only
 
     // Define sections for navigation
     const sections = {
@@ -265,6 +265,10 @@ export default function CharacterPanel() {
         resources: {
             title: 'Resources',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_54.jpg'
+        },
+        passives: {
+            title: 'Passives',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg'
         }
     };
 
@@ -277,8 +281,11 @@ export default function CharacterPanel() {
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [tooltipDelay, setTooltipDelay] = useState(null);
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
-    const [selectedTraitIndex, setSelectedTraitIndex] = useState(0);
     const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '' });
+    const [lastCharacterId, setLastCharacterId] = useState(null);
+
+    // Get current character ID from store
+    const currentCharacterId = characterStore?.currentCharacterId || null;
 
     useEffect(() => {
         return () => {
@@ -288,6 +295,45 @@ export default function CharacterPanel() {
         };
     }, [tooltipDelay]);
 
+    // Clean up all character-specific spells when character changes
+    useEffect(() => {
+        // Only run if we're not in inspection mode
+        if (inspectionData) return;
+        
+        // Skip if character hasn't actually changed
+        if (currentCharacterId === lastCharacterId) {
+            return;
+        }
+
+        // If we had a previous character, clean up their spells
+        if (lastCharacterId !== null) {
+            console.log('🧹 [Equipment] Cleaning up spells for previous character:', lastCharacterId);
+            // Remove all character-specific spell categories
+            removeSpellsByCategory(libraryDispatch, 'Racial Abilities', spellLibrary.spells);
+            removeSpellsByCategory(libraryDispatch, 'Discipline Abilities', spellLibrary.spells);
+            removeSpellsByCategory(libraryDispatch, 'Discipline Passives', spellLibrary.spells);
+            
+            // Also remove any passives that might have been added as spell cards
+            const oldPassives = spellLibrary.spells.filter(spell => 
+                spell.spellType === 'PASSIVE' && 
+                (spell.tags?.includes('discipline') || spell.typeConfig?.tags?.includes('discipline') ||
+                 spell.categoryIds?.includes('Discipline Passives'))
+            );
+            oldPassives.forEach(spell => {
+                if (spell && spell.id) {
+                    libraryDispatch(libraryActionCreators.deleteSpell(spell.id));
+                }
+            });
+        }
+
+        // Update last character ID
+        setLastCharacterId(currentCharacterId);
+        
+        // Reset race/subrace/path tracking so new character's spells will be added
+        // This ensures the spell addition effect runs even if race/subrace/path are the same
+        setLastRaceSubracePath({ race: '', subrace: '', path: '' });
+    }, [currentCharacterId, lastCharacterId, inspectionData, libraryDispatch, spellLibrary.spells]);
+
     // Handle spell addition and passives when race/subrace/path changes
     useEffect(() => {
         // Only run if we're not in inspection mode and if something actually changed
@@ -296,90 +342,145 @@ export default function CharacterPanel() {
         const current = { race: race || '', subrace: subrace || '', path: path || '' };
         const last = lastRaceSubracePath;
         
-        // Check if anything changed
-        if (current.race === last.race && current.subrace === last.subrace && current.path === last.path) {
+        // Check if anything changed (including if last was reset to empty by character change)
+        const hasChanges = current.race !== last.race || current.subrace !== last.subrace || current.path !== last.path;
+        
+        // Also check if character changed (if lastRaceSubracePath was reset, we need to add spells)
+        const characterChanged = last.race === '' && last.subrace === '' && last.path === '' && 
+                                 (current.race !== '' || current.subrace !== '' || current.path !== '');
+        
+        if (!hasChanges && !characterChanged) {
             return; // No changes
         }
 
         // Update last state
         setLastRaceSubracePath(current);
 
-        // Get available spells from path
-        let availableSpells = [];
-        if (path) {
-            const pathData = ENHANCED_PATHS[path];
-            if (pathData && pathData.abilities) {
-                availableSpells = pathData.abilities;
+        // Handle racial spells first
+        // Add spells if race/subrace changed OR if character changed (last was reset to empty)
+        if (current.race !== last.race || current.subrace !== last.subrace || characterChanged) {
+            // Remove old racial spells (only if not a character change, since we already cleaned up)
+            if (!characterChanged) {
+                removeSpellsByCategory(libraryDispatch, 'Racial Abilities', spellLibrary.spells);
             }
-        }
 
-        // If we have spells available, add one randomly
-        if (availableSpells.length > 0) {
-            const randomSpell = availableSpells[Math.floor(Math.random() * availableSpells.length)];
-            if (randomSpell && randomSpell.id) {
-                // Check if spell already exists in library
-                const spellExists = spellLibrary.spells.some(s => s.id === randomSpell.id);
-                
-                if (!spellExists) {
-                    // Add spell to library
-                    libraryDispatch(libraryActionCreators.addSpell(randomSpell));
+            // Add new racial spells
+            if (current.race && current.subrace) {
+                const racialSpells = getRacialSpells(current.race, current.subrace);
+                console.log('🔍 [Equipment] Adding racial spells:', {
+                    race: current.race,
+                    subrace: current.subrace,
+                    spellCount: racialSpells.length,
+                    spellIds: racialSpells.map(s => s.id),
+                    spellNames: racialSpells.map(s => s.name),
+                    characterChanged
+                });
+                if (racialSpells.length > 0) {
+                    addSpellsToLibrary(libraryDispatch, racialSpells, 'Racial Abilities');
+                } else {
+                    console.warn('⚠️ [Equipment] No racial spells found for:', {
+                        race: current.race,
+                        subrace: current.subrace
+                    });
                 }
             }
         }
 
-        // Store passives from path and convert non-stat passives to spell cards
-        if (path) {
-            const pathData = ENHANCED_PATHS[path];
-            if (pathData && pathData.mechanicalBenefits) {
-                // Store passives in character store
-                updateCharacterInfo('pathPassives', pathData.mechanicalBenefits);
-                
-                // Convert non-stat passives to spell cards and add to library
-                pathData.mechanicalBenefits.forEach(passive => {
-                    // Skip stat bonuses - they're applied automatically
-                    if (passive.type === 'stat') {
-                        return;
-                    }
-                    
-                    // Create spell card from passive
-                    const spellCard = {
-                        id: `passive_${passive.name?.toLowerCase().replace(/\s+/g, '_') || 'unknown'}`,
-                        name: passive.name || 'Unknown Passive',
-                        description: passive.description || '',
-                        level: 1,
-                        spellType: 'PASSIVE',
-                        tags: ['passive', 'discipline'],
-                        effectTypes: ['utility'],
-                        damageTypes: [],
-                        icon: 'spell_holy_devotion',
-                        typeConfig: {
-                            school: 'divine',
-                            icon: 'spell_holy_devotion',
-                            tags: ['passive', 'discipline']
-                        },
-                        targetingConfig: {
-                            targetingType: 'self'
-                        },
-                        resourceCost: {
-                            actionPoints: 0
-                        },
-                        resolution: 'AUTO',
-                        visualTheme: 'holy',
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString()
-                    };
-                    
-                    // Check if spell already exists in library
-                    const spellExists = spellLibrary.spells.some(s => s.id === spellCard.id);
-                    
-                    if (!spellExists) {
-                        // Add spell to library
-                        libraryDispatch(libraryActionCreators.addSpell(spellCard));
-                    }
-                });
+        // Handle discipline/path spells
+        // Add spells if path changed OR if character changed (last was reset to empty)
+        if (current.path !== last.path || characterChanged) {
+            // Remove old discipline spells (both abilities and passives) - only if not a character change
+            if (!characterChanged) {
+                removeSpellsByCategory(libraryDispatch, 'Discipline Abilities', spellLibrary.spells);
+                removeSpellsByCategory(libraryDispatch, 'Discipline Passives', spellLibrary.spells);
             }
-        } else {
-            updateCharacterInfo('pathPassives', []);
+            // Also remove old passives by checking for spells with 'discipline' tag and passive type (fallback)
+            const oldPassives = spellLibrary.spells.filter(spell => 
+                spell.spellType === 'PASSIVE' && 
+                (spell.tags?.includes('discipline') || spell.typeConfig?.tags?.includes('discipline')) &&
+                !spell.categoryIds?.includes('Discipline Passives') // Don't double-remove
+            );
+            oldPassives.forEach(spell => {
+                if (spell && spell.id) {
+                    libraryDispatch(libraryActionCreators.deleteSpell(spell.id));
+                }
+            });
+
+            if (path) {
+                const pathData = ENHANCED_PATHS[path];
+                
+                // Get available spells from path abilities
+                let availableSpells = [];
+                if (pathData && pathData.abilities) {
+                    availableSpells = pathData.abilities;
+                }
+
+                // If we have spells available, select randomly based on spell types
+                if (availableSpells.length > 0) {
+                    // Select 1 of each spell type (passive, reaction, action)
+                    const choices = { passive: 1, reaction: 1, action: 1 };
+                    const selectedSpells = selectRandomSpells(availableSpells, choices);
+
+                    // Filter out spells that are already in the library
+                    const newSpells = filterNewSpells(selectedSpells, spellLibrary.spells);
+
+                    // Add new spells to library
+                    newSpells.forEach(spell => {
+                        if (spell && spell.id) {
+                            libraryDispatch(libraryActionCreators.addSpell(spell));
+                        }
+                    });
+                }
+
+                // Store passives from path and convert non-stat passives to spell cards
+                if (pathData && pathData.mechanicalBenefits) {
+                    // Store passives in character store
+                    updateCharacterInfo('pathPassives', pathData.mechanicalBenefits);
+                    
+                    // Convert non-stat passives to spell cards and add to library
+                    pathData.mechanicalBenefits.forEach(passive => {
+                        // Skip stat bonuses - they're applied automatically
+                        if (passive.type === 'stat') {
+                            return;
+                        }
+                        
+                        // Create spell card from passive
+                        const spellCard = {
+                            id: `passive_${passive.name?.toLowerCase().replace(/\s+/g, '_') || 'unknown'}`,
+                            name: passive.name || 'Unknown Passive',
+                            description: passive.description || '',
+                            level: 1,
+                            spellType: 'PASSIVE',
+                            tags: ['passive', 'discipline'],
+                            effectTypes: ['utility'],
+                            damageTypes: [],
+                            icon: 'spell_holy_devotion',
+                            typeConfig: {
+                                school: 'divine',
+                                icon: 'spell_holy_devotion',
+                                tags: ['passive', 'discipline']
+                            },
+                            targetingConfig: {
+                                targetingType: 'self'
+                            },
+                            resourceCost: {
+                                actionPoints: 0
+                            },
+                            resolution: 'AUTO',
+                            visualTheme: 'holy',
+                            categoryIds: ['Discipline Passives'],
+                            dateCreated: new Date().toISOString(),
+                            lastModified: new Date().toISOString()
+                        };
+                        
+                        // Add spell to library (old ones were already removed above)
+                        libraryDispatch(libraryActionCreators.addSpell(spellCard));
+                    });
+                }
+            } else {
+                // Path was removed, clear passives
+                updateCharacterInfo('pathPassives', []);
+            }
         }
     }, [race, subrace, path, inspectionData, libraryDispatch, updateCharacterInfo, lastRaceSubracePath, spellLibrary.spells]);
 
@@ -558,125 +659,6 @@ export default function CharacterPanel() {
                     </div>
                 </div>
 
-                {/* Racial Traits Section */}
-                {racialTraits.length > 0 && (
-                    <div className="racial-traits-section">
-                        <h3 className="racial-traits-title">Racial Traits</h3>
-                        {/* Icon strip selector (similar to paths): click an icon to view its card */}
-                        <div className="racial-trait-icon-strip">
-                            {racialTraits.map((trait, idx) => {
-                                // Use the trait's icon directly, or derive from tags if not available
-                                const icon = trait?.icon || (() => {
-                                  const tags = trait?.typeConfig?.tags || [];
-                                  const iconByTag = {
-                                    combat: 'ability_warrior_bloodfrenzy',
-                                    movement: 'ability_rogue_sprint',
-                                    resistance: 'spell_frost_frostarmor',
-                                    environmental: 'spell_frost_frostarmor',
-                                    transformation: 'ability_druid_catform',
-                                    divination: 'spell_holy_mindvision',
-                                    detection: 'inv_misc_spyglass_02',
-                                    protection: 'spell_holy_powerwordshield',
-                                    illusion: 'spell_shadow_haunting',
-                                    adaptive: 'ability_racial_naturalshapeshifter',
-                                    knowledge: 'inv_misc_book_09',
-                                    nature: 'spell_nature_protectionformnature',
-                                    spiritual: 'spell_holy_exorcism',
-                                    stealth: 'ability_stealth',
-                                    defense: 'inv_shield_06',
-                                    utility: 'inv_misc_bag_11'
-                                  };
-                                  // Find first matching tag
-                                  for (const tag of tags) {
-                                    if (iconByTag[tag]) return iconByTag[tag];
-                                  }
-                                  return 'spell_holy_holybolt';
-                                })();
-                                const isSelected = idx === selectedTraitIndex;
-
-                                const handleIconDragStart = (e) => {
-                                  const spellData = {
-                                    ...trait,
-                                    cooldown: 0,
-                                    level: 1,
-                                    type: 'spell'
-                                  };
-                                  e.dataTransfer.setData('application/json', JSON.stringify(spellData));
-                                  e.dataTransfer.effectAllowed = 'copy';
-                                };
-
-                                return (
-                                  <button
-                                    key={idx}
-                                    className={`racial-trait-icon-btn ${isSelected ? 'selected' : ''}`}
-                                    onClick={() => setSelectedTraitIndex(idx)}
-                                    title={trait.name || 'Racial Trait'}
-                                    draggable={true}
-                                    onDragStart={handleIconDragStart}
-                                    style={{ cursor: 'grab' }}
-                                  >
-                                    <img
-                                      src={`https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`}
-                                      alt={trait.name || 'Racial Trait'}
-                                    />
-                                  </button>
-                                );
-                            })}
-                        </div>
-
-                        {/* Single-card view for the selected racial trait */}
-                        {racialTraits[selectedTraitIndex] && (() => {
-                            const trait = racialTraits[selectedTraitIndex];
-                            return (
-                              <div className="racial-trait-card">
-                                <UnifiedSpellCard
-                                  spell={trait}
-                                  variant="wizard"
-                                  isDraggable={true}
-                                  showActions={false}
-                                  showDescription={true}
-                                  showStats={true}
-                                  showTags={true}
-                                />
-                              </div>
-                            );
-                        })()}
-
-                        {/* Additional Racial Information */}
-                        <div className="racial-info-grid">
-                            {racialLanguages.length > 0 && (
-                                <div className="racial-info-item">
-                                    <label className="racial-info-label">Languages:</label>
-                                    <span className="racial-info-value">{racialLanguages.join(', ')}</span>
-                                </div>
-                            )}
-                            {racialSpeed && (
-                                <div className="racial-info-item">
-                                    <label className="racial-info-label">Speed:</label>
-                                    <span className="racial-info-value">{racialSpeed} feet</span>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Cultural Background - Show if available */}
-                        {(() => {
-                            const raceData = getRaceData(race);
-                            if (raceData?.culturalBackground) {
-                                return (
-                                    <div className="racial-cultural-background">
-                                        <h4 className="cultural-background-title">
-                                            <i className="fas fa-book"></i> Cultural Background
-                                        </h4>
-                                        <p className="cultural-background-text">
-                                            {raceData.culturalBackground}
-                                        </p>
-                                    </div>
-                                );
-                            }
-                            return null;
-                        })()}
-                    </div>
-                )}
                     </div>
                 </div>
 
@@ -891,6 +873,76 @@ export default function CharacterPanel() {
     };
 
     // Render content based on active section
+    // Render passives summary section
+    const renderPassives = () => {
+        // Get all passive abilities from racial stat modifiers and path passives
+        const racialPassives = race && subrace ? getRacialStatModifiers(race, subrace) : [];
+        const allPassives = [...racialPassives, ...(pathPassives || [])];
+
+        if (allPassives.length === 0) {
+            return (
+                <div className="passive-summary-container">
+                    <div className="passive-summary-empty">
+                        <p>No passive abilities available.</p>
+                        <p>Select a race, subrace, and discipline to see passive abilities here.</p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Group passives by source
+        const racialGroup = racialPassives.length > 0 ? {
+            name: 'Racial Passives',
+            passives: racialPassives
+        } : null;
+
+        const pathGroup = pathPassives && pathPassives.length > 0 ? {
+            name: 'Discipline Passives',
+            passives: pathPassives
+        } : null;
+
+        const groups = [racialGroup, pathGroup].filter(Boolean);
+
+        return (
+            <div className="passive-summary-container">
+                {groups.map((group, groupIndex) => (
+                    <div key={groupIndex} className="passive-summary-group">
+                        <div className="passive-summary-group-header">
+                            <h3>{group.name}</h3>
+                        </div>
+                        <div className="passive-summary-list">
+                            {group.passives.map((passive, idx) => {
+                                const icon = passive?.icon || 'spell_holy_devotion';
+                                const name = passive?.name || 'Passive Ability';
+                                const description = passive?.description || 
+                                    passive?.buffConfig?.effects?.map(e => e.description || e.statModifier?.stat).join('. ') ||
+                                    passive?.debuffConfig?.effects?.map(e => e.description || e.statusEffect?.type).join('. ') ||
+                                    'No description available';
+
+                                return (
+                                    <div key={idx} className="passive-summary-item">
+                                        <div className="passive-summary-icon-wrapper">
+                                            <img
+                                                src={`https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`}
+                                                alt={name}
+                                                className="passive-summary-icon"
+                                                onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
+                                            />
+                                        </div>
+                                        <div className="passive-summary-details">
+                                            <div className="passive-summary-name">{name}</div>
+                                            <div className="passive-summary-description">{description}</div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
     const renderSectionContent = () => {
         switch (activeSection) {
             case 'character':
@@ -899,6 +951,8 @@ export default function CharacterPanel() {
                 return renderEquipment();
             case 'resources':
                 return renderResources();
+            case 'passives':
+                return renderPassives();
             default:
                 return renderCharacterInfo();
         }
@@ -1203,15 +1257,23 @@ export default function CharacterPanel() {
 
     return (
         <div className="character-container">
-            <div className="character-navigation">
+            <div className={`character-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
+                <button
+                    className="stats-label-toggle-button"
+                    onClick={() => setShowLabels(!showLabels)}
+                    title={showLabels ? 'Hide Labels' : 'Show Labels'}
+                >
+                    <span className="stats-toggle-icon">{showLabels ? '◀' : '▶'}</span>
+                </button>
                 {Object.entries(sections).map(([key, section]) => (
                     <button
                         key={key}
                         className={`character-nav-button ${activeSection === key ? 'active' : ''}`}
                         onClick={() => setActiveSection(key)}
+                        title={section.title}
                     >
                         <img src={section.icon} alt="" className="character-nav-icon" />
-                        <span className="character-nav-text">{section.title}</span>
+                        {showLabels && <span className="character-nav-text">{section.title}</span>}
                     </button>
                 ))}
             </div>

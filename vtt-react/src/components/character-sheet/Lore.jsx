@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import useCharacterStore from '../../store/characterStore';
 import { getAllBackgrounds } from '../../data/backgroundData';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
+import { getFullRaceData, getSubraceData, getRaceData } from '../../data/raceData';
+import { ENHANCED_PATHS } from '../../data/enhancedPathData';
 
 // Border color options for tokens
 const BORDER_COLORS = [
@@ -31,6 +33,7 @@ export default function Lore() {
     const { tokenSettings, updateTokenSettings } = inspectionData ? { tokenSettings: null, updateTokenSettings: null } : characterStore;
 
     const [activeSection, setActiveSection] = useState('background');
+    const [showLabels, setShowLabels] = useState(false); // Start with icons only
     const [showImageControls, setShowImageControls] = useState(false);
 
     // Apply default transformations if image exists but no transformations are set
@@ -45,6 +48,13 @@ export default function Lore() {
             updateLore('imageTransformations', defaultTransforms);
         }
     }, [lore.characterImage, lore.imageTransformations]);
+
+    // Get race and subrace data
+    const { race, subrace, path } = dataSource;
+    const raceData = race ? getRaceData(race) : null;
+    const subraceData = race && subrace ? getSubraceData(race, subrace) : null;
+    const fullRaceData = race && subrace ? getFullRaceData(race, subrace) : null;
+    const pathData = path ? ENHANCED_PATHS[path] : null;
 
     const sections = {
         background: {
@@ -97,6 +107,13 @@ export default function Lore() {
             fields: [
                 { key: 'notes', label: 'General Notes', placeholder: 'Any additional notes, reminders, or information about your character...', type: 'textarea' }
             ]
+        },
+        heritage: {
+            title: 'Heritage',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
+            fields: [],
+            isReadOnly: true,
+            customRender: true
         }
     };
 
@@ -462,15 +479,23 @@ export default function Lore() {
 
     return (
         <div className="lore-container">
-            <div className="lore-navigation">
+            <div className={`lore-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
+                <button
+                    className="lore-label-toggle-button"
+                    onClick={() => setShowLabels(!showLabels)}
+                    title={showLabels ? 'Hide Labels' : 'Show Labels'}
+                >
+                    <span className="lore-toggle-icon">{showLabels ? '◀' : '▶'}</span>
+                </button>
                 {Object.entries(sections).map(([key, section]) => (
                     <button
                         key={key}
                         className={`lore-nav-button ${activeSection === key ? 'active' : ''}`}
                         onClick={() => setActiveSection(key)}
+                        title={section.title}
                     >
                         <img src={section.icon} alt="" className="lore-nav-icon" />
-                        <span className="lore-nav-text">{section.title}</span>
+                        {showLabels && <span className="lore-nav-text">{section.title}</span>}
                     </button>
                 ))}
             </div>
@@ -486,11 +511,99 @@ export default function Lore() {
                 </div>
 
                 <div className="lore-fields">
-                    {sections[activeSection].fields.map(renderField)}
+                    {sections[activeSection].customRender ? (
+                        renderHeritageSection()
+                    ) : sections[activeSection].fields.map(renderField)}
                 </div>
             </div>
 
 
         </div>
     );
+
+    function renderHeritageSection() {
+        return (
+            <div className="heritage-section">
+                {subraceData ? (
+                    <>
+                        {subraceData.description && (
+                            <div className="lore-field">
+                                <label className="lore-field-label">Description</label>
+                                <div className="heritage-readonly-text">{subraceData.description}</div>
+                            </div>
+                        )}
+                        {subraceData.culturalBackground && (
+                            <div className="lore-field">
+                                <label className="lore-field-label">Cultural Background</label>
+                                <div className="heritage-readonly-text">{subraceData.culturalBackground}</div>
+                            </div>
+                        )}
+                        {fullRaceData && fullRaceData.race && fullRaceData.race.baseTraits && (
+                            <>
+                                {fullRaceData.race.baseTraits.height && (
+                                    <div className="lore-field">
+                                        <label className="lore-field-label">Height</label>
+                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.height}</div>
+                                    </div>
+                                )}
+                                {fullRaceData.race.baseTraits.weight && (
+                                    <div className="lore-field">
+                                        <label className="lore-field-label">Weight</label>
+                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.weight}</div>
+                                    </div>
+                                )}
+                                {fullRaceData.race.baseTraits.build && (
+                                    <div className="lore-field">
+                                        <label className="lore-field-label">Build</label>
+                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.build}</div>
+                                    </div>
+                                )}
+                                {fullRaceData.race.baseTraits.lifespan && (
+                                    <div className="lore-field">
+                                        <label className="lore-field-label">Lifespan</label>
+                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.lifespan}</div>
+                                    </div>
+                                )}
+                                {fullRaceData.race.baseTraits.size && (
+                                    <div className="lore-field">
+                                        <label className="lore-field-label">Size</label>
+                                        <div className="heritage-readonly-text">{fullRaceData.race.baseTraits.size}</div>
+                                    </div>
+                                )}
+                                {fullRaceData.combinedTraits && fullRaceData.combinedTraits.speed && (
+                                    <div className="lore-field">
+                                        <label className="lore-field-label">Speed</label>
+                                        <div className="heritage-readonly-text">{fullRaceData.combinedTraits.speed} ft</div>
+                                    </div>
+                                )}
+                                {fullRaceData.combinedTraits && fullRaceData.combinedTraits.languages && fullRaceData.combinedTraits.languages.length > 0 && (
+                                    <div className="lore-field">
+                                        <label className="lore-field-label">Languages</label>
+                                        <div className="heritage-readonly-text">{fullRaceData.combinedTraits.languages.join(', ')}</div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                        {raceData && raceData.overview && (
+                            <div className="lore-field">
+                                <label className="lore-field-label">Race Overview</label>
+                                <div className="heritage-readonly-text">{raceData.overview}</div>
+                            </div>
+                        )}
+                        {raceData && raceData.culturalBackground && (
+                            <div className="lore-field">
+                                <label className="lore-field-label">Race Cultural Background</label>
+                                <div className="heritage-readonly-text">{raceData.culturalBackground}</div>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <div className="heritage-empty">
+                        <p>No heritage information available. Select a race and subrace to see details here.</p>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
 }

@@ -10,6 +10,8 @@ import { ENHANCED_PATHS } from '../../../data/enhancedPathData';
 import { calculateStartingCurrency, formatCurrency } from '../../../data/startingCurrencyData';
 import { getBackgroundData } from '../../../data/backgroundData';
 import { UnifiedSpellCard } from '../../spellcrafting-wizard/components/common';
+import { useSpellLibrary, useSpellLibraryDispatch } from '../../spellcrafting-wizard/context/SpellLibraryContext';
+import { getDisciplineSpells, addSpellsToLibrary, selectRandomSpells, removeSpellsByCategory } from '../../../utils/raceDisciplineSpellUtils';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import '../../rules/BackgroundSelector.css';
@@ -17,6 +19,8 @@ import '../../rules/BackgroundSelector.css';
 const Step5PathSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
+    const spellLibraryDispatch = useSpellLibraryDispatch();
+    const spellLibrary = useSpellLibrary();
 
     const [selectedPath, setSelectedPath] = useState(state.characterData.path);
     const [selectedAbility, setSelectedAbility] = useState(state.characterData.selectedAbility);
@@ -29,11 +33,24 @@ const Step5PathSelection = () => {
     const pathData = selectedPath ? ENHANCED_PATHS[selectedPath] : null;
 
     const handlePathSelect = (pathId) => {
+        // Remove old discipline spells first
+        removeSpellsByCategory(spellLibraryDispatch, 'Discipline Abilities', spellLibrary.spells);
+
         setSelectedPath(pathId);
         setSelectedAbility(null); // Reset selected ability when changing paths
         setViewingAbility(null);
         dispatch(wizardActionCreators.setPath(pathId));
         dispatch(wizardActionCreators.setSelectedAbility(null)); // Clear selected ability in state
+
+        // Add discipline spells to spell library
+        const disciplineSpells = getDisciplineSpells(pathId);
+        if (disciplineSpells.length > 0) {
+            // For character creation, select random spells if there are choices
+            // Paths typically have 1 PASSIVE, 1 REACTION, 1 ACTION - select 1 of each
+            const choices = { passive: 1, reaction: 1, action: 1 };
+            const selectedSpells = selectRandomSpells(disciplineSpells, choices);
+            addSpellsToLibrary(spellLibraryDispatch, selectedSpells, 'Discipline Abilities');
+        }
     };
 
     const handleAbilitySelect = (abilityId) => {
