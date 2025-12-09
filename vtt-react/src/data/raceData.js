@@ -83,33 +83,63 @@ export const RACE_DATA = {
                     {
                         id: 'battle_fury_nordmark',
                         name: 'Battle Fury',
-                        description: 'When reduced to half hit points, enter a berserker rage. Gain increased damage but lose defensive capabilities.',
+                        description: 'When reduced to half hit points or below, enter a berserker rage. Gain +5 to slashing, bludgeoning, piercing, and ranged damage. Lose 2 armor and 2 to saving throws.',
                         level: 1,
                         icon: 'ability_warrior_rampage',
-                        spellType: 'REACTION',
+                        spellType: 'PASSIVE',
                         effectTypes: ['buff'],
                         typeConfig: {
                             school: 'physical',
                             icon: 'ability_warrior_rampage',
-                            tags: ['rage', 'combat', 'berserker', 'reaction']
+                            tags: ['rage', 'combat', 'berserker', 'passive']
                         },
                         buffConfig: {
                             buffType: 'statEnhancement',
                             effects: [
                                 {
-                                    id: 'berserker_damage',
-                                    name: 'Rage Damage',
-                                    description: 'Gain +2 attack damage for 1 minute',
+                                    id: 'berserker_slashing_damage',
+                                    name: 'Rage Slashing Damage',
+                                    description: 'Gain +5 slashing damage when below 50% HP',
                                     statModifier: {
-                                        stat: 'damage',
-                                        magnitude: 2,
+                                        stat: 'slashing_damage',
+                                        magnitude: 5,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'berserker_bludgeoning_damage',
+                                    name: 'Rage Bludgeoning Damage',
+                                    description: 'Gain +5 bludgeoning damage when below 50% HP',
+                                    statModifier: {
+                                        stat: 'bludgeoning_damage',
+                                        magnitude: 5,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'berserker_piercing_damage',
+                                    name: 'Rage Piercing Damage',
+                                    description: 'Gain +5 piercing damage when below 50% HP',
+                                    statModifier: {
+                                        stat: 'piercing_damage',
+                                        magnitude: 5,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'berserker_ranged_damage',
+                                    name: 'Rage Ranged Damage',
+                                    description: 'Gain +5 ranged damage when below 50% HP',
+                                    statModifier: {
+                                        stat: 'ranged_damage',
+                                        magnitude: 5,
                                         magnitudeType: 'flat'
                                     }
                                 },
                                 {
                                     id: 'berserker_defense',
                                     name: 'Reckless Defense',
-                                    description: 'Lose 2 armor for 1 minute',
+                                    description: 'Lose 2 armor when below 50% HP',
                                     statModifier: {
                                         stat: 'armor',
                                         magnitude: -2,
@@ -119,7 +149,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'berserker_saves',
                                     name: 'Reckless Courage',
-                                    description: 'Lose 2 to saving throws for 1 minute',
+                                    description: 'Lose 2 to saving throws when below 50% HP',
                                     statModifier: {
                                         stat: 'saving_throws',
                                         magnitude: -2,
@@ -127,9 +157,9 @@ export const RACE_DATA = {
                                     }
                                 }
                             ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -159,7 +189,7 @@ export const RACE_DATA = {
                         resourceCost: {
                             resourceTypes: [],
                             resourceValues: {},
-                            actionPoints: 1,
+                            actionPoints: 0,
                             components: []
                         },
                         cooldownConfig: {
@@ -5431,7 +5461,7 @@ export const RACE_DATA = {
                     {
                         id: 'solar_healing_astren',
                         name: 'Solar Healing',
-                        description: 'Regenerate health in sunlight.',
+                        description: 'While in direct sunlight, you regain 1d4 + your proficiency bonus hit points at the start of each of your turns. This regeneration does not function while you are at 0 HP or unconscious.',
                         level: 1,
                         icon: 'spell_holy_renew',
                         spellType: 'PASSIVE',
@@ -5444,10 +5474,10 @@ export const RACE_DATA = {
                         },
                         healingConfig: {
                             healingType: 'hot',
-                            formula: '1d4',
+                            formula: '1d4 + proficiency',
                             hasHotEffect: true,
                             hotTickInterval: 1,
-                            hotDuration: 'while in sunlight'
+                            hotDuration: 'while in direct sunlight (no effect at 0 HP or while unconscious)'
                         },
                         targetingConfig: {
                             targetingType: 'self',

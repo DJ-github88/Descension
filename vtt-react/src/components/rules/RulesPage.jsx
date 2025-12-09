@@ -238,9 +238,11 @@ const RulesPage = () => {
     const tableKey = table.id || table.title || `table-${tableIdx}`;
     
     // Pagination: Show rows per page (split between left and right)
-    // Further reduced rows per page to give more space to each row and prevent text cutoff
-    const rowsPerSide = 2; // Rows per side (left or right page) - reduced to 2 for more space
-    const rowsPerPage = rowsPerSide * 2; // Total rows per page (both sides) = 4 total
+    // Default rows per page across the full spread; tables can override via rowsPerPage
+    const defaultRowsPerSide = 4;
+    const requestedRowsPerPage = table.rowsPerPage || defaultRowsPerSide * 2;
+    const rowsPerSide = Math.ceil(requestedRowsPerPage / 2);
+    const rowsPerPage = rowsPerSide * 2; // normalize to even count for left/right split
     const totalPages = Math.max(Math.ceil(rows.length / rowsPerPage), 1);
     const maxPageIndex = Math.max(totalPages - 1, 0);
     const tablePage = Math.min(tablePages[tableKey] || 0, maxPageIndex);
@@ -253,6 +255,7 @@ const RulesPage = () => {
     // Split page rows evenly between left and right pages
     const leftPageRows = pageRows.slice(0, rowsPerSide);
     const rightPageRows = pageRows.slice(rowsPerSide, rowsPerSide * 2);
+    const hasRightPage = rightPageRows.length > 0;
 
     const renderTablePage = (rows, startRowIndex) => (
       <table className="rules-table">
@@ -328,16 +331,19 @@ const RulesPage = () => {
     return (
       <div className="rules-table-container" key={table.title}>
         {table.title && <h5 className="rules-table-title">{table.title}</h5>}
-        <div className="rules-table-wrapper">
+        {table.description && <p className="rules-table-description">{table.description}</p>}
+        <div className={`rules-table-wrapper ${!hasRightPage ? 'single-page' : ''}`}>
           {/* Left Page */}
           <div className="rules-table-page-left">
             {renderTablePage(leftPageRows, startIdx)}
           </div>
 
           {/* Right Page */}
-          <div className="rules-table-page-right">
-            {renderTablePage(rightPageRows, startIdx + rowsPerSide)}
-          </div>
+          {hasRightPage && (
+            <div className="rules-table-page-right">
+              {renderTablePage(rightPageRows, startIdx + rowsPerSide)}
+            </div>
+          )}
         </div>
 
         {/* Page Navigation */}

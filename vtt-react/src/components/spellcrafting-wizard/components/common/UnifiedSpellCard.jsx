@@ -1401,11 +1401,11 @@ const UnifiedSpellCard = ({
         break;
 
       case 'REACTION':
-        // Show availability (default to "always available")
-        const availability = typeConfig.availabilityType && typeConfig.availabilityType !== 'ALWAYS'
-          ? typeConfig.availabilityType.replace(/_/g, ' ').toLowerCase()
-          : 'always available';
-        bullets.push(availability);
+        // Show availability only if it's not the default "always available"
+        if (typeConfig.availabilityType && typeConfig.availabilityType !== 'ALWAYS') {
+          const availability = typeConfig.availabilityType.replace(/_/g, ' ').toLowerCase();
+          bullets.push(availability);
+        }
 
         // Show uses per turn if limited
         if (typeConfig.limitUsesPerTurn && typeConfig.usesPerTurn) {
@@ -4160,7 +4160,7 @@ const UnifiedSpellCard = ({
     // If no array, try to get from typeConfig (Step 1)
     if (!damageTypesArray || damageTypesArray.length === 0) {
       damageTypesArray = [];
-      if (spell.typeConfig?.school) {
+      if (spell.typeConfig?.school && spell.typeConfig.school.toLowerCase() !== 'physical') {
         damageTypesArray.push(spell.typeConfig.school);
       }
       if (spell.typeConfig?.secondaryElement) {
@@ -4187,7 +4187,7 @@ const UnifiedSpellCard = ({
     // Format damage type suffix - handle multiple types
     if (effectiveDamageTypes.length > 0) {
       const formattedTypes = effectiveDamageTypes
-        .filter(type => type && type !== 'dot') // Filter out 'dot' as it's not a damage type
+        .filter(type => type && type !== 'dot' && type !== 'physical' && type !== 'direct') // Filter out 'dot', 'physical', and 'direct' as they're not specific damage types
         .map(type => {
           // Capitalize first letter and handle special cases
           const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
@@ -4489,7 +4489,7 @@ const UnifiedSpellCard = ({
     // If no array, try to get from typeConfig (Step 1)
     if (!damageTypesArray || damageTypesArray.length === 0) {
       damageTypesArray = [];
-      if (spell.typeConfig?.school) {
+      if (spell.typeConfig?.school && spell.typeConfig.school.toLowerCase() !== 'physical') {
         damageTypesArray.push(spell.typeConfig.school);
       }
       if (spell.typeConfig?.secondaryElement) {
@@ -4503,10 +4503,10 @@ const UnifiedSpellCard = ({
                       null;
 
     // For DoT spells (damageType === 'dot'), use elementType for the suffix
-    // For instant damage spells, use damageType
+    // For instant damage spells, use damageType (but filter out 'direct' as it's not a specific damage type)
     const effectiveSingleType = singleDamageType === 'dot'
       ? (spell.damageConfig?.elementType || spell.effects?.damage?.dot?.type)
-      : singleDamageType;
+      : (singleDamageType && singleDamageType !== 'direct' ? singleDamageType : null);
 
     // If we have an array, use it; otherwise use single type
     const effectiveDamageTypes = (damageTypesArray && damageTypesArray.length > 0) 
@@ -4517,7 +4517,7 @@ const UnifiedSpellCard = ({
     let damageTypeSuffix = '';
     if (effectiveDamageTypes.length > 0) {
       const formattedTypes = effectiveDamageTypes
-        .filter(type => type && type !== 'dot') // Filter out 'dot' as it's not a damage type
+        .filter(type => type && type !== 'dot' && type !== 'physical') // Filter out 'dot' and 'physical' as they're not specific damage types
         .map(type => {
           // Capitalize first letter and handle special cases
           const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
@@ -5029,17 +5029,8 @@ const UnifiedSpellCard = ({
     // Use a Set to automatically handle duplicates
     const damageTypesSet = new Set();
 
-    // Priority order: typeConfig (Step 1) -> damageTypes array -> other sources
-    // Check typeConfig.school and typeConfig.secondaryElement FIRST (from Step 1 wizard)
-    const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
-    if (spell.typeConfig?.school && !magicSchools.includes(spell.typeConfig.school.toLowerCase())) {
-      damageTypesSet.add(spell.typeConfig.school.toLowerCase().trim());
-    }
-    if (spell.typeConfig?.secondaryElement) {
-      damageTypesSet.add(spell.typeConfig.secondaryElement.toLowerCase().trim());
-    }
-
-    // Then check damageTypes array (check both top-level and damageConfig)
+    // Priority order: damageTypes array -> typeConfig (Step 1) -> other sources
+    // Check damageTypes array FIRST (highest priority, especially for weapon-dependent spells)
     const damageTypesArray = spell.damageTypes || spell.damageConfig?.damageTypes;
     if (damageTypesArray && Array.isArray(damageTypesArray) && damageTypesArray.length > 0) {
       damageTypesArray.forEach(type => {
@@ -5049,11 +5040,25 @@ const UnifiedSpellCard = ({
       });
     }
 
+    // Then check typeConfig.school and typeConfig.secondaryElement (from Step 1 wizard)
+    // But exclude 'physical' as it's not a specific damage type (should use bludgeoning/piercing/slashing instead)
+    // Only use typeConfig if we don't already have damage types from the array
+    if (damageTypesSet.size === 0) {
+      const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
+      if (spell.typeConfig?.school && !magicSchools.includes(spell.typeConfig.school.toLowerCase()) && spell.typeConfig.school.toLowerCase() !== 'physical') {
+        damageTypesSet.add(spell.typeConfig.school.toLowerCase().trim());
+      }
+      if (spell.typeConfig?.secondaryElement) {
+        damageTypesSet.add(spell.typeConfig.secondaryElement.toLowerCase().trim());
+      }
+    }
+
     // Also check for singular damageType if no array found
     // Check damageConfig.damageType (e.g., 'bludgeoning', 'piercing', 'slashing')
+    // Filter out 'direct' and 'dot' as they're not actual damage types
     if (damageTypesSet.size === 0 && spell.damageConfig?.damageType) {
       const damageType = spell.damageConfig.damageType;
-      if (damageType && damageType.trim()) {
+      if (damageType && damageType.trim() && damageType.toLowerCase() !== 'direct' && damageType.toLowerCase() !== 'dot') {
         damageTypesSet.add(damageType.toLowerCase().trim());
       }
     }
@@ -5070,23 +5075,25 @@ const UnifiedSpellCard = ({
     // NEVER use school as damage type - schools and damage types are completely separate
     if (damageTypesSet.size === 0) {
       // Only use elementType if it's explicitly set, different from school, and not a magic school
+      // Also exclude 'physical' as it's not a specific damage type (should use bludgeoning/piercing/slashing instead)
       if (spell.elementType && spell.elementType.trim()) {
         const elementType = spell.elementType.toLowerCase().trim();
         const school = (spell.school || '').toLowerCase().trim();
         const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
 
-        // Only add if it's not the same as school and not a magic school
-        if (elementType !== school && !magicSchools.includes(elementType)) {
+        // Only add if it's not the same as school, not a magic school, and not 'physical'
+        if (elementType !== school && !magicSchools.includes(elementType) && elementType !== 'physical') {
           damageTypesSet.add(elementType);
         }
       }
 
       // Only use damageConfig elementType if it's explicitly set and not a magic school
+      // Also exclude 'physical' as it's not a specific damage type (should use bludgeoning/piercing/slashing instead)
       if (spell.damageConfig?.elementType && spell.damageConfig.elementType.trim()) {
         const elementType = spell.damageConfig.elementType.toLowerCase().trim();
         const magicSchools = ['arcane', 'divine', 'primal', 'occult', 'evocation', 'necromancy', 'enchantment', 'illusion', 'transmutation', 'conjuration', 'abjuration', 'divination'];
 
-        if (!magicSchools.includes(elementType)) {
+        if (!magicSchools.includes(elementType) && elementType !== 'physical') {
           damageTypesSet.add(elementType);
         }
       }
@@ -8333,7 +8340,10 @@ const UnifiedSpellCard = ({
             {(() => {
               const damageTypes = getDamageTypes();
               const spellComponents = formatSpellComponents();
-              const shouldShow = (variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (damageTypes.length > 0 || spellComponents);
+              // Determine if there are any component entries configured on the spell
+              const hasComponentData = Array.isArray(spell?.resourceCost?.components) && spell.resourceCost.components.length > 0;
+              // Only render when we actually have damage types or configured components to show
+              const shouldShow = (variant === 'wizard' || variant === 'library' || variant === 'collection' || variant === 'spellbook' || variant === 'rules') && (damageTypes.length > 0 || hasComponentData);
 
               return shouldShow && (
                 <div className="pf-damage-spell-box">
@@ -10805,7 +10815,8 @@ const UnifiedSpellCard = ({
               }
 
               // Handle custom buffs with customDescription
-              if (buffData?.buffType === 'custom' && buffData?.customDescription) {
+              // Only add this fallback when no other buff effects were generated to avoid duplicate lines
+              if (buffData?.buffType === 'custom' && buffData?.customDescription && buffEffectsToRender.length === 0) {
                 const durationValue = buffData.durationValue || buffData.duration;
                 const durationParts = [];
                 

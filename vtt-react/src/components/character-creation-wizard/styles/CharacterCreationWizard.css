@@ -6234,6 +6234,62 @@ button.gender-option.selected {
     font-family: 'Cinzel', serif;
 }
 
+.trait-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.active-trait-card {
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    background: linear-gradient(145deg, rgba(248, 244, 230, 0.5) 0%, rgba(237, 228, 211, 0.6) 100%);
+    border-radius: 8px;
+    padding: 0.75rem;
+}
+
+.passive-summary-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: linear-gradient(145deg, rgba(248, 244, 230, 0.8) 0%, rgba(237, 228, 211, 0.9) 100%);
+    border: 1px solid rgba(139, 69, 19, 0.35);
+    border-radius: 8px;
+    align-items: center;
+}
+
+.passive-summary-icon-wrapper {
+    flex-shrink: 0;
+}
+
+.passive-summary-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    border: 2px solid #8B4513;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.passive-summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.passive-summary-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2c2416;
+    margin: 0;
+}
+
+.passive-summary-description {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #5d4037;
+    line-height: 1.4;
+}
+
 .subrace-info-section {
     margin: 1.5rem 0;
     padding: 1rem;

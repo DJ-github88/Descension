@@ -166,8 +166,6 @@ export const TRICKSTER_PATH = {
             },
 
             resourceCost: {
-                resourceTypes: ['stamina'],
-                resourceValues: { stamina: 10 },
                 actionPoints: 0
             },
 
@@ -220,8 +218,7 @@ export const TRICKSTER_PATH = {
             },
 
             resourceCost: {
-                resourceTypes: ['mana', 'stamina'],
-                resourceValues: { mana: 10, stamina: 5 },
+                mana: 10,
                 actionPoints: 1
             },
 

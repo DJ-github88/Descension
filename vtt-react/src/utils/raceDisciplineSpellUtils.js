@@ -16,12 +16,61 @@ import { libraryActionCreators } from '../components/spellcrafting-wizard/contex
 // Map of path IDs to path data (using ENHANCED_PATHS which already imports all paths)
 const PATH_DATA_MAP = ENHANCED_PATHS;
 
+// Normalize discipline abilities to use allowed resources/damage types
+export const normalizeDisciplineAbility = (ability = {}) => {
+    const normalized = { ...ability };
+
+    // Resource cost: remove stamina, use mana instead
+    if (normalized.resourceCost) {
+        const { resourceTypes = [], resourceValues = {}, actionPoints } = normalized.resourceCost;
+        const hasStamina = resourceTypes.includes('stamina') || resourceValues.stamina !== undefined;
+        const staminaValue = resourceValues.stamina;
+        const filteredTypes = resourceTypes.filter(r => r !== 'stamina');
+        if (hasStamina) {
+            const manaValue = typeof staminaValue === 'number' ? staminaValue : 5;
+            normalized.resourceCost = {
+                resourceTypes: [...filteredTypes, 'mana'],
+                resourceValues: { ...resourceValues, mana: manaValue },
+                actionPoints: actionPoints ?? 0,
+                useFormulas: normalized.resourceCost.useFormulas || {}
+            };
+            delete normalized.resourceCost.resourceValues.stamina;
+        }
+    }
+
+    // Damage types: replace "physical" with "bludgeoning" (allowed)
+    if (Array.isArray(normalized.damageTypes)) {
+        normalized.damageTypes = normalized.damageTypes.map(dt => dt === 'physical' ? 'bludgeoning' : dt);
+    }
+    if (normalized.damageConfig?.elementType === 'physical') {
+        normalized.damageConfig = { ...normalized.damageConfig, elementType: 'bludgeoning' };
+    }
+
+    // Type/tags cleanup
+    if (normalized.typeConfig) {
+        normalized.typeConfig = {
+            ...normalized.typeConfig,
+            school: normalized.typeConfig.school === 'physical' ? 'martial' : normalized.typeConfig.school,
+            icon: normalized.typeConfig.icon,
+            tags: (normalized.typeConfig.tags || []).map(t => t === 'physical' ? 'martial' : t)
+        };
+    }
+    if (Array.isArray(normalized.tags)) {
+        normalized.tags = normalized.tags.map(t => t === 'physical' ? 'martial' : t);
+    }
+    if (normalized.visualTheme === 'physical') {
+        normalized.visualTheme = 'martial';
+    }
+
+    return normalized;
+};
+
 /**
  * Check if a trait should be treated as a passive stat modifier (not a spell)
  * @param {Object} trait - The trait object to check
  * @returns {boolean} True if it should be a stat modifier, false if it should be a spell
  */
-function isPassiveStatModifier(trait) {
+export function isPassiveStatModifier(trait) {
     // Passive abilities that should be stats, not spells:
     // - PASSIVE spellType with only stat modifiers (no active abilities)
     // - Resistances, vulnerabilities, or other permanent stat changes
@@ -32,16 +81,70 @@ function isPassiveStatModifier(trait) {
         return false;
     }
     
-    // Check tags first - if it has resistance/vulnerability tags, it's a stat modifier
-    const tags = trait.typeConfig?.tags || trait.tags || [];
-    const isResistanceOrVulnerability = tags.some(tag => 
-        ['resistance', 'vulnerability'].includes(tag.toLowerCase())
-    );
-    
-    if (isResistanceOrVulnerability) {
+    // Explicit check for known passive traits by ID or name
+    const traitId = (trait.id || '').toLowerCase();
+    const traitName = (trait.name || '').toLowerCase();
+    if (traitId === 'deep_frost_nordmark' || traitName === 'deep frost') {
+        return true; // Deep Frost is always a passive
+    }
+
+    // Defensive catch-all: any passive trait that clearly represents a resistance/vulnerability
+    // should be treated as a stat modifier even if its tags are incomplete
+    const idIndicatesResistance =
+        traitId.includes('resistance') || traitId.includes('vulnerability') || traitId.includes('immunity');
+    const nameIndicatesResistance =
+        traitName.includes('resistance') || traitName.includes('vulnerability') || traitName.includes('immunity');
+    if ((trait.spellType === 'PASSIVE' || !trait.spellType) && (idIndicatesResistance || nameIndicatesResistance)) {
         return true;
     }
     
+    // Check tags first - if it has resistance/vulnerability/immunity tags, it's a stat modifier
+    const tags = trait.typeConfig?.tags || trait.tags || [];
+    const isResistanceOrVulnerabilityOrImmunity = tags.some(tag => 
+        ['resistance', 'vulnerability', 'immunity'].includes(tag.toLowerCase())
+    );
+    
+    if (isResistanceOrVulnerabilityOrImmunity) {
+        return true;
+    }
+    
+    // Also check trait name and description for immunity/resistance/vulnerability keywords
+    const traitDesc = (trait.description || '').toLowerCase();
+    const hasImmunityKeywords = (
+        traitName.includes('immunity') || traitName.includes('immune') ||
+        traitDesc.includes('immunity') || traitDesc.includes('immune') ||
+        traitDesc.includes('cold immunity') || traitDesc.includes('immunity to') ||
+        traitName.includes('resistance') || traitDesc.includes('resistance') ||
+        traitName.includes('vulnerability') || traitDesc.includes('vulnerability')
+    );
+    
+    // If it's a PASSIVE with immunity/resistance/vulnerability keywords, it's a stat modifier
+    if (hasImmunityKeywords && trait.spellType === 'PASSIVE') {
+        return true;
+    }
+    
+    // Always-on racial perks: passive, no cost, permanent duration → treat as passive stat modifiers
+    const isPassiveNoCost = trait.spellType === 'PASSIVE' &&
+        (!trait.resourceCost || trait.resourceCost.actionPoints === 0);
+    const hasPermanentBuffOrDebuff =
+        trait.buffConfig?.durationType === 'permanent' ||
+        trait.debuffConfig?.durationType === 'permanent';
+    const hasPermanentUtility =
+        trait.utilityConfig &&
+        (!trait.utilityConfig.duration || trait.utilityConfig.duration === 0 || trait.utilityConfig.durationType === 'permanent');
+    const hasPassiveHealing =
+        trait.healingConfig &&
+        isPassiveNoCost &&
+        (
+            trait.healingConfig.durationType === 'permanent' ||
+            (trait.healingConfig.hotDuration || '').toLowerCase().includes('while') ||
+            (trait.healingConfig.hotDuration || '').toLowerCase().includes('sun') ||
+            (trait.healingConfig.hotDuration || '').toLowerCase().includes('sunlight')
+        );
+    if (isPassiveNoCost && (hasPermanentBuffOrDebuff || hasPermanentUtility || hasPassiveHealing)) {
+        return true;
+    }
+
     // If it's PASSIVE and only has stat modifiers (no triggers, no active effects)
     if (trait.spellType === 'PASSIVE') {
         // Check if it has stat modifiers in buffConfig or debuffConfig
@@ -51,64 +154,86 @@ function isPassiveStatModifier(trait) {
         );
         
         // Check if it has immunity-granting statusEffects (these are stat modifiers, not active effects)
-        // Immunities are statusEffects with level 'extreme' that grant permanent immunities
+        // Immunities are statusEffects that grant permanent immunities (check by name/description, any level)
         const hasImmunityStatusEffects = trait.buffConfig?.effects?.some(effect => {
             if (!effect.statusEffect) return false;
             const statusEffect = effect.statusEffect;
             const effectName = (effect.name || '').toLowerCase();
             const effectDesc = (effect.description || '').toLowerCase();
             
-            // Check if this is an immunity (level 'extreme' and name/description indicates immunity)
+            // Check if this is an immunity-related effect (by name/description, any level)
+            // Also check if it's extreme level (which often indicates immunity)
             const isImmunity = (
-                statusEffect.level === 'extreme' &&
                 (effectName.includes('immunity') || 
                  effectName.includes('immune') ||
                  effectDesc.includes('immune') ||
-                 effectDesc.includes('immunity'))
+                 effectDesc.includes('immunity')) ||
+                (statusEffect.level === 'extreme' && (
+                    effectName.includes('immunity') || 
+                    effectName.includes('immune') ||
+                    effectDesc.includes('immune') ||
+                    effectDesc.includes('immunity')
+                ))
             );
             
             return isImmunity;
         });
         
-        // Must not have active triggers or action points
-        const hasNoActiveFeatures = (
-            !trait.triggerConfig?.global?.enabled &&
-            (!trait.resourceCost?.actionPoints || trait.resourceCost.actionPoints === 0)
-        );
+        // Must not have action points (triggers are allowed for passives)
+        const hasNoActionPoints = (!trait.resourceCost?.actionPoints || trait.resourceCost.actionPoints === 0);
         
-        // Check for other active effects (excluding immunity statusEffects)
+        // Check for other active effects (excluding immunity statusEffects and survival utility)
         // If it has non-immunity statusEffect, buffConfig effects, or other active effects, keep it as a spell
         const hasActiveEffects = (
             trait.buffConfig?.effects?.some(effect => {
-                // Skip immunity statusEffects - they're stat modifiers
+                // Skip immunity statusEffects - they're stat modifiers (check by name/description, not just level)
                 if (effect.statusEffect) {
                     const effectName = (effect.name || '').toLowerCase();
                     const effectDesc = (effect.description || '').toLowerCase();
-                    const isImmunity = (
-                        effect.statusEffect.level === 'extreme' &&
-                        (effectName.includes('immunity') || 
-                         effectName.includes('immune') ||
-                         effectDesc.includes('immune') ||
-                         effectDesc.includes('immunity'))
+                    const statusEffect = effect.statusEffect;
+                    // Check if this is an immunity-related effect (by name/description, any level)
+                    const isImmunityRelated = (
+                        effectName.includes('immunity') || 
+                        effectName.includes('immune') ||
+                        effectDesc.includes('immune') ||
+                        effectDesc.includes('immunity') ||
+                        (statusEffect.level === 'extreme' && (effectName.includes('immunity') || effectName.includes('immune')))
                     );
-                    if (isImmunity) return false; // Don't count immunities as active effects
+                    if (isImmunityRelated) return false; // Don't count immunity-related effects as active effects
                 }
-                return effect.statusEffect || effect.buffType;
+                // If it has statusEffect or buffType that's not a stat modifier, it's an active effect
+                return effect.statusEffect || (effect.buffType && !effect.statModifier);
             }) ||
-            trait.debuffConfig?.effects?.some(effect => effect.statusEffect) ||
-            trait.utilityConfig ||
+            trait.debuffConfig?.effects?.some(effect => {
+                // Also check debuff effects for immunity-related status effects
+                if (effect.statusEffect) {
+                    const effectName = (effect.name || '').toLowerCase();
+                    const effectDesc = (effect.description || '').toLowerCase();
+                    const isImmunityRelated = (
+                        effectName.includes('immunity') || 
+                        effectName.includes('immune') ||
+                        effectDesc.includes('immune') ||
+                        effectDesc.includes('immunity')
+                    );
+                    if (isImmunityRelated) return false;
+                }
+                return effect.statusEffect && !effect.statModifier;
+            }) ||
+            // Allow utilityConfig if it's only survival/environmental (not combat utility)
+            (trait.utilityConfig && trait.utilityConfig.utilityType !== 'survival') ||
             trait.controlConfig ||
             trait.healingConfig ||
             trait.damageConfig
         );
         
-        // If it has active effects (excluding immunities), it's a spell, not just a stat modifier
+        // If it has active effects (excluding immunities and stat modifiers), it's a spell, not just a stat modifier
         if (hasActiveEffects) {
             return false;
         }
         
-        // Return true if it has stat modifiers OR immunity statusEffects, and no active features
-        return (hasStatModifiers || hasImmunityStatusEffects) && hasNoActiveFeatures;
+        // Return true if it has stat modifiers OR immunity statusEffects, and no action points
+        // Passives with triggers (like Battle Fury) are still considered passives
+        return (hasStatModifiers || hasImmunityStatusEffects) && hasNoActionPoints;
     }
     
     return false;
@@ -132,29 +257,69 @@ export function getRacialSpells(raceId, subraceId) {
     // Get subrace data using the helper function (handles ID lookup correctly)
     if (subraceId) {
         const subraceData = getSubraceData(raceId, subraceId);
+        
+        // Verify we got the correct subrace
+        if (subraceData && subraceData.id !== subraceId) {
+            console.error('❌ [getRacialSpells] Subrace ID mismatch!', {
+                requested: subraceId,
+                received: subraceData.id,
+                raceId
+            });
+            return spells; // Return empty array if ID mismatch
+        }
+        
         console.log('🔍 [getRacialSpells] Subrace data:', {
             raceId,
             subraceId,
+            subraceName: subraceData?.name,
+            subraceIdFromData: subraceData?.id,
             found: !!subraceData,
             traitsCount: subraceData?.traits?.length || 0,
-            traitIds: subraceData?.traits?.map(t => t.id) || []
+            traitIds: subraceData?.traits?.map(t => t.id) || [],
+            traitNames: subraceData?.traits?.map(t => t.name) || []
         });
         
         if (subraceData && subraceData.traits) {
             // Filter out passive stat modifiers - only return actual spells
             const allTraits = subraceData.traits;
-            const statModifiers = allTraits.filter(trait => isPassiveStatModifier(trait));
+            const statModifiers = allTraits.filter(trait => {
+                const isPassive = isPassiveStatModifier(trait);
+                if (!isPassive && trait.name === 'Deep Frost') {
+                    console.warn('⚠️ [getRacialSpells] Deep Frost not identified as passive!', {
+                        trait,
+                        tags: trait.typeConfig?.tags,
+                        spellType: trait.spellType,
+                        hasImmunityStatusEffects: trait.buffConfig?.effects?.some(effect => {
+                            const effectName = (effect.name || '').toLowerCase();
+                            return effectName.includes('immunity') || effectName.includes('immune');
+                        })
+                    });
+                }
+                return isPassive;
+            });
             const actualSpells = allTraits.filter(trait => !isPassiveStatModifier(trait));
             
             console.log('🔍 [getRacialSpells] Filtered traits:', {
+                subraceName: subraceData.name,
+                subraceId: subraceData.id,
                 totalTraits: allTraits.length,
                 statModifiersCount: statModifiers.length,
+                statModifierNames: statModifiers.map(s => s.name),
                 actualSpellsCount: actualSpells.length,
                 actualSpellIds: actualSpells.map(s => s.id),
                 actualSpellNames: actualSpells.map(s => s.name)
             });
             
-            spells.push(...actualSpells);
+            // Double-check: ensure we're not adding spells that don't belong to this subrace
+            // Also filter out any spells that should be passives (safety check)
+            const safeSpells = actualSpells.filter(spell => {
+                if (spell.name === 'Deep Frost') {
+                    console.error('❌ [getRacialSpells] Deep Frost should not be in spells list! Filtering out.');
+                    return false;
+                }
+                return true;
+            });
+            spells.push(...safeSpells);
         } else {
             console.warn('⚠️ [getRacialSpells] No subrace data or traits found:', {
                 raceId,
@@ -213,7 +378,7 @@ export function getDisciplineSpells(pathId) {
 
     // Extract abilities from the path
     if (pathData.abilities) {
-        spells.push(...pathData.abilities);
+        spells.push(...pathData.abilities.map(normalizeDisciplineAbility));
     }
 
     return spells;
@@ -281,12 +446,35 @@ export function selectRandomSpells(spells, choices = {}) {
  * @param {Array} spells - Array of spell objects to add
  * @param {string} categoryName - Category name for the spells
  */
-export function addSpellsToLibrary(dispatch, spells, categoryName = 'Character Abilities') {
+export function addSpellsToLibrary(dispatch, spells, categoryName = 'Character Abilities', existingSpells = []) {
     if (!dispatch || !spells || spells.length === 0) {
+        console.warn('⚠️ [addSpellsToLibrary] Invalid parameters:', {
+            hasDispatch: !!dispatch,
+            spellCount: spells?.length || 0,
+            categoryName
+        });
         return;
     }
 
-    spells.forEach(spell => {
+    // Filter out spells that already exist in the library
+    const newSpells = filterNewSpells(spells, existingSpells);
+
+    console.log('📚 [addSpellsToLibrary] Adding spells:', {
+        totalSpells: spells.length,
+        newSpellsCount: newSpells.length,
+        existingSpellsCount: existingSpells.length,
+        filteredOut: spells.length - newSpells.length,
+        newSpellIds: newSpells.map(s => s.id),
+        newSpellNames: newSpells.map(s => s.name),
+        categoryName
+    });
+
+    if (newSpells.length === 0) {
+        console.warn('⚠️ [addSpellsToLibrary] All spells were filtered out as duplicates');
+        return;
+    }
+
+    newSpells.forEach(spell => {
         if (spell && spell.id) {
             // Create a modified spell with category information
             const categorizedSpell = {
@@ -297,6 +485,7 @@ export function addSpellsToLibrary(dispatch, spells, categoryName = 'Character A
                 lastModified: new Date().toISOString()
             };
 
+            console.log('➕ [addSpellsToLibrary] Adding spell:', spell.id, spell.name);
             dispatch(libraryActionCreators.addSpell(categorizedSpell));
         }
     });

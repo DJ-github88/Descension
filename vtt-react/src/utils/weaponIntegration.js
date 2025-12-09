@@ -291,17 +291,62 @@ export const getAllWeaponAttackSpells = () => {
  * @returns {Object} Updated spell with weapon data
  */
 export const enhanceSpellWithWeaponData = (spell, weaponSlot = 'mainHand') => {
-  if (!spell || spell.name !== 'Attack') {
-    return spell; // Only enhance Attack spells
+  if (!spell) {
+    return spell;
   }
   
-  const weaponAttack = createWeaponAttackSpell(weaponSlot);
+  // Check if this is a weapon-dependent spell
+  const isWeaponDependent = spell.damageConfig?.weaponDependent === true;
   
-  return {
-    ...spell,
-    ...weaponAttack,
-    // Preserve original spell ID and structure
-    id: spell.id,
-    source: spell.source
-  };
+  // For Attack spells, create a full weapon attack spell
+  if (spell.name === 'Attack' || spell.id === 'universal_attack' || spell.name?.startsWith('Attack (')) {
+    const weaponAttack = createWeaponAttackSpell(weaponSlot);
+    
+    return {
+      ...weaponAttack,
+      // Preserve original spell ID and structure
+      id: spell.id || weaponAttack.id,
+      source: spell.source || weaponAttack.source
+    };
+  }
+  
+  // For other weapon-dependent spells (like Riposte), enhance with weapon data
+  if (isWeaponDependent) {
+    const weapon = getEquippedWeapon(weaponSlot);
+    const damageNotation = getWeaponDamageNotation(weapon);
+    const damageType = getWeaponDamageType(weapon);
+    
+    // Update name to include weapon name (like "Riposte (Unarmed)" or "Riposte (Longsword)")
+    const weaponName = weapon ? weapon.name : 'Unarmed';
+    const updatedName = `${spell.name} (${weaponName})`;
+    
+    // Create enhanced spell copy
+    const enhancedSpell = {
+      ...spell,
+      name: updatedName,
+      typeConfig: {
+        ...spell.typeConfig,
+        // Remove 'physical' school since we're using specific damage types
+        school: undefined
+      },
+      damageConfig: {
+        ...spell.damageConfig,
+        // Always use weapon dice notation when weapon-dependent (replace weapon_die with actual dice)
+        formula: damageNotation,
+        // Update damage type from weapon
+        damageType: damageType,
+        // Remove elementType if it's 'physical'
+        elementType: spell.damageConfig?.elementType === 'physical' ? undefined : spell.damageConfig?.elementType,
+        // Also set damageTypes in damageConfig for consistency
+        damageTypes: [damageType],
+        // Preserve other damage config properties
+      },
+      // Always set damageTypes array to show correct damage type in header
+      damageTypes: [damageType]
+    };
+    
+    return enhancedSpell;
+  }
+  
+  return spell;
 };

@@ -28,7 +28,8 @@
   border: 3px solid #8b4513;
   border-radius: 16px;
   width: 320px;
-  height: 90px;
+  min-height: 90px;
+  padding: 0.8rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;

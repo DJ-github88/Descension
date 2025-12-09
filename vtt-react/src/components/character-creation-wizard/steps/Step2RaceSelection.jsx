@@ -5,26 +5,66 @@
  */
 
 import React, { useState, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { RACE_DATA, getFullRaceData } from '../../../data/raceData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 import { useSpellLibrary, useSpellLibraryDispatch } from '../../spellcrafting-wizard/context/SpellLibraryContext';
-import { getRacialSpells, addSpellsToLibrary, filterNewSpells, removeSpellsByCategory } from '../../../utils/raceDisciplineSpellUtils';
+import { getRacialSpells, addSpellsToLibrary, filterNewSpells, removeSpellsByCategory, isPassiveStatModifier } from '../../../utils/raceDisciplineSpellUtils';
+import useCharacterStore from '../../../store/characterStore';
+
+// Derive a tangible passive summary (appends derived mechanics to existing text)
+const getPassiveSummary = (trait = {}) => {
+    const parts = [];
+    if (trait.description) parts.push(trait.description);
+
+    const formatStatMod = (mod = {}) => {
+        const stat = (mod.stat || 'stat').replace(/_/g, ' ');
+        const mag = mod.magnitudeType === 'percentage'
+            ? `${mod.magnitude}%`
+            : `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
+        return `${stat} ${mag}`;
+    };
+
+    if (trait.healingConfig) {
+        const { formula = 'healing', hotTickInterval, hotDuration, durationType } = trait.healingConfig;
+        const intervalText = hotTickInterval
+            ? ` every ${hotTickInterval} round${hotTickInterval > 1 ? 's' : ''}`
+            : '';
+        const durationText = hotDuration
+            ? ` while ${hotDuration}`
+            : durationType === 'permanent'
+                ? ' continuously'
+                : '';
+        parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+    }
+
+    const buffDesc = trait.buffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)))
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (buffDesc) parts.push(buffDesc);
+
+    const debuffDesc = trait.debuffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)) || e.statusEffect?.type)
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (debuffDesc) parts.push(debuffDesc);
+
+    return parts.length ? parts.join(' ') : 'No description available';
+};
 
 const Step2RaceSelection = () => {
     const state = useCharacterWizardState();
     const dispatch = useCharacterWizardDispatch();
     const spellLibraryDispatch = useSpellLibraryDispatch();
     const spellLibrary = useSpellLibrary();
+    const updateCharacterInfo = useCharacterStore(state => state.updateCharacterInfo);
     const [selectedRace, setSelectedRace] = useState(state.characterData.race);
     const [selectedSubrace, setSelectedSubrace] = useState(state.characterData.subrace);
     const [hoveredRace, setHoveredRace] = useState(null);
     const [hoveredSubrace, setHoveredSubrace] = useState(null);
-    const [viewingTrait, setViewingTrait] = useState(null);
-    const [showTraitModal, setShowTraitModal] = useState(false);
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
     const tooltipRef = useRef(null);
 
@@ -126,6 +166,10 @@ const Step2RaceSelection = () => {
         dispatch(wizardActionCreators.setRace(raceId));
         dispatch(wizardActionCreators.setSubrace(null));
 
+        // Update character store immediately so passives and stats update in real-time
+        updateCharacterInfo('race', raceId);
+        updateCharacterInfo('subrace', ''); // Clear subrace
+
         // Add racial spells to spell library
         const racialSpells = getRacialSpells(raceId, null);
         if (racialSpells.length > 0) {
@@ -140,6 +184,9 @@ const Step2RaceSelection = () => {
 
         setSelectedSubrace(subraceId);
         dispatch(wizardActionCreators.setSubrace(subraceId));
+
+        // Update character store immediately so passives and stats update in real-time
+        updateCharacterInfo('subrace', subraceId);
 
         // Add subrace spells to spell library
         const racialSpells = getRacialSpells(selectedRace, subraceId);
@@ -457,30 +504,46 @@ const Step2RaceSelection = () => {
                                                     </div>
 
 
-                                                    {/* Racial Traits */}
+                                            {/* Racial Traits */}
                                                     <div className="traits-section">
                                                         <h5 className="section-title">
                                                             <i className="fas fa-dna"></i> Racial Traits
                                                         </h5>
-                                                        <div className="trait-icon-grid">
+                                                        <div className="trait-list">
                                                             {previewSubrace.traits.map((trait) => {
+                                                                if (isPassiveStatModifier(trait)) {
+                                                                    return (
+                                                                        <div key={trait.id} className="passive-summary-item">
+                                                                            <div className="passive-summary-icon-wrapper">
+                                                                                <img
+                                                                                    src={`https://wow.zamimg.com/images/wow/icons/large/${trait.icon || 'spell_holy_devotion'}.jpg`}
+                                                                                    alt={trait.name}
+                                                                                    className="passive-summary-icon"
+                                                                                    onError={(e) => {
+                                                                                        e.target.onerror = null;
+                                                                                        e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
+                                                                                    }}
+                                                                                />
+                                                                            </div>
+                                                                            <div className="passive-summary-details">
+                                                                                <div className="passive-summary-name">{trait.name}</div>
+                                                                                <div className="passive-summary-description">
+                                                                            {getPassiveSummary(trait)}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    );
+                                                                }
+
                                                                 return (
-                                                                    <div
-                                                                        key={trait.id}
-                                                                        className="trait-icon"
-                                                                        onClick={() => {
-                                                                            setViewingTrait(trait.id);
-                                                                            setShowTraitModal(true);
-                                                                        }}
-                                                                        title={trait.name}
-                                                                    >
-                                                                        <img
-                                                                            src={`https://wow.zamimg.com/images/wow/icons/large/${trait.icon}.jpg`}
-                                                                            alt={trait.name}
-                                                                            onError={(e) => {
-                                                                                e.target.onerror = null;
-                                                                                e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
-                                                                            }}
+                                                                    <div key={trait.id} className="active-trait-card">
+                                                                        <UnifiedSpellCard
+                                                                            spell={trait}
+                                                                            variant="wizard"
+                                                                            showActions={false}
+                                                                            showDescription={true}
+                                                                            showStats={true}
+                                                                            showTags={true}
                                                                         />
                                                                     </div>
                                                                 );
@@ -520,41 +583,6 @@ const Step2RaceSelection = () => {
                     )}
                 </div>
 
-                {/* Trait Modal */}
-                {showTraitModal && viewingTrait && previewSubrace && (() => {
-                    const currentTrait = previewSubrace.traits.find(t => t.id === viewingTrait);
-                    if (currentTrait) {
-                        return createPortal(
-                            <div
-                                className="trait-modal-overlay"
-                                onClick={() => setShowTraitModal(false)}
-                            >
-                                <div
-                                    className="trait-modal-content"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <button
-                                        className="trait-modal-close"
-                                        onClick={() => setShowTraitModal(false)}
-                                        title="Close"
-                                    >
-                                        <i className="fas fa-times"></i>
-                                    </button>
-                                    <UnifiedSpellCard
-                                        spell={currentTrait}
-                                        variant="wizard"
-                                        showActions={false}
-                                        showDescription={true}
-                                        showStats={true}
-                                        showTags={true}
-                                    />
-                                </div>
-                            </div>,
-                            document.body
-                        );
-                    }
-                    return null;
-                })()}
         </div>
     );
 };

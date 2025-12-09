@@ -1100,6 +1100,7 @@ Application Order:
               tables: [
                 {
                   title: 'Exhaustion Levels',
+                  rowsPerPage: 3,
                   headers: ['Level', 'Effect'],
                   rows: [
                     ['1', 'Disadvantage on ability checks'],
@@ -1188,16 +1189,9 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
             {
               id: 'resurrection',
               name: 'Resurrection',
-              sections: [
-                {
-                  title: 'Resurrection Methods',
-                  content: `Different spells have varying requirements for resurrection. The more powerful the spell, the more soul fragments required and the longer the time window.`
-                },
-                {
-                  title: 'Resurrection Challenges',
-                  content: `Resurrection is not guaranteed and comes with challenges. The ritual requires special components, takes time to perform, and may fail entirely.`
-                }
-              ],
+              description: `**Resurrection Methods:** Different spells have varying requirements for resurrection. The more powerful the spell, the more soul fragments required and the longer the time window.
+
+**Resurrection Challenges:** Resurrection is not guaranteed and comes with challenges. The ritual requires special components, takes time to perform, and may fail entirely.`,
               tables: [
                 {
                   title: 'Spell Requirements',
@@ -1292,13 +1286,7 @@ The Soulmonger system adds dark supernatural elements and high-stakes choices to
                     ['7', 'Ghastly Whispers. Unseen voices fill your head, distracting and terrifying. Suffer a -1 penalty to Wisdom and have disadvantage on concentration checks.'],
                     ['8', 'Withering Strength. Your muscles deteriorate; permanently reduce your Strength by 2.'],
                     ['9', 'Numb Senses. You lose your sharp reflexes; reduce your Dexterity by 2.'],
-                    ['10', 'Mind Erosion. Lose proficiency in one Intelligence-based skill of your choice as your intellect falters.']
-                  ]
-                },
-                {
-                  title: 'Resurrection Miracle Effects (d20) - Continued',
-                  headers: ['Roll', 'Miracle Effect'],
-                  rows: [
+                    ['10', 'Mind Erosion. Lose proficiency in one Intelligence-based skill of your choice as your intellect falters.'],
                     ['11', 'Bleak Existence. You find no comfort in food, drink, or rest. All recovery from rest is halved, and you cannot benefit from potions.'],
                     ['12', 'Echoes of the Void. You hear eerie, otherworldly sounds that distract and unsettle you, imposing disadvantage on Wisdom checks.'],
                     ['13', 'Absent Minded. Your mind wanders, no longer able to focus on the things that you took joy in. Reduce your starting Intelligence score by -1.'],
@@ -1409,26 +1397,27 @@ Proficient abilities are special actions that can be performed by characters who
           tables: [
             {
               title: 'Skill-Based Abilities',
+              rowsPerPage: 6,
               headers: ['Skill', 'Unlocks', 'As', 'Note', 'Cost'],
               rows: [
-                ['Acrobatics', 'Charged Squat', 'A', 'Jump up to 10 ft. horizontally or vertically. On a miss, you land prone. Acrobatics roll vs a moderate die (d8); add 5 ft. by stepping the die up once (e.g., to d10).', '1 AP'],
-                ['Animal Handling', 'Beast Command', 'A', 'A sharp command snaps your pet to attention. Start with an easy die (d6) and shift it up or down based on pet Int/Wis vs your Int/Wis.', '?'],
-                ['Arcana', 'Arcane Counter', 'A', 'Ready a counterspell for the next hostile cast within 30 ft. Arcana roll vs a moderate die (d8), stepping the die up by one size per spell level.', '1 AP'],
-                ['Athletics', 'Grapple', 'A', 'Using your brute force you restrain an opponent, making it hard for them to move and perform certain actions until your next turn. Athletics Roll vs. Target\'s Strength or Dexterity Roll. Restrained characters have 0 speed, gain disadvantage on rolls and attack rolls made against it have advantage.', '1 AP'],
-                ['Deception', 'Misdirect', 'A', 'A quick ruse leaves a creature within 10 ft. surprised. Opponent resists with a difficulty die set by their Intelligence (easy d6 for dull, up to challenging d10 for sharp minds). Surprised targets can’t react and have disadvantage on attacks.', '1 AP'],
-                ['History', 'Lore Recall', 'A', 'Recall a creature’s tricks within 30 ft. Start with a moderate die (d8) and step it up by one size for tougher CRs.', '1 AP'],
-                ['Insight', 'Flow State', 'A', 'You enter a calm, clear state, reducing damage taken by 2 until your next turn. Insight roll vs a moderate die (d8).', '1 AP'],
-                ['Intimidation', 'Taunt', 'R', 'With hostile intent you provoke nearby opponents within 15 ft., forcing them to attack you. (the effect lasts until the opponent succeeds their wisdom check, which is based on your Intimidation Roll) Intimidation Roll vs. Opponents Wisdom Save.', '1 AP'],
-                ['Investigation', 'Deduct', 'A', 'Analyze an opponent within 15 ft. Investigation roll vs a moderate die (d8), stepping the die up for higher-CR foes.', '1 AP'],
-                ['Medicine', 'First Aid', 'A', 'Treat a nearby ally (within 5 ft.) for minor injury using an easy die (d6). To pull an ally from death’s door to 1 HP, roll the easy die but step it up once per exhaustion level. You can also apply bandages once per character; roll the easy die to grant 1d4 + Medicine mod healing.', '1 AP'],
-                ['Nature', 'Terrain Insight', 'A', 'Spot a terrain advantage within 10 ft. Roll Nature vs a moderate die (d8).', '1 AP'],
-                ['Perception', 'Heightened Senses', 'P', 'Your senses are on high alert. Add 2 to your initiative rolls.', '-'],
-                ['Performance', 'Mesmer', 'A', 'Within 15 ft., your captivating tunes cause anyone affected to lose their next turn. Performance Roll vs. Wisdom Saving Throw. All creatures and characters within 15 ft. must make a Wisdom Saving Throw against your Performance roll. On a fail, they lose their next turn. (The following creatures are immune: Creatures without eyes or sight, creatures with multiple heads or eyes, undead, celestials, fiends, fey, dragons and constructs.) (This spell is limited to one use per combat.)', '3 AP'],
-                ['Persuasion', 'Persuade', 'A', 'Amidst the heat of combat you attempt to convince an opponent to reconsider their current action - on a successful persuasion check you confuse an opponent. Persuasion Roll vs Wisdom Saving Throw. The opponent must make a Wisdom Saving Throw against your Persuasion Roll. On a fail, they become confused. (the effect lasts until the creature or character successfully rolls above the persuasion roll; limited to one roll per turn.) Confused creatures or characters must make a d10 roll to determine their action: (1) Runs in a random direction; roll a d8 (2-4) Does nothing; no movement or actions (5-6) Cast a random spell at random target; determined by dice (7-8) Attack a nearby random creature; determined by dice (9-10) Acts and moves normally.', '2 AP'],
-                ['Religion', 'Divine Favor', 'A', 'Preaching teachings of your deity you inspire nearby allies and intellectual creatures within 15 ft. Religion Roll vs Wisdom or Intellect Saving Throw. Roll a d4 to Determine the Boon: Shield of Conviction - Temporary hitpoints until combat has ended, based on the casters religion modifier. Guardian\'s Favor - Take reduced damage for the next turn, based on the casters religion modifier. Zealot\'s Blessing - Temporary boost attack rolls for the next attack, based on the casters religion modifier. Wisdom of the Ancients - Advantage on the next saving throw. All creatures and characters within 15 ft. must make a Wisdom or Intellect Saving Throw (If they roll below your Religion Roll they are granted the boon). (Regardless how you roll you gain the boon - however, the creatures and characters around you need to roll below your Religion Roll to gain the same boon).', '2 AP'],
-                ['Sleight of Hand', 'Disarm', 'R', 'When attacked by an opponent (within 5 ft.), you nimbly disarm the opponent, and if able, you equip the weapon used. (Can\'t be used wielding 2 weapons, as it requires a free hand.) Sleight of Hand Roll vs. Opponents Strength Save', '1 AP'],
-                ['Stealth', 'Stealthy Passage', 'A', 'Slip through an opponent’s space without provoking. Roll Stealth vs an easy die (d6); on a success you move 15 ft.', '1 AP'],
-                ['Survival', 'Trapping', 'A', 'Set a trap on a 5 ft. square within 5 ft. Survival roll starts at a challenging die (d10); step the die down if your INT is high. Traps: Pitfall [4 AP]: 1d6 per 10 ft. depth and restrains until climbed out. Snare [3 AP]: Hoists and leaves target hanging; attacks have advantage. Tripwire [2 AP]: Target falls prone, may drop held items.', '1 AP']
+                    ['Acrobatics', 'Charged Squat', 'A', 'Jump up to 10 ft. (Acrobatics vs mod die, fail = prone). Step the die up once to add 5 ft.', '1 AP'],
+                    ['Animal Handling', 'Beast Command', 'A', 'Command your pet; start easy d6 and shift die based on pet Int/Wis vs yours.', '?'],
+                    ['Arcana', 'Arcane Counter', 'A', 'Hold a counterspell vs next hostile cast within 30 ft; Arcana vs mod die, step die per spell level.', '1 AP'],
+                    ['Athletics', 'Grapple', 'A', 'Athletics vs target STR/DEX; on success they are restrained until your next turn.', '1 AP'],
+                    ['Deception', 'Misdirect', 'A', 'Within 10 ft; opposed vs target Int-based die (easy d6 to hard d10). Fail = surprised (no reactions, disadv on attacks).', '1 AP'],
+                    ['History', 'Lore Recall', 'A', 'Recall a creature’s tricks within 30 ft; start mod d8, step up for tougher CR.', '1 AP'],
+                    ['Insight', 'Flow State', 'A', 'Reduce damage taken by 2 until your next turn; Insight vs mod d8.', '1 AP'],
+                    ['Intimidation', 'Taunt', 'R', '15 ft; Intimidation vs Wisdom save. Fail = must attack you until they pass.', '1 AP'],
+                    ['Investigation', 'Deduct', 'A', 'Read a foe within 15 ft; Investigation vs mod d8, step up for higher CR.', '1 AP'],
+                    ['Medicine', 'First Aid', 'A', '5 ft; easy d6. Stabilize to 1 HP (step die per exhaustion). Bandage once: heal 1d4 + Medicine mod.', '1 AP'],
+                    ['Nature', 'Terrain Insight', 'A', 'Spot a terrain edge within 10 ft; Nature vs mod d8.', '1 AP'],
+                    ['Perception', 'Heightened Senses', 'P', 'Gain +2 initiative.', '-'],
+                    ['Performance', 'Mesmer', 'A', '15 ft; Performance vs Wisdom save. Fail = lose next turn. Immune: eyeless, multiheaded, undead, celestials, fiends, fey, dragons, constructs. 1/use per combat.', '3 AP'],
+                    ['Persuasion', 'Persuade', 'A', 'Persuasion vs Wisdom save. Fail = confused (d10 table each turn; one save/turn).', '2 AP'],
+                    ['Religion', 'Divine Favor', 'A', '15 ft; Religion vs Wis/Int save. Roll d4 boon: temp HP, damage reduction, attack bonus, or save advantage. You always gain the boon; allies gain if they fail the save.', '2 AP'],
+                    ['Sleight of Hand', 'Disarm', 'R', '5 ft; needs free hand. Sleight vs STR save to disarm and equip the weapon.', '1 AP'],
+                    ['Stealth', 'Stealthy Passage', 'A', 'Move through a foe’s space without provoking; Stealth vs easy d6. On success move 15 ft.', '1 AP'],
+                    ['Survival', 'Trapping', 'A', 'Set a trap in a 5-ft square within 5 ft; Survival starts d10 (step down with high INT). Pick: Pitfall (4 AP) 1d6/10 ft & restrains; Snare (3 AP) hoists, attacks adv; Tripwire (2 AP) prone, may drop items.', '1 AP']
               ]
             }
           ]
@@ -1479,46 +1468,31 @@ Some conditions interact with each other or with the environment to create enhan
         icon: 'fas fa-bed',
         content: {
           title: 'Rest & Recovery',
-          description: 'Modular rest mechanics - use what fits your table\'s style',
-          sections: [
-            {
-              title: 'How to Use This Section',
-              content: `This section is designed with **optional complexity layers**. Every table uses the Core mechanics, then GMs can add optional systems based on their campaign style:
-
-• **Narrative-focused**: Core + Settlement Activities
-• **High-stakes/Dark**: Core + Supernatural Systems
-• **Exploration-heavy**: Core + Travel & Exploration
-• **Full complexity**: Use everything`
-            }
-          ],
+          description: 'Pick the modules you want: start with Core, then layer extras that fit your campaign.',
+          sections: [],
           tabs: [
             {
               id: 'core-rest',
               name: 'Core Rest & Recovery',
-              sections: [
+              sections: [],
+              tables: [
                 {
-                  title: 'Short Rest',
-                  content: `**Duration:** 1 hour of light activity
-**Recovery:** Spend Hit Dice (die + CON mod per die) OR recover 1/4 max health (simplified variant)
-**Resources:** Some abilities recharge, half mana/resources recovered
-**Frequency:** Multiple allowed per day`
+                  title: 'Rest at a Glance',
+                  description: 'Quick reference for the two core rest types.',
+                  headers: ['Rest', 'Duration', 'Recovery', 'Resources', 'Exhaustion / Limit'],
+                  rows: [
+                    ['Short Rest', '1 hour (light activity)', 'Spend Hit Dice (die + CON) **or** heal 1/4 max HP', 'Some abilities; regain half mana/resources', 'No reduction / Multiple per day'],
+                    ['Long Rest', '8 hours (6 sleep, 2 light)', 'Full HP; recover half Hit Dice (min 1)', 'Most abilities recharge', 'Reduce 1 level (needs food/water); 1 per 24h']
+                  ]
                 },
                 {
-                  title: 'Long Rest',
-                  content: `**Duration:** 8 hours (6h sleep + 2h light activity)
-**HP Recovery:** Restore all hit points
-**Hit Dice:** Recover half total (minimum 1)
-**Resources:** Most abilities recharge
-**Exhaustion:** Reduce by 1 level with food/water
-**Limit:** One per 24 hours`
-                },
-                {
-                  title: 'Rest Interruptions',
-                  content: `If a rest is interrupted by strenuous activity (combat, casting spells, etc.) for more than 1 hour, characters must start the rest over to gain any benefit.`
-                },
-                {
-                  title: 'Dangerous Areas',
-                  content: `Resting in dangerous areas may require watches, have a chance of random encounters, or be impossible without proper shelter or protection.`
+                  title: 'Rest Risks',
+                  description: 'When danger or interruptions apply.',
+                  headers: ['Risk', 'Effect'],
+                  rows: [
+                    ['Interruption', 'If strenuous activity >1 hour (combat, casting, etc.), rest provides no benefit; restart.'],
+                    ['Dangerous Areas', 'May require watches, have encounter chances, or be impossible without shelter.']
+                  ]
                 }
               ]
             },
@@ -1528,18 +1502,13 @@ Some conditions interact with each other or with the environment to create enhan
               sections: [
                 {
                   title: 'When to Use',
-                  content: `**Campaigns with significant settlement time**
-
-These optional systems add depth to town/city gameplay and downtime activities.`
-                },
-                {
-                  title: 'Inn & Lodging System',
-                  content: `Inn quality affects recovery and potential complications during rest.`
+                  content: `Use these options when the party spends meaningful time in towns and cities. They add downtime flavor without changing the Core rest math.`
                 }
               ],
               tables: [
                 {
                   title: 'Inn Quality Tiers',
+                  description: 'Pick an inn quality, pay the rate, then roll recovery. Low tiers risk complications; lavish stays can grant boons. Use these tables when the group beds down in a settlement.',
                   headers: ['Inn Type', 'Cost', 'Recovery', 'Risk/Benefit'],
                   rows: [
                     ['Poor', '5cp/night', 'd4 recovery roll', 'Roll on Complications table on 1'],
@@ -1549,7 +1518,8 @@ These optional systems add depth to town/city gameplay and downtime activities.`
                   ]
                 },
                 {
-                  title: 'Inn Complications (Roll 2d6 when you roll a 1 on recovery die)',
+                  title: 'Inn Complications',
+                  description: 'If you roll a 1 on recovery at Poor/Modest/Comfortable, roll 2d6 here.',
                   headers: ['Roll', 'Result', 'Effect'],
                   rows: [
                     ['2', 'Major Theft', 'Lose all coins'],
@@ -1564,7 +1534,8 @@ These optional systems add depth to town/city gameplay and downtime activities.`
                   ]
                 },
                 {
-                  title: 'Lavish Inn Boons (Roll 1d6)',
+                  title: 'Lavish Inn Boons',
+                  description: 'At Lavish inns, after paying for the night, roll 1d6 on this table.',
                   headers: ['Roll', 'Boon', 'Effect'],
                   rows: [
                     ['1', 'Rejuvenation', 'Full HP recovery'],
@@ -1595,6 +1566,7 @@ These systems add cultural immersion and social interaction opportunities.`
               tables: [
                 {
                   title: 'Carousing Costs',
+                  description: 'Pick your spend level; apply its bonus to your d8 outcome roll.',
                   headers: ['Quality', 'Cost', 'Bonus to Roll'],
                   rows: [
                     ['Modest', '5 sp', '+0'],
@@ -1605,6 +1577,7 @@ These systems add cultural immersion and social interaction opportunities.`
                 },
                 {
                   title: 'Carousing Outcomes (Roll d8 + quality bonus)',
+                  description: 'Roll after paying. Apply your quality bonus; higher spend pushes you up the table.',
                   headers: ['Roll', 'Outcome', 'Benefit', 'Complication'],
                   rows: [
                     ['1', 'Bar Fight', '+1 Intimidation for 1d4 days', 'Wake up in jail, pay 3d6 gp fine'],
@@ -1620,6 +1593,7 @@ These systems add cultural immersion and social interaction opportunities.`
                 },
                 {
                   title: 'Wassailing Requirements & Benefits',
+                  description: 'Seasonal house-to-house blessing; meet the requirements to gain these benefits.',
                   headers: ['Requirement/Benefit', 'Description'],
                   rows: [
                     ['Group Size', 'At least 3 participants'],
@@ -2120,15 +2094,11 @@ Both dice use the weapon type to pick the correct outcome text.`
             {
               id: 'travel-pace',
               name: 'Travel Pace',
-              sections: [
-                {
-                  title: 'Movement Speeds',
-                  content: `Characters can travel at different paces, each with benefits and drawbacks. The pace affects how far you travel, your awareness of surroundings, and your ability to perform other activities.`
-                }
-              ],
+              sections: [],
               tables: [
                 {
                   title: 'Travel Pace',
+                  description: 'Pick a pace; it sets distance, stealth, and awareness tradeoffs.',
                   headers: ['Pace', 'Distance/Hour', 'Distance/Day', 'Effect'],
                   rows: [
                     ['Slow', '2 miles', '18 miles', 'Can use Stealth, +5 to Perception'],
@@ -2139,6 +2109,7 @@ Both dice use the weapon type to pick the correct outcome text.`
                 },
                 {
                   title: 'Terrain Modifiers',
+                  description: 'Apply terrain speed modifier and use the listed navigation die.',
                   headers: ['Terrain Type', 'Speed Modifier', 'Navigation Die', 'Special'],
                   rows: [
                     ['Road/Path', 'Normal', 'No check', 'Safe travel'],
@@ -2156,19 +2127,11 @@ Both dice use the weapon type to pick the correct outcome text.`
             {
               id: 'navigation',
               name: 'Navigation',
-              sections: [
-                {
-                  title: 'Getting Lost',
-                  content: `When traveling without roads or clear landmarks, the party must make navigation checks. Failure means becoming lost, which can lead to delays, extra encounters, or dangerous situations.`
-                },
-                {
-                  title: 'Navigation Tools',
-                  content: `Various tools and methods can aid navigation. Maps provide advantage on navigation checks for known areas. Compass gives +2 bonus. Local guides can eliminate the need for checks entirely.`
-                }
-              ],
+              sections: [],
               tables: [
                 {
                   title: 'Lost Consequences',
+                  description: 'If navigation checks fail, apply these effects until the party recovers.',
                   headers: ['Severity', 'Effect', 'Recovery Check'],
                   rows: [
                     ['Slightly Lost', 'Travel time increased by 25%', 'Survival vs challenging die (d10)'],
@@ -2204,25 +2167,11 @@ Both dice use the weapon type to pick the correct outcome text.`
             {
               id: 'travel-challenges',
               name: 'Travel Challenges',
-              sections: [
-                {
-                  title: 'When to Use',
-                  content: `**Exploration-heavy campaigns, meaningful journeys**
-
-Travel challenges represent obstacles and opportunities encountered during journeys. When a challenge occurs, the party must accumulate successes through skill checks.`
-                },
-                {
-                  title: 'Challenge Resolution',
-                  content: `**Skill Checks:** Each player can contribute one skill check per challenge round
-**Difficulty:** The GM sets a difficulty die based on severity (see table)
-**Success Count:** Each successful check counts as one success toward the challenge total
-**Failure Consequences:** Failed checks may result in resource loss, damage, or other complications
-**Group Effort:** Players can assist each other, providing advantage on checks`
-                }
-              ],
+              sections: [],
               tables: [
                 {
                   title: 'Challenge Severity',
+                  description: 'Set successes required and the difficulty die based on severity.',
                   headers: ['Severity', 'Successes Required', 'Difficulty Die'],
                   rows: [
                     ['Effortless', '1', 'd4'],
@@ -2236,6 +2185,7 @@ Travel challenges represent obstacles and opportunities encountered during journ
                 },
                 {
                   title: 'Example Travel Challenges (Roll d20)',
+                  description: 'Roll to pick a challenge; severity suggests the difficulty die.',
                   headers: ['Roll', 'Challenge', 'Severity', 'Suggested Skills'],
                   rows: [
                     ['1', 'Catastrophic storm', 'Extreme', 'Survival, Athletics, Nature'],
@@ -2253,19 +2203,11 @@ Travel challenges represent obstacles and opportunities encountered during journ
             {
               id: 'survival',
               name: 'Survival',
-              sections: [
-                {
-                  title: 'Food and Water',
-                  content: `Characters need 1 pound of food and 1 gallon of water per day. Half rations provide sustenance but cause exhaustion after a week. No food causes exhaustion after 3 days, no water after 1 day.`
-                },
-                {
-                  title: 'Weather Effects',
-                  content: `Extreme weather can affect travel speed, visibility, and character health. Proper equipment and shelter can mitigate these effects.`
-                }
-              ],
+              sections: [],
               tables: [
                 {
                   title: 'Weather Effects',
+                  description: 'Apply these impacts; proper gear can mitigate saves or penalties.',
                   headers: ['Weather', 'Effect', 'Protection'],
                   rows: [
                     ['Clear', 'No effect', 'None needed'],
@@ -2522,9 +2464,11 @@ Travel challenges represent obstacles and opportunities encountered during journ
                 ['3', '600', '900'],
                 ['4', '1,800', '2,700'],
                 ['5', '3,800', '6,500'],
-                ['10', '21,000', '64,000'],
-                ['15', '55,000', '225,000'],
-                ['20', '120,000', '680,000']
+                ['6', '7,500', '14,000'],
+                ['7', '9,000', '23,000'],
+                ['8', '11,000', '34,000'],
+                ['9', '14,000', '48,000'],
+                ['10', '16,000', '64,000']
               ]
             }
           ]

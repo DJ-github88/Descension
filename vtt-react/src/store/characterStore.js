@@ -404,7 +404,7 @@ const useCharacterStore = create((set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
 
             // Update health and mana max values when constitution or intelligence change
             let newHealth = { ...state.health };
@@ -477,7 +477,7 @@ const useCharacterStore = create((set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
 
             // Send equipment update to multiplayer if connected
             const gameStore = useGameStore.getState();
@@ -1073,6 +1073,16 @@ const useCharacterStore = create((set, get) => ({
                 newState.racialLanguages = [];
                 newState.racialSpeed = 30;
 
+                // Clear old passives and resistances when race changes
+                // Reset all resistances to normal
+                const damageTypes = ['fire', 'cold', 'lightning', 'acid', 'force', 'necrotic', 'radiant', 'poison', 'psychic', 'thunder', 'bludgeoning', 'piercing', 'slashing'];
+                const resetResistances = {};
+                damageTypes.forEach(type => {
+                    resetResistances[type] = { level: 'normal' };
+                });
+                newState.resistances = resetResistances;
+                newState.immunities = [];
+
                 // Set race display name to the proper race name
                 if (value) {
                     const raceData = getRaceData(value);
@@ -1621,6 +1631,9 @@ const useCharacterStore = create((set, get) => ({
         totalStats.spellDamage = Math.round(derivedStats.spellDamage || 0);
         totalStats.healingPower = Math.round(derivedStats.healingPower || 0);
         totalStats.rangedDamage = Math.round(derivedStats.rangedDamage || 0);
+        totalStats.slashingDamage = Math.round(derivedStats.slashingDamage || 0);
+        totalStats.bludgeoningDamage = Math.round(derivedStats.bludgeoningDamage || 0);
+        totalStats.piercingDamage = Math.round(derivedStats.piercingDamage || 0);
 
         // Add resistances from equipment
         if (equipmentBonuses.resistances) {
@@ -1630,11 +1643,12 @@ const useCharacterStore = create((set, get) => ({
             });
         }
 
-        // Add spell damage types from equipment
+        // Add spell damage types from equipment (base spell power is 0)
         if (equipmentBonuses.spellDamageTypes) {
             Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
                 const spellPowerKey = `${spellType}SpellPower`;
-                totalStats[spellPowerKey] = Math.round((totalStats[spellPowerKey] || 0) + value);
+                // Base spell power is 0, only equipment bonuses
+                totalStats[spellPowerKey] = Math.round(0 + value);
             });
         }
 
@@ -3400,7 +3414,7 @@ const useCharacterStore = create((set, get) => ({
             });
 
             const encumbranceState = getEncumbranceState();
-            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, newExhaustionLevel);
+            const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, newExhaustionLevel, state.health, state.race, state.subrace);
 
             // Update health and mana max values based on new derived stats
             const newMaxHealth = Math.round(derivedStats.maxHealth);

@@ -35,18 +35,8 @@ const ZEALOT_PATH = {
         
         mechanicalBenefits: [
             {
-                name: 'Spirit Bonus',
-                description: '+1 to Spirit attribute checks',
-                type: 'stat'
-            },
-            {
                 name: 'Faithful Resolve',
                 description: 'Advantage on saves against fear and charm',
-                type: 'passive'
-            },
-            {
-                name: 'Corruption Sense',
-                description: 'Can sense general presence of corruption',
                 type: 'passive'
             }
         ],

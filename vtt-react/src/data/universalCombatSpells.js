@@ -60,7 +60,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for defensive buff
       icon: 'ability_rogue_feint',
       tags: ['reaction', 'defensive', 'universal']
     },
@@ -109,7 +109,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for defensive control
       icon: 'ability_warrior_riposte',
       tags: ['reaction', 'defensive', 'universal']
     },
@@ -158,7 +158,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for defensive buff
       icon: 'inv_shield_05',
       tags: ['reaction', 'defensive', 'universal', 'shield']
     },
@@ -259,7 +259,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for movement utility
       icon: 'ability_rogue_evasion',
       tags: ['reaction', 'defensive', 'universal', 'movement']
     },
@@ -309,9 +309,11 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       tags: ['reaction', 'offensive', 'universal']
     },
     damageConfig: {
-      formula: 'weapon_die + attribute_modifier',
-      elementType: 'physical',
-      damageType: 'direct',
+      formula: 'weapon_die',
+      weaponDependent: true,
+      usesWeaponDice: true,
+      addAttributeModifier: true,
+      damageType: 'bludgeoning', // Default fallback, but weapon-dependent will override with actual weapon type
       canCrit: true,
       critMultiplier: 1,
       critDiceOnly: false
@@ -346,7 +348,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for utility/control
       icon: 'ability_warrior_defensivestance',
       tags: ['reaction', 'defensive', 'universal', 'support']
     },
@@ -399,9 +401,11 @@ export const UNIVERSAL_COMBAT_SPELLS = [
       tags: ['reaction', 'offensive', 'universal']
     },
     damageConfig: {
-      formula: 'weapon_die + attribute_modifier',
-      elementType: 'physical',
-      damageType: 'direct',
+      formula: 'weapon_die', // Will be replaced by actual weapon dice when weapon-dependent
+      weaponDependent: true,
+      usesWeaponDice: true,
+      addAttributeModifier: false,
+      damageType: 'bludgeoning', // Default fallback, but weapon-dependent will override with actual weapon type
       canCrit: true,
       critMultiplier: 1,
       critDiceOnly: false,
@@ -437,7 +441,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_reactions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for control effect
       icon: 'ability_warrior_shieldbash',
       tags: ['reaction', 'offensive', 'universal', 'shield']
     },
@@ -539,7 +543,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_actions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for movement utility
       icon: 'ability_rogue_sprint',
       tags: ['movement', 'combat', 'universal']
     },
@@ -584,7 +588,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_actions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for movement utility
       icon: 'ability_rogue_sprint',
       tags: ['movement', 'combat', 'universal']
     },
@@ -629,7 +633,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_actions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for movement utility
       icon: 'ability_rogue_feint',
       tags: ['movement', 'combat', 'universal', 'defensive']
     },
@@ -674,7 +678,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_actions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for item utility
       icon: 'inv_misc_bag_08',
       tags: ['item', 'combat', 'universal']
     },
@@ -717,7 +721,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_actions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for stealth utility
       icon: 'ability_stealth',
       tags: ['stealth', 'combat', 'universal']
     },
@@ -812,7 +816,7 @@ export const UNIVERSAL_COMBAT_SPELLS = [
     source: 'general',
     categoryIds: ['general_actions'],
     typeConfig: {
-      school: 'physical',
+      school: undefined, // No damage type for preparation utility
       icon: 'ability_warrior_defensivestance',
       tags: ['preparation', 'combat', 'universal']
     },

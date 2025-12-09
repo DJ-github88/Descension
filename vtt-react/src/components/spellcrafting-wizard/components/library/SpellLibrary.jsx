@@ -12,7 +12,7 @@ import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
-import { getRacialSpells } from '../../../../utils/raceDisciplineSpellUtils';
+import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import '../../styles/pathfinder/main.css';
 import '../../styles/pathfinder/components/wow-spellbook.css';
@@ -71,6 +71,68 @@ const getSpellIconUrl = (spell) => {
                    'inv_misc_questionmark';
 
   return `https://wow.zamimg.com/images/wow/icons/large/${iconName}.jpg`;
+};
+
+// Category helpers to handle legacy/sluggified IDs consistently
+const normalizeCategoryId = (id = '') => id.toString().toLowerCase().replace(/\s+/g, '_');
+const isRacialCategory = (categoryIds = []) =>
+  categoryIds.some(id => {
+    const normalized = normalizeCategoryId(id);
+    return normalized === 'racial_abilities' || normalized === 'racial';
+  });
+const isDisciplineCategory = (categoryIds = []) =>
+  categoryIds.some(id => {
+    const normalized = normalizeCategoryId(id);
+    return (
+      normalized === 'discipline_abilities' ||
+      normalized === 'discipline_passives' ||
+      normalized === 'discipline'
+    );
+  });
+
+// Sanitize discipline resource costs to allowed pools
+const sanitizeDisciplineResourceCost = (cost) => {
+  if (!cost || typeof cost !== 'object') return cost;
+  const allowed = {};
+  ['mana', 'health', 'actionPoints'].forEach(key => {
+    if (cost[key] !== undefined && cost[key] !== null) {
+      allowed[key] = cost[key];
+    }
+  });
+  // If nothing allowed, provide a safe default with zero AP
+  return Object.keys(allowed).length > 0 ? allowed : { actionPoints: cost.actionPoints ?? 0 };
+};
+
+// Normalize discipline spell resource fields (handles resourceTypes/resourceValues shapes)
+const sanitizeDisciplineSpell = (spell) => {
+  const costFromTypes = (() => {
+    if (spell.resourceTypes && spell.resourceValues) {
+      const out = {};
+      spell.resourceTypes.forEach((type) => {
+        if (['mana', 'health', 'stamina', 'actionPoints'].includes(type)) {
+          const val = spell.resourceValues?.[type];
+          if (val !== undefined && val !== null) out[type === 'stamina' ? 'stamina' : type] = val;
+        }
+      });
+      return out;
+    }
+    return null;
+  })();
+
+  const baseCost = costFromTypes || spell.resourceCost || {};
+  const sanitizedCost = sanitizeDisciplineResourceCost({
+    ...baseCost,
+    // also surface stamina if present so it can be stripped by sanitizer
+    stamina: baseCost.stamina
+  });
+
+  return {
+    ...spell,
+    resourceCost: sanitizedCost,
+    // remove legacy fields to avoid UI rendering them
+    resourceTypes: undefined,
+    resourceValues: undefined
+  };
 };
 
 
@@ -196,9 +258,18 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   const characters = useCharacterStore(state => state.characters);
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
   const characterLevel = useCharacterStore(state => state.level);
+  // Get race/subrace directly from character store for real-time updates during wizard
+  const characterStoreRace = useCharacterStore(state => state.race);
+  const characterStoreSubrace = useCharacterStore(state => state.subrace);
+  const characterStorePath = useCharacterStore(state => state.path);
   
   // Get active character's level (prefer active character's level if available)
   const activeChar = characters.find(char => char.id === currentCharacterId);
+  
+  // Use character store race/subrace if available (for wizard), otherwise use activeChar
+  const currentRace = characterStoreRace || activeChar?.race;
+  const currentSubrace = characterStoreSubrace || activeChar?.subrace;
+  const currentPath = characterStorePath || activeChar?.path;
   const activeCharacterLevel = activeChar?.level || characterLevel || 1;
   // Reset active category when class changes to avoid stale category filters
   useEffect(() => {
@@ -262,40 +333,36 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // Get filtered library spells for category population (before final filtering)
   // This needs to be defined before allSpellCategories uses it
   const filteredLibrarySpellsForCategories = useMemo(() => {
-    if (!hasActiveCharacter || !currentCharacterId || !activeChar) {
+    if (!hasActiveCharacter || !currentCharacterId) {
       return library.spells.filter(spell => {
         const categoryIds = spell.categoryIds || [];
-        return !categoryIds.includes('Racial Abilities') && 
-               !categoryIds.includes('Discipline Abilities') &&
-               !categoryIds.includes('Discipline Passives');
+        return !isRacialCategory(categoryIds) && !isDisciplineCategory(categoryIds);
       });
     }
 
-    const currentRacialSpells = activeChar.race && activeChar.subrace 
-      ? getRacialSpells(activeChar.race, activeChar.subrace)
+    const currentRacialSpells = currentRace && currentSubrace 
+      ? getRacialSpells(currentRace, currentSubrace)
       : [];
     const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
 
     return library.spells.filter(spell => {
       const categoryIds = spell.categoryIds || [];
       
-      if (!categoryIds.includes('Racial Abilities') && 
-          !categoryIds.includes('Discipline Abilities') &&
-          !categoryIds.includes('Discipline Passives')) {
+      if (!isRacialCategory(categoryIds) && !isDisciplineCategory(categoryIds)) {
         return true;
       }
       
-      if (categoryIds.includes('Racial Abilities')) {
+      if (isRacialCategory(categoryIds)) {
         return currentRacialSpellIds.has(spell.id);
       }
       
-      if (categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives')) {
-        return activeChar.path && activeChar.path !== '';
+      if (isDisciplineCategory(categoryIds)) {
+        return currentPath && currentPath !== '';
       }
       
       return true;
     });
-  }, [library.spells, hasActiveCharacter, currentCharacterId, activeChar]);
+  }, [library.spells, hasActiveCharacter, currentCharacterId, currentRace, currentSubrace, currentPath]);
 
   // Combine spell categories with general categories
   // Only show: General Actions, General Reactions, and class name (if class selected)
@@ -405,94 +472,90 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         return spellLevel <= activeCharacterLevel;
       });
       
-      // Calculate expected spell count based on known spells that actually exist in the library
-      // Count how many known spells are in rawClassSpells and at or below character level
-      const knownSpellsInLibrary = activeCharKnownSpells.filter(knownSpellId => {
-        const spell = allClassSpells.find(s => s.id === knownSpellId);
-        if (!spell) return false; // Spell doesn't exist in library
-        if (generalSpellIds.has(knownSpellId)) return false; // Exclude general spells
-        if (knownSpellId?.startsWith('universal_')) return false; // Exclude universal spells
-        const id = knownSpellId?.toLowerCase() || '';
-        const name = spell.name?.toLowerCase() || '';
-        if (
-          id === 'universal_attack' || 
-          name === 'attack (melee or ranged)' ||
-          id.includes('cast_minor') ||
-          id.includes('cast_major') ||
-          name.includes('cast minor') ||
-          name.includes('cast major')
-        ) return false; // Exclude unwanted spells
-        const spellLevel = spell.level || 1;
-        return spellLevel <= activeCharacterLevel; // Only count spells at or below character level
-      });
-      
-      // Use the count of known spells in library, but ensure minimum of 3 for level 1
-      const expectedSpellCount = Math.max(3, knownSpellsInLibrary.length);
-      
-      console.log('🔍 [Category Creation - Filtered]', {
-        characterClass,
-        activeCharacterLevel,
-        filteredClassSpellsCount: filteredClassSpells.length,
-        knownSpellsInLibraryCount: knownSpellsInLibrary.length,
-        expectedSpellCount,
-        filteredSpellIds: filteredClassSpells.map(s => s.id),
-        filteredSpellNames: filteredClassSpells.map(s => s.name),
-        knownSpellsInLibraryIds: knownSpellsInLibrary
-      });
-      
-      // Create a single class category with the filtered spells
-      combined.push({
-        id: `class_${characterClass.toLowerCase()}`,
-        name: characterClass,
-        description: `${characterClass} class spells`,
-        color: '#8B4513',
-        icon: 'spell_holy_magicalsentry',
-        spells: filteredClassSpells,
-        // Store expected count for display
-        expectedCount: expectedSpellCount,
-        isClassCategory: true,
-        className: characterClass
-      });
-    }
-
-    // Add Racial Abilities category if character has racial spells
-    if (hasActiveCharacter && currentCharacterId && activeChar) {
-      const racialSpellsInLibrary = filteredLibrarySpellsForCategories.filter(spell => {
-        const categoryIds = spell.categoryIds || [];
-        return categoryIds.includes('Racial Abilities');
-      });
-      
-      if (racialSpellsInLibrary.length > 0) {
-        combined.push({
-          id: 'racial_abilities',
-          name: 'Racial',
-          description: 'Racial abilities from your race and subrace',
-          color: '#8B4513',
-          icon: 'spell_holy_devotion',
-          spells: racialSpellsInLibrary,
-          isRacial: true
+      // Only show a class tab if there is at least one class spell to display
+      if (filteredClassSpells.length > 0) {
+        const expectedSpellCount = filteredClassSpells.length;
+        
+        console.log('🔍 [Category Creation - Filtered]', {
+          characterClass,
+          activeCharacterLevel,
+          filteredClassSpellsCount: filteredClassSpells.length,
+          expectedSpellCount,
+          filteredSpellIds: filteredClassSpells.map(s => s.id),
+          filteredSpellNames: filteredClassSpells.map(s => s.name)
         });
-      }
-    }
-
-    // Add Discipline Abilities category if character has discipline/path spells
-    if (hasActiveCharacter && currentCharacterId && activeChar && activeChar.path) {
-      const disciplineSpellsInLibrary = filteredLibrarySpellsForCategories.filter(spell => {
-        const categoryIds = spell.categoryIds || [];
-        return categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives');
-      });
-      
-      if (disciplineSpellsInLibrary.length > 0) {
+        
+        // Create a single class category with the filtered spells
         combined.push({
-          id: 'discipline_abilities',
-          name: 'Discipline',
-          description: 'Discipline abilities from your chosen path',
+          id: `class_${characterClass.toLowerCase()}`,
+          name: characterClass,
+          description: `${characterClass} class spells`,
           color: '#8B4513',
           icon: 'spell_holy_magicalsentry',
-          spells: disciplineSpellsInLibrary,
-          isDiscipline: true
+          spells: filteredClassSpells,
+          // Store expected count for display (actual visible spells)
+          expectedCount: expectedSpellCount,
+          isClassCategory: true,
+          className: characterClass
+        });
+      } else {
+        console.log('ℹ️ [Category Creation] Skipping class category, no visible class spells', {
+          characterClass,
+          activeCharacterLevel
         });
       }
+    }
+
+    const hasRacialContext = !!(currentRace || currentSubrace);
+    const hasDisciplineContext = !!(currentPath && currentPath !== '');
+
+    // Add Racial Abilities category (show tab whenever racial context exists)
+    if (hasRacialContext) {
+      const racialSpellsInLibrary = filteredLibrarySpellsForCategories.filter(spell => {
+        const categoryIds = spell.categoryIds || [];
+        return isRacialCategory(categoryIds);
+      });
+
+      // Fallback: pull directly from race data if library has none
+      const fallbackRacial = currentRace && currentSubrace
+        ? getRacialSpells(currentRace, currentSubrace).filter(spell => !isPassiveStatModifier(spell))
+        : [];
+
+      const racialSpells = racialSpellsInLibrary.length > 0 ? racialSpellsInLibrary : fallbackRacial;
+      
+      combined.push({
+        id: 'racial_abilities',
+        name: 'Racial',
+        description: 'Racial abilities from your race and subrace',
+        color: '#8B4513',
+        icon: 'spell_holy_devotion',
+        spells: racialSpells,
+        isRacial: true
+      });
+    }
+
+    // Add Discipline Abilities category (show tab whenever a path is set)
+    if (hasDisciplineContext) {
+      const disciplineSpellsInLibrary = filteredLibrarySpellsForCategories.filter(spell => {
+        const categoryIds = spell.categoryIds || [];
+        return isDisciplineCategory(categoryIds);
+      });
+
+      // Fallback: pull directly from path data if library has none
+      const fallbackDiscipline = currentPath ? getDisciplineSpells(currentPath) : [];
+      const disciplineSpellsRaw = disciplineSpellsInLibrary.length > 0 ? disciplineSpellsInLibrary : fallbackDiscipline;
+      // Enforce allowed resource costs (mana, health, actionPoints) and strip stamina
+      const disciplineSpells = disciplineSpellsRaw.map(sanitizeDisciplineSpell);
+      
+      combined.push({
+        id: 'discipline_abilities',
+        name: 'Discipline',
+        description: 'Discipline abilities from your chosen path',
+        color: '#8B4513',
+        icon: 'spell_holy_magicalsentry',
+        spells: disciplineSpells,
+        isDiscipline: true
+      });
     }
 
     return combined;
@@ -900,6 +963,8 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
     // Use class-based spells if available, otherwise fall back to library spells
     let spellsToFilter = [];
+    // Keep a shared filtered list for downstream branches (racial/discipline categories)
+    let filteredLibrarySpells = [];
 
     // Check if we're filtering by class category - if so, don't include library spells or skill abilities
     const isClassCategoryActive = activeCategory && activeCategory.startsWith('class_');
@@ -908,40 +973,56 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     // EXCEPT when viewing a class category - then only show class spells
     if (!isClassCategoryActive) {
       // Filter library.spells to only show spells for the current character
-      let filteredLibrarySpells = [...library.spells];
+      filteredLibrarySpells = [...library.spells];
       
-      if (hasActiveCharacter && currentCharacterId && activeChar) {
-        // Get current character's racial spells
-        const currentRacialSpells = activeChar.race && activeChar.subrace 
-          ? getRacialSpells(activeChar.race, activeChar.subrace)
+      if (hasActiveCharacter && currentCharacterId) {
+        // Get current character's racial spells - use character store values for real-time updates
+        const currentRacialSpells = currentRace && currentSubrace 
+          ? getRacialSpells(currentRace, currentSubrace)
           : [];
         const currentRacialSpellIds = new Set(currentRacialSpells.map(s => s.id));
         
         // Filter library spells to only include:
         // 1. Custom spells (not in character-specific categories) - these are user-created
-        // 2. Racial spells that match current character's race/subrace
+        // 2. Racial spells that match current character's race/subrace AND are not passives
         // 3. Discipline spells that match current character's path (filtered by Equipment component)
         filteredLibrarySpells = library.spells.filter(spell => {
           const categoryIds = spell.categoryIds || [];
           
           // Always include custom spells (not character-specific categories)
           // These are spells created by the user in the spell wizard
-          if (!categoryIds.includes('Racial Abilities') && 
-              !categoryIds.includes('Discipline Abilities') &&
-              !categoryIds.includes('Discipline Passives')) {
+        if (!isRacialCategory(categoryIds) && !isDisciplineCategory(categoryIds)) {
             return true;
           }
           
           // For Racial Abilities, only include if it matches current character's race/subrace
-          if (categoryIds.includes('Racial Abilities')) {
+          // AND it's not a passive stat modifier (passives should only appear in passive section)
+        if (isRacialCategory(categoryIds)) {
+            // Explicitly filter out known passive traits that shouldn't be spells
+            const spellName = (spell.name || '').toLowerCase();
+            const spellId = (spell.id || '').toLowerCase();
+            if (spellId === 'deep_frost_nordmark' || spellName === 'deep frost') {
+              console.warn('🚫 [SpellLibrary] Filtering out Deep Frost - it should be a passive, not a spell');
+              return false;
+            }
+            
+            // Check if this spell is actually a passive stat modifier (shouldn't be in library)
+            if (isPassiveStatModifier(spell)) {
+              console.warn('🚫 [SpellLibrary] Filtering out passive stat modifier from spell library:', {
+                spellId: spell.id,
+                spellName: spell.name
+              });
+              return false;
+            }
+            
             // Only show if this spell is in the current character's racial spell list
             const matches = currentRacialSpellIds.has(spell.id);
             if (!matches) {
               console.log('🚫 [SpellLibrary] Filtering out racial spell not matching current character:', {
                 spellId: spell.id,
                 spellName: spell.name,
-                currentRace: activeChar.race,
-                currentSubrace: activeChar.subrace,
+                currentRace: currentRace,
+                currentSubrace: currentSubrace,
                 currentRacialSpellIds: Array.from(currentRacialSpellIds)
               });
             }
@@ -950,16 +1031,16 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           
           // For Discipline Abilities/Passives, only include if character has a path
           // The Equipment component should have already cleaned up old path spells
-          if (categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives')) {
+        if (isDisciplineCategory(categoryIds)) {
             // Only show if the character has a path set
             // The Equipment component manages adding/removing these, so if they're in the library
             // and the character has a path, they should be valid
-            const hasPath = activeChar.path && activeChar.path !== '';
+            const hasPath = currentPath && currentPath !== '';
             if (!hasPath) {
               console.log('🚫 [SpellLibrary] Filtering out discipline spell - character has no path:', {
                 spellId: spell.id,
                 spellName: spell.name,
-                characterPath: activeChar.path
+                characterPath: currentPath
               });
             }
             return hasPath;
@@ -971,9 +1052,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         // If no active character, filter out all character-specific spells
         filteredLibrarySpells = library.spells.filter(spell => {
           const categoryIds = spell.categoryIds || [];
-          return !categoryIds.includes('Racial Abilities') && 
-                 !categoryIds.includes('Discipline Abilities') &&
-                 !categoryIds.includes('Discipline Passives');
+        return !isRacialCategory(categoryIds) && !isDisciplineCategory(categoryIds);
         });
       }
       
@@ -1011,21 +1090,35 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
           const categoryGeneralSpells = filteredGeneralSpells.filter(spell =>
             spell.categoryIds && spell.categoryIds.includes(activeCategory)
           );
-          spellsToFilter = [...spellsToFilter, ...categoryGeneralSpells];
+          spellsToFilter = categoryGeneralSpells;
         } else if (activeCategory === 'racial_abilities') {
           // Show only racial spells
           const racialSpells = filteredLibrarySpells.filter(spell => {
             const categoryIds = spell.categoryIds || [];
-            return categoryIds.includes('Racial Abilities');
+            return isRacialCategory(categoryIds);
           });
-          spellsToFilter = [...spellsToFilter, ...racialSpells];
+          if (racialSpells.length > 0) {
+            spellsToFilter = racialSpells;
+          } else {
+            // Fallback: pull racial spells directly from race data (filter out passives)
+            const fallbackRacial = currentRace && currentSubrace
+              ? getRacialSpells(currentRace, currentSubrace).filter(spell => !isPassiveStatModifier(spell))
+              : [];
+            spellsToFilter = fallbackRacial;
+          }
         } else if (activeCategory === 'discipline_abilities') {
           // Show only discipline spells
           const disciplineSpells = filteredLibrarySpells.filter(spell => {
             const categoryIds = spell.categoryIds || [];
-            return categoryIds.includes('Discipline Abilities') || categoryIds.includes('Discipline Passives');
+            return isDisciplineCategory(categoryIds);
           });
-          spellsToFilter = [...spellsToFilter, ...disciplineSpells];
+          if (disciplineSpells.length > 0) {
+            spellsToFilter = disciplineSpells;
+          } else {
+            // Fallback: pull discipline spells directly from path data
+            const fallbackDiscipline = currentPath ? getDisciplineSpells(currentPath) : [];
+            spellsToFilter = fallbackDiscipline;
+          }
         } else if (isClassCategory) {
           // Get class spells for the selected class, filtered by character level AND known spells
           // Only show spells the character actually knows/selected
@@ -1214,7 +1307,11 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     characters,
     currentCharacterId,
     activeCharKnownSpells,
-    rawClassSpells
+    rawClassSpells,
+    currentRace,
+    currentSubrace,
+    currentPath,
+    activeChar
   ]);
 
   // Reset page when category or filters actually change (but not when manually paginating)

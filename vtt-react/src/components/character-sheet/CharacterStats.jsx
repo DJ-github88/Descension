@@ -340,7 +340,7 @@ export default function CharacterStats() {
             // Calculate derived stats with equipment bonuses and encumbrance
             // Use store exhaustion level if available, otherwise use dataSource exhaustion level
             const finalExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : (exhaustionLevel !== undefined ? exhaustionLevel : (dataSource?.exhaustionLevel || 0));
-            const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, currentEncumbranceState, finalExhaustionLevel);
+            const calculatedDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, currentEncumbranceState, finalExhaustionLevel, health, race, subrace);
 
             // Use derived stats from character store (already includes encumbrance effects) or fallback to calculated
             const storeDerivedStats = derivedStats || {};
@@ -350,6 +350,9 @@ export default function CharacterStats() {
             totalStats.spellDamage = storeDerivedStats.spellDamage || calculatedDerivedStats.spellDamage;
             totalStats.damage = storeDerivedStats.damage || calculatedDerivedStats.damage;
             totalStats.rangedDamage = storeDerivedStats.rangedDamage || calculatedDerivedStats.rangedDamage;
+            totalStats.slashingDamage = storeDerivedStats.slashingDamage || calculatedDerivedStats.slashingDamage || 0;
+            totalStats.bludgeoningDamage = storeDerivedStats.bludgeoningDamage || calculatedDerivedStats.bludgeoningDamage || 0;
+            totalStats.piercingDamage = storeDerivedStats.piercingDamage || calculatedDerivedStats.piercingDamage || 0;
             totalStats.armor = storeDerivedStats.armor || calculatedDerivedStats.armor;
             // Always use calculated values for health and mana to ensure they reflect current constitution/intelligence
             totalStats.maxHealth = calculatedDerivedStats.maxHealth;
@@ -389,8 +392,8 @@ export default function CharacterStats() {
             if (equipmentBonuses.spellDamageTypes) {
                 Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
                     const spellPowerKey = `${spellType}SpellPower`;
-                    // Calculate base spell power from intelligence
-                    const baseSpellPower = Math.floor(totalStats.intelligence / 2);
+                    // Base spell power is 0, only equipment bonuses
+                    const baseSpellPower = 0;
                     totalStats[spellPowerKey] = Math.round(baseSpellPower + value);
                 });
             }
@@ -909,8 +912,8 @@ export default function CharacterStats() {
             stats: [
                 {
                     label: 'Slashing Damage',
-                    value: Math.round(totalStats.damage || Math.floor(totalStats.strength / 2) || 0),
-                    baseValue: Math.round(Math.floor(stats.strength / 2) || 0), // Use original stats
+                    value: Math.round(totalStats.slashingDamage || 0),
+                    baseValue: 0, // Base damage is 0
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_cleave.jpg',
                     color: '#8B4513',
@@ -918,8 +921,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Bludgeoning Damage',
-                    value: Math.round(totalStats.damage || Math.floor(totalStats.strength / 2) || 0),
-                    baseValue: Math.round(Math.floor(stats.strength / 2) || 0), // Use original stats
+                    value: Math.round(totalStats.bludgeoningDamage || 0),
+                    baseValue: 0, // Base damage is 0
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_mace_02.jpg',
                     color: '#8B4513',
@@ -927,8 +930,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Piercing Damage',
-                    value: Math.round(totalStats.rangedDamage || Math.floor(totalStats.agility / 2) || 0),
-                    baseValue: Math.round(Math.floor(stats.agility / 2) || 0), // Use original stats
+                    value: Math.round(totalStats.piercingDamage || 0),
+                    baseValue: 0, // Base damage is 0
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_33.jpg',
                     color: '#8B4513',
@@ -936,8 +939,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Ranged Damage',
-                    value: Math.round(totalStats.rangedDamage || Math.floor(totalStats.agility / 2) || 0),
-                    baseValue: Math.round(Math.floor(stats.agility / 2) || 0), // Use original stats
+                    value: Math.round(totalStats.rangedDamage || 0),
+                    baseValue: 0, // Base damage is 0
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aimedshot.jpg',
                     color: '#228B22',
@@ -953,8 +956,8 @@ export default function CharacterStats() {
                 .filter(([type]) => !['bludgeoning', 'piercing', 'slashing'].includes(type)) // Exclude physical damage types
                 .map(([type, data]) => ({
                     label: `${data.name} Power`,
-                    value: Math.round(totalStats[`${type}SpellPower`] || Math.floor(totalStats.intelligence / 2) || 0),
-                    baseValue: Math.round(Math.floor(stats.intelligence / 2) || 0), // Use original stats
+                    value: Math.round(totalStats[`${type}SpellPower`] || 0),
+                    baseValue: 0, // Base spell power is 0
                     tooltip: true,
                     icon: data.icon,
                     color: data.color,
@@ -1040,7 +1043,7 @@ export default function CharacterStats() {
             ]
         },
         resistances: {
-            title: 'Damage Resistances',
+            title: 'Damage Resistances & Vulnerabilities',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg',
             description: 'Your character\'s resistance to different damage types',
             stats: [] // We'll handle this with custom rendering

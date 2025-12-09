@@ -4,17 +4,58 @@
  * Choose from 9 character disciplines (Mystic, Zealot, Trickster, etc.)
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { ENHANCED_PATHS } from '../../../data/enhancedPathData';
 import { calculateStartingCurrency, formatCurrency } from '../../../data/startingCurrencyData';
 import { getBackgroundData } from '../../../data/backgroundData';
 import { UnifiedSpellCard } from '../../spellcrafting-wizard/components/common';
 import { useSpellLibrary, useSpellLibraryDispatch } from '../../spellcrafting-wizard/context/SpellLibraryContext';
-import { getDisciplineSpells, addSpellsToLibrary, selectRandomSpells, removeSpellsByCategory } from '../../../utils/raceDisciplineSpellUtils';
+import { getDisciplineSpells, addSpellsToLibrary, selectRandomSpells, removeSpellsByCategory, normalizeDisciplineAbility } from '../../../utils/raceDisciplineSpellUtils';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import '../../rules/BackgroundSelector.css';
+
+// Derive tangible passive summaries (append derived mechanics to existing text)
+const getPassiveSummary = (benefit = {}) => {
+    const parts = [];
+    if (benefit.description) parts.push(benefit.description);
+
+    const formatStatMod = (mod = {}) => {
+        const stat = (mod.stat || 'stat').replace(/_/g, ' ');
+        const mag = mod.magnitudeType === 'percentage'
+            ? `${mod.magnitude}%`
+            : `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
+        return `${stat} ${mag}`;
+    };
+
+    if (benefit.healingConfig) {
+        const { formula = 'healing', hotTickInterval, hotDuration, durationType } = benefit.healingConfig;
+        const intervalText = hotTickInterval
+            ? ` every ${hotTickInterval} round${hotTickInterval > 1 ? 's' : ''}`
+            : '';
+        const durationText = hotDuration
+            ? ` while ${hotDuration}`
+            : durationType === 'permanent'
+                ? ' continuously'
+                : '';
+        parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+    }
+
+    const buffDesc = benefit.buffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)))
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (buffDesc) parts.push(buffDesc);
+
+    const debuffDesc = benefit.debuffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)) || e.statusEffect?.type)
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (debuffDesc) parts.push(debuffDesc);
+
+    return parts.length ? parts.join(' ') : 'No description available';
+};
 
 const Step5PathSelection = () => {
     const state = useCharacterWizardState();
@@ -70,8 +111,11 @@ const Step5PathSelection = () => {
         return `https://wow.zamimg.com/images/wow/icons/large/${iconId}.jpg`;
     };
 
-    // Get all abilities from the discipline (should be exactly 3)
-    const disciplineAbilities = pathData?.abilities || [];
+    // Get all abilities from the discipline (should be exactly 3) and normalize them
+    const disciplineAbilities = useMemo(
+        () => (pathData?.abilities || []).map(normalizeDisciplineAbility),
+        [pathData]
+    );
 
     return (
         <div className="wizard-step-content">
@@ -134,7 +178,7 @@ const Step5PathSelection = () => {
                                                 {benefit.type}
                                             </span>
                                         </div>
-                                        <p className="benefit-description">{benefit.description}</p>
+                                                <p className="benefit-description">{getPassiveSummary(benefit)}</p>
                                     </div>
                                 ))}
                             </div>
@@ -211,14 +255,45 @@ const Step5PathSelection = () => {
                                     </div>
 
                                     <div className="ability-detail-card">
-                                        <UnifiedSpellCard
-                                            spell={disciplineAbilities.find(a => a.id === viewingAbility)}
-                                            variant="wizard"
-                                            showDescription={true}
-                                            showStats={true}
-                                            showTags={true}
-                                            showActions={false}
-                                        />
+                                        {(() => {
+                                            const ability = disciplineAbilities.find(a => a.id === viewingAbility);
+                                            if (!ability) return null;
+
+                                            const isPassive = ability.spellType === 'PASSIVE' && (!ability.resourceCost || ability.resourceCost.actionPoints === 0);
+
+                                            if (isPassive) {
+                                                const description = getPassiveSummary(ability);
+                                                const icon = ability.icon || 'spell_holy_devotion';
+                                                return (
+                                                    <div className="passive-summary-item">
+                                                        <div className="passive-summary-icon-wrapper">
+                                                            <img
+                                                                src={`https://wow.zamimg.com/images/wow/icons/large/${icon}.jpg`}
+                                                                alt={ability.name}
+                                                                className="passive-summary-icon"
+                                                                onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
+                                                            />
+                                                        </div>
+                                                        <div className="passive-summary-details">
+                                                            <div className="passive-summary-name">{ability.name}</div>
+                                                            <div className="passive-summary-description">{description}</div>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }
+
+                                            const displayAbility = { ...ability, description: ability.description || getPassiveSummary(ability) };
+                                            return (
+                                                <UnifiedSpellCard
+                                                    spell={displayAbility}
+                                                    variant="wizard"
+                                                    showDescription={true}
+                                                    showStats={true}
+                                                    showTags={true}
+                                                    showActions={false}
+                                                />
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             )}

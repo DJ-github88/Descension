@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import { isPassiveStatModifier } from '../../utils/raceDisciplineSpellUtils';
 import './RaceSelector.css';
 
 // Race data loader utility
@@ -765,6 +766,47 @@ const StatModifiersFull = React.memo(({ statModifiers }) => (
     </div>
 ));
 
+// Derive a tangible passive summary (appends derived mechanics to existing text)
+const getPassiveSummary = (trait = {}) => {
+    const parts = [];
+    if (trait.description) parts.push(trait.description);
+
+    const formatStatMod = (mod = {}) => {
+        const stat = (mod.stat || 'stat').replace(/_/g, ' ');
+        const mag = mod.magnitudeType === 'percentage'
+            ? `${mod.magnitude}%`
+            : `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
+        return `${stat} ${mag}`;
+    };
+
+    if (trait.healingConfig) {
+        const { formula = 'healing', hotTickInterval, hotDuration, durationType } = trait.healingConfig;
+        const intervalText = hotTickInterval
+            ? ` every ${hotTickInterval} round${hotTickInterval > 1 ? 's' : ''}`
+            : '';
+        const durationText = hotDuration
+            ? ` while ${hotDuration}`
+            : durationType === 'permanent'
+                ? ' continuously'
+                : '';
+        parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+    }
+
+    const buffDesc = trait.buffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)))
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (buffDesc) parts.push(buffDesc);
+
+    const debuffDesc = trait.debuffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)) || e.statusEffect?.type)
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (debuffDesc) parts.push(debuffDesc);
+
+    return parts.length ? parts.join(' ') : 'No description available';
+};
+
 // Memoized Trait Icon Component
 const TraitIcon = React.memo(({ trait, isSelected, onTraitClick }) => (
     <div
@@ -1036,11 +1078,30 @@ const RaceSelector = () => {
                                     ))}
                                 </div>
                                 {selectedTrait && (
-                                    <UnifiedSpellCard
-                                        spell={transformTraitToSpell(selectedTrait)}
-                                        variant="rules"
-                                        showDescription={true}
-                                    />
+                                    isPassiveStatModifier(selectedTrait) ? (
+                                        <div className="passive-display">
+                                            <div className="passive-summary-item">
+                                                <div className="passive-summary-icon-wrapper">
+                                                    <img
+                                                        src={`https://wow.zamimg.com/images/wow/icons/large/${selectedTrait.icon || 'spell_holy_devotion'}.jpg`}
+                                                        alt={selectedTrait.name}
+                                                        className="passive-summary-icon"
+                                                        onError={(e) => e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg'}
+                                                    />
+                                                </div>
+                                                <div className="passive-summary-details">
+                                                    <div className="passive-summary-name">{selectedTrait.name}</div>
+                                                    <div className="passive-summary-description">{getPassiveSummary(selectedTrait)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <UnifiedSpellCard
+                                            spell={transformTraitToSpell(selectedTrait)}
+                                            variant="rules"
+                                            showDescription={true}
+                                        />
+                                    )
                                 )}
                             </div>
                         </div>

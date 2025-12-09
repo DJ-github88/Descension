@@ -24,6 +24,47 @@ import '../../styles/racial-traits.css';
 
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 
+// Derive tangible passive summaries (append derived mechanics to existing text)
+const getPassiveSummary = (passive = {}) => {
+    const parts = [];
+    if (passive.description) parts.push(passive.description);
+
+    const formatStatMod = (mod = {}) => {
+        const stat = (mod.stat || 'stat').replace(/_/g, ' ');
+        const mag = mod.magnitudeType === 'percentage'
+            ? `${mod.magnitude}%`
+            : `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
+        return `${stat} ${mag}`;
+    };
+
+    if (passive.healingConfig) {
+        const { formula = 'healing', hotTickInterval, hotDuration, durationType } = passive.healingConfig;
+        const intervalText = hotTickInterval
+            ? ` every ${hotTickInterval} round${hotTickInterval > 1 ? 's' : ''}`
+            : '';
+        const durationText = hotDuration
+            ? ` while ${hotDuration}`
+            : durationType === 'permanent'
+                ? ' continuously'
+                : '';
+        parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+    }
+
+    const buffDesc = passive.buffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)))
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (buffDesc) parts.push(buffDesc);
+
+    const debuffDesc = passive.debuffConfig?.effects
+        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)) || e.statusEffect?.type)
+        ?.filter(Boolean)
+        ?.join('. ');
+    if (debuffDesc) parts.push(debuffDesc);
+
+    return parts.length ? parts.join(' ') : 'No description available';
+};
+
 
 
 const ResourceBar = ({ current, max, className, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
@@ -353,36 +394,121 @@ export default function CharacterPanel() {
             return; // No changes
         }
 
-        // Update last state
+        // Track which spells we're removing so we can exclude them from the existing spells list when adding
+        let removedSpellIds = [];
+
+        // IMPORTANT: Remove old spells BEFORE updating lastRaceSubracePath
+        // This ensures we always remove spells when race/subrace changes, even if the effect re-runs
+        if (current.race !== last.race || current.subrace !== last.subrace) {
+            if (!characterChanged) {
+                // Get the latest spells from the library
+                const currentSpells = spellLibrary.spells;
+                
+                // Get the old racial spells by ID to ensure we remove the exact spells
+                // Only remove if we had a previous race/subrace selection
+                let oldRacialSpellIds = [];
+                if (last.race && last.subrace) {
+                    const oldRacialSpells = getRacialSpells(last.race, last.subrace);
+                    oldRacialSpellIds = oldRacialSpells.map(s => s.id);
+                }
+                
+                // Always remove all racial spells when race/subrace changes to ensure clean state
+                // This prevents old spells from different subraces from persisting
+                if (current.race !== last.race || current.subrace !== last.subrace) {
+                    // Always remove ALL racial spells when race/subrace changes
+                    // This ensures we don't have leftover spells from previous selections
+                    const allRacialSpellsToRemove = currentSpells.filter(s => 
+                        s.categoryIds && s.categoryIds.includes('Racial Abilities')
+                    );
+                    
+                    // Remove duplicates by ID
+                    const uniqueSpellsToRemove = Array.from(
+                        new Map(allRacialSpellsToRemove.map(s => [s.id, s])).values()
+                    );
+                    
+                    // Track the IDs we're removing
+                    removedSpellIds = uniqueSpellsToRemove.map(s => s.id);
+                    
+                    console.log('🧹 [Equipment] Removing old racial spells:', {
+                        lastRace: last.race,
+                        lastSubrace: last.subrace,
+                        currentRace: current.race,
+                        currentSubrace: current.subrace,
+                        totalSpells: currentSpells.length,
+                        oldRacialSpellIds,
+                        spellsToRemove: uniqueSpellsToRemove.length,
+                        spellIds: removedSpellIds,
+                        spellNames: uniqueSpellsToRemove.map(s => s.name)
+                    });
+                    
+                    // Remove each racial spell individually to ensure they're deleted
+                    uniqueSpellsToRemove.forEach(spell => {
+                        if (spell && spell.id) {
+                            console.log('🗑️ [Equipment] Deleting racial spell:', spell.id, spell.name);
+                            libraryDispatch(libraryActionCreators.deleteSpell(spell.id));
+                        }
+                    });
+                } else {
+                    console.log('🧹 [Equipment] No old racial spells to remove (first selection)');
+                }
+            }
+        }
+
+        // Update last state AFTER removal
         setLastRaceSubracePath(current);
 
-        // Handle racial spells first
-        // Add spells if race/subrace changed OR if character changed (last was reset to empty)
+        // Handle racial spells - add new ones if race/subrace changed OR if character changed
         if (current.race !== last.race || current.subrace !== last.subrace || characterChanged) {
-            // Remove old racial spells (only if not a character change, since we already cleaned up)
-            if (!characterChanged) {
-                removeSpellsByCategory(libraryDispatch, 'Racial Abilities', spellLibrary.spells);
-            }
-
-            // Add new racial spells
+            // Add new racial spells (only if both race and subrace are set)
+            // Note: Old spells were already removed above before updating lastRaceSubracePath
             if (current.race && current.subrace) {
                 const racialSpells = getRacialSpells(current.race, current.subrace);
+                
+                // Filter out the spells we just removed from the existing spells list
+                // This prevents them from being filtered out as "already existing" when we try to add them
+                const existingSpellsWithoutRemoved = spellLibrary.spells.filter(
+                    s => !removedSpellIds.includes(s.id)
+                );
+                
+                // Also filter out any existing racial spells that don't match the current race/subrace
+                // This ensures we can add new racial spells even if there are old ones in the library
+                const currentRacialSpellIds = new Set(racialSpells.map(s => s.id));
+                const existingSpellsFiltered = existingSpellsWithoutRemoved.filter(spell => {
+                    // Keep spells that are not in the "Racial Abilities" category
+                    if (!spell.categoryIds || !spell.categoryIds.includes('Racial Abilities')) {
+                        return true;
+                    }
+                    // For racial spells, only keep them if they match the current race/subrace
+                    return currentRacialSpellIds.has(spell.id);
+                });
+                
                 console.log('🔍 [Equipment] Adding racial spells:', {
                     race: current.race,
                     subrace: current.subrace,
                     spellCount: racialSpells.length,
                     spellIds: racialSpells.map(s => s.id),
                     spellNames: racialSpells.map(s => s.name),
-                    characterChanged
+                    characterChanged,
+                    existingSpellCount: spellLibrary.spells.length,
+                    existingSpellCountAfterFilter: existingSpellsWithoutRemoved.length,
+                    existingSpellCountAfterRacialFilter: existingSpellsFiltered.length,
+                    removedSpellIds,
+                    newSpellIds: racialSpells.map(s => s.id)
                 });
                 if (racialSpells.length > 0) {
-                    addSpellsToLibrary(libraryDispatch, racialSpells, 'Racial Abilities');
+                    // Pass filtered existing spells to prevent duplicates, but exclude the ones we just removed
+                    // Also filter out any other racial spells that don't match current race/subrace
+                    addSpellsToLibrary(libraryDispatch, racialSpells, 'Racial Abilities', existingSpellsFiltered);
+                    console.log('✅ [Equipment] Called addSpellsToLibrary with', racialSpells.length, 'spells');
                 } else {
                     console.warn('⚠️ [Equipment] No racial spells found for:', {
                         race: current.race,
                         subrace: current.subrace
                     });
                 }
+            } else {
+                // If subrace is cleared or race is cleared, spells were already removed above
+                console.log('🧹 [Equipment] Race or subrace cleared, racial spells removed');
             }
         }
 
@@ -482,7 +608,7 @@ export default function CharacterPanel() {
                 updateCharacterInfo('pathPassives', []);
             }
         }
-    }, [race, subrace, path, inspectionData, libraryDispatch, updateCharacterInfo, lastRaceSubracePath, spellLibrary.spells]);
+    }, [race, subrace, path, inspectionData, libraryDispatch, updateCharacterInfo, lastRaceSubracePath]);
 
     const updateTooltipPosition = (e) => {
         // Position tooltip near cursor but with a small offset
@@ -914,10 +1040,7 @@ export default function CharacterPanel() {
                             {group.passives.map((passive, idx) => {
                                 const icon = passive?.icon || 'spell_holy_devotion';
                                 const name = passive?.name || 'Passive Ability';
-                                const description = passive?.description || 
-                                    passive?.buffConfig?.effects?.map(e => e.description || e.statModifier?.stat).join('. ') ||
-                                    passive?.debuffConfig?.effects?.map(e => e.description || e.statusEffect?.type).join('. ') ||
-                                    'No description available';
+                                const description = getPassiveSummary(passive);
 
                                 return (
                                     <div key={idx} className="passive-summary-item">
@@ -1113,7 +1236,7 @@ export default function CharacterPanel() {
 
             // Calculate fresh derived stats with current equipment bonuses
             const encumbranceState = useInventoryStore.getState().encumbranceState || 'normal';
-            const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel || 0);
+            const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace);
 
             // Add derived stats (all rounded)
             totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || health.max);
@@ -1136,11 +1259,12 @@ export default function CharacterPanel() {
                 });
             }
 
-            // Add spell damage types from equipment
+            // Add spell damage types from equipment (base spell power is 0)
             if (equipmentBonuses.spellDamageTypes) {
                 Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
                     const spellPowerKey = `${spellType}SpellPower`;
-                    totalStats[spellPowerKey] = Math.round((totalStats[spellPowerKey] || 0) + value);
+                    // Base spell power is 0, only equipment bonuses
+                    totalStats[spellPowerKey] = Math.round(0 + value);
                 });
             }
 

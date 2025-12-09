@@ -61,7 +61,15 @@ export const useWeaponEnhancedSpells = () => {
       spells.splice(attackSpellIndex, 0, ...weaponAttacks);
     }
 
-    return spells;
+    // Enhance all weapon-dependent spells (like Riposte) with weapon data
+    const enhancedSpellsList = spells.map(spell => {
+      if (spell.damageConfig?.weaponDependent === true && spell.id !== 'universal_attack') {
+        return enhanceSpellWithWeaponData(spell, 'mainHand');
+      }
+      return spell;
+    });
+
+    return enhancedSpellsList;
   }, [equipment, lastEquipmentUpdate]);
   
   // Get the primary attack spell (main hand weapon)

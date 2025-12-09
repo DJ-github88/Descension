@@ -212,7 +212,7 @@ export function calculateEquipmentBonuses(equipment = {}) {
     return bonuses;
 }
 
-export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal', exhaustionLevel = 0) {
+export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBonuses = {}, encumbranceStatus = 'normal', exhaustionLevel = 0, health = null, race = null, subrace = null) {
     // Apply skill bonuses to base stats first
     const modifiedStats = { ...totalStats };
 
@@ -266,9 +266,9 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     // Now calculate derived stats using encumbrance-affected stats
     let baseMaxHealth = (modifiedStats.constitution * 5) + (skillBonuses.maxHealth || 0);
     let baseMaxMana = (modifiedStats.intelligence * 5) + (skillBonuses.manaPool || 0);
-    let baseHealthRegen = Math.floor(modifiedStats.constitution / 2);
-    let baseManaRegen = Math.floor((modifiedStats.intelligence + modifiedStats.spirit) / 4);
-    let baseHealingPower = Math.floor(modifiedStats.spirit / 2);
+    let baseHealthRegen = 0; // Base health regen is 0, only equipment bonuses
+    let baseManaRegen = 0; // Base mana regen is 0, only equipment bonuses
+    let baseHealingPower = 0; // Base healing power is 0, only equipment bonuses
 
     // Apply flat equipment bonuses
     baseMaxHealth += (equipmentBonuses.maxHealth || 0);
@@ -302,10 +302,13 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         maxMana: baseMaxMana,
         healthRegen: baseHealthRegen,
         manaRegen: baseManaRegen,
-        damage: Math.floor(modifiedStats.strength / 2) + (equipmentBonuses.damage || 0),
-        spellDamage: Math.floor(modifiedStats.intelligence / 2) + (equipmentBonuses.spellDamage || 0) + (skillBonuses.spellPower || 0),
-        healingPower: baseHealingPower,
-        rangedDamage: Math.floor(modifiedStats.agility / 2) + (equipmentBonuses.rangedDamage || 0),
+        damage: 0 + (equipmentBonuses.damage || 0), // Base damage is 0, only equipment bonuses
+        spellDamage: 0 + (equipmentBonuses.spellDamage || 0) + (skillBonuses.spellPower || 0), // Base spell damage is 0
+        healingPower: 0, // Base healing power is 0
+        rangedDamage: 0 + (equipmentBonuses.rangedDamage || 0), // Base ranged damage is 0, only equipment bonuses
+        slashingDamage: 0 + (equipmentBonuses.slashingDamage || 0), // Base slashing damage is 0
+        bludgeoningDamage: 0 + (equipmentBonuses.bludgeoningDamage || 0), // Base bludgeoning damage is 0
+        piercingDamage: 0 + (equipmentBonuses.piercingDamage || 0), // Base piercing damage is 0
         armor: Math.floor(modifiedStats.agility / 2) + (equipmentBonuses.armor || 0) + (skillBonuses.armor || 0),
         moveSpeed: baseMoveSpeed,
         swimSpeed: 0, // Will be calculated based on moveSpeed after modifiers
@@ -380,6 +383,43 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         hasDisadvantageOnSavingThrows: exhaustionLevel >= 3,
         isDead: exhaustionLevel >= 6
     };
+
+    // Apply Battle Fury passive if health is below 50%
+    if (health && race && subrace) {
+        const healthPercentage = (health.current / health.max) * 100;
+        if (healthPercentage <= 50) {
+            // Check if character has Battle Fury passive
+            // Import dynamically to avoid circular dependency
+            const raceDisciplineSpellUtils = require('./raceDisciplineSpellUtils');
+            const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace);
+            const battleFury = passiveModifiers.find(mod => mod.id === 'battle_fury_nordmark');
+            
+            if (battleFury && battleFury.buffConfig?.effects) {
+                battleFury.buffConfig.effects.forEach(effect => {
+                    if (effect.statModifier) {
+                        const statName = effect.statModifier.stat;
+                        const magnitude = effect.statModifier.magnitude;
+                        
+                        // Apply Battle Fury bonuses
+                        if (statName === 'slashing_damage') {
+                            derivedStats.slashingDamage = (derivedStats.slashingDamage || 0) + magnitude;
+                        } else if (statName === 'bludgeoning_damage') {
+                            derivedStats.bludgeoningDamage = (derivedStats.bludgeoningDamage || 0) + magnitude;
+                        } else if (statName === 'piercing_damage') {
+                            derivedStats.piercingDamage = (derivedStats.piercingDamage || 0) + magnitude;
+                        } else if (statName === 'ranged_damage') {
+                            derivedStats.rangedDamage = (derivedStats.rangedDamage || 0) + magnitude;
+                        } else if (statName === 'armor') {
+                            derivedStats.armor = (derivedStats.armor || 0) + magnitude;
+                        } else if (statName === 'saving_throws') {
+                            // Store saving throw penalty separately (not in derivedStats, but we can add it)
+                            derivedStats.savingThrowPenalty = (derivedStats.savingThrowPenalty || 0) + magnitude;
+                        }
+                    }
+                });
+            }
+        }
+    }
 
     return derivedStats;
 }

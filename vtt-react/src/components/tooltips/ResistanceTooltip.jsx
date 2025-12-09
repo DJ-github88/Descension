@@ -187,6 +187,57 @@ export default function ResistanceTooltip({ type, level, value, damageType }) {
 
     const levelInfo = getLevelInfo(resistanceLevel);
 
+    // Get level-specific description and effects
+    const getLevelSpecificContent = (damageType, level) => {
+        const typeName = damageType.charAt(0).toUpperCase() + damageType.slice(1);
+        
+        switch (level?.toLowerCase()) {
+            case 'immune':
+                return {
+                    description: `Completely immune to ${damageType} damage and effects.`,
+                    effects: [
+                        `Takes no damage from ${damageType} sources`,
+                        `Immune to ${damageType}-based effects`,
+                        `Complete protection from ${damageType} attacks`
+                    ]
+                };
+            case 'resistant':
+                return {
+                    description: `Reduces damage from ${damageType} spells, attacks, and effects.`,
+                    effects: [
+                        `Take half damage from ${damageType} sources`,
+                        `Advantage vs. ${damageType}-based effects`,
+                        `Better resistance to ${damageType} attacks`
+                    ]
+                };
+            case 'exposed':
+                return {
+                    description: `Takes increased damage from ${damageType} spells, attacks, and effects.`,
+                    effects: [
+                        `Take 150% damage from ${damageType} sources`,
+                        `Disadvantage vs. ${damageType}-based effects`,
+                        `More vulnerable to ${damageType} attacks`
+                    ]
+                };
+            case 'vulnerable':
+                return {
+                    description: `Takes significantly increased damage from ${damageType} spells, attacks, and effects.`,
+                    effects: [
+                        `Take double damage from ${damageType} sources`,
+                        `Severe disadvantage vs. ${damageType}-based effects`,
+                        `Highly vulnerable to ${damageType} attacks`
+                    ]
+                };
+            default:
+                return {
+                    description: info.description,
+                    effects: info.effects
+                };
+        }
+    };
+
+    const levelContent = getLevelSpecificContent(resistanceType, resistanceLevel);
+
     return (
         <>
             <div className="equipment-slot-name">
@@ -196,9 +247,9 @@ export default function ResistanceTooltip({ type, level, value, damageType }) {
                 Damage Taken: {levelInfo.multiplier} • {levelInfo.description}
             </div>
             <div className="equipment-slot-description">
-                {info.description}
+                {levelContent.description}
             </div>
-            {resistanceLevel !== 'normal' && info.effects.map((effect, index) => (
+            {resistanceLevel !== 'normal' && levelContent.effects.map((effect, index) => (
                 <div key={index} className="equipment-slot-description">
                     • {effect}
                 </div>
