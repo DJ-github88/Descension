@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
 import { useWeaponEnhancedSpells } from '../../../../hooks/useWeaponEnhancedSpells';
@@ -182,6 +183,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   const [hoveredSpell, setHoveredSpell] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: -1000, y: -1000 }); // Start off-screen
   const [tooltipTimer, setTooltipTimer] = useState(null);
+  const [previewPanelPosition, setPreviewPanelPosition] = useState({ x: 0, y: 0 });
 
   const libraryContentRef = React.useRef(null);
 
@@ -206,6 +208,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     getAllSpells,
     getSpellsByCategory,
     getCategoryInfo,
+    removeCustomSpell,
     hasActiveCharacter,
     hasClassSpells
   } = useClassSpellLibrary();

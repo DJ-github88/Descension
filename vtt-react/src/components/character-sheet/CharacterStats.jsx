@@ -287,7 +287,6 @@ export default function CharacterStats() {
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [statEditModal, setStatEditModal] = useState({ visible: false, stat: null, value: 0, position: { x: 0, y: 0 } });
     // Track exhaustion level for movement speed updates
-    const currentExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : exhaustionLevel;
 
     // Show loading state while character data is unavailable
     if (!dataSource) {
