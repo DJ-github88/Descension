@@ -6,11 +6,10 @@ import {
   faStar, faSun, faSnowflake, faGhost, faMoon, faWind,
   faBrain, faFistRaised, faSkull, faAtom, faHourglass,
   faClock, faBatteryFull, faCoins, faComment, faHandSparkles, faFlask,
-  faArrowUp, faArrowDown, faLeaf, faMusic, faExclamationTriangle, faShield, faRandom, faScroll, faDice, faPaw, faCrosshairs, faTint, faBalanceScale
+  faArrowUp, faLeaf, faExclamationTriangle, faShield, faRandom, faScroll, faDice, faPaw, faCrosshairs, faTint, faBalanceScale
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
-import { formatRollableTableForCard } from '../../core/utils/spellCardTransformer';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import SpellTooltip from './SpellTooltip';
 import { calculateManaCost } from '../../core/mechanics/resourceManager';
@@ -74,9 +73,6 @@ const UnifiedSpellCard = ({
   const itemRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
   const hideTimeoutRef = useRef(null);
-
-  // State for rollable table expansion
-  const [isRollableTableExpanded, setIsRollableTableExpanded] = useState(false);
 
   // ===== COMPREHENSIVE HELPER FUNCTIONS =====
 

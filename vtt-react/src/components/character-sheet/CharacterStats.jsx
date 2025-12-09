@@ -286,14 +286,8 @@ export default function CharacterStats() {
     const [hoveredStat, setHoveredStat] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [statEditModal, setStatEditModal] = useState({ visible: false, stat: null, value: 0, position: { x: 0, y: 0 } });
-    const [forceUpdate, setForceUpdate] = useState(0);
-
-    // Force re-render when exhaustion level changes to update movement speed
-    // Use store exhaustion level if available, otherwise use dataSource exhaustion level
+    // Track exhaustion level for movement speed updates
     const currentExhaustionLevel = storeExhaustionLevel !== undefined ? storeExhaustionLevel : exhaustionLevel;
-    useEffect(() => {
-        setForceUpdate(prev => prev + 1);
-    }, [currentExhaustionLevel]);
 
     // Show loading state while character data is unavailable
     if (!dataSource) {
@@ -595,8 +589,6 @@ export default function CharacterStats() {
             description = 'Overencumbered (-15%)';
         }
 
-        // Get equipment bonuses to calculate the pre-encumbrance value
-        const equipmentBonuses = calculateEquipmentBonuses(equipment);
         let preEncumbranceValue = baseValue;
 
         // Calculate what the value would be with encumbrance applied

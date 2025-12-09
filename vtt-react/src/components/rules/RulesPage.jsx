@@ -279,9 +279,6 @@ const RulesPage = () => {
                 // Get class icon for class names
                 const icon = !isSpellObject && CLASS_ICON_MAP[cell];
                 
-                // Check if this is a skill name in the Skill-Based Abilities table
-                const isSkillName = isSkillAbilitiesTable && cellIdx === 0 && typeof cell === 'string';
-
                 return (
                   <td
                     key={cellIdx}

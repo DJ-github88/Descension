@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { useClassSpellLibrary } from '../../../../hooks/useClassSpellLibrary';
 import { useWeaponEnhancedSpells } from '../../../../hooks/useWeaponEnhancedSpells';
@@ -10,7 +9,6 @@ import { getSkillAbilitiesForSpellbook } from '../../../../utils/skillAbilitiesI
 
 import { filterSpells, sortSpells } from '../../core/utils/libraryManager';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
-import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
@@ -21,44 +19,6 @@ import SpellContextMenu from './SpellContextMenu';
 import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';
 import ShareToCommunityDialog from './ShareToCommunityDialog';
 import useSpellbookStore from '../../../../store/spellbookStore';
-import { useCommunitySpells } from '../../../../hooks/useCommunitySpells';
-
-// Simple virtualization hook for large lists
-const useVirtualScroll = (items, itemHeight = 200, containerHeight = 600) => {
-  const [scrollTop, setScrollTop] = useState(0);
-  const [visibleRange, setVisibleRange] = useState({ start: 0, end: 20 });
-
-  const totalHeight = items.length * itemHeight;
-
-  const handleScroll = useCallback((e) => {
-    const newScrollTop = e.target.scrollTop;
-    setScrollTop(newScrollTop);
-
-    const start = Math.floor(newScrollTop / itemHeight);
-    const end = Math.min(
-      start + Math.ceil(containerHeight / itemHeight) + 2, // +2 for buffer
-      items.length
-    );
-
-    setVisibleRange({ start: Math.max(0, start - 1), end }); // -1 for buffer
-  }, [items.length, itemHeight, containerHeight]);
-
-  const visibleItems = useMemo(() => {
-    return items.slice(visibleRange.start, visibleRange.end).map((item, index) => ({
-      ...item,
-      virtualIndex: visibleRange.start + index
-    }));
-  }, [items, visibleRange]);
-
-  const offsetY = visibleRange.start * itemHeight;
-
-  return {
-    totalHeight,
-    visibleItems,
-    offsetY,
-    onScroll: handleScroll
-  };
-};
 
 
 // Helper function to get spell icon URL
@@ -223,8 +183,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   const [tooltipPosition, setTooltipPosition] = useState({ x: -1000, y: -1000 }); // Start off-screen
   const [tooltipTimer, setTooltipTimer] = useState(null);
 
-  // State for preview panel position
-  const [previewPanelPosition, setPreviewPanelPosition] = useState({ x: 0, y: 0 });
   const libraryContentRef = React.useRef(null);
 
   // Get library state and dispatch from context
@@ -248,8 +206,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     getAllSpells,
     getSpellsByCategory,
     getCategoryInfo,
-    addCustomSpell,
-    removeCustomSpell,
     hasActiveCharacter,
     hasClassSpells
   } = useClassSpellLibrary();
@@ -293,8 +249,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   // Get general spells with weapon integration
   const {
     enhancedSpells: generalSpells,
-    hasWeaponsEquipped,
-    weaponSummary
   } = useWeaponEnhancedSpells();
 
   // Filter out unwanted spells from general spells
@@ -312,21 +266,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   });
 
   // Helper function to filter out unwanted spells from any spell list
-  const filterUnwantedSpells = (spells) => {
-    return spells.filter(spell => {
-      const id = spell.id?.toLowerCase() || '';
-      const name = spell.name?.toLowerCase() || '';
-      return (
-        id !== 'universal_attack' && 
-        name !== 'attack (melee or ranged)' &&
-        !id.includes('cast_minor') &&
-        !id.includes('cast_major') &&
-        !name.includes('cast minor') &&
-        !name.includes('cast major')
-      );
-    });
-  };
-
   // Get known spells from character store
   const knownSpellIds = useCharacterStore(state => state.class_spells?.known_spells || []);
   const activeCharKnownSpells = activeChar?.class_spells?.known_spells || knownSpellIds;
@@ -560,7 +499,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     }
 
     return combined;
-  }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories]);
+  }, [spellCategories, filteredGeneralSpells, hasActiveCharacter, hasClassSpells, characterClass, rawClassSpells, activeCharKnownSpells, activeCharacterLevel, currentCharacterId, activeChar, filteredLibrarySpellsForCategories, currentRace, currentSubrace, currentPath]);
 
   // Track deleted spell IDs to prevent reloading them from Firebase
   const getDeletedSpellIds = () => {
@@ -629,7 +568,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     };
 
     loadUserSpellsFromFirebase();
-  }, [user?.uid, userSpellsLoaded, dispatch]);
+  }, [user?.uid, userSpellsLoaded, dispatch, library.spells]);
 
   // Debug: Log spell library state changes (disabled)
   useEffect(() => {
@@ -793,7 +732,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
       rangeType: spell.targetingConfig?.rangeType || 'ranged',
 
       // Targeting information
-      targetingMode: spell.targetingConfig?.targetingType || 'single',
       targetRestriction: spell.targetingConfig?.targetRestrictions && spell.targetingConfig.targetRestrictions.length > 0 ?
                          spell.targetingConfig.targetRestrictions[0] :
                          spell.targetingConfig?.targetRestriction || null,
