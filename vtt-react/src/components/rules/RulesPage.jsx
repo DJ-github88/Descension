@@ -6,9 +6,6 @@ import {
   faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire
 } from '@fortawesome/free-solid-svg-icons';
 import { RULES_CATEGORIES, getRuleContent } from '../../data/rulesData';
-
-// Lazy load RaceSelector for better performance
-const RaceSelector = React.lazy(() => import('./RaceSelector'));
 import BackgroundSelector from './BackgroundSelector';
 import BackgroundsDisplay from './BackgroundsDisplay';
 import SkillsDisplay from './SkillsDisplay';
@@ -47,6 +44,9 @@ import { ORACLE_DATA } from '../../data/classes/oracleData';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './RulesPage.css';
+
+// Lazy load RaceSelector for better performance
+const RaceSelector = React.lazy(() => import('./RaceSelector'));
 
 // Map of class names to their data
 const CLASS_DATA_MAP = {

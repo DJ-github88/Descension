@@ -201,8 +201,8 @@ if (typeof document !== 'undefined') {
 }
 
 const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
-  // Always use compact view - no other view modes
-  const viewMode = 'compact';
+  // View mode (default compact)
+  const [viewMode, setViewMode] = useState('compact');
 
   // State for context menu
   const [contextMenu, setContextMenu] = useState(null);
@@ -256,6 +256,7 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
 
   // Get character store for skill abilities
   const characters = useCharacterStore(state => state.characters);
+  const setActiveCharacter = useCharacterStore(state => state.setActiveCharacter);
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
   const characterLevel = useCharacterStore(state => state.level);
   // Get race/subrace directly from character store for real-time updates during wizard
@@ -1832,54 +1833,46 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
             </button>
 
             {/* Character Activation Controls */}
-            {!hasActiveCharacter && (() => {
-              const characters = useCharacterStore(state => state.characters);
-              const setActiveCharacter = useCharacterStore(state => state.setActiveCharacter);
-
-              if (characters.length > 0) {
-                return (
-                  <div className="character-activation-controls" style={{
-                    display: 'flex',
-                    gap: '8px',
-                    marginLeft: '16px',
-                    alignItems: 'center'
-                  }}>
-                    <span style={{
-                      fontSize: '12px',
-                      color: '#F0E6D2',
+            {!hasActiveCharacter && characters.length > 0 && (
+              <div className="character-activation-controls" style={{
+                display: 'flex',
+                gap: '8px',
+                marginLeft: '16px',
+                alignItems: 'center'
+              }}>
+                <span style={{
+                  fontSize: '12px',
+                  color: '#F0E6D2',
+                  fontFamily: 'Cinzel, serif',
+                  opacity: 0.9
+                }}>
+                  Activate:
+                </span>
+                {characters.map(char => (
+                  <button
+                    key={char.id}
+                    onClick={async () => {
+                      await setActiveCharacter(char.id);
+                    }}
+                    className="character-activation-btn"
+                    style={{
+                      background: 'linear-gradient(135deg, #2E8B57 0%, #3CB371 50%, #2E8B57 100%)',
+                      border: '1px solid #228B22',
+                      borderRadius: '4px',
+                      padding: '4px 8px',
+                      color: 'white',
+                      fontSize: '11px',
+                      cursor: 'pointer',
                       fontFamily: 'Cinzel, serif',
-                      opacity: 0.9
-                    }}>
-                      Activate:
-                    </span>
-                    {characters.map(char => (
-                      <button
-                        key={char.id}
-                        onClick={async () => {
-                          await setActiveCharacter(char.id);
-                        }}
-                        className="character-activation-btn"
-                        style={{
-                          background: 'linear-gradient(135deg, #2E8B57 0%, #3CB371 50%, #2E8B57 100%)',
-                          border: '1px solid #228B22',
-                          borderRadius: '4px',
-                          padding: '4px 8px',
-                          color: 'white',
-                          fontSize: '11px',
-                          cursor: 'pointer',
-                          fontFamily: 'Cinzel, serif',
-                          transition: 'all 0.2s ease'
-                        }}
-                        title={`Activate ${char.name} (${char.class})`}
-                      >
-                        {char.name}
-                      </button>
-                    ))}
-                  </div>
-                );
-              }
-              return null;
-            })()}
+                      transition: 'all 0.2s ease'
+                    }}
+                    title={`Activate ${char.name} (${char.class})`}
+                  >
+                    {char.name}
+                  </button>
+                ))}
+              </div>
+            )}
 
 
 

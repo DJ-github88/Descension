@@ -273,19 +273,6 @@ export default function CharacterStats() {
         updateStat
     } = dataSource || {};
 
-    // Early return with fallback if no data source
-    if (!dataSource) {
-        return (
-            <div className="stats-container">
-                <div className="stats-navigation">
-                    <div style={{ padding: '20px', color: '#5a1e12' }}>
-                        Loading character stats...
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     const { getActiveEffects } = useBuffStore();
     const { getActiveDebuffEffects } = useDebuffStore();
     const { isGMMode } = useGameStore();
@@ -307,6 +294,19 @@ export default function CharacterStats() {
     useEffect(() => {
         setForceUpdate(prev => prev + 1);
     }, [currentExhaustionLevel]);
+
+    // Show loading state while character data is unavailable
+    if (!dataSource) {
+        return (
+            <div className="stats-container">
+                <div className="stats-navigation">
+                    <div style={{ padding: '20px', color: '#5a1e12' }}>
+                        Loading character stats...
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // Calculate total stats including equipment and buff/debuff effects
     const getTotalStats = () => {

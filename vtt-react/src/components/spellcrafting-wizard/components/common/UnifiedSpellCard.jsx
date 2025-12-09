@@ -10208,7 +10208,7 @@ const UnifiedSpellCard = ({
                                                    resistanceType === 'physical_damage' ? 'Physical Damage' :
                                                    resistanceType.replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                             
-                            effects.push({
+                            buffEffectsToRender.push({
                               name: 'Resistance',
                               description: durationText,
                               mechanicsText: `Grants resistance to ${resistanceName}`
@@ -10222,7 +10222,7 @@ const UnifiedSpellCard = ({
                             const durationUnit = actualLegacyBuff.temporaryHP.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
                             const durationText = `${duration} ${durationUnit}`;
                             
-                            effects.push({
+                            buffEffectsToRender.push({
                               name: 'Temporary HP',
                               description: durationText,
                               mechanicsText: `Grants ${cleanFormula(formula)} temporary hit points`
@@ -10239,7 +10239,7 @@ const UnifiedSpellCard = ({
                             const immunityName = immunityType === 'all_damage' ? 'All Damage' :
                                                 immunityType.replace(/_/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                             
-                            effects.push({
+                            buffEffectsToRender.push({
                               name: 'Immunity',
                               description: durationText,
                               mechanicsText: `Grants immunity to ${immunityName}`
@@ -10253,7 +10253,7 @@ const UnifiedSpellCard = ({
                             const durationUnit = actualLegacyBuff.actionPoints.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
                             const durationText = `${duration} ${durationUnit}`;
                             
-                            effects.push({
+                            buffEffectsToRender.push({
                               name: 'Action Points',
                               description: durationText,
                               mechanicsText: `Grants +${bonus} action point${bonus > 1 ? 's' : ''}`
