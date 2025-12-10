@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import usePartyStore from '../../store/partyStore';
-import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
+import useTargetingStore from '../../store/targetingStore';
 import useGameStore from '../../store/gameStore';
 import useCombatStore from '../../store/combatStore';
 import useBuffStore from '../../store/buffStore';
@@ -37,8 +37,6 @@ const CharacterToken = ({
     const currentPosRef = useRef(position);
     const totalDragDistanceRef = useRef(0);
 
-    // Drag threshold in pixels - token must move this distance before dragging starts
-    const DRAG_THRESHOLD = 0;
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
@@ -49,8 +47,6 @@ const CharacterToken = ({
     const contextMenuRef = useRef(null);
     const tooltipTimeoutRef = useRef(null);
 
-    // Throttle multiplayer updates during drag
-    const lastMoveUpdateRef = useRef(null);
     const lastPositionUpdateRef = useRef(Date.now());
     const lastViewingTokenUpdateRef = useRef(0);
 
@@ -101,7 +97,6 @@ const CharacterToken = ({
     // Get grid and combat state
     const gridSystem = getGridSystem();
     const {
-        gridSize,
         zoomLevel,
         playerZoom,
         cameraX,
@@ -142,7 +137,6 @@ const CharacterToken = ({
     const fovAngle = useLevelEditorStore(state => state.fovAngle);
     const getTokenFacingDirection = useLevelEditorStore(state => state.getTokenFacingDirection);
     const setTokenFacingDirection = useLevelEditorStore(state => state.setTokenFacingDirection);
-    const fogOfWarEnabled = useLevelEditorStore(state => state.fogOfWarEnabled);
     const [isHovering, setIsHovering] = useState(false);
     const { gridOffsetX, gridOffsetY, gridSize: tokenGridSize } = useGameStore();
     const isViewingFrom = viewingFromToken && (
@@ -265,7 +259,6 @@ const CharacterToken = ({
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
     const {
         isInCombat,
-        currentTurn,
         isSelectionMode,
         selectedTokens,
         toggleTokenSelection,
@@ -283,8 +276,6 @@ const CharacterToken = ({
         recordTurnStartPosition,
         getTurnStartPosition
     } = useCombatStore();
-    const { addBuff } = useBuffStore();
-    const { addDebuff } = useDebuffStore();
 
     // Check if this token is selected for combat
     const isSelectedForCombat = selectedTokens.has(tokenId);
@@ -306,7 +297,6 @@ const CharacterToken = ({
     }, [currentPos, gridSystem]);
 
     const screenPositionRef = useRef(initialScreenPosition);
-    const cameraUpdateRafRef = useRef(null);
 
     const updateScreenPosition = useCallback((worldPosition) => {
         if (!worldPosition || !gridSystem) return;
@@ -1505,7 +1495,6 @@ const CharacterToken = ({
                     width: `${tokenSize}px`,
                     height: `${tokenSize}px`,
                     borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor),
-                    cursor: isInCombat && !isMyTurn ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
                     zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
                     position: 'absolute',
                     transform: 'translate(-50%, -50%)',

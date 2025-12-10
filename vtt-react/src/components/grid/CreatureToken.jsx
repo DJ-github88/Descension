@@ -1571,11 +1571,10 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
 
 
-  // Active condition effects mapped to visual overlays
+  // Active condition effects mapped to visual overlays - moved before early returns
   const activeBuffs = useBuffStore(state => state.activeBuffs);
   const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
 
-  const conditionEffects = useMemo(() => {
     const supported = new Set([
       'burning',
       'poisoned',
@@ -1711,6 +1710,167 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     return unique;
   }, [token.state?.conditions, activeBuffs, activeDebuffs, tokenId]);
+
+  // Remaining time helper for tooltips - re-renders each second
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getConditionRemaining = useCallback((condition) => {
+    const findMatch = () => {
+      const matchBuff = (activeBuffs || []).find(b => b.targetId === tokenId && (b.name === condition.name || b.id === condition.id));
+      if (matchBuff) return matchBuff;
+      const matchDebuff = (activeDebuffs || []).find(d => d.targetId === tokenId && (d.name === condition.name || d.id === condition.id));
+      return matchDebuff || null;
+    };
+
+    const fromStore = findMatch();
+    const durationType = fromStore?.durationType || condition.durationType;
+
+    // Round-based
+    if (durationType === 'rounds') {
+      const rounds = fromStore?.remainingRounds ?? fromStore?.durationValue ?? condition.remainingRounds ?? condition.durationValue;
+      return { label: rounds ? `${rounds} rounds` : '' };
+    }
+
+    const endTime = fromStore?.endTime
+      || (fromStore?.duration ? (fromStore.startTime || fromStore.startTime === 0 ? fromStore.startTime + fromStore.duration * 1000 : Date.now() + fromStore.duration * 1000) : null)
+      || (condition.appliedAt && condition.duration ? condition.appliedAt + condition.duration : null);
+
+    if (!endTime) return { label: '' };
+
+    const remainingMs = Math.max(0, endTime - now);
+    const totalSeconds = Math.ceil(remainingMs / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const label = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')}` : `${seconds}s`;
+    return { label };
+  }, [activeBuffs, activeDebuffs, tokenId, now]);
+
+    const supported = new Set([
+      'burning',
+      'poisoned',
+      'cursed',
+      'diseased',
+      'hexed',
+      'frightened',
+      'stunned',
+      'paralyzed',
+      'blinded',
+      'invisible',
+      'restrained',
+      'grappled',
+      'petrified',
+      'hastened',
+      'hasted',
+      'slowed',
+      'bleeding',
+      'blessed',
+      'defending',
+      'silenced',
+      'dispelled',
+      'charmed',
+      'confused',
+      'exhausted'
+    ]);
+
+    const normalize = (value) =>
+      (value || '')
+        .toString()
+        .toLowerCase()
+        .replace(/[^a-z]/g, '');
+
+    const aliases = {
+      burning: 'burning',
+      burn: 'burning',
+      fire: 'burning',
+      poisoned: 'poisoned',
+      poison: 'poisoned',
+      cursed: 'cursed',
+      curse: 'cursed',
+      diseased: 'diseased',
+      disease: 'diseased',
+      hexed: 'hexed',
+      hex: 'hexed',
+      frightened: 'frightened',
+      fear: 'frightened',
+      stunned: 'stunned',
+      stun: 'stunned',
+      paralyzed: 'paralyzed',
+      paralyze: 'paralyzed',
+      paralysed: 'paralyzed',
+      blinded: 'blinded',
+      blind: 'blinded',
+      invisible: 'invisible',
+      invis: 'invisible',
+      restrained: 'restrained',
+      restrain: 'restrained',
+      grappled: 'grappled',
+      grapple: 'grappled',
+      petrified: 'petrified',
+      petrify: 'petrified',
+      hastened: 'hastened',
+      haste: 'hastened',
+      hasted: 'hasted',
+      slowed: 'slowed',
+      slow: 'slowed',
+      bleeding: 'bleeding',
+      bleed: 'bleeding',
+      blessed: 'blessed',
+      bless: 'blessed',
+      defending: 'defending',
+      defend: 'defending',
+      silenced: 'silenced',
+      silence: 'silenced',
+      dispelled: 'dispelled',
+      dispel: 'dispelled',
+      charmed: 'charmed',
+      charm: 'charmed',
+      confused: 'confused',
+      confuse: 'confused',
+      exhausted: 'exhausted',
+      exhaust: 'exhausted'
+    };
+
+    // Get all conditions from token state
+    const tokenConditions = token?.state?.conditions || [];
+
+    // Create a map of active condition names for quick lookup
+    const activeConditionNames = new Set();
+
+    // Add conditions from token state
+    tokenConditions.forEach(condition => {
+      if (condition.name) {
+        const normalized = normalize(condition.name);
+        const mapped = aliases[normalized];
+        if (mapped && supported.has(mapped)) {
+          activeConditionNames.add(mapped);
+        }
+      }
+    });
+
+    // Add conditions from buff/debuff stores
+    const allEffects = [
+      ...(activeBuffs || []).filter(b => b.targetId === tokenId),
+      ...(activeDebuffs || []).filter(d => d.targetId === tokenId)
+    ];
+
+    allEffects.forEach(effect => {
+      if (effect.name) {
+        const normalized = normalize(effect.name);
+        const mapped = aliases[normalized];
+        if (mapped && supported.has(mapped)) {
+          activeConditionNames.add(mapped);
+        }
+      }
+    });
+
+    // Convert to array and return unique conditions
+    const unique = Array.from(activeConditionNames);
+    return unique;
+  }, [token?.state?.conditions, activeBuffs, activeDebuffs, tokenId]);
 
   // Remaining time helper for tooltips - re-renders each second
   const [now, setNow] = useState(Date.now());
