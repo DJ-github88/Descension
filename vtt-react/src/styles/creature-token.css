@@ -1,3 +1,34 @@
+.condition-ring-wrapper {
+  position: absolute;
+  /* inset, width, height set via inline styles for staggered rings */
+  /* Using percentage-based defaults so rings scale with token zoom */
+  inset: -30%;
+  width: 160%;
+  height: 160%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: visible;
+  animation: conditionOrbit 20s linear infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Alternate rotation direction for even/odd rings */
+.condition-ring-wrapper.condition-ring-1,
+.condition-ring-wrapper.condition-ring-3,
+.condition-ring-wrapper.condition-ring-5 {
+  animation: conditionOrbitReverse 18s linear infinite;
+}
+
+.condition-ring-wrapper.condition-ring-2,
+.condition-ring-wrapper.condition-ring-4 {
+  animation: conditionOrbit 22s linear infinite;
+}
+
+@keyframes conditionOrbitReverse {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
 /* Creature Token Styles */
 .creature-token {
   position: absolute;
@@ -5,7 +36,7 @@
   border-radius: 50%;
   /* border is set dynamically via inline styles */
   background-color: rgba(0, 0, 0, 0.5);
-  overflow: hidden;
+  overflow: visible; /* allow condition rings to extend beyond the face */
   cursor: grab;
   /* box-shadow is set dynamically via inline styles */
   /* transform is set dynamically via inline styles */
@@ -18,8 +49,8 @@
   will-change: transform;
   backface-visibility: hidden;
   transform-style: preserve-3d;
-  /* Optimize for animations */
-  contain: layout style paint;
+  /* Optimize for animations - but don't clip condition rings */
+  contain: style;
   /* Ensure immediate transform updates */
   image-rendering: optimizeSpeed;
   image-rendering: -webkit-optimize-contrast;
@@ -107,7 +138,7 @@
   border-radius: 50%;
   /* border is set dynamically via inline styles */
   background-color: rgba(0, 0, 0, 0.5);
-  overflow: hidden;
+  overflow: visible; /* allow condition rings to extend beyond the face */
   cursor: grab;
   /* box-shadow is set dynamically via inline styles */
   /* transform is set dynamically via inline styles */
@@ -168,6 +199,8 @@
 }
 
 .token-icon {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   background-size: cover;
@@ -210,6 +243,212 @@
   pointer-events: none;
   animation: pfTooltipFadeIn 0.3s ease-out;
   backdrop-filter: blur(2px);
+}
+
+/* ===== Condition Visual Effects (shared by creature & character tokens) ===== */
+/* Condition ring wrapper - handles rotation animation */
+@keyframes conditionOrbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Text ring SVG */
+.condition-ring-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 3;
+}
+
+.condition-ring-text {
+  font-family: 'Cinzel', 'Bookman Old Style', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  fill: #ffffff;
+  text-transform: uppercase;
+  paint-order: stroke fill;
+  stroke: rgba(0, 0, 0, 0.9);
+  stroke-width: 2px;
+  text-anchor: start;
+  word-spacing: normal;
+  text-shadow: 0 0 4px currentColor;
+}
+
+/* ===== Condition-Specific Colors ===== */
+
+/* Fire/Burning - Fiery orange-red */
+.condition-text-burning {
+  fill: #ff6b35;
+  stroke: #8b2500;
+  text-shadow: 0 0 8px #ff4500, 0 0 12px #ff6347;
+}
+
+/* Poisoned - Sickly green */
+.condition-text-poisoned {
+  fill: #7fff00;
+  stroke: #2d4a1c;
+  text-shadow: 0 0 8px #32cd32, 0 0 12px #228b22;
+}
+
+/* Cursed - Dark purple */
+.condition-text-cursed {
+  fill: #da70d6;
+  stroke: #4a0e4e;
+  text-shadow: 0 0 8px #9932cc, 0 0 12px #8b008b;
+}
+
+/* Diseased - Sickly yellow-green */
+.condition-text-diseased {
+  fill: #bdb76b;
+  stroke: #556b2f;
+  text-shadow: 0 0 8px #9acd32;
+}
+
+/* Frozen - Icy blue */
+.condition-text-frozen {
+  fill: #87ceeb;
+  stroke: #1a3a5c;
+  text-shadow: 0 0 8px #00bfff, 0 0 12px #4169e1;
+}
+
+/* Bleeding - Blood red */
+.condition-text-bleeding {
+  fill: #dc143c;
+  stroke: #4a0000;
+  text-shadow: 0 0 8px #b22222, 0 0 12px #8b0000;
+}
+
+/* Paralyzed - Electric yellow */
+.condition-text-paralyzed {
+  fill: #ffff00;
+  stroke: #5c5c00;
+  text-shadow: 0 0 8px #ffd700;
+}
+
+/* Stunned - Stars/dazed gold */
+.condition-text-stunned {
+  fill: #ffd700;
+  stroke: #654321;
+  text-shadow: 0 0 8px #ffb700, 0 0 12px #ff8c00;
+}
+
+/* Blinded - Dark/gray */
+.condition-text-blinded {
+  fill: #a9a9a9;
+  stroke: #2f2f2f;
+  text-shadow: 0 0 6px #696969;
+}
+
+/* Charmed - Pink/magenta */
+.condition-text-charmed {
+  fill: #ff69b4;
+  stroke: #8b0a50;
+  text-shadow: 0 0 8px #ff1493, 0 0 12px #db7093;
+}
+
+/* Frightened - Pale ghostly */
+.condition-text-frightened {
+  fill: #e6e6fa;
+  stroke: #483d8b;
+  text-shadow: 0 0 8px #9370db;
+}
+
+/* Silenced - Deep purple */
+.condition-text-silenced {
+  fill: #9370db;
+  stroke: #2e0854;
+  text-shadow: 0 0 8px #4b0082;
+}
+
+/* Defending - Shield blue */
+.condition-text-defending {
+  fill: #4169e1;
+  stroke: #0a1a3a;
+  text-shadow: 0 0 8px #1e90ff, 0 0 12px #00bfff;
+}
+
+/* Haste/Hasted - Speed green */
+.condition-text-haste,
+.condition-text-hasted {
+  fill: #00ff7f;
+  stroke: #006400;
+  text-shadow: 0 0 8px #00fa9a;
+}
+
+/* Slowed/Slow - Murky brown */
+.condition-text-slowed,
+.condition-text-slow {
+  fill: #cd853f;
+  stroke: #3d2314;
+  text-shadow: 0 0 6px #8b4513;
+}
+
+/* Invisible - Translucent cyan */
+.condition-text-invisible {
+  fill: rgba(173, 216, 230, 0.8);
+  stroke: rgba(0, 100, 150, 0.9);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+/* Rage/Enraged - Intense red */
+.condition-text-enraged,
+.condition-text-rage {
+  fill: #ff0000;
+  stroke: #5c0000;
+  text-shadow: 0 0 10px #ff4444, 0 0 15px #cc0000;
+}
+
+/* Blessed - Holy gold */
+.condition-text-blessed {
+  fill: #fffacd;
+  stroke: #8b7500;
+  text-shadow: 0 0 10px #ffd700, 0 0 15px #ffec8b;
+}
+
+/* Hexed - Witch green */
+.condition-text-hexed {
+  fill: #9acd32;
+  stroke: #2e4d0f;
+  text-shadow: 0 0 8px #6b8e23;
+}
+
+/* Prone - Earth brown */
+.condition-text-prone {
+  fill: #d2691e;
+  stroke: #3d1f00;
+  text-shadow: 0 0 6px #8b4513;
+}
+
+/* Restrained - Chain gray */
+.condition-text-restrained {
+  fill: #778899;
+  stroke: #2f4f4f;
+  text-shadow: 0 0 6px #708090;
+}
+
+/* Grappled - Grip orange */
+.condition-text-grappled {
+  fill: #ff8c00;
+  stroke: #5c3300;
+  text-shadow: 0 0 8px #ff7f00;
+}
+
+/* Concentration - Mind blue */
+.condition-text-concentration {
+  fill: #00ced1;
+  stroke: #004d4d;
+  text-shadow: 0 0 8px #20b2aa;
+}
+
+/* Background circle - hidden by default, only shown for silenced */
+.condition-ring-text-bg {
+  display: none;
 }
 
 /* Tooltip Header */

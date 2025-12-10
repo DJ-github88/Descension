@@ -58,12 +58,32 @@ const useDebuffStore = create(
                 }
             },
 
-            // Remove a debuff by ID
+            // Remove a debuff by ID - also cleans up token.state.conditions
             removeDebuff: (debuffId) => {
                 const { activeDebuffs } = get();
                 const debuffToRemove = activeDebuffs.find(debuff => debuff.id === debuffId);
 
                 set({ activeDebuffs: activeDebuffs.filter(debuff => debuff.id !== debuffId) });
+
+                // Also remove from token's condition list so tooltips/visuals update immediately
+                if (debuffToRemove && debuffToRemove.targetId && debuffToRemove.targetId !== 'player') {
+                    try {
+                        // Dynamically import to avoid circular dependency
+                        const useCreatureStore = require('./creatureStore').default;
+                        const { tokens, updateTokenState } = useCreatureStore.getState();
+                        const token = tokens.find(t => t.id === debuffToRemove.targetId);
+                        if (token?.state?.conditions) {
+                            const updatedConditions = token.state.conditions.filter(c =>
+                                !(c.name === debuffToRemove.name || c.id === debuffToRemove.name?.toLowerCase())
+                            );
+                            if (updatedConditions.length !== token.state.conditions.length) {
+                                updateTokenState(debuffToRemove.targetId, { conditions: updatedConditions });
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Could not sync debuff removal with token state:', e);
+                    }
+                }
 
                 // Sync with multiplayer
                 if (debuffToRemove) {
@@ -98,13 +118,47 @@ const useDebuffStore = create(
                 const { activeDebuffs } = get();
                 const currentTime = Date.now();
 
-                // Remove expired debuffs (only time-based debuffs, not round-based)
+                // Find expired debuffs (only time-based debuffs, not round-based)
+                const expiredDebuffs = activeDebuffs.filter(debuff =>
+                    debuff.durationType !== 'rounds' && debuff.endTime <= currentTime
+                );
                 const validDebuffs = activeDebuffs.filter(debuff =>
                     debuff.durationType === 'rounds' || debuff.endTime > currentTime
                 );
 
                 if (validDebuffs.length !== activeDebuffs.length) {
                     set({ activeDebuffs: validDebuffs });
+
+                    // Clean up token.state.conditions for expired debuffs
+                    const targetGroups = {};
+                    expiredDebuffs.forEach(debuff => {
+                        if (debuff.targetId && debuff.targetId !== 'player') {
+                            if (!targetGroups[debuff.targetId]) {
+                                targetGroups[debuff.targetId] = [];
+                            }
+                            targetGroups[debuff.targetId].push(debuff.name);
+                        }
+                    });
+
+                    if (Object.keys(targetGroups).length > 0) {
+                        try {
+                            const useCreatureStore = require('./creatureStore').default;
+                            const { tokens, updateTokenState } = useCreatureStore.getState();
+                            Object.entries(targetGroups).forEach(([targetId, names]) => {
+                                const token = tokens.find(t => t.id === targetId);
+                                if (token?.state?.conditions) {
+                                    const updatedConditions = token.state.conditions.filter(c =>
+                                        !names.includes(c.name) && !names.map(n => n?.toLowerCase()).includes(c.id)
+                                    );
+                                    if (updatedConditions.length !== token.state.conditions.length) {
+                                        updateTokenState(targetId, { conditions: updatedConditions });
+                                    }
+                                }
+                            });
+                        } catch (e) {
+                            console.warn('Could not sync expired debuffs with token state:', e);
+                        }
+                    }
                 }
             },
 
@@ -150,10 +204,12 @@ const useDebuffStore = create(
             // Decrement round-based debuffs for a specific target (called when their turn ends)
             decrementRoundBasedDebuffs: (targetId) => {
                 const { activeDebuffs } = get();
+                const expiredDebuffs = [];
                 const updatedDebuffs = activeDebuffs.map(debuff => {
                     if (debuff.targetId === targetId && debuff.durationType === 'rounds') {
                         const remainingRounds = (debuff.remainingRounds || debuff.durationValue || 1) - 1;
                         if (remainingRounds <= 0) {
+                            expiredDebuffs.push(debuff); // Track expired debuffs
                             return null; // Mark for removal
                         }
                         return { ...debuff, remainingRounds };
@@ -162,6 +218,26 @@ const useDebuffStore = create(
                 }).filter(debuff => debuff !== null); // Remove expired debuffs
 
                 set({ activeDebuffs: updatedDebuffs });
+
+                // Clean up token.state.conditions for expired debuffs
+                if (expiredDebuffs.length > 0 && targetId && targetId !== 'player') {
+                    try {
+                        const useCreatureStore = require('./creatureStore').default;
+                        const { tokens, updateTokenState } = useCreatureStore.getState();
+                        const token = tokens.find(t => t.id === targetId);
+                        if (token?.state?.conditions) {
+                            const expiredNames = expiredDebuffs.map(d => d.name);
+                            const updatedConditions = token.state.conditions.filter(c =>
+                                !expiredNames.includes(c.name) && !expiredNames.map(n => n?.toLowerCase()).includes(c.id)
+                            );
+                            if (updatedConditions.length !== token.state.conditions.length) {
+                                updateTokenState(targetId, { conditions: updatedConditions });
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Could not sync expired debuffs with token state:', e);
+                    }
+                }
             },
 
             // Update debuff duration (for context menu adjustments)

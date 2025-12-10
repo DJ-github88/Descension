@@ -7,6 +7,8 @@ import useAuthStore from "./store/authStore";
 import useCharacterStore from "./store/characterStore";
 import usePartyStore from "./store/partyStore";
 import useGameStore from "./store/gameStore";
+import useBuffStore from "./store/buffStore";
+import useDebuffStore from "./store/debuffStore";
 import useIdleDetection from "./hooks/useIdleDetection";
 
 // Core components that are always needed
@@ -628,6 +630,20 @@ export default function App() {
                 unsubscribe();
             }
         };
+    }, []);
+
+    // Global condition cleanup - runs every second to remove expired buffs/debuffs
+    // This ensures conditions are cleaned up even when TargetHUD/PartyHUD aren't mounted
+    useEffect(() => {
+        const { updateBuffTimers } = useBuffStore.getState();
+        const { updateDebuffTimers } = useDebuffStore.getState();
+        
+        const cleanupInterval = setInterval(() => {
+            updateBuffTimers();
+            updateDebuffTimers();
+        }, 1000);
+        
+        return () => clearInterval(cleanupInterval);
     }, []);
 
     // Control body overflow based on game mode

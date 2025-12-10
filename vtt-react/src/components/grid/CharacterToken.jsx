@@ -14,6 +14,7 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/unified-context-menu.css';
+import '../../styles/creature-token.css';
 
 const CharacterToken = ({
     tokenId,
@@ -1340,6 +1341,143 @@ const CharacterToken = ({
         setShowContextMenu(false);
     };
 
+    // Active condition effects mapped to visual overlays (token state + buff/debuff stores)
+    const activeBuffs = useBuffStore(state => state.activeBuffs);
+    const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+
+    const conditionEffects = useMemo(() => {
+        const supported = new Set([
+            'burning',
+            'poisoned',
+            'cursed',
+            'diseased',
+            'hexed',
+            'frightened',
+            'stunned',
+            'paralyzed',
+            'blinded',
+            'invisible',
+            'restrained',
+            'grappled',
+            'petrified',
+            'hastened',
+            'hasted',
+            'slowed',
+            'bleeding',
+            'blessed',
+            'defending',
+            'silenced',
+            'dispelled',
+            'charmed',
+            'confused',
+            'exhausted'
+        ]);
+
+        const normalize = (value) =>
+            (value || '')
+                .toString()
+                .toLowerCase()
+                .replace(/[^a-z]/g, '');
+
+        const aliases = {
+            burning: 'burning',
+            burn: 'burning',
+            fire: 'burning',
+            poisoned: 'poisoned',
+            poison: 'poisoned',
+            cursed: 'cursed',
+            curse: 'cursed',
+            diseased: 'diseased',
+            disease: 'diseased',
+            hexed: 'hexed',
+            hex: 'hexed',
+            hastened: 'hastened',
+            hasted: 'hastened',
+            haste: 'hastened',
+            quickened: 'hastened',
+            accelerated: 'hastened',
+            slowed: 'slowed',
+            slow: 'slowed',
+            bleeding: 'bleeding',
+            bleed: 'bleeding',
+            blessed: 'blessed',
+            bless: 'blessed',
+            defending: 'defending',
+            defend: 'defending',
+            silenced: 'silenced',
+            silence: 'silenced',
+            dispelled: 'dispelled',
+            dispel: 'dispelled',
+            charmed: 'charmed',
+            charm: 'charmed',
+            confused: 'confused',
+            confuse: 'confused',
+            exhausted: 'exhausted',
+            exhaust: 'exhausted',
+            frightened: 'frightened',
+            fear: 'frightened',
+            terrified: 'frightened',
+            stunned: 'stunned',
+            stun: 'stunned',
+            paralyzed: 'paralyzed',
+            paralyse: 'paralyzed',
+            blinded: 'blinded',
+            blind: 'blinded',
+            invisible: 'invisible',
+            invisibility: 'invisible',
+            restrained: 'restrained',
+            restraint: 'restrained',
+            grappled: 'grappled',
+            grapple: 'grappled',
+            petrified: 'petrified',
+            petrify: 'petrified',
+        };
+
+        const mapName = (raw) => {
+            const norm = normalize(raw);
+            if (aliases[norm]) return aliases[norm];
+            return supported.has(norm) ? norm : null;
+        };
+
+        const collect = [];
+
+        const pushCondition = (key, label) => {
+            if (!key) return;
+            collect.push({ key, label: label || key.toUpperCase() });
+        };
+
+        (token.state?.conditions || []).forEach(c => {
+            const key = mapName(c.id || c.name) || normalize(c.id || c.name);
+            const label = c.name || c.id || key;
+            pushCondition(key, label);
+        });
+
+        (activeBuffs || [])
+            .filter(b => b.targetId === tokenId)
+            .forEach(b => {
+                const key = mapName(b.name || b.id) || normalize(b.name || b.id);
+                pushCondition(key, b.name || key);
+            });
+
+        (activeDebuffs || [])
+            .filter(d => d.targetId === tokenId)
+            .forEach(d => {
+                const key = mapName(d.name || d.id) || normalize(d.name || d.id);
+                pushCondition(key, d.name || key);
+            });
+
+        const seen = new Set();
+        const unique = [];
+        for (const item of collect) {
+            if (item.key && !seen.has(item.key)) {
+                seen.add(item.key);
+                unique.push(item);
+            }
+        }
+
+        return unique;
+    }, [token.state?.conditions, activeBuffs, activeDebuffs, tokenId]);
+
     // Calculate health percentage for health bar
     const healthPercentage = (characterData.health.current / characterData.health.max) * 100;
 
@@ -1373,7 +1511,7 @@ const CharacterToken = ({
                     transform: 'translate(-50%, -50%)',
                     borderRadius: '50%',
                     border: `3px solid ${isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : characterData.tokenSettings.borderColor)}`,
-                    overflow: 'hidden',
+                    overflow: 'visible',
                     boxShadow: isViewingFrom
                         ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
                         : isMyTurn
@@ -1395,6 +1533,77 @@ const CharacterToken = ({
                 onMouseDown={handleMouseDown}
                 onClick={handleTokenClick}
             >
+                {/* Condition rings with text - staggered outward for multiple conditions */}
+                {conditionEffects.map((effect, index) => {
+                    const pathId = `${tokenId}-${effect.key}-ring-path`;
+                    const label = (effect.label || effect.key || '').toString().toUpperCase();
+                    const separator = ' \u2022 ';
+                    
+                    // Calculate ring radius - each subsequent ring is pushed outward
+                    // Base radius starts at 52 (in a 140x140 viewBox), increment by 14 per ring
+                    const baseRadius = 52;
+                    const radiusIncrement = 14;
+                    const radius = baseRadius + (index * radiusIncrement);
+                    const startY = 70 - radius; // Center is at 70,70
+                    
+                    // Calculate circumference and how many times to repeat text
+                    // Circumference = 2 * PI * radius
+                    const circumference = 2 * Math.PI * radius;
+                    // Estimate text width per repetition (label + separator)
+                    // Each char is roughly 6px with letter-spacing at font-size 10px
+                    const labelWithSep = label + separator;
+                    const estCharWidth = 6;
+                    const estTextWidth = labelWithSep.length * estCharWidth;
+                    // Calculate exact fit - use floor to avoid overlap, minimum 3 repetitions
+                    const repeatCount = Math.max(3, Math.floor(circumference / estTextWidth));
+                    const wrappedText = Array(repeatCount).fill(labelWithSep).join('');
+                    
+                    // Animation delay for visual variety (stagger rotation start)
+                    const animationDelay = index * -5; // seconds offset
+                    
+                    // Calculate percentage-based sizing so rings scale with token zoom
+                    // Base extension is 30% beyond token, each ring adds 20% more
+                    const baseExtension = 30 + (index * 20);
+                    
+                    return (
+                        <div 
+                            className={`condition-ring-wrapper condition-ring-${index}`}
+                            key={effect.key}
+                            style={{
+                                '--ring-index': index,
+                                '--ring-radius': radius,
+                                animationDelay: `${animationDelay}s`,
+                                // Use percentage-based sizing so rings scale with token
+                                inset: `${-baseExtension}%`,
+                                width: `${100 + (baseExtension * 2)}%`,
+                                height: `${100 + (baseExtension * 2)}%`,
+                            }}
+                        >
+                            <svg 
+                                className={`condition-ring-svg ${effect.key}`} 
+                                viewBox="0 0 140 140" 
+                                aria-hidden="true"
+                                style={{ overflow: 'visible' }}
+                            >
+                                <defs>
+                                    <path 
+                                        id={pathId} 
+                                        d={`M70,${startY} a${radius},${radius} 0 1,1 0,${radius * 2} a${radius},${radius} 0 1,1 0,-${radius * 2}`} 
+                                    />
+                                </defs>
+                                <text 
+                                    className={`condition-ring-text condition-text-${effect.key}`}
+                                    textLength={circumference * 0.98}
+                                    lengthAdjust="spacing"
+                                >
+                                    <textPath href={`#${pathId}`} startOffset="0%">
+                                        {wrappedText}
+                                    </textPath>
+                                </text>
+                            </svg>
+                        </div>
+                    );
+                })}
                 {/* Character Image with Transformations */}
                 <div
                     className="token-icon"

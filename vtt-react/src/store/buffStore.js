@@ -58,12 +58,32 @@ const useBuffStore = create(
                 }
             },
 
-            // Remove a buff by ID
+            // Remove a buff by ID - also cleans up token.state.conditions
             removeBuff: (buffId) => {
                 const { activeBuffs } = get();
                 const buffToRemove = activeBuffs.find(buff => buff.id === buffId);
 
                 set({ activeBuffs: activeBuffs.filter(buff => buff.id !== buffId) });
+
+                // Also remove from token's condition list so tooltips/visuals update immediately
+                if (buffToRemove && buffToRemove.targetId && buffToRemove.targetId !== 'player') {
+                    try {
+                        // Dynamically import to avoid circular dependency
+                        const useCreatureStore = require('./creatureStore').default;
+                        const { tokens, updateTokenState } = useCreatureStore.getState();
+                        const token = tokens.find(t => t.id === buffToRemove.targetId);
+                        if (token?.state?.conditions) {
+                            const updatedConditions = token.state.conditions.filter(c =>
+                                !(c.name === buffToRemove.name || c.id === buffToRemove.name?.toLowerCase())
+                            );
+                            if (updatedConditions.length !== token.state.conditions.length) {
+                                updateTokenState(buffToRemove.targetId, { conditions: updatedConditions });
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Could not sync buff removal with token state:', e);
+                    }
+                }
 
                 // Sync with multiplayer
                 if (buffToRemove) {
@@ -98,13 +118,47 @@ const useBuffStore = create(
                 const { activeBuffs } = get();
                 const currentTime = Date.now();
 
-                // Remove expired buffs (only time-based buffs, not round-based)
+                // Find expired buffs (only time-based buffs, not round-based)
+                const expiredBuffs = activeBuffs.filter(buff =>
+                    buff.durationType !== 'rounds' && buff.endTime <= currentTime
+                );
                 const validBuffs = activeBuffs.filter(buff =>
                     buff.durationType === 'rounds' || buff.endTime > currentTime
                 );
 
                 if (validBuffs.length !== activeBuffs.length) {
                     set({ activeBuffs: validBuffs });
+
+                    // Clean up token.state.conditions for expired buffs
+                    const targetGroups = {};
+                    expiredBuffs.forEach(buff => {
+                        if (buff.targetId && buff.targetId !== 'player') {
+                            if (!targetGroups[buff.targetId]) {
+                                targetGroups[buff.targetId] = [];
+                            }
+                            targetGroups[buff.targetId].push(buff.name);
+                        }
+                    });
+
+                    if (Object.keys(targetGroups).length > 0) {
+                        try {
+                            const useCreatureStore = require('./creatureStore').default;
+                            const { tokens, updateTokenState } = useCreatureStore.getState();
+                            Object.entries(targetGroups).forEach(([targetId, names]) => {
+                                const token = tokens.find(t => t.id === targetId);
+                                if (token?.state?.conditions) {
+                                    const updatedConditions = token.state.conditions.filter(c =>
+                                        !names.includes(c.name) && !names.map(n => n?.toLowerCase()).includes(c.id)
+                                    );
+                                    if (updatedConditions.length !== token.state.conditions.length) {
+                                        updateTokenState(targetId, { conditions: updatedConditions });
+                                    }
+                                }
+                            });
+                        } catch (e) {
+                            console.warn('Could not sync expired buffs with token state:', e);
+                        }
+                    }
                 }
             },
 
@@ -147,10 +201,12 @@ const useBuffStore = create(
             // Decrement round-based buffs for a specific target (called when their turn ends)
             decrementRoundBasedBuffs: (targetId) => {
                 const { activeBuffs } = get();
+                const expiredBuffs = [];
                 const updatedBuffs = activeBuffs.map(buff => {
                     if (buff.targetId === targetId && buff.durationType === 'rounds') {
                         const remainingRounds = (buff.remainingRounds || buff.durationValue || 1) - 1;
                         if (remainingRounds <= 0) {
+                            expiredBuffs.push(buff); // Track expired buffs
                             return null; // Mark for removal
                         }
                         return { ...buff, remainingRounds };
@@ -159,6 +215,26 @@ const useBuffStore = create(
                 }).filter(buff => buff !== null); // Remove expired buffs
 
                 set({ activeBuffs: updatedBuffs });
+
+                // Clean up token.state.conditions for expired buffs
+                if (expiredBuffs.length > 0 && targetId && targetId !== 'player') {
+                    try {
+                        const useCreatureStore = require('./creatureStore').default;
+                        const { tokens, updateTokenState } = useCreatureStore.getState();
+                        const token = tokens.find(t => t.id === targetId);
+                        if (token?.state?.conditions) {
+                            const expiredNames = expiredBuffs.map(b => b.name);
+                            const updatedConditions = token.state.conditions.filter(c =>
+                                !expiredNames.includes(c.name) && !expiredNames.map(n => n?.toLowerCase()).includes(c.id)
+                            );
+                            if (updatedConditions.length !== token.state.conditions.length) {
+                                updateTokenState(targetId, { conditions: updatedConditions });
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Could not sync expired buffs with token state:', e);
+                    }
+                }
             },
 
             // Update buff duration (for context menu adjustments)

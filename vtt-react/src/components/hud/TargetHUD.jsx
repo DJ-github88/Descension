@@ -12,6 +12,7 @@ import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import '../../styles/unified-context-menu.css';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
 import './styles/ClassResourceBar.css';
@@ -39,17 +40,20 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
     // Get current player data for comparison
     const currentPlayerData = activeCharacter;
-    const { getBuffsForTarget, getRemainingTime } = useBuffStore();
-    const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime } = useDebuffStore();
+    const { getBuffsForTarget, getRemainingTime, updateBuffTimers } = useBuffStore();
+    const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers } = useDebuffStore();
 
-    // Real-time updates for condition timers - reduced frequency for performance
+    // Real-time updates for condition timers - also cleans up expired conditions
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(Date.now());
-        }, 2000); // Update every 2 seconds instead of 1 second for better performance
+            // Clean up expired buffs and debuffs (this also syncs with token.state.conditions)
+            updateBuffTimers();
+            updateDebuffTimers();
+        }, 1000); // 1s cadence for visible countdowns and cleanup
 
         return () => clearInterval(interval);
-    }, []);
+    }, [updateBuffTimers, updateDebuffTimers]);
 
     // Close context menu when clicking outside
     useEffect(() => {
@@ -711,6 +715,19 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             debuffStore.removeDebuff(condition.id);
         }
 
+        // Also remove from the token's condition list so tooltips/visuals update immediately
+        const targetId = condition.targetId || (conditionContextMenu.condition?.targetId);
+        if (targetId) {
+            const { tokens, updateTokenState } = useCreatureStore.getState();
+            const token = tokens.find(t => t.id === targetId);
+            if (token?.state?.conditions) {
+                const updatedConditions = token.state.conditions.filter(c =>
+                    !(c.id === condition.id || c.name === condition.name)
+                );
+                updateTokenState(targetId, { conditions: updatedConditions });
+            }
+        }
+
         setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } });
     };
 
@@ -1148,28 +1165,28 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         onClick={() => setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } })}
                     />
                     <div
-                        className={conditionContextMenu.condition?.type === 'buff' ? 'buff-context-menu' : 'debuff-context-menu'}
+                        className={`unified-context-menu small condition-context-menu ${conditionContextMenu.condition?.type === 'buff' ? 'buff-context-menu' : 'debuff-context-menu'}`}
                         style={{
-                            position: 'fixed',
                             left: conditionContextMenu.position.x,
-                            top: conditionContextMenu.position.y,
-                            zIndex: 10001
+                            top: conditionContextMenu.position.y
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div
-                            className="context-menu-item"
-                            onClick={handleAdjustConditionTime}
-                        >
-                            <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
-                            Adjust Duration
-                        </div>
-                        <div
-                            className="context-menu-item"
-                            onClick={handleRemoveCondition}
-                        >
-                            <i className="fas fa-times" style={{ marginRight: '8px' }}></i>
-                            Remove Condition
+                        <div className="context-menu-main">
+                            <div
+                                className="context-menu-item"
+                                onClick={handleAdjustConditionTime}
+                            >
+                                <i className="fas fa-clock" style={{ marginRight: '8px' }}></i>
+                                Adjust Duration
+                            </div>
+                            <div
+                                className="context-menu-item danger"
+                                onClick={handleRemoveCondition}
+                            >
+                                <i className="fas fa-times" style={{ marginRight: '8px' }}></i>
+                                Remove Condition
+                            </div>
                         </div>
                     </div>
                 </>

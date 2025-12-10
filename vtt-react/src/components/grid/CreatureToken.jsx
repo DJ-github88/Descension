@@ -6,6 +6,7 @@ import useGameStore from '../../store/gameStore';
 import useTargetingStore, { TARGET_TYPES } from '../../store/targetingStore';
 import useCombatStore from '../../store/combatStore';
 import useBuffStore from '../../store/buffStore';
+import useDebuffStore from '../../store/debuffStore';
 import useChatStore from '../../store/chatStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import useCharacterStore from '../../store/characterStore';
@@ -21,6 +22,7 @@ import CreatureWindow from '../windows/CreatureWindow';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
+import '../../styles/creature-token.css';
 import ShopWindow from '../shop/ShopWindow';
 
 
@@ -1569,6 +1571,185 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
 
 
+  // Active condition effects mapped to visual overlays
+  const activeBuffs = useBuffStore(state => state.activeBuffs);
+  const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+
+  const conditionEffects = useMemo(() => {
+    const supported = new Set([
+      'burning',
+      'poisoned',
+      'cursed',
+      'diseased',
+      'hexed',
+      'frightened',
+      'stunned',
+      'paralyzed',
+      'blinded',
+      'invisible',
+      'restrained',
+      'grappled',
+      'petrified',
+      'hastened',
+      'hasted',
+      'slowed',
+      'bleeding',
+      'blessed',
+      'defending',
+      'silenced',
+      'dispelled',
+      'charmed',
+      'confused',
+      'exhausted'
+    ]);
+
+    const normalize = (value) =>
+      (value || '')
+        .toString()
+        .toLowerCase()
+        .replace(/[^a-z]/g, '');
+
+    const aliases = {
+      burning: 'burning',
+      burn: 'burning',
+      fire: 'burning',
+      poisoned: 'poisoned',
+      poison: 'poisoned',
+      cursed: 'cursed',
+      curse: 'cursed',
+      diseased: 'diseased',
+      disease: 'diseased',
+      hexed: 'hexed',
+      hex: 'hexed',
+      hastened: 'hastened',
+      hasted: 'hastened',
+      haste: 'hastened',
+      quickened: 'hastened',
+      accelerated: 'hastened',
+      slowed: 'slowed',
+      slow: 'slowed',
+      bleeding: 'bleeding',
+      bleed: 'bleeding',
+      blessed: 'blessed',
+      bless: 'blessed',
+      defending: 'defending',
+      defend: 'defending',
+      silenced: 'silenced',
+      silence: 'silenced',
+      dispelled: 'dispelled',
+      dispel: 'dispelled',
+      charmed: 'charmed',
+      charm: 'charmed',
+      confused: 'confused',
+      confuse: 'confused',
+      exhausted: 'exhausted',
+      exhaust: 'exhausted',
+      frightened: 'frightened',
+      fear: 'frightened',
+      terrified: 'frightened',
+      stunned: 'stunned',
+      stun: 'stunned',
+      paralyzed: 'paralyzed',
+      paralyse: 'paralyzed',
+      blinded: 'blinded',
+      blind: 'blinded',
+      invisible: 'invisible',
+      invisibility: 'invisible',
+      restrained: 'restrained',
+      restraint: 'restrained',
+      grappled: 'grappled',
+      grapple: 'grappled',
+      petrified: 'petrified',
+      petrify: 'petrified',
+    };
+
+    const mapName = (raw) => {
+      const norm = normalize(raw);
+      if (aliases[norm]) return aliases[norm];
+      return supported.has(norm) ? norm : null;
+    };
+
+    const collect = [];
+
+    const pushCondition = (key, label) => {
+      if (!key) return;
+      collect.push({ key, label: label || key.toUpperCase() });
+    };
+
+    // From token state (authoritative)
+    (token.state?.conditions || []).forEach(c => {
+      const key = mapName(c.id || c.name) || normalize(c.id || c.name);
+      const label = c.name || c.id || key;
+      pushCondition(key, label);
+    });
+
+    // From buff store
+    (activeBuffs || [])
+      .filter(b => b.targetId === tokenId)
+      .forEach(b => {
+        const key = mapName(b.name || b.id) || normalize(b.name || b.id);
+        pushCondition(key, b.name || key);
+      });
+
+    // From debuff store
+    (activeDebuffs || [])
+      .filter(d => d.targetId === tokenId)
+      .forEach(d => {
+        const key = mapName(d.name || d.id) || normalize(d.name || d.id);
+        pushCondition(key, d.name || key);
+      });
+
+    // Dedup by key, keep first label
+    const seen = new Set();
+    const unique = [];
+    for (const item of collect) {
+      if (item.key && !seen.has(item.key)) {
+        seen.add(item.key);
+        unique.push(item);
+      }
+    }
+
+    return unique;
+  }, [token.state?.conditions, activeBuffs, activeDebuffs, tokenId]);
+
+  // Remaining time helper for tooltips - re-renders each second
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getConditionRemaining = useCallback((condition) => {
+    const findMatch = () => {
+      const matchBuff = (activeBuffs || []).find(b => b.targetId === tokenId && (b.name === condition.name || b.id === condition.id));
+      if (matchBuff) return matchBuff;
+      const matchDebuff = (activeDebuffs || []).find(d => d.targetId === tokenId && (d.name === condition.name || d.id === condition.id));
+      return matchDebuff || null;
+    };
+
+    const fromStore = findMatch();
+    const durationType = fromStore?.durationType || condition.durationType;
+
+    // Round-based
+    if (durationType === 'rounds') {
+      const rounds = fromStore?.remainingRounds ?? fromStore?.durationValue ?? condition.remainingRounds ?? condition.durationValue;
+      return { label: rounds ? `${rounds} rounds` : '' };
+    }
+
+    const endTime = fromStore?.endTime
+      || (fromStore?.duration ? (fromStore.startTime || fromStore.startTime === 0 ? fromStore.startTime + fromStore.duration * 1000 : Date.now() + fromStore.duration * 1000) : null)
+      || (condition.appliedAt && condition.duration ? condition.appliedAt + condition.duration : null);
+
+    if (!endTime) return { label: '' };
+
+    const remainingMs = Math.max(0, endTime - now);
+    const totalSeconds = Math.ceil(remainingMs / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const label = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')}` : `${seconds}s`;
+    return { label };
+  }, [activeBuffs, activeDebuffs, tokenId, now]);
+
   // Check if token should be hidden from players
   const isHiddenFromPlayers = token.state.hiddenFromPlayers;
   const shouldHideToken = isHiddenFromPlayers && !isGMMode;
@@ -1602,7 +1783,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           touchAction: 'none',
           borderRadius: '50%',
           border: `3px solid ${creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder)}`,
-          overflow: 'hidden',
+          overflow: 'visible',
           opacity: isGreyedOut ? 0.4 : 1, // Greyed out when in explored but not visible
           filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas
           boxShadow: creature.isShopkeeper
@@ -1623,6 +1804,78 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         onMouseDown={showRenameInput ? undefined : handleMouseDown}
         onClick={showRenameInput ? undefined : handleTokenClick}
       >
+        {/* Condition rings with text - staggered outward for multiple conditions */}
+        {conditionEffects.map((effect, index) => {
+          const pathId = `${tokenId}-${effect.key}-ring-path`;
+          const label = (effect.label || effect.key || '').toString().toUpperCase();
+          const separator = ' \u2022 ';
+          
+          // Calculate ring radius - each subsequent ring is pushed outward
+          // Base radius starts at 52 (in a 140x140 viewBox), increment by 14 per ring
+          const baseRadius = 52;
+          const radiusIncrement = 14;
+          const radius = baseRadius + (index * radiusIncrement);
+          const startY = 70 - radius; // Center is at 70,70
+          
+          // Calculate circumference and how many times to repeat text
+          // Circumference = 2 * PI * radius
+          const circumference = 2 * Math.PI * radius;
+          // Estimate text width per repetition (label + separator)
+          // Each char is roughly 6px with letter-spacing at font-size 10px
+          const labelWithSep = label + separator;
+          const estCharWidth = 6;
+          const estTextWidth = labelWithSep.length * estCharWidth;
+          // Calculate exact fit - use floor to avoid overlap, minimum 3 repetitions
+          const repeatCount = Math.max(3, Math.floor(circumference / estTextWidth));
+          const wrappedText = Array(repeatCount).fill(labelWithSep).join('');
+          
+          // Animation delay for visual variety (stagger rotation start)
+          const animationDelay = index * -5; // seconds offset
+          
+          // Calculate percentage-based sizing so rings scale with token zoom
+          // Base extension is 30% beyond token, each ring adds 20% more
+          const baseExtension = 30 + (index * 20);
+          
+          return (
+            <div 
+              className={`condition-ring-wrapper condition-ring-${index}`}
+              key={effect.key}
+              style={{
+                '--ring-index': index,
+                '--ring-radius': radius,
+                animationDelay: `${animationDelay}s`,
+                // Use percentage-based sizing so rings scale with token
+                inset: `${-baseExtension}%`,
+                width: `${100 + (baseExtension * 2)}%`,
+                height: `${100 + (baseExtension * 2)}%`,
+              }}
+            >
+              <svg 
+                className={`condition-ring-svg ${effect.key}`} 
+                viewBox="0 0 140 140" 
+                aria-hidden="true"
+                style={{ overflow: 'visible' }}
+              >
+                <defs>
+                  <path 
+                    id={pathId} 
+                    d={`M70,${startY} a${radius},${radius} 0 1,1 0,${radius * 2} a${radius},${radius} 0 1,1 0,-${radius * 2}`} 
+                  />
+                </defs>
+                <text 
+                  className={`condition-ring-text condition-text-${effect.key}`}
+                  textLength={circumference * 0.98}
+                  lengthAdjust="spacing"
+                >
+                  <textPath href={`#${pathId}`} startOffset="0%">
+                    {wrappedText}
+                  </textPath>
+                </text>
+              </svg>
+            </div>
+          );
+        })}
+
         <div
           className="token-icon"
           style={{
@@ -2355,15 +2608,25 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
                 Active Effects:
               </div>
-              <div>
-                {token.state.conditions.slice(0, 3).map((condition, index) => (
-                  <span key={index} style={{ marginRight: '8px', color: condition.color || '#7a3b2e' }}>
-                    {condition.name}
-                  </span>
-                ))}
-                {token.state.conditions.length > 3 && (
-                  <span style={{ color: '#666' }}>
-                    +{token.state.conditions.length - 3} more
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {token.state.conditions.slice(0, 4).map((condition, index) => {
+                  const remaining = getConditionRemaining(condition).label;
+                  return (
+                    <span
+                      key={index}
+                      style={{
+                        color: '#333',
+                        fontWeight: 600,
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      {condition.name}{remaining ? ` (${remaining})` : ''}
+                    </span>
+                  );
+                })}
+                {token.state.conditions.length > 4 && (
+                  <span style={{ color: '#666', fontWeight: 600 }}>
+                    +{token.state.conditions.length - 4} more
                   </span>
                 )}
               </div>
