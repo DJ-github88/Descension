@@ -1648,7 +1648,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       effects: {
         debuff: {
           strength_reduction: '1d6',
-          dexterity_reduction: '1d6',
+          agility_reduction: '1d6',
           duration: 10,
           savingThrow: 'Constitution',
           dc: 14

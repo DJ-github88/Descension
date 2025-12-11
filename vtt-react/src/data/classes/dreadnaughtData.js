@@ -1999,7 +1999,7 @@ Many players enhance the dreadnaught experience with:
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
-        saveType: 'dexterity',
+        saveType: 'agility',
         saveDC: '8 + proficiency + spirit_mod',
         halfDamage: true
       },

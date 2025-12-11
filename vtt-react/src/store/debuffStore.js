@@ -15,6 +15,7 @@ const useDebuffStore = create(
                     name: debuff.name,
                     icon: debuff.icon,
                     description: debuff.description,
+                    effectSummary: debuff.effectSummary || '',
                     effects: debuff.effects || {},
                     duration: debuff.duration || 60, // Duration in seconds
                     startTime: Date.now(),
@@ -28,7 +29,15 @@ const useDebuffStore = create(
                     // Round-based duration properties
                     durationType: debuff.durationType || 'minutes',
                     durationValue: debuff.durationValue,
-                    remainingRounds: debuff.remainingRounds
+                    remainingRounds: debuff.remainingRounds,
+                    // Over-time effect properties
+                    hasOverTimeEffect: debuff.hasOverTimeEffect || false,
+                    overTimeType: debuff.overTimeType,
+                    overTimeFormula: debuff.overTimeFormula,
+                    overTimeElement: debuff.overTimeElement,
+                    tickFrequency: debuff.tickFrequency,
+                    tickFrequencyValue: debuff.tickFrequencyValue,
+                    tickFrequencyUnit: debuff.tickFrequencyUnit
                 };
 
                 // For round-based debuffs, don't set endTime (they don't expire automatically)

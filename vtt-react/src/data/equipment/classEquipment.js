@@ -774,7 +774,7 @@ export const MARTYR_ITEMS = [
         },
         baseStats: {
             spirit: { value: 2, isPercentage: false },
-            wisdom: { value: 1, isPercentage: false }
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Martyr']
@@ -3173,7 +3173,7 @@ export const PRIMALIST_ITEMS = [
             carryingCapacity: { slots: 3 }
         },
         baseStats: {
-            wisdom: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false },
             constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
@@ -3227,7 +3227,7 @@ export const PRIMALIST_ITEMS = [
         slots: ['trinket1', 'trinket2'],
         baseStats: {
             intelligence: { value: 1, isPercentage: false },
-            wisdom: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false },
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {

@@ -521,7 +521,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         durationType: 'minutes',
         durationUnit: 'minutes',
         concentrationRequired: true,
-        savingThrowType: 'wisdom',
+        savingThrowType: 'spirit',
         saveDC: 13,
         saveOutcome: 'negates'
       },
@@ -716,7 +716,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         duration: 1,
         durationUnit: 'minutes',
         saveDC: 15,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         savingThrow: true,
         effects: [{
           id: 'spirit_bind',
@@ -814,7 +814,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       resolution: 'DICE',
       savingThrow: {
         enabled: true,
-        savingThrowType: 'dexterity',
+        savingThrowType: 'agility',
         difficultyClass: 15,
         saveOutcome: 'halves'
       },
@@ -1291,7 +1291,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
       },
       savingThrow: {
         enabled: true,
-        savingThrowType: 'wisdom',
+        savingThrowType: 'spirit',
         difficultyClass: 18,
         saveOutcome: 'halves'
       },

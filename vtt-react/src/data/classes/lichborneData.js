@@ -1053,7 +1053,7 @@ Many players enhance the Lichborne experience with:
       resolution: 'SAVE',
 
       saveConfig: {
-        saveType: 'dexterity',
+        saveType: 'agility',
         saveDC: 15,
         onSaveEffect: 'half_damage_no_freeze'
       },
@@ -1585,7 +1585,7 @@ Many players enhance the Lichborne experience with:
       resolution: 'SAVE',
 
       saveConfig: {
-        saveType: 'dexterity',
+        saveType: 'agility',
         saveDC: 15,
         onSaveEffect: 'half_damage'
       },

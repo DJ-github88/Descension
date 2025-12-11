@@ -200,7 +200,7 @@ const Step4SpellSelection = () => {
             durationConfig: { durationType: 'instant' },
             resourceCost: { mana: 3, spheres: ['Fire'] },
             resolution: 'SAVE',
-            saveConfig: { saveType: 'dexterity', saveDC: 12, onSaveEffect: 'half' },
+            saveConfig: { saveType: 'agility', saveDC: 12, onSaveEffect: 'half' },
             damageConfig: { formula: '1d8', damageType: 'fire' },
             tags: ['1-sphere', 'fire', 'single-target']
         },

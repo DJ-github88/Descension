@@ -706,7 +706,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         durationType: 'rounds',
         durationUnit: 'rounds',
         saveDC: 14,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveOutcome: 'negates',
         canBeDispelled: true
       },
@@ -1637,7 +1637,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         duration: 3,
         durationUnit: 'rounds',
         saveDC: 17,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveOutcome: 'negates',
         savingThrow: true,
         effects: [{
@@ -1708,7 +1708,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         duration: 4,
         durationUnit: 'rounds',
         saveDC: 17,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveOutcome: 'ends_early',
         savingThrow: true,
         effects: [{
@@ -1981,7 +1981,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         duration: 5,
         durationUnit: 'rounds',
         saveDC: 18,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         savingThrow: true,
         effects: [{
           id: 'temporal_dominion',
@@ -2200,7 +2200,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         duration: 2,
         durationUnit: 'rounds',
         saveDC: 17,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveOutcome: 'ends_early',
         savingThrow: true,
         effects: [{
@@ -2342,7 +2342,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         duration: 3,
         durationUnit: 'rounds',
         saveDC: 18,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveOutcome: 'ends_early',
         savingThrow: true,
         effects: [{
@@ -2372,7 +2372,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         durationType: 'rounds',
         durationUnit: 'rounds',
         saveDC: 18,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveOutcome: 'ends_early',
         canBeDispelled: true
       },

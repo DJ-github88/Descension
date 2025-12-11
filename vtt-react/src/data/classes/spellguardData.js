@@ -1175,7 +1175,7 @@ Many players enhance the Spellguard experience with:
       resolution: 'SAVE',
 
       saveConfig: {
-        saveType: 'dexterity',
+        saveType: 'agility',
         saveDC: 15,
         onSaveEffect: 'half_damage'
       },
@@ -1696,7 +1696,7 @@ Many players enhance the Spellguard experience with:
       resolution: 'SAVE',
 
       saveConfig: {
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveDC: 16,
         onSaveEffect: 'negates'
       },

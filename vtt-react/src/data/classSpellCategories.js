@@ -302,7 +302,7 @@ export const CLASS_SPECIALIZATIONS = {
         icon: 'spell_nature_earthbind'
       },
       {
-        id: 'ancestral_wisdom',
+        id: 'ancestral_spirit',
         name: 'Ancestral Wisdom',
         description: 'Ancient knowledge passed down through generations',
         color: '#708090',

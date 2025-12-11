@@ -646,6 +646,19 @@ export default function App() {
         return () => clearInterval(cleanupInterval);
     }, []);
 
+    // Start real-time effect processing for DOT/HOT that use "Real-Time (Always)" tick setting
+    useEffect(() => {
+        // Import dynamically to avoid circular dependencies
+        import('./services/effectProcessingService').then(({ startRealtimeEffectProcessing, stopRealtimeEffectProcessing }) => {
+            startRealtimeEffectProcessing();
+            
+            // Cleanup on unmount
+            return () => {
+                stopRealtimeEffectProcessing();
+            };
+        });
+    }, []);
+
     // Control body overflow based on game mode
     useEffect(() => {
         if (gameMode === 'single' || gameMode === 'multiplayer') {

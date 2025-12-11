@@ -1299,7 +1299,7 @@ export default function CharacterPanel() {
             shirt: "Primarily decorative, but some magical shirts can provide comfort in harsh environments.",
             tabard: "Displays your allegiance or achievements. Some magical tabards grant special abilities.",
             wrists: "Bracers that protect your forearms and can enhance spellcasting or physical abilities.",
-            hands: "Gauntlets and gloves that protect your hands and can enhance dexterity or attack power.",
+            hands: "Gauntlets and gloves that protect your hands and can enhance agility or attack power.",
             waist: "Belts and girdles that can hold items and sometimes enhance strength or constitution.",
             legs: "Greaves and leggings that protect your lower body and can enhance mobility or endurance.",
             feet: "Boots that protect your feet and can enhance speed, stealth, or provide stability.",

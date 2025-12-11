@@ -1631,12 +1631,12 @@ INTERVENE COUNT: 1
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '4d6 + wisdom',
+        formula: '4d6 + spirit',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 14,
           saveOutcome: 'halves'
         }
@@ -1750,7 +1750,7 @@ INTERVENE COUNT: 1
           name: 'Shield of Faith',
           description: 'Absorbs damage until broken',
           shieldValue: {
-            formula: '3d8 + wisdom * 2',
+            formula: '3d8 + spirit * 2',
             shieldType: 'absorption'
           }
         }],
@@ -1807,7 +1807,7 @@ INTERVENE COUNT: 1
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '40 + wisdom',
+        formula: '40 + spirit',
         healingType: 'direct',
         hasHotEffect: false
       },
@@ -2116,7 +2116,7 @@ INTERVENE COUNT: 1
       effectTypes: ['healing', 'damage', 'zone'],
 
       healingConfig: {
-        formula: '2d8 + wisdom',
+        formula: '2d8 + spirit',
         healingType: 'hot',
         hasHotEffect: true,
         hotFormula: '2d8',
@@ -2244,7 +2244,7 @@ INTERVENE COUNT: 1
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '5d10 + wisdom + missing_hp_percentage',
+        formula: '5d10 + spirit + missing_hp_percentage',
         elementType: 'radiant',
         damageType: 'direct'
       },
@@ -2307,7 +2307,7 @@ INTERVENE COUNT: 1
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '4d10 + wisdom',
+        formula: '4d10 + spirit',
         healingType: 'resurrection',
         hasHotEffect: false
       },
@@ -2717,7 +2717,7 @@ INTERVENE COUNT: 1
       effectTypes: ['damage', 'healing'],
 
       damageConfig: {
-        formula: '12d10 + wisdom * 2',
+        formula: '12d10 + spirit * 2',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {

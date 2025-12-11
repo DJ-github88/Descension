@@ -973,6 +973,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                             const remainingTime = getRemainingTime(buff.id);
                                             const tooltipContent = {
                                                 title: buff.name,
+                                                effectSummary: buff.effectSummary,
                                                 description: buff.description,
                                                 duration: formatTime(remainingTime, buff.durationType)
                                             };
@@ -1020,6 +1021,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                             const remainingTime = getDebuffRemainingTime(debuff.id);
                                             const tooltipContent = {
                                                 title: debuff.name,
+                                                effectSummary: debuff.effectSummary,
                                                 description: debuff.description,
                                                 duration: formatTime(remainingTime, debuff.durationType)
                                             };
@@ -1145,7 +1147,25 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     }}
                 >
                     <div className="equipment-slot-name">{tooltip.content.title}</div>
-                    <div className="equipment-slot-description">{tooltip.content.description}</div>
+                    {tooltip.content.effectSummary && (
+                        <div style={{
+                            fontSize: '12px',
+                            color: '#7a3b2e',
+                            fontWeight: '600',
+                            marginTop: '4px',
+                            padding: '4px 8px',
+                            backgroundColor: 'rgba(122, 59, 46, 0.1)',
+                            borderRadius: '4px',
+                            borderLeft: '3px solid #7a3b2e'
+                        }}>
+                            {tooltip.content.effectSummary}
+                        </div>
+                    )}
+                    {tooltip.content.description && (
+                        <div className="equipment-slot-description" style={{ marginTop: '6px' }}>
+                            {tooltip.content.description}
+                        </div>
+                    )}
                     <div style={{
                         marginTop: '8px',
                         fontSize: '12px',

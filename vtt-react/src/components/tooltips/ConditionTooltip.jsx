@@ -28,7 +28,7 @@ const getConditionDescription = (condition) => {
             title: 'Paralyze',
             effects: [
                 'A paralyzed creature is incapacitated and can\'t move or speak.',
-                'The creature automatically fails Strength and Dexterity saving throws.',
+                'The creature automatically fails Strength and Agility saving throws.',
                 'Attack rolls against the creature have advantage.',
                 'Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature.'
             ]
@@ -114,6 +114,16 @@ const getConditionDescription = (condition) => {
             effects: [
                 'A frightened creature has disadvantage on ability checks and attack rolls while the source of its fear is within line of sight.',
                 'The creature can\'t willingly move closer to the source of its fear.'
+            ]
+        },
+        confused: {
+            title: 'Confused',
+            effects: [
+                'Target can\'t take reactions and must roll a d10 at the start of each of its turns to determine its behavior for that turn.',
+                '1: The creature uses all its movement to move in a random direction.',
+                '2-6: The creature doesn\'t move or take actions this turn.',
+                '7-8: The creature uses its action to make a melee attack against a randomly determined creature within its reach.',
+                '9-10: The creature can act and move normally.'
             ]
         },
         incapacitated: {

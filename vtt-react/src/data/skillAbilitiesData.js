@@ -170,7 +170,7 @@ export const SKILL_ABILITIES = [
         skill: 'animalHandling',
         baseDifficulty: 'd6',
         formula: '10 - PET_INT - PET_WIS + PLAYER_INT + PLAYER_WIS',
-        description: 'DC varies based on pet and player intelligence/wisdom'
+        description: 'DC varies based on pet and player intelligence/spirit'
       }
     }
   },
@@ -253,7 +253,7 @@ export const SKILL_ABILITIES = [
       duration: 1,
       durationUnit: 'rounds',
       saveDC: 0, // Opposed roll
-      saveType: 'strength', // Or dexterity
+      saveType: 'strength', // Or agility
       savingThrow: true,
       effects: [{
         id: 'bind',
@@ -476,7 +476,7 @@ export const SKILL_ABILITIES = [
   {
     id: 'skill_intimidation_taunt',
     name: 'Taunt',
-    description: 'With hostile intent you provoke nearby opponents within 15 ft., forcing them to attack you. (the effect lasts until the opponent succeeds their wisdom check, which is based on your Intimidation Roll) Intimidation Roll vs. Opponents Wisdom Save.',
+    description: 'With hostile intent you provoke nearby opponents within 15 ft., forcing them to attack you. (the effect lasts until the opponent succeeds their spirit check, which is based on your Intimidation Roll) Intimidation Roll vs. Opponents Spirit Save.',
     spellType: 'REACTION',
     effectTypes: ['control'],
     typeConfig: {
@@ -967,7 +967,7 @@ export const SKILL_ABILITIES = [
           effect: 'Temporary boost to attack rolls for next attack, equal to religion modifier'
         },
         {
-          id: 'wisdom_of_ancients',
+          id: 'spirit_of_ancients',
           roll: 4,
           name: 'Wisdom of the Ancients',
           effect: 'Advantage on next saving throw'

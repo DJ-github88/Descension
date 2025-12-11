@@ -1319,7 +1319,7 @@ Many players enhance the Toxicologist experience with:
 
       savingThrow: {
         enabled: true,
-        attribute: 'dexterity',
+        attribute: 'agility',
         difficulty: 17,
         onSuccess: 'half_damage',
         onFailure: 'full_effect'
@@ -1774,7 +1774,7 @@ Many players enhance the Toxicologist experience with:
 
       savingThrow: {
         enabled: true,
-        attribute: 'dexterity',
+        attribute: 'agility',
         difficulty: 15,
         onSuccess: 'half_damage',
         onFailure: 'full_damage'
@@ -2063,7 +2063,7 @@ Many players enhance the Toxicologist experience with:
         durationType: 'rounds',
         durationUnit: 'rounds',
         saveDC: 18,
-        saveType: 'dexterity',
+        saveType: 'agility',
         saveOutcome: 'halves_duration'
       },
 

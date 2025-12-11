@@ -1502,7 +1502,7 @@ export const SKILL_QUESTS = {
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_prayerofhealing.jpg',
             rank: 'MASTER',
             completed: false,
-            unlocks: ['Divine wisdom']
+            unlocks: ['Divine spirit']
         }
     ],
 
@@ -1596,7 +1596,7 @@ export const SKILL_QUESTS = {
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_satchelofcenarius.jpg',
             rank: 'MASTER',
             completed: false,
-            unlocks: ['Perfect dexterity']
+            unlocks: ['Perfect agility']
         }
     ],
 

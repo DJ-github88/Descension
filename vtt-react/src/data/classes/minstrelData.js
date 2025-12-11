@@ -1555,7 +1555,7 @@ Before combat, decide which cadences you want to prioritize:
         condition: {
           type: 'frightened',
           duration: 2,
-          saveType: 'wisdom',
+          saveType: 'spirit',
           saveDC: 14
         }
       },
@@ -1810,7 +1810,7 @@ Before combat, decide which cadences you want to prioritize:
         condition: {
           type: 'paralyzed',
           duration: 1,
-          saveType: 'wisdom',
+          saveType: 'spirit',
           saveDC: 18
         }
       },

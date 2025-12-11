@@ -18,7 +18,7 @@ export const PRIMARY_STAT_MODIFIERS = [
   {
     id: 'agility',
     name: 'Agility',
-    description: 'Influences dodge chance, movement speed, and dexterity checks',
+    description: 'Influences dodge chance, movement speed, and agility checks',
     defaultValue: 10,
     category: 'primary',
     icon: 'ability_rogue_quickrecovery',

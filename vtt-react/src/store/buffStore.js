@@ -16,6 +16,7 @@ const useBuffStore = create(
                     name: buff.name,
                     icon: buff.icon,
                     description: buff.description,
+                    effectSummary: buff.effectSummary || '',
                     effects: buff.effects || {},
                     duration: buff.duration || 60, // Duration in seconds
                     startTime: Date.now(),
@@ -28,7 +29,15 @@ const useBuffStore = create(
                     // Round-based duration properties
                     durationType: buff.durationType || 'minutes',
                     durationValue: buff.durationValue,
-                    remainingRounds: buff.remainingRounds
+                    remainingRounds: buff.remainingRounds,
+                    // Over-time effect properties
+                    hasOverTimeEffect: buff.hasOverTimeEffect || false,
+                    overTimeType: buff.overTimeType,
+                    overTimeFormula: buff.overTimeFormula,
+                    overTimeElement: buff.overTimeElement,
+                    tickFrequency: buff.tickFrequency,
+                    tickFrequencyValue: buff.tickFrequencyValue,
+                    tickFrequencyUnit: buff.tickFrequencyUnit
                 };
 
                 // For round-based buffs, don't set endTime (they don't expire automatically)

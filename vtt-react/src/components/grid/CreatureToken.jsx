@@ -22,6 +22,7 @@ import CreatureWindow from '../windows/CreatureWindow';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
 import ConditionsWindow from '../conditions/ConditionsWindow';
+import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import '../../styles/creature-token.css';
 import ShopWindow from '../shop/ShopWindow';
 
@@ -816,9 +817,20 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // State for conditions window
   const [showConditionsWindow, setShowConditionsWindow] = useState(false);
 
+  // State for buff/debuff creator modal
+  const [showBuffDebuffCreator, setShowBuffDebuffCreator] = useState(false);
+  const [buffDebuffInitialType, setBuffDebuffInitialType] = useState(null);
+
   // Handle opening conditions window
   const handleOpenConditions = () => {
     setShowConditionsWindow(true);
+    setShowContextMenu(false);
+  };
+
+  // Handle opening buff/debuff creator
+  const handleOpenBuffDebuffCreator = (type = null) => {
+    setBuffDebuffInitialType(type);
+    setShowBuffDebuffCreator(true);
     setShowContextMenu(false);
   };
 
@@ -2250,6 +2262,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               }
             },
             {
+              icon: <i className="fas fa-plus-circle"></i>,
+              label: 'Add Buff/Debuff',
+              onClick: (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleOpenBuffDebuffCreator();
+              }
+            },
+            {
               icon: <i className="fas fa-shield-alt"></i>,
               label: 'Toggle Defense',
               onClick: (e) => {
@@ -2598,40 +2619,126 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             </div>
           )}
 
-          {/* Active Conditions */}
-          {token.state.conditions && token.state.conditions.length > 0 && (
-            <div style={{
-              borderTop: '1px solid #a08c70',
-              paddingTop: '6px',
-              fontSize: '10px'
-            }}>
-              <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
-                Active Effects:
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {token.state.conditions.slice(0, 4).map((condition, index) => {
-                  const remaining = getConditionRemaining(condition).label;
-                  return (
-                    <span
-                      key={index}
-                      style={{
-                        color: '#333',
-                        fontWeight: 600,
-                        whiteSpace: 'nowrap'
-                      }}
-                    >
-                      {condition.name}{remaining ? ` (${remaining})` : ''}
+          {/* Active Conditions - Combined from token state and buff/debuff stores */}
+          {(() => {
+            // Combine all active effects from different sources
+            const tokenConditions = token.state.conditions || [];
+            const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
+            const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
+            
+            // Build combined list, avoiding duplicates by name
+            const seenNames = new Set();
+            const allEffects = [];
+            
+            // Add from buff/debuff stores first (they have more data)
+            [...tokenBuffs, ...tokenDebuffs].forEach(effect => {
+              if (!seenNames.has(effect.name)) {
+                seenNames.add(effect.name);
+                allEffects.push({
+                  name: effect.name,
+                  description: effect.description,
+                  effectSummary: effect.effectSummary,
+                  type: effect.type || (tokenBuffs.includes(effect) ? 'buff' : 'debuff'),
+                  color: effect.color,
+                  icon: effect.icon,
+                  durationType: effect.durationType,
+                  durationValue: effect.durationValue,
+                  remainingRounds: effect.remainingRounds,
+                  endTime: effect.endTime,
+                  startTime: effect.startTime,
+                  duration: effect.duration
+                });
+              }
+            });
+            
+            // Add remaining conditions from token state
+            tokenConditions.forEach(condition => {
+              if (!seenNames.has(condition.name)) {
+                seenNames.add(condition.name);
+                allEffects.push(condition);
+              }
+            });
+            
+            if (allEffects.length === 0) return null;
+            
+            const conditionDescriptions = {
+              'Confused': 'Target must roll d10 each turn: 1-move random, 2-6-do nothing, 7-8-attack random, 9-10-act normal',
+              'Stunned': 'Target can\'t move, speak, or take actions/reactions',
+              'Paralyzed': 'Target can\'t move or speak, auto-fails STR/AGI saves, adv. attacks vs target, crit on hit within 5ft',
+              'Frightened': 'Disadv. on checks/attacks while source in sight, can\'t move closer to source',
+              'Charmed': 'Can\'t attack charmer, charmer has adv. on social checks, charmer chooses target\'s movement',
+              'Poisoned': 'Disadv. on attack rolls and ability checks',
+              'Blinded': 'Can\'t see, auto-fails sight checks, adv. attacks vs target, target\'s attacks disadv.',
+              'Deafened': 'Can\'t hear, auto-fails hearing checks',
+              'Restrained': 'Speed 0, can\'t benefit from speed bonuses, disadv. on DEX saves, adv. attacks vs target',
+              'Grappled': 'Speed 0, ends if grappler incapacitated or effect removed from grappler\'s reach',
+              'Prone': 'Can only crawl, disadv. on attacks, adv. attacks vs target within 5ft (disadv. beyond 5ft)',
+              'Incapacitated': 'Can\'t take actions or reactions',
+              'Unconscious': 'Incapacitated, unaware, auto-fails STR/DEX saves, prone, adv. attacks vs target, crit within 5ft'
+            };
+            
+            return (
+              <div style={{
+                borderTop: '1px solid #a08c70',
+                paddingTop: '6px',
+                fontSize: '10px'
+              }}>
+                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                  Active Effects:
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {allEffects.slice(0, 4).map((effect, index) => {
+                    const remaining = getConditionRemaining(effect).label;
+                    const detailedDesc = conditionDescriptions[effect.name] || effect.effectSummary || effect.description || 'Effect active';
+                    const effectColor = effect.type === 'buff' ? '#32CD32' : effect.type === 'debuff' ? '#DC143C' : '#666';
+
+                    return (
+                      <div
+                        key={index}
+                        style={{
+                          color: '#333',
+                          fontWeight: 500,
+                          lineHeight: '1.3',
+                          borderLeft: `3px solid ${effect.color || effectColor}`,
+                          paddingLeft: '6px'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          {effect.icon && <i className={effect.icon} style={{ color: effect.color || effectColor, fontSize: '10px' }}></i>}
+                          <span style={{ fontWeight: 'bold' }}>{effect.name}</span>
+                          {remaining && (
+                            <span style={{ color: '#666', fontSize: '9px' }}>
+                              ({remaining})
+                            </span>
+                          )}
+                        </div>
+                        {effect.effectSummary && (
+                          <div style={{ fontSize: '9px', color: '#7a3b2e', marginTop: '1px', fontWeight: '600' }}>
+                            {effect.effectSummary}
+                          </div>
+                        )}
+                        {effect.description && effect.description !== effect.effectSummary && (
+                          <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
+                            {effect.description}
+                          </div>
+                        )}
+                        {!effect.effectSummary && !effect.description && conditionDescriptions[effect.name] && (
+                          <div style={{ fontSize: '9px', color: '#555', marginTop: '1px', fontStyle: 'italic' }}>
+                            {conditionDescriptions[effect.name]}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  {allEffects.length > 4 && (
+                    <span style={{ color: '#666', fontWeight: 600, fontSize: '9px' }}>
+                      +{allEffects.length - 4} more effects...
                     </span>
-                  );
-                })}
-                {token.state.conditions.length > 4 && (
-                  <span style={{ color: '#666', fontWeight: 600 }}>
-                    +{token.state.conditions.length - 4} more
-                  </span>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
         </div>,
         document.body
       );
@@ -2682,6 +2789,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         onClose={() => setShowConditionsWindow(false)}
         tokenId={tokenId}
         creature={creature}
+      />
+
+      {/* Buff/Debuff Creator Modal */}
+      <BuffDebuffCreatorModal
+        isOpen={showBuffDebuffCreator}
+        onClose={() => {
+          setShowBuffDebuffCreator(false);
+          setBuffDebuffInitialType(null);
+        }}
+        tokenId={tokenId}
+        creature={creature}
+        initialType={buffDebuffInitialType}
       />
 
       {/* Shop Window */}

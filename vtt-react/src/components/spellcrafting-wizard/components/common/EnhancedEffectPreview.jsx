@@ -317,8 +317,8 @@ const ConditionalDisplay = ({ triggerName, settings, formulas, effectType, isDeb
             icon="property-icon-save"
             label="Save"
             value={`DC ${settings.difficultyClass} (${
-              settings.savingThrow === 'dexterity' ? 'Agility' :
-              settings.savingThrow === 'wisdom' ? 'Spirit' :
+              settings.savingThrow === 'agility' ? 'Agility' :
+              settings.savingThrow === 'spirit' ? 'Spirit' :
               settings.savingThrow ? settings.savingThrow.charAt(0).toUpperCase() + settings.savingThrow.slice(1) :
               'Constitution'
             })`}
@@ -649,7 +649,7 @@ const EnhancedEffectPreview = ({
                   icon="property-icon-save"
                   label="Save"
                   value={`DC ${baseConfig.difficultyClass || '15'} (${
-                    baseConfig.savingThrow === 'dexterity' ? 'Agility' :
+                    baseConfig.savingThrow === 'agility' ? 'Agility' :
                     baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
                     baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
                     'Constitution'
@@ -710,7 +710,7 @@ const EnhancedEffectPreview = ({
                   icon="property-icon-save"
                   label="Save"
                   value={`DC ${baseConfig.difficultyClass || '15'} (${
-                    baseConfig.savingThrow === 'dexterity' ? 'Agility' :
+                    baseConfig.savingThrow === 'agility' ? 'Agility' :
                     baseConfig.savingThrow === 'wisdom' ? 'Spirit' :
                     baseConfig.savingThrow ? baseConfig.savingThrow.charAt(0).toUpperCase() + baseConfig.savingThrow.slice(1) :
                     'Strength'

@@ -179,7 +179,7 @@ export const createStandardEffect = (type, id, config = {}) => {
           durationUnit: config.durationUnit || 'rounds',
           savingThrow: config.savingThrow || {
             enabled: true,
-            attribute: 'wisdom',
+            attribute: 'spirit',
             dc: 12,
             effect: 'negate'
           },

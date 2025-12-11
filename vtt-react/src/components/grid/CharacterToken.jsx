@@ -12,6 +12,7 @@ import useLevelEditorStore from '../../store/levelEditorStore';
 // Removed useEnhancedMultiplayer import - hook was removed
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import ConditionsWindow from '../conditions/ConditionsWindow';
+import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/unified-context-menu.css';
 import '../../styles/creature-token.css';
@@ -1325,9 +1326,20 @@ const CharacterToken = ({
     // State for conditions window
     const [showConditionsWindow, setShowConditionsWindow] = useState(false);
 
+    // State for buff/debuff creator modal
+    const [showBuffDebuffCreator, setShowBuffDebuffCreator] = useState(false);
+    const [buffDebuffInitialType, setBuffDebuffInitialType] = useState(null);
+
     // Handle opening conditions window
     const handleOpenConditions = () => {
         setShowConditionsWindow(true);
+        setShowContextMenu(false);
+    };
+
+    // Handle opening buff/debuff creator
+    const handleOpenBuffDebuffCreator = (type = null) => {
+        setBuffDebuffInitialType(type);
+        setShowBuffDebuffCreator(true);
         setShowContextMenu(false);
     };
 
@@ -1905,6 +1917,15 @@ const CharacterToken = ({
                                 setShowContextMenu(false);
                                 handleOpenConditions();
                             }
+                        },
+                        {
+                            icon: <i className="fas fa-plus-circle"></i>,
+                            label: 'Add Buff/Debuff',
+                            onClick: (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleOpenBuffDebuffCreator();
+                            }
                         }
                     ]
                 });
@@ -2269,6 +2290,61 @@ const CharacterToken = ({
                             Targeted
                         </div>
                     )}
+
+                    {/* Active Effects */}
+                    {(() => {
+                        const tokenBuffs = (activeBuffs || []).filter(b => b.targetId === tokenId);
+                        const tokenDebuffs = (activeDebuffs || []).filter(d => d.targetId === tokenId);
+                        const allEffects = [...tokenBuffs, ...tokenDebuffs];
+                        
+                        if (allEffects.length === 0) return null;
+                        
+                        return (
+                            <div style={{
+                                borderTop: '1px solid #a08c70',
+                                paddingTop: '6px',
+                                fontSize: '10px'
+                            }}>
+                                <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                                    Active Effects:
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                    {allEffects.slice(0, 4).map((effect, index) => {
+                                        const isBuff = tokenBuffs.includes(effect);
+                                        const effectColor = effect.color || (isBuff ? '#32CD32' : '#DC143C');
+                                        
+                                        return (
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    color: '#333',
+                                                    fontWeight: 500,
+                                                    lineHeight: '1.3',
+                                                    borderLeft: `3px solid ${effectColor}`,
+                                                    paddingLeft: '6px'
+                                                }}
+                                            >
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                    {effect.icon && <i className={effect.icon} style={{ color: effectColor, fontSize: '10px' }}></i>}
+                                                    <span style={{ fontWeight: 'bold' }}>{effect.name}</span>
+                                                </div>
+                                                {effect.effectSummary && (
+                                                    <div style={{ fontSize: '9px', color: '#7a3b2e', marginTop: '1px', fontWeight: '600' }}>
+                                                        {effect.effectSummary}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                    {allEffects.length > 4 && (
+                                        <span style={{ color: '#666', fontWeight: 600, fontSize: '9px' }}>
+                                            +{allEffects.length - 4} more effects...
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })()}
                 </div>,
                 document.body
             )}
@@ -2295,6 +2371,25 @@ const CharacterToken = ({
                         maxActionPoints: characterData.actionPoints.max
                     }
                 }}
+            />
+
+            {/* Buff/Debuff Creator Modal */}
+            <BuffDebuffCreatorModal
+                isOpen={showBuffDebuffCreator}
+                onClose={() => {
+                    setShowBuffDebuffCreator(false);
+                    setBuffDebuffInitialType(null);
+                }}
+                tokenId={tokenId}
+                creature={{
+                    name: characterData.name,
+                    stats: {
+                        maxHp: characterData.health.max,
+                        maxMana: characterData.mana.max,
+                        maxActionPoints: characterData.actionPoints.max
+                    }
+                }}
+                initialType={buffDebuffInitialType}
             />
         </>
     );

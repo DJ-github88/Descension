@@ -111,7 +111,7 @@ export const SKILL_BASED_ACTIONS = [
         skill: 'animal_handling',
         difficulty: 'dynamic',
         formula: '10 - PET_INT - PET_WIS + PLAYER_INT + PLAYER_WIS',
-        description: 'DC varies based on pet and player intelligence/wisdom'
+        description: 'DC varies based on pet and player intelligence/spirit'
       },
       petCommand: {
         enabled: true,
@@ -173,7 +173,7 @@ export const SKILL_BASED_ACTIONS = [
         enabled: true,
         playerAttribute: 'strength',
         skill: 'athletics',
-        opponentChoice: ['strength', 'dexterity'],
+        opponentChoice: ['strength', 'agility'],
         onSuccess: {
           condition: 'restrained',
           duration: 'until_next_turn',
@@ -278,7 +278,7 @@ export const SKILL_BASED_ACTIONS = [
   {
     ...createSkillAction(
       'Taunt',
-      'Provoke nearby opponents within 15 ft, forcing them to attack you. Effect lasts until opponent succeeds wisdom check.',
+      'Provoke nearby opponents within 15 ft, forcing them to attack you. Effect lasts until opponent succeeds spirit check.',
       'intimidation',
       1,
       'spell_shadow_unholyfrenzy',
@@ -296,11 +296,11 @@ export const SKILL_BASED_ACTIONS = [
         enabled: true,
         playerAttribute: 'charisma',
         skill: 'intimidation',
-        opponentSave: 'wisdom',
+        opponentSave: 'spirit',
         onSuccess: {
           condition: 'taunted',
           effect: 'must_attack_caster',
-          duration: 'until_wisdom_save_success'
+          duration: 'until_spirit_save_success'
         }
       }
     }
@@ -454,7 +454,7 @@ export const SKILL_BASED_ACTIONS = [
         enabled: true,
         playerAttribute: 'charisma',
         skill: 'performance',
-        opponentSave: 'wisdom',
+        opponentSave: 'spirit',
         onFailure: {
           condition: 'mesmerized',
           effect: 'lose_next_turn'
@@ -488,7 +488,7 @@ export const SKILL_BASED_ACTIONS = [
         enabled: true,
         playerAttribute: 'charisma',
         skill: 'persuasion',
-        opponentSave: 'wisdom',
+        opponentSave: 'spirit',
         onFailure: {
           condition: 'confused',
           duration: 'until_save_success',
@@ -526,7 +526,7 @@ export const SKILL_BASED_ACTIONS = [
         enabled: true,
         skill: 'religion',
         difficulty: 'contested',
-        opponentSave: ['wisdom', 'intelligence']
+        opponentSave: ['spirit', 'intelligence']
       },
       boons: {
         1: {
@@ -581,7 +581,7 @@ export const SKILL_BASED_ACTIONS = [
       requirements: ['free_hand_available'],
       contestedCheck: {
         enabled: true,
-        playerAttribute: 'dexterity',
+        playerAttribute: 'agility',
         skill: 'sleight_of_hand',
         opponentSave: 'strength',
         onSuccess: {

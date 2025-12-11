@@ -2246,7 +2246,7 @@ Playing Gambler in person is uniquely satisfying because:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 19,
           saveOutcome: 'halves'
         }

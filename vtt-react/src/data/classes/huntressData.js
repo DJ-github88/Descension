@@ -1573,7 +1573,7 @@ Use a die or paper to track companion HP:
       effects: {
         buff: {
           acBonus: 2,
-          savingThrowAdvantage: 'dexterity',
+          savingThrowAdvantage: 'agility',
           duration: 1
         }
       },

@@ -1072,7 +1072,7 @@ export const HERMIT_ITEMS = [
             healthRestore: { value: 8, isPercentage: false } // Restores 8 HP when consumed
         },
         baseStats: {
-            wisdom: { value: 1, isPercentage: false } // +1 Wisdom (represents the solitary sustenance)
+            spirit: { value: 1, isPercentage: false } // +1 Spirit (represents the solitary sustenance)
         },
         availableFor: {
             backgrounds: ['hermit']

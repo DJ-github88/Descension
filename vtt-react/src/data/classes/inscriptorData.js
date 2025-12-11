@@ -1075,7 +1075,7 @@ Many players enhance the Inscriptor experience with:
           detonation: {
             enabled: true,
             saveDC: 15,
-            saveType: 'dexterity',
+            saveType: 'agility',
             effect: '2d8 piercing damage to all within 15 ft',
             description: 'Walls splinter, dealing 2d8 piercing damage (DC 15 DEX save)'
           }

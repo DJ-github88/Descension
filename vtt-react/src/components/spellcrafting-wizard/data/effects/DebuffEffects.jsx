@@ -381,9 +381,9 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
       // Get default save type for this effect
       const getDefaultSaveType = (effectId) => {
         const defaultSaves = {
-          'charmed': 'wisdom',
-          'frightened': 'wisdom',
-          'fear': 'wisdom',
+          'charmed': 'spirit',
+          'frightened': 'spirit',
+          'fear': 'spirit',
 
           'blinded': 'constitution',
           'blind': 'constitution',
@@ -393,10 +393,10 @@ const DebuffEffects = ({ state, dispatch, actionCreators, getDefaultFormula }) =
           'silenced': 'constitution',
 
           'weakened': 'constitution',
-          'confused': 'wisdom',
+          'confused': 'spirit',
           'diseased': 'constitution',
           'bleeding': 'constitution',
-          'cursed': 'wisdom'
+          'cursed': 'spirit'
         };
         return defaultSaves[effectId] || 'constitution';
       };

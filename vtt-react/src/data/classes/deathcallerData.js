@@ -1655,7 +1655,7 @@ Keep a note of which curses are affecting you:
         duration: 1,
         durationUnit: 'minutes',
         saveDC: 15,
-        saveType: 'wisdom',
+        saveType: 'spirit',
         saveOutcome: 'negates',
         savingThrow: true,
         effects: [{
@@ -2216,7 +2216,7 @@ Keep a note of which curses are affecting you:
       resolution: 'DICE',
       savingThrowConfig: {
         enabled: true,
-        savingThrowType: 'wisdom',
+        savingThrowType: 'spirit',
         difficultyClass: 18,
         saveOutcome: 'halves'
       },

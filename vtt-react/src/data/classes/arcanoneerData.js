@@ -1258,7 +1258,7 @@ MANA COSTS:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 14,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -1346,7 +1346,7 @@ MANA COSTS:
         },
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 14,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -1566,7 +1566,7 @@ MANA COSTS:
         secondaryElementType: 'cold',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 15,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -1813,7 +1813,7 @@ MANA COSTS:
         secondaryElementType: 'cold',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 15,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -1876,7 +1876,7 @@ MANA COSTS:
         secondaryElementType: 'necrotic',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -1942,7 +1942,7 @@ MANA COSTS:
         secondaryElementType: 'nature',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2005,7 +2005,7 @@ MANA COSTS:
         secondaryElementType: 'cold',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2138,7 +2138,7 @@ MANA COSTS:
         secondaryElementType: 'necrotic',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2208,7 +2208,7 @@ MANA COSTS:
         },
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2288,7 +2288,7 @@ MANA COSTS:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2352,7 +2352,7 @@ MANA COSTS:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2420,7 +2420,7 @@ MANA COSTS:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2488,7 +2488,7 @@ MANA COSTS:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2565,7 +2565,7 @@ MANA COSTS:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2648,7 +2648,7 @@ MANA COSTS:
         secondaryElementType: 'necrotic',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: 'damage/2',
@@ -2737,7 +2737,7 @@ MANA COSTS:
         secondaryElementType: 'cold',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: 'damage/2',

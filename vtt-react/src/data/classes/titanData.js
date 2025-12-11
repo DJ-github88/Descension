@@ -1018,7 +1018,7 @@ Many players enhance the titan experience with:
               championBonus: 15
             },
             savingThrows: {
-              dexterity: 'advantage'
+              agility: 'advantage'
             }
           }
         }
@@ -1032,7 +1032,7 @@ Many players enhance the titan experience with:
         }
       },
 
-      tags: ['passive', 'mobility', 'dexterity', 'astraeus', 'titan']
+      tags: ['passive', 'mobility', 'agility', 'astraeus', 'titan']
     },
 
     {
@@ -1716,7 +1716,7 @@ Many players enhance the titan experience with:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 15,
           saveOutcome: 'halves'
         }
@@ -1837,7 +1837,7 @@ Many players enhance the titan experience with:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 16,
           saveOutcome: 'halves'
         }
@@ -1895,7 +1895,7 @@ Many players enhance the titan experience with:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 16,
           saveOutcome: 'halves'
         }
@@ -1972,7 +1972,7 @@ Many players enhance the titan experience with:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 17,
           saveOutcome: 'halves'
         }
@@ -2220,7 +2220,7 @@ Many players enhance the titan experience with:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 17,
           saveOutcome: 'halves'
         },
@@ -2525,7 +2525,7 @@ Many players enhance the titan experience with:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 20,
           saveOutcome: 'halves'
         }

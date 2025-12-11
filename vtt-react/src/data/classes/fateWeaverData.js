@@ -2413,7 +2413,7 @@ Many players enhance the Fate Weaver experience with:
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 20,
           saveOutcome: 'halves'
         }

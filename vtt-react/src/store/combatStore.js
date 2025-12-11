@@ -279,6 +279,14 @@ const useCombatStore = create((set, get) => ({
                     newMovementUnlocked.delete(currentCombatant.tokenId);
                     newTurnStartPositions.delete(currentCombatant.tokenId);
 
+                    // Process over-time effects (DOT/HOT) at turn end
+                    try {
+                        const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
+                        processOverTimeEffectsForTarget(currentCombatant.tokenId, 'turn_end');
+                    } catch (error) {
+                        console.warn('Failed to process turn-end over-time effects:', error);
+                    }
+
                     // Decrement round-based conditions for the ending turn
                     try {
                         const { decrementRoundBasedBuffs } = require('./buffStore').default.getState();
@@ -375,6 +383,29 @@ const useCombatStore = create((set, get) => ({
 
                     } catch (error) {
                         console.error('❌ Failed to sync character AP on turn start:', error);
+                    }
+                }
+
+                // Process over-time effects (DOT/HOT) at turn start for the next combatant
+                if (nextCombatant) {
+                    try {
+                        const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
+                        processOverTimeEffectsForTarget(nextCombatant.tokenId, 'turn');
+                    } catch (error) {
+                        console.warn('Failed to process turn-start over-time effects:', error);
+                    }
+                }
+
+                // Process round-start effects when a new round begins
+                if (newRound > state.round) {
+                    try {
+                        const { processOverTimeEffectsForTarget } = require('../services/effectProcessingService');
+                        // Process round-based effects for all combatants
+                        state.turnOrder.forEach(combatant => {
+                            processOverTimeEffectsForTarget(combatant.tokenId, 'round');
+                        });
+                    } catch (error) {
+                        console.warn('Failed to process round-start over-time effects:', error);
                     }
                 }
 

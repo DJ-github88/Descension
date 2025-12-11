@@ -1174,7 +1174,7 @@ const StatusEffectConfigPopup = ({
             >
               <option value="constitution">Constitution</option>
               <option value="strength">Strength</option>
-              <option value="wisdom">Wisdom</option>
+              <option value="spirit">Spirit</option>
               <option value="agility">Agility</option>
               <option value="intelligence">Intelligence</option>
               <option value="charisma">Charisma</option>
@@ -1579,7 +1579,7 @@ const StatusEffectConfigPopup = ({
               onChange={(e) => updateEffectConfig('saveType', e.target.value)}
             >
               <option value="constitution">Constitution</option>
-              <option value="wisdom">Wisdom</option>
+              <option value="spirit">Spirit</option>
               <option value="charisma">Charisma</option>
               <option value="strength">Strength</option>
               <option value="agility">Agility</option>
@@ -1783,10 +1783,10 @@ const StatusEffectConfigPopup = ({
           <div className="effect-config-option">
             <label>Save Type</label>
             <select
-              value={statusEffectData?.saveType || 'wisdom'}
+              value={statusEffectData?.saveType || 'spirit'}
               onChange={(e) => updateEffectConfig('saveType', e.target.value)}
             >
-              <option value="wisdom">Wisdom</option>
+              <option value="spirit">Spirit</option>
               <option value="charisma">Charisma</option>
               <option value="intelligence">Intelligence</option>
               <option value="constitution">Constitution</option>
@@ -2124,10 +2124,10 @@ const StatusEffectConfigPopup = ({
           <div className="effect-config-option">
             <label>Save Type</label>
             <select
-              value={statusEffectData?.saveType || 'wisdom'}
+              value={statusEffectData?.saveType || 'spirit'}
               onChange={(e) => updateEffectConfig('saveType', e.target.value)}
             >
-              <option value="wisdom">Wisdom</option>
+              <option value="spirit">Spirit</option>
               <option value="charisma">Charisma</option>
               <option value="intelligence">Intelligence</option>
               <option value="constitution">Constitution</option>
@@ -2583,10 +2583,10 @@ const StatusEffectConfigPopup = ({
               onChange={(e) => updateEffectConfig('saveType', e.target.value)}
             >
               <option value="strength">Strength</option>
-              <option value="dexterity">Dexterity</option>
+              <option value="agility">Agility</option>
               <option value="constitution">Constitution</option>
               <option value="intelligence">Intelligence</option>
-              <option value="wisdom">Wisdom</option>
+              <option value="spirit">Spirit</option>
               <option value="charisma">Charisma</option>
             </select>
           </div>
@@ -3816,8 +3816,8 @@ const StatusEffectConfigPopup = ({
                   <span>Strength</span>
                 </button>
                 <button
-                  className={`effect-option-button ${statusEffectData?.attribute === 'dexterity' ? 'active' : ''}`}
-                  onClick={() => updateEffectConfig('attribute', 'dexterity')}
+                  className={`effect-option-button ${statusEffectData?.attribute === 'agility' ? 'active' : ''}`}
+                  onClick={() => updateEffectConfig('attribute', 'agility')}
                 >
                   <span>Dexterity</span>
                 </button>
@@ -3834,8 +3834,8 @@ const StatusEffectConfigPopup = ({
                   <span>Intelligence</span>
                 </button>
                 <button
-                  className={`effect-option-button ${statusEffectData?.attribute === 'wisdom' ? 'active' : ''}`}
-                  onClick={() => updateEffectConfig('attribute', 'wisdom')}
+                  className={`effect-option-button ${statusEffectData?.attribute === 'spirit' ? 'active' : ''}`}
+                  onClick={() => updateEffectConfig('attribute', 'spirit')}
                 >
                   <span>Wisdom</span>
                 </button>
@@ -4063,10 +4063,10 @@ const StatusEffectConfigPopup = ({
             >
               <option value="none">No Save</option>
               <option value="strength">Strength</option>
-              <option value="dexterity">Dexterity</option>
+              <option value="agility">Agility</option>
               <option value="constitution">Constitution</option>
               <option value="intelligence">Intelligence</option>
-              <option value="wisdom">Wisdom</option>
+              <option value="spirit">Spirit</option>
               <option value="charisma">Charisma</option>
             </select>
           </div>

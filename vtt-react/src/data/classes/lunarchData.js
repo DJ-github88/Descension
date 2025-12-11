@@ -1024,7 +1024,7 @@ START: Always New Moon
       },
 
       savingThrow: {
-        ability: 'dexterity',
+        ability: 'agility',
         dc: 14,
         onSave: 'half'
       },
@@ -1633,12 +1633,12 @@ START: Always New Moon
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d6 + dexterity',
+        formula: '8d6 + agility',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 17,
           saveOutcome: 'halves'
         }
@@ -1755,7 +1755,7 @@ START: Always New Moon
       effectTypes: ['healing', 'purification'],
 
       healingConfig: {
-        formula: '6d8 + wisdom',
+        formula: '6d8 + spirit',
         healingType: 'direct',
         hasHotEffect: true,
         hotFormula: '2d6',
@@ -1817,7 +1817,7 @@ START: Always New Moon
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '10d8 + dexterity * 2',
+        formula: '10d8 + agility * 2',
         elementType: 'force',
         damageType: 'direct',
         specialRules: 'Ignores cover, concealment, and armor. Hits all enemies in line.'
@@ -1984,12 +1984,12 @@ START: Always New Moon
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '12d8 + dexterity * 2',
+        formula: '12d8 + agility * 2',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 19,
           saveOutcome: 'halves'
         }
@@ -2115,7 +2115,7 @@ START: Always New Moon
       },
 
       healingConfig: {
-        formula: '8d8 + wisdom',
+        formula: '8d8 + spirit',
         healingType: 'direct',
         hasHotEffect: false
       },
@@ -2227,12 +2227,12 @@ START: Always New Moon
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '20d10 + dexterity * 3',
+        formula: '20d10 + agility * 3',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'dexterity',
+          savingThrowType: 'agility',
           difficultyClass: 22,
           saveOutcome: 'halves'
         },
@@ -2292,7 +2292,7 @@ START: Always New Moon
       },
 
       healingConfig: {
-        formula: '4d8 + wisdom',
+        formula: '4d8 + spirit',
         healingType: 'hot',
         hasHotEffect: true,
         hotFormula: '4d8',
@@ -2368,7 +2368,7 @@ START: Always New Moon
     {
       id: 'lunarch_lunar_blessing',
       name: 'Lunar Blessing',
-      description: 'Bless an ally with lunar power, healing them for 1d8 + wisdom.',
+      description: 'Bless an ally with lunar power, healing them for 1d8 + spirit.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['healing'],
@@ -2578,7 +2578,7 @@ START: Always New Moon
     {
       id: 'lunarch_full_moon_radiance',
       name: 'Full Moon Radiance',
-      description: 'Channel the full moon to heal all allies in a 20 foot radius for 5d8 + wisdom.',
+      description: 'Channel the full moon to heal all allies in a 20 foot radius for 5d8 + spirit.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['healing'],

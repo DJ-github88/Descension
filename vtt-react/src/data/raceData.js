@@ -322,7 +322,7 @@ export const RACE_DATA = {
                                     description: 'Advantage on one Intelligence or Spirit check',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'Ancestral spirits provide insight and wisdom'
+                                        description: 'Ancestral spirits provide insight and spirit'
                                     }
                                 }
                             ],
@@ -335,7 +335,7 @@ export const RACE_DATA = {
                             selectedEffects: [{
                                 id: 'prediction',
                                 name: 'Prediction',
-                                description: 'Communicate with ancestor spirits for guidance and wisdom.'
+                                description: 'Communicate with ancestor spirits for guidance and spirit.'
                             }],
                             duration: 0,
                             durationUnit: 'instant',
@@ -590,7 +590,7 @@ export const RACE_DATA = {
         variantDiversity: 'The Corvani are divided into two major bloodlines: The Raven-Seers dedicate themselves to prophecy and fate-reading, serving as seers and advisors, while the Mist-Runners train as messengers and scouts, navigating the treacherous highland paths.',
         integrationNotes: {
             actionPointSystem: 'Corvani abilities often involve perception, divination, and mobility, offering unique tactical advantages in information gathering and positioning.',
-            backgroundSynergy: 'Corvani excel in backgrounds that emphasize wisdom, perception, and supernatural connections. Their prophetic abilities complement mystical and spiritual paths.',
+            backgroundSynergy: 'Corvani excel in backgrounds that emphasize spirit, perception, and supernatural connections. Their prophetic abilities complement mystical and spiritual paths.',
             classCompatibility: 'Corvani make excellent spellcasters, scouts, and support characters. Their perception bonuses and divination abilities enhance classes that rely on information and foresight.'
         },
         meaningfulTradeoffs: 'Corvani variants gain powerful perception and divination abilities but often suffer from physical frailty or vulnerability to specific damage types. Their gifts come with compulsions and drawbacks.',
@@ -1501,7 +1501,7 @@ export const RACE_DATA = {
         variantDiversity: 'The Vheil are divided into two major bloodlines: The Spirit-Talkers dedicate themselves to communication with the dead and serving as intermediaries, while the Between-Walkers traverse the boundaries between planes and explore the spaces between worlds.',
         integrationNotes: {
             actionPointSystem: 'Vheil abilities focus on perception, communication with otherworldly entities, and brief planar transitions. Their ethereal nature provides unique utility and defensive options.',
-            backgroundSynergy: 'Vheil excel in backgrounds emphasizing wisdom, spirituality, and supernatural knowledge. Their connection to other planes complements mystical and divine paths.',
+            backgroundSynergy: 'Vheil excel in backgrounds emphasizing spirit, spirituality, and supernatural knowledge. Their connection to other planes complements mystical and divine paths.',
             classCompatibility: 'Vheil make excellent clerics, mediums, and support casters. Their ability to perceive hidden threats and communicate with spirits provides valuable party utility.'
         },
         meaningfulTradeoffs: 'Vheil gain powerful perception and planar abilities but suffer from physical frailty and mental strain from constant exposure to multiple realities. Their gifts can be overwhelming.',
@@ -2949,7 +2949,7 @@ export const RACE_DATA = {
                                     description: 'Nature spirits provide insight',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'Spirits share their wisdom'
+                                        description: 'Spirits share their spirit'
                                     }
                                 }
                             ],
@@ -2963,7 +2963,7 @@ export const RACE_DATA = {
                             selectedEffects: [{
                                 id: 'communication',
                                 name: 'Communication',
-                                description: 'Commune with nature spirits to gain wisdom about the natural world.'
+                                description: 'Commune with nature spirits to gain spirit about the natural world.'
                             }],
                             duration: 0,
                             durationUnit: 'instant',

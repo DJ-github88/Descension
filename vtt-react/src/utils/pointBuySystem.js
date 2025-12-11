@@ -51,7 +51,7 @@ export const ABILITY_SCORES = [
         id: 'agility',
         name: 'Agility',
         shortName: 'AGI',
-        description: 'Speed, reflexes, and dexterity. Affects ranged attacks, stealth, and initiative.',
+        description: 'Speed, reflexes, and agility. Affects ranged attacks, stealth, and initiative.',
         icon: 'fas fa-running'
     },
     {
