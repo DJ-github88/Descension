@@ -59,7 +59,7 @@ export const initializePortalSystem = () => {
     const preparePortalContainers = () => {
         // Force a reflow to ensure all CSS is applied
         if (document.body) {
-            document.body.offsetHeight;
+            const _forceReflow = document.body.offsetHeight; // eslint-disable-line no-unused-vars
         }
 
         // Add production-specific portal container if needed

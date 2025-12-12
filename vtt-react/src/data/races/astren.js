@@ -11,6 +11,7 @@ export const astren = {
             actionPointSystem: 'Astren abilities focus on cosmic energy, gravity manipulation, and reality warping. Their alien nature provides unique tactical options.',
             backgroundSynergy: 'Astren excel in backgrounds emphasizing knowledge, cosmic power, and alien perspectives. Their otherworldly nature creates compelling roleplay.',
             classCompatibility: 'Astren make excellent cosmic casters, gravity manipulators, and knowledge seekers. Their abilities enhance classes that warp reality.'
+        }
 };
 
 export default astren;

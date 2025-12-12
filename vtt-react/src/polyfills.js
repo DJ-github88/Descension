@@ -2,7 +2,7 @@
 
 // Immediate process polyfill - must be first to avoid circular references
 (function() {
-    'use strict';
+    
 
     // Create a comprehensive process polyfill
     // Use webpack's DefinePlugin injected environment variables
@@ -10,7 +10,7 @@
         env: {
             NODE_ENV: typeof process !== 'undefined' && process.env && process.env.NODE_ENV
                 ? process.env.NODE_ENV
-                : (typeof __NODE_ENV__ !== 'undefined' ? __NODE_ENV__ : 'development'),
+                : 'development',
             PUBLIC_URL: typeof process !== 'undefined' && process.env && process.env.PUBLIC_URL
                 ? process.env.PUBLIC_URL
                 : '',
@@ -99,7 +99,7 @@
 
 // Global polyfill - must be early
 (function() {
-    'use strict';
+    
 
     if (typeof window !== 'undefined') {
         if (typeof window.global === 'undefined') {
@@ -119,7 +119,7 @@
 
 // Buffer polyfill
 (function() {
-    'use strict';
+    
 
     if (typeof window !== 'undefined' && typeof window.Buffer === 'undefined') {
         try {
@@ -149,7 +149,7 @@
 
 // ULTIMATE TITLE POLYFILL - Addresses persistent "title is not defined" ReferenceError
 (function() {
-    'use strict';
+    
 
     if (typeof window !== 'undefined') {
         // Define title in every possible scope and context
@@ -240,7 +240,7 @@ if (!String.prototype.includes) {
 
 // Drag and Drop API polyfills for better browser compatibility
 (function() {
-    'use strict';
+    
 
     if (typeof window !== 'undefined') {
         // Ensure DataTransfer constructor exists
@@ -314,7 +314,7 @@ if (!String.prototype.includes) {
 
 // Handle async listener errors (Chrome extension compatibility)
 (function() {
-    'use strict';
+    
 
     if (typeof window !== 'undefined') {
         // Suppress async listener errors that can occur with browser extensions

@@ -10,7 +10,7 @@ export const volketh = {
         integrationNotes: {
             actionPointSystem: 'Volketh abilities focus on lightning damage, mobility, and area control. Their electrical nature provides powerful offensive options but can be unpredictable.',
             backgroundSynergy: 'Volketh excel in backgrounds emphasizing survival, trauma, and disaster recovery. Their storm-scarred nature complements aggressive and mobile playstyles.',
-            classCompatibility: 'Volketh make excellent elemental casters, mobile strikers, and warriors who channel their trauma. Their lightning abilities enhance classes that deal burst damage.'
+            classCompatibility: 'Volketh make excellent elemental casters, mobile strikers, and warriors who channel their trauma. Their lightning abilities enhance classes that deal burst damage.',
 };
 
 export default volketh;

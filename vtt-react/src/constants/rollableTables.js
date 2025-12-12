@@ -24,6 +24,7 @@ import { ARCANE_KNOWLEDGE_TABLES } from './arcaneKnowledgeTables.js';
 import { RITUAL_MAGIC_TABLES } from './ritualMagicTables.js';
 import { ARCANA_TABLES } from './arcanaTables.js';
 import { HISTORY_TABLES } from './historyTables.js';
+import { RELIGION_TABLES } from './religionTables.js';
 
 // Inline Weapon Mastery tables (d8 only, per proficiency) — tuned to scale cleanly per rank
 const WEAPON_MASTERY_TABLES = {
@@ -140,7 +141,6 @@ const WEAPON_MASTERY_TABLES = {
         ]
     }
 };
-import { RELIGION_TABLES } from './religionTables.js';
 
 export const ROLLABLE_TABLES = {
     // Import all multi-dimensional skill tables

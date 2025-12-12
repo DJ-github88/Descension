@@ -209,9 +209,9 @@ const formatResistanceValue = (value, damageType) => {
 };
 
 const SimpleCreatureTooltip = ({ creature }) => {
-  if (!creature) return null;
-
   const { items: itemLibrary } = useItemStore();
+
+  if (!creature) return null;
 
   // Get size mapping for grid display
   const sizeMapping = getCreatureSizeMapping(creature.size);

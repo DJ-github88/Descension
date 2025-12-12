@@ -10,7 +10,7 @@ export const drennar = {
         integrationNotes: {
             actionPointSystem: 'Drennar abilities focus on pressure manipulation, bioluminescence, and aquatic superiority. Their pressure-damaged bodies provide unique tactical options.',
             backgroundSynergy: 'Drennar excel in backgrounds emphasizing survival, endurance, and trauma recovery. Their deformed bodies create interesting challenges on land.',
-            classCompatibility: 'Drennar make excellent ambush specialists, pressure mages, and patient strategists. Their abilities enhance classes that rely on positioning and control.'
+            classCompatibility: 'Drennar make excellent ambush specialists, pressure mages, and patient strategists. Their abilities enhance classes that rely on positioning and control.',
 };
 
 export default drennar;

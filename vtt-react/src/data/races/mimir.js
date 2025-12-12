@@ -10,7 +10,7 @@ export const mimir = {
         integrationNotes: {
             actionPointSystem: 'Mimir abilities focus on deception, adaptation, and identity manipulation. Their shapeshifting provides unique infiltration and social options.',
             backgroundSynergy: 'Mimir excel in backgrounds emphasizing deception, adaptability, and social manipulation. Their identity crisis can create compelling roleplay opportunities.',
-            classCompatibility: 'Mimir make excellent rogues, spies, and social characters. Their shapeshifting abilities enhance classes that rely on deception and infiltration.'
+            classCompatibility: 'Mimir make excellent rogues, spies, and social characters. Their shapeshifting abilities enhance classes that rely on deception and infiltration.',
 };
 
 export default mimir;

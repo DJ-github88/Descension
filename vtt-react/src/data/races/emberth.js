@@ -10,7 +10,7 @@ export const emberth = {
         integrationNotes: {
             actionPointSystem: 'Emberth abilities focus on fire damage, crafting, and aggressive combat. Their inner flames provide offensive options but create environmental hazards.',
             backgroundSynergy: 'Emberth excel in backgrounds emphasizing strength, crafting, and combat prowess. Their fire nature complements aggressive and creative paths.',
-            classCompatibility: 'Emberth make excellent warriors, smiths, and fire-based casters. Their fire immunity and physical bonuses enhance classes that engage in direct combat.'
+            classCompatibility: 'Emberth make excellent warriors, smiths, and fire-based casters. Their fire immunity and physical bonuses enhance classes that engage in direct combat.',
 };
 
 export default emberth;

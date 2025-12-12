@@ -162,7 +162,6 @@ export const validateSpellSystem = () => {
     ].forEach(error => {
       console.error(`  - ${error}`);
     });
-  }
 
   return overallResults;
 };

@@ -10,7 +10,7 @@ export const morthel = {
         integrationNotes: {
             actionPointSystem: 'Neth abilities focus on durability, undead resilience, and obsessive dedication. Their immortal nature provides unique advantages but comes with compulsions.',
             backgroundSynergy: 'Neth excel in backgrounds emphasizing knowledge, dedication, and endurance. Their undead nature creates unique roleplay challenges and opportunities.',
-            classCompatibility: 'Neth make excellent tanks, knowledge specialists, and undead-themed casters. Their immunities and resilience enhance classes that benefit from durability.'
+            classCompatibility: 'Neth make excellent tanks, knowledge specialists, and undead-themed casters. Their immunities and resilience enhance classes that benefit from durability.',
 };
 
 export default morthel;

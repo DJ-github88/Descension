@@ -1,6 +1,13 @@
 // Import polyfills first
 import './polyfills';
 
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import './styles/currency-notification.css';
+import App from './App';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 // ULTIMATE NUCLEAR OPTION: Define title globally in all possible scopes
 // This error is persistent and happening in compiled code, so we need to be more aggressive
 if (typeof window !== 'undefined') {
@@ -29,13 +36,6 @@ if (typeof window !== 'undefined') {
 var title = typeof document !== 'undefined' ? (document.title || '') : '';
 let titleVar = typeof document !== 'undefined' ? (document.title || '') : '';
 const titleConst = typeof document !== 'undefined' ? (document.title || '') : '';
-
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import './styles/currency-notification.css';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

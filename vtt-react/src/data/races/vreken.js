@@ -10,7 +10,7 @@ export const vreken = {
         integrationNotes: {
             actionPointSystem: 'Vreken abilities focus on transformation, tracking, and bestial combat. Their shapeshifting provides versatile tactical options but carries risks.',
             backgroundSynergy: 'Vreken excel in backgrounds emphasizing nature, survival, and primal power. Their curse creates compelling internal conflicts and roleplay opportunities.',
-            classCompatibility: 'Vreken make excellent druids, rangers, and primal warriors. Their transformation abilities enhance classes that benefit from versatility and physical prowess.'
+            classCompatibility: 'Vreken make excellent druids, rangers, and primal warriors. Their transformation abilities enhance classes that benefit from versatility and physical prowess.',
 };
 
 export default vreken;

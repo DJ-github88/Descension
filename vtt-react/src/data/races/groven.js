@@ -10,7 +10,7 @@ export const groven = {
         integrationNotes: {
             actionPointSystem: 'Groven abilities focus on nature magic, physical prowess, and environmental manipulation. Their connection to nature provides unique tactical options in natural settings.',
             backgroundSynergy: 'Groven excel in backgrounds emphasizing nature, protection, and primal power. Their grove bonds create strong territorial motivations.',
-            classCompatibility: 'Groven make excellent druids, rangers, and nature warriors. Their physical bonuses and nature magic enhance classes that operate in wilderness settings.'
+            classCompatibility: 'Groven make excellent druids, rangers, and nature warriors. Their physical bonuses and nature magic enhance classes that operate in wilderness settings.',
 };
 
 export default groven;

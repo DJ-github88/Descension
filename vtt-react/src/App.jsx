@@ -18,6 +18,34 @@ import UserProfile from "./components/auth/UserProfile";
 import DialogueSystem from "./components/dialogue/DialogueSystem";
 import DialogueControls from "./components/dialogue/DialogueControls";
 import LevelUpChoiceModal from "./components/modals/LevelUpChoiceModal";
+import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
+import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
+import initChatStore from './utils/initChatStore';
+import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
+import { initializePortalSystem } from './utils/portalUtils';
+import { initializeCleanSpellLibrary, clearSpellLibraryNow } from './utils/clearSpellLibrary';
+import './services/roomService';
+import './styles/player-notification.css';
+import './styles/wow-classic-tooltip.css';
+import './styles/skill-roll-notification.css';
+import './styles/wow-window.css';
+import './styles/draggable-window.css';
+import './styles/Grid.css';
+import './styles/character-sheet-isolation.css';
+import './styles/character-sheet.css';
+import './styles/game-screen.css';
+import './styles/grid-item.css';
+import './styles/party-hud.css';
+import './styles/creature-token.css';
+import './components/multiplayer/styles/MultiplayerApp.css';
+import './components/multiplayer/styles/RoomLobby.css';
+import './components/multiplayer/styles/ChatWindow.css';
+import './components/account/styles/RoomManager.css';
+import './styles/multiplayer-button.css';
+import './components/ui/ActionBar.css';
+import './components/account/styles/AccountDashboardIsolation.css';
+import './components/character-creation-wizard/styles/CharacterCreationWizard.css';
+import './components/hud/styles/ClassResourceBar.css';
 
 // Lazy load heavy components to reduce initial bundle size
 const Grid = lazy(() => import("./components/Grid"));
@@ -34,9 +62,7 @@ const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
 const CombatTimeline = lazy(() => import("./components/combat/CombatTimeline"));
 const DiceRollingSystem = lazy(() => import("./components/dice/DiceRollingSystem"));
-import { FloatingCombatTextManager } from "./components/combat/FloatingCombatText";
 const LocalRoomIndicator = lazy(() => import("./components/local-room/LocalRoomIndicator"));
-import useLocalRoomAutoSave from "./hooks/useLocalRoomAutoSave";
 
 // Lazy load page components
 const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerApp"));
@@ -47,54 +73,6 @@ const CharacterViewPage = lazy(() => import("./components/account/CharacterViewP
 
 // Test components
 const TestTriggerDisplay = lazy(() => import("./components/spellcrafting-wizard/test/TestTriggerDisplay"));
-
-
-import initChatStore from './utils/initChatStore';
-import initCreatureStore, { removeDuplicateCreatures } from './utils/initCreatureStore';
-import { initializePortalSystem } from './utils/portalUtils';
-import { initializeCleanSpellLibrary, clearSpellLibraryNow } from './utils/clearSpellLibrary';
-// Debug utilities removed - no longer needed
-
-// Preload roomService to prevent chunk loading issues
-import './services/roomService';
-
-// Core styles that are always needed
-import './styles/player-notification.css';
-import './styles/wow-classic-tooltip.css';
-import './styles/skill-roll-notification.css';
-
-// Critical window styles - must be loaded immediately for production
-import './styles/wow-window.css';
-import './styles/draggable-window.css';
-
-// Preload game styles to prevent layout shifts when creating rooms
-import './styles/Grid.css';
-import './styles/character-sheet-isolation.css';
-import './styles/character-sheet.css';
-import './styles/game-screen.css';
-import './styles/grid-item.css';
-import './styles/party-hud.css';
-import './styles/creature-token.css';
-// NOTE: item-wizard.css moved to loadGameStyles() to prevent global input pollution
-
-// Preload multiplayer styles to prevent layout shifts when creating rooms
-import './components/multiplayer/styles/MultiplayerApp.css';
-import './components/multiplayer/styles/RoomLobby.css';
-import './components/multiplayer/styles/ChatWindow.css';
-import './components/account/styles/RoomManager.css';
-import './styles/multiplayer-button.css';
-
-// Preload ActionBar CSS to ensure it's available for both single-player and multiplayer
-import './components/ui/ActionBar.css';
-
-// Preload account dashboard isolation to override game styles
-import './components/account/styles/AccountDashboardIsolation.css';
-
-// Preload character creation wizard styles to ensure they're available immediately
-import './components/character-creation-wizard/styles/CharacterCreationWizard.css';
-
-// Preload ClassResourceBar CSS since it's used in rules section (before entering game)
-import './components/hud/styles/ClassResourceBar.css';
 
 
 // Track dynamically loaded stylesheets for cleanup

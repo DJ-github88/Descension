@@ -10,7 +10,7 @@ export const vheil = {
         integrationNotes: {
             actionPointSystem: 'Vheil abilities focus on perception, communication with otherworldly entities, and brief planar transitions. Their ethereal nature provides unique utility and defensive options.',
             backgroundSynergy: 'Vheil excel in backgrounds emphasizing wisdom, spirituality, and supernatural knowledge. Their connection to other planes complements mystical and divine paths.',
-            classCompatibility: 'Vheil make excellent clerics, mediums, and support casters. Their ability to perceive hidden threats and communicate with spirits provides valuable party utility.'
+            classCompatibility: 'Vheil make excellent clerics, mediums, and support casters. Their ability to perceive hidden threats and communicate with spirits provides valuable party utility.',
 };
 
 export default vheil;

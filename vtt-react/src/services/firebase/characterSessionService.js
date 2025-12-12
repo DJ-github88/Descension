@@ -18,6 +18,7 @@ import {
   runTransaction
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured, isDemoMode } from '../../config/firebase';
+import characterPersistenceService from './characterPersistenceService';
 
 // Import sync service for offline handling
 let characterSyncService = null;
@@ -28,7 +29,6 @@ const getSyncService = async () => {
   }
   return characterSyncService;
 };
-import characterPersistenceService from './characterPersistenceService';
 
 // Collection names
 const COLLECTIONS = {

@@ -1,4 +1,5 @@
 ﻿// Talent tree constants are defined after TALENT_TREES
+export const TALENT_TREES = {
   'Chronarch': {
     'stasis': CHRONARCH_TEMPORAL_CONTROL,
     'displacement': CHRONARCH_TIME_MANIPULATION,

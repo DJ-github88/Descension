@@ -10,7 +10,7 @@ export const grimheart = {
         integrationNotes: {
             actionPointSystem: 'Grimheart abilities focus on durability, crafting, and earth manipulation. Their stone-like nature provides defensive options but limits mobility.',
             backgroundSynergy: 'Grimheart work well with backgrounds emphasizing crafting, endurance, and physical prowess. Their obsessive nature can complement dedicated specialist paths.',
-            classCompatibility: 'Grimheart excel as tanks, crafters, and earth-based casters. Their high constitution and defensive abilities make them natural frontliners, though their reduced speed requires tactical positioning.'
+            classCompatibility: 'Grimheart excel as tanks, crafters, and earth-based casters. Their high constitution and defensive abilities make them natural frontliners, though their reduced speed requires tactical positioning.',
 };
 
 export default grimheart;
