@@ -699,13 +699,6 @@ const AccountDashboard = ({ user }) => {
                   </div>
                   <h3>No Characters Yet</h3>
                   <p>Create your first character to begin your adventure in the world of Mythrill!</p>
-                  <button
-                    className="create-first-character-btn"
-                    onClick={handleCreateCharacter}
-                  >
-                    <i className="fas fa-plus"></i>
-                    Create Your First Character
-                  </button>
                 </div>
               )}
             </div>

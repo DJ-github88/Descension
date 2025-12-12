@@ -242,7 +242,21 @@ const useAuthStore = create(
         set({ isLoading: true, error: null });
 
         try {
-          const { user } = get();
+          const { user, isDevelopmentBypass } = get();
+
+          // If development bypass user, just disable development bypass
+          if (isDevelopmentBypass) {
+            console.log('🧹 Disabling development bypass on sign out');
+            set({
+              user: null,
+              userData: null,
+              isAuthenticated: false,
+              isDevelopmentBypass: false,
+              error: null
+            });
+            console.log('✅ Development bypass disabled - user logged out');
+            return { success: true };
+          }
 
           // If guest user, just clear localStorage
           if (user?.isGuest) {

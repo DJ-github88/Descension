@@ -1,9 +1,11 @@
 /**
  * Race Data Module
- * 
+ *
  * Defines all playable races and their subraces with complete mechanical data
  * including stat modifiers, racial traits, languages, lifespans, and movement speeds.
  */
+
+import { ABILITY_SCORES } from '../utils/pointBuySystem';
 
 // Base race definitions with their subraces
 export const RACE_DATA = {
@@ -45,7 +47,7 @@ export const RACE_DATA = {
                     {
                         id: 'frostborn_nordmark',
                         name: 'Frostborn',
-                        description: 'Born of the eternal winter, your blood runs cold as the glaciers - reduce cold damage taken by 50%.',
+                        description: 'Generations of surviving the endless white have forged your bloodline into something almost glacial, your very essence tempered by the cold that would shatter lesser folk.',
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
@@ -62,7 +64,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'cold_resistance',
                                     name: 'Cold Resistance',
-                                    description: 'Born of eternal winter - reduce cold damage by 50%',
+                                    description: 'Your bloodline, shaped by endless winters, naturally resists the cold that would freeze others',
                                     statModifier: {
                                         stat: 'cold_resistance',
                                         magnitude: 50,
@@ -83,7 +85,7 @@ export const RACE_DATA = {
                     {
                         id: 'battle_fury_nordmark',
                         name: 'Battle Fury',
-                        description: 'When reduced to half hit points or below, enter a berserker rage. Gain +5 to slashing, bludgeoning, piercing, and ranged damage. Lose 2 armor and 2 to saving throws.',
+                        description: 'When death draws near, the ancient berserker blood awakens, flooding your veins with the fury that carved kingdoms from ice, trading caution for primal strength that echoes your warrior-king ancestors.',
                         level: 1,
                         icon: 'ability_warrior_rampage',
                         spellType: 'PASSIVE',
@@ -203,7 +205,7 @@ export const RACE_DATA = {
                     {
                         id: 'rage_burn_nordmark',
                         name: 'Rage Burn',
-                        description: 'Fire & Psychic Vulnerability • Permanent',
+                        description: 'The berserker fury that fuels your bloodline leaves you hollow when it fades, your spirit scarred and vulnerable to flames that echo the burning rage within, and psychic forces that prey upon your fractured mind.',
                         level: 1,
                         icon: 'spell_fire_soulburn',
                         spellType: 'PASSIVE',
@@ -220,7 +222,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    description: 'Take 50% more fire damage',
+                                    description: 'The inner rage that sustains you makes you vulnerable to external flames that mirror your burning fury',
                                     statusEffect: {
                                         vulnerabilityType: 'fire',
                                         vulnerabilityPercent: 50
@@ -229,7 +231,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Psychic Vulnerability',
-                                    description: 'Take 50% more psychic damage',
+                                    description: 'Your fractured mind, shaped by berserker rages, cannot resist psychic intrusions that echo your internal turmoil',
                                     statusEffect: {
                                         vulnerabilityType: 'psychic',
                                         vulnerabilityPercent: 50
@@ -251,19 +253,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0,
-                    mana: 0,
+                    hp: 32, // Hardy warriors with battle scars and cold resistance
+                    mana: 18, // Limited spiritual connection
                     ap: 4, // Aggressive warriors, extra action point from battle readiness
-                    passivePerception: 1, // Warriors need to spot enemies
-                    swimSpeed: 0, // Not great swimmers, calculated from speed
-                    climbSpeed: 5, // Mountain folk, decent climbers
-                    visionRange: 60,
+                    passivePerception: 12, // Warriors need to spot enemies
+                    swimSpeed: 15, // Not great swimmers, calculated from speed
+                    climbSpeed: 15, // Mountain folk, decent climbers
+                    visionRange: 55,
                     darkvision: 0,
                     initiative: 2 // Warriors who fight first, quick to react
                 },
                 savingThrowModifiers: {
-                    // Berserker rage makes them more susceptible to being stunned
-                    disadvantage: ['constitution'] // Disadvantage on constitution saves (stuns often target constitution)
+                    // Battle-hardened warriors resist fear but are vulnerable to being stunned
+                    disadvantage: ['stunned'], // Berserker rage makes them susceptible to being stunned
+                    advantage: ['frightened'] // Battle-hardened, resist fear effects
                 }
             },
             skald: {
@@ -280,7 +283,7 @@ export const RACE_DATA = {
                     {
                         id: 'frostborn_rune_keeper',
                         name: 'Frostborn',
-                        description: 'Born of the eternal winter, your blood runs cold as the glaciers - reduce cold damage taken by 50%.',
+                        description: 'The endless winters that shaped your ancestors have woven frost into your very being, your blood flowing like glacial water that laughs at the cold lesser folk fear.',
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
@@ -297,7 +300,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'cold_resistance',
                                     name: 'Cold Resistance',
-                                    description: 'Born of eternal winter - reduce cold damage by 50%',
+                                    description: 'Your ancestral blood, forged in endless winter, naturally shrugs off the cold that would freeze others',
                                     statModifier: {
                                         stat: 'cold_resistance',
                                         magnitude: 50,
@@ -395,7 +398,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    description: 'Take 50% more fire damage',
+                                    description: 'Your ancestral connection makes you vulnerable to purifying flames that burn away the veil between worlds',
                                     statusEffect: {
                                         vulnerabilityType: 'fire',
                                         vulnerabilityPercent: 50
@@ -404,7 +407,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Necrotic Vulnerability',
-                                    description: 'Take 50% more necrotic damage',
+                                    description: 'The spirits you commune with leave you susceptible to necrotic energies that echo the death they have transcended',
                                     statusEffect: {
                                         vulnerabilityType: 'necrotic',
                                         vulnerabilityPercent: 50
@@ -412,7 +415,7 @@ export const RACE_DATA = {
                                 },
                                 {
                                     name: 'Veil Weakness',
-                                    description: 'Connection to the dead makes you susceptible to energies that disrupt reality',
+                                    description: 'Your bond with ancestor spirits thins the veil between worlds, making you vulnerable to planar disruptions',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Spiritual connection leaves you vulnerable to planar disruptions'
@@ -432,19 +435,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0,
-                    mana: 5, // Seers have slight mana bonus from spiritual connection
+                    hp: 16, // Frail from spiritual communion
+                    mana: 38, // Strong spiritual connection
                     ap: 2, // More contemplative, less action-oriented
-                    passivePerception: 3, // Enhanced perception from seeing threads others can't
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 5, // They go to frozen caves, decent climbers
+                    passivePerception: 14, // Enhanced perception from seeing threads others can't
+                    swimSpeed: 10, // Not swimmers, calculated from speed
+                    climbSpeed: 20, // They go to frozen caves, decent climbers
                     visionRange: 60,
                     darkvision: 0,
                     initiative: -1 // Not warriors, slower to react
                 },
                 savingThrowModifiers: {
-                    // Connection to ancestral realm makes them vulnerable to planar disruptions
-                    disadvantage: ['spirit'] // Disadvantage on spirit saves against necrotic/planar effects
+                    // Ethereal connection provides advantage against necrotic effects and mental control
+                    advantage: ['frightened'], // Spirit communion resists fear effects
+                    disadvantage: ['charmed'] // Ethereal nature vulnerable to magical control
                 }
             },
             icewalker: {
@@ -461,7 +465,7 @@ export const RACE_DATA = {
                     {
                         id: 'deep_frost_nordmark',
                         name: 'Deep Frost',
-                        description: 'Cold Immunity • Weather Endurance • Arctic Survival',
+                        description: 'The deepest wastes have claimed your bloodline as their own, your flesh becoming one with the eternal cold that would consume lesser folk, surviving where others perish.',
                         level: 1,
                         icon: 'spell_frost_frozenorb',
                         spellType: 'PASSIVE',
@@ -561,7 +565,7 @@ export const RACE_DATA = {
                     {
                         id: 'heat_frailty_nordmark',
                         name: 'Heat Frailty',
-                        description: 'Fire Vulnerability • Heat Damage • Disorientation',
+                        description: 'Your bloodline, forged in eternal winter, cannot endure the unnatural warmth that melts the glaciers, your frost-tempered flesh vulnerable to fires that would never touch the endless white.',
                         level: 1,
                         icon: 'spell_fire_fire',
                         spellType: 'PASSIVE',
@@ -610,19 +614,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 5, // Frostbound are hardier from their transformation
-                    mana: 0,
+                    hp: 28, // Frostbound are hardier from their transformation
+                    mana: 20,
                     ap: 4, // Scouts need mobility and quick reactions
-                    passivePerception: 3, // Excellent scouts, read ice patterns, find paths
-                    swimSpeed: 5, // Survival in harsh conditions includes water
-                    climbSpeed: 10, // Mountain scouts, excellent climbers
-                    visionRange: 70, // Enhanced vision from scouting
+                    passivePerception: 14, // Excellent scouts, read ice patterns, find paths
+                    swimSpeed: 20, // Survival in harsh conditions includes water
+                    climbSpeed: 20, // Mountain scouts, excellent climbers
+                    visionRange: 60, // Enhanced vision from scouting
                     darkvision: 30, // Adapted to low-light conditions in deep winter
                     initiative: 1 // Scouts, quick to react
                 },
                 savingThrowModifiers: {
-                    // Heat frailty makes them more susceptible to fire effects
-                    disadvantage: ['constitution'] // Disadvantage on constitution saves against fire/heat effects
+                    // Frostbound are hardy survivors but vulnerable to magical effects
+                    advantage: ['exhaustion'], // Hardy survivors resist exhaustion
+                    disadvantage: ['charmed'] // Cold nature vulnerable to magical charm effects
                 }
             }
         }
@@ -721,7 +726,7 @@ export const RACE_DATA = {
                     {
                         id: 'raven_sight_corvani',
                         name: 'Raven Sight',
-                        description: 'Enhanced Perception • Illusion Detection • Psychic Vulnerability',
+                        description: 'Your bloodline\'s gift of glimpsing futures sharpens your senses to pierce illusions and see what others miss, but leaves your fractured mind vulnerable to psychic forces that echo the madness of too many visions.',
                         level: 1,
                         icon: 'ability_hunter_eagleeye',
                         spellType: 'PASSIVE',
@@ -777,7 +782,7 @@ export const RACE_DATA = {
                     {
                         id: 'fates_burden_corvani',
                         name: 'Fate\'s Burden',
-                        description: 'Necrotic & Psychic Vulnerability • Permanent',
+                        description: 'The weight of glimpsing countless futures leaves your spirit thin, vulnerable to necrotic forces that extinguish unrealized destinies and psychic intrusions that shatter your fragile hold on reality.',
                         level: 1,
                         icon: 'spell_shadow_curseofsargeras',
                         spellType: 'PASSIVE',
@@ -821,19 +826,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0,
-                    mana: 5, // Seers have slight mana bonus from spiritual connection
-                    ap: 2, // More contemplative, less action-oriented
-                    passivePerception: 4, // Enhanced perception from Raven Sight, seeing futures
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 5, // Mountain folk, decent climbers
+                    hp: 24, // Hardy from surviving treacherous peaks
+                    mana: 32, // Enhanced perception from Raven Sight
+                    ap: 3, // Balanced scouts
+                    passivePerception: 15, // Enhanced perception from Raven Sight, seeing futures
+                    swimSpeed: 15, // Survival in mountainous regions
+                    climbSpeed: 20, // Mountain scouts, excellent climbers
                     visionRange: 60,
-                    darkvision: 0,
-                    initiative: -1 // Not warriors, slower to react
+                    darkvision: 30,
+                    initiative: 1 // Alert scouts
                 },
                 savingThrowModifiers: {
-                    // Seeing too many futures makes them vulnerable to psychic effects
-                    disadvantage: ['spirit'] // Disadvantage on spirit saves against psychic effects
+                    // Planar fluidity makes them hard to restrain but vulnerable to confusion
+                    advantage: ['grappled'], // Not fully anchored to reality, hard to physically restrain
+                    disadvantage: ['confused'] // Planar visions make them vulnerable to confusion
                 }
             },
             scout: {
@@ -1005,8 +1011,8 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 0,
-                    mana: 0,
+                    hp: 22,
+                    mana: 26,
                     ap: 4, // Scouts/messengers need mobility and quick reactions
                     passivePerception: 3, // Excellent scouts, navigate fog-shrouded peaks
                     swimSpeed: 5, // Survival skills include water navigation
@@ -1016,8 +1022,9 @@ export const RACE_DATA = {
                     initiative: 2 // Scouts, quick to react
                 },
                 savingThrowModifiers: {
-                    // Mist exposure makes them vulnerable to confusion/mental effects
-                    disadvantage: ['intelligence'] // Disadvantage on intelligence saves (confusion from mist)
+                    // Mist walkers navigate fog but are vulnerable to confusion
+                    advantage: ['invisible'], // Comfortable with invisibility and fog
+                    disadvantage: ['confused'] // Disoriented by mental confusion effects
                 }
             }
         }
@@ -1061,7 +1068,7 @@ export const RACE_DATA = {
                     {
                         id: 'stone_skin_grimheart',
                         name: 'Stone Skin',
-                        description: '+2 armor • -5 speed • Permanent',
+                        description: 'Generations of working the unforgiving deep earth have hardened your flesh and bones to near-stone, granting protection but forever slowing your movements like the mountains themselves.',
                         level: 1,
                         icon: 'inv_misc_stonetablet_04',
                         spellType: 'PASSIVE',
@@ -1211,19 +1218,20 @@ export const RACE_DATA = {
                 speed: 25,
                 baseStats: {
                     armor: 0, // Stone Skin passive adds +2, so base is 0
-                    hp: 5, // Stone-hardened flesh, extra durability
-                    mana: 0,
+                    hp: 36, // Stone-hardened flesh, extra durability
+                    mana: 16,
                     ap: 3, // Steady workers, standard AP
-                    passivePerception: 2, // Earth Sense, detect minerals and passages
-                    swimSpeed: -5, // Dense and stone-like, poor swimmers
-                    climbSpeed: 10, // Excellent climbers, work in deep caves
-                    visionRange: 60,
+                    passivePerception: 13, // Earth Sense, detect minerals and passages
+                    swimSpeed: 10, // Dense and stone-like, poor swimmers
+                    climbSpeed: 20, // Excellent climbers, work in deep caves
+                    visionRange: 45,
                     darkvision: 60, // Eyes fully adapted to darkness
-                    initiative: -1 // Slow and steady, not quick to react
+                    initiative: -2 // Slow and steady, not quick to react
                 },
                 savingThrowModifiers: {
-                    // Deep earth whispers make them vulnerable to mental effects
-                    disadvantage: ['spirit'] // Disadvantage on spirit saves (whispers from deep earth)
+                    // Deep delvers resist poison but are vulnerable to light
+                    advantage: ['poisoned'], // Stone nature resists poison effects
+                    disadvantage: ['blinded'] // Deep dwelling vulnerable to bright light effects
                 }
             },
             warden: {
@@ -1413,8 +1421,8 @@ export const RACE_DATA = {
                 speed: 25,
                 baseStats: {
                     armor: 0,
-                    hp: 5, // Living fortifications, extra durability
-                    mana: 0,
+                    hp: 34, // Living fortifications, extra durability
+                    mana: 18,
                     ap: 3, // Defensive guardians, standard AP
                     passivePerception: 3, // Watchful sentinels, constantly scanning
                     swimSpeed: 0, // Not swimmers, calculated from speed
@@ -1424,8 +1432,9 @@ export const RACE_DATA = {
                     initiative: 1 // Watchful, quick to react to threats
                 },
                 savingThrowModifiers: {
-                    // Stone body conducts electricity, vulnerable to lightning
-                    disadvantage: ['constitution'] // Disadvantage on constitution saves against lightning
+                    // Stone guardians resist petrification but are vulnerable to stunning effects
+                    advantage: ['petrified'], // Stone nature resists petrification
+                    disadvantage: ['stunned'] // Stone rigidity vulnerable to stunning effects
                 }
             },
             forgemaster: {
@@ -1442,7 +1451,7 @@ export const RACE_DATA = {
                     {
                         id: 'stone_resilience_grimheart',
                         name: 'Stone Resilience',
-                        description: 'Fire & Poison Resistance • +1 armor • Permanent',
+                        description: 'Your stone-hardened flesh, tempered by the forges and toxic depths of the deep earth, resists both flame and venom that would consume lesser flesh.',
                         level: 1,
                         icon: 'spell_fire_fire',
                         spellType: 'PASSIVE',
@@ -1601,19 +1610,20 @@ export const RACE_DATA = {
                 speed: 25,
                 baseStats: {
                     armor: 0, // Stone Resilience passive adds +1, so base is 0
-                    hp: 5, // Stone-hardened, extra durability
-                    mana: 0,
+                    hp: 30, // Stone-hardened craftsmen
+                    mana: 20,
                     ap: 3, // Steady craftsmen, standard AP
-                    passivePerception: 1, // Precise craft requires good perception
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 5, // Decent climbers, work in volcanic forges
-                    visionRange: 60,
+                    passivePerception: 12, // Precise craft requires good perception
+                    swimSpeed: 10, // Not swimmers, calculated from speed
+                    climbSpeed: 15, // Decent climbers, work in volcanic forges
+                    visionRange: 50,
                     darkvision: 30, // Work in forges, adapted to low light
                     initiative: 0 // Precise but not quick to react
                 },
                 savingThrowModifiers: {
-                    // Stone-hardened flesh vulnerable to acid
-                    disadvantage: ['constitution'] // Disadvantage on constitution saves against acid
+                    // Master smiths resist exhaustion but are vulnerable to stunning
+                    advantage: ['exhaustion'], // Tireless craftsmen resist exhaustion
+                    disadvantage: ['stunned'] // Focused work vulnerable to stunning interruptions
                 }
             }
         }
@@ -1793,20 +1803,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: -5, // Nearly translucent, physically frail from spirit communion
-                    mana: 10, // Strong spiritual connection grants extra mana
+                    hp: 18, // Nearly translucent, physically frail from spirit communion
+                    mana: 36, // Strong spiritual connection grants extra mana
                     ap: 2, // More contemplative, less action-oriented (spirit communion takes time)
-                    passivePerception: 4, // Ethereal Sight - can see into Ethereal Plane, detect invisible
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Physically frail, not climbers
+                    passivePerception: 15, // Ethereal Sight - can see into Ethereal Plane, detect invisible
+                    swimSpeed: 20, // Not swimmers, calculated from speed
+                    climbSpeed: 15, // Physically frail, not climbers
                     visionRange: 60,
                     darkvision: 0, // Can see ethereal, but not darkvision
                     initiative: -2 // Slow to react, focused on spirit realm
                 },
                 savingThrowModifiers: {
-                    // Connection to spirit realm makes them vulnerable to radiant (holy) energies
-                    disadvantage: ['spirit'], // Disadvantage on spirit saves against radiant/holy effects
-                    advantage: ['intelligence'] // Advantage on intelligence saves (spirit communion enhances mental clarity)
+                    // Spirit communion enhances mental clarity but makes them vulnerable to paralysis
+                    disadvantage: ['paralyzed'], // Spirit realm connection vulnerable to paralysis effects
+                    advantage: ['frightened'] // Spirit communion resists fear effects
                 }
             },
             walker: {
@@ -1958,20 +1968,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: -5, // Forms blur at edges, not fully anchored to reality - physically frail
-                    mana: 5, // Planar connection grants some mana
+                    hp: 20, // Forms blur at edges, tenuous reality connection makes them physically frail
+                    mana: 34, // Strong planar connection grants enhanced mana
                     ap: 4, // Quick and agile, can step between planes - extra action point
-                    passivePerception: 2, // Can sense planar rifts, navigate boundaries
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Physically frail, not climbers
-                    visionRange: 60,
+                    passivePerception: 14, // Can sense planar rifts and navigate boundaries
+                    swimSpeed: 18, // Can phase through water barriers
+                    climbSpeed: 15, // Can phase through solid obstacles
+                    visionRange: 65,
                     darkvision: 0,
                     initiative: 3 // Quick to react, fluid movement, gliding rather than walking
                 },
                 savingThrowModifiers: {
-                    // Tenuous connection to reality makes them vulnerable to force damage
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against force effects
-                    advantage: ['agility'] // Advantage on agility saves (fluid movement, can phase)
+                    // Planar fluidity allows escape from restraints but vulnerability to stunning
+                    advantage: ['grappled'], // Fluid movement allows escape from grapples
+                    disadvantage: ['stunned'] // Tenuous reality connection vulnerable to stunning effects
                 }
             }
         }
@@ -2165,20 +2175,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Malleable flesh, average durability
-                    mana: 0,
+                    hp: 22, // Malleable flesh adapts but is physically weaker
+                    mana: 30, // Shapeshifting connection grants some mana
                     ap: 4, // Spies and infiltrators need quick reactions - extra action point
-                    passivePerception: 3, // Eyes study faces with predatory intensity, excellent observation
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 5, // Agile infiltrators, decent climbers
-                    visionRange: 60,
+                    passivePerception: 14, // Study faces with predatory intensity, excellent observation
+                    swimSpeed: 10, // Not swimmers, calculated from speed
+                    climbSpeed: 20, // Agile infiltrators, excellent climbers
+                    visionRange: 50,
                     darkvision: 0,
                     initiative: 2 // Quick to react, predatory intensity
                 },
                 savingThrowModifiers: {
-                    // Shapeshifting curse makes them vulnerable to silver and radiant
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against silver/radiant
-                    advantage: ['charisma'] // Advantage on charisma saves (master deceivers, social manipulation)
+                    // Shapeshifting curse makes them vulnerable to poison but deceptive against charm
+                    disadvantage: ['poisoned'], // Shapeshifting curse vulnerable to poison
+                    advantage: ['charmed'] // Master deceivers resist charm effects
                 }
             },
             broken: {
@@ -2335,20 +2345,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Fractured but not physically frail
-                    mana: 5, // Memory fragments grant some mana
+                    hp: 26, // Fractured but physically intact
+                    mana: 32, // Memory fragments grant enhanced mana
                     ap: 2, // Fractured mind, jerky movements - less action-oriented
-                    passivePerception: 2, // Memory keepers, hoard fragments of knowledge
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Jerky movements, not climbers
+                    passivePerception: 13, // Memory keepers, hoard fragments of knowledge
+                    swimSpeed: 20, // Not swimmers, calculated from speed
+                    climbSpeed: 15, // Jerky movements, not climbers
                     visionRange: 60,
                     darkvision: 0,
                     initiative: -1 // Jerky movements, unpredictable - slower to react
                 },
                 savingThrowModifiers: {
-                    // Fractured mind vulnerable to psychic but resistant to charm/fear
-                    disadvantage: ['spirit'], // Disadvantage on spirit saves against psychic
-                    advantage: ['spirit'] // Advantage on spirit saves against charm/fear (fractured mind resists control)
+                    // Fractured mind resistant to fear but vulnerable to confusion
+                    disadvantage: ['confused'], // Fractured mind vulnerable to confusion
+                    advantage: ['frightened'] // Fractured mind resists fear
                 }
             }
         }
@@ -2455,7 +2465,7 @@ export const RACE_DATA = {
                     {
                         id: 'court_etiquette_briaran',
                         name: 'Court Etiquette',
-                        description: 'Advantage on social interactions with nobility and fae creatures.',
+                        description: 'Fae blood grants you perfect grace in the courts of nobility and fair folk.',
                         level: 1,
                         icon: 'spell_holy_divineprovidence',
                         spellType: 'PASSIVE',
@@ -2471,7 +2481,7 @@ export const RACE_DATA = {
                             effects: [
                                 {
                                     name: 'Court Etiquette',
-                                    description: 'Advantage on social checks with nobility and fae',
+                                    description: 'Advantage on social interactions with nobility and fae creatures',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Your fae heritage grants insight into courtly behavior'
@@ -2489,7 +2499,7 @@ export const RACE_DATA = {
                     {
                         id: 'iron_vulnerability_briaran_oathbound',
                         name: 'Iron Vulnerability',
-                        description: 'Vulnerable to iron weapons and cold iron damage (+50% damage) due to your fae heritage.',
+                        description: 'Fae heritage leaves you vulnerable to cold iron (+50% damage from iron weapons).',
                         level: 1,
                         icon: 'inv_ingot_iron',
                         spellType: 'PASSIVE',
@@ -2505,7 +2515,7 @@ export const RACE_DATA = {
                             effects: [
                                 {
                                     name: 'Iron Vulnerability',
-                                    description: 'Take +50% damage from iron weapons',
+                                    description: 'Cold iron wounds your fae-touched flesh (+50% damage from iron weapons)',
                                     statModifier: {
                                         stat: 'damage_taken',
                                         magnitude: 50,
@@ -2526,20 +2536,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Elegant but not particularly hardy
-                    mana: 5, // Fae connection grants some mana
+                    hp: 20, // Elegant but physically weaker from fae heritage
+                    mana: 35, // Fae connection grants enhanced mana
                     ap: 3, // Diplomatic, standard AP
-                    passivePerception: 2, // Precise and careful, read intent in words
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Courtly, not climbers
-                    visionRange: 60,
+                    passivePerception: 13, // Precise and careful, read intent in words
+                    swimSpeed: 10, // Not swimmers, calculated from speed
+                    climbSpeed: 10, // Courtly, not climbers
+                    visionRange: 50,
                     darkvision: 0,
                     initiative: 0 // Formal and careful, not quick to react
                 },
                 savingThrowModifiers: {
-                    // Fae heritage makes them vulnerable to iron
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against iron
-                    advantage: ['charisma'] // Advantage on charisma saves (master diplomats, social manipulation)
+                    // Fae heritage makes them vulnerable to iron damage
+                    disadvantage: ['iron'], // Vulnerable to iron from fae heritage
+                    advantage: ['charmed', 'dominated'] // Master diplomats resist social control
                 }
             },
             wild: {
@@ -2621,27 +2631,40 @@ export const RACE_DATA = {
                     {
                         id: 'thorn_strike_briaran',
                         name: 'Thorn Strike',
-                        description: 'Natural weapons deal +1 damage and cause bleeding (1d4 damage per round for 3 rounds).',
+                        description: 'Living thorns grown from fae bargains deal +1 damage and cause bleeding (1d4/round for 3 rounds).',
                         level: 1,
                         icon: 'ability_druid_ferociousbite',
                         spellType: 'PASSIVE',
-                        effectTypes: ['damage'],
+                        effectTypes: ['buff'],
                         typeConfig: {
                             school: 'combat',
                             secondaryElement: 'nature',
                             icon: 'ability_druid_ferociousbite',
                             tags: ['combat', 'natural-weapons', 'bleeding', 'passive']
                         },
-                        damageConfig: {
-                            damageType: 'direct',
-                            elementType: 'piercing',
-                            bonusDamage: 1,
-                            dotEffect: {
-                                name: 'Bleeding',
-                                damage: '1d4',
-                                duration: 3,
-                                tickRate: 1
-                            }
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    name: 'Thorn Damage',
+                                    description: 'Natural weapons deal +1 piercing damage',
+                                    statModifier: {
+                                        stat: 'weapon_damage',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    name: 'Bleeding Strike',
+                                    description: 'Attacks cause bleeding (1d4 damage per round for 3 rounds)',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Your thorns cause persistent bleeding wounds'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
@@ -2651,7 +2674,7 @@ export const RACE_DATA = {
                     {
                         id: 'iron_vulnerability_briaran_wild',
                         name: 'Iron Vulnerability',
-                        description: 'Vulnerable to iron weapons and fire damage (+50% damage) due to your broken fae contracts.',
+                        description: 'Shattered fae pacts leave you vulnerable to cold iron and purifying flame (+50% damage from each).',
                         level: 1,
                         icon: 'inv_ingot_iron',
                         spellType: 'PASSIVE',
@@ -2667,7 +2690,7 @@ export const RACE_DATA = {
                             effects: [
                                 {
                                     name: 'Iron Vulnerability',
-                                    description: 'Take +50% damage from iron weapons',
+                                    description: 'Cold iron wounds you grievously (+50% damage from iron weapons)',
                                     statModifier: {
                                         stat: 'damage_taken',
                                         magnitude: 50,
@@ -2676,7 +2699,7 @@ export const RACE_DATA = {
                                 },
                                 {
                                     name: 'Fire Vulnerability',
-                                    description: 'Take +50% damage from fire sources',
+                                    description: 'Purifying flames burn away your fae heritage (+50% damage from fire)',
                                     statModifier: {
                                         stat: 'damage_taken',
                                         magnitude: 50,
@@ -2697,8 +2720,8 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 5, // Warriors, hunters, built from living wild - extra durability
-                    mana: 0,
+                    hp: 30, // Warriors, hunters, built from living wild - extra durability
+                    mana: 22,
                     ap: 4, // Primal warriors, quick reactions - extra action point
                     passivePerception: 2, // Hunters, protectors of the wild
                     swimSpeed: 5, // Survival skills include water
@@ -2709,8 +2732,8 @@ export const RACE_DATA = {
                 },
                 savingThrowModifiers: {
                     // Broken fae contracts make them vulnerable to iron and fire
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against iron/fire
-                    advantage: ['strength'] // Advantage on strength saves (warriors, hunters)
+                    disadvantage: ['poisoned'], // Vulnerable to iron's poisonous effects
+                    advantage: ['frightened'] // Warrior spirit resists fear
                 }
             },
             dusk: {
@@ -2771,7 +2794,7 @@ export const RACE_DATA = {
                     {
                         id: 'duality_briaran',
                         name: 'Duality',
-                        description: 'Advantage on stealth and perception checks in low light.',
+                        description: 'Existing between worlds grants you perfect clarity in twilight\'s embrace.',
                         level: 1,
                         icon: 'spell_shadow_twilight',
                         spellType: 'PASSIVE',
@@ -2787,7 +2810,7 @@ export const RACE_DATA = {
                             effects: [
                                 {
                                     name: 'Low Light Advantage',
-                                    description: 'Advantage on stealth and perception in low light',
+                                    description: 'Advantage on stealth and perception checks in low light',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'You thrive in twilight conditions'
@@ -2851,8 +2874,8 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Exists between worlds, not particularly hardy
-                    mana: 5, // Twilight connection grants some mana
+                    hp: 20, // Exists between worlds, not particularly hardy
+                    mana: 28, // Twilight connection grants some mana
                     ap: 4, // Quick and fluid, exists between moments - extra action point
                     passivePerception: 3, // Advantage on perception in low light, navigate boundaries
                     swimSpeed: 0, // Not swimmers, calculated from speed
@@ -2863,8 +2886,8 @@ export const RACE_DATA = {
                 },
                 savingThrowModifiers: {
                     // Weakened by pure daylight and deepest night
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves (weakened by extremes)
-                    advantage: ['agility'] // Advantage on agility saves (fluid movement, exists between moments)
+                    disadvantage: ['blinded'], // Vulnerable to bright light extremes
+                    advantage: ['invisible'] // Fluid movement helps in transitional spaces
                 }
             }
         }
@@ -2908,7 +2931,7 @@ export const RACE_DATA = {
                     {
                         id: 'forest_guardian_groven',
                         name: 'Forest Guardian',
-                        description: 'Nature Sense • +1 armor when defending • Permanent',
+                        description: 'Your bond with the ancient grove flows through your bark-like skin, granting you the forest\'s watchful eyes and the earth\'s unyielding defense when protecting what you hold sacred.',
                         level: 1,
                         icon: 'spell_nature_natureguard',
                         spellType: 'PASSIVE',
@@ -3034,8 +3057,8 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0, // Forest Guardian passive adds +1 when defending, so base is 0
-                    hp: 5, // Bark-like skin, living fortresses - extra durability
-                    mana: 0,
+                    hp: 35, // Bark-like skin, living fortresses - extra durability
+                    mana: 20,
                     ap: 3, // Protectors, sentinels - standard AP
                     passivePerception: 3, // Nature Sense, hear forest warnings days before threats
                     swimSpeed: 0, // Not swimmers, calculated from speed
@@ -3045,9 +3068,9 @@ export const RACE_DATA = {
                     initiative: -1 // Move slowly but with purpose, slower to react
                 },
                 savingThrowModifiers: {
-                    // Connection to living wood makes them vulnerable to fire
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against fire
-                    advantage: ['constitution'] // Advantage on constitution saves (bark-like skin, sturdy)
+                    // Living wood connection makes them vulnerable to fire but sturdy against physical harm
+                    disadvantage: ['poisoned'], // Fire destroys living wood
+                    advantage: ['paralyzed'] // Sturdy bark resists paralysis
                 }
             },
             wanderer: {
@@ -3113,7 +3136,7 @@ export const RACE_DATA = {
                     {
                         id: 'pathfinder_groven',
                         name: 'Pathfinder',
-                        description: 'Cannot become lost in natural environments. Advantage on navigation.',
+                        description: 'Your wild blood knows every root and stone, guiding you through nature\'s labyrinth.',
                         level: 1,
                         icon: 'ability_druid_dash',
                         spellType: 'PASSIVE',
@@ -3129,7 +3152,7 @@ export const RACE_DATA = {
                             selectedEffects: [{
                                 id: 'navigation',
                                 name: 'Navigation',
-                                description: 'Cannot become lost in natural environments.'
+                                description: 'Cannot become lost in natural environments. Advantage on navigation checks.'
                             }],
                             duration: 0,
                             durationUnit: 'instant',
@@ -3180,20 +3203,20 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Lean and wiry, not particularly hardy
-                    mana: 0,
+                    hp: 24, // Lean and wiry, not particularly hardy
+                    mana: 26,
                     ap: 4, // Nomadic wanderers, quick reactions - extra action point
                     passivePerception: 3, // Eyes constantly scanning horizon, senses sharpened
                     swimSpeed: 5, // Survival skills include water
                     climbSpeed: 10, // Excellent climbers, navigate rough terrain
-                    visionRange: 70, // Enhanced vision from constant travel
+                    visionRange: 60, // Enhanced vision from constant travel
                     darkvision: 0,
                     initiative: 2 // Restless energy, quick to react
                 },
                 savingThrowModifiers: {
-                    // Exposure to wild toxins makes them vulnerable to poison
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against poison
-                    advantage: ['agility'] // Advantage on agility saves (nimble wanderers)
+                    // Wild exposure makes them vulnerable to poison but nimble against restraints
+                    disadvantage: ['poisoned'], // Vulnerable to wild toxins
+                    advantage: ['restrained'] // Nimble wanderers escape restraints
                 }
             },
             shaman: {
@@ -3347,20 +3370,20 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: -5, // Spiritual connection, physically frail
-                    mana: 10, // Strong spiritual connection grants extra mana
+                    hp: 18, // Spiritual connection makes them physically frail
+                    mana: 38, // Strong spiritual connection grants enhanced mana
                     ap: 2, // Shamans, contemplative - less action-oriented
-                    passivePerception: 3, // Commune with spirits, hear animal voices
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Not climbers
-                    visionRange: 60,
+                    passivePerception: 14, // Commune with spirits, hear animal voices
+                    swimSpeed: 18, // Natural affinity for water
+                    climbSpeed: 20, // Can climb with primal grace
+                    visionRange: 65,
                     darkvision: 0,
                     initiative: -1 // Minds filled with voices, slower to react
                 },
                 savingThrowModifiers: {
-                    // Spiritual connection makes them vulnerable to radiant
-                    disadvantage: ['spirit'], // Disadvantage on spirit saves against radiant
-                    advantage: ['spirit'] // Advantage on spirit saves (spirit communion enhances spiritual clarity)
+                    // Spiritual connection enhances clarity but makes them vulnerable to radiant damage
+                    disadvantage: ['radiant'], // Vulnerable to radiant from spiritual connection
+                    advantage: ['frightened', 'charmed'] // Spirit communion enhances mental clarity and resistance
                 }
             },
             lightfoot: {
@@ -3376,7 +3399,7 @@ export const RACE_DATA = {
                     {
                         id: 'naturally_stealthy_groven',
                         name: 'Naturally Stealthy',
-                        description: 'Advantage on Stealth checks in natural environments.',
+                        description: 'Your bark-like skin and wild heritage let you vanish into the natural world.',
                         level: 1,
                         icon: 'ability_rogue_stealth',
                         spellType: 'PASSIVE',
@@ -3392,7 +3415,7 @@ export const RACE_DATA = {
                             effects: [
                                 {
                                     name: 'Natural Stealth',
-                                    description: 'Advantage on Stealth in natural environments',
+                                    description: 'Advantage on Stealth checks in natural environments',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'You blend seamlessly into natural surroundings'
@@ -3503,8 +3526,8 @@ export const RACE_DATA = {
                 speed: 25,
                 baseStats: {
                     armor: 0,
-                    hp: -5, // Smallest of all Groven, physically frail
-                    mana: 0,
+                    hp: 20, // Smallest of all Groven, physically frail
+                    mana: 8,
                     ap: 3, // Quick and light, standard AP
                     passivePerception: 2, // Eyes dart constantly, always aware
                     swimSpeed: 0, // Not swimmers, calculated from speed
@@ -3514,9 +3537,9 @@ export const RACE_DATA = {
                     initiative: 2 // Quick and light, quick to react
                 },
                 savingThrowModifiers: {
-                    // Small size makes them vulnerable to large creatures
-                    disadvantage: ['strength'], // Disadvantage on strength saves (small size)
-                    advantage: ['agility'] // Advantage on agility saves (quick and light)
+                    // Small size makes them vulnerable to being grappled but agile in movement
+                    disadvantage: ['grappled'], // Small size vulnerable to grappling
+                    advantage: ['restrained'] // Agile and nimble, escapes restraints
                 }
             }
         }
@@ -3604,7 +3627,7 @@ export const RACE_DATA = {
                     {
                         id: 'fire_immunity_emberth',
                         name: 'Fire Immunity',
-                        description: 'Fire Immunity • Lava Walking • Permanent',
+                        description: 'Your bloodline carries the earth\'s inner fire, passed down from ancestors who bathed in lava and worked forges that burn eternally, rendering you immune to flames that would consume lesser folk.',
                         level: 1,
                         icon: 'spell_fire_firearmor',
                         spellType: 'PASSIVE',
@@ -3637,7 +3660,7 @@ export const RACE_DATA = {
                     {
                         id: 'cold_vulnerability_forgeborn',
                         name: 'Cold Vulnerability',
-                        description: 'Cold Vulnerability • Permanent',
+                        description: 'The eternal flame within your bloodline burns hot, but unnatural cold can quench it, leaving your forge-tempered body brittle and vulnerable to frost that would merely chill lesser folk.',
                         level: 1,
                         icon: 'spell_frost_frostbolt02',
                         spellType: 'PASSIVE',
@@ -3676,20 +3699,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 5, // Master smiths, tempered by fire - extra durability
-                    mana: 0,
+                    hp: 32, // Master smiths, tempered by fire - extra durability
+                    mana: 20,
                     ap: 3, // Craftsmen, standard AP
                     passivePerception: 1, // Master smiths, good perception for craft
-                    swimSpeed: -5, // Hot skin, poor swimmers (water cools them)
+                    swimSpeed: 0, // Hot skin, poor swimmers (water cools them)
                     climbSpeed: 0, // Not climbers
                     visionRange: 60,
                     darkvision: 60, // Eyes glow like embers, can see in darkness
                     initiative: 0 // Not quick to react, focused on craft
                 },
                 savingThrowModifiers: {
-                    // Inner fire makes them vulnerable to cold
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against cold
-                    advantage: ['strength'] // Advantage on strength saves (master smiths, strong)
+                    // Inner fire makes them vulnerable to cold but strong against exhaustion
+                    disadvantage: ['poisoned'], // Cold extinguishes their inner fire
+                    advantage: ['exhaustion'] // Tireless smiths resist exhaustion
                 }
             },
             cinderborn: {
@@ -3844,20 +3867,20 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Lean and fast, not particularly hardy
-                    mana: 0,
+                    hp: 24, // Lean and fast, not particularly hardy
+                    mana: 28,
                     ap: 4, // Scouts and messengers, quick reactions - extra action point
                     passivePerception: 3, // Eyes constantly scanning for paths, read ash patterns
-                    swimSpeed: -5, // Hot feet, poor swimmers (water cools them)
+                    swimSpeed: 5, // Hot feet, poor swimmers (water cools them)
                     climbSpeed: 5, // Scouts, decent climbers
                     visionRange: 60,
                     darkvision: 0,
                     initiative: 3 // Lean and fast, quick to react
                 },
                 savingThrowModifiers: {
-                    // Inner heat makes them vulnerable to cold
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against cold
-                    advantage: ['agility'] // Advantage on agility saves (lean and fast)
+                    // Inner heat makes them vulnerable to cold but agile in movement
+                    disadvantage: ['poisoned'], // Cold chills their inner fire
+                    advantage: ['restrained'] // Agile scouts escape restraints
                 }
             },
             warborn: {
@@ -4018,20 +4041,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0, // Scarred Hide passive adds +1, so base is 0
-                    hp: 5, // Largest and most muscular, battle-tempered - extra durability
-                    mana: 0,
+                    hp: 36, // Largest and most muscular, battle-tempered - extra durability
+                    mana: 18,
                     ap: 4, // Warriors, battle rage - extra action point
                     passivePerception: 1, // Warriors, not particularly perceptive
-                    swimSpeed: -5, // Hot skin, poor swimmers (water cools them)
+                    swimSpeed: 0, // Hot skin, poor swimmers (water cools them)
                     climbSpeed: 0, // Not climbers
                     visionRange: 60,
                     darkvision: 0,
                     initiative: 2 // Warriors, quick to react in battle
                 },
                 savingThrowModifiers: {
-                    // Inner fire makes them vulnerable to cold
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against cold
-                    advantage: ['spirit'] // Advantage on spirit saves against fear (battle-hardened)
+                    // Inner fire makes them vulnerable to cold but battle-hardened against fear
+                    disadvantage: ['poisoned'], // Cold extinguishes their inner fire
+                    advantage: ['frightened'] // Battle-hardened warriors resist fear
                 }
             }
         }
@@ -4229,8 +4252,8 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Predatory but not particularly hardy
-                    mana: 0,
+                    hp: 28, // Predatory but not particularly hardy
+                    mana: 22,
                     ap: 4, // Predators, quick reactions - extra action point
                     passivePerception: 4, // Predator's Instinct - enhanced senses, track prey, detect by scent
                     swimSpeed: 5, // Predators, decent swimmers
@@ -4240,9 +4263,9 @@ export const RACE_DATA = {
                     initiative: 3 // Predatory grace, always ready to hunt - quick to react
                 },
                 savingThrowModifiers: {
-                    // Shapeshifting curse makes them vulnerable to silver and radiant
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against silver/radiant
-                    advantage: ['agility'] // Advantage on agility saves (predatory grace)
+                    // Shapeshifting curse makes them vulnerable to silver weapons
+                    disadvantage: ['poisoned'], // Silver weapons weaken their curse
+                    advantage: ['frightened'] // Beast form resists fear effects
                 }
             },
             penitent: {
@@ -4418,7 +4441,7 @@ export const RACE_DATA = {
                 baseStats: {
                     armor: 0,
                     hp: -5, // Scars from chains, physically weakened from constant struggle
-                    mana: 5, // Spiritual struggle grants some mana
+                    mana: 28, // Spiritual struggle grants some mana
                     ap: 2, // Constant struggle, less action-oriented
                     passivePerception: 2, // Teachers and protectors, sense supernatural afflictions
                     swimSpeed: 0, // Not swimmers, calculated from speed
@@ -4428,9 +4451,9 @@ export const RACE_DATA = {
                     initiative: -1 // Visible strain, slower to react
                 },
                 savingThrowModifiers: {
-                    // Chained nature makes them vulnerable to iron and cold
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against iron/cold
-                    advantage: ['spirit'] // Advantage on spirit saves (struggle against curse grants resistance)
+                    // Chained nature makes them vulnerable to iron but grants mental resilience
+                    disadvantage: ['poisoned'], // Iron weakens their curse
+                    advantage: ['charmed'] // Mental struggle grants resistance to charm
                 }
             }
         }
@@ -4567,7 +4590,7 @@ export const RACE_DATA = {
                     {
                         id: 'radiant_vulnerability_morthel_hoarder',
                         name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) due to your undead nature.',
+                        description: 'Your undead essence rebels against the purifying light of life, making holy energies burn through your preserved form.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
@@ -4584,7 +4607,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
+                                    description: 'Take +50% damage from radiant sources',
                                     statusEffect: {
                                         vulnerabilityType: 'radiant',
                                         vulnerabilityPercent: 50
@@ -4604,20 +4627,20 @@ export const RACE_DATA = {
                 speed: 25,
                 baseStats: {
                     armor: 0,
-                    hp: 5, // Most preserved, decay slowed by proximity to treasures - extra durability
-                    mana: 0,
+                    hp: 30, // Most preserved, decay slowed by proximity to treasures - extra durability
+                    mana: 8,
                     ap: 2, // Move stiffly, joints protesting - less action-oriented
                     passivePerception: 3, // Eyes constantly scanning, always watching, Treasure Sense
-                    swimSpeed: -5, // Undead, poor swimmers (bodies refuse to decay but not good in water)
+                    swimSpeed: 0, // Undead, poor swimmers (bodies refuse to decay but not good in water)
                     climbSpeed: 0, // Move stiffly, not climbers
                     visionRange: 60,
                     darkvision: 60, // Undead, can see in darkness
                     initiative: -2 // Move stiffly, joints protesting - slow to react
                 },
                 savingThrowModifiers: {
-                    // Undead nature makes them vulnerable to radiant
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against radiant
-                    advantage: ['constitution'] // Advantage on constitution saves (undead resilience, immune to poison/disease/exhaustion)
+                    // Undead nature makes them vulnerable to radiant but resistant to mental effects
+                    disadvantage: ['blinded'], // Radiant damage harms undead eyes
+                    advantage: ['frightened'] // Undead resilience against fear
                 }
             },
             scholar: {
@@ -4702,7 +4725,7 @@ export const RACE_DATA = {
                     {
                         id: 'radiant_vulnerability_morthel_scholar',
                         name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) due to your undead nature.',
+                        description: 'The spark of unlife within you recoils from the holy radiance that banishes the dead, searing through your preserved intellect.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
@@ -4719,7 +4742,7 @@ export const RACE_DATA = {
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
+                                    description: 'Take +50% damage from radiant sources',
                                     statusEffect: {
                                         vulnerabilityType: 'radiant',
                                         vulnerabilityPercent: 50
@@ -4743,16 +4766,16 @@ export const RACE_DATA = {
                     mana: 10, // Perfect memory, vast repositories of knowledge - extra mana
                     ap: 2, // Move slowly, carefully - less action-oriented
                     passivePerception: 3, // Eyes glow with accumulated knowledge, perfect recall
-                    swimSpeed: -5, // Undead, poor swimmers
+                    swimSpeed: 0, // Undead, poor swimmers
                     climbSpeed: 0, // Move slowly, carefully, not climbers
                     visionRange: 60,
                     darkvision: 60, // Undead, can see in darkness
                     initiative: -2 // Move slowly, carefully - slow to react
                 },
                 savingThrowModifiers: {
-                    // Undead nature makes them vulnerable to radiant
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against radiant
-                    advantage: ['intelligence'] // Advantage on intelligence saves (perfect memory, vast knowledge)
+                    // Undead nature makes them vulnerable to radiant but knowledgeable against confusion
+                    disadvantage: ['blinded'], // Radiant damage harms undead eyes
+                    advantage: ['confused'] // Vast knowledge protects against confusion
                 }
             }
         }
@@ -4922,20 +4945,20 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Scarred by lightning, not particularly hardy
-                    mana: 0,
+                    hp: 12, // Scarred by lightning but resilient
+                    mana: 8, // Electrical energy grants some mana
                     ap: 3, // Storm-readers, standard AP
-                    passivePerception: 2, // Read storm signs, scars ache before storms
-                    swimSpeed: -10, // Grounding vulnerability, poor swimmers (water grounds them)
-                    climbSpeed: 0, // Not climbers
-                    visionRange: 60,
+                    passivePerception: 13, // Read storm signs, scars ache before storms
+                    swimSpeed: 15, // Grounding vulnerability makes swimming difficult
+                    climbSpeed: 20, // Not climbers
+                    visionRange: 65,
                     darkvision: 0,
                     initiative: 1 // Living lightning rods, quick to react
                 },
                 savingThrowModifiers: {
-                    // Grounding vulnerability makes them susceptible to metal and water
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against grounding effects
-                    advantage: ['charisma'] // Advantage on charisma saves (Storm Presence, intimidating)
+                    // Grounding vulnerability makes them susceptible to metal and water damage
+                    disadvantage: ['metal', 'water'], // Vulnerable to grounding effects from metal and water
+                    advantage: ['frightened', 'intimidated'] // Storm presence makes them intimidating
                 }
             },
             lightningborn: {
@@ -5053,23 +5076,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Auran', 'Primordial'],
-                speed: 40,
+                speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Nerve damage, not particularly hardy
-                    mana: 0,
+                    hp: 24, // Nerve damage, not particularly hardy
+                    mana: 8,
                     ap: 4, // Hyperactive reflexes, move fast - extra action point
                     passivePerception: 1, // Eyes dart erratically, unable to focus long
-                    swimSpeed: -10, // Water vulnerability, poor swimmers
+                    swimSpeed: 0, // Water vulnerability, poor swimmers
                     climbSpeed: 5, // Hyperactive reflexes, decent climbers
                     visionRange: 60,
                     darkvision: 0,
                     initiative: 4 // Hyperactive reflexes, quick to react (but uncontrolled)
                 },
                 savingThrowModifiers: {
-                    // Water vulnerability makes them susceptible to water attacks
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against water
-                    advantage: ['agility'] // Advantage on agility saves (hyperactive reflexes)
+                    // Nerve damage makes them vulnerable to stunning but agile against paralysis
+                    disadvantage: ['stunned'], // Nerve damage vulnerable to stunning
+                    advantage: ['paralyzed'] // Hyperactive reflexes resist paralysis
                 }
             },
             tempest: {
@@ -5208,7 +5231,7 @@ export const RACE_DATA = {
                     {
                         id: 'pressure_vulnerability_volketh',
                         name: 'Pressure Vulnerability',
-                        description: 'Vulnerable to pressure effects (+50% damage from crushing/bludgeoning attacks).',
+                        description: 'Hurricane-scarred lungs struggle against pressure changes that once nearly crushed them, leaving your body vulnerable to crushing forces that echo the storms of your ancestors.',
                         level: 1,
                         icon: 'ability_warrior_sunder',
                         spellType: 'PASSIVE',
@@ -5224,7 +5247,7 @@ export const RACE_DATA = {
                             effects: [
                                 {
                                     name: 'Pressure Vulnerability',
-                                    description: 'Take +50% damage from crushing/bludgeoning attacks',
+                                    description: 'Hurricane-damaged lungs make you vulnerable to crushing attacks that mirror the pressure changes that scarred your ancestors',
                                     statModifier: {
                                         stat: 'damage_taken',
                                         magnitude: 50,
@@ -5245,8 +5268,8 @@ export const RACE_DATA = {
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 5, // Fighters and protectors, damaged lungs but determined - extra durability
-                    mana: 0,
+                    hp: 28, // Fighters and protectors, damaged lungs but determined - extra durability
+                    mana: 8,
                     ap: 4, // Fighters, storm rage - extra action point
                     passivePerception: 1, // Not particularly perceptive
                     swimSpeed: 0, // Not swimmers, calculated from speed
@@ -5256,9 +5279,9 @@ export const RACE_DATA = {
                     initiative: 2 // Fighters, quick to react
                 },
                 savingThrowModifiers: {
-                    // Damaged lungs make them vulnerable to pressure
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against pressure/crushing
-                    advantage: ['strength'] // Advantage on strength saves (fighters, push through with determination)
+                    // Damaged lungs make them vulnerable to poison but determined against exhaustion
+                    disadvantage: ['poisoned'], // Damaged lungs vulnerable to poison
+                    advantage: ['exhaustion'] // Fighters push through exhaustion
                 }
             }
         }
@@ -5428,11 +5451,11 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Aquan', 'Deep Speech'],
-                speed: 20,
+                speed: 25,
                 baseStats: {
                     armor: 0,
                     hp: 10, // Most deformed, bodies already broken - extra durability from adaptation
-                    mana: 0,
+                    mana: 8,
                     ap: 2, // Move slowly and painfully - less action-oriented
                     passivePerception: 1, // Not particularly perceptive
                     swimSpeed: 20, // Adapted to deep-sea, excellent swimmers
@@ -5442,9 +5465,9 @@ export const RACE_DATA = {
                     initiative: -2 // Move slowly and painfully - slow to react
                 },
                 savingThrowModifiers: {
-                    // Light sensitivity makes them vulnerable to radiant
-                    disadvantage: ['constitution'], // Disadvantage on constitution saves against radiant/light
-                    advantage: ['constitution'] // Advantage on constitution saves (pressure-adapted, resistant to bludgeoning)
+                    // Light sensitivity makes them vulnerable to blinding but pressure-adapted against stunning
+                    disadvantage: ['blinded'], // Light sensitivity causes blinding
+                    advantage: ['stunned'] // Pressure adaptation resists stunning
                 }
             },
             trench: {
@@ -5626,8 +5649,8 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 0, // Bodies compressed, not particularly hardy
-                    mana: 0,
+                    hp: 32, // Bodies compressed, not particularly hardy
+                    mana: 8,
                     ap: 4, // Deep-sea traders, quick reactions - extra action point
                     passivePerception: 3, // Senses tuned to the deep, bioluminescent lure
                     swimSpeed: 20, // Adapted to deep-sea, excellent swimmers
@@ -5766,8 +5789,8 @@ export const RACE_DATA = {
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: -5, // Bodies damaged by violent pressure shifts, physically frail
-                    mana: 0,
+                    hp: 26, // Bodies damaged by violent pressure shifts, physically frail
+                    mana: 8,
                     ap: 3, // Boundary-walkers, standard AP
                     passivePerception: 2, // Can move between depths, sense pressure changes
                     swimSpeed: 15, // Adaptive gills, decent swimmers
@@ -6057,7 +6080,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Celestial', 'Ignan'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 10, // Stellar fire gives them some durability but consumes their spirit
+                    mana: 15, // Moderate stellar energy grants some mana
+                    ap: 3, // Radiant energy gives them standard action points
+                    passivePerception: 12, // Stellar awareness enhances perception
+                    swimSpeed: 5, // Not natural swimmers, water can quench their fire
+                    climbSpeed: 5, // Not natural climbers
+                    visionRange: 65,
+                    darkvision: 0,
+                    initiative: 1 // Radiant energy makes them quick to react
+                },
+                savingThrowModifiers: {
+                    // Stellar fire provides advantage against cold and darkness effects
+                    advantage: ['cold', 'fear'] // Inner fire resists cold and fear effects
+                }
             },
             constellation: {
                 id: 'constellation_astren',
@@ -6203,7 +6242,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Celestial', 'Cosmic'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 5, // Cosmic awareness makes them physically frail
+                    mana: 12, // Strong connection to the stars grants enhanced mana
+                    ap: 2, // Minds filled with cosmic patterns, less action-oriented
+                    passivePerception: 13, // Cosmic awareness enhances perception
+                    swimSpeed: 10, // Not natural swimmers
+                    climbSpeed: 10, // Not natural climbers
+                    visionRange: 60,
+                    darkvision: 30,
+                    initiative: -1 // Cosmic awareness makes them slower to react to immediate threats
+                },
+                savingThrowModifiers: {
+                    // Cosmic awareness provides advantage against divination and mental effects
+                    advantage: ['charmed', 'frightened', 'psychic'] // Star reading resists mental control and fear
+                }
             }
         }
     }
@@ -6270,14 +6325,14 @@ export const getFullRaceData = (raceId, subraceId) => {
 export const getRacialBaseStats = (raceId, subraceId) => {
     const raceData = getFullRaceData(raceId, subraceId);
     if (!raceData) {
-        // Return default base stats (all 0)
+        // Return default base stats (varied, not all 0)
         return {
             armor: 0,
             speed: 30,
-            hp: 0,
-            mana: 0,
+            hp: 25, // Base HP instead of 0
+            mana: 25, // Base mana instead of 0
             ap: 3, // Default is 3, some races have 4 or 2
-            passivePerception: 0,
+            passivePerception: 10,
             swimSpeed: 0,
             climbSpeed: 0,
             visionRange: 60,
@@ -6288,14 +6343,14 @@ export const getRacialBaseStats = (raceId, subraceId) => {
 
     const subrace = raceData.subrace;
     const baseStats = subrace.baseStats || {};
-    
+
     return {
         armor: baseStats.armor !== undefined ? baseStats.armor : 0,
         speed: subrace.speed || raceData.race.baseTraits.baseSpeed || 30,
-        hp: baseStats.hp !== undefined ? baseStats.hp : 0,
-        mana: baseStats.mana !== undefined ? baseStats.mana : 0,
+        hp: baseStats.hp !== undefined ? baseStats.hp : 25, // Base HP instead of 0
+        mana: baseStats.mana !== undefined ? baseStats.mana : 15, // Base mana instead of 0
         ap: baseStats.ap !== undefined ? baseStats.ap : 3,
-        passivePerception: baseStats.passivePerception !== undefined ? baseStats.passivePerception : 0,
+        passivePerception: baseStats.passivePerception !== undefined ? baseStats.passivePerception : 10,
         swimSpeed: baseStats.swimSpeed !== undefined ? baseStats.swimSpeed : 0,
         climbSpeed: baseStats.climbSpeed !== undefined ? baseStats.climbSpeed : 0,
         visionRange: baseStats.visionRange !== undefined ? baseStats.visionRange : 60,
@@ -6320,6 +6375,13 @@ export const applyRacialModifiers = (baseStats, raceId, subraceId) => {
 
     const modifiedStats = { ...baseStats };
     const modifiers = raceData.combinedTraits.statModifiers;
+
+    // Initialize stats if they don't exist (for getting racial modifiers as an object)
+    ABILITY_SCORES.forEach(ability => {
+        if (modifiedStats[ability.id] === undefined) {
+            modifiedStats[ability.id] = 0;
+        }
+    });
 
     Object.keys(modifiers).forEach(stat => {
         if (modifiedStats[stat] !== undefined) {

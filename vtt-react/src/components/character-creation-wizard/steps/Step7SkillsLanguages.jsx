@@ -153,7 +153,7 @@ const Step7SkillsLanguages = () => {
     // Combine background and path skills as automatically granted
     const grantedSkills = [...new Set([...backgroundSkills, ...pathSkills])]; // Use Set to remove duplicates
 
-    const classSkillCount = 2; // Standard D&D - most classes get 2 skill choices
+    const classSkillCount = 1; // Reduced to balance skill proficiencies - characters get 1 skill choice
     const languageCount = (backgroundData?.languages || 0) + (pathData?.languages || 0);
 
     // Update context when selections change

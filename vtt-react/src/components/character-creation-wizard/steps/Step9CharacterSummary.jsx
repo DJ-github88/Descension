@@ -8,7 +8,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useCharacterWizardState } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown } from '../../../utils/pointBuySystem';
 import { getPathData, getPathStatModifiers } from '../../../data/pathData';
-import { getBackgroundData } from '../../../data/backgroundData';
+import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 import { applyRacialModifiers } from '../../../data/raceData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
@@ -31,7 +31,8 @@ const Step9CharacterSummary = () => {
     // Get modifiers for stat breakdown
     const pathModifiers = characterData.path ? getPathStatModifiers(characterData.path) : {};
     const racialModifiers = characterData.race && characterData.subrace ? applyRacialModifiers({}, characterData.race, characterData.subrace) : {};
-    const statBreakdown = getStatBreakdown(characterData.baseStats, racialModifiers, pathModifiers);
+    const backgroundModifiers = characterData.background ? getBackgroundStatModifiers(characterData.background) : {};
+    const statBreakdown = getStatBreakdown(characterData.baseStats, racialModifiers, backgroundModifiers, pathModifiers);
 
     // Helper functions for extended equipment preview
     const getFullItemObjects = (itemNames) => {
@@ -231,6 +232,91 @@ const Step9CharacterSummary = () => {
                             </div>
                         </div>
 
+                        {/* Base Stats */}
+                        <div className="summary-section">
+                            <h3 className="section-title">
+                                <i className="fas fa-heart"></i>
+                                Base Stats
+                            </h3>
+                            <div className="base-stats-summary">
+                                {(() => {
+                                    const { getRacialBaseStats } = require('../../../data/raceData');
+                                    const baseStats = getRacialBaseStats(characterData.race, characterData.subrace);
+
+                                    // Calculate current constitution score with all modifiers
+                                    const baseConstitution = characterData.baseStats.constitution || 5;
+                                    const finalConstitution = statBreakdown.constitution.final;
+
+                                    // Calculate HP and Mana based on final constitution
+                                    const baseHP = (finalConstitution * 5) + (baseStats.hp || 0);
+                                    const baseMana = (finalConstitution * 5) + (baseStats.mana || 0);
+
+                                    return (
+                                        <div className="base-stats-grid">
+                                            <div className="base-stat-summary-item">
+                                                <div className="base-stat-header">
+                                                    <i className="fas fa-heart"></i>
+                                                    <span className="base-stat-name">Hit Points</span>
+                                                </div>
+                                                <div className="base-stat-value-display">
+                                                    <span className="base-stat-value">{baseHP}</span>
+                                                </div>
+                                            </div>
+                                            <div className="base-stat-summary-item">
+                                                <div className="base-stat-header">
+                                                    <i className="fas fa-magic"></i>
+                                                    <span className="base-stat-name">Mana</span>
+                                                </div>
+                                                <div className="base-stat-value-display">
+                                                    <span className="base-stat-value">{baseMana}</span>
+                                                </div>
+                                            </div>
+                                            <div className="base-stat-summary-item">
+                                                <div className="base-stat-header">
+                                                    <i className="fas fa-running"></i>
+                                                    <span className="base-stat-name">Speed</span>
+                                                </div>
+                                                <div className="base-stat-value-display">
+                                                    <span className="base-stat-value">{baseStats.speed} ft</span>
+                                                </div>
+                                            </div>
+                                            <div className="base-stat-summary-item">
+                                                <div className="base-stat-header">
+                                                    <i className="fas fa-bolt"></i>
+                                                    <span className="base-stat-name">Action Points</span>
+                                                </div>
+                                                <div className="base-stat-value-display">
+                                                    <span className="base-stat-value">{baseStats.ap}</span>
+                                                </div>
+                                            </div>
+                                            {baseStats.armor !== undefined && baseStats.armor !== 0 && (
+                                                <div className="base-stat-summary-item">
+                                                    <div className="base-stat-header">
+                                                        <i className="fas fa-shield-alt"></i>
+                                                        <span className="base-stat-name">Armor</span>
+                                                    </div>
+                                                    <div className="base-stat-value-display">
+                                                        <span className="base-stat-value">{baseStats.armor}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {baseStats.darkvision !== undefined && baseStats.darkvision !== 0 && (
+                                                <div className="base-stat-summary-item">
+                                                    <div className="base-stat-header">
+                                                        <i className="fas fa-eye"></i>
+                                                        <span className="base-stat-name">Darkvision</span>
+                                                    </div>
+                                                    <div className="base-stat-value-display">
+                                                        <span className="base-stat-value">{baseStats.darkvision} ft</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })()}
+                            </div>
+                        </div>
+
                         {/* Ability Scores */}
                         <div className="summary-section">
                             <h3 className="section-title">
@@ -261,7 +347,7 @@ const Step9CharacterSummary = () => {
                                                 )}
                                                 {breakdown.background !== 0 && (
                                                     <span className="background">
-                                                        Path: {breakdown.background >= 0 ? '+' : ''}{breakdown.background}
+                                                        Background: {breakdown.background >= 0 ? '+' : ''}{breakdown.background}
                                                     </span>
                                                 )}
                                             </div>
@@ -506,50 +592,6 @@ const Step9CharacterSummary = () => {
                         )}
                     </div>
 
-                    {/* Right side - Character summary preview */}
-                    <div className="summary-preview">
-                        <div className="preview-card">
-                            <div className="preview-content">
-                                <div className="preview-section">
-                                    <h4>Character Portrait</h4>
-                                    <div className="portrait-display">
-                                        {characterData.characterImage ? (
-                                            <div className="character-portrait-container">
-                                                <img
-                                                    src={characterData.characterImage}
-                                                    alt={characterData.name}
-                                                    className="character-portrait"
-                                                    style={characterData.imageTransformations ? {
-                                                        transform: `scale(${characterData.imageTransformations.scale}) rotate(${characterData.imageTransformations.rotation}deg) translate(${characterData.imageTransformations.positionX}px, ${characterData.imageTransformations.positionY}px)`
-                                                    } : {}}
-                                                />
-                                            </div>
-                                        ) : (
-                                            <div className="portrait-placeholder">
-                                                <i className="fas fa-user"></i>
-                                                <span>No portrait</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <div className="preview-section">
-                                    <h4>Final Stats</h4>
-                                    <div className="quick-stats-grid">
-                                        {ABILITY_SCORES.map((ability) => {
-                                            const breakdown = statBreakdown[ability.id];
-                                            return (
-                                                <div key={ability.id} className="quick-stat">
-                                                    <span className="stat-name">{ability.shortName}</span>
-                                                    <span className="stat-value">{breakdown.final}</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 

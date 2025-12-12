@@ -1592,29 +1592,6 @@ button.gender-option.selected {
     flex-shrink: 0;
 }
 
-.character-wizard-container .detail-value {
-    all: initial;
-    color: #2c2416 !important;
-    font-size: 0.75rem !important;
-    text-align: left !important;
-    font-weight: 600 !important;
-    font-family: 'Cinzel', serif !important;
-    background: transparent !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    border: none !important;
-    text-transform: capitalize !important;
-    word-wrap: break-word !important;
-    word-break: break-word !important;
-    overflow-wrap: break-word !important;
-    line-height: 1.3 !important;
-    max-width: 100% !important;
-    box-shadow: none !important;
-    letter-spacing: 0.2px !important;
-    min-height: auto !important;
-    display: block !important;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
     .character-wizard-container .wizard-header {
@@ -1903,8 +1880,39 @@ button.gender-option.selected {
     font-weight: 600;
 }
 
+.stat-modifiers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.125rem;
+    align-items: center;
+}
+
 .benefit-item i {
     color: #d4af37;
+}
+
+.stat-mod {
+    display: inline-block;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin: 0 0.125rem;
+    background: rgba(139, 69, 19, 0.15);
+    color: #8b4513;
+    border: 1px solid rgba(139, 69, 19, 0.3);
+}
+
+.stat-mod.positive {
+    background: rgba(139, 69, 19, 0.2);
+    color: #8b4513;
+    border-color: rgba(139, 69, 19, 0.4);
+}
+
+.stat-mod.negative {
+    background: rgba(244, 67, 54, 0.2);
+    color: #c62828;
+    border-color: rgba(244, 67, 54, 0.4);
 }
 
 .background-preview {
@@ -2039,13 +2047,11 @@ button.gender-option.selected {
     border-radius: 0 4px 4px 0;
 }
 
-/* Meta information row - Clean badge layout */
+/* Meta information row - Enhanced layout with stats and benefits */
 .class-meta-row {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.75rem;
-    align-items: center;
     margin: 1.25rem 0;
     padding: 1rem 1.25rem;
     background: rgba(212, 175, 55, 0.05);
@@ -2292,27 +2298,107 @@ button.gender-option.selected {
     gap: 0.5rem;
 }
 
-.stat-modifier {
+.stat-modifiers-display {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.stat-modifier {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     font-size: 0.75rem;
-    font-weight: 600;
-    min-width: 80px;
+    font-weight: 700;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.stat-modifier:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .stat-modifier.positive {
-    background: rgba(139, 69, 19, 0.2);
-    color: #8b4513;
-    border: 1px solid #a0522d;
+    background: linear-gradient(135deg, #8b4513, #a0522d);
+    color: #fff;
+    border: 1px solid #654321;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 .stat-modifier.negative {
-    background: rgba(244, 67, 54, 0.2);
-    color: #c62828;
-    border: 1px solid #f44336;
+    background: linear-gradient(135deg, #b71c1c, #d32f2f);
+    color: #fff;
+    border: 1px solid #8b0000;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.background-benefits-summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, rgba(25, 25, 112, 0.1), rgba(72, 61, 139, 0.1));
+    border: 1px solid rgba(25, 25, 112, 0.2);
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.benefit-item:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-item i {
+    font-size: 0.75rem;
+    color: #666;
+    width: 14px;
+    text-align: center;
+}
+
+.benefit-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #4a4a4a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.benefit-value {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: #2c1810;
+    background: rgba(139, 69, 19, 0.1);
+    padding: 0.125rem 0.375rem;
+    border-radius: 3px;
+    border: 1px solid rgba(139, 69, 19, 0.2);
+    min-width: 20px;
+    text-align: center;
 }
 
 .stat-name {
@@ -2910,9 +2996,8 @@ button.gender-option.selected {
 
 /* Step 6 - Character Summary specific styles */
 .character-wizard-container .character-summary-layout {
-    display: grid;
-    grid-template-columns: 1.3fr 0.7fr;
-    gap: 4rem;
+    display: block;
+    width: 100%;
     padding: 2rem 0;
 }
 
@@ -2950,7 +3035,7 @@ button.gender-option.selected {
 
 .detail-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 0.4rem;
     padding: 0.25rem 0;
 }
@@ -2958,49 +3043,47 @@ button.gender-option.selected {
 .character-wizard-container .detail-item {
     all: initial;
     display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    padding: 0.5rem 0.6rem !important;
-    background: rgba(212, 175, 55, 0.08) !important;
-    border-radius: 6px !important;
-    border-left: 3px solid #d4af37 !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    padding: 0.75rem 1rem !important;
+    background: rgba(255, 255, 255, 0.7) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(139, 115, 85, 0.2) !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
     min-height: auto !important;
     transition: all 0.2s ease !important;
+    margin-bottom: 0.5rem !important;
 }
 
 .character-wizard-container .detail-item:hover {
-    background: rgba(212, 175, 55, 0.12) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-color: rgba(139, 115, 85, 0.4) !important;
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .detail-label {
-    font-weight: 600;
-    color: #8b7355;
-    font-size: 0.7rem;
+    font-weight: 700;
+    color: #5d4037;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     font-family: 'Cinzel', serif;
-    margin-bottom: 0.25rem;
     flex-shrink: 0;
-    opacity: 0.85;
+    min-width: 120px;
 }
 
 .detail-value {
     color: #2c2416;
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     text-transform: capitalize;
     font-family: 'Cinzel', serif;
-    letter-spacing: 0.2px;
-    word-wrap: break-word;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.3;
-    max-width: 100%;
-    hyphens: auto;
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+    flex: 1;
+    min-width: 0;
 }
 
 .detail-item.remaining {
@@ -3217,16 +3300,9 @@ button.gender-option.selected {
 
 /* Responsive design for character summary */
 @media (max-width: 1024px) {
-    .character-summary-layout {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .summary-preview {
+    .quick-stats-grid {
         order: -1;
     }
-
-
 }
 
 @media (max-width: 768px) {
@@ -3752,26 +3828,6 @@ button.gender-option.selected {
     gap: 0.25rem;
 }
 
-.detail-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: #8b7355;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    opacity: 0.85;
-}
-
-.detail-value {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #2c2416;
-    text-transform: capitalize;
-    word-wrap: break-word;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.3;
-    max-width: 100%;
-}
 
 
 
@@ -6400,12 +6456,143 @@ button.gender-option.selected {
     color: #2c2416;
 }
 
+.base-stat-detail {
+    font-size: 0.75rem;
+    color: #8b7355;
+    font-style: italic;
+    margin-left: 0.5rem;
+}
+
+/* Base Stats Preview in Stat Allocation */
+.base-stats-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.base-stat-preview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(139, 115, 85, 0.3);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.base-stat-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.base-stat-preview-header i {
+    color: #8b7355;
+    font-size: 0.9rem;
+}
+
+.base-stat-preview-name {
+    font-weight: 600;
+    color: #2c2416;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.base-stat-preview-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c2416;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 0.25rem;
+}
+
+.base-stat-preview-detail {
+    font-size: 0.65rem;
+    color: #8b7355;
+    font-style: italic;
+}
+
 .saving-throw-mod-item.advantage .saving-throw-mod-value {
     color: #4a934a;
 }
 
 .saving-throw-mod-item.disadvantage .saving-throw-mod-value {
     color: #c62828;
+}
+
+.saving-throw-mod-item.resistance .saving-throw-mod-value {
+    color: #2e7d32;
+}
+
+.saving-throw-mod-item.immunity .saving-throw-mod-value {
+    color: #1565c0;
+}
+
+/* Base Stats Summary */
+.base-stats-summary {
+    margin-top: 1rem;
+}
+
+.base-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.base-stat-summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    border: 2px solid rgba(139, 115, 85, 0.4);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.base-stat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.base-stat-header i {
+    color: #8b7355;
+    font-size: 1.2rem;
+}
+
+.base-stat-name {
+    font-weight: 600;
+    color: #2c2416;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.base-stat-value-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.base-stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2c2416;
+    font-family: 'Cinzel', serif;
+}
+
+.base-stat-detail {
+    font-size: 0.7rem;
+    color: #8b7355;
+    font-style: italic;
 }
 
 .stat-modifiers-compact {

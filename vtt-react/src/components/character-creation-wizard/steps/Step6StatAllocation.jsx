@@ -19,7 +19,7 @@ import {
     getTotalBonusPoints
 } from '../../../utils/pointBuySystem';
 import { getPathStatModifiers } from '../../../data/pathData';
-import { applyRacialModifiers } from '../../../data/raceData';
+import { applyRacialModifiers, getRacialBaseStats } from '../../../data/raceData';
 
 const Step6StatAllocation = () => {
     const state = useCharacterWizardState();
@@ -233,6 +233,59 @@ const Step6StatAllocation = () => {
                                                 </div>
                                             );
                                         })}
+                                    </div>
+                                </div>
+
+                                <div className="preview-section">
+                                    <h4>Base Stats Preview</h4>
+                                    <div className="base-stats-preview-grid">
+                                        {(() => {
+                                            const baseStats = getRacialBaseStats(race, subrace);
+                                            const finalConstitution = statBreakdown.constitution.final;
+
+                                            // Calculate HP and Mana based on final constitution
+                                            const baseHP = (finalConstitution * 5) + (baseStats.hp || 0);
+                                            const baseMana = (finalConstitution * 5) + (baseStats.mana || 0);
+
+                                            return (
+                                                <>
+                                                    <div className="base-stat-preview-item">
+                                                        <div className="base-stat-preview-header">
+                                                            <i className="fas fa-heart"></i>
+                                                            <span className="base-stat-preview-name">HP</span>
+                                                        </div>
+                                                        <div className="base-stat-preview-value">{baseHP}</div>
+                                                        <div className="base-stat-preview-detail">
+                                                            ({finalConstitution} × 5 {baseStats.hp ? `+ ${baseStats.hp}` : ''})
+                                                        </div>
+                                                    </div>
+                                                    <div className="base-stat-preview-item">
+                                                        <div className="base-stat-preview-header">
+                                                            <i className="fas fa-magic"></i>
+                                                            <span className="base-stat-preview-name">Mana</span>
+                                                        </div>
+                                                        <div className="base-stat-preview-value">{baseMana}</div>
+                                                        <div className="base-stat-preview-detail">
+                                                            ({finalConstitution} × 5 {baseStats.mana ? `+ ${baseStats.mana}` : ''})
+                                                        </div>
+                                                    </div>
+                                                    <div className="base-stat-preview-item">
+                                                        <div className="base-stat-preview-header">
+                                                            <i className="fas fa-running"></i>
+                                                            <span className="base-stat-preview-name">Speed</span>
+                                                        </div>
+                                                        <div className="base-stat-preview-value">{baseStats.speed} ft</div>
+                                                    </div>
+                                                    <div className="base-stat-preview-item">
+                                                        <div className="base-stat-preview-header">
+                                                            <i className="fas fa-bolt"></i>
+                                                            <span className="base-stat-preview-name">AP</span>
+                                                        </div>
+                                                        <div className="base-stat-preview-value">{baseStats.ap}</div>
+                                                    </div>
+                                                </>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
 

@@ -17,12 +17,20 @@ export const BACKGROUND_DATA = {
             'Prayer book',
             'Incense (5 sticks)',
             'Vestments',
-            'Common clothes',
-            'Temple Pouch with 15g'
+            'Common clothes'
         ],
+        startingCurrency: {
+            gold: 12,
+            silver: 8,
+            copper: 0
+        },
         feature: {
             name: 'Shelter of the Faithful',
             description: 'You and your companions can receive free healing and care at temples, shrines, and other religious establishments.'
+        },
+        statModifiers: {
+            spirit: 3,
+            intelligence: -1
         }
     },
 
@@ -36,12 +44,21 @@ export const BACKGROUND_DATA = {
         equipment: [
             'Crowbar',
             'Dark Common Clothes',
-            'Lockpicks (5)',
-            'Ill-gotten Pouch with 15g'
+            'Lockpicks (5)'
         ],
+        startingCurrency: {
+            gold: 10,
+            silver: 15,
+            copper: 0
+        },
         feature: {
             name: 'Criminal Contact',
             description: 'You have a reliable contact who acts as your liaison to a network of other criminals.'
+        },
+        statModifiers: {
+            agility: 2,
+            intelligence: 2,
+            spirit: -2
         }
     },
 
@@ -57,12 +74,20 @@ export const BACKGROUND_DATA = {
             'Shovel',
             'Iron pot',
             'Common clothes',
-            'Travel Rations (3 days)',
-            'Humble Pouch with 10g'
+            'Travel Rations (3 days)'
         ],
+        startingCurrency: {
+            gold: 8,
+            silver: 12,
+            copper: 0
+        },
         feature: {
             name: 'Rustic Hospitality',
             description: 'Common folk will provide you with simple accommodations and food when needed.'
+        },
+        statModifiers: {
+            constitution: 3,
+            intelligence: -1
         }
     },
 
@@ -77,12 +102,21 @@ export const BACKGROUND_DATA = {
             'Fine clothes',
             'Signet ring',
             'Scroll of pedigree',
-            'Perfume (vial)',
-            'Purse with 25g'
+            'Perfume (vial)'
         ],
+        startingCurrency: {
+            gold: 20,
+            silver: 10,
+            copper: 0
+        },
         feature: {
             name: 'Position of Privilege',
             description: 'You are welcome in high society, and people assume you have the right to be wherever you are.'
+        },
+        statModifiers: {
+            charisma: 2,
+            intelligence: 1,
+            constitution: -1
         }
     },
 
@@ -97,12 +131,20 @@ export const BACKGROUND_DATA = {
             'Quill',
             'Small knife',
             'Letter from colleague',
-            'Common clothes',
-            'Scholarly Pouch with 10g'
+            'Common clothes'
         ],
+        startingCurrency: {
+            gold: 8,
+            silver: 15,
+            copper: 0
+        },
         feature: {
             name: 'Researcher',
             description: 'You know where and how to obtain information, including from libraries, universities, and sages.'
+        },
+        statModifiers: {
+            intelligence: 4,
+            strength: -2
         }
     },
 
@@ -118,12 +160,21 @@ export const BACKGROUND_DATA = {
             'Trophy from fallen enemy',
             'Deck of cards',
             'Common clothes',
-            'Military Rations (5 days)',
-            'Military Pouch with 10g'
+            'Military Rations (5 days)'
         ],
+        startingCurrency: {
+            gold: 12,
+            silver: 6,
+            copper: 0
+        },
         feature: {
             name: 'Military Rank',
             description: 'You have a military rank from your career as a soldier and can invoke your rank to gain access to military facilities.'
+        },
+        statModifiers: {
+            strength: 2,
+            constitution: 2,
+            intelligence: -2
         }
     },
 
@@ -139,12 +190,20 @@ export const BACKGROUND_DATA = {
             'Tools of con of choice',
             'Fine clothes',
             'Signet ring of imaginary person',
-            'Disguise accessories',
-            'Belt pouch with 15g'
+            'Disguise accessories'
         ],
+        startingCurrency: {
+            gold: 11,
+            silver: 12,
+            copper: 0
+        },
         feature: {
             name: 'False Identity',
             description: 'You have created a second identity that includes documentation, established acquaintances, and disguises.'
+        },
+        statModifiers: {
+            charisma: 3,
+            spirit: -1
         }
     },
 
@@ -159,12 +218,21 @@ export const BACKGROUND_DATA = {
             'Musical instrument',
             'Favor of admirer',
             'Costume',
-            'Theatrical makeup',
-            'Belt pouch with 15g'
+            'Theatrical makeup'
         ],
+        startingCurrency: {
+            gold: 13,
+            silver: 8,
+            copper: 0
+        },
         feature: {
             name: 'By Popular Demand',
             description: 'You can find a place to perform in any settlement, and receive modest lodging and food in return.'
+        },
+        statModifiers: {
+            charisma: 2,
+            agility: 2,
+            constitution: -2
         }
     },
 
@@ -178,12 +246,20 @@ export const BACKGROUND_DATA = {
         equipment: [
             'Artisan\'s tools',
             'Letter of introduction from guild',
-            'Traveler\'s clothes',
-            'Belt pouch with 15g'
+            'Traveler\'s clothes'
         ],
+        startingCurrency: {
+            gold: 14,
+            silver: 10,
+            copper: 0
+        },
         feature: {
             name: 'Guild Membership',
             description: 'Your guild provides lodging and food when needed, and will pay for your funeral if necessary.'
+        },
+        statModifiers: {
+            intelligence: 3,
+            charisma: -1
         }
     },
 
@@ -198,12 +274,20 @@ export const BACKGROUND_DATA = {
             'Herbalism kit',
             'Scroll case with spiritual writings',
             'Winter blanket',
-            'Trail rations (5 days)',
-            'Belt pouch with 5g'
+            'Trail rations (5 days)'
         ],
+        startingCurrency: {
+            gold: 4,
+            silver: 12,
+            copper: 0
+        },
         feature: {
             name: 'Discovery',
             description: 'You discovered a great truth about the cosmos, nature, or divine powers during your isolation.'
+        },
+        statModifiers: {
+            spirit: 3,
+            charisma: -1
         }
     },
 
@@ -218,12 +302,21 @@ export const BACKGROUND_DATA = {
             'Staff',
             'Hunting trap',
             'Traveler\'s clothes',
-            'Waterskin',
-            'Belt pouch with 10g'
+            'Waterskin'
         ],
+        startingCurrency: {
+            gold: 7,
+            silver: 18,
+            copper: 0
+        },
         feature: {
             name: 'Wanderer',
             description: 'You have an excellent memory for maps and geography, and can find food and shelter for yourself and others in the wild.'
+        },
+        statModifiers: {
+            constitution: 2,
+            spirit: 2,
+            charisma: -2
         }
     },
 
@@ -238,12 +331,20 @@ export const BACKGROUND_DATA = {
             'Belaying pin',
             'Silk rope (50 feet)',
             'Lucky charm',
-            'Common clothes',
-            'Seafarer Pouch with 10g'
+            'Common clothes'
         ],
+        startingCurrency: {
+            gold: 9,
+            silver: 15,
+            copper: 0
+        },
         feature: {
             name: 'Ship\'s Passage',
             description: 'You can secure free passage on sailing ships for yourself and companions in exchange for work.'
+        },
+        statModifiers: {
+            agility: 3,
+            intelligence: -1
         }
     },
 
@@ -258,12 +359,21 @@ export const BACKGROUND_DATA = {
             'Merchant\'s scale',
             'Sample goods',
             'Traveler\'s clothes',
-            'Ledger',
-            'Belt pouch with 20g'
+            'Ledger'
         ],
+        startingCurrency: {
+            gold: 16,
+            silver: 12,
+            copper: 0
+        },
         feature: {
             name: 'Trade Network',
             description: 'You have contacts in merchant guilds and trading posts across the land, allowing you to buy and sell goods at favorable prices and gather market information.'
+        },
+        statModifiers: {
+            charisma: 2,
+            intelligence: 2,
+            strength: -2
         }
     },
 
@@ -279,12 +389,20 @@ export const BACKGROUND_DATA = {
             'Map of home city',
             'Pet mouse',
             'Token of parents',
-            'Common clothes',
-            'Belt pouch with 10g'
+            'Common clothes'
         ],
+        startingCurrency: {
+            gold: 6,
+            silver: 18,
+            copper: 0
+        },
         feature: {
             name: 'City Secrets',
             description: 'You know the secret patterns and flow of cities and can find passages through the urban sprawl that others would miss.'
+        },
+        statModifiers: {
+            agility: 3,
+            strength: -1
         }
     },
 
@@ -300,12 +418,20 @@ export const BACKGROUND_DATA = {
             'Quill',
             'Parchment (10 sheets)',
             'Academic robes',
-            'Research notes',
-            'Belt pouch with 15g'
+            'Research notes'
         ],
+        startingCurrency: {
+            gold: 12,
+            silver: 10,
+            copper: 0
+        },
         feature: {
             name: 'Academic Network',
             description: 'You have connections with scholars, librarians, and academics across the realm who can provide you with access to knowledge and research materials.'
+        },
+        statModifiers: {
+            intelligence: 4,
+            agility: -2
         }
     }
 };
@@ -331,4 +457,22 @@ export const getBackgroundSkills = (backgroundId) => {
 export const getBackgroundFeature = (backgroundId) => {
     const background = getBackgroundData(backgroundId);
     return background ? background.feature : null;
+};
+
+export const getBackgroundStatModifiers = (backgroundId) => {
+    // First try standard backgrounds
+    const standardBackground = BACKGROUND_DATA[backgroundId];
+    if (standardBackground && standardBackground.statModifiers) {
+        return standardBackground.statModifiers;
+    }
+
+    // Fall back to custom backgrounds for backward compatibility
+    const customBackgrounds = require('./customBackgroundData').CUSTOM_BACKGROUNDS;
+    const customBackground = customBackgrounds[backgroundId];
+    if (customBackground && customBackground.statModifiers) {
+        return customBackground.statModifiers;
+    }
+
+    // No modifiers found
+    return {};
 };

@@ -9,13 +9,6 @@
 export const BACKGROUND_ABILITIES = {
   mystic: [
     {
-      name: 'Elemental Attunement',
-      type: 'Passive',
-      usage: '1/Day',
-      description: 'Attune to an elemental type once per day, gaining resistance and bonus damage.',
-      details: 'Choose fire, cold, lightning, or acid. You gain resistance to that damage type and your spells and attacks deal +1 damage of that type until your next long rest.'
-    },
-    {
       name: 'Mana Surge',
       type: 'Active',
       usage: '1/Long Rest',
@@ -23,11 +16,11 @@ export const BACKGROUND_ABILITIES = {
       details: 'For 1 minute, all spell costs are reduced by 1 (minimum 1), and you can cast one spell of 3rd level or lower without expending a spell slot.'
     },
     {
-      name: 'Arcane Insight',
+      name: 'Elemental Attunement',
       type: 'Passive',
-      usage: 'Always Active',
-      description: 'Identify magical effects and gain advantage on saves against illusions.',
-      details: 'You can identify the school and approximate power level of magical effects you observe. You have advantage on saving throws against illusion spells and effects.'
+      usage: '1/Day',
+      description: 'Attune to an elemental type once per day, gaining resistance and bonus damage.',
+      details: 'Choose fire, cold, lightning, or acid. You gain resistance to that damage type and your spells and attacks deal +1 damage of that type until your next long rest.'
     }
   ],
 
@@ -45,13 +38,6 @@ export const BACKGROUND_ABILITIES = {
       usage: '1/Short Rest',
       description: 'Modify a spell by changing its damage type, range, targets, or duration.',
       details: 'When you cast a spell, you can change one aspect: damage type (to any other type), double or halve the range, add or remove one target, or double or halve the duration.'
-    },
-    {
-      name: 'Arcane Shield',
-      type: 'Active',
-      usage: '1/Short Rest',
-      description: 'Create a shield of arcane energy that can cause attacks to miss or reduce damage.',
-      details: 'As a reaction when targeted by an attack, create a shimmering shield. The attack has disadvantage, and if it still hits, you take half damage from it.'
     }
   ],
 
@@ -62,13 +48,6 @@ export const BACKGROUND_ABILITIES = {
       usage: '3/Long Rest',
       description: 'Force a reroll on any d20 roll made by you or an ally within 30 feet.',
       details: 'When you or an ally within 30 feet makes a d20 roll, you can use your reaction to force a reroll. The new result must be used. You can use this ability 3 times per long rest.'
-    },
-    {
-      name: 'Chaos Surge',
-      type: 'Active',
-      usage: '1/Combat',
-      description: 'Roll on the Chaos Surge table for unpredictable effects on your first attack or ability.',
-      details: 'Once per combat, when you make your first attack roll or use your first ability, roll a d6 for a random beneficial effect: 1-2: +2 to the roll, 3-4: advantage on the roll, 5-6: critical success regardless of roll.'
     },
     {
       name: 'Lucky Break',
@@ -93,13 +72,6 @@ export const BACKGROUND_ABILITIES = {
       usage: '1/Short Rest',
       description: 'Imbue your weapon with divine energy for bonus radiant damage on your next attack.',
       details: 'For 1 AP, your next weapon attack deals an additional 1d8 radiant damage. If the target is undead or a fiend, the damage increases to 2d8.'
-    },
-    {
-      name: 'Zealous Presence',
-      type: 'Active',
-      usage: '1/Long Rest',
-      description: 'Inspire allies within 30 feet with a divine battle cry, granting temporary hit points and advantage.',
-      details: 'As an action, all allies within 30 feet gain temporary hit points equal to your level + your Charisma modifier and advantage on their next attack roll or saving throw.'
     }
   ],
 
@@ -117,13 +89,6 @@ export const BACKGROUND_ABILITIES = {
       usage: 'At Will',
       description: 'See invisible creatures and into the Ethereal Plane for 1 minute.',
       details: 'As an action, you can see invisible creatures and objects, as well as see into the Ethereal Plane, for 1 minute. Once used, you must finish a short rest before using this ability again.'
-    },
-    {
-      name: 'Death\'s Whisper',
-      type: 'Active',
-      usage: '1/Long Rest',
-      description: 'Cast Speak with Dead once per long rest, and the target cannot lie to you.',
-      details: 'You can cast Speak with Dead without expending a spell slot. When you do, the corpse is compelled to answer truthfully and cannot lie or mislead you.'
     }
   ],
 
@@ -141,13 +106,6 @@ export const BACKGROUND_ABILITIES = {
       usage: '1/Long Rest',
       description: 'Transform part of your body to gain bestial benefits for 10 minutes.',
       details: 'Choose one: claws (+1d4 damage to unarmed strikes), enhanced senses (advantage on Perception), or natural armor (+1 Armor). The transformation lasts 10 minutes.'
-    },
-    {
-      name: 'Nature\'s Wrath',
-      type: 'Active',
-      usage: '1/Short Rest',
-      description: 'Cause plants to sprout in a 20-foot radius, creating difficult terrain and potentially restraining enemies.',
-      details: 'As an action, choose a point within 60 feet. Plants sprout in a 20-foot radius, creating difficult terrain. Creatures in the area must make a Dexterity save or be restrained until the start of their next turn.'
     }
   ],
 
@@ -158,13 +116,6 @@ export const BACKGROUND_ABILITIES = {
       usage: '1/Short Rest',
       description: 'Enter an adrenaline-fueled state for 1 minute, gaining temporary hit points and increased speed.',
       details: 'For 1 AP, gain temporary hit points equal to your level and increase your movement speed by 10 feet for 1 minute. While active, you have advantage on Strength checks and saves.'
-    },
-    {
-      name: 'Unstoppable Force',
-      type: 'Passive',
-      usage: 'Always Active',
-      description: 'Count as one size larger for carrying capacity and resist being moved against your will.',
-      details: 'Your carrying capacity is doubled. You have advantage on saving throws against being knocked prone, pushed, or moved against your will.'
     },
     {
       name: 'Devastating Strike',

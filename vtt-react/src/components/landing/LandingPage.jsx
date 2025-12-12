@@ -12,12 +12,41 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const [showCommunity, setShowCommunity] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { enableDevelopmentBypass, isDevelopmentBypass } = useAuthStore();
+  const { enableDevelopmentBypass, isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
 
   // Development bypass handler
   const handleDevelopmentBypass = () => {
     enableDevelopmentBypass();
     navigate('/account');
+  };
+
+  // Logout handler
+  const handleLogout = async () => {
+    console.log('🔄 Logout handler called - starting logout process');
+    console.log('🔍 Current auth state from props:', { isAuthenticated, user: user ? 'exists' : 'null' });
+    console.log('🔍 Current auth state from store:', {
+      authStoreIsAuthenticated,
+      authStoreUser: authStoreUser ? 'exists' : 'null',
+      authStoreIsDevelopmentBypass
+    });
+
+    try {
+      console.log('🔄 Calling signOut method...');
+      const result = await signOut();
+      console.log('✅ SignOut result:', result);
+
+      // Check auth state immediately after signOut
+      const authState = useAuthStore.getState();
+      console.log('🔍 Auth state immediately after signOut:', {
+        isAuthenticated: authState.isAuthenticated,
+        user: authState.user ? 'exists' : 'null',
+        isDevelopmentBypass: authState.isDevelopmentBypass
+      });
+
+      console.log('✅ Logout completed successfully');
+    } catch (error) {
+      console.error('❌ Logout failed:', error);
+    }
   };
 
   // Handle scroll to show/hide scroll-to-top button
@@ -246,28 +275,42 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               Community
             </button>
 
-            {/* Show Account button if logged in, otherwise show Login and Dev Preview */}
-            {isAuthenticated && user ? (
-              <button 
-                type="button"
-                className="account-btn" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  console.log('Account button clicked - navigating to /account');
-                  console.log('Current location:', window.location.href);
-                  try {
-                    navigate('/account', { replace: false });
-                    console.log('Navigation called successfully');
-                  } catch (error) {
-                    console.error('Navigation failed:', error);
-                  }
-                }}
-              >
-                <i className="fas fa-user-circle"></i>
-                Account
-              </button>
-            ) : isDevelopmentBypass ? (
+            {/* Show Account and Logout buttons if logged in, otherwise show Login and Dev Preview */}
+            {authStoreIsAuthenticated && authStoreUser ? (
+              <>
+                <button
+                  type="button"
+                  className="account-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Account button clicked - navigating to /account');
+                    console.log('Current location:', window.location.href);
+                    try {
+                      navigate('/account', { replace: false });
+                      console.log('Navigation called successfully');
+                    } catch (error) {
+                      console.error('Navigation failed:', error);
+                    }
+                  }}
+                >
+                  <i className="fas fa-user-circle"></i>
+                  Account
+                </button>
+                <button
+                  type="button"
+                  className="logout-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleLogout();
+                  }}
+                >
+                  <i className="fas fa-sign-out-alt"></i>
+                  Logout
+                </button>
+              </>
+            ) : authStoreIsDevelopmentBypass ? (
               <button 
                 type="button"
                 className="account-btn" 

@@ -6,7 +6,7 @@
 
 import React, { useState, useRef } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { RACE_DATA, getFullRaceData, getRacialBaseStats, getRacialSavingThrowModifiers } from '../../../data/raceData';
+import { RACE_DATA, getFullRaceData, getRacialBaseStats, getRacialSavingThrowModifiers, applyRacialModifiers } from '../../../data/raceData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../../item-generation/ItemTooltip';
@@ -505,36 +505,38 @@ const Step2RaceSelection = () => {
                                                         </div>
                                                     </div>
 
+
                                                     {/* Base Stats */}
                                                     {(() => {
                                                         const baseStats = getRacialBaseStats(previewRace.id, previewSubrace.id);
+
+                                                        // Display racial HP and Mana bonuses directly
+
                                                         if (baseStats && Object.keys(baseStats).length > 0) {
                                                             return (
                                                                 <div className="subrace-info-section">
                                                                     <h6 className="section-title">Base Stats</h6>
                                                                     <div className="base-stats-preview">
-                                                                        {baseStats.armor !== undefined && (
+                                                                        <div className="base-stat-item">
+                                                                            <span className="base-stat-label">HP:</span>
+                                                                            <span className="base-stat-value">{baseStats.hp || 0}</span>
+                                                                        </div>
+                                                                        <div className="base-stat-item">
+                                                                            <span className="base-stat-label">Mana:</span>
+                                                                            <span className="base-stat-value">{baseStats.mana || 0}</span>
+                                                                        </div>
+                                                                        <div className="base-stat-item">
+                                                                            <span className="base-stat-label">Speed:</span>
+                                                                            <span className="base-stat-value">{baseStats.speed} ft</span>
+                                                                        </div>
+                                                                        <div className="base-stat-item">
+                                                                            <span className="base-stat-label">Action Points:</span>
+                                                                            <span className="base-stat-value">{baseStats.ap}</span>
+                                                                        </div>
+                                                                        {baseStats.armor !== undefined && baseStats.armor !== 0 && (
                                                                             <div className="base-stat-item">
                                                                                 <span className="base-stat-label">Armor:</span>
                                                                                 <span className="base-stat-value">{baseStats.armor}</span>
-                                                                            </div>
-                                                                        )}
-                                                                        {baseStats.hp !== undefined && baseStats.hp !== 0 && (
-                                                                            <div className="base-stat-item">
-                                                                                <span className="base-stat-label">HP:</span>
-                                                                                <span className="base-stat-value">{baseStats.hp > 0 ? '+' : ''}{baseStats.hp}</span>
-                                                                            </div>
-                                                                        )}
-                                                                        {baseStats.mana !== undefined && baseStats.mana !== 0 && (
-                                                                            <div className="base-stat-item">
-                                                                                <span className="base-stat-label">Mana:</span>
-                                                                                <span className="base-stat-value">{baseStats.mana > 0 ? '+' : ''}{baseStats.mana}</span>
-                                                                            </div>
-                                                                        )}
-                                                                        {baseStats.ap !== undefined && (
-                                                                            <div className="base-stat-item">
-                                                                                <span className="base-stat-label">Action Points:</span>
-                                                                                <span className="base-stat-value">{baseStats.ap}</span>
                                                                             </div>
                                                                         )}
                                                                         {baseStats.passivePerception !== undefined && baseStats.passivePerception !== 0 && (
@@ -583,21 +585,33 @@ const Step2RaceSelection = () => {
                                                     {/* Saving Throw Modifiers */}
                                                     {(() => {
                                                         const savingThrowMods = getRacialSavingThrowModifiers(previewRace.id, previewSubrace.id);
-                                                        if (savingThrowMods && (savingThrowMods.advantage || savingThrowMods.disadvantage)) {
+                                                        if (savingThrowMods && (savingThrowMods.advantage || savingThrowMods.disadvantage || savingThrowMods.resistance || savingThrowMods.immunity)) {
                                                             return (
                                                                 <div className="subrace-info-section">
-                                                                    <h6 className="section-title">Saving Throw Modifiers</h6>
+                                                                    <h6 className="section-title">Special Modifiers</h6>
                                                                     <div className="saving-throw-mods-preview">
                                                                         {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
                                                                             <div className="saving-throw-mod-item advantage">
-                                                                                <span className="saving-throw-mod-label">Advantage:</span>
+                                                                                <span className="saving-throw-mod-label">Advantage on saves against:</span>
                                                                                 <span className="saving-throw-mod-value">{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
                                                                             </div>
                                                                         )}
                                                                         {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
                                                                             <div className="saving-throw-mod-item disadvantage">
-                                                                                <span className="saving-throw-mod-label">Disadvantage:</span>
+                                                                                <span className="saving-throw-mod-label">Disadvantage on saves against:</span>
                                                                                 <span className="saving-throw-mod-value">{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {savingThrowMods.resistance && Array.isArray(savingThrowMods.resistance) && savingThrowMods.resistance.length > 0 && (
+                                                                            <div className="saving-throw-mod-item resistance">
+                                                                                <span className="saving-throw-mod-label">Damage resistance to:</span>
+                                                                                <span className="saving-throw-mod-value">{savingThrowMods.resistance.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {savingThrowMods.immunity && Array.isArray(savingThrowMods.immunity) && savingThrowMods.immunity.length > 0 && (
+                                                                            <div className="saving-throw-mod-item immunity">
+                                                                                <span className="saving-throw-mod-label">Damage immunity to:</span>
+                                                                                <span className="saving-throw-mod-value">{savingThrowMods.immunity.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
                                                                             </div>
                                                                         )}
                                                                     </div>

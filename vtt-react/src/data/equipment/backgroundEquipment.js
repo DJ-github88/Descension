@@ -1198,6 +1198,794 @@ export const ALL_BACKGROUND_EQUIPMENT = [
     ...HERMIT_ITEMS,
     ...SCHOLAR_ITEMS,
 
+    // ===== CUSTOM BACKGROUND ITEMS =====
+
+    // MYSTIC ITEMS
+    {
+        id: 'mystic-crystal-focus',
+        name: 'Crystal Focus',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A polished crystal used to focus arcane energies and aid in mystical rituals.',
+        iconId: 'inv_misc_gem_crystal_01',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['mystic']
+        }
+    },
+
+    {
+        id: 'mystic-tome-mysteries',
+        name: 'Tome of Mysteries',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'An ancient tome containing mystical knowledge and arcane secrets.',
+        iconId: 'inv_misc_book_08',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['mystic']
+        }
+    },
+
+    {
+        id: 'mystic-incense-candles',
+        name: 'Incense and Candles',
+        type: 'consumable',
+        subtype: 'UTILITY',
+        quality: 'common',
+        description: 'Sacred incense and candles used in mystical rituals and meditation.',
+        iconId: 'inv_misc_candle_01',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        stackable: true,
+        maxStackSize: 10,
+        availableFor: {
+            backgrounds: ['mystic']
+        }
+    },
+
+    {
+        id: 'mystic-ritual-pouch',
+        name: 'Ritual Components Pouch',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A pouch containing various mystical components for rituals and spellcasting.',
+        iconId: 'inv_misc_bag_09',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 2, cols: 2 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['mystic']
+        }
+    },
+
+    {
+        id: 'mystic-travelers-robes',
+        name: 'Traveler\'s Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Comfortable robes designed for long journeys, with pockets for mystical components.',
+        iconId: 'inv_chest_cloth_05',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 3,
+        armorSlot: 'CHEST',
+        armorStats: {
+            armorClass: 10
+        },
+        availableFor: {
+            backgrounds: ['mystic']
+        }
+    },
+
+    // ZEALOT ITEMS
+    {
+        id: 'zealot-holy-symbol',
+        name: 'Holy Symbol',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A sacred symbol representing your divine faith and devotion.',
+        iconId: 'inv_jewelry_talisman_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['zealot']
+        }
+    },
+
+    {
+        id: 'zealot-prayer-beads',
+        name: 'Prayer Beads',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A string of beads used to count prayers and maintain focus during devotion.',
+        iconId: 'inv_jewelry_necklace_01',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['zealot']
+        }
+    },
+
+    {
+        id: 'zealot-ceremonial-weapon',
+        name: 'Ceremonial Weapon',
+        type: 'weapon',
+        subtype: 'MACE',
+        quality: 'common',
+        description: 'A beautifully crafted ceremonial weapon, more symbolic than practical.',
+        iconId: 'inv_mace_01',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'ONE_HANDED',
+        hand: 'ONE_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 6,
+                damageType: 'bludgeoning'
+            }
+        },
+        availableFor: {
+            backgrounds: ['zealot']
+        }
+    },
+
+    {
+        id: 'zealot-religious-vestments',
+        name: 'Religious Vestments',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Formal religious clothing worn during ceremonies and worship.',
+        iconId: 'inv_chest_cloth_04',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 3,
+        armorSlot: 'CHEST',
+        armorStats: {
+            armorClass: 10
+        },
+        availableFor: {
+            backgrounds: ['zealot']
+        }
+    },
+
+    // TRICKSTER ITEMS
+    {
+        id: 'trickster-thieves-tools',
+        name: 'Thieves\' Tools',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A set of lockpicks and tools for bypassing locks and traps.',
+        iconId: 'inv_misc_wrench_01',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['trickster']
+        }
+    },
+
+    {
+        id: 'trickster-disguise-kit',
+        name: 'Disguise Kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Cosmetics and accessories for creating disguises and altering appearance.',
+        iconId: 'inv_misc_bag_11',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['trickster']
+        }
+    },
+
+    {
+        id: 'trickster-fine-clothes',
+        name: 'Set of Fine Clothes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Elegant clothing suitable for social occasions and deception.',
+        iconId: 'inv_chest_cloth_03',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 6,
+        width: 2,
+        height: 3,
+        armorSlot: 'CHEST',
+        armorStats: {
+            armorClass: 10
+        },
+        availableFor: {
+            backgrounds: ['trickster']
+        }
+    },
+
+    {
+        id: 'trickster-fake-signet-ring',
+        name: 'Signet Ring (Fake)',
+        type: 'miscellaneous',
+        subtype: 'ACCESSORY',
+        quality: 'common',
+        description: 'A convincing fake signet ring for impersonating nobility or officials.',
+        iconId: 'inv_jewelry_ring_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['trickster']
+        }
+    },
+
+    {
+        id: 'trickster-marked-cards',
+        name: 'Deck of Marked Cards',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A deck of playing cards with subtle markings for cheating at games.',
+        iconId: 'inv_misc_ticket_tarot_stack_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['trickster']
+        }
+    },
+
+    // HARROW ITEMS
+    {
+        id: 'harrow-memento-loss',
+        name: 'Memento of Loss',
+        type: 'miscellaneous',
+        subtype: 'ACCESSORY',
+        quality: 'common',
+        description: 'A personal item that reminds you of someone or something you lost.',
+        iconId: 'inv_jewelry_necklace_02',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['harrow']
+        }
+    },
+
+    {
+        id: 'harrow-weathered-cloak',
+        name: 'Weathered Cloak',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A durable cloak that has seen better days but provides good protection from the elements.',
+        iconId: 'inv_misc_cape_01',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 3,
+        armorSlot: 'BACK',
+        armorStats: {
+            armorClass: 10
+        },
+        availableFor: {
+            backgrounds: ['harrow']
+        }
+    },
+
+    {
+        id: 'harrow-survival-gear',
+        name: 'Survival Gear',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Basic gear for surviving in the wilderness, including a knife and tinderbox.',
+        iconId: 'inv_misc_bag_08',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['harrow']
+        }
+    },
+
+    {
+        id: 'harrow-herbalism-kit',
+        name: 'Herbalism Kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Tools for identifying and collecting herbs, useful for survival and healing.',
+        iconId: 'inv_misc_herb_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['harrow']
+        }
+    },
+
+    {
+        id: 'harrow-worn-clothes',
+        name: 'Common Clothes (Worn)',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Simple, well-worn clothing suitable for everyday wear.',
+        iconId: 'inv_chest_cloth_02',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 3,
+        width: 2,
+        height: 3,
+        armorSlot: 'CHEST',
+        armorStats: {
+            armorClass: 10
+        },
+        availableFor: {
+            backgrounds: ['harrow']
+        }
+    },
+
+    // ARCANIST ITEMS
+    {
+        id: 'arcanist-spellbook',
+        name: 'Spellbook',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A leather-bound book containing arcane spells and magical knowledge.',
+        iconId: 'inv_misc_book_06',
+        value: { platinum: 0, gold: 50, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['arcanist']
+        }
+    },
+
+    {
+        id: 'arcanist-component-pouch',
+        name: 'Component Pouch',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A pouch containing various spell components for casting spells.',
+        iconId: 'inv_misc_bag_09',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 2, cols: 2 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['arcanist']
+        }
+    },
+
+    {
+        id: 'arcanist-ink-quill',
+        name: 'Ink and Quill',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Writing implements for transcribing spells and magical research.',
+        iconId: 'inv_inscription_tradeskill01',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['arcanist']
+        }
+    },
+
+    {
+        id: 'arcanist-scholarly-robes',
+        name: 'Scholarly Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'Comfortable robes designed for study and magical research.',
+        iconId: 'inv_chest_cloth_06',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 3,
+        armorSlot: 'CHEST',
+        armorStats: {
+            armorClass: 10
+        },
+        availableFor: {
+            backgrounds: ['arcanist']
+        }
+    },
+
+    {
+        id: 'arcanist-reading-glasses',
+        name: 'Reading Glasses',
+        type: 'miscellaneous',
+        subtype: 'ACCESSORY',
+        quality: 'common',
+        description: 'Specialized glasses for reading ancient texts and spellbooks.',
+        iconId: 'inv_helmet_25',
+        value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
+        weight: 0.1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['arcanist']
+        }
+    },
+
+    // HEXER ITEMS
+    {
+        id: 'hexer-cursed-trinket',
+        name: 'Cursed Trinket',
+        type: 'miscellaneous',
+        subtype: 'ACCESSORY',
+        quality: 'uncommon',
+        description: 'A mysterious trinket imbued with dark magical energies.',
+        iconId: 'inv_jewelry_talisman_03',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['hexer']
+        }
+    },
+
+    {
+        id: 'hexer-ritual-dagger',
+        name: 'Ritual Dagger',
+        type: 'weapon',
+        subtype: 'DAGGER',
+        quality: 'common',
+        description: 'A ceremonial dagger used in dark rituals and hexes.',
+        iconId: 'inv_weapon_shortblade_07',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 2,
+        slots: ['mainHand', 'offHand'],
+        weaponSlot: 'ONE_HANDED',
+        hand: 'ONE_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 4,
+                damageType: 'piercing'
+            }
+        },
+        availableFor: {
+            backgrounds: ['hexer']
+        }
+    },
+
+    {
+        id: 'hexer-dark-tome',
+        name: 'Dark Tome',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A forbidden book containing knowledge of curses and dark magic.',
+        iconId: 'inv_misc_book_09',
+        value: { platinum: 0, gold: 30, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['hexer']
+        }
+    },
+
+    {
+        id: 'hexer-hooded-cloak',
+        name: 'Hooded Cloak',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'common',
+        description: 'A dark cloak with a hood, perfect for concealing identity and dark dealings.',
+        iconId: 'inv_misc_cape_02',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 2,
+        width: 2,
+        height: 3,
+        armorSlot: 'BACK',
+        armorStats: {
+            armorClass: 10
+        },
+        availableFor: {
+            backgrounds: ['hexer']
+        }
+    },
+
+    {
+        id: 'hexer-strange-liquid',
+        name: 'Vial of Strange Liquid',
+        type: 'consumable',
+        subtype: 'POTION',
+        quality: 'common',
+        description: 'A mysterious potion with unknown properties, possibly magical in nature.',
+        iconId: 'inv_potion_01',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        stackable: true,
+        maxStackSize: 5,
+        availableFor: {
+            backgrounds: ['hexer']
+        }
+    },
+
+    // REAVER ITEMS
+    {
+        id: 'reaver-battle-worn-weapon',
+        name: 'Battle-worn Weapon',
+        type: 'weapon',
+        subtype: 'GREATSWORD',
+        quality: 'common',
+        description: 'A heavily used weapon that has seen many battles and bears the scars to prove it.',
+        iconId: 'inv_sword_04',
+        value: { platinum: 0, gold: 50, silver: 0, copper: 0 },
+        weight: 6,
+        width: 1,
+        height: 4,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 2,
+                diceType: 6,
+                damageType: 'slashing'
+            }
+        },
+        availableFor: {
+            backgrounds: ['reaver']
+        }
+    },
+
+    {
+        id: 'reaver-trophy',
+        name: 'Trophy from Defeated Foe',
+        type: 'miscellaneous',
+        subtype: 'ACCESSORY',
+        quality: 'common',
+        description: 'A grisly trophy taken from a defeated enemy, a reminder of past victories.',
+        iconId: 'inv_misc_bone_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['reaver']
+        }
+    },
+
+    {
+        id: 'reaver-studded-leather',
+        name: 'Studded Leather Armor',
+        type: 'armor',
+        subtype: 'LEATHER',
+        quality: 'common',
+        description: 'Reinforced leather armor with metal studs for added protection.',
+        iconId: 'inv_chest_leather_01',
+        value: { platinum: 0, gold: 45, silver: 0, copper: 0 },
+        weight: 13,
+        width: 2,
+        height: 3,
+        armorSlot: 'CHEST',
+        armorStats: {
+            armorClass: 12
+        },
+        availableFor: {
+            backgrounds: ['reaver']
+        }
+    },
+
+    {
+        id: 'reaver-whetstone',
+        name: 'Whetstone',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A stone used for sharpening weapons and maintaining their deadly edge.',
+        iconId: 'inv_stone_grindingstone_01',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['reaver']
+        }
+    },
+
+    // MERCENARY ITEMS
+    {
+        id: 'mercenary-military-insignia',
+        name: 'Military Insignia',
+        type: 'miscellaneous',
+        subtype: 'ACCESSORY',
+        quality: 'common',
+        description: 'A badge or insignia showing your service in mercenary companies.',
+        iconId: 'inv_jewelry_talisman_02',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['mercenary']
+        }
+    },
+
+    {
+        id: 'mercenary-service-contract',
+        name: 'Contract of Service',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Official documents proving your mercenary status and completed contracts.',
+        iconId: 'inv_misc_book_05',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['mercenary']
+        }
+    },
+
+    {
+        id: 'mercenary-gaming-set',
+        name: 'Gaming Set',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Dice or cards used for gambling, a common pastime among mercenaries.',
+        iconId: 'inv_misc_dice_01',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['mercenary']
+        }
+    },
+
+    {
+        id: 'mercenary-maintenance-kit',
+        name: 'Weapon Maintenance Kit',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'Tools and supplies for maintaining and repairing weapons and armor.',
+        iconId: 'inv_misc_wrench_02',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['mercenary']
+        }
+    },
+
+    // SENTINEL ITEMS
+    {
+        id: 'sentinel-guardian-badge',
+        name: 'Guardian\'s Badge',
+        type: 'miscellaneous',
+        subtype: 'ACCESSORY',
+        quality: 'common',
+        description: 'An official badge signifying your status as a guardian or sentinel.',
+        iconId: 'inv_jewelry_talisman_04',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 0.5,
+        width: 1,
+        height: 1,
+        availableFor: {
+            backgrounds: ['sentinel']
+        }
+    },
+
+    {
+        id: 'sentinel-signal-horn',
+        name: 'Signal Horn',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A horn used to signal allies, raise alarms, or coordinate defensive actions.',
+        iconId: 'inv_misc_horn_01',
+        value: { platinum: 0, gold: 2, silver: 0, copper: 0 },
+        weight: 2,
+        width: 1,
+        height: 2,
+        availableFor: {
+            backgrounds: ['sentinel']
+        }
+    },
+
+    {
+        id: 'sentinel-chain-mail',
+        name: 'Chain Mail',
+        type: 'armor',
+        subtype: 'CHAIN',
+        quality: 'common',
+        description: 'Flexible metal armor made of interlocking chains, providing good protection.',
+        iconId: 'inv_chest_chain_01',
+        value: { platinum: 0, gold: 75, silver: 0, copper: 0 },
+        weight: 55,
+        width: 2,
+        height: 3,
+        armorSlot: 'CHEST',
+        armorStats: {
+            armorClass: 16
+        },
+        availableFor: {
+            backgrounds: ['sentinel']
+        }
+    },
+
+    {
+        id: 'sentinel-rope',
+        name: 'Rope (50 feet)',
+        type: 'miscellaneous',
+        subtype: 'TOOL',
+        quality: 'common',
+        description: 'A sturdy hemp rope, 50 feet long, useful for climbing, securing, or rescue operations.',
+        iconId: 'inv_misc_rope_01',
+        value: { platinum: 0, gold: 1, silver: 0, copper: 0 },
+        weight: 10,
+        width: 1,
+        height: 3,
+        availableFor: {
+            backgrounds: ['sentinel']
+        }
+    },
+
     // Currency pouches for backgrounds that include gold amounts
     {
         id: 'acolyte-currency-pouch',
@@ -1218,6 +2006,205 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         },
         availableFor: {
             backgrounds: ['acolyte']
+        }
+    },
+
+    // Custom background currency pouches
+    {
+        id: 'mystic-currency-pouch',
+        name: 'Mystic Pouch with 20g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A mystical pouch containing 20 gold pieces from arcane dealings. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['mystic']
+        }
+    },
+
+    {
+        id: 'zealot-currency-pouch',
+        name: 'Zealot Pouch with 15g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A blessed pouch containing 15 gold pieces from religious offerings. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['zealot']
+        }
+    },
+
+    {
+        id: 'trickster-currency-pouch',
+        name: 'Trickster Pouch with 25g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A cunningly concealed pouch containing 25 gold pieces from various schemes. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['trickster']
+        }
+    },
+
+    {
+        id: 'harrow-currency-pouch',
+        name: 'Harrow Pouch with 10g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A worn pouch containing 10 gold pieces from hard-earned survival. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['harrow']
+        }
+    },
+
+    {
+        id: 'arcanist-currency-pouch',
+        name: 'Arcanist Pouch with 30g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A scholarly pouch containing 30 gold pieces from magical research and teaching. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 30, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['arcanist']
+        }
+    },
+
+    {
+        id: 'hexer-currency-pouch',
+        name: 'Hexer Pouch with 15g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A mysterious pouch containing 15 gold pieces from dark dealings. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['hexer']
+        }
+    },
+
+    {
+        id: 'reaver-currency-pouch',
+        name: 'Reaver Pouch with 20g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A battle-scarred pouch containing 20 gold pieces from mercenary work. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 20, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['reaver']
+        }
+    },
+
+    {
+        id: 'mercenary-currency-pouch',
+        name: 'Mercenary Pouch with 25g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A well-used pouch containing 25 gold pieces from mercenary contracts. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['mercenary']
+        }
+    },
+
+    {
+        id: 'sentinel-currency-pouch',
+        name: 'Sentinel Pouch with 15g',
+        type: 'miscellaneous',
+        subtype: 'CONTAINER',
+        quality: 'common',
+        description: 'A sturdy pouch containing 15 gold pieces from guardian duties. Can be sold for its full value.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 15, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        containerProperties: {
+            isLocked: false,
+            gridSize: { rows: 1, cols: 1 },
+            items: []
+        },
+        availableFor: {
+            backgrounds: ['sentinel']
         }
     },
 

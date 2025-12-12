@@ -1,12 +1,13 @@
 /**
  * Step 4: Background Selection
  *
- * Choose from standard D&D backgrounds (Acolyte, Sage, Soldier, etc.)
+ * Choose from standard D&D backgrounds (Acolyte, Criminal, Entertainer, etc.)
  */
 
 import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { getAllBackgrounds, getBackgroundData } from '../../../data/backgroundData';
+import { BACKGROUND_DATA, getAllBackgrounds, getBackgroundData } from '../../../data/backgroundData';
+import { getCustomBackgroundAbilities } from '../../../data/customBackgroundData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 import { formatCurrency } from '../../../data/startingCurrencyData';
@@ -22,7 +23,7 @@ const Step4BackgroundSelection = () => {
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
     const tooltipRef = React.useRef(null);
 
-    const backgrounds = getAllBackgrounds() || [];
+    const backgrounds = Object.values(BACKGROUND_DATA) || [];
     const { validationErrors } = state;
 
     // Handle background selection
@@ -34,7 +35,7 @@ const Step4BackgroundSelection = () => {
     // Get background for preview (hovered or selected)
     const getPreviewBackground = () => {
         const previewId = hoveredBackground || selectedBackground;
-        return previewId ? getBackgroundData(previewId) : null;
+        return previewId ? BACKGROUND_DATA[previewId] : null;
     };
 
     const previewBackground = getPreviewBackground();
@@ -42,8 +43,10 @@ const Step4BackgroundSelection = () => {
     // Helper function to get full item objects from item names
     const getFullItemObjects = (itemNames) => {
         return itemNames.map(itemName => {
+            // Handle different item name formats
             return STARTING_EQUIPMENT_LIBRARY.find(item =>
-                item.name.toLowerCase() === itemName.toLowerCase()
+                item.name.toLowerCase() === itemName.toLowerCase() ||
+                item.name.toLowerCase().includes(itemName.toLowerCase().split(' ')[0])
             );
         }).filter(item => item); // Remove undefined items
     };
@@ -194,25 +197,53 @@ const Step4BackgroundSelection = () => {
                                         {previewBackground.description}
                                     </p>
 
+
                                     <div className="class-meta-row">
-                                        {previewBackground.skillProficiencies && previewBackground.skillProficiencies.length > 0 && (
-                                            <span className="meta-badge">
-                                                <span className="meta-label">Skills</span>
-                                                {previewBackground.skillProficiencies.length}
-                                            </span>
+                                        {/* Stat Modifiers (only for custom backgrounds) */}
+                                        {previewBackground.statModifiers && Object.keys(previewBackground.statModifiers).length > 0 && (
+                                            <div className="stat-modifiers-display">
+                                                {Object.entries(previewBackground.statModifiers)
+                                                    .filter(([_, value]) => value !== 0)
+                                                    .map(([stat, value]) => {
+                                                        const statAbbrev = {
+                                                            strength: 'STR',
+                                                            agility: 'AGI',
+                                                            constitution: 'CON',
+                                                            intelligence: 'INT',
+                                                            spirit: 'SPI',
+                                                            charisma: 'CHA'
+                                                        }[stat] || stat.toUpperCase().substring(0, 3);
+                                                        return (
+                                                            <span key={stat} className={`stat-modifier ${value > 0 ? 'positive' : 'negative'}`}>
+                                                                {value > 0 ? '+' : ''}{value} {statAbbrev}
+                                                            </span>
+                                                        );
+                                                    })}
+                                            </div>
                                         )}
-                                        {previewBackground.toolProficiencies && previewBackground.toolProficiencies.length > 0 && (
-                                            <span className="meta-badge">
-                                                <span className="meta-label">Tools</span>
-                                                {previewBackground.toolProficiencies.length}
+
+                                        {/* Skills, Tools, Languages */}
+                                        <div className="background-benefits-summary">
+                                            <span className="benefit-item">
+                                                <i className="fas fa-brain"></i>
+                                                <span className="benefit-label">SKILLS</span>
+                                                <span className="benefit-value">{previewBackground.skillProficiencies?.length || 0}</span>
                                             </span>
-                                        )}
-                                        {previewBackground.languages > 0 && (
-                                            <span className="meta-badge">
-                                                <span className="meta-label">Languages</span>
-                                                +{previewBackground.languages}
-                                            </span>
-                                        )}
+                                            {previewBackground.toolProficiencies && previewBackground.toolProficiencies.length > 0 && (
+                                                <span className="benefit-item">
+                                                    <i className="fas fa-tools"></i>
+                                                    <span className="benefit-label">TOOLS</span>
+                                                    <span className="benefit-value">{previewBackground.toolProficiencies.length}</span>
+                                                </span>
+                                            )}
+                                            {previewBackground.languages > 0 && (
+                                                <span className="benefit-item">
+                                                    <i className="fas fa-language"></i>
+                                                    <span className="benefit-label">LANGUAGES</span>
+                                                    <span className="benefit-value">+{previewBackground.languages}</span>
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
 
                                     <div className="background-details-grid">
@@ -244,26 +275,18 @@ const Step4BackgroundSelection = () => {
                                             </div>
                                         )}
 
-                                        {previewBackground.languages > 0 && (
-                                            <div className="detail-section">
-                                                <h5 className="section-title">
-                                                    <i className="fas fa-language"></i> Languages
-                                                </h5>
-                                                <p className="language-info">
-                                                    Choose {previewBackground.languages} additional language{previewBackground.languages > 1 ? 's' : ''}
-                                                </p>
-                                            </div>
-                                        )}
                                     </div>
 
-                                    {previewBackground.equipment && previewBackground.equipment.length > 0 && (
+                                    {(previewBackground.equipment || previewBackground.startingEquipment) && (previewBackground.equipment || previewBackground.startingEquipment).length > 0 && (
                                         <div className="detail-section">
                                             <h5 className="section-title">
                                                 <i className="fas fa-shopping-bag"></i> Starting Equipment
                                             </h5>
                                             <div className="equipment-preview-grid">
                                                 {(() => {
-                                                    const fullItems = getFullItemObjects(previewBackground.equipment);
+                                                    const equipment = previewBackground.equipment || previewBackground.startingEquipment || [];
+                                                    const equipmentList = Array.isArray(equipment) ? equipment : [equipment];
+                                                    const fullItems = getFullItemObjects(equipmentList);
                                                     const COLS = 6;
                                                     const occupiedCells = new Map();
                                                     const gridRows = [];
@@ -308,8 +331,8 @@ const Step4BackgroundSelection = () => {
                                                                             <div
                                                                                 className="equipment-preview-item-wrapper"
                                                                                 style={{
-                                                                                    width: `calc(${width * 100}% + ${width - 1}px)`,
-                                                                                    height: `calc(${height * 100}% + ${height - 1}px)`
+                                                                                    width: `${width * 40 + (width - 1) * 1}px`,
+                                                                                    height: `${height * 40 + (height - 1) * 1 + (height - 1) * 2}px`
                                                                                 }}
                                                                                 onMouseEnter={(e) => handleItemMouseEnter(e, item)}
                                                                                 onMouseMove={handleItemMouseMove}
@@ -340,8 +363,8 @@ const Step4BackgroundSelection = () => {
                                                         }
                                                     });
 
-                                                    // Ensure we have at least 3 rows for consistent layout
-                                                    const minRows = 3;
+                                                    // Ensure we have enough rows for all placed items (at least 3 for consistent layout)
+                                                    const minRows = Math.max(3, totalRows);
                                                     while (gridRows.length < minRows) {
                                                         gridRows.push(new Array(COLS).fill(null));
                                                     }
@@ -385,28 +408,19 @@ const Step4BackgroundSelection = () => {
                                         </div>
                                     )}
 
-                                    {previewBackground.feature && (
-                                        <div className="detail-section">
-                                            <h5 className="section-title">
-                                                <i className="fas fa-star"></i> {previewBackground.feature.name}
-                                            </h5>
-                                            <p className="feature-description">
-                                                {previewBackground.feature.description}
-                                            </p>
-                                        </div>
-                                    )}
 
-                                    {/* Background Abilities */}
+                                    {/* Background Abilities/Features */}
                                     {(() => {
-                                        const abilities = getBackgroundAbilities(previewBackground.id);
-                                        if (abilities && abilities.length > 0) {
+                                        // Handle custom background abilities
+                                        const customAbilities = previewBackground.abilities;
+                                        if (customAbilities && customAbilities.length > 0) {
                                             return (
                                                 <div className="detail-section">
                                                     <h5 className="section-title">
                                                         <i className="fas fa-magic"></i> Background Abilities
                                                     </h5>
                                                     <div className="abilities-list">
-                                                        {abilities.map((ability, index) => (
+                                                        {customAbilities.map((ability, index) => (
                                                             <div key={index} className="ability-item">
                                                                 <div className="ability-header">
                                                                     <h5 className="ability-name">{ability.name}</h5>
@@ -414,7 +428,7 @@ const Step4BackgroundSelection = () => {
                                                                         <span className={`ability-type ${ability.type.toLowerCase()}`}>
                                                                             {ability.type}
                                                                         </span>
-                                                                        <span className="ability-usage">{ability.usage}</span>
+                                                                        <span className="ability-usage">{ability.usage || 'Passive'}</span>
                                                                     </div>
                                                                 </div>
                                                                 <p className="ability-description">
@@ -426,6 +440,34 @@ const Step4BackgroundSelection = () => {
                                                 </div>
                                             );
                                         }
+
+                                        // Handle standard background feature
+                                        const standardFeature = previewBackground.feature;
+                                        if (standardFeature) {
+                                            return (
+                                                <div className="detail-section">
+                                                    <h5 className="section-title">
+                                                        <i className="fas fa-star"></i> Background Feature
+                                                    </h5>
+                                                    <div className="abilities-list">
+                                                        <div className="ability-item">
+                                                            <div className="ability-header">
+                                                                <h5 className="ability-name">{standardFeature.name}</h5>
+                                                                <div className="ability-meta">
+                                                                    <span className="ability-type passive">
+                                                                        Feature
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <p className="ability-description">
+                                                                {standardFeature.description}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+
                                         return null;
                                     })()}
 

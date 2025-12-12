@@ -23,7 +23,7 @@ export const PATH_DATA = {
             spirit: 2,
             charisma: 1
         },
-        skillProficiencies: ['Arcana', 'Insight', 'Religion'],
+        skillProficiencies: ['Arcana', 'Insight'],
         toolProficiencies: ['Alchemist\'s supplies'],
         languages: 2,
         startingEquipment: [
@@ -51,7 +51,7 @@ export const PATH_DATA = {
             constitution: 1,
             spirit: 2
         },
-        skillProficiencies: ['Intimidation', 'Religion', 'Persuasion'],
+        skillProficiencies: ['Intimidation', 'Religion'],
         toolProficiencies: ['Smith\'s tools'],
         languages: 1,
         startingEquipment: [
@@ -79,7 +79,7 @@ export const PATH_DATA = {
             intelligence: 1,
             charisma: 1
         },
-        skillProficiencies: ['Deception', 'Sleight of Hand', 'Stealth'],
+        skillProficiencies: ['Deception', 'Stealth'],
         toolProficiencies: ['Thieves\' tools', 'Disguise kit'],
         languages: 1,
         startingEquipment: [
@@ -107,7 +107,7 @@ export const PATH_DATA = {
             spirit: 1,
             charisma: -1
         },
-        skillProficiencies: ['Intimidation', 'Survival', 'Medicine'],
+        skillProficiencies: ['Intimidation', 'Survival'],
         toolProficiencies: ['Herbalism kit'],
         languages: 1,
         startingEquipment: [
@@ -134,7 +134,7 @@ export const PATH_DATA = {
             intelligence: 3,
             spirit: 1
         },
-        skillProficiencies: ['Arcana', 'History', 'Investigation'],
+        skillProficiencies: ['Arcana', 'History'],
         toolProficiencies: ['Calligrapher\'s supplies'],
         languages: 3,
         startingEquipment: [
@@ -162,7 +162,7 @@ export const PATH_DATA = {
             spirit: 1,
             charisma: 2
         },
-        skillProficiencies: ['Arcana', 'Deception', 'Intimidation'],
+        skillProficiencies: ['Arcana', 'Deception'],
         toolProficiencies: ['Poisoner\'s kit'],
         languages: 2,
         startingEquipment: [
@@ -190,7 +190,7 @@ export const PATH_DATA = {
             constitution: 2,
             charisma: -1
         },
-        skillProficiencies: ['Athletics', 'Intimidation', 'Survival'],
+        skillProficiencies: ['Athletics', 'Intimidation'],
         toolProficiencies: ['Smith\'s tools'],
         languages: 0,
         startingEquipment: [
@@ -219,7 +219,7 @@ export const PATH_DATA = {
             constitution: 1,
             intelligence: 1
         },
-        skillProficiencies: ['Athletics', 'Intimidation', 'Persuasion'],
+        skillProficiencies: ['Athletics', 'Persuasion'],
         toolProficiencies: ['Gaming set', 'Vehicles (land)'],
         languages: 1,
         startingEquipment: [
@@ -247,7 +247,7 @@ export const PATH_DATA = {
             spirit: 2,
             charisma: 1
         },
-        skillProficiencies: ['Insight', 'Perception', 'Athletics'],
+        skillProficiencies: ['Insight', 'Perception'],
         toolProficiencies: ['Mason\'s tools'],
         languages: 1,
         startingEquipment: [
