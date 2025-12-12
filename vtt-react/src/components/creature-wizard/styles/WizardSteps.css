@@ -1973,6 +1973,51 @@
   }
 }
 
+/* ===== WINDOW-SIZE RESPONSIVE OVERRIDES (Creature Wizard) =====
+   The creature wizard lives inside a resizable window. Viewport media queries won't trigger when
+   only the window is resized. These rules are keyed off size classes applied by CreatureWizardApp. */
+
+/* Medium window: keep two columns but tighten the right panel */
+.creature-wizard-layout.cw-size-md .basic-info-layout {
+  grid-template-columns: 1fr minmax(250px, 350px);
+  gap: clamp(15px, 3vw, 30px);
+}
+
+.creature-wizard-layout.cw-size-md .token-appearance-section {
+  padding: clamp(12px, 2.5vw, 20px);
+  gap: clamp(12px, 2.5vw, 20px);
+}
+
+/* Small/narrow windows: stack to single column and reduce spacing */
+.creature-wizard-layout.cw-size-sm .basic-info-layout,
+.creature-wizard-layout.cw-size-xs .basic-info-layout {
+  grid-template-columns: 1fr;
+  gap: clamp(15px, 3vw, 25px);
+}
+
+.creature-wizard-layout.cw-size-sm .token-appearance-section,
+.creature-wizard-layout.cw-size-xs .token-appearance-section {
+  order: -1;
+  padding: clamp(10px, 2vw, 15px);
+  gap: clamp(10px, 2vw, 15px);
+}
+
+.creature-wizard-layout.cw-size-sm .classification-row,
+.creature-wizard-layout.cw-size-xs .classification-row {
+  grid-template-columns: 1fr;
+  gap: clamp(10px, 2vw, 15px);
+}
+
+/* Extra-small: slightly tighter paddings */
+.creature-wizard-layout.cw-size-xs .token-appearance-section {
+  padding: clamp(8px, 1.5vw, 12px);
+  gap: clamp(8px, 1.5vw, 12px);
+}
+
+.creature-wizard-layout.cw-size-xs .core-info-section {
+  gap: clamp(15px, 2.5vw, 20px);
+}
+
 /* Custom Image Upload Styles */
 .custom-image-section {
   display: flex;

@@ -4,8 +4,11 @@ import '../../styles/WizardSteps.css';
 import './Step3Abilities.css';
 import { SpellLibraryProvider } from '../../../../components/spellcrafting-wizard/context/SpellLibraryContext';
 import AbilitySelectionWindow from '../windows/AbilitySelectionWindow';
+import BasicAbilityCreator from '../windows/BasicAbilityCreator';
+import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 // Import Pathfinder styles for spell cards
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
+import '../windows/BasicAbilityCreator.css';
 
 // Ability types
 const ABILITY_TYPES = {
@@ -40,6 +43,7 @@ const Step3Abilities = () => {
   const [currentAbility, setCurrentAbility] = useState({ ...DEFAULT_ABILITY });
   const [showAbilityForm, setShowAbilityForm] = useState(false);
   const [showAbilitySelector, setShowAbilitySelector] = useState(false);
+  const [showBasicAbilityCreator, setShowBasicAbilityCreator] = useState(false);
   const [recentlyAddedSpells, setRecentlyAddedSpells] = useState(new Set());
 
   // This function has been removed as we no longer support custom abilities
@@ -143,169 +147,28 @@ const Step3Abilities = () => {
     return (
       <div className="ability-list">
         {wizardState.abilities.map((ability, index) => {
-          // Determine the rarity class based on level
-          const getRarityClass = () => {
-            const level = ability.level || 1;
-            if (level >= 9) return 'epic';
-            if (level >= 6) return 'rare';
-            if (level >= 3) return 'uncommon';
-            return 'common';
-          };
-
-          // Determine the spell school color
-          const getSpellSchoolColor = () => {
-            const damageType = ability.damage?.damageType || 'physical';
-            const typeMap = {
-              'physical': 'physical',
-              'fire': 'fire',
-              'frost': 'frost',
-              'arcane': 'arcane',
-              'nature': 'nature',
-              'shadow': 'shadow',
-              'holy': 'holy',
-              'poison': 'poison'
-            };
-            return `school-${typeMap[damageType] || 'physical'}`;
-          };
-
-          // Format casting time
-          const formatCastingTime = () => {
-            if (ability.castingConfig?.castTime) {
-              return ability.castingConfig.castTime;
-            }
-            return 'Instant';
-          };
-
-          // Format range
-          const formatRange = () => {
-            const range = ability.range || ability.targetingConfig?.rangeDistance || 0;
-            if (range <= 0) return 'Self';
-            return `${range} ft`;
+          // Convert ability to spell format for UnifiedSpellCard
+          // UnifiedSpellCard normalizes the data, so we just need to pass it as a spell
+          const spellData = {
+            ...ability,
+            // Ensure id exists for UnifiedSpellCard
+            id: ability.id || ability.spellId || `ability-${index}`,
+            // Ensure name exists
+            name: ability.name || 'Unnamed Ability',
           };
 
           return (
-            <div key={index} className={`wow-spell-card pf-library-spell-card ${getRarityClass()} ${getSpellSchoolColor()}`}>
-              {/* Card gloss effect */}
-              <div className="spell-card-gloss"></div>
-
-              <div className="spell-card-content">
-                {/* Card header with icon, name, and resources */}
-                <div className="pf-spell-card-header">
-                  {/* Top row with icon and name */}
-                  <div className="pf-spell-header-top">
-                    {/* Spell icon */}
-                    <div className="pf-spell-icon-container">
-                      {ability.icon ? (
-                        <img
-                          src={`https://wow.zamimg.com/images/wow/icons/large/${ability.icon}.jpg`}
-                          alt={ability.name}
-                          className="pf-spell-icon"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
-                          }}
-                        />
-                      ) : (
-                        <div className="pf-spell-icon ability-icon-placeholder">
-                          <i className="fas fa-magic"></i>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Spell name and meta */}
-                    <div className="pf-spell-info">
-                      <h3 className="pf-spell-name">
-                        {ability.name.toUpperCase()}
-                      </h3>
-                      <div className="pf-spell-meta">
-                        <span className="pf-spell-type">{ability.spellType || formatAbilityType(ability.type) || 'Ability'}</span>
-                        <span className="pf-spell-cast-time">{formatCastingTime()}</span>
-                        <span className="pf-spell-range">{formatRange()}</span>
-                        {ability.level && <span className="pf-spell-level">Level {ability.level}</span>}
-                      </div>
-                    </div>
-
-                    {/* Remove button */}
-                    <div className="pf-spell-actions">
-                      <button
-                        type="button"
-                        className="pf-remove-ability-button"
-                        onClick={() => handleRemoveAbility(index)}
-                        title="Remove ability"
-                      >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card body with description and effects */}
-                <div className="pf-spell-card-body">
-                  {ability.description && (
-                    <div className="pf-spell-description">
-                      {ability.description}
-                    </div>
-                  )}
-
-                  {/* Display effects */}
-                  {ability.effects && ability.effects.length > 0 && (
-                    <div className="pf-spell-effects">
-                      <div className="pf-effects-title">Effects:</div>
-                      {ability.effects.map((effect, effectIndex) => (
-                        <div key={effectIndex} className={`pf-spell-effect pf-effect-${effect.type?.toLowerCase()}`}>
-                          {effect.type === 'damage' || effect.type === 'DAMAGE' ? (
-                            <div className="pf-effect-damage">
-                              <span className="pf-effect-label">Damage:</span>
-                              <span className="pf-effect-value">
-                                <span className="pf-damage-formula">
-                                  {effect.formula || (ability.damage ?
-                                    `${ability.damage.diceCount || 0}d${ability.damage.diceType || 6}${(ability.damage.bonus && ability.damage.bonus > 0) ? ` + ${ability.damage.bonus}` : ''}`
-                                    : '1d6')}
-                                </span>
-                                <span className="pf-damage-type">
-                                  {formatDamageType(effect.damageType || (ability.damage ? ability.damage.damageType : 'physical'))}
-                                </span>
-                              </span>
-                            </div>
-                          ) : effect.type === 'healing' || effect.type === 'HEALING' ? (
-                            <div className="pf-effect-healing">
-                              <span className="pf-effect-label">Healing:</span>
-                              <span className="pf-effect-value">{effect.formula || effect.dice || '1d6'}</span>
-                            </div>
-                          ) : effect.type === 'condition' || effect.type === 'CONDITION' ? (
-                            <div className="pf-effect-condition">
-                              <span className="pf-effect-label">Condition:</span>
-                              <span className="pf-effect-value">{effect.condition} for {effect.duration} turns</span>
-                            </div>
-                          ) : (
-                            <div className="pf-effect-other">
-                              <span className="pf-effect-label">{effect.type}:</span>
-                              <span className="pf-effect-value">{effect.description || 'No details'}</span>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Card footer with stats */}
-                  <div className="pf-spell-footer">
-                    <div className="pf-spell-stats">
-                      <div className="pf-spell-stat">
-                        <span className="pf-stat-label">AP Cost:</span>
-                        <span className="pf-stat-value">{ability.actionPointCost || 1}</span>
-                      </div>
-
-                      {ability.cooldown > 0 && (
-                        <div className="pf-spell-stat">
-                          <span className="pf-stat-label">Cooldown:</span>
-                          <span className="pf-stat-value">{ability.cooldown} turns</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div key={index} className="ability-card-wrapper">
+              <UnifiedSpellCard
+                spell={spellData}
+                variant="library"
+                showActions={true}
+                showDescription={true}
+                showStats={true}
+                showTags={true}
+                onDelete={() => handleRemoveAbility(index)}
+                className="creature-ability-card"
+              />
             </div>
           );
         })}
@@ -474,6 +337,13 @@ const Step3Abilities = () => {
     setShowAbilitySelector(true);
   };
 
+  // Handle creating a basic ability
+  const handleCreateBasicAbility = (ability) => {
+    console.log("Step3Abilities: handleCreateBasicAbility called with ability:", ability);
+    dispatch(wizardActionCreators.addAbility(ability));
+    setShowBasicAbilityCreator(false);
+  };
+
   // Handle selecting a spell from the library
   const handleSelectSpell = (spell) => {
     console.log("Step3Abilities: handleSelectSpell called with spell:", spell);
@@ -613,31 +483,49 @@ const Step3Abilities = () => {
   };
 
   return (
-    <div className="wizard-step">
-      <div className="creature-window-content">
-        <div className="abilities-header-section">
-          <h2>Abilities & Spells</h2>
-          <button
-            type="button"
-            className="add-from-spell-library-btn"
-            onClick={handleAddFromLibrary}
-          >
-            <i className="fas fa-book"></i> Add From Spell Library
-          </button>
+    <SpellLibraryProvider>
+      <div className="wizard-step">
+        <div className="creature-window-content">
+          <div className="abilities-header-section">
+            <h2>Abilities & Spells</h2>
+            <div className="abilities-header-buttons">
+              <button
+                type="button"
+                className="add-from-spell-library-btn"
+                onClick={handleAddFromLibrary}
+              >
+                <i className="fas fa-book"></i> Add From Spell Library
+              </button>
+              <button
+                type="button"
+                className="create-basic-ability-btn"
+                onClick={() => setShowBasicAbilityCreator(true)}
+              >
+                <i className="fas fa-plus"></i> Create Basic Spell/Ability
+              </button>
+            </div>
+          </div>
+
+          {renderAbilityList()}
         </div>
 
-        {renderAbilityList()}
-      </div>
+        {/* Ability Selection Window */}
+        <AbilitySelectionWindow
+          isOpen={showAbilitySelector}
+          onClose={() => setShowAbilitySelector(false)}
+          onSelectAbility={handleSelectSpell}
+          recentlyAddedSpells={recentlyAddedSpells}
+          existingAbilities={wizardState.abilities}
+        />
 
-      {/* Ability Selection Window */}
-      <AbilitySelectionWindow
-        isOpen={showAbilitySelector}
-        onClose={() => setShowAbilitySelector(false)}
-        onSelectAbility={handleSelectSpell}
-        recentlyAddedSpells={recentlyAddedSpells}
-        existingAbilities={wizardState.abilities}
-      />
-    </div>
+        {/* Basic Ability Creator */}
+        <BasicAbilityCreator
+          isOpen={showBasicAbilityCreator}
+          onClose={() => setShowBasicAbilityCreator(false)}
+          onCreateAbility={handleCreateBasicAbility}
+        />
+      </div>
+    </SpellLibraryProvider>
   );
 };
 

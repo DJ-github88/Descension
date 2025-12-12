@@ -574,7 +574,6 @@ const CreatureLibrary = ({ onEdit }) => {
       {/* Tooltip rendered at document level using createPortal */}
       {hoveredCreature && ReactDOM.createPortal(
         <div
-          ref={tooltipRef}
           className="creature-card-hover-preview-portal"
           style={{
             position: 'fixed',
@@ -584,26 +583,25 @@ const CreatureLibrary = ({ onEdit }) => {
             // Ensure tooltip is visible during measurement
             visibility: tooltipPosition.x === 0 && tooltipPosition.y === 0 ? 'hidden' : 'visible'
           }}
-          onWheel={(e) => {
-            // Stop propagation to prevent background scrolling when scrolling tooltip
-            e.stopPropagation();
-          }}
-          onMouseEnter={() => {
-            // Keep tooltip visible when hovering over it
-            setHoveredCreature(hoveredCreature);
-          }}
-          onMouseLeave={() => {
-            // Hide tooltip when leaving it
-            setHoveredCreature(null);
-          }}
-          onLoad={() => {
-            // Recalculate position after content is loaded
-            if (window.lastTooltipEvent) {
-              setTimeout(() => updateTooltipPosition(window.lastTooltipEvent), 10);
-            }
-          }}
         >
-          <SimpleCreatureTooltip creature={hoveredCreature} />
+          <div
+            ref={tooltipRef}
+            className="creature-card-hover-preview-interactive"
+            onWheel={(e) => {
+              // Stop propagation to prevent background scrolling when scrolling tooltip
+              e.stopPropagation();
+            }}
+            onMouseEnter={() => {
+              // Keep tooltip visible when hovering over it
+              setHoveredCreature(hoveredCreature);
+            }}
+            onMouseLeave={() => {
+              // Hide tooltip when leaving it
+              setHoveredCreature(null);
+            }}
+          >
+            <SimpleCreatureTooltip creature={hoveredCreature} />
+          </div>
         </div>,
         document.body
       )}

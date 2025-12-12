@@ -554,6 +554,58 @@ const SkillsDisplay = () => {
                                 {rollableTable.description}
                             </p>
 
+                            {/* Color Legend for Roll Outcomes */}
+                            <div className="roll-outcome-legend" style={{ 
+                                marginBottom: '18px', 
+                                padding: '14px 16px', 
+                                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 245, 240, 0.7) 100%)',
+                                border: '2px solid #d4af37',
+                                borderRadius: '8px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '10px'
+                            }}>
+                                <h5 style={{ 
+                                    margin: '0 0 8px 0', 
+                                    fontSize: '13px', 
+                                    fontWeight: '700', 
+                                    color: '#5a1e12',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.8px',
+                                    fontFamily: "'Cinzel', serif"
+                                }}>
+                                    <i className="fas fa-palette" style={{ marginRight: '6px' }}></i>
+                                    Roll Outcome Colors (Colorblind-Friendly)
+                                </h5>
+                                <div style={{ 
+                                    display: 'grid', 
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                                    gap: '8px',
+                                    fontSize: '13px'
+                                }}>
+                                    <div className="table-preview-entry total-failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                        <span style={{ fontWeight: '600', color: '#8B0000' }}>⚠ Total Failure</span>
+                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Catastrophic with complications</span>
+                                    </div>
+                                    <div className="table-preview-entry failure" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                        <span style={{ fontWeight: '600', color: '#D84315' }}>✗ Failure</span>
+                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Attempt fails</span>
+                                    </div>
+                                    <div className="table-preview-entry normal" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                        <span style={{ fontWeight: '600', color: '#F57C00' }}>➡ Partial Success</span>
+                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Mixed results</span>
+                                    </div>
+                                    <div className="table-preview-entry success" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                        <span style={{ fontWeight: '600', color: '#00897B' }}>✓ Success</span>
+                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Succeeds as intended</span>
+                                    </div>
+                                    <div className="table-preview-entry critical" style={{ margin: 0, padding: '8px 12px', pointerEvents: 'none' }}>
+                                        <span style={{ fontWeight: '600', color: '#1976D2' }}>★ Critical Success</span>
+                                        <span style={{ marginLeft: '8px', fontSize: '12px', color: '#5a1e12' }}>Exceptional with bonuses</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             {/* Proficiency Level Selector */}
                             {hasMultipleProficiencyLevels && (
                                 <div className="proficiency-selector-section">

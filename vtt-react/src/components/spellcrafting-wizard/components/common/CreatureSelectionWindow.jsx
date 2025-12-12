@@ -335,20 +335,24 @@ const CreatureSelectionWindow = ({
             top: `${tooltipPosition.y}px`,
             zIndex: 999999999
           }}
-          onWheel={(e) => {
-            // Stop propagation to prevent background scrolling when scrolling tooltip
-            e.stopPropagation();
-          }}
-          onMouseEnter={() => {
-            // Keep tooltip visible when hovering over it
-            setHoveredCreature(hoveredCreature);
-          }}
-          onMouseLeave={() => {
-            // Hide tooltip when leaving it
-            setHoveredCreature(null);
-          }}
         >
-          <SimpleCreatureTooltip creature={hoveredCreature} />
+          <div
+            className="creature-card-hover-preview-interactive"
+            onWheel={(e) => {
+              // Stop propagation to prevent background scrolling when scrolling tooltip
+              e.stopPropagation();
+            }}
+            onMouseEnter={() => {
+              // Keep tooltip visible when hovering over it
+              setHoveredCreature(hoveredCreature);
+            }}
+            onMouseLeave={() => {
+              // Hide tooltip when leaving it
+              setHoveredCreature(null);
+            }}
+          >
+            <SimpleCreatureTooltip creature={hoveredCreature} />
+          </div>
         </div>,
         document.body
       )}

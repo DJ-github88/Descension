@@ -112,38 +112,52 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
   // Use correct width based on activeView (library/wizard = 900px, community = 1100px)
   const defaultWidth = activeView === 'community' ? 1100 : 900;
   const wizardWidth = (windowSize?.width || defaultWidth) * windowScale;
-  const wizardX = windowPosition?.x || ((window.innerWidth - defaultWidth) / 2);
-  const wizardY = windowPosition?.y || ((window.innerHeight - 800) / 2);
+  const wizardX = windowPosition?.x ?? ((window.innerWidth - defaultWidth) / 2);
+  const wizardY = windowPosition?.y ?? ((window.innerHeight - 800) / 2);
 
   // Position tooltip very close to the creature window and responsive to width changes
-  const windowRightEdge = (windowPosition?.x || 128) + ((windowSize?.width || 968) * windowScale);
-  const tooltipGap = 10; // Small gap next to window edge
+  const baseWindowX = windowPosition?.x ?? wizardX;
+  const baseWindowY = windowPosition?.y ?? wizardY;
+  const baseWindowWidth = (windowSize?.width || defaultWidth) * windowScale;
+  const windowRightEdge = baseWindowX + baseWindowWidth;
 
-  console.log('Tooltip positioning:', {
-    windowX: windowPosition?.x,
-    windowWidth: windowSize?.width,
-    windowScale,
-    windowRightEdge,
-    tooltipLeft: windowRightEdge + tooltipGap
-  });
+  const tooltipGap = 10; // Small gap next to window edge
+  const tooltipWidth = 320; // matches tooltip max-width; we clamp using scaled width
+  const margin = 10;
+
+  let left = windowRightEdge + tooltipGap;
+  const scaledTooltipWidth = tooltipWidth * windowScale;
+
+  // If tooltip would go off-screen to the right, flip to the left of the window.
+  if (left + scaledTooltipWidth > window.innerWidth - margin) {
+    left = baseWindowX - scaledTooltipWidth - tooltipGap;
+  }
+
+  // Final clamp to viewport
+  left = Math.max(margin, Math.min(left, window.innerWidth - scaledTooltipWidth - margin));
 
   const position = {
-    left: windowRightEdge + tooltipGap, // Overlap window edge slightly
-    top: (windowPosition?.y || 69.5) + 80, // Aligned with window content area
+    left, // Responsive to window position/size/scale
+    top: baseWindowY + 80, // Aligned with window content area
     position: 'fixed',
     zIndex: 99999,
-    width: '300px',
+    width: `${tooltipWidth}px`,
     maxHeight: 'none',
     overflow: 'visible'
   };
 
   return ReactDOM.createPortal(
-    <div style={{
-      ...position,
-      transform: `scale(${windowScale})`,
-      transformOrigin: 'top left'
-    }}>
-      <SimpleCreatureTooltip creature={createPreviewCreature} />
+    <div
+      className="external-creature-preview-portal"
+      style={{
+        ...position,
+        transform: `scale(${windowScale})`,
+        transformOrigin: 'top left'
+      }}
+    >
+      <div className="external-creature-preview-interactive">
+        <SimpleCreatureTooltip creature={createPreviewCreature} />
+      </div>
     </div>,
     document.body
   );

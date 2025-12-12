@@ -352,7 +352,6 @@ const CommunityCreaturesTab = () => {
       {/* Tooltip Portal */}
       {hoveredCreature && ReactDOM.createPortal(
         <div
-          ref={tooltipRef}
           className="creature-card-hover-preview-portal"
           style={{
             position: 'fixed',
@@ -360,20 +359,25 @@ const CommunityCreaturesTab = () => {
             top: `${tooltipPosition.y}px`,
             zIndex: 2147483647 // Maximum z-index to ensure tooltips always appear above windows
           }}
-          onWheel={(e) => {
-            // Stop propagation to prevent background scrolling when scrolling tooltip
-            e.stopPropagation();
-          }}
-          onMouseEnter={() => {
-            // Keep tooltip visible when hovering over it
-            setHoveredCreature(hoveredCreature);
-          }}
-          onMouseLeave={() => {
-            // Hide tooltip when leaving it
-            setHoveredCreature(null);
-          }}
         >
-          <SimpleCreatureTooltip creature={hoveredCreature} />
+          <div
+            ref={tooltipRef}
+            className="creature-card-hover-preview-interactive"
+            onWheel={(e) => {
+              // Stop propagation to prevent background scrolling when scrolling tooltip
+              e.stopPropagation();
+            }}
+            onMouseEnter={() => {
+              // Keep tooltip visible when hovering over it
+              setHoveredCreature(hoveredCreature);
+            }}
+            onMouseLeave={() => {
+              // Hide tooltip when leaving it
+              setHoveredCreature(null);
+            }}
+          >
+            <SimpleCreatureTooltip creature={hoveredCreature} />
+          </div>
         </div>,
         document.body
       )}

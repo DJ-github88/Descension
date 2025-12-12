@@ -7,7 +7,7 @@ import useCreatureStore from "../store/creatureStore";
 import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
 import useCombatStore from "../store/combatStore";
-import useLevelEditorStore from "../store/levelEditorStore";
+import useLevelEditorStore, { WALL_TYPES } from "../store/levelEditorStore";
 import useMapStore from "../store/mapStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
 import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";

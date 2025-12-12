@@ -484,7 +484,17 @@ GMs can mix and match these systems to create the perfect experience for their t
           sections: [
             {
               title: 'How Skills Work',
-              content: `Skills represent your character's training and expertise in various areas. Each skill is tied to a primary and secondary ability score. When you make a skill check, your GM determines the difficulty and tells you which die to roll (d4 for very easy tasks up to d20 for very difficult ones). Ability modifiers are not added to the roll - instead, if your primary or secondary stat modifier is +5 or higher, you may request to roll a smaller die for better success chances.`
+              content: `Skills represent your character's training and expertise in various areas. Each skill is tied to a primary and secondary ability score. When you make a skill check, your GM determines the difficulty and tells you which die to roll (d4 for very easy tasks up to d20 for very difficult ones). Ability modifiers are not added to the roll - instead, if your primary or secondary stat modifier is +5 or higher, you may request to roll a smaller die for better success chances.
+
+**Understanding Roll Outcome Colors:**
+Skill roll outcomes are color-coded to help GMs quickly interpret results. The color scheme is designed to be visible for people with color vision differences:
+- **Total Failure** (Dark Red): Catastrophic failure with severe consequences or complications
+- **Failure** (Red-Orange): The attempt fails, but without major complications
+- **Partial Success** (Amber/Yellow): Mixed results - some success but with drawbacks, or minimal success
+- **Success** (Teal/Blue-Green): The attempt succeeds as intended
+- **Critical Success** (Bright Blue): Exceptional success with additional benefits or bonuses
+
+These colors use distinct hues and brightness levels, plus visual indicators (⚠ for total failures, ★ for critical successes) to ensure clarity for all players.`
             },
             {
               title: 'Skill Ranks & Progression',

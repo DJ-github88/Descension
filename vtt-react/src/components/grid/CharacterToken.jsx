@@ -348,6 +348,18 @@ const CharacterToken = ({
         };
     }, [updateScreenPosition]);
 
+    // Handle window resize to update screen positions
+    useEffect(() => {
+        const handleResize = () => {
+            updateScreenPosition(currentPosRef.current);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [updateScreenPosition]);
+
     const screenPosition = screenPositionRef.current;
 
     // Check if this token is targeted (use consistent ID for current player)

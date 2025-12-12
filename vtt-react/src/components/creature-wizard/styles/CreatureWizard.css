@@ -559,6 +559,16 @@
   backdrop-filter: blur(4px);
 }
 
+/* ===== EXTERNAL CREATURE PREVIEW (TOOLTIP) =====
+   Rendered via portal to document.body. Must not interfere with window drag/resize. */
+.external-creature-preview-portal {
+  pointer-events: none;
+}
+
+.external-creature-preview-interactive {
+  pointer-events: auto;
+}
+
 .creature-wizard-progress-overlay::before {
   content: '';
   position: absolute;

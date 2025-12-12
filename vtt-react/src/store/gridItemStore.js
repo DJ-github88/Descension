@@ -57,6 +57,53 @@ const enqueueCurrencyNotification = (html, displayDuration = 2000) => {
   }
 };
 
+// Simple queue so item notifications never overlap
+const itemNotificationQueue = [];
+let itemNotificationActive = false;
+
+const showNextItemNotification = () => {
+  if (typeof document === 'undefined') return;
+  if (itemNotificationQueue.length === 0) {
+    itemNotificationActive = false;
+    return;
+  }
+
+  const { html, quality, displayDuration } = itemNotificationQueue.shift();
+  itemNotificationActive = true;
+
+  const notification = document.createElement('div');
+  notification.className = `item-notification ${quality || 'common'}`;
+  notification.innerHTML = html;
+
+  document.body.appendChild(notification);
+
+  const showTimer = setTimeout(() => {
+    notification.classList.add('show');
+  }, 10);
+
+  const hideTimer = setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+      itemNotificationActive = false;
+      showNextItemNotification();
+    }, 500);
+  }, displayDuration);
+
+  // Defensive cleanup in case the timeouts get canceled elsewhere
+  notification.dataset.timers = JSON.stringify([showTimer, hideTimer]);
+};
+
+const enqueueItemNotification = (html, quality = 'common', displayDuration = 2500) => {
+  if (typeof document === 'undefined') return;
+  itemNotificationQueue.push({ html, quality, displayDuration });
+  if (!itemNotificationActive) {
+    showNextItemNotification();
+  }
+};
+
 // Create the grid item store
 // NOTE: localStorage persistence removed - grid items are now persisted to database via room gameState
 const useGridItemStore = create((set, get) => ({
@@ -645,6 +692,25 @@ const useGridItemStore = create((set, get) => ({
                 gridItem.source || 'world',
                 looterName
               );
+
+              // Show a popup notification for the item
+              if (typeof window !== 'undefined') {
+                const itemQuality = (itemToUse.quality || itemToUse.rarity || 'common').toLowerCase();
+                const itemName = itemToUse.customName || itemToUse.name || 'Unknown Item';
+                const itemIconId = itemToUse.iconId || 'inv_misc_questionmark';
+                const itemQuantity = quantity > 1 ? ` x${quantity}` : '';
+
+                const notificationHTML = `
+                  <div class="item-notification-content">
+                    <img src="https://wow.zamimg.com/images/wow/icons/large/${itemIconId}.jpg" alt="${itemName}" />
+                    <span class="${itemQuality}">
+                      ${itemName}${itemQuantity}
+                    </span>
+                  </div>
+                `;
+
+                enqueueItemNotification(notificationHTML, itemQuality, 2500);
+              }
 
               // Remove the grid item (this will also clean up temporary items)
               removeItemFromGrid(gridItemId);

@@ -17,8 +17,19 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
   const library = useCreatureLibrary();
   const libraryDispatch = useCreatureLibraryDispatch();
   const creatureStore = useCreatureStore();
+  const { windowSize } = useCreatureStore();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Window-size-aware layout class.
+  // IMPORTANT: the creature wizard lives inside a resizable window, so viewport media queries
+  // don't react when the window is resized. We use the creature window's width instead.
+  const creatureWindowWidth = windowSize?.width || (activeView === 'community' ? 1100 : 900);
+  const wizardSizeClass =
+    creatureWindowWidth <= 650 ? 'cw-size-xs' :
+    creatureWindowWidth <= 800 ? 'cw-size-sm' :
+    creatureWindowWidth <= 950 ? 'cw-size-md' :
+    'cw-size-lg';
 
   // Load creature data if in edit mode - using a ref to track if we've loaded
   const hasLoaded = React.useRef(false);
@@ -170,7 +181,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
 
   return (
     <>
-      <div className="creature-wizard-layout">
+      <div className={`creature-wizard-layout ${wizardSizeClass}`}>
         {/* Main content area */}
         <div className="creature-wizard-main-content">
           {renderStep()}

@@ -2300,30 +2300,33 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             {hoveredCreature && (
                 <TooltipPortal>
                     <div
-                        ref={tooltipRef}
                         className="campaign-creature-tooltip-portal"
                         style={{
                             position: 'fixed',
                             left: tooltipPosition.x,
                             top: tooltipPosition.y,
-                            pointerEvents: 'auto',
                             zIndex: 999999999,
                             width: '280px'
                         }}
-                        onWheel={(e) => {
-                            // Stop propagation to prevent background scrolling when scrolling tooltip
-                            e.stopPropagation();
-                        }}
-                        onMouseEnter={() => {
-                            // Keep tooltip visible when hovering over it
-                            setHoveredCreature(hoveredCreature);
-                        }}
-                        onMouseLeave={() => {
-                            // Hide tooltip when leaving it
-                            setHoveredCreature(null);
-                        }}
                     >
-                        <SimpleCreatureTooltip creature={hoveredCreature} />
+                        <div
+                            ref={tooltipRef}
+                            className="campaign-creature-tooltip-interactive"
+                            onWheel={(e) => {
+                                // Stop propagation to prevent background scrolling when scrolling tooltip
+                                e.stopPropagation();
+                            }}
+                            onMouseEnter={() => {
+                                // Keep tooltip visible when hovering over it
+                                setHoveredCreature(hoveredCreature);
+                            }}
+                            onMouseLeave={() => {
+                                // Hide tooltip when leaving it
+                                setHoveredCreature(null);
+                            }}
+                        >
+                            <SimpleCreatureTooltip creature={hoveredCreature} />
+                        </div>
                     </div>
                 </TooltipPortal>
             )}

@@ -1530,7 +1530,8 @@
 
 /* Smaller creature tooltip for campaign manager */
 .campaign-creature-tooltip-portal {
-    pointer-events: auto;
+    /* Portal should not block underlying UI drag/resize; only tooltip body is interactive. */
+    pointer-events: none;
     animation: fadeIn 0.3s ease-out;
     transform: scale(0.85) translateZ(0);
     transform-origin: top left;
@@ -1539,6 +1540,11 @@
     overscroll-behavior: contain;
     scroll-padding: 0;
     will-change: scroll-position;
+}
+
+.campaign-creature-tooltip-interactive {
+    width: 100%;
+    pointer-events: auto;
 }
 
 .campaign-creature-tooltip-portal .enhanced-creature-tooltip {

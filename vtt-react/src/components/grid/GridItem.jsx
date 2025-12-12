@@ -17,6 +17,7 @@ const GridItem = ({ gridItem }) => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [dragPosition, setDragPosition] = useState(null);
   const [dragStartPos, setDragStartPos] = useState(null);
+  const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const itemRef = useRef(null);
   const isDraggingRef = useRef(false);
 
@@ -30,6 +31,18 @@ const GridItem = ({ gridItem }) => {
       itemRef.current.style.zIndex = '1000';
     }
   }, [gridItem.id]);
+
+  // Track viewport size for proper position calculation on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   // Camera subscriptions needed for proper positioning when grid moves
   const cameraX = useGameStore(state => state.cameraX);
@@ -124,16 +137,12 @@ const GridItem = ({ gridItem }) => {
     // Use world coordinates if available (like creature tokens), otherwise fall back to grid coordinates
     if (gridItem.position && gridItem.position.x !== undefined && gridItem.position.y !== undefined) {
       // Use world coordinates directly (same as CreatureToken)
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const screenPos = gridSystem.worldToScreen(gridItem.position.x, gridItem.position.y, viewportWidth, viewportHeight);
+      const screenPos = gridSystem.worldToScreen(gridItem.position.x, gridItem.position.y, viewportSize.width, viewportSize.height);
       return screenPos;
     } else if (gridItem.gridPosition) {
       // Fallback to grid coordinates - use gridSystem to ensure consistency with tokens
       const worldPos = gridSystem.gridToWorld(gridItem.gridPosition.col, gridItem.gridPosition.row);
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
+      const screenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportSize.width, viewportSize.height);
       return screenPos;
     }
 
@@ -147,7 +156,9 @@ const GridItem = ({ gridItem }) => {
     cameraX,
     cameraY,
     zoomLevel,
-    playerZoom
+    playerZoom,
+    viewportSize.width,
+    viewportSize.height
   ]);
 
   // Calculate orb size based on grid size and zoom

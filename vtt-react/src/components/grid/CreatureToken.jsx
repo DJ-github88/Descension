@@ -776,6 +776,18 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     };
   }, [updateScreenPosition]);
 
+  // Handle window resize to update screen positions
+  useEffect(() => {
+    const handleResize = () => {
+      updateScreenPosition(currentPosRef.current);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [updateScreenPosition]);
+
   const screenPosition = screenPositionRef.current;
 
   // Calculate token size based on creature size and zoom

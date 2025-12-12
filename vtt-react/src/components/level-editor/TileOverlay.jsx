@@ -24,6 +24,7 @@ const TileOverlay = () => {
     const [selectedPortal, setSelectedPortal] = useState(null);
     const [showGMNotesWindow, setShowGMNotesWindow] = useState(false);
     const [selectedGMNotes, setSelectedGMNotes] = useState(null);
+    const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
     const hoverTimeoutRef = useRef(null);
     const objectHoverTimeoutRef = useRef(null);
     const overlayRef = useRef(null);
@@ -337,6 +338,18 @@ const TileOverlay = () => {
         };
     }, []);
 
+    // Track viewport size for proper tile position calculation on window resize
+    useEffect(() => {
+        const handleResize = () => {
+            setViewportSize({ width: window.innerWidth, height: window.innerHeight });
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     // Get all tiles that have content within the visible area
     const getContentTiles = () => {
         const tiles = [];
@@ -472,7 +485,9 @@ const TileOverlay = () => {
         isEditorMode,
         showTerrainLayer,
         showObjectLayer,
-        showDndLayer
+        showDndLayer,
+        viewportSize.width,
+        viewportSize.height
     ]);
     const hoveredGridPos = hoveredTile ? hoveredTile.split(',').map(Number) : [null, null];
 

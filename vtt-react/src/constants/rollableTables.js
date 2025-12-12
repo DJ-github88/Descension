@@ -34,7 +34,7 @@ const WEAPON_MASTERY_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_04.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 1], result: 'Slip: drop stance, lose 1 step of movement.', type: 'failure' },
+            { roll: [1, 1], result: 'Catastrophic slip: weapon flies from your grasp, you fall prone and lose 1 AP.', type: 'total-failure' },
             { roll: [2, 2], result: 'Bruised grip: next attack roll is -1.', type: 'failure' },
             { roll: [3, 3], result: 'Off balance: target gains +1 to hit you once.', type: 'failure' },
             { roll: [4, 4], result: 'Glancing hit: half damage.', type: 'normal' },
@@ -176,9 +176,10 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 2], result: 'You stumble over your words, target is annoyed', type: 'failure' },
-            { roll: [3, 3], result: 'Your argument is clumsy but target listens', type: 'normal' },
-            { roll: [4, 4], result: 'You make a decent point, target becomes friendly', type: 'success' }
+            { roll: [1, 1], result: 'You stumble over your words, target is slightly annoyed', type: 'failure' },
+            { roll: [2, 2], result: 'Your argument is clumsy but target listens', type: 'normal' },
+            { roll: [3, 3], result: 'You make a decent point, target becomes friendly', type: 'success' },
+            { roll: [4, 4], result: 'You express yourself clearly, target is impressed', type: 'success' }
         ]
     },
     persuasion_untrained_d6: {
@@ -225,7 +226,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 2], result: 'You catastrophically misread the situation, target becomes hostile', type: 'failure' },
+            { roll: [1, 2], result: 'You catastrophically misread the situation, target becomes hostile', type: 'total-failure' },
             { roll: [3, 4], result: 'Your words are taken as an insult, target is offended', type: 'failure' },
             { roll: [5, 6], result: 'You fumble badly, target refuses to hear more', type: 'failure' },
             { roll: [7, 8], result: 'Your inexperience shows, target becomes impatient', type: 'failure' },
@@ -241,16 +242,18 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 3], result: 'You completely misunderstand the situation, target becomes hostile', type: 'failure' },
-            { roll: [4, 6], result: 'Your words anger the target, they refuse to negotiate', type: 'failure' },
-            { roll: [7, 9], result: 'You say something offensive without realizing it', type: 'failure' },
-            { roll: [10, 12], result: 'Your argument is laughably weak, target mocks you', type: 'failure' },
-            { roll: [13, 15], result: 'Target sees you as incompetent, loses respect', type: 'failure' },
-            { roll: [16, 16], result: 'You annoy the target with your persistence', type: 'failure' },
-            { roll: [17, 17], result: 'Target politely but firmly dismisses you', type: 'normal' },
-            { roll: [18, 18], result: 'Through sheer luck, you avoid making things worse, target remains neutral', type: 'normal' },
-            { roll: [19, 19], result: 'Miraculously, you stumble onto a good argument, target becomes friendly', type: 'success' },
-            { roll: [20, 20], result: 'Against all odds, your words strike a chord, target becomes helpful', type: 'critical' }
+            { roll: [1, 2], result: 'You catastrophically insult the target, they become permanently hostile and call guards', type: 'total-failure' },
+            { roll: [3, 4], result: 'You completely misunderstand the situation, target becomes hostile and refuses all future interaction', type: 'total-failure' },
+            { roll: [5, 6], result: 'Your words anger the target, they refuse to negotiate and spread word of your incompetence', type: 'total-failure' },
+            { roll: [7, 8], result: 'You say something deeply offensive without realizing it, target is enraged', type: 'failure' },
+            { roll: [9, 10], result: 'Your argument is laughably weak, target mocks you publicly', type: 'failure' },
+            { roll: [11, 12], result: 'Target sees you as completely incompetent, loses all respect', type: 'failure' },
+            { roll: [13, 14], result: 'You annoy the target with your persistence, they dismiss you', type: 'failure' },
+            { roll: [15, 16], result: 'Target politely but firmly dismisses you', type: 'normal' },
+            { roll: [17, 17], result: 'Through sheer luck, you avoid making things worse, target remains neutral', type: 'normal' },
+            { roll: [18, 18], result: 'Miraculously, you stumble onto a good argument, target becomes friendly', type: 'success' },
+            { roll: [19, 19], result: 'Against all odds, your words resonate, target becomes helpful', type: 'success' },
+            { roll: [20, 20], result: 'Impossibly, your words strike a perfect chord, target pledges support', type: 'critical' }
         ]
     },
 
@@ -335,15 +338,17 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_silence.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 3], result: 'You completely misjudge the approach, target becomes hostile', type: 'failure' },
-            { roll: [4, 6], result: 'Your words offend the target', type: 'failure' },
-            { roll: [7, 9], result: 'You fail to make any headway', type: 'failure' },
-            { roll: [10, 11], result: 'Target is unmoved by your argument', type: 'failure' },
-            { roll: [12, 13], result: 'You struggle to find the right words', type: 'normal' },
-            { roll: [14, 15], result: 'Target listens but remains skeptical', type: 'normal' },
-            { roll: [16, 17], result: 'You make a valid point, target becomes friendly', type: 'success' },
-            { roll: [18, 19], result: 'Your argument is convincing, target becomes helpful', type: 'success' },
-            { roll: [20, 20], result: 'Against the odds, you persuade the target', type: 'critical' }
+            { roll: [1, 2], result: 'You completely misjudge the approach, target becomes hostile and spreads negative word', type: 'total-failure' },
+            { roll: [3, 4], result: 'Your words deeply offend the target, they refuse all future interaction', type: 'total-failure' },
+            { roll: [5, 6], result: 'You fail catastrophically to make any headway, target mocks you publicly', type: 'failure' },
+            { roll: [7, 8], result: 'Target is completely unmoved by your argument', type: 'failure' },
+            { roll: [9, 10], result: 'You struggle badly to find the right words', type: 'failure' },
+            { roll: [11, 12], result: 'Target listens but remains deeply skeptical', type: 'normal' },
+            { roll: [13, 14], result: 'You make a valid point, target becomes friendly', type: 'normal' },
+            { roll: [15, 16], result: 'Your argument is convincing, target becomes helpful', type: 'success' },
+            { roll: [17, 18], result: 'You persuade effectively, target offers assistance', type: 'success' },
+            { roll: [19, 19], result: 'Against the odds, you persuade the target completely', type: 'success' },
+            { roll: [20, 20], result: 'Masterful persuasion, target pledges support', type: 'critical' }
         ]
     },
 
@@ -876,7 +881,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 2], result: 'You catastrophically misread the situation, target catches you', type: 'failure' },
+            { roll: [1, 2], result: 'You catastrophically misread the situation, target catches you', type: 'total-failure' },
             { roll: [3, 4], result: 'Your words are taken as an insult, target is offended', type: 'failure' },
             { roll: [5, 6], result: 'You fumble badly, target refuses to believe you', type: 'failure' },
             { roll: [7, 8], result: 'Your inexperience shows, target becomes impatient', type: 'failure' },
@@ -892,16 +897,18 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 3], result: 'You completely misunderstand the situation, target catches you immediately', type: 'failure' },
-            { roll: [4, 6], result: 'Your words anger the target, they refuse to listen', type: 'failure' },
-            { roll: [7, 9], result: 'You say something offensive without realizing it', type: 'failure' },
-            { roll: [10, 12], result: 'Your lie is laughably transparent, target mocks you', type: 'failure' },
-            { roll: [13, 15], result: 'Target sees you as incompetent, loses respect', type: 'failure' },
-            { roll: [16, 16], result: 'You annoy the target with your poor attempt', type: 'failure' },
-            { roll: [17, 17], result: 'Target politely but firmly dismisses your lie', type: 'normal' },
-            { roll: [18, 18], result: 'Through sheer luck, you avoid making things worse, target remains uncertain', type: 'normal' },
-            { roll: [19, 19], result: 'Miraculously, you stumble onto a believable lie, target is fooled', type: 'success' },
-            { roll: [20, 20], result: 'Against all odds, your deception works, target trusts you completely', type: 'critical' }
+            { roll: [1, 1], result: 'You catastrophically misread the situation, target catches you immediately and exposes your deception publicly, you are marked as a liar', type: 'total-failure' },
+            { roll: [2, 3], result: 'You completely fail to deceive, target sees through everything and becomes permanently hostile', type: 'total-failure' },
+            { roll: [4, 5], result: 'Your words anger the target deeply, they refuse to listen and call guards', type: 'total-failure' },
+            { roll: [6, 7], result: 'You say something deeply offensive without realizing it, target is enraged', type: 'failure' },
+            { roll: [8, 9], result: 'Your lie is laughably transparent, target mocks you publicly', type: 'failure' },
+            { roll: [10, 11], result: 'Target sees you as completely incompetent, loses all respect', type: 'failure' },
+            { roll: [12, 13], result: 'You annoy the target with your poor attempt, they dismiss you', type: 'failure' },
+            { roll: [14, 15], result: 'Target politely but firmly dismisses your lie', type: 'normal' },
+            { roll: [16, 17], result: 'Through sheer luck, you avoid making things worse, target remains uncertain', type: 'normal' },
+            { roll: [18, 18], result: 'Miraculously, you stumble onto a believable lie, target is fooled', type: 'success' },
+            { roll: [19, 19], result: 'Against all odds, your deception works, target trusts you', type: 'success' },
+            { roll: [20, 20], result: 'Impossibly, your deception succeeds perfectly, target trusts you completely', type: 'critical' }
         ]
     },
 
@@ -986,7 +993,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_disguise.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 3], result: 'You completely misjudge the approach, target catches you', type: 'failure' },
+            { roll: [1, 3], result: 'You completely misjudge the approach, target catches you', type: 'total-failure' },
             { roll: [4, 6], result: 'Your words offend the target', type: 'failure' },
             { roll: [7, 9], result: 'You fail to make any headway', type: 'failure' },
             { roll: [10, 11], result: 'Target is unmoved by your lie', type: 'failure' },
@@ -1543,15 +1550,17 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 3], result: 'You completely misunderstand the situation, followers mutiny', type: 'failure' },
-            { roll: [4, 6], result: 'Your words cause mass panic, followers flee in terror', type: 'failure' },
-            { roll: [7, 9], result: 'You say something offensive, followers turn against you', type: 'failure' },
-            { roll: [10, 12], result: 'Your leadership is laughably bad, followers mock you', type: 'failure' },
-            { roll: [13, 15], result: 'Followers see you as incompetent, refuse to follow', type: 'failure' },
-            { roll: [16, 17], result: 'Your inexperience is painfully obvious, no effect', type: 'failure' },
-            { roll: [18, 18], result: 'You barely maintain order through luck', type: 'normal' },
-            { roll: [19, 19], result: 'Miraculous inspiration, followers gain +1 to actions', type: 'success' },
-            { roll: [20, 20], result: 'Impossible rally, followers gain +2 to actions', type: 'critical' }
+            { roll: [1, 2], result: 'You completely misunderstand the situation, followers mutiny and abandon you permanently', type: 'total-failure' },
+            { roll: [3, 4], result: 'Your words cause catastrophic mass panic, followers flee in terror and spread word of your failure', type: 'total-failure' },
+            { roll: [5, 6], result: 'You say something deeply offensive, followers turn against you and refuse to follow', type: 'total-failure' },
+            { roll: [7, 8], result: 'Your leadership is catastrophically bad, followers mock you publicly', type: 'failure' },
+            { roll: [9, 10], result: 'Followers see you as completely incompetent, refuse to follow orders', type: 'failure' },
+            { roll: [11, 12], result: 'Your inexperience causes chaos, no positive effect', type: 'failure' },
+            { roll: [13, 14], result: 'You barely maintain order through sheer luck', type: 'normal' },
+            { roll: [15, 16], result: 'Miraculous inspiration, followers gain +1 to actions', type: 'normal' },
+            { roll: [17, 18], result: 'Against all odds, you rally them, followers gain +1 to actions', type: 'success' },
+            { roll: [19, 19], result: 'Impossible rally, followers gain +2 to actions', type: 'success' },
+            { roll: [20, 20], result: 'Legendary leadership moment, followers gain +2 to actions and become devoted', type: 'critical' }
         ]
     },
 
@@ -1639,16 +1648,17 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 3], result: 'You completely fail to lead, followers mutiny', type: 'failure' },
-            { roll: [4, 6], result: 'Your words cause panic, followers flee', type: 'failure' },
-            { roll: [7, 9], result: 'You anger followers with poor decisions', type: 'failure' },
-            { roll: [10, 12], result: 'Your leadership fails, followers lose respect', type: 'failure' },
-            { roll: [13, 15], result: 'Followers see your limits, refuse to follow', type: 'failure' },
-            { roll: [16, 16], result: 'You barely maintain control', type: 'normal' },
-            { roll: [17, 17], result: 'Your training helps you hold them', type: 'normal' },
-            { roll: [18, 18], result: 'You rally them, followers gain +1 to actions', type: 'success' },
-            { roll: [19, 19], result: 'Impressive leadership, followers gain +2 to actions', type: 'success' },
-            { roll: [20, 20], result: 'Miraculous command, followers gain +3 to actions + extra action', type: 'critical' }
+            { roll: [1, 2], result: 'You completely fail to lead, followers mutiny and abandon you', type: 'total-failure' },
+            { roll: [3, 4], result: 'Your words cause catastrophic panic, followers flee in terror', type: 'total-failure' },
+            { roll: [5, 6], result: 'You anger followers with terrible decisions, they turn against you', type: 'failure' },
+            { roll: [7, 8], result: 'Your leadership fails completely, followers lose all respect', type: 'failure' },
+            { roll: [9, 10], result: 'Followers see your severe limits, refuse to follow orders', type: 'failure' },
+            { roll: [11, 12], result: 'You barely maintain control through luck', type: 'normal' },
+            { roll: [13, 14], result: 'Your training helps you hold them together', type: 'normal' },
+            { roll: [15, 16], result: 'You rally them effectively, followers gain +1 to actions', type: 'success' },
+            { roll: [17, 18], result: 'Impressive leadership, followers gain +2 to actions', type: 'success' },
+            { roll: [19, 19], result: 'Miraculous command, followers gain +2 to actions', type: 'success' },
+            { roll: [20, 20], result: 'Legendary leadership moment, followers gain +3 to actions and become devoted', type: 'critical' }
         ]
     },
 
@@ -1660,7 +1670,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'UNTRAINED',
         table: [
-            { roll: [1, 8], result: 'Completely misread, believe opposite of truth', type: 'failure' },
+            { roll: [1, 8], result: 'Completely misread, believe opposite of truth', type: 'total-failure' },
             { roll: [9, 14], result: 'No reading, completely confused', type: 'failure' },
             { roll: [15, 18], result: 'Uncertain reading, can\'t tell truth from lies', type: 'normal' },
             { roll: [19, 20], result: 'Accurately read basic intentions', type: 'success' }
@@ -1672,7 +1682,7 @@ export const ROLLABLE_TABLES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_mindvision.jpg',
         requiredRank: 'NOVICE',
         table: [
-            { roll: [1, 3], result: 'Completely misread intentions, believe lies', type: 'failure' },
+            { roll: [1, 3], result: 'Completely misread intentions, believe lies', type: 'total-failure' },
             { roll: [4, 8], result: 'Uncertain reading, can\'t tell truth from lies', type: 'normal' },
             { roll: [9, 14], result: 'Accurately read basic intentions', type: 'success' },
             { roll: [15, 18], result: 'Detect lies and understand motivations', type: 'success' },

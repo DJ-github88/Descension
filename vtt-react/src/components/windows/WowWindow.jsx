@@ -240,6 +240,7 @@ const WowWindow = forwardRef(({
                 maxConstraints={maxConstraints}
                 onResize={handleResize}
                 resizeHandles={resizable ? ['se'] : []}
+                transformScale={windowScale}
             >
                 <div
                     className={`wow-window ${className}`}
