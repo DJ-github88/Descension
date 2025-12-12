@@ -248,7 +248,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0,
+                    mana: 0,
+                    ap: 4, // Aggressive warriors, extra action point from battle readiness
+                    passivePerception: 1, // Warriors need to spot enemies
+                    swimSpeed: 0, // Not great swimmers, calculated from speed
+                    climbSpeed: 5, // Mountain folk, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 2 // Warriors who fight first, quick to react
+                },
+                savingThrowModifiers: {
+                    // Berserker rage makes them more susceptible to being stunned
+                    disadvantage: ['constitution'] // Disadvantage on constitution saves (stuns often target constitution)
+                }
             },
             skald: {
                 id: 'skald_nordmark',
@@ -413,7 +429,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0,
+                    mana: 5, // Seers have slight mana bonus from spiritual connection
+                    ap: 2, // More contemplative, less action-oriented
+                    passivePerception: 3, // Enhanced perception from seeing threads others can't
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 5, // They go to frozen caves, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: -1 // Not warriors, slower to react
+                },
+                savingThrowModifiers: {
+                    // Connection to ancestral realm makes them vulnerable to planar disruptions
+                    disadvantage: ['spirit'] // Disadvantage on spirit saves against necrotic/planar effects
+                }
             },
             icewalker: {
                 id: 'icewalker_nordmark',
@@ -575,7 +607,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 5, // Frostbound are hardier from their transformation
+                    mana: 0,
+                    ap: 4, // Scouts need mobility and quick reactions
+                    passivePerception: 3, // Excellent scouts, read ice patterns, find paths
+                    swimSpeed: 5, // Survival in harsh conditions includes water
+                    climbSpeed: 10, // Mountain scouts, excellent climbers
+                    visionRange: 70, // Enhanced vision from scouting
+                    darkvision: 30, // Adapted to low-light conditions in deep winter
+                    initiative: 1 // Scouts, quick to react
+                },
+                savingThrowModifiers: {
+                    // Heat frailty makes them more susceptible to fire effects
+                    disadvantage: ['constitution'] // Disadvantage on constitution saves against fire/heat effects
+                }
             }
         }
     },
@@ -770,7 +818,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Corvid', 'Ethereal'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0,
+                    mana: 5, // Seers have slight mana bonus from spiritual connection
+                    ap: 2, // More contemplative, less action-oriented
+                    passivePerception: 4, // Enhanced perception from Raven Sight, seeing futures
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 5, // Mountain folk, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: -1 // Not warriors, slower to react
+                },
+                savingThrowModifiers: {
+                    // Seeing too many futures makes them vulnerable to psychic effects
+                    disadvantage: ['spirit'] // Disadvantage on spirit saves against psychic effects
+                }
             },
             scout: {
                 id: 'scout_corvani',
@@ -938,7 +1002,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Corvid', 'Sylvan'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0,
+                    hp: 0,
+                    mana: 0,
+                    ap: 4, // Scouts/messengers need mobility and quick reactions
+                    passivePerception: 3, // Excellent scouts, navigate fog-shrouded peaks
+                    swimSpeed: 5, // Survival skills include water navigation
+                    climbSpeed: 10, // Excellent climbers, navigate treacherous mountain paths
+                    visionRange: 60,
+                    darkvision: 30, // Eyes adapted to low light, pupils wider than normal
+                    initiative: 2 // Scouts, quick to react
+                },
+                savingThrowModifiers: {
+                    // Mist exposure makes them vulnerable to confusion/mental effects
+                    disadvantage: ['intelligence'] // Disadvantage on intelligence saves (confusion from mist)
+                }
             }
         }
     },
@@ -1128,7 +1208,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Terran', 'Undercommon'],
-                speed: 25
+                speed: 25,
+                baseStats: {
+                    armor: 0, // Stone Skin passive adds +2, so base is 0
+                    hp: 5, // Stone-hardened flesh, extra durability
+                    mana: 0,
+                    ap: 3, // Steady workers, standard AP
+                    passivePerception: 2, // Earth Sense, detect minerals and passages
+                    swimSpeed: -5, // Dense and stone-like, poor swimmers
+                    climbSpeed: 10, // Excellent climbers, work in deep caves
+                    visionRange: 60,
+                    darkvision: 60, // Eyes fully adapted to darkness
+                    initiative: -1 // Slow and steady, not quick to react
+                },
+                savingThrowModifiers: {
+                    // Deep earth whispers make them vulnerable to mental effects
+                    disadvantage: ['spirit'] // Disadvantage on spirit saves (whispers from deep earth)
+                }
             },
             warden: {
                 id: 'warden_grimheart',
@@ -1314,7 +1410,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
-                speed: 25
+                speed: 25,
+                baseStats: {
+                    armor: 0,
+                    hp: 5, // Living fortifications, extra durability
+                    mana: 0,
+                    ap: 3, // Defensive guardians, standard AP
+                    passivePerception: 3, // Watchful sentinels, constantly scanning
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 5, // Decent climbers, but not as good as delvers
+                    visionRange: 60,
+                    darkvision: 120, // Superior darkvision from Deep Sight trait
+                    initiative: 1 // Watchful, quick to react to threats
+                },
+                savingThrowModifiers: {
+                    // Stone body conducts electricity, vulnerable to lightning
+                    disadvantage: ['constitution'] // Disadvantage on constitution saves against lightning
+                }
             },
             forgemaster: {
                 id: 'forgemaster_grimheart',
@@ -1486,7 +1598,23 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
-                speed: 25
+                speed: 25,
+                baseStats: {
+                    armor: 0, // Stone Resilience passive adds +1, so base is 0
+                    hp: 5, // Stone-hardened, extra durability
+                    mana: 0,
+                    ap: 3, // Steady craftsmen, standard AP
+                    passivePerception: 1, // Precise craft requires good perception
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 5, // Decent climbers, work in volcanic forges
+                    visionRange: 60,
+                    darkvision: 30, // Work in forges, adapted to low light
+                    initiative: 0 // Precise but not quick to react
+                },
+                savingThrowModifiers: {
+                    // Stone-hardened flesh vulnerable to acid
+                    disadvantage: ['constitution'] // Disadvantage on constitution saves against acid
+                }
             }
         }
     },
@@ -1662,7 +1790,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Ethereal', 'Celestial'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: -5, // Nearly translucent, physically frail from spirit communion
+                    mana: 10, // Strong spiritual connection grants extra mana
+                    ap: 2, // More contemplative, less action-oriented (spirit communion takes time)
+                    passivePerception: 4, // Ethereal Sight - can see into Ethereal Plane, detect invisible
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Physically frail, not climbers
+                    visionRange: 60,
+                    darkvision: 0, // Can see ethereal, but not darkvision
+                    initiative: -2 // Slow to react, focused on spirit realm
+                },
+                savingThrowModifiers: {
+                    // Connection to spirit realm makes them vulnerable to radiant (holy) energies
+                    disadvantage: ['spirit'], // Disadvantage on spirit saves against radiant/holy effects
+                    advantage: ['intelligence'] // Advantage on intelligence saves (spirit communion enhances mental clarity)
+                }
             },
             walker: {
                 id: 'walker_vheil',
@@ -1810,7 +1955,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Ethereal', 'Abyssal'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: -5, // Forms blur at edges, not fully anchored to reality - physically frail
+                    mana: 5, // Planar connection grants some mana
+                    ap: 4, // Quick and agile, can step between planes - extra action point
+                    passivePerception: 2, // Can sense planar rifts, navigate boundaries
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Physically frail, not climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 3 // Quick to react, fluid movement, gliding rather than walking
+                },
+                savingThrowModifiers: {
+                    // Tenuous connection to reality makes them vulnerable to force damage
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against force effects
+                    advantage: ['agility'] // Advantage on agility saves (fluid movement, can phase)
+                }
             }
         }
     },
@@ -2000,7 +2162,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Thieves\' Cant'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Malleable flesh, average durability
+                    mana: 0,
+                    ap: 4, // Spies and infiltrators need quick reactions - extra action point
+                    passivePerception: 3, // Eyes study faces with predatory intensity, excellent observation
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 5, // Agile infiltrators, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 2 // Quick to react, predatory intensity
+                },
+                savingThrowModifiers: {
+                    // Shapeshifting curse makes them vulnerable to silver and radiant
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against silver/radiant
+                    advantage: ['charisma'] // Advantage on charisma saves (master deceivers, social manipulation)
+                }
             },
             broken: {
                 id: 'broken_mimir',
@@ -2153,7 +2332,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Deep Speech'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Fractured but not physically frail
+                    mana: 5, // Memory fragments grant some mana
+                    ap: 2, // Fractured mind, jerky movements - less action-oriented
+                    passivePerception: 2, // Memory keepers, hoard fragments of knowledge
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Jerky movements, not climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: -1 // Jerky movements, unpredictable - slower to react
+                },
+                savingThrowModifiers: {
+                    // Fractured mind vulnerable to psychic but resistant to charm/fear
+                    disadvantage: ['spirit'], // Disadvantage on spirit saves against psychic
+                    advantage: ['spirit'] // Advantage on spirit saves against charm/fear (fractured mind resists control)
+                }
             }
         }
     },
@@ -2327,7 +2523,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Sylvan', 'Celestial'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Elegant but not particularly hardy
+                    mana: 5, // Fae connection grants some mana
+                    ap: 3, // Diplomatic, standard AP
+                    passivePerception: 2, // Precise and careful, read intent in words
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Courtly, not climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 0 // Formal and careful, not quick to react
+                },
+                savingThrowModifiers: {
+                    // Fae heritage makes them vulnerable to iron
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against iron
+                    advantage: ['charisma'] // Advantage on charisma saves (master diplomats, social manipulation)
+                }
             },
             wild: {
                 id: 'wild_briaran',
@@ -2481,7 +2694,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Sylvan'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0,
+                    hp: 5, // Warriors, hunters, built from living wild - extra durability
+                    mana: 0,
+                    ap: 4, // Primal warriors, quick reactions - extra action point
+                    passivePerception: 2, // Hunters, protectors of the wild
+                    swimSpeed: 5, // Survival skills include water
+                    climbSpeed: 10, // Primal grace, excellent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 2 // Fierce and untamed, quick to react
+                },
+                savingThrowModifiers: {
+                    // Broken fae contracts make them vulnerable to iron and fire
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against iron/fire
+                    advantage: ['strength'] // Advantage on strength saves (warriors, hunters)
+                }
             },
             dusk: {
                 id: 'dusk_briaran',
@@ -2618,7 +2848,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Sylvan', 'Umbral'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Exists between worlds, not particularly hardy
+                    mana: 5, // Twilight connection grants some mana
+                    ap: 4, // Quick and fluid, exists between moments - extra action point
+                    passivePerception: 3, // Advantage on perception in low light, navigate boundaries
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Not climbers
+                    visionRange: 60,
+                    darkvision: 60, // Thrives in twilight, can see in low light
+                    initiative: 3 // Fluid movement, exists between moments - quick to react
+                },
+                savingThrowModifiers: {
+                    // Weakened by pure daylight and deepest night
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves (weakened by extremes)
+                    advantage: ['agility'] // Advantage on agility saves (fluid movement, exists between moments)
+                }
             }
         }
     },
@@ -2784,7 +3031,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Beast Speech'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0, // Forest Guardian passive adds +1 when defending, so base is 0
+                    hp: 5, // Bark-like skin, living fortresses - extra durability
+                    mana: 0,
+                    ap: 3, // Protectors, sentinels - standard AP
+                    passivePerception: 3, // Nature Sense, hear forest warnings days before threats
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 5, // Can call roots from earth, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: -1 // Move slowly but with purpose, slower to react
+                },
+                savingThrowModifiers: {
+                    // Connection to living wood makes them vulnerable to fire
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against fire
+                    advantage: ['constitution'] // Advantage on constitution saves (bark-like skin, sturdy)
+                }
             },
             wanderer: {
                 id: 'wanderer_groven',
@@ -2913,7 +3177,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Primordial'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Lean and wiry, not particularly hardy
+                    mana: 0,
+                    ap: 4, // Nomadic wanderers, quick reactions - extra action point
+                    passivePerception: 3, // Eyes constantly scanning horizon, senses sharpened
+                    swimSpeed: 5, // Survival skills include water
+                    climbSpeed: 10, // Excellent climbers, navigate rough terrain
+                    visionRange: 70, // Enhanced vision from constant travel
+                    darkvision: 0,
+                    initiative: 2 // Restless energy, quick to react
+                },
+                savingThrowModifiers: {
+                    // Exposure to wild toxins makes them vulnerable to poison
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against poison
+                    advantage: ['agility'] // Advantage on agility saves (nimble wanderers)
+                }
             },
             shaman: {
                 id: 'shaman_groven',
@@ -3063,7 +3344,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Druidic', 'Elemental'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0,
+                    hp: -5, // Spiritual connection, physically frail
+                    mana: 10, // Strong spiritual connection grants extra mana
+                    ap: 2, // Shamans, contemplative - less action-oriented
+                    passivePerception: 3, // Commune with spirits, hear animal voices
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Not climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: -1 // Minds filled with voices, slower to react
+                },
+                savingThrowModifiers: {
+                    // Spiritual connection makes them vulnerable to radiant
+                    disadvantage: ['spirit'], // Disadvantage on spirit saves against radiant
+                    advantage: ['spirit'] // Advantage on spirit saves (spirit communion enhances spiritual clarity)
+                }
             },
             lightfoot: {
                 id: 'lightfoot_wildkin',
@@ -3202,7 +3500,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Halfling', 'Druidic'],
-                speed: 25
+                speed: 25,
+                baseStats: {
+                    armor: 0,
+                    hp: -5, // Smallest of all Groven, physically frail
+                    mana: 0,
+                    ap: 3, // Quick and light, standard AP
+                    passivePerception: 2, // Eyes dart constantly, always aware
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 5, // Quick and light, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 2 // Quick and light, quick to react
+                },
+                savingThrowModifiers: {
+                    // Small size makes them vulnerable to large creatures
+                    disadvantage: ['strength'], // Disadvantage on strength saves (small size)
+                    advantage: ['agility'] // Advantage on agility saves (quick and light)
+                }
             }
         }
     },
@@ -3358,7 +3673,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Terran'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 5, // Master smiths, tempered by fire - extra durability
+                    mana: 0,
+                    ap: 3, // Craftsmen, standard AP
+                    passivePerception: 1, // Master smiths, good perception for craft
+                    swimSpeed: -5, // Hot skin, poor swimmers (water cools them)
+                    climbSpeed: 0, // Not climbers
+                    visionRange: 60,
+                    darkvision: 60, // Eyes glow like embers, can see in darkness
+                    initiative: 0 // Not quick to react, focused on craft
+                },
+                savingThrowModifiers: {
+                    // Inner fire makes them vulnerable to cold
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against cold
+                    advantage: ['strength'] // Advantage on strength saves (master smiths, strong)
+                }
             },
             cinderborn: {
                 id: 'cinderborn_emberth',
@@ -3509,7 +3841,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Auran'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Lean and fast, not particularly hardy
+                    mana: 0,
+                    ap: 4, // Scouts and messengers, quick reactions - extra action point
+                    passivePerception: 3, // Eyes constantly scanning for paths, read ash patterns
+                    swimSpeed: -5, // Hot feet, poor swimmers (water cools them)
+                    climbSpeed: 5, // Scouts, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 3 // Lean and fast, quick to react
+                },
+                savingThrowModifiers: {
+                    // Inner heat makes them vulnerable to cold
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against cold
+                    advantage: ['agility'] // Advantage on agility saves (lean and fast)
+                }
             },
             warborn: {
                 id: 'warborn_emberth',
@@ -3666,7 +4015,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Ignan'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0, // Scarred Hide passive adds +1, so base is 0
+                    hp: 5, // Largest and most muscular, battle-tempered - extra durability
+                    mana: 0,
+                    ap: 4, // Warriors, battle rage - extra action point
+                    passivePerception: 1, // Warriors, not particularly perceptive
+                    swimSpeed: -5, // Hot skin, poor swimmers (water cools them)
+                    climbSpeed: 0, // Not climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 2 // Warriors, quick to react in battle
+                },
+                savingThrowModifiers: {
+                    // Inner fire makes them vulnerable to cold
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against cold
+                    advantage: ['spirit'] // Advantage on spirit saves against fear (battle-hardened)
+                }
             }
         }
     },
@@ -3860,7 +4226,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Primal'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Predatory but not particularly hardy
+                    mana: 0,
+                    ap: 4, // Predators, quick reactions - extra action point
+                    passivePerception: 4, // Predator's Instinct - enhanced senses, track prey, detect by scent
+                    swimSpeed: 5, // Predators, decent swimmers
+                    climbSpeed: 10, // Predatory grace, excellent climbers
+                    visionRange: 60,
+                    darkvision: 60, // Predator's eyes, can see in darkness
+                    initiative: 3 // Predatory grace, always ready to hunt - quick to react
+                },
+                savingThrowModifiers: {
+                    // Shapeshifting curse makes them vulnerable to silver and radiant
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against silver/radiant
+                    advantage: ['agility'] // Advantage on agility saves (predatory grace)
+                }
             },
             penitent: {
                 id: 'penitent_vreken',
@@ -4031,7 +4414,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Celestial'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: -5, // Scars from chains, physically weakened from constant struggle
+                    mana: 5, // Spiritual struggle grants some mana
+                    ap: 2, // Constant struggle, less action-oriented
+                    passivePerception: 2, // Teachers and protectors, sense supernatural afflictions
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Not climbers, struggle with transformation
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: -1 // Visible strain, slower to react
+                },
+                savingThrowModifiers: {
+                    // Chained nature makes them vulnerable to iron and cold
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against iron/cold
+                    advantage: ['spirit'] // Advantage on spirit saves (struggle against curse grants resistance)
+                }
             }
         }
     },
@@ -4201,7 +4601,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Necril', 'Draconic'],
-                speed: 25
+                speed: 25,
+                baseStats: {
+                    armor: 0,
+                    hp: 5, // Most preserved, decay slowed by proximity to treasures - extra durability
+                    mana: 0,
+                    ap: 2, // Move stiffly, joints protesting - less action-oriented
+                    passivePerception: 3, // Eyes constantly scanning, always watching, Treasure Sense
+                    swimSpeed: -5, // Undead, poor swimmers (bodies refuse to decay but not good in water)
+                    climbSpeed: 0, // Move stiffly, not climbers
+                    visionRange: 60,
+                    darkvision: 60, // Undead, can see in darkness
+                    initiative: -2 // Move stiffly, joints protesting - slow to react
+                },
+                savingThrowModifiers: {
+                    // Undead nature makes them vulnerable to radiant
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against radiant
+                    advantage: ['constitution'] // Advantage on constitution saves (undead resilience, immune to poison/disease/exhaustion)
+                }
             },
             scholar: {
                 id: 'scholar_neth',
@@ -4319,7 +4736,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Necril', 'All Ancient Languages'],
-                speed: 25
+                speed: 25,
+                baseStats: {
+                    armor: 0,
+                    hp: -5, // Bodies covered in dust, physically frail
+                    mana: 10, // Perfect memory, vast repositories of knowledge - extra mana
+                    ap: 2, // Move slowly, carefully - less action-oriented
+                    passivePerception: 3, // Eyes glow with accumulated knowledge, perfect recall
+                    swimSpeed: -5, // Undead, poor swimmers
+                    climbSpeed: 0, // Move slowly, carefully, not climbers
+                    visionRange: 60,
+                    darkvision: 60, // Undead, can see in darkness
+                    initiative: -2 // Move slowly, carefully - slow to react
+                },
+                savingThrowModifiers: {
+                    // Undead nature makes them vulnerable to radiant
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against radiant
+                    advantage: ['intelligence'] // Advantage on intelligence saves (perfect memory, vast knowledge)
+                }
             }
         }
     },
@@ -4485,7 +4919,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Auran', 'Primordial'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Scarred by lightning, not particularly hardy
+                    mana: 0,
+                    ap: 3, // Storm-readers, standard AP
+                    passivePerception: 2, // Read storm signs, scars ache before storms
+                    swimSpeed: -10, // Grounding vulnerability, poor swimmers (water grounds them)
+                    climbSpeed: 0, // Not climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 1 // Living lightning rods, quick to react
+                },
+                savingThrowModifiers: {
+                    // Grounding vulnerability makes them susceptible to metal and water
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against grounding effects
+                    advantage: ['charisma'] // Advantage on charisma saves (Storm Presence, intimidating)
+                }
             },
             lightningborn: {
                 id: 'lightningborn_stormborn',
@@ -4602,7 +5053,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Auran', 'Primordial'],
-                speed: 40
+                speed: 40,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Nerve damage, not particularly hardy
+                    mana: 0,
+                    ap: 4, // Hyperactive reflexes, move fast - extra action point
+                    passivePerception: 1, // Eyes dart erratically, unable to focus long
+                    swimSpeed: -10, // Water vulnerability, poor swimmers
+                    climbSpeed: 5, // Hyperactive reflexes, decent climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 4 // Hyperactive reflexes, quick to react (but uncontrolled)
+                },
+                savingThrowModifiers: {
+                    // Water vulnerability makes them susceptible to water attacks
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against water
+                    advantage: ['agility'] // Advantage on agility saves (hyperactive reflexes)
+                }
             },
             tempest: {
                 id: 'tempest_stormborn',
@@ -4774,7 +5242,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Auran'],
-                speed: 35
+                speed: 35,
+                baseStats: {
+                    armor: 0,
+                    hp: 5, // Fighters and protectors, damaged lungs but determined - extra durability
+                    mana: 0,
+                    ap: 4, // Fighters, storm rage - extra action point
+                    passivePerception: 1, // Not particularly perceptive
+                    swimSpeed: 0, // Not swimmers, calculated from speed
+                    climbSpeed: 0, // Not climbers
+                    visionRange: 60,
+                    darkvision: 0,
+                    initiative: 2 // Fighters, quick to react
+                },
+                savingThrowModifiers: {
+                    // Damaged lungs make them vulnerable to pressure
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against pressure/crushing
+                    advantage: ['strength'] // Advantage on strength saves (fighters, push through with determination)
+                }
             }
         }
     },
@@ -4943,7 +5428,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Aquan', 'Deep Speech'],
-                speed: 20
+                speed: 20,
+                baseStats: {
+                    armor: 0,
+                    hp: 10, // Most deformed, bodies already broken - extra durability from adaptation
+                    mana: 0,
+                    ap: 2, // Move slowly and painfully - less action-oriented
+                    passivePerception: 1, // Not particularly perceptive
+                    swimSpeed: 20, // Adapted to deep-sea, excellent swimmers
+                    climbSpeed: 0, // Bodies deformed, not climbers
+                    visionRange: 60,
+                    darkvision: 120, // Eyes adapted to absolute darkness
+                    initiative: -2 // Move slowly and painfully - slow to react
+                },
+                savingThrowModifiers: {
+                    // Light sensitivity makes them vulnerable to radiant
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against radiant/light
+                    advantage: ['constitution'] // Advantage on constitution saves (pressure-adapted, resistant to bludgeoning)
+                }
             },
             trench: {
                 id: 'trench_drennar',
@@ -5121,7 +5623,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Aquan', 'Deep Speech'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 0, // Bodies compressed, not particularly hardy
+                    mana: 0,
+                    ap: 4, // Deep-sea traders, quick reactions - extra action point
+                    passivePerception: 3, // Senses tuned to the deep, bioluminescent lure
+                    swimSpeed: 20, // Adapted to deep-sea, excellent swimmers
+                    climbSpeed: 0, // Bodies compressed, not climbers
+                    visionRange: 60,
+                    darkvision: 120, // Eyes adapted to absolute darkness
+                    initiative: 2 // Deep-sea traders, quick to react
+                },
+                savingThrowModifiers: {
+                    // Surface frailty makes them vulnerable to radiant
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against radiant/light
+                    advantage: ['agility'] // Advantage on agility saves (adapted to deep-sea, agile)
+                }
             },
             twilight: {
                 id: 'twilight_drennar',
@@ -5244,7 +5763,24 @@ export const RACE_DATA = {
                     }
                 ],
                 languages: ['Common', 'Aquan'],
-                speed: 30
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: -5, // Bodies damaged by violent pressure shifts, physically frail
+                    mana: 0,
+                    ap: 3, // Boundary-walkers, standard AP
+                    passivePerception: 2, // Can move between depths, sense pressure changes
+                    swimSpeed: 15, // Adaptive gills, decent swimmers
+                    climbSpeed: 0, // Bodies damaged, not climbers
+                    visionRange: 60,
+                    darkvision: 60, // Adapted to different environments
+                    initiative: 0 // Move carefully, as if every movement causes pain - not quick to react
+                },
+                savingThrowModifiers: {
+                    // Pressure instability makes them vulnerable to thunder
+                    disadvantage: ['constitution'], // Disadvantage on constitution saves against thunder/pressure waves
+                    advantage: ['agility'] // Advantage on agility saves (boundary-walkers, can move between depths)
+                }
             }
         }
     },
@@ -5720,9 +6256,62 @@ export const getFullRaceData = (raceId, subraceId) => {
             languages: subrace.languages || race.baseTraits.languages,
             speed: subrace.speed || race.baseTraits.baseSpeed,
             statModifiers: subrace.statModifiers,
-            traits: subrace.traits
+            traits: subrace.traits,
+            baseStats: subrace.baseStats || {},
+            savingThrowModifiers: subrace.savingThrowModifiers || {}
         }
     };
+};
+
+/**
+ * Get racial base stats for a race/subrace combination
+ * Returns base values for armor, speed, hp, mana, ap, passive perception, etc.
+ */
+export const getRacialBaseStats = (raceId, subraceId) => {
+    const raceData = getFullRaceData(raceId, subraceId);
+    if (!raceData) {
+        // Return default base stats (all 0)
+        return {
+            armor: 0,
+            speed: 30,
+            hp: 0,
+            mana: 0,
+            ap: 3, // Default is 3, some races have 4 or 2
+            passivePerception: 0,
+            swimSpeed: 0,
+            climbSpeed: 0,
+            visionRange: 60,
+            darkvision: 0,
+            initiative: 0
+        };
+    }
+
+    const subrace = raceData.subrace;
+    const baseStats = subrace.baseStats || {};
+    
+    return {
+        armor: baseStats.armor !== undefined ? baseStats.armor : 0,
+        speed: subrace.speed || raceData.race.baseTraits.baseSpeed || 30,
+        hp: baseStats.hp !== undefined ? baseStats.hp : 0,
+        mana: baseStats.mana !== undefined ? baseStats.mana : 0,
+        ap: baseStats.ap !== undefined ? baseStats.ap : 3,
+        passivePerception: baseStats.passivePerception !== undefined ? baseStats.passivePerception : 0,
+        swimSpeed: baseStats.swimSpeed !== undefined ? baseStats.swimSpeed : 0,
+        climbSpeed: baseStats.climbSpeed !== undefined ? baseStats.climbSpeed : 0,
+        visionRange: baseStats.visionRange !== undefined ? baseStats.visionRange : 60,
+        darkvision: baseStats.darkvision !== undefined ? baseStats.darkvision : 0,
+        initiative: baseStats.initiative !== undefined ? baseStats.initiative : 0
+    };
+};
+
+/**
+ * Get saving throw modifiers (advantages/disadvantages) for a race/subrace
+ */
+export const getRacialSavingThrowModifiers = (raceId, subraceId) => {
+    const raceData = getFullRaceData(raceId, subraceId);
+    if (!raceData) return {};
+    
+    return raceData.combinedTraits.savingThrowModifiers || {};
 };
 
 export const applyRacialModifiers = (baseStats, raceId, subraceId) => {

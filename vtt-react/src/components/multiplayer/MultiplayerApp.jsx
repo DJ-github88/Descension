@@ -627,6 +627,54 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }, 200);
     });
 
+    // Listen for quest shared by GM
+    socket.on('quest_shared', (data) => {
+      const { quest, sharedBy } = data;
+      
+      // Import quest store and add the quest
+      import('../../store/questStore').then(({ default: useQuestStore }) => {
+        const { addQuest } = useQuestStore.getState();
+        
+        // Create a new quest instance for the player (with unique ID)
+        const playerQuest = {
+          ...quest,
+          id: `shared-${quest.id}-${Date.now()}`,
+          status: 'active',
+          dateReceived: new Date().toISOString(),
+          sharedBy: sharedBy
+        };
+        
+        addQuest(playerQuest);
+        
+        // Add notification to party chat
+        import('../../store/presenceStore').then(({ default: usePresenceStore }) => {
+          const { addPartyChatMessage } = usePresenceStore.getState();
+          addPartyChatMessage({
+            id: `quest_shared_${Date.now()}`,
+            senderId: 'system',
+            senderName: 'Game Master',
+            content: `${sharedBy} shared a quest: ${quest.title}`,
+            timestamp: new Date().toISOString(),
+            type: 'system'
+          });
+        });
+        
+        // Show notification
+        addNotification('social', {
+          sender: {
+            name: 'System',
+            class: 'System',
+            level: 1
+          },
+          content: `You received a new quest: ${quest.title}`,
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }).catch(error => {
+        console.error('Failed to add shared quest:', error);
+      });
+    });
+
     // Listen for chat messages
     socket.on('chat_message', (message) => {
       // Add to chat system with proper color handling

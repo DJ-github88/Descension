@@ -337,7 +337,7 @@ const Step9CharacterSummary = () => {
                                       (backgroundData.equipment && backgroundData.equipment.length > 0)) && (
                                         <div className="benefit-group">
                                             <h4>Inventory</h4>
-                                            <div className="equipment-shop-grid">
+                                            <div className="equipment-preview-grid">
                                                 {(() => {
                                                     // Combine purchased and background equipment
                                                     const allEquipment = [];
@@ -432,14 +432,14 @@ const Step9CharacterSummary = () => {
                                                             rowCells.push(
                                                                 <div
                                                                     key={`${row}-${col}`}
-                                                                    className={`inventory-cell ${item ? 'occupied' : ''} ${item?.source === 'background' ? 'background-item' : ''}`}
+                                                                    className={`equipment-preview-cell ${item ? 'occupied' : ''} ${item?.source === 'background' ? 'background-item' : ''}`}
                                                                     onMouseEnter={item && isOrigin ? (e) => handleItemMouseEnter(e, item) : undefined}
                                                                     onMouseMove={item && isOrigin ? handleItemMouseMove : undefined}
                                                                     onMouseLeave={item && isOrigin ? handleItemMouseLeave : undefined}
                                                                 >
                                                                     {item && isOrigin && (
                                                                         <div
-                                                                            className="item-icon-wrapper"
+                                                                            className="equipment-preview-item-wrapper"
                                                                             style={{
                                                                                 width: `calc(${(item.width || 1) * 100}% + ${(item.width || 1) - 1}px)`,
                                                                                 height: `calc(${(item.height || 1) * 100}% + ${(item.height || 1) - 1}px)`,
@@ -473,7 +473,7 @@ const Step9CharacterSummary = () => {
                                                             );
                                                         }
                                                         gridRows.push(
-                                                            <div key={row} className="inventory-row">
+                                                            <div key={row} className="equipment-preview-row">
                                                                 {rowCells}
                                                             </div>
                                                         );

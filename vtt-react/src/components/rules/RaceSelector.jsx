@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { isPassiveStatModifier } from '../../utils/raceDisciplineSpellUtils';
+import { getRacialBaseStats, getRacialSavingThrowModifiers } from '../../data/raceData';
 import './RaceSelector.css';
 
 // Race data loader utility
@@ -1026,6 +1027,108 @@ const RaceSelector = () => {
                         <div className="details-left">
                             {/* Stat Block */}
                             <StatModifiersFull statModifiers={variantData.statModifiers} />
+
+                            {/* Base Stats Block */}
+                            {(() => {
+                                const baseStats = getRacialBaseStats(raceData.id, variantData.id);
+                                if (baseStats && Object.keys(baseStats).length > 0) {
+                                    return (
+                                        <div className="info-block">
+                                            <h4 className="info-block-title">BASE STATS</h4>
+                                            <div className="info-grid">
+                                                {baseStats.armor !== undefined && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">ARMOR:</span>
+                                                        <span className="info-value">{baseStats.armor}</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.hp !== undefined && baseStats.hp !== 0 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">HP:</span>
+                                                        <span className="info-value">{baseStats.hp > 0 ? '+' : ''}{baseStats.hp}</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.mana !== undefined && baseStats.mana !== 0 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">MANA:</span>
+                                                        <span className="info-value">{baseStats.mana > 0 ? '+' : ''}{baseStats.mana}</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.ap !== undefined && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">ACTION POINTS:</span>
+                                                        <span className="info-value">{baseStats.ap}</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.passivePerception !== undefined && baseStats.passivePerception !== 0 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">PASSIVE PERCEPTION:</span>
+                                                        <span className="info-value">{baseStats.passivePerception > 0 ? '+' : ''}{baseStats.passivePerception}</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.swimSpeed !== undefined && baseStats.swimSpeed !== 0 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">SWIM SPEED:</span>
+                                                        <span className="info-value">{baseStats.swimSpeed > 0 ? '+' : ''}{baseStats.swimSpeed} ft</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.climbSpeed !== undefined && baseStats.climbSpeed !== 0 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">CLIMB SPEED:</span>
+                                                        <span className="info-value">{baseStats.climbSpeed > 0 ? '+' : ''}{baseStats.climbSpeed} ft</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.visionRange !== undefined && baseStats.visionRange !== 60 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">VISION RANGE:</span>
+                                                        <span className="info-value">{baseStats.visionRange} ft</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.darkvision !== undefined && baseStats.darkvision !== 0 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">DARKVISION:</span>
+                                                        <span className="info-value">{baseStats.darkvision} ft</span>
+                                                    </div>
+                                                )}
+                                                {baseStats.initiative !== undefined && baseStats.initiative !== 0 && (
+                                                    <div className="info-row info-row-no-bg">
+                                                        <span className="info-label">INITIATIVE:</span>
+                                                        <span className="info-value">{baseStats.initiative > 0 ? '+' : ''}{baseStats.initiative}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })()}
+
+                            {/* Saving Throw Modifiers Block */}
+                            {(() => {
+                                const savingThrowMods = getRacialSavingThrowModifiers(raceData.id, variantData.id);
+                                if (savingThrowMods && (savingThrowMods.advantage || savingThrowMods.disadvantage)) {
+                                    return (
+                                        <div className="info-block">
+                                            <h4 className="info-block-title">SAVING THROW MODIFIERS</h4>
+                                            <div className="info-grid">
+                                                {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
+                                                    <div className="info-row info-row-full info-row-no-bg">
+                                                        <span className="info-label">ADVANTAGE:</span>
+                                                        <span className="info-value">{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                    </div>
+                                                )}
+                                                {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
+                                                    <div className="info-row info-row-full info-row-no-bg">
+                                                        <span className="info-label">DISADVANTAGE:</span>
+                                                        <span className="info-value">{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })()}
 
                             {/* Basic Information */}
                             <div className="info-block">

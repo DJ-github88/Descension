@@ -294,12 +294,39 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         baseHealingPower = Math.floor(baseHealingPower * (1 + equipmentBonuses.healingPowerPercent / 100));
     }
 
-    // Base movement speed
-    const baseMoveSpeed = 30 + (skillBonuses.movementSpeed || 0);
+    // Get racial base stats
+    let racialBaseStats = {
+        armor: 0,
+        speed: 30,
+        hp: 0,
+        mana: 0,
+        ap: 3, // Default is 3, some races have 4 or 2
+        passivePerception: 0,
+        swimSpeed: 0,
+        climbSpeed: 0,
+        visionRange: 60,
+        darkvision: 0,
+        initiative: 0
+    };
+    
+    if (race && subrace) {
+        try {
+            const { getRacialBaseStats } = require('../data/raceData');
+            racialBaseStats = getRacialBaseStats(race, subrace);
+        } catch (e) {
+            console.warn('Could not load racial base stats:', e);
+        }
+    }
+    
+    // Base movement speed from race, with skill bonuses
+    const baseMoveSpeed = racialBaseStats.speed + (skillBonuses.movementSpeed || 0);
+    
+    // Base armor from race (0 by default), then add agility/2 and equipment
+    const baseArmor = racialBaseStats.armor + Math.floor(modifiedStats.agility / 2);
     
     let derivedStats = {
-        maxHealth: baseMaxHealth,
-        maxMana: baseMaxMana,
+        maxHealth: baseMaxHealth + racialBaseStats.hp, // Add racial base HP to calculated HP
+        maxMana: baseMaxMana + racialBaseStats.mana, // Add racial base mana to calculated mana
         healthRegen: baseHealthRegen,
         manaRegen: baseManaRegen,
         damage: 0 + (equipmentBonuses.damage || 0), // Base damage is 0, only equipment bonuses
@@ -309,10 +336,15 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         slashingDamage: 0 + (equipmentBonuses.slashingDamage || 0), // Base slashing damage is 0
         bludgeoningDamage: 0 + (equipmentBonuses.bludgeoningDamage || 0), // Base bludgeoning damage is 0
         piercingDamage: 0 + (equipmentBonuses.piercingDamage || 0), // Base piercing damage is 0
-        armor: Math.floor(modifiedStats.agility / 2) + (equipmentBonuses.armor || 0) + (skillBonuses.armor || 0),
+        armor: baseArmor + (equipmentBonuses.armor || 0) + (skillBonuses.armor || 0),
         moveSpeed: baseMoveSpeed,
-        swimSpeed: 0, // Will be calculated based on moveSpeed after modifiers
-        climbSpeed: 0, // Will be calculated based on moveSpeed after modifiers
+        swimSpeed: racialBaseStats.swimSpeed, // Start with racial base, will be calculated from moveSpeed if 0
+        climbSpeed: racialBaseStats.climbSpeed, // Start with racial base, will be calculated from moveSpeed if 0
+        passivePerception: racialBaseStats.passivePerception + (equipmentBonuses.passivePerception || 0) + (skillBonuses.passivePerception || 0),
+        visionRange: racialBaseStats.visionRange + (equipmentBonuses.visionRange || 0) + (skillBonuses.visionRange || 0),
+        darkvision: racialBaseStats.darkvision + (equipmentBonuses.darkvision || 0) + (skillBonuses.darkvision || 0),
+        initiative: racialBaseStats.initiative + (equipmentBonuses.initiative || 0) + (skillBonuses.initiative || 0),
+        actionPoints: racialBaseStats.ap + (equipmentBonuses.actionPoints || 0) + (skillBonuses.actionPoints || 0),
         carryingCapacity: calculateCarryingCapacity(modifiedStats.strength, equipmentBonuses.carryingCapacity || 0),
         encumbranceEffects: encumbranceEffects
     };
@@ -363,10 +395,15 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     }
 
     // Calculate swim and climb speeds based on final movement speed (after all exhaustion effects)
-    // Swim speed = 1/3 of movement speed
-    derivedStats.swimSpeed = Math.floor(derivedStats.moveSpeed / 3);
-    // Climb speed = 1/2 of movement speed
-    derivedStats.climbSpeed = Math.floor(derivedStats.moveSpeed / 2);
+    // Only if racial base was 0 (meaning it should be calculated from moveSpeed)
+    if (racialBaseStats.swimSpeed === 0) {
+        // Swim speed = 1/3 of movement speed
+        derivedStats.swimSpeed = Math.floor(derivedStats.moveSpeed / 3);
+    }
+    if (racialBaseStats.climbSpeed === 0) {
+        // Climb speed = 1/2 of movement speed
+        derivedStats.climbSpeed = Math.floor(derivedStats.moveSpeed / 2);
+    }
     
     // Apply skill bonuses to swim and climb if present (only if not exhausted to 0)
     if (skillBonuses.swimSpeed && derivedStats.moveSpeed > 0) {

@@ -2198,9 +2198,9 @@ button.gender-option.selected {
     background: linear-gradient(90deg, transparent, #d4af37, transparent);
 }
 
-/* Class preview equipment grid - uses equipment shop styling */
-.equipment-shop-grid {
-    display: flex;
+/* Character creation equipment preview grid (steps 2/3/4/9) */
+.equipment-preview-grid {
+    display: inline-flex;
     flex-direction: column;
     gap: 0px;
     background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
@@ -2208,27 +2208,38 @@ button.gender-option.selected {
     border-radius: 6px;
     border: 1px solid #8b7355;
     box-shadow: 0 2px 6px rgba(139, 115, 85, 0.3);
-    width: 100%;
-    margin: 0;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
     height: auto; /* Allow grid to expand naturally to fit items */
-    max-height: 700px; /* Increased maximum height for better fit */
-    overflow-y: auto; /* Add vertical scrolling when needed */
+    min-height: 120px; /* Minimum height to show at least 2 rows */
+    max-height: none; /* Remove max height restriction to show all items */
+    overflow: visible; /* Show all items without scrolling */
+    box-sizing: border-box;
+    --equipment-preview-cell-size: 40px;
+    --equipment-preview-gap: 1px;
 }
 
-.equipment-shop-grid .inventory-row {
+.equipment-preview-grid .equipment-preview-row {
     display: flex;
-    gap: 0px;
-    margin-bottom: 0px;
+    gap: var(--equipment-preview-gap);
+    margin-bottom: 2px;
+    width: fit-content;
+    justify-content: flex-start;
 }
 
-.equipment-shop-grid .inventory-cell {
-    flex: 1 1 0;
-    min-width: 0;
-    aspect-ratio: 1 / 1;
+.equipment-preview-grid .equipment-preview-row:last-child {
+    margin-bottom: 0;
+}
+
+.equipment-preview-grid .equipment-preview-cell {
+    width: var(--equipment-preview-cell-size);
+    height: var(--equipment-preview-cell-size);
+    flex: 0 0 var(--equipment-preview-cell-size);
     position: relative;
     background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
     border: 1px solid #4a934a;
-    border-radius: 1px;
+    border-radius: 2px;
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     box-sizing: border-box;
@@ -2239,21 +2250,21 @@ button.gender-option.selected {
     box-shadow: inset 0 0 3px rgba(139, 115, 85, 0.2);
 }
 
-.equipment-shop-grid .inventory-cell.occupied {
+.equipment-preview-grid .equipment-preview-cell.occupied {
     background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a0 100%);
 }
 
-.equipment-shop-grid .inventory-cell.empty {
+.equipment-preview-grid .equipment-preview-cell.empty {
     transition: none; /* Disable transitions on empty cells to prevent layout glitches */
 }
 
-.equipment-shop-grid .inventory-cell:hover {
+.equipment-preview-grid .equipment-preview-cell:hover {
     border-color: #6b5010;
     box-shadow: inset 0 0 5px rgba(139, 115, 85, 0.3);
     transition: border-color 0.1s ease, box-shadow 0.1s ease;
 }
 
-.equipment-shop-grid .item-icon-wrapper {
+.equipment-preview-grid .equipment-preview-item-wrapper {
     border: 2px solid #3a2a1a;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
@@ -2265,9 +2276,11 @@ button.gender-option.selected {
     top: 0;
     left: 0;
     z-index: 2;
+    margin: 0;
+    padding: 0;
 }
 
-.equipment-shop-grid .item-icon-wrapper:hover {
+.equipment-preview-grid .equipment-preview-item-wrapper:hover {
     border-color: #d4af37;
     box-shadow: 0 2px 7px rgba(212, 175, 55, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
@@ -4619,57 +4632,10 @@ button.gender-option.selected {
     }
 }
 
-/* Equipment Display Styling */
-.equipment-shop-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin: 1rem 0;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid #4a4a4a;
-    border-radius: 6px;
-    padding: 8px;
-    max-width: fit-content;
-    width: fit-content;
-    justify-self: center;
-}
-
-.inventory-row {
-    display: flex;
-    gap: 2px;
-}
-
-.inventory-cell {
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.inventory-cell.occupied {
-    background: rgba(212, 175, 55, 0.1);
-    border-color: rgba(212, 175, 55, 0.3);
-}
-
-.inventory-cell.background-item {
-    background: rgba(135, 206, 235, 0.1);
-    border-color: rgba(135, 206, 235, 0.3);
-}
-
-.item-icon-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 3px;
-    overflow: hidden;
+/* Inventory preview modifiers (used in Step 9 summary inventory) */
+.equipment-preview-grid .equipment-preview-cell.background-item {
+    background: rgba(135, 206, 235, 0.12);
+    border-color: rgba(135, 206, 235, 0.35);
 }
 
 .equipment-item-icon {
@@ -6402,6 +6368,46 @@ button.gender-option.selected {
 }
 
 /* Compact sections for racial traits browser */
+.base-stats-preview,
+.saving-throw-mods-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.base-stat-item,
+.saving-throw-mod-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0.75rem;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(139, 115, 85, 0.3);
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.base-stat-label,
+.saving-throw-mod-label {
+    font-weight: 600;
+    color: #5d4037;
+}
+
+.base-stat-value,
+.saving-throw-mod-value {
+    font-weight: 700;
+    color: #2c2416;
+}
+
+.saving-throw-mod-item.advantage .saving-throw-mod-value {
+    color: #4a934a;
+}
+
+.saving-throw-mod-item.disadvantage .saving-throw-mod-value {
+    color: #c62828;
+}
+
 .stat-modifiers-compact {
     margin: 1rem 0;
 }

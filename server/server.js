@@ -2608,6 +2608,30 @@ io.on('connection', (socket) => {
     console.log(`👮 GM ${gmPlayer.name} kicked player ${playerToKick.name} from room ${room.name}`);
   });
 
+  // GM shares quest with all players in room
+  socket.on('share_quest', (data) => {
+    const player = players.get(socket.id);
+    if (!player || !player.isGM) {
+      socket.emit('error', { message: 'Only the GM can share quests' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    // Broadcast quest to all players in the room
+    io.to(player.roomId).emit('quest_shared', {
+      quest: data.quest,
+      sharedBy: player.name,
+      timestamp: new Date().toISOString()
+    });
+
+    console.log(`📜 GM ${player.name} shared quest "${data.quest.title}" with room ${room.name}`);
+  });
+
   // ========== END ENHANCED MULTIPLAYER HANDLERS ==========
 
   // ========== GLOBAL CHAT & PRESENCE HANDLERS ==========

@@ -935,7 +935,7 @@ const Step3ClassSelection = () => {
                                                 <h4 className="equipment-section-title">
                                                     <i className="fas fa-shopping-bag"></i> Starting Equipment Pool
                                                 </h4>
-                                                <div className="equipment-shop-grid">
+                                                <div className="equipment-preview-grid">
                                                     {(() => {
                                                         // Get all item names and convert to full objects
                                                         const allItemNames = [
@@ -1017,14 +1017,14 @@ const Step3ClassSelection = () => {
                                                                 rowCells.push(
                                                                     <div
                                                                         key={`${row}-${col}`}
-                                                                        className={`inventory-cell ${item ? 'occupied' : ''}`}
+                                                                        className={`equipment-preview-cell ${item ? 'occupied' : ''}`}
                                                                         onMouseEnter={item && isOrigin ? (e) => handleItemMouseEnter(e, item) : undefined}
                                                                         onMouseMove={item && isOrigin ? handleItemMouseMove : undefined}
                                                                         onMouseLeave={item && isOrigin ? handleItemMouseLeave : undefined}
                                                                     >
                                                                         {item && isOrigin && (
                                                                             <div
-                                                                                className="item-icon-wrapper"
+                                                                                className="equipment-preview-item-wrapper"
                                                                                 style={{
                                                                                     width: `calc(${(item.width || 1) * 100}% + ${(item.width || 1) - 1}px)`,
                                                                                     height: `calc(${(item.height || 1) * 100}% + ${(item.height || 1) - 1}px)`,
@@ -1048,7 +1048,7 @@ const Step3ClassSelection = () => {
                                                                 );
                                                             }
                                                             gridRows.push(
-                                                                <div key={row} className="inventory-row">
+                                                            <div key={row} className="equipment-preview-row">
                                                                     {rowCells}
                                                                 </div>
                                                             );

@@ -6,7 +6,7 @@
 
 import React, { useState, useRef } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
-import { RACE_DATA, getFullRaceData } from '../../../data/raceData';
+import { RACE_DATA, getFullRaceData, getRacialBaseStats, getRacialSavingThrowModifiers } from '../../../data/raceData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../../item-generation/ItemTooltip';
@@ -366,7 +366,7 @@ const Step2RaceSelection = () => {
                                                                 <h5 className="section-title">
                                                                     <i className="fas fa-shopping-bag"></i> Starting Equipment Pool
                                                                 </h5>
-                                                                <div className="equipment-shop-grid">
+                                                                <div className="equipment-preview-grid">
                                                                     {(() => {
                                                                         const COLS = 6;
                                                                         const occupiedCells = new Map();
@@ -377,7 +377,7 @@ const Step2RaceSelection = () => {
                                                                             const itemWidth = item.width || 1;
                                                                             const itemHeight = item.height || 1;
                                                                             let placed = false;
-                                                                            while (!placed && currentRow < 6) {
+                                                                            while (!placed) {
                                                                                 let fits = true;
                                                                                 for (let r = 0; r < itemHeight; r++) {
                                                                                     for (let c = 0; c < itemWidth; c++) {
@@ -414,6 +414,8 @@ const Step2RaceSelection = () => {
                                                                         const maxRow = Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])), -1);
                                                                         const totalRows = Math.max(maxRow + 1, 2);
                                                                         const gridRows = [];
+                                                                        
+                                                                        // Ensure we have at least 2 rows for proper display
 
                                                                         for (let row = 0; row < totalRows; row++) {
                                                                             const rowCells = [];
@@ -424,14 +426,14 @@ const Step2RaceSelection = () => {
                                                                                 rowCells.push(
                                                                                     <div
                                                                                         key={`${row}-${col}`}
-                                                                                        className={`inventory-cell ${item ? 'occupied' : ''}`}
+                                                                                        className={`equipment-preview-cell ${item ? 'occupied' : ''}`}
                                                                                         onMouseEnter={item && isOrigin ? (e) => handleItemMouseEnter(e, item) : undefined}
                                                                                         onMouseMove={item && isOrigin ? handleItemMouseMove : undefined}
                                                                                         onMouseLeave={item && isOrigin ? handleItemMouseLeave : undefined}
                                                                                     >
                                                                                         {item && isOrigin && (
                                                                                             <div
-                                                                                                className="item-icon-wrapper"
+                                                                                                className="equipment-preview-item-wrapper"
                                                                                                 style={{
                                                                                                     width: `calc(${(item.width || 1) * 100}% + ${(item.width || 1) - 1}px)`,
                                                                                                     height: `calc(${(item.height || 1) * 100}% + ${(item.height || 1) - 1}px)`,
@@ -455,7 +457,7 @@ const Step2RaceSelection = () => {
                                                                                 );
                                                                             }
                                                                             gridRows.push(
-                                                                                <div key={row} className="inventory-row">
+                                                                                <div key={row} className="equipment-preview-row">
                                                                                     {rowCells}
                                                                                 </div>
                                                                             );
@@ -502,6 +504,108 @@ const Step2RaceSelection = () => {
                                                             ))}
                                                         </div>
                                                     </div>
+
+                                                    {/* Base Stats */}
+                                                    {(() => {
+                                                        const baseStats = getRacialBaseStats(previewRace.id, previewSubrace.id);
+                                                        if (baseStats && Object.keys(baseStats).length > 0) {
+                                                            return (
+                                                                <div className="subrace-info-section">
+                                                                    <h6 className="section-title">Base Stats</h6>
+                                                                    <div className="base-stats-preview">
+                                                                        {baseStats.armor !== undefined && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Armor:</span>
+                                                                                <span className="base-stat-value">{baseStats.armor}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.hp !== undefined && baseStats.hp !== 0 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">HP:</span>
+                                                                                <span className="base-stat-value">{baseStats.hp > 0 ? '+' : ''}{baseStats.hp}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.mana !== undefined && baseStats.mana !== 0 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Mana:</span>
+                                                                                <span className="base-stat-value">{baseStats.mana > 0 ? '+' : ''}{baseStats.mana}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.ap !== undefined && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Action Points:</span>
+                                                                                <span className="base-stat-value">{baseStats.ap}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.passivePerception !== undefined && baseStats.passivePerception !== 0 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Passive Perception:</span>
+                                                                                <span className="base-stat-value">{baseStats.passivePerception > 0 ? '+' : ''}{baseStats.passivePerception}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.swimSpeed !== undefined && baseStats.swimSpeed !== 0 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Swim Speed:</span>
+                                                                                <span className="base-stat-value">{baseStats.swimSpeed > 0 ? '+' : ''}{baseStats.swimSpeed} ft</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.climbSpeed !== undefined && baseStats.climbSpeed !== 0 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Climb Speed:</span>
+                                                                                <span className="base-stat-value">{baseStats.climbSpeed > 0 ? '+' : ''}{baseStats.climbSpeed} ft</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.visionRange !== undefined && baseStats.visionRange !== 60 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Vision Range:</span>
+                                                                                <span className="base-stat-value">{baseStats.visionRange} ft</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.darkvision !== undefined && baseStats.darkvision !== 0 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Darkvision:</span>
+                                                                                <span className="base-stat-value">{baseStats.darkvision} ft</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {baseStats.initiative !== undefined && baseStats.initiative !== 0 && (
+                                                                            <div className="base-stat-item">
+                                                                                <span className="base-stat-label">Initiative:</span>
+                                                                                <span className="base-stat-value">{baseStats.initiative > 0 ? '+' : ''}{baseStats.initiative}</span>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        }
+                                                        return null;
+                                                    })()}
+
+                                                    {/* Saving Throw Modifiers */}
+                                                    {(() => {
+                                                        const savingThrowMods = getRacialSavingThrowModifiers(previewRace.id, previewSubrace.id);
+                                                        if (savingThrowMods && (savingThrowMods.advantage || savingThrowMods.disadvantage)) {
+                                                            return (
+                                                                <div className="subrace-info-section">
+                                                                    <h6 className="section-title">Saving Throw Modifiers</h6>
+                                                                    <div className="saving-throw-mods-preview">
+                                                                        {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
+                                                                            <div className="saving-throw-mod-item advantage">
+                                                                                <span className="saving-throw-mod-label">Advantage:</span>
+                                                                                <span className="saving-throw-mod-value">{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
+                                                                            <div className="saving-throw-mod-item disadvantage">
+                                                                                <span className="saving-throw-mod-label">Disadvantage:</span>
+                                                                                <span className="saving-throw-mod-value">{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        }
+                                                        return null;
+                                                    })()}
 
 
                                             {/* Racial Traits */}

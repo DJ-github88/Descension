@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import WowWindow from './WowWindow';
 import useQuestStore from '../../store/questStore';
 import useGameStore from '../../store/gameStore';
+import usePresenceStore from '../../store/presenceStore';
 import QuestCreationForm from '../quest-log/QuestCreationForm';
 import QuestObjective from '../quest-log/QuestObjective';
 import QuestReward from '../quest-log/QuestReward';
@@ -232,6 +233,40 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
     resetQuest(questId);
   };
 
+  // Handle sharing quest to players
+  const handleShareQuest = (questId) => {
+    const quest = quests.find(q => q.id === questId);
+    if (!quest) return;
+
+    // Get socket from window if available
+    const socket = window.socket;
+    if (socket && socket.connected) {
+      // Emit quest share event
+      socket.emit('share_quest', {
+        quest: quest,
+        roomId: window.currentRoomId || null
+      });
+      
+      // Also add to party chat as notification
+      const { addPartyChatMessage } = usePresenceStore.getState();
+      if (addPartyChatMessage) {
+        addPartyChatMessage({
+          id: `quest_share_${Date.now()}`,
+          senderId: 'system',
+          senderName: 'Game Master',
+          content: `Shared quest: ${quest.title}`,
+          timestamp: new Date().toISOString(),
+          type: 'system'
+        });
+      }
+    } else {
+      // Fallback: just add to local quest store for all players
+      // In a real implementation, this would sync via the server
+      console.log('Sharing quest:', quest.title);
+      alert(`Quest "${quest.title}" would be shared with all players. (Multiplayer connection required)`);
+    }
+  };
+
 
 
   // Render difficulty badge
@@ -276,64 +311,68 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
 
     return (
       <div className="quest-details">
-        <div className="quest-header">
-          <h2 className="quest-title">{selectedQuestObj.title}</h2>
-          <div className="quest-subtitle">
-            <div>
-              {renderDifficultyBadge(selectedQuestObj.difficulty)}
-              <span>Level {selectedQuestObj.level}</span>
-            </div>
-            <div>
-              <span>Given by: {selectedQuestObj.giver}</span>
+        <div className="quest-details-content">
+          <div className="quest-header">
+            <h2 className="quest-title">{selectedQuestObj.title}</h2>
+            <div className="quest-subtitle">
+              <div className="quest-subtitle-left">
+                {renderDifficultyBadge(selectedQuestObj.difficulty)}
+                <span className="quest-level-text">Level {selectedQuestObj.level}</span>
+              </div>
+              <div className="quest-subtitle-right">
+                <span>Given by: {selectedQuestObj.giver}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="quest-description">
-          {selectedQuestObj.description}
-        </div>
+          <div className="quest-description">
+            {selectedQuestObj.description}
+          </div>
 
-        <h3 className="quest-section-title">Objectives</h3>
-        <ul className="quest-objective-list">
-          {selectedQuestObj.objectives.map(objective => (
-            <li key={objective.id} className="quest-objective-item">
-              <QuestObjective
-                questId={selectedQuestObj.id}
-                objective={objective}
-              />
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="quest-section-title">Rewards</h3>
-
-        {selectedQuestObj.rewards.experience > 0 && (
-          <QuestReward
-            reward={selectedQuestObj.rewards.experience}
-            type="experience"
-          />
-        )}
-
-        {(selectedQuestObj.rewards.currency.gold > 0 ||
-          selectedQuestObj.rewards.currency.silver > 0 ||
-          selectedQuestObj.rewards.currency.copper > 0) && (
-          <QuestReward
-            reward={selectedQuestObj.rewards.currency}
-            type="currency"
-          />
-        )}
-
-        {selectedQuestObj.rewards.items.length > 0 && (
-          <div className="quest-reward-list">
-            {selectedQuestObj.rewards.items.map(item => (
-              <QuestReward
-                key={item.id}
-                reward={item}
-                type="item"
-              />
+          <h3 className="quest-section-title">Objectives</h3>
+          <ul className="quest-objective-list">
+            {selectedQuestObj.objectives.map(objective => (
+              <li key={objective.id} className="quest-objective-item">
+                <QuestObjective
+                  questId={selectedQuestObj.id}
+                  objective={objective}
+                />
+              </li>
             ))}
+          </ul>
+
+          <h3 className="quest-section-title">Rewards</h3>
+
+          <div className="quest-rewards-container">
+            {selectedQuestObj.rewards.experience > 0 && (
+              <QuestReward
+                reward={selectedQuestObj.rewards.experience}
+                type="experience"
+              />
+            )}
+
+            {(selectedQuestObj.rewards.currency.gold > 0 ||
+              selectedQuestObj.rewards.currency.silver > 0 ||
+              selectedQuestObj.rewards.currency.copper > 0) && (
+              <QuestReward
+                reward={selectedQuestObj.rewards.currency}
+                type="currency"
+              />
+            )}
+
+            {selectedQuestObj.rewards.items.length > 0 && (
+              <div className="quest-reward-list">
+                {selectedQuestObj.rewards.items.map(item => (
+                  <QuestReward
+                    key={item.id}
+                    reward={item}
+                    type="item"
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
         {activeTab === 'active' && (
           <div className="quest-actions">
@@ -349,6 +388,15 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
             >
               Abandon Quest
             </button>
+            {isGMMode && (
+              <button
+                className="quest-button quest-button-share"
+                onClick={() => handleShareQuest(selectedQuestObj.id)}
+                title="Share this quest with all players"
+              >
+                Share Quest
+              </button>
+            )}
           </div>
         )}
 
@@ -360,6 +408,15 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
             >
               Reset Quest
             </button>
+            {isGMMode && (
+              <button
+                className="quest-button quest-button-share"
+                onClick={() => handleShareQuest(selectedQuestObj.id)}
+                title="Share this quest with all players"
+              >
+                Share Quest
+              </button>
+            )}
           </div>
         )}
       </div>

@@ -261,7 +261,7 @@ const Step4BackgroundSelection = () => {
                                             <h5 className="section-title">
                                                 <i className="fas fa-shopping-bag"></i> Starting Equipment
                                             </h5>
-                                            <div className="equipment-shop-grid">
+                                            <div className="equipment-preview-grid">
                                                 {(() => {
                                                     const fullItems = getFullItemObjects(previewBackground.equipment);
                                                     const COLS = 6;
@@ -303,10 +303,10 @@ const Step4BackgroundSelection = () => {
                                                                     gridRows[row][col] = (
                                                                         <div
                                                                             key={index}
-                                                                            className="inventory-cell occupied"
+                                                                            className="equipment-preview-cell occupied"
                                                                         >
                                                                             <div
-                                                                                className="item-icon-wrapper"
+                                                                                className="equipment-preview-item-wrapper"
                                                                                 style={{
                                                                                     width: `calc(${width * 100}% + ${width - 1}px)`,
                                                                                     height: `calc(${height * 100}% + ${height - 1}px)`
@@ -348,10 +348,10 @@ const Step4BackgroundSelection = () => {
 
                                                     // Render grid rows
                                                     return gridRows.map((rowCells, rowIndex) => (
-                                                        <div key={rowIndex} className="inventory-row">
+                                                        <div key={rowIndex} className="equipment-preview-row">
                                                             {Array.from({ length: COLS }, (_, colIndex) => (
                                                                 rowCells && rowCells[colIndex] ? rowCells[colIndex] : (
-                                                                    <div key={`empty-${rowIndex}-${colIndex}`} className="inventory-cell empty"></div>
+                                                                    <div key={`empty-${rowIndex}-${colIndex}`} className="equipment-preview-cell empty"></div>
                                                                 )
                                                             ))}
                                                         </div>

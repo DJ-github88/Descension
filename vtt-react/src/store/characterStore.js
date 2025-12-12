@@ -1525,7 +1525,7 @@ const useCharacterStore = create((set, get) => ({
         });
 
         const encumbranceState = getEncumbranceState();
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
 
         // Calculate total level-up bonuses from history
         let totalHealthBonus = 0;
@@ -1617,7 +1617,7 @@ const useCharacterStore = create((set, get) => ({
 
         // Calculate derived stats with all effects
         const encumbranceState = getEncumbranceState();
-        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0);
+        const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace);
 
         // Add derived stats to total stats
         totalStats.maxHealth = Math.round(derivedStats.maxHealth || state.health.max);
