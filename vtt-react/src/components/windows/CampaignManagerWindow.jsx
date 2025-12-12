@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import WowWindow from './WowWindow';
 import '../../styles/campaign-manager.css';
+import LibraryBrowserModal, { LIBRARY_TYPES } from '../account/LibraryBrowserModal';
+import ItemTooltip from '../item-generation/ItemTooltip';
+import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCreatureTooltip';
+import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
+import TooltipPortal from '../tooltips/TooltipPortal';
+import useCreatureStore from '../../store/creatureStore';
 
 // Campaign Management Window with tabbed interface
 function CampaignManagerWindow({ isOpen, onClose }) {
@@ -13,7 +19,18 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         sessions: [],
         npcs: [],
         locations: [],
-        plotThreads: []
+        plotThreads: [],
+        // Homebrew content
+        homebrew: {
+            items: [],
+            monsters: [],
+            spells: [],
+            lore: []
+        },
+        // Library selections
+        selectedItems: [],
+        selectedCreatures: [],
+        selectedSpells: []
     });
     
     // Modal state
@@ -22,6 +39,109 @@ function CampaignManagerWindow({ isOpen, onClose }) {
     const [inputModalConfig, setInputModalConfig] = useState({ title: '', placeholder: '', onSubmit: null });
     const [confirmModalConfig, setConfirmModalConfig] = useState({ message: '', onConfirm: null });
     const [inputValue, setInputValue] = useState('');
+    
+    // Library browser state
+    const [libraryBrowser, setLibraryBrowser] = useState({
+        isOpen: false,
+        libraryType: LIBRARY_TYPES.CREATURES,
+        title: '',
+        onSelect: null
+    });
+
+    // Tooltip state
+    const [hoveredItem, setHoveredItem] = useState(null);
+    const [hoveredCreature, setHoveredCreature] = useState(null);
+    const [hoveredSpell, setHoveredSpell] = useState(null);
+    const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+    const tooltipDelayRef = useRef(null);
+    const tooltipRef = useRef(null);
+
+    // Helper function to format text (capitalize first letter, lowercase rest)
+    const formatTag = (text) => {
+        if (!text || typeof text !== 'string') return text;
+        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    };
+
+    // Tooltip handlers
+    const handleMouseEnter = (e, item = null, creature = null, spell = null) => {
+        if (tooltipDelayRef.current) {
+            clearTimeout(tooltipDelayRef.current);
+        }
+        tooltipDelayRef.current = setTimeout(() => {
+            setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 });
+            if (item) setHoveredItem(item);
+            if (creature) {
+                // If creature is missing stats, try to fetch full data from store
+                let fullCreature = creature;
+                if (!creature.stats && creature.libraryId) {
+                    const creatureStore = useCreatureStore.getState();
+                    const fullData = creatureStore.getCreature(creature.libraryId);
+                    if (fullData) {
+                        // Merge stored data with campaign-specific data (like notes)
+                        fullCreature = {
+                            ...fullData,
+                            id: creature.id, // Keep campaign-specific ID
+                            notes: creature.notes || fullData.notes,
+                            isFromLibrary: true
+                        };
+                    }
+                }
+                setHoveredCreature(fullCreature);
+            }
+            if (spell) setHoveredSpell(spell);
+        }, 150);
+    };
+
+    const handleMouseMove = (e) => {
+        if (hoveredItem || hoveredCreature || hoveredSpell) {
+            setTooltipPosition({ x: e.clientX + 15, y: e.clientY - 10 });
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (tooltipDelayRef.current) {
+            clearTimeout(tooltipDelayRef.current);
+        }
+        setHoveredItem(null);
+        setHoveredCreature(null);
+        setHoveredSpell(null);
+    };
+
+    // Prevent background scrolling when creature tooltip is visible and enable tooltip scrolling
+    useEffect(() => {
+        const handleWheel = (e) => {
+            if (hoveredCreature) {
+                // Check if mouse is over the tooltip
+                const tooltipElement = document.querySelector('.campaign-creature-tooltip-portal');
+                if (tooltipElement && tooltipElement.contains(e.target)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Find the scrollable tooltip content and scroll it directly
+                    const scrollableContent = document.querySelector('.campaign-creature-tooltip-portal .creature-tooltip-scrollable');
+                    if (scrollableContent) {
+                        scrollableContent.scrollTop += e.deltaY;
+                    }
+                } else {
+                    // If hovering over campaign manager content, also scroll tooltip
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const scrollableContent = document.querySelector('.campaign-creature-tooltip-portal .creature-tooltip-scrollable');
+                    if (scrollableContent) {
+                        scrollableContent.scrollTop += e.deltaY;
+                    }
+                }
+            }
+        };
+
+        if (hoveredCreature) {
+            document.addEventListener('wheel', handleWheel, { passive: false });
+        }
+
+        return () => {
+            document.removeEventListener('wheel', handleWheel);
+        };
+    }, [hoveredCreature]);
 
     // Tab definitions
     const tabs = [
@@ -29,7 +149,8 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         { id: 'sessions', label: 'Sessions', icon: 'fas fa-calendar-alt' },
         { id: 'npcs', label: 'NPCs', icon: 'fas fa-users' },
         { id: 'locations', label: 'Locations', icon: 'fas fa-map-marker-alt' },
-        { id: 'plots', label: 'Plot Threads', icon: 'fas fa-project-diagram' }
+        { id: 'plots', label: 'Plot Threads', icon: 'fas fa-project-diagram' },
+        { id: 'homebrew', label: 'Homebrew', icon: 'fas fa-flask' }
     ];
 
     // Load campaign data from localStorage on mount
@@ -37,7 +158,17 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         const savedData = localStorage.getItem('mythrill-campaign-data');
         if (savedData) {
             try {
-                setCampaignData(JSON.parse(savedData));
+                const parsed = JSON.parse(savedData);
+                // Ensure homebrew structure is properly initialized with arrays
+                if (parsed.homebrew) {
+                    parsed.homebrew = {
+                        items: Array.isArray(parsed.homebrew.items) ? parsed.homebrew.items : (parsed.homebrew.items ? Object.values(parsed.homebrew.items) : []),
+                        monsters: Array.isArray(parsed.homebrew.monsters) ? parsed.homebrew.monsters : (parsed.homebrew.monsters ? Object.values(parsed.homebrew.monsters) : []),
+                        spells: Array.isArray(parsed.homebrew.spells) ? parsed.homebrew.spells : (parsed.homebrew.spells ? Object.values(parsed.homebrew.spells) : []),
+                        lore: Array.isArray(parsed.homebrew.lore) ? parsed.homebrew.lore : (parsed.homebrew.lore ? Object.values(parsed.homebrew.lore) : [])
+                    };
+                }
+                setCampaignData(parsed);
             } catch (error) {
                 console.error('Error loading campaign data:', error);
             }
@@ -56,16 +187,19 @@ function CampaignManagerWindow({ isOpen, onClose }) {
     const addPlayer = () => {
         setInputModalConfig({
             title: 'Enter Player Name',
-            placeholder: 'Player name...',
+            placeholder: 'Character name...',
             onSubmit: (playerName) => {
                 if (playerName && playerName.trim()) {
                     const newPlayer = {
                         id: Date.now(),
                         name: playerName.trim(),
-                        characterName: '',
                         class: '',
                         level: 1,
-                        status: 'active'
+                        status: 'active',
+                        notes: '',
+                        attendance: [],
+                        background: '',
+                        goals: ''
                     };
                     updateCampaignData({
                         players: [...campaignData.players, newPlayer]
@@ -274,6 +408,349 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         setShowConfirmModal(true);
     };
 
+    // Homebrew Management Functions
+    const [homebrewSubTab, setHomebrewSubTab] = useState('items');
+
+    const addHomebrewItem = () => {
+        setInputModalConfig({
+            title: 'Enter Item Name',
+            placeholder: 'Item name...',
+            onSubmit: (itemName) => {
+                if (itemName && itemName.trim()) {
+                    const newItem = {
+                        id: Date.now(),
+                        name: itemName.trim(),
+                        type: 'weapon',
+                        rarity: 'common',
+                        description: '',
+                        properties: '',
+                        effects: '',
+                        cost: '',
+                        weight: '',
+                        notes: ''
+                    };
+                    updateCampaignData({
+                        homebrew: {
+                            ...campaignData.homebrew,
+                            items: [...(campaignData.homebrew?.items || []), newItem]
+                        }
+                    });
+                }
+            }
+        });
+        setInputValue('');
+        setShowInputModal(true);
+    };
+
+    const updateHomebrewItem = (itemId, updates) => {
+        updateCampaignData({
+            homebrew: {
+                ...campaignData.homebrew,
+                items: (campaignData.homebrew?.items || []).map(item =>
+                    item.id === itemId ? { ...item, ...updates } : item
+                )
+            }
+        });
+    };
+
+    const removeHomebrewItem = (itemId) => {
+        setConfirmModalConfig({
+            message: 'Are you sure you want to remove this item?',
+            onConfirm: () => {
+                updateCampaignData({
+                    homebrew: {
+                        ...campaignData.homebrew,
+                        items: (campaignData.homebrew?.items || []).filter(item => item.id !== itemId)
+                    }
+                });
+            }
+        });
+        setShowConfirmModal(true);
+    };
+
+    const addHomebrewMonster = () => {
+        setInputModalConfig({
+            title: 'Enter Monster Name',
+            placeholder: 'Monster name...',
+            onSubmit: (monsterName) => {
+                if (monsterName && monsterName.trim()) {
+                    const newMonster = {
+                        id: Date.now(),
+                        name: monsterName.trim(),
+                        type: 'beast',
+                        size: 'medium',
+                        challengeRating: '1',
+                        description: '',
+                        abilities: '',
+                        actions: '',
+                        hp: '',
+                        ac: '',
+                        speed: '',
+                        stats: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
+                        notes: ''
+                    };
+                    updateCampaignData({
+                        homebrew: {
+                            ...campaignData.homebrew,
+                            monsters: [...(campaignData.homebrew?.monsters || []), newMonster]
+                        }
+                    });
+                }
+            }
+        });
+        setInputValue('');
+        setShowInputModal(true);
+    };
+
+    const updateHomebrewMonster = (monsterId, updates) => {
+        updateCampaignData({
+            homebrew: {
+                ...campaignData.homebrew,
+                monsters: (campaignData.homebrew?.monsters || []).map(monster =>
+                    monster.id === monsterId ? { ...monster, ...updates } : monster
+                )
+            }
+        });
+    };
+
+    const removeHomebrewMonster = (monsterId) => {
+        setConfirmModalConfig({
+            message: 'Are you sure you want to remove this monster?',
+            onConfirm: () => {
+                updateCampaignData({
+                    homebrew: {
+                        ...campaignData.homebrew,
+                        monsters: (campaignData.homebrew?.monsters || []).filter(monster => monster.id !== monsterId)
+                    }
+                });
+            }
+        });
+        setShowConfirmModal(true);
+    };
+
+    const addHomebrewSpell = () => {
+        setInputModalConfig({
+            title: 'Enter Spell Name',
+            placeholder: 'Spell name...',
+            onSubmit: (spellName) => {
+                if (spellName && spellName.trim()) {
+                    const newSpell = {
+                        id: Date.now(),
+                        name: spellName.trim(),
+                        level: 1,
+                        school: 'evocation',
+                        castingTime: '1 action',
+                        range: '60 feet',
+                        components: 'V, S',
+                        duration: 'Instantaneous',
+                        description: '',
+                        higherLevels: '',
+                        classes: '',
+                        notes: ''
+                    };
+                    updateCampaignData({
+                        homebrew: {
+                            ...campaignData.homebrew,
+                            spells: [...(campaignData.homebrew?.spells || []), newSpell]
+                        }
+                    });
+                }
+            }
+        });
+        setInputValue('');
+        setShowInputModal(true);
+    };
+
+    const updateHomebrewSpell = (spellId, updates) => {
+        updateCampaignData({
+            homebrew: {
+                ...campaignData.homebrew,
+                spells: (campaignData.homebrew?.spells || []).map(spell =>
+                    spell.id === spellId ? { ...spell, ...updates } : spell
+                )
+            }
+        });
+    };
+
+    const removeHomebrewSpell = (spellId) => {
+        setConfirmModalConfig({
+            message: 'Are you sure you want to remove this spell?',
+            onConfirm: () => {
+                updateCampaignData({
+                    homebrew: {
+                        ...campaignData.homebrew,
+                        spells: (campaignData.homebrew?.spells || []).filter(spell => spell.id !== spellId)
+                    }
+                });
+            }
+        });
+        setShowConfirmModal(true);
+    };
+
+    const addLoreArticle = () => {
+        setInputModalConfig({
+            title: 'Enter Article Title',
+            placeholder: 'Article title...',
+            onSubmit: (articleTitle) => {
+                if (articleTitle && articleTitle.trim()) {
+                    const newArticle = {
+                        id: Date.now(),
+                        title: articleTitle.trim(),
+                        category: 'history',
+                        content: '',
+                        linkedNPCs: [],
+                        linkedLocations: [],
+                        tags: [],
+                        isSecret: false,
+                        notes: ''
+                    };
+                    updateCampaignData({
+                        homebrew: {
+                            ...campaignData.homebrew,
+                            lore: [...(campaignData.homebrew?.lore || []), newArticle]
+                        }
+                    });
+                }
+            }
+        });
+        setInputValue('');
+        setShowInputModal(true);
+    };
+
+    const updateLoreArticle = (articleId, updates) => {
+        updateCampaignData({
+            homebrew: {
+                ...campaignData.homebrew,
+                lore: (campaignData.homebrew?.lore || []).map(article =>
+                    article.id === articleId ? { ...article, ...updates } : article
+                )
+            }
+        });
+    };
+
+    const removeLoreArticle = (articleId) => {
+        setConfirmModalConfig({
+            message: 'Are you sure you want to remove this lore article?',
+            onConfirm: () => {
+                updateCampaignData({
+                    homebrew: {
+                        ...campaignData.homebrew,
+                        lore: (campaignData.homebrew?.lore || []).filter(article => article.id !== articleId)
+                    }
+                });
+            }
+        });
+        setShowConfirmModal(true);
+    };
+
+    // Library browser helpers
+    const openLibraryBrowser = (libraryType, title, onSelectCallback) => {
+        setLibraryBrowser({
+            isOpen: true,
+            libraryType,
+            title,
+            onSelect: onSelectCallback
+        });
+    };
+
+    const closeLibraryBrowser = () => {
+        setLibraryBrowser({
+            isOpen: false,
+            libraryType: LIBRARY_TYPES.CREATURES,
+            title: '',
+            onSelect: null
+        });
+    };
+
+    // Add creature from library
+    const addCreatureFromLibrary = () => {
+        openLibraryBrowser(LIBRARY_TYPES.CREATURES, 'Add Creature to Campaign', (selectedItems) => {
+            const items = Array.isArray(selectedItems) ? selectedItems : [selectedItems];
+            const newCreatures = items.map(creature => ({
+                id: `lib-${creature.id}-${Date.now()}`,
+                libraryId: creature.id,
+                // Store full creature data for tooltip display (like items do)
+                ...creature,
+                notes: '',
+                isFromLibrary: true
+            }));
+            updateCampaignData({
+                selectedCreatures: [...(campaignData.selectedCreatures || []), ...newCreatures]
+            });
+        });
+    };
+
+    // Add item from library
+    const addItemFromLibrary = () => {
+        openLibraryBrowser(LIBRARY_TYPES.ITEMS, 'Add Item to Campaign', (selectedItems) => {
+            const items = Array.isArray(selectedItems) ? selectedItems : [selectedItems];
+            const newItems = items.map(item => ({
+                id: `lib-${item.id}-${Date.now()}`,
+                libraryId: item.id,
+                // Store full item data for tooltip display
+                ...item,
+                iconId: item.iconId || item.icon,
+                icon: item.icon || item.iconId,
+                notes: '',
+                isFromLibrary: true
+            }));
+            updateCampaignData({
+                selectedItems: [...(campaignData.selectedItems || []), ...newItems]
+            });
+        });
+    };
+
+    // Add spell from library
+    const addSpellFromLibrary = () => {
+        openLibraryBrowser(LIBRARY_TYPES.SPELLS, 'Add Spell to Campaign', (selectedItems) => {
+            const items = Array.isArray(selectedItems) ? selectedItems : [selectedItems];
+            const newSpells = items.map(spell => ({
+                id: `lib-${spell.id}-${Date.now()}`,
+                libraryId: spell.id,
+                name: spell.name,
+                school: spell.school,
+                level: spell.level,
+                icon: spell.icon,
+                notes: '',
+                isFromLibrary: true
+            }));
+            updateCampaignData({
+                selectedSpells: [...(campaignData.selectedSpells || []), ...newSpells]
+            });
+        });
+    };
+
+    // Remove library items
+    const removeLibraryCreature = (itemId) => {
+        // Clear hover state if this creature is being hovered
+        if (hoveredCreature && hoveredCreature.id === itemId) {
+            handleMouseLeave();
+        }
+        updateCampaignData({
+            selectedCreatures: (campaignData.selectedCreatures || []).filter(c => c.id !== itemId)
+        });
+    };
+
+    const removeLibraryItem = (itemId) => {
+        // Clear hover state if this item is being hovered
+        if (hoveredItem && hoveredItem.id === itemId) {
+            handleMouseLeave();
+        }
+        updateCampaignData({
+            selectedItems: (campaignData.selectedItems || []).filter(i => i.id !== itemId)
+        });
+    };
+
+    const removeLibrarySpell = (itemId) => {
+        // Clear hover state if this spell is being hovered
+        if (hoveredSpell && hoveredSpell.id === itemId) {
+            handleMouseLeave();
+        }
+        updateCampaignData({
+            selectedSpells: (campaignData.selectedSpells || []).filter(s => s.id !== itemId)
+        });
+    };
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 'overview':
@@ -353,36 +830,93 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                 <div className="players-list">
                                     {campaignData.players.length > 0 ? (
                                         campaignData.players.map(player => (
-                                            <div key={player.id} className="player-card">
-                                                <div className="player-info">
-                                                    <div className="player-name">{player.name}</div>
-                                                    <div className="player-character">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Character name..."
-                                                            value={player.characterName}
-                                                            onChange={(e) => updatePlayer(player.id, { characterName: e.target.value })}
-                                                            className="player-input"
-                                                        />
+                                            <div key={player.id} className="player-card-expanded">
+                                                <div className="player-card-header">
+                                                    <div className="player-avatar">
+                                                        {(player.name || '?').charAt(0).toUpperCase()}
                                                     </div>
-                                                    <div className="player-details">
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Class..."
-                                                            value={player.class}
-                                                            onChange={(e) => updatePlayer(player.id, { class: e.target.value })}
-                                                            className="player-input small"
-                                                        />
-                                                        <span className="player-level">Lvl {player.level}</span>
+                                                    <div className="player-info">
+                                                        <div className="player-header-row">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Character name..."
+                                                                value={player.name || ''}
+                                                                onChange={(e) => updatePlayer(player.id, { name: e.target.value })}
+                                                                className="player-name-input"
+                                                            />
+                                                            <button
+                                                                className="player-remove-btn"
+                                                                onClick={() => removePlayer(player.id)}
+                                                                title="Remove player"
+                                                            >
+                                                                <i className="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="player-details-row">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Class..."
+                                                                value={player.class || ''}
+                                                                onChange={(e) => updatePlayer(player.id, { class: e.target.value })}
+                                                                className="player-class-input"
+                                                            />
+                                                            <div className="player-level-group">
+                                                                <span className="player-level-label">LVL</span>
+                                                                <input
+                                                                    type="number"
+                                                                    min="1"
+                                                                    max="20"
+                                                                    value={player.level || 1}
+                                                                    onChange={(e) => updatePlayer(player.id, { level: parseInt(e.target.value) || 1 })}
+                                                                    className="player-level-input"
+                                                                />
+                                                            </div>
+                                                            <select
+                                                                value={player.status || 'active'}
+                                                                onChange={(e) => updatePlayer(player.id, { status: e.target.value })}
+                                                                className="player-status-select"
+                                                            >
+                                                                <option value="active">Active</option>
+                                                                <option value="inactive">Inactive</option>
+                                                                <option value="absent">Absent</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <button
-                                                    className="player-remove-btn"
-                                                    onClick={() => removePlayer(player.id)}
-                                                    title="Remove player"
-                                                >
-                                                    <i className="fas fa-times"></i>
-                                                </button>
+                                                <div className="player-card-body">
+                                                    <div className="player-fields-grid">
+                                                        <div className="player-field">
+                                                            <label>CHARACTER BACKGROUND</label>
+                                                            <textarea
+                                                                placeholder="Brief backstory, motivations..."
+                                                                value={player.background || ''}
+                                                                onChange={(e) => updatePlayer(player.id, { background: e.target.value })}
+                                                                className="player-textarea"
+                                                                rows={3}
+                                                            />
+                                                        </div>
+                                                        <div className="player-field">
+                                                            <label>PLAYER GOALS</label>
+                                                            <textarea
+                                                                placeholder="What the player wants to achieve..."
+                                                                value={player.goals || ''}
+                                                                onChange={(e) => updatePlayer(player.id, { goals: e.target.value })}
+                                                                className="player-textarea"
+                                                                rows={3}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="player-field player-notes-field">
+                                                        <label>GM NOTES (PRIVATE)</label>
+                                                        <textarea
+                                                            placeholder="Private notes about this player/character..."
+                                                            value={player.notes || ''}
+                                                            onChange={(e) => updatePlayer(player.id, { notes: e.target.value })}
+                                                            className="player-textarea player-notes"
+                                                            rows={3}
+                                                        />
+                                                    </div>
+                                                </div>
                                             </div>
                                         ))
                                     ) : (
@@ -394,19 +928,6 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                 </div>
                             </div>
 
-                            <div className="premium-feature-banner">
-                                <div className="premium-icon">
-                                    <i className="fas fa-crown"></i>
-                                </div>
-                                <div className="premium-content">
-                                    <h3>Premium Campaign Management</h3>
-                                    <p>Unlock advanced campaign tools including automated session tracking, NPC relationship maps, plot thread visualization, and much more!</p>
-                                    <button className="premium-upgrade-btn">
-                                        <i className="fas fa-star"></i>
-                                        Upgrade to Premium
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 );
@@ -968,6 +1489,571 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                     </div>
                 );
 
+            case 'homebrew':
+                return (
+                    <div className="campaign-tab-content">
+                        <div className="homebrew-workspace">
+                            {/* Homebrew Sub-navigation */}
+                            <div className="homebrew-subtabs">
+                                <button 
+                                    className={`homebrew-subtab ${homebrewSubTab === 'items' ? 'active' : ''}`}
+                                    onClick={() => setHomebrewSubTab('items')}
+                                >
+                                    <i className="fas fa-sword"></i>
+                                    Items ({((campaignData.selectedItems || []).length) + (Array.isArray(campaignData.homebrew?.items) ? campaignData.homebrew.items.length : (campaignData.homebrew?.items ? Object.keys(campaignData.homebrew.items).length : 0))})
+                                </button>
+                                <button 
+                                    className={`homebrew-subtab ${homebrewSubTab === 'monsters' ? 'active' : ''}`}
+                                    onClick={() => setHomebrewSubTab('monsters')}
+                                >
+                                    <i className="fas fa-dragon"></i>
+                                    Monsters ({((campaignData.selectedCreatures || []).length) + (Array.isArray(campaignData.homebrew?.monsters) ? campaignData.homebrew.monsters.length : (campaignData.homebrew?.monsters ? Object.keys(campaignData.homebrew.monsters).length : 0))})
+                                </button>
+                                <button 
+                                    className={`homebrew-subtab ${homebrewSubTab === 'spells' ? 'active' : ''}`}
+                                    onClick={() => setHomebrewSubTab('spells')}
+                                >
+                                    <i className="fas fa-hat-wizard"></i>
+                                    Spells ({((campaignData.selectedSpells || []).length) + (Array.isArray(campaignData.homebrew?.spells) ? campaignData.homebrew.spells.length : (campaignData.homebrew?.spells ? Object.keys(campaignData.homebrew.spells).length : 0))})
+                                </button>
+                                <button 
+                                    className={`homebrew-subtab ${homebrewSubTab === 'lore' ? 'active' : ''}`}
+                                    onClick={() => setHomebrewSubTab('lore')}
+                                >
+                                    <i className="fas fa-book-open"></i>
+                                    Lore ({Array.isArray(campaignData.homebrew?.lore) ? campaignData.homebrew.lore.length : (campaignData.homebrew?.lore ? Object.keys(campaignData.homebrew.lore).length : 0)})
+                                </button>
+                            </div>
+
+                            {/* Homebrew Content */}
+                            <div className="homebrew-content">
+                                {homebrewSubTab === 'items' && (
+                                    <div className="homebrew-section">
+                                        <div className="campaign-section-header">
+                                            <h3>Campaign Items</h3>
+                                            <div className="homebrew-actions">
+                                                <button className="campaign-add-btn library-btn" onClick={addItemFromLibrary}>
+                                                    <i className="fas fa-book"></i>
+                                                    Browse Library
+                                                </button>
+                                                <button className="campaign-add-btn homebrew-wizard-btn" onClick={addHomebrewItem}>
+                                                    <i className="fas fa-plus"></i>
+                                                    Create Custom
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Library Items */}
+                                        {(campaignData.selectedItems || []).length > 0 && (
+                                            <div className="library-section">
+                                                <h4 className="library-section-title">
+                                                    <i className="fas fa-book"></i> From Library
+                                                </h4>
+                                                <div className="homebrew-grid">
+                                                    {(campaignData.selectedItems || []).map(item => (
+                                                        <div 
+                                                            key={item.id} 
+                                                            className="homebrew-card library-card"
+                                                            onMouseEnter={(e) => handleMouseEnter(e, item, null, null)}
+                                                            onMouseMove={handleMouseMove}
+                                                            onMouseLeave={handleMouseLeave}
+                                                        >
+                                                            <div className="homebrew-card-header">
+                                                                <span className="library-badge"><i className="fas fa-link"></i></span>
+                                                                <span className="homebrew-name-display">{item.name}</span>
+                                                                <span className={`rarity-badge rarity-${item.quality}`}>{item.quality}</span>
+                                                                <button className="homebrew-remove-btn" onClick={() => removeLibraryItem(item.id)}>
+                                                                    <i className="fas fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div className="homebrew-card-body">
+                                                                <div className="library-item-tags">
+                                                                    <span className="library-tag">{formatTag(item.type)}</span>
+                                                                    {item.subtype && <span className="library-tag">{formatTag(item.subtype)}</span>}
+                                                                </div>
+                                                                <textarea
+                                                                    value={item.notes || ''}
+                                                                    onChange={(e) => {
+                                                                        const updated = (campaignData.selectedItems || []).map(i => 
+                                                                            i.id === item.id ? { ...i, notes: e.target.value } : i
+                                                                        );
+                                                                        updateCampaignData({ selectedItems: updated });
+                                                                    }}
+                                                                    placeholder="Campaign notes for this item..."
+                                                                    className="homebrew-textarea"
+                                                                    rows={2}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        {/* Custom Homebrew Items */}
+                                        {(campaignData.homebrew?.items || []).length > 0 && (
+                                            <h4 className="library-section-title">
+                                                <i className="fas fa-hammer"></i> Custom Homebrew
+                                            </h4>
+                                        )}
+                                        <div className="homebrew-grid">
+                                            {(campaignData.homebrew?.items || []).length > 0 ? (
+                                                (campaignData.homebrew?.items || []).map(item => (
+                                                    <div key={item.id} className="homebrew-card">
+                                                        <div className="homebrew-card-header">
+                                                            <input
+                                                                type="text"
+                                                                value={item.name}
+                                                                onChange={(e) => updateHomebrewItem(item.id, { name: e.target.value })}
+                                                                className="homebrew-name-input"
+                                                            />
+                                                            <span className={`rarity-badge rarity-${item.rarity}`}>{item.rarity}</span>
+                                                            <button className="homebrew-remove-btn" onClick={() => removeHomebrewItem(item.id)}>
+                                                                <i className="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="homebrew-card-body">
+                                                            <div className="homebrew-field-row">
+                                                                <select
+                                                                    value={item.type}
+                                                                    onChange={(e) => updateHomebrewItem(item.id, { type: e.target.value })}
+                                                                    className="homebrew-select"
+                                                                >
+                                                                    <option value="weapon">Weapon</option>
+                                                                    <option value="armor">Armor</option>
+                                                                    <option value="consumable">Consumable</option>
+                                                                    <option value="accessory">Accessory</option>
+                                                                    <option value="tool">Tool</option>
+                                                                    <option value="wondrous">Wondrous Item</option>
+                                                                </select>
+                                                                <select
+                                                                    value={item.rarity}
+                                                                    onChange={(e) => updateHomebrewItem(item.id, { rarity: e.target.value })}
+                                                                    className="homebrew-select"
+                                                                >
+                                                                    <option value="common">Common</option>
+                                                                    <option value="uncommon">Uncommon</option>
+                                                                    <option value="rare">Rare</option>
+                                                                    <option value="epic">Epic</option>
+                                                                    <option value="legendary">Legendary</option>
+                                                                </select>
+                                                            </div>
+                                                            <textarea
+                                                                value={item.description}
+                                                                onChange={(e) => updateHomebrewItem(item.id, { description: e.target.value })}
+                                                                placeholder="Item description and effects..."
+                                                                className="homebrew-textarea"
+                                                                rows={3}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="homebrew-placeholder">
+                                                    <i className="fas fa-treasure-chest"></i>
+                                                    <p>No custom items yet. Create homebrew items for your campaign!</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {homebrewSubTab === 'monsters' && (
+                                    <div className="homebrew-section">
+                                        <div className="campaign-section-header">
+                                            <h3>Campaign Creatures</h3>
+                                            <div className="homebrew-actions">
+                                                <button className="campaign-add-btn library-btn" onClick={addCreatureFromLibrary}>
+                                                    <i className="fas fa-book"></i>
+                                                    Browse Library
+                                                </button>
+                                                <button className="campaign-add-btn homebrew-wizard-btn" onClick={addHomebrewMonster}>
+                                                    <i className="fas fa-plus"></i>
+                                                    Create Custom
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Library Creatures */}
+                                        {(campaignData.selectedCreatures || []).length > 0 && (
+                                            <div className="library-section">
+                                                <h4 className="library-section-title">
+                                                    <i className="fas fa-book"></i> From Library
+                                                </h4>
+                                                <div className="homebrew-grid">
+                                                    {(campaignData.selectedCreatures || []).map(creature => (
+                                                        <div 
+                                                            key={creature.id} 
+                                                            className="homebrew-card monster-card library-card"
+                                                            onMouseEnter={(e) => handleMouseEnter(e, null, creature, null)}
+                                                            onMouseMove={handleMouseMove}
+                                                            onMouseLeave={handleMouseLeave}
+                                                        >
+                                                            <div className="homebrew-card-header">
+                                                                <span className="library-badge"><i className="fas fa-link"></i></span>
+                                                                <span className="homebrew-name-display">{creature.name}</span>
+                                                                <button className="homebrew-remove-btn" onClick={() => removeLibraryCreature(creature.id)}>
+                                                                    <i className="fas fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div className="homebrew-card-body">
+                                                                <div className="library-item-tags">
+                                                                    <span className="library-tag">{formatTag(creature.type)}</span>
+                                                                    <span className="library-tag">{formatTag(creature.size)}</span>
+                                                                    {creature.hp > 0 && <span className="library-tag">HP {creature.hp}</span>}
+                                                                </div>
+                                                                <textarea
+                                                                    value={creature.notes || ''}
+                                                                    onChange={(e) => {
+                                                                        const updated = (campaignData.selectedCreatures || []).map(c => 
+                                                                            c.id === creature.id ? { ...c, notes: e.target.value } : c
+                                                                        );
+                                                                        updateCampaignData({ selectedCreatures: updated });
+                                                                    }}
+                                                                    placeholder="Campaign notes for this creature..."
+                                                                    className="homebrew-textarea"
+                                                                    rows={2}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        {/* Custom Homebrew Monsters */}
+                                        {(campaignData.homebrew?.monsters || []).length > 0 && (
+                                            <h4 className="library-section-title">
+                                                <i className="fas fa-hammer"></i> Custom Homebrew
+                                            </h4>
+                                        )}
+                                        <div className="homebrew-grid">
+                                            {(campaignData.homebrew?.monsters || []).length > 0 ? (
+                                                (campaignData.homebrew?.monsters || []).map(monster => (
+                                                    <div key={monster.id} className="homebrew-card monster-card">
+                                                        <div className="homebrew-card-header">
+                                                            <input
+                                                                type="text"
+                                                                value={monster.name}
+                                                                onChange={(e) => updateHomebrewMonster(monster.id, { name: e.target.value })}
+                                                                className="homebrew-name-input"
+                                                            />
+                                                            <button className="homebrew-remove-btn" onClick={() => removeHomebrewMonster(monster.id)}>
+                                                                <i className="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="homebrew-card-body">
+                                                            <div className="homebrew-field-row">
+                                                                <select
+                                                                    value={monster.size}
+                                                                    onChange={(e) => updateHomebrewMonster(monster.id, { size: e.target.value })}
+                                                                    className="homebrew-select"
+                                                                >
+                                                                    <option value="tiny">Tiny</option>
+                                                                    <option value="small">Small</option>
+                                                                    <option value="medium">Medium</option>
+                                                                    <option value="large">Large</option>
+                                                                    <option value="huge">Huge</option>
+                                                                    <option value="gargantuan">Gargantuan</option>
+                                                                </select>
+                                                                <select
+                                                                    value={monster.type}
+                                                                    onChange={(e) => updateHomebrewMonster(monster.id, { type: e.target.value })}
+                                                                    className="homebrew-select"
+                                                                >
+                                                                    <option value="beast">Beast</option>
+                                                                    <option value="humanoid">Humanoid</option>
+                                                                    <option value="undead">Undead</option>
+                                                                    <option value="fiend">Fiend</option>
+                                                                    <option value="dragon">Dragon</option>
+                                                                    <option value="aberration">Aberration</option>
+                                                                    <option value="construct">Construct</option>
+                                                                    <option value="elemental">Elemental</option>
+                                                                    <option value="fey">Fey</option>
+                                                                    <option value="giant">Giant</option>
+                                                                    <option value="monstrosity">Monstrosity</option>
+                                                                    <option value="ooze">Ooze</option>
+                                                                    <option value="plant">Plant</option>
+                                                                    <option value="celestial">Celestial</option>
+                                                                </select>
+                                                            </div>
+                                                            <div className="homebrew-field-row">
+                                                                <input
+                                                                    type="text"
+                                                                    value={monster.hp || ''}
+                                                                    onChange={(e) => updateHomebrewMonster(monster.id, { hp: e.target.value })}
+                                                                    placeholder="HP (e.g., 45 or 6d10+12)"
+                                                                    className="homebrew-input"
+                                                                />
+                                                                <input
+                                                                    type="text"
+                                                                    value={monster.ac || ''}
+                                                                    onChange={(e) => updateHomebrewMonster(monster.id, { ac: e.target.value })}
+                                                                    placeholder="AC"
+                                                                    className="homebrew-input-small"
+                                                                />
+                                                            </div>
+                                                            <textarea
+                                                                value={monster.description}
+                                                                onChange={(e) => updateHomebrewMonster(monster.id, { description: e.target.value })}
+                                                                placeholder="Description, abilities, tactics..."
+                                                                className="homebrew-textarea"
+                                                                rows={3}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="homebrew-placeholder">
+                                                    <i className="fas fa-skull"></i>
+                                                    <p>No custom monsters yet. Create fearsome foes for your party!</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {homebrewSubTab === 'spells' && (
+                                    <div className="homebrew-section">
+                                        <div className="campaign-section-header">
+                                            <h3>Campaign Spells</h3>
+                                            <div className="homebrew-actions">
+                                                <button className="campaign-add-btn library-btn" onClick={addSpellFromLibrary}>
+                                                    <i className="fas fa-book"></i>
+                                                    Browse Library
+                                                </button>
+                                                <button className="campaign-add-btn homebrew-wizard-btn" onClick={addHomebrewSpell}>
+                                                    <i className="fas fa-plus"></i>
+                                                    Create Custom
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Library Spells */}
+                                        {(campaignData.selectedSpells || []).length > 0 && (
+                                            <div className="library-section">
+                                                <h4 className="library-section-title">
+                                                    <i className="fas fa-book"></i> From Library
+                                                </h4>
+                                                <div className="homebrew-grid">
+                                                    {(campaignData.selectedSpells || []).map(spell => (
+                                                        <div 
+                                                            key={spell.id} 
+                                                            className="homebrew-card spell-card library-card"
+                                                            onMouseEnter={(e) => handleMouseEnter(e, null, null, spell)}
+                                                            onMouseMove={handleMouseMove}
+                                                            onMouseLeave={handleMouseLeave}
+                                                        >
+                                                            <div className="homebrew-card-header">
+                                                                <span className="library-badge"><i className="fas fa-link"></i></span>
+                                                                <span className="homebrew-name-display">{spell.name}</span>
+                                                                <span className="spell-level-badge">
+                                                                    {spell.level === 0 ? 'Cantrip' : `Lvl ${spell.level}`}
+                                                                </span>
+                                                                <button className="homebrew-remove-btn" onClick={() => removeLibrarySpell(spell.id)}>
+                                                                    <i className="fas fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div className="homebrew-card-body">
+                                                                <div className="library-item-tags">
+                                                                    <span className="library-tag">{formatTag(spell.school || 'Spell')}</span>
+                                                                </div>
+                                                                <textarea
+                                                                    value={spell.notes || ''}
+                                                                    onChange={(e) => {
+                                                                        const updated = (campaignData.selectedSpells || []).map(s => 
+                                                                            s.id === spell.id ? { ...s, notes: e.target.value } : s
+                                                                        );
+                                                                        updateCampaignData({ selectedSpells: updated });
+                                                                    }}
+                                                                    placeholder="Campaign notes for this spell..."
+                                                                    className="homebrew-textarea"
+                                                                    rows={2}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        {/* Custom Homebrew Spells */}
+                                        {(campaignData.homebrew?.spells || []).length > 0 && (
+                                            <h4 className="library-section-title">
+                                                <i className="fas fa-hammer"></i> Custom Homebrew
+                                            </h4>
+                                        )}
+                                        <div className="homebrew-grid">
+                                            {(campaignData.homebrew?.spells || []).length > 0 ? (
+                                                (campaignData.homebrew?.spells || []).map(spell => (
+                                                    <div key={spell.id} className="homebrew-card spell-card">
+                                                        <div className="homebrew-card-header">
+                                                            <input
+                                                                type="text"
+                                                                value={spell.name}
+                                                                onChange={(e) => updateHomebrewSpell(spell.id, { name: e.target.value })}
+                                                                className="homebrew-name-input"
+                                                            />
+                                                            <span className="spell-level-badge">Lvl {spell.level}</span>
+                                                            <button className="homebrew-remove-btn" onClick={() => removeHomebrewSpell(spell.id)}>
+                                                                <i className="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="homebrew-card-body">
+                                                            <div className="homebrew-field-row">
+                                                                <select
+                                                                    value={spell.level}
+                                                                    onChange={(e) => updateHomebrewSpell(spell.id, { level: parseInt(e.target.value) })}
+                                                                    className="homebrew-select"
+                                                                >
+                                                                    <option value="0">Cantrip</option>
+                                                                    <option value="1">1st Level</option>
+                                                                    <option value="2">2nd Level</option>
+                                                                    <option value="3">3rd Level</option>
+                                                                    <option value="4">4th Level</option>
+                                                                    <option value="5">5th Level</option>
+                                                                    <option value="6">6th Level</option>
+                                                                    <option value="7">7th Level</option>
+                                                                    <option value="8">8th Level</option>
+                                                                    <option value="9">9th Level</option>
+                                                                </select>
+                                                                <select
+                                                                    value={spell.school}
+                                                                    onChange={(e) => updateHomebrewSpell(spell.id, { school: e.target.value })}
+                                                                    className="homebrew-select"
+                                                                >
+                                                                    <option value="abjuration">Abjuration</option>
+                                                                    <option value="conjuration">Conjuration</option>
+                                                                    <option value="divination">Divination</option>
+                                                                    <option value="enchantment">Enchantment</option>
+                                                                    <option value="evocation">Evocation</option>
+                                                                    <option value="illusion">Illusion</option>
+                                                                    <option value="necromancy">Necromancy</option>
+                                                                    <option value="transmutation">Transmutation</option>
+                                                                </select>
+                                                            </div>
+                                                            <div className="homebrew-field-row">
+                                                                <input
+                                                                    type="text"
+                                                                    value={spell.castingTime}
+                                                                    onChange={(e) => updateHomebrewSpell(spell.id, { castingTime: e.target.value })}
+                                                                    placeholder="Casting Time"
+                                                                    className="homebrew-input"
+                                                                />
+                                                                <input
+                                                                    type="text"
+                                                                    value={spell.range}
+                                                                    onChange={(e) => updateHomebrewSpell(spell.id, { range: e.target.value })}
+                                                                    placeholder="Range"
+                                                                    className="homebrew-input"
+                                                                />
+                                                            </div>
+                                                            <textarea
+                                                                value={spell.description}
+                                                                onChange={(e) => updateHomebrewSpell(spell.id, { description: e.target.value })}
+                                                                placeholder="Spell effect description..."
+                                                                className="homebrew-textarea"
+                                                                rows={3}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="homebrew-placeholder">
+                                                    <i className="fas fa-magic"></i>
+                                                    <p>No custom spells yet. Craft unique magical abilities!</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {homebrewSubTab === 'lore' && (
+                                    <div className="homebrew-section">
+                                        <div className="campaign-section-header">
+                                            <h3>World Lore & History</h3>
+                                            <button className="campaign-add-btn" onClick={addLoreArticle}>
+                                                <i className="fas fa-plus"></i>
+                                                New Article
+                                            </button>
+                                        </div>
+                                        <div className="lore-articles-list">
+                                            {(campaignData.homebrew?.lore || []).length > 0 ? (
+                                                (campaignData.homebrew?.lore || []).map(article => (
+                                                    <div key={article.id} className="lore-article-card">
+                                                        <div className="lore-article-header">
+                                                            <input
+                                                                type="text"
+                                                                value={article.title}
+                                                                onChange={(e) => updateLoreArticle(article.id, { title: e.target.value })}
+                                                                className="lore-title-input"
+                                                            />
+                                                            <div className="lore-meta">
+                                                                <select
+                                                                    value={article.category}
+                                                                    onChange={(e) => updateLoreArticle(article.id, { category: e.target.value })}
+                                                                    className="lore-category-select"
+                                                                >
+                                                                    <option value="history">History</option>
+                                                                    <option value="religion">Religion</option>
+                                                                    <option value="faction">Faction</option>
+                                                                    <option value="legend">Legend/Myth</option>
+                                                                    <option value="culture">Culture</option>
+                                                                    <option value="geography">Geography</option>
+                                                                    <option value="magic">Magic System</option>
+                                                                    <option value="other">Other</option>
+                                                                </select>
+                                                                <label className="secret-toggle">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={article.isSecret || false}
+                                                                        onChange={(e) => updateLoreArticle(article.id, { isSecret: e.target.checked })}
+                                                                    />
+                                                                    <i className="fas fa-eye-slash"></i>
+                                                                    Secret
+                                                                </label>
+                                                            </div>
+                                                            <button className="lore-remove-btn" onClick={() => removeLoreArticle(article.id)}>
+                                                                <i className="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div className="lore-article-body">
+                                                            <textarea
+                                                                value={article.content}
+                                                                onChange={(e) => updateLoreArticle(article.id, { content: e.target.value })}
+                                                                placeholder="Write your lore article here... You can include details about history, legends, important events, cultural practices, etc."
+                                                                className="lore-content-textarea"
+                                                                rows={6}
+                                                            />
+                                                            <div className="lore-field">
+                                                                <label>Tags (comma-separated)</label>
+                                                                <input
+                                                                    type="text"
+                                                                    value={Array.isArray(article.tags) ? article.tags.join(', ') : ''}
+                                                                    onChange={(e) => updateLoreArticle(article.id, { 
+                                                                        tags: e.target.value ? e.target.value.split(',').map(t => t.trim()).filter(t => t) : []
+                                                                    })}
+                                                                    placeholder="e.g., kingdom, war, ancient, forbidden..."
+                                                                    className="lore-tags-input"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="lore-placeholder">
+                                                    <i className="fas fa-scroll"></i>
+                                                    <p>No lore articles yet. Start building your world's history and mythology!</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                );
+
             default:
                 return <div>Content coming soon...</div>;
         }
@@ -1183,6 +2269,69 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         </div>
                     </div>
                 </div>
+            )}
+            
+            {/* Library Browser Modal */}
+            <LibraryBrowserModal
+                isOpen={libraryBrowser.isOpen}
+                onClose={closeLibraryBrowser}
+                libraryType={libraryBrowser.libraryType}
+                title={libraryBrowser.title}
+                onSelect={libraryBrowser.onSelect}
+                multiSelect={true}
+            />
+
+            {/* Tooltips */}
+            {hoveredItem && (
+                <TooltipPortal>
+                    <div
+                        style={{
+                            position: 'fixed',
+                            left: tooltipPosition.x,
+                            top: tooltipPosition.y,
+                            pointerEvents: 'none',
+                            zIndex: 999999999
+                        }}
+                    >
+                        <ItemTooltip item={hoveredItem} />
+                    </div>
+                </TooltipPortal>
+            )}
+            {hoveredCreature && (
+                <TooltipPortal>
+                    <div
+                        ref={tooltipRef}
+                        className="campaign-creature-tooltip-portal"
+                        style={{
+                            position: 'fixed',
+                            left: tooltipPosition.x,
+                            top: tooltipPosition.y,
+                            pointerEvents: 'auto',
+                            zIndex: 999999999,
+                            width: '280px'
+                        }}
+                        onWheel={(e) => {
+                            // Stop propagation to prevent background scrolling when scrolling tooltip
+                            e.stopPropagation();
+                        }}
+                        onMouseEnter={() => {
+                            // Keep tooltip visible when hovering over it
+                            setHoveredCreature(hoveredCreature);
+                        }}
+                        onMouseLeave={() => {
+                            // Hide tooltip when leaving it
+                            setHoveredCreature(null);
+                        }}
+                    >
+                        <SimpleCreatureTooltip creature={hoveredCreature} />
+                    </div>
+                </TooltipPortal>
+            )}
+            {hoveredSpell && (
+                <SpellTooltip 
+                    spell={hoveredSpell} 
+                    position={tooltipPosition}
+                />
             )}
         </>
     );

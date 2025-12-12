@@ -260,9 +260,8 @@ const RoomCard = ({
               <img src={getRoomImage()} alt="Room preview" />
               {canEdit && (
                 <div className="image-overlay">
-                  <label htmlFor={`image-upload-${room.id}`} className="change-image-btn">
+                  <label htmlFor={`image-upload-${room.id}`} className="change-image-btn" title="Change Image">
                     <i className="fas fa-camera"></i>
-                    Change Image
                   </label>
                   <input
                     id={`image-upload-${room.id}`}
@@ -416,9 +415,8 @@ const RoomCard = ({
             <img src={getRoomImage()} alt="Room preview" />
             {canEdit && (
               <div className="image-overlay">
-                <label htmlFor={`image-upload-${room.id}`} className="change-image-btn">
+                <label htmlFor={`image-upload-${room.id}`} className="change-image-btn" title="Change Image">
                   <i className="fas fa-camera"></i>
-                  Change Image
                 </label>
                 <input
                   id={`image-upload-${room.id}`}

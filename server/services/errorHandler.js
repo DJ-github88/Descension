@@ -166,20 +166,20 @@ class ErrorHandler {
     console.error(`🚨 EMERGENCY PROTOCOL ACTIVATED for ${errorType} errors`);
     
     switch (errorType) {
-      case 'memory':
-        // Trigger aggressive memory cleanup
-        if (global.memoryManager) {
-          global.memoryManager.performAggressiveCleanup();
-        }
-        break;
-      case 'database':
-        // Switch to in-memory mode temporarily
-        console.error('🔥 Database errors critical - switching to in-memory mode');
-        break;
-      case 'network':
-        // Implement connection throttling
-        console.error('🌐 Network errors critical - implementing throttling');
-        break;
+    case 'memory':
+      // Trigger aggressive memory cleanup
+      if (global.memoryManager) {
+        global.memoryManager.performAggressiveCleanup();
+      }
+      break;
+    case 'database':
+      // Switch to in-memory mode temporarily
+      console.error('🔥 Database errors critical - switching to in-memory mode');
+      break;
+    case 'network':
+      // Implement connection throttling
+      console.error('🌐 Network errors critical - implementing throttling');
+      break;
     }
   }
 
@@ -190,14 +190,14 @@ class ErrorHandler {
     console.warn(`⚠️ CRITICAL PROTOCOL ACTIVATED for ${errorType} errors`);
     
     switch (errorType) {
-      case 'multiplayer':
-        // Reset multiplayer connections
-        console.warn('🎮 Multiplayer errors critical - considering connection reset');
-        break;
-      case 'validation':
-        // Increase validation strictness
-        console.warn('✅ Validation errors critical - increasing strictness');
-        break;
+    case 'multiplayer':
+      // Reset multiplayer connections
+      console.warn('🎮 Multiplayer errors critical - considering connection reset');
+      break;
+    case 'validation':
+      // Increase validation strictness
+      console.warn('✅ Validation errors critical - increasing strictness');
+      break;
     }
   }
 
@@ -238,7 +238,6 @@ class ErrorHandler {
    * Get error statistics
    */
   getErrorStats() {
-    const now = Date.now();
     const stats = {
       total: this.recentErrors.length,
       byType: {},

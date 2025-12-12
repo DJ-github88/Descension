@@ -171,10 +171,10 @@ class RealtimeSyncEngine {
    */
   isPositionVisibleToPlayer(roomId, playerId, position, visibilityRadius = 1000) {
     const roomViewports = this.playerViewports.get(roomId);
-    if (!roomViewports) return true; // If no viewport data, assume visible
+    if (!roomViewports) {return true;} // If no viewport data, assume visible
 
     const viewport = roomViewports.get(playerId);
-    if (!viewport) return true; // If no viewport for player, assume visible
+    if (!viewport) {return true;} // If no viewport for player, assume visible
 
     const { cameraX, cameraY, zoomLevel, viewportWidth, viewportHeight } = viewport;
 
@@ -220,7 +220,7 @@ class RealtimeSyncEngine {
    */
   updateCharacter(roomId, characterId, updates, playerId) {
     const state = this.roomStates.get(roomId);
-    if (!state) return false;
+    if (!state) {return false;}
 
     // Apply update to state
     if (!state.characters[characterId]) {
@@ -252,7 +252,7 @@ class RealtimeSyncEngine {
    */
   updateInventory(roomId, playerId, inventoryData, changeType = 'full') {
     const state = this.roomStates.get(roomId);
-    if (!state) return false;
+    if (!state) {return false;}
 
     if (!state.inventory.players[playerId]) {
       state.inventory.players[playerId] = { items: [], equipment: {} };
@@ -261,25 +261,26 @@ class RealtimeSyncEngine {
     const oldInventory = { ...state.inventory.players[playerId] };
     
     switch (changeType) {
-      case 'add_item':
-        state.inventory.players[playerId].items.push(inventoryData.item);
-        break;
-      case 'remove_item':
-        state.inventory.players[playerId].items = 
+    case 'add_item':
+      state.inventory.players[playerId].items.push(inventoryData.item);
+      break;
+    case 'remove_item':
+      state.inventory.players[playerId].items = 
           state.inventory.players[playerId].items.filter(item => item.id !== inventoryData.itemId);
-        break;
-      case 'move_item':
-        const item = state.inventory.players[playerId].items.find(item => item.id === inventoryData.itemId);
-        if (item) {
-          item.position = inventoryData.newPosition;
-        }
-        break;
-      case 'equip_item':
-        state.inventory.players[playerId].equipment[inventoryData.slot] = inventoryData.item;
-        break;
-      case 'full':
-        state.inventory.players[playerId] = inventoryData;
-        break;
+      break;
+    case 'move_item': {
+      const item = state.inventory.players[playerId].items.find(item => item.id === inventoryData.itemId);
+      if (item) {
+        item.position = inventoryData.newPosition;
+      }
+      break;
+    }
+    case 'equip_item':
+      state.inventory.players[playerId].equipment[inventoryData.slot] = inventoryData.item;
+      break;
+    case 'full':
+      state.inventory.players[playerId] = inventoryData;
+      break;
     }
 
     // Queue for synchronization
@@ -299,7 +300,7 @@ class RealtimeSyncEngine {
    */
   updateCombat(roomId, combatUpdates, gmId) {
     const state = this.roomStates.get(roomId);
-    if (!state) return false;
+    if (!state) {return false;}
 
     const oldCombat = { ...state.combat };
     state.combat = {
@@ -325,7 +326,7 @@ class RealtimeSyncEngine {
    */
   updateMap(roomId, mapUpdates, playerId) {
     const state = this.roomStates.get(roomId);
-    if (!state) return false;
+    if (!state) {return false;}
 
     const oldMap = { ...state.map };
     state.map = {
@@ -351,7 +352,7 @@ class RealtimeSyncEngine {
    */
   updateUI(roomId, playerId, uiUpdates) {
     const state = this.roomStates.get(roomId);
-    if (!state) return false;
+    if (!state) {return false;}
 
     if (!state.ui.windows[playerId]) {
       state.ui.windows[playerId] = {};
@@ -380,7 +381,7 @@ class RealtimeSyncEngine {
    */
   addChatMessage(roomId, message) {
     const state = this.roomStates.get(roomId);
-    if (!state) return false;
+    if (!state) {return false;}
 
     const enhancedMessage = {
       ...message,
@@ -409,7 +410,7 @@ class RealtimeSyncEngine {
    */
   queueUpdate(roomId, category, updateData) {
     const pending = this.pendingUpdates.get(roomId);
-    if (!pending) return;
+    if (!pending) {return;}
 
     if (!pending.has(category)) {
       pending.set(category, []);
@@ -427,10 +428,10 @@ class RealtimeSyncEngine {
    */
   async processCategorySync(roomId, category) {
     const pending = this.pendingUpdates.get(roomId);
-    if (!pending || !pending.has(category)) return;
+    if (!pending || !pending.has(category)) {return;}
 
     const updates = pending.get(category);
-    if (updates.length === 0) return;
+    if (updates.length === 0) {return;}
 
     // Get all updates for this category
     const categoryUpdates = updates.splice(0); // Remove all updates
@@ -503,7 +504,7 @@ class RealtimeSyncEngine {
     }
 
     // Process updates for each player based on their viewport
-    for (const [playerId, viewport] of roomViewports) {
+    for (const [playerId] of roomViewports) {
       const filteredUpdates = this.filterUpdatesForPlayer(category, categoryUpdates, roomId, playerId);
 
       // Only send updates if there are relevant changes for this player
@@ -525,21 +526,21 @@ class RealtimeSyncEngine {
    */
   filterUpdatesForPlayer(category, updates, roomId, playerId) {
     switch (category) {
-      case 'tokens':
-        return updates.filter(update => {
-          if (update.type === 'token_move' && update.data && update.data.position) {
-            return this.isPositionVisibleToPlayer(roomId, playerId, update.data.position);
-          }
-          // For other token updates, send them (they might be relevant)
-          return true;
-        });
+    case 'tokens':
+      return updates.filter(update => {
+        if (update.type === 'token_move' && update.data && update.data.position) {
+          return this.isPositionVisibleToPlayer(roomId, playerId, update.data.position);
+        }
+        // For other token updates, send them (they might be relevant)
+        return true;
+      });
 
-      case 'map':
-        // For map updates, currently send all (could be optimized later)
-        return updates;
+    case 'map':
+      // For map updates, currently send all (could be optimized later)
+      return updates;
 
-      default:
-        return updates;
+    default:
+      return updates;
     }
   }
 
@@ -576,7 +577,7 @@ class RealtimeSyncEngine {
    */
   getSyncStats(roomId) {
     const pending = this.pendingUpdates.get(roomId);
-    if (!pending) return null;
+    if (!pending) {return null;}
 
     const stats = {};
     for (const [category, updates] of pending.entries()) {
@@ -648,7 +649,7 @@ class RealtimeSyncEngine {
   getSystemMetrics() {
     const totalRooms = this.roomStates.size;
     let totalPendingUpdates = 0;
-    let categoryBreakdown = {};
+    const categoryBreakdown = {};
 
     for (const pending of this.pendingUpdates.values()) {
       for (const [category, updates] of pending.entries()) {

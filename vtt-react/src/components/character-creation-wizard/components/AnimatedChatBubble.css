@@ -11,7 +11,9 @@
 
 /* Custom positioned chat bubble (when dragged) */
 .animated-chat-bubble.custom-position {
-  position: absolute !important;
+  position: fixed !important;
+  bottom: auto !important;
+  right: auto !important;
   animation: none !important;
 }
 

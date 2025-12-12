@@ -1027,30 +1027,32 @@ button.gender-option.selected {
     box-sizing: border-box !important;
 }
 
-/* Class preview container now uses subrace-info-section as the outer frame */
+/* Class preview container child - no border since container has it */
 .class-preview-container .subrace-info-section {
     flex: 1 !important;
     display: flex !important;
     flex-direction: column !important;
     margin: 0 !important;
     padding: 1rem !important;
-    min-height: 400px !important; /* Fixed height to prevent content shifts */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%) !important;
-    border-radius: 16px !important;
+    min-height: 400px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
     overflow: visible !important;
-    box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        0 0 0 1px rgba(212, 175, 55, 0.3) !important;
-    transition: box-shadow 0.3s ease !important;
+    box-shadow: none !important;
     font-family: 'Cinzel', serif !important;
     box-sizing: border-box !important;
 }
 
-/* Allow background preview to expand naturally */
+/* Background preview child - no border since container has it */
 .background-preview .subrace-info-section {
     min-height: auto !important;
     height: auto !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 1rem !important;
+    box-shadow: none !important;
 }
 
 /* Basic Info Layout specific positioning */
@@ -1070,12 +1072,9 @@ button.gender-option.selected {
     width: 100% !important;
 }
 
-.preview-card:hover,
-.class-preview-container .subrace-info-section:hover {
-    box-shadow:
-        0 14px 45px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        0 0 0 1px rgba(212, 175, 55, 0.45);
+.preview-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    border-color: #b8941f;
 }
 
 .preview-header {
@@ -1911,6 +1910,35 @@ button.gender-option.selected {
 .background-preview {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    align-self: start;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.5) transparent;
+    /* Border on container so it stays visible when scrolling */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.background-preview::-webkit-scrollbar {
+    width: 6px;
+}
+
+.background-preview::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.background-preview::-webkit-scrollbar-thumb {
+    background-color: rgba(212, 175, 55, 0.5);
+    border-radius: 3px;
+}
+
+.background-preview::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(212, 175, 55, 0.7);
 }
 
 .preview-placeholder {
@@ -2447,6 +2475,10 @@ button.gender-option.selected {
 
     .background-preview {
         order: -1;
+        position: relative;
+        top: 0;
+        max-height: none;
+        overflow-y: visible;
     }
 
     .preview-content {
@@ -3343,6 +3375,36 @@ button.gender-option.selected {
 .race-preview {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    align-self: start;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.5) transparent;
+    /* Add border and padding to prevent cut-off appearance */
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.race-preview::-webkit-scrollbar {
+    width: 6px;
+}
+
+.race-preview::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.race-preview::-webkit-scrollbar-thumb {
+    background-color: rgba(212, 175, 55, 0.5);
+    border-radius: 3px;
+}
+
+.race-preview::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(212, 175, 55, 0.7);
 }
 
 
@@ -3479,6 +3541,10 @@ button.gender-option.selected {
 
     .race-preview {
         order: -1;
+        position: relative;
+        top: 0;
+        max-height: none;
+        overflow-y: visible;
     }
 
     .preview-content {
@@ -3598,6 +3664,35 @@ button.gender-option.selected {
 .class-preview-container {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    align-self: start;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.5) transparent;
+    /* Border on container so it stays visible when scrolling */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 245, 235, 0.95) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.class-preview-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.class-preview-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.class-preview-container::-webkit-scrollbar-thumb {
+    background-color: rgba(212, 175, 55, 0.5);
+    border-radius: 3px;
+}
+
+.class-preview-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(212, 175, 55, 0.7);
 }
 
 /* Legacy detail card styles - keeping for backward compatibility but using compact version */
@@ -3784,6 +3879,10 @@ button.gender-option.selected {
 
     .class-preview-container {
         order: -1;
+        position: relative;
+        top: 0;
+        max-height: none;
+        overflow-y: visible;
     }
 
     .preview-content {
@@ -4341,16 +4440,15 @@ button.gender-option.selected {
     overflow-y: auto;
 }
 
-/* Section Headers - scoped to character creation wizard only */
-.character-creation-wizard .section-header,
-.wizard-step .section-header {
+/* Section Headers - scoped to character creation wizard selection sections */
+.selection-section > .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(135deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
     padding: 1rem 1.5rem;
     border-radius: 8px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
@@ -4360,8 +4458,7 @@ button.gender-option.selected {
     overflow: hidden;
 }
 
-.character-creation-wizard .section-header::before,
-.wizard-step .section-header::before {
+.selection-section > .section-header::before {
     content: '';
     position: absolute;
     top: 0;
@@ -4378,8 +4475,7 @@ button.gender-option.selected {
     pointer-events: none;
 }
 
-.character-creation-wizard .section-header h3,
-.wizard-step .section-header h3 {
+.selection-section > .section-header h3 {
     margin: 0;
     font-size: 1.3rem;
     font-weight: 700;
@@ -4390,31 +4486,35 @@ button.gender-option.selected {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     position: relative;
     z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.section-header h3 i {
+.selection-section > .section-header h3 i {
     color: #d4af37;
     font-size: 1.4rem;
     filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
 }
 
-.selection-info {
-    font-size: 0.95rem;
-    font-weight: 600;
+.selection-section > .section-header .selection-info {
+    font-size: 0.9rem;
+    font-weight: 700;
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 0.4rem 0.8rem;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 0.5rem 1rem;
     border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.selection-info .complete {
+.selection-section > .section-header .selection-info .complete {
     color: #90EE90;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.selection-info .incomplete {
+.selection-section > .section-header .selection-info .incomplete {
     color: #FFD700;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -4467,15 +4567,7 @@ button.gender-option.selected {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
 }
 
-/* Enhanced section header styling */
-.section-header h3 {
-    color: #2c2416;
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 0;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-    letter-spacing: 0.5px;
-}
+/* Note: Section header h3 styling is handled by .selection-section > .section-header h3 */
 
 .section-description {
     color: #5d4037;
@@ -5744,43 +5836,41 @@ button.gender-option.selected {
     border: 2px solid #8b7355;
 }
 
-.skill-points-display {
+.selection-section > .section-header .skill-points-display {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    position: relative;
+    z-index: 1;
 }
 
-.points-available {
-    font-size: 1rem;
+.selection-section > .section-header .points-available {
+    font-size: 0.9rem;
     font-weight: 700;
     padding: 0.5rem 1rem;
     border-radius: 6px;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(240, 230, 210, 0.8) 100%);
-    border: 2px solid #8b7355;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #FFD700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.points-available.complete {
-    background: linear-gradient(135deg,
-        rgba(74, 124, 89, 0.2) 0%,
-        rgba(93, 138, 107, 0.15) 100%);
-    border-color: #4a7c59;
-    color: #4a7c59;
+.selection-section > .section-header .points-available.complete {
+    background: rgba(0, 50, 0, 0.4);
+    border-color: rgba(144, 238, 144, 0.5);
+    color: #90EE90;
 }
 
-.points-available.over-budget {
-    background: linear-gradient(135deg,
-        rgba(122, 59, 46, 0.2) 0%,
-        rgba(139, 115, 85, 0.15) 100%);
-    border-color: #7a3b2e;
-    color: #7a3b2e;
+.selection-section > .section-header .points-available.over-budget {
+    background: rgba(139, 0, 0, 0.4);
+    border-color: rgba(255, 100, 100, 0.5);
+    color: #ff6b6b;
 }
 
 .skill-points-info {

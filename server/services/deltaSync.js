@@ -120,7 +120,7 @@ class DeltaSyncEngine {
    * Apply delta to a state
    */
   applyDelta(state, delta) {
-    if (!delta) return state;
+    if (!delta) {return state;}
 
     if (delta.__type === 'primitive') {
       return delta.__value;
@@ -209,14 +209,14 @@ class DeltaSyncEngine {
    */
   getDeltaForClient(roomId, socketId, targetVersionId = null) {
     const versions = this.stateVersions.get(roomId);
-    if (!versions) return null;
+    if (!versions) {return null;}
 
     const clientLastVersion = this.clientStates.get(socketId);
     const targetVersion = targetVersionId ? 
       versions.find(v => v.id === targetVersionId) : 
       versions[versions.length - 1];
 
-    if (!targetVersion) return null;
+    if (!targetVersion) {return null;}
 
     // If client has no previous state, send full state
     if (!clientLastVersion) {
@@ -265,8 +265,8 @@ class DeltaSyncEngine {
     try {
       const compressed = await new Promise((resolve, reject) => {
         zlib.gzip(deltaStr, (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
+          if (err) {reject(err);}
+          else {resolve(result);}
         });
       });
 
@@ -297,8 +297,8 @@ class DeltaSyncEngine {
       const buffer = Buffer.from(compressedData.data, 'base64');
       const decompressed = await new Promise((resolve, reject) => {
         zlib.gunzip(buffer, (err, result) => {
-          if (err) reject(err);
-          else resolve(result);
+          if (err) {reject(err);}
+          else {resolve(result);}
         });
       });
 
@@ -348,7 +348,7 @@ class DeltaSyncEngine {
     return dp[m][n];
   }
 
-  generateArrayOperations(oldArray, newArray, lcs) {
+  generateArrayOperations(oldArray, newArray, _lcs) {
     // Generate insert/delete operations for arrays
     const operations = [];
     // Simplified implementation - in production, use Myers' algorithm
@@ -362,7 +362,7 @@ class DeltaSyncEngine {
   }
 
   applyArrayOperations(array, operations) {
-    let result = [...array];
+    const result = [...array];
     for (const op of operations) {
       if (op.type === 'resize') {
         result.length = op.newLength;

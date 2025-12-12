@@ -1,0 +1,305 @@
+/* Global Button Component Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Button Sizes */
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  min-height: 32px;
+}
+
+.btn-medium {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  min-height: 40px;
+}
+
+.btn-large {
+  padding: 14px 20px;
+  font-size: 1rem;
+  min-height: 48px;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+}
+
+.btn-primary:active:not(.btn-disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+  border-color: #6b7280;
+  box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+.btn-secondary:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(107, 114, 128, 0.4);
+}
+
+.btn-secondary:active:not(.btn-disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+/* Success Button */
+.btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-color: #10b981;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+}
+
+.btn-success:active:not(.btn-disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+/* Danger Button */
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border-color: #ef4444;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+}
+
+.btn-danger:active:not(.btn-disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+}
+
+/* Warning Button */
+.btn-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border-color: #f59e0b;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+}
+
+.btn-warning:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.4);
+}
+
+.btn-warning:active:not(.btn-disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+}
+
+/* Outline Variants */
+.btn-outline-primary {
+  background: transparent;
+  color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.btn-outline-primary:hover:not(.btn-disabled) {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-outline-secondary {
+  background: transparent;
+  color: #6b7280;
+  border-color: #6b7280;
+}
+
+.btn-outline-secondary:hover:not(.btn-disabled) {
+  background: #6b7280;
+  color: white;
+}
+
+/* Ghost Variants (minimal background) */
+.btn-ghost-primary {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border-color: transparent;
+}
+
+.btn-ghost-primary:hover:not(.btn-disabled) {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Disabled State */
+.btn-disabled,
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Loading State */
+.btn-loading {
+  pointer-events: none;
+}
+
+.btn-loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Full Width */
+.btn-full {
+  width: 100%;
+}
+
+/* Icon Only */
+.btn-icon {
+  padding: 8px;
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.btn-icon.btn-small {
+  padding: 6px;
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.btn-icon.btn-large {
+  padding: 12px;
+  min-width: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+/* Special Game-Themed Variants */
+.btn-game-primary {
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #1a0f08;
+  border-color: #d4af37;
+  box-shadow: 0 2px 4px rgba(212, 175, 55, 0.3);
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+}
+
+.btn-game-primary:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #b8941f 0%, #d4af37 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.4);
+}
+
+.btn-game-secondary {
+  background: linear-gradient(135deg, #8b7355 0%, #6b5b47 100%);
+  color: #f0e6d2;
+  border-color: #8b7355;
+  box-shadow: 0 2px 4px rgba(139, 115, 85, 0.3);
+  font-family: 'Cinzel', serif;
+}
+
+.btn-game-secondary:hover:not(.btn-disabled) {
+  background: linear-gradient(135deg, #6b5b47 0%, #8b7355 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .btn {
+    font-size: 0.9rem;
+  }
+
+  .btn-small {
+    padding: 8px 12px;
+    min-height: 36px;
+  }
+
+  .btn-medium {
+    padding: 12px 16px;
+    min-height: 44px;
+  }
+
+  .btn-large {
+    padding: 16px 20px;
+    min-height: 52px;
+  }
+}
+
+/* Focus states for accessibility */
+.btn:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn {
+    border-width: 3px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-success,
+  .btn-danger,
+  .btn-warning {
+    border-style: solid;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+
+  .btn:hover {
+    transform: none;
+  }
+
+  .btn-loading-icon {
+    animation: none;
+  }
+}

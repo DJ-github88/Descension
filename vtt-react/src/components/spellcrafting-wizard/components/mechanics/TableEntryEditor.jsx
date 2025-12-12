@@ -60,6 +60,7 @@ const TableEntryEditor = ({
   const handleEdit = (entry, index) => {
     // Ensure effectConfig exists with all required fields
     const normalizedEntry = {
+      name: '', // Ensure name always exists
       ...entry,
       effectConfig: {
         damageFormula: '2d6',
@@ -85,7 +86,7 @@ const TableEntryEditor = ({
   };
 
   const handleSave = () => {
-    if (!editingEntry.name.trim()) {
+    if (!editingEntry.name || !editingEntry.name.trim()) {
       alert('Please enter a name for this entry');
       return;
     }
@@ -238,6 +239,19 @@ const TableEntryEditor = ({
         }
       }}>
         <div className="entry-editor-content">
+          {/* Modal Header */}
+          <div className="entry-editor-header">
+            <h3 className="entry-editor-title">
+              {editingIndex === null ? 'Add Table Entry' : 'Edit Table Entry'}
+            </h3>
+            <button 
+              className="entry-editor-close-btn"
+              onClick={handleCancel}
+              title="Close"
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+          </div>
 
           <div className="entry-editor-body">
             {/* Two-column layout */}
@@ -341,13 +355,6 @@ const TableEntryEditor = ({
                     />
                   </div>
                 </div>
-
-                {/* Save Button */}
-                <div className="entry-save-button-container">
-                  <button onClick={handleSave} className="save-btn">
-                    <FontAwesomeIcon icon={faSave} /> Save Entry
-                  </button>
-                </div>
               </div>
 
               {/* Right Column - Effect Configuration */}
@@ -363,10 +370,10 @@ const TableEntryEditor = ({
                       onChange={(e) => updateEntry('effectType', e.target.value)}
                       className="wow-settings-input effect-type-select"
                     >
-                      <option value="damage">💥 Damage</option>
-                      <option value="healing">💚 Healing</option>
-                      <option value="summoning">👥 Summoning</option>
-                      <option value="buff">🛡️ Buff/Debuff</option>
+                      <option value="damage">Damage</option>
+                      <option value="healing">Healing</option>
+                      <option value="summoning">Summoning</option>
+                      <option value="buff">Buff/Debuff</option>
                     </select>
                   </div>
 
@@ -391,15 +398,15 @@ const TableEntryEditor = ({
                           onChange={(e) => updateEffectConfig('damageType', e.target.value)}
                           className="wow-settings-input"
                         >
-                          <option value="fire">🔥 Fire</option>
-                          <option value="ice">❄️ Ice</option>
-                          <option value="lightning">⚡ Lightning</option>
-                          <option value="necrotic">💀 Necrotic</option>
-                          <option value="holy">✨ Holy</option>
-                          <option value="physical">⚔️ Physical</option>
-                          <option value="arcane">🔮 Arcane</option>
-                          <option value="nature">🌿 Nature</option>
-                          <option value="shadow">🌑 Shadow</option>
+                          <option value="fire">Fire</option>
+                          <option value="ice">Ice</option>
+                          <option value="lightning">Lightning</option>
+                          <option value="necrotic">Necrotic</option>
+                          <option value="holy">Holy</option>
+                          <option value="physical">Physical</option>
+                          <option value="arcane">Arcane</option>
+                          <option value="nature">Nature</option>
+                          <option value="shadow">Shadow</option>
                         </select>
                       </div>
                       <div className="form-row">
@@ -659,15 +666,15 @@ const TableEntryEditor = ({
                               onChange={(e) => updateEffectConfig('resistanceType', e.target.value)}
                               className="wow-settings-input"
                             >
-                              <option value="fire">🔥 Fire</option>
-                              <option value="ice">❄️ Ice</option>
-                              <option value="lightning">⚡ Lightning</option>
-                              <option value="necrotic">💀 Necrotic</option>
-                              <option value="holy">✨ Holy</option>
-                              <option value="physical">⚔️ Physical</option>
-                              <option value="arcane">🔮 Arcane</option>
-                              <option value="nature">🌿 Nature</option>
-                              <option value="shadow">🌑 Shadow</option>
+                              <option value="fire">Fire</option>
+                              <option value="ice">Ice</option>
+                              <option value="lightning">Lightning</option>
+                              <option value="necrotic">Necrotic</option>
+                              <option value="holy">Holy</option>
+                              <option value="physical">Physical</option>
+                              <option value="arcane">Arcane</option>
+                              <option value="nature">Nature</option>
+                              <option value="shadow">Shadow</option>
                             </select>
                           </div>
                           <div className="form-group">
@@ -749,6 +756,16 @@ const TableEntryEditor = ({
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Modal Footer */}
+          <div className="entry-editor-footer">
+            <button onClick={handleCancel} className="cancel-btn">
+              Cancel
+            </button>
+            <button onClick={handleSave} className="save-btn">
+              <FontAwesomeIcon icon={faSave} /> Save Entry
+            </button>
           </div>
         </div>
       </div>

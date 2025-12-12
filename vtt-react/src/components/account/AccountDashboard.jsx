@@ -10,6 +10,9 @@ import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/ch
 import { applyRacialModifiers } from '../../data/raceData';
 import { ensurePlaceholderCharacters } from '../../utils/createPlaceholderCharacters';
 import RoomManager from './RoomManager';
+import CampaignManager from './CampaignManager';
+// Note: canAccessCampaignManager is available for future access control:
+// import CampaignManager, { canAccessCampaignManager, CAMPAIGN_ACCESS_CONFIG } from './CampaignManager';
 import ClassResourceBar from '../hud/ClassResourceBar';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
@@ -348,12 +351,27 @@ const AccountDashboard = ({ user }) => {
             >
               <span>Characters</span>
             </button>
+            {/* Campaign Manager Tab - Always shown for now, access control ready for future */}
+            <button
+              className={`fan-tab ${activeTab === 'campaigns' ? 'active' : ''}`}
+              onClick={() => setActiveTab('campaigns')}
+            >
+              <span>Campaigns</span>
+            </button>
           </div>
         </nav>
 
         {/* Right: Action Buttons */}
         <div className="header-actions-new">
-          <button onClick={() => navigate('/')} className="action-btn home-btn">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('AccountDashboard: Home button clicked - navigating to /');
+              navigate('/', { replace: false });
+            }}
+            className="action-btn home-btn"
+          >
             <i className="fas fa-home"></i>
             <span>Home</span>
           </button>
@@ -619,77 +637,55 @@ const AccountDashboard = ({ user }) => {
                           </div>
                         </div>
 
-                        {/* Character Stats - Two Rows for Better Visibility */}
-                        <div className="character-stats">
-                          <div className="stats-grid">
-                            <div className="stat-box">
-                              <span className="stat-name">STR</span>
-                              <span className="stat-value">{stats.strength}</span>
-                              <span className="stat-mod">{formatModifier(getModifier(stats.strength))}</span>
+                        {/* Character Stats - Clean Single Row */}
+                        <div className="character-stats-row">
+                          {[
+                            { key: 'strength', abbr: 'STR' },
+                            { key: 'agility', abbr: 'AGI' },
+                            { key: 'constitution', abbr: 'CON' },
+                            { key: 'intelligence', abbr: 'INT' },
+                            { key: 'spirit', abbr: 'SPI' },
+                            { key: 'charisma', abbr: 'CHA' }
+                          ].map(stat => (
+                            <div key={stat.key} className="stat-pill">
+                              <span className="stat-abbr">{stat.abbr}</span>
+                              <span className="stat-score">{stats[stat.key]}</span>
+                              <span className="stat-modifier">{formatModifier(getModifier(stats[stat.key]))}</span>
                             </div>
-                            <div className="stat-box">
-                              <span className="stat-name">AGI</span>
-                              <span className="stat-value">{stats.agility}</span>
-                              <span className="stat-mod">{formatModifier(getModifier(stats.agility))}</span>
-                            </div>
-                            <div className="stat-box">
-                              <span className="stat-name">CON</span>
-                              <span className="stat-value">{stats.constitution}</span>
-                              <span className="stat-mod">{formatModifier(getModifier(stats.constitution))}</span>
-                            </div>
-                          </div>
-                          <div className="stats-grid">
-                            <div className="stat-box">
-                              <span className="stat-name">INT</span>
-                              <span className="stat-value">{stats.intelligence}</span>
-                              <span className="stat-mod">{formatModifier(getModifier(stats.intelligence))}</span>
-                            </div>
-                            <div className="stat-box">
-                              <span className="stat-name">SPI</span>
-                              <span className="stat-value">{stats.spirit}</span>
-                              <span className="stat-mod">{formatModifier(getModifier(stats.spirit))}</span>
-                            </div>
-                            <div className="stat-box">
-                              <span className="stat-name">CHA</span>
-                              <span className="stat-value">{stats.charisma}</span>
-                              <span className="stat-mod">{formatModifier(getModifier(stats.charisma))}</span>
-                            </div>
-                          </div>
+                          ))}
                         </div>
 
-                        {/* Character Actions - Compact */}
-                        <div className="character-actions">
+                        {/* Character Actions - Clean Icon Bar */}
+                        <div className="character-actions-bar">
                           <button
-                            className={`action-btn ${currentCharacterId === character.id ? 'active-btn' : 'play-btn'}`}
+                            className={`action-icon-btn ${currentCharacterId === character.id ? 'active' : 'select'}`}
                             onClick={() => handleSelectCharacter(character.id)}
-                            title={currentCharacterId === character.id ? 'Active character' : 'Select this character as active'}
+                            title={currentCharacterId === character.id ? 'Currently active' : 'Set as active character'}
                           >
-                            <i className={`fas ${currentCharacterId === character.id ? 'fa-check' : 'fa-play'}`}></i>
-                            {currentCharacterId === character.id ? 'On' : 'Set'}
+                            <i className={`fas ${currentCharacterId === character.id ? 'fa-check-circle' : 'fa-circle'}`}></i>
+                            <span>{currentCharacterId === character.id ? 'Active' : 'Select'}</span>
                           </button>
+                          <div className="action-divider"></div>
                           <button
-                            className="action-btn edit-btn"
+                            className="action-icon-btn edit"
                             onClick={() => navigate(`/account/characters/edit/${character.id}`)}
-                            title="Edit character details"
+                            title="Edit character"
                           >
-                            <i className="fas fa-edit"></i>
-                            Edit
+                            <i className="fas fa-pen"></i>
                           </button>
                           <button
-                            className="action-btn view-btn"
+                            className="action-icon-btn view"
                             onClick={() => navigate(`/account/characters/view/${character.id}`)}
-                            title="View full character sheet"
+                            title="View character sheet"
                           >
                             <i className="fas fa-eye"></i>
-                            View
                           </button>
                           <button
-                            className="action-btn delete-btn"
+                            className="action-icon-btn delete"
                             onClick={() => handleDeleteCharacter(character)}
-                            title="Delete character permanently"
+                            title="Delete character"
                           >
-                            <i className="fas fa-trash"></i>
-                            Del
+                            <i className="fas fa-trash-alt"></i>
                           </button>
                         </div>
                       </div>
@@ -713,6 +709,12 @@ const AccountDashboard = ({ user }) => {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {activeTab === 'campaigns' && (
+          <div className="tab-content">
+            <CampaignManager user={user} />
           </div>
         )}
       </main>

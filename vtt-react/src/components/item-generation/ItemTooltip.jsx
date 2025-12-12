@@ -1681,7 +1681,51 @@ function ItemTooltip({ item }) {
 
                                     return `${procChanceText} to trigger`;
                                 })()}
-                                {onHitEffectsConfig.spellEffect ? (
+                                {/* New inline effect structure */}
+                                {onHitEffectsConfig.effect?.effectConfig ? (
+                                    <>
+                                        {' '}
+                                        <span style={{ color: '#a335ee' }}>
+                                            {onHitEffectsConfig.effect.effectConfig.description || (() => {
+                                                // Helper to format names
+                                                const formatName = (name) => {
+                                                    if (!name) return '';
+                                                    return name.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                                };
+                                                // Generate description from effect config
+                                                const eff = onHitEffectsConfig.effect;
+                                                const cfg = eff.effectConfig;
+                                                const target = cfg.targetType === 'self' ? 'yourself' : cfg.targetType === 'area' ? `all within ${cfg.areaRadius || 10}ft` : 'the attacker';
+                                                
+                                                switch (eff.effectType) {
+                                                    case 'damage':
+                                                        if (cfg.isDot) {
+                                                            return `Deal ${cfg.formula || '1d6'} ${formatName(cfg.damageType || 'fire')} damage to ${target} each ${cfg.dotTickFrequency || 'round'} for ${cfg.dotDuration || 3} rounds`;
+                                                        }
+                                                        return `Deal ${cfg.formula || '1d6'} ${formatName(cfg.damageType || 'fire')} damage to ${target}`;
+                                                    case 'healing':
+                                                        if (cfg.isHot) {
+                                                            return `Heal ${target} for ${cfg.healingFormula || '1d8'} each ${cfg.hotTickFrequency || 'round'} for ${cfg.hotDuration || 3} rounds`;
+                                                        }
+                                                        if (cfg.grantsTempHP) {
+                                                            return `Grant ${target} ${cfg.healingFormula || '1d8'} temporary hit points`;
+                                                        }
+                                                        return `Heal ${target} for ${cfg.healingFormula || '1d8'}`;
+                                                    case 'buff':
+                                                        return `Grant ${target} +${cfg.statModifier?.magnitude || 2} ${formatName(cfg.statModifier?.stat || 'armor')} for ${cfg.durationValue || 2} ${cfg.durationType || 'rounds'}`;
+                                                    case 'debuff':
+                                                        return `Reduce ${target}'s ${formatName(cfg.statModifier?.stat || 'speed')} by ${cfg.statModifier?.magnitude || 2} (DC ${cfg.saveDC || 14} ${formatName(cfg.saveType || 'constitution')})`;
+                                                    case 'control':
+                                                        return `${formatName(cfg.controlType || 'stun')} ${target} for ${cfg.controlDuration || 1} round${cfg.controlDuration !== 1 ? 's' : ''} (DC ${cfg.saveDC || 14})`;
+                                                    default:
+                                                        return 'an effect';
+                                                }
+                                            })()}
+                                        </span>
+                                        {' when hit.'}
+                                    </>
+                                ) : onHitEffectsConfig.spellEffect ? (
+                                    /* Legacy spell library reference */
                                     <>
                                         {' '}
                                         <span style={{ color: '#a335ee' }}>

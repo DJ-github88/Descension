@@ -851,14 +851,16 @@
 
 /* Rooms Sections */
 .local-rooms-section,
-.multiplayer-rooms-section {
+.multiplayer-rooms-section,
+.friends-rooms-section {
   margin-bottom: 16px;
 }
 
 /* Room Manager specific section headers - override global styles */
 .room-manager .section-header,
 .room-manager .local-rooms-section .section-header,
-.room-manager .multiplayer-rooms-section .section-header {
+.room-manager .multiplayer-rooms-section .section-header,
+.room-manager .friends-rooms-section .section-header {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -880,7 +882,8 @@
 
 .room-manager .section-header h3,
 .room-manager .local-rooms-section .section-header h3,
-.room-manager .multiplayer-rooms-section .section-header h3 {
+.room-manager .multiplayer-rooms-section .section-header h3,
+.room-manager .friends-rooms-section .section-header h3 {
   margin: 0 !important;
   font-size: 16px !important;
   color: #1f2937 !important;
@@ -1132,4 +1135,171 @@
   color: #3b82f6;
   padding: 4px 8px;
   border-radius: 6px;
+}
+
+/* Friends Rooms Section */
+.friends-room-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.friends-room-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f59e0b, #d97706, #b45309);
+}
+
+.friends-room-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+  border-color: #d97706;
+}
+
+.friends-room-card .room-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.friends-room-card .room-info {
+  flex: 1;
+}
+
+.friends-room-card .room-name {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #92400e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.friends-room-card .room-name::before {
+  content: '🎮';
+  font-size: 14px;
+}
+
+.friends-room-card .room-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #a16207;
+}
+
+.friends-room-card .room-participants {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.friends-room-card .room-participants i {
+  color: #d97706;
+}
+
+.friends-room-card .friend-info {
+  text-align: right;
+}
+
+.friends-room-card .friend-playing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #92400e;
+  font-weight: 600;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.friends-room-card .friend-playing i {
+  color: #f59e0b;
+}
+
+.friends-room-card .room-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.friends-room-card .room-description {
+  font-size: 14px;
+  color: #a16207;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.friends-room-card .room-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.friends-room-card .join-room-btn {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+}
+
+.friends-room-card .join-room-btn:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+.no-friends-rooms {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px dashed #f59e0b;
+  border-radius: 12px;
+  color: #92400e;
+}
+
+.no-friends-rooms i {
+  font-size: 48px;
+  color: #d97706;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.no-friends-rooms h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.no-friends-rooms p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.8;
+  max-width: 400px;
+  margin: 0 auto;
 }

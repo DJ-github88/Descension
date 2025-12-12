@@ -66,7 +66,7 @@ class LagCompensationSystem {
    */
   processClientInput(socketId, input) {
     const clientState = this.clientStates.get(socketId);
-    if (!clientState) return null;
+    if (!clientState) {return null;}
 
     const now = Date.now();
     const sequence = ++clientState.lastInputSequence;
@@ -105,7 +105,7 @@ class LagCompensationSystem {
    */
   applyClientPrediction(socketId, input) {
     const clientState = this.clientStates.get(socketId);
-    if (!clientState) return null;
+    if (!clientState) {return null;}
 
     const metrics = this.networkMetrics.get(socketId);
     const latency = metrics.latency;
@@ -117,21 +117,21 @@ class LagCompensationSystem {
 
     // Get current confirmed state
     const baseState = clientState.confirmedState || this.getLatestServerState(clientState.roomId);
-    if (!baseState) return null;
+    if (!baseState) {return null;}
 
     // Apply prediction based on input type
     let predictedState = { ...baseState };
 
     switch (input.type) {
-      case 'token_move':
-        predictedState = this.predictTokenMovement(predictedState, input, latency);
-        break;
-      case 'character_update':
-        predictedState = this.predictCharacterUpdate(predictedState, input, latency);
-        break;
-      case 'inventory_change':
-        predictedState = this.predictInventoryChange(predictedState, input, latency);
-        break;
+    case 'token_move':
+      predictedState = this.predictTokenMovement(predictedState, input, latency);
+      break;
+    case 'character_update':
+      predictedState = this.predictCharacterUpdate(predictedState, input, latency);
+      break;
+    case 'inventory_change':
+      predictedState = this.predictInventoryChange(predictedState, input, latency);
+      break;
     }
 
     clientState.predictedState = predictedState;
@@ -142,10 +142,10 @@ class LagCompensationSystem {
    * Predict token movement
    */
   predictTokenMovement(state, input, latency) {
-    if (!input.data || !input.data.position) return state;
+    if (!input.data || !input.data.position) {return state;}
 
     const predicted = { ...state };
-    if (!predicted.tokens) predicted.tokens = {};
+    if (!predicted.tokens) {predicted.tokens = {};}
 
     const tokenId = input.data.tokenId;
     const newPosition = input.data.position;
@@ -177,9 +177,9 @@ class LagCompensationSystem {
   /**
    * Predict character update
    */
-  predictCharacterUpdate(state, input, latency) {
+  predictCharacterUpdate(state, input, _latency) {
     const predicted = { ...state };
-    if (!predicted.characters) predicted.characters = {};
+    if (!predicted.characters) {predicted.characters = {};}
 
     const characterId = input.data.characterId;
     const updates = input.data.updates;
@@ -196,9 +196,9 @@ class LagCompensationSystem {
   /**
    * Predict inventory change
    */
-  predictInventoryChange(state, input, latency) {
+  predictInventoryChange(state, input, _latency) {
     const predicted = { ...state };
-    if (!predicted.inventories) predicted.inventories = {};
+    if (!predicted.inventories) {predicted.inventories = {};}
 
     const playerId = input.data.playerId;
     const change = input.data.change;
@@ -209,23 +209,24 @@ class LagCompensationSystem {
 
     // Apply inventory change prediction
     switch (change.type) {
-      case 'add_item':
-        predicted.inventories[playerId].items.push({
-          ...change.item,
-          predictedAt: Date.now()
-        });
-        break;
-      case 'remove_item':
-        predicted.inventories[playerId].items = 
+    case 'add_item':
+      predicted.inventories[playerId].items.push({
+        ...change.item,
+        predictedAt: Date.now()
+      });
+      break;
+    case 'remove_item':
+      predicted.inventories[playerId].items = 
           predicted.inventories[playerId].items.filter(item => item.id !== change.itemId);
-        break;
-      case 'move_item':
-        const item = predicted.inventories[playerId].items.find(item => item.id === change.itemId);
-        if (item) {
-          item.position = change.newPosition;
-          item.predictedAt = Date.now();
-        }
-        break;
+      break;
+    case 'move_item': {
+      const item = predicted.inventories[playerId].items.find(item => item.id === change.itemId);
+      if (item) {
+        item.position = change.newPosition;
+        item.predictedAt = Date.now();
+      }
+      break;
+    }
     }
 
     return predicted;
@@ -256,7 +257,7 @@ class LagCompensationSystem {
 
     // Check all clients in this room for corrections
     for (const [socketId, clientState] of this.clientStates.entries()) {
-      if (clientState.roomId !== roomId) continue;
+      if (clientState.roomId !== roomId) {continue;}
 
       const correction = this.checkForCorrection(socketId, serverState, timestamp);
       if (correction) {
@@ -272,7 +273,7 @@ class LagCompensationSystem {
    */
   checkForCorrection(socketId, serverState, timestamp) {
     const clientState = this.clientStates.get(socketId);
-    if (!clientState || !clientState.predictedState) return null;
+    if (!clientState || !clientState.predictedState) {return null;}
 
     const metrics = this.networkMetrics.get(socketId);
     const latency = metrics.latency;
@@ -343,9 +344,9 @@ class LagCompensationSystem {
    * Get correction threshold based on latency
    */
   getCorrectionThreshold(latency) {
-    if (latency < 20) return 30;
-    if (latency < 50) return 50;
-    if (latency < 100) return 80;
+    if (latency < 20) {return 30;}
+    if (latency < 50) {return 50;}
+    if (latency < 100) {return 80;}
     return 100;
   }
 
@@ -354,7 +355,7 @@ class LagCompensationSystem {
    */
   updateNetworkMetrics(socketId, metrics) {
     const existing = this.networkMetrics.get(socketId);
-    if (!existing) return;
+    if (!existing) {return;}
 
     // Smooth metrics with exponential moving average
     const alpha = 0.3; // Smoothing factor
@@ -397,7 +398,7 @@ class LagCompensationSystem {
    */
   getLatestServerState(roomId) {
     const stateHistory = this.serverStates.get(roomId);
-    if (!stateHistory || stateHistory.length === 0) return null;
+    if (!stateHistory || stateHistory.length === 0) {return null;}
 
     return stateHistory[stateHistory.length - 1].state;
   }
@@ -448,7 +449,7 @@ class LagCompensationSystem {
    */
   predictCombatAction(socketId, actionData) {
     const clientState = this.clientStates.get(socketId);
-    if (!clientState) return null;
+    if (!clientState) {return null;}
 
     const predictedAction = {
       id: uuidv4(),
@@ -475,7 +476,7 @@ class LagCompensationSystem {
    */
   processCombatStateUpdate(roomId, combatState, serverTime) {
     const serverHistory = this.serverStates.get(roomId);
-    if (!serverHistory) return;
+    if (!serverHistory) {return;}
 
     // Store server state
     serverHistory.push({
@@ -499,21 +500,21 @@ class LagCompensationSystem {
   /**
    * Reconcile client prediction with server state
    */
-  reconcileCombatPrediction(socketId, serverCombatState, serverTime) {
+  reconcileCombatPrediction(socketId, serverCombatState, _serverTime) {
     const clientState = this.clientStates.get(socketId);
-    if (!clientState || !clientState.predictedState) return;
+    if (!clientState || !clientState.predictedState) {return;}
 
     const predictedState = clientState.predictedState.combat;
     const discrepancies = this.findCombatDiscrepancies(predictedState, serverCombatState);
 
     if (discrepancies.length > 0) {
       // Send correction to client
-      const correction = {
-        type: 'combat_correction',
-        serverState: serverCombatState,
-        timestamp: serverTime,
-        discrepancies: discrepancies
-      };
+      // const correction = {
+      //   type: 'combat_correction',
+      //   serverState: serverCombatState,
+      //   timestamp: serverTime,
+      //   discrepancies: discrepancies
+      // };
 
       // This would be sent via socket to the client
       console.log(`🔄 Sending combat correction to ${socketId}:`, discrepancies.length, 'discrepancies');
@@ -564,9 +565,9 @@ class LagCompensationSystem {
    */
   getCombatPredictionMetrics(roomId) {
     const serverHistory = this.serverStates.get(roomId);
-    if (!serverHistory || serverHistory.length < 2) return null;
+    if (!serverHistory || serverHistory.length < 2) {return null;}
 
-    let totalCorrections = 0;
+    const totalCorrections = 0;
     let totalClients = 0;
 
     // Count clients in room
@@ -580,8 +581,8 @@ class LagCompensationSystem {
       roomId,
       clientCount: totalClients,
       predictionQuality: totalCorrections === 0 ? 'excellent' :
-                        totalCorrections < totalClients * 0.1 ? 'good' :
-                        totalCorrections < totalClients * 0.3 ? 'fair' : 'poor',
+        totalCorrections < totalClients * 0.1 ? 'good' :
+          totalCorrections < totalClients * 0.3 ? 'fair' : 'poor',
       correctionsNeeded: totalCorrections
     };
   }

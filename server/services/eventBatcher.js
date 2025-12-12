@@ -154,7 +154,7 @@ class EventBatcher {
    */
   flushPlayerBatch(roomId, targetPlayerId, force = false) {
     const batchData = this.roomBatches.get(roomId);
-    if (!batchData) return;
+    if (!batchData) {return;}
 
     const now = Date.now();
     const timeSinceLastFlush = now - batchData.lastFlush;
@@ -229,7 +229,7 @@ class EventBatcher {
    */
   flushBatch(roomId, forceCritical = false) {
     const batchData = this.roomBatches.get(roomId);
-    if (!batchData) return;
+    if (!batchData) {return;}
 
     const now = Date.now();
     const timeSinceLastFlush = now - batchData.lastFlush;
@@ -297,7 +297,7 @@ class EventBatcher {
    */
   sendBatchToRoom(roomId, batchPacket) {
     const room = this.io.sockets.adapter.rooms.get(roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     // Get all sockets in room
     const sockets = Array.from(room).map(socketId => this.io.sockets.sockets.get(socketId)).filter(Boolean);
@@ -329,7 +329,7 @@ class EventBatcher {
    * Adapt batch based on client network conditions
    */
   adaptBatchForClient(batchPacket, clientMetrics) {
-    const { latency, bandwidth, packetLoss } = clientMetrics;
+    const { latency, bandwidth } = clientMetrics;
 
     // For high latency clients, prioritize critical events only
     if (latency > this.adaptiveThresholds.highLatency) {
@@ -444,7 +444,7 @@ class EventBatcher {
     }
 
     // Extract patterns that appear multiple times
-    for (const [key, data] of patternMap) {
+    for (const [, data] of patternMap) {
       if (data.count > 1) {
         patterns.push({
           id: patterns.length,
@@ -550,7 +550,7 @@ class EventBatcher {
   /**
    * Adjust batch interval based on client performance
    */
-  adjustBatchInterval(socketId, metrics) {
+  adjustBatchInterval(_socketId, _metrics) {
     // This could be used to create per-client batch intervals in the future
     // For now, we use room-wide intervals
   }
@@ -560,7 +560,7 @@ class EventBatcher {
    */
   getRoomMetrics(roomId) {
     const batchData = this.roomBatches.get(roomId);
-    if (!batchData) return null;
+    if (!batchData) {return null;}
 
     return {
       ...batchData.metrics,

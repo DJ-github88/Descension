@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
     useCharacterWizardState,
     useCharacterWizardDispatch,
@@ -238,6 +238,62 @@ const Step10EquipmentSelection = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [tooltip, setTooltip] = useState({ show: false, item: null, x: 0, y: 0 });
+    
+    // Refs for measuring panel containers (parent of grids)
+    const shopPanelRef = useRef(null);
+    const cartPanelRef = useRef(null);
+    const [shopCols, setShopCols] = useState(12);
+    const [cartCols, setCartCols] = useState(11);
+    const CELL_SIZE = 52;
+    const GAP = 1;
+    const GRID_PADDING = 8;
+    const GRID_BORDER = 2;
+    const PANEL_PADDING = 12; // 0.75rem
+
+    // Calculate columns based on panel width using ResizeObserver
+    useEffect(() => {
+        const calculateShopCols = () => {
+            if (shopPanelRef.current) {
+                // Panel width minus panel padding, grid border, and grid padding
+                const panelWidth = shopPanelRef.current.clientWidth;
+                const availableWidth = panelWidth - (PANEL_PADDING * 2) - (GRID_BORDER * 2) - (GRID_PADDING * 2);
+                const cols = Math.floor((availableWidth + GAP) / (CELL_SIZE + GAP));
+                if (cols > 0) {
+                    setShopCols(cols);
+                }
+            }
+        };
+
+        const calculateCartCols = () => {
+            if (cartPanelRef.current) {
+                const panelWidth = cartPanelRef.current.clientWidth;
+                const availableWidth = panelWidth - (PANEL_PADDING * 2) - (GRID_BORDER * 2) - (GRID_PADDING * 2);
+                const cols = Math.floor((availableWidth + GAP) / (CELL_SIZE + GAP));
+                if (cols > 0) {
+                    setCartCols(cols);
+                }
+            }
+        };
+
+        // Initial calculation with delay to ensure layout is complete
+        const timer = setTimeout(() => {
+            calculateShopCols();
+            calculateCartCols();
+        }, 100);
+
+        // Use ResizeObserver for responsive updates
+        const shopObserver = new ResizeObserver(() => calculateShopCols());
+        const cartObserver = new ResizeObserver(() => calculateCartCols());
+
+        if (shopPanelRef.current) shopObserver.observe(shopPanelRef.current);
+        if (cartPanelRef.current) cartObserver.observe(cartPanelRef.current);
+
+        return () => {
+            clearTimeout(timer);
+            shopObserver.disconnect();
+            cartObserver.disconnect();
+        };
+    }, []); // Empty deps - only run once on mount
 
     // Calculate starting currency when relevant character data changes - reset completely
     useEffect(() => {
@@ -510,7 +566,7 @@ const Step10EquipmentSelection = () => {
         <div className="equipment-selection-container">
             <div className="equipment-selection-main">
                 {/* Left Panel - Available Items (Shop) */}
-                <div className="equipment-shop-panel">
+                <div className="equipment-shop-panel" ref={shopPanelRef}>
                     <div className="shop-panel-header">
                         <h3>Available Equipment</h3>
 
@@ -565,10 +621,12 @@ const Step10EquipmentSelection = () => {
                     </div>
 
                     {/* Item Grid - Inventory Style */}
-                    <div className="equipment-shop-grid">
+                    <div className="equipment-shop-grid" style={{ '--grid-cols': shopCols }}>
                         {(() => {
-                            const COLS = 16; // Reduced from 20 to better fit the panel
-                            const grid = [];
+                            const COLS = shopCols;
+                            const CELL_SIZE_LOCAL = CELL_SIZE;
+                            const GAP_LOCAL = GAP;
+                            const cells = [];
                             const occupiedCells = new Map(); // Track occupied cells by "row,col" key
 
                             let currentRow = 0;
@@ -620,13 +678,12 @@ const Step10EquipmentSelection = () => {
                                 }
                             });
 
-                            // Calculate total rows needed (minimum 10 rows to fill the space)
+                            // Calculate total rows needed (minimum 8 rows to fill the space)
                             const maxRow = Math.max(...Array.from(occupiedCells.keys()).map(key => parseInt(key.split(',')[0])), -1);
-                            const totalRows = Math.max(maxRow + 1, 10);
+                            const totalRows = Math.max(maxRow + 1, 8);
 
-                            // Render the grid with minimum rows to fill space
+                            // Render the grid cells directly (no row wrappers)
                             for (let row = 0; row < totalRows; row++) {
-                                const gridRow = [];
                                 for (let col = 0; col < COLS; col++) {
                                     const cellData = occupiedCells.get(`${row},${col}`);
                                     const item = cellData?.item;
@@ -634,8 +691,8 @@ const Step10EquipmentSelection = () => {
 
                                     const itemWidth = item?.width || 1;
                                     const itemHeight = item?.height || 1;
-
-                                    gridRow.push(
+                                    
+                                    cells.push(
                                         <div
                                             key={`${row}-${col}`}
                                             className={`inventory-cell ${item ? 'occupied' : ''} ${item && !canAfford(item) ? 'unaffordable' : ''}`}
@@ -644,8 +701,8 @@ const Step10EquipmentSelection = () => {
                                                 <div
                                                     className="item-icon-wrapper"
                                                     style={{
-                                                        width: `calc(${itemWidth * 100}% + ${itemWidth - 1}px)`,
-                                                        height: `calc(${itemHeight * 100}% + ${itemHeight - 1}px)`,
+                                                        width: `${itemWidth * CELL_SIZE_LOCAL + (itemWidth - 1) * GAP_LOCAL}px`,
+                                                        height: `${itemHeight * CELL_SIZE_LOCAL + (itemHeight - 1) * GAP_LOCAL}px`,
                                                         zIndex: 2,
                                                         cursor: canAfford(item) ? 'pointer' : 'not-allowed',
                                                         opacity: canAfford(item) ? 1 : 0.5
@@ -674,19 +731,14 @@ const Step10EquipmentSelection = () => {
                                         </div>
                                     );
                                 }
-                                grid.push(
-                                    <div key={row} className="inventory-row">
-                                        {gridRow}
-                                    </div>
-                                );
                             }
-                            return grid;
+                            return cells;
                         })()}
                     </div>
                 </div>
 
                 {/* Right Panel - Selected Items (Cart) */}
-                <div className="equipment-cart-panel">
+                <div className="equipment-cart-panel" ref={cartPanelRef}>
                     <div className="cart-panel-header">
                         <h3>Selected Equipment</h3>
                         <div className="cart-currency-display">
@@ -697,7 +749,7 @@ const Step10EquipmentSelection = () => {
 
 
                     {/* Cart Grid - Inventory Style */}
-                    <div className={`equipment-cart-grid ${selectedEquipment.length === 0 ? 'empty' : ''}`}>
+                    <div className={`equipment-cart-grid ${selectedEquipment.length === 0 ? 'empty' : ''}`} style={{ '--grid-cols': cartCols }}>
                         {selectedEquipment.length === 0 ? (
                             <div className="cart-empty-message">
                                 <div style={{ fontSize: '2rem', marginBottom: '1rem', opacity: 0.7 }}>📦</div>
@@ -706,7 +758,7 @@ const Step10EquipmentSelection = () => {
                             </div>
                         ) : (
                             (() => {
-                                const COLS = 12;
+                                const COLS = cartCols;
                                 const grid = [];
                                 const occupiedCells = new Map(); // Track occupied cells by "row,col" key
 
@@ -776,6 +828,9 @@ const Step10EquipmentSelection = () => {
                                         const itemWidth = item?.width || 1;
                                         const itemHeight = item?.height || 1;
 
+                                        const CELL_SIZE_LOCAL = CELL_SIZE;
+                                        const GAP_LOCAL = GAP;
+
                                         gridRow.push(
                                             <div
                                                 key={`${row}-${col}`}
@@ -785,8 +840,8 @@ const Step10EquipmentSelection = () => {
                                                     <div
                                                         className="item-icon-wrapper"
                                                         style={{
-                                                            width: `calc(${itemWidth * 100}% + ${itemWidth - 1}px)`,
-                                                            height: `calc(${itemHeight * 100}% + ${itemHeight - 1}px)`,
+                                                            width: `${itemWidth * CELL_SIZE_LOCAL + (itemWidth - 1) * GAP_LOCAL}px`,
+                                                            height: `${itemHeight * CELL_SIZE_LOCAL + (itemHeight - 1) * GAP_LOCAL}px`,
                                                             zIndex: 2,
                                                             cursor: 'pointer'
                                                         }}

@@ -2,8 +2,6 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
@@ -17,6 +15,8 @@ const optimizedFirebase = require('./services/optimizedFirebase');
 const memoryManager = require('./services/memoryManager');
 const lagCompensation = require('./services/lagCompensation');
 const RealtimeSyncEngine = require('./services/realtimeSync');
+const { createValidationMiddleware } = require('./services/validationService');
+const rateLimitService = require('./services/rateLimitService');
 
 // DISABLED: Infrastructure services causing performance issues
 // const ErrorHandler = require('./services/errorHandler');
@@ -28,18 +28,18 @@ const server = http.createServer(app);
 // Configure CORS origins
 const allowedOrigins = process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT
   ? [
-      "https://windtunnel.netlify.app",
-      "https://mythrill.netlify.app",
-      "https://your-custom-domain.com"
-    ]
+    'https://windtunnel.netlify.app',
+    'https://mythrill.netlify.app',
+    'https://your-custom-domain.com'
+  ]
   : [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "http://localhost:3002",
-      "http://127.0.0.1:3000",
-      "http://127.0.0.1:3001",
-      "http://127.0.0.1:3002"
-    ];
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3002',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+    'http://127.0.0.1:3002'
+  ];
 
 console.log('CORS Origins:', allowedOrigins);
 console.log('Environment:', process.env.NODE_ENV);
@@ -49,12 +49,26 @@ console.log('Railway Environment:', process.env.RAILWAY_ENVIRONMENT);
 const io = socketIo(server, {
   cors: {
     origin: allowedOrigins,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
   },
   allowEIO3: true // Allow Engine.IO v3 clients
 });
+
+// Add validation middleware to Socket.IO
+io.use(createValidationMiddleware({
+  logErrors: true,
+  strictMode: false, // Don't disconnect clients on validation errors in production
+  maxErrorsPerMinute: 10
+}));
+
+// Add rate limiting middleware to Socket.IO
+io.use(rateLimitService.createMiddleware({
+  logViolations: true,
+  disconnectOnViolation: false, // Don't disconnect for rate limit violations
+  violationThreshold: 10
+}));
 
 // OPTIMIZED: Enhanced multiplayer services with performance controls
 // Initialize with reduced frequency to prevent lag
@@ -62,63 +76,63 @@ const eventBatcher = new EventBatcher(io);
 const realtimeSync = new RealtimeSyncEngine(eventBatcher, deltaSync, optimizedFirebase);
 
 // Combat action handler with lag compensation
-const handleCombatAction = (roomId, playerId, actionData, predictedAction) => {
+const handleCombatAction = (roomId, playerId, actionData, _predictedAction) => {
   const room = rooms.get(roomId);
-  if (!room) return;
+  if (!room) {return;}
 
   console.log('🎯 Processing combat action:', actionData.type, 'from player:', playerId);
 
   switch (actionData.type) {
-    case 'next_turn':
-      // Handle turn advancement with lag compensation
-      if (room.gameState && room.gameState.combat && room.gameState.combat.isActive) {
-        const combat = room.gameState.combat;
-        const nextIndex = (combat.currentTurnIndex + 1) % combat.turnOrder.length;
-        const newRound = nextIndex === 0 ? combat.round + 1 : combat.round;
+  case 'next_turn':
+    // Handle turn advancement with lag compensation
+    if (room.gameState && room.gameState.combat && room.gameState.combat.isActive) {
+      const combat = room.gameState.combat;
+      const nextIndex = (combat.currentTurnIndex + 1) % combat.turnOrder.length;
+      const newRound = nextIndex === 0 ? combat.round + 1 : combat.round;
 
-        combat.currentTurnIndex = nextIndex;
-        combat.round = newRound;
-        combat.currentTurnStartTime = Date.now();
+      combat.currentTurnIndex = nextIndex;
+      combat.round = newRound;
+      combat.currentTurnStartTime = Date.now();
 
-        // Notify all players of the turn change
-        io.to(roomId).emit('combat_action', {
-          type: 'turn_changed',
-          newTurnIndex: nextIndex,
-          newRound: newRound,
-          timestamp: Date.now()
-        });
+      // Notify all players of the turn change
+      io.to(roomId).emit('combat_action', {
+        type: 'turn_changed',
+        newTurnIndex: nextIndex,
+        newRound: newRound,
+        timestamp: Date.now()
+      });
 
-        // Update lag compensation system
-        if (lagCompensation && typeof lagCompensation.processCombatStateUpdate === 'function') {
-          lagCompensation.processCombatStateUpdate(roomId, combat, Date.now());
+      // Update lag compensation system
+      if (lagCompensation && typeof lagCompensation.processCombatStateUpdate === 'function') {
+        lagCompensation.processCombatStateUpdate(roomId, combat, Date.now());
+      }
+    }
+    break;
+
+  case 'initiative_roll':
+    // Handle initiative changes
+    if (actionData.data && actionData.data.combatantId && actionData.data.newInitiative) {
+      if (room.gameState && room.gameState.combat && room.gameState.combat.turnOrder) {
+        const combatant = room.gameState.combat.turnOrder.find(c => c.tokenId === actionData.data.combatantId);
+        if (combatant) {
+          combatant.initiative = actionData.data.newInitiative;
+          // Re-sort turn order
+          room.gameState.combat.turnOrder.sort((a, b) => b.initiative - a.initiative);
+
+          // Notify all players
+          io.to(roomId).emit('combat_action', {
+            type: 'initiative_updated',
+            combatantId: actionData.data.combatantId,
+            newInitiative: actionData.data.newInitiative,
+            newTurnOrder: room.gameState.combat.turnOrder.map(c => ({ tokenId: c.tokenId, initiative: c.initiative }))
+          });
         }
       }
-      break;
+    }
+    break;
 
-    case 'initiative_roll':
-      // Handle initiative changes
-      if (actionData.data && actionData.data.combatantId && actionData.data.newInitiative) {
-        if (room.gameState && room.gameState.combat && room.gameState.combat.turnOrder) {
-          const combatant = room.gameState.combat.turnOrder.find(c => c.tokenId === actionData.data.combatantId);
-          if (combatant) {
-            combatant.initiative = actionData.data.newInitiative;
-            // Re-sort turn order
-            room.gameState.combat.turnOrder.sort((a, b) => b.initiative - a.initiative);
-
-            // Notify all players
-            io.to(roomId).emit('combat_action', {
-              type: 'initiative_updated',
-              combatantId: actionData.data.combatantId,
-              newInitiative: actionData.data.newInitiative,
-              newTurnOrder: room.gameState.combat.turnOrder.map(c => ({ tokenId: c.tokenId, initiative: c.initiative }))
-            });
-          }
-        }
-      }
-      break;
-
-    default:
-      console.log('Unknown combat action type:', actionData.type);
+  default:
+    console.log('Unknown combat action type:', actionData.type);
   }
 };
 
@@ -126,7 +140,7 @@ const handleCombatAction = (roomId, playerId, actionData, predictedAction) => {
 const errorHandler = {
   errorCounts: new Map(),
   lastErrorTime: 0,
-  handleError: async (error, context) => {
+  handleError: async(error, context) => {
     const now = Date.now();
     const errorKey = `${error.message}_${context?.roomId || 'global'}`;
 
@@ -201,8 +215,8 @@ console.log('🚀 Optimized enhanced multiplayer services initialized');
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
@@ -283,7 +297,7 @@ const players = new Map(); // socketId -> { id, name, roomId, isGM }
 console.log('Mythrill VTT Server - Hybrid room system initialized');
 
 // Load persistent rooms from Firebase on startup
-const loadPersistentRooms = async () => {
+const loadPersistentRooms = async() => {
   try {
     const persistentRooms = await firebaseService.loadPersistentRooms();
     for (const roomData of persistentRooms) {
@@ -302,7 +316,7 @@ const loadPersistentRooms = async () => {
 loadPersistentRooms();
 
 // Room management functions
-async function createRoom(roomName, gmName, gmSocketId, password, playerColor = '#4a90e2', persistToFirebase = true) {
+async function createRoom(roomName, gmName, gmSocketId, password, playerColor = '#4a90e2', _persistToFirebase = true) {
   const roomId = uuidv4();
   const gmPlayerId = uuidv4();
 
@@ -444,7 +458,7 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
     // Update GM's character data if provided
     if (character) {
       room.gm.character = character;
-      console.log(`👑 Updated GM character data:`, {
+      console.log('👑 Updated GM character data:', {
         hasTokenSettings: !!character.tokenSettings,
         hasLore: !!character.lore,
         hasCharacterImage: !!character.lore?.characterImage
@@ -524,10 +538,10 @@ function joinRoom(roomId, playerName, socketId, password, playerColor = '#4a90e2
 
 function leaveRoom(socketId) {
   const player = players.get(socketId);
-  if (!player) return null;
+  if (!player) {return null;}
 
   const room = rooms.get(player.roomId);
-  if (!room) return null;
+  if (!room) {return null;}
 
   if (player.isGM) {
     // GM left - immediately close the room
@@ -605,9 +619,7 @@ io.on('connection', (socket) => {
   console.log(`Player connected: ${socket.id}`);
   
   // Create a new room with enhanced error handling
-  socket.on('create_room', async (data) => {
-    const startTime = Date.now();
-
+  socket.on('create_room', async(data) => {
     try {
       console.log('🎮 Received create_room request:', data);
       const { roomName, gmName, password } = data;
@@ -792,7 +804,7 @@ io.on('connection', (socket) => {
 
       // Notify ALL players in the room (including the one who just joined)
       console.log(`📢 Broadcasting player_joined event to room ${roomId} for player:`, player.name);
-      console.log(`📢 Current players in room before broadcast:`, Array.from(room.players.values()).map(p => p.name));
+      console.log('📢 Current players in room before broadcast:', Array.from(room.players.values()).map(p => p.name));
 
       // Calculate accurate player count: GM + regular players
       const totalPlayerCount = room.players.size + 1; // +1 for GM
@@ -911,7 +923,7 @@ io.on('connection', (socket) => {
   });
   
   // Handle chat messages
-  socket.on('chat_message', async (data) => {
+  socket.on('chat_message', async(data) => {
     console.log('💬 Received chat message:', data, 'from socket:', socket.id);
     const player = players.get(socket.id);
     if (!player) {
@@ -981,12 +993,12 @@ io.on('connection', (socket) => {
   });
 
   // Handle typing indicators
-  socket.on('user_typing', (data) => {
+  socket.on('user_typing', (_data) => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     // Broadcast typing indicator to other players in the room
     socket.to(room.id).emit('user_typing', {
@@ -995,12 +1007,12 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('user_stopped_typing', (data) => {
+  socket.on('user_stopped_typing', (_data) => {
     const player = players.get(socket.id);
-    if (!player) return;
+    if (!player) {return;}
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     // Broadcast stopped typing to other players in the room
     socket.to(room.id).emit('user_stopped_typing', {
@@ -1012,7 +1024,7 @@ io.on('connection', (socket) => {
   // Handle viewport updates for selective sync
   socket.on('update_viewport', (viewportData) => {
     const player = players.get(socket.id);
-    if (!player || !player.roomId) return;
+    if (!player || !player.roomId) {return;}
 
     // Update player's viewport in the real-time sync engine
     if (realtimeSync && typeof realtimeSync.updatePlayerViewport === 'function') {
@@ -1023,7 +1035,7 @@ io.on('connection', (socket) => {
   // Handle cursor position updates for multiplayer awareness
   socket.on('cursor_update', (cursorData) => {
     const player = players.get(socket.id);
-    if (!player || !player.roomId) return;
+    if (!player || !player.roomId) {return;}
 
     // Broadcast cursor position to other players in the room
     socket.to(player.roomId).emit('cursor_update', {
@@ -1038,7 +1050,7 @@ io.on('connection', (socket) => {
   // Handle combat actions with lag compensation
   socket.on('combat_action', (actionData) => {
     const player = players.get(socket.id);
-    if (!player || !player.roomId) return;
+    if (!player || !player.roomId) {return;}
 
     // Use lag compensation to predict the action
     if (lagCompensation && typeof lagCompensation.predictCombatAction === 'function') {
@@ -1052,10 +1064,10 @@ io.on('connection', (socket) => {
   // Handle combat state synchronization requests
   socket.on('request_combat_sync', () => {
     const player = players.get(socket.id);
-    if (!player || !player.roomId) return;
+    if (!player || !player.roomId) {return;}
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     // Send current combat state
     socket.emit('combat_state_sync', {
@@ -1070,7 +1082,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle dialogue messages
-  socket.on('dialogue_message', async (data) => {
+  socket.on('dialogue_message', async(data) => {
     console.log('🎭 Received dialogue message:', data, 'from socket:', socket.id);
     const player = players.get(socket.id);
     if (!player) {
@@ -1106,7 +1118,7 @@ io.on('connection', (socket) => {
   });
 
   // Smart token movement with role-aware optimization
-  socket.on('token_moved', async (data) => {
+  socket.on('token_moved', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1165,25 +1177,25 @@ io.on('connection', (socket) => {
       room.gameState.tokens[tokenKey] = updatedToken;
 
       // Create delta update for efficient synchronization (GM optimization only)
-      let deltaUpdate = null;
       if (player.isGM) {
-        deltaUpdate = await deltaSync.createStateUpdate(
-          player.roomId,
-          room.gameState,
-          {
-            type: 'token_movement',
-            tokenId: tokenKey,
-            playerId: player.id,
-            isDragging: data.isDragging
-          }
-        );
+        // DISABLED: Delta sync causing performance issues
+        // deltaUpdate = await deltaSync.createStateUpdate(
+        //   player.roomId,
+        //   room.gameState,
+        //   {
+        //     type: 'token_movement',
+        //     tokenId: tokenKey,
+        //     playerId: player.id,
+        //     isDragging: data.isDragging
+        //   }
+        // );
       }
 
       // Enhanced throttling with conflict detection
       const broadcastKey = `${player.roomId}_${tokenKey}`;
       const now = Date.now();
-      if (!global.lastTokenBroadcast) global.lastTokenBroadcast = new Map();
-      if (!global.tokenMovementConflicts) global.tokenMovementConflicts = new Map();
+      if (!global.lastTokenBroadcast) {global.lastTokenBroadcast = new Map();}
+      if (!global.tokenMovementConflicts) {global.tokenMovementConflicts = new Map();}
 
       const lastBroadcast = global.lastTokenBroadcast.get(broadcastKey) || 0;
       const throttleTime = data.isDragging ? 33 : 100; // Increased to ~30fps for dragging, ~10fps for final positions
@@ -1243,7 +1255,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle character movement synchronization
-  socket.on('character_moved', async (data) => {
+  socket.on('character_moved', async(data) => {
     try {
       const player = players.get(socket.id);
       if (!player) {
@@ -1288,7 +1300,7 @@ io.on('connection', (socket) => {
       // Throttle character movement broadcasts to prevent player lag (more aggressive)
       const broadcastKey = `${player.roomId}_character_${player.id}`;
       const now = Date.now();
-      if (!global.lastCharacterBroadcast) global.lastCharacterBroadcast = new Map();
+      if (!global.lastCharacterBroadcast) {global.lastCharacterBroadcast = new Map();}
       const lastBroadcast = global.lastCharacterBroadcast.get(broadcastKey) || 0;
       const throttleTime = data.isDragging ? 50 : 16; // Faster updates: ~20fps for dragging, immediate for final positions
 
@@ -1318,7 +1330,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle character token creation
-  socket.on('character_token_created', async (data) => {
+  socket.on('character_token_created', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1367,7 +1379,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle character sheet updates
-  socket.on('character_updated', async (data) => {
+  socket.on('character_updated', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1399,7 +1411,7 @@ io.on('connection', (socket) => {
         // Preserve GM-specific fields
         name: data.character.name || room.gm.character?.name || room.gm.name
       };
-      console.log(`👑 Updated GM character data in room:`, {
+      console.log('👑 Updated GM character data in room:', {
         hasTokenSettings: !!room.gm.character.tokenSettings,
         hasLore: !!room.gm.character.lore,
         hasCharacterImage: !!room.gm.character.lore?.characterImage,
@@ -1419,7 +1431,7 @@ io.on('connection', (socket) => {
           // Preserve player-specific fields
           name: data.character.name || roomPlayer.character?.name || roomPlayer.name
         };
-        console.log(`👥 Updated player character data in room:`, {
+        console.log('👥 Updated player character data in room:', {
           playerId: player.id,
           playerName: roomPlayer.name,
           health: roomPlayer.character.health,
@@ -1453,7 +1465,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle character equipment updates
-  socket.on('character_equipment_updated', async (data) => {
+  socket.on('character_equipment_updated', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1511,7 +1523,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle map/background changes (GM only for live updates)
-  socket.on('map_update', async (data) => {
+  socket.on('map_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1619,7 +1631,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle area remove operations
-  socket.on('area_remove', async (data) => {
+  socket.on('area_remove', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1651,7 +1663,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle combat state changes
-  socket.on('combat_updated', async (data) => {
+  socket.on('combat_updated', async(data) => {
     const player = players.get(socket.id);
     if (!player || !player.isGM) {
       socket.emit('error', { message: 'Only GM can update combat state' });
@@ -1691,7 +1703,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle dice roll synchronization
-  socket.on('dice_rolled', async (data) => {
+  socket.on('dice_rolled', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1750,7 +1762,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle item drops on grid
-  socket.on('item_dropped', async (data) => {
+  socket.on('item_dropped', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1806,7 +1818,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle token creation
-  socket.on('token_created', async (data) => {
+  socket.on('token_created', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1866,7 +1878,7 @@ io.on('connection', (socket) => {
   // REMOVED: Duplicate character_token_created handler - handled above
 
   // Handle item looting
-  socket.on('item_looted', async (data) => {
+  socket.on('item_looted', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1944,7 +1956,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle state conflict resolution
-  socket.on('resolve_state_conflict', async (data) => {
+  socket.on('resolve_state_conflict', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -1961,46 +1973,46 @@ io.on('connection', (socket) => {
 
     // Handle different types of conflicts
     switch (data.conflictType) {
-      case 'token_position':
-        // GM or token owner has authority
-        if (player.isGM || data.tokenOwnerId === player.id) {
-          if (room.gameState.tokens[data.tokenId]) {
-            room.gameState.tokens[data.tokenId].position = data.resolvedPosition;
-            room.gameState.tokens[data.tokenId].lastMovedBy = player.id;
-            room.gameState.tokens[data.tokenId].lastMovedAt = new Date();
+    case 'token_position':
+      // GM or token owner has authority
+      if (player.isGM || data.tokenOwnerId === player.id) {
+        if (room.gameState.tokens[data.tokenId]) {
+          room.gameState.tokens[data.tokenId].position = data.resolvedPosition;
+          room.gameState.tokens[data.tokenId].lastMovedBy = player.id;
+          room.gameState.tokens[data.tokenId].lastMovedAt = new Date();
 
-            // Broadcast resolved position
-            io.to(player.roomId).emit('token_moved', {
-              tokenId: data.tokenId,
-              position: data.resolvedPosition,
-              playerId: player.id,
-              playerName: player.name,
-              timestamp: new Date(),
-              isResolution: true
-            });
-          }
-        }
-        break;
-
-      case 'item_existence':
-        // GM has authority over item existence
-        if (player.isGM) {
-          if (data.shouldExist && !room.gameState.gridItems[data.itemId]) {
-            room.gameState.gridItems[data.itemId] = data.itemData;
-          } else if (!data.shouldExist && room.gameState.gridItems[data.itemId]) {
-            delete room.gameState.gridItems[data.itemId];
-          }
-
-          // Broadcast resolution
-          io.to(player.roomId).emit('item_conflict_resolved', {
-            itemId: data.itemId,
-            shouldExist: data.shouldExist,
-            itemData: data.shouldExist ? data.itemData : null,
-            resolvedBy: player.name,
-            timestamp: new Date()
+          // Broadcast resolved position
+          io.to(player.roomId).emit('token_moved', {
+            tokenId: data.tokenId,
+            position: data.resolvedPosition,
+            playerId: player.id,
+            playerName: player.name,
+            timestamp: new Date(),
+            isResolution: true
           });
         }
-        break;
+      }
+      break;
+
+    case 'item_existence':
+      // GM has authority over item existence
+      if (player.isGM) {
+        if (data.shouldExist && !room.gameState.gridItems[data.itemId]) {
+          room.gameState.gridItems[data.itemId] = data.itemData;
+        } else if (!data.shouldExist && room.gameState.gridItems[data.itemId]) {
+          delete room.gameState.gridItems[data.itemId];
+        }
+
+        // Broadcast resolution
+        io.to(player.roomId).emit('item_conflict_resolved', {
+          itemId: data.itemId,
+          shouldExist: data.shouldExist,
+          itemData: data.shouldExist ? data.itemData : null,
+          resolvedBy: player.name,
+          timestamp: new Date()
+        });
+      }
+      break;
     }
 
     // Persist resolved state
@@ -2012,7 +2024,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle game session launch (GM only)
-  socket.on('launch_game_session', (data) => {
+  socket.on('launch_game_session', (_data) => {
     const player = players.get(socket.id);
     if (!player || !player.isGM) {
       socket.emit('error', { message: 'Only GM can launch game sessions' });
@@ -2127,7 +2139,7 @@ io.on('connection', (socket) => {
   // ========== ENHANCED MULTIPLAYER EVENT HANDLERS ==========
 
   // Handle character sheet updates with real-time sync
-  socket.on('character_update', async (data) => {
+  socket.on('character_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2158,15 +2170,12 @@ io.on('connection', (socket) => {
     //   player.id
     // );
 
-    if (success) {
-      console.log(`👤 Character ${data.characterId} updated by ${player.name}`);
-    } else {
-      socket.emit('error', { message: 'Failed to update character' });
-    }
+    // Character update processed (real-time sync disabled for performance)
+    console.log(`👤 Character ${data.characterId} updated by ${player.name}`);
   });
 
   // Handle inventory updates with real-time sync
-  socket.on('inventory_update', async (data) => {
+  socket.on('inventory_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2183,7 +2192,7 @@ io.on('connection', (socket) => {
     memoryManager.updatePlayerActivity(socket.id);
 
     // Process with lag compensation
-    const inputResult = lagCompensation.processClientInput(socket.id, {
+    lagCompensation.processClientInput(socket.id, {
       type: 'inventory_change',
       data: data,
       timestamp: Date.now()
@@ -2205,7 +2214,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle party updates with real-time sync
-  socket.on('party_update', async (data) => {
+  socket.on('party_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2231,7 +2240,7 @@ io.on('connection', (socket) => {
       // Update room state if needed
       if (data.type === 'member_added') {
         // Add party member to room state if not already present
-        if (!room.partyMembers) room.partyMembers = [];
+        if (!room.partyMembers) {room.partyMembers = [];}
         const existingMember = room.partyMembers.find(m => m.id === data.data.id);
         if (!existingMember) {
           room.partyMembers.push(data.data);
@@ -2251,7 +2260,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle buff updates with real-time sync
-  socket.on('buff_update', async (data) => {
+  socket.on('buff_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2282,7 +2291,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle debuff updates with real-time sync
-  socket.on('debuff_update', async (data) => {
+  socket.on('debuff_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2313,7 +2322,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle dice updates with real-time sync
-  socket.on('dice_update', async (data) => {
+  socket.on('dice_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2344,7 +2353,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle item updates with real-time sync
-  socket.on('item_update', async (data) => {
+  socket.on('item_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2375,7 +2384,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle window updates with real-time sync
-  socket.on('window_update', async (data) => {
+  socket.on('window_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2406,7 +2415,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle container updates with real-time sync
-  socket.on('container_update', async (data) => {
+  socket.on('container_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2437,7 +2446,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle grid item updates with real-time sync
-  socket.on('grid_item_update', async (data) => {
+  socket.on('grid_item_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2468,7 +2477,7 @@ io.on('connection', (socket) => {
   });
 
   // Handle combat state updates (GM only)
-  socket.on('combat_update', async (data) => {
+  socket.on('combat_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
       socket.emit('error', { message: 'You are not in a room' });
@@ -2506,12 +2515,12 @@ io.on('connection', (socket) => {
   // Live map updates (tiles, fog, drawings) are now broadcast immediately via the first handler.
 
   // Handle UI state synchronization
-  socket.on('ui_update', async (data) => {
+  socket.on('ui_update', async(data) => {
     const player = players.get(socket.id);
-    if (!player) return; // UI updates are optional
+    if (!player) {return;} // UI updates are optional
 
     const room = rooms.get(player.roomId);
-    if (!room) return;
+    if (!room) {return;}
 
     // OPTIMIZED: Real-time UI sync with error handling
     try {
@@ -2522,9 +2531,9 @@ io.on('connection', (socket) => {
   });
 
   // DISABLED: Enhanced services causing lag
-  socket.on('network_metrics', (metrics) => {
-    // lagCompensation.updateNetworkMetrics(socket.id, metrics);
-    // eventBatcher.updateClientMetrics(socket.id, metrics);
+  socket.on('network_metrics', (_metrics) => {
+    // lagCompensation.updateNetworkMetrics(socket.id, _metrics);
+    // eventBatcher.updateClientMetrics(socket.id, _metrics);
     // No-op - enhanced services disabled
   });
 
@@ -2664,7 +2673,7 @@ io.on('connection', (socket) => {
   });
 
   // Global chat message
-  socket.on('global_chat_message', async (message) => {
+  socket.on('global_chat_message', async(message) => {
     console.log('💬 Global chat:', message.senderName, '-', message.content);
 
     // Add server timestamp
@@ -2791,7 +2800,7 @@ io.on('connection', (socket) => {
   });
 
   // Respond to room invitation
-  socket.on('respond_to_invite', async ({ inviteId, accepted, roomId, password }) => {
+  socket.on('respond_to_invite', async({ inviteId, accepted, roomId, password }) => {
     if (!accepted) {
       console.log('❌ Invitation declined:', inviteId);
       return;
@@ -2828,7 +2837,7 @@ io.on('connection', (socket) => {
   // ========== END GLOBAL CHAT & PRESENCE HANDLERS ==========
 
   // Handle disconnection
-  socket.on('disconnect', async () => {
+  socket.on('disconnect', async() => {
     console.log(`Player disconnected: ${socket.id}`);
 
     // Clean up online user presence
@@ -2936,7 +2945,7 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`🚀 Mythrill server running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`⚡ Socket.IO server initialized`);
+  console.log('⚡ Socket.IO server initialized');
   console.log(`🔗 Server URL: http://localhost:${PORT}`);
   console.log(`🔒 CORS Origins: ${JSON.stringify(allowedOrigins)}`);
   console.log(`📅 Server started at: ${new Date().toISOString()}`);

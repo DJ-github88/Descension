@@ -6,6 +6,8 @@ import localRoomService from '../../services/localRoomService';
 import subscriptionService from '../../services/subscriptionService';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
+import useSocialStore from '../../store/socialStore';
+import usePresenceStore from '../../store/presenceStore';
 import RoomCard from '../common/RoomCard';
 import './styles/RoomManager.css';
 
@@ -13,9 +15,12 @@ const RoomManager = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { getActiveCharacter } = useCharacterStore();
+  const { friends } = useSocialStore();
+  const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
 
   const [rooms, setRooms] = useState([]);
   const [localRooms, setLocalRooms] = useState([]);
+  const [friendsRooms, setFriendsRooms] = useState([]);
   const [roomLimits, setRoomLimits] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -33,6 +38,47 @@ const RoomManager = () => {
       loadLocalRooms();
     }
   }, [user]);
+
+  // Find rooms where friends are playing
+  useEffect(() => {
+    if (friends.length > 0 && onlineUsers.length > 0) {
+      const friendsInRooms = [];
+
+      // Find friends who are online and in multiplayer rooms
+      onlineUsers.forEach(onlineUser => {
+        const friend = friends.find(f => f.name === onlineUser.characterName);
+        if (friend && onlineUser.sessionType === 'multiplayer' && onlineUser.roomName) {
+          // Check if we already have this room
+          const existingRoom = friendsInRooms.find(r => r.roomId === onlineUser.roomId);
+
+          if (!existingRoom) {
+            // Add this room with the friend info
+            friendsInRooms.push({
+              id: onlineUser.roomId,
+              name: onlineUser.roomName,
+              friend: friend,
+              friendCharacterName: onlineUser.characterName,
+              participants: onlineUser.roomParticipants || [],
+              isFriendsRoom: true,
+              createdAt: new Date(),
+              // Mark as joinable since friend is there
+              canJoin: true,
+              passwordRequired: true // Assume password required unless we know otherwise
+            });
+          } else {
+            // Add this friend to the existing room entry
+            if (!existingRoom.participants.includes(onlineUser.characterName)) {
+              existingRoom.participants.push(onlineUser.characterName);
+            }
+          }
+        }
+      });
+
+      setFriendsRooms(friendsInRooms);
+    } else {
+      setFriendsRooms([]);
+    }
+  }, [friends, onlineUsers]);
 
   // Check for room data changes when component mounts or becomes visible
   useEffect(() => {
@@ -708,6 +754,73 @@ const RoomManager = () => {
         </div>
       </div>
 
+      {/* Friends are Playing Section */}
+      <div className="friends-rooms-section">
+        <div className="section-header">
+          <h3>
+            <i className="fas fa-user-friends"></i>
+            Friends are Playing
+          </h3>
+        </div>
+
+        <div className="room-cards-grid">
+          {friendsRooms.length === 0 ? (
+            <div className="no-friends-rooms">
+              <i className="fas fa-user-friends"></i>
+              <h3>No Friends Online</h3>
+              <p>Your friends will appear here when they're in active multiplayer sessions.</p>
+            </div>
+          ) : (
+            friendsRooms.map(room => (
+              <div key={room.id} className="room-card friends-room-card">
+                <div className="room-card-header">
+                  <div className="room-info">
+                    <h4 className="room-name">{room.name}</h4>
+                    <div className="room-meta">
+                      <span className="room-participants">
+                        <i className="fas fa-users"></i>
+                        {room.participants.length} player{room.participants.length !== 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="friend-info">
+                    <div className="friend-playing">
+                      <i className="fas fa-gamepad"></i>
+                      <span>{room.friendCharacterName}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="room-card-body">
+                  <div className="room-description">
+                    Join your friend <strong>{room.friendCharacterName}</strong> in this multiplayer session!
+                  </div>
+
+                  <div className="room-actions">
+                    <button
+                      className="join-room-btn"
+                      onClick={() => {
+                        // Store room selection for joining
+                        const password = prompt(`Enter password for "${room.name}":`);
+                        if (password !== null && password.trim()) {
+                          localStorage.setItem('selectedRoomId', room.id);
+                          localStorage.setItem('selectedRoomPassword', password.trim());
+                          localStorage.removeItem('isTestRoom');
+                          navigate('/multiplayer');
+                        }
+                      }}
+                    >
+                      <i className="fas fa-sign-in-alt"></i>
+                      Join Game
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
       {/* Multiplayer Rooms Section */}
       <div className="multiplayer-rooms-section">
         <div className="section-header">
@@ -718,10 +831,8 @@ const RoomManager = () => {
           <button
             className="create-local-room-btn"
             onClick={handleCreateRoom}
-            disabled={user?.isGuest || (roomLimits && !roomLimits.canCreate)}
-            title={user?.isGuest
-              ? "Sign up for a free account to create multiplayer rooms"
-              : "Create a new multiplayer room"}
+            disabled={roomLimits && !roomLimits.canCreate}
+            title="Create a new multiplayer room"
           >
             <i className="fas fa-plus"></i>
             {user?.isGuest
@@ -730,21 +841,14 @@ const RoomManager = () => {
           </button>
         </div>
 
-        {user?.isGuest ? (
-          <div className="limit-message-section">
-            <p className="limit-message">
-              <i className="fas fa-info-circle"></i>
-              Guest accounts can only create local rooms. Sign up for a free account to create multiplayer rooms!
-            </p>
-          </div>
-        ) : (roomLimits && !roomLimits.canCreate && (
+        {roomLimits && !roomLimits.canCreate && (
           <div className="limit-message-section">
             <p className="limit-message">
               <i className="fas fa-info-circle"></i>
               Upgrade your plan to create more rooms
             </p>
           </div>
-        ))}
+        )}
 
         <div className="room-cards-grid">
           {rooms.length === 0 ? (

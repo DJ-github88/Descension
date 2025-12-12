@@ -6,8 +6,9 @@
     display: flex;
     flex-direction: column;
     background: linear-gradient(135deg, #f0e6d2 0%, #e8dcc8 100%);
-    padding: 2rem;
+    padding: 1.5rem;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .equipment-selection-header {
@@ -43,10 +44,11 @@
 /* Main Layout - Two Panel */
 .equipment-selection-main {
     display: grid;
-    grid-template-columns: 1.3fr 1.2fr;
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
     flex: 1;
     overflow: hidden;
+    min-height: 0; /* Important for flex children to respect overflow */
 }
 
 /* Shop Panel (Left) */
@@ -54,36 +56,37 @@
     background: rgba(255, 255, 255, 0.6);
     border: 2px solid #d4af37;
     border-radius: 8px;
-    padding: 1.5rem;
+    padding: 0.75rem;
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    height: 100%;
+    min-height: 0; /* Important for flex children to respect overflow */
     overflow: hidden;
 }
 
 .shop-panel-header {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
 }
 
 .shop-panel-header h3 {
     font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: #8b4513;
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.5rem 0;
 }
 
 /* Search Bar */
 .equipment-search {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.5rem 0.75rem;
     font-family: 'Lora', serif;
-    font-size: 1rem;
+    font-size: 0.95rem;
     border: 2px solid #d4af37;
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.9);
     color: #5a3a1a;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     box-sizing: border-box;
 }
 
@@ -96,21 +99,22 @@
 /* Category Filter */
 .equipment-category-filter {
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+    margin-bottom: 0.75rem;
 }
 
 .equipment-category-filter button {
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.75rem;
     font-family: 'Lora', serif;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     background: rgba(212, 175, 55, 0.2);
     border: 2px solid #d4af37;
     border-radius: 4px;
     color: #5a3a1a;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .equipment-category-filter button:hover {
@@ -125,21 +129,27 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Shop Grid - Inventory Style */
+/* Shop Grid - Inventory Style - Using CSS Grid for precise cell sizing */
 .equipment-shop-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
+    --cell-size: 52px;
+    --grid-cols: 12;
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+    grid-auto-rows: var(--cell-size);
+    gap: 1px;
+    justify-content: center;
+    align-content: start;
     background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
-    padding: 12px;
+    padding: 8px;
     border-radius: 8px;
     border: 2px solid #8b7355;
     box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 15px rgba(139, 115, 85, 0.3);
-    flex: 1;
+    flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 100%;
-    max-height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .equipment-shop-grid::-webkit-scrollbar {
@@ -160,23 +170,20 @@
     background: #b8941e;
 }
 
-/* Inventory Row */
+/* Inventory Row - not used in CSS Grid layout but kept for compatibility */
 .equipment-shop-grid .inventory-row,
 .equipment-cart-grid .inventory-row {
-    display: flex;
-    gap: 0px;
-    margin-bottom: 0px;
+    display: contents;
 }
 
 /* Inventory Cell Styling */
 .equipment-shop-grid .inventory-cell,
 .equipment-cart-grid .inventory-cell {
-    flex: 1 1 0;
-    min-width: 0;
-    aspect-ratio: 1 / 1;
+    width: var(--cell-size, 52px);
+    height: var(--cell-size, 52px);
     position: relative;
-    background: linear-gradient(135deg, #e8f5e8 0%, #d4e8d4 100%);
-    border: 1px solid #4a934a;
+    background: linear-gradient(135deg, #c8d4c8 0%, #b8c8b8 100%);
+    border: 1px solid #6a8a6a;
     border-radius: 2px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -300,23 +307,24 @@
     background: rgba(255, 255, 255, 0.6);
     border: 2px solid #d4af37;
     border-radius: 8px;
-    padding: 1.5rem;
+    padding: 0.75rem;
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    height: 100%;
+    min-height: 0; /* Important for flex children to respect overflow */
     overflow: hidden;
 }
 
 .cart-panel-header {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
 }
 
 .cart-panel-header h3 {
     font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: #8b4513;
-    margin: 0 0 0.75rem 0;
+    margin: 0 0 0.5rem 0;
 }
 
 .cart-currency-display {
@@ -345,21 +353,27 @@
 
 /* Cart Grid - Inventory Style */
 .equipment-cart-grid {
+    --cell-size: 52px;
+    --grid-cols: 11;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+    grid-auto-rows: var(--cell-size);
+    gap: 1px;
+    justify-content: center;
+    align-content: start;
+    padding: 8px;
     overflow-y: auto;
     overflow-x: hidden;
     background: linear-gradient(135deg, #d4c4a0 0%, #c4b490 50%, #b4a480 100%);
     border-radius: 8px;
     border: 2px solid #8b7355;
     box-shadow: 0 4px 8px rgba(139, 115, 85, 0.4), inset 0 0 15px rgba(139, 115, 85, 0.3);
-    margin-bottom: 1rem;
-    max-height: 500px; /* Reduced maximum height for more compact display */
-    height: auto; /* Allow grid to size to content up to max-height */
-    min-height: 250px; /* Ensure minimum height for empty state */
+    margin-bottom: 0.75rem;
+    flex: 1;
+    min-height: 200px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 /* Empty cart grid styling */

@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import WowWindow from '../windows/WowWindow';
 import usePartyStore, { PARTY_STATUS, PARTY_ROLES } from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
+import useSocialStore from '../../store/socialStore';
+import usePresenceStore from '../../store/presenceStore';
 import '../../styles/party-hud.css';
 
 const PartyManagementWindow = ({ isOpen, onClose }) => {
     const [invitePlayerName, setInvitePlayerName] = useState('');
     const [showInviteForm, setShowInviteForm] = useState(false);
+    const [inviteTab, setInviteTab] = useState('friends'); // 'friends' or 'manual'
 
     // Store data
     const {
@@ -27,6 +30,8 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
     } = usePartyStore();
 
     const { name: currentPlayerName } = useCharacterStore();
+    const { friends } = useSocialStore();
+    const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
 
     // Handle creating a new party
     const handleCreateParty = () => {
@@ -34,13 +39,20 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
     };
 
     // Handle sending party invite
-    const handleSendInvite = () => {
-        if (invitePlayerName.trim()) {
-            sendPartyInvite(invitePlayerName.trim());
+    const handleSendInvite = (playerName) => {
+        if (playerName && playerName.trim()) {
+            sendPartyInvite(playerName.trim());
             setInvitePlayerName('');
-            setShowInviteForm(false);
         }
     };
+
+    // Get online friends for inviting
+    const onlineFriends = friends.filter(friendId => {
+        const onlineUser = onlineUsers.find(user => user.uid === friendId);
+        return onlineUser && onlineUser.status !== 'offline';
+    }).map(friendId => {
+        return onlineUsers.find(user => user.uid === friendId);
+    }).filter(Boolean);
 
     // Handle accepting invite
     const handleAcceptInvite = (inviteId) => {
@@ -218,15 +230,65 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
                                         </button>
                                     ) : (
                                         <div className="invite-form">
-                                            <input
-                                                type="text"
-                                                placeholder="Player name..."
-                                                value={invitePlayerName}
-                                                onChange={(e) => setInvitePlayerName(e.target.value)}
-                                                onKeyPress={(e) => e.key === 'Enter' && handleSendInvite()}
-                                            />
-                                            <button onClick={handleSendInvite}>Send</button>
-                                            <button onClick={() => setShowInviteForm(false)}>Cancel</button>
+                                            <div className="invite-tabs">
+                                                <button
+                                                    className={`invite-tab ${inviteTab === 'friends' ? 'active' : ''}`}
+                                                    onClick={() => setInviteTab('friends')}
+                                                >
+                                                    <i className="fas fa-user-friends"></i> Friends
+                                                </button>
+                                                <button
+                                                    className={`invite-tab ${inviteTab === 'manual' ? 'active' : ''}`}
+                                                    onClick={() => setInviteTab('manual')}
+                                                >
+                                                    <i className="fas fa-keyboard"></i> Manual
+                                                </button>
+                                            </div>
+
+                                            {inviteTab === 'friends' ? (
+                                                <div className="friends-invite-list">
+                                                    {onlineFriends.length > 0 ? (
+                                                        onlineFriends.map(friend => (
+                                                            <div key={friend.uid} className="friend-invite-item">
+                                                                <div className="friend-info">
+                                                                    <div className="friend-name">{friend.displayName}</div>
+                                                                    <div className="friend-character">
+                                                                        {friend.characterName} (Level {friend.characterLevel} {friend.characterClass})
+                                                                    </div>
+                                                                </div>
+                                                                <button
+                                                                    className="friend-invite-btn"
+                                                                    onClick={() => handleSendInvite(friend.displayName)}
+                                                                    disabled={partyMembers.some(m => m.name === friend.displayName)}
+                                                                >
+                                                                    <i className="fas fa-plus"></i>
+                                                                    {partyMembers.some(m => m.name === friend.displayName) ? 'In Party' : 'Invite'}
+                                                                </button>
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <div className="no-friends-message">
+                                                            <i className="fas fa-users-slash"></i>
+                                                            <p>No online friends to invite</p>
+                                                            <small>Add friends in the Social window to invite them to parties</small>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <div className="manual-invite-section">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Enter player name..."
+                                                        value={invitePlayerName}
+                                                        onChange={(e) => setInvitePlayerName(e.target.value)}
+                                                        onKeyPress={(e) => e.key === 'Enter' && handleSendInvite(invitePlayerName)}
+                                                    />
+                                                    <div className="invite-form-actions">
+                                                        <button onClick={() => handleSendInvite(invitePlayerName)}>Send Invite</button>
+                                                        <button onClick={() => setShowInviteForm(false)}>Cancel</button>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                     

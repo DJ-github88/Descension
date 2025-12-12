@@ -958,7 +958,7 @@ input, textarea, [contenteditable="true"] {
   font-family: 'Cinzel', serif;
   font-weight: 600;
   margin-bottom: var(--pf-space-1);
-  color: var(--pf-text-secondary);
+  color: #000000;
 }
 
 .stat-bar-container {

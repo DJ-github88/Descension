@@ -1138,7 +1138,7 @@
 .stat-label,
 .equipment-slot {
     font-weight: 600;
-    color: #7a3b2e;
+    color: #000000;
     font-size: 14px;
 }
 
@@ -1998,4 +1998,209 @@
 .target-buffs-debuffs .buff-icon:hover,
 .target-buffs-debuffs .debuff-icon:hover {
     transform: scale(1.1);
+}
+
+/* Enhanced Party Management Window Styles */
+.party-management-window {
+    padding: 1rem;
+}
+
+.invite-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.3);
+    margin-bottom: 1rem;
+}
+
+.invite-tab {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    color: #8b7355;
+    cursor: pointer;
+    font-family: var(--pf-font-cinzel);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.invite-tab:hover {
+    color: #d4af37;
+}
+
+.invite-tab.active {
+    color: #d4af37;
+    border-bottom-color: #d4af37;
+}
+
+.friends-invite-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(160, 140, 112, 0.2);
+    border-radius: 6px;
+    background: rgba(240, 230, 210, 0.3);
+}
+
+.friend-invite-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(160, 140, 112, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.friend-invite-item:last-child {
+    border-bottom: none;
+}
+
+.friend-invite-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.friend-info {
+    flex: 1;
+}
+
+.friend-name {
+    font-weight: 600;
+    color: #2c2416;
+    margin-bottom: 0.25rem;
+}
+
+.friend-character {
+    font-size: 0.85rem;
+    color: #8b7355;
+}
+
+.friend-invite-btn {
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.friend-invite-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+}
+
+.friend-invite-btn:disabled {
+    background: #6b7280;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.no-friends-message {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #8b7355;
+}
+
+.no-friends-message i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.no-friends-message small {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.manual-invite-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.manual-invite-section input {
+    padding: 0.75rem;
+    border: 2px solid rgba(160, 140, 112, 0.3);
+    border-radius: 6px;
+    background: rgba(240, 230, 210, 0.8);
+    color: #2c2416;
+    font-family: var(--pf-font-cinzel);
+    font-size: 0.9rem;
+}
+
+.manual-invite-section input:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.invite-form-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.invite-form-actions button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--pf-font-cinzel);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.invite-form-actions button:first-child {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+}
+
+.invite-form-actions button:first-child:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: translateY(-1px);
+}
+
+.invite-form-actions button:last-child {
+    background: rgba(107, 114, 128, 0.2);
+    color: #4b5563;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+.invite-form-actions button:last-child:hover {
+    background: rgba(107, 114, 128, 0.3);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .friends-invite-list {
+        max-height: 250px;
+    }
+
+    .friend-invite-item {
+        padding: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .friend-invite-btn {
+        align-self: stretch;
+        justify-content: center;
+    }
+
+    .invite-form-actions {
+        flex-direction: column;
+    }
+
+    .invite-form-actions button {
+        width: 100%;
+    }
 }

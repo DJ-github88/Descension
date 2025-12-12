@@ -110,8 +110,6 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
 
   // Drag state
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStartPos, setDragStartPos] = useState({ x: 0, y: 0 });
-  const [initialPos, setInitialPos] = useState({ x: 0, y: 0 });
 
   // Visibility state
   const [isVisible, setIsVisible] = useState(true);
@@ -230,6 +228,14 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
   }, [showCursor, isTyping]);
 
   // Mouse event handlers for dragging
+  // Use refs to store drag state to avoid stale closure issues
+  const dragStateRef = useRef({
+    startMouseX: 0,
+    startMouseY: 0,
+    startPosX: 0,
+    startPosY: 0
+  });
+
   const startDrag = useCallback((e) => {
     e.preventDefault();
 
@@ -237,61 +243,56 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
     if (!containerElement) return;
 
     const rect = containerElement.getBoundingClientRect();
-    const mousePos = { x: e.clientX, y: e.clientY };
-    const elementPos = { x: rect.left, y: rect.top };
+    
+    // Store initial positions in ref
+    dragStateRef.current = {
+      startMouseX: e.clientX,
+      startMouseY: e.clientY,
+      startPosX: rect.left,
+      startPosY: rect.top
+    };
 
-    setDragStartPos(mousePos);
-    setInitialPos(elementPos);
-
+    // Initialize position if not set
     if (!customPosition) {
-      onPositionChange(elementPos);
+      onPositionChange({ x: rect.left, y: rect.top });
     }
 
     setIsDragging(true);
   }, [customPosition, onPositionChange]);
 
-  const handleMouseMove = useCallback((e) => {
-    if (!isDragging || !bubbleRef.current) return;
-
-    // Calculate how much the mouse has moved from the starting position
-    const deltaX = e.clientX - dragStartPos.x;
-    const deltaY = e.clientY - dragStartPos.y;
-
-    // Apply the movement to the initial position
-    const newX = initialPos.x + deltaX;
-    const newY = initialPos.y + deltaY;
-
-    // Direct DOM manipulation for immediate visual feedback
-    const container = bubbleRef.current.parentElement.parentElement;
-    container.style.left = `${newX}px`;
-    container.style.top = `${newY}px`;
-    container.style.transform = 'none';
-
-    // Update React state for persistence
-    onPositionChange({ x: newX, y: newY });
-  }, [isDragging, dragStartPos.x, dragStartPos.y, initialPos.x, initialPos.y, onPositionChange]);
-
-  const handleMouseUp = () => {
-    if (isDragging) {
-      setIsDragging(false);
-    }
-  };
-
   // Global mouse event listeners for dragging
   useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+    if (!isDragging) return;
 
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  }, [isDragging, dragStartPos.x, dragStartPos.y, initialPos.x, initialPos.y]);
+    const handleMouseMove = (e) => {
+      const { startMouseX, startMouseY, startPosX, startPosY } = dragStateRef.current;
+      
+      // Calculate how much the mouse has moved from the starting position
+      const deltaX = e.clientX - startMouseX;
+      const deltaY = e.clientY - startMouseY;
+
+      // Apply the movement to the initial position
+      const newX = startPosX + deltaX;
+      const newY = startPosY + deltaY;
+
+      // Update React state (position: fixed uses viewport coords, so this works correctly)
+      onPositionChange({ x: newX, y: newY });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, onPositionChange]);
 
   const bubbleContainerStyle = customPosition ? {
-    position: 'absolute',
     left: `${customPosition.x}px`,
     top: `${customPosition.y}px`,
     cursor: isDragging ? 'grabbing' : 'grab'

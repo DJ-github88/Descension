@@ -167,21 +167,20 @@ const CharacterViewPage = () => {
             {background && <span className="character-background">{background}</span>}
             {alignment && <span className="character-alignment">{alignment}</span>}
             {exhaustionLevel > 0 && <span className="character-exhaustion">Exhaustion {exhaustionLevel}</span>}
-          </div>
-        </div>
-
-        <div className="character-view-resources">
-          <div className="resource-display health">
-            <i className="fas fa-heart"></i>
-            <span>{health?.current || 0} / {health?.max || 0}</span>
-          </div>
-          <div className="resource-display mana">
-            <i className="fas fa-flask"></i>
-            <span>{mana?.current || 0} / {mana?.max || 0}</span>
-          </div>
-          <div className="resource-display action-points">
-            <i className="fas fa-bolt"></i>
-            <span>{actionPoints?.current || 0} / {actionPoints?.max || 0}</span>
+            <div className="character-view-resources">
+              <div className="resource-display health">
+                <i className="fas fa-heart"></i>
+                <span>{health?.current || 0} / {health?.max || 0}</span>
+              </div>
+              <div className="resource-display mana">
+                <i className="fas fa-flask"></i>
+                <span>{mana?.current || 0} / {mana?.max || 0}</span>
+              </div>
+              <div className="resource-display action-points">
+                <i className="fas fa-bolt"></i>
+                <span>{actionPoints?.current || 0} / {actionPoints?.max || 0}</span>
+              </div>
+            </div>
           </div>
         </div>
       </header>

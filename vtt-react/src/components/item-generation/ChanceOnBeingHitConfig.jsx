@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FaDiceD20, FaClone, FaCoins, FaBolt, FaTable } from 'react-icons/fa';
+import { FaDiceD20, FaClone, FaCoins, FaPlus, FaTable } from 'react-icons/fa';
 import '../../styles/item-wizard.css';
-import ItemSpellLibraryButton from './ItemSpellLibraryButton';
-import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryContext';
+import InlineEffectBuilder from './InlineEffectBuilder';
 
 /**
  * ChanceOnBeingHitConfig component
  * Configures chance-on-being-hit effects for items
+ * Now uses inline effect builder instead of spell library selection
  *
  * @param {Object} props
  * @param {Object} props.config - The current configuration
  * @param {Function} props.onConfigChange - Callback when config changes
  */
 const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
-  // Get spell library context
-  const library = useSpellLibrary();
   // Initialize local state from props or defaults
   const [procConfig, setProcConfig] = useState(() => {
     if (config) {
@@ -31,10 +29,8 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
       coinProcRule: 'all_heads', // For coins: 'all_heads', 'sequence', 'pattern'
       coinCount: 3, // Number of coins to flip
       procSuit: 'hearts', // For card-based procs with specific suit
-      spellEffect: null, // Reference to a spell from the library
-      spellName: '', // Name of the selected spell
-      spellDescription: '', // Description of the selected spell
-      customEffects: [], // Additional custom effects
+      // New effect-based system
+      effect: null, // The inline effect configuration
       useRollableTable: false, // Whether to use a rollable table for chance on hit effects
     };
   });
@@ -70,6 +66,58 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
       ...prevConfig,
       useRollableTable: useTable
     }));
+  };
+
+  // Handle effect changes from inline builder
+  const handleEffectChange = (effect) => {
+    setProcConfig(prevConfig => ({
+      ...prevConfig,
+      effect: effect
+    }));
+  };
+
+  // Add a new effect (initialize if null)
+  const handleAddEffect = () => {
+    if (!procConfig.effect) {
+      setProcConfig(prevConfig => ({
+        ...prevConfig,
+        effect: {
+          effectType: 'damage',
+          effectConfig: {
+            formula: '1d6',
+            damageType: 'fire',
+            isDot: false,
+            dotDuration: 3,
+            targetType: 'attacker'
+          }
+        }
+      }));
+    }
+  };
+
+  // Remove the effect
+  const handleRemoveEffect = () => {
+    setProcConfig(prevConfig => ({
+      ...prevConfig,
+      effect: null
+    }));
+  };
+
+  // Calculate proc chance for display
+  const getProcChanceDisplay = () => {
+    if (procConfig.procType === 'dice') {
+      return `${Math.round(((21 - procConfig.diceThreshold) / 20) * 100)}%`;
+    } else if (procConfig.procType === 'coins') {
+      return `${Math.round((1 / Math.pow(2, procConfig.coinCount)) * 100)}%`;
+    } else if (procConfig.procType === 'cards') {
+      switch (procConfig.cardProcRule) {
+        case 'face_cards': return '23%';
+        case 'aces': return '8%';
+        case 'specific_suit': return '25%';
+        default: return '~20%';
+      }
+    }
+    return '0%';
   };
 
   return (
@@ -293,90 +341,34 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
             </div>
           )}
 
-          {/* Chance on Hit Effect Type Selection */}
-          <div className="section wow-setting-section">
-            <h3 className="section-title wow-section-header">Chance on Being Hit Effect Type</h3>
-            <p className="wow-option-description">Choose how chance on being hit effects are determined:</p>
-            <div className="spell-wizard-card-grid">
-              <div
-                className={`spell-wizard-card ${!procConfig.useRollableTable ? 'selected' : ''}`}
-                onClick={() => toggleRollableTable(false)}
-              >
-                <div className="spell-wizard-card-icon">
-                  <FaBolt className="icon" />
-                </div>
-                <h4>Spell Effect</h4>
-                <p>Trigger a specific spell on proc</p>
-              </div>
-              <div
-                className={`spell-wizard-card ${procConfig.useRollableTable ? 'selected' : ''}`}
-                onClick={() => toggleRollableTable(true)}
-              >
-                <div className="spell-wizard-card-icon">
-                  <FaTable className="icon" />
-                </div>
-                <h4>Rollable Table</h4>
-                <p>Use the configured rollable table on proc</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Spell Effect Integration - show if not using rollable table */}
-          {!procConfig.useRollableTable && (
-            <div className="section wow-setting-section">
-              <h3 className="section-title wow-section-header">Chance on Being Hit Spell Effect</h3>
-              <p className="wow-option-description">Choose a spell from your library to trigger when hit:</p>
-              <div className="section-panel">
-                <div className="section-panel-content">
-                  <ItemSpellLibraryButton
-                    selectedSpellId={procConfig.spellEffect}
-                    onSpellSelect={(spellId) => {
-                      // Find the selected spell in the library to get its name and description
-                      const selectedSpell = library.spells.find(spell => spell.id === spellId);
-
-                      // Update multiple fields at once
-                      setProcConfig(prevConfig => ({
-                        ...prevConfig,
-                        spellEffect: spellId,
-                        spellName: selectedSpell?.name || 'Unknown Spell',
-                        spellDescription: selectedSpell?.description || ''
-                      }));
-                    }}
-                    buttonText="Select Spell from Library"
-                    popupTitle="Select Spell Effect for Chance on Being Hit"
-                  />
-                </div>
-              </div>
-
-              {procConfig.spellEffect && (
-                <div className="selected-spell-info-panel">
-                  <h4 className="wow-section-header">Selected Spell Effect</h4>
-                  <div className="selected-spell-details">
-                    {(() => {
-                      // Find the selected spell in the library
-                      const selectedSpell = library.spells.find(spell => spell.id === procConfig.spellEffect);
-
-                      return (
-                        <div className="quantity-row">
-                          <div className="quantity-info">
-                            {selectedSpell ? (
-                              <>
-                                <h5 className="wow-spell-name">{selectedSpell.name}</h5>
-                                <p className="wow-spell-type">{selectedSpell.effectType || selectedSpell.damageTypes?.[0] || 'effect'}</p>
-                                <p className="wow-flavor-text">{selectedSpell.description || 'No description available'}</p>
-                              </>
-                            ) : (
-                              <p className="wow-flavor-text">The selected spell will trigger when the wearer is hit.</p>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
+          {/* Effect Configuration - Inline Effect Builder */}
+          <div className="effect-config-wrapper wow-setting-section">
+            <h4 className="effect-section-header">
+              <span className="effect-section-title">Triggered Effect</span>
+              <span className="effect-section-chance">{getProcChanceDisplay()} chance</span>
+            </h4>
+            
+            <div className="effect-builder-container">
+              {procConfig.effect ? (
+                <InlineEffectBuilder
+                  effect={procConfig.effect}
+                  onEffectChange={handleEffectChange}
+                  onRemove={handleRemoveEffect}
+                />
+              ) : (
+                <div className="no-effect-configured">
+                  <p className="no-effect-text">No effect configured yet.</p>
+                  <button 
+                    className="add-effect-btn"
+                    onClick={handleAddEffect}
+                  >
+                    <FaPlus className="icon" />
+                    <span>Add Effect</span>
+                  </button>
                 </div>
               )}
             </div>
-          )}
+          </div>
         </>
       )}
     </>

@@ -1289,12 +1289,18 @@
   flex-shrink: 0 !important;
 }
 
-.multiplayer-rooms-grid .stat-item span:not(.stat-value),
-.available-rooms .stat-item span:not(.stat-value),
-.multiplayer-room-card .stat-item span:not(.stat-value) {
+.multiplayer-rooms-grid .stat-item span:not(.stat-value):not(.stat-label),
+.available-rooms .stat-item span:not(.stat-value):not(.stat-label),
+.multiplayer-room-card .stat-item span:not(.stat-value):not(.stat-label) {
   color: #5d4037 !important;
   font-weight: 500 !important;
   flex-shrink: 0 !important;
+}
+
+.multiplayer-rooms-grid .stat-item .stat-label,
+.available-rooms .stat-item .stat-label,
+.multiplayer-room-card .stat-item .stat-label {
+  color: #000000 !important;
 }
 
 .multiplayer-rooms-grid .stat-value,

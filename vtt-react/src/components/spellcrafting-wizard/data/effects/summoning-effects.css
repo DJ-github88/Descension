@@ -770,7 +770,7 @@
 .stat-label {
   font-size: 12px;
   font-weight: 600;
-  color: var(--pf-brown-medium);
+  color: #000000;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 2px;

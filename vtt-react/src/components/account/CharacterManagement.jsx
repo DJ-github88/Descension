@@ -360,7 +360,7 @@ const CharacterManagement = ({ user }) => {
                     </div>
                   </div>
 
-                  {/* Combat & Secondary Stats */}
+                  {/* Enhanced Combat & Secondary Stats */}
                   <div className="character-combat-stats">
                     <div className="combat-stat-group">
                       <div className="combat-stat">
@@ -395,6 +395,91 @@ const CharacterManagement = ({ user }) => {
                         <span className="stat-label">Perception</span>
                         <span className="stat-value">{character.perception || Math.floor(((character.stats?.spirit || character.spirit || 10) - 10) / 2)}</span>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Enhanced Character Details - Show more comprehensive info */}
+                  <div className="character-enhanced-details">
+                    {/* Derived Stats */}
+                    <div className="character-derived-stats">
+                      <div className="derived-stat">
+                        <i className="fas fa-heartbeat"></i>
+                        <span className="stat-label">Health Regen</span>
+                        <span className="stat-value">{Math.floor(((character.stats?.constitution || character.constitution || 10) - 10) / 2) || 0}/turn</span>
+                      </div>
+                      <div className="derived-stat">
+                        <i className="fas fa-magic"></i>
+                        <span className="stat-label">Mana Regen</span>
+                        <span className="stat-value">{Math.floor(((character.stats?.intelligence || character.intelligence || 10) + (character.stats?.spirit || character.spirit || 10)) / 4) || 0}/turn</span>
+                      </div>
+                      <div className="derived-stat">
+                        <i className="fas fa-hand-holding-heart"></i>
+                        <span className="stat-label">Healing Power</span>
+                        <span className="stat-value">{Math.floor((character.stats?.spirit || character.spirit || 10) / 2) || 0}</span>
+                      </div>
+                    </div>
+
+                    {/* Combat Capabilities */}
+                    <div className="character-combat-capabilities">
+                      <div className="capability-section">
+                        <h5>Combat Stats</h5>
+                        <div className="capability-grid">
+                          <div className="capability">
+                            <i className="fas fa-dungeon"></i>
+                            <span>Damage: {Math.floor((character.stats?.strength || character.strength || 10) / 2) || 0}</span>
+                          </div>
+                          <div className="capability">
+                            <i className="fas fa-bullseye"></i>
+                            <span>Ranged: {Math.floor((character.stats?.agility || character.agility || 10) / 2) || 0}</span>
+                          </div>
+                          <div className="capability">
+                            <i className="fas fa-shield"></i>
+                            <span>Defense: {Math.floor((character.stats?.agility || character.agility || 10) / 2) || 0}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Inventory & Equipment Summary */}
+                      {(character.equipment || character.inventory) && (
+                        <div className="capability-section">
+                          <h5>Equipment</h5>
+                          <div className="equipment-summary">
+                            {character.equipment && Object.keys(character.equipment).length > 0 && (
+                              <div className="equipment-count">
+                                <i className="fas fa-tshirt"></i>
+                                <span>{Object.keys(character.equipment).length} equipped</span>
+                              </div>
+                            )}
+                            {character.inventory && character.inventory.length > 0 && (
+                              <div className="inventory-count">
+                                <i className="fas fa-backpack"></i>
+                                <span>{character.inventory.length} items</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Spells & Skills Summary */}
+                      {(character.spells || character.skills) && (
+                        <div className="capability-section">
+                          <h5>Abilities</h5>
+                          <div className="abilities-summary">
+                            {character.spells && character.spells.length > 0 && (
+                              <div className="spells-count">
+                                <i className="fas fa-magic"></i>
+                                <span>{character.spells.length} spells</span>
+                              </div>
+                            )}
+                            {character.skills && Object.keys(character.skills).length > 0 && (
+                              <div className="skills-count">
+                                <i className="fas fa-tools"></i>
+                                <span>{Object.keys(character.skills).length} skills</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 

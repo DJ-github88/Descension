@@ -53,7 +53,7 @@ db = initializeFirebase();
  * @param {string} roomId - Room ID
  * @returns {Promise<Object|null>} - Room data or null
  */
-const getRoomData = async (roomId) => {
+const getRoomData = async(roomId) => {
   if (!db) {
     console.warn('Firebase not initialized, using in-memory rooms only');
     return null;
@@ -77,7 +77,7 @@ const getRoomData = async (roomId) => {
  * @param {Object} roomData - Room data
  * @returns {Promise<boolean>} - Success status
  */
-const saveRoomData = async (roomId, roomData) => {
+const saveRoomData = async(roomId, roomData) => {
   if (!db) {
     console.warn('Firebase not initialized, room data not persisted');
     return false;
@@ -106,7 +106,7 @@ const saveRoomData = async (roomId, roomData) => {
  * @param {Object} gameState - Game state update
  * @returns {Promise<boolean>} - Success status
  */
-const updateRoomGameState = async (roomId, gameState) => {
+const updateRoomGameState = async(roomId, gameState) => {
   if (!db) {
     return false;
   }
@@ -130,7 +130,7 @@ const updateRoomGameState = async (roomId, gameState) => {
  * @param {Object} message - Chat message
  * @returns {Promise<boolean>} - Success status
  */
-const addChatMessage = async (roomId, message) => {
+const addChatMessage = async(roomId, message) => {
   if (!db) {
     return false;
   }
@@ -158,7 +158,7 @@ const addChatMessage = async (roomId, message) => {
  * @param {boolean} isActive - Active status
  * @returns {Promise<boolean>} - Success status
  */
-const setRoomActiveStatus = async (roomId, isActive) => {
+const setRoomActiveStatus = async(roomId, isActive) => {
   if (!db) {
     return false;
   }
@@ -180,7 +180,7 @@ const setRoomActiveStatus = async (roomId, isActive) => {
  * @param {string} roomId - Room ID
  * @returns {Promise<boolean>} - Success status
  */
-const deleteRoom = async (roomId) => {
+const deleteRoom = async(roomId) => {
   if (!db) {
     return false;
   }
@@ -199,7 +199,7 @@ const deleteRoom = async (roomId) => {
  * @param {string} userId - User ID
  * @returns {Promise<Object|null>} - User data or null
  */
-const getUserData = async (userId) => {
+const getUserData = async(userId) => {
   if (!db) {
     return null;
   }
@@ -221,7 +221,7 @@ const getUserData = async (userId) => {
  * @param {string} idToken - Firebase ID token
  * @returns {Promise<Object|null>} - Decoded token or null
  */
-const verifyIdToken = async (idToken) => {
+const verifyIdToken = async(idToken) => {
   if (!admin.apps.length) {
     return null;
   }
@@ -239,7 +239,7 @@ const verifyIdToken = async (idToken) => {
  * Load persistent rooms from Firestore on server startup
  * @returns {Promise<Array>} - Array of room data
  */
-const loadPersistentRooms = async () => {
+const loadPersistentRooms = async() => {
   if (!db) {
     console.log('Firebase not initialized, skipping persistent room loading');
     return [];

@@ -223,18 +223,18 @@ class PerformanceMonitor {
    */
   takeCorrectiveAction(type) {
     switch (type) {
-      case 'memory':
-        if (global.memoryManager) {
-          console.log('🧹 Triggering memory cleanup due to high usage');
-          global.memoryManager.performCleanupCycle();
-        }
-        break;
-      case 'cpu':
-        console.log('🔄 High CPU detected - consider reducing processing load');
-        break;
-      case 'eventLoop':
-        console.log('⏱️ Event loop delay detected - reducing concurrent operations');
-        break;
+    case 'memory':
+      if (global.memoryManager) {
+        console.log('🧹 Triggering memory cleanup due to high usage');
+        global.memoryManager.performCleanupCycle();
+      }
+      break;
+    case 'cpu':
+      console.log('🔄 High CPU detected - consider reducing processing load');
+      break;
+    case 'eventLoop':
+      console.log('⏱️ Event loop delay detected - reducing concurrent operations');
+      break;
     }
   }
 
@@ -278,38 +278,43 @@ class PerformanceMonitor {
 
     // Type-specific calculations
     switch (type) {
-      case 'cpu':
-        const cpuValues = recentMetrics.map(m => m.usage);
-        summary.average = cpuValues.reduce((a, b) => a + b, 0) / cpuValues.length;
-        summary.max = Math.max(...cpuValues);
-        break;
+    case 'cpu': {
+      const cpuValues = recentMetrics.map(m => m.usage);
+      summary.average = cpuValues.reduce((a, b) => a + b, 0) / cpuValues.length;
+      summary.max = Math.max(...cpuValues);
+      break;
+    }
 
-      case 'memory':
-        const memValues = recentMetrics.map(m => m.systemPercent);
-        summary.average = memValues.reduce((a, b) => a + b, 0) / memValues.length;
-        summary.max = Math.max(...memValues);
-        summary.heapUsed = summary.latest.heapUsed;
-        break;
+    case 'memory': {
+      const memValues = recentMetrics.map(m => m.systemPercent);
+      summary.average = memValues.reduce((a, b) => a + b, 0) / memValues.length;
+      summary.max = Math.max(...memValues);
+      summary.heapUsed = summary.latest.heapUsed;
+      break;
+    }
 
-      case 'eventLoop':
-        const delays = recentMetrics.map(m => m.delay);
-        summary.average = delays.reduce((a, b) => a + b, 0) / delays.length;
-        summary.max = Math.max(...delays);
-        break;
+    case 'eventLoop': {
+      const delays = recentMetrics.map(m => m.delay);
+      summary.average = delays.reduce((a, b) => a + b, 0) / delays.length;
+      summary.max = Math.max(...delays);
+      break;
+    }
 
-      case 'requests':
-        const durations = recentMetrics.map(m => m.duration);
-        summary.average = durations.reduce((a, b) => a + b, 0) / durations.length;
-        summary.max = Math.max(...durations);
-        summary.successRate = recentMetrics.filter(m => m.success).length / recentMetrics.length;
-        break;
+    case 'requests': {
+      const durations = recentMetrics.map(m => m.duration);
+      summary.average = durations.reduce((a, b) => a + b, 0) / durations.length;
+      summary.max = Math.max(...durations);
+      summary.successRate = recentMetrics.filter(m => m.success).length / recentMetrics.length;
+      break;
+    }
 
-      case 'database':
-        const dbDurations = recentMetrics.map(m => m.duration);
-        summary.average = dbDurations.reduce((a, b) => a + b, 0) / dbDurations.length;
-        summary.max = Math.max(...dbDurations);
-        summary.successRate = recentMetrics.filter(m => m.success).length / recentMetrics.length;
-        break;
+    case 'database': {
+      const dbDurations = recentMetrics.map(m => m.duration);
+      summary.average = dbDurations.reduce((a, b) => a + b, 0) / dbDurations.length;
+      summary.max = Math.max(...dbDurations);
+      summary.successRate = recentMetrics.filter(m => m.success).length / recentMetrics.length;
+      break;
+    }
     }
 
     return summary;

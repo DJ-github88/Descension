@@ -456,7 +456,7 @@
   font-family: 'Cinzel', serif;
   font-size: 14px;
   font-weight: 600;
-  color: #7a3b2e;
+  color: #000000;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
@@ -541,7 +541,7 @@
 }
 
 .stat-label {
-  color: #5a1e12;
+  color: #000000;
   font-size: 0.95rem;
   font-weight: 700;
   font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
@@ -1496,7 +1496,7 @@
 .pathfinder-item-stat .stat-label {
   font-size: 12px;
   font-weight: 600;
-  color: #7a3b2e;
+  color: #000000;
   font-family: 'Cinzel', serif;
 }
 

@@ -210,7 +210,7 @@ function GameScreen() {
     const navigate = useNavigate();
     const { setActiveCharacter, loadActiveCharacter, getActiveCharacter } = useCharacterStore();
     const { createParty, leaveParty, updatePartyMember } = usePartyStore();
-    const { isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
+    const { isGMMode, gridSize, gridOffsetX, gridOffsetY, setGMMode } = useGameStore();
     const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Enable auto-save for local rooms
@@ -245,6 +245,9 @@ function GameScreen() {
 
             // Clear any existing room-specific state first to ensure isolation
             await clearRoomSpecificState();
+
+            // Ensure GM mode is enabled for local rooms (user is always GM in local play)
+            setGMMode(true);
 
             // Load game state
             const gameState = localRoomService.loadRoomState(roomId);
@@ -748,7 +751,7 @@ export default function App() {
     return (
         <GameProvider>
             <SpellLibraryProvider>
-                <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+                <Router>
                     <AppContent
                         isAuthenticated={isAuthenticated}
                         user={user}
@@ -820,13 +823,16 @@ const AppContent = ({
 
                 {/* Account management routes */}
                 <Route path="/account" element={
-                    isAuthenticated ? (
-                        <Suspense fallback={<LoadingFallback message="Loading account..." />}>
-                            <AccountDashboard user={user} />
-                        </Suspense>
-                    ) : (
-                        <Navigate to="/" replace />
-                    )
+                    (() => {
+                        console.log('Account route check:', { isAuthenticated, user: user ? 'exists' : 'null' });
+                        return isAuthenticated ? (
+                            <Suspense fallback={<LoadingFallback message="Loading account..." />}>
+                                <AccountDashboard user={user} />
+                            </Suspense>
+                        ) : (
+                            <Navigate to="/" replace />
+                        );
+                    })()
                 } />
 
                 <Route path="/account/characters" element={

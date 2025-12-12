@@ -110,19 +110,22 @@ class DatabasePool {
    * Execute query with timeout
    */
   async executeWithTimeout(queryFn, timeout) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const timeoutId = setTimeout(() => {
         reject(new Error(`Database query timeout after ${timeout}ms`));
       }, timeout);
 
-      try {
-        const result = await queryFn();
-        clearTimeout(timeoutId);
-        resolve(result);
-      } catch (error) {
-        clearTimeout(timeoutId);
-        reject(error);
-      }
+      // Execute query asynchronously
+      (async() => {
+        try {
+          const result = await queryFn();
+          clearTimeout(timeoutId);
+          resolve(result);
+        } catch (error) {
+          clearTimeout(timeoutId);
+          reject(error);
+        }
+      })();
     });
   }
 
@@ -207,7 +210,7 @@ class DatabasePool {
   async healthCheck() {
     try {
       // Simple query to test database connectivity
-      const testQuery = async () => {
+      const testQuery = async() => {
         // This would be a simple Firebase query
         return { status: 'ok' };
       };

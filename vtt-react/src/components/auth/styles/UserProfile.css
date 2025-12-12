@@ -279,8 +279,12 @@
 }
 
 .stat-item span {
-  color: #f0e6d2;
+  color: #000000;
   font-weight: 500;
+}
+
+.stat-item .stat-label {
+  color: #000000 !important;
 }
 
 .character-summary {

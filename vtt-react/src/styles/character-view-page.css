@@ -129,35 +129,39 @@
 
 .character-view-resources {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
+  margin-left: auto;
 }
 
 .resource-display {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(213, 203, 176, 0.3);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: bold;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+  box-shadow: none;
+  transition: all 0.2s ease;
 }
 
 .resource-display.health {
   color: #ff6b6b;
-  border-color: rgba(255, 107, 107, 0.3);
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
 }
 
 .resource-display.mana {
   color: #4dabf7;
-  border-color: rgba(77, 171, 247, 0.3);
+  text-shadow: 0 0 8px rgba(77, 171, 247, 0.3);
 }
 
 .resource-display.action-points {
   color: #ffd43b;
-  border-color: rgba(255, 212, 59, 0.3);
+  text-shadow: 0 0 8px rgba(255, 212, 59, 0.4);
 }
 
 .resource-display i {
@@ -330,7 +334,7 @@
 }
 
 /* Position cell contents absolutely to fill the square */
-.character-view-content .inventory-cell > * {
+.character-view-content .inventory-cell > *:not(.item-wrapper) {
   position: absolute;
   top: 0;
   left: 0;
@@ -340,8 +344,14 @@
 
 /* Ensure item wrappers scale properly */
 .character-view-content .inventory-cell .item-wrapper {
-  max-width: 100%;
-  max-height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  pointer-events: none;
 }
 
 /* Ensure item icons scale properly */
@@ -349,6 +359,50 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+/* Center multi-cell item icons and add proper borders */
+.character-view-content .inventory-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-view-content .inventory-item.multi-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-view-content .item-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.character-view-content .multi-cell .item-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.character-view-content .item-border {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 15;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  box-sizing: border-box;
 }
 
 /* Section headers should match grid width */
@@ -687,7 +741,9 @@
   }
 
   .character-view-resources {
-    flex-wrap: wrap;
+    margin-left: 0;
+    width: 100%;
+    margin-top: 8px;
   }
 
   .character-view-tabs {

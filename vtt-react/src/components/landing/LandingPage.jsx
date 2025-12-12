@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import GlobalChatWindowWrapper from '../social/GlobalChatWindowWrapper';
 import RulesPage from '../rules/RulesPage';
@@ -11,6 +11,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { enableDevelopmentBypass, isDevelopmentBypass } = useAuthStore();
 
   // Development bypass handler
@@ -28,6 +29,15 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Ensure we always start on the home section when navigating to landing page
+  useEffect(() => {
+    setActiveSection('home');
+    setShowCommunity(false); // Also reset community chat
+    // Scroll to top when navigating to landing page
+    window.scrollTo(0, 0);
+    console.log('LandingPage: Reset to home section and scrolled to top');
+  }, [location.pathname]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -245,7 +255,13 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                   e.preventDefault();
                   e.stopPropagation();
                   console.log('Account button clicked - navigating to /account');
-                  navigate('/account', { replace: false });
+                  console.log('Current location:', window.location.href);
+                  try {
+                    navigate('/account', { replace: false });
+                    console.log('Navigation called successfully');
+                  } catch (error) {
+                    console.error('Navigation failed:', error);
+                  }
                 }}
               >
                 <i className="fas fa-user-circle"></i>

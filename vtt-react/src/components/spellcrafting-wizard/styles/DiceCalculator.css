@@ -142,7 +142,7 @@
 }
 
 .stat-label {
-  color: var(--pf-text-muted);
+  color: #000000;
   font-size: var(--pf-text-xs);
   display: block;
   margin-bottom: var(--pf-space-1);

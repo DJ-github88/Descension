@@ -1015,15 +1015,16 @@ select.wow-settings-input option {
 /* Entry Editor Modal - Break free from spell wizard constraints */
 .entry-editor-modal {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999999 !important; /* Higher than spell wizard */
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 999999 !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
   padding: var(--pf-space-6);
   margin: 0 !important;
   transform: none !important;
@@ -1041,16 +1042,75 @@ select.wow-settings-input option {
 }
 
 .entry-editor-content {
-  background: var(--pf-gradient-parchment);
-  border: 3px solid var(--pf-brown-dark);
-  border-radius: var(--pf-border-radius-lg);
-  width: 1100px;
-  max-width: 95vw;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(139, 69, 19, 0.3);
+  background: var(--pf-gradient-parchment) !important;
+  border: 3px solid var(--pf-brown-dark) !important;
+  border-radius: 12px !important;
+  width: 1000px !important;
+  max-width: calc(100vw - 40px) !important;
+  max-height: calc(100vh - 40px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(139, 69, 19, 0.3) !important;
   animation: slideIn 0.3s ease-out;
+  overflow: hidden !important;
+  /* Reset any inherited styles */
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+/* Direct children of content should have no gap */
+.entry-editor-content > * {
+  flex-shrink: 0 !important;
+}
+
+.entry-editor-content > .entry-editor-body {
+  flex-shrink: 1 !important;
+  flex-grow: 1 !important;
+}
+
+/* Modal Header */
+.entry-editor-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 16px 24px !important;
+  background: linear-gradient(to bottom, #5c3d2e, #4a3020) !important;
+  border-bottom: 2px solid #3a2010 !important;
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+.entry-editor-title {
+  margin: 0 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #f4e4c1 !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.entry-editor-close-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #f4e4c1 !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  padding: 8px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.entry-editor-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
 }
 
 @keyframes slideIn {
@@ -1069,10 +1129,13 @@ select.wow-settings-input option {
 
 
 .entry-editor-body {
-  padding: var(--pf-space-6);
-  overflow-y: auto;
-  flex: 1;
-  min-height: 0; /* Allow flex child to shrink below content size */
+  padding: 24px !important;
+  overflow-y: auto !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
 }
 
 /* Scrollbar styling for modal body */
@@ -1095,105 +1158,167 @@ select.wow-settings-input option {
 }
 
 /* Two-column layout for editor */
-.editor-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-6);
+.entry-editor-modal .editor-columns {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 24px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
-.editor-column-left,
-.editor-column-right {
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-5);
+.entry-editor-modal .editor-column-left,
+.entry-editor-modal .editor-column-right {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.form-section {
-  background: rgba(139, 69, 19, 0.04);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-md);
-  padding: var(--pf-space-5);
-  transition: all var(--pf-transition-fast);
+/* Last form section should have no bottom margin */
+.entry-editor-modal .editor-column-left .form-section:last-child,
+.entry-editor-modal .editor-column-right .form-section:last-child {
+  margin-bottom: 0 !important;
 }
 
-.form-section:hover {
-  background: rgba(139, 69, 19, 0.06);
-  border-color: var(--pf-brown-medium);
+.entry-editor-modal .form-section {
+  background: rgba(139, 69, 19, 0.04) !important;
+  border: 1px solid var(--pf-brown-light) !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+  transition: all 0.2s ease !important;
 }
 
-.form-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
+.entry-editor-modal .form-section:hover {
+  background: rgba(139, 69, 19, 0.06) !important;
+  border-color: var(--pf-brown-medium) !important;
 }
 
-.form-section h4 {
-  margin: 0 0 var(--pf-space-4) 0;
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-lg);
-  color: var(--pf-text-primary);
-  font-weight: var(--pf-font-semibold);
-  display: flex;
-  align-items: center;
-  gap: var(--pf-space-2);
-  padding-bottom: var(--pf-space-2);
-  border-bottom: 1px solid var(--pf-brown-light);
+.entry-editor-modal .form-section h4 {
+  margin: 0 0 16px 0 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 16px !important;
+  color: #5c3d2e !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid var(--pf-brown-light) !important;
 }
 
-.form-section h4 svg {
-  color: var(--pf-brown-dark);
+.entry-editor-modal .form-section h4 svg {
+  color: #8b4513 !important;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--pf-space-4);
+.entry-editor-modal .form-row {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 16px !important;
 }
 
-/* Save button container */
-.entry-save-button-container {
-  margin-top: var(--pf-space-5);
-  display: flex;
-  justify-content: flex-end;
+.entry-editor-modal .form-group {
+  margin-bottom: 12px !important;
 }
 
-.save-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--pf-space-2);
-  padding: var(--pf-space-3) var(--pf-space-6);
-  border: 2px solid #2c5f8d;
-  border-radius: var(--pf-border-radius-md);
-  font-family: var(--pf-font-display);
-  font-size: var(--pf-text-base);
-  font-weight: var(--pf-font-bold);
-  cursor: pointer;
-  transition: all var(--pf-transition-normal);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  min-width: 160px;
-  justify-content: center;
-  background: linear-gradient(to bottom, #5a9fd4, #3d7ab8);
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.entry-editor-modal .form-group:last-child {
+  margin-bottom: 0 !important;
 }
 
-.save-btn:hover {
-  background: linear-gradient(to bottom, #6bb0e5, #4a90e2);
-  border-color: #1e4d7a;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
+.entry-editor-modal .form-group label {
+  display: block !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #5c3d2e !important;
+  margin-bottom: 6px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
 }
+
+.entry-editor-modal .form-group input,
+.entry-editor-modal .form-group select,
+.entry-editor-modal .form-group textarea {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Modal Footer */
+.entry-editor-footer {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 16px 24px !important;
+  background: linear-gradient(to bottom, #f5f0e6, #e8dcc8) !important;
+  border-top: 2px solid #c9b896 !important;
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+.entry-editor-footer .cancel-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 20px !important;
+  border: 2px solid #a08060 !important;
+  border-radius: 6px !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  background: #f5f0e6 !important;
+  color: #5c3d2e !important;
+}
+
+.entry-editor-footer .cancel-btn:hover {
+  background: #e8dcc8 !important;
+  border-color: #8b4513 !important;
+}
+
+.entry-editor-footer .save-btn {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 24px !important;
+  border: 2px solid #2c5f8d !important;
+  border-radius: 6px !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  background: linear-gradient(to bottom, #5a9fd4, #3d7ab8) !important;
+  color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.entry-editor-footer .save-btn:hover {
+  background: linear-gradient(to bottom, #6bb0e5, #4a90e2) !important;
+  border-color: #1e4d7a !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3) !important;
+}
+
+/* Save button base styles moved to .entry-editor-footer .save-btn */
 
 
 /* Effect Configuration Panel */
-.effect-config-panel {
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid var(--pf-brown-light);
-  border-radius: var(--pf-border-radius-md);
-  padding: var(--pf-space-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--pf-space-4);
+.entry-editor-modal .effect-config-panel {
+  background: rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid var(--pf-brown-light) !important;
+  border-radius: 6px !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  margin-top: 12px !important;
 }
 
 .effect-type-select {

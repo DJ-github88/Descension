@@ -34,7 +34,7 @@ class OptimizedFirebaseService {
    * Initialize Firebase with optimizations
    */
   initialize() {
-    if (this.isInitialized) return;
+    if (this.isInitialized) {return;}
 
     try {
       const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
@@ -136,7 +136,7 @@ class OptimizedFirebaseService {
    */
   async processBatchWrites(roomId) {
     const queue = this.writeQueue.get(roomId);
-    if (!queue || queue.length === 0) return;
+    if (!queue || queue.length === 0) {return;}
 
     // Clear timer
     const timerId = this.writeTimers.get(roomId);
@@ -154,22 +154,22 @@ class OptimizedFirebaseService {
 
       for (const op of operations) {
         switch (op.type) {
-          case 'set':
-            batch.set(this.db.doc(op.path), op.data, { merge: op.merge || false });
-            operationCount++;
-            break;
-          case 'update':
-            batch.update(this.db.doc(op.path), op.data);
-            operationCount++;
-            break;
-          case 'delete':
-            batch.delete(this.db.doc(op.path));
-            operationCount++;
-            break;
+        case 'set':
+          batch.set(this.db.doc(op.path), op.data, { merge: op.merge || false });
+          operationCount++;
+          break;
+        case 'update':
+          batch.update(this.db.doc(op.path), op.data);
+          operationCount++;
+          break;
+        case 'delete':
+          batch.delete(this.db.doc(op.path));
+          operationCount++;
+          break;
         }
 
         // Firestore batch limit is 500 operations
-        if (operationCount >= 500) break;
+        if (operationCount >= 500) {break;}
       }
 
       if (operationCount > 0) {
@@ -342,21 +342,21 @@ class OptimizedFirebaseService {
    * Immediate write for high-priority operations
    */
   async immediateWrite(type, path, data, merge = false) {
-    if (!this.isInitialized) return;
+    if (!this.isInitialized) {return;}
 
     try {
       const docRef = this.db.doc(path);
       
       switch (type) {
-        case 'set':
-          await this.retryOperation(() => docRef.set(data, { merge }));
-          break;
-        case 'update':
-          await this.retryOperation(() => docRef.update(data));
-          break;
-        case 'delete':
-          await this.retryOperation(() => docRef.delete());
-          break;
+      case 'set':
+        await this.retryOperation(() => docRef.set(data, { merge }));
+        break;
+      case 'update':
+        await this.retryOperation(() => docRef.update(data));
+        break;
+      case 'delete':
+        await this.retryOperation(() => docRef.delete());
+        break;
       }
 
       console.log(`⚡ Immediate write completed: ${path}`);
@@ -374,7 +374,7 @@ class OptimizedFirebaseService {
       try {
         return await operation();
       } catch (error) {
-        if (i === attempts - 1) throw error;
+        if (i === attempts - 1) {throw error;}
         
         const delay = this.retryDelay * Math.pow(2, i);
         console.warn(`⚠️ Operation failed, retrying in ${delay}ms (attempt ${i + 1}/${attempts})`);
@@ -396,7 +396,7 @@ class OptimizedFirebaseService {
 
   getCache(key) {
     const cached = this.cache.get(key);
-    if (!cached) return null;
+    if (!cached) {return null;}
 
     const now = Date.now();
     if (now - cached.timestamp > cached.ttl) {

@@ -29,80 +29,82 @@ export default function ItemGeneration({ onContainerCreate }) {
     const [editingItem, setEditingItem] = useState(null);
     const [isCoinModalOpen, setIsCoinModalOpen] = useState(false);
     const [gridSize, setGridSize] = useState(BASE_GRID_SIZE);
+    const [gridWidth, setGridWidth] = useState(null);
     const containerRef = useRef(null);
+    const controlsRef = useRef(null);
 
-    // Calculate optimal grid size based on available space
+    // Calculate optimal grid size based on controls width and fixed 5 rows
     useEffect(() => {
         const calculateGridSize = () => {
-            if (!containerRef.current) return;
+            if (!containerRef.current || !controlsRef.current) return;
 
-            const container = containerRef.current;
-            const containerRect = container.getBoundingClientRect();
+            const controls = controlsRef.current;
+            const controlsRect = controls.getBoundingClientRect();
 
             // Only calculate if we have valid dimensions
-            if (containerRect.width === 0 || containerRect.height === 0) {
+            if (controlsRect.width === 0) {
                 setTimeout(calculateGridSize, 100);
                 return;
             }
 
             // Get the actual tile size from CSS custom property
+            const container = containerRef.current;
             const computedStyle = getComputedStyle(container);
-            const tileSize = parseInt(computedStyle.getPropertyValue('--tile-size')) || 32;
-            const tileGap = parseInt(computedStyle.getPropertyValue('--tile-gap')) || 2;
+            const tileSize = parseInt(computedStyle.getPropertyValue('--tile-size')) || 65;
+            const tileGap = parseInt(computedStyle.getPropertyValue('--tile-gap')) || 4;
 
-            // Account for container padding and grid padding
-            const containerPadding = 32; // item-generation padding
-            const gridPadding = 32; // preview-grid padding
-            const headerHeight = 120; // header + controls height
-            const bottomMargin = 20; // safety margin
+            // Use controls width as the target width for the grid
+            const gridPadding = 20; // preview-grid padding (10px * 2)
+            const gridBorder = 4; // border width (2px * 2)
+            const availableWidth = controlsRect.width - (gridPadding * 2) - gridBorder;
 
-            const availableWidth = containerRect.width - containerPadding - gridPadding;
-            const availableHeight = containerRect.height - headerHeight - gridPadding - bottomMargin;
-
-            // Calculate how many complete tiles can fit
+            // Calculate how many complete tiles can fit in the controls width
             const tileWithGap = tileSize + tileGap;
             const maxCols = Math.floor((availableWidth + tileGap) / tileWithGap);
-            const maxRows = Math.floor((availableHeight + tileGap) / tileWithGap);
 
-            // Ensure minimum usable grid size
-            const cols = Math.max(maxCols, 4); // Minimum 4 columns
-            const rows = Math.max(maxRows, 3); // Minimum 3 rows
+            // Fixed to 5 rows as requested
+            const rows = 5;
+            // Add one more column to fill the empty space
+            const cols = Math.max(maxCols + 1, 7); // Add 1 to fill space, minimum 7 columns
 
             console.log('Grid calculation:', {
-                containerSize: { width: containerRect.width, height: containerRect.height },
+                controlsWidth: controlsRect.width,
                 tileSize,
                 tileGap,
-                availableSpace: { width: availableWidth, height: availableHeight },
+                availableWidth,
                 calculatedGrid: { cols, rows }
             });
 
-            // Only update if different to avoid constant recalculation
-            if (gridSize.COLS !== cols || gridSize.ROWS !== rows) {
-                setGridSize({ ROWS: rows, COLS: cols });
-            }
+            // Always update to ensure grid expands
+            setGridSize({ ROWS: rows, COLS: cols });
+            setGridWidth(controlsRect.width);
         };
 
         // Use ResizeObserver for better detection of size changes
         let resizeObserver;
-        if (containerRef.current) {
+        if (controlsRef.current) {
             resizeObserver = new ResizeObserver(() => {
-                setTimeout(calculateGridSize, 100);
+                setTimeout(calculateGridSize, 50);
             });
-            resizeObserver.observe(containerRef.current);
+            resizeObserver.observe(controlsRef.current);
         }
 
-        // Initial calculation
-        const timeoutId = setTimeout(calculateGridSize, 300);
+        // Initial calculation with multiple attempts to ensure it runs
+        const timeoutId1 = setTimeout(calculateGridSize, 100);
+        const timeoutId2 = setTimeout(calculateGridSize, 300);
+        const timeoutId3 = setTimeout(calculateGridSize, 500);
 
         // Also listen for window resize as fallback
         const handleResize = () => {
-            setTimeout(calculateGridSize, 200);
+            setTimeout(calculateGridSize, 100);
         };
 
         window.addEventListener('resize', handleResize);
 
         return () => {
-            clearTimeout(timeoutId);
+            clearTimeout(timeoutId1);
+            clearTimeout(timeoutId2);
+            clearTimeout(timeoutId3);
             window.removeEventListener('resize', handleResize);
             if (resizeObserver) {
                 resizeObserver.disconnect();
@@ -254,7 +256,7 @@ export default function ItemGeneration({ onContainerCreate }) {
                 </div>
             </div>
 
-            <div className="controls">
+            <div className="controls" ref={controlsRef}>
                 <button
                     className={`tool-button ${drawMode ? 'active' : ''}`}
                     onClick={() => {
@@ -296,7 +298,10 @@ export default function ItemGeneration({ onContainerCreate }) {
                 </button>
             </div>
 
-            <div className="preview-grid">
+            <div 
+                className="preview-grid"
+                style={gridWidth ? { width: `${gridWidth}px` } : {}}
+            >
                 {selectedTiles.length === 0 && !drawMode && !editMode && (
                     <div className="grid-instructions">
                         <span>Click "Draw" and drag to create item shapes</span>

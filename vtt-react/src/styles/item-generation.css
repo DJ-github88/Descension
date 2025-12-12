@@ -126,13 +126,15 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: 16px;
+    padding: 12px;
     width: 100%;
     height: 100%;
     flex: 1;
     align-items: center;
-    --tile-size: 40px;
-    --tile-gap: 2px;
+    --tile-size: 65px;
+    --tile-gap: 4px;
+    box-sizing: border-box;
+    overflow: visible;
 }
 
 .designer-header {
@@ -255,17 +257,19 @@
     gap: var(--tile-gap);
     align-self: center;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(20, 20, 30, 0.3) 100%);
-    padding: clamp(6px, 1.5vw, 12px);
+    padding: 10px;
     border-radius: 12px;
     border: 2px solid rgba(160, 140, 112, 0.3);
     box-shadow:
         0 8px 24px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
-    max-width: calc(100% - 40px);
-    overflow: hidden;
+    overflow: visible;
     width: fit-content;
-    flex-shrink: 1;
+    flex-shrink: 0;
+    min-width: fit-content;
+    box-sizing: content-box;
+    margin: 0 auto;
 }
 
 .preview-grid::before {
@@ -391,8 +395,8 @@
 /* Responsive design for item designer */
 @media (max-width: 1200px) {
     .item-generation {
-        --tile-size: 36px;
-        --tile-gap: 2px;
+        --tile-size: 55px;
+        --tile-gap: 3px;
     }
 
     .controls {
@@ -402,8 +406,8 @@
 
 @media (max-width: 900px) {
     .item-generation {
-        --tile-size: 32px;
-        --tile-gap: 2px;
+        --tile-size: 48px;
+        --tile-gap: 3px;
     }
 
     .controls {

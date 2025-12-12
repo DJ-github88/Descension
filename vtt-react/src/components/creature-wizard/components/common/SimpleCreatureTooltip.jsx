@@ -409,7 +409,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
               textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
               lineHeight: '1.3'
             }}>
-              {creature.stats.currentHp || creature.stats.maxHp}/{creature.stats.maxHp}
+              {creature.stats?.currentHp ?? creature.stats?.maxHp ?? 0}/{creature.stats?.maxHp ?? 0}
             </div>
           </div>
 
@@ -439,7 +439,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
               textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
               lineHeight: '1.3'
             }}>
-              {creature.stats.armor || creature.stats.armorClass}
+              {creature.stats?.armor ?? creature.stats?.armorClass ?? 0}
             </div>
           </div>
 
@@ -469,23 +469,23 @@ const SimpleCreatureTooltip = ({ creature }) => {
               textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
               lineHeight: '1.3'
             }}>
-              +{creature.stats.initiative}
+              +{creature.stats?.initiative ?? 0}
             </div>
           </div>
         </div>
 
         {/* Secondary Combat Stats - Mana and Action Points */}
-        {(creature.stats.maxMana > 0 || creature.stats.maxActionPoints > 0) && (
+        {((creature.stats?.maxMana ?? 0) > 0 || (creature.stats?.maxActionPoints ?? 0) > 0) && (
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: creature.stats.maxMana > 0 && creature.stats.maxActionPoints > 0 ? 'repeat(2, 1fr)' : '1fr',
+              gridTemplateColumns: (creature.stats?.maxMana ?? 0) > 0 && (creature.stats?.maxActionPoints ?? 0) > 0 ? 'repeat(2, 1fr)' : '1fr',
               gap: '5px',
               marginBottom: '10px'
             }}
           >
             {/* Mana */}
-            {creature.stats.maxMana > 0 && (
+            {(creature.stats?.maxMana ?? 0) > 0 && (
               <div style={{
                 background: 'linear-gradient(135deg, rgba(13, 110, 253, 0.4) 0%, rgba(0, 86, 179, 0.3) 100%)',
                 border: '2px solid #0d6efd',
@@ -511,13 +511,13 @@ const SimpleCreatureTooltip = ({ creature }) => {
                   textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
                   lineHeight: '1.3'
                 }}>
-                  {creature.stats.currentMana || creature.stats.maxMana}/{creature.stats.maxMana}
+                  {creature.stats?.currentMana ?? creature.stats?.maxMana ?? 0}/{creature.stats?.maxMana ?? 0}
                 </div>
               </div>
             )}
 
             {/* Action Points */}
-            {creature.stats.maxActionPoints > 0 && (
+            {(creature.stats?.maxActionPoints ?? 0) > 0 && (
               <div style={{
                 background: 'linear-gradient(135deg, rgba(25, 135, 84, 0.4) 0%, rgba(20, 108, 67, 0.3) 100%)',
                 border: '2px solid #198754',
@@ -543,7 +543,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
                   textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
                   lineHeight: '1.3'
                 }}>
-                  {creature.stats.currentActionPoints || creature.stats.maxActionPoints}/{creature.stats.maxActionPoints}
+                  {creature.stats?.currentActionPoints ?? creature.stats?.maxActionPoints ?? 0}/{creature.stats?.maxActionPoints ?? 0}
                 </div>
               </div>
             )}

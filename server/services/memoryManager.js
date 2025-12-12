@@ -8,7 +8,7 @@
  * - Resource leak detection and prevention
  */
 
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid'); // Not used in this module
 
 class MemoryManager {
   constructor() {
@@ -197,7 +197,7 @@ class MemoryManager {
    */
   cleanupPlayerSession(socketId) {
     const session = this.playerSessions.get(socketId);
-    if (!session) return;
+    if (!session) {return;}
 
     console.log(`🧹 Cleaning up session for ${session.playerName}`);
 
@@ -210,8 +210,8 @@ class MemoryManager {
 
     // Clean up tracked objects for this player
     const playerObjects = Array.from(this.trackedObjects.entries())
-      .filter(([id, metadata]) => 
-        metadata.type === 'playerState' && 
+      .filter(([_id, metadata]) =>
+        metadata.type === 'playerState' &&
         metadata.data.socketId === socketId
       );
 
@@ -232,7 +232,7 @@ class MemoryManager {
 
     // Find all objects associated with this room
     const roomObjects = Array.from(this.trackedObjects.entries())
-      .filter(([id, metadata]) => metadata.roomId === roomId);
+      .filter(([_id, metadata]) => metadata.roomId === roomId);
 
     let freedMemory = 0;
     for (const [objectId, metadata] of roomObjects) {
@@ -242,7 +242,7 @@ class MemoryManager {
 
     // Clean up player sessions in this room
     const roomSessions = Array.from(this.playerSessions.entries())
-      .filter(([socketId, session]) => session.roomId === roomId);
+      .filter(([, session]) => session.roomId === roomId);
 
     for (const [socketId] of roomSessions) {
       this.cleanupPlayerSession(socketId);
@@ -419,7 +419,7 @@ class MemoryManager {
    */
   getRoomMemoryStats(roomId) {
     const usage = this.roomMemoryUsage.get(roomId);
-    if (!usage) return null;
+    if (!usage) {return null;}
 
     const roomObjects = Array.from(this.trackedObjects.values())
       .filter(metadata => metadata.roomId === roomId);

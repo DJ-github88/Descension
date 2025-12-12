@@ -9,9 +9,9 @@ export const SUBSCRIPTION_TIERS = {
     name: 'Guest',
     roomLimit: 1,
     characterLimit: 1,
-    features: ['1 temporary character', '1 room (local or multiplayer)', 'Join multiplayer rooms', 'No cloud save', 'Data cleared on logout'],
+    features: ['1 temporary character', 'Create multiplayer rooms', 'Join multiplayer rooms', 'No cloud save', 'Data cleared on logout'],
     price: 0,
-    description: 'Try out Mythrill without an account - create one character and one room'
+    description: 'Try out Mythrill without an account - create characters and multiplayer rooms'
   },
   FREE: {
     id: 'free',

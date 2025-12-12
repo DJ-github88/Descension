@@ -583,7 +583,7 @@
 .character-card-enhanced .stat-label {
   display: block;
   font-size: 0.7rem;
-  color: #8b4513;
+  color: #000000;
   font-weight: 600;
   margin-bottom: 0.25rem;
   text-transform: uppercase;
@@ -759,4 +759,115 @@
 .btn-success:hover {
   background: #218838 !important;
   border-color: #1e7e34 !important;
+}
+
+/* Enhanced Character Summary Styles */
+.character-enhanced-summary {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.character-derived-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.derived-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(212, 175, 55, 0.15);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.derived-stat i {
+  color: #d4af37;
+  width: 16px;
+  text-align: center;
+}
+
+.derived-stat .stat-label {
+  font-weight: 600;
+  color: #000000;
+  flex: 1;
+}
+
+.derived-stat .stat-value {
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.character-capabilities {
+  margin-bottom: 1rem;
+}
+
+.capability-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.capability {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  background: rgba(139, 105, 20, 0.2);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #f0e6d2;
+}
+
+.capability i {
+  color: #d4af37;
+  font-size: 0.8rem;
+}
+
+.character-inventory-summary {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  background: rgba(139, 105, 20, 0.2);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #f0e6d2;
+}
+
+.summary-item i {
+  color: #d4af37;
+  font-size: 0.8rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .character-derived-stats {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .capability-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .character-inventory-summary {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 }

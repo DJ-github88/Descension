@@ -221,6 +221,74 @@ const CharacterManager = ({ isOpen, onClose, onCreateCharacter }) => {
                         </div>
                       </div>
 
+                      {/* Enhanced Character Stats Summary */}
+                      <div className="character-enhanced-summary">
+                        <div className="character-derived-stats">
+                          <div className="derived-stat">
+                            <i className="fas fa-heartbeat"></i>
+                            <span className="stat-label">Health Regen:</span>
+                            <span className="stat-value">{Math.floor(((character.stats?.constitution || character.constitution || 10) - 10) / 2) || 0}/turn</span>
+                          </div>
+                          <div className="derived-stat">
+                            <i className="fas fa-magic"></i>
+                            <span className="stat-label">Mana Regen:</span>
+                            <span className="stat-value">{Math.floor(((character.stats?.intelligence || character.intelligence || 10) + (character.stats?.spirit || character.spirit || 10)) / 4) || 0}/turn</span>
+                          </div>
+                          <div className="derived-stat">
+                            <i className="fas fa-hand-holding-heart"></i>
+                            <span className="stat-label">Healing Power:</span>
+                            <span className="stat-value">{Math.floor((character.stats?.spirit || character.spirit || 10) / 2) || 0}</span>
+                          </div>
+                        </div>
+
+                        <div className="character-capabilities">
+                          <div className="capability-row">
+                            <div className="capability">
+                              <i className="fas fa-dungeon"></i>
+                              <span>Melee Damage: {Math.floor((character.stats?.strength || character.strength || 10) / 2) || 0}</span>
+                            </div>
+                            <div className="capability">
+                              <i className="fas fa-bullseye"></i>
+                              <span>Ranged Damage: {Math.floor((character.stats?.agility || character.agility || 10) / 2) || 0}</span>
+                            </div>
+                          </div>
+                          <div className="capability-row">
+                            <div className="capability">
+                              <i className="fas fa-shield"></i>
+                              <span>Defense: {Math.floor((character.stats?.agility || character.agility || 10) / 2) || 0}</span>
+                            </div>
+                            <div className="capability">
+                              <i className="fas fa-eye"></i>
+                              <span>Perception: {Math.floor(((character.stats?.spirit || character.spirit || 10) - 10) / 2) || 0}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Equipment & Inventory Summary */}
+                        {(character.equipment || character.inventory || character.spells) && (
+                          <div className="character-inventory-summary">
+                            {(character.equipment && Object.keys(character.equipment).length > 0) && (
+                              <div className="summary-item">
+                                <i className="fas fa-tshirt"></i>
+                                <span>{Object.keys(character.equipment).length} equipped items</span>
+                              </div>
+                            )}
+                            {(character.inventory && character.inventory.length > 0) && (
+                              <div className="summary-item">
+                                <i className="fas fa-backpack"></i>
+                                <span>{character.inventory.length} inventory items</span>
+                              </div>
+                            )}
+                            {(character.spells && character.spells.length > 0) && (
+                              <div className="summary-item">
+                                <i className="fas fa-magic"></i>
+                                <span>{character.spells.length} spells known</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
                       {/* Character Actions */}
                       <div className="character-actions">
                         <button
