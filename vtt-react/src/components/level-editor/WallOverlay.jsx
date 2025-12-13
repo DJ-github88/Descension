@@ -33,7 +33,8 @@ const WallOverlay = () => {
         zoomLevel,
         playerZoom,
         gridOffsetX,
-        gridOffsetY
+        gridOffsetY,
+        isGMMode
     } = useGameStore();
 
     const tileSize = gridSize || 50;
@@ -104,26 +105,32 @@ const WallOverlay = () => {
             };
         }
 
+        if (wall.state === 'locked') {
+            return {
+                ...baseStyle,
+                background: `${baseStyle.background}, radial-gradient(circle at center, rgba(255,215,0,0.3) 0%, transparent 30%)`,
+                boxShadow: `${baseStyle.boxShadow}, 0 0 8px rgba(255,215,0,0.4)`,
+                border: '2px solid #FFD700' // Gold border for locked state
+            };
+        }
+
         return baseStyle;
     };
 
-    // Handle door click to toggle state
+    // Handle door click - just open context menu (no state cycling)
     const handleWallClick = (wall, event) => {
         if (!wall.type.interactive || !wall.type.states) return;
-
         event.stopPropagation();
-
-        const currentState = wall.state || wall.type.states[0];
-        const currentIndex = wall.type.states.indexOf(currentState);
-        const nextIndex = (currentIndex + 1) % wall.type.states.length;
-        const nextState = wall.type.states[nextIndex];
-
-        const { x1, y1, x2, y2 } = wall.gridCoords;
-        updateWall(x1, y1, x2, y2, { state: nextState });
+        // Open context menu on any click
+        handleWallRightClick(wall, event);
     };
 
     // Handle wall interactions with tooltips
+    // Works for doors (interactive) for everyone, and all walls in editor mode
     const handleWallMouseEnter = (wall, event) => {
+        // Show tooltips for interactive elements (doors) even for players
+        if (!isEditorMode && !wall.type.interactive) return;
+
         setHoveredWall(wall);
         setTooltipPosition({ x: event.clientX, y: event.clientY });
         setShowTooltip(false);
@@ -136,7 +143,7 @@ const WallOverlay = () => {
         // Set new timeout for tooltip
         hoverTimeoutRef.current = setTimeout(() => {
             setShowTooltip(true);
-        }, 1500); // 1.5 second delay
+        }, 500); // 0.5 second delay
     };
 
     const handleWallMouseLeave = () => {
@@ -148,7 +155,9 @@ const WallOverlay = () => {
     };
 
     const handleWallRightClick = (wall, event) => {
-        if (!isEditorMode) return;
+        // Allow right-click context menu for doors (even for players to see info)
+        // and for all walls in editor mode
+        if (!isEditorMode && !wall.type.interactive) return;
 
         event.preventDefault();
         setContextMenu(wall);
@@ -160,6 +169,30 @@ const WallOverlay = () => {
         if (contextMenu) {
             const [x1, y1, x2, y2] = contextMenu.key.split(',').map(Number);
             removeWall(x1, y1, x2, y2);
+            setContextMenu(null);
+            setShowContextMenu(false);
+        }
+    };
+
+    const handleToggleDoorLock = () => {
+        if (contextMenu && contextMenu.type.interactive) {
+            const { x1, y1, x2, y2 } = contextMenu.gridCoords;
+            const currentState = contextMenu.state || 'closed';
+            // Toggle between locked and closed
+            const newState = currentState === 'locked' ? 'closed' : 'locked';
+            updateWall(x1, y1, x2, y2, { state: newState });
+            setContextMenu(null);
+            setShowContextMenu(false);
+        }
+    };
+
+    const handleToggleDoorOpen = () => {
+        if (contextMenu && contextMenu.type.interactive) {
+            const { x1, y1, x2, y2 } = contextMenu.gridCoords;
+            const currentState = contextMenu.state || 'closed';
+            // Toggle between open and closed (not locked)
+            const newState = currentState === 'open' ? 'closed' : 'open';
+            updateWall(x1, y1, x2, y2, { state: newState });
             setContextMenu(null);
             setShowContextMenu(false);
         }
@@ -179,28 +212,38 @@ const WallOverlay = () => {
         };
     }, []);
 
-    // Generate wall tiles using the EXACT same pattern as main grid tiles
-    const wallTiles = useMemo(() => {
-        console.log('🧱 WALL OVERLAY: Processing walls', {
-            showWallLayer,
-            wallDataKeys: Object.keys(wallData || {}),
-            wallData: wallData
-        });
+    // Helper function to convert grid coordinates to screen coordinates
+    // Called at render time for instant updates (same approach as CanvasWallSystem)
+    const gridToScreen = (gridX, gridY) => {
+        try {
+            const gridSystem = getGridSystem();
+            const worldPos = gridSystem.gridToWorldCorner(gridX, gridY);
+            const viewport = gridSystem.getViewportDimensions();
+            return gridSystem.worldToScreen(worldPos.x, worldPos.y, viewport.width, viewport.height);
+        } catch (error) {
+            // Fallback calculation if grid system fails
+            const worldX = (gridX * tileSize) + gridOffsetX;
+            const worldY = (gridY * tileSize) + gridOffsetY;
+            const screenX = (worldX - cameraX) * effectiveZoom + window.innerWidth / 2;
+            const screenY = (worldY - cameraY) * effectiveZoom + window.innerHeight / 2;
+            return { x: screenX, y: screenY };
+        }
+    };
 
+    // Process wall data into renderable objects (without screen positions - those are calculated at render time)
+    const wallTiles = useMemo(() => {
         if (!showWallLayer || !wallData || Object.keys(wallData).length === 0) {
-            console.log('🧱 WALL OVERLAY: No walls to display');
             return [];
         }
 
         const walls = [];
-        const gridSystem = getGridSystem();
 
-        // Calculate all wall positions in one batch - same as gridSystem.generateGridTiles()
-        Object.entries(wallData).forEach(([wallKey, wallData]) => {
+        // Process wall data - screen positions will be calculated at render time
+        Object.entries(wallData).forEach(([wallKey, wallDataItem]) => {
             // Handle both old format (string) and new format (object)
-            const wallType = typeof wallData === 'string' ? wallData : wallData.type;
-            const wallState = typeof wallData === 'object' ? wallData.state : 'default';
-            const wallId = typeof wallData === 'object' ? wallData.id : null;
+            const wallType = typeof wallDataItem === 'string' ? wallDataItem : wallDataItem.type;
+            const wallState = typeof wallDataItem === 'object' ? wallDataItem.state : 'default';
+            const wallId = typeof wallDataItem === 'object' ? wallDataItem.id : null;
 
             const wallTypeData = WALL_TYPES[wallType];
             if (!wallTypeData) return;
@@ -208,70 +251,19 @@ const WallOverlay = () => {
             // Parse wall coordinates from key: "x1,y1,x2,y2"
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
 
-            try {
-                // Use the exact same coordinate transformation as main grid tiles
-                const worldPos1 = gridSystem.gridToWorldCorner(x1, y1);
-                const worldPos2 = gridSystem.gridToWorldCorner(x2, y2);
-
-                // Get viewport dimensions for coordinate conversion
-                const viewport = gridSystem.getViewportDimensions();
-                const screenPos1 = gridSystem.worldToScreen(worldPos1.x, worldPos1.y, viewport.width, viewport.height);
-                const screenPos2 = gridSystem.worldToScreen(worldPos2.x, worldPos2.y, viewport.width, viewport.height);
-
-                // Check visibility using the same method as main grid tiles
-                const margin = tileSize * effectiveZoom * 2; // Same margin as grid tiles
-
-                const minX = Math.min(screenPos1.x, screenPos2.x);
-                const maxX = Math.max(screenPos1.x, screenPos2.x);
-                const minY = Math.min(screenPos1.y, screenPos2.y);
-                const maxY = Math.max(screenPos1.y, screenPos2.y);
-
-                if (minX <= viewport.width + margin && maxX >= -margin &&
-                    minY <= viewport.height + margin && maxY >= -margin) {
-
-                    // Store pre-calculated screen positions exactly like main grid tiles
-                    walls.push({
-                        key: wallKey,
-                        type: wallTypeData,
-                        state: wallState,
-                        id: wallId,
-                        screenX1: screenPos1.x,
-                        screenY1: screenPos1.y,
-                        screenX2: screenPos2.x,
-                        screenY2: screenPos2.y,
-                        isVertical: x1 === x2,
-                        isHorizontal: y1 === y2,
-                        gridCoords: { x1, y1, x2, y2 }
-                    });
-                }
-            } catch (error) {
-                console.warn('Error calculating wall position:', error);
-            }
+            walls.push({
+                key: wallKey,
+                type: wallTypeData,
+                state: wallState,
+                id: wallId,
+                isVertical: x1 === x2,
+                isHorizontal: y1 === y2,
+                gridCoords: { x1, y1, x2, y2 }
+            });
         });
 
-        console.log('🧱 WALL OVERLAY: Calculated walls for rendering:', walls.length, {
-            cameraX, cameraY, effectiveZoom,
-            sampleWall: walls[0] ? {
-                key: walls[0].key,
-                screenX1: walls[0].screenX1,
-                screenY1: walls[0].screenY1,
-                screenX2: walls[0].screenX2,
-                screenY2: walls[0].screenY2
-            } : null
-        });
         return walls;
-    }, [
-        // EXACT same dependencies as main grid tiles for perfect synchronization
-        wallData,
-        showWallLayer,
-        cameraX,
-        cameraY,
-        effectiveZoom,
-        gridSize,
-        gridOffsetX,
-        gridOffsetY,
-        isEditorMode
-    ]);
+    }, [wallData, showWallLayer]);
 
     // Always show walls if the wall layer is enabled, regardless of editor mode
     if (!showWallLayer) {
@@ -288,155 +280,188 @@ const WallOverlay = () => {
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                zIndex: 8 // Above terrain tiles but below UI elements
+                zIndex: 50 // Higher z-index to be above canvas but below UI
             }}
         >
+            {/* WallOverlay renders hit areas for door interactions */}
             {wallTiles.map((wall) => {
-                // Use pre-calculated wall positions exactly like main grid tiles
-                const wallThickness = Math.max(8, tileSize * effectiveZoom * 0.15);
-                const materialStyle = wall.type.interactive ? getDoorStyle(wall) : getWallMaterialStyle(wall.type.id);
-                const isHovered = hoveredWall && hoveredWall.key === wall.key;
+                // Only render interactive elements (doors) - always, not just in editor mode
                 const isInteractive = wall.type.interactive && wall.type.states;
-
-                if (wall.isVertical) {
-                    // Vertical wall using pre-calculated screen positions with enhanced gap filling
-                    const height = Math.abs(wall.screenY2 - wall.screenY1);
-                    const top = Math.min(wall.screenY1, wall.screenY2);
-                    const extensionAmount = wallThickness * 0.6; // Same extension as Grid.jsx
-
-                    return (
-                        <div
-                            key={wall.key}
-                            className={`wall-element vertical-wall ${isHovered ? 'hovered' : ''}`}
-                            style={{
-                                position: 'absolute',
-                                left: `${wall.screenX1 - wallThickness / 2}px`,
-                                top: `${top - extensionAmount}px`, // Extend beyond endpoints
-                                width: `${wallThickness}px`,
-                                height: `${height + (extensionAmount * 2)}px`, // Fill gaps on both ends
-                                background: materialStyle.background,
-                                border: materialStyle.border,
-                                borderRadius: '2px',
-                                boxShadow: isHovered
-                                    ? `${materialStyle.boxShadow}, 0 0 8px rgba(255, 255, 0, 0.6)`
-                                    : materialStyle.boxShadow,
-                                cursor: isEditorMode ? (isInteractive ? 'pointer' : 'pointer') : 'default',
-                                transform: isHovered ? 'scale(1.05) translateZ(0)' : 'translateZ(0)', // Hardware acceleration like grid tiles
-                                zIndex: isHovered ? 12 : 9,
-                                pointerEvents: 'auto',
-                                // Same performance optimizations as main grid tiles
-                                willChange: effectiveZoom < 0.5 ? 'auto' : 'transform',
-                                backfaceVisibility: 'hidden',
-                                contain: 'layout style paint',
-                                isolation: 'isolate'
-                            }}
-                            onMouseEnter={(e) => handleWallMouseEnter(wall, e)}
-                            onMouseLeave={handleWallMouseLeave}
-                            onContextMenu={(e) => handleWallRightClick(wall, e)}
-                            onClick={(e) => handleWallClick(wall, e)}
-                        >
-                        </div>
-                    );
-                } else if (wall.isHorizontal) {
-                    // Horizontal wall using pre-calculated screen positions with enhanced gap filling
-                    const width = Math.abs(wall.screenX2 - wall.screenX1);
-                    const left = Math.min(wall.screenX1, wall.screenX2);
-                    const extensionAmount = wallThickness * 0.6; // Same extension as Grid.jsx
-
-                    return (
-                        <div
-                            key={wall.key}
-                            className={`wall-element horizontal-wall ${isHovered ? 'hovered' : ''}`}
-                            style={{
-                                position: 'absolute',
-                                left: `${left - extensionAmount}px`, // Extend beyond endpoints
-                                top: `${wall.screenY1 - wallThickness / 2}px`,
-                                width: `${width + (extensionAmount * 2)}px`, // Fill gaps on both ends
-                                height: `${wallThickness}px`,
-                                background: materialStyle.background,
-                                border: materialStyle.border,
-                                borderRadius: '2px',
-                                boxShadow: isHovered
-                                    ? `${materialStyle.boxShadow}, 0 0 8px rgba(255, 255, 0, 0.6)`
-                                    : materialStyle.boxShadow,
-                                cursor: isEditorMode ? (isInteractive ? 'pointer' : 'pointer') : 'default',
-                                transform: isHovered ? 'scale(1.05) translateZ(0)' : 'translateZ(0)', // Hardware acceleration like grid tiles
-                                zIndex: isHovered ? 12 : 9,
-                                pointerEvents: 'auto',
-                                // Same performance optimizations as main grid tiles
-                                willChange: effectiveZoom < 0.5 ? 'auto' : 'transform',
-                                backfaceVisibility: 'hidden',
-                                contain: 'layout style paint',
-                                isolation: 'isolate'
-                            }}
-                            onMouseEnter={(e) => handleWallMouseEnter(wall, e)}
-                            onMouseLeave={handleWallMouseLeave}
-                            onContextMenu={(e) => handleWallRightClick(wall, e)}
-                            onClick={(e) => handleWallClick(wall, e)}
-                        >
-                        </div>
-                    );
+                if (!isInteractive) {
+                    return null; // Only render doors, not walls
                 }
 
-                return null;
+                // Calculate screen positions at render time
+                const { x1, y1, x2, y2 } = wall.gridCoords;
+                const screenPos1 = gridToScreen(x1, y1);
+                const screenPos2 = gridToScreen(x2, y2);
+                
+                // Skip if outside viewport
+                const margin = tileSize * effectiveZoom * 2;
+                if (Math.max(screenPos1.x, screenPos2.x) < -margin || 
+                    Math.min(screenPos1.x, screenPos2.x) > window.innerWidth + margin ||
+                    Math.max(screenPos1.y, screenPos2.y) < -margin || 
+                    Math.min(screenPos1.y, screenPos2.y) > window.innerHeight + margin) {
+                    return null;
+                }
+
+                const wallThickness = Math.max(24, tileSize * effectiveZoom * 0.35); // Large hit area
+                const isDoorLocked = wall.state === 'locked';
+                const minDimension = Math.max(30, tileSize * effectiveZoom * 0.6);
+
+                // Invisible hit area - only for interaction, no visual
+                const hitAreaStyle = {
+                    position: 'absolute',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    zIndex: 100,
+                    pointerEvents: 'auto'
+                };
+
+                if (wall.isVertical) {
+                    const height = Math.max(minDimension, Math.abs(screenPos2.y - screenPos1.y));
+                    const top = Math.min(screenPos1.y, screenPos2.y);
+
+                    return (
+                        <div
+                            key={wall.key}
+                            className="door-hit-area"
+                            style={{
+                                ...hitAreaStyle,
+                                left: `${screenPos1.x - wallThickness / 2}px`,
+                                top: `${top - wallThickness / 4}px`,
+                                width: `${wallThickness}px`,
+                                height: `${height + wallThickness / 2}px`
+                            }}
+                            onMouseEnter={(e) => handleWallMouseEnter(wall, e)}
+                            onMouseLeave={handleWallMouseLeave}
+                            onContextMenu={(e) => handleWallRightClick(wall, e)}
+                            onClick={(e) => handleWallClick(wall, e)}
+                        />
+                    );
+                } else if (wall.isHorizontal) {
+                    const width = Math.max(minDimension, Math.abs(screenPos2.x - screenPos1.x));
+                    const left = Math.min(screenPos1.x, screenPos2.x);
+
+                    return (
+                        <div
+                            key={wall.key}
+                            className="door-hit-area"
+                            style={{
+                                ...hitAreaStyle,
+                                left: `${left - wallThickness / 4}px`,
+                                top: `${screenPos1.y - wallThickness / 2}px`,
+                                width: `${width + wallThickness / 2}px`,
+                                height: `${wallThickness}px`
+                            }}
+                            onMouseEnter={(e) => handleWallMouseEnter(wall, e)}
+                            onMouseLeave={handleWallMouseLeave}
+                            onContextMenu={(e) => handleWallRightClick(wall, e)}
+                            onClick={(e) => handleWallClick(wall, e)}
+                        />
+                    );
+                } else {
+                    // Diagonal door
+                    const dx = screenPos2.x - screenPos1.x;
+                    const dy = screenPos2.y - screenPos1.y;
+                    const length = Math.max(minDimension, Math.sqrt(dx * dx + dy * dy));
+                    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                    const centerX = (screenPos1.x + screenPos2.x) / 2;
+                    const centerY = (screenPos1.y + screenPos2.y) / 2;
+
+                    return (
+                        <div
+                            key={wall.key}
+                            className="door-hit-area"
+                            style={{
+                                ...hitAreaStyle,
+                                left: `${centerX - length / 2}px`,
+                                top: `${centerY - wallThickness / 2}px`,
+                                width: `${length}px`,
+                                height: `${wallThickness}px`,
+                                transform: `rotate(${angle}deg)`,
+                                transformOrigin: 'center'
+                            }}
+                            onMouseEnter={(e) => handleWallMouseEnter(wall, e)}
+                            onMouseLeave={handleWallMouseLeave}
+                            onContextMenu={(e) => handleWallRightClick(wall, e)}
+                            onClick={(e) => handleWallClick(wall, e)}
+                        />
+                    );
+                }
             })}
 
 
 
-            {/* Wall Tooltip */}
-            {showTooltip && hoveredWall && (
+            {/* Door Tooltip - shown on hover */}
+            {showTooltip && hoveredWall && hoveredWall.type.interactive && (
                 <div
-                    className="tile-tooltip unified-tooltip-style"
                     style={{
                         position: 'fixed',
-                        left: tooltipPosition.x + 15, // Keep wall tooltip on the right side
-                        top: tooltipPosition.y - 10, // Back to normal position
-                        transform: tooltipPosition.x > window.innerWidth - 300 ? 'translateX(-100%)' : 'none',
-                        zIndex: 10000
+                        left: tooltipPosition.x + 15,
+                        top: tooltipPosition.y + 10,
+                        transform: tooltipPosition.x > window.innerWidth - 200 ? 'translateX(-110%)' : 'none',
+                        zIndex: 10000,
+                        backgroundColor: '#f0e6d2',
+                        border: '2px solid #a08c70',
+                        borderRadius: '6px',
+                        padding: '8px 12px',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                        fontFamily: 'Georgia, serif',
+                        fontSize: '12px',
+                        color: '#3d2914',
+                        minWidth: '120px',
+                        pointerEvents: 'none'
                     }}
                 >
-                    <div className="tooltip-content">
-                        <div className="tooltip-item">
-                            <strong>{hoveredWall.type.name}</strong>
-                        </div>
-                        {hoveredWall.type.interactive && (
-                            <div className="tooltip-item">
-                                State: {hoveredWall.state || hoveredWall.type.states?.[0] || 'default'}
-                            </div>
-                        )}
-                        <div className="tooltip-item">
-                            {hoveredWall.type.description || `A ${hoveredWall.type.name.toLowerCase()}`}
-                        </div>
-                        {hoveredWall.type.interactive && (
-                            <div className="tooltip-item" style={{
-                                fontStyle: 'italic',
-                                color: '#666',
-                                fontSize: '11px'
-                            }}>
-                                Click to {hoveredWall.state === 'open' ? 'close' : 'open'}
-                            </div>
-                        )}
+                    <div style={{ fontWeight: 'bold', marginBottom: '4px', borderBottom: '1px solid #a08c70', paddingBottom: '4px' }}>
+                        {hoveredWall.type.name}
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#5a4a3a' }}>
+                        {hoveredWall.state === 'locked' ? 'Locked' : 
+                         hoveredWall.state === 'open' ? 'Open' : 'Closed'}
                     </div>
                 </div>
             )}
 
-            {/* Unified Context Menu */}
+            {/* Unified Context Menu - for doors (always) and walls (editor mode only) */}
             <UnifiedContextMenu
                 visible={showContextMenu}
                 x={contextMenuPosition.x}
                 y={contextMenuPosition.y}
                 onClose={handleCloseContextMenu}
-                title={contextMenu ? `${contextMenu.type.name}` : null}
+                title={contextMenu ? `${contextMenu.type.name}${contextMenu.state ? ` (${contextMenu.state})` : ''}` : null}
                 items={contextMenu ? [
-                    {
+                    // Door-specific options
+                    ...(contextMenu.type.interactive ? [
+                        // Open/Close toggle (available to everyone if not locked)
+                        ...(contextMenu.state !== 'locked' || isGMMode ? [{
+                            icon: contextMenu.state === 'open' ? '🚪' : '🚪',
+                            label: contextMenu.state === 'open' ? 'Close Door' : 'Open Door',
+                            onClick: handleToggleDoorOpen
+                        }] : []),
+                        // Lock/Unlock (GM only)
+                        ...(isGMMode ? [{
+                            icon: contextMenu.state === 'locked' ? '🔓' : '🔒',
+                            label: contextMenu.state === 'locked' ? 'Unlock Door' : 'Lock Door',
+                            onClick: handleToggleDoorLock,
+                            className: contextMenu.state === 'locked' ? '' : 'warning-action'
+                        }] : []),
+                        {
+                            type: 'separator'
+                        }
+                    ] : []),
+                    // Remove wall (editor mode or GM only)
+                    ...(isEditorMode || isGMMode ? [{
                         icon: '✕',
-                        label: 'Remove Wall',
+                        label: contextMenu.type.interactive ? 'Remove Door' : 'Remove Wall',
                         onClick: handleRemoveWall,
                         className: 'danger-action'
                     },
                     {
                         type: 'separator'
-                    },
+                    }] : []),
                     {
                         icon: '✕',
                         label: 'Cancel',

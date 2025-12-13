@@ -51,9 +51,10 @@ export function getLineOfSight(x0, y0, x1, y1) {
  * @param {number} x2 - Second tile x
  * @param {number} y2 - Second tile y
  * @param {Object} wallData - Wall data from level editor store
+ * @param {Object} windowOverlays - Window overlay data (optional)
  * @returns {boolean} True if wall blocks line of sight
  */
-export function isWallBlocking(x1, y1, x2, y2, wallData) {
+export function isWallBlocking(x1, y1, x2, y2, wallData, windowOverlays = {}) {
     if (!wallData || Object.keys(wallData).length === 0) return false;
     
     // Ensure we're working with integers (grid coordinates)
@@ -99,7 +100,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData) {
                 if (tileY >= wallMinY && tileY <= wallMaxY) {
                     // Wall blocks if these tiles are separated by it
                     if ((gx1 === leftTileX && gx2 === rightTileX) || (gx1 === rightTileX && gx2 === leftTileX)) {
-                        if (checkIfWallBlocks(wall)) {
+                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
                             // Wall blocking detected (logging removed for performance)
                             return true;
                         }
@@ -122,7 +123,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData) {
                 if (tileX >= wallMinX && tileX <= wallMaxX) {
                     // Wall blocks if these tiles are separated by it
                     if ((gy1 === topTileY && gy2 === bottomTileY) || (gy1 === bottomTileY && gy2 === topTileY)) {
-                        if (checkIfWallBlocks(wall)) {
+                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
                             // Wall blocking detected (logging removed for performance)
                             return true;
                         }
@@ -146,7 +147,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData) {
                 const tileY2 = gy2;
                 if ((tileY1 >= wallMinY && tileY1 <= wallMaxY) || (tileY2 >= wallMinY && tileY2 <= wallMaxY)) {
                     if ((gx1 === leftTileX && gx2 === rightTileX) || (gx1 === rightTileX && gx2 === leftTileX)) {
-                        if (checkIfWallBlocks(wall)) {
+                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
                             // Wall blocking diagonal detected (logging removed for performance)
                             return true;
                         }
@@ -165,7 +166,7 @@ export function isWallBlocking(x1, y1, x2, y2, wallData) {
                 const tileX2 = gx2;
                 if ((tileX1 >= wallMinX && tileX1 <= wallMaxX) || (tileX2 >= wallMinX && tileX2 <= wallMaxX)) {
                     if ((gy1 === topTileY && gy2 === bottomTileY) || (gy1 === bottomTileY && gy2 === topTileY)) {
-                        if (checkIfWallBlocks(wall)) {
+                        if (checkIfWallBlocks(wall, wallKey, windowOverlays)) {
                             // Wall blocking diagonal detected (logging removed for performance)
                             return true;
                         }
@@ -178,10 +179,29 @@ export function isWallBlocking(x1, y1, x2, y2, wallData) {
     return false;
 }
 
-function checkIfWallBlocks(wall) {
+function checkIfWallBlocks(wall, wallKey = null, windowOverlays = {}) {
     // Handle both old format (wall is a string) and new format (wall is an object)
     if (typeof wall === 'string') {
         // Old format: wall is just the type string
+        // Check for window overlays at this wall's position
+        if (wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
+            const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+            // Check if there's a window at any point along this wall
+            const minX = Math.min(wx1, wx2);
+            const maxX = Math.max(wx1, wx2);
+            const minY = Math.min(wy1, wy2);
+            const maxY = Math.max(wy1, wy2);
+            
+            for (let x = minX; x <= maxX; x++) {
+                for (let y = minY; y <= maxY; y++) {
+                    const windowKey = `${x},${y}`;
+                    if (windowOverlays[windowKey]) {
+                        // Window found - allows vision through
+                        return false;
+                    }
+                }
+            }
+        }
         // Default: assume all walls block vision
         return true;
     }
@@ -189,9 +209,30 @@ function checkIfWallBlocks(wall) {
     // New format: wall is an object with { type, state, id }
     const wallTypeId = wall.type;
     
-    // Check wall state first (closed doors block vision, open doors don't)
+    // Check wall state first (closed/locked doors block vision, open doors don't)
     if (wall.state === 'closed') return true;
+    if (wall.state === 'locked') return true; // Locked doors also block vision
     if (wall.state === 'open') return false; // Open doors don't block
+    
+    // Check for window overlays at this wall's position
+    if (wallKey && windowOverlays && Object.keys(windowOverlays).length > 0) {
+        const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
+        // Check if there's a window at any point along this wall
+        const minX = Math.min(wx1, wx2);
+        const maxX = Math.max(wx1, wx2);
+        const minY = Math.min(wy1, wy2);
+        const maxY = Math.max(wy1, wy2);
+        
+        for (let x = minX; x <= maxX; x++) {
+            for (let y = minY; y <= maxY; y++) {
+                const windowKey = `${x},${y}`;
+                if (windowOverlays[windowKey]) {
+                    // Window found - allows vision through
+                    return false;
+                }
+            }
+        }
+    }
     
     // Check if this wall type blocks line of sight
     if (WALL_TYPES && WALL_TYPES[wallTypeId]) {
@@ -226,7 +267,7 @@ function castRay(originX, originY, angle, maxRange, wallData, gridSize, gridOffs
     
     // Check all walls for intersections
     for (const [wallKey, wall] of Object.entries(wallData)) {
-        if (!checkIfWallBlocks(wall)) continue;
+        if (!checkIfWallBlocks(wall, wallKey, {})) continue;
         
         const [wx1, wy1, wx2, wy2] = wallKey.split(',').map(Number);
         // Convert grid corner coordinates to world coordinates

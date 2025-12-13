@@ -36,7 +36,16 @@ const ProfessionalVTTEditor = () => {
     const [selectionRect, setSelectionRect] = useState(null); // { startX, startY, endX, endY }
     const [showRemoveModal, setShowRemoveModal] = useState(false);
     const [selectedAreaObjects, setSelectedAreaObjects] = useState(null); // Objects found in selected area
+    const [selectedWall, setSelectedWall] = useState(null); // { key, data, x1, y1, x2, y2 }
+    const [wallDragStart, setWallDragStart] = useState(null); // For moving walls
+    const [selectedWindow, setSelectedWindow] = useState(null); // { key, gridX, gridY, data }
+    const [isDraggingWall, setIsDraggingWall] = useState(false);
+    const [isObjectLocked, setIsObjectLocked] = useState(false); // When true, we're locked to selected object
 
+    // Refs to track current dragging positions (avoids stale closure issues with state)
+    const dragWindowRef = useRef(null); // { gridX, gridY, data } - current window position during drag
+    const dragWallRef = useRef(null); // { x1, y1, x2, y2, key } - current wall position during drag
+    const lastDragPosRef = useRef(null); // { gridX, gridY } - last mouse position during drag
 
     const windowRef = useRef(null);
     const overlayRef = useRef(null);
@@ -107,6 +116,17 @@ const ProfessionalVTTEditor = () => {
         wallData,
         showWallLayer,
         setWall,
+        getWall,
+        updateWall,
+        removeWall,
+        moveWall,
+        selectedWallKey,
+        setSelectedWallKey,
+        windowOverlays,
+        setWindowOverlay,
+        removeWindowOverlay,
+        selectedWindowKey,
+        setSelectedWindowKey,
         clearTerrain,
         setCurrentDrawingPath,
         setIsCurrentlyDrawing,
@@ -175,6 +195,7 @@ const ProfessionalVTTEditor = () => {
                 { id: 'door_place', name: 'Place Door', icon: 'inv_misc_key_03', cursor: 'crosshair' },
                 { id: 'window_place', name: 'Place Window', icon: 'inv_misc_gem_crystal_01', cursor: 'crosshair' },
                 { id: 'barrier_magic', name: 'Magic Barrier', icon: 'spell_holy_prayerofhealing', cursor: 'crosshair' },
+                { id: 'wall_select', name: 'Select', icon: 'ability_hunter_markedfordeath', cursor: 'pointer' },
                 { id: 'wall_erase', name: 'Erase Walls', icon: 'ability_warrior_cleave', cursor: 'crosshair' }
             ]
         },
@@ -266,6 +287,18 @@ const ProfessionalVTTEditor = () => {
         setSelectedTool(toolId);
         setActiveTool(toolId);
         clearDrawingSelection();
+        
+        // Clear selection when switching away from select tool
+        if (toolId !== 'wall_select') {
+            setSelectedWallKey(null);
+            setSelectedWindowKey(null);
+            setSelectedWindow(null);
+            setIsObjectLocked(false);
+            // Clear drag refs
+            dragWindowRef.current = null;
+            dragWallRef.current = null;
+            lastDragPosRef.current = null;
+        }
     };
 
     // Handle tool settings change
@@ -333,6 +366,58 @@ const ProfessionalVTTEditor = () => {
             return { x: screenX, y: screenY };
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, playerZoom]);
+
+    // Find wall at grid position - checks if a wall passes through or near a grid point
+    const findWallAtPosition = useCallback((gridX, gridY) => {
+        if (!wallData) return null;
+        
+        // Check all walls to find one that passes through this grid position
+        for (const [wallKey, wall] of Object.entries(wallData)) {
+            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+            
+            // Check if this grid position is on the wall line
+            // For horizontal walls (y1 === y2)
+            if (y1 === y2 && gridY === y1) {
+                const minX = Math.min(x1, x2);
+                const maxX = Math.max(x1, x2);
+                if (gridX >= minX && gridX <= maxX) {
+                    return { key: wallKey, data: wall, x1, y1, x2, y2 };
+                }
+            }
+            // For vertical walls (x1 === x2)
+            if (x1 === x2 && gridX === x1) {
+                const minY = Math.min(y1, y2);
+                const maxY = Math.max(y1, y2);
+                if (gridY >= minY && gridY <= maxY) {
+                    return { key: wallKey, data: wall, x1, y1, x2, y2 };
+                }
+            }
+            // Check endpoints
+            if ((gridX === x1 && gridY === y1) || (gridX === x2 && gridY === y2)) {
+                return { key: wallKey, data: wall, x1, y1, x2, y2 };
+            }
+        }
+        return null;
+    }, [wallData]);
+
+    // Find all walls near a grid position (within 1 tile distance)
+    const findWallsNearPosition = useCallback((gridX, gridY) => {
+        if (!wallData) return [];
+        
+        const walls = [];
+        for (const [wallKey, wall] of Object.entries(wallData)) {
+            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+            
+            // Check if the grid position is close to either endpoint or on the wall line
+            const dist1 = Math.abs(gridX - x1) + Math.abs(gridY - y1);
+            const dist2 = Math.abs(gridX - x2) + Math.abs(gridY - y2);
+            
+            if (dist1 <= 1 || dist2 <= 1) {
+                walls.push({ key: wallKey, data: wall, x1, y1, x2, y2 });
+            }
+        }
+        return walls;
+    }, [wallData]);
 
     // Find object at screen position (for lantern selection)
     const getObjectAtScreenPosition = useCallback((screenX, screenY) => {
@@ -492,8 +577,15 @@ const ProfessionalVTTEditor = () => {
             return path.points.some(point => {
                 let pointX, pointY;
 
-                if (point.isFreehand) {
-                    // Freehand coordinates are already screen coordinates
+                if (point.isWorldCoords) {
+                    // New freehand drawings use world coordinates - convert to screen
+                    const gridSystem = getGridSystem();
+                    const viewport = gridSystem.getViewportDimensions();
+                    const screenPos = gridSystem.worldToScreen(point.worldX, point.worldY, viewport.width, viewport.height);
+                    pointX = screenPos.x;
+                    pointY = screenPos.y;
+                } else if (point.isFreehand) {
+                    // Legacy freehand coordinates are already screen coordinates
                     pointX = point.x;
                     pointY = point.y;
                 } else if (point.gridX !== undefined) {
@@ -933,11 +1025,264 @@ const ProfessionalVTTEditor = () => {
                 return;
 
             case 'door_place':
-                // Place door - NO DRAWING STATE
+                // Place door - auto-detect orientation from nearby walls
                 if (toolSettings.selectedWallType) {
-                    // Door placement logic here
+                    const placeCoords = screenToGrid(e.clientX, e.clientY);
+                    if (placeCoords) {
+                        const gx = placeCoords.gridX;
+                        const gy = placeCoords.gridY;
+                        
+                        // Check for existing walls at this position to determine orientation
+                        let isVertical = false;
+                        
+                        // Look for vertical walls (same X, different Y)
+                        const hasVerticalWall = Object.keys(wallData).some(key => {
+                            const [x1, y1, x2, y2] = key.split(',').map(Number);
+                            if (x1 === x2) {
+                                const minY = Math.min(y1, y2);
+                                const maxY = Math.max(y1, y2);
+                                if ((x1 === gx || x1 === gx + 1) && gy >= minY && gy < maxY) return true;
+                            }
+                            return false;
+                        });
+                        
+                        // Look for horizontal walls (same Y, different X)
+                        const hasHorizontalWall = Object.keys(wallData).some(key => {
+                            const [x1, y1, x2, y2] = key.split(',').map(Number);
+                            if (y1 === y2) {
+                                const minX = Math.min(x1, x2);
+                                const maxX = Math.max(x1, x2);
+                                if ((y1 === gy || y1 === gy + 1) && gx >= minX && gx < maxX) return true;
+                            }
+                            return false;
+                        });
+                        
+                        isVertical = hasVerticalWall && !hasHorizontalWall;
+                        
+                        const startX = gx;
+                        const startY = gy;
+                        const endX = isVertical ? gx : gx + 1;
+                        const endY = isVertical ? gy + 1 : gy;
+                        
+                        setWall(startX, startY, endX, endY, toolSettings.selectedWallType);
+                    }
                 }
                 return;
+            
+            case 'window_place':
+                // Place window overlay on existing wall - find closest point on nearest wall
+                if (toolSettings.selectedWallType) {
+                    const windowCoords = screenToGrid(e.clientX, e.clientY);
+                    if (windowCoords) {
+                        const clickX = windowCoords.gridX + 0.5; // Center of clicked tile
+                        const clickY = windowCoords.gridY + 0.5;
+                        
+                        // Find the nearest wall and closest point on it
+                        let nearestWall = null;
+                        let nearestDist = Infinity;
+                        let closestPointX = 0;
+                        let closestPointY = 0;
+                        
+                        for (const [wallKey, wall] of Object.entries(wallData)) {
+                            // Get the wall type
+                            const wallType = typeof wall === 'string' ? wall : wall?.type;
+                            // Skip doors - don't place windows on doors
+                            if (wallType && wallType.includes('door')) {
+                                continue;
+                            }
+                            
+                            const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
+                            
+                            // Calculate closest point on wall segment to click position
+                            const dx = x2 - x1;
+                            const dy = y2 - y1;
+                            const wallLength = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (wallLength === 0) continue; // Skip zero-length walls
+                            
+                            // Project click point onto wall line, clamp to segment
+                            const t = Math.max(0, Math.min(1, 
+                                ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
+                            ));
+                            
+                            // Closest point on wall
+                            const projX = x1 + t * dx;
+                            const projY = y1 + t * dy;
+                            
+                            // Distance from click to closest point on wall
+                            const dist = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
+                            
+                            if (dist < nearestDist && dist < 1.5) { // Within 1.5 tiles of wall
+                                nearestDist = dist;
+                                nearestWall = { key: wallKey, x1, y1, x2, y2 };
+                                // Snap to nearest 0.5 increment along wall for clean placement
+                                closestPointX = Math.round(projX * 2) / 2;
+                                closestPointY = Math.round(projY * 2) / 2;
+                            }
+                        }
+                        
+                        if (nearestWall) {
+                            // Place window at the closest point on the wall (snapped to 0.5 grid)
+                            setWindowOverlay(
+                                closestPointX, 
+                                closestPointY, 
+                                toolSettings.selectedWallType,
+                                nearestWall.key // Pass wall key for reference
+                            );
+                        }
+                    }
+                }
+                return;
+                
+            case 'wall_erase':
+                // Erase wall or window at clicked position - NO DRAWING STATE
+                const eraseWallCoords = screenToGrid(e.clientX, e.clientY);
+                if (eraseWallCoords) {
+                    const gx = eraseWallCoords.gridX;
+                    const gy = eraseWallCoords.gridY;
+                    const clickX = gx + 0.5;
+                    const clickY = gy + 0.5;
+                    
+                    // First check for windows near this position
+                    let windowRemoved = false;
+                    if (windowOverlays) {
+                        // Find nearest window within range
+                        let nearestWindowKey = null;
+                        let nearestDist = 1.5; // Max distance to detect
+                        
+                        for (const [windowKey, windowData] of Object.entries(windowOverlays)) {
+                            const wx = windowData.gridX;
+                            const wy = windowData.gridY;
+                            const dist = Math.sqrt(Math.pow(clickX - wx, 2) + Math.pow(clickY - wy, 2));
+                            if (dist < nearestDist) {
+                                nearestDist = dist;
+                                nearestWindowKey = windowKey;
+                            }
+                        }
+                        
+                        if (nearestWindowKey) {
+                            const windowData = windowOverlays[nearestWindowKey];
+                            removeWindowOverlay(windowData.gridX, windowData.gridY);
+                            windowRemoved = true;
+                        }
+                    }
+                    
+                    // If no window removed, try removing walls
+                    if (!windowRemoved) {
+                        const wallsNear = findWallsNearPosition(gx, gy);
+                        if (wallsNear.length > 0) {
+                            wallsNear.forEach(wall => {
+                                removeWall(wall.x1, wall.y1, wall.x2, wall.y2);
+                            });
+                        }
+                    }
+                }
+                return;
+                
+            case 'wall_select': {
+                const wallSelectCoords = screenToGrid(e.clientX, e.clientY);
+                if (!wallSelectCoords) return;
+                
+                const selGx = wallSelectCoords.gridX;
+                const selGy = wallSelectCoords.gridY;
+                const selClickX = selGx + 0.5;
+                const selClickY = selGy + 0.5;
+                
+                // If we're already locked to an object, start dragging it
+                if (isObjectLocked && (selectedWallKey || selectedWindow)) {
+                    // Initialize drag refs from current state
+                    lastDragPosRef.current = { gridX: selGx, gridY: selGy };
+                    if (selectedWindow) {
+                        dragWindowRef.current = {
+                            gridX: selectedWindow.gridX,
+                            gridY: selectedWindow.gridY,
+                            data: selectedWindow.data
+                        };
+                        dragWallRef.current = null;
+                    } else if (selectedWallKey) {
+                        const [x1, y1, x2, y2] = selectedWallKey.split(',').map(Number);
+                        dragWallRef.current = { x1, y1, x2, y2, key: selectedWallKey };
+                        dragWindowRef.current = null;
+                    }
+                    setWallDragStart({ gridX: selGx, gridY: selGy });
+                    setIsDraggingWall(true);
+                    setIsDrawing(true);
+                    return;
+                }
+                
+                // Otherwise, try to find and select an object at click position
+                // Check windows first (smaller targets)
+                let foundWindow = null;
+                if (windowOverlays) {
+                    let nearestDist = 1.5;
+                    for (const [windowKey, windowData] of Object.entries(windowOverlays)) {
+                        const wx = windowData.gridX;
+                        const wy = windowData.gridY;
+                        const dist = Math.sqrt(Math.pow(selClickX - wx, 2) + Math.pow(selClickY - wy, 2));
+                        if (dist < nearestDist) {
+                            nearestDist = dist;
+                            foundWindow = { 
+                                key: windowKey, 
+                                gridX: wx, 
+                                gridY: wy, 
+                                data: windowData 
+                            };
+                        }
+                    }
+                }
+                
+                if (foundWindow) {
+                    // Select and lock to this window - initialize drag refs
+                    dragWindowRef.current = {
+                        gridX: foundWindow.gridX,
+                        gridY: foundWindow.gridY,
+                        data: foundWindow.data
+                    };
+                    dragWallRef.current = null;
+                    lastDragPosRef.current = { gridX: selGx, gridY: selGy };
+                    
+                    setSelectedWindow(foundWindow);
+                    setSelectedWindowKey(foundWindow.key);
+                    setSelectedWallKey(null);
+                    setIsObjectLocked(true);
+                    setWallDragStart({ gridX: selGx, gridY: selGy });
+                    setIsDraggingWall(true);
+                    setIsDrawing(true);
+                    return;
+                }
+                
+                // Check walls/doors
+                const wallsNear = findWallsNearPosition(selGx, selGy);
+                if (wallsNear.length > 0) {
+                    // Select and lock to this wall/door - initialize drag refs
+                    const [x1, y1, x2, y2] = wallsNear[0].key.split(',').map(Number);
+                    dragWallRef.current = { x1, y1, x2, y2, key: wallsNear[0].key };
+                    dragWindowRef.current = null;
+                    lastDragPosRef.current = { gridX: selGx, gridY: selGy };
+                    
+                    setSelectedWallKey(wallsNear[0].key);
+                    setSelectedWindowKey(null);
+                    setSelectedWindow(null);
+                    setIsObjectLocked(true);
+                    setWallDragStart({ gridX: selGx, gridY: selGy });
+                    setIsDraggingWall(true);
+                    setIsDrawing(true);
+                    return;
+                }
+                
+                // Clicked on empty space - don't deselect if locked
+                // Only deselect if not locked
+                if (!isObjectLocked) {
+                    setSelectedWallKey(null);
+                    setSelectedWindowKey(null);
+                    setSelectedWindow(null);
+                    // Clear drag refs
+                    dragWindowRef.current = null;
+                    dragWallRef.current = null;
+                    lastDragPosRef.current = null;
+                }
+                return;
+            }
             case 'fog_clear_all':
                 // Clear all fog - NO DRAWING STATE
                 clearAllFog();
@@ -1005,6 +1350,59 @@ const ProfessionalVTTEditor = () => {
                 if (shapeCoords) {
                     setCurrentPath([shapeCoords]);
                     setCurrentDrawingPath([shapeCoords]);
+                    setIsDrawing(true);
+                    setIsCurrentlyDrawing(true);
+                    setCurrentDrawingTool(selectedTool);
+                }
+                return;
+            case 'polygon':
+                // Handle polygon point addition
+                const polyCoords = screenToGrid(e.clientX, e.clientY);
+                if (polyCoords) {
+                    if (isDrawing && currentPath.length > 0) {
+                        // Check if clicking near the first point to complete polygon
+                        const firstPoint = currentPath[0];
+                        const distance = Math.sqrt(
+                            Math.pow(polyCoords.gridX - firstPoint.gridX, 2) +
+                            Math.pow(polyCoords.gridY - firstPoint.gridY, 2)
+                        );
+
+                        if (distance < 1.0 && currentPath.length >= 3) {
+                            // Complete the polygon by finalizing it
+                            const pathData = {
+                                tool: 'polygon',
+                                points: currentPath,
+                                style: {
+                                    strokeWidth: toolSettings.strokeWidth || 2,
+                                    strokeColor: toolSettings.strokeColor || '#000000',
+                                    fillColor: toolSettings.fillColor || 'transparent',
+                                    opacity: toolSettings.opacity || 1
+                                },
+                                layer: 'drawings',
+                                timestamp: Date.now()
+                            };
+
+                            addDrawingPath(pathData);
+
+                            // Reset drawing state
+                            setIsDrawing(false);
+                            setCurrentPath([]);
+                            clearCurrentDrawing();
+                            setIsCurrentlyDrawing(false);
+                            setCurrentDrawingTool('');
+                        } else {
+                            // Add point to existing polygon
+                            setCurrentPath(prev => [...prev, polyCoords]);
+                            setCurrentDrawingPath(prev => [...prev, polyCoords]);
+                        }
+                    } else {
+                        // Start new polygon
+                        setCurrentPath([polyCoords]);
+                        setCurrentDrawingPath([polyCoords]);
+                        setIsDrawing(true);
+                        setIsCurrentlyDrawing(true);
+                        setCurrentDrawingTool('polygon');
+                    }
                 }
                 return;
         }
@@ -1246,6 +1644,85 @@ const ProfessionalVTTEditor = () => {
                     }
                 }
                 break;
+            case 'wall_select':
+                // Handle wall or window dragging using refs to avoid stale state
+                if (isDraggingWall && lastDragPosRef.current && isDrawing) {
+                    const moveCoords = screenToGrid(e.clientX, e.clientY);
+                    if (moveCoords) {
+                        const deltaX = moveCoords.gridX - lastDragPosRef.current.gridX;
+                        const deltaY = moveCoords.gridY - lastDragPosRef.current.gridY;
+                        
+                        if (deltaX !== 0 || deltaY !== 0) {
+                            if (dragWindowRef.current) {
+                                // Move window using ref values (not stale state)
+                                const oldX = dragWindowRef.current.gridX;
+                                const oldY = dragWindowRef.current.gridY;
+                                const newX = oldX + deltaX;
+                                const newY = oldY + deltaY;
+                                const newKey = `${newX.toFixed(1)},${newY.toFixed(1)}`;
+                                const oldKey = `${oldX.toFixed(1)},${oldY.toFixed(1)}`;
+                                
+                                // Check if there's already a different window at the target position
+                                const existingWindow = windowOverlays[newKey];
+                                if (existingWindow && newKey !== oldKey) {
+                                    // Don't move - there's already a window here
+                                    // Just update drag position so we can continue dragging
+                                    lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
+                                    break;
+                                }
+                                
+                                // Remove from old position, add to new position
+                                removeWindowOverlay(oldX, oldY);
+                                setWindowOverlay(newX, newY, dragWindowRef.current.data.type, dragWindowRef.current.data.wallKey);
+                                
+                                // Update the ref immediately (sync) for next drag event
+                                dragWindowRef.current.gridX = newX;
+                                dragWindowRef.current.gridY = newY;
+                                lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
+                                
+                                // Also update state for rendering (async, but that's fine)
+                                const newWindowData = {
+                                    key: newKey,
+                                    gridX: newX,
+                                    gridY: newY,
+                                    data: dragWindowRef.current.data
+                                };
+                                setSelectedWindow(newWindowData);
+                                setSelectedWindowKey(newKey);
+                                setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
+                            } else if (dragWallRef.current) {
+                                // Move wall using ref values
+                                const { x1, y1, x2, y2, key: oldWallKey } = dragWallRef.current;
+                                const newX1 = x1 + deltaX;
+                                const newY1 = y1 + deltaY;
+                                const newX2 = x2 + deltaX;
+                                const newY2 = y2 + deltaY;
+                                
+                                // Calculate new key
+                                const newKey = newX1 < newX2 || (newX1 === newX2 && newY1 < newY2)
+                                    ? `${newX1},${newY1},${newX2},${newY2}`
+                                    : `${newX2},${newY2},${newX1},${newY1}`;
+                                
+                                // Check if there's already a different wall at the target position
+                                const existingWall = wallData[newKey];
+                                if (existingWall && newKey !== oldWallKey) {
+                                    // Don't move - there's already a wall here
+                                    lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
+                                    break;
+                                }
+                                
+                                moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2);
+                                
+                                // Update ref for next drag event
+                                dragWallRef.current = { x1: newX1, y1: newY1, x2: newX2, y2: newY2, key: newKey };
+                                lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
+                                
+                                setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
+                            }
+                        }
+                    }
+                }
+                break;
             case 'line':
             case 'rectangle':
             case 'circle':
@@ -1253,6 +1730,23 @@ const ProfessionalVTTEditor = () => {
                 const shapeCoords = screenToGrid(e.clientX, e.clientY);
                 if (shapeCoords && currentPath.length > 0) {
                     const newPath = [currentPath[0], shapeCoords];
+                    setCurrentPath(newPath);
+                    setCurrentDrawingPath(newPath);
+                }
+                break;
+            case 'polygon':
+                // For polygon, create a triangle from start and end points
+                const polyCoords = screenToGrid(e.clientX, e.clientY);
+                if (polyCoords && currentPath.length > 0) {
+                    const startPoint = currentPath[0];
+                    // Calculate third point to form a triangle
+                    const dx = polyCoords.gridX - startPoint.gridX;
+                    const dy = polyCoords.gridY - startPoint.gridY;
+                    const thirdPoint = {
+                        gridX: startPoint.gridX + dx * 0.5 - dy * 0.3,
+                        gridY: startPoint.gridY + dy * 0.5 + dx * 0.3
+                    };
+                    const newPath = [startPoint, polyCoords, thirdPoint];
                     setCurrentPath(newPath);
                     setCurrentDrawingPath(newPath);
                 }
@@ -1266,7 +1760,7 @@ const ProfessionalVTTEditor = () => {
                 }
                 break;
         }
-    }, [isDrawing, isEditorMode, screenToGrid, selectedTool, toolSettings, paintTerrainBrush, removeTerrainAtPosition, currentPath, setCurrentPath, setCurrentDrawingPath, handleDrawingErase, paintFogBrush, removeFogAtPosition, gridSize]);
+    }, [isDrawing, isEditorMode, screenToGrid, selectedTool, toolSettings, paintTerrainBrush, removeTerrainAtPosition, currentPath, setCurrentPath, setCurrentDrawingPath, handleDrawingErase, paintFogBrush, removeFogAtPosition, gridSize, windowOverlays, wallData]);
 
     const handleMouseUp = useCallback(() => {
         // For select tools, let ObjectSystem handle the events
@@ -1296,6 +1790,15 @@ const ProfessionalVTTEditor = () => {
         }
 
         if (!isDrawing) return;
+
+        // Handle wall select drag end
+        if (selectedTool === 'wall_select') {
+            setIsDrawing(false);
+            setWallDragStart(null);
+            setIsDraggingWall(false);
+            // Keep selection active after drag
+            return;
+        }
 
         // Finish fog paths if we were drawing fog
         if (selectedTool === 'fog_paint') {
@@ -1369,7 +1872,7 @@ const ProfessionalVTTEditor = () => {
                     fillColor: toolSettings.fillColor || 'transparent',
                     opacity: toolSettings.opacity || 1
                 },
-                layer: selectedTool === 'freehand' || selectedTool === 'line' || selectedTool === 'rectangle' || selectedTool === 'circle' || selectedTool === 'text' ? 'drawings' : activeLayer,
+                layer: selectedTool === 'freehand' || selectedTool === 'line' || selectedTool === 'rectangle' || selectedTool === 'circle' || selectedTool === 'polygon' || selectedTool === 'text' ? 'drawings' : activeLayer,
                 timestamp: Date.now()
             };
 
@@ -1386,6 +1889,36 @@ const ProfessionalVTTEditor = () => {
         setCurrentDrawingTool('');
     }, [isDrawing, currentPath, selectedTool, toolSettings, activeLayer, addDrawingPath, setWall, clearCurrentDrawing, selectionRect, findObjectsInArea, finishFogPath, finishFogErasePath, setIsCurrentlyDrawing, setCurrentDrawingTool]);
 
+    // Handle right-click context menu (used for completing polygons)
+    const handleContextMenu = useCallback((e) => {
+        e.preventDefault(); // Prevent default context menu
+
+        // Complete polygon on right-click if currently drawing a polygon
+        if (selectedTool === 'polygon' && isDrawing && currentPath.length >= 3) {
+            const pathData = {
+                tool: 'polygon',
+                points: currentPath,
+                style: {
+                    strokeWidth: toolSettings.strokeWidth || 2,
+                    strokeColor: toolSettings.strokeColor || '#000000',
+                    fillColor: toolSettings.fillColor || 'transparent',
+                    opacity: toolSettings.opacity || 1
+                },
+                layer: 'drawings',
+                timestamp: Date.now()
+            };
+
+            addDrawingPath(pathData);
+
+            // Reset drawing state
+            setIsDrawing(false);
+            setCurrentPath([]);
+            clearCurrentDrawing();
+            setIsCurrentlyDrawing(false);
+            setCurrentDrawingTool('');
+        }
+    }, [selectedTool, isDrawing, currentPath, toolSettings, addDrawingPath, clearCurrentDrawing, setIsCurrentlyDrawing, setCurrentDrawingTool]);
+
     // Keyboard shortcuts
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -1394,8 +1927,20 @@ const ProfessionalVTTEditor = () => {
             switch (e.key.toLowerCase()) {
                 case 'escape':
                     e.preventDefault();
-                    setIsOpen(false);
-                    setEditorMode(false);
+                    // If we have a wall/window selected, deselect it first
+                    if (isObjectLocked || selectedWallKey || selectedWindow) {
+                        setSelectedWallKey(null);
+                        setSelectedWindowKey(null);
+                        setSelectedWindow(null);
+                        setIsObjectLocked(false);
+                        dragWindowRef.current = null;
+                        dragWallRef.current = null;
+                        lastDragPosRef.current = null;
+                    } else {
+                        // Only close editor if nothing is selected
+                        setIsOpen(false);
+                        setEditorMode(false);
+                    }
                     break;
                 case '1':
                     e.preventDefault();
@@ -1428,7 +1973,22 @@ const ProfessionalVTTEditor = () => {
                 case 'delete':
                 case 'backspace':
                     e.preventDefault();
-                    if (selectedDrawings.length > 0) {
+                    // Delete selected wall/window if in wall_select mode
+                    if (selectedTool === 'wall_select' && isObjectLocked) {
+                        if (selectedWindow) {
+                            removeWindowOverlay(selectedWindow.gridX, selectedWindow.gridY);
+                            setSelectedWindow(null);
+                            setSelectedWindowKey(null);
+                        } else if (selectedWallKey) {
+                            const [x1, y1, x2, y2] = selectedWallKey.split(',').map(Number);
+                            removeWall(x1, y1, x2, y2);
+                            setSelectedWallKey(null);
+                        }
+                        setIsObjectLocked(false);
+                        dragWindowRef.current = null;
+                        dragWallRef.current = null;
+                        lastDragPosRef.current = null;
+                    } else if (selectedDrawings.length > 0) {
                         // Delete selected drawings
                         selectedDrawings.forEach(id => {
                             // Remove drawing logic here
@@ -1441,7 +2001,7 @@ const ProfessionalVTTEditor = () => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, selectedDrawings, clearDrawingSelection, handleTabChange, handleToolSelect]);
+    }, [isOpen, selectedDrawings, clearDrawingSelection, handleTabChange, handleToolSelect, isObjectLocked, selectedWallKey, selectedWindow, setSelectedWallKey, setSelectedWindowKey, selectedTool, removeWindowOverlay, removeWall]);
 
     // Cleanup RAF on unmount or when editor closes
     useEffect(() => {
@@ -1713,6 +2273,7 @@ const ProfessionalVTTEditor = () => {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
+                    onContextMenu={handleContextMenu}
                     onMouseLeave={() => setHoverPreview({ show: false, gridX: 0, gridY: 0, brushSize: 1 })}
                     style={{
                         position: 'absolute',
@@ -1866,6 +2427,56 @@ const ProfessionalVTTEditor = () => {
                 onRemove={handleAreaRemove}
                 selectedObjects={selectedAreaObjects}
             />
+
+            {/* Selection Indicator - shows when an object is selected and locked */}
+            {selectedTool === 'wall_select' && isObjectLocked && (selectedWallKey || selectedWindow) && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        background: 'rgba(42, 36, 25, 0.95)',
+                        border: '1px solid #d4af37',
+                        borderRadius: '20px',
+                        padding: '8px 20px',
+                        zIndex: 9999,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+                    }}
+                >
+                    <span style={{ color: '#f0e6d2', fontSize: '13px' }}>
+                        Selected: <strong style={{ color: '#d4af37' }}>
+                            {selectedWindow ? 'Window' : 
+                             (wallData[selectedWallKey]?.type?.includes('door') ? 'Door' : 'Wall')}
+                        </strong>
+                    </span>
+                    <span style={{ color: '#a08c70', fontSize: '11px' }}>
+                        Drag to move
+                    </span>
+                    <button
+                        onClick={() => {
+                            setSelectedWallKey(null);
+                            setSelectedWindowKey(null);
+                            setSelectedWindow(null);
+                            setIsObjectLocked(false);
+                        }}
+                        style={{
+                            background: '#4a3a25',
+                            border: '1px solid #5a4a3a',
+                            borderRadius: '12px',
+                            padding: '4px 12px',
+                            color: '#d4af37',
+                            cursor: 'pointer',
+                            fontSize: '11px'
+                        }}
+                    >
+                        Unlock
+                    </button>
+                </div>
+            )}
 
         </>
     );

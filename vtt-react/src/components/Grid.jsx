@@ -25,6 +25,7 @@ import TileOverlay from "./level-editor/TileOverlay";
 import LightSourceOverlay from "./level-editor/LightSourceOverlay";
 import ShadowOverlay from "./level-editor/ShadowOverlay";
 import CanvasWallSystem from "./level-editor/CanvasWallSystem";
+import WallOverlay from "./level-editor/WallOverlay";
 import UnifiedContextMenu from "./level-editor/UnifiedContextMenu";
 import StaticFogOverlay from "./level-editor/StaticFogOverlay";
 import AfterimageOverlay from "./level-editor/AfterimageOverlay";
@@ -2787,99 +2788,8 @@ function GridComponent({
                             onMouseLeave={handleGridTileMouseLeave}
                             onMouseMove={handleGridTileMouseMove}
                         >
-                            {/* Wall decorations positioned relative to this tile - like objects inside tiles */}
-                            {showWallLayer && tileWalls.map((wall) => {
-                                const wallThickness = Math.max(12, tileSize * effectiveZoom * 0.2);
-                                const materialStyle = wall.type.interactive ? getDoorStyle(wall) : getWallMaterialStyle(wall.type.id);
-
-                                // Check if any adjacent tiles have fog of war to determine wall visibility
-                                const { x1, y1, x2, y2 } = wall.gridCoords;
-                                const adjacentTiles = [
-                                    { x: x1, y: y1 },
-                                    { x: x1 - 1, y: y1 },
-                                    { x: x2, y: y2 },
-                                    { x: x2 - 1, y: y2 }
-                                ];
-                                const hasAdjacentFog = adjacentTiles.some(pos => getFogOfWar(pos.x, pos.y));
-
-                                // Position wall relative to tile based on which side it's on
-                                let wallStyle = {
-                                    position: 'absolute',
-                                    background: materialStyle.background,
-                                    border: materialStyle.border,
-                                    borderRadius: '1px',
-                                    boxShadow: materialStyle.boxShadow,
-                                    zIndex: hasAdjacentFog ? 5 : 200, // Lower z-index when adjacent to fog so fog overlay appears on top
-                                    pointerEvents: hasAdjacentFog ? 'none' : 'auto', // Disable interaction when adjacent to fog
-                                    cursor: wall.type.interactive ? 'pointer' : 'default',
-                                    opacity: hasAdjacentFog ? (isGMMode ? 0.3 : 0) : 1 // Hide from players, semi-transparent for GM when adjacent to fog
-                                };
-
-                                // Check for adjacent walls to determine corner connections
-                                const hasAdjacentWalls = {
-                                    topLeft: wallData[`${x1 - 1},${y1 - 1},${x1},${y1 - 1}`] || wallData[`${x1},${y1 - 1},${x1 - 1},${y1 - 1}`],
-                                    topRight: wallData[`${x1},${y1 - 1},${x1 + 1},${y1 - 1}`] || wallData[`${x1 + 1},${y1 - 1},${x1},${y1 - 1}`],
-                                    bottomLeft: wallData[`${x1 - 1},${y1},${x1},${y1}`] || wallData[`${x1},${y1},${x1 - 1},${y1}`],
-                                    bottomRight: wallData[`${x1},${y1},${x1 + 1},${y1}`] || wallData[`${x1 + 1},${y1},${x1},${y1}`],
-                                    leftTop: wallData[`${x1 - 1},${y1 - 1},${x1 - 1},${y1}`] || wallData[`${x1 - 1},${y1},${x1 - 1},${y1 - 1}`],
-                                    leftBottom: wallData[`${x1 - 1},${y1},${x1 - 1},${y1 + 1}`] || wallData[`${x1 - 1},${y1 + 1},${x1 - 1},${y1}`],
-                                    rightTop: wallData[`${x1},${y1 - 1},${x1},${y1}`] || wallData[`${x1},${y1},${x1},${y1 - 1}`],
-                                    rightBottom: wallData[`${x1},${y1},${x1},${y1 + 1}`] || wallData[`${x1},${y1 + 1},${x1},${y1}`]
-                                };
-
-                                // Enhanced gap filling with better corner connections
-                                const extensionAmount = wallThickness * 0.6; // Larger extension for better coverage
-
-                                if (wall.side === 'left') {
-                                    // Vertical wall on left side of tile - extend to fill gaps
-                                    wallStyle = {
-                                        ...wallStyle,
-                                        left: `${-wallThickness / 2}px`,
-                                        top: `${-extensionAmount}px`, // Extend more beyond tile
-                                        width: `${wallThickness}px`,
-                                        height: `calc(100% + ${extensionAmount * 2}px)` // Fill gaps on both ends
-                                    };
-                                } else if (wall.side === 'right') {
-                                    // Vertical wall on right side of tile - extend to fill gaps
-                                    wallStyle = {
-                                        ...wallStyle,
-                                        right: `${-wallThickness / 2}px`,
-                                        top: `${-extensionAmount}px`, // Extend more beyond tile
-                                        width: `${wallThickness}px`,
-                                        height: `calc(100% + ${extensionAmount * 2}px)` // Fill gaps on both ends
-                                    };
-                                } else if (wall.side === 'top') {
-                                    // Horizontal wall on top side of tile - extend to fill gaps
-                                    wallStyle = {
-                                        ...wallStyle,
-                                        left: `${-extensionAmount}px`, // Extend more beyond tile
-                                        top: `${-wallThickness / 2}px`,
-                                        width: `calc(100% + ${extensionAmount * 2}px)`, // Fill gaps on both ends
-                                        height: `${wallThickness}px`
-                                    };
-                                } else if (wall.side === 'bottom') {
-                                    // Horizontal wall on bottom side of tile - extend to fill gaps
-                                    wallStyle = {
-                                        ...wallStyle,
-                                        left: `${-extensionAmount}px`, // Extend more beyond tile
-                                        bottom: `${-wallThickness / 2}px`,
-                                        width: `calc(100% + ${extensionAmount * 2}px)`, // Fill gaps on both ends
-                                        height: `${wallThickness}px`
-                                    };
-                                }
-
-                                return (
-                                    <div
-                                        key={`${wall.key}-${wall.side}`}
-                                        className="wall-decoration"
-                                        style={wallStyle}
-                                        onMouseEnter={(e) => handleWallMouseEnter(wall, e)}
-                                        onMouseLeave={handleWallMouseLeave}
-                                        onContextMenu={(e) => handleWallRightClick(wall, e)}
-                                        onClick={(e) => handleWallClick(wall, e)}
-                                    />
-                                );
-                            })}
+                            {/* Wall decorations removed - WallOverlay.jsx now handles all wall rendering
+                                with direct screen coordinate calculations for instant grid line alignment */}
                         </div>
                     );
                 })}
@@ -3054,8 +2964,11 @@ function GridComponent({
                 {/* Shadow Overlay - Dynamic shadow casting */}
                 <ShadowOverlay />
 
-                {/* Canvas Wall System - High-performance canvas-based wall rendering */}
+                {/* Canvas Wall System - High-performance canvas-based wall rendering with FOV support */}
                 <CanvasWallSystem />
+
+                {/* Wall Overlay - Invisible hit areas for door interactions only */}
+                <WallOverlay />
 
                 {/* Render grid items */}
                 {gridItems.map(gridItem => {

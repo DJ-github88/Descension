@@ -8,6 +8,7 @@ import './styles/WallTools.css';
 const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
     const [selectedWallType, setSelectedWallType] = useState('stone_wall');
     const [wallMode, setWallMode] = useState('continuous'); // continuous, rectangle
+    const [doorOrientation, setDoorOrientation] = useState('horizontal'); // horizontal, vertical
 
     // Wall tool configurations
     const wallTools = [
@@ -31,9 +32,9 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         },
         {
             id: 'wall_select',
-            name: 'Select Wall',
+            name: 'Select',
             icon: 'ability_hunter_markedfordeath',
-            description: 'Select and modify walls'
+            description: 'Select and move walls, doors, and windows'
         },
         {
             id: 'wall_erase',
@@ -44,7 +45,7 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     ];
 
     // Wall categories for organization using store WALL_TYPES
-    const wallCategories = {
+    const allWallCategories = {
         basic: {
             name: 'Basic Walls',
             icon: 'inv_misc_wall_01',
@@ -64,12 +65,55 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
             name: 'Interactive Elements',
             icon: 'inv_misc_key_03',
             walls: ['wooden_door', 'stone_door']
+        },
+        window: {
+            name: 'Windows',
+            icon: 'inv_misc_gem_crystal_01',
+            walls: ['glass_window', 'barred_window', 'arrow_slit', 'open_window']
         }
     };
 
+    // Filter categories based on selected tool
+    const getCategoriesForTool = (tool) => {
+        switch (tool) {
+            case 'wall_draw':
+                // Show all categories except interactive elements (doors) and windows
+                const { interactive, window: windowCat, ...wallCategories } = allWallCategories;
+                return wallCategories;
+            case 'door_place':
+                // Only show interactive elements (doors)
+                return { interactive: allWallCategories.interactive };
+            case 'window_place':
+                // Only show window types
+                return { window: allWallCategories.window };
+            default:
+                return {};
+        }
+    };
+
+    const wallCategories = getCategoriesForTool(selectedTool);
+
     const handleToolSelect = (toolId) => {
         onToolSelect(toolId);
-        updateSettings();
+        
+        // Auto-select appropriate wall type based on tool
+        if (toolId === 'door_place' && !['wooden_door', 'stone_door'].includes(selectedWallType)) {
+            setSelectedWallType('wooden_door');
+            onSettingsChange({
+                selectedWallType: 'wooden_door',
+                wallMode,
+                doorOrientation
+            });
+        } else if (toolId === 'window_place' && !['glass_window', 'barred_window', 'arrow_slit', 'open_window'].includes(selectedWallType)) {
+            setSelectedWallType('glass_window');
+            onSettingsChange({
+                selectedWallType: 'glass_window',
+                wallMode,
+                doorOrientation
+            });
+        } else {
+            updateSettings();
+        }
     };
 
     const handleWallTypeSelect = (wallType) => {
@@ -77,7 +121,8 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         // Pass the new wallType directly since setState is asynchronous
         onSettingsChange({
             selectedWallType: wallType,
-            wallMode
+            wallMode,
+            doorOrientation
         });
     };
 
@@ -86,14 +131,25 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         // Pass the new mode directly since setState is asynchronous
         onSettingsChange({
             selectedWallType,
-            wallMode: mode
+            wallMode: mode,
+            doorOrientation
+        });
+    };
+
+    const handleDoorOrientationChange = (orientation) => {
+        setDoorOrientation(orientation);
+        onSettingsChange({
+            selectedWallType,
+            wallMode,
+            doorOrientation: orientation
         });
     };
 
     const updateSettings = () => {
         onSettingsChange({
             selectedWallType,
-            wallMode
+            wallMode,
+            doorOrientation
         });
     };
 
@@ -101,7 +157,8 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     useEffect(() => {
         onSettingsChange({
             selectedWallType,
-            wallMode
+            wallMode,
+            doorOrientation
         });
     }, []); // Only run on mount
 
@@ -151,6 +208,24 @@ const WallTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                 {mode.name}
                             </button>
                         ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Door/Window placement hint */}
+            {(selectedTool === 'door_place' || selectedTool === 'window_place') && (
+                <div className="tool-section">
+                    <div style={{ 
+                        fontSize: '11px', 
+                        color: '#a08c70', 
+                        fontStyle: 'italic',
+                        padding: '8px',
+                        background: 'rgba(0,0,0,0.2)',
+                        borderRadius: '4px'
+                    }}>
+                        {selectedTool === 'door_place' 
+                            ? 'Click on a wall to place a door. Orientation auto-detects from nearby walls.'
+                            : 'Click on a wall to place a window opening. Windows allow vision through.'}
                     </div>
                 </div>
             )}

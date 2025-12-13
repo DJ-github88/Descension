@@ -5,6 +5,11 @@
     pointer-events: none;
 }
 
+/* Door hit area - invisible clickable zone over doors */
+.door-hit-area {
+    /* Invisible but clickable */
+}
+
 .wall-element {
     position: absolute;
     transition: all 0.2s ease;

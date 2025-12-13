@@ -157,7 +157,7 @@ const DrawingTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
             id: 'polygon',
             name: 'Polygon',
             icon: 'inv_misc_gem_diamond_01',
-            description: 'Draw custom polygons'
+            description: 'Draw polygons by clicking and dragging'
         },
         {
             id: 'text',

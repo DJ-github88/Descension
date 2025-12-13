@@ -336,8 +336,8 @@ export const WALL_TYPES = {
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/wooden_door.png',
         icon: '🚪',
-        description: 'A wooden door that can be opened or closed',
-        states: ['closed', 'open'],
+        description: 'A wooden door that can be opened, closed, or locked',
+        states: ['closed', 'open', 'locked'],
         interactive: true
     },
     stone_door: {
@@ -349,9 +349,58 @@ export const WALL_TYPES = {
         blocksLineOfSight: true,
         imageUrl: '/assets/walls/stone_door.png',
         icon: '🚪',
-        description: 'A heavy stone door that can be opened or closed',
-        states: ['closed', 'open'],
+        description: 'A heavy stone door that can be opened, closed, or locked',
+        states: ['closed', 'open', 'locked'],
         interactive: true
+    },
+    // Window types - block movement but allow vision
+    glass_window: {
+        id: 'glass_window',
+        name: 'Glass Window',
+        category: 'window',
+        color: '#87CEEB',
+        blocksMovement: true,
+        blocksLineOfSight: false,
+        imageUrl: '/assets/walls/glass_window.png',
+        icon: '🪟',
+        description: 'A glass window - blocks movement but allows vision through',
+        isWindow: true
+    },
+    barred_window: {
+        id: 'barred_window',
+        name: 'Barred Window',
+        category: 'window',
+        color: '#708090',
+        blocksMovement: true,
+        blocksLineOfSight: false,
+        imageUrl: '/assets/walls/barred_window.png',
+        icon: '🪟',
+        description: 'A barred window - blocks movement but allows vision through',
+        isWindow: true
+    },
+    arrow_slit: {
+        id: 'arrow_slit',
+        name: 'Arrow Slit',
+        category: 'window',
+        color: '#4A4A4A',
+        blocksMovement: true,
+        blocksLineOfSight: false,
+        imageUrl: '/assets/walls/arrow_slit.png',
+        icon: '🎯',
+        description: 'A narrow arrow slit - blocks movement but allows limited vision',
+        isWindow: true
+    },
+    open_window: {
+        id: 'open_window',
+        name: 'Open Window',
+        category: 'window',
+        color: '#F5F5DC',
+        blocksMovement: false,
+        blocksLineOfSight: false,
+        imageUrl: '/assets/walls/open_window.png',
+        icon: '🪟',
+        description: 'An open window frame - allows movement and vision',
+        isWindow: true
     }
 };
 
@@ -509,6 +558,11 @@ const initialState = {
 
     // Wall data - stores walls placed on grid edges
     wallData: {}, // { "x1,y1,x2,y2": { type: wallType, state: 'closed'|'open', id: string } }
+    selectedWallKey: null, // Currently selected wall key for editing
+    
+    // Window overlays - placed on top of walls to create see-through points
+    windowOverlays: {}, // { "gridX,gridY": { type: windowType, id: string } }
+    selectedWindowKey: null, // Currently selected window key
 
     // D&D elements
     dndElements: [], // [{ id, type, position: {x, y}, properties }]
@@ -787,9 +841,122 @@ const useLevelEditorStore = create((set, get) => ({
                     : `${x2},${y2},${x1},${y1}`;
                 const newWallData = { ...state.wallData };
                 delete newWallData[key];
-                set({ wallData: newWallData });
+                // Clear selection if the removed wall was selected
+                const newSelectedWallKey = state.selectedWallKey === key ? null : state.selectedWallKey;
+                set({ wallData: newWallData, selectedWallKey: newSelectedWallKey });
                 
                 // Emit wall removal to multiplayer server
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    wallData: newWallData
+                                }
+                            });
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
+            },
+
+            // Wall selection
+            setSelectedWallKey: (key) => {
+                set({ selectedWallKey: key });
+            },
+            
+            // Window overlay operations
+            setWindowOverlay: (gridX, gridY, windowType, wallKey = null) => {
+                const state = get();
+                // Use precise key with one decimal place for fractional positions
+                const key = `${gridX.toFixed(1)},${gridY.toFixed(1)}`;
+                const newWindowOverlays = {
+                    ...state.windowOverlays,
+                    [key]: {
+                        type: windowType,
+                        id: Date.now().toString(),
+                        gridX: parseFloat(gridX.toFixed(1)),
+                        gridY: parseFloat(gridY.toFixed(1)),
+                        wallKey // Reference to the wall this window is on
+                    }
+                };
+                set({ windowOverlays: newWindowOverlays });
+                
+                // Emit to multiplayer
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: { windowOverlays: newWindowOverlays }
+                            });
+                        }
+                    }
+                }).catch(() => {});
+            },
+            
+            removeWindowOverlay: (gridX, gridY) => {
+                const state = get();
+                // Try both integer and fractional key formats
+                const keyInt = `${gridX},${gridY}`;
+                const keyFloat = `${parseFloat(gridX).toFixed(1)},${parseFloat(gridY).toFixed(1)}`;
+                const newWindowOverlays = { ...state.windowOverlays };
+                delete newWindowOverlays[keyInt];
+                delete newWindowOverlays[keyFloat];
+                set({ windowOverlays: newWindowOverlays });
+                
+                // Emit to multiplayer
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: { windowOverlays: newWindowOverlays }
+                            });
+                        }
+                    }
+                }).catch(() => {});
+            },
+            
+            getWindowOverlay: (gridX, gridY) => {
+                const state = get();
+                return state.windowOverlays[`${gridX},${gridY}`] || null;
+            },
+            
+            setWindowOverlays: (windowOverlays) => {
+                set({ windowOverlays: windowOverlays || {} });
+            },
+            
+            setSelectedWindowKey: (key) => {
+                set({ selectedWindowKey: key });
+            },
+            
+            // Move a wall to a new position
+            moveWall: (oldX1, oldY1, oldX2, oldY2, newX1, newY1, newX2, newY2) => {
+                const state = get();
+                // Create consistent keys
+                const oldKey = oldX1 < oldX2 || (oldX1 === oldX2 && oldY1 < oldY2)
+                    ? `${oldX1},${oldY1},${oldX2},${oldY2}`
+                    : `${oldX2},${oldY2},${oldX1},${oldY1}`;
+                const newKey = newX1 < newX2 || (newX1 === newX2 && newY1 < newY2)
+                    ? `${newX1},${newY1},${newX2},${newY2}`
+                    : `${newX2},${newY2},${newX1},${newY1}`;
+                
+                const existingWall = state.wallData[oldKey];
+                if (!existingWall) return;
+                
+                const newWallData = { ...state.wallData };
+                delete newWallData[oldKey];
+                newWallData[newKey] = existingWall;
+                
+                set({ 
+                    wallData: newWallData,
+                    selectedWallKey: newKey // Update selection to new key
+                });
+                
+                // Emit wall update to multiplayer server
                 import('./gameStore').then(({ default: useGameStore }) => {
                     const gameStore = useGameStore.getState();
                     if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {

@@ -75,9 +75,9 @@ const VTTDrawingEngine = () => {
             // Filter paths for this layer - only render drawing tools on drawings layer
             const layerPaths = drawingPaths.filter(path => {
                 if (layer.id === 'drawings') {
-                    // Only show drawing tools (freehand, line, rectangle, circle, text) on drawings layer
+                    // Only show drawing tools (freehand, line, rectangle, circle, polygon, text) on drawings layer
                     return path.layer === 'drawings' ||
-                           ['freehand', 'line', 'rectangle', 'circle', 'text'].includes(path.tool);
+                           ['freehand', 'line', 'rectangle', 'circle', 'polygon', 'text'].includes(path.tool);
                 }
                 return path.layer === layer.id;
             });
@@ -108,6 +108,9 @@ const VTTDrawingEngine = () => {
                         break;
                     case 'circle':
                         renderCirclePath(ctx, path.points);
+                        break;
+                    case 'polygon':
+                        renderPolygonPath(ctx, path.points);
                         break;
                     case 'text':
                         renderTextPath(ctx, path);
@@ -157,6 +160,9 @@ const VTTDrawingEngine = () => {
                     break;
                 case 'circle':
                     renderCirclePath(ctx, currentDrawingPath);
+                    break;
+                case 'polygon':
+                    renderPolygonPath(ctx, currentDrawingPath);
                     break;
                 case 'wall_draw':
                     // Don't render walls on main canvas - they're handled by wall system
@@ -275,10 +281,38 @@ const VTTDrawingEngine = () => {
 
         ctx.beginPath();
         ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
-        
+
         if (ctx.fillStyle !== 'transparent') {
             ctx.fill();
         }
+        ctx.stroke();
+    };
+
+    // Render polygon
+    const renderPolygonPath = (ctx, points) => {
+        if (points.length < 2) return; // Need at least 2 points
+
+        ctx.beginPath();
+
+        // Start with the first point
+        const startPoint = gridToScreen(points[0].gridX, points[0].gridY);
+        ctx.moveTo(startPoint.x, startPoint.y);
+
+        // Draw lines to each subsequent point
+        for (let i = 1; i < points.length; i++) {
+            const point = gridToScreen(points[i].gridX, points[i].gridY);
+            ctx.lineTo(point.x, point.y);
+        }
+
+        // For polygons with 3+ points, close the shape
+        if (points.length >= 3) {
+            ctx.closePath();
+
+            if (ctx.fillStyle !== 'transparent') {
+                ctx.fill();
+            }
+        }
+
         ctx.stroke();
     };
 
