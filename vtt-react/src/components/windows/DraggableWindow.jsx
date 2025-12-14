@@ -50,6 +50,21 @@ const DraggableWindow = forwardRef(({
     // Get window scale from store (hooks must be called before any early returns)
     const windowScale = useGameStore(state => state.windowScale);
 
+    // Detect mobile device
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    });
+
+    // Update mobile detection on resize
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // Debug: Log window scale changes (development only) - throttled
     const lastLoggedScale = useRef(windowScale);
     useEffect(() => {
@@ -290,18 +305,22 @@ const DraggableWindow = forwardRef(({
     // Calculate scale-aware grid size for consistent drag feel across all scales
     const gridSize = Math.max(1, Math.round(1 / windowScale)); // Reduced grid size for better responsiveness
 
+    // Disable dragging on mobile
+    const disableDragging = isMobile;
+
     return (
         <Draggable
-            handle={`.${handleClassName}`}
-            position={position}
+            handle={disableDragging ? '' : `.${handleClassName}`}
+            position={disableDragging ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
-            bounds={false} // Remove all bounds restrictions for free movement
-            grid={[gridSize, gridSize]} // Scale-aware grid snapping for consistent sensitivity
-            onStart={handleDragStart}
-            onDrag={handleDrag}
-            onStop={handleDragStop}
+            bounds={disableDragging ? false : false} // Remove all bounds restrictions for free movement
+            grid={disableDragging ? [1, 1] : [gridSize, gridSize]} // Scale-aware grid snapping for consistent sensitivity
+            onStart={disableDragging ? undefined : handleDragStart}
+            onDrag={disableDragging ? undefined : handleDrag}
+            onStop={disableDragging ? undefined : handleDragStop}
             scale={1} // Fixed scale to prevent double scaling - CSS handles visual scaling
-            enableUserSelectHack={true} // Enable user select hack to prevent text selection during drag
+            enableUserSelectHack={!disableDragging} // Enable user select hack to prevent text selection during drag
+            disabled={disableDragging} // Disable dragging on mobile
         >
             <div
                 ref={nodeRef}
@@ -312,20 +331,29 @@ const DraggableWindow = forwardRef(({
                     zIndex: zIndex, // Use z-index from props (managed by WowWindow)
                     transformOrigin: 'top left',
                     pointerEvents: 'auto',
+                    ...(isMobile && {
+                        width: '100vw',
+                        height: '100vh',
+                        height: '100dvh',
+                    })
                 }}
             >
                 <div
-                    className={`draggable-window ${className}`}
+                    className={`draggable-window ${className} ${isMobile ? 'mobile-fullscreen' : ''}`}
                     style={{
                         transformOrigin: 'top left',
-                        transform: `scale(${windowScale})`,
-                        willChange: 'transform',
+                        transform: isMobile ? 'none' : `scale(${windowScale})`,
+                        willChange: isMobile ? 'auto' : 'transform',
                         pointerEvents: 'auto',
-                    ...(defaultSize && {
-                        width: defaultSize.width,
-                        height: defaultSize.height
-                    })
-                }}
+                        ...(isMobile ? {
+                            width: '100vw',
+                            height: '100vh',
+                            height: '100dvh',
+                        } : defaultSize && {
+                            width: defaultSize.width,
+                            height: defaultSize.height
+                        })
+                    }}
             >
                     <div ref={windowRef}>
                         {children}

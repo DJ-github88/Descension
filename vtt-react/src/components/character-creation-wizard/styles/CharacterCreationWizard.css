@@ -1594,6 +1594,18 @@ button.gender-option.selected {
 
 /* Responsive design */
 @media (max-width: 768px) {
+    .character-wizard-container {
+        height: 100vh !important;
+        height: 100dvh !important; /* Use dynamic viewport height for mobile */
+        overflow: hidden !important;
+    }
+
+    .character-wizard-container .wizard-top-header {
+        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
+        min-height: 60px !important;
+        flex-shrink: 0 !important;
+    }
+
     .character-wizard-container .wizard-header {
         padding: 1rem;
     }
@@ -1608,22 +1620,76 @@ button.gender-option.selected {
     }
 
     .character-wizard-container .wizard-content {
-        padding: 1rem;
+        flex: 1 !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding: var(--pf-space-mobile-4) !important;
+        min-height: 0 !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+    }
+
+    .character-wizard-container .wizard-step-container {
+        flex: 1 !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
     }
 
     .character-wizard-container .wizard-step-content {
-        padding: 1rem;
+        padding: var(--pf-space-mobile-4);
+        min-height: auto !important;
+    }
+
+    .character-wizard-container .wizard-footer {
+        flex-shrink: 0 !important;
+        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
+        position: sticky !important;
+        bottom: 0 !important;
+        z-index: 100 !important;
+        background: linear-gradient(135deg, #f4f1e8 0%, #e8e0d0 100%) !important;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) !important;
+        border-top: 2px solid #d4af37 !important;
     }
 
     .character-wizard-container .wizard-navigation {
-        flex-direction: column;
-        gap: 1rem;
+        flex-direction: row !important;
+        gap: var(--pf-space-mobile-2) !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
     }
 
-    .character-wizard-container .nav-left,
-    .character-wizard-container .nav-center,
+    .character-wizard-container .nav-left {
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+        justify-content: flex-start !important;
+    }
+
+    .character-wizard-container .nav-center {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        justify-content: center !important;
+    }
+
     .character-wizard-container .nav-right {
-        justify-content: center;
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+        justify-content: flex-end !important;
+    }
+
+    .character-wizard-container .wizard-btn {
+        min-height: var(--pf-touch-target-comfortable) !important;
+        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
+        font-size: var(--pf-font-size-mobile-base) !important;
+        min-width: 100px !important;
+        flex: 1 1 auto !important;
+    }
+
+    .character-wizard-container .nav-left .wizard-btn,
+    .character-wizard-container .nav-right .wizard-btn {
+        flex: 0 0 auto !important;
+        min-width: 90px !important;
     }
 
     .character-wizard-container .basic-info-layout {
@@ -5825,37 +5891,48 @@ button.gender-option.selected {
 /* For screens smaller than 1000px - stack header elements */
 @media (max-width: 1000px) {
     .character-wizard-container .wizard-top-header {
-        flex-direction: column;
-        align-items: stretch !important;
-        gap: 0.75rem !important;
-        padding: 0.75rem 1rem !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: var(--pf-space-mobile-2) !important;
+        padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4) !important;
+        min-height: 60px !important;
+        flex-wrap: nowrap !important;
     }
 
     .header-left {
-        justify-content: space-between;
-        width: 100%;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 44px !important;
+        justify-content: flex-start !important;
     }
 
     .header-center {
-        width: 100%;
-        padding: 0;
-        justify-content: flex-start;
-        order: 3;
-        overflow-x: auto;
-        overflow-y: hidden;
+        flex: 1 1 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+        padding: 0 var(--pf-space-mobile-2) !important;
+        justify-content: flex-start !important;
+        order: 0 !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: #d4af37 rgba(212, 175, 55, 0.2) !important;
     }
 
     .header-right {
-        width: 100%;
-        justify-content: flex-end;
-        order: 2;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        justify-content: flex-end !important;
+        order: 0 !important;
     }
 
     .progress-steps-horizontal {
-        width: auto;
-        min-width: 100%;
-        justify-content: flex-start;
-        padding-bottom: 0.5rem;
+        width: auto !important;
+        min-width: max-content !important;
+        justify-content: flex-start !important;
+        gap: var(--pf-space-mobile-1) !important;
+        padding: 0 !important;
     }
 
     .header-center::-webkit-scrollbar {
@@ -5883,11 +5960,17 @@ button.gender-option.selected {
         min-height: 32px;
         max-width: 32px;
         max-height: 32px;
+        font-size: 0.85rem !important;
     }
 
     .progress-step-horizontal {
-        min-width: 50px;
-        flex-shrink: 0;
+        min-width: 36px !important;
+        max-width: 36px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .step-name-horizontal {
+        display: none !important;
     }
 }
 

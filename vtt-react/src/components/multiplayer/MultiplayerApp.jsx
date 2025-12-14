@@ -17,6 +17,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import useAuthStore from '../../store/authStore';
 import useDialogueStore from '../../store/dialogueStore';
+import useCombatStore from '../../store/combatStore';
 import { showPlayerJoinNotification, showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { RoomProvider, useRoomContext } from '../../contexts/RoomContext';
 import './styles/MultiplayerApp.css';
@@ -2510,7 +2511,8 @@ const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer, conne
         {isGMMode && <DynamicFogManager />}
         {isGMMode && <DynamicLightingManager />}
         {isGMMode && <AtmosphericEffectsManager />}
-        {!isGMMode && <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />}
+        {/* Memory system runs in both modes - tracks exploration when viewingFromToken is set */}
+        <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
         <DialogueSystem />
         {isGMMode && <DialogueControls />}
         <DiceRollingSystem />

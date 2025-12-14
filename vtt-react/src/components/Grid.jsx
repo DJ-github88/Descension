@@ -369,103 +369,122 @@ function GridComponent({
     }, [effectiveZoom]);
 
     // Automatically set player's view to their token (fog of war viewable) when not in GM mode
-    // Use ref to track if we've already set the view to prevent infinite loops
+    // CRITICAL FIX: Re-enabled auto-detection for player mode to enable memory/afterimage system
     const hasSetPlayerViewRef = useRef(false);
     const playerViewSetupTimeoutRef = useRef(null);
     const previousGMModeRef = useRef(isGMMode);
 
-    // TEMPORARILY DISABLE ENTIRE PLAYER VIEW SETUP TO TEST
-    // // PERFORMANCE FIX: Only run player view setup when actually switching from GM to Player mode
-    // // Remove characterTokens from dependencies to prevent constant re-runs
-    // useEffect(() => {
-    //     // Detect if we just switched from GM to Player mode
-    //     const justSwitchedToPlayerMode = previousGMModeRef.current && !isGMMode;
-    //     previousGMModeRef.current = isGMMode;
-    //
-    //     // Clear any pending setup
-    //     if (playerViewSetupTimeoutRef.current) {
-    //         clearTimeout(playerViewSetupTimeoutRef.current);
-    //         playerViewSetupTimeoutRef.current = null;
-    //     }
-    //
-    //     // Reset tracking when switching to GM mode
-    //     if (isGMMode) {
-    //         hasSetPlayerViewRef.current = false;
-    //         return;
-    //     }
-    //
-    //     // Only set if viewing token is not already set and we haven't set it before
-    //     // OR if we just switched from GM to Player mode (force refresh)
-    //     if (!justSwitchedToPlayerMode && (viewingFromToken || hasSetPlayerViewRef.current)) {
-    //         return;
-    //     }
-    //
-    //     // Use startTransition to make this update non-blocking and prevent UI freeze
-    //     // Delay slightly to allow the mode switch UI to update first
-    //     playerViewSetupTimeoutRef.current = setTimeout(() => {
-    //         React.startTransition(() => {
-    //             // Get fresh token data from stores
-    //             const gameStore = useGameStore.getState();
-    //             const characterStore = useCharacterTokenStore.getState();
-    //             const currentCharacterTokens = characterStore.characterTokens;
-    //             let playerToken = null;
-    //
-    //             if (isInMultiplayer && multiplayerRoom) {
-    //                 // In multiplayer, find token by current player's ID
-    //                 const currentPlayerId = multiplayerRoom.gm?.id ||
-    //                                        (multiplayerRoom.players &&
-    //                                         Array.from(multiplayerRoom.players.values())[0]?.id);
-    //
-    //                 if (currentPlayerId) {
-    //                     playerToken = currentCharacterTokens.find(token =>
-    //                         token.playerId === currentPlayerId || token.id === currentPlayerId
-    //                     );
-    //                 }
-    //             } else {
-    //                 // In single player, look for isPlayerToken
-    //                 playerToken = currentCharacterTokens.find(token => token.isPlayerToken);
-    //             }
-    //
-    //             if (playerToken && playerToken.position) {
-    //                 // Mark that we've set the view to prevent re-running
-    //                 hasSetPlayerViewRef.current = true;
-    //
-    //                 // Batch all state updates together using requestAnimationFrame
-    //                 // This prevents multiple re-renders and improves performance
-    //                 requestAnimationFrame(() => {
-    //                     const editorStore = useLevelEditorStore.getState();
-    //
-    //                     // TEMPORARILY DISABLED: Enable dynamic fog if not already enabled
-    //                     // if (!editorStore.dynamicFogEnabled) {
-    //                     //     editorStore.setDynamicFogEnabled(true);
-    //                     // }
-    //
-    //                     // TEMPORARILY DISABLED: Set viewing token to player's token (enables fog of war view from token perspective)
-    //                     // const tokenData = {
-    //                     //     type: 'character',
-    //                     //     id: playerToken.id,
-    //                     //     characterId: playerToken.id,
-    //                     //     playerId: playerToken.playerId,
-    //                     //     position: playerToken.position
-    //                     // };
-    //                     // editorStore.setViewingFromToken(tokenData);
-    //
-    //                     // TEMPORARILY DISABLED: Center camera on token initially (in next frame to avoid conflict)
-    //                     // requestAnimationFrame(() => {
-    //                     //     gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
-    //                     // });
-    //                 });
-    //             }
-    //         });
-    //     }, 100); // Reduced delay since we're using startTransition for non-blocking updates
-    //
-    //     return () => {
-    //         if (playerViewSetupTimeoutRef.current) {
-    //             clearTimeout(playerViewSetupTimeoutRef.current);
-    //             playerViewSetupTimeoutRef.current = null;
-    //         }
-    //     };
-    // }, [isGMMode, isInMultiplayer, multiplayerRoom, viewingFromToken]);
+    // Auto-detect token for viewing (enables memory/afterimage system)
+    // Works in both GM mode (for testing) and Player mode (for gameplay)
+    // CRITICAL: Also runs on initial load to enable memory system immediately
+    const isInitialLoadRef = useRef(true);
+    
+    useEffect(() => {
+        // Track mode changes
+        const justSwitchedToPlayerMode = previousGMModeRef.current && !isGMMode;
+        const justSwitchedToGMMode = !previousGMModeRef.current && isGMMode;
+        const isInitialLoad = isInitialLoadRef.current;
+        previousGMModeRef.current = isGMMode;
+        isInitialLoadRef.current = false;
+
+        // Clear any pending setup
+        if (playerViewSetupTimeoutRef.current) {
+            clearTimeout(playerViewSetupTimeoutRef.current);
+            playerViewSetupTimeoutRef.current = null;
+        }
+
+        // Reset tracking when switching between modes
+        if (justSwitchedToGMMode || justSwitchedToPlayerMode) {
+            hasSetPlayerViewRef.current = false;
+        }
+
+        // Run on initial load OR when mode switches
+        // ALSO run if viewingFromToken is not set (for auto-detection on any load)
+        const shouldAutoDetect = isInitialLoad || justSwitchedToPlayerMode || justSwitchedToGMMode || !viewingFromToken;
+        if (!shouldAutoDetect && hasSetPlayerViewRef.current) {
+            return;
+        }
+
+        // Delay slightly to allow tokens to load and mode switch UI to update
+        playerViewSetupTimeoutRef.current = setTimeout(() => {
+            React.startTransition(() => {
+                // Get fresh token data from stores
+                const characterStore = useCharacterTokenStore.getState();
+                const creatureStore = useCreatureStore.getState();
+                const currentCharacterTokens = characterStore.characterTokens || [];
+                const currentCreatureTokens = creatureStore.tokens || [];
+                let playerToken = null;
+                
+                if (isInMultiplayer && multiplayerRoom && !isGMMode) {
+                    // In multiplayer PLAYER mode, find token by current player's ID
+                    const currentPlayerId = multiplayerRoom.gm?.id ||
+                                           (multiplayerRoom.players &&
+                                            Array.from(multiplayerRoom.players.values())[0]?.id);
+
+                    if (currentPlayerId) {
+                        playerToken = currentCharacterTokens.find(token =>
+                            token.playerId === currentPlayerId || token.id === currentPlayerId
+                        );
+                    }
+                } else {
+                    // In single player OR GM mode, look for tokens in priority order:
+                    // 1. Player token (isPlayerToken flag)
+                    // 2. First character token
+                    // 3. First creature token (for GM testing)
+                    playerToken = currentCharacterTokens.find(token => token.isPlayerToken);
+                    if (!playerToken && currentCharacterTokens.length > 0) {
+                        playerToken = currentCharacterTokens[0];
+                    }
+                    if (!playerToken && currentCreatureTokens.length > 0) {
+                        playerToken = { ...currentCreatureTokens[0], isCreature: true };
+                    }
+                }
+
+                if (playerToken && playerToken.position) {
+                    // Mark that we've set the view to prevent re-running
+                    hasSetPlayerViewRef.current = true;
+
+                    // Batch all state updates together using requestAnimationFrame
+                    requestAnimationFrame(() => {
+                        const editorStore = useLevelEditorStore.getState();
+
+                        // Enable dynamic fog if not already enabled
+                        if (!editorStore.dynamicFogEnabled) {
+                            editorStore.setDynamicFogEnabled(true);
+                        }
+
+                        // Set viewing token to player's token (enables fog of war view from token perspective)
+                        const tokenData = playerToken.isCreature ? {
+                            type: 'creature',
+                            id: playerToken.id,
+                            creatureId: playerToken.creatureId || playerToken.id,
+                            position: playerToken.position
+                        } : {
+                            type: 'character',
+                            id: playerToken.id,
+                            characterId: playerToken.id,
+                            playerId: playerToken.playerId,
+                            position: playerToken.position
+                        };
+                        editorStore.setViewingFromToken(tokenData);
+
+                        // Center camera on token initially
+                        requestAnimationFrame(() => {
+                            const gameStore = useGameStore.getState();
+                            gameStore.setCameraPosition(playerToken.position.x, playerToken.position.y);
+                        });
+                    });
+                }
+            });
+        }, 150); // Delay to allow mode switch to complete
+
+        return () => {
+            if (playerViewSetupTimeoutRef.current) {
+                clearTimeout(playerViewSetupTimeoutRef.current);
+                playerViewSetupTimeoutRef.current = null;
+            }
+        };
+    }, [isGMMode, isInMultiplayer, multiplayerRoom, viewingFromToken]);
 
     // Optimized grid tile generation with memoization
     const gridTilesGeneration = useMemo(() => {

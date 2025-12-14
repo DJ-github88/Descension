@@ -214,24 +214,19 @@ const AfterimageOverlay = () => {
             }
 
             // Check if the real token corresponding to this afterimage is currently visible
-            // If the real token is visible anywhere, don't show its afterimage
+            // If the real token is visible (in the visibleAreaSet), don't show its afterimage
             const allTokens = [...creatureTokens, ...(characterTokens || [])];
             const realToken = allTokens.find(t => t.id === tokenId);
 
             if (realToken && realToken.position) {
-                // Check if the real token is currently in the player's vision
-                const viewingFromToken = useLevelEditorStore.getState().viewingFromToken;
-                if (viewingFromToken && viewingFromToken.position) {
-                    const dx = realToken.position.x - viewingFromToken.position.x;
-                    const dy = realToken.position.y - viewingFromToken.position.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    const visionRange = 6; // Default vision range in tiles
-                    const maxDistance = visionRange * gridSize;
-
-                    const realTokenIsVisible = distance <= maxDistance;
-                    if (realTokenIsVisible) {
-                        return; // Don't show afterimage if the real token is currently visible
-                    }
+                // Calculate the real token's grid position
+                const realTokenGridX = Math.floor((realToken.position.x - gridOffsetX) / gridSize);
+                const realTokenGridY = Math.floor((realToken.position.y - gridOffsetY) / gridSize);
+                const realTokenTileKey = `${realTokenGridX},${realTokenGridY}`;
+                
+                // Check if the real token is in the visible area (accounts for walls/LOS)
+                if (visibleAreaSet.has(realTokenTileKey)) {
+                    return; // Don't show afterimage if the real token is currently visible
                 }
             }
 
@@ -292,17 +287,26 @@ const AfterimageOverlay = () => {
                 return; // Skip rendering if no image available
             }
             
-            // Render shadowy token afterimage with actual token appearance
+            // Render token afterimage with ghostly appearance
             ctx.save();
-            ctx.globalAlpha = 0.4; // Shadowy appearance for memory
+            ctx.globalAlpha = 0.85; // More visible afterimage - ghostly but clear
             
-            // Draw token border/circle first
-            const borderColor = data?.tokenBorder || '#d4af37';
+            // Draw ghostly background fill for the token
+            ctx.fillStyle = 'rgba(80, 70, 100, 0.6)'; // Ghostly purple-gray background
+            ctx.beginPath();
+            ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw token border/circle with ghostly glow
+            const borderColor = data?.tokenBorder || '#8888aa';
             ctx.strokeStyle = borderColor;
             ctx.lineWidth = 3;
+            ctx.shadowColor = 'rgba(150, 140, 180, 0.8)';
+            ctx.shadowBlur = 8;
             ctx.beginPath();
             ctx.arc(screenPos.x, screenPos.y, tokenSize / 2, 0, Math.PI * 2);
             ctx.stroke();
+            ctx.shadowBlur = 0;
             
             // Try to get cached image or load it
             const cachedEntry = imageCacheRef.current.get(imageUrl);
@@ -337,7 +341,6 @@ const AfterimageOverlay = () => {
                 tempCtx.translate(-tokenSize / 2, -tokenSize / 2);
                 
                 // Calculate image position - match CreatureToken backgroundPosition logic
-                // CreatureToken uses: backgroundPosition: `${token.state.iconPosition?.x || 50}% ${token.state.iconPosition?.y || 50}%`
                 const imgX = (tokenSize / 2) - (tokenSize * scale / 2) + ((posX - 50) * tokenSize * scale / 100);
                 const imgY = (tokenSize / 2) - (tokenSize * scale / 2) - ((posY - 50) * tokenSize * scale / 100);
                 
@@ -345,14 +348,15 @@ const AfterimageOverlay = () => {
                 tempCtx.drawImage(img, imgX, imgY, tokenSize * scale, tokenSize * scale);
                 tempCtx.restore();
                 
-                // Apply grayscale filter for memory effect
+                // Apply grayscale + slight blue tint for ghostly memory effect
                 const imageData = tempCtx.getImageData(0, 0, tokenSize, tokenSize);
                 const data_array = imageData.data;
                 for (let i = 0; i < data_array.length; i += 4) {
                     const gray = data_array[i] * 0.299 + data_array[i + 1] * 0.587 + data_array[i + 2] * 0.114;
-                    data_array[i] = gray;
-                    data_array[i + 1] = gray;
-                    data_array[i + 2] = gray;
+                    // Add slight blue tint for ghostly effect
+                    data_array[i] = gray * 0.85;           // Red - slightly reduced
+                    data_array[i + 1] = gray * 0.9;        // Green - slightly reduced
+                    data_array[i + 2] = gray * 1.1;        // Blue - slightly boosted
                 }
                 tempCtx.putImageData(imageData, 0, 0);
                 
@@ -364,13 +368,16 @@ const AfterimageOverlay = () => {
                 ctx.drawImage(tempCanvas, screenPos.x - tokenSize / 2, screenPos.y - tokenSize / 2);
                 ctx.restore();
             } else {
-                // Image not loaded yet - start loading it (will appear on next render)
-                // The preload effect should handle this, but trigger it here too
+                // Image not loaded yet - render placeholder ghost circle while loading
                 if (!cachedEntry || !cachedEntry.loaded) {
                     loadImage(imageUrl);
                 }
-                // Don't render anything while image is loading - wait for image to load
-                // The afterimage will appear once the image loads
+                // Draw a "?" or silhouette placeholder
+                ctx.fillStyle = 'rgba(120, 110, 140, 0.7)';
+                ctx.font = `bold ${tokenSize * 0.5}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('?', screenPos.x, screenPos.y);
             }
 
             ctx.restore();
@@ -512,8 +519,8 @@ const AfterimageOverlay = () => {
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                zIndex: 19998, // Below fog (20000) so afterimages show through semi-transparent fog
-                mixBlendMode: 'multiply' // Blend mode for shadowy effect
+                zIndex: 20001, // ABOVE fog (20000) so afterimages are visible on top of explored fog
+                mixBlendMode: 'normal' // Normal blend so afterimages are clearly visible
             }}
         />
     );

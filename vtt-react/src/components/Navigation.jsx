@@ -1003,9 +1003,170 @@ export default function Navigation({ onReturnToLanding }) {
         }
     };
 
+    // Detect mobile device
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    });
+
+    // Update mobile detection on resize
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Mobile navigation popout state
+    const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+    const [mobileNavPage, setMobileNavPage] = useState(0);
+    const itemsPerPage = 3;
+    const totalPages = Math.ceil(buttons.filter(b => b && b.id).length / itemsPerPage);
+
+    // On mobile, position at bottom center
+    const mobilePosition = isMobile ? { x: 0, y: window.innerHeight - 60 } : position;
+
+    // Get buttons for current page (mobile pagination)
+    const getMobileVisibleButtons = () => {
+        const allButtons = buttons.filter(button => button && button.id);
+        const start = mobileNavPage * itemsPerPage;
+        return allButtons.slice(start, start + itemsPerPage);
+    };
+
+    // Close popout when clicking outside
+    useEffect(() => {
+        if (!isMobileNavOpen || !isMobile) return;
+
+        const handleClickOutside = (e) => {
+            if (!e.target.closest('.mobile-nav-popout') && !e.target.closest('.mobile-nav-trigger')) {
+                setIsMobileNavOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('touchstart', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
+        };
+    }, [isMobileNavOpen, isMobile]);
+
+    const handleMobileNavPrev = () => {
+        setMobileNavPage(prev => Math.max(0, prev - 1));
+    };
+
+    const handleMobileNavNext = () => {
+        setMobileNavPage(prev => Math.min(totalPages - 1, prev + 1));
+    };
+
     return (
         <SpellWizardProvider>
             <Fragment>
+            {/* Mobile Navigation Button */}
+            {isMobile && (
+                <button
+                    className="mobile-nav-trigger"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setIsMobileNavOpen(!isMobileNavOpen);
+                    }}
+                    title="Navigation Menu"
+                >
+                    <i className="fas fa-bars"></i>
+                </button>
+            )}
+
+            {/* Mobile Navigation Popout */}
+            {isMobile && isMobileNavOpen && (
+                <div className="mobile-nav-popout">
+                    <div className="mobile-nav-popout-header">
+                        <span>Navigation</span>
+                        <button
+                            className="mobile-nav-close"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsMobileNavOpen(false);
+                            }}
+                        >
+                            <i className="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div className="mobile-nav-popout-content">
+                        <button
+                            className="mobile-nav-arrow mobile-nav-arrow-prev"
+                            onClick={handleMobileNavPrev}
+                            disabled={mobileNavPage === 0}
+                            aria-label="Previous"
+                        >
+                            <i className="fas fa-chevron-left"></i>
+                        </button>
+                        <div className="mobile-nav-buttons">
+                            {getMobileVisibleButtons().map(button => {
+                                const isActive = button.id === 'leveleditor'
+                                    ? isEditorMode
+                                    : button.id === 'combat'
+                                    ? isSelectionMode || isInCombat
+                                    : openWindows.has(button.id);
+
+                                return (
+                                    <button
+                                        key={button.id}
+                                        className={`mobile-nav-item ${isActive ? 'active' : ''} ${button.premium ? 'premium' : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleButtonClick(button.id);
+                                            setIsMobileNavOpen(false);
+                                        }}
+                                        title={button.title || button.id}
+                                    >
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            className="mobile-nav-icon"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            {button.svg}
+                                        </svg>
+                                        <span className="mobile-nav-label">{button.title || button.id}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <button
+                            className="mobile-nav-arrow mobile-nav-arrow-next"
+                            onClick={handleMobileNavNext}
+                            disabled={mobileNavPage >= totalPages - 1}
+                            aria-label="Next"
+                        >
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div className="mobile-nav-page-indicator">
+                        {mobileNavPage + 1} / {totalPages}
+                    </div>
+                    {/* Back to Landing Button */}
+                    {onReturnToLanding && (
+                        <button
+                            className="mobile-nav-back-button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onReturnToLanding();
+                                setIsMobileNavOpen(false);
+                            }}
+                        >
+                            <i className="fas fa-arrow-left"></i>
+                            <span>Return to Menu</span>
+                        </button>
+                    )}
+                </div>
+            )}
+
+            {/* Desktop Navigation */}
+            {!isMobile && (
             <Draggable
                 handle=".wow-nav-grid"
                 position={position}
@@ -1114,6 +1275,7 @@ export default function Navigation({ onReturnToLanding }) {
                     </Resizable>
                 </div>
             </Draggable>
+            )}
             {buttons.filter(button => button && button.id).map(button => (
                 <React.Fragment key={`window-${button.id}`}>
                     {getWindowContent(button)}

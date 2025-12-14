@@ -126,6 +126,61 @@ const StaticFogOverlay = () => {
     const scrollTimeoutRef = useRef(null);
     const lastVisibleAreaUpdateRef = useRef(0);
     
+    // ZOOM FIX: Track zoom changes to trigger re-renders during and after zoom
+    const lastZoomRef = useRef(null);
+    const zoomRenderTimeoutRef = useRef(null);
+    const lastZoomRenderTimeRef = useRef(0);
+    const [zoomRenderTrigger, setZoomRenderTrigger] = React.useState(0);
+    
+    // ZOOM FIX: Detect zoom changes and render in real-time (throttled)
+    // This fixes the visual glitch where vision radius doesn't scale properly
+    React.useEffect(() => {
+        const checkZoom = () => {
+            const state = useGameStore.getState();
+            const currentZoom = state.zoomLevel * state.playerZoom;
+            const now = performance.now();
+            
+            if (lastZoomRef.current !== null && lastZoomRef.current !== currentZoom) {
+                // Zoom is actively changing - render at throttled rate (60fps during zoom)
+                const timeSinceLastRender = now - lastZoomRenderTimeRef.current;
+                
+                if (timeSinceLastRender >= 16) { // 60fps max during zoom
+                    lastZoomRenderTimeRef.current = now;
+                    // Trigger immediate render during zoom for smooth scaling
+                    setZoomRenderTrigger(prev => prev + 1);
+                }
+                
+                // Clear any pending final render timeout
+                if (zoomRenderTimeoutRef.current) {
+                    clearTimeout(zoomRenderTimeoutRef.current);
+                }
+                
+                // Schedule a final high-quality render after zoom stops
+                zoomRenderTimeoutRef.current = setTimeout(() => {
+                    isScrollingRef.current = false;
+                    setZoomRenderTrigger(prev => prev + 1);
+                    zoomRenderTimeoutRef.current = null;
+                }, 100); // Final render after zoom stops
+            }
+            
+            lastZoomRef.current = currentZoom;
+        };
+        
+        // Poll for zoom changes at 60fps for responsive scaling
+        const interval = setInterval(checkZoom, 16);
+        
+        // Initialize the ref
+        const state = useGameStore.getState();
+        lastZoomRef.current = state.zoomLevel * state.playerZoom;
+        
+        return () => {
+            clearInterval(interval);
+            if (zoomRenderTimeoutRef.current) {
+                clearTimeout(zoomRenderTimeoutRef.current);
+            }
+        };
+    }, []);
+    
     // PERFORMANCE FIX: Poll window._isDraggingCamera flag set by Grid
     // Using ref instead of state prevents re-renders and useMemo recalculations
     React.useEffect(() => {
@@ -859,24 +914,41 @@ const StaticFogOverlay = () => {
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
 
-        // CRITICAL FIX: Consistent fog appearance between GM and players
-        // Get fog color based on state (solid midnight blue - no gradient)
-        // Works in both GM and player mode to show explored areas
+        // FOG COLOR SYSTEM:
+        // - GM sees everything but with a light tint showing what's fogged for players
+        // - Players see full fog of war with memory system for explored areas
         const getFogColor = (fogState = 'covered') => {
+            if (isGMMode) {
+                // GM MODE: Very light tints so GM can see everything
+                // but still understand what's hidden from players
+                switch (fogState) {
+                    case 'viewable':
+                        // Currently visible to players - barely visible tint
+                        return 'rgba(25, 25, 50, 0.05)';
+                    case 'explored':
+                        // Explored but not visible - light purple tint
+                        return 'rgba(60, 40, 90, 0.25)';
+                    case 'covered':
+                    default:
+                        // Never explored - darker tint but still see-through for GM
+                        return 'rgba(20, 15, 45, 0.4)';
+                }
+            }
+            
+            // PLAYER MODE: Full fog of war effect
             switch (fogState) {
                 case 'viewable':
-                    // Currently visible - very light fog so GM can see through it
-                    // CRITICAL FIX: Same opacity for both GM and players
-                    return 'rgba(25, 25, 50, 0.1)'; // Very light midnight blue
+                    // Currently visible - no fog (fully transparent)
+                    return 'rgba(25, 25, 50, 0.0)';
                 case 'explored':
-                    // Previously explored - slightly see-through dark blue
-                    // CRITICAL FIX: Same opacity for both GM and players for consistency
-                    return 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue (consistent)
+                    // Previously explored - darker "memory tint" for fog of war effect
+                    // More opaque so explored areas feel like foggy memory, not clear view
+                    // Afterimages render ABOVE this fog to show creature memories
+                    return 'rgba(30, 25, 50, 0.75)';
                 case 'covered':
                 default:
-                    // Never explored - solid dark blue
-                    // CRITICAL FIX: Same opacity for both GM and players for consistency
-                    return 'rgba(15, 15, 40, 0.95)'; // Solid dark blue (consistent)
+                    // Never explored - FULLY OPAQUE black fog (can't see anything)
+                    return 'rgba(10, 10, 25, 1.0)';
             }
         };
         
@@ -1029,10 +1101,62 @@ const StaticFogOverlay = () => {
             
             if (isFullCoveragePath) {
                 // Render as full-screen fill for performance
-                // Get fog color for covered state
-                const fogColor = getFogColor('covered');
-                ctx.fillStyle = fogColor;
+                // First fill everything with 'covered' fog
+                const coveredFogColor = getFogColor('covered');
+                ctx.fillStyle = coveredFogColor;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Then overlay explored areas with more transparent 'explored' fog
+                // This allows players to see terrain/afterimages in areas they've been
+                const levelEditorState = useLevelEditorStore.getState();
+                const exploredAreasData = levelEditorState.exploredAreas || {};
+                const visibleAreaSetLocal = visibleArea ? 
+                    (visibleArea instanceof Set ? visibleArea : new Set(visibleArea)) : 
+                    new Set();
+                
+                // Only render explored areas in player mode when viewing from token
+                if (viewingFromToken && !isGMMode && Object.keys(exploredAreasData).length > 0) {
+                    const exploredFogColor = getFogColor('explored');
+                    ctx.globalCompositeOperation = 'source-over';
+                    
+                    // Get viewport bounds in grid coordinates for culling
+                    const viewportMinGridX = Math.floor((viewportWorldBounds.minX - gridOffsetX) / gridSize) - 1;
+                    const viewportMaxGridX = Math.ceil((viewportWorldBounds.maxX - gridOffsetX) / gridSize) + 1;
+                    const viewportMinGridY = Math.floor((viewportWorldBounds.minY - gridOffsetY) / gridSize) - 1;
+                    const viewportMaxGridY = Math.ceil((viewportWorldBounds.maxY - gridOffsetY) / gridSize) + 1;
+                    
+                    // Iterate through explored areas and render them with explored color
+                    Object.keys(exploredAreasData).forEach(tileKey => {
+                        const [gridX, gridY] = tileKey.split(',').map(Number);
+                        
+                        // Skip if outside viewport
+                        if (gridX < viewportMinGridX || gridX > viewportMaxGridX ||
+                            gridY < viewportMinGridY || gridY > viewportMaxGridY) {
+                            return;
+                        }
+                        
+                        // Skip if currently visible (will be handled by visibility mask)
+                        if (visibleAreaSetLocal.has(tileKey)) {
+                            return;
+                        }
+                        
+                        // Calculate world position and screen position
+                        const worldX = (gridX * gridSize) + gridOffsetX + (gridSize / 2);
+                        const worldY = (gridY * gridSize) + gridOffsetY + (gridSize / 2);
+                        const screenPos = worldToScreen(worldX, worldY);
+                        const tileScreenSize = gridSize * effectiveZoom;
+                        
+                        // Render this tile with explored fog (more transparent)
+                        ctx.fillStyle = exploredFogColor;
+                        ctx.fillRect(
+                            screenPos.x - tileScreenSize / 2,
+                            screenPos.y - tileScreenSize / 2,
+                            tileScreenSize,
+                            tileScreenSize
+                        );
+                    });
+                }
+                
                 return; // Skip point-by-point rendering
             }
             
@@ -1557,27 +1681,9 @@ const StaticFogOverlay = () => {
             // Determine fog state for this tile (works in both GM and player mode)
             const fogState = getFogState(worldX, worldY);
             
-            // CRITICAL FIX: Consistent fog appearance between GM and players
-            // Render fog with different opacity based on state
-            let fillColor;
-            switch (fogState) {
-                case 'viewable':
-                    // Currently visible - very light fog so GM can see through it
-                    // CRITICAL FIX: Same opacity for both GM and players
-                    fillColor = 'rgba(25, 25, 50, 0.1)'; // Very light midnight blue (consistent)
-                    break;
-                case 'explored':
-                    // Previously explored - slightly see-through dark blue
-                    // CRITICAL FIX: Same opacity for both GM and players for consistency
-                    fillColor = 'rgba(25, 25, 50, 0.5)'; // Slightly see-through dark blue (consistent)
-                    break;
-                case 'covered':
-                default:
-                    // Never explored - solid dark blue
-                    // CRITICAL FIX: Same opacity for both GM and players for consistency
-                    fillColor = 'rgba(15, 15, 40, 0.95)'; // Solid dark blue (consistent)
-                    break;
-            }
+            // FOG COLOR: GM sees lighter tints, players see full fog
+            // Must use getFogColor() for consistency with path-based fog
+            const fillColor = getFogColor(fogState);
             ctx.fillStyle = fillColor;
             
             ctx.fillRect(
@@ -1775,7 +1881,7 @@ const StaticFogOverlay = () => {
                 throttledRenderFogRef.current();
             }
         }
-        }, [fogOfWarPaths, fogErasePaths, fogOfWarData, fogOfWarEnabled, isFogLayerVisible, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, currentViewingToken, visibleArea, tokenVisionRanges, debouncedRenderFog]); // PERFORMANCE FIX: Removed effectiveZoom and isDraggingCamera - read from store
+        }, [fogOfWarPaths, fogErasePaths, fogOfWarData, fogOfWarEnabled, isFogLayerVisible, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, currentViewingToken, visibleArea, tokenVisionRanges, debouncedRenderFog, zoomRenderTrigger]); // ZOOM FIX: Added zoomRenderTrigger to re-render after zoom completes
     
     // REMOVED: This useEffect tracked isDraggingCamera to trigger renders when drag stops
     // But now isDraggingCamera is a ref, so it doesn't trigger effects

@@ -400,22 +400,47 @@ const ProfessionalVTTEditor = () => {
         return null;
     }, [wallData]);
 
-    // Find all walls near a grid position (within 1 tile distance)
-    const findWallsNearPosition = useCallback((gridX, gridY) => {
+    // Find all walls near a grid position (within 1.5 tile distance of any point on the wall)
+    const findWallsNearPosition = useCallback((clickX, clickY) => {
         if (!wallData) return [];
         
         const walls = [];
         for (const [wallKey, wall] of Object.entries(wallData)) {
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
             
-            // Check if the grid position is close to either endpoint or on the wall line
-            const dist1 = Math.abs(gridX - x1) + Math.abs(gridY - y1);
-            const dist2 = Math.abs(gridX - x2) + Math.abs(gridY - y2);
+            // Calculate closest point on wall segment to click position
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const wallLength = Math.sqrt(dx * dx + dy * dy);
             
-            if (dist1 <= 1 || dist2 <= 1) {
-                walls.push({ key: wallKey, data: wall, x1, y1, x2, y2 });
+            if (wallLength === 0) {
+                // Zero-length wall, check distance to endpoint
+                const dist = Math.sqrt(Math.pow(clickX - x1, 2) + Math.pow(clickY - y1, 2));
+                if (dist <= 1.5) {
+                    walls.push({ key: wallKey, data: wall, x1, y1, x2, y2, distance: dist });
+                }
+                continue;
+            }
+            
+            // Project click point onto wall line, clamp to segment
+            const t = Math.max(0, Math.min(1, 
+                ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
+            ));
+            
+            // Closest point on wall
+            const projX = x1 + t * dx;
+            const projY = y1 + t * dy;
+            
+            // Distance from click to closest point on wall
+            const dist = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
+            
+            if (dist <= 1.5) { // Within 1.5 tiles of wall
+                walls.push({ key: wallKey, data: wall, x1, y1, x2, y2, distance: dist });
             }
         }
+        
+        // Sort by distance to prefer closest wall
+        walls.sort((a, b) => a.distance - b.distance);
         return walls;
     }, [wallData]);
 
@@ -1169,7 +1194,7 @@ const ProfessionalVTTEditor = () => {
                     
                     // If no window removed, try removing walls
                     if (!windowRemoved) {
-                        const wallsNear = findWallsNearPosition(gx, gy);
+                        const wallsNear = findWallsNearPosition(clickX, clickY);
                         if (wallsNear.length > 0) {
                             wallsNear.forEach(wall => {
                                 removeWall(wall.x1, wall.y1, wall.x2, wall.y2);
@@ -1252,7 +1277,7 @@ const ProfessionalVTTEditor = () => {
                 }
                 
                 // Check walls/doors
-                const wallsNear = findWallsNearPosition(selGx, selGy);
+                const wallsNear = findWallsNearPosition(selClickX, selClickY);
                 if (wallsNear.length > 0) {
                     // Select and lock to this wall/door - initialize drag refs
                     const [x1, y1, x2, y2] = wallsNear[0].key.split(',').map(Number);

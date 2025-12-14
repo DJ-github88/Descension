@@ -61,3 +61,41 @@
     -moz-user-select: none !important;
     -ms-user-select: none !important;
 }
+
+/* ===== MOBILE FULLSCREEN WINDOWS ===== */
+@media (max-width: 768px) {
+    /* Disable dragging functionality on mobile */
+    .draggable-window {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        transform: none !important;
+        transition: none !important;
+        cursor: default !important;
+        pointer-events: auto !important;
+    }
+
+    /* Disable drag handle on mobile */
+    .draggable-window-handle {
+        cursor: default !important;
+        pointer-events: auto !important;
+    }
+
+    /* Prevent dragging on mobile */
+    .draggable-window.dragging {
+        transform: none !important;
+        transition: none !important;
+        pointer-events: auto !important;
+    }
+
+    .draggable-window.react-draggable-dragging {
+        transform: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+    }
+}

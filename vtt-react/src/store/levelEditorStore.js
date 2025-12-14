@@ -1059,23 +1059,19 @@ const useLevelEditorStore = create((set, get) => ({
                 const gameStore = require('./gameStore').default.getState();
                 const isGMMode = gameStore.isGMMode;
 
-                // CRITICAL FIX: When viewing from a token in PLAYER mode, ONLY use current visibleAreaSet
-                // In GM mode, still show explored areas so GM can see what's been explored
-                // Don't check exploredAreas/revealedAreas in player mode as they create a hard boundary
-                // The visibility mask will handle erasing fog for the current visible area
+                // When viewing from a token, show both current vision AND explored areas
+                // This creates proper fog of war where players see explored areas plus current vision
                 if (state.viewingFromToken && state.dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
                     // If tile is in current visible area, it's viewable
                     if (visibleAreaSet.has(tileKey)) {
                         return 'viewable'; // Currently visible - visibility mask will erase fog
                     }
-                    // In GM mode, still show explored areas even when viewing from token
-                    // This allows GM to see what's been explored while still restricting to token vision
-                    if (isGMMode && exploredAreas[tileKey]) {
-                        return 'explored'; // Previously explored - dimmed but visible to GM
+                    // Show explored areas for BOTH player and GM mode
+                    // This is the "memory" of what the player has seen before
+                    if (exploredAreas[tileKey]) {
+                        return 'explored'; // Previously explored - dimmed but visible (shows terrain/afterimages)
                     }
-                    // In player mode, don't show explored areas - only current visible area
-                    // This prevents the hard boundary effect for players
-                    return 'covered'; // Not currently visible - fully covered fog
+                    return 'covered'; // Not explored - fully covered fog
                 }
 
                 // Normal mode (not viewing from token): use explored/revealed areas
@@ -1462,14 +1458,30 @@ const useLevelEditorStore = create((set, get) => ({
 
             // Viewing from token management
             setViewingFromToken: (token) => {
-                // When changing viewing token OR disabling view from token (token = null),
-                // clear existing token afterimages to prevent tokens from getting "stuck"
-                // in their initial visibility state. This ensures tokens properly transition
-                // between interactive/memory states based on current visibility.
-                set({
-                    viewingFromToken: token,
-                    tokenAfterimages: {}
-                });
+                const state = get();
+                const currentToken = state.viewingFromToken;
+                
+                // Determine if this is just a position update of the SAME token
+                // or if we're switching to a different token entirely
+                const isSameToken = token && currentToken && (
+                    (token.id && token.id === currentToken.id) ||
+                    (token.characterId && token.characterId === currentToken.characterId) ||
+                    (token.creatureId && token.creatureId === currentToken.creatureId) ||
+                    (token.playerId && token.playerId === currentToken.playerId)
+                );
+                
+                if (isSameToken) {
+                    // Just updating position of the same token - DON'T clear afterimages
+                    // Afterimages should persist as the player moves around
+                    set({ viewingFromToken: token });
+                } else {
+                    // Switching to a different token or disabling view (token = null)
+                    // Clear afterimages since we're changing perspective entirely
+                    set({
+                        viewingFromToken: token,
+                        tokenAfterimages: {}
+                    });
+                }
             },
 
             // Update visible area for FOV-based visibility

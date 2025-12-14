@@ -580,50 +580,60 @@ const RulesPage = () => {
                     e.stopPropagation();
                     const button = e.currentTarget;
                     const rect = button.getBoundingClientRect();
+                    const isMobile = window.innerWidth <= 768;
                     
-                    // Popout dimensions (approximate)
-                    const popoutWidth = 300; // max-width from CSS (240-300px)
-                    const popoutHeight = 500; // approximate max height for safety
-                    const gap = 12;
-                    const padding = 10; // minimum padding from screen edges
-                    const headerHeight = 70; // Height of the header
-                    
-                    // Calculate desired position (to the right of button)
-                    let left = rect.right + gap;
-                    let top = rect.top + rect.height / 2;
-                    
-                    // Check if popout would go off right edge
-                    if (left + popoutWidth > window.innerWidth) {
-                      // If it would go off-screen, position it to the left of the button instead
-                      left = rect.left - popoutWidth - gap;
+                    if (isMobile) {
+                      // On mobile, always show from bottom
+                      setPopoutPosition({
+                        top: window.innerHeight,
+                        left: 0
+                      });
+                    } else {
+                      // Desktop positioning logic
+                      // Popout dimensions (approximate)
+                      const popoutWidth = 300; // max-width from CSS (240-300px)
+                      const popoutHeight = 500; // approximate max height for safety
+                      const gap = 12;
+                      const padding = 10; // minimum padding from screen edges
+                      const headerHeight = 70; // Height of the header
+                      
+                      // Calculate desired position (to the right of button)
+                      let left = rect.right + gap;
+                      let top = rect.top + rect.height / 2;
+                      
+                      // Check if popout would go off right edge
+                      if (left + popoutWidth > window.innerWidth) {
+                        // If it would go off-screen, position it to the left of the button instead
+                        left = rect.left - popoutWidth - gap;
+                      }
+                      
+                      // Ensure it doesn't go off left edge either
+                      if (left < padding) {
+                        left = padding;
+                      }
+                      
+                      // Ensure it doesn't go off right edge
+                      if (left + popoutWidth > window.innerWidth - padding) {
+                        left = window.innerWidth - popoutWidth - padding;
+                      }
+                      
+                      // Check vertical bounds - keep popout centered on button but within viewport
+                      // Ensure popout doesn't go under the header
+                      const halfHeight = popoutHeight / 2;
+                      if (top - halfHeight < headerHeight + padding) {
+                        // Too close to top (or would go under header), adjust down
+                        top = halfHeight + headerHeight + padding;
+                      } else if (top + halfHeight > window.innerHeight - padding) {
+                        // Too close to bottom, adjust up
+                        top = window.innerHeight - halfHeight - padding;
+                      }
+                      
+                      // Calculate position relative to viewport
+                      setPopoutPosition({
+                        top: top,
+                        left: left
+                      });
                     }
-                    
-                    // Ensure it doesn't go off left edge either
-                    if (left < padding) {
-                      left = padding;
-                    }
-                    
-                    // Ensure it doesn't go off right edge
-                    if (left + popoutWidth > window.innerWidth - padding) {
-                      left = window.innerWidth - popoutWidth - padding;
-                    }
-                    
-                    // Check vertical bounds - keep popout centered on button but within viewport
-                    // Ensure popout doesn't go under the header
-                    const halfHeight = popoutHeight / 2;
-                    if (top - halfHeight < headerHeight + padding) {
-                      // Too close to top (or would go under header), adjust down
-                      top = halfHeight + headerHeight + padding;
-                    } else if (top + halfHeight > window.innerHeight - padding) {
-                      // Too close to bottom, adjust up
-                      top = window.innerHeight - halfHeight - padding;
-                    }
-                    
-                    // Calculate position relative to viewport
-                    setPopoutPosition({
-                      top: top,
-                      left: left
-                    });
                     // Always show popout menu
                     setPopoutCategory(popoutCategory === category.id ? null : category.id);
                   }}
