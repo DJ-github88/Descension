@@ -780,15 +780,6 @@ export default function CharacterStats() {
                     description: 'Current and maximum action points per turn'
                 },
                 {
-                    label: 'Armor',
-                    value: totalArmor,
-                    baseValue: baseArmor,
-                    tooltip: true,
-                    icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
-                    color: '#6b6b6b',
-                    description: 'Armor score used for passive DR and the Defend soak die'
-                },
-                {
                     label: 'Passive DR',
                     value: passiveDR,
                     baseValue: basePassiveDR,
@@ -962,14 +953,40 @@ export default function CharacterStats() {
             stats: [
                 {
                     label: 'Armor',
-                    value: Math.round(totalStats.armor || Math.floor((totalStats.agility || 10) / 2) || 0),
-                    baseValue: Math.round(Math.floor((stats.agility || 10) / 2) || 0), // Use original stats
+                    value: totalArmor,
+                    baseValue: baseArmor,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
                     color: '#6b6b6b',
-                    description: 'Physical damage reduction'
+                    description: 'Armor score used for passive DR and the Defend soak die'
                 },
-
+                {
+                    label: 'Passive DR',
+                    value: passiveDR,
+                    baseValue: basePassiveDR,
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_shield_04.jpg',
+                    color: '#4b6b6b',
+                    description: 'Damage reduced automatically each hit (Armor ÷ 10, rounded down)'
+                },
+                {
+                    label: 'Soak Die (Defend)',
+                    value: soakDie,
+                    baseValue: getSoakDieFromArmor(baseArmor),
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldwall.jpg',
+                    color: '#3b5b7b',
+                    description: 'Bonus reduction you roll when you take the Defend action'
+                },
+                {
+                    label: 'Dodge',
+                    value: Math.round(Math.floor((totalStats.agility || 10) / 3) || 0),
+                    baseValue: Math.round(Math.floor((stats.agility || 10) / 3) || 0),
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_evasion.jpg',
+                    color: '#4b6b6b',
+                    description: 'Chance to avoid attacks entirely'
+                },
                 {
                     label: 'Max Health',
                     value: Math.round(totalStats.maxHealth || health.max),
@@ -1056,8 +1073,17 @@ export default function CharacterStats() {
                     baseValue: 30,
                     tooltip: true,
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-                    color: '#8B4513',
+                    color: '#44ff44',
                     description: 'Base walking speed in feet per turn'
+                },
+                {
+                    label: 'Initiative',
+                    value: Math.round(totalStats.initiative || Math.floor((stats.agility || 10) / 5) || 0),
+                    baseValue: Math.round(Math.floor((stats.agility || 10) / 5) || 0),
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
+                    color: '#b8860b',
+                    description: 'Initiative bonus for combat order'
                 },
                 {
                     label: 'Swim Speed',
@@ -1076,8 +1102,17 @@ export default function CharacterStats() {
                     icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aspectofthemonkey.jpg',
                     color: '#8B4513',
                     description: 'Climbing speed in feet per turn'
+                },
+                {
+                    label: 'Fly Speed',
+                    value: Math.round(totalStats.flySpeed || 0),
+                    baseValue: totalStats.movementSpeed ?? 30,
+                    tooltip: true,
+                    icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_flightform.jpg',
+                    color: '#8B4513',
+                    description: 'Flying speed in feet per turn'
                 }
-            ]
+            ].filter(stat => stat.value > 0)
         },
         utility: {
             title: 'Utility & Senses',
@@ -1126,6 +1161,12 @@ export default function CharacterStats() {
             title: 'Condition Resistances',
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg',
             description: 'Your character\'s resistance to various conditions and status effects',
+            stats: [] // We'll handle this with custom rendering
+        },
+        savingThrows: {
+            title: 'Saving Throws',
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofprotection.jpg',
+            description: 'Your character\'s proficiency in saving throws',
             stats: [] // We'll handle this with custom rendering
         }
     };
@@ -1476,6 +1517,103 @@ export default function CharacterStats() {
                                             }}
                                         >
                                             <ConditionTooltip condition={condition} hasResistance={hasResistance} />
+                                        </div>
+                                    </TooltipPortal>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        }
+
+        // Special case for saving throws section
+        if (selectedStatGroup === 'savingThrows') {
+            const abilities = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma'];
+            const proficiencyBonus = Math.floor((level - 1) / 4) + 2; // Standard proficiency calculation
+
+            return (
+                <div className="stats-content">
+                    {abilities.map((ability) => {
+                        const abilityScore = typeof totalStats[ability] === 'object' ? totalStats[ability].value : totalStats[ability] || 0;
+                        const modifier = Math.floor((abilityScore - 10) / 2);
+                        const isProficient = stats.savingThrows && stats.savingThrows[ability];
+                        const totalBonus = isProficient ? modifier + proficiencyBonus : modifier;
+
+                        const getAbilityIcon = (ability) => {
+                            const iconMap = {
+                                strength: 'ability_warrior_savageblow',
+                                agility: 'ability_rogue_sprint',
+                                constitution: 'spell_holy_blessingofstamina',
+                                intelligence: 'spell_holy_magicalsentry',
+                                spirit: 'spell_holy_sealofwisdom',
+                                charisma: 'spell_holy_blessingofwisdom'
+                            };
+                            return `https://wow.zamimg.com/images/wow/icons/large/${iconMap[ability] || 'inv_misc_questionmark'}.jpg`;
+                        };
+
+                        return (
+                            <div key={ability} className="stat-row enhanced-stat-row">
+                                <div className="level-experience-top-row">
+                                    <div className="stat-label-container">
+                                        <img
+                                            src={getAbilityIcon(ability)}
+                                            alt={ability}
+                                            className="stat-icon"
+                                            style={{
+                                                borderColor: isProficient ? '#D4AF37' : '#666',
+                                                opacity: isProficient ? 1 : 0.6
+                                            }}
+                                        />
+                                        <div className="stat-info">
+                                            <span className="stat-label">
+                                                {ability.charAt(0).toUpperCase() + ability.slice(1)} Save:
+                                                {isProficient && <span style={{ color: '#D4AF37', marginLeft: '8px' }}>●</span>}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="stat-value-container">
+                                        <span className="stat-value" style={{
+                                            color: isProficient ? '#D4AF37' : '#666',
+                                            fontWeight: isProficient ? 'bold' : 'normal'
+                                        }}>
+                                            {totalBonus >= 0 ? '+' : ''}{totalBonus}
+                                        </span>
+                                        {isProficient && (
+                                            <span className="stat-modifier" style={{ fontSize: '0.8em', color: '#666' }}>
+                                                ({modifier >= 0 ? '+' : ''}{modifier} + {proficiencyBonus})
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                                <div
+                                    className="tooltip-trigger"
+                                    onMouseEnter={(e) => handleStatHover(e, `${ability.charAt(0).toUpperCase() + ability.slice(1)} Save`)}
+                                    onMouseMove={updateTooltipPosition}
+                                    onMouseLeave={handleStatLeave}
+                                />
+                                {hoveredStat === `${ability.charAt(0).toUpperCase() + ability.slice(1)} Save` && (
+                                    <TooltipPortal>
+                                        <div
+                                            className="equipment-slot-tooltip"
+                                            style={{
+                                                position: 'fixed',
+                                                left: tooltipPosition.x,
+                                                top: tooltipPosition.y,
+                                                transform: 'translate(10px, -50%)',
+                                                pointerEvents: 'none',
+                                                zIndex: 99999999
+                                            }}
+                                        >
+                                            <div className="equipment-slot-name">
+                                                {ability.charAt(0).toUpperCase() + ability.slice(1)} Saving Throw
+                                            </div>
+                                            <div className="equipment-slot-description">
+                                                {isProficient
+                                                    ? `Proficient saving throw. Modifier: ${modifier >= 0 ? '+' : ''}${modifier} (ability) + ${proficiencyBonus} (proficiency) = ${totalBonus >= 0 ? '+' : ''}${totalBonus}`
+                                                    : `Untrained saving throw. Modifier: ${modifier >= 0 ? '+' : ''}${modifier}`
+                                                }
+                                            </div>
                                         </div>
                                     </TooltipPortal>
                                 )}

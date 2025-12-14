@@ -5,6 +5,7 @@ import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { rafThrottle } from '../../utils/performanceUtils';
+import { getWowIconUrl } from '../../utils/assetManager';
 
 /**
  * AfterimageOverlay - Renders afterimages of previously explored areas and tokens
@@ -256,7 +257,7 @@ const AfterimageOverlay = () => {
                         imageUrl = customIcon;
                     } else if (tokenIcon) {
                         // Use the same getIconUrl logic as CreatureToken
-                        imageUrl = `https://wow.zamimg.com/images/wow/icons/large/${tokenIcon}.jpg`;
+                        imageUrl = getWowIconUrl(tokenIcon);
                     }
                     
                     // Get image transformations from token state - match CreatureToken logic
@@ -429,7 +430,7 @@ const AfterimageOverlay = () => {
                     if (customIcon) {
                         imageUrl = customIcon;
                     } else if (tokenIcon) {
-                        imageUrl = `https://wow.zamimg.com/images/wow/icons/large/${tokenIcon}.jpg`;
+                        imageUrl = getWowIconUrl(tokenIcon);
                     }
                 } else if (data.type === 'character' || data.characterId || data.characterImage || data.lore?.characterImage) {
                     imageUrl = data.characterImage || 

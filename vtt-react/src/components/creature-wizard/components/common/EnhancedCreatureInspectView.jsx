@@ -24,6 +24,7 @@ import { getGridSystem } from '../../../../utils/InfiniteGridSystem';
 import { processCreatureLoot } from '../../../../utils/lootItemUtils';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../../../styles/skills.css';
+import '../../../../styles/character-sheet.css';
 import './EnhancedCreatureInspectView.css';
 
 // Helper function to calculate ability modifier
@@ -108,6 +109,22 @@ const formatAbilityType = (type) => {
   return typeMap[type.toLowerCase()] || type.charAt(0).toUpperCase() + type.slice(1);
 };
 
+// Calculate soak die based on armor value (same logic as character sheet)
+const getSoakDieFromArmor = (armorValue = 0) => {
+  const armor = Math.max(0, Math.floor(armorValue));
+  if (armor < 5) return '—';
+  if (armor <= 9) return '1d4';
+  if (armor <= 14) return '1d6';
+  if (armor <= 19) return '1d8';
+  if (armor <= 24) return '1d10';
+  if (armor <= 29) return '1d12';
+  if (armor <= 34) return '1d12 + 1d4';
+  if (armor <= 39) return '1d12 + 1d6';
+  if (armor <= 44) return '2d12';
+  if (armor <= 49) return '2d12 + 1d4';
+  return '2d12 + 1d6';
+};
+
 
 
 
@@ -126,6 +143,8 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [collapsedCategories, setCollapsedCategories] = useState({});
   const [selectedDie, setSelectedDie] = useState('d20');
+  // Stats navigation state for label toggle
+  const [showLabels, setShowLabels] = useState(false); // Start with icons only
 
   // Store hooks for loot drop functionality
   const { addItemToGrid } = useGridItemStore();
@@ -420,20 +439,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             tooltip: creature.stats.maxMana > 0,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_72.jpg',
             description: 'Current and maximum mana points'
-          },
-          {
-            label: 'Armor',
-            value: creature.stats.armorClass || 10,
-            tooltip: true,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate09.jpg',
-            description: 'Defense against physical attacks'
-          },
-          {
-            label: 'Initiative',
-            value: formatModifier(creature.stats.initiative || 0),
-            tooltip: true,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-            description: 'Combat turn order modifier'
           }
         ].filter(stat => stat.tooltip !== false)
       },
@@ -501,12 +506,64 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       movement: {
         title: 'Movement & Senses',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
-        description: 'Movement speeds and sensory abilities',
+        description: 'Movement capabilities and sensory abilities',
         stats: [
-          { label: 'Speed', value: `${creature.stats.speed || 30} ft`, tooltip: true },
-          ...(creature.stats.flying > 0 ? [{ label: 'Flying Speed', value: `${creature.stats.flying} ft`, tooltip: true }] : []),
-          ...(creature.stats.swimming > 0 ? [{ label: 'Swimming Speed', value: `${creature.stats.swimming} ft`, tooltip: true }] : []),
-          ...(creature.stats.darkvision > 0 ? [{ label: 'Darkvision', value: `${creature.stats.darkvision} ft`, tooltip: true }] : []),
+          {
+            label: 'Movement Speed',
+            value: `${creature.stats.speed || 30} ft`,
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg',
+            description: 'Base walking speed in feet per turn'
+          },
+          {
+            label: 'Initiative',
+            value: formatModifier(creature.stats.initiative || 0),
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg',
+            description: 'Combat turn order modifier'
+          },
+          ...(creature.stats.flying > 0 ? [{
+            label: 'Flying Speed',
+            value: `${creature.stats.flying} ft`,
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_flightform.jpg',
+            description: 'Flying movement speed'
+          }] : []),
+          ...(creature.stats.swimming > 0 ? [{
+            label: 'Swimming Speed',
+            value: `${creature.stats.swimming} ft`,
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_druid_aquaticform.jpg',
+            description: 'Swimming movement speed'
+          }] : []),
+          ...(creature.stats.climbing > 0 ? [{
+            label: 'Climbing Speed',
+            value: `${creature.stats.climbing} ft`,
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aspectofthemonkey.jpg',
+            description: 'Climbing movement speed'
+          }] : []),
+          ...(creature.stats.darkvision > 0 ? [{
+            label: 'Darkvision',
+            value: `${creature.stats.darkvision} ft`,
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_detectinvisibility.jpg',
+            description: 'Dark vision range in feet'
+          }] : []),
+          ...(creature.stats.tremorsense > 0 ? [{
+            label: 'Tremorsense',
+            value: `${creature.stats.tremorsense} ft`,
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthquake.jpg',
+            description: 'Vibration sense range in feet'
+          }] : []),
+          ...(creature.stats.blindsight > 0 ? [{
+            label: 'Blindsight',
+            value: `${creature.stats.blindsight} ft`,
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindsteal.jpg',
+            description: 'Blind sight range in feet'
+          }] : []),
           {
             label: 'Passive Perception',
             value: 10 + calculateModifier(creature.stats.spirit || 10),
@@ -514,7 +571,7 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofwisdom.jpg',
             description: 'Passive awareness of surroundings (10 + Spirit modifier)'
           }
-        ]
+        ].filter(stat => stat.tooltip !== false)
       },
       combat: {
         title: 'Combat Statistics',
@@ -523,21 +580,21 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         stats: [
           {
             label: 'Slashing Damage',
-            value: Math.round(creature.stats.damage || Math.floor((creature.stats.strength || 10) / 2) || 0),
+            value: Math.round(creature.stats.slashingDamage || creature.stats.damage || Math.floor((creature.stats.strength || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_cleave.jpg',
             description: 'Damage with swords, axes, and slashing weapons'
           },
           {
             label: 'Bludgeoning Damage',
-            value: Math.round(creature.stats.damage || Math.floor((creature.stats.strength || 10) / 2) || 0),
+            value: Math.round(creature.stats.bludgeoningDamage || creature.stats.damage || Math.floor((creature.stats.strength || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_mace_02.jpg',
             description: 'Damage with maces, clubs, and bludgeoning weapons'
           },
           {
             label: 'Piercing Damage',
-            value: Math.round(creature.stats.rangedDamage || Math.floor((creature.stats.agility || 10) / 2) || 0),
+            value: Math.round(creature.stats.piercingDamage || creature.stats.rangedDamage || Math.floor((creature.stats.agility || 10) / 2) || 0),
             tooltip: true,
             icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_sword_33.jpg',
             description: 'Damage with spears, daggers, and piercing weapons'
@@ -551,6 +608,20 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
           }
         ]
       },
+      spellpower: {
+        title: 'Spell Power',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_magicalsentry.jpg',
+        description: 'Magical damage capabilities',
+        stats: Object.entries(DAMAGE_TYPES)
+          .filter(([type]) => !['bludgeoning', 'piercing', 'slashing'].includes(type)) // Exclude physical damage types
+          .map(([type, data]) => ({
+            label: `${data.name} Power`,
+            value: Math.round(creature.stats[`${type}SpellPower`] || creature.stats.spellDamage || 0),
+            tooltip: true,
+            icon: data.icon,
+            description: `Spell damage bonus for ${data.name.toLowerCase()} spells`
+          }))
+      },
       defensive: {
         title: 'Defensive Statistics',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
@@ -558,10 +629,24 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         stats: [
           {
             label: 'Armor',
-            value: Math.round(creature.stats.armor || creature.stats.armorClass || Math.floor((creature.stats.agility || 10) / 2) || 0),
+            value: creature.stats.armorClass || 10,
             tooltip: true,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate02.jpg',
-            description: 'Physical damage reduction'
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate09.jpg',
+            description: 'Defense against physical attacks'
+          },
+          {
+            label: 'Passive DR',
+            value: Math.floor((creature.stats.armorClass || 10) / 10),
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_shield_04.jpg',
+            description: 'Damage reduced automatically each hit (Armor ÷ 10, rounded down)'
+          },
+          {
+            label: 'Soak Die (Defend)',
+            value: getSoakDieFromArmor(creature.stats.armorClass || 10),
+            tooltip: true,
+            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldwall.jpg',
+            description: 'Bonus reduction you roll when you take the Defend action'
           },
           {
             label: 'Dodge',
@@ -627,13 +712,6 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
             description: 'Normal vision range in feet'
           },
           {
-            label: 'Darkvision',
-            value: `${Math.round(creature.stats.darkvision || 0)} ft`,
-            tooltip: true,
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_detectinvisibility.jpg',
-            description: 'Dark vision range in feet'
-          },
-          {
             label: 'Initiative',
             value: formatModifier(creature.stats.initiative || Math.floor((creature.stats.agility || 10) / 5) || 0),
             tooltip: true,
@@ -653,6 +731,18 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofprotection.jpg',
         description: 'Proficiency in saving throws',
         stats: [] // Will be populated with saving throw data
+      },
+      immunities: {
+        title: 'Damage Immunities',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofprotection.jpg',
+        description: 'Damage types the creature is completely immune to',
+        stats: [] // Will be populated with immunity data
+      },
+      conditions: {
+        title: 'Condition Resistances',
+        icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg',
+        description: 'Resistance to various conditions and status effects',
+        stats: [] // Will be populated with condition resistance data
       }
     };
 
@@ -786,39 +876,120 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     // Add saving throw stats to the saving throws group
     statGroups.savingThrows.stats = processSavingThrowStats();
 
+    // Process immunities into stats format
+    const processImmunityStats = () => {
+      const immunityStats = [];
+
+      if (creature.immunities && creature.immunities.length > 0) {
+        creature.immunities.forEach(immunity => {
+          try {
+            const damageType = DAMAGE_TYPES.find(dt => dt.id === immunity || dt.name.toLowerCase() === immunity.toLowerCase());
+
+            if (damageType) {
+              immunityStats.push({
+                label: damageType.name,
+                value: 'Immune',
+                tooltip: true,
+                icon: damageType.icon,
+                description: `Completely immune to ${damageType.name.toLowerCase()} damage`,
+                immunityType: immunity,
+                damageType: damageType
+              });
+            }
+          } catch (error) {
+            console.warn('Error processing immunity for', immunity, ':', error);
+          }
+        });
+      }
+
+      return immunityStats;
+    };
+
+    // Process condition resistances into stats format
+    const processConditionStats = () => {
+      const conditionStats = [];
+
+      if (creature.conditionResistances && creature.conditionResistances.length > 0) {
+        creature.conditionResistances.forEach(condition => {
+          try {
+            // Map condition names to appropriate icons
+            const conditionIconMap = {
+              fear: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg',
+              charm: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg',
+              stun: 'https://wow.zamimg.com/images/wow/icons/large/spell_frost_stun.jpg',
+              paralyze: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseoftounges.jpg',
+              poison: 'https://wow.zamimg.com/images/wow/icons/large/ability_creature_poison_02.jpg',
+              disease: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_plaguecloud.jpg',
+              sleep: 'https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg',
+              petrify: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_impphaseshift.jpg',
+              blinded: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_mindsteal.jpg',
+              deafened: 'https://wow.zamimg.com/images/wow/icons/large/spell_shadow_soulleech_2.jpg',
+              prone: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg'
+            };
+
+            const icon = conditionIconMap[condition.toLowerCase()] || 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg';
+
+            conditionStats.push({
+              label: condition.charAt(0).toUpperCase() + condition.slice(1),
+              value: 'Resistant',
+              tooltip: true,
+              icon: icon,
+              description: `Resistant to the ${condition} condition`,
+              conditionType: condition
+            });
+          } catch (error) {
+            console.warn('Error processing condition resistance for', condition, ':', error);
+          }
+        });
+      }
+
+      return conditionStats;
+    };
+
+    // Add immunity and condition stats to their respective groups
+    statGroups.immunities.stats = processImmunityStats();
+    statGroups.conditions.stats = processConditionStats();
+
     const renderStatBlock = () => {
       const currentGroup = statGroups[selectedStatGroup];
 
       return (
         <div className="stats-content">
           {currentGroup.stats.map((stat, index) => (
-            <div key={index} className="stat-row">
-              <div className="stat-label-container">
-                {stat.icon && (
-                  <img
-                    src={stat.icon}
-                    alt={stat.label}
-                    className="stat-icon"
-                    style={stat.color ? { borderColor: stat.color } : {}}
-                  />
-                )}
-                <div className="stat-info">
-                  <span className="stat-label">{stat.label}:</span>
-                  {stat.description && (
-                    <span className="stat-description">{stat.description}</span>
-                  )}
+            <div key={index} className="enhanced-stat-row">
+              {/* Apply same layout to all stats: icon/label on left, value on right, description footer */}
+              <>
+                <div className="level-experience-top-row">
+                  <div className="stat-label-container">
+                    {stat.icon && (
+                      <img
+                        src={stat.icon}
+                        alt={stat.label}
+                        className="stat-icon"
+                        style={stat.color ? { borderColor: stat.color } : {}}
+                      />
+                    )}
+                    <div className="stat-info">
+                      <span className="stat-label">{stat.label}:</span>
+                    </div>
+                  </div>
+                  <div className="stat-value-container">
+                    <span className="stat-value">
+                      {stat.value}
+                    </span>
+                    {stat.modifier !== undefined && (
+                      <span className="stat-modifier">
+                        ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="stat-value-container">
-                <span className="stat-value">
-                  {stat.value}
-                </span>
-                {stat.modifier !== undefined && (
-                  <span className="stat-modifier">
-                    ({stat.modifier >= 0 ? '+' : ''}{stat.modifier})
-                  </span>
+                {stat.description && (
+                  <div className="stat-description-footer">
+                    <span className="stat-description">{stat.description}</span>
+                  </div>
                 )}
-              </div>
+              </>
               {stat.tooltip && (
                 <div
                   className="tooltip-trigger"
@@ -870,17 +1041,25 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     };
 
     return (
-      <div className="stats-container">
+      <div className="stats-container creature-stats">
         {/* Left sidebar with stat groups - these become the new left navigation */}
-        <div className="stats-navigation">
+        <div className={`stats-navigation ${showLabels ? 'with-labels' : 'icons-only'}`}>
+          <button
+            className="stats-label-toggle-button"
+            onClick={() => setShowLabels(!showLabels)}
+            title={showLabels ? 'Hide Labels' : 'Show Labels'}
+          >
+            <span className="stats-toggle-icon">{showLabels ? '◀' : '▶'}</span>
+          </button>
           {Object.entries(statGroups).map(([key, group]) => (
             <button
               key={key}
               className={`stats-nav-button ${selectedStatGroup === key ? 'active' : ''}`}
               onClick={() => setSelectedStatGroup(key)}
+              title={group.title}
             >
               <img src={group.icon} alt="" className="stats-nav-icon" />
-              <span className="stats-nav-text">{group.title}</span>
+              {showLabels && <span className="stats-nav-text">{group.title}</span>}
             </button>
           ))}
         </div>
@@ -1577,6 +1756,9 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                         e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
                       }}
                     />
+                    {item.quantity && item.quantity > 1 && (
+                      <div className="loot-quantity">×{item.quantity}</div>
+                    )}
                   </div>
                   <div
                     className="loot-item-name"
@@ -1585,13 +1767,10 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
                     {item.name || `Item #${index + 1}`}
                   </div>
 
-                  {/* Drop chance and quantity info */}
+                  {/* Drop chance info */}
                   <div className="loot-item-info">
                     {item.dropChance !== undefined && (
                       <div className="loot-drop-chance">{item.dropChance}%</div>
-                    )}
-                    {item.quantity && item.quantity > 1 && (
-                      <div className="loot-quantity">×{item.quantity}</div>
                     )}
                   </div>
                 </div>

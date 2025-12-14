@@ -496,19 +496,24 @@ const GridItem = ({ gridItem }) => {
               position: 'absolute',
               bottom: '-2px',
               right: '-2px',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              color: 'white',
+              backgroundColor: 'white',
+              color: 'black',
               fontSize: `${Math.max(10, orbSize * 0.2)}px`,
               fontWeight: 'bold',
               padding: '1px 4px',
-              borderRadius: '3px',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '50%',
+              border: '2px solid rgba(0, 0, 0, 0.6)',
               minWidth: '16px',
+              minHeight: '16px',
               textAlign: 'center',
               lineHeight: '1',
-              textShadow: '1px 1px 1px rgba(0, 0, 0, 0.8)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textShadow: 'none',
               pointerEvents: 'none',
-              zIndex: 2
+              zIndex: 2,
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)'
             }}
           >
             {itemForTooltip.quantity}

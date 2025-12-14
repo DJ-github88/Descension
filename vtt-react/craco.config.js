@@ -4,6 +4,19 @@ module.exports = {
   devServer: {
     port: 3000,
     host: '0.0.0.0', // Allow connections from any host
+    // Proxy WoW icons to avoid CORS issues
+    proxy: {
+      '/api/wow-icons': {
+        target: 'https://wow.zamimg.com/images/wow/icons/large/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api/wow-icons': '',
+        },
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    },
     // Ensure chunks are served from the correct port
     devMiddleware: {
       publicPath: '/',

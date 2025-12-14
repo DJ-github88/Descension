@@ -70,6 +70,7 @@ export default function Skills() {
     const [selectedDie, setSelectedDie] = useState('d20'); // Default to d20 (hardest)
     const [selectedWeaponType, setSelectedWeaponType] = useState('sword');
     const [showCompletedQuests, setShowCompletedQuests] = useState(true);
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
     const WEAPON_TYPE_LABELS = {
         sword: 'Sword',
@@ -762,8 +763,16 @@ export default function Skills() {
 
     return (
         <div className="skills-container">
-            <div className="skills-sidebar">
-                <div className="skills-search-container">
+            <div className={`skills-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+                <button
+                    className="skills-sidebar-toggle-button"
+                    onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                    title={sidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+                >
+                    <span className="skills-toggle-icon">{sidebarCollapsed ? '▶' : '◀'}</span>
+                </button>
+                {!sidebarCollapsed && (
+                    <div className="skills-search-container">
                     <input
                         type="text"
                         className="skills-search-input"
@@ -775,11 +784,12 @@ export default function Skills() {
                         <i
                             className="fas fa-times skills-search-clear"
                             onClick={() => setSearchQuery('')}
-                        ></i>
+                        >                        </i>
                     )}
-                </div>
+                    </div>
+                )}
 
-                {searchQuery.trim() ? (
+                {!sidebarCollapsed && (searchQuery.trim() ? (
                     // Show search results
                     <div className="skill-search-results">
                         <div className="skill-category-header">
@@ -863,7 +873,7 @@ export default function Skills() {
                             </div>
                         );
                     })
-                )}
+                ))}
             </div>
 
             <div className="skills-content">

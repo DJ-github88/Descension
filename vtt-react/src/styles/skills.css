@@ -31,6 +31,50 @@
     flex-direction: column !important;
     overflow-y: auto;
     box-shadow: inset -3px 0 8px rgba(0, 0, 0, 0.15);
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+/* Collapsed Sidebar State */
+.skills-sidebar.collapsed {
+    width: 80px !important;
+}
+
+/* Sidebar Toggle Button */
+.skills-sidebar-toggle-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg,
+        rgba(200, 190, 160, 0.9) 0%,
+        rgba(190, 180, 150, 0.85) 100%);
+    border: none;
+    border-bottom: 2px solid #8b7355;
+    color: #5a1e12;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.skills-sidebar-toggle-button:hover {
+    background: linear-gradient(135deg,
+        rgba(220, 210, 180, 0.95) 0%,
+        rgba(210, 200, 170, 0.9) 100%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.skills-toggle-icon {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.skills-sidebar.collapsed .skills-sidebar-toggle-button {
+    border-bottom: 2px solid #8b7355;
 }
 
 /* Search Container */
@@ -42,6 +86,11 @@
         rgba(230, 220, 200, 0.9) 100%);
     border-bottom: 2px solid #8b7355;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s ease, max-height 0.3s ease;
+}
+
+.skills-sidebar.collapsed .skills-search-container {
+    display: none;
 }
 
 .skills-search-input {
@@ -118,6 +167,14 @@
     margin: 0;
     width: 100%;
     box-sizing: border-box;
+    transition: opacity 0.2s ease, max-width 0.3s ease;
+}
+
+.skills-sidebar.collapsed .skill-category-header {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    padding: 0;
 }
 
 .skill-category-icon {
@@ -136,6 +193,22 @@
 
 .skill-category-name {
     flex: 1;
+    transition: opacity 0.2s ease, max-width 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.skills-sidebar.collapsed .skill-category-name {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+}
+
+.skills-sidebar.collapsed .skill-category-section,
+.skills-sidebar.collapsed .skill-list,
+.skills-sidebar.collapsed .skill-search-results {
+    display: none;
 }
 
 .category-toggle-icon {
@@ -672,30 +745,154 @@
     border-radius: 6px;
     font-size: 12px;
     border: 1px solid transparent;
+    position: relative;
+    padding-left: 20px;
 }
 
+/* Colorblind-friendly skill roll outcome colors */
+/* Total Failure - Dark red/maroon (very dark, distinct) */
+.table-entry.total-failure {
+    border-left: 6px solid #8B0000;
+    background: linear-gradient(135deg, #ffe8e8 0%, #ffd5d5 100%);
+    border-left-style: double;
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.total-failure::before {
+    content: '⚠';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #8B0000;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #8B0000;
+    font-weight: bold;
+}
+
+/* Failure - Red-orange (distinct from dark red) */
 .table-entry.failure {
-    background: rgba(220, 53, 69, 0.1);
-    border-color: rgba(220, 53, 69, 0.3);
-    color: #8b2635;
+    border-left: 5px solid #D84315;
+    background: linear-gradient(135deg, #fff0eb 0%, #ffe5e0 100%);
+    position: relative;
+    padding-left: 20px;
 }
 
-.table-entry.normal {
-    background: rgba(139, 115, 85, 0.1);
-    border-color: rgba(139, 115, 85, 0.3);
-    color: #5a1e12;
+.table-entry.failure::before {
+    content: '✗';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #D84315;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #D84315;
+    font-weight: bold;
 }
 
+/* Partial Success / Mixed - Amber/yellow (warm, distinct) */
+.table-entry.normal,
+.table-entry.partial {
+    border-left: 5px solid #F57C00;
+    background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.normal::before,
+.table-entry.partial::before {
+    content: '➡';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #F57C00;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #F57C00;
+    font-weight: bold;
+}
+
+/* Success - Teal/blue-green (cool, distinct) */
 .table-entry.success {
-    background: rgba(74, 124, 89, 0.1);
-    border-color: rgba(74, 124, 89, 0.3);
-    color: #2d5a3d;
+    border-left: 5px solid #00897B;
+    background: linear-gradient(135deg, #e0f7f4 0%, #d1f2ef 100%);
+    position: relative;
+    padding-left: 20px;
 }
 
+.table-entry.success::before {
+    content: '✓';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #00897B;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #00897B;
+    font-weight: bold;
+}
+
+/* Critical Success - Bright blue (very distinct) */
 .table-entry.critical {
-    background: rgba(157, 78, 221, 0.1);
-    border-color: rgba(157, 78, 221, 0.3);
-    color: #6b2c91;
+    border-left: 6px solid #1976D2;
+    background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
+    border-left-style: double;
+    position: relative;
+    padding-left: 20px;
+}
+
+.table-entry.critical::before {
+    content: '★';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #1976D2;
+    opacity: 0.9;
+    background: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #1976D2;
+    font-weight: bold;
 }
 
 .roll-range {
@@ -705,6 +902,16 @@
     padding: 2px 6px;
     background: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
+}
+
+/* Ensure roll-range doesn't get pushed by ::before icons */
+.table-entry.total-failure .roll-range,
+.table-entry.failure .roll-range,
+.table-entry.normal .roll-range,
+.table-entry.partial .roll-range,
+.table-entry.success .roll-range,
+.table-entry.critical .roll-range {
+    margin-left: 8px;
 }
 
 .roll-result {

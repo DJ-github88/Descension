@@ -8,6 +8,7 @@ import React, { useState, useRef } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { RACE_DATA, getFullRaceData, getRacialBaseStats, getRacialSavingThrowModifiers, applyRacialModifiers } from '../../../data/raceData';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
+import { getWowIconUrl } from '../../../utils/assetManager';
 import UnifiedSpellCard from '../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import ItemTooltip from '../../item-generation/ItemTooltip';
 import { useSpellLibrary, useSpellLibraryDispatch } from '../../spellcrafting-wizard/context/SpellLibraryContext';
@@ -443,7 +444,7 @@ const Step2RaceSelection = () => {
                                                                                                 <div
                                                                                                     className="equipment-item-icon"
                                                                                                     style={{
-                                                                                                        backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
+                                                                                                        backgroundImage: `url(${getWowIconUrl(item.iconId)})`,
                                                                                                         width: '100%',
                                                                                                         height: '100%',
                                                                                                         backgroundSize: 'cover',
@@ -634,12 +635,12 @@ const Step2RaceSelection = () => {
                                                                         <div key={trait.id} className="passive-summary-item">
                                                                             <div className="passive-summary-icon-wrapper">
                                                                                 <img
-                                                                                    src={`https://wow.zamimg.com/images/wow/icons/large/${trait.icon || 'spell_holy_devotion'}.jpg`}
+                                                                                    src={getWowIconUrl(trait.icon || 'spell_holy_devotion')}
                                                                                     alt={trait.name}
                                                                                     className="passive-summary-icon"
                                                                                     onError={(e) => {
                                                                                         e.target.onerror = null;
-                                                                                        e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
+                                                                                        e.target.src = getWowIconUrl('inv_misc_questionmark');
                                                                                     }}
                                                                                 />
                                                                             </div>

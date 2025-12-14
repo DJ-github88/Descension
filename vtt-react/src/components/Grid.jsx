@@ -8,6 +8,7 @@ import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
 import useCombatStore from "../store/combatStore";
 import useLevelEditorStore, { WALL_TYPES } from "../store/levelEditorStore";
+import { getWowIconUrl } from '../utils/assetManager';
 import useMapStore from "../store/mapStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
 import localRoomService, { forceSaveCurrentRoom } from "../services/localRoomService";
@@ -53,9 +54,9 @@ const CharacterTokenPreview = ({ mousePosition, tokenSize }) => {
         }
         // Check for characterIcon and convert to URL
         if (characterData.lore?.characterIcon) {
-            return `https://wow.zamimg.com/images/wow/icons/large/${characterData.lore.characterIcon}.jpg`;
+            return getWowIconUrl(characterData.lore.characterIcon);
         }
-        return 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_human_01.jpg';
+        return getWowIconUrl('inv_misc_head_human_01');
     };
 
     return (

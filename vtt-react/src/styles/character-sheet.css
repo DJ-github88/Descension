@@ -3567,7 +3567,7 @@
         rgba(122, 59, 46, 0.9) 0%,
         rgba(139, 115, 85, 0.8) 100%);
     border-color: #7a3b2e;
-    color: #f0e6d2;
+    color: #000000; /* Keep text black for readability */
     box-shadow:
         0 4px 8px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -3620,13 +3620,73 @@
 .stats-navigation.icons-only .stats-nav-button {
     justify-content: center;
     padding: 4px;
-    min-height: 60px;
+    height: 60px;
     width: 60px;
+    min-height: 60px;
 }
 
 .stats-navigation.icons-only .stats-nav-icon {
     width: 52px;
     height: 52px;
+}
+
+/* Creature Stats Modifier - Smaller version */
+.creature-stats .stats-navigation {
+    width: 160px;
+}
+
+.creature-stats .stats-navigation.with-labels {
+    width: 160px;
+}
+
+.creature-stats .stats-navigation.icons-only {
+    width: 70px;
+}
+
+.creature-stats .stats-nav-button {
+    padding: 6px 8px;
+    font-size: 10px;
+}
+
+.creature-stats .stats-nav-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.creature-stats .stats-content-area {
+    padding: 15px;
+}
+
+.creature-stats .stats-section-header {
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+}
+
+.creature-stats .stats-section-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.creature-stats .stats-section-title {
+    font-size: 20px;
+}
+
+.creature-stats .stat-row {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+}
+
+.creature-stats .stat-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.creature-stats .stat-label {
+    font-size: 12px;
+}
+
+.creature-stats .stat-value {
+    font-size: 11px;
 }
 
 /* Stats Content Area */

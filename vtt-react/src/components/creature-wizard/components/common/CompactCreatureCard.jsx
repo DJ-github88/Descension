@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { getCreatureSizeMapping } from '../../../../store/creatureStore';
+import { getWowIconUrl } from '../../../../utils/assetManager';
 import '../../styles/CompactCreatureCard.css';
 
 // Helper function to format type name
@@ -59,7 +60,7 @@ const CompactCreatureCard = ({ creature }) => {
           style={{
             backgroundImage: creature.customTokenImage
               ? `url(${creature.customTokenImage})`
-              : `url(https://wow.zamimg.com/images/wow/icons/large/${creature.tokenIcon}.jpg)`,
+              : `url(${getWowIconUrl(creature.tokenIcon)})`,
             borderColor: creature.tokenBorder,
             backgroundSize: 'cover',
             backgroundPosition: creature.customTokenImage && creature.imageTransformations

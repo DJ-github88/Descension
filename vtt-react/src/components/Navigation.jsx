@@ -5,6 +5,7 @@ import useGameStore from '../store/gameStore';
 import useLevelEditorStore from '../store/levelEditorStore';
 import WowWindow from './windows/WowWindow';
 import SettingsWindow from './windows/SettingsWindow';
+import { getWowIconUrl } from '../utils/assetManager';
 
 import CharacterPanel from './character-sheet/Equipment';
 import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibraryContext';
@@ -222,12 +223,12 @@ function SettingsWindowWrapper({ isOpen, onClose }) {
         {
             id: 'interface',
             label: 'Interface',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_02.jpg'
+            icon: getWowIconUrl('inv_gizmo_02')
         },
         {
             id: 'gameplay',
             label: 'Gameplay',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_gear_01.jpg'
+            icon: getWowIconUrl('inv_misc_gear_01')
         }
     ];
 
@@ -408,19 +409,19 @@ function CharacterSheetWindow({ isOpen, onClose }) {
     const characterSections = {
         character: {
             title: 'Info',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg'
+            icon: getWowIconUrl('inv_misc_book_11')
         },
         stats: {
             title: 'Stats',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/ability_warrior_innerrage.jpg'
+            icon: getWowIconUrl('ability_warrior_innerrage')
         },
         skills: {
             title: 'Skills',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg'
+            icon: getWowIconUrl('trade_engineering')
         },
         lore: {
             title: 'Lore',
-            icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_note_05.jpg'
+            icon: getWowIconUrl('inv_misc_note_05')
         }
     };
 

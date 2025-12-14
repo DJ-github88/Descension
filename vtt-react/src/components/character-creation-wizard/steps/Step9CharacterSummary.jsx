@@ -8,6 +8,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useCharacterWizardState } from '../context/CharacterWizardContext';
 import { ABILITY_SCORES, getStatBreakdown } from '../../../utils/pointBuySystem';
 import { getPathData, getPathStatModifiers } from '../../../data/pathData';
+import { getWowIconUrl } from '../../../utils/assetManager';
 import { getBackgroundData, getBackgroundStatModifiers } from '../../../data/backgroundData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 import { applyRacialModifiers } from '../../../data/raceData';
@@ -535,7 +536,7 @@ const Step9CharacterSummary = () => {
                                                                             <div
                                                                                 className="equipment-item-icon"
                                                                                 style={{
-                                                                                    backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
+                                                                                    backgroundImage: `url(${getWowIconUrl(item.iconId)})`,
                                                                                     width: '100%',
                                                                                     height: '100%',
                                                                                     backgroundSize: 'cover',

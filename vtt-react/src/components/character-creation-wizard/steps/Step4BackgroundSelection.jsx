@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useCharacterWizardState, useCharacterWizardDispatch, wizardActionCreators } from '../context/CharacterWizardContext';
 import { BACKGROUND_DATA, getAllBackgrounds, getBackgroundData } from '../../../data/backgroundData';
 import { getCustomBackgroundAbilities } from '../../../data/customBackgroundData';
+import { getWowIconUrl } from '../../../utils/assetManager';
 import { getEquipmentPreview, STARTING_EQUIPMENT_LIBRARY } from '../../../data/startingEquipmentData';
 import { getBackgroundAbilities } from '../../../data/backgroundAbilities';
 import { formatCurrency } from '../../../data/startingCurrencyData';
@@ -341,7 +342,7 @@ const Step4BackgroundSelection = () => {
                                                                                 <div
                                                                                     className="equipment-item-icon"
                                                                                     style={{
-                                                                                        backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg)`,
+                                                                                        backgroundImage: `url(${getWowIconUrl(item.iconId)})`,
                                                                                         width: '100%',
                                                                                         height: '100%',
                                                                                         backgroundSize: 'cover',

@@ -8,6 +8,7 @@ import { RACE_DATA } from '../../data/raceData';
 import { getClassResourceConfig, initializeClassResource } from '../../data/classResources';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
+import { getWowIconUrl } from '../../utils/assetManager';
 import { ensurePlaceholderCharacters } from '../../utils/createPlaceholderCharacters';
 import RoomManager from './RoomManager';
 import CampaignManager from './CampaignManager';
@@ -506,10 +507,10 @@ const AccountDashboard = ({ user }) => {
                       }
                       // Check for characterIcon and convert to URL (check root level first, then lore)
                       if (character.characterIcon) {
-                        return `https://wow.zamimg.com/images/wow/icons/large/${character.characterIcon}.jpg`;
+                        return getWowIconUrl(character.characterIcon);
                       }
                       if (character.lore?.characterIcon) {
-                        return `https://wow.zamimg.com/images/wow/icons/large/${character.lore.characterIcon}.jpg`;
+                        return getWowIconUrl(character.lore.characterIcon);
                       }
                       return null;
                     };

@@ -75,6 +75,11 @@ export const getCustomIconUrl = (iconId, category) => {
  * @returns {string} - URL to WoW icon
  */
 export const getWowIconUrl = (iconId) => {
+  // In development, use proxy to avoid CORS issues
+  if (process.env.NODE_ENV === 'development') {
+    return `/api/wow-icons/${iconId}.jpg`;
+  }
+  // In production, use direct URL
   return `${ASSET_PATHS.wow}${iconId}.jpg`;
 };
 

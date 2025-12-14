@@ -1,5 +1,5 @@
 /* Enhanced Creature Inspect View - Pathfinder Theme */
-/* Matching the character sheet lore/skills section styling */
+/* Now uses character sheet CSS with creature-specific modifiers */
 
 .creature-inspect-container {
   display: block; /* Remove flex to fix squished layout */
@@ -11,6 +11,8 @@
   font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
   color: #5a1e12;
 }
+
+/* Header navigation tabs (creature-specific) */
 
 /* Header navigation tabs (new style) */
 .creature-inspect-header-navigation {
@@ -300,6 +302,126 @@
   flex-direction: column;
   gap: 6px; /* Tighter gap between buttons */
   box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease;
+}
+
+.stats-navigation.icons-only {
+  width: 80px;
+}
+
+.stats-navigation.with-labels {
+  width: 200px;
+}
+
+/* Toggle button for showing/hiding labels */
+.stats-label-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: #5a1e12;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  margin-bottom: 12px;
+  padding: 0;
+  text-align: center;
+}
+
+.stats-label-toggle-button:hover {
+  opacity: 0.7;
+}
+
+.stats-toggle-icon {
+  font-size: 14px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.stats-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: linear-gradient(135deg,
+    rgba(240, 230, 210, 0.8) 0%,
+    rgba(220, 210, 190, 0.7) 100%);
+  border: 2px solid #8b7355;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5a1e12;
+  text-align: left;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stats-nav-button:hover {
+  background: linear-gradient(135deg,
+    rgba(250, 240, 220, 0.9) 0%,
+    rgba(230, 220, 200, 0.8) 100%);
+  border-color: #7a3b2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.stats-nav-button.active {
+  background: linear-gradient(135deg,
+    rgba(255, 245, 225, 1) 0%,
+    rgba(240, 230, 210, 0.95) 100%);
+  border-color: #7a3b2e;
+  color: #000000; /* Keep text black for readability */
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.stats-nav-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #8b7355;
+  flex-shrink: 0;
+}
+
+.stats-nav-text {
+  flex: 1;
+  line-height: 1.2;
+}
+
+/* Icons-only state */
+.stats-navigation.icons-only .stats-nav-button {
+  justify-content: center;
+  padding: 4px;
+  height: 60px;
+  width: 60px;
+  min-height: 60px;
+}
+
+.stats-navigation.icons-only .stats-nav-icon {
+  width: 52px;
+  height: 52px;
+}
+
+/* With-labels state */
+.stats-navigation.with-labels .stats-nav-button {
+  justify-content: flex-start;
+  padding: 10px 12px;
+  min-height: 48px;
+  width: 100%;
+}
+
+.stats-navigation.with-labels .stats-nav-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .stats-nav-button {
@@ -337,6 +459,7 @@
     rgba(255, 245, 225, 1) 0%,
     rgba(240, 230, 210, 0.95) 100%);
   border-color: #7a3b2e;
+  color: #000000; /* Keep text black for readability */
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -1055,13 +1178,24 @@
 }
 
 .loot-quantity {
-  color: #32cd32;
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background-color: white;
+  color: black;
   font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  background-color: rgba(0, 0, 0, 0.3);
   padding: 1px 4px;
-  border-radius: 3px;
-  font-size: 9px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  font-size: 10px;
+  min-width: 16px;
+  min-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  z-index: 1;
 }
 
 /* Legacy loot items list for backwards compatibility */
@@ -1096,6 +1230,7 @@
   background-size: cover;
   background-position: center;
   flex-shrink: 0;
+  position: relative;
 }
 
 .loot-item-details {

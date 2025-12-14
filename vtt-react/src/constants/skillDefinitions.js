@@ -12,11 +12,6 @@ export const SKILL_CATEGORIES = {
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg',
         description: 'Navigate the wilderness and uncover secrets'
     },
-    CRAFTING: {
-        name: 'Crafting & Creation',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg',
-        description: 'Create wondrous items and masterworks'
-    },
     SOCIAL: {
         name: 'Social & Influence',
         icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_11.jpg',
@@ -325,74 +320,6 @@ export const SKILL_DEFINITIONS = {
                 d10: 'athletics_master_d10',
                 d12: 'athletics_master_d12',
                 d20: 'athletics_master_d20'
-            }
-        }
-    },
-
-    // Crafting & Creation Skills
-    alchemy: {
-        name: 'Alchemy',
-        category: SKILL_CATEGORIES.CRAFTING.name,
-        primaryStat: 'intelligence',
-        secondaryStat: 'spirit',
-        description: 'Brew potions, create elixirs, and transmute materials',
-        icon: 'https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg',
-        rollableTables: {
-            UNTRAINED: {
-                d4: 'alchemy_untrained_d4',
-                d6: 'alchemy_untrained_d6',
-                d8: 'alchemy_untrained_d8',
-                d10: 'alchemy_untrained_d10',
-                d12: 'alchemy_untrained_d12',
-                d20: 'alchemy_untrained_d20'
-            },
-            NOVICE: {
-                d4: 'alchemy_novice_d4',
-                d6: 'alchemy_novice_d6',
-                d8: 'alchemy_novice_d8',
-                d10: 'alchemy_novice_d10',
-                d12: 'alchemy_novice_d12',
-                d20: 'alchemy_novice_d20'
-            },
-            TRAINED: {
-                d4: 'alchemy_trained_d4',
-                d6: 'alchemy_trained_d6',
-                d8: 'alchemy_trained_d8',
-                d10: 'alchemy_trained_d10',
-                d12: 'alchemy_trained_d12',
-                d20: 'alchemy_trained_d20'
-            },
-            APPRENTICE: {
-                d4: 'alchemy_apprentice_d4',
-                d6: 'alchemy_apprentice_d6',
-                d8: 'alchemy_apprentice_d8',
-                d10: 'alchemy_apprentice_d10',
-                d12: 'alchemy_apprentice_d12',
-                d20: 'alchemy_apprentice_d20'
-            },
-            ADEPT: {
-                d4: 'alchemy_adept_d4',
-                d6: 'alchemy_adept_d6',
-                d8: 'alchemy_adept_d8',
-                d10: 'alchemy_adept_d10',
-                d12: 'alchemy_adept_d12',
-                d20: 'alchemy_adept_d20'
-            },
-            EXPERT: {
-                d4: 'alchemy_expert_d4',
-                d6: 'alchemy_expert_d6',
-                d8: 'alchemy_expert_d8',
-                d10: 'alchemy_expert_d10',
-                d12: 'alchemy_expert_d12',
-                d20: 'alchemy_expert_d20'
-            },
-            MASTER: {
-                d4: 'alchemy_master_d4',
-                d6: 'alchemy_master_d6',
-                d8: 'alchemy_master_d8',
-                d10: 'alchemy_master_d10',
-                d12: 'alchemy_master_d12',
-                d20: 'alchemy_master_d20'
             }
         }
     },
@@ -1130,7 +1057,7 @@ export const SKILL_DEFINITIONS = {
     },
     medicine: {
         name: 'Medicine',
-        category: SKILL_CATEGORIES.CRAFTING.name,
+        category: SKILL_CATEGORIES.EXPLORATION.name,
         primaryStat: 'intelligence',
         secondaryStat: 'spirit',
         description: 'Diagnose illness, treat wounds, and stabilize the dying',
