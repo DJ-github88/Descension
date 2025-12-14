@@ -401,10 +401,6 @@ const CreatureLibrary = ({ onEdit }) => {
       <div className="creature-library-header">
         <div className="creature-library-title-row">
           <h1>Creature Library</h1>
-          <CreatureFilters 
-            filteredCount={filteredCreatures.length}
-            totalCount={library.creatures.length}
-          />
           <div className="creature-library-controls">
             <div className="view-mode-controls">
               <button
@@ -424,6 +420,11 @@ const CreatureLibrary = ({ onEdit }) => {
             </div>
           </div>
         </div>
+
+        <CreatureFilters 
+          filteredCount={filteredCreatures.length}
+          totalCount={library.creatures.length}
+        />
 
         <div className="creature-library-search">
           <input

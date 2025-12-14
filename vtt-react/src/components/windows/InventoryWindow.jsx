@@ -165,6 +165,20 @@ const InventoryWindow = memo(() => {
     const [showCurrencyWithdrawModal, setShowCurrencyWithdrawModal] = useState(false);
     const [showRenameModal, setShowRenameModal] = useState(false);
     const [itemToRename, setItemToRename] = useState(null);
+    const [showSplitStackModal, setShowSplitStackModal] = useState(false);
+    const [itemToSplit, setItemToSplit] = useState(null);
+    
+    // Mobile detection
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
 
     // Refs
@@ -360,6 +374,24 @@ const InventoryWindow = memo(() => {
         // Close the modal
         setShowRenameModal(false);
         setItemToRename(null);
+    };
+
+    // Handle splitting a stack
+    const handleSplitStack = () => {
+        const input = document.getElementById('split-quantity-input');
+        if (!input || !itemToSplit) return;
+
+        const quantity = parseInt(input.value, 10);
+        if (isNaN(quantity) || quantity <= 0 || quantity >= itemToSplit.quantity) {
+            return; // Invalid quantity
+        }
+
+        // Split the stack
+        splitStack(itemToSplit.id, quantity);
+
+        // Close the modal
+        setShowSplitStackModal(false);
+        setItemToSplit(null);
     };
 
     // Handle using a consumable item
@@ -1773,7 +1805,8 @@ const InventoryWindow = memo(() => {
                         icon: <i className="fas fa-cut"></i>,
                         label: 'Split Stack',
                         onClick: () => {
-                            splitStack(contextMenu.itemId, Math.ceil(item.quantity / 2));
+                            setItemToSplit(item);
+                            setShowSplitStackModal(true);
                             setContextMenu({ visible: false });
                         }
                     });
@@ -2239,6 +2272,87 @@ const InventoryWindow = memo(() => {
                                 onClick={handleRenameItem}
                             >
                                 Rename
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {/* Split Stack Modal */}
+            {showSplitStackModal && itemToSplit && ReactDOM.createPortal(
+                <div className="modal-overlay" onClick={() => {
+                    setShowSplitStackModal(false);
+                    setItemToSplit(null);
+                }}>
+                    <div className="modal-content rename-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Split Stack</h3>
+                            <button
+                                className="close-button"
+                                onClick={() => {
+                                    setShowSplitStackModal(false);
+                                    setItemToSplit(null);
+                                }}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="rename-item-info">
+                                <img
+                                    src={`https://wow.zamimg.com/images/wow/icons/large/${itemToSplit.iconId || 'inv_misc_questionmark'}.jpg`}
+                                    alt={itemToSplit.name}
+                                    className="item-icon-small"
+                                    onError={(e) => {
+                                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                    }}
+                                />
+                                <div className="item-details">
+                                    <div className="item-name">{getDisplayName(itemToSplit)}</div>
+                                    <div className="item-quantity">
+                                        Current Quantity: {itemToSplit.quantity}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="rename-input-group">
+                                <label htmlFor="split-quantity-input">
+                                    Amount to Split (Stack: {itemToSplit.quantity}):
+                                </label>
+                                <input
+                                    id="split-quantity-input"
+                                    type="number"
+                                    min="1"
+                                    max={itemToSplit.quantity - 1}
+                                    defaultValue={Math.floor(itemToSplit.quantity / 2)}
+                                    placeholder={`Enter amount (1-${itemToSplit.quantity - 1})...`}
+                                    autoFocus
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleSplitStack();
+                                        } else if (e.key === 'Escape') {
+                                            setShowSplitStackModal(false);
+                                            setItemToSplit(null);
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                className="modal-button cancel"
+                                onClick={() => {
+                                    setShowSplitStackModal(false);
+                                    setItemToSplit(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="modal-button confirm"
+                                onClick={handleSplitStack}
+                            >
+                                Split
                             </button>
                         </div>
                     </div>

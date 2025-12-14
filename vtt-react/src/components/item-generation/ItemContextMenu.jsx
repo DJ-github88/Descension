@@ -222,7 +222,7 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
     return (
         <>
             <UnifiedContextMenu
-                visible={true}
+                visible={!showConfirmation}
                 x={x}
                 y={y}
                 onClose={onClose}
