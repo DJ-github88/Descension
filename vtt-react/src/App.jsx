@@ -62,8 +62,6 @@ const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
 const CombatTimeline = lazy(() => import("./components/combat/CombatTimeline"));
 const DiceRollingSystem = lazy(() => import("./components/dice/DiceRollingSystem"));
-const LocalRoomIndicator = lazy(() => import("./components/local-room/LocalRoomIndicator"));
-
 // Lazy load page components
 const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerApp"));
 const AccountDashboard = lazy(() => import("./components/account/AccountDashboard"));
@@ -210,8 +208,10 @@ function GameScreen() {
             // Disable auto-save during loading to prevent race conditions
             setLoading(true);
 
-            // Import local room service
+            // Import services
             const { default: localRoomService } = await import('./services/localRoomService');
+            const { default: roomStateService } = await import('./services/roomStateService');
+            const { default: campaignService } = await import('./services/campaignService');
 
             // Load room data
             const room = localRoomService.getLocalRoom(roomId);
@@ -221,26 +221,59 @@ function GameScreen() {
                 return;
             }
 
-            // Clear any existing room-specific state first to ensure isolation
-            await clearRoomSpecificState();
+            // Get campaign ID from room or current campaign
+            const campaignId = room.campaignId || campaignService.getCurrentCampaignId();
 
             // Ensure GM mode is enabled for local rooms (user is always GM in local play)
             setGMMode(true);
+            
+            // Clear viewingFromToken so GM sees all tokens' combined vision (not restricted to one)
+            const { default: levelEditorStore } = await import('./store/levelEditorStore');
+            levelEditorStore.getState().setViewingFromToken(null);
 
-            // Load game state
-            const gameState = localRoomService.loadRoomState(roomId);
-            if (gameState) {
+            // Load room state using localRoomService (uses correct key prefix for local rooms)
+            // This preserves all room content including tokens, terrain, walls, etc.
+            const localGameState = localRoomService.loadRoomState(roomId);
+            
+            if (localGameState) {
                 console.log('🎮 Loading local room game state:', {
-                    hasTokens: !!gameState.tokens,
-                    tokensCount: gameState.tokens?.length || 0,
-                    hasDroppedItems: !!gameState.inventory?.droppedItems,
-                    droppedItemsCount: Object.keys(gameState.inventory?.droppedItems || {}).length,
-                    hasBackgrounds: !!gameState.backgrounds,
-                    backgroundsCount: gameState.backgrounds?.length || 0
+                    hasTokens: !!localGameState.tokens,
+                    tokensCount: Array.isArray(localGameState.tokens) ? localGameState.tokens.length : Object.keys(localGameState.tokens || {}).length,
+                    hasGridItems: !!localGameState.gridItems,
+                    gridItemsCount: localGameState.gridItems?.length || 0,
+                    hasBackgrounds: !!localGameState.backgrounds,
+                    backgroundsCount: localGameState.backgrounds?.length || 0,
+                    hasLevelEditor: !!localGameState.levelEditor,
+                    campaignId: campaignId
                 });
-                await applyLocalGameState(gameState, roomId);
+                
+                // Apply game state using the local room's stored data
+                await applyLocalGameState(localGameState, roomId);
             } else {
-                console.log('📝 No saved state for this room - starting fresh');
+                // Try roomStateService as fallback (for rooms migrated from older format)
+                const roomState = roomStateService.loadRoomState(roomId);
+                if (roomState) {
+                    console.log('🎮 Loading room state from roomStateService (fallback)');
+                    await roomStateService.applyRoomState(roomState);
+                } else {
+                    console.log('📝 No saved state for this room - starting fresh');
+                }
+            }
+
+            // Load player-specific state if character is specified
+            if (room.characterId) {
+                const character = await loadActiveCharacter(room.characterId);
+                if (character) {
+                    await setActiveCharacter(character);
+                    console.log('👤 Character loaded for local room:', character.name);
+                    
+                    // Load player-specific state for this room
+                    const playerState = roomStateService.loadPlayerState(roomId, character.id);
+                    if (playerState) {
+                        console.log('👤 Loading player state for character:', character.name);
+                        await roomStateService.applyPlayerState(playerState, character.id);
+                    }
+                }
             }
 
             // Re-enable auto-save after loading is complete
@@ -248,15 +281,6 @@ function GameScreen() {
                 setLoading(false);
                 console.log('✅ Room loading complete - auto-save re-enabled');
             }, 1000); // 1 second delay to ensure all state changes are settled
-
-            // Set character if specified
-            if (room.characterId) {
-                const character = await loadActiveCharacter(room.characterId);
-                if (character) {
-                    await setActiveCharacter(character);
-                    console.log('👤 Character loaded for local room:', character.name);
-                }
-            }
 
             // DON'T clear localStorage flags - we need them for saving!
             // The flags will be cleared when leaving the room
@@ -317,7 +341,13 @@ function GameScreen() {
                 });
             } else {
             }
-            if (gameState.inventory?.droppedItems) {
+            // Load grid items (dropped items on map)
+            if (gameState.gridItems && Array.isArray(gameState.gridItems)) {
+                gameState.gridItems.forEach(item => {
+                    useGridItemStore.getState().loadGridItem(item);
+                });
+            } else if (gameState.inventory?.droppedItems) {
+                // Legacy format fallback
                 const droppedItems = Object.values(gameState.inventory.droppedItems);
                 droppedItems.forEach(item => {
                     useGridItemStore.getState().loadGridItem(item);
@@ -334,46 +364,92 @@ function GameScreen() {
             }
 
             // Load level editor data if it exists
-            if (gameState.levelEditor) {
-                const levelEditorStore = useLevelEditorStore.getState();
+            const levelEditorStore = useLevelEditorStore.getState();
+            let hasLevelEditorData = false;
 
+            if (gameState.levelEditor) {
                 // Load all level editor data
                 if (gameState.levelEditor.terrainData) {
                     levelEditorStore.setTerrainData(gameState.levelEditor.terrainData);
+                    hasLevelEditorData = true;
                 }
                 if (gameState.levelEditor.environmentalObjects) {
                     levelEditorStore.setEnvironmentalObjects(gameState.levelEditor.environmentalObjects);
+                    hasLevelEditorData = true;
                 }
                 if (gameState.levelEditor.lightSources) {
                     levelEditorStore.setLightSources(gameState.levelEditor.lightSources);
+                    hasLevelEditorData = true;
                 }
                 if (gameState.levelEditor.wallData) {
                     levelEditorStore.setWallData(gameState.levelEditor.wallData);
+                    hasLevelEditorData = true;
                 }
                 if (gameState.levelEditor.dndElements) {
                     levelEditorStore.setDndElements(gameState.levelEditor.dndElements);
+                    hasLevelEditorData = true;
                 }
                 if (gameState.levelEditor.fogOfWarData) {
                     levelEditorStore.setFogOfWarData(gameState.levelEditor.fogOfWarData);
+                    hasLevelEditorData = true;
                 }
                 if (gameState.levelEditor.drawingPaths) {
                     levelEditorStore.setDrawingPaths(gameState.levelEditor.drawingPaths);
+                    hasLevelEditorData = true;
                 }
                 if (gameState.levelEditor.drawingLayers) {
                     levelEditorStore.setDrawingLayers(gameState.levelEditor.drawingLayers);
+                    hasLevelEditorData = true;
                 }
-
             }
 
-            // Also try to load from the separate level editor persistence service
-            try {
-                const { default: levelEditorPersistenceService } = await import('./services/levelEditorPersistenceService');
-                const levelEditorData = levelEditorPersistenceService.loadLevelEditorState(roomId);
-                if (levelEditorData) {
-                    useLevelEditorStore.getState().loadMapState(levelEditorData);
+            // Only use persistence service as fallback if main game state doesn't have level editor data
+            // This prevents overwriting correctly loaded terrain data with potentially stale cache data
+            // CRITICAL: Skip persistence service entirely for local rooms - they use localStorage directly
+            const isLocalRoom = typeof window !== 'undefined' && localStorage.getItem('isLocalRoom') === 'true';
+            if (!hasLevelEditorData && !isLocalRoom) {
+                try {
+                    const { default: levelEditorPersistenceService } = await import('./services/levelEditorPersistenceService');
+                    const levelEditorData = levelEditorPersistenceService.loadLevelEditorState(roomId);
+                    if (levelEditorData) {
+                        // Merge terrain data instead of replacing to preserve any tiles that might have been set
+                        const currentTerrainData = levelEditorStore.terrainData || {};
+                        const mergedTerrainData = { ...currentTerrainData, ...(levelEditorData.terrainData || {}) };
+                        
+                        // Only use loadMapState if we don't have terrain data, otherwise merge manually
+                        if (Object.keys(currentTerrainData).length === 0) {
+                            useLevelEditorStore.getState().loadMapState(levelEditorData);
+                        } else {
+                            // Merge individual properties to preserve existing terrain
+                            if (levelEditorData.terrainData && Object.keys(mergedTerrainData).length > 0) {
+                                levelEditorStore.setTerrainData(mergedTerrainData);
+                            }
+                            if (levelEditorData.environmentalObjects) {
+                                levelEditorStore.setEnvironmentalObjects(levelEditorData.environmentalObjects);
+                            }
+                            if (levelEditorData.lightSources) {
+                                levelEditorStore.setLightSources(levelEditorData.lightSources);
+                            }
+                            if (levelEditorData.wallData) {
+                                levelEditorStore.setWallData(levelEditorData.wallData);
+                            }
+                            if (levelEditorData.dndElements) {
+                                levelEditorStore.setDndElements(levelEditorData.dndElements);
+                            }
+                            if (levelEditorData.fogOfWarData) {
+                                levelEditorStore.setFogOfWarData(levelEditorData.fogOfWarData);
+                            }
+                            if (levelEditorData.drawingPaths) {
+                                levelEditorStore.setDrawingPaths(levelEditorData.drawingPaths);
+                            }
+                            if (levelEditorData.drawingLayers) {
+                                levelEditorStore.setDrawingLayers(levelEditorData.drawingLayers);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Could not load level editor persistence data:', error);
                 }
-            } catch (error) {
-                console.warn('Could not load level editor persistence data:', error);
             }
 
             console.log('✅ Local game state applied to stores');
@@ -399,6 +475,17 @@ function GameScreen() {
 
     // Handle character loading when entering the game
     useEffect(() => {
+        // Auto-enable editor mode if in world builder mode (sandbox/test mode)
+        const isWorldBuilderMode = localStorage.getItem('isWorldBuilderMode') === 'true';
+        if (isWorldBuilderMode && isGMMode) {
+            import('./store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+                const levelEditorStore = useLevelEditorStore.getState();
+                if (!levelEditorStore.isEditorMode) {
+                    levelEditorStore.setEditorMode(true);
+                }
+            });
+        }
+        
         const initializeCharacter = async () => {
             try {
                 // Check for local room first
@@ -494,14 +581,6 @@ function GameScreen() {
                     <DialogueSystem />
                     {isGMMode && <DialogueControls />}
                     <DiceRollingSystem />
-
-                    {/* Local Room Indicator - only show when in a local room */}
-                    {currentLocalRoomId && (
-                        <LocalRoomIndicator
-                            currentLocalRoomId={currentLocalRoomId}
-                            onReturnToMenu={() => navigate('/')}
-                        />
-                    )}
                 </Suspense>
 
             </div>
@@ -769,7 +848,32 @@ const AppContent = ({
     // Initialize idle detection for automatic status updates
     useIdleDetection();
 
-    const handleEnterSinglePlayer = () => {
+    const handleEnterSinglePlayer = async () => {
+        // Clear any existing room flags - this is world builder mode (sandbox/testing)
+        localStorage.removeItem('isLocalRoom');
+        localStorage.removeItem('selectedLocalRoomId');
+        localStorage.removeItem('selectedRoomId');
+        localStorage.removeItem('isTestRoom');
+        
+        // Mark this as world builder mode
+        localStorage.setItem('isWorldBuilderMode', 'true');
+        
+        // Ensure GM mode for world builder (user is always GM in sandbox mode)
+        const { default: gameStore } = await import('./store/gameStore');
+        gameStore.getState().setGMMode(true);
+        
+        // Auto-enable editor mode for world builder (sandbox mode)
+        const { default: useLevelEditorStore } = await import('./store/levelEditorStore');
+        useLevelEditorStore.getState().setEditorMode(true);
+        
+        // Clear map state for fresh world builder experience
+        try {
+            const { default: roomStateService } = await import('./services/roomStateService');
+            roomStateService.clearRoomStateForWorldBuilder();
+        } catch (err) {
+            console.warn('Could not clear state for world builder:', err);
+        }
+        
         navigate('/game');
     };
 
@@ -802,7 +906,6 @@ const AppContent = ({
                 {/* Account management routes */}
                 <Route path="/account" element={
                     (() => {
-                        console.log('Account route check:', { isAuthenticated, user: user ? 'exists' : 'null' });
                         return isAuthenticated ? (
                             <Suspense fallback={<LoadingFallback message="Loading account..." />}>
                                 <AccountDashboard user={user} />

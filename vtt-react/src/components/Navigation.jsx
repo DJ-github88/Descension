@@ -609,8 +609,8 @@ export default function Navigation({ onReturnToLanding }) {
     // Level editor store
     const { isEditorMode, setEditorMode } = useLevelEditorStore();
 
-    // Game store for GM mode
-    const { isGMMode } = useGameStore();
+    // Game store for GM mode and camera position
+    const { isGMMode, cameraX, cameraY, gridSize, setCameraPosition } = useGameStore();
 
     // Combat store for selection mode
     const {
@@ -1277,6 +1277,19 @@ export default function Navigation({ onReturnToLanding }) {
                 </div>
             </Draggable>
             )}
+            
+            {/* Grid Coordinates Display */}
+            <div 
+                className="grid-coordinates-display" 
+                title="Click to center on origin (0, 0)"
+                onClick={() => setCameraPosition(0, 0)}
+            >
+                <i className="fas fa-crosshairs" style={{ marginRight: '6px', opacity: 0.7 }}></i>
+                <span>X: {Math.round(-cameraX / (gridSize || 50))}</span>
+                <span style={{ margin: '0 8px', opacity: 0.5 }}>|</span>
+                <span>Y: {Math.round(-cameraY / (gridSize || 50))}</span>
+            </div>
+
             {buttons.filter(button => button && button.id).map(button => (
                 <React.Fragment key={`window-${button.id}`}>
                     {getWindowContent(button)}

@@ -79,13 +79,12 @@ const useLocalRoomAutoSave = () => {
         return; // Skip saving during active dragging
       }
 
-      // Check for background changes
+      // Check for background changes (skip camera position changes - too frequent and less critical)
+      // Camera position is saved when other changes occur or on unmount
       if (state.backgrounds !== prevState.backgrounds ||
           state.activeBackgroundId !== prevState.activeBackgroundId ||
           state.backgroundImageUrl !== prevState.backgroundImageUrl ||
           state.backgroundImage !== prevState.backgroundImage ||
-          state.cameraX !== prevState.cameraX ||
-          state.cameraY !== prevState.cameraY ||
           state.zoomLevel !== prevState.zoomLevel) {
         debouncedSave();
       }

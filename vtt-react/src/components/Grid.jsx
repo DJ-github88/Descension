@@ -399,9 +399,15 @@ function GridComponent({
             hasSetPlayerViewRef.current = false;
         }
 
-        // Run on initial load OR when mode switches
-        // ALSO run if viewingFromToken is not set (for auto-detection on any load)
-        const shouldAutoDetect = isInitialLoad || justSwitchedToPlayerMode || justSwitchedToGMMode || !viewingFromToken;
+        // GM mode should NOT auto-select viewingFromToken - GM has full visibility by default
+        // GM can manually opt-in to view from a specific token if curious
+        if (isGMMode) {
+            return; // GM doesn't need auto-detection of viewing token
+        }
+
+        // Run on initial load OR when mode switches to player mode
+        // ALSO run if viewingFromToken is not set (for auto-detection on any load) - ONLY for players
+        const shouldAutoDetect = isInitialLoad || justSwitchedToPlayerMode || !viewingFromToken;
         if (!shouldAutoDetect && hasSetPlayerViewRef.current) {
             return;
         }

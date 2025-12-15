@@ -114,10 +114,10 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               className="secondary-action-btn"
               onClick={onEnterSinglePlayer}
             >
-              <i className="fas fa-hammer"></i>
+              <i className="fas fa-flask"></i>
               <span className="btn-text">
-                <span className="btn-title">World Builder</span>
-                <span className="btn-subtitle">Create maps & creatures</span>
+                <span className="btn-title">Sandbox Mode</span>
+                <span className="btn-subtitle">Test tools & experiment</span>
               </span>
             </button>
           </div>

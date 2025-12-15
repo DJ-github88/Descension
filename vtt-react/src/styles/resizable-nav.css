@@ -29,3 +29,49 @@
     height: 100%;
     align-items: center;
 }
+
+/* Grid Coordinates Display */
+.grid-coordinates-display {
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(13, 17, 23, 0.9);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    user-select: none;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.grid-coordinates-display:hover {
+    background: rgba(13, 17, 23, 0.95);
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 2px 12px rgba(139, 92, 246, 0.2);
+}
+
+.grid-coordinates-display:active {
+    transform: scale(0.98);
+}
+
+.grid-coordinates-display span {
+    color: #a5d6ff;
+}
+
+@media (max-width: 768px) {
+    .grid-coordinates-display {
+        bottom: 70px;
+        left: 8px;
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+}

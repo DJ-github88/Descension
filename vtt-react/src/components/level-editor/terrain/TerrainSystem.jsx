@@ -306,15 +306,17 @@ const TerrainSystem = () => {
                 const terrain = PROFESSIONAL_TERRAIN_TYPES[terrainType];
                 if (!terrain) continue;
 
-                // Check visibility for FOV-based rendering (only if viewing from a token)
-                if (viewingFromToken && visibleArea && !isGMMode) {
+                // CRITICAL: In GM mode, always show all terrain regardless of token visibility
+                // Only apply visibility filtering in player mode when viewing from a token
+                if (!isGMMode && viewingFromToken && visibleArea) {
                     // Convert visibleArea array to Set for efficient lookup (if needed)
                     const visibleAreaSet = visibleArea instanceof Set ? visibleArea : new Set(visibleArea);
                     // Check if this tile is in the visible area
                     if (!visibleAreaSet.has(tileKey)) {
-                        continue; // Skip rendering this tile - not visible
+                        continue; // Skip rendering this tile - not visible (player mode only)
                     }
                 }
+                // In GM mode, continue rendering all terrain tiles
 
                 // Use the same viewport dimensions as the grid system for consistent positioning
                 const gridSystem = getGridSystem();

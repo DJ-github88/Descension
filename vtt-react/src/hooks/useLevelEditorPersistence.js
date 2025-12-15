@@ -102,6 +102,15 @@ export const useLevelEditorPersistence = () => {
       return false;
     }
 
+    // CRITICAL FIX: Skip loading from persistence service for local rooms
+    // Local rooms load state from localStorage via applyLocalGameState in App.jsx
+    // Loading from persistence service cache would overwrite the correctly loaded terrain data
+    const isLocalRoom = typeof window !== 'undefined' && localStorage.getItem('isLocalRoom') === 'true';
+    if (isLocalRoom) {
+      console.log('📋 Skipping persistence service load for local room - state already loaded from localStorage');
+      return false;
+    }
+
     if (isLoadingRef.current) {
       return false;
     }
@@ -251,16 +260,16 @@ export const useLevelEditorPersistence = () => {
     // Update last state
     lastStateRef.current = currentState;
 
-    // CRITICAL FIX: Only save for local rooms, not multiplayer rooms
-    // Multiplayer sync is handled via socket.emit in levelEditorStore
-    // This persistence service is only for local room caching
-    const isLocalRoom = currentRoomId.startsWith('local_');
-    if (!isLocalRoom) {
-      // Skip persistence for multiplayer rooms (they sync via socket)
+    // CRITICAL FIX: Skip persistence service for local rooms
+    // Local rooms use useLocalRoomAutoSave hook which saves directly to localStorage
+    // The persistence service is only for in-memory caching and should not interfere with local rooms
+    const isLocalRoom = typeof window !== 'undefined' && localStorage.getItem('isLocalRoom') === 'true';
+    if (isLocalRoom) {
+      // Skip persistence service for local rooms - they have their own auto-save mechanism
       return;
     }
 
-    // Schedule auto-save with debouncing (only for local rooms)
+    // Schedule auto-save with debouncing (only for non-local rooms that use persistence service)
     scheduleAutoSave();
   }, [
     // Monitor key level editor state changes

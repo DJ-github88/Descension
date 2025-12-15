@@ -644,6 +644,8 @@ const useLevelEditorStore = create((set, get) => ({
 
             // Editor mode toggle
             setEditorMode: (isEditorMode) => {
+                // Simply toggle editor mode - don't clear anything here
+                // Clearing only happens when entering via World Builder from landing page
                 set({ isEditorMode });
             },
 
@@ -1061,13 +1063,13 @@ const useLevelEditorStore = create((set, get) => ({
 
                 // When viewing from a token, show both current vision AND explored areas
                 // This creates proper fog of war where players see explored areas plus current vision
-                if (state.viewingFromToken && state.dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
+                // BUT: GM mode should NOT be restricted - GM can always see everything
+                if (state.viewingFromToken && state.dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0 && !isGMMode) {
                     // If tile is in current visible area, it's viewable
                     if (visibleAreaSet.has(tileKey)) {
                         return 'viewable'; // Currently visible - visibility mask will erase fog
                     }
-                    // Show explored areas for BOTH player and GM mode
-                    // This is the "memory" of what the player has seen before
+                    // Show explored areas - this is the "memory" of what the player has seen before
                     if (exploredAreas[tileKey]) {
                         return 'explored'; // Previously explored - dimmed but visible (shows terrain/afterimages)
                     }
@@ -2461,32 +2463,10 @@ const useLevelEditorStore = create((set, get) => ({
             },
 
             coverEntireMapWithFog: (gridSize = 50) => {
-                // Cover a much larger area of the grid - significantly beyond the viewport
-                // This ensures fog covers the entire map area that players might explore
+                // PERFORMANCE FIX: Instead of creating hundreds of thousands of points,
+                // just create a minimal marker path with the 'fog_cover_entire_map_' ID prefix.
+                // The rendering code detects this ID and renders a full-canvas fill instead.
                 try {
-                    const gridSystem = getGridSystem();
-                    const viewport = gridSystem.getViewportDimensions();
-                    const bounds = gridSystem.getVisibleGridBounds(viewport.width, viewport.height);
-                    
-                    // Get world coordinates for the visible area
-                    const { cameraX, cameraY, effectiveZoom } = gridSystem.getGridState();
-                    
-                    // Calculate visible world area with much larger padding
-                    const visibleWorldWidth = viewport.width / effectiveZoom;
-                    const visibleWorldHeight = viewport.height / effectiveZoom;
-                    // Use much larger padding to cover a significant area of the grid
-                    // Cover approximately 20 viewport widths/heights in each direction
-                    const padding = Math.max(visibleWorldWidth * 20, visibleWorldHeight * 20, 10000);
-                    
-                    // Get world bounds of visible area (camera is at center of view)
-                    // Extend far beyond the viewport to cover the entire map
-                    const worldLeft = cameraX - (visibleWorldWidth / 2) - padding;
-                    const worldTop = cameraY - (visibleWorldHeight / 2) - padding;
-                    const worldRight = cameraX + (visibleWorldWidth / 2) + padding;
-                    const worldBottom = cameraY + (visibleWorldHeight / 2) + padding;
-                    
-                    // Create a dense grid of overlapping points for complete coverage
-                    // But keep them in a single path so they can be erased together
                     const state = get();
                     const existingFogPaths = [...state.fogOfWarPaths];
                     
@@ -2495,27 +2475,20 @@ const useLevelEditorStore = create((set, get) => ({
                         !path.id || !path.id.startsWith('fog_cover_entire_map_')
                     );
                     
-                    const brushRadius = gridSize * 2.5; // Brush radius for each point
-                    const spacing = brushRadius * 0.75; // Slightly more overlap for complete coverage
-                    
-                    // Create a single path with points only for the visible area
-                    const points = [];
-                    for (let x = worldLeft; x <= worldRight; x += spacing) {
-                        for (let y = worldTop; y <= worldBottom; y += spacing) {
-                            points.push({
-                                worldX: x,
-                                worldY: y,
-                                brushRadius: brushRadius
-                            });
-                        }
-                    }
-                    
-                    // Create single unified path for the visible area
+                    // Create a minimal marker path - the ID prefix tells the renderer to fill the entire canvas
+                    // We only need a few points to mark this as a valid path
                     const newFogPath = {
                         id: `fog_cover_entire_map_${Date.now()}`,
-                        points: points,
+                        points: [
+                            // Just 4 corner markers - the rendering code will fill the whole canvas
+                            { worldX: -100000, worldY: -100000, brushRadius: gridSize * 2.5 },
+                            { worldX: 100000, worldY: -100000, brushRadius: gridSize * 2.5 },
+                            { worldX: 100000, worldY: 100000, brushRadius: gridSize * 2.5 },
+                            { worldX: -100000, worldY: 100000, brushRadius: gridSize * 2.5 }
+                        ],
                         timestamp: Date.now(),
-                        isDrawing: false
+                        isDrawing: false,
+                        isFullCoverage: true // Explicit flag for full coverage
                     };
                     
                     // Add the new path to existing paths (preserving manually painted fog)
@@ -2528,33 +2501,17 @@ const useLevelEditorStore = create((set, get) => ({
                     
                 } catch (error) {
                     console.error('🌫️ Error in coverEntireMapWithFog:', error);
-                    // Fallback to cover a much larger area if grid system fails
-                    // Cover approximately 400x400 grid tiles (much larger than before)
-                    const mapBounds = 400;
-                    const mapMin = -mapBounds * gridSize;
-                    const mapMax = mapBounds * gridSize;
-                    
-                    const fogPaths = [];
-                    const brushRadius = gridSize * 2.5;
-                    const spacing = brushRadius * 0.75; // Slightly more overlap for complete coverage
-                    
-                    const points = [];
-                    for (let x = mapMin; x <= mapMax; x += spacing) {
-                        for (let y = mapMin; y <= mapMax; y += spacing) {
-                            points.push({
-                                worldX: x,
-                                worldY: y,
-                                brushRadius: brushRadius
-                            });
-                        }
-                    }
-                    
-                    fogPaths.push({
+                    // Fallback - create minimal marker path
+                    const fogPaths = [{
                         id: `fog_cover_entire_map_${Date.now()}`,
-                        points: points,
+                        points: [
+                            { worldX: -100000, worldY: -100000, brushRadius: gridSize * 2.5 },
+                            { worldX: 100000, worldY: 100000, brushRadius: gridSize * 2.5 }
+                        ],
                         timestamp: Date.now(),
-                        isDrawing: false
-                    });
+                        isDrawing: false,
+                        isFullCoverage: true
+                    }];
                     
                     set({ fogOfWarPaths: fogPaths, fogErasePaths: [] });
                 }

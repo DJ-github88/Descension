@@ -1,5 +1,7 @@
 // Local Room Service - Manages offline/local rooms using localStorage
 import { v4 as uuidv4 } from 'uuid';
+import roomStateService from './roomStateService';
+import campaignService from './campaignService';
 
 const LOCAL_ROOMS_KEY = 'mythrill_local_rooms';
 const LOCAL_ROOM_STATE_PREFIX = 'mythrill_local_room_state_';
@@ -38,15 +40,19 @@ class LocalRoomService {
   }
 
   /**
-   * Create a new local room
+   * Create a new local room with unique ID and campaign association
    */
   createLocalRoom(roomData) {
-    const roomId = `local_${uuidv4()}`;
+    // Generate unique room ID using roomStateService
+    const roomId = roomStateService.generateRoomId();
+    const campaignId = roomData.campaignId || campaignService.getCurrentCampaignId();
+    
     const room = {
       id: roomId,
       name: roomData.name || 'Untitled Local Room',
       description: roomData.description || '',
       type: 'local',
+      campaignId: campaignId, // Associate with campaign
       createdAt: new Date().toISOString(),
       lastActivity: new Date().toISOString(),
       characterId: roomData.characterId || null,
@@ -73,6 +79,11 @@ class LocalRoomService {
     this.rooms.push(room);
     this.saveRooms();
     this.saveRoomState(roomId, room.gameState);
+
+    // Associate room with campaign
+    if (campaignId) {
+      campaignService.addRoomToCampaign(campaignId, roomId);
+    }
 
     return room;
   }
@@ -105,6 +116,8 @@ class LocalRoomService {
    * Get a specific local room
    */
   getLocalRoom(roomId) {
+    // Always reload from localStorage to ensure we have the latest data
+    this.rooms = this.loadRooms();
     return this.rooms.find(room => room.id === roomId);
   }
 
@@ -252,7 +265,9 @@ class LocalRoomService {
       // The creature library should remain global and not be saved per room
       tokens: creatureState.tokens || [], // Room-specific placed creature tokens
 
-      // Dropped items
+      // Grid items (dropped items on the map)
+      gridItems: gridItemState.gridItems || [],
+      // Also save in legacy format for backwards compatibility
       inventory: {
         droppedItems: gridItemState.gridItems?.reduce((acc, item) => {
           acc[item.id] = item;
@@ -310,9 +325,35 @@ class LocalRoomService {
     }
 
     try {
+      // Import room state service
+      const { default: roomStateService } = await import('./roomStateService');
+      const { default: campaignService } = await import('./campaignService');
+      
+      // Get room to find campaign ID
+      const room = this.getLocalRoom(currentRoomId);
+      const campaignId = room?.campaignId || campaignService.getCurrentCampaignId();
+      
+      // Collect room state
+      const roomState = await roomStateService.collectRoomState();
+      
+      // Save room state
+      roomStateService.saveRoomState(currentRoomId, campaignId, roomState);
+      
+      // Also save to local room service for backward compatibility
       const currentGameState = await this.collectCurrentGameState();
-
       this.saveRoomState(currentRoomId, currentGameState);
+      
+      // Save player-specific state if character is active
+      try {
+        const { default: useCharacterStore } = await import('../store/characterStore');
+        const activeCharacter = useCharacterStore.getState().activeCharacter;
+        if (activeCharacter) {
+          const playerState = await roomStateService.collectPlayerState(activeCharacter.id);
+          roomStateService.savePlayerState(currentRoomId, activeCharacter.id, playerState);
+        }
+      } catch (error) {
+        console.warn('Could not save player state:', error);
+      }
     } catch (error) {
       console.error('Error in autoSaveCurrentRoom:', error);
     }

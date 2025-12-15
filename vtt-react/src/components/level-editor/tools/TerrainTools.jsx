@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PROFESSIONAL_TERRAIN_TYPES } from '../terrain/TerrainSystem';
 import { WOW_ICON_BASE_URL } from '../../item-generation/wowIcons';
 import './styles/TerrainTools.css';
@@ -6,6 +6,16 @@ import './styles/TerrainTools.css';
 const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
     const [selectedTerrainType, setSelectedTerrainType] = useState(settings.selectedTerrainType || 'grass');
     const [brushSize, setBrushSize] = useState(settings.brushSize || 1);
+
+    // Initialize settings with default terrain type on mount
+    useEffect(() => {
+        if (!settings.selectedTerrainType) {
+            onSettingsChange({
+                selectedTerrainType: 'grass',
+                brushSize: brushSize
+            });
+        }
+    }, []); // Run once on mount
 
     // Terrain categories for organization
     const terrainCategories = {

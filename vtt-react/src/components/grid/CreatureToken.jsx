@@ -272,7 +272,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     if (isViewingFrom) return true;
 
     // If viewing from a token AND dynamic fog is enabled, check FOV visibility
-    // This applies even in GM mode - when viewing from a token, we should only see what that token can see
+    // GM mode should NOT restrict token visibility - GM can always see all tokens
     if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
         // Check if token position is in visible area
         if (!position || position.x === undefined || position.y === undefined) {
@@ -293,25 +293,20 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         let visible = false;
 
-        // Simplified visibility check - check if token is close to viewing token
-        if (viewingFromToken && viewingFromToken.position) {
-          const dx = position.x - viewingFromToken.position.x;
-          const dy = position.y - viewingFromToken.position.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const visionRange = 6; // Default vision range in tiles
-          const maxDistance = visionRange * tokenGridSize;
+        // Calculate token's grid position for tile-based visibility check
+        const tokenGridX = Math.floor((position.x - gridOffsetX) / tokenGridSize);
+        const tokenGridY = Math.floor((position.y - gridOffsetY) / tokenGridSize);
+        const tokenTileKey = `${tokenGridX},${tokenGridY}`;
 
-          visible = distance <= maxDistance;
-        } else {
-          // If not viewing from a token, always visible (normal GM view)
-          visible = true;
+        // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
+        // This ensures tokens are visible IFF their tile is in the visible area
+        if (visibleAreaSet && visibleAreaSet.size > 0) {
+          visible = visibleAreaSet.has(tokenTileKey);
         }
 
-        // Distance-based fallback ONLY when proper visibility calculations are not available
-        // This helps when visible area calculation hasn't completed or is incomplete
-        // Do NOT use this as a way to show tokens that are technically out of view but within range
+        // Distance-based fallback ONLY when visibleAreaSet is not yet calculated
+        // This prevents tokens from being hidden during initialization
         if (!visible && viewingFromToken && viewingFromToken.position &&
-            (!visibilityPolygon || visibilityPolygon.length === 0) &&
             (!visibleAreaSet || visibleAreaSet.size === 0)) {
           const viewingPos = viewingFromToken.position;
           const dx = position.x - viewingPos.x;
@@ -332,18 +327,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           }
         }
 
-        // CRITICAL: Tokens outside view range should be COMPLETELY HIDDEN
-        // The memory/afterimage system handles showing "memories" of where tokens were last seen
-        // Real tokens should only be visible when actually in the player's field of view
-        // No fog check needed - if not in view range, hide completely
-
-        // If visible area hasn't been calculated yet, hide tokens to be safe
-        // This prevents players from seeing tokens they shouldn't see during initialization
-        // Visible areas should be calculated quickly after the viewing token is set
-        // if (!visible && (!visibleAreaSet || visibleAreaSet.size === 0) && (!visibilityPolygon || visibilityPolygon.length === 0)) {
-        //   visible = true; // DISABLED: This was causing tokens to be visible when they shouldn't be
-        // }
-
         // Cache the result
         lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: visible };
 
@@ -354,7 +337,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     
     // If not viewing from a token or in GM mode, always visible (normal view)
     return true;
-  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
+  }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet]);
   
   // Legacy compatibility - check if token should be visible at all
   const isTokenVisible = React.useMemo(() => {
@@ -378,6 +361,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       if (isMouseDownRef.current && !isDraggingRef.current) {
         setIsDragging(true);
         isDraggingRef.current = true;
+        // PERFORMANCE: Set global flag to prevent expensive fog recalculations during token drag
+        window._isDraggingToken = true;
 
         // Track drag state globally to prevent feedback loops in multiplayer
         if (!window.multiplayerDragState) {
@@ -607,6 +592,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       // Removed excessive logging for performance
       setIsDragging(false);
       isDraggingRef.current = false;
+      // PERFORMANCE: Clear global token drag flag
+      window._isDraggingToken = false;
       setIsMouseDown(false);
       isMouseDownRef.current = false;
       setMouseDownPosition(null);
@@ -648,6 +635,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       dragTimeoutId = setTimeout(() => {
         console.warn('⏰ Drag timeout triggered after 30s - this should rarely happen');
         setIsDragging(false);
+        // PERFORMANCE: Clear global token drag flag
+        window._isDraggingToken = false;
         setIsMouseDown(false);
         if (window.multiplayerDragState && token) {
           window.multiplayerDragState.delete(`token_${token.creatureId}`);
@@ -1798,7 +1787,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           top: screenPosition.y,
           width: `${tokenSize}px`,
           height: `${tokenSize}px`,
-          borderColor: isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder),
           cursor: isSelectionMode ? 'pointer' : (isInCombat && !isMyTurn) ? 'not-allowed' : isDragging ? 'grabbing' : 'grab',
           zIndex: isDragging ? 1000 : 150, // Higher z-index to be above ObjectSystem canvas (20) and grid tiles (10)
           position: 'absolute',
@@ -1806,7 +1794,9 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           pointerEvents: showRenameInput ? 'none' : 'auto', // Disable pointer events when renaming
           touchAction: 'none',
           borderRadius: '50%',
-          border: `3px solid ${creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder)}`,
+          borderWidth: '3px',
+          borderStyle: 'solid',
+          borderColor: creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder),
           overflow: 'visible',
           opacity: isGreyedOut ? 0.4 : 1, // Greyed out when in explored but not visible
           filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas

@@ -16,7 +16,11 @@ const RoomManager = () => {
   const { user } = useAuthStore();
   const { getActiveCharacter } = useCharacterStore();
   const { friends } = useSocialStore();
-  const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
+  // Get online users map and convert to array in useMemo to prevent infinite re-renders
+  const onlineUsersMap = usePresenceStore((state) => state.onlineUsers);
+  const onlineUsers = React.useMemo(() => {
+    return Object.values(onlineUsersMap || {});
+  }, [onlineUsersMap]);
 
   const [rooms, setRooms] = useState([]);
   const [localRooms, setLocalRooms] = useState([]);

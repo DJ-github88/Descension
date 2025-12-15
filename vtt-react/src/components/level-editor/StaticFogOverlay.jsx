@@ -230,11 +230,8 @@ const StaticFogOverlay = () => {
     
     // Cached viewport bounds in world coordinates - only recalculate when viewport changes
     // PERFORMANCE FIX: Read zoom from store when needed, don't subscribe
+    // NOTE: Don't cache during drag - fog needs to move with the grid in real time
     const viewportWorldBounds = useMemo(() => {
-        // 🛑 PERFORMANCE: Return cached value during drag
-        if (window._isDraggingCamera && cachedViewportWorldBoundsRef.current) {
-            return cachedViewportWorldBoundsRef.current;
-        }
         
         // Use grid system for consistency
         const gridSystem = getGridSystem();
@@ -258,13 +255,15 @@ const StaticFogOverlay = () => {
 
     // Convert world coordinates to screen coordinates - optimized
     // Use grid system for consistency with other elements (tiles, tokens, etc.)
+    // PERFORMANCE FIX: No dependencies - always read fresh camera values from grid system
+    // This ensures fog moves correctly with the grid during drag
     const worldToScreen = useCallback((worldX, worldY) => {
         // Use grid system's worldToScreen for consistency with tiles, tokens, and other elements
-        // This ensures fog moves correctly with the grid
+        // Grid system reads camera values directly from store, ensuring fresh values during drag
         const gridSystem = getGridSystem();
         const viewport = gridSystem.getViewportDimensions();
         return gridSystem.worldToScreen(worldX, worldY, viewport.width, viewport.height);
-    }, [cameraX, cameraY]); // Depend on camera values so fog positions update when grid moves
+    }, []); // No dependencies - grid system reads fresh values from store
 
     // Convert screen coordinates to world coordinates - optimized
     const screenToWorld = useCallback((screenX, screenY) => {
@@ -285,7 +284,8 @@ const StaticFogOverlay = () => {
         
         // PERFORMANCE FIX: Full-coverage paths (cover entire map) are always visible
         // These paths are meant to cover the entire map, so they should always be rendered
-        if (path.points.length > 5000) {
+        // Check: explicit flag, ID prefix, OR point count threshold
+        if (path.isFullCoverage || (path.id && path.id.startsWith('fog_cover_entire_map_')) || path.points.length > 5000) {
             return true; // Always visible - these are full-coverage paths
         }
         
@@ -423,8 +423,8 @@ const StaticFogOverlay = () => {
     // Keep calculations during drag to maintain fog position updates
     const cachedAllTokensVisibleAreaRef = useRef(null);
     const allTokensVisibleArea = React.useMemo(() => {
-        // 🛑 PERFORMANCE: FIRST CHECK - Return cached value during drag before any processing
-        if (window._isDraggingCamera && cachedAllTokensVisibleAreaRef.current) {
+        // 🛑 PERFORMANCE: FIRST CHECK - Return cached value during camera OR token drag
+        if ((window._isDraggingCamera || window._isDraggingToken) && cachedAllTokensVisibleAreaRef.current) {
             return cachedAllTokensVisibleAreaRef.current;
         }
         
@@ -526,15 +526,15 @@ const StaticFogOverlay = () => {
     
     // Clear cache when token position changes (outside useMemo to ensure it runs)
     React.useEffect(() => {
-        if (!window._isDraggingCamera && lastTokenPositionRef.current !== tokenPositionKey) {
+        if (!window._isDraggingCamera && !window._isDraggingToken && lastTokenPositionRef.current !== tokenPositionKey) {
             cachedVisibleAreaRef.current = null;
             lastTokenPositionRef.current = tokenPositionKey;
         }
     }, [tokenPositionKey]);
     
     const visibleArea = React.useMemo(() => {
-        // 🛑 PERFORMANCE: Return cached value during camera drag only
-        if (window._isDraggingCamera && cachedVisibleAreaRef.current) {
+        // 🛑 PERFORMANCE: Return cached value during camera OR token drag
+        if ((window._isDraggingCamera || window._isDraggingToken) && cachedVisibleAreaRef.current) {
             return cachedVisibleAreaRef.current;
         }
         
@@ -612,15 +612,15 @@ const StaticFogOverlay = () => {
     
     // Clear cache when token position changes (outside useMemo to ensure it runs)
     React.useEffect(() => {
-        if (!window._isDraggingCamera && lastPolygonTokenPositionRef.current !== polygonTokenPositionKey) {
+        if (!window._isDraggingCamera && !window._isDraggingToken && lastPolygonTokenPositionRef.current !== polygonTokenPositionKey) {
             cachedVisibilityPolygonRef.current = null;
             lastPolygonTokenPositionRef.current = polygonTokenPositionKey;
         }
     }, [polygonTokenPositionKey]);
     
     const visibilityPolygon = React.useMemo(() => {
-        // 🛑 PERFORMANCE: Return cached value during camera drag only
-        if (window._isDraggingCamera && cachedVisibilityPolygonRef.current) {
+        // 🛑 PERFORMANCE: Return cached value during camera OR token drag
+        if ((window._isDraggingCamera || window._isDraggingToken) && cachedVisibilityPolygonRef.current) {
             return cachedVisibilityPolygonRef.current;
         }
         
@@ -676,8 +676,8 @@ const StaticFogOverlay = () => {
     // CRITICAL PERFORMANCE FIX: Cache polygons during drag to prevent freezing
     const cachedAllTokensPolygonsRef = useRef([]);
     const allTokensVisibilityPolygons = React.useMemo(() => {
-        // 🛑 PERFORMANCE: FIRST CHECK - Return cached value during drag before any processing
-        if (window._isDraggingCamera && cachedAllTokensPolygonsRef.current.length > 0) {
+        // 🛑 PERFORMANCE: FIRST CHECK - Return cached value during camera OR token drag
+        if ((window._isDraggingCamera || window._isDraggingToken) && cachedAllTokensPolygonsRef.current.length > 0) {
             return cachedAllTokensPolygonsRef.current;
         }
         
@@ -832,7 +832,8 @@ const StaticFogOverlay = () => {
         
         // CRITICAL FIX: When viewing from a token, show both current vision AND explored areas
         // This creates proper fog of war where players see explored areas plus current vision
-        if (viewingFromToken && dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0) {
+        // BUT: GM mode should NOT be restricted - GM can always see everything
+        if (viewingFromToken && dynamicFogEnabled && visibleAreaSet && visibleAreaSet.size > 0 && !isGMMode) {
             // If tile is in current visible area, it's viewable
             if (visibleAreaSet.has(tileKey)) {
                 return 'viewable'; // Currently visible - visibility mask will erase fog
@@ -840,11 +841,6 @@ const StaticFogOverlay = () => {
             // Show explored areas even when viewing from token - this is what the player has discovered
             if (exploredAreas[tileKey]) {
                 return 'explored'; // Previously explored - dimmed but visible
-            }
-            // In GM mode, still show explored areas even when viewing from token
-            // This allows GM to see what's been explored while still restricting to token vision
-            if (isGMMode && exploredAreas[tileKey]) {
-                return 'explored'; // Previously explored - dimmed but visible to GM
             }
             return 'covered'; // Not explored - fully covered fog
         }
@@ -1043,10 +1039,14 @@ const StaticFogOverlay = () => {
         const maxPathsToProcess = 50; // Reduced from 100 to 50 for better performance
         
         // Separate full-coverage paths from regular paths
-        const fullCoverageFogPaths = visibleFogPaths.filter(path => path.points && path.points.length > 5000);
-        const regularFogPaths = visibleFogPaths.filter(path => !path.points || path.points.length <= 5000);
-        const fullCoverageErasePaths = visibleErasePaths.filter(path => path.points && path.points.length > 5000);
-        const regularErasePaths = visibleErasePaths.filter(path => !path.points || path.points.length <= 5000);
+        // PERFORMANCE FIX: Check for explicit flag, ID prefix, OR point count
+        const isFullCoverageFog = (path) => path.isFullCoverage || (path.id && path.id.startsWith('fog_cover_entire_map_')) || (path.points && path.points.length > 5000);
+        const isFullCoverageErase = (path) => path.isFullCoverage || (path.id && path.id.startsWith('erase_cover_entire_map_')) || (path.points && path.points.length > 5000);
+        
+        const fullCoverageFogPaths = visibleFogPaths.filter(isFullCoverageFog);
+        const regularFogPaths = visibleFogPaths.filter(path => !isFullCoverageFog(path));
+        const fullCoverageErasePaths = visibleErasePaths.filter(isFullCoverageErase);
+        const regularErasePaths = visibleErasePaths.filter(path => !isFullCoverageErase(path));
         
         // Always include full-coverage paths, limit regular paths
         const allItems = [
@@ -1097,7 +1097,10 @@ const StaticFogOverlay = () => {
             
             // PERFORMANCE FIX: Detect full-coverage paths (cover entire map)
             // These should be rendered as full-screen fills, not point-by-point
-            const isFullCoveragePath = path.points && path.points.length > 5000; // Very large paths are likely full coverage
+            // Check: explicit flag, path ID prefix, OR point count (legacy/fallback)
+            const isExplicitCoverEntireMap = path.id && path.id.startsWith('fog_cover_entire_map_');
+            const hasFullCoverageFlag = path.isFullCoverage === true;
+            const isFullCoveragePath = hasFullCoverageFlag || isExplicitCoverEntireMap || (path.points && path.points.length > 5000);
             
             if (isFullCoveragePath) {
                 // Render as full-screen fill for performance
@@ -1297,7 +1300,8 @@ const StaticFogOverlay = () => {
                     // Reduced overlap to prevent thick texture - use larger step size
                     // Step size of 0.5-0.6 of radius gives smoother, less textured appearance
                     const stepSize = Math.min(brushRadius * 0.6, nextBrushRadius * 0.6);
-                    const maxSteps = isGMMode ? Infinity : 50; // Limit steps in player mode for performance
+                    // PERFORMANCE FIX: Limit steps in BOTH modes - Infinity was causing performance issues
+                    const maxSteps = isGMMode ? 100 : 50; // GM mode gets more steps for quality, but still limited
                     const steps = Math.max(2, Math.min(maxSteps, Math.ceil(distance / stepSize)));
                     
                     // Cache fog states to reduce expensive calculations
@@ -1798,9 +1802,29 @@ const StaticFogOverlay = () => {
     }, []);
     
     // Start/stop render loop based on drag state
-    // REMOVED: This useEffect tracked isDraggingCamera but it's now a ref
-    // The polling interval already keeps the ref updated
-    // Fog rendering is handled by the main useEffect below
+    // CRITICAL FIX: Start the drag render loop when dragging begins
+    const wasDraggingRef = useRef(false);
+    useEffect(() => {
+        const checkDragState = () => {
+            const isDragging = window._isDraggingCamera || false;
+            if (isDragging && !wasDraggingRef.current) {
+                // Just started dragging - start the render loop
+                wasDraggingRef.current = true;
+                startDragRenderLoop();
+            } else if (!isDragging && wasDraggingRef.current) {
+                // Just stopped dragging - render loop will stop itself
+                wasDraggingRef.current = false;
+                // Force a final render with correct positions
+                if (throttledRenderFogRef.current) {
+                    throttledRenderFogRef.current();
+                }
+            }
+        };
+        
+        // Poll for drag state changes at 60fps
+        const interval = setInterval(checkDragState, 16);
+        return () => clearInterval(interval);
+    }, [startDragRenderLoop]);
     
     // PERFORMANCE FIX: Allow throttled rendering during drag for real-time fog updates
     // The fog needs to follow the grid properly, so we render during drag but throttle aggressively

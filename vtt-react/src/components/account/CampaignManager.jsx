@@ -1,5 +1,5 @@
 // Campaign Manager component for Account Dashboard
-// Syncs with in-game CampaignManagerWindow using same localStorage key
+// Syncs with in-game CampaignManagerWindow using campaign service
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import './styles/CampaignManager.css';
@@ -9,6 +9,7 @@ import SimpleCreatureTooltip from '../creature-wizard/components/common/SimpleCr
 import SpellTooltip from '../spellcrafting-wizard/components/common/SpellTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import useCreatureStore from '../../store/creatureStore';
+import campaignService from '../../services/campaignService';
 
 // Access control configuration - can be modified to restrict access by subscription tier
 export const CAMPAIGN_ACCESS_CONFIG = {
@@ -193,7 +194,9 @@ const CampaignManager = ({ user }) => {
     };
   }, [hoveredCreature]);
   
-  // Campaign data - synced with in-game CampaignManagerWindow
+  // Campaign management state
+  const [campaigns, setCampaigns] = useState([]);
+  const [currentCampaignId, setCurrentCampaignId] = useState(null);
   const [campaignData, setCampaignData] = useState({
     name: 'New Campaign',
     description: '',
@@ -216,32 +219,70 @@ const CampaignManager = ({ user }) => {
     selectedSpells: []
   });
 
-  // Load campaign data from localStorage (same key as in-game)
+  // Track if initial load is complete
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Load campaigns and current campaign
   useEffect(() => {
-    const savedData = localStorage.getItem('mythrill-campaign-data');
-    if (savedData) {
-      try {
-        const parsed = JSON.parse(savedData);
-        // Ensure homebrew structure is properly initialized with arrays
-        if (parsed.homebrew) {
-          parsed.homebrew = {
-            items: Array.isArray(parsed.homebrew.items) ? parsed.homebrew.items : (parsed.homebrew.items ? Object.values(parsed.homebrew.items) : []),
-            monsters: Array.isArray(parsed.homebrew.monsters) ? parsed.homebrew.monsters : (parsed.homebrew.monsters ? Object.values(parsed.homebrew.monsters) : []),
-            spells: Array.isArray(parsed.homebrew.spells) ? parsed.homebrew.spells : (parsed.homebrew.spells ? Object.values(parsed.homebrew.spells) : []),
-            lore: Array.isArray(parsed.homebrew.lore) ? parsed.homebrew.lore : (parsed.homebrew.lore ? Object.values(parsed.homebrew.lore) : [])
-          };
-        }
-        setCampaignData(parsed);
-      } catch (error) {
-        console.error('Error loading campaign data:', error);
-      }
+    const loadedCampaigns = campaignService.getCampaigns();
+    
+    // Get current campaign or create default
+    let currentId = campaignService.getCurrentCampaignId();
+    let finalCampaigns = loadedCampaigns;
+    
+    if (!currentId && loadedCampaigns.length > 0) {
+      currentId = loadedCampaigns[0].id;
+      campaignService.setCurrentCampaign(currentId);
+    } else if (!currentId || loadedCampaigns.length === 0) {
+      // Create default campaign if none exist or no valid current ID
+      const defaultCampaign = campaignService.createCampaign({ name: 'New Campaign' });
+      currentId = defaultCampaign.id;
+      campaignService.setCurrentCampaign(currentId);
+      finalCampaigns = campaignService.getCampaigns();
     }
+    
+    setCampaigns(finalCampaigns);
+    setCurrentCampaignId(currentId);
+    
+    // Load current campaign data with defaults
+    if (currentId) {
+      const campaign = campaignService.getCampaign(currentId);
+      const defaultData = {
+        name: campaign?.name || 'New Campaign',
+        description: campaign?.description || '',
+        currentSession: 1,
+        players: [],
+        sessions: [],
+        npcs: [],
+        locations: [],
+        plotThreads: [],
+        quests: [],
+        homebrew: { items: [], monsters: [], spells: [], lore: [] },
+        selectedCreatures: [],
+        selectedItems: [],
+        selectedSpells: []
+      };
+      setCampaignData(campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData);
+    }
+    
+    // Mark as initialized after first load
+    setIsInitialized(true);
   }, []);
 
-  // Save campaign data to localStorage whenever it changes
+  // Save campaign data when it changes (only after initialization)
   useEffect(() => {
-    localStorage.setItem('mythrill-campaign-data', JSON.stringify(campaignData));
-  }, [campaignData]);
+    // Don't save during initial load
+    if (!isInitialized || !currentCampaignId) return;
+    
+    // Debounce saves to prevent loops
+    const timeoutId = setTimeout(() => {
+      campaignService.updateCampaign(currentCampaignId, {
+        campaignData: campaignData
+      });
+    }, 500);
+    
+    return () => clearTimeout(timeoutId);
+  }, [campaignData, currentCampaignId, isInitialized]);
 
   const updateCampaignData = (updates) => {
     setCampaignData(prev => ({ ...prev, ...updates }));
@@ -781,12 +822,89 @@ const CampaignManager = ({ user }) => {
       <div className="campaign-detail-header">
         <div className="campaign-title-section">
           <i className="fas fa-scroll campaign-icon"></i>
+          {/* Campaign Selector */}
+          <select
+            value={currentCampaignId || ''}
+            onChange={(e) => {
+              const newCampaignId = e.target.value;
+              campaignService.setCurrentCampaign(newCampaignId);
+              setCurrentCampaignId(newCampaignId);
+              const campaign = campaignService.getCampaign(newCampaignId);
+              // Load the campaign data or reset to defaults
+              const defaultData = {
+                name: campaign?.name || 'New Campaign',
+                description: campaign?.description || '',
+                currentSession: 1,
+                players: [],
+                sessions: [],
+                npcs: [],
+                locations: [],
+                plotThreads: [],
+                quests: [],
+                homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                selectedCreatures: [],
+                selectedItems: [],
+                selectedSpells: []
+              };
+              setCampaignData(campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData);
+            }}
+            className="campaign-selector"
+            style={{ padding: '5px', minWidth: '150px', marginRight: '10px' }}
+          >
+            {campaigns.map(campaign => (
+              <option key={campaign.id} value={campaign.id}>{campaign.name}</option>
+            ))}
+          </select>
+          <button
+            onClick={() => {
+              const newCampaign = campaignService.createCampaign({ name: 'New Campaign' });
+              setCampaigns(campaignService.getCampaigns());
+              campaignService.setCurrentCampaign(newCampaign.id);
+              setCurrentCampaignId(newCampaign.id);
+              // Reset to fresh campaign data
+              const freshData = {
+                name: 'New Campaign',
+                description: '',
+                currentSession: 1,
+                players: [],
+                sessions: [],
+                npcs: [],
+                locations: [],
+                plotThreads: [],
+                quests: [],
+                homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                selectedCreatures: [],
+                selectedItems: [],
+                selectedSpells: []
+              };
+              setCampaignData(newCampaign.campaignData || freshData);
+            }}
+            className="btn btn-primary"
+            style={{ padding: '8px 12px', whiteSpace: 'nowrap', marginRight: '10px', fontSize: '13px' }}
+          >
+            + New
+          </button>
           <input
             type="text"
             value={campaignData.name}
-            onChange={(e) => updateCampaignData({ name: e.target.value })}
+            onChange={(e) => {
+              const newName = e.target.value;
+              updateCampaignData({ name: newName });
+              // Update campaign name in the service and dropdown immediately
+              if (currentCampaignId) {
+                campaignService.updateCampaign(currentCampaignId, { 
+                  name: newName,
+                  campaignData: { ...campaignData, name: newName }
+                });
+                // Update local campaigns state to refresh dropdown
+                setCampaigns(prev => prev.map(c => 
+                  c.id === currentCampaignId ? { ...c, name: newName } : c
+                ));
+              }
+            }}
             className="campaign-title-input"
             placeholder="Campaign Name..."
+            style={{ flex: 1, minWidth: '200px' }}
           />
         </div>
         <div className="campaign-sync-notice">

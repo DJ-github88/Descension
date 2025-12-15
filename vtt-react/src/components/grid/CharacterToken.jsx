@@ -174,7 +174,7 @@ const CharacterToken = ({
         if (isViewingFrom) return true;
 
         // If viewing from a token AND dynamic fog is enabled, check FOV visibility
-        // Only apply visibility checks in player mode - GM should always see tokens
+        // GM mode should NOT restrict token visibility - GM can always see all tokens
         if (viewingFromToken && dynamicFogEnabled && !isGMMode) {
             // Check if token position is in visible area
             // Use position (stored position) for visibility, not localPosition (drag position)
@@ -195,25 +195,20 @@ const CharacterToken = ({
 
             let visible = false;
 
-            // Simplified visibility check - check if token is close to viewing token
-            if (viewingFromToken && viewingFromToken.position) {
-                const dx = position.x - viewingFromToken.position.x;
-                const dy = position.y - viewingFromToken.position.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const visionRange = 6; // Default vision range in tiles
-                const maxDistance = visionRange * tokenGridSize;
+            // Calculate token's grid position for tile-based visibility check
+            const tokenGridX = Math.floor((position.x - gridOffsetX) / tokenGridSize);
+            const tokenGridY = Math.floor((position.y - gridOffsetY) / tokenGridSize);
+            const tokenTileKey = `${tokenGridX},${tokenGridY}`;
 
-                visible = distance <= maxDistance;
-            } else {
-                // If not viewing from a token, always visible (normal GM view)
-                visible = true;
+            // PRIMARY CHECK: Use visibleAreaSet for consistency with fog and afterimage systems
+            // This ensures tokens are visible IFF their tile is in the visible area
+            if (visibleAreaSet && visibleAreaSet.size > 0) {
+                visible = visibleAreaSet.has(tokenTileKey);
             }
 
-            // Distance-based fallback ONLY when proper visibility calculations are not available
-            // This helps when visible area calculation hasn't completed or is incomplete
-            // Do NOT use this as a way to show tokens that are technically out of view but within range
+            // Distance-based fallback ONLY when visibleAreaSet is not yet calculated
+            // This prevents tokens from being hidden during initialization
             if (!visible && viewingFromToken && viewingFromToken.position &&
-                (!visibilityPolygon || visibilityPolygon.length === 0) &&
                 (!visibleAreaSet || visibleAreaSet.size === 0)) {
                 const viewingPos = viewingFromToken.position;
                 const dx = position.x - viewingPos.x;
@@ -234,18 +229,6 @@ const CharacterToken = ({
                 }
             }
 
-            // CRITICAL: Tokens outside view range should be COMPLETELY HIDDEN
-            // The memory/afterimage system handles showing "memories" of where tokens were last seen
-            // Real tokens should only be visible when actually in the player's field of view
-            // No fog check needed - if not in view range, hide completely
-
-            // If visible area hasn't been calculated yet, hide tokens to be safe
-            // This prevents players from seeing tokens they shouldn't see during initialization
-            // Visible areas should be calculated quickly after the viewing token is set
-            // if (!visible && (!visibleAreaSet || visibleAreaSet.size === 0) && (!visibilityPolygon || visibilityPolygon.length === 0)) {
-            //     visible = true; // DISABLED: This was causing tokens to be visible when they shouldn't be
-            // }
-
             // Cache the result
             lastVisibilityCheckRef.current = { cacheKey: cacheKey, result: visible };
 
@@ -254,7 +237,7 @@ const CharacterToken = ({
 
         // If not viewing from a token, always visible (normal view)
         return true;
-    }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode]);
+    }, [viewingFromToken, dynamicFogEnabled, isViewingFrom, position, tokenGridSize, gridOffsetX, gridOffsetY, isGMMode, visibleAreaSet]);
     const effectiveZoom = zoomLevel * playerZoom;
     const tokenSize = tokenGridSize * 0.8 * effectiveZoom; // Similar to CreatureToken sizing
     const { currentTarget, setTarget, clearTarget } = useTargetingStore();
@@ -669,6 +652,8 @@ const CharacterToken = ({
                 // Removed excessive logging for performance
                 setIsDragging(true);
                 isDraggingRef.current = true;
+                // PERFORMANCE: Set global flag to prevent expensive fog recalculations during token drag
+                window._isDraggingToken = true;
 
                 // Position token immediately at current mouse position for instant responsiveness
                 if (tokenRef.current) {
@@ -919,6 +904,8 @@ const CharacterToken = ({
             setIsMouseDown(false);
             setMouseDownPosition(null);
             setDragStartPosition(null);
+            // PERFORMANCE: Clear global token drag flag
+            window._isDraggingToken = false;
 
             // CRITICAL FIX: Clear global token interaction flag
             window.tokenInteractionActive = false;
@@ -979,6 +966,8 @@ const CharacterToken = ({
                 setIsMouseDown(false);
                 setMouseDownPosition(null);
                 setDragStartPosition(null);
+                // PERFORMANCE: Clear global token drag flag
+                window._isDraggingToken = false;
                 if (window.multiplayerDragState) {
                     window.multiplayerDragState.delete('character');
                 }

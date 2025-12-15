@@ -21,6 +21,31 @@
   flex-wrap: wrap;
 }
 
+/* When inside settings window, remove fixed positioning */
+.local-room-indicator.in-settings {
+  position: relative;
+  top: auto;
+  right: auto;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: 0 2px 4px rgba(139, 69, 19, 0.15);
+}
+
+/* Settings-specific styling */
+.local-room-settings {
+  width: 100%;
+}
+
+.local-room-settings .control-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #3a3a3a;
+  margin-bottom: 12px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+}
+
 /* Removed leave room button styles - no longer needed */
 
 .local-room-indicator .room-info {

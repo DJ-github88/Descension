@@ -1,9 +1,13 @@
 import React, { useState, useEffect, memo } from 'react';
 import useGameStore from '../../store/gameStore';
 import useCharacterStore from '../../store/characterStore';
+import LocalRoomIndicator from '../local-room/LocalRoomIndicator';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/settings-window.css';
 
 const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }) {
+    const navigate = useNavigate();
+    
     // Get state and actions from stores
     const takeShortRest = useGameStore(state => state.takeShortRest);
     const takeLongRest = useGameStore(state => state.takeLongRest);
@@ -11,6 +15,9 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
     const isInMultiplayer = useGameStore(state => state.isInMultiplayer);
     const multiplayerRoom = useGameStore(state => state.multiplayerRoom);
     const leaveMultiplayer = useGameStore(state => state.leaveMultiplayer);
+    
+    // Local room state
+    const [currentLocalRoomId, setCurrentLocalRoomId] = useState(null);
 
     // Window scale controls
     const windowScale = useGameStore(state => state.windowScale);
@@ -49,6 +56,24 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
             setActiveTab(propActiveTab);
         }
     }, [propActiveTab, activeTab]);
+    
+    // Check for local room
+    useEffect(() => {
+        const checkLocalRoom = () => {
+            const isLocalRoom = localStorage.getItem('isLocalRoom') === 'true';
+            const selectedLocalRoomId = localStorage.getItem('selectedLocalRoomId');
+            if (isLocalRoom && selectedLocalRoomId) {
+                setCurrentLocalRoomId(selectedLocalRoomId);
+            } else {
+                setCurrentLocalRoomId(null);
+            }
+        };
+        
+        checkLocalRoom();
+        const interval = setInterval(checkLocalRoom, 1000);
+        return () => clearInterval(interval);
+    }, []);
+    
     const [restMessage, setRestMessage] = useState('');
 
     // Window scale preview state
@@ -282,6 +307,49 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                         </button>
                     </div>
                 </div>
+
+                {/* Local Room Indicator Section */}
+                {currentLocalRoomId && (
+                    <div style={{ marginTop: '32px' }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            gap: '12px'
+                        }}>
+                            <i className="fas fa-home" style={{
+                                fontSize: '20px',
+                                color: '#7a3b2e'
+                            }}></i>
+                            <div>
+                                <h3 style={{
+                                    margin: '0 0 4px 0',
+                                    color: '#7a3b2e',
+                                    fontSize: '18px',
+                                    fontFamily: 'Cinzel, serif'
+                                }}>
+                                    Local Room
+                                </h3>
+                                <p style={{
+                                    margin: '0',
+                                    color: '#8b6f47',
+                                    fontSize: '14px',
+                                    fontStyle: 'italic'
+                                }}>
+                                    Manage your local room and convert to multiplayer
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="settings-group">
+                            <LocalRoomIndicator
+                                currentLocalRoomId={currentLocalRoomId}
+                                onReturnToMenu={() => navigate('/')}
+                                inSettings={true}
+                            />
+                        </div>
+                    </div>
+                )}
 
                 {/* Cursor Tracking Settings (Multiplayer Only) */}
                 {isInMultiplayer && (

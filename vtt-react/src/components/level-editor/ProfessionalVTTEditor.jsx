@@ -1442,15 +1442,22 @@ const ProfessionalVTTEditor = () => {
             case 'terrain_brush':
                 // Apply terrain with brush
                 console.log('🎨 Terrain brush triggered - selectedTerrainType:', toolSettings.selectedTerrainType);
-                if (toolSettings.selectedTerrainType) {
-                    console.log('🎨 Painting terrain at:', coords, 'type:', toolSettings.selectedTerrainType);
-                    paintTerrainBrush(
-                        coords.gridX,
-                        coords.gridY,
-                        toolSettings.selectedTerrainType,
-                        toolSettings.brushSize || 1
-                    );
-                }
+                // Use selectedTerrainType or default to 'grass' if not set
+                const terrainType = toolSettings.selectedTerrainType || 'grass';
+                // Convert brushSize to number if it's a string (legacy support)
+                const brushSize = typeof toolSettings.brushSize === 'number' 
+                    ? toolSettings.brushSize 
+                    : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium' 
+                        ? parseInt(toolSettings.brushSize) || 1 
+                        : 1);
+                
+                console.log('🎨 Painting terrain at:', coords, 'type:', terrainType, 'brushSize:', brushSize);
+                paintTerrainBrush(
+                    coords.gridX,
+                    coords.gridY,
+                    terrainType,
+                    brushSize
+                );
                 break;
             case 'terrain_erase':
                 // Erase terrain with brush size
@@ -1571,12 +1578,21 @@ const ProfessionalVTTEditor = () => {
                 break;
             case 'terrain_brush':
                 const coords = screenToGrid(e.clientX, e.clientY);
-                if (coords && toolSettings.selectedTerrainType) {
+                if (coords) {
+                    // Use selectedTerrainType or default to 'grass' if not set
+                    const terrainType = toolSettings.selectedTerrainType || 'grass';
+                    // Convert brushSize to number if it's a string (legacy support)
+                    const brushSize = typeof toolSettings.brushSize === 'number' 
+                        ? toolSettings.brushSize 
+                        : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium' 
+                            ? parseInt(toolSettings.brushSize) || 1 
+                            : 1);
+                    
                     paintTerrainBrush(
                         coords.gridX,
                         coords.gridY,
-                        toolSettings.selectedTerrainType,
-                        toolSettings.brushSize || 1
+                        terrainType,
+                        brushSize
                     );
                 }
                 break;
