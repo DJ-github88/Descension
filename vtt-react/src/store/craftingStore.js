@@ -24,92 +24,38 @@ export const PROFESSIONS = {
     icon: 'trade_alchemy',
     implemented: true
   },
-  BLACKSMITHING: {
-    id: 'blacksmithing',
-    name: 'Blacksmithing',
-    description: 'Forging weapons and armor from metal and fire',
-    icon: 'trade_blacksmithing',
-    implemented: false
-  },
-  ENCHANTING: {
-    id: 'enchanting',
-    name: 'Enchanting',
-    description: 'Imbuing items with magical properties and power',
-    icon: 'trade_engraving',
-    implemented: false
-  },
-  LEATHERWORKING: {
-    id: 'leatherworking',
-    name: 'Leatherworking',
-    description: 'Crafting armor and goods from hides and leather',
-    icon: 'trade_leatherworking',
-    implemented: false
-  },
-  TAILORING: {
-    id: 'tailoring',
-    name: 'Tailoring',
-    description: 'Weaving cloth into robes, bags, and magical garments',
-    icon: 'trade_tailoring',
-    implemented: false
-  },
-  JEWELCRAFTING: {
-    id: 'jewelcrafting',
-    name: 'Jewelcrafting',
-    description: 'Cutting gems and crafting fine jewelry',
-    icon: 'inv_misc_gem_01',
-    implemented: false
-  },
-  ENGINEERING: {
-    id: 'engineering',
-    name: 'Engineering',
-    description: 'Building mechanical devices and contraptions',
-    icon: 'trade_engineering',
-    implemented: false
-  },
-  HERBALISM: {
-    id: 'herbalism',
-    name: 'Herbalism',
-    description: 'Gathering and preparing natural ingredients',
-    icon: 'trade_herbalism',
-    implemented: false
-  },
-  COOKING: {
-    id: 'cooking',
-    name: 'Cooking',
-    description: 'Preparing nourishing meals and beneficial foods',
-    icon: 'inv_misc_food_15',
-    implemented: false
-  },
-  INSCRIPTION: {
-    id: 'inscription',
-    name: 'Inscription',
-    description: 'Creating scrolls, books, and magical writings',
-    icon: 'inv_inscription_tradeskill01',
-    implemented: false
+  FIRST_AID: {
+    id: 'first-aid',
+    name: 'First Aid',
+    description: 'The skill of treating wounds and creating medical supplies',
+    icon: 'spell_holy_sealofsacrifice',
+    implemented: true
   }
 };
 
 // Initial state
 const initialState = {
   // Player's profession levels
-  professionLevels: Object.keys(PROFESSIONS).reduce((acc, professionId) => {
-    acc[professionId] = SKILL_LEVELS.UNTRAINED.level;
+  professionLevels: Object.values(PROFESSIONS).reduce((acc, profession) => {
+    acc[profession.id] = SKILL_LEVELS.UNTRAINED.level;
     return acc;
   }, {}),
 
   // Player's profession experience points
-  professionExperience: Object.keys(PROFESSIONS).reduce((acc, professionId) => {
-    acc[professionId] = 0; // Start with 0 experience
+  professionExperience: Object.values(PROFESSIONS).reduce((acc, profession) => {
+    acc[profession.id] = 0; // Start with 0 experience
     return acc;
   }, {}),
   
   // Known recipes by profession
-  knownRecipes: Object.keys(PROFESSIONS).reduce((acc, professionId) => {
-    // Give players the basic healing potion recipe to start
-    if (professionId === 'alchemy') {
-      acc[professionId] = ['minor-healing-potion-recipe'];
+  knownRecipes: Object.values(PROFESSIONS).reduce((acc, profession) => {
+    // Give players the basic recipe to start
+    if (profession.id === 'alchemy') {
+      acc[profession.id] = ['minor-healing-potion-recipe'];
+    } else if (profession.id === 'first-aid') {
+      acc[profession.id] = ['basic-bandage-recipe'];
     } else {
-      acc[professionId] = [];
+      acc[profession.id] = [];
     }
     return acc;
   }, {}),
@@ -258,6 +204,138 @@ const initialState = {
       experienceGained: 7,
       craftingTimeDisplay: '9 sec',
       category: 'enhancement'
+    },
+    // First Aid Recipes
+    {
+      id: 'basic-bandage-recipe',
+      name: 'Basic Bandage',
+      profession: 'first-aid',
+      description: 'A simple cloth bandage used to stop bleeding and provide basic wound care.',
+      requiredLevel: 0, // Untrained can make this
+      resultItemId: 'basic-bandage',
+      resultIcon: 'inv_misc_bandage_01',
+      resultQuantity: 1,
+      materials: [
+        { itemId: 'linen-cloth', quantity: 1 }
+      ],
+      craftingTime: 2000, // 2 seconds
+      experienceGained: 1,
+      craftingTimeDisplay: '2 sec',
+      category: 'bandage'
+    },
+    {
+      id: 'heavy-bandage-recipe',
+      name: 'Heavy Bandage',
+      profession: 'first-aid',
+      description: 'A thick, absorbent bandage that provides better wound care and stops bleeding more effectively.',
+      requiredLevel: 1, // Novice level
+      resultItemId: 'heavy-bandage',
+      resultIcon: 'inv_misc_bandage_02',
+      resultQuantity: 1,
+      materials: [
+        { itemId: 'linen-cloth', quantity: 2 },
+        { itemId: 'healing-herb', quantity: 1 }
+      ],
+      craftingTime: 3000, // 3 seconds
+      experienceGained: 2,
+      craftingTimeDisplay: '3 sec',
+      category: 'bandage'
+    },
+    {
+      id: 'antiseptic-salve-recipe',
+      name: 'Antiseptic Salve',
+      profession: 'first-aid',
+      description: 'A medicinal salve that prevents infection and promotes healing.',
+      requiredLevel: 2, // Journeyman level
+      resultItemId: 'antiseptic-salve',
+      resultIcon: 'inv_misc_slime_01',
+      resultQuantity: 1,
+      materials: [
+        { itemId: 'healing-herb', quantity: 2 },
+        { itemId: 'aloe-vera', quantity: 1 },
+        { itemId: 'small-jar', quantity: 1 }
+      ],
+      craftingTime: 5000, // 5 seconds
+      experienceGained: 3,
+      craftingTimeDisplay: '5 sec',
+      category: 'salve'
+    },
+    {
+      id: 'healing-kit-recipe',
+      name: 'Healing Kit',
+      profession: 'first-aid',
+      description: 'A complete medical kit containing bandages, salves, and basic medical tools.',
+      requiredLevel: 2, // Journeyman level
+      resultItemId: 'first-aid-kit',
+      resultIcon: 'inv_misc_bag_10',
+      resultQuantity: 1,
+      materials: [
+        { itemId: 'linen-cloth', quantity: 3 },
+        { itemId: 'healing-herb', quantity: 2 },
+        { itemId: 'medical-tools', quantity: 1 }
+      ],
+      craftingTime: 7000, // 7 seconds
+      experienceGained: 4,
+      craftingTimeDisplay: '7 sec',
+      category: 'kit'
+    },
+    {
+      id: 'poultice-recipe',
+      name: 'Herbal Poultice',
+      profession: 'first-aid',
+      description: 'A warm herbal poultice that soothes pain and accelerates natural healing.',
+      requiredLevel: 3, // Journeyman level
+      resultItemId: 'herbal-poultice',
+      resultIcon: 'inv_misc_herb_07',
+      resultQuantity: 1,
+      materials: [
+        { itemId: 'healing-herb', quantity: 3 },
+        { itemId: 'aloe-vera', quantity: 2 },
+        { itemId: 'linen-cloth', quantity: 1 }
+      ],
+      craftingTime: 6000, // 6 seconds
+      experienceGained: 5,
+      craftingTimeDisplay: '6 sec',
+      category: 'poultice'
+    },
+    {
+      id: 'splint-recipe',
+      name: 'Medical Splint',
+      profession: 'first-aid',
+      description: 'A sturdy splint used to immobilize broken or fractured bones.',
+      requiredLevel: 3, // Journeyman level
+      resultItemId: 'medical-splint',
+      resultIcon: 'inv_misc_bone_01',
+      resultQuantity: 1,
+      materials: [
+        { itemId: 'wooden-stick', quantity: 2 },
+        { itemId: 'linen-cloth', quantity: 2 },
+        { itemId: 'leather-strip', quantity: 1 }
+      ],
+      craftingTime: 8000, // 8 seconds
+      experienceGained: 5,
+      craftingTimeDisplay: '8 sec',
+      category: 'splint'
+    },
+    {
+      id: 'advanced-healing-kit-recipe',
+      name: 'Advanced Healing Kit',
+      profession: 'first-aid',
+      description: 'An advanced medical kit with specialized tools and high-quality supplies for treating serious injuries.',
+      requiredLevel: 4, // Expert level
+      resultItemId: 'advanced-healing-kit',
+      resultIcon: 'inv_misc_bag_11',
+      resultQuantity: 1,
+      materials: [
+        { itemId: 'linen-cloth', quantity: 5 },
+        { itemId: 'healing-herb', quantity: 3 },
+        { itemId: 'medical-tools', quantity: 2 },
+        { itemId: 'first-aid-kit', quantity: 1 }
+      ],
+      craftingTime: 10000, // 10 seconds
+      experienceGained: 7,
+      craftingTimeDisplay: '10 sec',
+      category: 'kit'
     }
   ],
   
@@ -346,16 +424,21 @@ const useCraftingStore = create(
       
       // Learn a recipe
       learnRecipe: (professionId, recipeId) => {
+        console.log('learnRecipe called:', professionId, recipeId);
         set(state => {
           const currentRecipes = state.knownRecipes[professionId] || [];
+          console.log('learnRecipe: currentRecipes for', professionId, '=', currentRecipes);
           if (!currentRecipes.includes(recipeId)) {
+            const newRecipes = [...currentRecipes, recipeId];
+            console.log('learnRecipe: Adding recipe, new recipes =', newRecipes);
             return {
               knownRecipes: {
                 ...state.knownRecipes,
-                [professionId]: [...currentRecipes, recipeId]
+                [professionId]: newRecipes
               }
             };
           }
+          console.log('learnRecipe: Recipe already known');
           return state;
         });
       },
@@ -393,7 +476,12 @@ const useCraftingStore = create(
       // Get recipes for a profession
       getRecipesForProfession: (professionId) => {
         const { availableRecipes } = get();
-        return availableRecipes.filter(recipe => recipe.profession === professionId);
+        console.log('getRecipesForProfession: professionId =', professionId);
+        console.log('getRecipesForProfession: availableRecipes count =', availableRecipes.length);
+        console.log('getRecipesForProfession: first-aid recipes =', availableRecipes.filter(r => r.profession === 'first-aid').map(r => r.id));
+        const filtered = availableRecipes.filter(recipe => recipe.profession === professionId);
+        console.log('getRecipesForProfession: filtered count =', filtered.length);
+        return filtered;
       },
       
       // Get known recipes for a profession
@@ -452,7 +540,43 @@ const useCraftingStore = create(
     }),
     {
       name: 'crafting-storage',
-      version: 2
+      version: 3,
+      migrate: (persistedState, version) => {
+        console.log('Crafting store migration: from version', version, 'to 3');
+        // Always merge recipes to ensure all are present
+        const currentRecipes = persistedState?.availableRecipes || [];
+        const initialStateRecipes = initialState.availableRecipes;
+        
+        // Create a map of existing recipe IDs
+        const existingIds = new Set(currentRecipes.map(r => r.id));
+        
+        // Add new recipes that don't exist
+        const newRecipes = initialStateRecipes.filter(r => !existingIds.has(r.id));
+        console.log('Crafting store migration: Adding', newRecipes.length, 'new recipes:', newRecipes.map(r => r.id));
+        
+        return {
+          ...persistedState,
+          availableRecipes: [...currentRecipes, ...newRecipes]
+        };
+      },
+      merge: (persistedState, currentState) => {
+        // Also merge recipes during normal hydration
+        const persistedRecipes = persistedState?.availableRecipes || [];
+        const currentRecipes = currentState.availableRecipes || [];
+        
+        const existingIds = new Set(persistedRecipes.map(r => r.id));
+        const missingRecipes = currentRecipes.filter(r => !existingIds.has(r.id));
+        
+        if (missingRecipes.length > 0) {
+          console.log('Crafting store merge: Adding', missingRecipes.length, 'missing recipes');
+          return {
+            ...persistedState,
+            availableRecipes: [...persistedRecipes, ...missingRecipes]
+          };
+        }
+        
+        return persistedState;
+      }
     }
   )
 );

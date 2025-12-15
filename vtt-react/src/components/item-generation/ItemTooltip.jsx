@@ -30,6 +30,14 @@ const getDisplayName = (item) => {
     return item.customName || item.name;
 };
 
+// Helper function to safely capitalize a string
+const safeCapitalize = (str) => {
+    if (!str || typeof str !== 'string' || str.length === 0) {
+        return str || '';
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 const getMiscTypeInfo = (item) => {
     if (!item || !item.subtype) {
         // Fallback for miscellaneous items without subtype
@@ -97,9 +105,9 @@ const getMiscTypeInfo = (item) => {
                 {
                     component: 'reagent-details',
                     items: [
-                        item.reagentType && {
+                        item.reagentType && typeof item.reagentType === 'string' && item.reagentType.trim() !== '' && {
                             label: 'Type',
-                            value: item.reagentType.charAt(0).toUpperCase() + item.reagentType.slice(1),
+                            value: safeCapitalize(item.reagentType),
                             className: 'reagent-detail-value'
                         },
                         item.magicType && {
@@ -108,9 +116,9 @@ const getMiscTypeInfo = (item) => {
                             className: 'reagent-detail-value magic-type',
                             color: getMagicTypeColor(item.magicType)
                         },
-                        item.reagentState && {
+                        item.reagentState && typeof item.reagentState === 'string' && item.reagentState.trim() !== '' && {
                             label: 'State',
-                            value: item.reagentState.charAt(0).toUpperCase() + item.reagentState.slice(1),
+                            value: safeCapitalize(item.reagentState),
                             className: 'reagent-detail-value'
                         },
                         item.requiredFor && {
@@ -200,22 +208,22 @@ const getMiscTypeInfo = (item) => {
                 {
                     component: 'trade-details',
                     items: [
-                        item.tradeCategory && {
+                        item.tradeCategory && typeof item.tradeCategory === 'string' && item.tradeCategory.trim() !== '' && {
                             label: 'Category',
                             value: getTradeCategory(item.tradeCategory),
                             className: 'trade-detail-value'
                         },
-                        item.origin && {
+                        item.origin && typeof item.origin === 'string' && item.origin.trim() !== '' && {
                             label: 'Origin',
-                            value: item.origin.charAt(0).toUpperCase() + item.origin.slice(1),
+                            value: safeCapitalize(item.origin),
                             className: 'trade-detail-value'
                         },
-                        item.demandLevel && {
+                        item.demandLevel && (typeof item.demandLevel === 'string' || typeof item.demandLevel === 'number') && {
                             label: 'Demand',
                             value: getDemandLevel(item.demandLevel),
                             className: 'trade-detail-value'
                         },
-                        item.qualityGrade && {
+                        item.qualityGrade && typeof item.qualityGrade === 'string' && item.qualityGrade.trim() !== '' && {
                             label: 'Quality',
                             value: getQualityGrade(item.qualityGrade),
                             className: 'trade-detail-value'
@@ -285,19 +293,19 @@ const getMiscTypeInfo = (item) => {
                 {
                     component: 'junk-details',
                     items: [
-                        item.junkType && {
+                        item.junkType && typeof item.junkType === 'string' && item.junkType.trim() !== '' && {
                             label: 'Type',
-                            value: item.junkType.charAt(0).toUpperCase() + item.junkType.slice(1),
+                            value: safeCapitalize(item.junkType),
                             className: 'item-junk-detail'
                         },
-                        item.condition && {
+                        item.condition && typeof item.condition === 'string' && item.condition.trim() !== '' && {
                             label: 'Condition',
-                            value: item.condition.charAt(0).toUpperCase() + item.condition.slice(1),
+                            value: safeCapitalize(item.condition),
                             className: 'item-junk-detail'
                         },
-                        item.origin && {
+                        item.origin && typeof item.origin === 'string' && item.origin.trim() !== '' && {
                             label: 'Origin',
-                            value: item.origin.charAt(0).toUpperCase() + item.origin.slice(1),
+                            value: safeCapitalize(item.origin),
                             className: 'item-junk-detail'
                         },
                         item.estimatedValue && {
@@ -335,6 +343,9 @@ const getMiscTypeInfo = (item) => {
 };
 
 const getMagicTypeName = (type) => {
+    if (!type || typeof type !== 'string') {
+        return String(type || '') + ' Magic';
+    }
     const MAGIC_TYPES = {
         fire: 'Fire Magic',
         cold: 'Cold Magic',
@@ -347,7 +358,7 @@ const getMagicTypeName = (type) => {
         psychic: 'Psychic Magic',
         thunder: 'Thunder Magic'
     };
-    return MAGIC_TYPES[type] || (type.charAt(0).toUpperCase() + type.slice(1) + ' Magic');
+    return MAGIC_TYPES[type.toLowerCase()] || (safeCapitalize(type) + ' Magic');
 };
 
 const getMagicTypeColor = (type) => {
@@ -367,6 +378,9 @@ const getMagicTypeColor = (type) => {
 };
 
 const getPreservationName = (method) => {
+    if (!method || typeof method !== 'string') {
+        return String(method || '');
+    }
     const PRESERVATION_METHODS = {
         dried: 'Dried',
         fresh: 'Fresh',
@@ -375,10 +389,13 @@ const getPreservationName = (method) => {
         crystallized: 'Crystallized',
         preserved: 'Magically Preserved'
     };
-    return PRESERVATION_METHODS[method] || method;
+    return PRESERVATION_METHODS[method.toLowerCase()] || safeCapitalize(method);
 };
 
 const getMaterialTypeName = (type) => {
+    if (!type || typeof type !== 'string') {
+        return String(type || '');
+    }
     const MATERIAL_TYPES = {
         metal: 'Metal',
         wood: 'Wood',
@@ -390,10 +407,13 @@ const getMaterialTypeName = (type) => {
         hide: 'Hide',
         herb: 'Herb'
     };
-    return MATERIAL_TYPES[type] || type;
+    return MATERIAL_TYPES[type.toLowerCase()] || safeCapitalize(type);
 };
 
 const getGatheringMethodName = (method) => {
+    if (!method || typeof method !== 'string') {
+        return String(method || '');
+    }
     const GATHERING_METHODS = {
         mining: 'Mining',
         herbalism: 'Herbalism',
@@ -403,10 +423,13 @@ const getGatheringMethodName = (method) => {
         fishing: 'Fishing',
         quarrying: 'Quarrying'
     };
-    return GATHERING_METHODS[method] || method;
+    return GATHERING_METHODS[method.toLowerCase()] || safeCapitalize(method);
 };
 
 const getTradeCategory = (category) => {
+    if (!category || typeof category !== 'string') {
+        return String(category || '');
+    }
     const TRADE_CATEGORIES = {
         textiles: 'Textiles',
         spices: 'Spices',
@@ -417,10 +440,14 @@ const getTradeCategory = (category) => {
         exotic: 'Exotic Goods',
         luxury: 'Luxury Items'
     };
-    return TRADE_CATEGORIES[category] || category;
+    return TRADE_CATEGORIES[category.toLowerCase()] || safeCapitalize(category);
 };
 
 const getDemandLevel = (level) => {
+    if (!level) {
+        return String(level || '');
+    }
+    const levelStr = String(level).toLowerCase();
     const DEMAND_LEVELS = {
         low: 'Low Demand',
         moderate: 'Moderate Demand',
@@ -428,10 +455,13 @@ const getDemandLevel = (level) => {
         very_high: 'Very High Demand',
         extreme: 'Extreme Demand'
     };
-    return DEMAND_LEVELS[level] || level;
+    return DEMAND_LEVELS[levelStr] || safeCapitalize(String(level));
 };
 
 const getQualityGrade = (grade) => {
+    if (!grade || typeof grade !== 'string') {
+        return String(grade || '');
+    }
     const QUALITY_GRADES = {
         poor: 'Poor',
         standard: 'Standard',
@@ -440,7 +470,7 @@ const getQualityGrade = (grade) => {
         exquisite: 'Exquisite',
         masterwork: 'Masterwork'
     };
-    return QUALITY_GRADES[grade] || grade;
+    return QUALITY_GRADES[grade.toLowerCase()] || safeCapitalize(grade);
 };
 
 const getKeyTypeName = (keyType) => {
@@ -452,7 +482,7 @@ const getKeyTypeName = (keyType) => {
         puzzle: 'Puzzle Key',
         portal: 'Portal Key'
     };
-    return KEY_TYPES[keyType] || keyType?.charAt(0).toUpperCase() + keyType?.slice(1) || 'Unknown';
+    return KEY_TYPES[keyType] || safeCapitalize(keyType) || 'Unknown';
 };
 
 const getSecurityLevelName = (level) => {
@@ -463,7 +493,7 @@ const getSecurityLevelName = (level) => {
         maximum: 'Maximum Security',
         magical: 'Magical Security'
     };
-    return SECURITY_LEVELS[level] || level?.charAt(0).toUpperCase() + level?.slice(1) || 'Unknown';
+    return SECURITY_LEVELS[level] || safeCapitalize(level) || 'Unknown';
 };
 
 const getStatDescription = (stat, value, isPercentage = false) => {

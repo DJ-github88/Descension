@@ -3265,6 +3265,128 @@ const COMPREHENSIVE_ITEMS = [
     gatheringMethod: 'rare'
   },
 
+  // === FIRST AID MATERIALS ===
+
+  {
+    id: 'healing-herb',
+    name: 'Healing Herb',
+    type: 'miscellaneous',
+    subtype: 'REAGENT',
+    quality: 'common',
+    description: 'A common medicinal herb with natural healing properties. Used in first aid preparations.',
+    iconId: 'inv_misc_herb_07',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_07.jpg',
+    value: { gold: 0, silver: 0, copper: 10 },
+    stackable: true,
+    maxStackSize: 20,
+    width: 1,
+    height: 1,
+    rotation: 0,
+    materialType: 'Herb',
+    professions: ['First Aid'],
+    gatheringMethod: 'herbalism',
+    reagentType: 'Herb',
+    magicType: 'nature',
+    reagentState: 'Raw'
+  },
+  {
+    id: 'aloe-vera',
+    name: 'Aloe Vera',
+    type: 'miscellaneous',
+    subtype: 'REAGENT',
+    quality: 'common',
+    description: 'A succulent plant with soothing gel. Excellent for treating burns and skin irritations.',
+    iconId: 'inv_misc_herb_08',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_08.jpg',
+    value: { gold: 0, silver: 0, copper: 15 },
+    stackable: true,
+    maxStackSize: 20,
+    width: 1,
+    height: 1,
+    rotation: 0,
+    materialType: 'Herb',
+    professions: ['First Aid'],
+    gatheringMethod: 'herbalism',
+    reagentType: 'Herb',
+    magicType: 'nature',
+    reagentState: 'Raw'
+  },
+  {
+    id: 'small-jar',
+    name: 'Small Jar',
+    type: 'miscellaneous',
+    subtype: 'CRAFTING',
+    quality: 'common',
+    description: 'A small ceramic jar perfect for storing salves and ointments.',
+    iconId: 'inv_misc_urn_01',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_urn_01.jpg',
+    value: { gold: 0, silver: 0, copper: 5 },
+    stackable: true,
+    maxStackSize: 20,
+    width: 1,
+    height: 1,
+    rotation: 0,
+    materialType: 'Ceramic',
+    professions: ['First Aid'],
+    gatheringMethod: 'vendor'
+  },
+  {
+    id: 'wooden-stick',
+    name: 'Wooden Stick',
+    type: 'miscellaneous',
+    subtype: 'CRAFTING',
+    quality: 'common',
+    description: 'A straight wooden stick used for making splints and supports.',
+    iconId: 'inv_staff_01',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg',
+    value: { gold: 0, silver: 0, copper: 2 },
+    stackable: true,
+    maxStackSize: 20,
+    width: 1,
+    height: 1,
+    rotation: 0,
+    materialType: 'Wood',
+    professions: ['First Aid'],
+    gatheringMethod: 'gathering'
+  },
+  {
+    id: 'leather-strip',
+    name: 'Leather Strip',
+    type: 'miscellaneous',
+    subtype: 'CRAFTING',
+    quality: 'common',
+    description: 'A thin strip of leather used for binding and securing bandages.',
+    iconId: 'inv_misc_leatherscrap_02',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_02.jpg',
+    value: { gold: 0, silver: 0, copper: 3 },
+    stackable: true,
+    maxStackSize: 20,
+    width: 1,
+    height: 1,
+    rotation: 0,
+    materialType: 'Leather',
+    professions: ['First Aid'],
+    gatheringMethod: 'crafting'
+  },
+  {
+    id: 'medical-tools',
+    name: 'Medical Tools',
+    type: 'miscellaneous',
+    subtype: 'TOOL',
+    quality: 'uncommon',
+    description: 'A set of basic medical tools including scissors, tweezers, and small knives. Essential for advanced first aid.',
+    iconId: 'inv_misc_toolbox_01',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_toolbox_01.jpg',
+    value: { gold: 0, silver: 5, copper: 0 },
+    stackable: false,
+    width: 1,
+    height: 1,
+    rotation: 0,
+    materialType: 'Metal',
+    professions: ['First Aid'],
+    gatheringMethod: 'vendor'
+  },
+
   // === ALCHEMY PRODUCTS ===
 
   {
@@ -3380,6 +3502,188 @@ const COMPREHENSIVE_ITEMS = [
     height: 1,
     craftedBy: 'alchemy',
     potionType: 'enhancement'
+  },
+
+  // === FIRST AID PRODUCTS ===
+
+  {
+    id: 'basic-bandage',
+    name: 'Basic Bandage',
+    type: 'consumable',
+    subtype: 'BANDAGE',
+    quality: 'common',
+    description: 'A simple cloth bandage used to stop bleeding and provide basic wound care. Restores a small amount of health.',
+    iconId: 'inv_misc_bandage_01',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_01.jpg',
+    value: { gold: 0, silver: 0, copper: 5 },
+    weight: 0.1,
+    combatStats: {
+      healthRestore: { value: 10, isPercentage: false }
+    },
+    stackable: true,
+    maxStackSize: 20,
+    width: 1,
+    height: 1,
+    craftedBy: 'first-aid',
+    bandageType: 'basic'
+  },
+  {
+    id: 'heavy-bandage',
+    name: 'Heavy Bandage',
+    type: 'consumable',
+    subtype: 'BANDAGE',
+    quality: 'uncommon',
+    description: 'A thick, absorbent bandage that provides better wound care and stops bleeding more effectively.',
+    iconId: 'inv_misc_bandage_02',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_02.jpg',
+    value: { gold: 0, silver: 1, copper: 0 },
+    weight: 0.2,
+    combatStats: {
+      healthRestore: { value: 25, isPercentage: false }
+    },
+    stackable: true,
+    maxStackSize: 20,
+    width: 1,
+    height: 1,
+    craftedBy: 'first-aid',
+    bandageType: 'heavy'
+  },
+  {
+    id: 'antiseptic-salve',
+    name: 'Antiseptic Salve',
+    type: 'consumable',
+    subtype: 'SALVE',
+    quality: 'uncommon',
+    description: 'A medicinal salve that prevents infection and promotes healing. Can be applied to wounds.',
+    iconId: 'inv_misc_slime_01',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_slime_01.jpg',
+    value: { gold: 0, silver: 2, copper: 0 },
+    weight: 0.1,
+    combatStats: {
+      healthRestore: { value: 15, isPercentage: false }
+    },
+    effects: [
+      {
+        type: 'prevent',
+        condition: 'infection',
+        duration: 3600
+      }
+    ],
+    stackable: true,
+    maxStackSize: 10,
+    width: 1,
+    height: 1,
+    craftedBy: 'first-aid',
+    salveType: 'antiseptic'
+  },
+  {
+    id: 'first-aid-kit',
+    name: 'Healing Kit',
+    type: 'consumable',
+    subtype: 'KIT',
+    quality: 'uncommon',
+    description: 'A complete medical kit containing bandages, salves, and basic medical tools. Provides multiple uses.',
+    iconId: 'inv_misc_bag_10',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_10.jpg',
+    value: { gold: 0, silver: 5, copper: 0 },
+    weight: 1.0,
+    combatStats: {
+      healthRestore: { value: 30, isPercentage: false }
+    },
+    stackable: false,
+    width: 2,
+    height: 2,
+    craftedBy: 'first-aid',
+    kitType: 'basic',
+    uses: 5
+  },
+  {
+    id: 'herbal-poultice',
+    name: 'Herbal Poultice',
+    type: 'consumable',
+    subtype: 'POULTICE',
+    quality: 'rare',
+    description: 'A warm herbal poultice that soothes pain and accelerates natural healing.',
+    iconId: 'inv_misc_herb_07',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_07.jpg',
+    value: { gold: 0, silver: 3, copper: 0 },
+    weight: 0.2,
+    combatStats: {
+      healthRestore: { value: 40, isPercentage: false }
+    },
+    effects: [
+      {
+        type: 'heal_over_time',
+        value: 5,
+        duration: 300,
+        interval: 30
+      }
+    ],
+    stackable: true,
+    maxStackSize: 10,
+    width: 1,
+    height: 1,
+    craftedBy: 'first-aid',
+    poulticeType: 'herbal'
+  },
+  {
+    id: 'medical-splint',
+    name: 'Medical Splint',
+    type: 'consumable',
+    subtype: 'SPLINT',
+    quality: 'uncommon',
+    description: 'A sturdy splint used to immobilize broken or fractured bones. Prevents further injury and aids recovery.',
+    iconId: 'inv_misc_bone_01',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bone_01.jpg',
+    value: { gold: 0, silver: 2, copper: 0 },
+    weight: 0.5,
+    effects: [
+      {
+        type: 'prevent',
+        condition: 'broken_bone',
+        duration: 7200
+      },
+      {
+        type: 'heal_over_time',
+        value: 2,
+        duration: 3600,
+        interval: 60
+      }
+    ],
+    stackable: false,
+    width: 1,
+    height: 2,
+    craftedBy: 'first-aid',
+    splintType: 'medical'
+  },
+  {
+    id: 'advanced-healing-kit',
+    name: 'Advanced Healing Kit',
+    type: 'consumable',
+    subtype: 'KIT',
+    quality: 'rare',
+    description: 'An advanced medical kit with specialized tools and high-quality supplies for treating serious injuries.',
+    iconId: 'inv_misc_bag_11',
+    imageUrl: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bag_11.jpg',
+    value: { gold: 0, silver: 15, copper: 0 },
+    weight: 2.0,
+    combatStats: {
+      healthRestore: { value: 60, isPercentage: false }
+    },
+    effects: [
+      {
+        type: 'heal_over_time',
+        value: 10,
+        duration: 600,
+        interval: 30
+      }
+    ],
+    stackable: false,
+    width: 2,
+    height: 2,
+    craftedBy: 'first-aid',
+    kitType: 'advanced',
+    uses: 10
   },
 
   // === RECIPE SCROLLS ===

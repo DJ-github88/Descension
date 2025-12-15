@@ -27,7 +27,9 @@ function ProfessionSelection({ onProfessionSelect, selectedProfession }) {
             
             <div className="profession-grid">
                 {Object.values(PROFESSIONS).map(profession => {
-                    const currentLevel = getProfessionLevel(profession.id);
+                    const currentLevel = (typeof getProfessionLevel === 'function')
+                        ? getProfessionLevel(profession.id)
+                        : (professionLevels?.[profession.id] ?? SKILL_LEVELS.UNTRAINED.level);
                     const skillLevelName = getSkillLevelName(currentLevel);
                     const skillColor = getSkillLevelColor(currentLevel);
                     const isImplemented = profession.implemented;

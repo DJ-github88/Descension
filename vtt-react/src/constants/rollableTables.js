@@ -17,7 +17,6 @@ import { PERCEPTION_TABLES } from './perceptionTables.js';
 // Weapon Mastery tables defined inline below to match new weapon-specific flow
 import { TACTICAL_COMBAT_TABLES } from './tacticalCombatTables.js';
 import { ALCHEMY_TABLES } from './alchemyTables.js';
-import { SPELLCRAFT_TABLES } from './spellcraftTables.js';
 import { MEDICINE_TABLES } from './medicineTables.js';
 import { STEALTH_TABLES } from './stealthTables.js';
 import { ARCANE_KNOWLEDGE_TABLES } from './arcaneKnowledgeTables.js';
@@ -159,7 +158,6 @@ export const ROLLABLE_TABLES = {
     ...WEAPON_MASTERY_TABLES,
     ...TACTICAL_COMBAT_TABLES,
     ...ALCHEMY_TABLES,
-    ...SPELLCRAFT_TABLES,
     ...MEDICINE_TABLES,
     ...STEALTH_TABLES,
     ...ARCANE_KNOWLEDGE_TABLES,

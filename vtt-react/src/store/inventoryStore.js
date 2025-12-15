@@ -839,6 +839,7 @@ const useInventoryStore = create(persist((set, get) => ({
                 value: libraryItem.value || libraryItem.cost,
                 quantity: options.quantity || 1,
                 stackable: libraryItem.stackable !== false,
+                maxStackSize: libraryItem.maxStackSize,
                 width: width,
                 height: height,
                 rotation: libraryItem.rotation || 0,
@@ -857,6 +858,33 @@ const useInventoryStore = create(persist((set, get) => ({
                 demandLevel: libraryItem.demandLevel,
                 qualityGrade: libraryItem.qualityGrade,
                 merchantNotes: libraryItem.merchantNotes,
+
+                // Preserve reagent properties
+                reagentType: libraryItem.reagentType,
+                magicType: libraryItem.magicType,
+                reagentState: libraryItem.reagentState,
+                requiredFor: libraryItem.requiredFor,
+                quantityPerUse: libraryItem.quantityPerUse,
+                preservationMethod: libraryItem.preservationMethod,
+                magicalProperties: libraryItem.magicalProperties,
+                source: libraryItem.source,
+
+                // Preserve crafting material properties
+                materialType: libraryItem.materialType,
+                professions: libraryItem.professions,
+                gatheringMethod: libraryItem.gatheringMethod,
+                recipes: libraryItem.recipes,
+                sourceLocations: libraryItem.sourceLocations,
+                specialProperties: libraryItem.specialProperties,
+                craftingNotes: libraryItem.craftingNotes,
+
+                // Preserve key properties
+                keyType: libraryItem.keyType,
+                unlocks: libraryItem.unlocks,
+                location: libraryItem.location,
+                securityLevel: libraryItem.securityLevel,
+                oneTimeUse: libraryItem.oneTimeUse,
+                specialInstructions: libraryItem.specialInstructions,
 
                 // Preserve other miscellaneous properties
                 junkType: libraryItem.junkType,

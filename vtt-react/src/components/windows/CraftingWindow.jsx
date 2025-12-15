@@ -3,6 +3,7 @@ import WowWindow from './WowWindow';
 import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftingStore';
 import ProfessionSelection from '../crafting/ProfessionSelection';
 import AlchemyInterface from '../crafting/AlchemyInterface';
+import FirstAidInterface from '../crafting/FirstAidInterface';
 import useChatStore from '../../store/chatStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
@@ -10,6 +11,7 @@ import '../../styles/crafting.css';
 
 function CraftingWindow({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('recipes');
+    const store = useCraftingStore();
     const {
         selectedProfession,
         setSelectedProfession,
@@ -17,8 +19,10 @@ function CraftingWindow({ isOpen, onClose }) {
         getProfessionExperience,
         getExperienceForNextLevel,
         getRecipesForProfession,
-        learnRecipe
-    } = useCraftingStore();
+        learnRecipe,
+        professionLevels,
+        availableRecipes
+    } = store;
     const { addLootNotification } = useChatStore();
     const { addItemFromLibrary } = useInventoryStore();
     const { items: itemLibrary } = useItemStore();
@@ -34,13 +38,22 @@ function CraftingWindow({ isOpen, onClose }) {
         return '#ff8000';
     };
 
+    // Safe wrapper for setSelectedProfession with fallback
+    const safeSetSelectedProfession = (professionId) => {
+        if (typeof setSelectedProfession === 'function') {
+            setSelectedProfession(professionId);
+        } else {
+            // Fallback: use store.setState directly
+            useCraftingStore.setState({ selectedProfession: professionId });
+        }
+    };
 
     const handleProfessionSelect = (professionId) => {
-        setSelectedProfession(professionId);
+        safeSetSelectedProfession(professionId);
     };
 
     const handleBackToProfessions = () => {
-        setSelectedProfession(null);
+        safeSetSelectedProfession(null);
     };
 
     const renderContent = () => {
@@ -49,7 +62,8 @@ function CraftingWindow({ isOpen, onClose }) {
             switch (selectedProfession) {
                 case 'alchemy':
                     return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
-                // Add other profession interfaces here as they're implemented
+                case 'first-aid':
+                    return <FirstAidInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
                 default:
                     return (
                         <div className="profession-not-implemented">
@@ -74,35 +88,94 @@ function CraftingWindow({ isOpen, onClose }) {
 
     // Handle learning all recipes for current profession
     const handleLearnAllRecipes = () => {
-        if (!selectedProfession) return;
+        if (!selectedProfession) {
+            console.log('handleLearnAllRecipes: No selected profession');
+            return;
+        }
 
-        const allRecipes = getRecipesForProfession(selectedProfession);
+        console.log('handleLearnAllRecipes: selectedProfession =', selectedProfession);
+        const allRecipes = (typeof getRecipesForProfession === 'function')
+            ? getRecipesForProfession(selectedProfession)
+            : ((availableRecipes || []).filter(recipe => recipe.profession === selectedProfession));
+        console.log('handleLearnAllRecipes: Found recipes:', allRecipes.length, allRecipes.map(r => r.id));
+        
+        if (allRecipes.length === 0) {
+            addLootNotification({
+                type: 'crafting_failed',
+                message: `No recipes found for ${selectedProfession}.`,
+                timestamp: Date.now()
+            });
+            return;
+        }
+
+        let learnedCount = 0;
         allRecipes.forEach(recipe => {
-            learnRecipe(selectedProfession, recipe.id);
+            console.log('handleLearnAllRecipes: Learning recipe', recipe.id, 'for profession', selectedProfession);
+            if (typeof learnRecipe === 'function') {
+                learnRecipe(selectedProfession, recipe.id);
+            } else {
+                // Fallback: directly update the store
+                const store = useCraftingStore.getState();
+                const currentRecipes = store.knownRecipes?.[selectedProfession] || [];
+                if (!currentRecipes.includes(recipe.id)) {
+                    useCraftingStore.setState(state => ({
+                        knownRecipes: {
+                            ...state.knownRecipes,
+                            [selectedProfession]: [...currentRecipes, recipe.id]
+                        }
+                    }));
+                }
+            }
+            learnedCount++;
         });
+
+        // Find profession by id since PROFESSIONS uses keys like ALCHEMY, FIRST_AID
+        const profession = Object.values(PROFESSIONS).find(p => p.id === selectedProfession);
+
+        console.log('handleLearnAllRecipes: Learned', learnedCount, 'recipes');
 
         addLootNotification({
             type: 'crafting_success',
-            message: `Learned ${allRecipes.length} ${PROFESSIONS[selectedProfession]?.name} recipes!`,
+            message: `Learned ${learnedCount} ${profession?.name || selectedProfession} recipe${learnedCount !== 1 ? 's' : ''}!`,
             timestamp: Date.now()
         });
     };
 
-    // Add test materials for crafting (currently alchemy-specific)
+    // Add test materials for crafting (context-aware based on profession)
     const handleAddTestMaterials = () => {
-        if (selectedProfession !== 'alchemy') return;
+        if (!selectedProfession) return;
 
-        const testMaterials = [
-            // Basic materials for all potions
-            { id: 'peacebloom', quantity: 10 },
-            { id: 'silverleaf', quantity: 10 },
-            { id: 'earthroot', quantity: 10 },
-            { id: 'mageroyal', quantity: 10 },
-            { id: 'empty-vial', quantity: 5 },
-            { id: 'crystal-vial', quantity: 3 },
-            { id: 'distilled-water', quantity: 10 },
-            { id: 'alchemical-catalyst', quantity: 2 }
-        ];
+        let testMaterials = [];
+        let message = '';
+
+        if (selectedProfession === 'alchemy') {
+            testMaterials = [
+                // Basic materials for all potions
+                { id: 'peacebloom', quantity: 10 },
+                { id: 'silverleaf', quantity: 10 },
+                { id: 'earthroot', quantity: 10 },
+                { id: 'mageroyal', quantity: 10 },
+                { id: 'empty-vial', quantity: 5 },
+                { id: 'crystal-vial', quantity: 3 },
+                { id: 'distilled-water', quantity: 10 },
+                { id: 'alchemical-catalyst', quantity: 2 }
+            ];
+            message = 'Added test alchemy crafting materials to inventory!';
+        } else if (selectedProfession === 'first-aid') {
+            testMaterials = [
+                // Basic materials for first aid
+                { id: 'linen-cloth', quantity: 20 },
+                { id: 'healing-herb', quantity: 15 },
+                { id: 'aloe-vera', quantity: 10 },
+                { id: 'small-jar', quantity: 5 },
+                { id: 'wooden-stick', quantity: 10 },
+                { id: 'leather-strip', quantity: 8 },
+                { id: 'medical-tools', quantity: 3 }
+            ];
+            message = 'Added test first aid crafting materials to inventory!';
+        } else {
+            return; // Unknown profession
+        }
 
         testMaterials.forEach(material => {
             const itemData = itemLibrary.find(item => item.id === material.id);
@@ -117,7 +190,7 @@ function CraftingWindow({ isOpen, onClose }) {
 
         addLootNotification({
             type: 'item_received',
-            message: 'Added test potion crafting materials to inventory!',
+            message: message,
             timestamp: Date.now()
         });
     };
@@ -136,8 +209,10 @@ function CraftingWindow({ isOpen, onClose }) {
                         <div className="crafting-header-title">
                             {selectedProfession ? (
                                 (() => {
-                                    const profession = PROFESSIONS[selectedProfession];
-                                    const professionLevel = getProfessionLevel(selectedProfession);
+                                    const profession = Object.values(PROFESSIONS).find(p => p.id === selectedProfession);
+                                    const professionLevel = (typeof getProfessionLevel === 'function') 
+                                        ? getProfessionLevel(selectedProfession) 
+                                        : (professionLevels?.[selectedProfession] ?? SKILL_LEVELS.UNTRAINED.level);
                                     const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === professionLevel);
                                     const skillName = skillLevelInfo?.name || 'Untrained';
                                     return `${profession?.name || 'Profession'} (${skillName})`;
@@ -152,7 +227,7 @@ function CraftingWindow({ isOpen, onClose }) {
                             <button
                                 className="wow-button crafting-action-button"
                                 onClick={handleAddTestMaterials}
-                                title="Add test potion crafting materials to inventory"
+                                title={`Add test ${Object.values(PROFESSIONS).find(p => p.id === selectedProfession)?.name?.toLowerCase() || 'crafting'} materials to inventory`}
                             >
                                 Add Test Materials
                             </button>

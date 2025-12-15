@@ -6,7 +6,7 @@ import useChatStore from '../../store/chatStore';
 import ItemTooltip from '../item-generation/ItemTooltip';
 import TooltipPortal from '../tooltips/TooltipPortal';
 
-function AlchemyInterface({ onBack, activeTab, onTabChange }) {
+function FirstAidInterface({ onBack, activeTab, onTabChange }) {
     const [hoveredRecipe, setHoveredRecipe] = useState(null);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoveredMaterial, setHoveredMaterial] = useState(null);
@@ -44,38 +44,38 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     const { addLootNotification } = useChatStore();
 
     // Subscribe directly to store values to ensure re-renders when they change
-    const alchemyLevel = professionLevels?.['alchemy'] ?? SKILL_LEVELS.UNTRAINED.level;
-    const alchemyExperience = professionExperience?.['alchemy'] ?? 0;
+    const firstAidLevel = professionLevels?.['first-aid'] ?? SKILL_LEVELS.UNTRAINED.level;
+    const firstAidExperience = professionExperience?.['first-aid'] ?? 0;
     
     // Calculate experience for next level
     const experienceForNextLevel = (() => {
-        if (alchemyLevel >= 9) return null; // Max level reached
-        const nextLevel = alchemyLevel + 1;
+        if (firstAidLevel >= 9) return null; // Max level reached
+        const nextLevel = firstAidLevel + 1;
         const skillLevel = Object.values(SKILL_LEVELS).find(level => level.level === nextLevel);
         return skillLevel ? skillLevel.experienceRequired : null;
     })();
-    const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === alchemyLevel);
+    const skillLevelInfo = Object.values(SKILL_LEVELS).find(skill => skill.level === firstAidLevel);
     // Subscribe to knownRecipes directly to trigger re-renders when it changes
     const knownRecipes = (typeof getKnownRecipesForProfession === 'function')
-        ? getKnownRecipesForProfession('alchemy')
+        ? getKnownRecipesForProfession('first-aid')
         : (() => {
-            const knownIds = storeKnownRecipes?.['alchemy'] || [];
+            const knownIds = storeKnownRecipes?.['first-aid'] || [];
             return (availableRecipes || []).filter(recipe => 
-                recipe.profession === 'alchemy' && knownIds.includes(recipe.id)
+                recipe.profession === 'first-aid' && knownIds.includes(recipe.id)
             );
         })();
-    const allAlchemyRecipes = (typeof getRecipesForProfession === 'function')
-        ? getRecipesForProfession('alchemy')
-        : ((availableRecipes || []).filter(recipe => recipe.profession === 'alchemy'));
+    const allFirstAidRecipes = (typeof getRecipesForProfession === 'function')
+        ? getRecipesForProfession('first-aid')
+        : ((availableRecipes || []).filter(recipe => recipe.profession === 'first-aid'));
     
     // Access knownRecipes from store to create subscription
-    const alchemyKnownRecipes = storeKnownRecipes?.['alchemy'] || [];
+    const firstAidKnownRecipes = storeKnownRecipes?.['first-aid'] || [];
     
     // Force re-render when knownRecipes changes
     useEffect(() => {
         // This ensures the component re-renders when knownRecipes changes
-        console.log('AlchemyInterface: knownRecipes updated', alchemyKnownRecipes);
-    }, [alchemyKnownRecipes]);
+        console.log('FirstAidInterface: knownRecipes updated', firstAidKnownRecipes);
+    }, [firstAidKnownRecipes]);
 
 
     // Removed excessive logging that was firing on every render
@@ -101,7 +101,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     // Automatically start crafting when items are queued
     useEffect(() => {
         // Only start if we have queued items AND no current crafting is happening
-        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
+        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
         if (queuedItems.length > 0 && !currentCraftingItem && !craftingTimer) {
             // Add a small delay to prevent rapid-fire starts
             const timeoutId = setTimeout(() => {
@@ -126,16 +126,15 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
 
     // Calculate skill progress for the bar
     const getSkillProgress = () => {
-        if (alchemyLevel >= 9) return 100; // Max level
+        if (firstAidLevel >= 9) return 100; // Max level
 
-        const currentLevelExp = alchemyLevel === 0 ? 0 : Object.values(SKILL_LEVELS).find(level => level.level === alchemyLevel)?.experienceRequired || 0;
+        const currentLevelExp = firstAidLevel === 0 ? 0 : Object.values(SKILL_LEVELS).find(level => level.level === firstAidLevel)?.experienceRequired || 0;
         const nextLevelExp = experienceForNextLevel || currentLevelExp + 100;
-        const currentExpInLevel = alchemyExperience - currentLevelExp;
+        const currentExpInLevel = firstAidExperience - currentLevelExp;
         const expNeededForLevel = nextLevelExp - currentLevelExp;
 
         return Math.min(100, Math.max(0, (currentExpInLevel / expNeededForLevel) * 100));
     };
-
 
 
 
@@ -152,7 +151,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
 
     const canCraftRecipe = (recipe) => {
         // Check skill level requirement
-        if (alchemyLevel < recipe.requiredLevel) {
+        if (firstAidLevel < recipe.requiredLevel) {
             return { canCraft: false, reason: 'Insufficient skill level' };
         }
 
@@ -271,7 +270,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     const startNextItem = () => {
         if (currentCraftingItem) return; // Already crafting
 
-        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
+        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
         if (queuedItems.length === 0) return; // Nothing to craft
 
         const item = queuedItems[0];
@@ -351,12 +350,12 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         const xpGained = recipe.experienceGained || 1;
         let experienceResult = null;
         if (typeof gainExperience === 'function') {
-            experienceResult = gainExperience('alchemy', xpGained);
+            experienceResult = gainExperience('first-aid', xpGained);
         } else {
             // Fallback: manually calculate experience and level up
             const store = useCraftingStore.getState();
-            const currentLevel = store.professionLevels?.['alchemy'] ?? SKILL_LEVELS.UNTRAINED.level;
-            const currentExperience = store.professionExperience?.['alchemy'] ?? 0;
+            const currentLevel = store.professionLevels?.['first-aid'] ?? SKILL_LEVELS.UNTRAINED.level;
+            const currentExperience = store.professionExperience?.['first-aid'] ?? 0;
             
             if (currentLevel >= 9) {
                 experienceResult = { newLevel: currentLevel, leveledUp: false };
@@ -374,11 +373,11 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                 useCraftingStore.setState(state => ({
                     professionExperience: {
                         ...state.professionExperience,
-                        'alchemy': newExperience
+                        'first-aid': newExperience
                     },
                     professionLevels: {
                         ...state.professionLevels,
-                        'alchemy': newLevel
+                        'first-aid': newLevel
                     }
                 }));
                 
@@ -389,14 +388,14 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
         if (experienceResult && experienceResult.leveledUp) {
             addLootNotification({
                 type: 'skill_increase',
-                message: `Alchemy skill increased to ${Object.values(SKILL_LEVELS).find(s => s.level === experienceResult.newLevel)?.name}!`,
+                message: `First Aid skill increased to ${Object.values(SKILL_LEVELS).find(s => s.level === experienceResult.newLevel)?.name}!`,
                 timestamp: Date.now()
             });
         } else {
             // Show experience gained notification
             addLootNotification({
                 type: 'experience_gained',
-                message: `Gained ${xpGained} Alchemy experience.`,
+                message: `Gained ${xpGained} First Aid experience.`,
                 timestamp: Date.now()
             });
         }
@@ -491,10 +490,10 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                 <div className="active-crafting-compact">
                                     <div className="crafting-progress-icon">
                                         <img
-                                            src={`https://wow.zamimg.com/images/wow/icons/large/${activeItem?.recipe.resultIcon || 'inv_potion_51'}.jpg`}
+                                            src={`https://wow.zamimg.com/images/wow/icons/large/${activeItem?.recipe.resultIcon || 'inv_misc_bandage_01'}.jpg`}
                                             alt={activeItem?.recipe.name || 'No Active Crafting'}
                                             onError={(e) => {
-                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg';
+                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_01.jpg';
                                             }}
                                         />
                                     </div>
@@ -526,7 +525,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                                         style={{
                                                             width: `${progressValue}%`,
                                                             background: activeItem ?
-                                                                `linear-gradient(90deg, ${getSkillLevelColor(alchemyLevel)}, ${getSkillLevelColor(Math.min(9, alchemyLevel + 1))})` :
+                                                                `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})` :
                                                                 '#666'
                                                         }}
                                                     ></div>
@@ -541,16 +540,16 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
 
                     {/* Crafting Queue Icons */}
                     {(() => {
-                        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
+                        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
                         return queuedItems.length > 0 ? (
                             <div className="tabs-queue-icons">
                                 {queuedItems.slice(0, 3).map((queuedItem, index) => (
                                     <div key={queuedItem.id || index} className="queue-icon" title={queuedItem.recipe.name}>
                                         <img
-                                            src={`https://wow.zamimg.com/images/wow/icons/large/${queuedItem.recipe.resultIcon || 'inv_potion_51'}.jpg`}
+                                            src={`https://wow.zamimg.com/images/wow/icons/large/${queuedItem.recipe.resultIcon || 'inv_misc_bandage_01'}.jpg`}
                                             alt={queuedItem.recipe.name}
                                             onError={(e) => {
-                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg';
+                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_01.jpg';
                                             }}
                                         />
                                         <div className="queue-position">{index + 1}</div>
@@ -574,22 +573,22 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                     className="skill-progress-fill"
                                     style={{
                                         width: `${getSkillProgress()}%`,
-                                        background: `linear-gradient(90deg, ${getSkillLevelColor(alchemyLevel)}, ${getSkillLevelColor(Math.min(9, alchemyLevel + 1))})`
+                                        background: `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})`
                                     }}
                                 ></div>
                                 <div className="skill-progress-text">
-                                    {alchemyLevel >= 9 ? (
-                                        <span className="skill-maxed">Master Alchemist</span>
+                                    {firstAidLevel >= 9 ? (
+                                        <span className="skill-maxed">Master Medic</span>
                                     ) : experienceForNextLevel !== null && experienceForNextLevel !== undefined ? (
                                         <>
-                                            <span className="skill-exp-current">{alchemyExperience}</span>
+                                            <span className="skill-exp-current">{firstAidExperience}</span>
                                             <span className="skill-exp-separator"> / </span>
                                             <span className="skill-exp-required">{experienceForNextLevel}</span>
                                             <span className="skill-exp-label"> XP</span>
                                         </>
                                     ) : (
                                         <>
-                                            <span className="skill-exp-current">{alchemyExperience}</span>
+                                            <span className="skill-exp-current">{firstAidExperience}</span>
                                             <span className="skill-exp-label"> XP</span>
                                         </>
                                     )}
@@ -604,13 +603,13 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                 <div className="no-recipes">
                     <div className="no-recipes-icon">
                         <img 
-                            src="https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg"
+                            src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_01.jpg"
                             alt="No Recipes"
                         />
                     </div>
                     <h3>No Recipes Known</h3>
-                    <p>You haven't learned any alchemy recipes yet.</p>
-                    <p>Find recipe scrolls or learn from other alchemists to expand your knowledge.</p>
+                    <p>You haven't learned any first aid recipes yet.</p>
+                    <p>Find recipe scrolls or learn from other medics to expand your knowledge.</p>
                 </div>
             ) : (
                 <div className="recipes-icon-grid">
@@ -633,10 +632,10 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                     return (
                                         <div className={`recipe-icon-frame ${craftCheck.canCraft ? 'craftable' : 'not-craftable'}`}>
                                             <img
-                                                src={`https://wow.zamimg.com/images/wow/icons/large/${resultItem?.iconId || recipe.resultIcon || 'inv_potion_51'}.jpg`}
+                                                src={`https://wow.zamimg.com/images/wow/icons/large/${resultItem?.iconId || recipe.resultIcon || 'inv_misc_bandage_01'}.jpg`}
                                                 alt={recipe.name}
                                                 onError={(e) => {
-                                                    e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg';
+                                                    e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_01.jpg';
                                                 }}
                                             />
                                             {!craftCheck.canCraft && (
@@ -683,10 +682,10 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                             onMouseLeave={handleItemMouseLeave}
                         >
                             <img
-                                src={`https://wow.zamimg.com/images/wow/icons/large/${resultItem?.iconId || selectedRecipe.resultIcon || 'inv_potion_51'}.jpg`}
+                                src={`https://wow.zamimg.com/images/wow/icons/large/${resultItem?.iconId || selectedRecipe.resultIcon || 'inv_misc_bandage_01'}.jpg`}
                                 alt={selectedRecipe.name}
                                 onError={(e) => {
-                                    e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg';
+                                    e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_01.jpg';
                                 }}
                             />
                         </div>
@@ -712,9 +711,9 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                             <div className="requirement-item">
                                 <span className="requirement-label">Your Skill:</span>
                                 <span className="requirement-value" style={{
-                                    color: alchemyLevel >= selectedRecipe.requiredLevel ? '#4caf50' : '#f44336'
+                                    color: firstAidLevel >= selectedRecipe.requiredLevel ? '#4caf50' : '#f44336'
                                 }}>
-                                    {Object.values(SKILL_LEVELS).find(s => s.level === alchemyLevel)?.name || 'Untrained'}
+                                    {Object.values(SKILL_LEVELS).find(s => s.level === firstAidLevel)?.name || 'Untrained'}
                                 </span>
                             </div>
                                     <div className="requirement-item">
@@ -781,7 +780,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                             {selectedRecipe.experienceGained && (
                                 <div className="crafting-xp">
                                     <span className="xp-label">Experience Gained:</span>
-                                    <span className="xp-value">+{selectedRecipe.experienceGained} Alchemy</span>
+                                    <span className="xp-value">+{selectedRecipe.experienceGained} First Aid</span>
                                 </div>
                             )}
                         </div>
@@ -811,7 +810,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     };
 
     const renderQueue = () => {
-        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'alchemy');
+        const queuedItems = craftingQueue.filter(item => item.status === 'queued' && item.recipe?.profession === 'first-aid');
 
         return (
             <div className="queue-content">
@@ -846,10 +845,10 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                         <div className="queue-item-info">
                                             <div className="queue-item-icon">
                                                 <img
-                                                    src={`https://wow.zamimg.com/images/wow/icons/large/${craftingItem.recipe.resultIcon || 'inv_potion_51'}.jpg`}
+                                                    src={`https://wow.zamimg.com/images/wow/icons/large/${craftingItem.recipe.resultIcon || 'inv_misc_bandage_01'}.jpg`}
                                                     alt={craftingItem.recipe.name}
                                                     onError={(e) => {
-                                                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_potion_51.jpg';
+                                                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_01.jpg';
                                                     }}
                                                 />
                                             </div>
@@ -864,7 +863,7 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
                                             className="queue-progress-fill"
                                             style={{
                                                 width: `${progress}%`,
-                                                background: `linear-gradient(90deg, ${getSkillLevelColor(alchemyLevel)}, ${getSkillLevelColor(Math.min(9, alchemyLevel + 1))})`
+                                                background: `linear-gradient(90deg, ${getSkillLevelColor(firstAidLevel)}, ${getSkillLevelColor(Math.min(9, firstAidLevel + 1))})`
                                             }}
                                         ></div>
                                     </div>
@@ -935,4 +934,5 @@ function AlchemyInterface({ onBack, activeTab, onTabChange }) {
     );
 }
 
-export default AlchemyInterface;
+export default FirstAidInterface;
+

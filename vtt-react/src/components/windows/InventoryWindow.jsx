@@ -402,7 +402,22 @@ const InventoryWindow = memo(() => {
             // Handle recipe scrolls
             if (item.type === 'recipe' && item.recipeId) {
                 // Learn the recipe
-                learnRecipe(item.requiredProfession || 'alchemy', item.recipeId);
+                if (typeof learnRecipe === 'function') {
+                    learnRecipe(item.requiredProfession || 'alchemy', item.recipeId);
+                } else {
+                    // Fallback: directly update the store
+                    const store = useCraftingStore.getState();
+                    const professionId = item.requiredProfession || 'alchemy';
+                    const currentRecipes = store.knownRecipes?.[professionId] || [];
+                    if (!currentRecipes.includes(item.recipeId)) {
+                        useCraftingStore.setState(state => ({
+                            knownRecipes: {
+                                ...state.knownRecipes,
+                                [professionId]: [...currentRecipes, item.recipeId]
+                            }
+                        }));
+                    }
+                }
 
                 // Remove the recipe scroll from inventory
                 removeItem(item.id, 1);
