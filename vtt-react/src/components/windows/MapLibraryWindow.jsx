@@ -1,14 +1,17 @@
 import React, { useState, useRef } from 'react';
+import { FaImage, FaCopy, FaTrash, FaExchangeAlt } from 'react-icons/fa';
 import WowWindow from './WowWindow';
 import useMapStore from '../../store/mapStore';
 import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
+import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
 import './styles/MapLibraryWindow.css';
 
 const MapLibraryWindow = ({ isOpen, onClose }) => {
     const [selectedMapId, setSelectedMapId] = useState(null);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [pendingMapDelete, setPendingMapDelete] = useState(null);
     const [showSwitchConfirm, setShowSwitchConfirm] = useState(false);
     const [pendingMapSwitch, setPendingMapSwitch] = useState(null);
     const [showBackgroundAssignment, setShowBackgroundAssignment] = useState(null);
@@ -294,10 +297,21 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         }
 
         const mapToDelete = maps.find(m => m.id === mapId);
-        if (window.confirm(`Are you sure you want to delete "${mapToDelete?.name}"? This action cannot be undone.`)) {
-            deleteMap(mapId);
-            setShowDeleteConfirm(null);
+        setPendingMapDelete(mapToDelete);
+        setShowDeleteConfirm(true);
+    };
+
+    const confirmDeleteMap = () => {
+        if (pendingMapDelete) {
+            deleteMap(pendingMapDelete.id);
+            setPendingMapDelete(null);
+            setShowDeleteConfirm(false);
         }
+    };
+
+    const cancelDeleteMap = () => {
+        setPendingMapDelete(null);
+        setShowDeleteConfirm(false);
     };
 
     // Handle map switch confirmation
@@ -457,21 +471,21 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 onClose={onClose}
                 defaultSize={{ width: 900, height: 700 }}
                 defaultPosition={{ x: 100, y: 100 }}
+                centerTitle={true}
             >
                 <div className="map-library-window">
-                    {/* Header with Create New Map button */}
-                    <div className="map-library-header">
-                        <h2>Map Library</h2>
-                        <button
-                            className="create-map-button"
+                    {/* Map Grid with Create Button */}
+                    <div className="map-grid">
+                        {/* Create New Map card at the top of the grid */}
+                        <div
+                            className="create-map-container"
                             onClick={openMapCreationWizard}
                         >
-                            + Create New Map
-                        </button>
-                    </div>
-
-                    {/* Map Grid */}
-                    <div className="map-grid">
+                            <div className="create-map-content">
+                                <div className="create-map-icon">+</div>
+                                <div className="create-map-text">Create New Map</div>
+                            </div>
+                        </div>
                             {maps.map(map => (
                             <div
                                 key={map.id}
@@ -481,10 +495,6 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                             >
                                 {/* Map thumbnail */}
                                 <div className="map-thumbnail">
-                                    {/* Current indicator tag at top-right */}
-                                    {map.id === currentMapId && (
-                                        <span className="current-tag">Current</span>
-                                    )}
 
                                     {map.backgrounds && map.backgrounds.length > 0 ? (
                                         <img
@@ -534,6 +544,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                         }}
                                         disabled={map.id === currentMapId}
                                     >
+                                        <FaExchangeAlt style={{ marginRight: '4px' }} />
                                         {map.id === currentMapId ? 'Active' : 'Switch'}
                                     </button>
                                     <button
@@ -554,6 +565,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                         }}
                                         title="Assign Background"
                                     >
+                                        <FaImage style={{ marginRight: '4px' }} />
                                         Image
                                     </button>
                                     <button
@@ -563,6 +575,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                             duplicateMap(map.id);
                                         }}
                                     >
+                                        <FaCopy style={{ marginRight: '4px' }} />
                                         Copy
                                     </button>
                                     <button
@@ -573,6 +586,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                         }}
                                         disabled={maps.length <= 1}
                                     >
+                                        <FaTrash style={{ marginRight: '4px' }} />
                                         Delete
                                     </button>
                                 </div>
@@ -667,6 +681,15 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 onConfirm={handleConfirmSwitch}
                 onStay={handleStayOnCurrentMap}
                 newMapName={pendingMapSwitch?.newMapName || ''}
+                position={{ x: 450, y: 250 }}
+            />
+
+            {/* Map Delete Confirmation Dialog */}
+            <MapDeleteConfirmDialog
+                isOpen={showDeleteConfirm}
+                onClose={cancelDeleteMap}
+                onConfirm={confirmDeleteMap}
+                mapName={pendingMapDelete?.name || ''}
                 position={{ x: 450, y: 250 }}
             />
 

@@ -36,6 +36,10 @@ class LocalRoomService {
       localStorage.setItem(LOCAL_ROOMS_KEY, JSON.stringify(this.rooms));
     } catch (error) {
       console.error('Error saving local rooms:', error);
+      if (error.name === 'QuotaExceededError') {
+        throw new Error('Storage quota exceeded. Please clear some browser data or delete unused rooms.');
+      }
+      throw error;
     }
   }
 
@@ -76,16 +80,42 @@ class LocalRoomService {
       }
     };
 
+    // Add room to array first (before any save operations)
     this.rooms.push(room);
-    this.saveRooms();
-    this.saveRoomState(roomId, room.gameState);
+    
+    try {
+      // Save operations - these will throw if they fail
+      this.saveRooms();
+      this.saveRoomState(roomId, room.gameState);
 
-    // Associate room with campaign
-    if (campaignId) {
-      campaignService.addRoomToCampaign(campaignId, roomId);
+      // Associate room with campaign (may also throw if save fails)
+      if (campaignId) {
+        try {
+          campaignService.addRoomToCampaign(campaignId, roomId);
+        } catch (campaignError) {
+          // If campaign association fails, remove the room from array and re-throw
+          this.rooms = this.rooms.filter(r => r.id !== roomId);
+          try {
+            this.saveRooms();
+          } catch (cleanupError) {
+            console.error('Error during cleanup after failed campaign association:', cleanupError);
+          }
+          throw campaignError;
+        }
+      }
+
+      return room;
+    } catch (error) {
+      // If any part of creation fails, remove the room from array
+      this.rooms = this.rooms.filter(r => r.id !== roomId);
+      // Try to save the cleaned state, but don't fail if this also fails
+      try {
+        this.saveRooms();
+      } catch (cleanupError) {
+        console.error('Error during cleanup after failed room creation:', cleanupError);
+      }
+      throw error;
     }
-
-    return room;
   }
 
   /**
@@ -187,6 +217,10 @@ class LocalRoomService {
 
     } catch (error) {
       console.error('Error saving room state:', error);
+      if (error.name === 'QuotaExceededError') {
+        throw new Error('Storage quota exceeded. Please clear some browser data or delete unused rooms.');
+      }
+      throw error;
     }
   }
 

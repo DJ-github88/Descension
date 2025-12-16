@@ -188,6 +188,10 @@ class CampaignService {
   addRoomToCampaign(campaignId, roomId) {
     const campaign = this.getCampaign(campaignId);
     if (campaign) {
+      // Ensure rooms array exists
+      if (!campaign.rooms || !Array.isArray(campaign.rooms)) {
+        campaign.rooms = [];
+      }
       if (!campaign.rooms.includes(roomId)) {
         campaign.rooms.push(roomId);
         campaign.lastModified = new Date().toISOString();
@@ -202,9 +206,14 @@ class CampaignService {
   removeRoomFromCampaign(campaignId, roomId) {
     const campaign = this.getCampaign(campaignId);
     if (campaign) {
-      campaign.rooms = campaign.rooms.filter(id => id !== roomId);
-      campaign.lastModified = new Date().toISOString();
-      this.saveCampaigns();
+      // Ensure rooms array exists
+      if (!campaign.rooms || !Array.isArray(campaign.rooms)) {
+        campaign.rooms = [];
+      } else {
+        campaign.rooms = campaign.rooms.filter(id => id !== roomId);
+        campaign.lastModified = new Date().toISOString();
+        this.saveCampaigns();
+      }
     }
   }
 }

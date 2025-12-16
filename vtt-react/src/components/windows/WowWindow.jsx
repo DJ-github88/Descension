@@ -28,7 +28,8 @@ const WowWindow = forwardRef(({
     resizable = true,
     minConstraints = [300, 400],
     maxConstraints = [1200, 1000],
-    modal = false
+    modal = false,
+    centerTitle = false
 }, ref) => {
     // Safety check for required props
     if (!isOpen) {
@@ -309,49 +310,66 @@ const WowWindow = forwardRef(({
                                     </div>
                                 </>
                             ) : (
-                                <>
-                                    <div className="window-title">{safeTitle}</div>
+                                <div className="window-header-content">
+                                    {centerTitle ? (
+                                        <>
+                                            <button
+                                                className="window-close"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (onClose) onClose();
+                                                }}
+                                            >
+                                                ×
+                                            </button>
+                                            <div className="window-title centered">{safeTitle}</div>
+                                            <div className="header-spacer"></div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="window-title">{safeTitle}</div>
 
-                                    {/* Header tabs */}
-                                    {headerTabs.length > 0 && (
-                                        <div className="window-header-tabs">
-                                            {headerTabs.map((tab) => (
-                                                <button
-                                                    key={tab.id}
-                                                    className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        if (onTabChange) onTabChange(tab.id);
-                                                    }}
-                                                    title={tab.tooltip || tab.name}
-                                                >
-                                                    {tab.icon && (
-                                                        <img
-                                                            src={tab.icon}
-                                                            alt={tab.name}
-                                                            className="tab-icon-img"
-                                                            onError={(e) => {
-                                                                e.target.onerror = null;
-                                                                e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                            {/* Header tabs */}
+                                            {headerTabs.length > 0 && (
+                                                <div className="window-header-tabs">
+                                                    {headerTabs.map((tab) => (
+                                                        <button
+                                                            key={tab.id}
+                                                            className={`window-header-tab ${activeTab === tab.id ? 'active' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                if (onTabChange) onTabChange(tab.id);
                                                             }}
-                                                        />
-                                                    )}
-                                                    {tab.label && <span>{tab.label}</span>}
-                                                </button>
-                                            ))}
-                                        </div>
+                                                            title={tab.tooltip || tab.name}
+                                                        >
+                                                            {tab.icon && (
+                                                                <img
+                                                                    src={tab.icon}
+                                                                    alt={tab.name}
+                                                                    className="tab-icon-img"
+                                                                    onError={(e) => {
+                                                                        e.target.onerror = null;
+                                                                        e.target.src = 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg';
+                                                                    }}
+                                                                />
+                                                            )}
+                                                            {tab.label && <span>{tab.label}</span>}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            <button
+                                                className="window-close"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (onClose) onClose();
+                                                }}
+                                            >
+                                                ×
+                                            </button>
+                                        </>
                                     )}
-                                    <button
-                                        className="window-close"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (onClose) onClose();
-                                        }}
-                                        style={{ position: 'absolute', right: '0', top: '50%', transform: 'translateY(-50%)' }}
-                                    >
-                                        ×
-                                    </button>
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>

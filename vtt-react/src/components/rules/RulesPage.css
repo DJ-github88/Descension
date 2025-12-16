@@ -1375,6 +1375,15 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
     min-height: 48px;
     margin: 0;
     border-radius: 8px;
+    /* Ensure background is explicitly set to prevent green coloring */
+    background: linear-gradient(145deg, #f5ead6 0%, #e8dcc4 100%) !important;
+    /* Ensure border is explicitly set to prevent green coloring */
+    border-color: #b89870 !important;
+  }
+
+  /* Hide the ::after indicator bar on mobile - it doesn't make sense in horizontal layout */
+  .rules-sidebar.collapsed .rules-nav-category-btn::after {
+    display: none !important;
   }
 
   .rules-main {
@@ -1580,7 +1589,23 @@ div.rules-content-area .class-detail-display .class-detail-content::-webkit-scro
 
   .rules-nav-category-btn:hover {
     transform: none;
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(212, 175, 55, 0.1) !important;
+  }
+
+  /* Ensure active category doesn't show green on mobile */
+  .rules-sidebar.collapsed .rules-nav-category-btn.active-category {
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.15) 0%, rgba(196, 163, 115, 0.1) 100%) !important;
+    border-color: #d4af37 !important;
+  }
+
+  .rules-sidebar.collapsed .rules-nav-category-btn.active-category::after {
+    display: none !important;
+  }
+
+  /* Ensure hover state doesn't show green on mobile */
+  .rules-sidebar.collapsed .rules-nav-category-btn:hover {
+    background: linear-gradient(145deg, #fff8ec 0%, #f5ead6 100%) !important;
+    border-color: #c4a060 !important;
   }
 
   .rules-nav-icon {

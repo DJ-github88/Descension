@@ -9,6 +9,8 @@ import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
 import usePresenceStore from '../../store/presenceStore';
 import RoomCard from '../common/RoomCard';
+import ConfirmationDialog from '../item-generation/ConfirmationDialog';
+import RoomToast from './RoomToast';
 import './styles/RoomManager.css';
 
 const RoomManager = () => {
@@ -30,10 +32,21 @@ const RoomManager = () => {
   const [error, setError] = useState('');
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [localRoomToDelete, setLocalRoomToDelete] = useState(null);
+  const [showLocalDeleteConfirm, setShowLocalDeleteConfirm] = useState(false);
   const [roomStatuses, setRoomStatuses] = useState(new Map());
-  const [refreshMessage, setRefreshMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState('success');
   const [showCreateLocalRoom, setShowCreateLocalRoom] = useState(false);
   const [newLocalRoomName, setNewLocalRoomName] = useState('');
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+
+  // Helper function to show toast notifications
+  const showToast = (message, type = 'success', duration = 4000) => {
+    setToastMessage(message);
+    setToastType(type);
+    setTimeout(() => setToastMessage(null), duration);
+  };
 
   useEffect(() => {
     loadRoomData();
@@ -94,14 +107,11 @@ const RoomManager = () => {
 
         if (lastJoinedRoom) {
           localStorage.removeItem('lastJoinedRoom');
-          setRefreshMessage(`🎮 Welcome back! Room data refreshed after joining a room.`);
+          showToast(`Welcome back! Room data refreshed after joining a room.`, 'info', 5000);
         } else if (lastCreatedRoom) {
           localStorage.removeItem('lastCreatedRoom');
-          setRefreshMessage(`🎉 Room created successfully! Your new room should appear below.`);
+          showToast(`Room created successfully! Your new room should appear below.`, 'success', 5000);
         }
-
-        // Clear message after 5 seconds
-        setTimeout(() => setRefreshMessage(''), 5000);
 
         loadRoomData();
       }
@@ -165,24 +175,69 @@ const RoomManager = () => {
     }
   };
 
-  // Check status for all rooms
+  // Check status for all rooms (user rooms + friends' rooms)
   const checkAllRoomStatuses = async () => {
+    setIsCheckingStatus(true);
     const statusMap = new Map();
 
-    for (const room of rooms) {
-      const status = await checkRoomStatus(room.id);
-      statusMap.set(room.id, status);
-    }
+    try {
+      // Check user's own rooms
+      for (const room of rooms) {
+        const status = await checkRoomStatus(room.id);
+        statusMap.set(room.id, status);
+      }
 
-    setRoomStatuses(statusMap);
+      // Check friends' rooms
+      for (const room of friendsRooms) {
+        const status = await checkRoomStatus(room.id);
+        statusMap.set(room.id, status);
+      }
+
+      setRoomStatuses(statusMap);
+      
+      // Show feedback
+      const totalChecked = rooms.length + friendsRooms.length;
+      if (totalChecked > 0) {
+        const liveCount = Array.from(statusMap.values()).filter(s => s === 'live').length;
+        showToast(`Checked ${totalChecked} room${totalChecked === 1 ? '' : 's'}: ${liveCount} live`, 'success', 3000);
+      } else {
+        showToast('No rooms to check', 'info', 2000);
+      }
+    } catch (error) {
+      console.error('Error checking room statuses:', error);
+      showToast('Failed to check room statuses', 'error', 3000);
+    } finally {
+      setIsCheckingStatus(false);
+    }
   };
 
-  // Check room statuses when rooms change
+  // Check room statuses when rooms or friendsRooms change (auto-check on load)
   useEffect(() => {
-    if (rooms.length > 0) {
-      checkAllRoomStatuses();
+    if (rooms.length > 0 || friendsRooms.length > 0) {
+      // Auto-check status on load, but don't show loading state
+      const autoCheck = async () => {
+        const statusMap = new Map();
+        
+        for (const room of rooms) {
+          const status = await checkRoomStatus(room.id);
+          statusMap.set(room.id, status);
+        }
+        
+        for (const room of friendsRooms) {
+          const status = await checkRoomStatus(room.id);
+          statusMap.set(room.id, status);
+        }
+        
+        setRoomStatuses(statusMap);
+      };
+      
+      autoCheck();
+    } else {
+      // Clear statuses if no rooms
+      setRoomStatuses(new Map());
     }
-  }, [rooms]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rooms.length, friendsRooms.length]); // Only depend on lengths to avoid infinite loops
 
   // Load local rooms from localStorage
   const loadLocalRooms = () => {
@@ -198,6 +253,12 @@ const RoomManager = () => {
   const handleCreateLocalRoom = () => {
     if (!newLocalRoomName.trim()) {
       alert('Please enter a room name');
+      return;
+    }
+
+    // Check room limits before creating
+    if (roomLimits && localRooms.length >= roomLimits.limit && roomLimits.limit > 0) {
+      alert(`Room limit reached. You can only create ${roomLimits.limit} local room${roomLimits.limit === 1 ? '' : 's'}.`);
       return;
     }
 
@@ -224,11 +285,15 @@ const RoomManager = () => {
 
       setNewLocalRoomName('');
       setShowCreateLocalRoom(false);
-      setRefreshMessage(`✅ Local room "${newRoom.name}" created`);
-      setTimeout(() => setRefreshMessage(''), 3000);
+      showToast(`Local room "${newRoom.name}" created`, 'success', 4000);
     } catch (error) {
       console.error('Error creating local room:', error);
-      alert('Failed to create local room');
+      const errorMessage = error.message || 'Failed to create local room';
+      if (errorMessage.includes('quota') || errorMessage.includes('QuotaExceeded')) {
+        alert('Storage quota exceeded. Please clear some browser data or delete unused rooms.');
+      } else {
+        alert(`Failed to create local room: ${errorMessage}`);
+      }
     }
   };
 
@@ -252,26 +317,35 @@ const RoomManager = () => {
 
   // Delete a local room
   const handleDeleteLocalRoom = (roomId) => {
-    if (confirm('Are you sure you want to delete this local room? This action cannot be undone.')) {
-      try {
-        localRoomService.deleteLocalRoom(roomId);
-        loadLocalRooms(); // Refresh the list
+    setLocalRoomToDelete(roomId);
+    setShowLocalDeleteConfirm(true);
+  };
 
-        // Refresh room limits to update the counter
-        if (user) {
-          getRoomLimits(user.uid).then(limits => {
-            setRoomLimits(limits);
-          }).catch(err => {
-            console.error('Error updating room limits:', err);
-          });
-        }
+  const confirmDeleteLocalRoom = () => {
+    if (!localRoomToDelete) return;
 
-        setRefreshMessage('🗑️ Local room deleted');
-        setTimeout(() => setRefreshMessage(''), 3000);
-      } catch (error) {
-        console.error('Error deleting local room:', error);
-        alert('Failed to delete local room');
+    try {
+      localRoomService.deleteLocalRoom(localRoomToDelete);
+      loadLocalRooms(); // Refresh the list
+
+      // Refresh room limits to update the counter
+      if (user) {
+        getRoomLimits(user.uid).then(limits => {
+          setRoomLimits(limits);
+        }).catch(err => {
+          console.error('Error updating room limits:', err);
+        });
       }
+
+      showToast('Local room deleted', 'success', 3000);
+      
+      setShowLocalDeleteConfirm(false);
+      setLocalRoomToDelete(null);
+    } catch (error) {
+      console.error('Error deleting local room:', error);
+      alert('Failed to delete local room');
+      setShowLocalDeleteConfirm(false);
+      setLocalRoomToDelete(null);
     }
   };
 
@@ -280,10 +354,9 @@ const RoomManager = () => {
     try {
       localRoomService.updateLocalRoom(roomId, updates);
       loadLocalRooms(); // Refresh the list
-      setRefreshMessage('✅ Local room updated');
-      setTimeout(() => setRefreshMessage(''), 3000);
+      showToast('Local room updated', 'success', 3000);
     } catch (error) {
-      console.error('❌ Error updating local room:', error);
+      console.error('Error updating local room:', error);
       if (error.message && error.message.includes('quota')) {
         alert('Storage quota exceeded. The image is too large. Please try a smaller image.');
       } else {
@@ -326,10 +399,9 @@ const RoomManager = () => {
         )
       );
 
-      setRefreshMessage('✅ Room updated');
-      setTimeout(() => setRefreshMessage(''), 3000);
+      showToast('Room updated', 'success', 3000);
     } catch (error) {
-      console.error('❌ Error updating multiplayer room:', error);
+      console.error('Error updating multiplayer room:', error);
       throw error; // Re-throw so RoomCard can handle it
     }
   };
@@ -465,21 +537,17 @@ const RoomManager = () => {
       setRooms(userRooms);
       setRoomLimits(limits);
 
-      // Show success message
+      // Show success message only if rooms found
       const roomCount = userRooms.length;
       if (roomCount > 0) {
-        setRefreshMessage(`✅ Loaded ${roomCount} room${roomCount === 1 ? '' : 's'}`);
-      } else {
-        setRefreshMessage('📝 No campaign rooms found');
+        showToast(`Loaded ${roomCount} room${roomCount === 1 ? '' : 's'}`, 'success', 3000);
       }
-
-      // Clear message after 3 seconds
-      setTimeout(() => setRefreshMessage(''), 3000);
+      // Don't show "No rooms found" message - let the empty state handle it
 
     } catch (err) {
       console.error('Error loading room data:', err);
       setError('Failed to load room data from Firebase. Showing test room only.');
-      setRefreshMessage('❌ Failed to load rooms from Firebase');
+      showToast('Failed to load rooms from Firebase', 'error', 5000);
 
       // Even if Firebase fails, keep the existing test room (don't overwrite)
       setRoomLimits({
@@ -490,7 +558,6 @@ const RoomManager = () => {
       });
 
       // Clear error message after 5 seconds
-      setTimeout(() => setRefreshMessage(''), 5000);
     } finally {
       setIsLoading(false);
     }
@@ -666,10 +733,11 @@ const RoomManager = () => {
           <button
             className="refresh-status-btn"
             onClick={checkAllRoomStatuses}
-            title="Refresh room status"
+            title="Check status of all rooms (yours and friends')"
+            disabled={isCheckingStatus}
           >
-            <i className="fas fa-wifi"></i>
-            Check Status
+            <i className={`fas fa-wifi ${isCheckingStatus ? 'fa-spin' : ''}`}></i>
+            {isCheckingStatus ? 'Checking...' : 'Check Status'}
           </button>
         </div>
 
@@ -693,11 +761,14 @@ const RoomManager = () => {
         )}
       </div>
 
-      {/* Fixed position refresh message that doesn't move other elements */}
-      {refreshMessage && (
-        <div className="refresh-message-fixed">
-          {refreshMessage}
-        </div>
+      {/* Toast Notification */}
+      {toastMessage && (
+        <RoomToast
+          message={toastMessage}
+          type={toastType}
+          onClose={() => setToastMessage(null)}
+          duration={4000}
+        />
       )}
 
       {error && (
@@ -779,7 +850,11 @@ const RoomManager = () => {
               <p>Your friends will appear here when they're in active multiplayer sessions.</p>
             </div>
           ) : (
-            friendsRooms.map(room => (
+            friendsRooms.map(room => {
+              const status = roomStatuses.get(room.id);
+              const statusInfo = getRoomStatusIndicator(room.id);
+              
+              return (
               <div key={room.id} className="room-card friends-room-card">
                 <div className="room-card-header">
                   <div className="room-info">
@@ -789,6 +864,12 @@ const RoomManager = () => {
                         <i className="fas fa-users"></i>
                         {room.participants.length} player{room.participants.length !== 1 ? 's' : ''}
                       </span>
+                      {status && (
+                        <span className="room-status-badge" style={{ color: statusInfo.color }}>
+                          <i className={statusInfo.icon}></i>
+                          {statusInfo.text}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="friend-info">
@@ -824,7 +905,8 @@ const RoomManager = () => {
                   </div>
                 </div>
               </div>
-            ))
+            );
+            })
           )}
         </div>
       </div>
@@ -864,6 +946,23 @@ const RoomManager = () => {
               <i className="fas fa-dungeon"></i>
               <h3>No Multiplayer Rooms Yet</h3>
               <p>Create your first persistent room to start a campaign that saves your progress.</p>
+              <div className="empty-state-actions">
+                <button
+                  className="create-room-btn"
+                  onClick={handleCreateRoom}
+                  disabled={roomLimits && !roomLimits.canCreate}
+                  title="Create a new multiplayer room"
+                >
+                  <i className="fas fa-plus"></i>
+                  Create Your First Room
+                </button>
+                {friendsRooms.length > 0 && (
+                  <p className="friends-hint">
+                    <i className="fas fa-info-circle"></i>
+                    {friendsRooms.length} friend{friendsRooms.length === 1 ? '' : 's'} {friendsRooms.length === 1 ? 'is' : 'are'} playing in rooms above
+                  </p>
+                )}
+              </div>
             </div>
           ) : (
           rooms.map(room => {
@@ -883,37 +982,33 @@ const RoomManager = () => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Confirmation Modal for Multiplayer Room */}
       {showDeleteConfirm && selectedRoom && (
-        <div className="modal-overlay">
-          <div className="delete-confirm-modal">
-            <h3>Delete Room</h3>
-            <p>
-              Are you sure you want to delete "<strong>{selectedRoom.name}</strong>"?
-              <br />
-              <span className="warning-text">This action cannot be undone and all room data will be lost.</span>
-            </p>
-            <div className="modal-actions">
-              <button
-                className="cancel-btn"
-                onClick={() => {
-                  setShowDeleteConfirm(false);
-                  setSelectedRoom(null);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                className="confirm-delete-btn"
-                onClick={confirmDeleteRoom}
-              >
-                <i className="fas fa-trash"></i>
-                Delete Room
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmationDialog
+          message={`Are you sure you want to delete "${selectedRoom.name}"? This action cannot be undone and all room data will be lost.`}
+          onConfirm={confirmDeleteRoom}
+          onCancel={() => {
+            setShowDeleteConfirm(false);
+            setSelectedRoom(null);
+          }}
+        />
       )}
+
+      {/* Delete Confirmation Modal for Local Room */}
+      {showLocalDeleteConfirm && localRoomToDelete && (() => {
+        const roomToDelete = localRooms.find(r => r.id === localRoomToDelete);
+        const roomName = roomToDelete?.name || 'this local room';
+        return (
+          <ConfirmationDialog
+            message={`Are you sure you want to delete "${roomName}"? This action cannot be undone.`}
+            onConfirm={confirmDeleteLocalRoom}
+            onCancel={() => {
+              setShowLocalDeleteConfirm(false);
+              setLocalRoomToDelete(null);
+            }}
+          />
+        );
+      })()}
 
       {/* Create Local Room Modal */}
       {showCreateLocalRoom && (
