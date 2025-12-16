@@ -121,9 +121,8 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
         setWindowPosition({ x: position.x, y: position.y });
     }, [setWindowPosition]);
 
-    // Handle window resize to update size in store
+    // Handle window resize to update size in store (only called on resize stop)
     const handleWindowResize = useCallback((size) => {
-        console.log('Window resize detected:', size);
         setWindowSize(size);
     }, [setWindowSize]);
 

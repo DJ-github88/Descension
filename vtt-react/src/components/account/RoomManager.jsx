@@ -240,6 +240,8 @@ const RoomManager = () => {
       localStorage.setItem('isLocalRoom', 'true');
       localStorage.removeItem('selectedRoomId');
       localStorage.removeItem('isTestRoom');
+      // Clear world builder mode flag - local rooms are not world builder mode
+      localStorage.removeItem('isWorldBuilderMode');
 
       navigate('/game'); // Navigate directly to game for local rooms
     } catch (error) {
@@ -504,6 +506,8 @@ const RoomManager = () => {
       localStorage.setItem('selectedRoomId', room.id);
       localStorage.setItem('selectedRoomPassword', 'test123');
       localStorage.setItem('isTestRoom', 'true');
+      // Clear world builder mode flag - test rooms are not world builder mode
+      localStorage.removeItem('isWorldBuilderMode');
       navigate('/multiplayer');
     } else {
       // For campaign rooms, prompt for password

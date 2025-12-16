@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import useCombatStore from '../../store/combatStore';
 import useCreatureStore from '../../store/creatureStore';
+import useGameStore from '../../store/gameStore';
 import { createPortal } from 'react-dom';
 import TurnTimer from './TurnTimer';
 import '../../styles/combat-system.css';
@@ -24,11 +25,18 @@ const CombatTimeline = () => {
     } = useCombatStore();
 
     const { creatures } = useCreatureStore();
+    const windowScale = useGameStore(state => state.windowScale);
 
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipData, setTooltipData] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [draggedItem, setDraggedItem] = useState(null);
+    const [isResizing, setIsResizing] = useState(false);
+    // Local state for resize visual feedback - syncs with store on resize stop
+    const [localSize, setLocalSize] = useState({ 
+        width: timelineSize.width || 450, 
+        height: timelineSize.height || 350 
+    });
     const nodeRef = useRef(null);
 
     // Auto-adjust timeline width when number of combatants changes
@@ -52,14 +60,6 @@ const CombatTimeline = () => {
                 contentWidth
             )
         );
-
-        console.log('CombatTimeline: Auto-adjusting width', {
-            numCombatants: turnOrder.length,
-            tokensToShow,
-            contentWidth,
-            calculatedWidth,
-            currentWidth: timelineSize.width
-        });
 
         // Always update to the calculated width when combatant count changes
         // Use taller default height to accommodate token content
@@ -93,9 +93,33 @@ const CombatTimeline = () => {
         endCombat();
     };
 
-    const handleResize = (event, { size }) => {
+    // Sync localSize with store when it changes (e.g., from auto-adjust)
+    useEffect(() => {
+        if (!isResizing) {
+            setLocalSize({
+                width: timelineSize.width || 450,
+                height: timelineSize.height || 350
+            });
+        }
+    }, [timelineSize.width, timelineSize.height, isResizing]);
+
+    // Handle resize start - disable transitions for smooth resizing
+    const handleResizeStart = useCallback(() => {
+        setIsResizing(true);
+    }, []);
+
+    // Handle resize - update LOCAL state for visual feedback, not store
+    const handleResize = useCallback((event, { size }) => {
+        setLocalSize(size);
+    }, []);
+
+    // Handle resize stop - update store only once when done
+    const handleResizeStop = useCallback((event, { size }) => {
+        setIsResizing(false);
+        setLocalSize(size);
+        // NOW update the store with final size
         updateTimelineSize(size);
-    };
+    }, [updateTimelineSize]);
 
     const getCreatureIcon = (combatant) => {
         // Handle character tokens
@@ -158,7 +182,6 @@ const CombatTimeline = () => {
 
     // If in combat but no turn order, show emergency controls
     if (turnOrder.length === 0) {
-        console.log('CombatTimeline: In combat but no turn order - showing emergency controls');
         return (
             <>
                 {createPortal(
@@ -197,13 +220,9 @@ const CombatTimeline = () => {
         );
     }
 
-    console.log('CombatTimeline: Rendering timeline with position:', timelinePosition);
-    console.log('CombatTimeline: Window dimensions:', { width: window.innerWidth, height: window.innerHeight });
-    console.log('CombatTimeline: Timeline size:', timelineSize);
-
-    // Use timeline size from store (updated by useEffect)
-    const effectiveWidth = timelineSize.width || 450;
-    const effectiveHeight = timelineSize.height || 350;
+    // Use local size for rendering (synced with store, but updated locally during resize)
+    const effectiveWidth = localSize.width;
+    const effectiveHeight = localSize.height;
 
     return (
         <>
@@ -226,13 +245,16 @@ const CombatTimeline = () => {
                         <Resizable
                             width={effectiveWidth}
                             height={effectiveHeight}
+                            onResizeStart={handleResizeStart}
                             onResize={handleResize}
+                            onResizeStop={handleResizeStop}
                             minConstraints={[350, 250]}
                             maxConstraints={[900, 700]}
                             resizeHandles={['ne', 'nw', 'se', 'sw']}
+                            transformScale={windowScale}
                         >
                             <div
-                                className="combat-timeline-window-compact"
+                                className={`combat-timeline-window-compact ${isResizing ? 'resizing' : ''}`}
                                 style={{
                                     width: effectiveWidth,
                                     height: effectiveHeight

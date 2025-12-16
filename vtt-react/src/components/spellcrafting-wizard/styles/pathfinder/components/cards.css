@@ -11,7 +11,7 @@
   box-shadow:
     var(--pf-shadow-parchment),
     0 2px 8px rgba(45, 24, 16, 0.15);
-  overflow: hidden;
+  overflow: visible; /* Changed to visible to allow priority tag to show above */
   transition: all var(--pf-transition-normal);
   cursor: pointer;
   position: relative;
@@ -25,16 +25,58 @@
   margin: 0 auto;
 }
 
+/* Priority Range Tag - Top Right of Header */
+.pf-priority-range-tag-above-header {
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  z-index: 10;
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid rgba(212, 175, 55, 0.9);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.95), rgba(184, 134, 11, 0.9));
+  color: #2d1810;
+  box-shadow: 
+    0 2px 6px rgba(45, 24, 16, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  transform: rotate(4deg); /* Tilted in the other direction (clockwise) */
+  transition: all var(--pf-transition-fast);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+  pointer-events: none; /* Don't interfere with card interactions */
+  line-height: 1.2;
+}
+
+.pf-priority-range-tag-above-header:hover {
+  transform: rotate(4deg) scale(1.05);
+  box-shadow: 
+    0 3px 8px rgba(45, 24, 16, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  border-color: rgba(212, 175, 55, 1);
+}
+
+.pf-priority-range-tag-above-header span {
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  display: inline-block;
+}
+
 /* Enhanced hover effects */
 .pf-spell-card:hover .pf-action-type-badge,
 .pf-spell-card:hover .pf-targeting-badge,
 .pf-spell-card:hover .pf-propagation-badge,
+.pf-spell-card:hover .pf-priority-range-badge,
 .pf-spell-card:hover .pf-range-badge,
 .pf-spell-card:hover .pf-damage-type-badge,
 .pf-spell-card:hover .pf-resource-cost,
 .wow-spell-card:hover .pf-action-type-badge,
 .wow-spell-card:hover .pf-targeting-badge,
 .wow-spell-card:hover .pf-propagation-badge,
+.wow-spell-card:hover .pf-priority-range-badge,
 .wow-spell-card:hover .pf-range-badge,
 .wow-spell-card:hover .pf-damage-type-badge,
 .wow-spell-card:hover .pf-resource-cost {
@@ -187,6 +229,7 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 1px 3px rgba(45, 24, 16, 0.2) !important;
+  overflow: visible !important; /* Allow priority tag to overflow above header */
 }
 
 /* Header Top Row - Icon, Name, and Resource Cost */
@@ -604,6 +647,39 @@
 .pf-propagation-badge .pf-propagation-icon::before {
   content: "";
   color: #f4d03f;
+}
+
+/* ===== PRIORITY RANGE BADGES ===== */
+
+.pf-priority-range-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: var(--pf-border-radius-sm);
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  border: 1px solid rgba(139, 69, 19, 0.6);
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.25), rgba(139, 69, 19, 0.15));
+  color: #d4af37;
+  box-shadow: var(--pf-shadow-sm);
+  white-space: nowrap;
+  flex-shrink: 1;
+  transition: all var(--pf-transition-fast);
+  max-width: 250px;
+  transform: rotate(-2deg); /* Tilted style */
+}
+
+.pf-priority-range-badge span {
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.pf-priority-range-badge:hover {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.35), rgba(139, 69, 19, 0.25));
+  border-color: rgba(139, 69, 19, 0.8);
+  transform: translateY(-1px) rotate(-2deg);
+  box-shadow: var(--pf-shadow-md);
 }
 
 /* ===== RANGE BADGES ===== */
@@ -2568,6 +2644,12 @@
 
 .pf-propagation-badge {
   order: 4;
+  flex-shrink: 1; /* Can shrink if needed */
+  transition: all var(--pf-transition-fast);
+}
+
+.pf-priority-range-badge {
+  order: 5;
   flex-shrink: 1; /* Can shrink if needed */
   transition: all var(--pf-transition-fast);
 }

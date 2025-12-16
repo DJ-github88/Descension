@@ -475,16 +475,8 @@ function GameScreen() {
 
     // Handle character loading when entering the game
     useEffect(() => {
-        // Auto-enable editor mode if in world builder mode (sandbox/test mode)
-        const isWorldBuilderMode = localStorage.getItem('isWorldBuilderMode') === 'true';
-        if (isWorldBuilderMode && isGMMode) {
-            import('./store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
-                const levelEditorStore = useLevelEditorStore.getState();
-                if (!levelEditorStore.isEditorMode) {
-                    levelEditorStore.setEditorMode(true);
-                }
-            });
-        }
+        // Don't auto-enable editor mode - let user open it manually if needed
+        // Editor mode can be toggled via the Navigation component
         
         const initializeCharacter = async () => {
             try {
@@ -494,6 +486,14 @@ function GameScreen() {
 
                 if (isLocalRoom && selectedLocalRoomId) {
                     console.log('🏠 Loading local room:', selectedLocalRoomId);
+                    // Clear world builder mode flag - local rooms are not world builder mode
+                    localStorage.removeItem('isWorldBuilderMode');
+                    // Disable editor mode for local rooms
+                    const { default: useLevelEditorStore } = await import('./store/levelEditorStore');
+                    const levelEditorStore = useLevelEditorStore.getState();
+                    if (levelEditorStore.isEditorMode) {
+                        levelEditorStore.setEditorMode(false);
+                    }
                     setCurrentLocalRoomId(selectedLocalRoomId);
                     await initializeLocalRoom(selectedLocalRoomId);
                     return;
@@ -862,9 +862,9 @@ const AppContent = ({
         const { default: gameStore } = await import('./store/gameStore');
         gameStore.getState().setGMMode(true);
         
-        // Auto-enable editor mode for world builder (sandbox mode)
+        // Don't auto-enable editor mode - let user open it manually if needed
         const { default: useLevelEditorStore } = await import('./store/levelEditorStore');
-        useLevelEditorStore.getState().setEditorMode(true);
+        useLevelEditorStore.getState().setEditorMode(false);
         
         // Clear map state for fresh world builder experience
         try {

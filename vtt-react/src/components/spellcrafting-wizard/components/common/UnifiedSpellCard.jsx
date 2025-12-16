@@ -8286,6 +8286,44 @@ const UnifiedSpellCard = ({
 
       {/* Card Header */}
       <div className="pf-spell-card-header wow-spell-card-header">
+        {/* Priority Range Tag - Top Right of Header (for creature abilities) */}
+        {spell?.priorityRange && (
+          <div className="pf-priority-range-tag-above-header">
+            {(() => {
+              const { min, max, resolution = 'DICE', cardCount = 1, coinCount = 1, cardPattern = 'any', coinPattern = 'any' } = spell.priorityRange;
+              if (resolution === 'DICE') {
+                return <span>Roll {min}-{max}</span>;
+              } else if (resolution === 'CARDS') {
+                const patternText = cardPattern === 'any' ? '' :
+                  cardPattern === 'hearts' ? '♥' :
+                  cardPattern === 'diamonds' ? '♦' :
+                  cardPattern === 'clubs' ? '♣' :
+                  cardPattern === 'spades' ? '♠' :
+                  cardPattern === 'red' ? 'Red' :
+                  cardPattern === 'black' ? 'Black' :
+                  cardPattern === 'face' ? 'Face' :
+                  cardPattern === 'ace' ? 'Ace' :
+                  cardPattern === 'ace_of_hearts' ? 'A♥' :
+                  cardPattern === 'ace_of_diamonds' ? 'A♦' :
+                  cardPattern === 'ace_of_clubs' ? 'A♣' :
+                  cardPattern === 'ace_of_spades' ? 'A♠' :
+                  cardPattern;
+                return <span>Draw {cardCount}x{patternText ? ` ${patternText}` : ''}</span>;
+              } else if (resolution === 'COINS') {
+                const patternText = coinPattern === 'any' ? '' :
+                  coinPattern === 'heads' ? 'H' :
+                  coinPattern === 'tails' ? 'T' :
+                  coinPattern === 'all_heads' ? 'All H' :
+                  coinPattern === 'all_tails' ? 'All T' :
+                  coinPattern === 'majority_heads' ? 'Maj H' :
+                  coinPattern === 'majority_tails' ? 'Maj T' :
+                  coinPattern;
+                return <span>Flip {coinCount}x{patternText ? ` ${patternText}` : ''}</span>;
+              }
+              return <span>Roll {min}-{max}</span>;
+            })()}
+          </div>
+        )}
         {/* Header Main Row - Icon, Name, Resource Cost, Damage Types */}
         <div className="unified-spell-header-main">
           <div className="pf-spell-icon-container">

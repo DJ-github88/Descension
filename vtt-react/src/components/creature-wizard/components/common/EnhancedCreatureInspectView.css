@@ -757,6 +757,207 @@
 
 
 
+/* Tactics & Behavior Display */
+.tactics-display-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tactics-display-item {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(240, 230, 210, 0.6) 100%);
+  border: 2px solid rgba(139, 115, 85, 0.4);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.tactics-display-item:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 4px 12px rgba(122, 59, 46, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(122, 59, 46, 0.6);
+}
+
+.tactics-display-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.tactics-display-label {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7a3b2e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tactics-display-label i {
+  color: #8b7355;
+  font-size: 14px;
+}
+
+.tactics-display-value {
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  border: 1px solid rgba(139, 115, 85, 0.3);
+}
+
+.tactics-display-notes {
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5a1e12;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  border: 1px solid rgba(139, 115, 85, 0.3);
+  white-space: pre-wrap;
+}
+
+/* Tactics Ability Priority Section */
+.tactics-ability-priority-section {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid rgba(139, 115, 85, 0.3);
+}
+
+.tactics-subsection-title {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #7a3b2e;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.tactics-subsection-title i {
+  color: #8b7355;
+}
+
+.tactics-ability-priority-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tactics-ability-priority-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(240, 230, 210, 0.6) 100%);
+  border: 2px solid rgba(139, 115, 85, 0.4);
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+}
+
+.tactics-ability-priority-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(122, 59, 46, 0.6);
+  box-shadow: 0 2px 8px rgba(122, 59, 46, 0.15);
+}
+
+.tactics-ability-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.tactics-ability-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid rgba(139, 115, 85, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.tactics-ability-range {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.tactics-range-badge {
+  background: linear-gradient(135deg, #7a3b2e, #5e2e23);
+  color: #f0e6d2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 1px;
+}
+
+.tactics-range-hint {
+  font-size: 11px;
+  color: #8b7355;
+  font-style: italic;
+  font-family: 'Crimson Text', serif;
+}
+
+/* Ability Priority Display in Abilities Section */
+.ability-priority-display {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg,
+    rgba(139, 69, 19, 0.1) 0%,
+    rgba(139, 69, 19, 0.05) 100%);
+  border: 1px solid rgba(139, 69, 19, 0.3);
+  border-radius: 8px;
+}
+
+.ability-priority-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #7a3b2e;
+  margin-bottom: 8px;
+}
+
+.ability-priority-badge i {
+  color: #8b7355;
+}
+
+.ability-priority-hint {
+  font-size: 12px;
+  color: #8b7355;
+  font-style: italic;
+  font-family: 'Crimson Text', serif;
+  line-height: 1.5;
+}
+
 /* Spell library grid styling - matching spell library */
 .spell-cards-container {
   display: grid;
@@ -770,7 +971,7 @@
   position: relative;
   transition: all 0.3s ease;
   border-radius: 12px;
-  overflow: visible;
+  overflow: visible; /* Allow priority tag to overflow above card */
 }
 
 .spell-card-wrapper.selected {

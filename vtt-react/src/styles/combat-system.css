@@ -510,6 +510,22 @@
     border-radius: 8px 0 0 0;
 }
 
+/* Disable transitions during resizing for smooth, responsive feedback */
+.combat-timeline-window-compact.resizing,
+.combat-timeline-window-compact.resizing * {
+    transition: none !important;
+}
+
+.combat-timeline-window-compact.resizing {
+    will-change: width, height;
+}
+
+/* Ensure resize handles stay interactive during resize */
+.combat-timeline-window-compact.resizing .react-resizable-handle {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+}
+
 .combat-timeline {
     display: flex;
     flex-direction: column;

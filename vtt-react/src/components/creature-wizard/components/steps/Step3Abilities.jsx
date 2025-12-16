@@ -32,7 +32,16 @@ const DEFAULT_ABILITY = {
   range: 5,
   actionPointCost: 1,
   cooldown: 0,
-  effects: []
+  effects: [],
+  priorityRange: { 
+    min: 1, 
+    max: 20,
+    resolution: 'DICE', // 'DICE', 'CARDS', 'COINS'
+    cardCount: 1, // Number of cards to draw (for CARDS resolution)
+    cardPattern: 'any', // Card pattern: 'any', 'hearts', 'diamonds', 'clubs', 'spades', 'red', 'black', 'face', 'ace', 'ace_of_hearts', etc.
+    coinCount: 1, // Number of coins to flip (for COINS resolution)
+    coinPattern: 'any' // Coin pattern: 'any', 'heads', 'tails', 'all_heads', 'all_tails', 'majority_heads', 'majority_tails'
+  } // Default to full range
 };
 
 const Step3Abilities = () => {
@@ -133,6 +142,15 @@ const Step3Abilities = () => {
     return typeMap[type] || type;
   };
 
+  // Handle updating ability priority range
+  const handleUpdateAbilityPriority = (index, priorityRange) => {
+    const updatedAbility = {
+      ...wizardState.abilities[index],
+      priorityRange: priorityRange
+    };
+    dispatch(wizardActionCreators.updateAbility(index, updatedAbility));
+  };
+
   // Render the ability list
   const renderAbilityList = () => {
     if (wizardState.abilities.length === 0) {
@@ -157,6 +175,9 @@ const Step3Abilities = () => {
             name: ability.name || 'Unnamed Ability',
           };
 
+          // Get priority range or default to full range
+          const priorityRange = ability.priorityRange || { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' };
+
           return (
             <div key={index} className="ability-card-wrapper">
               <UnifiedSpellCard
@@ -169,6 +190,202 @@ const Step3Abilities = () => {
                 onDelete={() => handleRemoveAbility(index)}
                 className="creature-ability-card"
               />
+              {/* Priority Range Editor */}
+              <div className="ability-priority-editor">
+                <label className="priority-label">
+                  <i className="fas fa-dice-d20"></i> Priority Range:
+                </label>
+                <div className="priority-resolution-selector">
+                  <label>Resolution:</label>
+                  <select
+                    value={priorityRange.resolution || 'DICE'}
+                    onChange={(e) => {
+                      handleUpdateAbilityPriority(index, {
+                        ...priorityRange,
+                        resolution: e.target.value,
+                        // Set defaults for new resolution types
+                        ...(e.target.value === 'CARDS' && !priorityRange.cardCount && { cardCount: 1 }),
+                        ...(e.target.value === 'COINS' && !priorityRange.coinCount && { coinCount: 1 })
+                      });
+                    }}
+                    className="priority-resolution-select"
+                  >
+                    <option value="DICE">Dice (1-20)</option>
+                    <option value="CARDS">Cards</option>
+                    <option value="COINS">Coins</option>
+                  </select>
+                </div>
+                {priorityRange.resolution === 'DICE' && (
+                  <>
+                    <div className="priority-range-inputs">
+                      <input
+                        type="number"
+                        min="1"
+                        max="20"
+                        value={priorityRange.min}
+                        onChange={(e) => {
+                          const newMin = Math.max(1, Math.min(20, parseInt(e.target.value) || 1));
+                          handleUpdateAbilityPriority(index, {
+                            ...priorityRange,
+                            min: newMin,
+                            max: Math.max(newMin, priorityRange.max)
+                          });
+                        }}
+                        className="priority-input"
+                      />
+                      <span className="priority-separator">-</span>
+                      <input
+                        type="number"
+                        min="1"
+                        max="20"
+                        value={priorityRange.max}
+                        onChange={(e) => {
+                          const newMax = Math.max(1, Math.min(20, parseInt(e.target.value) || 20));
+                          handleUpdateAbilityPriority(index, {
+                            ...priorityRange,
+                            max: newMax,
+                            min: Math.min(newMax, priorityRange.min)
+                          });
+                        }}
+                        className="priority-input"
+                      />
+                    </div>
+                    <div className="priority-range-display">
+                      <span className="priority-hint">Roll {priorityRange.min}-{priorityRange.max} to use this ability</span>
+                    </div>
+                  </>
+                )}
+                {priorityRange.resolution === 'CARDS' && (
+                  <>
+                    <div className="priority-range-inputs">
+                      <label className="priority-count-label">Number of Cards:</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={priorityRange.cardCount || 1}
+                        onChange={(e) => {
+                          const cardCount = Math.max(1, Math.min(10, parseInt(e.target.value) || 1));
+                          handleUpdateAbilityPriority(index, {
+                            ...priorityRange,
+                            cardCount
+                          });
+                        }}
+                        className="priority-input"
+                      />
+                    </div>
+                    <div className="priority-pattern-selector">
+                      <label className="priority-count-label">Card Pattern:</label>
+                      <select
+                        value={priorityRange.cardPattern || 'any'}
+                        onChange={(e) => {
+                          handleUpdateAbilityPriority(index, {
+                            ...priorityRange,
+                            cardPattern: e.target.value
+                          });
+                        }}
+                        className="priority-resolution-select"
+                      >
+                        <option value="any">Any Card</option>
+                        <optgroup label="Suits">
+                          <option value="hearts">Hearts (♥)</option>
+                          <option value="diamonds">Diamonds (♦)</option>
+                          <option value="clubs">Clubs (♣)</option>
+                          <option value="spades">Spades (♠)</option>
+                        </optgroup>
+                        <optgroup label="Colors">
+                          <option value="red">Red Cards (♥♦)</option>
+                          <option value="black">Black Cards (♣♠)</option>
+                        </optgroup>
+                        <optgroup label="Types">
+                          <option value="face">Face Cards (J, Q, K)</option>
+                          <option value="ace">Aces</option>
+                        </optgroup>
+                        <optgroup label="Specific Cards">
+                          <option value="ace_of_hearts">Ace of Hearts</option>
+                          <option value="ace_of_diamonds">Ace of Diamonds</option>
+                          <option value="ace_of_clubs">Ace of Clubs</option>
+                          <option value="ace_of_spades">Ace of Spades</option>
+                        </optgroup>
+                      </select>
+                    </div>
+                    <div className="priority-range-display">
+                      <span className="priority-hint">
+                        {priorityRange.cardPattern === 'any' 
+                          ? `Draw ${priorityRange.cardCount || 1} card${priorityRange.cardCount !== 1 ? 's' : ''} to determine if this ability is used`
+                          : `Draw ${priorityRange.cardCount || 1} card${priorityRange.cardCount !== 1 ? 's' : ''} - ${priorityRange.cardPattern === 'hearts' ? 'Hearts (♥)' :
+                              priorityRange.cardPattern === 'diamonds' ? 'Diamonds (♦)' :
+                              priorityRange.cardPattern === 'clubs' ? 'Clubs (♣)' :
+                              priorityRange.cardPattern === 'spades' ? 'Spades (♠)' :
+                              priorityRange.cardPattern === 'red' ? 'Red Cards' :
+                              priorityRange.cardPattern === 'black' ? 'Black Cards' :
+                              priorityRange.cardPattern === 'face' ? 'Face Cards' :
+                              priorityRange.cardPattern === 'ace' ? 'Aces' :
+                              priorityRange.cardPattern === 'ace_of_hearts' ? 'Ace of Hearts' :
+                              priorityRange.cardPattern === 'ace_of_diamonds' ? 'Ace of Diamonds' :
+                              priorityRange.cardPattern === 'ace_of_clubs' ? 'Ace of Clubs' :
+                              priorityRange.cardPattern === 'ace_of_spades' ? 'Ace of Spades' :
+                              priorityRange.cardPattern} to determine if this ability is used`}
+                      </span>
+                    </div>
+                  </>
+                )}
+                {priorityRange.resolution === 'COINS' && (
+                  <>
+                    <div className="priority-range-inputs">
+                      <label className="priority-count-label">Number of Coins:</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        value={priorityRange.coinCount || 1}
+                        onChange={(e) => {
+                          const coinCount = Math.max(1, Math.min(10, parseInt(e.target.value) || 1));
+                          handleUpdateAbilityPriority(index, {
+                            ...priorityRange,
+                            coinCount
+                          });
+                        }}
+                        className="priority-input"
+                      />
+                    </div>
+                    <div className="priority-pattern-selector">
+                      <label className="priority-count-label">Coin Pattern:</label>
+                      <select
+                        value={priorityRange.coinPattern || 'any'}
+                        onChange={(e) => {
+                          handleUpdateAbilityPriority(index, {
+                            ...priorityRange,
+                            coinPattern: e.target.value
+                          });
+                        }}
+                        className="priority-resolution-select"
+                      >
+                        <option value="any">Any Result</option>
+                        <option value="heads">Heads</option>
+                        <option value="tails">Tails</option>
+                        <option value="all_heads">All Heads</option>
+                        <option value="all_tails">All Tails</option>
+                        <option value="majority_heads">Majority Heads</option>
+                        <option value="majority_tails">Majority Tails</option>
+                      </select>
+                    </div>
+                    <div className="priority-range-display">
+                      <span className="priority-hint">
+                        {priorityRange.coinPattern === 'any'
+                          ? `Flip ${priorityRange.coinCount || 1} coin${priorityRange.coinCount !== 1 ? 's' : ''} to determine if this ability is used`
+                          : `Flip ${priorityRange.coinCount || 1} coin${priorityRange.coinCount !== 1 ? 's' : ''} - ${priorityRange.coinPattern === 'heads' ? 'Heads' :
+                              priorityRange.coinPattern === 'tails' ? 'Tails' :
+                              priorityRange.coinPattern === 'all_heads' ? 'All Heads' :
+                              priorityRange.coinPattern === 'all_tails' ? 'All Tails' :
+                              priorityRange.coinPattern === 'majority_heads' ? 'Majority Heads' :
+                              priorityRange.coinPattern === 'majority_tails' ? 'Majority Tails' :
+                              priorityRange.coinPattern} to determine if this ability is used`}
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           );
         })}
@@ -340,7 +557,12 @@ const Step3Abilities = () => {
   // Handle creating a basic ability
   const handleCreateBasicAbility = (ability) => {
     console.log("Step3Abilities: handleCreateBasicAbility called with ability:", ability);
-    dispatch(wizardActionCreators.addAbility(ability));
+    // Ensure priorityRange is set (default to full range if not provided)
+    const abilityWithPriority = {
+      ...ability,
+      priorityRange: ability.priorityRange || { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' }
+    };
+    dispatch(wizardActionCreators.addAbility(abilityWithPriority));
     setShowBasicAbilityCreator(false);
   };
 
@@ -377,7 +599,9 @@ const Step3Abilities = () => {
       // Store the original spell icon
       icon: spell.icon || spell.typeConfig?.icon || null,
       // Store the original spell data for reference
-      originalSpell: spell
+      originalSpell: spell,
+      // Default priority range (1-20 means always available)
+      priorityRange: { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' }
     };
 
     // Process spell effects based on the spell format
@@ -482,6 +706,94 @@ const Step3Abilities = () => {
     console.log("Added spell to creature:", spell.name);
   };
 
+  // Render tactics and behavior section
+  const renderTacticsSection = () => {
+    const tactics = wizardState.tactics || {
+      combatStyle: 'balanced',
+      targetPriority: 'balanced',
+      abilityUsage: 'strategic',
+      retreatThreshold: 30,
+      notes: ''
+    };
+
+    return (
+      <div className="tactics-behavior-section">
+        <h3 className="tactics-section-title">
+          <i className="fas fa-chess"></i> Tactics & Behavior
+        </h3>
+        <div className="tactics-grid">
+          <div className="tactics-group">
+            <label className="tactics-label">Combat Style</label>
+            <select
+              value={tactics.combatStyle}
+              onChange={(e) => dispatch(wizardActionCreators.setTactics({ combatStyle: e.target.value }))}
+              className="tactics-select"
+            >
+              <option value="passive">Passive - Avoids combat when possible</option>
+              <option value="defensive">Defensive - Focuses on protection</option>
+              <option value="balanced">Balanced - Adapts to situation</option>
+              <option value="aggressive">Aggressive - Seeks combat</option>
+              <option value="frontline">Front Line - Charges into battle</option>
+            </select>
+          </div>
+
+          <div className="tactics-group">
+            <label className="tactics-label">Target Priority</label>
+            <select
+              value={tactics.targetPriority}
+              onChange={(e) => dispatch(wizardActionCreators.setTactics({ targetPriority: e.target.value }))}
+              className="tactics-select"
+            >
+              <option value="weakest">Weakest - Attacks most frail characters</option>
+              <option value="strongest">Strongest - Focuses on biggest threats</option>
+              <option value="nearest">Nearest - Attacks closest enemies</option>
+              <option value="balanced">Balanced - Considers multiple factors</option>
+              <option value="random">Random - Unpredictable targeting</option>
+            </select>
+          </div>
+
+          <div className="tactics-group">
+            <label className="tactics-label">Ability Usage</label>
+            <select
+              value={tactics.abilityUsage}
+              onChange={(e) => dispatch(wizardActionCreators.setTactics({ abilityUsage: e.target.value }))}
+              className="tactics-select"
+            >
+              <option value="conservative">Conservative - Saves abilities for key moments</option>
+              <option value="strategic">Strategic - Uses abilities tactically</option>
+              <option value="aggressive">Aggressive - Uses abilities frequently</option>
+              <option value="desperate">Desperate - Uses abilities when in danger</option>
+            </select>
+          </div>
+
+          <div className="tactics-group">
+            <label className="tactics-label">Retreat Threshold (% HP)</label>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={tactics.retreatThreshold}
+              onChange={(e) => dispatch(wizardActionCreators.setTactics({ retreatThreshold: parseInt(e.target.value) || 30 }))}
+              className="tactics-input"
+            />
+            <span className="tactics-hint">Creature considers retreating below this HP percentage</span>
+          </div>
+
+          <div className="tactics-group full-width">
+            <label className="tactics-label">Additional Tactical Notes</label>
+            <textarea
+              value={tactics.notes}
+              onChange={(e) => dispatch(wizardActionCreators.setTactics({ notes: e.target.value }))}
+              className="tactics-textarea"
+              placeholder="Add any additional notes about the creature's combat behavior, special tactics, or personality..."
+              rows={3}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <SpellLibraryProvider>
       <div className="wizard-step">
@@ -505,6 +817,8 @@ const Step3Abilities = () => {
               </button>
             </div>
           </div>
+
+          {renderTacticsSection()}
 
           {renderAbilityList()}
         </div>

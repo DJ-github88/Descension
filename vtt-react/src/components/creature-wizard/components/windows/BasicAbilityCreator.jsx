@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { v4 as generateUniqueId } from 'uuid';
+import IconSelector from '../../../spellcrafting-wizard/components/common/IconSelector';
 import './BasicAbilityCreator.css';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 
@@ -9,6 +10,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    icon: 'inv_misc_questionmark', // Default icon
     spellType: 'ACTION', // 'ACTION', 'PASSIVE', 'REACTION'
     effectTypes: ['damage'], // Can be multiple
     // Damage fields
@@ -57,6 +59,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
   });
 
   const [errors, setErrors] = useState({});
+  const [showIconSelector, setShowIconSelector] = useState(false);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -127,10 +130,12 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
       id: generateUniqueId(),
       name: formData.name,
       description: formData.description,
+      icon: formData.icon || 'inv_misc_questionmark',
       spellType: formData.spellType,
       effectTypes: formData.effectTypes,
       typeConfig: {
         school: formData.elementType || 'fire',
+        icon: formData.icon || 'inv_misc_questionmark',
         tags: formData.tags
       },
       targetingConfig: {
@@ -147,20 +152,30 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
         resourceTypes: formData.manaCost > 0 ? ['mana'] : [],
         resourceValues: formData.manaCost > 0 ? { mana: formData.manaCost } : {}
       },
+      castingConfig: {
+        actionPointCost: formData.spellType === 'PASSIVE' ? 0 : formData.actionPointCost,
+        castingTime: formData.spellType === 'REACTION' ? 'reaction' : 'action'
+      },
+      resolution: 'DICE', // Default to DICE resolution for BasicAbilityCreator
       tags: formData.tags
     };
 
     // Add damage config
     if (formData.effectTypes.includes('damage')) {
+      // Ensure damageType is 'direct' for instant damage, not the element type
+      const deliveryType = formData.damageType === 'area' ? 'area' : 
+                         (formData.hasDotEffect && formData.damageType === 'dot') ? 'dot' : 
+                         'direct';
+      
       baseAbility.damageConfig = {
         formula: formData.damageFormula,
-        damageType: formData.damageType,
-        elementType: formData.elementType,
+        damageType: deliveryType, // 'direct', 'dot', or 'area' - delivery method
+        elementType: formData.elementType, // 'fire', 'cold', etc. - actual damage type
         ...(formData.hasDotEffect && {
           hasDotEffect: true,
           dotConfig: {
             duration: formData.dotDuration,
-            tickFrequency: formData.dotTickFrequency,
+            tickFrequency: formData.dotTickFrequency || 'round',
             dotFormula: formData.dotFormula
           }
         }),
@@ -169,13 +184,16 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
           areaParameters: { radius: formData.areaRadius }
         })
       };
+      
+      // Ensure typeConfig.school matches elementType for proper display
+      baseAbility.typeConfig.school = formData.elementType;
     }
 
     // Add healing config
     if (formData.effectTypes.includes('healing')) {
       baseAbility.healingConfig = {
         formula: formData.healingFormula,
-        healingType: formData.healingType,
+        healingType: formData.healingType || 'direct',
         ...(formData.hasHotEffect && {
           hasHotEffect: true,
           hotFormula: formData.hotFormula,
@@ -183,6 +201,11 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
           hotTickType: 'round'
         })
       };
+      
+      // Set school to 'healing' for healing spells
+      if (!baseAbility.typeConfig.school || baseAbility.typeConfig.school === 'fire') {
+        baseAbility.typeConfig.school = 'healing';
+      }
     }
 
     // Add buff config
@@ -262,6 +285,10 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
       };
     }
 
+    // UnifiedSpellCard uses config objects directly (damageConfig, healingConfig, etc.)
+    // The effects array is not needed for UnifiedSpellCard, but we keep it for legacy support
+    // The config objects above are what UnifiedSpellCard actually reads
+
     return baseAbility;
   };
 
@@ -279,6 +306,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
     setFormData({
       name: '',
       description: '',
+      icon: 'inv_misc_questionmark',
       spellType: 'ACTION',
       effectTypes: ['damage'],
       damageFormula: '1d6',
@@ -381,6 +409,29 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
                   rows={3}
                   className="pf-textarea"
                 />
+              </div>
+
+              <div className="pf-form-group">
+                <label>Icon</label>
+                <div className="icon-selector-wrapper">
+                  <button
+                    type="button"
+                    className="icon-selector-button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowIconSelector(true);
+                    }}
+                  >
+                    <img
+                      src={`https://wow.zamimg.com/images/wow/icons/large/${formData.icon || 'inv_misc_questionmark'}.jpg`}
+                      alt="Selected icon"
+                      className="icon-selector-preview"
+                    />
+                    <span className="icon-selector-label">
+                      {formData.icon === 'inv_misc_questionmark' ? 'Select Icon' : 'Change Icon'}
+                    </span>
+                  </button>
+                </div>
               </div>
 
               <div className="pf-form-row">
@@ -849,6 +900,18 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
             </button>
           </div>
         </form>
+
+        {/* Icon Selector Modal */}
+        {showIconSelector && (
+          <IconSelector
+            currentIcon={formData.icon}
+            onSelect={(iconId) => {
+              handleInputChange('icon', iconId);
+              setShowIconSelector(false);
+            }}
+            onClose={() => setShowIconSelector(false)}
+          />
+        )}
       </div>
     </div>
   );

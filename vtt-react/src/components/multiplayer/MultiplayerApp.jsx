@@ -1957,6 +1957,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       setSocket(socketConnection);
       setIsGM(isGameMaster);
 
+      // Disable editor mode for test rooms (test rooms are not world builder mode)
+      const isTestRoom = localStorage.getItem('isTestRoom') === 'true';
+      if (isTestRoom) {
+        localStorage.removeItem('isWorldBuilderMode');
+        import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+          const levelEditorStore = useLevelEditorStore.getState();
+          if (levelEditorStore.isEditorMode) {
+            levelEditorStore.setEditorMode(false);
+          }
+        });
+      }
+
       // Set current player info
       if (isGameMaster) {
         currentPlayerData = room.gm;

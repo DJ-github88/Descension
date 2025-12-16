@@ -63,8 +63,7 @@ const WowWindow = forwardRef(({
 
     // Listen for window scale changes - DraggableWindow now handles scaling properly
     useEffect(() => {
-        const handleWindowScaleChange = (event) => {
-            console.log('WowWindow: Window scale changed to', event.detail?.scale || 'unknown');
+        const handleWindowScaleChange = () => {
             // DraggableWindow handles all scaling with proper hit detection
         };
 
@@ -112,8 +111,9 @@ const WowWindow = forwardRef(({
         }
     }, [centered]);
 
-    // Track if window is being dragged to prevent resize conflicts
+    // Track if window is being dragged or resized to prevent conflicts
     const [isDragging, setIsDragging] = useState(false);
+    const [isResizing, setIsResizing] = useState(false);
     const [zIndex, setZIndex] = useState(1000);
 
     // Register window with window manager on mount
@@ -165,17 +165,47 @@ const WowWindow = forwardRef(({
         }
     }, [isDragging, windowId, bringToFront]);
 
-    // Handle resize
-    const handleResize = (event, { size }) => {
+    // Ref to track resize size without causing re-renders during resize
+    const resizeSizeRef = useRef({ width: windowSize.width, height: windowSize.height });
+
+    // Handle resize start - disable transitions for smooth resizing
+    const handleResizeStart = useCallback((event) => {
+        setIsResizing(true);
+        // Store initial size
+        resizeSizeRef.current = { width: windowSize.width, height: windowSize.height };
+        // Bring window to front when resize starts
+        const newZIndex = bringToFront(windowId);
+        if (newZIndex) {
+            setZIndex(newZIndex);
+        }
+    }, [windowId, bringToFront, windowSize.width, windowSize.height]);
+
+    // Handle resize - update local state only for visual feedback
+    // DON'T notify parent during resize to prevent expensive re-renders
+    const handleResize = useCallback((event, { size }) => {
+        // Update local state for immediate visual feedback
         setWindowSize({
             width: size.width,
             height: size.height
         });
-        // Notify parent component of resize
+        // Store in ref for final update
+        resizeSizeRef.current = size;
+        // Don't call onResize here - wait until resize stops
+    }, []);
+
+    // Handle resize stop - notify parent only once when done
+    const handleResizeStop = useCallback((event, { size }) => {
+        setIsResizing(false);
+        // Final size update to local state
+        setWindowSize({
+            width: size.width,
+            height: size.height
+        });
+        // NOW notify parent component of final size (only once!)
         if (onResize) {
             onResize(size);
         }
-    };
+    }, [onResize]);
 
     // Handle drag start/stop to prevent resize conflicts
     const handleDragStart = useCallback(() => {
@@ -232,13 +262,16 @@ const WowWindow = forwardRef(({
             zIndex={zIndex}
             onDragStart={handleDragStart}
             onDragStop={handleDragStop}
+            className={isResizing ? 'resizing' : ''}
         >
             <Resizable
                 width={windowSize.width}
                 height={windowSize.height}
                 minConstraints={minConstraints}
                 maxConstraints={maxConstraints}
+                onResizeStart={handleResizeStart}
                 onResize={handleResize}
+                onResizeStop={handleResizeStop}
                 resizeHandles={resizable ? ['se'] : []}
                 transformScale={windowScale}
             >

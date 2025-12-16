@@ -65,13 +65,10 @@ const DraggableWindow = forwardRef(({
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Debug: Log window scale changes (development only) - throttled
+    // Track last window scale for comparison
     const lastLoggedScale = useRef(windowScale);
     useEffect(() => {
-        if (process.env.NODE_ENV === 'development' && lastLoggedScale.current !== windowScale) {
-            console.log('DraggableWindow: Current window scale is', windowScale);
-            lastLoggedScale.current = windowScale;
-        }
+        lastLoggedScale.current = windowScale;
     }, [windowScale]);
 
     // Create refs for the draggable component
@@ -134,16 +131,13 @@ const DraggableWindow = forwardRef(({
     // Listen for window scale changes and force re-render (throttled)
     const scaleChangeTimeoutRef = useRef(null);
     useEffect(() => {
-        const handleWindowScaleChange = (event) => {
+        const handleWindowScaleChange = () => {
             // Throttle scale change events to prevent excessive re-renders
             if (scaleChangeTimeoutRef.current) {
                 clearTimeout(scaleChangeTimeoutRef.current);
             }
 
             scaleChangeTimeoutRef.current = setTimeout(() => {
-                if (process.env.NODE_ENV === 'development') {
-                    console.log('DraggableWindow: Received windowScaleChanged event with scale', event.detail?.scale || 'unknown');
-                }
                 // Force a re-render to apply the new scale
                 setPosition(prev => ({ ...prev }));
             }, 16); // Throttle to ~60fps
@@ -226,6 +220,7 @@ const DraggableWindow = forwardRef(({
     }, [windowScale]);
 
     // Handle drag with scale-aware throttling for consistent movement feel
+    // Update position state for react-draggable, but don't call parent onDrag until drag stops
     const handleDrag = useCallback((e, data) => {
         const now = Date.now();
         const throttleMs = getDragThrottleMs();
@@ -236,20 +231,18 @@ const DraggableWindow = forwardRef(({
         }
         lastDragTime.current = now;
 
-        // Update position state for React consistency
+        // Update position state - react-draggable needs this for controlled component behavior
+        // This causes a re-render, but it's necessary for react-draggable to work correctly
         setPosition({ x: data.x, y: data.y });
         positionRef.current = { x: data.x, y: data.y };
 
-        // Call onDrag callback immediately as well
-        if (onDrag && data && typeof data === 'object') {
-            onDrag(data);
-        }
-
+        // DON'T call onDrag during drag to avoid expensive parent re-renders
+        // Parent will be notified on drag stop only
         // Only stop propagation if this is actually a window drag (from the handle)
         if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();
         }
-    }, [onDrag, handleClassName, getDragThrottleMs]);
+    }, [handleClassName, getDragThrottleMs]);
 
     // Handle drag stop
     const handleDragStop = useCallback((e, data) => {
@@ -291,16 +284,6 @@ const DraggableWindow = forwardRef(({
 
     // Don't render if not open (early return after all hooks)
     if (!isOpen) return null;
-
-    // Debug: Log the transform that will be applied (development only) - throttled
-    const lastLoggedRender = useRef(0);
-    if (process.env.NODE_ENV === 'development') {
-      const now = Date.now();
-      if (now - lastLoggedRender.current > 1000) { // Log max once per second
-        console.log('DraggableWindow: About to render with transform scale(' + windowScale + ')');
-        lastLoggedRender.current = now;
-      }
-    }
 
     // Calculate scale-aware grid size for consistent drag feel across all scales
     const gridSize = Math.max(1, Math.round(1 / windowScale)); // Reduced grid size for better responsiveness

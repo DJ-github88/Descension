@@ -83,6 +83,15 @@ const initialState = {
   // Abilities
   abilities: [],
   
+  // Tactics and Behavior
+  tactics: {
+    combatStyle: 'balanced', // 'passive', 'defensive', 'balanced', 'aggressive', 'frontline'
+    targetPriority: 'balanced', // 'weakest', 'strongest', 'nearest', 'balanced', 'random'
+    abilityUsage: 'strategic', // 'conservative', 'strategic', 'aggressive', 'desperate'
+    retreatThreshold: 30, // HP percentage at which creature considers retreating
+    notes: '' // Additional tactical notes
+  },
+  
   // Loot table
   lootTable: {
     currency: {
@@ -131,6 +140,7 @@ const ACTION_TYPES = {
   SET_STATS: 'SET_STATS',
   SET_RESISTANCES: 'SET_RESISTANCES',
   SET_VULNERABILITIES: 'SET_VULNERABILITIES',
+  SET_TACTICS: 'SET_TACTICS',
   ADD_ABILITY: 'ADD_ABILITY',
   UPDATE_ABILITY: 'UPDATE_ABILITY',
   REMOVE_ABILITY: 'REMOVE_ABILITY',
@@ -191,6 +201,16 @@ function creatureWizardReducer(state, action) {
       return {
         ...state,
         vulnerabilities: action.payload
+      };
+      
+    case ACTION_TYPES.SET_TACTICS:
+      return {
+        ...state,
+        tactics: {
+          ...state.tactics,
+          ...action.payload
+        },
+        lastModified: new Date()
       };
       
     case ACTION_TYPES.ADD_ABILITY:
@@ -435,6 +455,11 @@ export const wizardActionCreators = {
   setVulnerabilities: (vulnerabilities) => ({
     type: ACTION_TYPES.SET_VULNERABILITIES,
     payload: vulnerabilities
+  }),
+  
+  setTactics: (tactics) => ({
+    type: ACTION_TYPES.SET_TACTICS,
+    payload: tactics
   }),
   
   addAbility: (ability) => ({

@@ -31,6 +31,25 @@
     transform-origin: top left !important;
 }
 
+/* Disable transition during resizing for smooth, responsive feedback */
+.draggable-window.resizing,
+.draggable-window.resizing * {
+    transition: none !important;
+}
+
+.draggable-window.resizing {
+    /* Performance optimizations during resize */
+    will-change: width, height, transform;
+    contain: layout style;
+    /* Maintain transform origin for scaling */
+    transform-origin: top left !important;
+}
+
+/* Ensure resize handle stays interactive during resize */
+.draggable-window.resizing .react-resizable-handle {
+    pointer-events: auto !important;
+}
+
 /* Re-enable pointer events for the drag handle */
 .draggable-window.dragging .window-header,
 .draggable-window.dragging .draggable-window-handle {

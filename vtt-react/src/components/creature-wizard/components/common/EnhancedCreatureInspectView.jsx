@@ -378,6 +378,10 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
       title: 'Abilities & Spells',
       icon: 'https://wow.zamimg.com/images/wow/icons/large/spell_holy_wordfortitude.jpg'
     },
+    tactics: {
+      title: 'Tactics & Behavior',
+      icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_weapon_shortblade_38.jpg'
+    },
     skills: {
       title: 'Skills',
       icon: 'https://wow.zamimg.com/images/wow/icons/large/inv_misc_spyglass_02.jpg'
@@ -393,12 +397,122 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
   };
 
   // Render the content based on the active section
+  // Render the Tactics & Behavior section
+  const renderTacticsSection = () => {
+    const tactics = creature.tactics || {
+      combatStyle: 'balanced',
+      targetPriority: 'balanced',
+      abilityUsage: 'strategic',
+      retreatThreshold: 30,
+      notes: ''
+    };
+
+    const formatTacticValue = (value) => {
+      const formatMap = {
+        'passive': 'Passive',
+        'defensive': 'Defensive',
+        'balanced': 'Balanced',
+        'aggressive': 'Aggressive',
+        'frontline': 'Front Line',
+        'weakest': 'Weakest',
+        'strongest': 'Strongest',
+        'nearest': 'Nearest',
+        'random': 'Random',
+        'conservative': 'Conservative',
+        'strategic': 'Strategic',
+        'desperate': 'Desperate'
+      };
+      return formatMap[value] || value;
+    };
+
+    return (
+      <div className="creature-inspect-section">
+        <div className="tactics-display-grid">
+          <div className="tactics-display-item">
+            <div className="tactics-display-label">
+              <i className="fas fa-shield-alt"></i> Combat Style
+            </div>
+            <div className="tactics-display-value">
+              {formatTacticValue(tactics.combatStyle)}
+            </div>
+          </div>
+
+          <div className="tactics-display-item">
+            <div className="tactics-display-label">
+              <i className="fas fa-crosshairs"></i> Target Priority
+            </div>
+            <div className="tactics-display-value">
+              {formatTacticValue(tactics.targetPriority)}
+            </div>
+          </div>
+
+          <div className="tactics-display-item">
+            <div className="tactics-display-label">
+              <i className="fas fa-magic"></i> Ability Usage
+            </div>
+            <div className="tactics-display-value">
+              {formatTacticValue(tactics.abilityUsage)}
+            </div>
+          </div>
+
+          <div className="tactics-display-item">
+            <div className="tactics-display-label">
+              <i className="fas fa-running"></i> Retreat Threshold
+            </div>
+            <div className="tactics-display-value">
+              {tactics.retreatThreshold}% HP
+            </div>
+          </div>
+
+          {tactics.notes && (
+            <div className="tactics-display-item full-width">
+              <div className="tactics-display-label">
+                <i className="fas fa-sticky-note"></i> Tactical Notes
+              </div>
+              <div className="tactics-display-notes">
+                {tactics.notes}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Ability Priority Reference */}
+        {creature.abilities && creature.abilities.length > 0 && (
+          <div className="tactics-ability-priority-section">
+            <h4 className="tactics-subsection-title">
+              <i className="fas fa-dice-d20"></i> Ability Priority Ranges
+            </h4>
+            <div className="tactics-ability-priority-list">
+              {creature.abilities.map((ability, idx) => {
+                const priorityRange = ability.priorityRange || { min: 1, max: 20 };
+                return (
+                  <div key={idx} className="tactics-ability-priority-item">
+                    <div className="tactics-ability-name">
+                      <img src={getIconUrl(ability.icon)} alt={ability.name} className="tactics-ability-icon" />
+                      <span>{ability.name || 'Unnamed Ability'}</span>
+                    </div>
+                    <div className="tactics-ability-range">
+                      <span className="tactics-range-badge">{priorityRange.min}-{priorityRange.max}</span>
+                      <span className="tactics-range-hint">Roll {priorityRange.min}-{priorityRange.max} to use</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const renderContent = () => {
     switch (activeSection) {
       case 'statistics':
         return renderStatsSection();
       case 'abilities':
         return renderAbilitiesSection();
+      case 'tactics':
+        return renderTacticsSection();
       case 'skills':
         return renderSkillsSection();
       case 'loot':
@@ -1299,7 +1413,43 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
 
   // Transform ability to spell format for spell cards
   const transformAbilityToSpell = (ability) => {
-    // Map a generic creature ability into the UnifiedSpellCard shape
+    // Check if this ability already has the spell wizard format (from BasicAbilityCreator or spell library)
+    // If it has damageConfig, healingConfig, buffConfig, etc., it's already in the correct format
+    const hasSpellWizardFormat = ability.damageConfig || ability.healingConfig || 
+                                  ability.buffConfig || ability.debuffConfig || 
+                                  ability.controlConfig || ability.utilityConfig ||
+                                  ability.summonConfig || ability.transformationConfig;
+    
+    if (hasSpellWizardFormat) {
+      // Ability is already in spell wizard format - pass it through with minimal transformation
+      return {
+        id: ability.id || `ability-${ability.name}`,
+        name: ability.name,
+        description: ability.description || '',
+        icon: ability.icon || 'inv_misc_questionmark',
+        spellType: ability.spellType || 'ACTION',
+        effectTypes: ability.effectTypes || [],
+        typeConfig: ability.typeConfig || {},
+        damageConfig: ability.damageConfig,
+        healingConfig: ability.healingConfig,
+        buffConfig: ability.buffConfig,
+        debuffConfig: ability.debuffConfig,
+        controlConfig: ability.controlConfig,
+        utilityConfig: ability.utilityConfig,
+        summonConfig: ability.summonConfig,
+        transformationConfig: ability.transformationConfig,
+        targetingConfig: ability.targetingConfig,
+        resourceCost: ability.resourceCost || {
+          actionPoints: ability.actionPointCost || ability.apCost || 0
+        },
+        cooldownConfig: ability.cooldownConfig,
+        resolution: ability.resolution || 'DICE',
+        tags: ability.tags || [],
+        priorityRange: ability.priorityRange // Pass through priority range for badge display
+      };
+    }
+
+    // Legacy format - transform old ability structure to spell card format
     const ap = ability.actionPointCost || ability.apCost || 0;
 
     // Build simple resource cost using Action Points (AP)
@@ -1329,13 +1479,15 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         const formula = `${ability.damage.diceCount || 1}d${ability.damage.diceType || 6}${bonus}`;
         damageConfig = {
           formula,
-          damageType: normalize((ability.damage.damageType || ability.damageType || 'physical').toLowerCase()),
+          damageType: 'direct', // Legacy format uses 'direct' for instant damage
+          elementType: normalize((ability.damage.damageType || ability.damageType || 'physical').toLowerCase()),
           damageTypes: damageTypes.slice(0, 2)
         };
       } else if (typeof ability.damage === 'string') {
         damageConfig = {
           formula: ability.damage,
-          damageType: normalize((ability.damageType || 'physical').toLowerCase()),
+          damageType: 'direct',
+          elementType: normalize((ability.damageType || 'physical').toLowerCase()),
           damageTypes: damageTypes.slice(0, 2)
         };
       }
@@ -1344,19 +1496,18 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
     return {
       id: ability.id || `ability-${ability.name}`,
       name: ability.name,
-      spellType: 'ACTION',
+      spellType: ability.spellType || 'ACTION',
       icon: ability.icon || 'inv_sword_04',
-
       description: ability.description || '',
       castTime: ability.castTime || 'Action',
       range: typeof ability.range === 'number' ? ability.range : (ability.range || undefined),
       duration: ability.duration || undefined,
-
       resourceCost,
       damageConfig,
       effectTypes: damageConfig ? ['damage'] : undefined,
       // Keep any raw effects for potential future mapping
-      effects: ability.effects || []
+      effects: ability.effects || [],
+      priorityRange: ability.priorityRange // Pass through priority range for badge display
     };
   };
 

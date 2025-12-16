@@ -87,6 +87,7 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
         resistances: wizardState.resistances,
         vulnerabilities: wizardState.vulnerabilities,
         abilities: wizardState.abilities,
+        tactics: wizardState.tactics,
         lootTable: wizardState.lootTable
       };
 

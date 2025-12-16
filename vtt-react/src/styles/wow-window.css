@@ -245,6 +245,21 @@
     transition: none !important;
 }
 
+/* Disable transitions during resizing for smooth, responsive feedback */
+.draggable-window.resizing .window-header-tab,
+.draggable-window.resizing .tab-button,
+.draggable-window.resizing .spellbook-tab,
+.draggable-window.resizing .window-close,
+.draggable-window.resizing .wow-window,
+.draggable-window.resizing .window-content {
+    transition: none !important;
+}
+
+/* Performance optimizations during resize */
+.draggable-window.resizing .wow-window {
+    will-change: width, height !important;
+}
+
 /* Prevent size flickering during drag */
 .draggable-window.dragging .wow-window {
     will-change: auto !important;
