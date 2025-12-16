@@ -3,8 +3,7 @@
  * Provides consistent error handling, logging, and recovery mechanisms
  */
 
-const fs = require('fs').promises;
-const path = require('path');
+const logger = require('./logger');
 
 class ErrorHandler {
   constructor() {
@@ -17,21 +16,8 @@ class ErrorHandler {
       emergency: 20 // 20 errors of same type in 5 minutes
     };
     this.timeWindow = 5 * 60 * 1000; // 5 minutes
-    this.logDirectory = path.join(__dirname, '../logs');
     
-    this.initializeLogging();
-  }
-
-  /**
-   * Initialize logging directory and files
-   */
-  async initializeLogging() {
-    try {
-      await fs.mkdir(this.logDirectory, { recursive: true });
-      console.log('📝 Error logging initialized');
-    } catch (error) {
-      console.error('Failed to initialize error logging:', error);
-    }
+    logger.info('Error handler initialized');
   }
 
   /**
@@ -202,17 +188,17 @@ class ErrorHandler {
   }
 
   /**
-   * Log error to file
+   * Log error using structured logger
    */
   async logError(errorInfo) {
-    try {
-      const logFile = path.join(this.logDirectory, `errors-${new Date().toISOString().split('T')[0]}.log`);
-      const logEntry = `${errorInfo.timestamp.toISOString()} [${errorInfo.severity.toUpperCase()}] [${errorInfo.type}] ${errorInfo.message}\n`;
-      
-      await fs.appendFile(logFile, logEntry);
-    } catch (logError) {
-      console.error('Failed to write error log:', logError);
-    }
+    // Use structured logger (non-blocking)
+    logger.error(errorInfo.message, {
+      errorId: errorInfo.id,
+      type: errorInfo.type,
+      severity: errorInfo.severity,
+      stack: errorInfo.stack,
+      ...errorInfo.context
+    });
   }
 
   /**

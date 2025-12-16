@@ -18,9 +18,10 @@ const RealtimeSyncEngine = require('./services/realtimeSync');
 const { createValidationMiddleware } = require('./services/validationService');
 const rateLimitService = require('./services/rateLimitService');
 
-// DISABLED: Infrastructure services causing performance issues
-// const ErrorHandler = require('./services/errorHandler');
-// const PerformanceMonitor = require('./services/performanceMonitor');
+// Observability services (lightweight, performance-optimized)
+const logger = require('./services/logger');
+const requestTracer = require('./services/requestTracer');
+const ErrorHandler = require('./services/errorHandler');
 
 const app = express();
 const server = http.createServer(app);
@@ -41,9 +42,14 @@ const allowedOrigins = process.env.NODE_ENV === 'production' || process.env.RAIL
     'http://127.0.0.1:3002'
   ];
 
-console.log('CORS Origins:', allowedOrigins);
-console.log('Environment:', process.env.NODE_ENV);
-console.log('Railway Environment:', process.env.RAILWAY_ENVIRONMENT);
+// Initialize error handler
+const errorHandler = new ErrorHandler();
+
+logger.info('Server initializing', {
+  corsOrigins: allowedOrigins,
+  environment: process.env.NODE_ENV,
+  railwayEnvironment: process.env.RAILWAY_ENVIRONMENT
+});
 
 // Configure CORS for Socket.io with proper origins
 const io = socketIo(server, {
@@ -136,61 +142,41 @@ const handleCombatAction = (roomId, playerId, actionData, _predictedAction) => {
   }
 };
 
-// Enhanced error handling with rate limiting
-const errorHandler = {
-  errorCounts: new Map(),
-  lastErrorTime: 0,
-  handleError: async(error, context) => {
-    const now = Date.now();
-    const errorKey = `${error.message}_${context?.roomId || 'global'}`;
+// Error handler is now initialized above using the ErrorHandler class
 
-    // Rate limit error logging (max 5 per minute per error type)
-    const count = this.errorCounts.get(errorKey) || 0;
-    if (count >= 5 && (now - this.lastErrorTime) < 60000) {
-      return { message: error.message };
-    }
-
-    this.errorCounts.set(errorKey, count + 1);
-    this.lastErrorTime = now;
-
-    console.error('Error:', error.message, context);
-    return { message: error.message };
-  }
-};
-
-// Performance monitoring with sampling
+// Performance monitoring with sampling (lightweight)
 const performanceMonitor = {
   requestCount: 0,
   websocketEventCount: 0,
   lastReset: Date.now(),
 
-  trackRequest: (path, duration, success) => {
+  trackRequest(path, duration, success) {
     this.requestCount++;
     // Only log slow requests (>500ms) or failures
     if (!success || duration > 500) {
-      console.log(`🚨 Request: ${path} took ${duration}ms (${success ? 'success' : 'failed'})`);
+      logger.warn('Slow or failed request', { path, duration, success });
     }
   },
 
-  trackWebSocketEvent: (eventType, roomId) => {
+  trackWebSocketEvent(eventType, roomId) {
     this.websocketEventCount++;
     // Sample 1% of websocket events to avoid spam
     if (Math.random() < 0.01) {
-      console.log(`📡 WS Event: ${eventType} in room ${roomId || 'unknown'}`);
+      logger.debug('WebSocket event', { eventType, roomId });
     }
   },
 
-  getPerformanceSummary: () => {
+  getPerformanceSummary() {
     const uptime = Date.now() - this.lastReset;
     return {
       status: 'active',
       uptime: uptime,
-      requestsPerMinute: (this.requestCount * 60000) / uptime,
-      websocketEventsPerMinute: (this.websocketEventCount * 60000) / uptime
+      requestsPerMinute: uptime > 0 ? (this.requestCount * 60000) / uptime : 0,
+      websocketEventsPerMinute: uptime > 0 ? (this.websocketEventCount * 60000) / uptime : 0
     };
   },
 
-  getOptimizationRecommendations: () => {
+  getOptimizationRecommendations() {
     const summary = this.getPerformanceSummary();
     const recommendations = [];
 
@@ -207,9 +193,9 @@ const performanceMonitor = {
 
 // Make services globally available
 global.errorHandler = errorHandler;
-global.performanceMonitor = performanceMonitor;
+global.logger = logger;
 
-console.log('🚀 Optimized enhanced multiplayer services initialized');
+logger.info('Optimized enhanced multiplayer services initialized');
 
 // Middleware
 app.use(cors({
@@ -220,20 +206,34 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Performance tracking middleware
+// Request tracing middleware (adds request IDs)
+app.use(requestTracer.attachRequestId.bind(requestTracer));
+
+// Performance tracking middleware (lightweight)
 app.use((req, res, next) => {
   const start = Date.now();
 
   res.on('finish', () => {
     const duration = Date.now() - start;
     const success = res.statusCode < 400;
-    performanceMonitor.trackRequest(req.path, duration, success);
+    
+    // Log request using structured logger
+    logger.logRequest(req, res, duration, success);
+    
+    // Track slow requests or errors
+    if (!success || duration > 500) {
+      logger.warn('Slow or failed request', {
+        ...requestTracer.getRequestContext(req),
+        duration,
+        statusCode: res.statusCode
+      });
+    }
   });
 
   next();
 });
 
-// OPTIMIZED: Enhanced health check with error handling
+// Health check endpoint
 app.get('/health', (req, res) => {
   try {
     const performanceSummary = performanceMonitor.getPerformanceSummary();
@@ -255,7 +255,7 @@ app.get('/health', (req, res) => {
       uptime: process.uptime()
     });
   } catch (error) {
-    console.error('Health check error:', error);
+    logger.error('Health check error', { error: error.message, stack: error.stack });
     res.status(500).json({ status: 'ERROR', message: 'Health check failed' });
   }
 });
@@ -395,17 +395,22 @@ async function createRoom(roomName, gmName, gmSocketId, password, playerColor = 
   //   name: gmName
   // }, roomId);
 
-  // DISABLED: Optimized Firebase causing performance issues
-  // if (persistToFirebase) {
-  //   try {
-  //     await optimizedFirebase.saveRoomData(roomId, room, 'high');
-  //     console.log(`💾 Room persisted to optimized Firebase: ${roomName} (${roomId})`);
-  //   } catch (error) {
-  //     console.error('❌ Failed to persist room to Firebase:', error);
-  //   }
-  // }
+  // Save room to Firebase for persistence (so players can resume later)
+  if (_persistToFirebase) {
+    try {
+      await firebaseService.saveRoomData(roomId, room);
+      logger.info('Room persisted to Firebase', { roomId, roomName });
+    } catch (error) {
+      logger.error('Failed to persist room to Firebase', { 
+        roomId, 
+        roomName, 
+        error: error.message 
+      });
+      // Don't fail room creation if Firebase save fails - room still works in-memory
+    }
+  }
 
-  console.log(`🚀 Enhanced room created: ${room.name} (${room.id}) - Total rooms: ${rooms.size}`);
+  logger.info('Room created', { roomId, roomName, totalRooms: rooms.size });
   return room;
 }
 
@@ -592,13 +597,17 @@ app.get('/rooms', (req, res) => {
   res.json(getPublicRooms());
 });
 
-// Performance metrics endpoint (simplified - enhanced services disabled)
-app.get('/metrics', (req, res) => {
+// Metrics endpoint with observability data
+app.get('/metrics', async (req, res) => {
   try {
+    const errorStats = errorHandler.getErrorStats();
+    
     res.json({
-      performance: { status: 'enhanced services disabled for performance' },
-      recommendations: [],
-      errors: { status: 'basic error handling only' },
+      performance: {
+        activeRequests: requestTracer.getActiveRequestCount(),
+        uptime: process.uptime()
+      },
+      errors: errorStats,
       rooms: {
         total: rooms.size,
         active: Array.from(rooms.values()).filter(r => r.isActive).length
@@ -609,19 +618,61 @@ app.get('/metrics', (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Metrics endpoint error:', error);
+    logger.error('Metrics endpoint error', { error: error.message, stack: error.stack });
     res.status(500).json({ error: 'Failed to retrieve metrics' });
   }
 });
 
+// Debug endpoint to query recent logs
+app.get('/debug/logs', async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 100;
+    const level = req.query.level || null;
+    
+    const logs = await logger.getRecentLogs(limit, level);
+    
+    res.json({
+      count: logs.length,
+      logs: logs
+    });
+  } catch (error) {
+    logger.error('Logs endpoint error', { error: error.message });
+    res.status(500).json({ error: 'Failed to retrieve logs' });
+  }
+});
+
+// Helper to wrap socket handlers with error handling
+const wrapSocketHandler = (handler) => {
+  return async (data) => {
+    try {
+      await handler(data);
+    } catch (error) {
+      logger.error('Socket handler error', {
+        error: error.message,
+        stack: error.stack,
+        socketId: this.id,
+        event: handler.name || 'unknown'
+      });
+      
+      // Send error to client
+      this.emit('error', {
+        message: 'An error occurred processing your request',
+        errorId: await errorHandler.handleError(error, {
+          socketId: this.id
+        }).then(r => r.id).catch(() => null)
+      });
+    }
+  };
+};
+
 // Socket.io connection handling
 io.on('connection', (socket) => {
-  console.log(`Player connected: ${socket.id}`);
+  logger.info('Player connected', { socketId: socket.id });
   
   // Create a new room with enhanced error handling
   socket.on('create_room', async(data) => {
     try {
-      console.log('🎮 Received create_room request:', data);
+      logger.debug('Received create_room request', { socketId: socket.id, roomName: data.roomName });
       const { roomName, gmName, password } = data;
 
       if (!roomName || !gmName) {
@@ -684,17 +735,22 @@ io.on('connection', (socket) => {
       // Performance tracking disabled
 
     } catch (error) {
-      console.error('Error creating room:', error);
+      const errorResult = await errorHandler.handleError(error, {
+        socketId: socket.id,
+        roomName: data.roomName,
+        event: 'create_room'
+      });
 
-      // Basic error handling only
-      console.error('Create room error details:', error);
+      logger.error('Error creating room', {
+        socketId: socket.id,
+        error: error.message,
+        errorId: errorResult.id
+      });
 
       socket.emit('error', {
         message: 'Failed to create room',
-        details: error.message || 'Unknown error'
+        errorId: errorResult.id
       });
-
-      // Performance tracking disabled
     }
   });
   
@@ -2862,7 +2918,7 @@ io.on('connection', (socket) => {
 
   // Handle disconnection
   socket.on('disconnect', async() => {
-    console.log(`Player disconnected: ${socket.id}`);
+    logger.info('Player disconnected', { socketId: socket.id });
 
     // Clean up online user presence
     const user = Array.from(onlineUsers.values()).find(u => u.socketId === socket.id);
@@ -2965,12 +3021,35 @@ const throttleCleanupInterval = setInterval(() => {
 // Store interval ID for proper cleanup on server shutdown
 global.throttleCleanupInterval = throttleCleanupInterval;
 
+// Global error handlers
+process.on('uncaughtException', async (error) => {
+  logger.error('Uncaught Exception', {
+    error: error.message,
+    stack: error.stack
+  });
+  await errorHandler.handleError(error, { type: 'uncaughtException' });
+  // Don't exit in production - let the process manager handle it
+  if (process.env.NODE_ENV === 'development') {
+    process.exit(1);
+  }
+});
+
+process.on('unhandledRejection', async (reason, promise) => {
+  logger.error('Unhandled Rejection', {
+    reason: reason?.message || String(reason),
+    stack: reason?.stack
+  });
+  await errorHandler.handleError(
+    reason instanceof Error ? reason : new Error(String(reason)),
+    { type: 'unhandledRejection' }
+  );
+});
+
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log(`🚀 Mythrill server running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log('⚡ Socket.IO server initialized');
-  console.log(`🔗 Server URL: http://localhost:${PORT}`);
-  console.log(`🔒 CORS Origins: ${JSON.stringify(allowedOrigins)}`);
-  console.log(`📅 Server started at: ${new Date().toISOString()}`);
+  logger.info('Server started', {
+    port: PORT,
+    environment: process.env.NODE_ENV || 'development',
+    corsOrigins: allowedOrigins
+  });
 });
