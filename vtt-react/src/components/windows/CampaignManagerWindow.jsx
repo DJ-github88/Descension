@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import WowWindow from './WowWindow';
 import '../../styles/campaign-manager.css';
 import LibraryBrowserModal, { LIBRARY_TYPES } from '../account/LibraryBrowserModal';
@@ -9,9 +10,32 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import useCreatureStore from '../../store/creatureStore';
 import campaignService from '../../services/campaignService';
 
+// Simple Confirm Modal Component - Uses Portal to render at document root for proper z-index
+const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
+  if (!isOpen) return null;
+
+  return ReactDOM.createPortal(
+    <div className="campaign-modal-overlay" onClick={onCancel}>
+      <div className="campaign-modal-content confirm-modal" onClick={e => e.stopPropagation()}>
+        <h3>{title}</h3>
+        <p>{message}</p>
+        <div className="campaign-modal-actions">
+          <button className="campaign-modal-btn cancel" onClick={onCancel}>Cancel</button>
+          <button className="campaign-modal-btn confirm danger" onClick={onConfirm}>Delete</button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+};
+
 // Campaign Management Window with tabbed interface
 function CampaignManagerWindow({ isOpen, onClose }) {
     const [activeTab, setActiveTab] = useState('overview');
+
+    // Modal state
+    const [confirmModal, setConfirmModal] = useState({ isOpen: false, title: '', message: '', callback: null });
+
     const [campaignData, setCampaignData] = useState({
         name: 'New Campaign',
         description: '',
@@ -36,10 +60,10 @@ function CampaignManagerWindow({ isOpen, onClose }) {
     
     // Modal state
     const [showInputModal, setShowInputModal] = useState(false);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [inputModalConfig, setInputModalConfig] = useState({ title: '', placeholder: '', onSubmit: null });
-    const [confirmModalConfig, setConfirmModalConfig] = useState({ message: '', onConfirm: null });
     const [inputValue, setInputValue] = useState('');
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [confirmModalConfig, setConfirmModalConfig] = useState({ message: '', onConfirm: null });
     
     // Library browser state
     const [libraryBrowser, setLibraryBrowser] = useState({
@@ -222,6 +246,22 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         setCampaignData(prev => ({ ...prev, ...updates }));
     };
 
+    // Modal helpers
+    const showConfirmModal = (title, message, callback) => {
+        setConfirmModal({ isOpen: true, title, message, callback });
+    };
+
+    const hideConfirmModal = () => {
+        setConfirmModal({ isOpen: false, title: '', message: '', callback: null });
+    };
+
+    const handleConfirm = () => {
+        if (confirmModal.callback) {
+            confirmModal.callback();
+        }
+        hideConfirmModal();
+    };
+
     const addPlayer = () => {
         setInputModalConfig({
             title: 'Enter Player Name',
@@ -258,7 +298,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     const updatePlayer = (playerId, updates) => {
@@ -306,7 +346,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     const addNPC = () => {
@@ -352,7 +392,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     const addLocation = () => {
@@ -397,7 +437,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     const addPlotThread = () => {
@@ -443,7 +483,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     // Homebrew Management Functions
@@ -503,7 +543,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     const addHomebrewMonster = () => {
@@ -563,7 +603,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     const addHomebrewSpell = () => {
@@ -622,7 +662,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     const addLoreArticle = () => {
@@ -678,7 +718,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 });
             }
         });
-        setShowConfirmModal(true);
+        setIsConfirmModalOpen(true);
     };
 
     // Library browser helpers
@@ -796,69 +836,180 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                     <div className="campaign-tab-content">
                         <div className="campaign-overview">
                             <div className="campaign-header-section">
-                                <div className="campaign-field" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                                    <label style={{ marginRight: '5px' }}>Campaign</label>
-                                    <select
-                                        value={currentCampaignId || ''}
-                                        onChange={(e) => {
-                                            const newCampaignId = e.target.value;
-                                            campaignService.setCurrentCampaign(newCampaignId);
-                                            setCurrentCampaignId(newCampaignId);
-                                            const campaign = campaignService.getCampaign(newCampaignId);
-                                            // Load the campaign data or reset to defaults
-                                            const defaultData = {
-                                                name: campaign?.name || 'New Campaign',
-                                                description: campaign?.description || '',
-                                                currentSession: 1,
-                                                players: [],
-                                                sessions: [],
-                                                npcs: [],
-                                                locations: [],
-                                                plotThreads: [],
-                                                quests: [],
-                                                homebrew: { items: [], monsters: [], spells: [], lore: [] },
-                                                selectedCreatures: [],
-                                                selectedItems: [],
-                                                selectedSpells: []
-                                            };
-                                            setCampaignData(campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData);
-                                        }}
-                                        className="campaign-input"
-                                        style={{ minWidth: '150px' }}
-                                    >
-                                        {campaigns.map(campaign => (
-                                            <option key={campaign.id} value={campaign.id}>{campaign.name}</option>
-                                        ))}
-                                    </select>
-                                    <button
-                                        onClick={() => {
-                                            const newCampaign = campaignService.createCampaign({ name: 'New Campaign' });
-                                            setCampaigns(campaignService.getCampaigns());
-                                            campaignService.setCurrentCampaign(newCampaign.id);
-                                            setCurrentCampaignId(newCampaign.id);
-                                            // Reset to fresh campaign data
-                                            const freshData = {
-                                                name: 'New Campaign',
-                                                description: '',
-                                                currentSession: 1,
-                                                players: [],
-                                                sessions: [],
-                                                npcs: [],
-                                                locations: [],
-                                                plotThreads: [],
-                                                quests: [],
-                                                homebrew: { items: [], monsters: [], spells: [], lore: [] },
-                                                selectedCreatures: [],
-                                                selectedItems: [],
-                                                selectedSpells: []
-                                            };
-                                            setCampaignData(newCampaign.campaignData || freshData);
-                                        }}
-                                        className="campaign-input"
-                                        style={{ padding: '8px 12px', cursor: 'pointer', fontSize: '13px' }}
-                                    >
-                                        + New
-                                    </button>
+                                <div className="campaign-field" style={{ marginBottom: '16px' }}>
+                                    <label style={{ marginBottom: '6px' }}>Campaign</label>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                        <select
+                                            value={currentCampaignId || ''}
+                                            onChange={(e) => {
+                                                const newCampaignId = e.target.value;
+                                                campaignService.setCurrentCampaign(newCampaignId);
+                                                setCurrentCampaignId(newCampaignId);
+                                                const campaign = campaignService.getCampaign(newCampaignId);
+                                                // Load the campaign data or reset to defaults
+                                                const defaultData = {
+                                                    name: campaign?.name || 'New Campaign',
+                                                    description: campaign?.description || '',
+                                                    currentSession: 1,
+                                                    players: [],
+                                                    sessions: [],
+                                                    npcs: [],
+                                                    locations: [],
+                                                    plotThreads: [],
+                                                    quests: [],
+                                                    homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                                                    selectedCreatures: [],
+                                                    selectedItems: [],
+                                                    selectedSpells: []
+                                                };
+                                                setCampaignData(campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData);
+                                            }}
+                                            className="campaign-input"
+                                            style={{ minWidth: '150px', flex: '1 1 0%' }}
+                                        >
+                                            {campaigns.map(campaign => (
+                                                <option key={campaign.id} value={campaign.id}>{campaign.name}</option>
+                                            ))}
+                                        </select>
+                                        <button
+                                            onClick={() => {
+                                                const newCampaign = campaignService.createCampaign({ name: 'New Campaign' });
+                                                setCampaigns(campaignService.getCampaigns());
+                                                campaignService.setCurrentCampaign(newCampaign.id);
+                                                setCurrentCampaignId(newCampaign.id);
+                                                // Reset to fresh campaign data
+                                                const freshData = {
+                                                    name: 'New Campaign',
+                                                    description: '',
+                                                    currentSession: 1,
+                                                    players: [],
+                                                    sessions: [],
+                                                    npcs: [],
+                                                    locations: [],
+                                                    plotThreads: [],
+                                                    quests: [],
+                                                    homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                                                    selectedCreatures: [],
+                                                    selectedItems: [],
+                                                    selectedSpells: []
+                                                };
+                                                setCampaignData(newCampaign.campaignData || freshData);
+                                            }}
+                                            className="campaign-input"
+                                            style={{ 
+                                                padding: '10px 12px',
+                                                cursor: 'pointer', 
+                                                fontSize: '13px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexShrink: 0,
+                                                width: 'auto',
+                                                minWidth: '80px',
+                                                height: '42px',
+                                                boxSizing: 'border-box'
+                                            }}
+                                        >
+                                            + New
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                if (currentCampaignId) {
+                                                    // Convert to string for comparison to handle type mismatches
+                                                    const idStr = String(currentCampaignId);
+                                                    const campaignToDelete = campaigns.find(c => String(c.id) === idStr);
+                                                    showConfirmModal(
+                                                        'Delete Campaign',
+                                                        `Are you sure you want to delete the campaign "${campaignToDelete?.name || 'this campaign'}"? This action cannot be undone.`,
+                                                        () => {
+                                                            // Delete the campaign
+                                                            campaignService.deleteCampaign(currentCampaignId);
+
+                                                            // Get updated campaigns list
+                                                            const updatedCampaigns = campaignService.getCampaigns();
+
+                                                            // If there are other campaigns, switch to the first one
+                                                            // Otherwise, create a default campaign
+                                                            let newCurrentId;
+                                                            let newCampaignData;
+
+                                                            if (updatedCampaigns.length > 0) {
+                                                                newCurrentId = updatedCampaigns[0].id;
+                                                                const campaign = campaignService.getCampaign(newCurrentId);
+                                                                campaignService.setCurrentCampaign(newCurrentId);
+                                                                const defaultData = {
+                                                                    name: campaign?.name || 'New Campaign',
+                                                                    description: campaign?.description || '',
+                                                                    currentSession: 1,
+                                                                    players: [],
+                                                                    sessions: [],
+                                                                    npcs: [],
+                                                                    locations: [],
+                                                                    plotThreads: [],
+                                                                    quests: [],
+                                                                    homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                                                                    selectedCreatures: [],
+                                                                    selectedItems: [],
+                                                                    selectedSpells: []
+                                                                };
+                                                                newCampaignData = campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData;
+                                                            } else {
+                                                                // No campaigns left, create a default one
+                                                                const defaultCampaign = campaignService.createCampaign({ name: 'New Campaign' });
+                                                                newCurrentId = defaultCampaign.id;
+                                                                campaignService.setCurrentCampaign(newCurrentId);
+                                                                updatedCampaigns.push(defaultCampaign);
+                                                                newCampaignData = defaultCampaign.campaignData || {
+                                                                    name: 'New Campaign',
+                                                                    description: '',
+                                                                    currentSession: 1,
+                                                                    players: [],
+                                                                    sessions: [],
+                                                                    npcs: [],
+                                                                    locations: [],
+                                                                    plotThreads: [],
+                                                                    quests: [],
+                                                                    homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                                                                    selectedCreatures: [],
+                                                                    selectedItems: [],
+                                                                    selectedSpells: []
+                                                                };
+                                                            }
+
+                                                            // Update state
+                                                            setCampaigns(updatedCampaigns);
+                                                            setCurrentCampaignId(newCurrentId);
+                                                            setCampaignData(newCampaignData);
+                                                        }
+                                                    );
+                                                }
+                                            }}
+                                            className="campaign-input"
+                                            style={{
+                                                padding: '10px 12px',
+                                                cursor: 'pointer',
+                                                fontSize: '13px',
+                                                backgroundColor: campaigns.length <= 1 ? '#666' : '#dc3545',
+                                                color: 'white',
+                                                border: '1px solid #dc3545',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexShrink: 0,
+                                                width: 'auto',
+                                                minWidth: '80px',
+                                                height: '42px',
+                                                boxSizing: 'border-box'
+                                            }}
+                                            disabled={campaigns.length <= 1}
+                                            title={campaigns.length <= 1 ? "Cannot delete the only campaign" : "Delete this campaign"}
+                                        >
+                                            <i className="fas fa-trash" style={{ fontSize: '12px', lineHeight: '1' }}></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="campaign-field" style={{ marginBottom: '16px' }}>
+                                    <label style={{ marginBottom: '6px' }}>Campaign Name</label>
                                     <input
                                         type="text"
                                         value={campaignData.name}
@@ -872,14 +1023,15 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                     campaignData: { ...campaignData, name: newName }
                                                 });
                                                 // Update local campaigns state to refresh dropdown
+                                                const idStr = String(currentCampaignId);
                                                 setCampaigns(prev => prev.map(c => 
-                                                    c.id === currentCampaignId ? { ...c, name: newName } : c
+                                                    String(c.id) === idStr ? { ...c, name: newName } : c
                                                 ));
                                             }
                                         }}
                                         className="campaign-input"
                                         placeholder="Enter campaign name..."
-                                        style={{ flex: 1, minWidth: '200px' }}
+                                        style={{ width: '100%', backgroundColor: 'white' }}
                                     />
                                 </div>
                                 <div className="campaign-field">
@@ -2182,13 +2334,6 @@ function CampaignManagerWindow({ isOpen, onClose }) {
         }
     };
 
-    // Handler for confirm modal
-    const handleConfirm = () => {
-        if (confirmModalConfig.onConfirm) {
-            confirmModalConfig.onConfirm();
-            setShowConfirmModal(false);
-        }
-    };
 
     return (
         <>
@@ -2315,7 +2460,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             )}
 
             {/* Confirm Modal */}
-            {showConfirmModal && (
+            {isConfirmModalOpen && (
                 <div
                     className="modal-overlay"
                     style={{
@@ -2330,7 +2475,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         justifyContent: 'center',
                         zIndex: 100000
                     }}
-                    onClick={() => setShowConfirmModal(false)}
+                    onClick={() => setIsConfirmModalOpen(false)}
                 >
                     <div
                         className="confirm-modal"
@@ -2353,7 +2498,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         </p>
                         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
                             <button
-                                onClick={() => setShowConfirmModal(false)}
+                                onClick={() => setIsConfirmModalOpen(false)}
                                 style={{
                                     padding: '8px 16px',
                                     backgroundColor: '#4a5d23',
@@ -2385,6 +2530,15 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                 </div>
             )}
             
+            {/* Confirm Modal */}
+            <ConfirmModal
+                isOpen={confirmModal.isOpen}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                onConfirm={handleConfirm}
+                onCancel={hideConfirmModal}
+            />
+
             {/* Library Browser Modal */}
             <LibraryBrowserModal
                 isOpen={libraryBrowser.isOpen}

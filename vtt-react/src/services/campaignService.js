@@ -107,7 +107,10 @@ class CampaignService {
    * Get a specific campaign
    */
   getCampaign(campaignId) {
-    return this.campaigns.find(c => c.id === campaignId);
+    if (!campaignId) return null;
+    // Convert to string for comparison to handle type mismatches
+    const idStr = String(campaignId);
+    return this.campaigns.find(c => String(c.id) === idStr);
   }
 
   /**
@@ -122,7 +125,9 @@ class CampaignService {
     // Reload campaigns to ensure we have the latest data
     this.campaigns = this.loadCampaigns();
     
-    const campaignIndex = this.campaigns.findIndex(c => c.id === campaignId);
+    // Convert to string for comparison to handle type mismatches
+    const idStr = String(campaignId);
+    const campaignIndex = this.campaigns.findIndex(c => String(c.id) === idStr);
     if (campaignIndex !== -1) {
       this.campaigns[campaignIndex] = {
         ...this.campaigns[campaignIndex],
@@ -142,7 +147,13 @@ class CampaignService {
    * Delete a campaign
    */
   deleteCampaign(campaignId) {
-    this.campaigns = this.campaigns.filter(c => c.id !== campaignId);
+    if (!campaignId) {
+      console.warn('Attempted to delete campaign with no ID');
+      return;
+    }
+    // Convert to string for comparison to handle type mismatches
+    const idStr = String(campaignId);
+    this.campaigns = this.campaigns.filter(c => String(c.id) !== idStr);
     this.saveCampaigns();
   }
 
@@ -150,14 +161,17 @@ class CampaignService {
    * Set current campaign
    */
   setCurrentCampaign(campaignId) {
-    localStorage.setItem(CURRENT_CAMPAIGN_KEY, campaignId);
+    // Always store as string to ensure consistency
+    localStorage.setItem(CURRENT_CAMPAIGN_KEY, String(campaignId));
   }
 
   /**
    * Get current campaign ID
    */
   getCurrentCampaignId() {
-    return localStorage.getItem(CURRENT_CAMPAIGN_KEY);
+    const id = localStorage.getItem(CURRENT_CAMPAIGN_KEY);
+    // Ensure we return a string or null (never a number)
+    return id ? String(id) : null;
   }
 
   /**

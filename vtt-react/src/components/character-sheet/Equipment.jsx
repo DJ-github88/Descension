@@ -24,10 +24,32 @@ import '../../styles/racial-traits.css';
 
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 
-// Derive tangible passive summaries (append derived mechanics to existing text)
+// Derive concise passive summaries: 1 line flavor text, then game mechanics
 const getPassiveSummary = (passive = {}) => {
     const parts = [];
-    if (passive.description) parts.push(passive.description);
+    
+    // Extract first sentence of description as flavor text
+    if (passive.description) {
+        const firstSentence = passive.description.split(/[.!?]+/)[0].trim();
+        if (firstSentence) parts.push(firstSentence + '.');
+    }
+
+    // Extract condition from triggerConfig if present
+    let conditionText = '';
+    if (passive.triggerConfig?.global?.compoundTriggers) {
+        const healthTrigger = passive.triggerConfig.global.compoundTriggers.find(t => t.id === 'health_threshold');
+        if (healthTrigger?.parameters) {
+            const percentage = healthTrigger.parameters.percentage;
+            const comparison = healthTrigger.parameters.comparison;
+            if (percentage && comparison) {
+                if (comparison === 'less_than' || comparison === 'below') {
+                    conditionText = `when below ${percentage}% HP`;
+                } else if (comparison === 'greater_than' || comparison === 'above') {
+                    conditionText = `when above ${percentage}% HP`;
+                }
+            }
+        }
+    }
 
     const formatStatMod = (mod = {}) => {
         const stat = (mod.stat || 'stat').replace(/_/g, ' ');
@@ -37,6 +59,33 @@ const getPassiveSummary = (passive = {}) => {
         return `${stat} ${mag}`;
     };
 
+    // Group stat modifiers together
+    const statMods = [];
+    const otherEffects = [];
+
+    // Process buff effects
+    if (passive.buffConfig?.effects) {
+        passive.buffConfig.effects.forEach(effect => {
+            if (effect.statModifier) {
+                statMods.push(formatStatMod(effect.statModifier));
+            } else if (effect.statusEffect) {
+                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+            }
+        });
+    }
+
+    // Process debuff effects
+    if (passive.debuffConfig?.effects) {
+        passive.debuffConfig.effects.forEach(effect => {
+            if (effect.statModifier) {
+                statMods.push(formatStatMod(effect.statModifier));
+            } else if (effect.statusEffect) {
+                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+            }
+        });
+    }
+
+    // Add healing config
     if (passive.healingConfig) {
         const { formula = 'healing', hotTickInterval, hotDuration, durationType } = passive.healingConfig;
         const intervalText = hotTickInterval
@@ -50,17 +99,16 @@ const getPassiveSummary = (passive = {}) => {
         parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
     }
 
-    const buffDesc = passive.buffConfig?.effects
-        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)))
-        ?.filter(Boolean)
-        ?.join('. ');
-    if (buffDesc) parts.push(buffDesc);
+    // Add stat modifiers (grouped together)
+    if (statMods.length > 0) {
+        const modText = statMods.join(', ');
+        parts.push(conditionText ? `${modText} ${conditionText}` : modText);
+    }
 
-    const debuffDesc = passive.debuffConfig?.effects
-        ?.map(e => e.description || (e.statModifier && formatStatMod(e.statModifier)) || e.statusEffect?.type)
-        ?.filter(Boolean)
-        ?.join('. ');
-    if (debuffDesc) parts.push(debuffDesc);
+    // Add other effects
+    if (otherEffects.length > 0) {
+        parts.push(otherEffects.join(', '));
+    }
 
     return parts.length ? parts.join(' ') : 'No description available';
 };

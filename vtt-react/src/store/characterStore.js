@@ -1377,8 +1377,39 @@ const useCharacterStore = create((set, get) => ({
                 max: max !== undefined ? Math.max(0, max) : oldResource.max
             };
 
+            // If health changed, recalculate derived stats to apply conditional passives (like Battle Fury)
+            let newDerivedStats = state.derivedStats;
+            if (resource === 'health') {
+                // Apply racial modifiers to get effective stats for calculations
+                const effectiveStats = state.race && state.subrace
+                    ? applyRacialModifiers(state.stats, state.race, state.subrace)
+                    : state.stats;
+                const equipmentBonuses = calculateEquipmentBonuses(state.equipment);
+                
+                // Apply equipment bonuses to stats before calculating derived stats
+                const totalStats = { ...effectiveStats };
+                const statMapping = {
+                    str: 'strength',
+                    con: 'constitution',
+                    agi: 'agility',
+                    int: 'intelligence',
+                    spir: 'spirit',
+                    cha: 'charisma'
+                };
+
+                Object.entries(statMapping).forEach(([shortName, fullName]) => {
+                    if (equipmentBonuses[shortName]) {
+                        totalStats[fullName] = (totalStats[fullName] || 0) + equipmentBonuses[shortName];
+                    }
+                });
+
+                const encumbranceState = getEncumbranceState();
+                newDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, newResource, state.race, state.subrace);
+            }
+
             return {
-                [resource]: newResource
+                [resource]: newResource,
+                ...(resource === 'health' ? { derivedStats: newDerivedStats } : {})
             };
         });
     },

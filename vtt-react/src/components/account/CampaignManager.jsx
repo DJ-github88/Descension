@@ -884,6 +884,85 @@ const CampaignManager = ({ user }) => {
           >
             + New
           </button>
+          <button
+            onClick={() => {
+              if (currentCampaignId) {
+                showConfirmModal(
+                  'Delete Campaign',
+                  `Are you sure you want to delete the campaign "${campaigns.find(c => c.id === currentCampaignId)?.name || 'this campaign'}"? This action cannot be undone.`,
+                  () => {
+                    const campaignToDelete = campaigns.find(c => c.id === currentCampaignId);
+                    if (campaignToDelete) {
+                      // Delete the campaign
+                      campaignService.deleteCampaign(currentCampaignId);
+
+                      // Get updated campaigns list
+                      const updatedCampaigns = campaignService.getCampaigns();
+
+                      // If there are other campaigns, switch to the first one
+                      // Otherwise, create a default campaign
+                      let newCurrentId;
+                      let newCampaignData;
+
+                      if (updatedCampaigns.length > 0) {
+                        newCurrentId = updatedCampaigns[0].id;
+                        const campaign = campaignService.getCampaign(newCurrentId);
+                        campaignService.setCurrentCampaign(newCurrentId);
+                        const defaultData = {
+                          name: campaign?.name || 'New Campaign',
+                          description: campaign?.description || '',
+                          currentSession: 1,
+                          players: [],
+                          sessions: [],
+                          npcs: [],
+                          locations: [],
+                          plotThreads: [],
+                          quests: [],
+                          homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                          selectedCreatures: [],
+                          selectedItems: [],
+                          selectedSpells: []
+                        };
+                        newCampaignData = campaign?.campaignData ? { ...defaultData, ...campaign.campaignData } : defaultData;
+                      } else {
+                        // No campaigns left, create a default one
+                        const defaultCampaign = campaignService.createCampaign({ name: 'New Campaign' });
+                        newCurrentId = defaultCampaign.id;
+                        campaignService.setCurrentCampaign(newCurrentId);
+                        updatedCampaigns.push(defaultCampaign);
+                        newCampaignData = defaultCampaign.campaignData || {
+                          name: 'New Campaign',
+                          description: '',
+                          currentSession: 1,
+                          players: [],
+                          sessions: [],
+                          npcs: [],
+                          locations: [],
+                          plotThreads: [],
+                          quests: [],
+                          homebrew: { items: [], monsters: [], spells: [], lore: [] },
+                          selectedCreatures: [],
+                          selectedItems: [],
+                          selectedSpells: []
+                        };
+                      }
+
+                      // Update state
+                      setCampaigns(updatedCampaigns);
+                      setCurrentCampaignId(newCurrentId);
+                      setCampaignData(newCampaignData);
+                    }
+                  }
+                );
+              }
+            }}
+            className="btn btn-danger"
+            style={{ padding: '8px 12px', whiteSpace: 'nowrap', fontSize: '13px' }}
+            disabled={campaigns.length <= 1}
+            title={campaigns.length <= 1 ? "Cannot delete the only campaign" : "Delete this campaign"}
+          >
+            <i className="fas fa-trash"></i>
+          </button>
           <input
             type="text"
             value={campaignData.name}

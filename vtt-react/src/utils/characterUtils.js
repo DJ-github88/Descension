@@ -421,23 +421,44 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         isDead: exhaustionLevel >= 6
     };
 
-    // Apply Battle Fury passive if health is below 50%
+    // Apply conditional passives based on health thresholds
     if (health && race && subrace) {
         const healthPercentage = (health.current / health.max) * 100;
-        if (healthPercentage <= 50) {
-            // Check if character has Battle Fury passive
-            // Import dynamically to avoid circular dependency
-            const raceDisciplineSpellUtils = require('./raceDisciplineSpellUtils');
-            const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace);
-            const battleFury = passiveModifiers.find(mod => mod.id === 'battle_fury_nordmark');
+        
+        // Import dynamically to avoid circular dependency
+        const raceDisciplineSpellUtils = require('./raceDisciplineSpellUtils');
+        const passiveModifiers = raceDisciplineSpellUtils.getRacialStatModifiers(race, subrace);
+        
+        // Check each passive for health threshold conditions
+        passiveModifiers.forEach(passive => {
+            if (!passive.triggerConfig?.global?.compoundTriggers) return;
             
-            if (battleFury && battleFury.buffConfig?.effects) {
-                battleFury.buffConfig.effects.forEach(effect => {
+            // Find health threshold trigger
+            const healthTrigger = passive.triggerConfig.global.compoundTriggers.find(t => t.id === 'health_threshold');
+            if (!healthTrigger?.parameters) return;
+            
+            const threshold = healthTrigger.parameters.percentage;
+            const comparison = healthTrigger.parameters.comparison;
+            if (!threshold || !comparison) return;
+            
+            // Check if condition is met
+            let conditionMet = false;
+            if (comparison === 'less_than' || comparison === 'below') {
+                conditionMet = healthPercentage <= threshold;
+            } else if (comparison === 'greater_than' || comparison === 'above') {
+                conditionMet = healthPercentage >= threshold;
+            } else if (comparison === 'equal' || comparison === 'exactly') {
+                conditionMet = Math.abs(healthPercentage - threshold) < 1; // Within 1%
+            }
+            
+            // Apply passive effects if condition is met
+            if (conditionMet && passive.buffConfig?.effects) {
+                passive.buffConfig.effects.forEach(effect => {
                     if (effect.statModifier) {
                         const statName = effect.statModifier.stat;
                         const magnitude = effect.statModifier.magnitude;
                         
-                        // Apply Battle Fury bonuses
+                        // Apply stat modifiers to derived stats
                         if (statName === 'slashing_damage') {
                             derivedStats.slashingDamage = (derivedStats.slashingDamage || 0) + magnitude;
                         } else if (statName === 'bludgeoning_damage') {
@@ -449,13 +470,17 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
                         } else if (statName === 'armor') {
                             derivedStats.armor = (derivedStats.armor || 0) + magnitude;
                         } else if (statName === 'saving_throws') {
-                            // Store saving throw penalty separately (not in derivedStats, but we can add it)
                             derivedStats.savingThrowPenalty = (derivedStats.savingThrowPenalty || 0) + magnitude;
+                        } else if (statName === 'damage') {
+                            derivedStats.damage = (derivedStats.damage || 0) + magnitude;
+                        } else if (statName === 'spell_damage') {
+                            derivedStats.spellDamage = (derivedStats.spellDamage || 0) + magnitude;
                         }
+                        // Add more stat mappings as needed
                     }
                 });
             }
-        }
+        });
     }
 
     return derivedStats;

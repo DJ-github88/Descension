@@ -67,12 +67,35 @@
     font-family: var(--pf-font-body, 'Crimson Text', serif);
     font-size: 14px;
     transition: border-color 0.2s ease;
+    box-sizing: border-box;
 }
 
 .campaign-input:focus {
     outline: none;
     border-color: var(--pf-gold, #d4af37);
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+    background: white;
+}
+
+/* Ensure input and select elements maintain white background */
+input.campaign-input[type="text"],
+input.campaign-input[type="text"]:focus,
+select.campaign-input,
+select.campaign-input:focus {
+    background: white !important;
+}
+
+/* Buttons using campaign-input class can override background */
+button.campaign-input {
+    background: var(--pf-brown-light, #a08c70);
+    color: var(--pf-text-primary, #2d1810);
+    cursor: pointer;
+    width: auto;
+}
+
+button.campaign-input:hover {
+    background: var(--pf-brown-dark, #8b7355);
+    border-color: var(--pf-brown-dark, #8b7355);
 }
 
 .campaign-textarea {
@@ -129,6 +152,13 @@
     justify-content: center;
     color: var(--pf-text-on-dark, #f8f4e6);
     font-size: 16px;
+}
+
+.stat-icon i {
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .stat-content {
