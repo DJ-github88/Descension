@@ -250,8 +250,9 @@
 /* ============ HEADER ============ */
 .campaign-detail-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
   padding: 24px 28px;
   background: linear-gradient(135deg, rgba(248, 245, 240, 0.98) 0%, rgba(240, 234, 214, 0.98) 100%);
   border: 2px solid rgba(139, 69, 19, 0.2);
@@ -262,8 +263,43 @@
 
 .campaign-title-section {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: 16px;
+  min-width: 0; /* allow children to shrink on narrow screens */
+  flex: 1 1 auto;
+}
+
+.campaign-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.campaign-header-controls > * {
+  min-width: 0;
+}
+
+.campaign-selector {
+  padding: 8px 10px;
+  border: 2px solid rgba(139, 69, 19, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #2d1810;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  min-width: 220px;
+  max-width: 100%;
+  flex: 1 1 280px;
+}
+
+.campaign-selector:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+  background: #fff;
 }
 
 .campaign-icon {
@@ -283,6 +319,8 @@
   padding: 6px 10px;
   transition: all 0.3s ease;
   min-width: 300px;
+  max-width: 100%;
+  width: 100%;
 }
 
 .campaign-title-input:hover,
@@ -303,6 +341,22 @@
   border-radius: 20px;
   border: 1px solid rgba(212, 175, 55, 0.25);
   font-weight: 500;
+  max-width: 100%;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  margin-left: auto;
+  align-self: flex-start;
+}
+
+/* Desktop polish: keep controls in one row when there's room */
+@media (min-width: 900px) {
+  .campaign-header-controls {
+    flex-wrap: nowrap;
+  }
+
+  .campaign-selector {
+    max-width: 360px;
+  }
 }
 
 .campaign-sync-notice i {
@@ -2250,6 +2304,26 @@
     gap: 16px;
     text-align: center;
     padding: 20px;
+  }
+
+  .campaign-header-controls {
+    justify-content: center;
+  }
+
+  .campaign-selector {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .campaign-new-btn,
+  .campaign-delete-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  
+  .campaign-sync-notice {
+    justify-content: center;
+    text-align: center;
   }
   
   .campaign-title-input {

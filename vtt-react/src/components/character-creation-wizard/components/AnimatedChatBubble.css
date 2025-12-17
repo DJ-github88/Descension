@@ -172,6 +172,13 @@
   transform: scale(1.01);
 }
 
+/* Mobile: disable the tutorial bubble overlay */
+@media (max-width: 1000px), (hover: none) and (pointer: coarse) {
+  .animated-chat-bubble {
+    display: none !important;
+  }
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
   .chat-bubble {

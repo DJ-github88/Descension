@@ -28,6 +28,37 @@
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
+/* Mobile: Dialogue is opened from the mobile nav; make the panel fullscreen and hide the floating toggle to avoid overlap */
+@media (max-width: 768px) {
+  .dialogue-controls {
+    right: 0;
+    bottom: 0;
+    z-index: 10020; /* above mobile nav popout */
+  }
+
+  .dialogue-toggle-btn {
+    display: none;
+  }
+
+  .dialogue-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .panel-content {
+    max-height: none;
+    padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .dialogue-toggle-btn:hover {
   background: linear-gradient(135deg, #e8dcc0 0%, #d4c4a8 100%);
   border-color: #7a3b2e;

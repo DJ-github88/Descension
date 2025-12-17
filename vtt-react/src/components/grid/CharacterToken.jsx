@@ -16,6 +16,7 @@ import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
 import '../../styles/unified-context-menu.css';
 import '../../styles/creature-token.css';
+import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 
 const CharacterToken = ({
     tokenId,
@@ -25,6 +26,8 @@ const CharacterToken = ({
     onInspect
 }) => {
     const tokenRef = useRef(null);
+    const lastPointerTypeRef = useRef('mouse');
+    const longPressHandlers = useLongPressContextMenu();
     const [isDragging, setIsDragging] = useState(false);
     const [isMouseDown, setIsMouseDown] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -437,6 +440,21 @@ const CharacterToken = ({
             setShowTooltip(false);
     };
 
+    const showTooltipNow = useCallback(() => {
+        if (!tokenRef.current) return;
+        if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+        }
+
+        const rect = tokenRef.current.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top - 10;
+        const adjustedX = x > window.innerWidth - 200 ? x - 200 : x;
+        const adjustedY = y < 100 ? rect.bottom + 10 : y;
+        setTooltipPosition({ x: adjustedX, y: adjustedY });
+        setShowTooltip(true);
+    }, []);
+
     // Handle wheel/scroll to rotate token facing direction
     const handleWheel = useCallback((e) => {
         // Only rotate if:
@@ -621,6 +639,18 @@ const CharacterToken = ({
 
         // Only handle click if we're not dragging
         if (!isDragging) {
+            // Mobile: tap toggles tooltip (hover doesn't exist)
+            if (lastPointerTypeRef.current === 'touch') {
+                setShowTooltip(prev => {
+                    const next = !prev;
+                    if (next) {
+                        showTooltipNow();
+                    }
+                    return next;
+                });
+                return;
+            }
+
             // Handle combat selection mode
             if (isSelectionMode) {
                 toggleTokenSelection(tokenId);
@@ -1533,6 +1563,16 @@ const CharacterToken = ({
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onMouseDown={handleMouseDown}
+                onPointerDown={(e) => {
+                    lastPointerTypeRef.current = e.pointerType || 'mouse';
+                    longPressHandlers.onPointerDown(e);
+                    if (e.pointerType === 'touch') {
+                        handleMouseDown(e);
+                    }
+                }}
+                onPointerMove={longPressHandlers.onPointerMove}
+                onPointerUp={longPressHandlers.onPointerUp}
+                onPointerCancel={longPressHandlers.onPointerCancel}
                 onClick={handleTokenClick}
             >
                 {/* Condition rings with text - staggered outward for multiple conditions */}

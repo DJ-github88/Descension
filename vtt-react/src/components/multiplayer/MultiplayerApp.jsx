@@ -2477,13 +2477,40 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         handleReturnToSinglePlayer={handleReturnToSinglePlayer}
         connectionStatus={connectionStatus}
         isJoiningRoom={isJoiningRoom}
+        isGMMode={isGMMode}
+        gridSize={gridSize}
+        gridOffsetX={gridOffsetX}
+        gridOffsetY={gridOffsetY}
+        isGM={isGM}
+        socket={socket}
+        addNotification={addNotification}
+        otherPlayerCursors={otherPlayerCursors}
+        pendingGameSessionInvitations={pendingGameSessionInvitations}
+        handleAcceptGameSession={handleAcceptGameSession}
+        handleDeclineGameSession={handleDeclineGameSession}
       />
     </RoomProvider>
   );
 };
 
 // Separate component that can use room context
-const MultiplayerGameContent = ({ currentRoom, handleReturnToSinglePlayer, connectionStatus, isJoiningRoom }) => {
+const MultiplayerGameContent = ({
+  currentRoom,
+  handleReturnToSinglePlayer,
+  connectionStatus,
+  isJoiningRoom,
+  isGMMode,
+  gridSize,
+  gridOffsetX,
+  gridOffsetY,
+  isGM,
+  socket,
+  addNotification,
+  otherPlayerCursors,
+  pendingGameSessionInvitations,
+  handleAcceptGameSession,
+  handleDeclineGameSession
+}) => {
   const { enterMultiplayerRoom, exitRoom } = useRoomContext();
 
   // Update room context when currentRoom changes

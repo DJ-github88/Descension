@@ -1623,7 +1623,8 @@ button.gender-option.selected {
         flex: 1 !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
-        padding: var(--pf-space-mobile-4) !important;
+        /* Avoid double-padding with .wizard-step-content on small screens */
+        padding: 0 !important;
         min-height: 0 !important;
         -webkit-overflow-scrolling: touch !important;
         overscroll-behavior: contain !important;
@@ -1638,8 +1639,24 @@ button.gender-option.selected {
     }
 
     .character-wizard-container .wizard-step-content {
-        padding: var(--pf-space-mobile-4);
+        /* Override the desktop `padding: 2rem 4rem !important` */
+        padding: var(--pf-space-mobile-4) !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        gap: var(--pf-space-mobile-6) !important;
         min-height: auto !important;
+    }
+
+    /* Mobile: disable tutorial/chat overlays (they overlap content on small screens) */
+    .character-wizard-container .chat-control-bubble {
+        display: none !important;
+    }
+
+    .character-wizard-container .animated-chat-bubble,
+    .character-wizard-container .chat-bubble-container,
+    .character-wizard-container .chat-bubble {
+        display: none !important;
     }
 
     .character-wizard-container .wizard-footer {
@@ -5899,6 +5916,30 @@ button.gender-option.selected {
         flex-wrap: nowrap !important;
     }
 
+    /* Treat <=1000px as "mobile-ish" (incl. landscape phones): keep content full-width */
+    .character-wizard-container .wizard-content {
+        padding: 0 !important;
+    }
+
+    .character-wizard-container .wizard-step-content {
+        /* Override desktop `padding: 2rem 4rem !important` for landscape/mobile widths */
+        padding: var(--pf-space-mobile-4) !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Mobile-ish: disable tutorial/chat overlays (they overlap content on small screens) */
+    .character-wizard-container .chat-control-bubble {
+        display: none !important;
+    }
+
+    .character-wizard-container .animated-chat-bubble,
+    .character-wizard-container .chat-bubble-container,
+    .character-wizard-container .chat-bubble {
+        display: none !important;
+    }
+
     .header-left {
         flex: 0 0 auto !important;
         width: auto !important;
@@ -5971,6 +6012,13 @@ button.gender-option.selected {
 
     .step-name-horizontal {
         display: none !important;
+    }
+
+    /* Mobile stepper: remove connector bars to reduce width; header scroll handles overflow */
+    .step-connector {
+        display: none !important;
+        width: 0 !important;
+        margin: 0 !important;
     }
 }
 

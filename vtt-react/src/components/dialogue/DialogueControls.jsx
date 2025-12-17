@@ -63,6 +63,16 @@ const DialogueControls = () => {
     };
   }, [isOpen]);
 
+  // Allow other UI (e.g. mobile nav) to toggle this panel
+  useEffect(() => {
+    const handleToggle = () => {
+      setIsOpen(prev => !prev);
+    };
+
+    window.addEventListener('toggleDialogueControls', handleToggle);
+    return () => window.removeEventListener('toggleDialogueControls', handleToggle);
+  }, []);
+
   // Focus input when opened
   useEffect(() => {
     if (isOpen && inputRef.current) {

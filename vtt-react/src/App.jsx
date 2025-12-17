@@ -727,16 +727,19 @@ export default function App() {
 
             // Small delay to ensure scroll has completed
             setTimeout(() => {
-                // Prevent scrolling in game modes
+                // Prevent page scrolling in game modes.
+                // IMPORTANT: Avoid `position: fixed` on body (mobile Safari keyboard + dynamic viewport issues).
+                document.documentElement.style.overflow = 'hidden';
                 document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.top = '0px';
-                document.body.style.left = '0px';
+                document.body.style.position = 'static';
+                document.body.style.top = 'auto';
+                document.body.style.left = 'auto';
                 document.body.style.width = '100%';
                 document.body.style.height = '100%';
             }, 10);
         } else {
             // Allow scrolling on landing page
+            document.documentElement.style.overflow = 'auto';
             document.body.style.overflow = 'auto';
             document.body.style.position = 'static';
             document.body.style.top = 'auto';
@@ -747,6 +750,7 @@ export default function App() {
 
         // Cleanup function to reset on unmount
         return () => {
+            document.documentElement.style.overflow = 'auto';
             document.body.style.overflow = 'auto';
             document.body.style.position = 'static';
             document.body.style.top = 'auto';

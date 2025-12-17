@@ -187,6 +187,11 @@ function GridComponent({
     const pendingZoomDeltaRef = useRef({ deltaY: 0, mouseX: 0, mouseY: 0 });
     const lastZoomTimeRef = useRef(0);
 
+    // Mobile/touch gesture tracking (pan + pinch)
+    const activeTouchPointersRef = useRef(new Map()); // pointerId -> { x, y }
+    const isPinchingRef = useRef(false);
+    const pinchRef = useRef(null); // { startDist, startPlayerZoom, startWorldX, startWorldY }
+
     // Track when items are being dragged to enable pointer events
     const [isDraggingItem, setIsDraggingItem] = useState(false);
 
@@ -1441,22 +1446,132 @@ function GridComponent({
         const gridElement = gridRef.current;
         if (!gridElement) return;
 
+        const startPinch = () => {
+            const points = Array.from(activeTouchPointersRef.current.values());
+            if (points.length < 2) return;
+
+            // Stop any ongoing drag/pan state before starting pinch
+            handleMouseUp();
+            longPressHandlers.cancel?.();
+
+            isPinchingRef.current = true;
+
+            const p0 = points[0];
+            const p1 = points[1];
+            const dx = p1.x - p0.x;
+            const dy = p1.y - p0.y;
+            const startDist = Math.max(1, Math.hypot(dx, dy));
+            const midX = (p0.x + p1.x) / 2;
+            const midY = (p0.y + p1.y) / 2;
+
+            const state = useGameStore.getState();
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const effective = Math.max(0.001, state.zoomLevel * state.playerZoom);
+            const startWorldX = (midX - width / 2) / effective + state.cameraX;
+            const startWorldY = (midY - height / 2) / effective + state.cameraY;
+
+            pinchRef.current = {
+                startDist,
+                startPlayerZoom: state.playerZoom,
+                startWorldX,
+                startWorldY
+            };
+        };
+
         const handlePointerDown = (e) => {
-            if (e.pointerType === 'touch') {
-                handleMouseDown(e);
+            if (e.pointerType !== 'touch') return;
+
+            // Track touch pointers for pinch support
+            activeTouchPointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+            if (activeTouchPointersRef.current.size === 2) {
+                // Two-finger gesture: pinch zoom
+                e.preventDefault();
+                e.stopPropagation();
+                startPinch();
+                return;
             }
+
+            // Single-finger gesture: existing pan/drag logic
+            isPinchingRef.current = false;
+            pinchRef.current = null;
+            handleMouseDown(e);
         };
 
         const handlePointerMove = (e) => {
-            if (e.pointerType === 'touch') {
-                handleMouseMove(e);
+            if (e.pointerType !== 'touch') return;
+            if (!activeTouchPointersRef.current.has(e.pointerId)) return;
+
+            activeTouchPointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+            // Pinch zoom (two touches)
+            if (activeTouchPointersRef.current.size >= 2) {
+                if (!isPinchingRef.current || !pinchRef.current) return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                // Don't pinch zoom while a token is being dragged (prevents accidental zoom mid-drag)
+                if (window._isDraggingToken) return;
+
+                const points = Array.from(activeTouchPointersRef.current.values());
+                const p0 = points[0];
+                const p1 = points[1];
+                const dx = p1.x - p0.x;
+                const dy = p1.y - p0.y;
+                const dist = Math.max(1, Math.hypot(dx, dy));
+                const ratio = dist / pinchRef.current.startDist;
+
+                const state = useGameStore.getState();
+                const currentZoomLevel = state.zoomLevel;
+
+                let targetZoom = pinchRef.current.startPlayerZoom * ratio;
+                targetZoom = Math.max(minPlayerZoom, Math.min(maxPlayerZoom, targetZoom));
+
+                // Prevent effective zoom from going too low (same safety as wheel zoom)
+                const minEffectiveZoom = 0.6;
+                const effectiveTargetZoom = currentZoomLevel * targetZoom;
+                if (effectiveTargetZoom < minEffectiveZoom) {
+                    targetZoom = Math.max(targetZoom, minEffectiveZoom / currentZoomLevel);
+                }
+
+                // Keep the world point under the pinch midpoint stable
+                const midX = (p0.x + p1.x) / 2;
+                const midY = (p0.y + p1.y) / 2;
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                const newEffective = Math.max(0.001, currentZoomLevel * targetZoom);
+                const newCameraX = pinchRef.current.startWorldX - (midX - width / 2) / newEffective;
+                const newCameraY = pinchRef.current.startWorldY - (midY - height / 2) / newEffective;
+
+                // Apply updates
+                setPlayerZoom(targetZoom);
+                useGameStore.getState().setCameraPosition(newCameraX, newCameraY);
+                return;
             }
+
+            // Ignore pan while pinching
+            if (isPinchingRef.current) return;
+
+            handleMouseMove(e);
         };
 
         const handlePointerUp = (e) => {
-            if (e.pointerType === 'touch') {
-                handleMouseUp(e);
+            if (e.pointerType !== 'touch') return;
+
+            activeTouchPointersRef.current.delete(e.pointerId);
+
+            // End pinch when fewer than 2 pointers remain
+            if (isPinchingRef.current && activeTouchPointersRef.current.size < 2) {
+                isPinchingRef.current = false;
+                pinchRef.current = null;
+                handleMouseUp();
+                return;
             }
+
+            // Normal single-touch end
+            handleMouseUp();
         };
 
         gridElement.addEventListener('mousedown', handleMouseDown);

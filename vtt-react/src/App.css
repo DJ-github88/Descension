@@ -26,6 +26,7 @@ input, textarea, [contenteditable="true"] {
 .spell-wizard-container {
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: var(--pf-gradient-parchment);
   position: relative;
@@ -33,17 +34,10 @@ input, textarea, [contenteditable="true"] {
   color: var(--pf-text-primary);
 }
 
-/* Ensure game screen body doesn't scroll */
-.spell-wizard-container body {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
-
 .App {
   width: 100vw;
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--pf-gradient-parchment);
   position: relative;
   text-align: center;

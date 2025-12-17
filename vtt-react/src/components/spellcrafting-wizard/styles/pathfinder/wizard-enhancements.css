@@ -1888,7 +1888,7 @@
   /* Mobile Navigation Trigger Button */
   .mobile-nav-trigger {
     position: fixed !important;
-    bottom: 20px !important;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
     right: 20px !important;
     width: 56px !important;
     height: 56px !important;
@@ -1923,7 +1923,7 @@
   /* Mobile Navigation Popout */
   .mobile-nav-popout {
     position: fixed !important;
-    bottom: 90px !important;
+    bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
     right: 20px !important;
     width: 280px !important;
     background: var(--pf-gradient-parchment) !important;
@@ -2122,6 +2122,7 @@
     cursor: pointer !important;
     transition: all 0.2s ease !important;
     touch-action: manipulation !important;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .mobile-nav-back-button:hover,

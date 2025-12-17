@@ -3,7 +3,7 @@
 
 .action-bar-container {
     position: fixed;
-    bottom: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -241,7 +241,8 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .action-bar-container {
-        bottom: 10px;
+        /* Lift slightly on mobile to clear system UI and bottom-right controls */
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
         padding: 6px 10px;
     }
 

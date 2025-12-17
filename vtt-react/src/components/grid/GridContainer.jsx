@@ -11,6 +11,7 @@ import TooltipPortal from '../tooltips/TooltipPortal';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import '../../styles/grid-container.css';
+import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 
 const GridContainer = ({ gridItem }) => {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -21,6 +22,8 @@ const GridContainer = ({ gridItem }) => {
   const [showUnlockModal, setShowUnlockModal] = useState(false);
   const containerRef = useRef(null);
   const contextMenuRef = useRef(null);
+  const lastPointerTypeRef = useRef('mouse');
+  const longPressHandlers = useLongPressContextMenu();
 
   // Get current game state for reactive updates
   const cameraX = useGameStore(state => state.cameraX);
@@ -96,12 +99,19 @@ const GridContainer = ({ gridItem }) => {
 
     if (showContextMenu) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside, { passive: true });
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [showContextMenu]);
+
+  const toggleTooltipForTouch = () => {
+    if (lastPointerTypeRef.current !== 'touch') return;
+    setShowTooltip(prev => !prev);
+  };
 
   // Handle opening the container
   const handleOpenContainer = () => {
@@ -208,6 +218,14 @@ const GridContainer = ({ gridItem }) => {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onContextMenu={handleContextMenu}
+        onPointerDown={(e) => {
+          lastPointerTypeRef.current = e.pointerType || 'mouse';
+          longPressHandlers.onPointerDown(e);
+        }}
+        onPointerMove={longPressHandlers.onPointerMove}
+        onPointerUp={longPressHandlers.onPointerUp}
+        onPointerCancel={longPressHandlers.onPointerCancel}
+        onClick={toggleTooltipForTouch}
       >
         <div
           className="grid-container-header"

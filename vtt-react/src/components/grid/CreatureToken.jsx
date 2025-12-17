@@ -25,6 +25,7 @@ import ConditionsWindow from '../conditions/ConditionsWindow';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import '../../styles/creature-token.css';
 import ShopWindow from '../shop/ShopWindow';
+import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
 
 
 // Helper function to get icon URL
@@ -106,6 +107,8 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Remove local state - use global store state instead
 
   const tokenRef = useRef(null);
+  const lastPointerTypeRef = useRef('mouse');
+  const longPressHandlers = useLongPressContextMenu();
   const lastPositionUpdateRef = useRef(Date.now());
 
   const { tokens, creatures, updateTokenState, removeToken, duplicateToken, updateTokenPosition } = useCreatureStore();
@@ -847,6 +850,39 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   // Tooltip hover delay ref
   const tooltipTimeoutRef = useRef(null);
 
+  const showTooltipNow = useCallback(() => {
+    if (!tokenRef.current) return;
+    // Clear any existing timeout
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+
+    const rect = tokenRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Calculate tooltip position closer to the token
+    let x = rect.right + 8;
+    let y = rect.top - 5;
+
+    // Adjust if tooltip would go off-screen horizontally
+    if (x + 280 > viewportWidth) {
+      x = rect.left - 288;
+    }
+
+    // Adjust if tooltip would go off-screen vertically
+    if (y + 150 > viewportHeight) {
+      y = viewportHeight - 160;
+    }
+
+    if (y < 10) {
+      y = 10;
+    }
+
+    setTooltipPosition({ x, y });
+    setShowTooltip(true);
+  }, []);
+
   // Handle mouse enter (show tooltip with delay)
   const handleMouseEnter = (e) => {
     if (!tokenRef.current) return;
@@ -1569,10 +1605,15 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     // Removed excessive logging for performance
 
-    // Only handle click if we're not dragging
-    if (!isDragging) {
-      // Handle any click-specific logic here if needed
-      // For now, just prevent the event from reaching the grid
+    // Mobile: tap to toggle tooltip (hover doesn't exist)
+    if (!isDragging && lastPointerTypeRef.current === 'touch') {
+      setShowTooltip(prev => {
+        const next = !prev;
+        if (next) {
+          showTooltipNow();
+        }
+        return next;
+      });
     }
 
     // Clear the flag after a short delay to allow normal grid interactions
@@ -1816,6 +1857,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         onMouseEnter={showRenameInput ? undefined : handleMouseEnter}
         onMouseLeave={showRenameInput ? undefined : handleMouseLeave}
         onMouseDown={showRenameInput ? undefined : handleMouseDown}
+        onPointerDown={showRenameInput ? undefined : (e) => {
+          lastPointerTypeRef.current = e.pointerType || 'mouse';
+          longPressHandlers.onPointerDown(e);
+          if (e.pointerType === 'touch') {
+            handleMouseDown(e);
+          }
+        }}
+        onPointerMove={showRenameInput ? undefined : longPressHandlers.onPointerMove}
+        onPointerUp={showRenameInput ? undefined : longPressHandlers.onPointerUp}
+        onPointerCancel={showRenameInput ? undefined : longPressHandlers.onPointerCancel}
         onClick={showRenameInput ? undefined : handleTokenClick}
       >
         {/* Condition rings with text - staggered outward for multiple conditions */}

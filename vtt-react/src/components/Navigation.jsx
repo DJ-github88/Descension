@@ -843,9 +843,13 @@ export default function Navigation({ onReturnToLanding }) {
                         defaultSize={{ width: 900, height: 550 }}
                         defaultPosition={{ x: 150, y: 150 }}
                         customHeader={
-                            <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                            // NOTE: WowWindow renders its own close (X) button when using customHeader.
+                            // On mobile that close button is large and absolute-positioned; reserve space so it doesn't overlap "Clear".
+                            <div style={{ display: 'flex', alignItems: 'center', width: '100%', paddingRight: '64px' }}>
                                 <div className="window-title" style={{ flex: 1 }}>{safeTitle}</div>
-                                <InventoryHeaderButton />
+                                <div style={{ marginRight: '56px' }}>
+                                    <InventoryHeaderButton />
+                                </div>
                             </div>
                         }
                     >
@@ -1135,6 +1139,21 @@ export default function Navigation({ onReturnToLanding }) {
                                     </button>
                                 );
                             })}
+                            {/* Dialogue Controls shortcut (GM-only) */}
+                            {isGMMode && (
+                                <button
+                                    className="mobile-nav-item"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        window.dispatchEvent(new Event('toggleDialogueControls'));
+                                        setIsMobileNavOpen(false);
+                                    }}
+                                    title="Dialogue"
+                                >
+                                    <i className="fas fa-comment-dots" style={{ width: 24, textAlign: 'center' }}></i>
+                                    <span className="mobile-nav-label">Dialogue</span>
+                                </button>
+                            )}
                         </div>
                         <button
                             className="mobile-nav-arrow mobile-nav-arrow-next"
