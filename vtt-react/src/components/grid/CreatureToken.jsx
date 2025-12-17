@@ -182,6 +182,167 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
   const token = tokens.find(t => t.id === tokenId);
   const creature = token ? creatures.find(c => c.id === token.creatureId) : null;
 
+  // Active condition effects mapped to visual overlays (MUST be above any early returns)
+  const activeBuffs = useBuffStore(state => state.activeBuffs);
+  const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
+
+  const conditionEffects = useMemo(() => {
+    const supported = new Set([
+      'burning',
+      'poisoned',
+      'cursed',
+      'diseased',
+      'hexed',
+      'frightened',
+      'stunned',
+      'paralyzed',
+      'blinded',
+      'invisible',
+      'restrained',
+      'grappled',
+      'petrified',
+      'hastened',
+      'hasted',
+      'slowed',
+      'bleeding',
+      'blessed',
+      'defending',
+      'silenced',
+      'dispelled',
+      'charmed',
+      'confused',
+      'exhausted'
+    ]);
+
+    const normalize = (value) =>
+      (value || '')
+        .toString()
+        .toLowerCase()
+        .replace(/[^a-z]/g, '');
+
+    const aliases = {
+      burning: 'burning',
+      burn: 'burning',
+      fire: 'burning',
+      poisoned: 'poisoned',
+      poison: 'poisoned',
+      cursed: 'cursed',
+      curse: 'cursed',
+      diseased: 'diseased',
+      disease: 'diseased',
+      hexed: 'hexed',
+      hex: 'hexed',
+      hastened: 'hastened',
+      hasted: 'hastened',
+      haste: 'hastened',
+      quickened: 'hastened',
+      accelerated: 'hastened',
+      slowed: 'slowed',
+      slow: 'slowed',
+      bleeding: 'bleeding',
+      bleed: 'bleeding',
+      blessed: 'blessed',
+      bless: 'blessed',
+      defending: 'defending',
+      defend: 'defending',
+      silenced: 'silenced',
+      silence: 'silenced',
+      dispelled: 'dispelled',
+      dispel: 'dispelled',
+      charmed: 'charmed',
+      charm: 'charmed',
+      confused: 'confused',
+      confuse: 'confused',
+      exhausted: 'exhausted'
+    };
+
+    const mapName = (raw) => {
+      const norm = normalize(raw);
+      if (aliases[norm]) return aliases[norm];
+      return supported.has(norm) ? norm : null;
+    };
+
+    const collect = [];
+
+    const pushCondition = (key, label) => {
+      if (!key) return;
+      collect.push({ key, label: label || key.toUpperCase() });
+    };
+
+    // From token state (authoritative)
+    (token?.state?.conditions || []).forEach(c => {
+      const key = mapName(c.id || c.name) || normalize(c.id || c.name);
+      const label = c.name || c.id || key;
+      pushCondition(key, label);
+    });
+
+    // From buff store
+    (activeBuffs || [])
+      .filter(b => b.targetId === tokenId)
+      .forEach(b => {
+        const key = mapName(b.name || b.id) || normalize(b.name || b.id);
+        pushCondition(key, b.name || key);
+      });
+
+    // From debuff store
+    (activeDebuffs || [])
+      .filter(d => d.targetId === tokenId)
+      .forEach(d => {
+        const key = mapName(d.name || d.id) || normalize(d.name || d.id);
+        pushCondition(key, d.name || key);
+      });
+
+    // Dedup by key, keep first label
+    const seen = new Set();
+    const unique = [];
+    for (const item of collect) {
+      if (item.key && !seen.has(item.key)) {
+        seen.add(item.key);
+        unique.push(item);
+      }
+    }
+
+    return unique;
+  }, [token?.state?.conditions, activeBuffs, activeDebuffs, tokenId]);
+
+  // Remaining time helper for tooltips - re-renders each second
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getConditionRemaining = useCallback((condition) => {
+    const findMatch = () => {
+      const matchBuff = (activeBuffs || []).find(b => b.targetId === tokenId && (b.name === condition.name || b.id === condition.id));
+      if (matchBuff) return matchBuff;
+      const matchDebuff = (activeDebuffs || []).find(d => d.targetId === tokenId && (d.name === condition.name || d.id === condition.id));
+      return matchDebuff || null;
+    };
+
+    const fromStore = findMatch();
+    const durationType = fromStore?.durationType || condition.durationType;
+
+    // Round-based
+    if (durationType === 'rounds') {
+      const rounds = fromStore?.remainingRounds ?? fromStore?.durationValue ?? condition.remainingRounds ?? condition.durationValue;
+      return { label: rounds ? `${rounds} rounds` : '' };
+    }
+
+    const endTime = fromStore?.endTime
+      || (fromStore?.duration ? (fromStore.startTime || fromStore.startTime === 0 ? fromStore.startTime + fromStore.duration * 1000 : Date.now() + fromStore.duration * 1000) : null)
+      || (condition.appliedAt && condition.duration ? condition.appliedAt + condition.duration : null);
+
+    if (!endTime) return { label: '' };
+
+    const remainingMs = Math.max(0, endTime - now);
+    const totalSeconds = Math.ceil(remainingMs / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const label = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')}` : `${seconds}s`;
+    return { label };
+  }, [activeBuffs, activeDebuffs, tokenId, now]);
+
   // Helper function to update token position with enhanced multiplayer sync
   const updateTokenPositionWithSync = (tokenId, position, sendToServer = true) => {
     // Use optimistic updates for immediate feedback in multiplayer
@@ -1622,188 +1783,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
       window.tokenInteractionTimestamp = null;
     }, 100);
   };
-
-
-
-  // Active condition effects mapped to visual overlays - moved before early returns
-  const activeBuffs = useBuffStore(state => state.activeBuffs);
-  const activeDebuffs = useDebuffStore(state => state.activeDebuffs);
-
-  const conditionEffects = useMemo(() => {
-    const supported = new Set([
-      'burning',
-      'poisoned',
-      'cursed',
-      'diseased',
-      'hexed',
-      'frightened',
-      'stunned',
-      'paralyzed',
-      'blinded',
-      'invisible',
-      'restrained',
-      'grappled',
-      'petrified',
-      'hastened',
-      'hasted',
-      'slowed',
-      'bleeding',
-      'blessed',
-      'defending',
-      'silenced',
-      'dispelled',
-      'charmed',
-      'confused',
-      'exhausted'
-    ]);
-
-    const normalize = (value) =>
-      (value || '')
-        .toString()
-        .toLowerCase()
-        .replace(/[^a-z]/g, '');
-
-    const aliases = {
-      burning: 'burning',
-      burn: 'burning',
-      fire: 'burning',
-      poisoned: 'poisoned',
-      poison: 'poisoned',
-      cursed: 'cursed',
-      curse: 'cursed',
-      diseased: 'diseased',
-      disease: 'diseased',
-      hexed: 'hexed',
-      hex: 'hexed',
-      hastened: 'hastened',
-      hasted: 'hastened',
-      haste: 'hastened',
-      quickened: 'hastened',
-      accelerated: 'hastened',
-      slowed: 'slowed',
-      slow: 'slowed',
-      bleeding: 'bleeding',
-      bleed: 'bleeding',
-      blessed: 'blessed',
-      bless: 'blessed',
-      defending: 'defending',
-      defend: 'defending',
-      silenced: 'silenced',
-      silence: 'silenced',
-      dispelled: 'dispelled',
-      dispel: 'dispelled',
-      charmed: 'charmed',
-      charm: 'charmed',
-      confused: 'confused',
-      confuse: 'confused',
-      exhausted: 'exhausted',
-      exhaust: 'exhausted',
-      frightened: 'frightened',
-      fear: 'frightened',
-      terrified: 'frightened',
-      stunned: 'stunned',
-      stun: 'stunned',
-      paralyzed: 'paralyzed',
-      paralyse: 'paralyzed',
-      blinded: 'blinded',
-      blind: 'blinded',
-      invisible: 'invisible',
-      invisibility: 'invisible',
-      restrained: 'restrained',
-      restraint: 'restrained',
-      grappled: 'grappled',
-      grapple: 'grappled',
-      petrified: 'petrified',
-      petrify: 'petrified',
-    };
-
-    const mapName = (raw) => {
-      const norm = normalize(raw);
-      if (aliases[norm]) return aliases[norm];
-      return supported.has(norm) ? norm : null;
-    };
-
-    const collect = [];
-
-    const pushCondition = (key, label) => {
-      if (!key) return;
-      collect.push({ key, label: label || key.toUpperCase() });
-    };
-
-    // From token state (authoritative)
-    (token.state?.conditions || []).forEach(c => {
-      const key = mapName(c.id || c.name) || normalize(c.id || c.name);
-      const label = c.name || c.id || key;
-      pushCondition(key, label);
-    });
-
-    // From buff store
-    (activeBuffs || [])
-      .filter(b => b.targetId === tokenId)
-      .forEach(b => {
-        const key = mapName(b.name || b.id) || normalize(b.name || b.id);
-        pushCondition(key, b.name || key);
-      });
-
-    // From debuff store
-    (activeDebuffs || [])
-      .filter(d => d.targetId === tokenId)
-      .forEach(d => {
-        const key = mapName(d.name || d.id) || normalize(d.name || d.id);
-        pushCondition(key, d.name || key);
-      });
-
-    // Dedup by key, keep first label
-    const seen = new Set();
-    const unique = [];
-    for (const item of collect) {
-      if (item.key && !seen.has(item.key)) {
-        seen.add(item.key);
-        unique.push(item);
-      }
-    }
-
-    return unique;
-  }, [token.state?.conditions, activeBuffs, activeDebuffs, tokenId]);
-
-  // Remaining time helper for tooltips - re-renders each second
-  const [now, setNow] = useState(Date.now());
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const getConditionRemaining = useCallback((condition) => {
-    const findMatch = () => {
-      const matchBuff = (activeBuffs || []).find(b => b.targetId === tokenId && (b.name === condition.name || b.id === condition.id));
-      if (matchBuff) return matchBuff;
-      const matchDebuff = (activeDebuffs || []).find(d => d.targetId === tokenId && (d.name === condition.name || d.id === condition.id));
-      return matchDebuff || null;
-    };
-
-    const fromStore = findMatch();
-    const durationType = fromStore?.durationType || condition.durationType;
-
-    // Round-based
-    if (durationType === 'rounds') {
-      const rounds = fromStore?.remainingRounds ?? fromStore?.durationValue ?? condition.remainingRounds ?? condition.durationValue;
-      return { label: rounds ? `${rounds} rounds` : '' };
-    }
-
-    const endTime = fromStore?.endTime
-      || (fromStore?.duration ? (fromStore.startTime || fromStore.startTime === 0 ? fromStore.startTime + fromStore.duration * 1000 : Date.now() + fromStore.duration * 1000) : null)
-      || (condition.appliedAt && condition.duration ? condition.appliedAt + condition.duration : null);
-
-    if (!endTime) return { label: '' };
-
-    const remainingMs = Math.max(0, endTime - now);
-    const totalSeconds = Math.ceil(remainingMs / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    const label = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')}` : `${seconds}s`;
-    return { label };
-  }, [activeBuffs, activeDebuffs, tokenId, now]);
-
   // Check if token should be hidden from players
   const isHiddenFromPlayers = token.state.hiddenFromPlayers;
   const shouldHideToken = isHiddenFromPlayers && !isGMMode;

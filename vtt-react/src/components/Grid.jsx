@@ -7,7 +7,7 @@ import useCreatureStore from "../store/creatureStore";
 import useCharacterStore from "../store/characterStore";
 import useCharacterTokenStore from "../store/characterTokenStore";
 import useCombatStore from "../store/combatStore";
-import useLevelEditorStore, { WALL_TYPES } from "../store/levelEditorStore";
+import useLevelEditorStore, { WALL_TYPES, TERRAIN_TYPES } from "../store/levelEditorStore";
 import { getWowIconUrl } from '../utils/assetManager';
 import useMapStore from "../store/mapStore";
 import { useLevelEditorPersistence } from "../hooks/useLevelEditorPersistence";
@@ -206,7 +206,7 @@ function GridComponent({
         // Cancel any ongoing zoom animation
         if (zoomAnimationRef.current) {
             cancelAnimationFrame(zoomAnimationRef.current);
-            setIsZooming(false);
+            zoomAnimationRef.current = null;
         }
 
         // Simply set the zoom - keep camera centered for simplicity
