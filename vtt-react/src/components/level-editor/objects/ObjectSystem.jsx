@@ -35,11 +35,17 @@ const ObjectSystem = () => {
     const [initialScale, setInitialScale] = useState(1);
     const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 });
     const [hoveredHandle, setHoveredHandle] = useState(null);
+    const [isOverConnection, setIsOverConnection] = useState(false);
+    const connectionElementRef = useRef(null);
 
     // Context menu state
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [selectedObject, setSelectedObject] = useState(null);
+    
+    // GM Notes hover state
+    const [hoveredGMNote, setHoveredGMNote] = useState(null);
+    const [gmNoteTooltipPosition, setGmNoteTooltipPosition] = useState({ x: 0, y: 0 });
 
     // Store connections
     const {
@@ -60,7 +66,8 @@ const ObjectSystem = () => {
         cameraY,
         zoomLevel,
         playerZoom,
-        isGMMode
+        isGMMode,
+        isBackgroundManipulationMode
     } = useGameStore();
 
     // Calculate effective zoom and grid positioning
@@ -401,13 +408,33 @@ const ObjectSystem = () => {
         }
     }, []);
 
+    // Helper function to check if an element is a connection element
+    const isConnectionElement = (el) => {
+        if (!el) return false;
+        return (
+            el.classList?.contains('connection-point') ||
+            el.classList?.contains('portal-element') ||
+            el.closest?.('.connection-point') ||
+            el.closest?.('.portal-element') ||
+            el.closest?.('.dnd-element.portal-element')
+        );
+    };
+
     // Handle mouse events
     const handleMouseDown = useCallback((e) => {
         // Allow mouse interactions in editor mode OR for GM notes objects when in GM mode
         if (!isEditorMode && !isGMMode) return;
 
-        // Check if the click is on a token or HUD element - if so, ignore it here
-        const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+        // Check if the click is on a connection element - if so, let it handle the event
+        const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
+        const connectionElement = allElementsAtPoint.find(el => isConnectionElement(el));
+        if (connectionElement) {
+            // Let the connection handle its own mouse events (for hover tooltips and clicks)
+            return;
+        }
+
+        // Check if the click is on a token, HUD element, or background image - if so, ignore it here
+        const elementAtPoint = allElementsAtPoint[0];
         if (elementAtPoint && (
             elementAtPoint.classList.contains('creature-token') ||
             elementAtPoint.classList.contains('character-token') ||
@@ -420,6 +447,80 @@ const ObjectSystem = () => {
         )) {
             console.log('ObjectSystem: ignoring click on token or HUD element');
             return; // Let the token's or HUD's own event handler deal with it
+        }
+
+        // Check if the click is on a background image - ignore it here UNLESS we're in background manipulation mode
+        // In background manipulation mode, we want to allow clicks on backgrounds for resizing/moving
+        if (!isBackgroundManipulationMode) {
+            // Background images can be rendered as divs with backgroundImage style or as img elements
+            // Also check for images in MapLibraryWindow (map-thumbnail, map-placeholder)
+            const isBackgroundImage = allElementsAtPoint.some(el => {
+                if (!el) return false;
+                
+                // Check if element is within MapLibraryWindow components (map-thumbnail, map-placeholder)
+                const isInMapThumbnail = el.closest('.map-thumbnail') || el.closest('.map-placeholder');
+                if (isInMapThumbnail) {
+                    return true;
+                }
+                
+                // Check if it's an img element (could be a background image)
+                if (el.tagName === 'IMG') {
+                    // Check if the img is within a Resizable component or background container
+                    let parent = el.parentElement;
+                    while (parent) {
+                        // Check for Resizable component indicators
+                        if (parent.classList && (
+                            parent.classList.contains('react-resizable') ||
+                            parent.getAttribute('data-resizable') === 'true'
+                        )) {
+                            return true;
+                        }
+                        // Check if parent has background image style
+                        const parentStyle = window.getComputedStyle(parent);
+                        if (parentStyle.backgroundImage && parentStyle.backgroundImage !== 'none') {
+                            return true;
+                        }
+                        // Check if parent is a map thumbnail/placeholder
+                        if (parent.classList && (
+                            parent.classList.contains('map-thumbnail') ||
+                            parent.classList.contains('map-placeholder')
+                        )) {
+                            return true;
+                        }
+                        parent = parent.parentElement;
+                    }
+                }
+                
+                const style = window.getComputedStyle(el);
+                // Check if element has a background image
+                const hasBackgroundImage = style.backgroundImage && style.backgroundImage !== 'none';
+                // Check if it's a manipulation handle (resize/rotate handles for backgrounds)
+                const isManipulationHandle = el.hasAttribute('data-manipulation-handle');
+                // Check if element is within a Resizable component
+                const isInResizable = el.closest('.react-resizable') || el.closest('[data-resizable="true"]');
+                // Check if element is within a background container (check parent elements)
+                let parent = el.parentElement;
+                while (parent) {
+                    const parentStyle = window.getComputedStyle(parent);
+                    if (parentStyle.backgroundImage && parentStyle.backgroundImage !== 'none') {
+                        return true;
+                    }
+                    // Check if parent is a map thumbnail/placeholder
+                    if (parent.classList && (
+                        parent.classList.contains('map-thumbnail') ||
+                        parent.classList.contains('map-placeholder')
+                    )) {
+                        return true;
+                    }
+                    parent = parent.parentElement;
+                }
+                return hasBackgroundImage || isManipulationHandle || isInResizable;
+            });
+
+            if (isBackgroundImage) {
+                console.log('ObjectSystem: ignoring click on background image (not in manipulation mode)');
+                return; // Let the background image's own event handler deal with it
+            }
         }
 
         // Also check if any token is currently being dragged - if so, ignore all ObjectSystem interactions
@@ -493,18 +594,65 @@ const ObjectSystem = () => {
             return;
         }
 
-        // Check if the right-click is on a token or HUD element - if so, ignore it here
-        const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
-        if (elementAtPoint && (
-            elementAtPoint.classList.contains('creature-token') ||
-            elementAtPoint.classList.contains('character-token') ||
-            elementAtPoint.closest('.creature-token') ||
-            elementAtPoint.closest('.character-token') ||
-            elementAtPoint.closest('.target-hud-frame') ||
-            elementAtPoint.closest('.party-hud-frame') ||
-            elementAtPoint.closest('.target-frame') ||
-            elementAtPoint.closest('.party-member-frame')
-        )) {
+        // Check if the right-click is on a token, HUD element, or connection - if so, ignore it here
+        // Use elementsFromPoint to get ALL elements at the click position (including those under the canvas)
+        const target = e.target;
+        const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
+        const elementAtPoint = allElementsAtPoint[0];
+        
+        const isTokenOrHUD = (el) => {
+            if (!el) return false;
+            return (
+                el.classList?.contains('creature-token') ||
+                el.classList?.contains('character-token') ||
+                el.closest?.('.creature-token') ||
+                el.closest?.('.character-token') ||
+                el.closest?.('.target-hud-frame') ||
+                el.closest?.('.party-hud-frame') ||
+                el.closest?.('.target-frame') ||
+                el.closest?.('.party-member-frame')
+            );
+        };
+        
+        // Check ALL elements at the point (not just the top one) to find connections underneath the canvas
+        const connectionElement = allElementsAtPoint.find(el => isConnectionElement(el));
+        const hasTokenOrHUD = allElementsAtPoint.some(el => isTokenOrHUD(el));
+        
+        if (connectionElement) {
+            console.log('🔗 ObjectSystem: detected connection element, triggering its context menu', { 
+                connectionElement: {
+                    tag: connectionElement.tagName,
+                    classes: connectionElement.classList ? Array.from(connectionElement.classList) : [],
+                    dataset: connectionElement.dataset
+                },
+                allElementsAtPoint: allElementsAtPoint.map(el => ({
+                    tag: el.tagName,
+                    classes: el.classList ? Array.from(el.classList) : [],
+                    dataset: el.dataset
+                }))
+            });
+            
+            // Manually trigger the connection's context menu since the canvas intercepted the event
+            // Create a new context menu event and dispatch it to the connection element
+            const contextMenuEvent = new MouseEvent('contextmenu', {
+                bubbles: true,
+                cancelable: true,
+                clientX: e.clientX,
+                clientY: e.clientY,
+                button: 2,
+                buttons: 2
+            });
+            
+            // Dispatch to the connection element so its handler runs
+            connectionElement.dispatchEvent(contextMenuEvent);
+            
+            // Prevent default to stop our handler from continuing
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+        
+        if (hasTokenOrHUD) {
             console.log('ObjectSystem: ignoring right-click on token or HUD element');
             return; // Let the token's or HUD's own event handler deal with it
         }
@@ -561,7 +709,16 @@ const ObjectSystem = () => {
     };
 
     const handleMouseMove = useCallback((e) => {
-        if (!isEditorMode) return;
+        // If we're over a connection, the global listener has already disabled canvas pointer-events
+        // So this handler won't even fire. But just in case, check and return early.
+        if (isOverConnection) {
+            return;
+        }
+
+        // Handle mouse move in editor mode OR GM mode (for GM notes hover)
+        if (!isEditorMode && !isGMMode) {
+            return;
+        }
 
         // Don't handle mouse move if a token is being dragged
         if (window.multiplayerDragState && window.multiplayerDragState.size > 0) {
@@ -572,16 +729,56 @@ const ObjectSystem = () => {
         const screenX = e.clientX - mouseRect.left;
         const screenY = e.clientY - mouseRect.top;
 
-        // Check for hover over resize handles when not dragging/resizing
+        // Check for hover over GM notes (works in both editor and GM mode)
         if (!isDragging && !isResizing) {
-            const selectedObject = environmentalObjects.find(obj => obj.selected);
-            if (selectedObject) {
-                const handle = getResizeHandle(screenX, screenY, selectedObject);
-                setHoveredHandle(handle);
-            } else {
-                setHoveredHandle(null);
+            const hoveredObject = getObjectAtScreenPosition(screenX, screenY);
+            
+            // Check if hovering over a GM note
+            if (hoveredObject && hoveredObject.type === 'gmNotes' && (isEditorMode || isGMMode)) {
+                if (hoveredGMNote?.id !== hoveredObject.id) {
+                    setHoveredGMNote(hoveredObject);
+                    setGmNoteTooltipPosition({ x: e.clientX, y: e.clientY });
+                    
+                    // Dispatch event for TileOverlay to show tooltip
+                    const hoverEvent = new CustomEvent('gmNoteHover', {
+                        detail: { 
+                            gmNote: hoveredObject,
+                            position: { x: e.clientX, y: e.clientY }
+                        }
+                    });
+                    document.dispatchEvent(hoverEvent);
+                } else {
+                    // Update tooltip position
+                    setGmNoteTooltipPosition({ x: e.clientX, y: e.clientY });
+                    const hoverEvent = new CustomEvent('gmNoteHover', {
+                        detail: { 
+                            gmNote: hoveredObject,
+                            position: { x: e.clientX, y: e.clientY }
+                        }
+                    });
+                    document.dispatchEvent(hoverEvent);
+                }
+            } else if (hoveredGMNote) {
+                // No longer hovering over GM note
+                setHoveredGMNote(null);
+                const leaveEvent = new CustomEvent('gmNoteHoverLeave');
+                document.dispatchEvent(leaveEvent);
             }
-            return;
+            
+            // Check for hover over resize handles when not dragging/resizing (editor mode only)
+            if (isEditorMode) {
+                const selectedObject = environmentalObjects.find(obj => obj.selected);
+                if (selectedObject) {
+                    const handle = getResizeHandle(screenX, screenY, selectedObject);
+                    setHoveredHandle(handle);
+                } else {
+                    setHoveredHandle(null);
+                }
+            }
+            
+            if (!isEditorMode) {
+                return; // Don't continue with editor-specific logic
+            }
         }
 
 
@@ -635,7 +832,7 @@ const ObjectSystem = () => {
                 worldY: newWorldY
             });
         }
-    }, [isDragging, isResizing, resizeHandle, initialScale, initialMousePos, isEditorMode, screenToWorld, environmentalObjects, dragOffset, updateEnvironmentalObject, getResizeHandle]);
+    }, [isDragging, isResizing, resizeHandle, initialScale, initialMousePos, isEditorMode, isGMMode, isOverConnection, screenToWorld, environmentalObjects, dragOffset, updateEnvironmentalObject, getResizeHandle, getObjectAtScreenPosition, hoveredGMNote]);
 
     const handleMouseUp = useCallback(() => {
         // Don't handle mouse up if a token is being dragged
@@ -649,7 +846,41 @@ const ObjectSystem = () => {
         setDragOffset({ x: 0, y: 0 });
         setInitialScale(1);
         setInitialMousePos({ x: 0, y: 0 });
+        
+        // Reset connection tracking
+        setIsOverConnection(false);
+        connectionElementRef.current = null;
     }, []);
+
+    // Global mouse move listener to detect connections and disable canvas pointer-events
+    useEffect(() => {
+        const handleGlobalMouseMove = (e) => {
+            const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
+            const connectionElement = allElementsAtPoint.find(el => isConnectionElement(el));
+            
+            if (connectionElement) {
+                // Over a connection - disable canvas pointer events so connection can receive events
+                if (canvasRef.current && !isOverConnection) {
+                    canvasRef.current.style.pointerEvents = 'none';
+                    setIsOverConnection(true);
+                    connectionElementRef.current = connectionElement;
+                }
+            } else {
+                // Not over a connection - re-enable canvas pointer events
+                if (canvasRef.current && isOverConnection) {
+                    canvasRef.current.style.pointerEvents = (isEditorMode || isGMMode) ? 'auto' : 'none';
+                    setIsOverConnection(false);
+                    connectionElementRef.current = null;
+                }
+            }
+        };
+
+        // Use capture phase to check before canvas receives the event
+        document.addEventListener('mousemove', handleGlobalMouseMove, true);
+        return () => {
+            document.removeEventListener('mousemove', handleGlobalMouseMove, true);
+        };
+    }, [isOverConnection, isEditorMode, isGMMode, isConnectionElement, hoveredGMNote, getObjectAtScreenPosition]);
 
     // Update canvas when dependencies change
     useEffect(() => {
@@ -680,6 +911,8 @@ const ObjectSystem = () => {
                     height: '100%',
                     zIndex: 20,
                     // Enable interaction in editor mode OR when GM mode is active (for GM notes access)
+                    // Connections (z-index 150) will be on top and receive their own events
+                    // We check for connections in all event handlers to avoid blocking them
                     pointerEvents: (isEditorMode || isGMMode) ? 'auto' : 'none',
                     cursor: isDragging ? 'grabbing' :
                             isResizing ? getCursorForHandle(resizeHandle) :
@@ -688,7 +921,28 @@ const ObjectSystem = () => {
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp} // Stop dragging if mouse leaves canvas
+                onMouseLeave={(e) => {
+                    // Reset connection tracking when mouse leaves canvas
+                    if (isOverConnection && connectionElementRef.current) {
+                        const mouseLeaveEvent = new MouseEvent('mouseleave', {
+                            bubbles: true,
+                            cancelable: true,
+                            clientX: e.clientX,
+                            clientY: e.clientY,
+                            view: window
+                        });
+                        connectionElementRef.current.dispatchEvent(mouseLeaveEvent);
+                        setIsOverConnection(false);
+                        connectionElementRef.current = null;
+                    }
+                    // Clear GM note hover
+                    if (hoveredGMNote) {
+                        setHoveredGMNote(null);
+                        const leaveEvent = new CustomEvent('gmNoteHoverLeave');
+                        document.dispatchEvent(leaveEvent);
+                    }
+                    handleMouseUp();
+                }}
                 onContextMenu={handleContextMenu}
             />
 

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import useLevelEditorStore, { TERRAIN_TYPES, OBJECT_TYPES, DND_ELEMENTS } from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
+import useItemStore from '../../store/itemStore';
+import useCreatureStore from '../../store/creatureStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { isTileVisible } from '../../utils/VisibilityCalculations';
 import TileTooltip from './TileTooltip';
@@ -8,7 +11,10 @@ import ObjectTooltip from './ObjectTooltip';
 import UnifiedContextMenu from './UnifiedContextMenu';
 import PortalTransferDialog from './PortalTransferDialog';
 import GMNotesWindow from './GMNotesWindow';
+import ConnectionContextMenu from './ConnectionContextMenu';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
+import useMapStore from '../../store/mapStore';
+import '../../styles/character-sheet.css'; // Import character sheet CSS for tooltip styling
 import './styles/TileOverlay.css';
 
 const TileOverlay = () => {
@@ -24,7 +30,28 @@ const TileOverlay = () => {
     const [selectedPortal, setSelectedPortal] = useState(null);
     const [showGMNotesWindow, setShowGMNotesWindow] = useState(false);
     const [selectedGMNotes, setSelectedGMNotes] = useState(null);
+    const [showConnectionContextMenu, setShowConnectionContextMenu] = useState(false);
+    const [connectionContextMenuPosition, setConnectionContextMenuPosition] = useState({ x: 0, y: 0 });
+    const [selectedConnection, setSelectedConnection] = useState(null);
+    const [hoveredConnection, setHoveredConnection] = useState(null);
+    const [connectionTooltipPosition, setConnectionTooltipPosition] = useState({ x: 0, y: 0 });
+    const [hoveredGMNote, setHoveredGMNote] = useState(null);
+    const [gmNoteTooltipPosition, setGmNoteTooltipPosition] = useState({ x: 0, y: 0 });
     const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+    
+    // Debug connection context menu state
+    useEffect(() => {
+        if (showConnectionContextMenu) {
+            console.log('🔗 Connection context menu state:', {
+                visible: showConnectionContextMenu,
+                connection: selectedConnection?.id,
+                position: connectionContextMenuPosition
+            });
+        }
+    }, [showConnectionContextMenu, selectedConnection, connectionContextMenuPosition]);
+    
+    const { maps, getCurrentMapId } = useMapStore();
+    const currentMapId = getCurrentMapId();
     const hoverTimeoutRef = useRef(null);
     const objectHoverTimeoutRef = useRef(null);
     const overlayRef = useRef(null);
@@ -41,6 +68,26 @@ const TileOverlay = () => {
         return () => document.removeEventListener('openGMNotes', handleOpenGMNotes);
     }, []);
 
+    // Listen for GM Note hover events from ObjectSystem
+    useEffect(() => {
+        const handleGMNoteHover = (e) => {
+            const { gmNote, position } = e.detail;
+            setHoveredGMNote(gmNote);
+            setGmNoteTooltipPosition(position);
+        };
+
+        const handleGMNoteHoverLeave = () => {
+            setHoveredGMNote(null);
+        };
+
+        document.addEventListener('gmNoteHover', handleGMNoteHover);
+        document.addEventListener('gmNoteHoverLeave', handleGMNoteHoverLeave);
+        return () => {
+            document.removeEventListener('gmNoteHover', handleGMNoteHover);
+            document.removeEventListener('gmNoteHoverLeave', handleGMNoteHoverLeave);
+        };
+    }, []);
+
     // Level editor store
     const {
         terrainData,
@@ -52,6 +99,8 @@ const TileOverlay = () => {
         getFogOfWar,
         removeEnvironmentalObject,
         updateEnvironmentalObject,
+        updateDndElement,
+        removeDndElement,
         showTerrainLayer,
         showObjectLayer,
         showDndLayer
@@ -59,6 +108,10 @@ const TileOverlay = () => {
 
     // Game store for GM mode
     const { isGMMode } = useGameStore();
+    
+    // Item and creature stores for GM note tooltip summary
+    const { items } = useItemStore();
+    const { creatures } = useCreatureStore();
 
     // Game store for grid settings
     const {
@@ -145,6 +198,22 @@ const TileOverlay = () => {
 
     // Handle right click for context menu
     const handleContextMenu = (e) => {
+        // First check if this is a portal/connection click - if so, let it handle its own context menu
+        const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+        const isConnectionElement = elementAtPoint && (
+            elementAtPoint.classList.contains('connection-point') ||
+            elementAtPoint.classList.contains('portal-element') ||
+            elementAtPoint.closest('.connection-point') ||
+            elementAtPoint.closest('.portal-element') ||
+            elementAtPoint.closest('.dnd-element.portal-element')
+        );
+        
+        if (isConnectionElement) {
+            // Let the connection handle its own context menu - don't prevent default here
+            console.log('TileOverlay: Allowing connection to handle context menu');
+            return;
+        }
+
         e.preventDefault();
 
         // Get screen coordinates relative to the overlay
@@ -254,25 +323,247 @@ const TileOverlay = () => {
     };
 
     // Handle portal click
-    const handlePortalClick = (portal) => {
+    const handlePortalClick = async (portal, e) => {
+        // If right-click, show context menu (only for GM/Editor)
+        if (e && (e.button === 2 || e.ctrlKey || e.metaKey)) {
+            if (isEditorMode || isGMMode) {
+                setSelectedConnection(portal);
+                setConnectionContextMenuPosition({ x: e?.clientX || 0, y: e?.clientY || 0 });
+                setShowConnectionContextMenu(true);
+                return;
+            }
+        }
+
         const portalName = portal.properties?.portalName || 'Portal';
         const destinationMapId = portal.properties?.destinationMapId;
+        const destinationConnectionId = portal.properties?.destinationConnectionId || portal.properties?.connectedToId;
+        const destinationPosition = portal.properties?.destinationPosition || { x: 0, y: 0 };
         const isActive = portal.properties?.isActive !== false;
+        const isHidden = portal.properties?.isHidden === true;
+
+        // Don't allow interaction if hidden (unless GM)
+        if (isHidden && !isGMMode) {
+            return;
+        }
 
         // Check if portal is active and configured
         if (!isActive) {
-            alert(`Portal "${portalName}" is currently inactive.`);
+            if (isGMMode) {
+                alert(`Portal "${portalName}" is currently inactive.`);
+            }
             return;
         }
 
         if (!destinationMapId) {
-            alert(`Portal "${portalName}" is not configured. Use the level editor to set destination.`);
+            if (isGMMode) {
+                alert(`Portal "${portalName}" is not configured. Use the level editor to set destination.`);
+            }
             return;
         }
 
-        // Show portal transfer dialog
+        // GM: Center view on destination connection
+        if (isGMMode) {
+            try {
+                // Get destination map
+                const destinationMap = maps.find(m => m.id === destinationMapId);
+                if (!destinationMap) {
+                    console.error('Destination map not found:', destinationMapId);
+                    return;
+                }
+
+                // Switch map if needed (do this first so we can get fresh data)
+                if (currentMapId !== destinationMapId) {
+                    const { switchToMap } = useMapStore.getState();
+                    await switchToMap(destinationMapId);
+                    // Wait for map to fully load and level editor store to update
+                    await new Promise(resolve => setTimeout(resolve, 150));
+                }
+
+                // Now get the destination connection from the level editor store (after map switch)
+                // or from the map store if we didn't switch
+                let targetWorldPos = null;
+                let destinationConnection = null;
+                
+                if (destinationConnectionId) {
+                    // After map switch, get dndElements from level editor store if we switched to that map
+                    // Otherwise get from map store
+                    if (currentMapId === destinationMapId) {
+                        // We're on the destination map - get from level editor store
+                        const { dndElements: currentDndElements } = useLevelEditorStore.getState();
+                        destinationConnection = currentDndElements.find(el => 
+                            el.type === 'portal' && el.id === destinationConnectionId
+                        );
+                    } else {
+                        // Still on different map - get from map store
+                        const destinationConnections = destinationMap.dndElements || [];
+                        destinationConnection = destinationConnections.find(el => 
+                            el.type === 'portal' && el.id === destinationConnectionId
+                        );
+                    }
+                    
+                    if (destinationConnection) {
+                        // Check if connection has world position or grid position
+                        if (destinationConnection.position && 
+                            destinationConnection.position.x !== undefined && 
+                            destinationConnection.position.y !== undefined) {
+                            // Already in world coordinates
+                            targetWorldPos = destinationConnection.position;
+                        } else if (destinationConnection.gridX !== undefined && 
+                                  destinationConnection.gridY !== undefined) {
+                            // Convert from grid coordinates to world coordinates
+                            const gridSystem = getGridSystem();
+                            targetWorldPos = gridSystem.gridToWorld(destinationConnection.gridX, destinationConnection.gridY);
+                        }
+                    }
+                }
+                
+                // Fallback to destinationPosition if connection not found
+                if (!targetWorldPos) {
+                    const gridSystem = getGridSystem();
+                    // Check if destinationPosition is grid or world coordinates
+                    // If it's a small number, assume grid coordinates
+                    if (destinationPosition.x < 1000 && destinationPosition.y < 1000) {
+                        targetWorldPos = gridSystem.gridToWorld(destinationPosition.x, destinationPosition.y);
+                    } else {
+                        targetWorldPos = destinationPosition;
+                    }
+                }
+
+                // Center camera on destination connection - use setTimeout to ensure everything is loaded
+                setTimeout(() => {
+                    const gridSystem = getGridSystem();
+                    // Use the grid system's center camera method for proper centering
+                    gridSystem.centerCameraOnWorld(targetWorldPos.x, targetWorldPos.y);
+                    console.log('🔍 Centered camera on destination connection:', {
+                        worldPos: targetWorldPos,
+                        gridPos: destinationConnection?.gridX !== undefined ? 
+                            { x: destinationConnection.gridX, y: destinationConnection.gridY } : 
+                            'N/A',
+                        connectionId: destinationConnectionId
+                    });
+                }, 100); // Additional delay to ensure map is fully rendered
+            } catch (error) {
+                console.error('Error centering view on destination connection:', error);
+            }
+            return;
+        }
+
+        // Player: Show confirmation dialog, then move token and center view
         setSelectedPortal(portal);
         setShowPortalTransferDialog(true);
+    };
+
+    // Handle connection context menu actions
+    const handleConnectionRename = (connection, newName) => {
+        updateDndElement(connection.id, {
+            ...connection,
+            properties: {
+                ...connection.properties,
+                portalName: newName
+            }
+        });
+    };
+
+    const handleConnectionToggleVisibility = (connection) => {
+        updateDndElement(connection.id, {
+            ...connection,
+            properties: {
+                ...connection.properties,
+                isHidden: !connection.properties?.isHidden
+            }
+        });
+    };
+
+    const handleConnectionConnect = (sourceConnection, targetConnection) => {
+        // targetConnection should be an object with id, mapId, position from ConnectionSelectorDialog
+        if (!targetConnection || !targetConnection.mapId || !targetConnection.id) {
+            console.error('Invalid target connection:', targetConnection);
+            return;
+        }
+        
+        updateDndElement(sourceConnection.id, {
+            ...sourceConnection,
+            properties: {
+                ...sourceConnection.properties,
+                destinationMapId: targetConnection.mapId,
+                destinationPosition: targetConnection.position || { x: 0, y: 0 },
+                destinationConnectionId: targetConnection.id,
+                connectedToId: targetConnection.id // Keep for backwards compatibility
+            }
+        });
+    };
+
+    const handleConnectionDelete = (connection) => {
+        const connectionId = connection.id;
+        const connectionMapId = currentMapId;
+        
+        // Find all connections that point to this connection and reset them
+        // Check current map connections
+        dndElements.forEach(element => {
+            if (element.type === 'portal' && element.id !== connectionId) {
+                const props = element.properties || {};
+                const destConnectionId = props.destinationConnectionId || props.connectedToId;
+                const destMapId = props.destinationMapId;
+                
+                // Check if this connection points to the deleted one (same map or cross-map)
+                if (destConnectionId === connectionId) {
+                    // This connection points to the deleted one - reset it
+                    updateDndElement(element.id, {
+                        ...element,
+                        properties: {
+                            ...props,
+                            destinationMapId: undefined,
+                            destinationConnectionId: undefined,
+                            connectedToId: undefined,
+                            destinationPosition: undefined
+                        }
+                    });
+                    console.log(`Reset connection ${element.id} that pointed to deleted connection ${connectionId}`);
+                }
+            }
+        });
+        
+        // Check other maps' connections - update them via map store
+        const { updateMap } = useMapStore.getState();
+        maps.forEach(map => {
+            if (map.id === connectionMapId) return; // Already checked current map
+            
+            const mapConnections = map.dndElements || [];
+            let needsUpdate = false;
+            const updatedConnections = mapConnections.map(element => {
+                if (element.type === 'portal') {
+                    const props = element.properties || {};
+                    const destConnectionId = props.destinationConnectionId || props.connectedToId;
+                    const destMapId = props.destinationMapId;
+                    
+                    // Check if this connection points to the deleted one
+                    if (destConnectionId === connectionId && destMapId === connectionMapId) {
+                        // This connection on another map points to the deleted one - reset it
+                        needsUpdate = true;
+                        console.log(`Reset connection ${element.id} on map ${map.name} that pointed to deleted connection ${connectionId}`);
+                        return {
+                            ...element,
+                            properties: {
+                                ...props,
+                                destinationMapId: undefined,
+                                destinationConnectionId: undefined,
+                                connectedToId: undefined,
+                                destinationPosition: undefined
+                            }
+                        };
+                    }
+                }
+                return element;
+            });
+            
+            // Update the map's dndElements if any connections were reset
+            if (needsUpdate) {
+                updateMap(map.id, { dndElements: updatedConnections });
+            }
+        });
+        
+        // Delete the connection
+        removeDndElement(connection.id);
     };
 
     // Handle object hover for individual tooltips
@@ -1299,7 +1590,10 @@ const TileOverlay = () => {
                                     })
                                     .map((element, idx) => {
                                         const elementType = DND_ELEMENTS[element.type];
-                                        if (!elementType) return null;
+                                        const isPortal = element.type === 'portal';
+                                        
+                                        // Allow portals to render even if not in DND_ELEMENTS
+                                        if (!elementType && !isPortal) return null;
 
                                         // Check if this D&D element is under fog of war
                                         const elemX = element.position?.x ?? element.gridX;
@@ -1308,52 +1602,172 @@ const TileOverlay = () => {
                                         const elemGridY = Math.floor(elemY);
                                         const hasFog = getFogOfWar(elemGridX, elemGridY);
 
-                                        const isPortal = element.type === 'portal';
-                                        const isInteractive = elementType.interactive || elementType.clickable;
+                                        // For portals, always make them interactive
+                                        const isInteractive = isPortal ? true : (elementType?.interactive || elementType?.clickable);
+                                        // Safely access properties with defaults
+                                        const elementProps = element.properties || {};
+                                        const isHidden = elementProps.isHidden === true;
+                                        const portalName = elementProps.portalName || 'Connection';
+                                        const destinationMapId = elementProps.destinationMapId;
+                                        const destinationMap = maps.find(m => m.id === destinationMapId);
+                                        const destinationMapName = destinationMap ? destinationMap.name : 'Not Connected';
 
+                                        // For portals, allow interaction for both players and GMs (if not hidden)
+                                        const canInteract = isPortal ? (!isHidden || isGMMode) : (isInteractive && !hasFog && !(isHidden && !isGMMode));
+                                        // Show context menu in GM mode (fog doesn't block GM from seeing connections)
+                                        const showContextMenu = isPortal && isGMMode;
+
+                                        // Create a better visual for connections that scales with zoom like tokens
+                                        const connectionColor = elementProps.color || '#4a90e2';
+                                        // Scale connection size with zoom like tokens do (80% of tile size)
+                                        const connectionSize = Math.max(20, tileSize * effectiveZoom * 0.6); // Scale with zoom, minimum 20px
+                                        const borderWidth = Math.max(2, connectionSize * 0.1); // Border scales with size
+                                        
                                         return (
                                             <div
                                                 key={`dnd-${element.id}-${idx}`}
-                                                className={`dnd-element ${isPortal ? 'portal-element' : ''} ${isInteractive ? 'interactive' : ''}`}
+                                                className={`dnd-element connection-point ${isPortal ? 'portal-element' : ''} ${isInteractive ? 'interactive' : ''}`}
+                                                data-connection-id={element.id}
+                                                data-portal-type="connection"
                                                 style={{
                                                     position: 'absolute',
                                                     top: '50%',
                                                     left: '50%',
                                                     transform: 'translate(-50%, -50%)',
-                                                    fontSize: '20px',
-                                                    zIndex: hasFog ? 5 : 9, // Lower z-index when fogged so fog overlay appears on top
-                                                    pointerEvents: (hasFog || !isInteractive) ? 'none' : 'auto', // Disable interaction when fogged
-                                                    cursor: (hasFog || !isInteractive) ? 'default' : 'pointer',
-                                                    opacity: hasFog ? (isGMMode ? 0.3 : 0) : 1, // Hide from players, semi-transparent for GM
-                                                    transition: 'all 0.3s ease',
-                                                    filter: isPortal && elementType.properties?.glowEffect && !hasFog
-                                                        ? 'drop-shadow(0 0 8px rgba(74, 144, 226, 0.6))'
+                                                    width: `${connectionSize}px`,
+                                                    height: `${connectionSize}px`,
+                                                    borderRadius: '50%',
+                                                    border: `${borderWidth}px solid ${connectionColor}`,
+                                                    backgroundColor: isHidden && isGMMode 
+                                                        ? 'rgba(128, 128, 128, 0.3)' 
+                                                        : `${connectionColor}20`,
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    fontSize: `${connectionSize * 0.5}px`,
+                                                    fontWeight: 'bold',
+                                                    color: connectionColor,
+                                                    zIndex: hasFog ? 5 : 150, // Match tokens (z-index: 150) to ensure connections are on top and clickable
+                                                    // CRITICAL: Override parent's pointer-events: none to allow connections to receive mouse events
+                                                    // Allow pointer events for portals: GM always (even under fog), players when visible and not under fog
+                                                    // This enables hover tooltips to work
+                                                    pointerEvents: (isPortal && (isGMMode || (!isHidden && !hasFog))) ? 'auto' : 'none',
+                                                    cursor: (isPortal && (isGMMode || (!isHidden && !hasFog))) ? 'pointer' : 'default',
+                                                    // Ensure connection is above everything else in its stacking context
+                                                    isolation: 'isolate', // Create new stacking context
+                                                    opacity: hasFog ? (isGMMode ? 0.3 : 0) : (isHidden && !isGMMode ? 0 : (isHidden && isGMMode ? 0.5 : 1)),
+                                                    transition: 'all 0.2s ease',
+                                                    boxShadow: isPortal && !hasFog && !isHidden
+                                                        ? `0 0 ${connectionSize * 0.4}px ${connectionColor}80, inset 0 0 ${connectionSize * 0.25}px ${connectionColor}40`
                                                         : 'none',
-                                                    animation: isPortal && elementType.properties?.pulseAnimation && !hasFog
-                                                        ? 'portalPulse 2s ease-in-out infinite'
-                                                        : 'none'
+                                                    userSelect: 'none'
                                                 }}
-                                                title={hasFog ? '' : `${elementType.name}: ${elementType.description}${isPortal ? ' (Click to configure)' : ''}`}
-                                                onClick={isInteractive && !hasFog ? (e) => {
+                                                onClick={canInteract && !hasFog ? (e) => {
+                                                    e.preventDefault();
                                                     e.stopPropagation();
                                                     if (isPortal) {
-                                                        handlePortalClick(element);
+                                                        handlePortalClick(element, e);
                                                     }
                                                 } : undefined}
-                                                onMouseEnter={isInteractive && !hasFog ? (e) => {
-                                                    e.target.style.transform = 'translate(-50%, -50%) scale(1.1)';
-                                                    e.target.style.filter = isPortal
-                                                        ? 'drop-shadow(0 0 12px rgba(74, 144, 226, 0.8))'
-                                                        : 'brightness(1.2)';
+                                                onContextMenu={canInteract ? (e) => {
+                                                    // Handle context menu like creature tokens do - prevent all propagation
+                                                    console.log('🔗 Connection context menu handler called', { 
+                                                        element, 
+                                                        isEditorMode, 
+                                                        isGMMode, 
+                                                        showContextMenu,
+                                                        canInteract,
+                                                        hasFog,
+                                                        clientX: e.clientX,
+                                                        clientY: e.clientY
+                                                    });
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    e.nativeEvent?.stopImmediatePropagation?.();
+                                                    
+                                                    // Always set the connection and show menu in GM mode
+                                                    setSelectedConnection(element);
+                                                    setConnectionContextMenuPosition({ x: e.clientX, y: e.clientY });
+                                                    setShowConnectionContextMenu(true);
+                                                    
+                                                    console.log('🔗 Connection context menu state set', { 
+                                                        selectedConnection: element,
+                                                        position: { x: e.clientX, y: e.clientY },
+                                                        showConnectionContextMenu: true
+                                                    });
                                                 } : undefined}
-                                                onMouseLeave={isInteractive && !hasFog ? (e) => {
-                                                    e.target.style.transform = 'translate(-50%, -50%) scale(1)';
-                                                    e.target.style.filter = isPortal && elementType.properties?.glowEffect
-                                                        ? 'drop-shadow(0 0 8px rgba(74, 144, 226, 0.6))'
-                                                        : 'none';
-                                                } : undefined}
+                                                onMouseEnter={(e) => {
+                                                    console.log('🔗🔗🔗 Connection onMouseEnter FIRED!', { 
+                                                        elementId: element.id,
+                                                        target: e.target,
+                                                        currentTarget: e.currentTarget,
+                                                        isPortal,
+                                                        isGMMode,
+                                                        isHidden,
+                                                        hasFog
+                                                    });
+                                                    e.stopPropagation();
+                                                    // Show hover effect and tooltip for both GM and players (if not hidden from player)
+                                                    // For portals, always allow hover if visible (GM can see even under fog, players can see if not hidden)
+                                                    const canHover = isPortal && (
+                                                        isGMMode || // GM can always hover
+                                                        (!isHidden && !hasFog) // Players can hover if visible and not under fog
+                                                    );
+                                                    
+                                                    if (canHover) {
+                                                        e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.2)';
+                                                        e.currentTarget.style.boxShadow = `0 0 ${connectionSize * 0.5}px ${connectionColor}CC, inset 0 0 ${connectionSize * 0.35}px ${connectionColor}60`;
+                                                        setHoveredConnection(element);
+                                                        setConnectionTooltipPosition({ x: e.clientX, y: e.clientY });
+                                                        console.log('🔗 Connection hover state set:', { elementId: element.id });
+                                                    } else {
+                                                        console.log('🔗 Connection hover blocked:', { elementId: element.id, canHover, isGMMode, isHidden, hasFog });
+                                                    }
+                                                }}
+                                                onMouseDown={(e) => {
+                                                    console.log('🔗 Connection onMouseDown FIRED!', { elementId: element.id });
+                                                    e.stopPropagation();
+                                                }}
+                                                onClick={(e) => {
+                                                    console.log('🔗 Connection onClick FIRED!', { elementId: element.id });
+                                                }}
+                                                onMouseMove={(e) => {
+                                                    e.stopPropagation();
+                                                    // Update tooltip position if hovering
+                                                    if (hoveredConnection?.id === element.id) {
+                                                        setConnectionTooltipPosition({ x: e.clientX, y: e.clientY });
+                                                    }
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.stopPropagation();
+                                                    // Reset hover effect and hide tooltip
+                                                    if (hoveredConnection?.id === element.id) {
+                                                        e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+                                                        e.currentTarget.style.boxShadow = isPortal && !hasFog && !isHidden
+                                                            ? `0 0 ${connectionSize * 0.4}px ${connectionColor}80, inset 0 0 ${connectionSize * 0.25}px ${connectionColor}40`
+                                                            : 'none';
+                                                        setHoveredConnection(null);
+                                                        console.log('🔗 Connection hover leave:', { elementId: element.id });
+                                                    }
+                                                }}
                                             >
-                                                {elementType.icon}
+                                                {isPortal ? (
+                                                    <svg 
+                                                        width={`${connectionSize * 0.6}px`} 
+                                                        height={`${connectionSize * 0.6}px`} 
+                                                        viewBox="0 0 24 24" 
+                                                        fill="none" 
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        style={{ 
+                                                            pointerEvents: 'none',
+                                                            userSelect: 'none'
+                                                        }}
+                                                    >
+                                                        <circle cx="12" cy="12" r="8" stroke={connectionColor} strokeWidth="2" fill="none"/>
+                                                        <circle cx="12" cy="12" r="4" fill={connectionColor} opacity="0.6"/>
+                                                        <path d="M12 4 L12 8 M12 16 L12 20 M4 12 L8 12 M16 12 L20 12" stroke={connectionColor} strokeWidth="2" strokeLinecap="round"/>
+                                                    </svg>
+                                                ) : (elementType?.icon || '?')}
                                             </div>
                                         );
                                     })
@@ -1799,10 +2213,180 @@ const TileOverlay = () => {
                     setShowGMNotesWindow(false);
                     setSelectedGMNotes(null);
                 }}
-                gmNotesData={selectedGMNotes?.gmNotesData || { notes: '', items: [], creatures: [] }}
+                gmNotesData={selectedGMNotes?.gmNotesData || { title: '', description: '', notes: '', items: [], creatures: [] }}
                 onUpdateNotes={handleGMNotesUpdate}
                 position={{ x: 300, y: 200 }}
             />
+
+            {/* Connection Context Menu */}
+            <ConnectionContextMenu
+                visible={showConnectionContextMenu}
+                x={connectionContextMenuPosition.x}
+                y={connectionContextMenuPosition.y}
+                connection={selectedConnection}
+                onClose={() => {
+                    console.log('🔗 Connection context menu closing');
+                    setShowConnectionContextMenu(false);
+                    setSelectedConnection(null);
+                }}
+                onRename={handleConnectionRename}
+                onToggleVisibility={handleConnectionToggleVisibility}
+                onConnect={handleConnectionConnect}
+                onDelete={handleConnectionDelete}
+                maps={maps}
+                currentMapId={currentMapId}
+                isGMMode={isGMMode}
+            />
+
+            {/* Connection Tooltip - styled like character sheet tooltips */}
+            {hoveredConnection && (() => {
+                const connectionHasFog = (() => {
+                    const elemX = hoveredConnection.position?.x ?? hoveredConnection.gridX;
+                    const elemY = hoveredConnection.position?.y ?? hoveredConnection.gridY;
+                    const elemGridX = Math.floor(elemX);
+                    const elemGridY = Math.floor(elemY);
+                    return getFogOfWar(elemGridX, elemGridY);
+                })();
+                
+                // Show tooltip for GM always, for players only if not under fog
+                if (connectionHasFog && !isGMMode) return null;
+                
+                const connectionProps = hoveredConnection.properties || {};
+                const connectionName = connectionProps.portalName || 'Connection';
+                const connectionDestinationMapId = connectionProps.destinationMapId;
+                const destinationConnectionId = connectionProps.destinationConnectionId || connectionProps.connectedToId;
+                
+                // Get current map name
+                const currentMap = maps.find(m => m.id === currentMapId);
+                const currentMapName = currentMap ? currentMap.name : 'Unknown Map';
+                
+                // Get destination map and connection details
+                const connectionDestinationMap = maps.find(m => m.id === connectionDestinationMapId);
+                const connectionDestinationMapName = connectionDestinationMap ? connectionDestinationMap.name : null;
+                
+                // Find destination connection name
+                let destinationConnectionName = null;
+                if (destinationConnectionId && connectionDestinationMap) {
+                    const destinationConnections = connectionDestinationMap.dndElements || [];
+                    const destinationConnection = destinationConnections.find(el => 
+                        el.type === 'portal' && el.id === destinationConnectionId
+                    );
+                    if (destinationConnection) {
+                        destinationConnectionName = destinationConnection.properties?.portalName || 'Connection';
+                    }
+                }
+                
+                // Format tooltip text
+                let tooltipText = null;
+                if (connectionDestinationMapId && destinationConnectionName) {
+                    if (isGMMode) {
+                        // GM sees: "A (Map A) --> B (Map B)" or "A (Map 1) --> B (Map 1)" if same map
+                        const sourceMapText = `(${currentMapName})`;
+                        const destMapText = `(${connectionDestinationMapName})`;
+                        tooltipText = `${connectionName} ${sourceMapText} --> ${destinationConnectionName} ${destMapText}`;
+                    } else {
+                        // Player sees: "A --> B"
+                        tooltipText = `${connectionName} --> ${destinationConnectionName}`;
+                    }
+                } else if (connectionDestinationMapId) {
+                    // Fallback if destination connection not found (shouldn't happen, but handle gracefully)
+                    if (isGMMode) {
+                        tooltipText = `${connectionName} (${currentMapName}) --> ${connectionDestinationMapName || 'Unknown'}`;
+                    } else {
+                        tooltipText = `${connectionName} --> ${connectionDestinationMapName || 'Unknown'}`;
+                    }
+                }
+                
+                return createPortal(
+                    <div
+                        className="tooltip connection-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: connectionTooltipPosition.x,
+                            top: connectionTooltipPosition.y,
+                            transform: 'translate(10px, -50%)',
+                            pointerEvents: 'none',
+                            zIndex: 99999999,
+                            whiteSpace: 'pre-line'
+                        }}
+                    >
+                        <div className="tooltip-header">
+                            {connectionName}
+                        </div>
+                        <div style={{ marginTop: '8px', fontSize: '13px', lineHeight: '1.6' }}>
+                            {tooltipText ? (
+                                <>
+                                    <div style={{ color: '#5a1e12', fontWeight: '600' }}>
+                                        {tooltipText}
+                                    </div>
+                                    {!isGMMode && (
+                                        <div style={{ marginTop: '4px', fontStyle: 'italic', color: '#7a3b2e' }}>
+                                            Click to travel
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <div style={{ color: '#999', fontStyle: 'italic' }}>
+                                    Not connected
+                                </div>
+                            )}
+                        </div>
+                    </div>,
+                    document.body
+                );
+            })()}
+
+            {/* GM Note Tooltip - styled like connection tooltip */}
+            {hoveredGMNote && (() => {
+                const gmNotesData = hoveredGMNote.gmNotesData || { title: '', description: '', notes: '', items: [], creatures: [] };
+                const title = gmNotesData.title || 'GM Notes';
+                const description = gmNotesData.description || '';
+                const storedItems = gmNotesData.items || [];
+                const storedCreatures = gmNotesData.creatures || [];
+                
+                // Calculate summary
+                const itemCount = storedItems.length;
+                const creatureCount = storedCreatures.length;
+                
+                const summaryParts = [];
+                if (creatureCount > 0) {
+                    summaryParts.push(`${creatureCount} ${creatureCount === 1 ? 'Creature' : 'Creatures'}`);
+                }
+                if (itemCount > 0) {
+                    summaryParts.push(`${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}`);
+                }
+                const summary = summaryParts.length > 0 ? summaryParts.join(', ') : 'Empty';
+                
+                return createPortal(
+                    <div
+                        className="tooltip connection-tooltip"
+                        style={{
+                            position: 'fixed',
+                            left: gmNoteTooltipPosition.x,
+                            top: gmNoteTooltipPosition.y,
+                            transform: 'translate(10px, -50%)',
+                            pointerEvents: 'none',
+                            zIndex: 99999999,
+                            whiteSpace: 'pre-line'
+                        }}
+                    >
+                        <div className="tooltip-header">
+                            {title}
+                        </div>
+                        <div style={{ marginTop: '8px', fontSize: '13px', lineHeight: '1.6' }}>
+                            {description && (
+                                <div style={{ color: '#5a1e12', marginBottom: '6px' }}>
+                                    {description}
+                                </div>
+                            )}
+                            <div style={{ color: '#7a3b2e', fontStyle: 'italic' }}>
+                                {summary}
+                            </div>
+                        </div>
+                    </div>,
+                    document.body
+                );
+            })()}
         </>
     );
 };

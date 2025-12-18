@@ -1646,6 +1646,13 @@ io.on('connection', (socket) => {
         }
         room.gameState.mapData.exploredAreas = data.mapUpdates.exploredAreas;
       }
+      // Handle dndElements sync (connections/portals)
+      if (data.mapUpdates.dndElements !== undefined) {
+        if (!room.gameState.mapData) {
+          room.gameState.mapData = {};
+        }
+        room.gameState.mapData.dndElements = data.mapUpdates.dndElements;
+      }
     } else if (data.mapData) {
       // Legacy support for old format
       room.gameState.mapData = {
@@ -1676,6 +1683,7 @@ io.on('connection', (socket) => {
         drawingLayers: room.gameState.mapData?.drawingLayers,
         drawingPaths: room.gameState.mapData?.drawingPaths,
         exploredAreas: room.gameState.mapData?.exploredAreas || {}, // CRITICAL FIX: Include explored areas for fog memory
+        dndElements: room.gameState.mapData?.dndElements || [], // Include dndElements (connections) for sync
         ...(data.mapUpdates || data.mapData || {})
       },
       updatedBy: player.id,

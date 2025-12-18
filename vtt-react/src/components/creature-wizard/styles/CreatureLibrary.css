@@ -271,6 +271,15 @@
   color: #f0e6d2; /* Parchment color */
 }
 
+.drag-handle-overlay span {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.drag-handle-overlay span:last-child {
+  margin-bottom: 0;
+}
+
 .creature-card-wrapper:hover .drag-handle-overlay {
   opacity: 1;
 }
@@ -432,12 +441,14 @@
 
 /* Portal tooltip styles - appears above all windows */
 .creature-card-hover-preview-portal {
-  width: 380px; /* Increased size for larger text */
+  width: 260px; /* Smaller fixed width to match tooltip and prevent resizing */
+  min-width: 260px; /* Ensure minimum width */
+  max-width: 260px; /* Ensure maximum width */
   /* IMPORTANT: this portal must not block window drag/resize when it overlaps UI.
      Only the tooltip itself should be interactive. */
   pointer-events: none;
-  animation: fadeIn 0.3s ease-out;
-  transform: scale(1.0); /* Full size for better readability */
+  opacity: 1; /* No animation to prevent resize effect */
+  transform: scale(1.0) translateZ(0); /* Full size from start */
   transform-origin: top left;
   /* Let the inner content handle scrolling */
   overflow: visible;
@@ -445,8 +456,7 @@
   scroll-behavior: auto !important;
   overscroll-behavior: contain;
   scroll-padding: 0;
-  will-change: scroll-position;
-  transform: translateZ(0);
+  will-change: auto; /* Remove will-change to prevent layout shifts */
 }
 
 /* Inner wrapper for tooltip portals - interactive area only */

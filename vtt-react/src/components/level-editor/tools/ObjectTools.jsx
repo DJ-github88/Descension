@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { PROFESSIONAL_OBJECTS } from '../objects/ObjectSystem';
 import { WOW_ICON_BASE_URL } from '../../item-generation/wowIcons';
+import useLevelEditorStore from '../../../store/levelEditorStore';
+import useMapStore from '../../../store/mapStore';
+import ConnectionRenameDialog from '../ConnectionRenameDialog';
 import './styles/ObjectTools.css';
 
 const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
-    const [selectedObjectType, setSelectedObjectType] = useState('gmNotes');
+    const [selectedObjectType, setSelectedObjectType] = useState(undefined);
     const [objectRotation, setObjectRotation] = useState(0);
     const [objectScale, setObjectScale] = useState(1);
+    const [editingConnection, setEditingConnection] = useState(null);
+    const [showRenameDialog, setShowRenameDialog] = useState(false);
+    
+    const { dndElements, updateDndElement } = useLevelEditorStore();
+    const { maps, getCurrentMapId } = useMapStore();
+    const currentMapId = getCurrentMapId();
+    const currentMap = maps.find(m => m.id === currentMapId);
+    
+    // Get connections (portals) from current map's dndElements (should match level editor store)
+    const connections = dndElements.filter(el => el.type === 'portal');
 
     // Object categories for organization
     const objectCategories = {
@@ -54,18 +67,17 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
     const handleToolSelect = (toolId) => {
         onToolSelect(toolId);
 
-        // Auto-select GM Notes when Place Object is selected (since it's the only object)
+        // Don't auto-select any object when Place Object is selected
+        // User must explicitly choose which object to place
         if (toolId === 'object_place') {
-            const availableObjects = Object.keys(PROFESSIONAL_OBJECTS);
-            if (availableObjects.length === 1) {
-                setSelectedObjectType(availableObjects[0]);
-                onSettingsChange({
-                    selectedObjectType: availableObjects[0],
-                    objectRotation,
-                    objectScale
-                });
-                return;
-            }
+            // Clear any previous selections
+            onSettingsChange({
+                selectedObjectType: undefined,
+                selectedPlacementType: undefined,
+                objectRotation: settings?.objectRotation || 0,
+                objectScale: settings?.objectScale || 1
+            });
+            return;
         }
 
         updateSettings();
@@ -73,11 +85,13 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
 
     const handleObjectSelect = (objectId) => {
         setSelectedObjectType(objectId);
+        // Clear connection placement type when selecting an object
         // Pass the new value directly since state updates are async
         onSettingsChange({
             selectedObjectType: objectId,
-            objectRotation,
-            objectScale
+            selectedPlacementType: undefined, // Clear connection selection
+            objectRotation: settings?.objectRotation || objectRotation,
+            objectScale: settings?.objectScale || objectScale
         });
     };
 
@@ -109,14 +123,42 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
         });
     };
 
+    // Sync local state with settings prop
+    useEffect(() => {
+        if (settings?.selectedObjectType !== undefined) {
+            setSelectedObjectType(settings.selectedObjectType);
+        }
+        if (settings?.objectRotation !== undefined) {
+            setObjectRotation(settings.objectRotation);
+        }
+        if (settings?.objectScale !== undefined) {
+            setObjectScale(settings.objectScale);
+        }
+    }, [settings?.selectedObjectType, settings?.objectRotation, settings?.objectScale]);
+
     // Initialize settings on mount
     useEffect(() => {
         onSettingsChange({
-            selectedObjectType,
-            objectRotation,
-            objectScale
+            selectedObjectType: undefined, // Don't auto-select anything
+            objectRotation: 0,
+            objectScale: 1
         });
     }, []); // Only run on mount
+
+    const handleConnectionRename = (connection, newName) => {
+        updateDndElement(connection.id, {
+            ...connection,
+            properties: {
+                ...connection.properties,
+                portalName: newName
+            }
+        });
+    };
+
+    const handleConnectionClick = (connection) => {
+        setEditingConnection(connection);
+        setShowRenameDialog(true);
+    };
 
     return (
         <div className="object-tools">
@@ -151,12 +193,57 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
             {/* Object Selection */}
             {selectedTool === 'object_place' && (
                 <div className="tool-section">
-                    <h4>Select Object to Place</h4>
+                    <h4>SELECT OBJECT TO PLACE</h4>
+                    
+                    {/* GM Notes and other objects */}
                     <div className="objects-list">
+                        {/* Connection Placement Card */}
+                        <div
+                            className={`object-card ${settings?.selectedPlacementType === 'connection' ? 'selected' : ''}`}
+                            onClick={() => {
+                                // Set placement type to connection without changing the tool
+                                // Clear object type when placing connections to ensure mutual exclusivity
+                                setSelectedObjectType(undefined); // Clear local state too
+                                onSettingsChange({
+                                    ...settings,
+                                    selectedPlacementType: 'connection',
+                                    selectedObjectType: undefined, // Clear object type when placing connections
+                                    objectRotation: settings?.objectRotation || 0,
+                                    objectScale: settings?.objectScale || 1
+                                });
+                            }}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <div className="object-card-content">
+                                <div 
+                                    className="object-card-icon"
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '32px',
+                                        fontWeight: 'bold',
+                                        color: '#4a90e2',
+                                        backgroundColor: 'rgba(74, 144, 226, 0.1)',
+                                        borderRadius: '4px',
+                                        width: '48px',
+                                        height: '48px'
+                                    }}
+                                >
+                                    ◉
+                                </div>
+                                <div className="object-card-info">
+                                    <h5 className="object-card-name">Connection</h5>
+                                    <p className="object-card-description">Place a connection point on the grid</p>
+                                    <span className="gm-only-badge">GM Only</span>
+                                </div>
+                            </div>
+                        </div>
+
                         {Object.entries(PROFESSIONAL_OBJECTS).map(([objectId, obj]) => (
                             <div
                                 key={objectId}
-                                className={`object-card ${selectedObjectType === objectId ? 'selected' : ''}`}
+                                className={`object-card ${settings?.selectedObjectType === objectId ? 'selected' : ''}`}
                                 onClick={() => handleObjectSelect(objectId)}
                             >
                                 <div className="object-card-content">
@@ -180,7 +267,84 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                             </div>
                         ))}
                     </div>
+
+                    {/* Connections List */}
+                    {connections.length > 0 && (
+                        <>
+                            <h4 style={{ marginTop: '20px', marginBottom: '10px' }}>
+                                Connections ({connections.length}) ◉ {currentMap?.name || 'Default Map'}
+                            </h4>
+                            <div className="connections-list" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                                {connections.map((conn) => {
+                                    const portalName = conn.properties?.portalName || 'Unnamed Connection';
+                                    const isHidden = conn.properties?.isHidden === true;
+                                    const destinationMapId = conn.properties?.destinationMapId;
+                                    const destinationMap = maps.find(m => m.id === destinationMapId);
+                                    
+                                    return (
+                                        <div
+                                            key={conn.id}
+                                            className="connection-item"
+                                            onClick={() => handleConnectionClick(conn)}
+                                            style={{
+                                                padding: '8px',
+                                                marginBottom: '4px',
+                                                border: '1px solid #ddd',
+                                                borderRadius: '4px',
+                                                backgroundColor: isHidden ? '#f5f5f5' : '#fff',
+                                                opacity: isHidden ? 0.6 : 1,
+                                                cursor: 'pointer',
+                                                transition: 'background-color 0.2s'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.backgroundColor = isHidden ? '#e8e8e8' : '#f0f0f0';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.backgroundColor = isHidden ? '#f5f5f5' : '#fff';
+                                            }}
+                                        >
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <span style={{ fontSize: '16px' }}>◉</span>
+                                                <div style={{ flex: 1 }}>
+                                                    <div style={{ fontWeight: 'bold', fontSize: '13px' }}>
+                                                        {portalName}
+                                                    </div>
+                                                    {destinationMap && (
+                                                        <div style={{ fontSize: '11px', color: '#666' }}>
+                                                            → {destinationMap.name}
+                                                        </div>
+                                                    )}
+                                                    {isHidden && (
+                                                        <div style={{ fontSize: '10px', color: '#999', fontStyle: 'italic' }}>
+                                                            Hidden
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </>
+                    )}
                 </div>
+            )}
+
+            {/* Connection Rename Dialog */}
+            {showRenameDialog && editingConnection && (
+                <ConnectionRenameDialog
+                    isOpen={showRenameDialog}
+                    onClose={() => {
+                        setShowRenameDialog(false);
+                        setEditingConnection(null);
+                    }}
+                    connection={editingConnection}
+                    onSave={(newName) => {
+                        handleConnectionRename(editingConnection, newName);
+                        setShowRenameDialog(false);
+                        setEditingConnection(null);
+                    }}
+                />
             )}
 
 

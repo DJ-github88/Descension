@@ -96,36 +96,12 @@ const CreatureLibrary = ({ onEdit }) => {
   const [inspectingCreature, setInspectingCreature] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [creatureToDelete, setCreatureToDelete] = useState(null);
-  const tooltipTimeoutRef = useRef(null);
 
-  // Recalculate tooltip position when tooltip content changes
+  // Set initial tooltip position when creature is selected (no ResizeObserver to prevent resizing)
   useEffect(() => {
-    if (hoveredCreature && tooltipRef.current) {
-      // Small delay to ensure tooltip is fully rendered and measured
-      const timeoutId = setTimeout(() => {
-        // Trigger a position update with the last known mouse event
-        if (window.lastTooltipEvent) {
-          updateTooltipPosition(window.lastTooltipEvent);
-        }
-      }, 50); // Increased delay to ensure proper measurement
-
-      // Set up ResizeObserver to watch for size changes
-      let resizeObserver;
-      if (window.ResizeObserver && tooltipRef.current) {
-        resizeObserver = new ResizeObserver(() => {
-          if (window.lastTooltipEvent) {
-            updateTooltipPosition(window.lastTooltipEvent);
-          }
-        });
-        resizeObserver.observe(tooltipRef.current);
-      }
-
-      return () => {
-        clearTimeout(timeoutId);
-        if (resizeObserver) {
-          resizeObserver.disconnect();
-        }
-      };
+    if (hoveredCreature && window.lastTooltipEvent) {
+      // Set position immediately without delay to prevent resize effect
+      updateTooltipPosition(window.lastTooltipEvent);
     }
   }, [hoveredCreature]);
 
@@ -146,17 +122,29 @@ const CreatureLibrary = ({ onEdit }) => {
     );
   }, [library.creatures, library.filters, library.sortOrder]);
 
-  // Close context menu when clicking outside
+  // Close context menu and tooltip when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
+    const handleClickOutside = (event) => {
+      // Close context menu
       setContextMenu(null);
+      
+      // Close tooltip if clicking outside the tooltip and creature card
+      if (hoveredCreature) {
+        const tooltipElement = document.querySelector('.creature-card-hover-preview-portal');
+        const creatureCard = event.target.closest('.creature-card-wrapper');
+        
+        // Don't close if clicking on the tooltip itself or a creature card
+        if (!tooltipElement?.contains(event.target) && !creatureCard) {
+          setHoveredCreature(null);
+        }
+      }
     };
 
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [hoveredCreature]);
 
   // Prevent background scrolling when tooltip is visible
   useEffect(() => {
@@ -247,23 +235,21 @@ const CreatureLibrary = ({ onEdit }) => {
     dispatch(libraryActionCreators.addToCategory(creatureId, categoryId));
   };
 
-  // Handle mouse enter for tooltip
-  const handleMouseEnter = (creature, event) => {
-    window.lastTooltipEvent = event; // Store for position recalculation
-
-    // Clear any existing timeout
-    if (tooltipTimeoutRef.current) {
-      clearTimeout(tooltipTimeoutRef.current);
-    }
-
-    // Set a 500ms delay before showing the tooltip
-    tooltipTimeoutRef.current = setTimeout(() => {
+  // Handle click for tooltip (changed from hover)
+  const handleCreatureClick = (creature, event) => {
+    // Toggle tooltip on click
+    if (hoveredCreature?.id === creature.id) {
+      // If clicking the same creature, close the tooltip
+      setHoveredCreature(null);
+    } else {
+      // Show tooltip for clicked creature
+      window.lastTooltipEvent = event; // Store for position recalculation
       setHoveredCreature(creature);
       updateTooltipPosition(event);
-    }, 500);
+    }
   };
 
-  // Handle mouse move for tooltip
+  // Handle mouse move for tooltip (keep for positioning when tooltip is open)
   const handleMouseMove = (event) => {
     if (hoveredCreature) {
       window.lastTooltipEvent = event; // Store for position recalculation
@@ -271,33 +257,15 @@ const CreatureLibrary = ({ onEdit }) => {
     }
   };
 
-  // Handle mouse leave for tooltip
-  const handleMouseLeave = () => {
-    // Clear the tooltip timeout if mouse leaves before 3 seconds
-    if (tooltipTimeoutRef.current) {
-      clearTimeout(tooltipTimeoutRef.current);
-      tooltipTimeoutRef.current = null;
-    }
-    setHoveredCreature(null);
-  };
-
-  // Update tooltip position - position very close to the right of the window
+  // Update tooltip position - position at mouse cursor
   const updateTooltipPosition = (event) => {
     // Get viewport dimensions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Tooltip dimensions
-    const tooltipWidth = 380; // From CSS
-    let tooltipHeight = 450; // Default estimated height
-
-    // Try to get actual tooltip height if it's rendered
-    if (tooltipRef.current) {
-      const rect = tooltipRef.current.getBoundingClientRect();
-      if (rect.height > 0) {
-        tooltipHeight = rect.height;
-      }
-    }
+    // Tooltip dimensions (smaller size) - use fixed height to prevent resize
+    const tooltipWidth = 260; // From CSS - matches fixed tooltip width
+    const tooltipHeight = 400; // Fixed estimated height - don't recalculate to prevent resize
 
     // Check if creature icon selector is open
     const iconSelectorModal = document.querySelector('.creature-icon-selector-modal');
@@ -315,36 +283,43 @@ const CreatureLibrary = ({ onEdit }) => {
       return;
     }
 
-    const margin = 5; // Much closer positioning to the window
+    // Position tooltip at mouse cursor with offset
+    const offsetX = 15; // Horizontal offset from cursor
+    const offsetY = -10; // Vertical offset from cursor (above cursor)
+    const margin = 10; // Minimum margin from screen edges
 
-    // Get actual window position and size from store, accounting for scale
-    const actualWindowWidth = (windowSize?.width || 1200) * windowScale;
-    const actualWindowX = windowPosition?.x || ((viewportWidth - 1200) / 2);
-    const actualWindowY = windowPosition?.y || ((viewportHeight - 800) / 2);
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
 
-    // Position tooltip to the right of the actual window
-    let x = actualWindowX + actualWindowWidth + margin;
+    // Calculate initial position relative to mouse cursor
+    let x = mouseX + offsetX;
+    let y = mouseY + offsetY;
 
-    // For Y position, use a safer approach - start from top and ensure it fits
-    let y = Math.max(margin, event.clientY - 100);
-
-    // If tooltip would extend beyond bottom of screen, move it up
-    const maxY = viewportHeight - tooltipHeight - margin;
-    if (y > maxY) {
-      y = maxY;
-    }
-
-    // Ensure minimum Y position
-    y = Math.max(margin, y);
-
-    // If tooltip would go off screen on the right, position to the left of window
+    // Adjust horizontal position if tooltip would go off screen
     if (x + tooltipWidth > viewportWidth - margin) {
-      x = actualWindowX - tooltipWidth - margin;
+      // Position to the left of cursor
+      x = mouseX - tooltipWidth - offsetX;
 
       // If still off screen on the left, clamp to margin
       if (x < margin) {
         x = margin;
       }
+    }
+
+    // Adjust vertical position if tooltip would go off screen
+    if (y + tooltipHeight > viewportHeight - margin) {
+      // Position above cursor
+      y = mouseY - tooltipHeight - Math.abs(offsetY);
+
+      // If still off screen at the top, clamp to margin
+      if (y < margin) {
+        y = margin;
+      }
+    }
+
+    // Ensure minimum Y position
+    if (y < margin) {
+      y = margin;
     }
 
     // Final safety check - ensure tooltip is always within viewport
@@ -507,11 +482,21 @@ const CreatureLibrary = ({ onEdit }) => {
                     <div
                       key={creature.id}
                       className={`creature-card-wrapper ${library.selectedCreature === creature.id ? 'selected' : ''}`}
-                      onClick={() => handleSelectCreature(creature.id)}
+                      onClick={(e) => {
+                        // Don't trigger if clicking the drag overlay
+                        if (!e.target.closest('.drag-handle-overlay')) {
+                          handleSelectCreature(creature.id);
+                          handleCreatureClick(creature, e);
+                        }
+                      }}
                       onContextMenu={(e) => handleContextMenu(e, creature.id)}
-                      onMouseEnter={(e) => handleMouseEnter(creature, e)}
                       onMouseMove={handleMouseMove}
-                      onMouseLeave={handleMouseLeave}
+                      onMouseLeave={() => {
+                        // Close tooltip immediately when leaving the card
+                        if (hoveredCreature?.id === creature.id) {
+                          setHoveredCreature(null);
+                        }
+                      }}
                       draggable="true"
                       onDragStart={handleDragStart}
                     >
@@ -519,6 +504,7 @@ const CreatureLibrary = ({ onEdit }) => {
                       <div className="drag-handle-overlay">
                         <i className="fas fa-grip-lines"></i>
                         <span>Drag to Grid</span>
+                        <span>Click to see details</span>
                       </div>
                     </div>
                   );

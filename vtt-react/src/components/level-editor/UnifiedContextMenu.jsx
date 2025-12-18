@@ -27,12 +27,16 @@ const UnifiedContextMenu = ({
             // Skip click outside handling if disabled (parent component handles it)
             if (disableClickOutside) return;
 
-            // Check if click is inside a confirmation dialog or other modal overlay
+            // Check if click is inside a confirmation dialog, WowWindow, or other modal overlay
             const clickedElement = event.target;
-            const isInsideModal = clickedElement.closest('.confirmation-dialog-overlay') !== null;
+            const isInsideModal = 
+                clickedElement.closest('.confirmation-dialog-overlay') !== null ||
+                clickedElement.closest('.wow-window') !== null ||
+                clickedElement.closest('.window-content') !== null ||
+                clickedElement.closest('[class*="dialog"]') !== null;
             
             if (isInsideModal) {
-                console.log('🖱️ [CONTEXT MENU] Click was inside modal/dialog, not closing menu');
+                console.log('🖱️ [CONTEXT MENU] Click was inside modal/dialog/window, not closing menu');
                 return;
             }
 

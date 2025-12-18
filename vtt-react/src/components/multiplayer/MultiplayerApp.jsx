@@ -1683,6 +1683,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           window._isReceivingMapUpdate = wasReceiving;
         }
         
+        // Update dndElements (connections/portals) if provided
+        if (data.mapData?.dndElements !== undefined) {
+          const wasReceiving = window._isReceivingMapUpdate;
+          window._isReceivingMapUpdate = false;
+          levelEditorStore.setDndElements(data.mapData.dndElements);
+          window._isReceivingMapUpdate = wasReceiving;
+        }
+        
         // CRITICAL FIX: Reset flag after processing to allow future updates
         setTimeout(() => {
           window._isReceivingMapUpdate = false;

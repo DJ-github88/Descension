@@ -14,8 +14,21 @@ const PortalTransferDialog = ({
 
     // Get destination map info
     const destinationMapId = portal?.properties?.destinationMapId;
+    const destinationConnectionId = portal?.properties?.destinationConnectionId || portal?.properties?.connectedToId;
     const destinationMap = maps.find(map => map.id === destinationMapId);
     const portalName = portal?.properties?.portalName || 'Portal';
+    
+    // Get destination connection name
+    let destinationConnectionName = null;
+    if (destinationConnectionId && destinationMap) {
+        const destinationConnections = destinationMap.dndElements || [];
+        const destinationConnection = destinationConnections.find(el => 
+            el.type === 'portal' && el.id === destinationConnectionId
+        );
+        if (destinationConnection) {
+            destinationConnectionName = destinationConnection.properties?.portalName || 'Connection';
+        }
+    }
 
     const handleTransfer = async () => {
         if (!destinationMapId || !destinationMap) {
@@ -26,8 +39,88 @@ const PortalTransferDialog = ({
         setIsTransferring(true);
         
         try {
+            // Get destination connection position
+            const destinationConnectionId = portal?.properties?.destinationConnectionId || portal?.properties?.connectedToId;
+            let destinationPosition = portal?.properties?.destinationPosition || { x: 0, y: 0 };
+            
+            // Find destination connection to get its actual position
+            let worldPos = null;
+            if (destinationConnectionId) {
+                const destinationConnections = destinationMap.dndElements || [];
+                const destinationConnection = destinationConnections.find(el => 
+                    el.type === 'portal' && el.id === destinationConnectionId
+                );
+                if (destinationConnection) {
+                    // Check if connection has world position or grid position
+                    if (destinationConnection.position && 
+                        destinationConnection.position.x !== undefined && 
+                        destinationConnection.position.y !== undefined) {
+                        // Already in world coordinates
+                        worldPos = destinationConnection.position;
+                    } else if (destinationConnection.gridX !== undefined && 
+                              destinationConnection.gridY !== undefined) {
+                        // Convert from grid coordinates to world coordinates
+                        const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
+                        const gridSystem = getGridSystem();
+                        worldPos = gridSystem.gridToWorld(destinationConnection.gridX, destinationConnection.gridY);
+                    }
+                }
+            }
+            
+            // Fallback to destinationPosition if connection not found
+            if (!worldPos) {
+                const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
+                const gridSystem = getGridSystem();
+                // Check if destinationPosition is grid or world coordinates
+                // If it's a small number, assume grid coordinates
+                if (destinationPosition.x < 1000 && destinationPosition.y < 1000) {
+                    worldPos = gridSystem.gridToWorld(destinationPosition.x, destinationPosition.y);
+                } else {
+                    worldPos = destinationPosition;
+                }
+            }
+            
             // Switch to the destination map
             await switchToMap(destinationMapId);
+            
+            // Move player tokens to destination position
+            try {
+                const { default: useCharacterTokenStore } = await import('../../store/characterTokenStore');
+                const { default: useCreatureStore } = await import('../../store/creatureStore');
+                const { default: useGameStore } = await import('../../store/gameStore');
+                
+                const characterTokenStore = useCharacterTokenStore.getState();
+                const creatureStore = useCreatureStore.getState();
+                const gameStore = useGameStore.getState();
+                
+                // Move player's character token
+                if (characterTokenStore.characterTokens) {
+                    // Find the player's token (isPlayerToken flag or first token)
+                    const playerToken = characterTokenStore.characterTokens.find(token => token.isPlayerToken) ||
+                                      characterTokenStore.characterTokens[0];
+                    
+                    if (playerToken && characterTokenStore.updateCharacterTokenPosition) {
+                        characterTokenStore.updateCharacterTokenPosition(playerToken.id, worldPos);
+                    }
+                }
+                
+                // Move player's creature token if they're viewing from a creature
+                if (creatureStore.tokens) {
+                    const playerCreatureToken = creatureStore.tokens.find(token => token.isPlayerToken);
+                    if (playerCreatureToken && creatureStore.updateTokenPosition) {
+                        creatureStore.updateTokenPosition(playerCreatureToken.id, worldPos);
+                    }
+                }
+                
+                // Center camera on destination position - use grid system for proper centering
+                const { getGridSystem } = await import('../../utils/InfiniteGridSystem');
+                const gridSystem = getGridSystem();
+                requestAnimationFrame(() => {
+                    gridSystem.centerCameraOnWorld(worldPos.x, worldPos.y);
+                });
+            } catch (tokenError) {
+                console.warn('Could not move tokens:', tokenError);
+            }
             
             // Close the dialog
             onClose();
@@ -70,15 +163,15 @@ const PortalTransferDialog = ({
                 <div className="transfer-question">
                     {destinationMap ? (
                         <>
-                            <p>This portal leads to:</p>
+                            <p>This connection leads to:</p>
                             <div className="destination-info">
-                                <span className="destination-name">🗺️ {portalName}</span>
+                                <span className="destination-name">◉ {destinationConnectionName || portalName}</span>
                             </div>
-                            <p className="transfer-prompt">Would you like to travel through this portal?</p>
+                            <p className="transfer-prompt">Would you like to travel through this connection?</p>
                         </>
                     ) : (
                         <div className="no-destination">
-                            <p>⚠️ This portal is not properly configured.</p>
+                            <p>⚠ This connection is not properly configured.</p>
                             <p>No destination map has been set.</p>
                         </div>
                     )}

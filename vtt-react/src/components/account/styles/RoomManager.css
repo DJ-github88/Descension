@@ -507,11 +507,16 @@
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
 }
 
 .delete-confirm-modal {
@@ -592,6 +597,10 @@
   max-width: 400px;
   width: 90%;
   font-family: 'Cinzel', serif;
+  position: relative;
+  margin: auto;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .create-local-room-modal h3 {

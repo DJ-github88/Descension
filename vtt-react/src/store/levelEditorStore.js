@@ -1813,6 +1813,22 @@ const useLevelEditorStore = create((set, get) => ({
 
             setDndElements: (dndElements) => {
                 set({ dndElements: dndElements || [] });
+                
+                // Emit dndElements update to multiplayer server (only if in multiplayer and not from server)
+                import('./gameStore').then(({ default: useGameStore }) => {
+                    const gameStore = useGameStore.getState();
+                    if (gameStore.isInMultiplayer && gameStore.multiplayerSocket && gameStore.multiplayerSocket.connected) {
+                        if (!window._isReceivingMapUpdate) {
+                            gameStore.multiplayerSocket.emit('map_update', {
+                                mapUpdates: {
+                                    dndElements: dndElements || []
+                                }
+                            });
+                        }
+                    }
+                }).catch(() => {
+                    // Ignore errors if gameStore not available
+                });
             },
 
             setFogOfWarData: (fogOfWarData) => {
@@ -1919,12 +1935,20 @@ const useLevelEditorStore = create((set, get) => ({
                     }
                     
                     // Check if all points are within similarity threshold
+                    // Support both world coordinates (worldX/worldY) and grid coordinates (x/y)
                     const allPointsSimilar = path.points.every((point, index) => {
                         const existingPoint = existingPath.points[index];
                         if (!existingPoint) return false;
                         
-                        const dx = Math.abs(point.x - existingPoint.x);
-                        const dy = Math.abs(point.y - existingPoint.y);
+                        // Handle world coordinates
+                        if (point.isWorldCoords && existingPoint.isWorldCoords) {
+                            const dx = Math.abs((point.worldX || 0) - (existingPoint.worldX || 0));
+                            const dy = Math.abs((point.worldY || 0) - (existingPoint.worldY || 0));
+                            return dx <= pointSimilarityThreshold && dy <= pointSimilarityThreshold;
+                        }
+                        // Handle grid coordinates
+                        const dx = Math.abs((point.x || point.worldX || 0) - (existingPoint.x || existingPoint.worldX || 0));
+                        const dy = Math.abs((point.y || point.worldY || 0) - (existingPoint.y || existingPoint.worldY || 0));
                         return dx <= pointSimilarityThreshold && dy <= pointSimilarityThreshold;
                     });
                     

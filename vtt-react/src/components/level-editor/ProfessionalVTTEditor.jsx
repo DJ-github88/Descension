@@ -4,6 +4,7 @@ import useGameStore from '../../store/gameStore';
 import useGridItemStore from '../../store/gridItemStore';
 import useCreatureStore from '../../store/creatureStore';
 import useCharacterTokenStore from '../../store/characterTokenStore';
+import useMapStore from '../../store/mapStore';
 import WowWindow from '../windows/WowWindow';
 import { WOW_ICON_BASE_URL } from '../item-generation/wowIcons';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
@@ -114,6 +115,7 @@ const ProfessionalVTTEditor = () => {
         environmentalObjects,
         terrainData,
         wallData,
+        addDndElement,
         showWallLayer,
         setWall,
         getWall,
@@ -145,6 +147,12 @@ const ProfessionalVTTEditor = () => {
         playerZoom,
         showGrid
     } = useGameStore();
+
+    const {
+        currentMapId,
+        loadMapState: getMapStateFromStore,
+        getCurrentMapId
+    } = useMapStore();
 
     const { gridItems, removeItemFromGrid } = useGridItemStore();
     const { tokens, removeToken } = useCreatureStore();
@@ -259,17 +267,15 @@ const ProfessionalVTTEditor = () => {
             setSelectedTool(firstTool.id);
             setActiveTool(firstTool.id);
 
-            // Auto-select GM Notes when switching to objects tab and Place Object is the first tool
+            // Don't auto-select any object when switching to objects tab
+            // User must explicitly choose which object to place
             if (tabId === 'objects' && firstTool.id === 'object_place') {
-                const availableObjects = Object.keys(PROFESSIONAL_OBJECTS);
-                if (availableObjects.length === 1) {
-                    const newSettings = {
-                        ...toolSettings,
-                        selectedObjectType: availableObjects[0]
-                    };
-                    setToolSettings(newSettings);
-                    console.log('🎯 Auto-selected object type on tab change:', availableObjects[0]);
-                }
+                const newSettings = {
+                    ...toolSettings,
+                    selectedObjectType: undefined,
+                    selectedPlacementType: undefined
+                };
+                setToolSettings(newSettings);
             }
         }
 
@@ -880,6 +886,89 @@ const ProfessionalVTTEditor = () => {
     const handleMouseDown = useCallback((e) => {
         if (!isEditorMode) return;
 
+        // Ignore right-clicks (button 2) - let context menu handlers deal with them
+        if (e.button === 2) {
+            return;
+        }
+
+        // Check if the click is on a background image - ignore it here UNLESS we're in background manipulation mode
+        // In background manipulation mode, we want to allow clicks on backgrounds for resizing/moving
+        const gameStore = useGameStore.getState();
+        const isBackgroundManipulationMode = gameStore.isBackgroundManipulationMode;
+        
+        if (!isBackgroundManipulationMode) {
+            // Background images can be rendered as divs with backgroundImage style or as img elements
+            // Also check for images in MapLibraryWindow (map-thumbnail, map-placeholder)
+            const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
+            const isBackgroundImage = allElementsAtPoint.some(el => {
+                if (!el) return false;
+                
+                // Check if element is within MapLibraryWindow components (map-thumbnail, map-placeholder)
+                const isInMapThumbnail = el.closest('.map-thumbnail') || el.closest('.map-placeholder');
+                if (isInMapThumbnail) {
+                    return true;
+                }
+                
+                // Check if it's an img element (could be a background image)
+                if (el.tagName === 'IMG') {
+                    // Check if the img is within a Resizable component or background container
+                    let parent = el.parentElement;
+                    while (parent) {
+                        // Check for Resizable component indicators
+                        if (parent.classList && (
+                            parent.classList.contains('react-resizable') ||
+                            parent.getAttribute('data-resizable') === 'true'
+                        )) {
+                            return true;
+                        }
+                        // Check if parent has background image style
+                        const parentStyle = window.getComputedStyle(parent);
+                        if (parentStyle.backgroundImage && parentStyle.backgroundImage !== 'none') {
+                            return true;
+                        }
+                        // Check if parent is a map thumbnail/placeholder
+                        if (parent.classList && (
+                            parent.classList.contains('map-thumbnail') ||
+                            parent.classList.contains('map-placeholder')
+                        )) {
+                            return true;
+                        }
+                        parent = parent.parentElement;
+                    }
+                }
+                
+                const style = window.getComputedStyle(el);
+                // Check if element has a background image
+                const hasBackgroundImage = style.backgroundImage && style.backgroundImage !== 'none';
+                // Check if it's a manipulation handle (resize/rotate handles for backgrounds)
+                const isManipulationHandle = el.hasAttribute('data-manipulation-handle');
+                // Check if element is within a Resizable component
+                const isInResizable = el.closest('.react-resizable') || el.closest('[data-resizable="true"]');
+                // Check if element is within a background container (check parent elements)
+                let parent = el.parentElement;
+                while (parent) {
+                    const parentStyle = window.getComputedStyle(parent);
+                    if (parentStyle.backgroundImage && parentStyle.backgroundImage !== 'none') {
+                        return true;
+                    }
+                    // Check if parent is a map thumbnail/placeholder
+                    if (parent.classList && (
+                        parent.classList.contains('map-thumbnail') ||
+                        parent.classList.contains('map-placeholder')
+                    )) {
+                        return true;
+                    }
+                    parent = parent.parentElement;
+                }
+                return hasBackgroundImage || isManipulationHandle || isInResizable;
+            });
+
+            if (isBackgroundImage) {
+                console.log('ProfessionalVTTEditor: ignoring click on background image (not in manipulation mode)');
+                return; // Let the background image's own event handler deal with it
+            }
+        }
+
         // For select tool and light_select tool, let ObjectSystem handle the events
         if (selectedTool === 'select' || selectedTool === 'light_select') {
             // Don't prevent default or stop propagation - let ObjectSystem handle it
@@ -959,6 +1048,32 @@ const ProfessionalVTTEditor = () => {
                 }
                 return; // Don't set drawing state for light tools
             case 'object_place':
+                // Check if we're placing a connection (via settings) or regular object
+                if (toolSettings?.selectedPlacementType === 'connection') {
+                    // Place connection/portal - NO DRAWING STATE
+                    const portalCoords = screenToGrid(e.clientX, e.clientY);
+                    if (portalCoords) {
+                        // Create connection as dndElement
+                        const connectionData = {
+                            type: 'portal',
+                            position: { x: portalCoords.gridX, y: portalCoords.gridY },
+                            properties: {
+                                portalName: 'New Connection',
+                                destinationMapId: null,
+                                destinationPosition: null,
+                                isActive: true,
+                                isHidden: false,
+                                color: '#4a90e2',
+                                description: ''
+                            }
+                        };
+                        
+                        addDndElement(connectionData);
+                        console.log('◉ Connection placed at:', portalCoords);
+                    }
+                    return;
+                }
+                
                 // Place object - NO DRAWING STATE
                 const objCoords = screenToGrid(e.clientX, e.clientY);
 
@@ -1011,6 +1126,8 @@ const ProfessionalVTTEditor = () => {
                     // Initialize GM Notes data
                     if (objectType === 'gmNotes') {
                         objectData.gmNotesData = {
+                            title: '',
+                            description: '',
                             notes: '',
                             items: [],
                             creatures: []
@@ -1048,7 +1165,6 @@ const ProfessionalVTTEditor = () => {
                     }
                 }
                 return;
-
             case 'door_place':
                 // Place door - auto-detect orientation from nearby walls
                 if (toolSettings.selectedWallType) {
@@ -1904,20 +2020,26 @@ const ProfessionalVTTEditor = () => {
                    selectedTool !== 'door_place' &&
                    selectedTool !== 'fog_clear_all') {
             // Finalize the drawing path for drawing tools only
-            const pathData = {
-                tool: selectedTool,
-                points: currentPath,
-                style: {
-                    strokeWidth: toolSettings.strokeWidth || 2,
-                    strokeColor: toolSettings.strokeColor || '#000000',
-                    fillColor: toolSettings.fillColor || 'transparent',
-                    opacity: toolSettings.opacity || 1
-                },
-                layer: selectedTool === 'freehand' || selectedTool === 'line' || selectedTool === 'rectangle' || selectedTool === 'circle' || selectedTool === 'polygon' || selectedTool === 'text' ? 'drawings' : activeLayer,
-                timestamp: Date.now()
-            };
+            // For freehand, require at least 2 points to create a visible line
+            if (selectedTool === 'freehand' && currentPath.length < 2) {
+                // Don't save single-point freehand drawings (they won't render anyway)
+                console.log('Skipping freehand drawing with less than 2 points');
+            } else {
+                const pathData = {
+                    tool: selectedTool,
+                    points: currentPath,
+                    style: {
+                        strokeWidth: toolSettings.strokeWidth || 2,
+                        strokeColor: toolSettings.strokeColor || '#000000',
+                        fillColor: toolSettings.fillColor || 'transparent',
+                        opacity: toolSettings.opacity || 1
+                    },
+                    layer: selectedTool === 'freehand' || selectedTool === 'line' || selectedTool === 'rectangle' || selectedTool === 'circle' || selectedTool === 'polygon' || selectedTool === 'text' ? 'drawings' : activeLayer,
+                    timestamp: Date.now()
+                };
 
-            addDrawingPath(pathData);
+                addDrawingPath(pathData);
+            }
         }
 
         // Reset drawing state
@@ -2062,6 +2184,76 @@ const ProfessionalVTTEditor = () => {
             setIsOpen(false);
         }
     }, [isGMMode, isEditorMode, isOpen]);
+
+    // Load current map state when editor opens (only once, and only if map has data)
+    useEffect(() => {
+        if (isEditorMode && isGMMode) {
+            // Load the current map's state when editor opens
+            const mapId = getCurrentMapId();
+            if (mapId) {
+                const mapState = getMapStateFromStore();
+                if (mapState) {
+                    // Load terrain and other level editor data from the current map
+                    // Only load if the map actually has data (not empty arrays/objects)
+                    const levelEditorState = useLevelEditorStore.getState();
+                    
+                    // Only load terrain if map has terrain data
+                    if (mapState.terrainData && Object.keys(mapState.terrainData).length > 0 && levelEditorState.setTerrainData) {
+                        levelEditorState.setTerrainData(mapState.terrainData);
+                    }
+                    // Only load environmental objects if map has objects
+                    if (mapState.environmentalObjects && Array.isArray(mapState.environmentalObjects) && mapState.environmentalObjects.length > 0 && levelEditorState.setEnvironmentalObjects) {
+                        levelEditorState.setEnvironmentalObjects(mapState.environmentalObjects);
+                    }
+                    // Only load walls if map has wall data
+                    if (mapState.wallData && Object.keys(mapState.wallData).length > 0 && levelEditorState.setWallData) {
+                        levelEditorState.setWallData(mapState.wallData);
+                    }
+                    // Only load dnd elements if map has elements
+                    if (mapState.dndElements && Array.isArray(mapState.dndElements) && mapState.dndElements.length > 0 && levelEditorState.setDndElements) {
+                        levelEditorState.setDndElements(mapState.dndElements);
+                    }
+                    // Always clear and load fog data for the new map (don't persist between maps)
+                    if (levelEditorState.setFogOfWarData) {
+                        levelEditorState.setFogOfWarData(mapState.fogOfWarData || {});
+                    }
+                    // Always clear and load fog paths for the new map (critical: fog should not persist)
+                    if (levelEditorState.setFogOfWarPaths) {
+                        // Clear existing fog paths first, then load new map's fog paths
+                        levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths || []);
+                    }
+                    if (levelEditorState.setFogErasePaths) {
+                        // Clear existing fog erase paths first, then load new map's fog erase paths
+                        levelEditorState.setFogErasePaths(mapState.fogErasePaths || []);
+                    }
+                    // Always load drawings for the new map (clear if empty)
+                    if (levelEditorState.setDrawingPaths) {
+                        // Always load drawings - clear existing and load new map's drawings
+                        levelEditorState.setDrawingPaths(mapState.drawingPaths || []);
+                    }
+                    // Always set drawing layers (they should always exist)
+                    if (mapState.drawingLayers && levelEditorState.setDrawingLayers) {
+                        const defaultLayers = [
+                            { id: 'background', name: 'Background', visible: true, locked: false },
+                            { id: 'terrain', name: 'Terrain', visible: true, locked: false },
+                            { id: 'drawings', name: 'Drawings', visible: true, locked: false },
+                            { id: 'walls', name: 'Walls', visible: true, locked: false },
+                            { id: 'objects', name: 'Objects', visible: true, locked: false },
+                            { id: 'lighting', name: 'Lighting', visible: true, locked: false },
+                            { id: 'fog', name: 'Fog of War', visible: true, locked: false },
+                            { id: 'grid', name: 'Grid', visible: true, locked: false },
+                            { id: 'overlay', name: 'Overlay', visible: true, locked: false }
+                        ];
+                        levelEditorState.setDrawingLayers(
+                            mapState.drawingLayers.length > 0 
+                                ? mapState.drawingLayers 
+                                : defaultLayers
+                        );
+                    }
+                }
+            }
+        }
+    }, [isEditorMode, isGMMode, currentMapId, getMapStateFromStore, getCurrentMapId]);
 
     // Auto-focus text input when it appears
     useEffect(() => {

@@ -4,6 +4,7 @@ import WowWindow from './WowWindow';
 import useMapStore from '../../store/mapStore';
 import useGameStore from '../../store/gameStore';
 import useLevelEditorStore from '../../store/levelEditorStore';
+import useCreatureStore from '../../store/creatureStore';
 import MapSwitchConfirmDialog from '../dialogs/MapSwitchConfirmDialog';
 import MapDeleteConfirmDialog from '../dialogs/MapDeleteConfirmDialog';
 import './styles/MapLibraryWindow.css';
@@ -42,6 +43,10 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     // Game and level editor stores for state synchronization
     const gameStore = useGameStore();
     const levelEditorStore = useLevelEditorStore();
+    
+    // Get real-time data from stores for reactive updates
+    const { dndElements } = useLevelEditorStore();
+    const { tokens } = useCreatureStore(); // Use tokens to count creatures on the map
 
     // Background management from game store
     const addBackground = useGameStore(state => state.addBackground);
@@ -76,7 +81,20 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
 
             // Save current map state before switching (unless explicitly skipped)
             if (!skipSaveCurrentState) {
-                saveCurrentMapState(gameStore, levelEditorStore);
+                // Get the actual state data from the stores
+                const gameStoreState = useGameStore.getState();
+                const levelEditorStoreState = useLevelEditorStore.getState();
+                
+                // Debug: Log what we're saving
+                console.log('Saving map state:', {
+                    mapId: currentMapId,
+                    drawingPaths: levelEditorStoreState.drawingPaths?.length || 0,
+                    fogOfWarPaths: levelEditorStoreState.fogOfWarPaths?.length || 0,
+                    fogErasePaths: levelEditorStoreState.fogErasePaths?.length || 0,
+                    fogOfWarData: Object.keys(levelEditorStoreState.fogOfWarData || {}).length
+                });
+                
+                await saveCurrentMapState(gameStoreState, levelEditorStoreState);
             }
 
             // Switch to new map
@@ -93,30 +111,35 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             // Load new map state (fallback to map data if state not found)
             let mapState = loadMapState();
 
-            // If no map state found, use the map data directly (for newly created maps)
-            if (!mapState && targetMap) {
-                console.log('No map state found, using map data directly');
-                mapState = {
-                    backgrounds: targetMap.backgrounds || [],
-                    activeBackgroundId: targetMap.activeBackgroundId || null,
-                    backgroundImage: targetMap.backgroundImage || null,
-                    backgroundImageUrl: targetMap.backgroundImageUrl || '',
-                    creatures: [],
-                    tokens: [],
-                    cameraX: 0,
-                    cameraY: 0,
-                    zoomLevel: 1.0,
-                    gridSize: 50,
-                    gridOffsetX: 0,
-                    gridOffsetY: 0,
-                    gridLineColor: 'rgba(64, 196, 255, 0.3)',
-                    gridLineThickness: 1,
-                    terrainData: {},
-                    environmentalObjects: [],
-                    dndElements: [],
-                    fogOfWarData: {}
-                };
-            }
+                // If no map state found, use the map data directly (for newly created maps)
+                if (!mapState && targetMap) {
+                    console.log('No map state found, using map data directly');
+                    mapState = {
+                        backgrounds: targetMap.backgrounds || [],
+                        activeBackgroundId: targetMap.activeBackgroundId || null,
+                        backgroundImage: targetMap.backgroundImage || null,
+                        backgroundImageUrl: targetMap.backgroundImageUrl || '',
+                        creatures: [],
+                        tokens: [],
+                        cameraX: 0,
+                        cameraY: 0,
+                        zoomLevel: 1.0,
+                        gridSize: 50,
+                        gridOffsetX: 0,
+                        gridOffsetY: 0,
+                        gridLineColor: 'rgba(64, 196, 255, 0.3)',
+                        gridLineThickness: 1,
+                        terrainData: {},
+                        environmentalObjects: [],
+                        dndElements: [],
+                        fogOfWarData: {},
+                        fogOfWarPaths: [],
+                        fogErasePaths: [],
+                        wallData: {},
+                        drawingPaths: [],
+                        drawingLayers: []
+                    };
+                }
 
             console.log('Final map state to load:', mapState);
 
@@ -138,12 +161,47 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 // Use the game store directly to ensure functions exist
                 const gameStoreState = useGameStore.getState();
 
+                // Clear existing tokens first, then load new ones
+                // This ensures tokens don't persist between maps
+                const { default: useCreatureStore } = await import('../../store/creatureStore');
+                const { default: useCharacterTokenStore } = await import('../../store/characterTokenStore');
+                
+                // Clear all tokens before loading new map's tokens
+                if (useCreatureStore.getState().clearTokens) {
+                    useCreatureStore.getState().clearTokens();
+                } else {
+                    useCreatureStore.setState({ tokens: [] });
+                }
+                
+                if (useCharacterTokenStore.getState().clearCharacterTokens) {
+                    useCharacterTokenStore.getState().clearCharacterTokens();
+                } else {
+                    useCharacterTokenStore.setState({ characterTokens: [] });
+                }
+
                 // Set other game state
                 if (gameStoreState.setCreatures) {
                     gameStoreState.setCreatures(mapState.creatures || []);
                 }
-                if (gameStoreState.setTokens) {
-                    gameStoreState.setTokens(mapState.tokens || []);
+                
+                // Load tokens for the new map
+                if (mapState.tokens && mapState.tokens.length > 0) {
+                    const creatureStore = useCreatureStore.getState();
+                    mapState.tokens.forEach(token => {
+                        if (creatureStore.loadToken) {
+                            creatureStore.loadToken(token);
+                        }
+                    });
+                }
+                
+                // Load character tokens for the new map
+                if (mapState.characterTokens && mapState.characterTokens.length > 0) {
+                    const characterTokenStore = useCharacterTokenStore.getState();
+                    mapState.characterTokens.forEach(token => {
+                        if (characterTokenStore.addCharacterTokenFromServer) {
+                            characterTokenStore.addCharacterTokenFromServer(token.id, token.position, token.playerId);
+                        }
+                    });
                 }
 
                 // Update camera and view settings
@@ -174,8 +232,48 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 if (levelEditorState.setDndElements) {
                     levelEditorState.setDndElements(mapState.dndElements || []);
                 }
+                // Always clear and load fog data for the new map (don't persist between maps)
                 if (levelEditorState.setFogOfWarData) {
                     levelEditorState.setFogOfWarData(mapState.fogOfWarData || {});
+                }
+                // Always clear and load fog paths for the new map (critical: fog should not persist)
+                if (levelEditorState.setFogOfWarPaths) {
+                    // Clear existing fog paths first, then load new map's fog paths
+                    levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths || []);
+                }
+                if (levelEditorState.setFogErasePaths) {
+                    // Clear existing fog erase paths first, then load new map's fog erase paths
+                    levelEditorState.setFogErasePaths(mapState.fogErasePaths || []);
+                }
+                if (levelEditorState.setWallData) {
+                    levelEditorState.setWallData(mapState.wallData || {});
+                }
+                // Always clear and load drawings for the new map
+                if (levelEditorState.setDrawingPaths) {
+                    levelEditorState.setDrawingPaths(mapState.drawingPaths || []);
+                }
+                if (levelEditorState.setDrawingLayers) {
+                    // Use default layers if none exist, otherwise use saved layers
+                    const defaultLayers = [
+                        { id: 'background', name: 'Background', visible: true, locked: false },
+                        { id: 'terrain', name: 'Terrain', visible: true, locked: false },
+                        { id: 'drawings', name: 'Drawings', visible: true, locked: false },
+                        { id: 'walls', name: 'Walls', visible: true, locked: false },
+                        { id: 'objects', name: 'Objects', visible: true, locked: false },
+                        { id: 'lighting', name: 'Lighting', visible: true, locked: false },
+                        { id: 'fog', name: 'Fog of War', visible: true, locked: false },
+                        { id: 'grid', name: 'Grid', visible: true, locked: false },
+                        { id: 'overlay', name: 'Overlay', visible: true, locked: false }
+                    ];
+                    levelEditorState.setDrawingLayers(mapState.drawingLayers && mapState.drawingLayers.length > 0 
+                        ? mapState.drawingLayers 
+                        : defaultLayers);
+                }
+
+                // Update grid items store
+                const { default: useGridItemStore } = await import('../../store/gridItemStore');
+                if (useGridItemStore && mapState.gridItems) {
+                    useGridItemStore.setState({ gridItems: mapState.gridItems || [] });
                 }
 
                 console.log('Map switch completed. Current game store state:');
@@ -253,7 +351,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const MAX_FILE_SIZE_MB = 10;
 
     // Handle background image upload for map creation
-    const handleImageUpload = (event) => {
+    const handleImageUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
@@ -276,17 +374,33 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            updateMapCreationWizard({ backgroundImage: e.target.result });
-        };
-        reader.onerror = () => {
-            alert('Error reading file. Please try again.');
+        try {
+            // Import compression utility
+            const { compressImage } = await import('../../utils/imageCompression');
+            
+            // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
+            console.log('🖼️ Compressing background image for map creation... Original size:', (file.size / 1024).toFixed(1), 'KB');
+            const compressedFile = await compressImage(file, 1920, null, 0.85);
+            console.log('🗜️ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                updateMapCreationWizard({ backgroundImage: e.target.result });
+            };
+            reader.onerror = () => {
+                alert('Error reading file. Please try again.');
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
+            };
+            reader.readAsDataURL(compressedFile);
+        } catch (error) {
+            console.error('❌ Image compression failed:', error);
+            alert('Failed to compress image. Please try a different image or a smaller file.');
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
-        };
-        reader.readAsDataURL(file);
+        }
     };
 
     // Handle map deletion
@@ -367,7 +481,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
         }
     };
 
-    const handleBackgroundUpload = (event) => {
+    const handleBackgroundUpload = async (event) => {
         const file = event.target.files[0];
         if (!file || !showBackgroundAssignment) return;
 
@@ -392,14 +506,25 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const backgroundUrl = e.target.result;
+        try {
+            // Import compression utility
+            const { compressImage } = await import('../../utils/imageCompression');
+            
+            // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
+            console.log('🖼️ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
+            const compressedFile = await compressImage(file, 1920, null, 0.85);
+            console.log('🗜️ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const backgroundUrl = e.target.result;
 
             // Create background ID
             const backgroundId = Date.now().toString();
 
             // Update the map with the new background (replace all existing backgrounds)
+            // NOTE: This is just for preview in the map library - it won't automatically apply to the grid
+            // Users need to use the "Upload Background" button in the editor to actually set it as a grid background
             updateMap(showBackgroundAssignment, {
                 backgrounds: [{
                     id: backgroundId,
@@ -416,24 +541,8 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                 backgroundImageUrl: ''
             });
 
-            // If this is the current map, immediately apply the background
-            if (showBackgroundAssignment === currentMapId) {
-                // Clear existing backgrounds first
-                useGameStore.setState({
-                    backgrounds: [{
-                        id: backgroundId,
-                        url: backgroundUrl,
-                        name: 'Map Background',
-                        position: { x: 0, y: 0 },
-                        scale: 1.0,
-                        opacity: 1.0,
-                        zIndex: 0
-                    }],
-                    activeBackgroundId: backgroundId,
-                    backgroundImage: null,
-                    backgroundImageUrl: ''
-                });
-            }
+            // DON'T automatically apply to gameStore - this is just a preview image
+            // Users should use the editor's "Upload Background" feature to set grid backgrounds
 
             setShowBackgroundAssignment(null);
 
@@ -449,7 +558,15 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             }
             setShowBackgroundAssignment(null);
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(compressedFile);
+        } catch (error) {
+            console.error('❌ Image compression failed:', error);
+            alert('Failed to compress image. Please try a different image or a smaller file.');
+            if (backgroundFileInputRef.current) {
+                backgroundFileInputRef.current.value = '';
+            }
+            setShowBackgroundAssignment(null);
+        }
     };
 
     // Format date for display
@@ -526,11 +643,6 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
                                         <span className="map-date">
                                             Modified: {formatDate(map.lastModified)}
                                         </span>
-                                        <div className="map-stats">
-                                            <span title="Terrain tiles">Terrain: {Object.keys(map.terrainData || {}).length}</span>
-                                            <span title="Objects">Objects: {(map.environmentalObjects || []).length}</span>
-                                            <span title="Portals">Portals: {(map.portals || []).length}</span>
-                                        </div>
                                     </div>
                                 </div>
 

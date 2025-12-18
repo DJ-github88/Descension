@@ -248,7 +248,9 @@ function GridComponent({
     const [isDraggingBackground, setIsDraggingBackground] = useState(false);
     const [isResizingBackground, setIsResizingBackground] = useState(false);
     const [isRotatingBackground, setIsRotatingBackground] = useState(false);
-    const [backgroundDragStart, setBackgroundDragStart] = useState({ x: 0, y: 0 });
+    const [draggingBackgroundId, setDraggingBackgroundId] = useState(null); // Track which background is being dragged
+    const [backgroundDragStart, setBackgroundDragStart] = useState({ x: 0, y: 0 }); // Screen position where drag started
+    const [backgroundInitialPosition, setBackgroundInitialPosition] = useState({ x: 0, y: 0 }); // Initial background position when drag started
     const [backgroundResizeStart, setBackgroundResizeStart] = useState({ x: 0, y: 0, scale: 1 });
     const [backgroundRotateStart, setBackgroundRotateStart] = useState({ x: 0, y: 0, rotation: 0 });
     const [resizeHandle, setResizeHandle] = useState(null);
@@ -744,22 +746,46 @@ function GridComponent({
 
     // Background manipulation handlers
     const handleBackgroundMouseDown = useCallback((e, backgroundId) => {
+        // Only handle left mouse button for dragging
+        if (e.button !== 0) {
+            return;
+        }
+        
         e.preventDefault();
         e.stopPropagation();
+        
+        // Find the background to get its initial position
+        const draggedBackground = backgrounds.find(bg => bg.id === backgroundId);
+        if (!draggedBackground) {
+            return;
+        }
+        
         setIsDraggingBackground(true);
+        setDraggingBackgroundId(backgroundId); // Track which background we're dragging
+        setIsResizingBackground(false); // Make sure we're not resizing
+        setIsRotatingBackground(false); // Make sure we're not rotating
+        
         const rect = gridRef.current?.getBoundingClientRect();
         if (rect) {
+            // Store the screen position where drag started
             setBackgroundDragStart({
                 x: e.clientX - rect.left,
                 y: e.clientY - rect.top
             });
+            // Store the initial background position in world coordinates
+            setBackgroundInitialPosition({
+                x: draggedBackground.position.x,
+                y: draggedBackground.position.y
+            });
         }
-    }, []);
+    }, [backgrounds]);
 
     const handleResizeMouseDown = useCallback((e, backgroundId, handle) => {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation(); // Prevent any other handlers from firing
         setIsResizingBackground(true);
+        setIsDraggingBackground(false); // Make sure we're not dragging
         setResizeHandle(handle);
         const rect = gridRef.current?.getBoundingClientRect();
         const activeBackground = backgrounds.find(bg => bg.id === backgroundId);
@@ -775,7 +801,10 @@ function GridComponent({
     const handleRotateMouseDown = useCallback((e, backgroundId) => {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation(); // Prevent any other handlers from firing
         setIsRotatingBackground(true);
+        setIsDraggingBackground(false); // Make sure we're not dragging
+        setIsResizingBackground(false); // Make sure we're not resizing
         const rect = gridRef.current?.getBoundingClientRect();
         const activeBackground = backgrounds.find(bg => bg.id === backgroundId);
         if (rect && activeBackground) {
@@ -878,6 +907,42 @@ function GridComponent({
             return; // Let the token's own event handler deal with it
         }
 
+        // Handle background dragging in background manipulation mode
+        // In this mode, allow dragging the background from anywhere on the grid
+        // (unless clicking on other interactive elements like tokens, items, etc.)
+        if (isBackgroundManipulationMode && e.button === 0 && activeBackgroundId) {
+            const target = e.target;
+            
+            // Don't drag background if clicking on interactive elements
+            const isInteractiveElement = 
+                target.classList.contains('grid-item-orb') ||
+                target.classList.contains('creature-token') ||
+                target.classList.contains('character-token') ||
+                target.closest('.creature-token') ||
+                target.closest('.character-token') ||
+                target.closest('.grid-item-orb') ||
+                (target.dataset && target.dataset.manipulationHandle);
+            
+            if (!isInteractiveElement) {
+                // Check if clicking on the active background element using data attribute
+                const backgroundElement = target.closest('[data-background-id]');
+                const isOnBackground = backgroundElement && backgroundElement.getAttribute('data-background-id') === activeBackgroundId;
+                
+                // Also check for background image style as fallback
+                const style = window.getComputedStyle(target);
+                const hasBackgroundImage = style.backgroundImage && style.backgroundImage !== 'none';
+                
+                // Allow dragging if clicking on background or empty grid space
+                if (isOnBackground || hasBackgroundImage || target === gridRef.current || target.closest('#grid-overlay')) {
+                    // Handle background drag directly here
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleBackgroundMouseDown(e, activeBackgroundId);
+                    return;
+                }
+            }
+        }
+
         // Touch-friendly camera drag: single-finger drag pans the grid
         if (pointerType === 'touch') {
             e.preventDefault();
@@ -904,33 +969,9 @@ function GridComponent({
                 setGridAlignmentStart(startPos);
                 setGridAlignmentEnd(startPos);
             }
-        } else if (isBackgroundManipulationMode && e.button === 0) {
-            // Background manipulation mode
-            e.preventDefault();
-            const rect = gridRef.current?.getBoundingClientRect();
-            if (rect) {
-                const mousePos = {
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top
-                };
-
-                if (e.shiftKey) {
-                    // Shift+click for resizing
-                    setIsResizingBackground(true);
-                    const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
-                    setBackgroundResizeStart({
-                        x: mousePos.x,
-                        y: mousePos.y,
-                        scale: activeBackground?.scale || 1
-                    });
-                } else {
-                    // Regular click for moving
-                    setIsDraggingBackground(true);
-                    setBackgroundDragStart(mousePos);
-                }
-            }
         }
-    }, [isGridAlignmentMode, isBackgroundManipulationMode, backgrounds, activeBackgroundId]);
+        // Background manipulation mode is handled above in the early return
+    }, [isGridAlignmentMode, isBackgroundManipulationMode, backgrounds, activeBackgroundId, handleBackgroundMouseDown]);
 
     const handleMouseMove = useCallback((e) => {
         // PERFORMANCE OPTIMIZATION: In player mode, only process mouse moves when actively interacting
@@ -954,29 +995,27 @@ function GridComponent({
                 };
                 setGridAlignmentEnd(endPos);
             }
-        } else if (isDraggingBackground) {
+        } else if (isDraggingBackground && draggingBackgroundId) {
             // Move background
             const rect = gridRef.current?.getBoundingClientRect();
-            if (rect && activeBackgroundId) {
+            if (rect) {
                 const currentPos = {
                     x: e.clientX - rect.left,
                     y: e.clientY - rect.top
                 };
 
+                // Calculate total delta from initial drag start position
                 const deltaX = (currentPos.x - backgroundDragStart.x) / effectiveZoom;
                 const deltaY = (currentPos.y - backgroundDragStart.y) / effectiveZoom;
 
-                const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
-                if (activeBackground) {
-                    updateBackground(activeBackgroundId, {
-                        position: {
-                            x: activeBackground.position.x + deltaX,
-                            y: activeBackground.position.y + deltaY
-                        }
-                    });
-                }
-
-                setBackgroundDragStart(currentPos);
+                // Update background position based on initial position + total delta
+                // This prevents accumulation errors
+                updateBackground(draggingBackgroundId, {
+                    position: {
+                        x: backgroundInitialPosition.x + deltaX,
+                        y: backgroundInitialPosition.y + deltaY
+                    }
+                });
             }
         } else if (isResizingBackground) {
             // Resize background based on corner handle movement
@@ -987,34 +1026,31 @@ function GridComponent({
                     y: e.clientY - rect.top
                 };
 
-                // Calculate movement from start position
-                const deltaX = currentPos.x - backgroundResizeStart.x;
-                const deltaY = currentPos.y - backgroundResizeStart.y;
+                // Get the background center position on screen
+                const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
+                if (activeBackground) {
+                    const viewportCenterX = viewportSize.width / 2;
+                    const viewportCenterY = viewportSize.height / 2;
+                    const backgroundCenterX = viewportCenterX + (activeBackground.position.x - cameraX) * effectiveZoom;
+                    const backgroundCenterY = viewportCenterY + (activeBackground.position.y - cameraY) * effectiveZoom;
 
-                // Determine scale change based on which corner is being dragged
-                // Much less sensitive - need to drag further for changes
-                let scaleChange = 0;
+                    // Calculate distance from center for start and current positions
+                    const startDist = Math.sqrt(
+                        Math.pow(backgroundResizeStart.x - backgroundCenterX, 2) +
+                        Math.pow(backgroundResizeStart.y - backgroundCenterY, 2)
+                    );
+                    const currentDist = Math.sqrt(
+                        Math.pow(currentPos.x - backgroundCenterX, 2) +
+                        Math.pow(currentPos.y - backgroundCenterY, 2)
+                    );
 
-                switch (resizeHandle) {
-                    case 'nw': // Top-left corner
-                        scaleChange = -(deltaX + deltaY) / 800; // Moving away = bigger (4x less sensitive)
-                        break;
-                    case 'ne': // Top-right corner
-                        scaleChange = (deltaX - deltaY) / 800; // Moving right/up = bigger
-                        break;
-                    case 'sw': // Bottom-left corner
-                        scaleChange = (-deltaX + deltaY) / 800; // Moving left/down = bigger
-                        break;
-                    case 'se': // Bottom-right corner
-                        scaleChange = (deltaX + deltaY) / 800; // Moving away = bigger
-                        break;
-                    default:
-                        scaleChange = 0;
+                    // Scale based on distance change from center
+                    if (startDist > 0) {
+                        const scaleRatio = currentDist / startDist;
+                        const newScale = Math.max(0.1, Math.min(5.0, backgroundResizeStart.scale * scaleRatio));
+                        updateBackground(activeBackgroundId, { scale: newScale });
+                    }
                 }
-
-                // Apply scale change
-                const newScale = Math.max(0.1, Math.min(5.0, backgroundResizeStart.scale + scaleChange));
-                updateBackground(activeBackgroundId, { scale: newScale });
             }
         } else if (isRotatingBackground) {
             // Rotate background
@@ -1087,6 +1123,7 @@ function GridComponent({
         isGMMode,
         isGridAlignmentDragging,
         isDraggingBackground,
+        draggingBackgroundId,
         isResizingBackground,
         isRotatingBackground,
         isDraggingCamera,
@@ -1095,10 +1132,14 @@ function GridComponent({
         backgrounds,
         updateBackground,
         backgroundDragStart,
+        backgroundInitialPosition,
         backgroundResizeStart,
         backgroundRotateStart,
         viewportSize,
-        resizeHandle
+        resizeHandle,
+        effectiveZoom,
+        cameraX,
+        cameraY
     ]);
 
     const handleMouseUp = useCallback(() => {
@@ -1190,9 +1231,11 @@ function GridComponent({
 
         // Reset background manipulation states
         setIsDraggingBackground(false);
+        setDraggingBackgroundId(null);
         setIsResizingBackground(false);
         setIsRotatingBackground(false);
         setBackgroundDragStart({ x: 0, y: 0 });
+        setBackgroundInitialPosition({ x: 0, y: 0 });
         setBackgroundResizeStart({ x: 0, y: 0, scale: 1 });
         setBackgroundRotateStart({ x: 0, y: 0, rotation: 0 });
         setResizeHandle(null);
@@ -1267,6 +1310,28 @@ function GridComponent({
         }
 
         // Handle Ctrl+scroll: ALWAYS zoom the grid, everywhere on the page
+        // Background manipulation mode - handle scroll differently
+        if (isBackgroundManipulationMode && activeBackgroundId) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
+            if (activeBackground) {
+                if (e.ctrlKey) {
+                    // Ctrl+scroll: Rotate background
+                    const rotationStep = e.deltaY < 0 ? 5 : -5; // 5 degrees per scroll step
+                    const newRotation = (activeBackground.rotation + rotationStep) % 360;
+                    updateBackground(activeBackgroundId, { rotation: newRotation });
+                } else {
+                    // Regular scroll: Resize background
+                    const scaleFactor = e.deltaY < 0 ? 1.05 : 0.95; // 5% per scroll step
+                    const newScale = Math.max(0.1, Math.min(5.0, activeBackground.scale * scaleFactor));
+                    updateBackground(activeBackgroundId, { scale: newScale });
+                }
+            }
+            return;
+        }
+
         if (e.ctrlKey) {
             // Prevent browser zoom and handle grid zoom
             e.preventDefault();
@@ -1274,17 +1339,6 @@ function GridComponent({
 
             // Handle zoom even in editor mode - Ctrl+scroll should always zoom
             // The editor can handle its own zoom separately if needed
-
-            // Background manipulation mode - scale background with scroll wheel
-            if (isBackgroundManipulationMode && activeBackgroundId) {
-                const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
-                if (activeBackground) {
-                    const scaleFactor = e.deltaY < 0 ? 1.1 : 0.9;
-                    const newScale = Math.max(0.1, Math.min(5.0, activeBackground.scale * scaleFactor));
-                    updateBackground(activeBackgroundId, { scale: newScale });
-                }
-                return;
-            }
 
             // PERFORMANCE FIX: Optimized zoom updates with immediate processing for better responsiveness
             // Accumulate zoom deltas and mouse position
@@ -1382,48 +1436,19 @@ function GridComponent({
             return false;
         }
 
-        // Allow wheel events to work even in editor mode (for zooming)
-        // Editor can handle its own wheel events separately if needed
-
-        // Background manipulation mode - scale background with scroll wheel
+        // Regular wheel scrolling (without Ctrl) - do nothing when not in background manipulation mode
         // Only intercept if not over a scrollable element
-        if (isBackgroundManipulationMode && activeBackgroundId && !hasScrollableAncestor) {
+        if (!e.ctrlKey && !isEditorMode && !hasScrollableAncestor) {
+            // Prevent default page scrolling behavior but don't do anything
             e.preventDefault();
             e.stopPropagation();
-
-            const activeBackground = backgrounds.find(bg => bg.id === activeBackgroundId);
-            if (activeBackground) {
-                const scaleFactor = e.deltaY < 0 ? 1.1 : 0.9;
-                const newScale = Math.max(0.1, Math.min(5.0, activeBackground.scale * scaleFactor));
-                updateBackground(activeBackgroundId, { scale: newScale });
-            }
             return;
         }
 
-        // Regular wheel scrolling (without Ctrl) - pan the camera smoothly
-        // Only intercept if not over a scrollable element
-        if (!isEditorMode && !hasScrollableAncestor) {
-            // Prevent default page scrolling behavior
-            e.preventDefault();
-            e.stopPropagation();
-
-            // Get current effective zoom for proper scaling
-            const currentEffectiveZoom = zoomLevel * playerZoom;
-
-            // Pan camera based on wheel delta for natural scrolling feel
-            // Scroll up = pan up (camera down), scroll down = pan down (camera up)
-            // Use moderate speed for smooth but responsive scrolling
-            const scrollSpeed = 2.0;
-            moveCameraBy(
-                (e.deltaX * scrollSpeed) / currentEffectiveZoom,
-                (e.deltaY * scrollSpeed) / currentEffectiveZoom
-            );
-
+        // In editor mode without Ctrl, allow normal page scrolling
+        if (!e.ctrlKey) {
             return;
         }
-
-        // In editor mode, allow normal page scrolling
-        return;
     }, [
         instantZoom,
         isEditorMode,
@@ -2149,8 +2174,25 @@ function GridComponent({
             return;
         }
 
-        // For context menu events, check if there's a GM notes object at the clicked position
+        // For context menu events, check if there's a GM notes object or connection at the clicked position
         if (e.type === 'contextmenu') {
+            // Check if click is on a connection/portal element - check both the element and its parent
+            const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+            const isConnectionElement = elementAtPoint && (
+                elementAtPoint.classList.contains('connection-point') ||
+                elementAtPoint.classList.contains('portal-element') ||
+                elementAtPoint.closest('.connection-point') ||
+                elementAtPoint.closest('.portal-element') ||
+                elementAtPoint.closest('.dnd-element.portal-element')
+            );
+            
+            if (isConnectionElement) {
+                // Let the connection handle its own context menu - don't prevent default here
+                // The connection's onContextMenu will handle it
+                console.log('Grid: Allowing connection to handle context menu');
+                return;
+            }
+
             // Convert event coordinates to screen coordinates relative to the grid
             const gridElement = gridRef.current;
             // Allow GM notes access in both editor mode AND GM mode
@@ -2167,7 +2209,7 @@ function GridComponent({
                 }
             }
 
-            // No GM notes object, prevent default browser context menu
+            // No GM notes object or connection, prevent default browser context menu
             e.preventDefault();
             e.stopPropagation();
         }
@@ -2573,6 +2615,8 @@ function GridComponent({
                     <div key={bg.id}>
                         {/* Main background image */}
                         <div
+                            data-background-id={bg.id}
+                            data-is-active-background={isActiveBackground ? 'true' : 'false'}
                             style={{
                                 position: 'absolute',
                                 left: `${backgroundX - scaledWidth / 2}px`,
@@ -2584,115 +2628,21 @@ function GridComponent({
                                 backgroundPosition: 'center',
                                 backgroundRepeat: 'no-repeat',
                                 opacity: bg.opacity,
-                                zIndex: bg.zIndex - 10,
+                                zIndex: isActiveBackground ? 100 : bg.zIndex - 10, // Higher z-index when active for manipulation
                                 pointerEvents: isActiveBackground ? 'auto' : 'none',
                                 transformOrigin: 'center center',
                                 transform: transform,
                                 cursor: isActiveBackground ? 'move' : 'default',
                                 border: isActiveBackground ? '2px dashed #FFD700' : 'none'
                             }}
-                            onMouseDown={isActiveBackground ? (e) => handleBackgroundMouseDown(e, bg.id) : undefined}
+                            onMouseDown={isActiveBackground ? (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleBackgroundMouseDown(e, bg.id);
+                            } : undefined}
                         />
 
-                        {/* Manipulation handles - only show for active background in manipulation mode */}
-                        {isActiveBackground && (
-                            <>
-                                {/* Corner resize handles */}
-                                <div
-                                    data-manipulation-handle="resize"
-                                    style={{
-                                        position: 'absolute',
-                                        left: `${backgroundX - scaledWidth / 2 - 8}px`,
-                                        top: `${backgroundY - scaledHeight / 2 - 8}px`,
-                                        width: '16px',
-                                        height: '16px',
-                                        backgroundColor: '#FFD700',
-                                        border: '2px solid #000',
-                                        cursor: 'nw-resize',
-                                        zIndex: bg.zIndex + 10
-                                    }}
-                                    onMouseDown={(e) => handleResizeMouseDown(e, bg.id, 'nw')}
-                                />
-                                <div
-                                    data-manipulation-handle="resize"
-                                    style={{
-                                        position: 'absolute',
-                                        left: `${backgroundX + scaledWidth / 2 - 8}px`,
-                                        top: `${backgroundY - scaledHeight / 2 - 8}px`,
-                                        width: '16px',
-                                        height: '16px',
-                                        backgroundColor: '#FFD700',
-                                        border: '2px solid #000',
-                                        cursor: 'ne-resize',
-                                        zIndex: bg.zIndex + 10
-                                    }}
-                                    onMouseDown={(e) => handleResizeMouseDown(e, bg.id, 'ne')}
-                                />
-                                <div
-                                    data-manipulation-handle="resize"
-                                    style={{
-                                        position: 'absolute',
-                                        left: `${backgroundX - scaledWidth / 2 - 8}px`,
-                                        top: `${backgroundY + scaledHeight / 2 - 8}px`,
-                                        width: '16px',
-                                        height: '16px',
-                                        backgroundColor: '#FFD700',
-                                        border: '2px solid #000',
-                                        cursor: 'sw-resize',
-                                        zIndex: bg.zIndex + 10
-                                    }}
-                                    onMouseDown={(e) => handleResizeMouseDown(e, bg.id, 'sw')}
-                                />
-                                <div
-                                    data-manipulation-handle="resize"
-                                    style={{
-                                        position: 'absolute',
-                                        left: `${backgroundX + scaledWidth / 2 - 8}px`,
-                                        top: `${backgroundY + scaledHeight / 2 - 8}px`,
-                                        width: '16px',
-                                        height: '16px',
-                                        backgroundColor: '#FFD700',
-                                        border: '2px solid #000',
-                                        cursor: 'se-resize',
-                                        zIndex: bg.zIndex + 10
-                                    }}
-                                    onMouseDown={(e) => handleResizeMouseDown(e, bg.id, 'se')}
-                                />
-
-                                {/* Rotation handle */}
-                                <div
-                                    data-manipulation-handle="rotate"
-                                    style={{
-                                        position: 'absolute',
-                                        left: `${backgroundX - 8}px`,
-                                        top: `${backgroundY - scaledHeight / 2 - 40}px`,
-                                        width: '16px',
-                                        height: '16px',
-                                        backgroundColor: '#00FF00',
-                                        border: '2px solid #000',
-                                        borderRadius: '50%',
-                                        cursor: 'grab',
-                                        zIndex: bg.zIndex + 10
-                                    }}
-                                    onMouseDown={(e) => handleRotateMouseDown(e, bg.id)}
-                                />
-
-                                {/* Rotation line */}
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        left: `${backgroundX - 1}px`,
-                                        top: `${backgroundY - scaledHeight / 2 - 32}px`,
-                                        width: '2px',
-                                        height: '32px',
-                                        backgroundColor: '#00FF00',
-                                        zIndex: bg.zIndex + 5,
-                                        transformOrigin: 'bottom center',
-                                        transform: transform
-                                    }}
-                                />
-                            </>
-                        )}
+                        {/* No manipulation handles - use scroll wheel to resize and Ctrl+scroll to rotate */}
                     </div>
                 );
             } else {
@@ -3079,7 +3029,7 @@ function GridComponent({
                                 return activeBackground ? (
                                     <span style={{ fontSize: '12px', fontWeight: 'normal' }}>
                                         Editing: {activeBackground.name} (Scale: {activeBackground.scale.toFixed(2)})<br />
-                                        Drag to move • Shift+Drag to resize • Scroll to scale
+                                        Drag to move • Scroll to resize • Ctrl+Scroll to rotate
                                     </span>
                                 ) : (
                                     <span style={{ fontSize: '12px', fontWeight: 'normal', color: '#ff6b6b' }}>

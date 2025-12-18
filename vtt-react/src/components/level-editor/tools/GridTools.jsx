@@ -131,7 +131,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
 
 
 
-    const handleBackgroundUpload = (e) => {
+    const handleBackgroundUpload = async (e) => {
         const file = e.target.files[0];
         if (file) {
             // Validate file size (10MB limit)
@@ -149,33 +149,47 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                // Get current camera position to center the background
-                const gameStore = useGameStore.getState();
-                const { cameraX, cameraY } = gameStore;
+            try {
+                // Import compression utility
+                const { compressImage } = await import('../../../utils/imageCompression');
+                
+                // Compress image before storing (max 1920px width for map backgrounds, quality 0.85)
+                console.log('🖼️ Compressing background image... Original size:', (file.size / 1024).toFixed(1), 'KB');
+                const compressedFile = await compressImage(file, 1920, null, 0.85);
+                console.log('🗜️ Image compressed to:', (compressedFile.size / 1024).toFixed(1), 'KB');
 
-                // Create new background centered on current view
-                const backgroundId = addBackground({
-                    url: reader.result,
-                    name: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
-                    position: { x: cameraX, y: cameraY }, // Center on current camera view
-                    scale: 1.0,
-                    opacity: 1.0,
-                    sticksToGrid: true // Default to grid-aligned for dungeon maps
-                });
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    // Get current camera position to center the background
+                    const gameStore = useGameStore.getState();
+                    const { cameraX, cameraY } = gameStore;
 
-                // Set as active background
-                setActiveBackground(backgroundId);
+                    // Create new background centered on current view
+                    const backgroundId = addBackground({
+                        url: reader.result,
+                        name: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
+                        position: { x: cameraX, y: cameraY }, // Center on current camera view
+                        scale: 1.0,
+                        opacity: 1.0,
+                        sticksToGrid: true // Default to grid-aligned for dungeon maps
+                    });
 
-                // Clear the file input
+                    // Set as active background
+                    setActiveBackground(backgroundId);
+
+                    // Clear the file input
+                    e.target.value = '';
+                };
+                reader.onerror = () => {
+                    alert('Error reading file. Please try again.');
+                    e.target.value = '';
+                };
+                reader.readAsDataURL(compressedFile);
+            } catch (error) {
+                console.error('❌ Image compression failed:', error);
+                alert('Failed to compress image. Please try a different image or a smaller file.');
                 e.target.value = '';
-            };
-            reader.onerror = () => {
-                alert('Error reading file. Please try again.');
-                e.target.value = '';
-            };
-            reader.readAsDataURL(file);
+            }
         }
     };
 
@@ -304,7 +318,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                                         {isBackgroundManipulationMode && (
                                             <div className="edit-instructions">
                                                 <small>
-                                                    <strong>Drag</strong> image to move • <strong>Drag corners</strong> to resize • <strong>Drag green circle</strong> to rotate
+                                                    <strong>Drag</strong> image to move • <strong>Scroll</strong> to resize • <strong>Ctrl+Scroll</strong> to rotate
                                                 </small>
                                             </div>
                                         )}

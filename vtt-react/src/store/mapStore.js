@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 // Default map structure
 const createDefaultMap = (name = 'New Map') => ({
@@ -21,14 +22,21 @@ const createDefaultMap = (name = 'New Map') => ({
     environmentalObjects: [],
     dndElements: [],
     fogOfWarData: {},
+    fogOfWarPaths: [], // Fog paths are map-specific
+    fogErasePaths: [], // Fog erase paths are map-specific
+    wallData: {}, // Walls are map-specific
+    drawingPaths: [], // Drawing paths are map-specific
+    drawingLayers: [], // Drawing layers are map-specific
 
     // Game entities
     creatures: [],
-    tokens: [],
+    tokens: [], // Creature tokens (from creatureStore)
+    characterTokens: [], // Character tokens (from characterTokenStore)
 
     // Items and containers
     items: [],
     containers: [],
+    gridItems: [], // Grid items (loot orbs) are map-specific
 
     // Portals for map navigation
     portals: [],
@@ -183,8 +191,10 @@ const initialState = {
     }
 };
 
-const useMapStore = create((set, get) => ({
-    ...initialState,
+const useMapStore = create(
+    persist(
+        (set, get) => ({
+            ...initialState,
 
             // Initialize current map if none set
             getCurrentMapId: () => {
@@ -230,6 +240,11 @@ const useMapStore = create((set, get) => ({
                         environmentalObjects: levelEditorData.environmentalObjects || [],
                         dndElements: levelEditorData.dndElements || [],
                         fogOfWarData: levelEditorData.fogOfWarData || {},
+                        fogOfWarPaths: levelEditorData.fogOfWarPaths || [],
+                        fogErasePaths: levelEditorData.fogErasePaths || [],
+                        wallData: levelEditorData.wallData || {},
+                        drawingPaths: levelEditorData.drawingPaths || [],
+                        drawingLayers: levelEditorData.drawingLayers || [],
 
                         // Save game entities
                         creatures: gameStoreData.creatures || [],
@@ -461,7 +476,7 @@ const useMapStore = create((set, get) => ({
                     const gameStore = await import('./gameStore').then(module => module.default.getState());
                     const levelEditorStore = await import('./levelEditorStore').then(module => module.default.getState());
 
-                    state.saveCurrentMapState(gameStore, levelEditorStore);
+                    await state.saveCurrentMapState(gameStore, levelEditorStore);
                 }
 
                 // Switch to the new map
@@ -490,13 +505,80 @@ const useMapStore = create((set, get) => ({
                         gridLineThickness: mapState.gridLineThickness || 2
                     });
 
+                    // Clear and load tokens for the new map
+                    const { default: useCreatureStore } = await import('./creatureStore');
+                    const { default: useCharacterTokenStore } = await import('./characterTokenStore');
+                    
+                    // Clear existing tokens first
+                    if (useCreatureStore.getState().clearTokens) {
+                        useCreatureStore.getState().clearTokens();
+                    } else {
+                        useCreatureStore.setState({ tokens: [] });
+                    }
+                    
+                    if (useCharacterTokenStore.getState().clearCharacterTokens) {
+                        useCharacterTokenStore.getState().clearCharacterTokens();
+                    } else {
+                        useCharacterTokenStore.setState({ characterTokens: [] });
+                    }
+                    
+                    // Load tokens for the new map
+                    if (mapState.tokens && mapState.tokens.length > 0) {
+                        const creatureStore = useCreatureStore.getState();
+                        mapState.tokens.forEach(token => {
+                            if (creatureStore.loadToken) {
+                                creatureStore.loadToken(token);
+                            }
+                        });
+                    }
+                    
+                    // Load character tokens for the new map
+                    if (mapState.characterTokens && mapState.characterTokens.length > 0) {
+                        const characterTokenStore = useCharacterTokenStore.getState();
+                        mapState.characterTokens.forEach(token => {
+                            if (characterTokenStore.addCharacterTokenFromServer) {
+                                characterTokenStore.addCharacterTokenFromServer(token.id, token.position, token.playerId);
+                            }
+                        });
+                    }
+
                     // Update level editor store with new map data
-                    useLevelEditorStore.setState({
-                        terrainData: mapState.terrainData || {},
-                        environmentalObjects: mapState.environmentalObjects || [],
-                        dndElements: mapState.dndElements || [],
-                        fogOfWarData: mapState.fogOfWarData || {}
-                    });
+                    const levelEditorState = useLevelEditorStore.getState();
+                    
+                    // Use setter methods if available, otherwise use setState directly
+                    if (levelEditorState.setTerrainData) {
+                        levelEditorState.setTerrainData(mapState.terrainData || {});
+                    }
+                    if (levelEditorState.setEnvironmentalObjects) {
+                        levelEditorState.setEnvironmentalObjects(mapState.environmentalObjects || []);
+                    }
+                    if (levelEditorState.setDndElements) {
+                        levelEditorState.setDndElements(mapState.dndElements || []);
+                    }
+                    if (levelEditorState.setFogOfWarData) {
+                        levelEditorState.setFogOfWarData(mapState.fogOfWarData || {});
+                    }
+                    if (levelEditorState.setFogOfWarPaths) {
+                        levelEditorState.setFogOfWarPaths(mapState.fogOfWarPaths || []);
+                    }
+                    if (levelEditorState.setFogErasePaths) {
+                        levelEditorState.setFogErasePaths(mapState.fogErasePaths || []);
+                    }
+                    if (levelEditorState.setWallData) {
+                        levelEditorState.setWallData(mapState.wallData || {});
+                    }
+                    if (levelEditorState.setDrawingPaths) {
+                        levelEditorState.setDrawingPaths(mapState.drawingPaths || []);
+                    }
+                    if (levelEditorState.setDrawingLayers) {
+                        levelEditorState.setDrawingLayers(mapState.drawingLayers || []);
+                    }
+                    
+                    // Also update grid items
+                    const { default: useGridItemStore } = await import('./gridItemStore');
+                    if (useGridItemStore && mapState.gridItems) {
+                        useGridItemStore.setState({ gridItems: mapState.gridItems || [] });
+                    }
                 }
 
                 return targetMap;
@@ -559,10 +641,40 @@ const useMapStore = create((set, get) => ({
             },
 
             // Map data synchronization helpers
-            saveCurrentMapState: (gameStoreData, levelEditorData) => {
+            saveCurrentMapState: async (gameStoreData, levelEditorData) => {
                 const state = get();
                 const currentMapId = state.getCurrentMapId();
                 if (!currentMapId) return;
+
+                // Get grid items from gridItemStore
+                let gridItems = [];
+                try {
+                    const { default: useGridItemStore } = await import('./gridItemStore');
+                    const gridItemState = useGridItemStore.getState();
+                    gridItems = gridItemState.gridItems || [];
+                } catch (error) {
+                    console.warn('Could not load grid items:', error);
+                }
+
+                // Get tokens from creatureStore (not gameStore)
+                let tokens = [];
+                try {
+                    const { default: useCreatureStore } = await import('./creatureStore');
+                    const creatureStoreState = useCreatureStore.getState();
+                    tokens = creatureStoreState.tokens || [];
+                } catch (error) {
+                    console.warn('Could not load creature tokens:', error);
+                }
+
+                // Get character tokens from characterTokenStore
+                let characterTokens = [];
+                try {
+                    const { default: useCharacterTokenStore } = await import('./characterTokenStore');
+                    const characterTokenState = useCharacterTokenStore.getState();
+                    characterTokens = characterTokenState.characterTokens || [];
+                } catch (error) {
+                    console.warn('Could not load character tokens:', error);
+                }
 
                 const mapUpdates = {
                     // Save background system
@@ -590,10 +702,19 @@ const useMapStore = create((set, get) => ({
                     environmentalObjects: levelEditorData.environmentalObjects || [],
                     dndElements: levelEditorData.dndElements || [],
                     fogOfWarData: levelEditorData.fogOfWarData || {},
+                    fogOfWarPaths: levelEditorData.fogOfWarPaths || [],
+                    fogErasePaths: levelEditorData.fogErasePaths || [],
+                    wallData: levelEditorData.wallData || {},
+                    drawingPaths: levelEditorData.drawingPaths || [],
+                    drawingLayers: levelEditorData.drawingLayers || [],
 
                     // Save game entities
                     creatures: gameStoreData.creatures || [],
-                    tokens: gameStoreData.tokens || []
+                    tokens: tokens, // From creatureStore, not gameStore
+                    characterTokens: characterTokens, // From characterTokenStore
+
+                    // Save grid items (loot orbs, etc.)
+                    gridItems: gridItems
                 };
 
                 state.updateMap(currentMapId, mapUpdates);
@@ -630,10 +751,19 @@ const useMapStore = create((set, get) => ({
                     environmentalObjects: currentMap.environmentalObjects || [],
                     dndElements: currentMap.dndElements || [],
                     fogOfWarData: currentMap.fogOfWarData || {},
+                    fogOfWarPaths: currentMap.fogOfWarPaths || [],
+                    fogErasePaths: currentMap.fogErasePaths || [],
+                    wallData: currentMap.wallData || {},
+                    drawingPaths: currentMap.drawingPaths || [],
+                    drawingLayers: currentMap.drawingLayers || [],
 
                     // Game entities
                     creatures: currentMap.creatures || [],
                     tokens: currentMap.tokens || [],
+                    characterTokens: currentMap.characterTokens || [],
+
+                    // Grid items
+                    gridItems: currentMap.gridItems || [],
 
                     // Portals
                     portals: currentMap.portals || []
@@ -695,6 +825,47 @@ const useMapStore = create((set, get) => ({
                     return 0;
                 }
             }
-}));
+        }),
+        {
+            name: 'map-store',
+            storage: {
+                getItem: (name) => {
+                    try {
+                        const str = localStorage.getItem(name);
+                        if (!str) return null;
+                        return JSON.parse(str);
+                    } catch (error) {
+                        console.error('Error retrieving map-store from localStorage:', error);
+                        return null;
+                    }
+                },
+                setItem: (name, value) => {
+                    try {
+                        const serialized = JSON.stringify(value);
+                        // Use the quota exceeded handler if needed
+                        try {
+                            localStorage.setItem(name, serialized);
+                        } catch (quotaError) {
+                            if (quotaError.name === 'QuotaExceededError' || quotaError.code === 22) {
+                                handleStorageQuotaExceeded(name, serialized);
+                            } else {
+                                throw quotaError;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error storing map-store in localStorage:', error);
+                    }
+                },
+                removeItem: (name) => {
+                    try {
+                        localStorage.removeItem(name);
+                    } catch (error) {
+                        console.error('Error removing map-store from localStorage:', error);
+                    }
+                }
+            }
+        }
+    )
+);
 
 export default useMapStore;

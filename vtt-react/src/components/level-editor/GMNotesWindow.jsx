@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import DraggableWindow from '../windows/DraggableWindow';
 import useItemStore from '../../store/itemStore';
@@ -17,6 +17,9 @@ const GMNotesWindow = ({
 }) => {
     const [activeTab, setActiveTab] = useState('notes');
     const [notes, setNotes] = useState(gmNotesData?.notes || '');
+    const [title, setTitle] = useState(gmNotesData?.title || '');
+    const [description, setDescription] = useState(gmNotesData?.description || '');
+    const [isRenaming, setIsRenaming] = useState(false);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoveredCreature, setHoveredCreature] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -29,6 +32,13 @@ const GMNotesWindow = ({
     // Get stored items and creatures for this GM Notes object
     const storedItems = gmNotesData?.items || [];
     const storedCreatures = gmNotesData?.creatures || [];
+    
+    // Update title when gmNotesData changes
+    useEffect(() => {
+        setTitle(gmNotesData?.title || '');
+        setDescription(gmNotesData?.description || '');
+        setNotes(gmNotesData?.notes || '');
+    }, [gmNotesData]);
 
     const handleNotesChange = (e) => {
         const newNotes = e.target.value;
@@ -37,6 +47,43 @@ const GMNotesWindow = ({
             ...gmNotesData,
             notes: newNotes
         });
+    };
+    
+    const handleTitleChange = (e) => {
+        const newTitle = e.target.value;
+        setTitle(newTitle);
+        onUpdateNotes({
+            ...gmNotesData,
+            title: newTitle
+        });
+    };
+    
+    const handleDescriptionChange = (e) => {
+        const newDescription = e.target.value;
+        setDescription(newDescription);
+        onUpdateNotes({
+            ...gmNotesData,
+            description: newDescription
+        });
+    };
+    
+    const handleRename = () => {
+        setIsRenaming(true);
+    };
+    
+    const handleTitleBlur = () => {
+        setIsRenaming(false);
+    };
+    
+    const handleTitleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            setIsRenaming(false);
+        }
+        if (e.key === 'Escape') {
+            setTitle(gmNotesData?.title || '');
+            setIsRenaming(false);
+        }
     };
 
     const handleItemDrop = (e) => {
@@ -156,9 +203,37 @@ const GMNotesWindow = ({
         >
             <div className="gm-notes-container">
                 <div className="gm-notes-header draggable-window-handle">
-                    <div className="gm-notes-title">
+                    <div className="gm-notes-title" style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
                         <i className="fas fa-scroll"></i>
-                        GM Prepared Notes
+                        {isRenaming ? (
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={handleTitleChange}
+                                onBlur={handleTitleBlur}
+                                onKeyDown={handleTitleKeyDown}
+                                style={{
+                                    background: 'rgba(255, 255, 255, 0.1)',
+                                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                                    borderRadius: '4px',
+                                    padding: '4px 8px',
+                                    color: '#fff',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    minWidth: '200px',
+                                    outline: 'none'
+                                }}
+                                autoFocus
+                            />
+                        ) : (
+                            <span 
+                                onClick={handleRename}
+                                style={{ cursor: 'pointer', userSelect: 'none' }}
+                                title="Click to rename"
+                            >
+                                {title || 'GM Prepared Notes'}
+                            </span>
+                        )}
                     </div>
                     <button className="gm-notes-close" onClick={onClose}>
                         <i className="fas fa-times"></i>
@@ -189,13 +264,31 @@ const GMNotesWindow = ({
                 <div className="gm-notes-content">
                     {activeTab === 'notes' && (
                         <div className="gm-notes-section">
-                            <textarea
-                                className="gm-notes-textarea"
-                                value={notes}
-                                onChange={handleNotesChange}
-                                placeholder="Write your GM notes here... Remember details about this location, NPCs, plot hooks, secrets, etc."
-                                rows={12}
-                            />
+                            <div style={{ marginBottom: '12px' }}>
+                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '600', color: '#5a1e12' }}>
+                                    Description (shown in tooltip)
+                                </label>
+                                <textarea
+                                    className="gm-notes-textarea"
+                                    value={description}
+                                    onChange={handleDescriptionChange}
+                                    placeholder="Brief description shown when hovering over this note..."
+                                    rows={2}
+                                    style={{ marginBottom: '12px', minHeight: '60px' }}
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '6px', fontSize: '13px', fontWeight: '600', color: '#5a1e12' }}>
+                                    Notes
+                                </label>
+                                <textarea
+                                    className="gm-notes-textarea"
+                                    value={notes}
+                                    onChange={handleNotesChange}
+                                    placeholder="Write your GM notes here... Remember details about this location, NPCs, plot hooks, secrets, etc."
+                                    rows={10}
+                                />
+                            </div>
                         </div>
                     )}
 
