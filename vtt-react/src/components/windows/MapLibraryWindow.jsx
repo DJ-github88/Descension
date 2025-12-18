@@ -21,6 +21,7 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
     const [editMapDescription, setEditMapDescription] = useState('');
     const fileInputRef = useRef(null);
     const backgroundFileInputRef = useRef(null);
+    const mapGridRef = useRef(null);
 
     // Map store
     const {
@@ -592,7 +593,17 @@ const MapLibraryWindow = ({ isOpen, onClose }) => {
             >
                 <div className="map-library-window">
                     {/* Map Grid with Create Button */}
-                    <div className="map-grid">
+                    <div 
+                        className="map-grid"
+                        ref={mapGridRef}
+                        onWheel={(e) => {
+                            // Ensure wheel events are handled by the grid container
+                            // Stop propagation to prevent parent window-content from trying to scroll
+                            if (mapGridRef.current) {
+                                e.stopPropagation();
+                            }
+                        }}
+                    >
                         {/* Create New Map card at the top of the grid */}
                         <div
                             className="create-map-container"

@@ -609,7 +609,7 @@ export default function Navigation({ onReturnToLanding }) {
     const { isEditorMode, setEditorMode } = useLevelEditorStore();
 
     // Game store for GM mode and camera position
-    const { isGMMode, cameraX, cameraY, gridSize, setCameraPosition } = useGameStore();
+    const { isGMMode, cameraX, cameraY, gridSize, gridBackgroundColor, setCameraPosition } = useGameStore();
 
     // Combat store for selection mode
     const {
@@ -1297,16 +1297,70 @@ export default function Navigation({ onReturnToLanding }) {
             )}
             
             {/* Grid Coordinates Display */}
-            <div 
-                className="grid-coordinates-display" 
-                title="Click to center on origin (0, 0)"
-                onClick={() => setCameraPosition(0, 0)}
-            >
-                <i className="fas fa-crosshairs" style={{ marginRight: '6px', opacity: 0.7 }}></i>
-                <span>X: {Math.round(-cameraX / (gridSize || 50))}</span>
-                <span style={{ margin: '0 8px', opacity: 0.5 }}>|</span>
-                <span>Y: {Math.round(-cameraY / (gridSize || 50))}</span>
-            </div>
+            {(() => {
+                const gridX = Math.round(-(cameraX || 0) / (gridSize || 50));
+                const gridY = Math.round(-(cameraY || 0) / (gridSize || 50));
+                
+                // Calculate a contrasting color based on background
+                const getContrastColor = (bgColor) => {
+                    if (!bgColor) return '#5a3b2e'; // Default dark brown
+                    
+                    // Parse hex color
+                    const hex = bgColor.replace('#', '');
+                    const r = parseInt(hex.substr(0, 2), 16);
+                    const g = parseInt(hex.substr(2, 2), 16);
+                    const b = parseInt(hex.substr(4, 2), 16);
+                    
+                    // Calculate luminance
+                    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                    
+                    // Return dark color for light backgrounds, light color for dark backgrounds
+                    // But make it a nice color, not pure black/white
+                    if (luminance > 0.6) {
+                        // Light background - use dark brown/rust color
+                        return '#5a3b2e';
+                    } else if (luminance > 0.4) {
+                        // Medium background - use medium brown
+                        return '#8b6f47';
+                    } else {
+                        // Dark background - use light beige
+                        return '#d4c5b9';
+                    }
+                };
+                
+                const textColor = getContrastColor(gridBackgroundColor || '#d4c5b9');
+                
+                return (
+                    <div 
+                        className="grid-coordinates-display" 
+                        title="Click to center on origin (0, 0)"
+                        onClick={() => setCameraPosition(0, 0)}
+                        style={{
+                            position: 'fixed',
+                            top: '12px',
+                            left: '12px',
+                            color: textColor,
+                            fontFamily: 'Courier New, Monaco, monospace',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            zIndex: 99999,
+                            visibility: 'visible',
+                            opacity: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            pointerEvents: 'auto',
+                            cursor: 'pointer',
+                            userSelect: 'none'
+                        }}
+                    >
+                        <i className="fas fa-crosshairs" style={{ marginRight: '6px', color: textColor, fontSize: '12px', opacity: 0.8 }}></i>
+                        <span style={{ color: textColor, fontWeight: '600' }}>X: {gridX}</span>
+                        <span style={{ margin: '0 8px', color: textColor, opacity: 0.6 }}>|</span>
+                        <span style={{ color: textColor, fontWeight: '600' }}>Y: {gridY}</span>
+                    </div>
+                );
+            })()}
 
             {buttons.filter(button => button && button.id).map(button => (
                 <React.Fragment key={`window-${button.id}`}>

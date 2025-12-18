@@ -13,6 +13,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         gridLineThickness,
         gridLineOpacity,
         gridLineColor,
+        gridBackgroundColor,
         gridMovesWithBackground,
         backgrounds,
         activeBackgroundId,
@@ -23,6 +24,7 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         setGridLineThickness,
         setGridLineOpacity,
         setGridLineColor,
+        setGridBackgroundColor,
         setGridMovesWithBackground,
         setBackgroundManipulationMode,
         setActiveBackground,
@@ -38,9 +40,14 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     const [selectedThickness, setSelectedThickness] = useState(gridLineThickness);
     const [selectedOpacity, setSelectedOpacity] = useState(gridLineOpacity);
     const [selectedColor, setSelectedColor] = useState(gridLineColor);
+    const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(gridBackgroundColor);
     const [selectedGridSize, setSelectedGridSize] = useState(gridSize);
     const [offsetX, setOffsetX] = useState(gridOffsetX);
     const [offsetY, setOffsetY] = useState(gridOffsetY);
+    
+    // State for inline editing
+    const [editingBackgroundId, setEditingBackgroundId] = useState(null);
+    const [editingName, setEditingName] = useState('');
 
     // Simplified grid tool - just the align grid functionality
     const gridAlignTool = {
@@ -59,14 +66,26 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         { value: 5, label: 'Ultra Thick', icon: 'inv_misc_arrowdown' }
     ];
 
-    // Color presets
+    // Color presets for grid lines
     const colorPresets = [
-        { value: 'rgba(212, 175, 55, 0.8)', label: 'Gold', color: '#d4af37' },
         { value: 'rgba(255, 255, 255, 0.8)', label: 'White', color: '#ffffff' },
+        { value: 'rgba(212, 175, 55, 0.8)', label: 'Gold', color: '#d4af37' },
         { value: 'rgba(0, 0, 0, 0.8)', label: 'Black', color: '#000000' },
         { value: 'rgba(77, 155, 230, 0.8)', label: 'Blue', color: '#4d9be6' },
         { value: 'rgba(255, 0, 0, 0.8)', label: 'Red', color: '#ff0000' },
         { value: 'rgba(0, 255, 0, 0.8)', label: 'Green', color: '#00ff00' }
+    ];
+
+    // Calm background color presets (desaturated, varied colors)
+    const backgroundColorPresets = [
+        { value: '#d4c5b9', label: 'Beige', color: '#d4c5b9' },
+        { value: '#d4c5b9', label: 'Muted Brown', color: '#d4c5b9' },
+        { value: '#c4d4d0', label: 'Sage Green', color: '#c4d4d0' },
+        { value: '#b8c5d1', label: 'Dusty Blue', color: '#b8c5d1' },
+        { value: '#d1c4b8', label: 'Taupe', color: '#d1c4b8' },
+        { value: '#c9c0b8', label: 'Warm Gray', color: '#c9c0b8' },
+        { value: '#bdb8a8', label: 'Olive', color: '#bdb8a8' },
+        { value: '#c8beb5', label: 'Khaki', color: '#c8beb5' }
     ];
 
     // Update local state when store changes
@@ -74,10 +93,11 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         setSelectedThickness(gridLineThickness);
         setSelectedOpacity(gridLineOpacity);
         setSelectedColor(gridLineColor);
+        setSelectedBackgroundColor(gridBackgroundColor);
         setSelectedGridSize(gridSize);
         setOffsetX(gridOffsetX);
         setOffsetY(gridOffsetY);
-    }, [gridLineThickness, gridLineOpacity, gridLineColor, gridSize, gridOffsetX, gridOffsetY]);
+    }, [gridLineThickness, gridLineOpacity, gridLineColor, gridBackgroundColor, gridSize, gridOffsetX, gridOffsetY]);
 
     const handleGridAlign = () => {
         if (isGridAlignmentMode) {
@@ -114,6 +134,11 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
     const handleColorChange = (color) => {
         setSelectedColor(color);
         setGridLineColor(color);
+    };
+
+    const handleBackgroundColorChange = (color) => {
+        setSelectedBackgroundColor(color);
+        setGridBackgroundColor(color);
     };
 
 
@@ -213,6 +238,42 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
         }
     };
 
+    const handleNameClick = (bg) => {
+        setEditingBackgroundId(bg.id);
+        setEditingName(bg.name || 'unnamed');
+    };
+
+    const handleNameChange = (e) => {
+        setEditingName(e.target.value);
+    };
+
+    const handleNameBlur = (bgId) => {
+        if (editingName.trim()) {
+            updateBackground(bgId, { name: editingName.trim() });
+        }
+        setEditingBackgroundId(null);
+        setEditingName('');
+    };
+
+    const handleNameKeyDown = (e, bgId) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleNameBlur(bgId);
+        } else if (e.key === 'Escape') {
+            setEditingBackgroundId(null);
+            setEditingName('');
+        }
+    };
+
+    const toggleBackgroundVisibility = (bg) => {
+        const isVisible = bg.opacity > 0;
+        // Toggle between 0 (hidden) and 1.0 (visible)
+        // If it was previously visible with a custom opacity, restore to 1.0 when showing
+        updateBackground(bg.id, { 
+            opacity: isVisible ? 0 : 1.0
+        });
+    };
+
     return (
         <div className="grid-tools">
             {/* Background Management - Redesigned for better UX */}
@@ -246,14 +307,42 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                 {backgrounds.length > 0 && (
                     <div className="active-background-section">
                         {backgrounds.map((bg) => (
-                            <div key={bg.id} className={`background-card ${bg.id === activeBackgroundId ? 'active' : ''}`}>
+                            <div key={bg.id} className={`background-card ${bg.id === activeBackgroundId ? 'active' : ''} ${bg.opacity === 0 ? 'invisible' : ''}`}>
                                 {/* Background Header */}
                                 <div className="background-header">
                                     <div className="background-title">
-                                        <span className="background-name">{bg.name}</span>
-                                        {bg.id === activeBackgroundId && <span className="active-badge">Active</span>}
+                                        {editingBackgroundId === bg.id ? (
+                                            <input
+                                                type="text"
+                                                className="background-name-input"
+                                                value={editingName}
+                                                onChange={handleNameChange}
+                                                onBlur={() => handleNameBlur(bg.id)}
+                                                onKeyDown={(e) => handleNameKeyDown(e, bg.id)}
+                                                autoFocus
+                                                onClick={(e) => e.stopPropagation()}
+                                            />
+                                        ) : (
+                                            <span 
+                                                className="background-name"
+                                                onClick={() => handleNameClick(bg)}
+                                                title="Click to rename"
+                                            >
+                                                {bg.name || 'unnamed'}
+                                            </span>
+                                        )}
+                                        {bg.id === activeBackgroundId && (
+                                            <span className="active-badge">ACTIVE</span>
+                                        )}
                                     </div>
                                     <div className="background-actions">
+                                        <button
+                                            className={`action-button visibility ${bg.opacity > 0 ? 'visible' : 'hidden'}`}
+                                            onClick={() => toggleBackgroundVisibility(bg)}
+                                            title={bg.opacity > 0 ? 'Hide background' : 'Show background'}
+                                        >
+                                            {bg.opacity > 0 ? 'Hide' : 'Show'}
+                                        </button>
                                         {bg.id !== activeBackgroundId && (
                                             <button
                                                 className="action-button select"
@@ -453,6 +542,38 @@ const GridTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) =
                             className="color-picker-compact"
                             title="Custom color"
                         />
+                    </div>
+                </div>
+
+                {/* Background Color Control */}
+                <div className="appearance-group">
+                    <label className="appearance-label">Background Color</label>
+                    <div className="background-color-controls">
+                        <div className="background-color-presets">
+                            {backgroundColorPresets.map(preset => (
+                                <button
+                                    key={preset.value}
+                                    className={`background-color-option ${selectedBackgroundColor === preset.value ? 'active' : ''}`}
+                                    onClick={() => handleBackgroundColorChange(preset.value)}
+                                    title={preset.label}
+                                    style={{
+                                        backgroundColor: preset.color
+                                    }}
+                                />
+                            ))}
+                        </div>
+                        <div className="background-color-custom">
+                            <input
+                                type="color"
+                                value={selectedBackgroundColor || '#d4c5b9'}
+                                onChange={(e) => handleBackgroundColorChange(e.target.value)}
+                                className="color-picker-compact background-color-picker"
+                                title="Custom background color"
+                            />
+                            <div className="background-color-preview" style={{ backgroundColor: selectedBackgroundColor || '#d4c5b9' }}>
+                                <span className="background-color-value">{selectedBackgroundColor || '#d4c5b9'}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

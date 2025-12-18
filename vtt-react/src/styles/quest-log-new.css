@@ -230,19 +230,95 @@
 /* Quest Header */
 .quest-header {
   margin: 0;
-  padding: 16px 16px 12px 16px;
+  padding: 20px 20px 16px 20px;
   border-bottom: 2px solid #d5cbb0;
-  background: linear-gradient(to bottom, rgba(122, 59, 46, 0.1), transparent);
+  background: linear-gradient(to bottom, rgba(122, 59, 46, 0.12), rgba(122, 59, 46, 0.05), transparent);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.quest-title-wrapper {
+  margin-bottom: 14px;
 }
 
 .quest-title {
   color: #7a3b2e;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  margin: 0 0 10px 0;
+  margin: 0;
   line-height: 1.3;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.3px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
 }
 
+.quest-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 1px solid rgba(122, 59, 46, 0.15);
+}
+
+.quest-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.quest-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6a6a6a;
+  font-size: 13px;
+}
+
+.quest-meta-icon {
+  font-size: 13px;
+  color: #7a3b2e;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.quest-level-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(122, 59, 46, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(122, 59, 46, 0.2);
+}
+
+.quest-level-text {
+  font-weight: 600;
+  color: #7a3b2e;
+  font-size: 13px;
+}
+
+.quest-giver-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.quest-giver-label {
+  font-style: italic;
+  color: #6a6a6a;
+  font-weight: 400;
+}
+
+.quest-giver-name {
+  font-weight: 600;
+  color: #7a3b2e;
+  font-style: normal;
+}
+
+/* Legacy support for old class names */
 .quest-subtitle {
   display: flex;
   flex-direction: column;
@@ -263,11 +339,6 @@
   align-items: center;
   font-style: italic;
   color: #6a6a6a;
-}
-
-.quest-level-text {
-  margin-left: 0;
-  font-weight: 500;
 }
 
 .quest-description {

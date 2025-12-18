@@ -287,6 +287,38 @@ const ActionBar = () => {
         }
 
         if (item.type === 'spell') {
+            // IMPROVEMENT: Sync spell cast to multiplayer
+            try {
+                const gameStore = require('../../store/gameStore').default;
+                const gameState = gameStore.getState();
+                const characterStore = require('../../store/characterStore').default;
+                const characterState = characterStore.getState();
+                
+                if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
+                    // Get spell data
+                    const spellData = item.spell || item;
+                    const spellId = spellData.id || item.id;
+                    const spellName = spellData.name || item.name || 'Unknown Spell';
+                    const casterId = characterState.currentCharacterId || characterState.id;
+                    
+                    // Emit spell cast to server for synchronization
+                    gameState.multiplayerSocket.emit('spell_cast', {
+                        spellId: spellId,
+                        spellName: spellName,
+                        casterId: casterId,
+                        targetIds: [], // TODO: Add target selection
+                        targetPositions: [], // TODO: Add position targeting
+                        effects: spellData.effects || [],
+                        damage: spellData.damage || 0,
+                        healing: spellData.healing || 0,
+                        timestamp: Date.now()
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync spell cast to multiplayer:', error);
+                // Continue with local spell cast even if sync fails
+            }
+
             // Cast the spell
 
             // Start cooldown if applicable

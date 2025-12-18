@@ -21,7 +21,9 @@ import {
   FaSearch,
   FaSkull,
   FaMapMarkerAlt,
-  FaBoxOpen
+  FaBoxOpen,
+  FaUser,
+  FaShieldAlt
 } from 'react-icons/fa';
 
 const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActiveTab, contentOnly = false }) => {
@@ -313,14 +315,23 @@ const QuestLogWindow = ({ isOpen = true, onClose = () => {}, activeTab: propActi
       <div className="quest-details">
         <div className="quest-details-content">
           <div className="quest-header">
-            <h2 className="quest-title">{selectedQuestObj.title}</h2>
-            <div className="quest-subtitle">
-              <div className="quest-subtitle-left">
+            <div className="quest-title-wrapper">
+              <h2 className="quest-title">{selectedQuestObj.title}</h2>
+            </div>
+            <div className="quest-meta">
+              <div className="quest-meta-left">
                 {renderDifficultyBadge(selectedQuestObj.difficulty)}
-                <span className="quest-level-text">Level {selectedQuestObj.level}</span>
+                <div className="quest-level-badge">
+                  <FaShieldAlt className="quest-meta-icon" />
+                  <span className="quest-level-text">Level {selectedQuestObj.level}</span>
+                </div>
               </div>
-              <div className="quest-subtitle-right">
-                <span>Given by: {selectedQuestObj.giver}</span>
+              <div className="quest-meta-right">
+                <FaUser className="quest-meta-icon" />
+                <span className="quest-giver-text">
+                  <span className="quest-giver-label">Given by:</span>
+                  <span className="quest-giver-name">{selectedQuestObj.giver}</span>
+                </span>
               </div>
             </div>
           </div>

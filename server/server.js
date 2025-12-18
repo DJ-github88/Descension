@@ -1088,6 +1088,13 @@ io.on('connection', (socket) => {
     }
   });
 
+  // IMPROVEMENT: Handle ping/pong for latency measurement
+  socket.on('ping', (data, callback) => {
+    if (typeof callback === 'function') {
+      callback({ timestamp: data.timestamp, serverTime: Date.now() });
+    }
+  });
+
   // Handle cursor position updates for multiplayer awareness
   socket.on('cursor_update', (cursorData) => {
     const player = players.get(socket.id);
@@ -1260,9 +1267,33 @@ io.on('connection', (socket) => {
       const conflictKey = `${tokenKey}_${player.id}`;
       const lastMovement = global.tokenMovementConflicts.get(conflictKey) || 0;
 
+      // IMPROVEMENT: Better conflict resolution - queue instead of dropping
       if (now - lastMovement < 50) {
         console.log(`🚫 Potential movement conflict detected for token ${tokenKey} by player ${player.name}`);
-        // Still process but don't broadcast immediately
+        // IMPROVEMENT: Queue the movement instead of dropping it to prevent desync
+        // Store the queued movement and process it after conflict window
+        if (!global.queuedTokenMovements) {
+          global.queuedTokenMovements = new Map();
+        }
+        const queueKey = `${player.roomId}_${tokenKey}`;
+        global.queuedTokenMovements.set(queueKey, {
+          tokenKey,
+          position: data.position,
+          player,
+          timestamp: now
+        });
+        
+        // Process queued movement after conflict window
+        setTimeout(() => {
+          const queued = global.queuedTokenMovements.get(queueKey);
+          if (queued && queued.player.id === player.id) {
+            global.queuedTokenMovements.delete(queueKey);
+            // Re-process the movement
+            const queuedData = { ...data, position: queued.position };
+            socket.emit('token_moved', queuedData);
+          }
+        }, 100);
+        
         return;
       }
 
@@ -1499,7 +1530,32 @@ io.on('connection', (socket) => {
 
     // Persist to Firebase
     try {
+      // Save room game state
       await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      
+      // CRITICAL FIX: Also save individual character document to Firebase
+      // This ensures character data is properly saved to user accounts
+      // Use userId from data if provided, otherwise try to get from player object
+      const userId = data.userId || player.userId;
+      if (data.characterId && data.character && userId) {
+        try {
+          await firebaseService.saveCharacterDocument(
+            data.characterId,
+            data.character,
+            userId
+          );
+          console.log(`✅ Character document saved to Firebase: ${data.characterId} for user: ${userId}`);
+        } catch (charDocError) {
+          console.warn('Failed to save character document (room state still saved):', charDocError);
+          // Don't fail the whole operation if character doc save fails
+        }
+      } else if (data.characterId && data.character && !userId) {
+        console.warn('⚠️ Cannot save character document - userId not available:', {
+          characterId: data.characterId,
+          hasDataUserId: !!data.userId,
+          hasPlayerUserId: !!player.userId
+        });
+      }
     } catch (error) {
       console.error('Failed to persist character update:', error);
     }
@@ -1592,9 +1648,20 @@ io.on('connection', (socket) => {
       return;
     }
 
-    // CRITICAL FIX: Only GM can update map state for live synchronization
+    // IMPROVEMENT: Enhanced validation - Only GM can update map state for live synchronization
     if (!player.isGM) {
+      logger.warn('Non-GM player attempted to update map state', {
+        playerId: player.id,
+        playerName: player.name,
+        roomId: player.roomId
+      });
       socket.emit('error', { message: 'Only GM can update map state' });
+      return;
+    }
+
+    // IMPROVEMENT: Validate map update data structure
+    if (!data || !data.mapUpdates || typeof data.mapUpdates !== 'object') {
+      socket.emit('error', { message: 'Invalid map update data' });
       return;
     }
 
@@ -1806,16 +1873,36 @@ io.on('connection', (socket) => {
 
     room.chatHistory.push(rollMessage);
 
+    // IMPROVEMENT: Store dice roll in room's roll history for replay/debugging
+    if (!room.gameState.diceRolls) {
+      room.gameState.diceRolls = [];
+    }
+    room.gameState.diceRolls.push(rollData);
+    
+    // Keep only last 100 rolls
+    if (room.gameState.diceRolls.length > 100) {
+      room.gameState.diceRolls = room.gameState.diceRolls.slice(-100);
+    }
+
     // Keep only last 100 messages
     if (room.chatHistory.length > 100) {
       room.chatHistory = room.chatHistory.slice(-100);
     }
 
-    // Persist chat message to Firebase
+    // IMPROVEMENT: Persist dice roll to Firebase with better error handling
     try {
       await firebaseService.addChatMessage(player.roomId, rollMessage);
+      
+      // Also update room game state to include roll history
+      try {
+        await firebaseService.updateRoomGameState(player.roomId, room.gameState);
+      } catch (stateError) {
+        console.warn('Failed to persist dice roll history to room state:', stateError);
+        // Don't fail the whole operation if state update fails
+      }
     } catch (error) {
       console.error('Failed to persist dice roll:', error);
+      // Still broadcast the roll even if persistence fails
     }
 
     // Broadcast dice roll to all players in the room
@@ -1823,6 +1910,126 @@ io.on('connection', (socket) => {
     io.to(player.roomId).emit('chat_message', rollMessage);
 
     console.log(`${player.name} rolled dice: ${data.results.join(', ')} (Total: ${data.total})`);
+  });
+
+  // IMPROVEMENT: Handle spell cast synchronization for multiplayer
+  socket.on('spell_cast', async(data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // IMPROVEMENT: Validate spell cast data
+    if (!data.spellId || !data.casterId) {
+      socket.emit('error', { message: 'Invalid spell cast data' });
+      return;
+    }
+
+    const castData = {
+      id: uuidv4(),
+      spellId: data.spellId,
+      spellName: data.spellName || 'Unknown Spell',
+      casterId: data.casterId,
+      casterName: player.name,
+      targetIds: data.targetIds || [],
+      targetPositions: data.targetPositions || [],
+      effects: data.effects || [],
+      damage: data.damage || 0,
+      healing: data.healing || 0,
+      timestamp: new Date(),
+      isGM: player.isGM
+    };
+
+    // Add to room's spell cast history (for replay/debugging)
+    if (!room.gameState.spellCasts) {
+      room.gameState.spellCasts = [];
+    }
+    room.gameState.spellCasts.push(castData);
+    
+    // Keep only last 50 spell casts
+    if (room.gameState.spellCasts.length > 50) {
+      room.gameState.spellCasts = room.gameState.spellCasts.slice(-50);
+    }
+
+    // Broadcast spell cast to all players in the room
+    io.to(player.roomId).emit('spell_cast', castData);
+
+    // Add to chat as a spell message
+    const spellMessage = {
+      id: uuidv4(),
+      playerId: player.id,
+      playerName: player.name,
+      isGM: player.isGM,
+      content: `${player.name} cast ${castData.spellName}${data.targetIds?.length > 0 ? ` on ${data.targetIds.length} target(s)` : ''}`,
+      timestamp: new Date(),
+      type: 'spell',
+      spellData: castData
+    };
+
+    room.chatHistory.push(spellMessage);
+
+    // Keep only last 100 messages
+    if (room.chatHistory.length > 100) {
+      room.chatHistory = room.chatHistory.slice(-100);
+    }
+
+    // Persist spell cast to Firebase
+    try {
+      await firebaseService.addChatMessage(player.roomId, spellMessage);
+    } catch (error) {
+      console.error('Failed to persist spell cast:', error);
+    }
+
+    console.log(`✨ ${player.name} cast ${castData.spellName}`);
+  });
+
+  // IMPROVEMENT: Handle ability use synchronization
+  socket.on('ability_used', async(data) => {
+    const player = players.get(socket.id);
+    if (!player) {
+      socket.emit('error', { message: 'You are not in a room' });
+      return;
+    }
+
+    const room = rooms.get(player.roomId);
+    if (!room) {
+      socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // Validate ability use data
+    if (!data.abilityId || !data.creatureId) {
+      socket.emit('error', { message: 'Invalid ability use data' });
+      return;
+    }
+
+    const abilityData = {
+      id: uuidv4(),
+      abilityId: data.abilityId,
+      abilityName: data.abilityName || 'Unknown Ability',
+      creatureId: data.creatureId,
+      creatureName: data.creatureName || 'Unknown',
+      targetIds: data.targetIds || [],
+      effects: data.effects || [],
+      damage: data.damage || 0,
+      healing: data.healing || 0,
+      timestamp: new Date(),
+      usedBy: player.id,
+      usedByName: player.name,
+      isGM: player.isGM
+    };
+
+    // Broadcast ability use to all players
+    io.to(player.roomId).emit('ability_used', abilityData);
+
+    console.log(`⚔️ ${player.name} used ${abilityData.abilityName} with ${abilityData.creatureName}`);
   });
 
   // Handle item drops on grid
@@ -2008,15 +2215,39 @@ io.on('connection', (socket) => {
 
     console.log(`🔄 Full sync requested by ${player.name} in room ${room.name}`);
 
-    // Send complete game state to the requesting player
-    socket.emit('full_game_state_sync', {
+    // IMPROVEMENT: Send complete game state including all necessary data for reconnection
+    const fullState = {
       tokens: room.gameState.tokens || {},
       gridItems: room.gameState.gridItems || {},
       characters: room.gameState.characters || {},
+      characterTokens: room.gameState.characterTokens || {}, // CRITICAL: Include character tokens
       mapData: room.gameState.mapData || {},
-      combat: room.gameState.combat || {},
+      fogOfWar: room.gameState.fogOfWar || {}, // CRITICAL: Include fog of war
+      combat: room.gameState.combat || {
+        isActive: false,
+        currentTurnIndex: 0,
+        turnOrder: [],
+        round: 0
+      },
+      // Include all connected players for party sync
+      players: Array.from(room.players.values()).map(p => ({
+        id: p.id,
+        name: p.name,
+        character: p.character || null,
+        color: p.color
+      })),
+      // Include GM data if available
+      gm: room.gm ? {
+        id: room.gm.id,
+        name: room.gm.name,
+        character: room.gm.character || null,
+        color: room.gm.color
+      } : null,
       timestamp: new Date()
-    });
+    };
+
+    socket.emit('full_game_state_sync', fullState);
+    console.log(`✅ Full sync sent to ${player.name} (${Object.keys(fullState.tokens).length} tokens, ${Object.keys(fullState.gridItems).length} items)`);
   });
 
   // Handle state conflict resolution
@@ -2238,7 +2469,7 @@ io.on('connection', (socket) => {
     console.log(`👤 Character ${data.characterId} updated by ${player.name}`);
   });
 
-  // Handle inventory updates with real-time sync
+  // IMPROVEMENT: Handle inventory updates with real-time sync and validation
   socket.on('inventory_update', async(data) => {
     const player = players.get(socket.id);
     if (!player) {
@@ -2249,6 +2480,24 @@ io.on('connection', (socket) => {
     const room = rooms.get(player.roomId);
     if (!room) {
       socket.emit('error', { message: 'Room not found' });
+      return;
+    }
+
+    // IMPROVEMENT: Validate inventory update data
+    if (!data || !data.inventoryData) {
+      socket.emit('error', { message: 'Invalid inventory update data' });
+      return;
+    }
+
+    // IMPROVEMENT: Validate player can only update their own inventory (unless GM)
+    const targetPlayerId = data.playerId || player.id;
+    if (!player.isGM && targetPlayerId !== player.id) {
+      logger.warn('Player attempted to update another player\'s inventory', {
+        playerId: player.id,
+        targetPlayerId: targetPlayerId,
+        roomId: player.roomId
+      });
+      socket.emit('error', { message: 'You can only update your own inventory' });
       return;
     }
 

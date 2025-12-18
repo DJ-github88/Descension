@@ -44,6 +44,9 @@ const CharacterPortraitHUD = ({
         stats: state.stats // Add stats to subscription for constitution/intelligence changes
     }));
 
+    // Get updateClassResource function from store
+    const updateClassResource = useCharacterStore(state => state.updateClassResource);
+
     const characterData = isCurrentPlayer ? currentPlayerData : character;
 
     // Use calculated max values from derivedStats if available, otherwise fall back to stored values
@@ -256,6 +259,7 @@ const CharacterPortraitHUD = ({
                             characterClass={characterData.class}
                             classResource={characterData.classResource}
                             size="small"
+                            onClassResourceUpdate={isCurrentPlayer ? updateClassResource : null}
                         />
                     )}
                 </div>

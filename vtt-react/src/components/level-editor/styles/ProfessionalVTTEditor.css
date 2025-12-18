@@ -15,6 +15,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Prevent content from overflowing */
+    min-height: 0; /* Allow flex child to shrink */
 }
 
 .vtt-editor-content {
@@ -25,6 +26,7 @@
     border-radius: 0 0 6px 6px;
     overflow: hidden; /* Prevent content from overflowing */
     position: relative;
+    min-height: 0; /* Allow flex child to shrink */
 }
 
 /* Tool Palette - Left Panel */
@@ -130,12 +132,15 @@
 /* Tool Settings - Full Width Panel */
 .vtt-tool-settings {
     flex: 1;
-    padding: 20px;
+    padding: 20px; /* Add padding back for tool sections */
     background: rgba(255, 255, 255, 0.3);
     border-right: 2px solid #a08c70;
     overflow-y: auto;
+    overflow-x: hidden;
     margin-right: 0;
     position: relative;
+    min-height: 0; /* Allow flex child to shrink */
+    box-sizing: border-box; /* Include padding in height calculation */
     /* Ensure crisp text rendering */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;

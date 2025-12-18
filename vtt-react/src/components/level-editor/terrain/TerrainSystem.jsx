@@ -248,9 +248,18 @@ const TerrainSystem = () => {
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
         
+        // Get valid dimensions - use window size as fallback if rect is invalid
+        const width = rect.width > 0 ? rect.width : (window.innerWidth || 1920);
+        const height = rect.height > 0 ? rect.height : (window.innerHeight || 1080);
+        
+        // Don't render if canvas dimensions are still invalid
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+        
         // Set canvas size to match container
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        canvas.width = width;
+        canvas.height = height;
         
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -318,10 +327,8 @@ const TerrainSystem = () => {
                 }
                 // In GM mode, continue rendering all terrain tiles
 
-                // Use the same viewport dimensions as the grid system for consistent positioning
-                const gridSystem = getGridSystem();
-                const viewport = gridSystem.getViewportDimensions();
-                const screenPos = gridToScreen(gridX, gridY, viewport.width, viewport.height);
+                // Use window dimensions for coordinate conversion to match tokens/items positioning
+                const screenPos = gridToScreen(gridX, gridY, window.innerWidth, window.innerHeight);
                 const tileSize = gridSize * effectiveZoom;
 
                 // Use corner position directly (no centering needed since gridToScreen now uses corner)
@@ -511,7 +518,11 @@ const TerrainSystem = () => {
 
     // Update canvas when dependencies change
     useEffect(() => {
-        renderTerrain();
+        // Use requestAnimationFrame to ensure canvas is properly sized
+        const rafId = requestAnimationFrame(() => {
+            renderTerrain();
+        });
+        return () => cancelAnimationFrame(rafId);
     }, [renderTerrain]);
 
     // Handle window resize

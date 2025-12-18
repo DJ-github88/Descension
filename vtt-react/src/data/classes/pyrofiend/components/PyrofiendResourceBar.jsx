@@ -2,8 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/PyrofiendResourceBar.css';
 
-const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud' }) => {
-    const [localInfernoLevel, setLocalInfernoLevel] = useState(5);
+const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', onClassResourceUpdate = null }) => {
+    // Read inferno level from classResource prop, default to 0 if not available
+    const infernoLevel = classResource?.current ?? 0;
+    const maxInfernoLevel = classResource?.max ?? 9;
+    
     const [selectedSpec, setSelectedSpec] = useState('inferno');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
@@ -11,8 +14,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
-
-    const maxInfernoLevel = 9;
+    const controlsMenuRef = useRef(null);
 
     const specConfigs = {
         inferno: { 
@@ -121,7 +123,38 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             
             return () => clearTimeout(timeoutId);
         }
-    }, [showTooltip, localInfernoLevel, selectedSpec]);
+    }, [showTooltip, infernoLevel, selectedSpec]);
+
+    // Close controls menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showControls) {
+                // Check if click is outside both the menu and the bar
+                const clickedElement = event.target;
+                const isInsideMenu = controlsMenuRef.current?.contains(clickedElement);
+                const isInsideBar = barRef.current?.contains(clickedElement);
+                
+                // Don't close if clicking on the bar (it toggles the menu itself)
+                // or if clicking inside the menu
+                if (!isInsideMenu && !isInsideBar) {
+                    setShowControls(false);
+                }
+            }
+        };
+
+        if (showControls) {
+            // Use a small timeout to ensure the bar's onClick handler runs first
+            // This prevents the menu from closing immediately when opening it
+            const timeoutId = setTimeout(() => {
+                document.addEventListener('mousedown', handleClickOutside);
+            }, 0);
+            
+            return () => {
+                clearTimeout(timeoutId);
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }
+    }, [showControls]);
 
     const handleSpecChange = (spec) => {
         setSelectedSpec(spec);
@@ -129,16 +162,26 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     };
 
     const handleInfernoChange = (delta) => {
-        setLocalInfernoLevel(prev => Math.max(0, Math.min(maxInfernoLevel, prev + delta)));
+        const newLevel = Math.max(0, Math.min(maxInfernoLevel, infernoLevel + delta));
+        if (onClassResourceUpdate) {
+            onClassResourceUpdate('current', newLevel);
+        }
+    };
+
+    const handleInfernoSet = (level) => {
+        const newLevel = Math.max(0, Math.min(maxInfernoLevel, level));
+        if (onClassResourceUpdate) {
+            onClassResourceUpdate('current', newLevel);
+        }
     };
 
     // Get visual intensity based on inferno level
     const getVisualIntensity = () => {
-        if (localInfernoLevel === 0) return 'dormant';
-        if (localInfernoLevel <= 2) return 'ember';
-        if (localInfernoLevel <= 4) return 'controlled';
-        if (localInfernoLevel <= 6) return 'intense';
-        if (localInfernoLevel <= 8) return 'blazing';
+        if (infernoLevel === 0) return 'dormant';
+        if (infernoLevel <= 2) return 'ember';
+        if (infernoLevel <= 4) return 'controlled';
+        if (infernoLevel <= 6) return 'intense';
+        if (infernoLevel <= 8) return 'blazing';
         return 'catastrophic';
     };
 
@@ -182,8 +225,8 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
         const intensity = getVisualIntensity();
         
         for (let i = 1; i <= maxInfernoLevel; i++) {
-            const isFilled = localInfernoLevel >= i;
-            const isCatastrophic = i === 9 && localInfernoLevel === 9;
+            const isFilled = infernoLevel >= i;
+            const isCatastrophic = i === 9 && infernoLevel === 9;
             
             segments.push(
                 <div 
@@ -238,7 +281,10 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 className={`pyrofiend-resource-bar ${size} clickable intensity-${getVisualIntensity()}`}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
-                onClick={() => setShowControls(!showControls)}
+                onClick={(e) => {
+                    e.stopPropagation(); // Prevent event from bubbling to document
+                    setShowControls(!showControls);
+                }}
             >
                 <div className="inferno-segments">
                     {renderInfernoSegments()}
@@ -246,7 +292,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
 
                 {/* Heat distortion effect at high levels */}
-                {localInfernoLevel >= 7 && (
+                {infernoLevel >= 7 && (
                     <div className="heat-distortion" style={{
                         background: `radial-gradient(circle, ${currentSpec.glowColor}22 0%, transparent 70%)`
                     }} />
@@ -260,10 +306,10 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                            <strong>Current Stage:</strong> {getStageName(localInfernoLevel)} (Level {localInfernoLevel})
+                            <strong>Current Stage:</strong> {getStageName(infernoLevel)} (Level {infernoLevel})
                         </div>
                         <div style={{ fontSize: '0.9rem' }}>
-                            <strong>Fire Damage Bonus:</strong> +{localInfernoLevel}
+                            <strong>Fire Damage Bonus:</strong> +{infernoLevel}
                         </div>
                     </div>
 
@@ -272,7 +318,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                     <div className="tooltip-section">
                         <div className="tooltip-label">Current Drawback</div>
                         <div className="drawback-text">
-                            {getDrawbackText(localInfernoLevel)}
+                            {getDrawbackText(infernoLevel)}
                         </div>
                     </div>
                     
@@ -288,7 +334,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                         </div>
                     </div>
 
-                    {localInfernoLevel >= 5 && (
+                    {infernoLevel >= 5 && (
                         <>
                             <div className="tooltip-divider"></div>
 
@@ -301,7 +347,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                         </>
                     )}
 
-                    {((selectedSpec === 'inferno' && localInfernoLevel >= 7) ||
+                    {((selectedSpec === 'inferno' && infernoLevel >= 7) ||
                       (selectedSpec === 'wildfire') ||
                       (selectedSpec === 'hellfire')) && (
                         <>
@@ -322,6 +368,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             {/* Dev Controls */}
             {showControls && ReactDOM.createPortal(
                 <div
+                    ref={controlsMenuRef}
                     className="unified-context-menu compact"
                     style={{
                         position: 'fixed',
@@ -336,23 +383,23 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                             <div className="context-menu-section-header">Inferno Veil Controls</div>
 
                             <div className="context-menu-section-header" style={{fontSize: '12px', marginTop: '12px', marginBottom: '8px'}}>
-                                Inferno Level: {localInfernoLevel}
+                                Inferno Level: {infernoLevel}
                             </div>
 
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '4px', marginBottom: '8px' }}>
-                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(0)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(0)}>
                                     0
                                 </button>
-                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(3)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(3)}>
                                     3
                                 </button>
-                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(5)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(5)}>
                                     5
                                 </button>
-                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(7)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(7)}>
                                     7
                                 </button>
-                                <button className="context-menu-button" onClick={() => setLocalInfernoLevel(9)}>
+                                <button className="context-menu-button" onClick={() => handleInfernoSet(9)}>
                                     9
                                 </button>
                             </div>

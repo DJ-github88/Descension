@@ -19,6 +19,7 @@ const ClassResourceBar = ({
     character = null,
     isGMMode = false,
     onResourceClick = null,
+    onClassResourceUpdate = null, // Callback to update class resource in store
     size = 'normal', // 'small', 'normal', 'large'
     context = 'hud' // 'hud' or 'account' - controls whether to show interactive elements
 }) => {
@@ -1203,21 +1204,21 @@ const ClassResourceBar = ({
             case 'prophetic-visions':
                 return renderPropheticVisions();
             case 'corruption-bar':
-                return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+                return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'inferno-veil':
-                return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+                return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'arcane-absorption':
-                return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+                return <SpellguardResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'celestial-devotion':
-                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+                return <TitanResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'alchemical-arsenal':
-                return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+                return <ToxicologistResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'vengeance-points':
-                return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+                return <WardenResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'totemic-synergy':
                 return renderTotemicSynergy();
             case 'voodoo-essence':
-                return <WitchDoctorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} />;
+                return <WitchDoctorResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'progress-bar':
                 return renderProgressBar();
             default:

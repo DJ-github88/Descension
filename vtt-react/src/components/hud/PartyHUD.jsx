@@ -17,7 +17,7 @@ import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
-const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu }) => {
+const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate }) => {
     const frameRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const isGMMode = useGameStore(state => state.isGMMode);
@@ -423,6 +423,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                                 classResource={member.character.classResource}
                                 isGMMode={isGMMode}
                                 onResourceClick={(resourceType) => onResourceAdjust(member.id, resourceType)}
+                                onClassResourceUpdate={onClassResourceUpdate ? (field, value) => onClassResourceUpdate(member.id, field, value) : null}
                                 size="small"
                                 context="party"
                             />
@@ -667,7 +668,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         currentParty
     } = usePartyStore();
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
-    const { updateResource } = useCharacterStore();
+    const { updateResource, updateClassResource } = useCharacterStore();
     const { removeBuff } = useBuffStore();
     const { addNotification } = useChatStore();
     const { setGMMode, isGMMode, toggleGMMode, isInMultiplayer } = useGameStore();
@@ -874,6 +875,29 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         setShowContextMenu(false);
         console.log(`👑 Leadership transferred to: ${contextMenuMember.name} - You are now a Player`);
+    };
+
+    // Handler for class resource updates (e.g., Inferno Veil)
+    const handleClassResourceUpdate = (memberId, field, value) => {
+        if (memberId === 'current-player') {
+            // Update current player's class resource in character store
+            updateClassResource(field, value);
+        } else {
+            // Update party member's class resource in party store
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member && member.character?.classResource) {
+                updatePartyMember(memberId, {
+                    character: {
+                        ...member.character,
+                        classResource: {
+                            ...member.character.classResource,
+                            [field]: value,
+                            lastUpdate: Date.now()
+                        }
+                    }
+                });
+            }
+        }
     };
 
     const handleResourceAdjust = (memberId, resourceType, adjustment, hudElementRef = null) => {
@@ -1225,6 +1249,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                                     onContextMenu={handleContextMenu}
                                     onResourceAdjust={handleResourceAdjust}
                                     onBuffContextMenu={handleBuffContextMenu}
+                                    onClassResourceUpdate={handleClassResourceUpdate}
                                 />
                             </div>
                         </Draggable>

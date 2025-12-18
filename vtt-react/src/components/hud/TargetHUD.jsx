@@ -35,7 +35,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const { currentTarget, targetType, clearTarget, targetHUDPosition, setTargetHUDPosition, getTargetHUDPosition } = useTargetingStore();
     const { isGMMode } = useGameStore();
     const { updatePartyMember } = usePartyStore();
-    const { updateResource, activeCharacter } = useCharacterStore();
+    const { updateResource, updateClassResource, activeCharacter } = useCharacterStore();
     const { updateTokenState, getCreature, creatures } = useCreatureStore();
 
     // Get current player data for comparison
@@ -449,6 +449,34 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             position
         });
         setShowResourceModal(true);
+    };
+
+    // Handler for class resource updates (e.g., Inferno Veil)
+    const handleClassResourceUpdate = (field, value) => {
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget?.id;
+            
+            if (memberId === 'current-player') {
+                // Update current player's class resource in character store
+                updateClassResource(field, value);
+            } else if (memberId) {
+                // Update party member's class resource in party store
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member && member.character?.classResource) {
+                    updatePartyMember(memberId, {
+                        character: {
+                            ...member.character,
+                            classResource: {
+                                ...member.character.classResource,
+                                [field]: value,
+                                lastUpdate: Date.now()
+                            }
+                        }
+                    });
+                }
+            }
+        }
     };
 
     const handleResourceAdjustment = (adjustment) => {
@@ -938,6 +966,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                             classResource={targetData.classResource}
                                             isGMMode={isGMMode}
                                             onResourceClick={(resourceType) => handleResourceBarClick(null, resourceType)}
+                                            onClassResourceUpdate={handleClassResourceUpdate}
                                             size="small"
                                         />
                                     )}

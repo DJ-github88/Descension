@@ -28,7 +28,7 @@ import './styles/ProfessionalVTTEditor.css';
 const ProfessionalVTTEditor = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('terrain');
-    const [selectedTool, setSelectedTool] = useState('select');
+    const [selectedTool, setSelectedTool] = useState('terrain_brush');
     const [isDrawing, setIsDrawing] = useState(false);
     const [currentPath, setCurrentPath] = useState([]);
     const [textInput, setTextInput] = useState({ show: false, x: 0, y: 0, text: '', gridX: 0, gridY: 0 });
@@ -51,21 +51,21 @@ const ProfessionalVTTEditor = () => {
     const windowRef = useRef(null);
     const overlayRef = useRef(null);
     const textInputRef = useRef(null);
-    
+
     // Throttled hover preview updates - store latest position in ref and update state via RAF
     const hoverPreviewRef = useRef({ show: false, gridX: 0, gridY: 0, brushSize: 1 });
     const hoverPreviewRafId = useRef(null);
-    
+
     // Throttle fog painting calls using RAF for smooth painting
     const fogPaintThrottleRef = useRef(null);
     const pendingFogPaintRef = useRef(null); // Store pending paint call
-    
+
     // Throttled function to update hover preview state
     const updateHoverPreviewState = useCallback(() => {
         setHoverPreview({ ...hoverPreviewRef.current });
         hoverPreviewRafId.current = null;
     }, []);
-    
+
     // Throttled hover preview updater
     const throttledUpdateHoverPreview = useCallback(() => {
         if (hoverPreviewRafId.current === null) {
@@ -293,7 +293,7 @@ const ProfessionalVTTEditor = () => {
         setSelectedTool(toolId);
         setActiveTool(toolId);
         clearDrawingSelection();
-        
+
         // Clear selection when switching away from select tool
         if (toolId !== 'wall_select') {
             setSelectedWallKey(null);
@@ -376,11 +376,11 @@ const ProfessionalVTTEditor = () => {
     // Find wall at grid position - checks if a wall passes through or near a grid point
     const findWallAtPosition = useCallback((gridX, gridY) => {
         if (!wallData) return null;
-        
+
         // Check all walls to find one that passes through this grid position
         for (const [wallKey, wall] of Object.entries(wallData)) {
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-            
+
             // Check if this grid position is on the wall line
             // For horizontal walls (y1 === y2)
             if (y1 === y2 && gridY === y1) {
@@ -409,16 +409,16 @@ const ProfessionalVTTEditor = () => {
     // Find all walls near a grid position (within 1.5 tile distance of any point on the wall)
     const findWallsNearPosition = useCallback((clickX, clickY) => {
         if (!wallData) return [];
-        
+
         const walls = [];
         for (const [wallKey, wall] of Object.entries(wallData)) {
             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-            
+
             // Calculate closest point on wall segment to click position
             const dx = x2 - x1;
             const dy = y2 - y1;
             const wallLength = Math.sqrt(dx * dx + dy * dy);
-            
+
             if (wallLength === 0) {
                 // Zero-length wall, check distance to endpoint
                 const dist = Math.sqrt(Math.pow(clickX - x1, 2) + Math.pow(clickY - y1, 2));
@@ -427,24 +427,24 @@ const ProfessionalVTTEditor = () => {
                 }
                 continue;
             }
-            
+
             // Project click point onto wall line, clamp to segment
-            const t = Math.max(0, Math.min(1, 
+            const t = Math.max(0, Math.min(1,
                 ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
             ));
-            
+
             // Closest point on wall
             const projX = x1 + t * dx;
             const projY = y1 + t * dy;
-            
+
             // Distance from click to closest point on wall
             const dist = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
-            
+
             if (dist <= 1.5) { // Within 1.5 tiles of wall
                 walls.push({ key: wallKey, data: wall, x1, y1, x2, y2, distance: dist });
             }
         }
-        
+
         // Sort by distance to prefer closest wall
         walls.sort((a, b) => a.distance - b.distance);
         return walls;
@@ -646,11 +646,11 @@ const ProfessionalVTTEditor = () => {
         const gridSystem = getGridSystem();
         const viewport = gridSystem.getViewportDimensions();
         const effectiveZoom = zoomLevel * playerZoom;
-        
+
         // Convert screen area to world coordinates
         const startWorld = gridSystem.screenToWorld(minScreenX, minScreenY, viewport.width, viewport.height);
         const endWorld = gridSystem.screenToWorld(maxScreenX, maxScreenY, viewport.width, viewport.height);
-        
+
         const minWorldX = Math.min(startWorld.x, endWorld.x);
         const maxWorldX = Math.max(startWorld.x, endWorld.x);
         const minWorldY = Math.min(startWorld.y, endWorld.y);
@@ -748,8 +748,8 @@ const ProfessionalVTTEditor = () => {
                         pointWorldY = worldPos.y;
                     }
                     if (pointWorldX !== undefined && pointWorldY !== undefined) {
-                        return pointWorldX >= minWorldX && pointWorldX <= maxWorldX && 
-                               pointWorldY >= minWorldY && pointWorldY <= maxWorldY;
+                        return pointWorldX >= minWorldX && pointWorldX <= maxWorldX &&
+                            pointWorldY >= minWorldY && pointWorldY <= maxWorldY;
                     }
                     return false;
                 });
@@ -895,72 +895,52 @@ const ProfessionalVTTEditor = () => {
         // In background manipulation mode, we want to allow clicks on backgrounds for resizing/moving
         const gameStore = useGameStore.getState();
         const isBackgroundManipulationMode = gameStore.isBackgroundManipulationMode;
-        
+
         if (!isBackgroundManipulationMode) {
-            // Background images can be rendered as divs with backgroundImage style or as img elements
-            // Also check for images in MapLibraryWindow (map-thumbnail, map-placeholder)
+            // Only ignore clicks on actual background layer elements, not the grid overlay
+            // Background layers are rendered as divs with specific data attributes or classes
             const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
             const isBackgroundImage = allElementsAtPoint.some(el => {
                 if (!el) return false;
-                
+
                 // Check if element is within MapLibraryWindow components (map-thumbnail, map-placeholder)
                 const isInMapThumbnail = el.closest('.map-thumbnail') || el.closest('.map-placeholder');
                 if (isInMapThumbnail) {
                     return true;
                 }
-                
-                // Check if it's an img element (could be a background image)
-                if (el.tagName === 'IMG') {
-                    // Check if the img is within a Resizable component or background container
-                    let parent = el.parentElement;
-                    while (parent) {
-                        // Check for Resizable component indicators
-                        if (parent.classList && (
-                            parent.classList.contains('react-resizable') ||
-                            parent.getAttribute('data-resizable') === 'true'
-                        )) {
-                            return true;
-                        }
-                        // Check if parent has background image style
-                        const parentStyle = window.getComputedStyle(parent);
-                        if (parentStyle.backgroundImage && parentStyle.backgroundImage !== 'none') {
-                            return true;
-                        }
-                        // Check if parent is a map thumbnail/placeholder
-                        if (parent.classList && (
-                            parent.classList.contains('map-thumbnail') ||
-                            parent.classList.contains('map-placeholder')
-                        )) {
-                            return true;
-                        }
-                        parent = parent.parentElement;
-                    }
-                }
-                
-                const style = window.getComputedStyle(el);
-                // Check if element has a background image
-                const hasBackgroundImage = style.backgroundImage && style.backgroundImage !== 'none';
+
                 // Check if it's a manipulation handle (resize/rotate handles for backgrounds)
-                const isManipulationHandle = el.hasAttribute('data-manipulation-handle');
-                // Check if element is within a Resizable component
-                const isInResizable = el.closest('.react-resizable') || el.closest('[data-resizable="true"]');
-                // Check if element is within a background container (check parent elements)
-                let parent = el.parentElement;
-                while (parent) {
-                    const parentStyle = window.getComputedStyle(parent);
-                    if (parentStyle.backgroundImage && parentStyle.backgroundImage !== 'none') {
-                        return true;
-                    }
-                    // Check if parent is a map thumbnail/placeholder
-                    if (parent.classList && (
-                        parent.classList.contains('map-thumbnail') ||
-                        parent.classList.contains('map-placeholder')
-                    )) {
-                        return true;
-                    }
-                    parent = parent.parentElement;
+                if (el.hasAttribute('data-manipulation-handle')) {
+                    return true;
                 }
-                return hasBackgroundImage || isManipulationHandle || isInResizable;
+
+                // Check if element is within a Resizable component (background layers use this)
+                const isInResizable = el.closest('.react-resizable') || el.closest('[data-resizable="true"]');
+                if (isInResizable) {
+                    // Only ignore if it's actually a background layer, not the grid overlay
+                    // Background layers have a data attribute or are children of background containers
+                    const backgroundLayer = el.closest('[data-background-id]') || el.closest('[data-background-layer]');
+                    if (backgroundLayer) {
+                        return true;
+                    }
+                }
+
+                // Check if it's an img element that's part of a background layer
+                if (el.tagName === 'IMG') {
+                    const backgroundLayer = el.closest('[data-background-id]') || el.closest('[data-background-layer]');
+                    if (backgroundLayer) {
+                        return true;
+                    }
+                }
+
+                // Don't block clicks on the grid overlay or editor overlay
+                if (el.id === 'grid-overlay' || el.closest('#grid-overlay') || 
+                    el.closest('.vtt-drawing-overlay') || el.closest('.terrain-system-canvas') ||
+                    el.closest('.canvas-wall-system')) {
+                    return false;
+                }
+
+                return false;
             });
 
             if (isBackgroundImage) {
@@ -1067,13 +1047,13 @@ const ProfessionalVTTEditor = () => {
                                 description: ''
                             }
                         };
-                        
+
                         addDndElement(connectionData);
                         console.log('◉ Connection placed at:', portalCoords);
                     }
                     return;
                 }
-                
+
                 // Place object - NO DRAWING STATE
                 const objCoords = screenToGrid(e.clientX, e.clientY);
 
@@ -1172,10 +1152,10 @@ const ProfessionalVTTEditor = () => {
                     if (placeCoords) {
                         const gx = placeCoords.gridX;
                         const gy = placeCoords.gridY;
-                        
+
                         // Check for existing walls at this position to determine orientation
                         let isVertical = false;
-                        
+
                         // Look for vertical walls (same X, different Y)
                         const hasVerticalWall = Object.keys(wallData).some(key => {
                             const [x1, y1, x2, y2] = key.split(',').map(Number);
@@ -1186,7 +1166,7 @@ const ProfessionalVTTEditor = () => {
                             }
                             return false;
                         });
-                        
+
                         // Look for horizontal walls (same Y, different X)
                         const hasHorizontalWall = Object.keys(wallData).some(key => {
                             const [x1, y1, x2, y2] = key.split(',').map(Number);
@@ -1197,19 +1177,19 @@ const ProfessionalVTTEditor = () => {
                             }
                             return false;
                         });
-                        
+
                         isVertical = hasVerticalWall && !hasHorizontalWall;
-                        
+
                         const startX = gx;
                         const startY = gy;
                         const endX = isVertical ? gx : gx + 1;
                         const endY = isVertical ? gy + 1 : gy;
-                        
+
                         setWall(startX, startY, endX, endY, toolSettings.selectedWallType);
                     }
                 }
                 return;
-            
+
             case 'window_place':
                 // Place window overlay on existing wall - find closest point on nearest wall
                 if (toolSettings.selectedWallType) {
@@ -1217,13 +1197,13 @@ const ProfessionalVTTEditor = () => {
                     if (windowCoords) {
                         const clickX = windowCoords.gridX + 0.5; // Center of clicked tile
                         const clickY = windowCoords.gridY + 0.5;
-                        
+
                         // Find the nearest wall and closest point on it
                         let nearestWall = null;
                         let nearestDist = Infinity;
                         let closestPointX = 0;
                         let closestPointY = 0;
-                        
+
                         for (const [wallKey, wall] of Object.entries(wallData)) {
                             // Get the wall type
                             const wallType = typeof wall === 'string' ? wall : wall?.type;
@@ -1231,28 +1211,28 @@ const ProfessionalVTTEditor = () => {
                             if (wallType && wallType.includes('door')) {
                                 continue;
                             }
-                            
+
                             const [x1, y1, x2, y2] = wallKey.split(',').map(Number);
-                            
+
                             // Calculate closest point on wall segment to click position
                             const dx = x2 - x1;
                             const dy = y2 - y1;
                             const wallLength = Math.sqrt(dx * dx + dy * dy);
-                            
+
                             if (wallLength === 0) continue; // Skip zero-length walls
-                            
+
                             // Project click point onto wall line, clamp to segment
-                            const t = Math.max(0, Math.min(1, 
+                            const t = Math.max(0, Math.min(1,
                                 ((clickX - x1) * dx + (clickY - y1) * dy) / (wallLength * wallLength)
                             ));
-                            
+
                             // Closest point on wall
                             const projX = x1 + t * dx;
                             const projY = y1 + t * dy;
-                            
+
                             // Distance from click to closest point on wall
                             const dist = Math.sqrt(Math.pow(clickX - projX, 2) + Math.pow(clickY - projY, 2));
-                            
+
                             if (dist < nearestDist && dist < 1.5) { // Within 1.5 tiles of wall
                                 nearestDist = dist;
                                 nearestWall = { key: wallKey, x1, y1, x2, y2 };
@@ -1261,12 +1241,12 @@ const ProfessionalVTTEditor = () => {
                                 closestPointY = Math.round(projY * 2) / 2;
                             }
                         }
-                        
+
                         if (nearestWall) {
                             // Place window at the closest point on the wall (snapped to 0.5 grid)
                             setWindowOverlay(
-                                closestPointX, 
-                                closestPointY, 
+                                closestPointX,
+                                closestPointY,
                                 toolSettings.selectedWallType,
                                 nearestWall.key // Pass wall key for reference
                             );
@@ -1274,7 +1254,7 @@ const ProfessionalVTTEditor = () => {
                     }
                 }
                 return;
-                
+
             case 'wall_erase':
                 // Erase wall or window at clicked position - NO DRAWING STATE
                 const eraseWallCoords = screenToGrid(e.clientX, e.clientY);
@@ -1283,14 +1263,14 @@ const ProfessionalVTTEditor = () => {
                     const gy = eraseWallCoords.gridY;
                     const clickX = gx + 0.5;
                     const clickY = gy + 0.5;
-                    
+
                     // First check for windows near this position
                     let windowRemoved = false;
                     if (windowOverlays) {
                         // Find nearest window within range
                         let nearestWindowKey = null;
                         let nearestDist = 1.5; // Max distance to detect
-                        
+
                         for (const [windowKey, windowData] of Object.entries(windowOverlays)) {
                             const wx = windowData.gridX;
                             const wy = windowData.gridY;
@@ -1300,14 +1280,14 @@ const ProfessionalVTTEditor = () => {
                                 nearestWindowKey = windowKey;
                             }
                         }
-                        
+
                         if (nearestWindowKey) {
                             const windowData = windowOverlays[nearestWindowKey];
                             removeWindowOverlay(windowData.gridX, windowData.gridY);
                             windowRemoved = true;
                         }
                     }
-                    
+
                     // If no window removed, try removing walls
                     if (!windowRemoved) {
                         const wallsNear = findWallsNearPosition(clickX, clickY);
@@ -1319,16 +1299,16 @@ const ProfessionalVTTEditor = () => {
                     }
                 }
                 return;
-                
+
             case 'wall_select': {
                 const wallSelectCoords = screenToGrid(e.clientX, e.clientY);
                 if (!wallSelectCoords) return;
-                
+
                 const selGx = wallSelectCoords.gridX;
                 const selGy = wallSelectCoords.gridY;
                 const selClickX = selGx + 0.5;
                 const selClickY = selGy + 0.5;
-                
+
                 // If we're already locked to an object, start dragging it
                 if (isObjectLocked && (selectedWallKey || selectedWindow)) {
                     // Initialize drag refs from current state
@@ -1350,7 +1330,7 @@ const ProfessionalVTTEditor = () => {
                     setIsDrawing(true);
                     return;
                 }
-                
+
                 // Otherwise, try to find and select an object at click position
                 // Check windows first (smaller targets)
                 let foundWindow = null;
@@ -1362,16 +1342,16 @@ const ProfessionalVTTEditor = () => {
                         const dist = Math.sqrt(Math.pow(selClickX - wx, 2) + Math.pow(selClickY - wy, 2));
                         if (dist < nearestDist) {
                             nearestDist = dist;
-                            foundWindow = { 
-                                key: windowKey, 
-                                gridX: wx, 
-                                gridY: wy, 
-                                data: windowData 
+                            foundWindow = {
+                                key: windowKey,
+                                gridX: wx,
+                                gridY: wy,
+                                data: windowData
                             };
                         }
                     }
                 }
-                
+
                 if (foundWindow) {
                     // Select and lock to this window - initialize drag refs
                     dragWindowRef.current = {
@@ -1381,7 +1361,7 @@ const ProfessionalVTTEditor = () => {
                     };
                     dragWallRef.current = null;
                     lastDragPosRef.current = { gridX: selGx, gridY: selGy };
-                    
+
                     setSelectedWindow(foundWindow);
                     setSelectedWindowKey(foundWindow.key);
                     setSelectedWallKey(null);
@@ -1391,7 +1371,7 @@ const ProfessionalVTTEditor = () => {
                     setIsDrawing(true);
                     return;
                 }
-                
+
                 // Check walls/doors
                 const wallsNear = findWallsNearPosition(selClickX, selClickY);
                 if (wallsNear.length > 0) {
@@ -1400,7 +1380,7 @@ const ProfessionalVTTEditor = () => {
                     dragWallRef.current = { x1, y1, x2, y2, key: wallsNear[0].key };
                     dragWindowRef.current = null;
                     lastDragPosRef.current = { gridX: selGx, gridY: selGy };
-                    
+
                     setSelectedWallKey(wallsNear[0].key);
                     setSelectedWindowKey(null);
                     setSelectedWindow(null);
@@ -1410,7 +1390,7 @@ const ProfessionalVTTEditor = () => {
                     setIsDrawing(true);
                     return;
                 }
-                
+
                 // Clicked on empty space - don't deselect if locked
                 // Only deselect if not locked
                 if (!isObjectLocked) {
@@ -1561,12 +1541,12 @@ const ProfessionalVTTEditor = () => {
                 // Use selectedTerrainType or default to 'grass' if not set
                 const terrainType = toolSettings.selectedTerrainType || 'grass';
                 // Convert brushSize to number if it's a string (legacy support)
-                const brushSize = typeof toolSettings.brushSize === 'number' 
-                    ? toolSettings.brushSize 
-                    : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium' 
-                        ? parseInt(toolSettings.brushSize) || 1 
+                const brushSize = typeof toolSettings.brushSize === 'number'
+                    ? toolSettings.brushSize
+                    : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium'
+                        ? parseInt(toolSettings.brushSize) || 1
                         : 1);
-                
+
                 console.log('🎨 Painting terrain at:', coords, 'type:', terrainType, 'brushSize:', brushSize);
                 paintTerrainBrush(
                     coords.gridX,
@@ -1622,7 +1602,7 @@ const ProfessionalVTTEditor = () => {
             if (coords && rect) {
                 const screenX = e.clientX - rect.left;
                 const screenY = e.clientY - rect.top;
-                
+
                 // Update ref immediately for instant calculation, but throttle React state updates
                 hoverPreviewRef.current = {
                     show: true,
@@ -1632,7 +1612,7 @@ const ProfessionalVTTEditor = () => {
                     screenX: (selectedTool === 'fog_paint' || selectedTool === 'fog_erase') ? screenX : undefined,
                     screenY: (selectedTool === 'fog_paint' || selectedTool === 'fog_erase') ? screenY : undefined
                 };
-                
+
                 // Throttle React state update via RAF to avoid lag
                 throttledUpdateHoverPreview();
             }
@@ -1647,7 +1627,7 @@ const ProfessionalVTTEditor = () => {
                     isEraser: true,
                     eraserRadius: 15
                 };
-                
+
                 // Throttle React state update via RAF
                 throttledUpdateHoverPreview();
             }
@@ -1698,12 +1678,12 @@ const ProfessionalVTTEditor = () => {
                     // Use selectedTerrainType or default to 'grass' if not set
                     const terrainType = toolSettings.selectedTerrainType || 'grass';
                     // Convert brushSize to number if it's a string (legacy support)
-                    const brushSize = typeof toolSettings.brushSize === 'number' 
-                        ? toolSettings.brushSize 
-                        : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium' 
-                            ? parseInt(toolSettings.brushSize) || 1 
+                    const brushSize = typeof toolSettings.brushSize === 'number'
+                        ? toolSettings.brushSize
+                        : (typeof toolSettings.brushSize === 'string' && toolSettings.brushSize !== 'medium'
+                            ? parseInt(toolSettings.brushSize) || 1
                             : 1);
-                    
+
                     paintTerrainBrush(
                         coords.gridX,
                         coords.gridY,
@@ -1733,7 +1713,7 @@ const ProfessionalVTTEditor = () => {
                         worldY: fogCoords.worldY,
                         brushSize: toolSettings.brushSize || 1
                     };
-                    
+
                     // Schedule paint using RAF for smooth 60fps+ painting
                     if (fogPaintThrottleRef.current === null) {
                         fogPaintThrottleRef.current = requestAnimationFrame(() => {
@@ -1763,7 +1743,7 @@ const ProfessionalVTTEditor = () => {
                         brushSize: toolSettings.brushSize || 1,
                         isErase: true
                     };
-                    
+
                     // Schedule erase using RAF for smooth 60fps+ erasing
                     if (fogPaintThrottleRef.current === null) {
                         fogPaintThrottleRef.current = requestAnimationFrame(() => {
@@ -1808,7 +1788,7 @@ const ProfessionalVTTEditor = () => {
                     if (moveCoords) {
                         const deltaX = moveCoords.gridX - lastDragPosRef.current.gridX;
                         const deltaY = moveCoords.gridY - lastDragPosRef.current.gridY;
-                        
+
                         if (deltaX !== 0 || deltaY !== 0) {
                             if (dragWindowRef.current) {
                                 // Move window using ref values (not stale state)
@@ -1818,7 +1798,7 @@ const ProfessionalVTTEditor = () => {
                                 const newY = oldY + deltaY;
                                 const newKey = `${newX.toFixed(1)},${newY.toFixed(1)}`;
                                 const oldKey = `${oldX.toFixed(1)},${oldY.toFixed(1)}`;
-                                
+
                                 // Check if there's already a different window at the target position
                                 const existingWindow = windowOverlays[newKey];
                                 if (existingWindow && newKey !== oldKey) {
@@ -1827,16 +1807,16 @@ const ProfessionalVTTEditor = () => {
                                     lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
                                     break;
                                 }
-                                
+
                                 // Remove from old position, add to new position
                                 removeWindowOverlay(oldX, oldY);
                                 setWindowOverlay(newX, newY, dragWindowRef.current.data.type, dragWindowRef.current.data.wallKey);
-                                
+
                                 // Update the ref immediately (sync) for next drag event
                                 dragWindowRef.current.gridX = newX;
                                 dragWindowRef.current.gridY = newY;
                                 lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
-                                
+
                                 // Also update state for rendering (async, but that's fine)
                                 const newWindowData = {
                                     key: newKey,
@@ -1854,12 +1834,12 @@ const ProfessionalVTTEditor = () => {
                                 const newY1 = y1 + deltaY;
                                 const newX2 = x2 + deltaX;
                                 const newY2 = y2 + deltaY;
-                                
+
                                 // Calculate new key
                                 const newKey = newX1 < newX2 || (newX1 === newX2 && newY1 < newY2)
                                     ? `${newX1},${newY1},${newX2},${newY2}`
                                     : `${newX2},${newY2},${newX1},${newY1}`;
-                                
+
                                 // Check if there's already a different wall at the target position
                                 const existingWall = wallData[newKey];
                                 if (existingWall && newKey !== oldWallKey) {
@@ -1867,13 +1847,13 @@ const ProfessionalVTTEditor = () => {
                                     lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
                                     break;
                                 }
-                                
+
                                 moveWall(x1, y1, x2, y2, newX1, newY1, newX2, newY2);
-                                
+
                                 // Update ref for next drag event
                                 dragWallRef.current = { x1: newX1, y1: newY1, x2: newX2, y2: newY2, key: newKey };
                                 lastDragPosRef.current = { gridX: moveCoords.gridX, gridY: moveCoords.gridY };
-                                
+
                                 setWallDragStart({ gridX: moveCoords.gridX, gridY: moveCoords.gridY });
                             }
                         }
@@ -2009,16 +1989,16 @@ const ProfessionalVTTEditor = () => {
                 setWall(maxX, minY, maxX, maxY, wallType);
             }
         } else if (currentPath.length > 0 &&
-                   selectedTool !== 'wall_draw' &&
-                   selectedTool !== 'light_place' &&
-                   selectedTool !== 'light_torch' &&
-                   selectedTool !== 'light_lantern' &&
-                   selectedTool !== 'light_candle' &&
-                   selectedTool !== 'object_place' &&
-                   selectedTool !== 'object_select' &&
-                   selectedTool !== 'object_delete' &&
-                   selectedTool !== 'door_place' &&
-                   selectedTool !== 'fog_clear_all') {
+            selectedTool !== 'wall_draw' &&
+            selectedTool !== 'light_place' &&
+            selectedTool !== 'light_torch' &&
+            selectedTool !== 'light_lantern' &&
+            selectedTool !== 'light_candle' &&
+            selectedTool !== 'object_place' &&
+            selectedTool !== 'object_select' &&
+            selectedTool !== 'object_delete' &&
+            selectedTool !== 'door_place' &&
+            selectedTool !== 'fog_clear_all') {
             // Finalize the drawing path for drawing tools only
             // For freehand, require at least 2 points to create a visible line
             if (selectedTool === 'freehand' && currentPath.length < 2) {
@@ -2046,7 +2026,7 @@ const ProfessionalVTTEditor = () => {
         setIsDrawing(false);
         setCurrentPath([]);
         clearCurrentDrawing();
-        
+
         // Ensure drawing state is fully reset
         setIsCurrentlyDrawing(false);
         setCurrentDrawingTool('');
@@ -2180,10 +2160,12 @@ const ProfessionalVTTEditor = () => {
     useEffect(() => {
         if (isGMMode && isEditorMode && !isOpen) {
             setIsOpen(true);
+            // Ensure the active tool is set to terrain_brush (matching the default tab)
+            setActiveTool('terrain_brush');
         } else if (!isEditorMode && isOpen) {
             setIsOpen(false);
         }
-    }, [isGMMode, isEditorMode, isOpen]);
+    }, [isGMMode, isEditorMode, isOpen, setActiveTool]);
 
     // Load current map state when editor opens (only once, and only if map has data)
     useEffect(() => {
@@ -2196,7 +2178,7 @@ const ProfessionalVTTEditor = () => {
                     // Load terrain and other level editor data from the current map
                     // Only load if the map actually has data (not empty arrays/objects)
                     const levelEditorState = useLevelEditorStore.getState();
-                    
+
                     // Only load terrain if map has terrain data
                     if (mapState.terrainData && Object.keys(mapState.terrainData).length > 0 && levelEditorState.setTerrainData) {
                         levelEditorState.setTerrainData(mapState.terrainData);
@@ -2245,8 +2227,8 @@ const ProfessionalVTTEditor = () => {
                             { id: 'overlay', name: 'Overlay', visible: true, locked: false }
                         ];
                         levelEditorState.setDrawingLayers(
-                            mapState.drawingLayers.length > 0 
-                                ? mapState.drawingLayers 
+                            mapState.drawingLayers.length > 0
+                                ? mapState.drawingLayers
                                 : defaultLayers
                         );
                     }
@@ -2384,117 +2366,117 @@ const ProfessionalVTTEditor = () => {
 
                 </div>
 
-                    {/* Layer Management - Right Side */}
-                    <div className={`vtt-layer-panel ${isLayersPanelCollapsed ? 'collapsed' : ''}`}>
-                        <div className="layer-panel-header">
-                            <h4>Layers</h4>
-                            <button
-                                className="layer-panel-toggle"
-                                onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
-                                title={isLayersPanelCollapsed ? 'Expand Layers Panel' : 'Collapse Layers Panel'}
-                            >
-                                {isLayersPanelCollapsed ? '◀' : '▶'}
-                            </button>
-                        </div>
-                        {!isLayersPanelCollapsed && (
-                            <>
-                        <div className="layer-list">
-                            {drawingLayers.map(layer => {
-                                // For grid layer, use actual grid visibility state
-                                const isVisible = layer.id === 'grid' ? showGrid : layer.visible;
-
-                                return (
-                                    <div
-                                        key={layer.id}
-                                        className={`layer-item ${activeLayer === layer.id ? 'active' : ''}`}
-                                        onClick={() => setActiveLayer(layer.id)}
-                                    >
-                                        <span className="layer-name">{layer.name}</span>
-                                        <div className="layer-controls">
-                                            <button
-                                                className={`layer-visibility ${isVisible ? 'visible' : 'hidden'}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    // Toggle both the drawing layer and the legacy layer system
-                                                    toggleLayerVisibility(layer.id);
-
-                                                    // Also toggle the legacy layer system for compatibility
-                                                    if (layer.id === 'terrain') {
-                                                        toggleLayer('terrain');
-                                                    } else if (layer.id === 'walls') {
-                                                        toggleLayer('walls');
-                                                    } else if (layer.id === 'objects') {
-                                                        toggleLayer('objects');
-                                                    } else if (layer.id === 'background') {
-                                                        toggleLayer('dnd');
-                                                    } else if (layer.id === 'grid') {
-                                                        // Toggle grid visibility in gameStore
-                                                        const { setShowGrid, showGrid } = useGameStore.getState();
-                                                        setShowGrid(!showGrid);
-                                                    }
-                                                }}
-                                                title={isVisible ? 'Hide Layer' : 'Show Layer'}
-                                            >
-                                                <i className={`fas ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-                                            </button>
-                                            <button
-                                                className={`layer-lock ${layer.locked ? 'locked' : 'unlocked'}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleLayerLock(layer.id);
-                                                }}
-                                                title={layer.locked ? 'Unlock Layer' : 'Lock Layer'}
-                                            >
-                                                <i className={`fas ${layer.locked ? 'fa-lock' : 'fa-unlock'}`}></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-
-                        <div className="layer-actions">
-                            {isInRoom ? (
-                                <>
-                                    <button
-                                        className={`action-btn ${hasUnsavedChanges ? 'warning' : 'primary'}`}
-                                        onClick={saveLevelEditorState}
-                                        title={`Save to Room: ${currentRoomId}`}
-                                    >
-                                        {hasUnsavedChanges ? '💾 Save*' : '💾 Save'}
-                                    </button>
-                                    <button
-                                        className="action-btn secondary"
-                                        onClick={loadLevelEditorState}
-                                        title={`Load from Room: ${currentRoomId}`}
-                                    >
-                                        📋 Load
-                                    </button>
-                                    <div className="room-status">
-                                        <small>Room: {currentRoomId}</small>
-                                        {hasUnsavedChanges && <small className="unsaved">*Unsaved changes</small>}
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <button className="action-btn primary" onClick={saveMapState}>
-                                        Save Map
-                                    </button>
-                                    <button className="action-btn secondary">
-                                        Load Map
-                                    </button>
-                                    <div className="room-status">
-                                        <small>Global Mode</small>
-                                    </div>
-                                </>
-                            )}
-                            <button className="action-btn danger" onClick={clearAllProfessionalData}>
-                                Clear All
-                            </button>
-                        </div>
-                            </>
-                        )}
+                {/* Layer Management - Right Side */}
+                <div className={`vtt-layer-panel ${isLayersPanelCollapsed ? 'collapsed' : ''}`}>
+                    <div className="layer-panel-header">
+                        <h4>Layers</h4>
+                        <button
+                            className="layer-panel-toggle"
+                            onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
+                            title={isLayersPanelCollapsed ? 'Expand Layers Panel' : 'Collapse Layers Panel'}
+                        >
+                            {isLayersPanelCollapsed ? '◀' : '▶'}
+                        </button>
                     </div>
+                    {!isLayersPanelCollapsed && (
+                        <>
+                            <div className="layer-list">
+                                {drawingLayers.map(layer => {
+                                    // For grid layer, use actual grid visibility state
+                                    const isVisible = layer.id === 'grid' ? showGrid : layer.visible;
+
+                                    return (
+                                        <div
+                                            key={layer.id}
+                                            className={`layer-item ${activeLayer === layer.id ? 'active' : ''}`}
+                                            onClick={() => setActiveLayer(layer.id)}
+                                        >
+                                            <span className="layer-name">{layer.name}</span>
+                                            <div className="layer-controls">
+                                                <button
+                                                    className={`layer-visibility ${isVisible ? 'visible' : 'hidden'}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        // Toggle both the drawing layer and the legacy layer system
+                                                        toggleLayerVisibility(layer.id);
+
+                                                        // Also toggle the legacy layer system for compatibility
+                                                        if (layer.id === 'terrain') {
+                                                            toggleLayer('terrain');
+                                                        } else if (layer.id === 'walls') {
+                                                            toggleLayer('walls');
+                                                        } else if (layer.id === 'objects') {
+                                                            toggleLayer('objects');
+                                                        } else if (layer.id === 'background') {
+                                                            toggleLayer('dnd');
+                                                        } else if (layer.id === 'grid') {
+                                                            // Toggle grid visibility in gameStore
+                                                            const { setShowGrid, showGrid } = useGameStore.getState();
+                                                            setShowGrid(!showGrid);
+                                                        }
+                                                    }}
+                                                    title={isVisible ? 'Hide Layer' : 'Show Layer'}
+                                                >
+                                                    <i className={`fas ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></i>
+                                                </button>
+                                                <button
+                                                    className={`layer-lock ${layer.locked ? 'locked' : 'unlocked'}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleLayerLock(layer.id);
+                                                    }}
+                                                    title={layer.locked ? 'Unlock Layer' : 'Lock Layer'}
+                                                >
+                                                    <i className={`fas ${layer.locked ? 'fa-lock' : 'fa-unlock'}`}></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="layer-actions">
+                                {isInRoom ? (
+                                    <>
+                                        <button
+                                            className={`action-btn ${hasUnsavedChanges ? 'warning' : 'primary'}`}
+                                            onClick={saveLevelEditorState}
+                                            title={`Save to Room: ${currentRoomId}`}
+                                        >
+                                            {hasUnsavedChanges ? '💾 Save*' : '💾 Save'}
+                                        </button>
+                                        <button
+                                            className="action-btn secondary"
+                                            onClick={loadLevelEditorState}
+                                            title={`Load from Room: ${currentRoomId}`}
+                                        >
+                                            📋 Load
+                                        </button>
+                                        <div className="room-status">
+                                            <small>Room: {currentRoomId}</small>
+                                            {hasUnsavedChanges && <small className="unsaved">*Unsaved changes</small>}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button className="action-btn primary" onClick={saveMapState}>
+                                            Save Map
+                                        </button>
+                                        <button className="action-btn secondary">
+                                            Load Map
+                                        </button>
+                                        <div className="room-status">
+                                            <small>Global Mode</small>
+                                        </div>
+                                    </>
+                                )}
+                                <button className="action-btn danger" onClick={clearAllProfessionalData}>
+                                    Clear All
+                                </button>
+                            </div>
+                        </>
+                    )}
+                </div>
 
             </WowWindow>
 
@@ -2682,8 +2664,8 @@ const ProfessionalVTTEditor = () => {
                 >
                     <span style={{ color: '#f0e6d2', fontSize: '13px' }}>
                         Selected: <strong style={{ color: '#d4af37' }}>
-                            {selectedWindow ? 'Window' : 
-                             (wallData[selectedWallKey]?.type?.includes('door') ? 'Door' : 'Wall')}
+                            {selectedWindow ? 'Window' :
+                                (wallData[selectedWallKey]?.type?.includes('door') ? 'Door' : 'Wall')}
                         </strong>
                     </span>
                     <span style={{ color: '#a08c70', fontSize: '11px' }}>

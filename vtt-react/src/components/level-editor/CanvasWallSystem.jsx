@@ -147,9 +147,18 @@ const CanvasWallSystem = () => {
         const ctx = canvas.getContext('2d');
         const rect = canvas.getBoundingClientRect();
         
+        // Get valid dimensions - use window size as fallback if rect is invalid
+        const width = rect.width > 0 ? rect.width : (window.innerWidth || 1920);
+        const height = rect.height > 0 ? rect.height : (window.innerHeight || 1080);
+        
+        // Don't render if canvas dimensions are still invalid
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+        
         // Set canvas size to match container
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        canvas.width = width;
+        canvas.height = height;
         
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -396,9 +405,9 @@ const CanvasWallSystem = () => {
                 }
             }
 
-            // Get screen positions for wall endpoints
-            const screenPos1 = gridToScreen(x1, y1, canvas.width, canvas.height);
-            const screenPos2 = gridToScreen(x2, y2, canvas.width, canvas.height);
+            // Get screen positions for wall endpoints using window dimensions to match tokens/items
+            const screenPos1 = gridToScreen(x1, y1, window.innerWidth, window.innerHeight);
+            const screenPos2 = gridToScreen(x2, y2, window.innerWidth, window.innerHeight);
 
             // Calculate properties
             const wallThickness = Math.max(8, gridSize * effectiveZoom * 0.15);
@@ -602,7 +611,7 @@ const CanvasWallSystem = () => {
             // Check if corner is in visible bounds
             if (gx < startX || gx > endX || gy < startY || gy > endY) return;
             
-            const screenPos = gridToScreen(gx, gy, canvas.width, canvas.height);
+            const screenPos = gridToScreen(gx, gy, window.innerWidth, window.innerHeight);
             const wallThickness = Math.max(8, gridSize * effectiveZoom * 0.15);
             
             // Get the primary wall type for coloring
@@ -657,7 +666,7 @@ const CanvasWallSystem = () => {
                 if (gx < startX || gx > endX || gy < startY || gy > endY) return;
                 
                 // Get screen position - use the exact fractional position for centering on walls
-                const screenPos = gridToScreen(gx, gy, canvas.width, canvas.height);
+                const screenPos = gridToScreen(gx, gy, window.innerWidth, window.innerHeight);
                 const windowType = windowData.type;
                 const windowTypeData = WALL_TYPES[windowType];
                 if (!windowTypeData) return;
@@ -788,9 +797,13 @@ const CanvasWallSystem = () => {
     
     // Trigger render when dependencies change (throttled)
     useEffect(() => {
-        if (throttledRenderWallsRef.current) {
-            throttledRenderWallsRef.current();
-        }
+        // Use requestAnimationFrame to ensure canvas is properly sized
+        const rafId = requestAnimationFrame(() => {
+            if (throttledRenderWallsRef.current) {
+                throttledRenderWallsRef.current();
+            }
+        });
+        return () => cancelAnimationFrame(rafId);
     }, [wallData, drawingLayers, effectiveZoom, gridSize, cameraX, cameraY, gridOffsetX, gridOffsetY, showWallLayer, viewingFromToken, visibleArea, isEditorMode, selectedWallKey, windowOverlays, selectedWindowKey]);
 
     // Handle window resize

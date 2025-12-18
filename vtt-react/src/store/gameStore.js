@@ -31,9 +31,10 @@ const initialState = {
     gridSize: 50,
     gridOffsetX: 0,
     gridOffsetY: 0,
-    gridLineColor: 'rgba(212, 175, 55, 0.8)', // D&D gold color, much more visible
+    gridLineColor: 'rgba(255, 255, 255, 0.8)', // White color for grid lines
     gridLineThickness: 2, // Thicker lines for better visibility
     gridLineOpacity: 0.8, // Separate opacity control for grid lines
+    gridBackgroundColor: '#d4c5b9', // Darker beige background color for the grid canvas
     gridMovesWithBackground: false, // Whether grid moves with background or stays on top
 
     // Camera and zoom (moved from level editor store)
@@ -409,6 +410,11 @@ const useGameStore = create((set, get) => ({
             // Grid line opacity management
             setGridLineOpacity: (opacity) => {
                 set({ gridLineOpacity: opacity });
+            },
+
+            // Grid background color management
+            setGridBackgroundColor: (color) => {
+                set({ gridBackgroundColor: color });
             },
 
             // Grid positioning management

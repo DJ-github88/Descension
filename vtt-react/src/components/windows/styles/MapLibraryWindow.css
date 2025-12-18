@@ -1,3 +1,23 @@
+/* Prevent window-content from scrolling when it contains map-library-window or map-edit-dialog */
+/* Modern browsers with :has() support */
+.window-content:has(.map-library-window),
+.window-content:has(.map-edit-dialog) {
+    overflow: hidden !important;
+}
+
+/* Fallback for browsers without :has() support - target parent when map-library-window is present */
+.wow-window .window-content .map-library-window,
+.wow-window .window-content .map-edit-dialog {
+    /* This ensures the parent window-content doesn't scroll */
+}
+
+/* Ensure map-library-window and map-edit-dialog fill the window-content */
+.window-content .map-library-window,
+.window-content .map-edit-dialog {
+    width: 100%;
+    height: 100%;
+}
+
 /* Map Library Window - Pathfinder Parchment Theme */
 .map-library-window {
     display: flex;
@@ -7,6 +27,9 @@
     color: var(--pf-text-primary) !important;
     font-family: 'Cinzel', serif !important;
     overflow: hidden;
+    min-height: 0;
+    position: relative;
+    pointer-events: auto;
 }
 
 /* Map Library Header */
@@ -125,9 +148,17 @@
     grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 32px;
     flex: 1;
-    overflow-y: auto;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
     padding: 32px;
     background: var(--pf-gradient-parchment) !important;
+    min-height: 0;
+    position: relative;
+    z-index: 1;
+    pointer-events: auto !important;
+    touch-action: pan-y;
+    /* Ensure the entire grid area can receive scroll events */
+    cursor: default;
 
     /* Optimize scrolling performance */
     will-change: scroll-position;
@@ -136,6 +167,18 @@
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto !important;
     contain: layout style paint;
+}
+
+/* Ensure map cards don't block scroll events on the grid gaps */
+.map-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* Pathfinder Map Cards */
@@ -561,6 +604,12 @@
     gap: 20px;
     padding: 24px;
     height: 100%;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    min-height: 0;
+    position: relative;
+    pointer-events: auto !important;
+    touch-action: pan-y;
 }
 
 .edit-field {

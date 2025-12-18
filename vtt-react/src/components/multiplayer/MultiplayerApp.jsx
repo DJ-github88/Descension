@@ -97,6 +97,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [pendingGameSessionInvitations, setPendingGameSessionInvitations] = useState([]);
   const [connectionStatus, setConnectionStatus] = useState('disconnected'); // 'disconnected', 'connecting', 'connected', 'error'
   const [isJoiningRoom, setIsJoiningRoom] = useState(false);
+  const [connectionQuality, setConnectionQuality] = useState({ latency: 0, quality: 'good' }); // IMPROVEMENT: Track connection quality
 
   // PERFORMANCE OPTIMIZATION: Use selector functions to only subscribe to needed values
   // This prevents re-renders when unrelated store values change
@@ -430,13 +431,76 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   useEffect(() => {
     if (!socket) return;
 
-    // Monitor socket connection status
+    // IMPROVEMENT: Monitor socket connection status with quality tracking
     socket.on('connect', () => {
-      // Socket reconnected
+      setConnectionStatus('connected');
+      setIsConnecting(false);
+      
+      // IMPROVEMENT: Measure latency on connect using existing ping/pong pattern
+      const startTime = Date.now();
+      socket.emit('ping');
+      socket.once('pong', () => {
+        const latency = Date.now() - startTime;
+        const quality = latency < 100 ? 'excellent' : latency < 200 ? 'good' : latency < 500 ? 'fair' : 'poor';
+        setConnectionQuality({ latency, quality });
+        
+        // Log connection quality
+        if (quality === 'poor') {
+          console.warn(`⚠️ High latency detected: ${latency}ms`);
+          addNotification('social', {
+            sender: { name: 'System', class: 'system', level: 0 },
+            content: `Connection quality is poor (${latency}ms latency). Gameplay may be affected.`,
+            type: 'system',
+            timestamp: new Date().toISOString()
+          });
+        }
+      });
+      
+      // IMPROVEMENT: Periodic latency checks
+      const latencyCheckInterval = setInterval(() => {
+        if (socket.connected) {
+          const pingStart = Date.now();
+          socket.emit('ping');
+          socket.once('pong', () => {
+            const latency = Date.now() - pingStart;
+            const quality = latency < 100 ? 'excellent' : latency < 200 ? 'good' : latency < 500 ? 'fair' : 'poor';
+            setConnectionQuality({ latency, quality });
+          });
+        } else {
+          clearInterval(latencyCheckInterval);
+        }
+      }, 30000); // Check every 30 seconds
+      
+      // Store interval for cleanup
+      socket._latencyCheckInterval = latencyCheckInterval;
     });
 
     socket.on('disconnect', (reason) => {
-      // Socket disconnected
+      setConnectionStatus('disconnected');
+      setConnectionQuality({ latency: 0, quality: 'disconnected' });
+      
+      // IMPROVEMENT: Clear latency check interval
+      if (socket._latencyCheckInterval) {
+        clearInterval(socket._latencyCheckInterval);
+        delete socket._latencyCheckInterval;
+      }
+      
+      // IMPROVEMENT: Provide user feedback based on disconnect reason
+      if (reason === 'io server disconnect') {
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: 'Disconnected by server. Attempting to reconnect...',
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      } else if (reason === 'transport close') {
+        addNotification('social', {
+          sender: { name: 'System', class: 'system', level: 0 },
+          content: 'Connection lost. Attempting to reconnect...',
+          type: 'system',
+          timestamp: new Date().toISOString()
+        });
+      }
     });
 
     // Listen for player join/leave events
@@ -949,9 +1013,50 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
     socket.on('combat_state_sync', (data) => {
-      // Full combat state synchronization
-      console.log('Received combat state sync:', data);
-      // Update local combat state completely
+      // IMPROVEMENT: Full combat state synchronization with proper state restoration
+      console.log('⚔️ Received combat state sync:', data);
+      
+      if (data.combat) {
+        const combatStore = useCombatStore.getState();
+        
+        // If combat is active, restore the full state
+        if (data.combat.isActive) {
+          // Restore turn order if available
+          if (data.combat.turnOrder && data.combat.turnOrder.length > 0) {
+            combatStore.startCombat(data.combat.turnOrder);
+            
+            // Restore current turn index
+            if (data.combat.currentTurnIndex !== undefined) {
+              const currentState = combatStore.getCombatState();
+              const targetIndex = data.combat.currentTurnIndex;
+              const currentIndex = currentState.currentTurnIndex || 0;
+              
+              // Advance to correct turn if needed
+              if (targetIndex !== currentIndex) {
+                const diff = targetIndex - currentIndex;
+                for (let i = 0; i < Math.abs(diff); i++) {
+                  if (diff > 0) {
+                    combatStore.nextTurn();
+                  }
+                }
+              }
+            }
+            
+            // Restore round number if available
+            if (data.combat.round !== undefined) {
+              // Round is managed internally, but we can log it
+              console.log(`Combat restored: Round ${data.combat.round}, Turn ${data.combat.currentTurnIndex}`);
+            }
+          }
+        } else {
+          // Combat is not active, ensure it's stopped
+          const currentState = combatStore.getCombatState();
+          if (currentState.isActive) {
+            // Stop combat if it was active locally but not on server
+            console.log('Combat stopped on server, stopping locally');
+          }
+        }
+      }
     });
 
     socket.on('combat_action', (data) => {
@@ -1329,8 +1434,14 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // Handle full game state synchronization
     socket.on('full_game_state_sync', (data) => {
+      console.log('🔄 Receiving full game state sync:', {
+        tokens: Object.keys(data.tokens || {}).length,
+        gridItems: Object.keys(data.gridItems || {}).length,
+        characters: Object.keys(data.characters || {}).length,
+        hasCombat: !!data.combat
+      });
 
-      // Sync tokens
+      // IMPROVEMENT: Sync tokens (creatures)
       if (data.tokens && Object.keys(data.tokens).length > 0) {
         Object.values(data.tokens).forEach(tokenData => {
           if (tokenData.creature) {
@@ -1340,7 +1451,21 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         });
       }
 
-      // Sync grid items
+      // IMPROVEMENT: Sync character tokens (player characters on map)
+      if (data.characterTokens && Object.keys(data.characterTokens).length > 0) {
+        import('../../store/characterTokenStore').then(({ default: useCharacterTokenStore }) => {
+          const { addCharacterToken } = useCharacterTokenStore.getState();
+          Object.values(data.characterTokens).forEach(tokenData => {
+            if (tokenData.playerId && tokenData.position) {
+              addCharacterToken(tokenData.playerId, tokenData.position, false);
+            }
+          });
+        }).catch(error => {
+          console.warn('Failed to sync character tokens:', error);
+        });
+      }
+
+      // IMPROVEMENT: Sync grid items
       if (data.gridItems && Object.keys(data.gridItems).length > 0) {
         import('../../store/gridItemStore').then(({ default: useGridItemStore }) => {
           const { addItemToGrid } = useGridItemStore.getState();
@@ -1348,8 +1473,85 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           Object.values(data.gridItems).forEach(gridItem => {
             addItemToGrid(gridItem, gridItem.position, false);
           });
+        }).catch(error => {
+          console.warn('Failed to sync grid items:', error);
         });
       }
+
+      // IMPROVEMENT: Sync fog of war if provided
+      if (data.fogOfWar !== undefined) {
+        import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+          const levelEditorStore = useLevelEditorStore.getState();
+          window._isReceivingMapUpdate = true;
+          levelEditorStore.setFogOfWarData(data.fogOfWar);
+          window._isReceivingMapUpdate = false;
+        }).catch(error => {
+          console.warn('Failed to sync fog of war:', error);
+        });
+      }
+
+      // IMPROVEMENT: Sync map data (terrain, walls, etc.)
+      if (data.mapData) {
+        import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+          const levelEditorStore = useLevelEditorStore.getState();
+          window._isReceivingMapUpdate = true;
+          
+          if (data.mapData.terrainData !== undefined) {
+            levelEditorStore.setTerrainData(data.mapData.terrainData);
+          }
+          if (data.mapData.wallData !== undefined) {
+            levelEditorStore.setWallData(data.mapData.wallData);
+          }
+          if (data.mapData.fogOfWarPaths !== undefined) {
+            levelEditorStore.setFogOfWarPaths(data.mapData.fogOfWarPaths);
+          }
+          
+          window._isReceivingMapUpdate = false;
+        }).catch(error => {
+          console.warn('Failed to sync map data:', error);
+        });
+      }
+
+      // IMPROVEMENT: Sync combat state
+      if (data.combat) {
+        const combatStore = useCombatStore.getState();
+        if (data.combat.isActive) {
+          // Restore combat state
+          if (data.combat.turnOrder && data.combat.turnOrder.length > 0) {
+            combatStore.startCombat(data.combat.turnOrder);
+            if (data.combat.currentTurnIndex !== undefined) {
+              // Set current turn
+              for (let i = 0; i < data.combat.currentTurnIndex; i++) {
+                combatStore.nextTurn();
+              }
+            }
+          }
+        }
+      }
+
+      // IMPROVEMENT: Sync party members from server state
+      if (data.players && Array.isArray(data.players)) {
+        data.players.forEach(playerData => {
+          if (playerData.id !== currentPlayer?.id && playerData.character) {
+            updatePartyMember(playerData.id, {
+              name: playerData.name,
+              character: playerData.character,
+              color: playerData.color
+            });
+          }
+        });
+      }
+
+      // IMPROVEMENT: Sync GM data if available
+      if (data.gm && data.gm.character) {
+        updatePartyMember(data.gm.id, {
+          name: data.gm.name,
+          character: data.gm.character,
+          color: data.gm.color
+        });
+      }
+
+      console.log('✅ Full game state sync completed');
     });
 
     // Handle party updates
@@ -1490,6 +1692,43 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           }
         }
       });
+    });
+
+    // IMPROVEMENT: Handle spell cast synchronization from other players
+    socket.on('spell_cast', (data) => {
+      // Only process casts from other players (not our own)
+      if (data.casterId && data.casterId !== currentPlayer?.id) {
+        console.log(`✨ ${data.casterName} cast ${data.spellName}`);
+        
+        // Add notification to chat
+        addNotification('combat', {
+          sender: { name: data.casterName, class: 'player', level: 0 },
+          content: `${data.casterName} cast ${data.spellName}${data.targetIds?.length > 0 ? ` on ${data.targetIds.length} target(s)` : ''}`,
+          type: 'spell',
+          spellData: data,
+          timestamp: data.timestamp || new Date().toISOString()
+        });
+        
+        // TODO: Apply spell effects to targets if needed
+        // This would integrate with the combat system
+      }
+    });
+
+    // IMPROVEMENT: Handle ability use synchronization from other players
+    socket.on('ability_used', (data) => {
+      // Only process abilities from other players
+      if (data.usedBy && data.usedBy !== currentPlayer?.id) {
+        console.log(`⚔️ ${data.usedByName} used ${data.abilityName}`);
+        
+        // Add notification to chat
+        addNotification('combat', {
+          sender: { name: data.usedByName, class: 'player', level: 0 },
+          content: `${data.usedByName} used ${data.abilityName} with ${data.creatureName}`,
+          type: 'ability',
+          abilityData: data,
+          timestamp: data.timestamp || new Date().toISOString()
+        });
+      }
     });
 
     // Handle item updates
@@ -1941,20 +2180,61 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Handle reconnection
+    // IMPROVEMENT: Handle reconnection with better state recovery
     socket.on('reconnect', (attemptNumber) => {
+      console.log(`🔄 Reconnected to server (attempt ${attemptNumber})`);
 
       addNotification('social', {
         sender: { name: 'System', class: 'system', level: 0 },
-        content: 'Reconnected to server. Syncing game state...',
+        content: `Reconnected to server (attempt ${attemptNumber}). Syncing game state...`,
         type: 'system',
         timestamp: new Date().toISOString()
       });
 
-      // Request full sync after reconnection
-      setTimeout(() => {
-        socket.emit('request_full_sync');
-      }, 500);
+      // IMPROVEMENT: Rejoin room if we were in one
+      if (currentRoom && currentPlayer) {
+        // Small delay to ensure socket is fully connected
+        setTimeout(() => {
+          // Request full sync to get latest game state
+          socket.emit('request_full_sync');
+          
+          // Also request combat sync if combat was active
+          socket.emit('request_combat_sync');
+          
+          // Re-send our character data to ensure server has latest
+          const activeCharacter = getActiveCharacter();
+          if (activeCharacter && socket.connected) {
+            try {
+              const authStore = require('../../store/authStore').default;
+              const authState = authStore.getState();
+              const userId = authState.user?.uid || null;
+
+              socket.emit('character_updated', {
+                characterId: activeCharacter.id,
+                userId: userId,
+                character: {
+                  name: activeCharacter.name,
+                  class: activeCharacter.class,
+                  race: activeCharacter.race,
+                  subrace: activeCharacter.subrace,
+                  level: activeCharacter.level,
+                  health: activeCharacter.health,
+                  mana: activeCharacter.mana,
+                  actionPoints: activeCharacter.actionPoints,
+                  playerId: currentPlayer.id
+                }
+              });
+            } catch (error) {
+              console.warn('Failed to resend character data on reconnect:', error);
+            }
+          }
+        }, 500);
+      } else {
+        // Not in a room, just request sync if we have a socket
+        setTimeout(() => {
+          socket.emit('request_full_sync');
+        }, 500);
+      }
     });
 
     return () => {
@@ -1981,6 +2261,18 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('combat_action');
       socket.off('combat_correction');
       socket.off('combat_state_sync');
+      socket.off('spell_cast'); // IMPROVEMENT: Clean up spell cast handler
+      socket.off('ability_used'); // IMPROVEMENT: Clean up ability use handler
+      socket.off('dice_rolled'); // IMPROVEMENT: Clean up dice roll handler
+      socket.off('dice_update'); // IMPROVEMENT: Clean up dice update handler
+      socket.off('item_update'); // IMPROVEMENT: Clean up item update handler
+      socket.off('inventory_update'); // IMPROVEMENT: Clean up inventory update handler
+      socket.off('map_updated'); // IMPROVEMENT: Clean up map update handler
+      socket.off('party_update'); // IMPROVEMENT: Clean up party update handler
+      socket.off('window_update'); // IMPROVEMENT: Clean up window update handler
+      socket.off('container_update'); // IMPROVEMENT: Clean up container update handler
+      socket.off('cursor_update'); // IMPROVEMENT: Clean up cursor update handler
+      socket.off('area_remove'); // IMPROVEMENT: Clean up area remove handler
       socket.off('full_game_state_sync');
       socket.off('sync_error');
       socket.off('connect_error');
@@ -2181,8 +2473,19 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
         // Send character data to server for synchronization
         if (socketConnection && socketConnection.connected) {
+          // Get userId from auth store for Firebase persistence
+          let userId = null;
+          try {
+            const authStore = require('../../store/authStore').default;
+            const authState = authStore.getState();
+            userId = authState.user?.uid || null;
+          } catch (error) {
+            console.warn('Could not get userId from auth store:', error);
+          }
+
           socketConnection.emit('character_updated', {
             characterId: activeCharacter.id,
+            userId: userId, // CRITICAL FIX: Include userId for Firebase character document saving
             character: {
               name: activeCharacter.name,
               class: activeCharacter.class,

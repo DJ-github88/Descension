@@ -94,6 +94,10 @@ const shouldUseFirebase = () => {
     return !!(userId && characterPersistenceService.isConfigured);
 };
 
+// Debounced auto-save timer for character changes
+let characterAutoSaveTimer = null;
+const CHARACTER_AUTO_SAVE_DELAY = 2000; // 2 seconds debounce
+
 const useCharacterStore = create((set, get) => ({
     // Character management for account system
     characters: [], // Array of all user's characters
@@ -1326,6 +1330,31 @@ const useCharacterStore = create((set, get) => ({
                 
                 newState.resistances = updatedResistances;
                 newState.immunities = [...new Set(updatedImmunities)]; // Remove duplicates
+            }
+
+            // CRITICAL FIX: Debounced auto-save to Firebase for character changes during gameplay
+            // Clear existing timer
+            if (characterAutoSaveTimer) {
+                clearTimeout(characterAutoSaveTimer);
+            }
+
+            // Schedule auto-save if we have an active character
+            if (state.currentCharacterId) {
+                characterAutoSaveTimer = setTimeout(() => {
+                    try {
+                        // Save current character to Firebase and localStorage
+                        get().saveCurrentCharacter();
+                        
+                        // Also record the change for session tracking
+                        get().recordCharacterChange(state.currentCharacterId, 'stat_change', {
+                            stat: field,
+                            value: value,
+                            timestamp: new Date()
+                        });
+                    } catch (error) {
+                        console.warn('Failed to auto-save character after updateCharacterInfo:', error);
+                    }
+                }, CHARACTER_AUTO_SAVE_DELAY);
             }
 
             return newState;

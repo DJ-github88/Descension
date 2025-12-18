@@ -195,6 +195,84 @@ const deleteRoom = async(roomId) => {
 };
 
 /**
+ * Save individual character document to Firestore
+ * @param {string} characterId - Character ID
+ * @param {Object} characterData - Character data
+ * @param {string} userId - User ID (owner of the character)
+ * @returns {Promise<boolean>} - Success status
+ */
+const saveCharacterDocument = async(characterId, characterData, userId) => {
+  if (!db) {
+    console.warn('Firebase not initialized, character document not persisted');
+    return false;
+  }
+
+  if (!characterId || !userId) {
+    console.warn('Missing characterId or userId, cannot save character document');
+    return false;
+  }
+
+  try {
+    // Transform character data for Firestore storage
+    const firestoreData = {
+      metadata: {
+        id: characterId,
+        userId: userId,
+        name: characterData.name || 'Unnamed Character',
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        lastPlayedAt: admin.firestore.FieldValue.serverTimestamp(),
+        version: (characterData.version || 0) + 1
+      },
+      basicInfo: {
+        race: characterData.race || '',
+        subrace: characterData.subrace || '',
+        class: characterData.class || '',
+        level: characterData.level || 1,
+        alignment: characterData.alignment || 'Neutral Good',
+        exhaustionLevel: characterData.exhaustionLevel || 0
+      },
+      stats: characterData.stats || {
+        strength: 10,
+        agility: 10,
+        constitution: 10,
+        intelligence: 10,
+        spirit: 10,
+        charisma: 10
+      },
+      resources: {
+        health: characterData.health || { current: 100, max: 100 },
+        mana: characterData.mana || { current: 50, max: 50 },
+        actionPoints: characterData.actionPoints || { current: 3, max: 3 }
+      },
+      inventory: characterData.inventory || {
+        items: [],
+        currency: { platinum: 0, gold: 0, silver: 0, copper: 0 },
+        encumbranceState: 'normal'
+      },
+      equipment: characterData.equipment || {
+        weapon: null,
+        armor: null,
+        shield: null,
+        accessories: []
+      },
+      spells: characterData.spells || [],
+      lore: characterData.lore || {},
+      tokenSettings: characterData.tokenSettings || {},
+      experience: characterData.experience || 0,
+      updatedAt: admin.firestore.FieldValue.serverTimestamp()
+    };
+
+    // Save character document
+    await db.collection('characters').doc(characterId).set(firestoreData, { merge: true });
+    console.log(`✅ Character document saved: ${characterData.name} (${characterId})`);
+    return true;
+  } catch (error) {
+    console.error('Error saving character document to Firestore:', error);
+    return false;
+  }
+};
+
+/**
  * Get user data from Firestore
  * @param {string} userId - User ID
  * @returns {Promise<Object|null>} - User data or null
@@ -279,5 +357,6 @@ module.exports = {
   deleteRoom,
   getUserData,
   verifyIdToken,
-  loadPersistentRooms
+  loadPersistentRooms,
+  saveCharacterDocument
 };

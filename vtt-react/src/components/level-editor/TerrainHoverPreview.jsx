@@ -15,7 +15,7 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
     } = useGameStore();
 
     const effectiveZoom = zoomLevel * playerZoom;
-    
+
     // For fog tools, update preview immediately without throttling for instant feedback
     // Use useMemo to optimize calculations but keep updates immediate
     const previewPos = useMemo(() => {
@@ -51,7 +51,7 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
         const diameter = brushRadius * 2;
 
         return (
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
+            <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
                 <div
                     style={{
                         position: 'absolute',
@@ -86,10 +86,10 @@ const TerrainHoverPreview = ({ gridX, gridY, brushSize, isEraser, isFog, screenX
     const tileSize = gridSize * effectiveZoom;
 
     return (
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 99 }}>
             {tiles.map((tile, index) => {
                 const screenPos = gridToScreen(tile.x, tile.y);
-                
+
                 return (
                     <div
                         key={index}

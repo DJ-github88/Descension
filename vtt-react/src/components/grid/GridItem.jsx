@@ -20,6 +20,7 @@ const GridItem = ({ gridItem }) => {
   const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
   const itemRef = useRef(null);
   const isDraggingRef = useRef(false);
+  const justFinishedDragRef = useRef(false); // Track if we just finished a drag to prevent click from looting
 
   const DRAG_THRESHOLD = 5; // Minimum pixels to move before starting drag
 
@@ -268,6 +269,15 @@ const GridItem = ({ gridItem }) => {
       // Clear drag start position
       setDragStartPos(null);
 
+      // If we were dragging, mark that we just finished a drag
+      if (isDraggingRef.current) {
+        justFinishedDragRef.current = true;
+        // Reset the flag after a short delay to allow click handler to check it
+        setTimeout(() => {
+          justFinishedDragRef.current = false;
+        }, 100);
+      }
+
       if (!isDraggingRef.current) return;
 
       setIsDragging(false);
@@ -337,6 +347,9 @@ const GridItem = ({ gridItem }) => {
 
     setShowTooltip(false); // Hide tooltip when mouse down
 
+    // Reset the just-finished-drag flag when starting a new interaction
+    justFinishedDragRef.current = false;
+
     // Store initial mouse position for drag threshold
     setDragStartPos({ x: e.clientX, y: e.clientY });
 
@@ -353,8 +366,8 @@ const GridItem = ({ gridItem }) => {
 
   // Handle click to loot the item
   const handleClick = (e) => {
-    // Don't loot if we were dragging
-    if (isDraggingRef.current) {
+    // Don't loot if we were dragging or just finished dragging
+    if (isDraggingRef.current || justFinishedDragRef.current) {
       return;
     }
 

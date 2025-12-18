@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    height: 100%;
-    overflow-y: auto;
+    /* Remove padding - parent .vtt-tool-settings handles it */
+    /* Remove height: 100% and overflow-y: auto - let parent handle scrolling */
 }
 
 .tool-section {
