@@ -23,7 +23,16 @@ const BORDER_COLORS = [
 export default function Lore() {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
-    const characterStore = useCharacterStore();
+    // PERFORMANCE OPTIMIZATION: Use selector to only subscribe to needed values
+    const characterStore = useCharacterStore((state) => ({
+        lore: state.lore,
+        updateLore: state.updateLore,
+        tokenSettings: state.tokenSettings,
+        updateTokenSettings: state.updateTokenSettings,
+        race: state.race,
+        subrace: state.subrace,
+        path: state.path
+    }));
 
     // Choose data source based on whether we're in inspection mode
     const dataSource = inspectionData || characterStore;

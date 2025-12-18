@@ -299,7 +299,35 @@ const ResourceBar = ({ current, max, className, label, resourceType, onUpdate, t
 export default function CharacterPanel() {
     // Use inspection context if available, otherwise use regular character store
     const inspectionData = useInspectionCharacter();
-    const characterStore = useCharacterStore();
+    // PERFORMANCE OPTIMIZATION: Use selector to only subscribe to needed values
+    const characterStore = useCharacterStore((state) => ({
+        equipment: state.equipment,
+        stats: state.stats,
+        equipmentBonuses: state.equipmentBonuses,
+        derivedStats: state.derivedStats,
+        health: state.health,
+        mana: state.mana,
+        actionPoints: state.actionPoints,
+        classResource: state.classResource,
+        name: state.name,
+        baseName: state.baseName,
+        race: state.race,
+        subrace: state.subrace,
+        pathPassives: state.pathPassives,
+        class: state.class,
+        path: state.path,
+        pathDisplayName: state.pathDisplayName,
+        level: state.level,
+        alignment: state.alignment,
+        exhaustionLevel: state.exhaustionLevel,
+        updateEquipment: state.updateEquipment,
+        updateCharacterInfo: state.updateCharacterInfo,
+        updateBaseName: state.updateBaseName,
+        updateResource: state.updateResource,
+        unequipItem: state.unequipItem,
+        immunities: state.immunities,
+        lore: state.lore
+    }));
 
     // Choose data source based on whether we're in inspection mode
     const dataSource = inspectionData || characterStore;
@@ -1004,6 +1032,7 @@ export default function CharacterPanel() {
                                     classResource={classResource}
                                     character={{ health, mana, actionPoints }}
                                     size="large"
+                                    onClassResourceUpdate={dataSource.updateClassResource || null}
                                 />
                             </div>
                             <div className="class-resource-details">

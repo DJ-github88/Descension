@@ -13,34 +13,6 @@ import LanguagesDisplay from './LanguagesDisplay';
 import ClassDetailDisplay from './ClassDetailDisplay';
 import SpellIconTooltip from './SpellIconTooltip';
 import SkillAbilityIconTooltip from './SkillAbilityIconTooltip';
-import { PYROFIEND_DATA } from '../../data/classes/pyrofiendData';
-import { MINSTREL_DATA } from '../../data/classes/minstrelData';
-import { CHRONARCH_DATA } from '../../data/classes/chronarchData';
-import { MARTYR_DATA } from '../../data/classes/martyrData';
-import { FALSE_PROPHET_DATA } from '../../data/classes/falseProphetData';
-import { EXORCIST_DATA } from '../../data/classes/exorcistData';
-import { CHAOS_WEAVER_DATA } from '../../data/classes/chaosWeaverData';
-import { GAMBLER_DATA } from '../../data/classes/gamblerData';
-import { FATE_WEAVER_DATA } from '../../data/classes/fateWeaverData';
-import { DEATHCALLER_DATA } from '../../data/classes/deathcallerData';
-import { PLAGUEBRINGER_DATA } from '../../data/classes/plaguebringerData';
-import { LICHBORNE_DATA } from '../../data/classes/lichborneData';
-import { SPELLGUARD_DATA } from '../../data/classes/spellguardData';
-import { INSCRIPTOR_DATA } from '../../data/classes/inscriptorData';
-import { ARCANONEER_DATA } from '../../data/classes/arcanoneerData';
-import { WITCH_DOCTOR_DATA } from '../../data/classes/witchDoctorData';
-import { FORMBENDER_DATA } from '../../data/classes/formbenderData';
-import { PRIMALIST_DATA } from '../../data/classes/primalistData';
-import { BERSERKER_DATA } from '../../data/classes/berserkerData';
-import { DREADNAUGHT_DATA } from '../../data/classes/dreadnaughtData';
-import { TITAN_DATA } from '../../data/classes/titanData';
-import { BLADEDANCER_DATA } from '../../data/classes/bladedancerData';
-import { TOXICOLOGIST_DATA } from '../../data/classes/toxicologistData';
-import { COVENBANE_DATA } from '../../data/classes/covenbaneData';
-import { LUNARCH_DATA } from '../../data/classes/lunarchData';
-import { HUNTRESS_DATA } from '../../data/classes/huntressData';
-import { WARDEN_DATA } from '../../data/classes/wardenData';
-import { ORACLE_DATA } from '../../data/classes/oracleData';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './RulesPage.css';
@@ -48,38 +20,42 @@ import './RulesPage.css';
 // Lazy load RaceSelector for better performance
 const RaceSelector = React.lazy(() => import('./RaceSelector'));
 
-// Map of class names to their data
-const CLASS_DATA_MAP = {
-  'Pyrofiend': PYROFIEND_DATA,
-  'Minstrel': MINSTREL_DATA,
-  'Chronarch': CHRONARCH_DATA,
-  'Martyr': MARTYR_DATA,
-  'False Prophet': FALSE_PROPHET_DATA,
-  'Exorcist': EXORCIST_DATA,
-  'Chaos Weaver': CHAOS_WEAVER_DATA,
-  'Gambler': GAMBLER_DATA,
-  'Fate Weaver': FATE_WEAVER_DATA,
-  'Deathcaller': DEATHCALLER_DATA,
-  'Plaguebringer': PLAGUEBRINGER_DATA,
-  'Lichborne': LICHBORNE_DATA,
-  'Spellguard': SPELLGUARD_DATA,
-  'Inscriptor': INSCRIPTOR_DATA,
-  'Arcanoneer': ARCANONEER_DATA,
-  'Witch Doctor': WITCH_DOCTOR_DATA,
-  'Formbender': FORMBENDER_DATA,
-  'Primalist': PRIMALIST_DATA,
-  'Berserker': BERSERKER_DATA,
-  'Dreadnaught': DREADNAUGHT_DATA,
-  'Titan': TITAN_DATA,
-  'Bladedancer': BLADEDANCER_DATA,
-  'Toxicologist': TOXICOLOGIST_DATA,
-  'Covenbane': COVENBANE_DATA,
-  'Lunarch': LUNARCH_DATA,
-  'Huntress': HUNTRESS_DATA,
-  'Warden': WARDEN_DATA,
-  'Oracle': ORACLE_DATA,
+// PERFORMANCE OPTIMIZATION: Lazy load class data files on demand instead of importing all at once
+// This reduces initial bundle size significantly since class data files are large
+const CLASS_DATA_LOADERS = {
+  'Pyrofiend': () => import('../../data/classes/pyrofiendData').then(m => m.PYROFIEND_DATA),
+  'Minstrel': () => import('../../data/classes/minstrelData').then(m => m.MINSTREL_DATA),
+  'Chronarch': () => import('../../data/classes/chronarchData').then(m => m.CHRONARCH_DATA),
+  'Martyr': () => import('../../data/classes/martyrData').then(m => m.MARTYR_DATA),
+  'False Prophet': () => import('../../data/classes/falseProphetData').then(m => m.FALSE_PROPHET_DATA),
+  'Exorcist': () => import('../../data/classes/exorcistData').then(m => m.EXORCIST_DATA),
+  'Chaos Weaver': () => import('../../data/classes/chaosWeaverData').then(m => m.CHAOS_WEAVER_DATA),
+  'Gambler': () => import('../../data/classes/gamblerData').then(m => m.GAMBLER_DATA),
+  'Fate Weaver': () => import('../../data/classes/fateWeaverData').then(m => m.FATE_WEAVER_DATA),
+  'Deathcaller': () => import('../../data/classes/deathcallerData').then(m => m.DEATHCALLER_DATA),
+  'Plaguebringer': () => import('../../data/classes/plaguebringerData').then(m => m.PLAGUEBRINGER_DATA),
+  'Lichborne': () => import('../../data/classes/lichborneData').then(m => m.LICHBORNE_DATA),
+  'Spellguard': () => import('../../data/classes/spellguardData').then(m => m.SPELLGUARD_DATA),
+  'Inscriptor': () => import('../../data/classes/inscriptorData').then(m => m.INSCRIPTOR_DATA),
+  'Arcanoneer': () => import('../../data/classes/arcanoneerData').then(m => m.ARCANONEER_DATA),
+  'Witch Doctor': () => import('../../data/classes/witchDoctorData').then(m => m.WITCH_DOCTOR_DATA),
+  'Formbender': () => import('../../data/classes/formbenderData').then(m => m.FORMBENDER_DATA),
+  'Primalist': () => import('../../data/classes/primalistData').then(m => m.PRIMALIST_DATA),
+  'Berserker': () => import('../../data/classes/berserkerData').then(m => m.BERSERKER_DATA),
+  'Dreadnaught': () => import('../../data/classes/dreadnaughtData').then(m => m.DREADNAUGHT_DATA),
+  'Titan': () => import('../../data/classes/titanData').then(m => m.TITAN_DATA),
+  'Bladedancer': () => import('../../data/classes/bladedancerData').then(m => m.BLADEDANCER_DATA),
+  'Toxicologist': () => import('../../data/classes/toxicologistData').then(m => m.TOXICOLOGIST_DATA),
+  'Covenbane': () => import('../../data/classes/covenbaneData').then(m => m.COVENBANE_DATA),
+  'Lunarch': () => import('../../data/classes/lunarchData').then(m => m.LUNARCH_DATA),
+  'Huntress': () => import('../../data/classes/huntressData').then(m => m.HUNTRESS_DATA),
+  'Warden': () => import('../../data/classes/wardenData').then(m => m.WARDEN_DATA),
+  'Oracle': () => import('../../data/classes/oracleData').then(m => m.ORACLE_DATA),
   // Add other classes as they are created
 };
+
+// Cache for loaded class data to avoid re-loading
+const classDataCache = new Map();
 
 // Map of class names to their FontAwesome icons
 const CLASS_ICON_MAP = {
@@ -149,7 +125,44 @@ const RulesPage = () => {
   const [popoutCategory, setPopoutCategory] = useState(null);
   const [popoutPosition, setPopoutPosition] = useState({ top: 0, left: 0 });
   const [tablePages, setTablePages] = useState({});
+  const [loadedClassData, setLoadedClassData] = useState(null);
+  const [isLoadingClassData, setIsLoadingClassData] = useState(false);
   const buttonRefs = useRef({});
+
+  // Lazy load class data when a class is selected
+  useEffect(() => {
+    if (!selectedClassDetail) {
+      setLoadedClassData(null);
+      return;
+    }
+
+    // Check cache first
+    if (classDataCache.has(selectedClassDetail)) {
+      setLoadedClassData(classDataCache.get(selectedClassDetail));
+      return;
+    }
+
+    // Load class data
+    const loader = CLASS_DATA_LOADERS[selectedClassDetail];
+    if (!loader) {
+      setLoadedClassData(null);
+      return;
+    }
+
+    setIsLoadingClassData(true);
+    loader()
+      .then(data => {
+        classDataCache.set(selectedClassDetail, data);
+        setLoadedClassData(data);
+      })
+      .catch(error => {
+        console.error(`Failed to load class data for ${selectedClassDetail}:`, error);
+        setLoadedClassData(null);
+      })
+      .finally(() => {
+        setIsLoadingClassData(false);
+      });
+  }, [selectedClassDetail]);
 
   // Handle subcategory selection
   const handleSubcategoryClick = (categoryId, subcategoryId) => {
@@ -432,12 +445,15 @@ const RulesPage = () => {
 
     // If viewing a class detail page
     if (selectedClassDetail && selectedSubcategory === 'classes') {
-      const classData = CLASS_DATA_MAP[selectedClassDetail];
-
       return (
         <div className="rules-content-area class-detail-view">
-          {classData ? (
-            <ClassDetailDisplay classData={classData} onBack={handleBackToClasses} />
+          {isLoadingClassData ? (
+            <div className="rules-loading">
+              <i className="fas fa-spinner fa-spin"></i>
+              <p>Loading class data...</p>
+            </div>
+          ) : loadedClassData ? (
+            <ClassDetailDisplay classData={loadedClassData} onBack={handleBackToClasses} />
           ) : (
             <div className="rules-no-content">
               <i className="fas fa-exclamation-triangle"></i>

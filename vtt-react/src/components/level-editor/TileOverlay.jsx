@@ -759,6 +759,37 @@ const TileOverlay = () => {
         return tiles;
     };
 
+    // PERFORMANCE OPTIMIZATION: Create a map of objects and elements by position for O(1) lookup
+    // instead of filtering arrays for each tile
+    const objectsByPosition = useMemo(() => {
+        const map = new Map();
+        environmentalObjects.forEach(obj => {
+            if (obj.freePosition) return; // Skip free-positioned objects
+            const objX = obj.position?.x ?? obj.gridX;
+            const objY = obj.position?.y ?? obj.gridY;
+            if (objX !== undefined && objY !== undefined) {
+                const key = `${Math.floor(objX)},${Math.floor(objY)}`;
+                if (!map.has(key)) map.set(key, []);
+                map.get(key).push(obj);
+            }
+        });
+        return map;
+    }, [environmentalObjects]);
+
+    const elementsByPosition = useMemo(() => {
+        const map = new Map();
+        dndElements.forEach(element => {
+            const elemX = element.position?.x ?? element.gridX;
+            const elemY = element.position?.y ?? element.gridY;
+            if (elemX !== undefined && elemY !== undefined) {
+                const key = `${Math.floor(elemX)},${Math.floor(elemY)}`;
+                if (!map.has(key)) map.set(key, []);
+                map.get(key).push(element);
+            }
+        });
+        return map;
+    }, [dndElements]);
+
     const contentTiles = useMemo(() => getContentTiles(), [
         terrainData,
         environmentalObjects,
@@ -1519,21 +1550,18 @@ const TileOverlay = () => {
                             }}
                         >
                             {/* Environmental Objects - Full tile rendering */}
-                            {showObjectLayer && environmentalObjects
-                                .filter(obj => {
-                                    // Skip objects with free positioning (they're rendered by ObjectSystem)
-                                    if (obj.freePosition) return false;
-
-                                    // Skip GM-only objects for players
+                            {showObjectLayer && (() => {
+                                // PERFORMANCE OPTIMIZATION: Use pre-computed map instead of filtering
+                                const tileKey = `${tile.x},${tile.y}`;
+                                const objectsAtTile = objectsByPosition.get(tileKey) || [];
+                                
+                                // Filter out GM-only objects for players
+                                const visibleObjects = objectsAtTile.filter(obj => {
                                     const objectDef = PROFESSIONAL_OBJECTS[obj.type];
-                                    if (objectDef?.gmOnly && !isGMMode) return false;
-
-                                    const objX = obj.position?.x ?? obj.gridX;
-                                    const objY = obj.position?.y ?? obj.gridY;
-                                    return objX !== undefined && objY !== undefined &&
-                                           Math.floor(objX) === tile.x && Math.floor(objY) === tile.y;
-                                })
-                                .map((obj, index) => {
+                                    return !objectDef?.gmOnly || isGMMode;
+                                });
+                                
+                                return visibleObjects.map((obj, index) => {
                                     const objectType = OBJECT_TYPES[obj.type];
                                     if (!objectType) return null;
 
@@ -1576,19 +1604,16 @@ const TileOverlay = () => {
                                             {getObjectContent(objectType, obj)}
                                         </div>
                                     );
-                                })
-                            }
+                                });
+                            })()}
 
                             {/* D&D element indicators */}
-                            {showDndLayer && tile.hasDndElements &&
-                                dndElements
-                                    .filter(element => {
-                                        const elemX = element.position?.x ?? element.gridX;
-                                        const elemY = element.position?.y ?? element.gridY;
-                                        return elemX !== undefined && elemY !== undefined &&
-                                               Math.floor(elemX) === tile.x && Math.floor(elemY) === tile.y;
-                                    })
-                                    .map((element, idx) => {
+                            {showDndLayer && tile.hasDndElements && (() => {
+                                // PERFORMANCE OPTIMIZATION: Use pre-computed map instead of filtering
+                                const tileKey = `${tile.x},${tile.y}`;
+                                const elementsAtTile = elementsByPosition.get(tileKey) || [];
+                                
+                                return elementsAtTile.map((element, idx) => {
                                         const elementType = DND_ELEMENTS[element.type];
                                         const isPortal = element.type === 'portal';
                                         
@@ -1770,8 +1795,8 @@ const TileOverlay = () => {
                                                 ) : (elementType?.icon || '?')}
                                             </div>
                                         );
-                                    })
-                            }
+                                    });
+                            })()}
 
                             {/* Fog of war overlay - Complete coverage */}
                             {showDndLayer && tile.hasFog && (

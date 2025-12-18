@@ -110,6 +110,7 @@ function GridComponent({
     gridOffsetY,
     gridLineColor,
     gridLineThickness,
+    gridBackgroundColor,
     gridMovesWithBackground,
     backgroundSticksToGrid,
     zoomLevel,
@@ -1297,6 +1298,37 @@ function GridComponent({
             return hasScrollableOverflow;
         };
 
+        // Helper function to check if an element is inside a window
+        const isInsideWindow = (element) => {
+            if (!element) return false;
+            let current = element;
+            while (current && current !== document.body) {
+                if (current.classList && (
+                    current.classList.contains('wow-window') ||
+                    current.classList.contains('draggable-window') ||
+                    current.classList.contains('window-content') ||
+                    current.classList.contains('container-window-content') ||
+                    current.classList.contains('social-content') ||
+                    current.classList.contains('settings-content') ||
+                    current.classList.contains('spellbook-layout') ||
+                    current.classList.contains('character-window-content') ||
+                    current.classList.contains('creature-window-content') ||
+                    current.classList.contains('shop-window') ||
+                    current.classList.contains('item-wizard-modal') ||
+                    current.classList.contains('quick-item-generator-modal') ||
+                    current.classList.contains('categorize-modal') ||
+                    current.classList.contains('professional-vtt-editor') ||
+                    current.classList.contains('vtt-editor-content') ||
+                    current.classList.contains('vtt-tool-palette') ||
+                    current.classList.contains('vtt-tool-settings')
+                )) {
+                    return true;
+                }
+                current = current.parentElement;
+            }
+            return false;
+        };
+
         // Check if the event target or any ancestor is potentially scrollable
         let targetElement = e.target;
         let hasScrollableAncestor = false;
@@ -1309,9 +1341,12 @@ function GridComponent({
             targetElement = targetElement.parentElement;
         }
 
+        // Check if scrolling is inside a window - if so, allow normal window scrolling
+        const insideWindow = isInsideWindow(e.target);
+
         // Handle Ctrl+scroll: ALWAYS zoom the grid, everywhere on the page
-        // Background manipulation mode - handle scroll differently
-        if (isBackgroundManipulationMode && activeBackgroundId) {
+        // Background manipulation mode - handle scroll differently, but ONLY when not inside a window
+        if (isBackgroundManipulationMode && activeBackgroundId && !insideWindow) {
             e.preventDefault();
             e.stopPropagation();
             
@@ -1330,6 +1365,11 @@ function GridComponent({
                 }
             }
             return;
+        }
+
+        // If inside a window and not Ctrl+scroll, allow normal window scrolling
+        if (insideWindow && !e.ctrlKey) {
+            return; // Allow window scrolling to work normally
         }
 
         if (e.ctrlKey) {
@@ -2780,6 +2820,7 @@ function GridComponent({
                     left: 0,
                     width: "100vw",
                     height: "100vh",
+                    backgroundColor: gridBackgroundColor, // Always apply background color (shows through transparent backgrounds)
                     // CRITICAL FIX: Enable pointer events for players so they can drag the grid
                     // GM mode has isGridAlignmentMode/isBackgroundManipulationMode, but players need pointer events too
                     pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCamera || shouldEnableCameraDrag || !isGMMode) ? "all" : "none",
@@ -3429,8 +3470,66 @@ function GridComponent({
 
 // Wrapper component that uses gameStore directly
 export default function Grid() {
-    // Use gameStore directly - no circular dependencies exist
-    const gameState = useGameStore();
+    // PERFORMANCE OPTIMIZATION: Use selector function to only subscribe to needed values
+    // This prevents re-renders when unrelated store values change
+    const gameState = useGameStore((state) => ({
+        gridSize: state.gridSize ?? 50,
+        backgroundImage: state.backgroundImage,
+        backgroundImageUrl: state.backgroundImageUrl,
+        backgrounds: state.backgrounds ?? [],
+        activeBackgroundId: state.activeBackgroundId,
+        gridOffsetX: state.gridOffsetX ?? 0,
+        gridOffsetY: state.gridOffsetY ?? 0,
+        gridLineColor: state.gridLineColor ?? 'rgba(255, 255, 255, 0.8)',
+        gridLineThickness: state.gridLineThickness ?? 2,
+        gridBackgroundColor: state.gridBackgroundColor ?? '#d4c5b9',
+        gridMovesWithBackground: state.gridMovesWithBackground ?? false,
+        backgroundSticksToGrid: state.backgroundSticksToGrid ?? false,
+        zoomLevel: state.zoomLevel ?? 1,
+        playerZoom: state.playerZoom ?? 1,
+        showGrid: state.showGrid ?? true,
+        showFogLayer: state.showFogLayer ?? true,
+        showTileLayer: state.showTileLayer ?? true,
+        showLightLayer: state.showLightLayer ?? true,
+        showShadowLayer: state.showShadowLayer ?? true,
+        showDrawingLayer: state.showDrawingLayer ?? true,
+        showPortalLayer: state.showPortalLayer ?? true,
+        showAtmosphericLayer: state.showAtmosphericLayer ?? true,
+        showCreatureLayer: state.showCreatureLayer ?? true,
+        showItemLayer: state.showItemLayer ?? true,
+        showGMNotesLayer: state.showGMNotesLayer ?? true,
+        showCharacterLayer: state.showCharacterLayer ?? true,
+        showEffectLayer: state.showEffectLayer ?? true,
+        showUILayer: state.showUILayer ?? true,
+        showDebugLayer: state.showDebugLayer ?? false,
+        tileSize: state.tileSize,
+        moveCameraBy: state.moveCameraBy,
+        setPlayerZoom: state.setPlayerZoom,
+        setGridSize: state.setGridSize,
+        setGridOffset: state.setGridOffset,
+        gridAlignmentStep: state.gridAlignmentStep ?? 0,
+        setGridAlignmentStep: state.setGridAlignmentStep,
+        gridAlignmentRectangles: state.gridAlignmentRectangles ?? [],
+        addGridAlignmentRectangle: state.addGridAlignmentRectangle,
+        clearGridAlignmentRectangles: state.clearGridAlignmentRectangles,
+        showMovementVisualization: state.showMovementVisualization ?? true,
+        isGridAlignmentMode: state.isGridAlignmentMode ?? false,
+        isBackgroundManipulationMode: state.isBackgroundManipulationMode ?? false,
+        isGMMode: state.isGMMode ?? true,
+        isInMultiplayer: state.isInMultiplayer ?? false,
+        multiplayerRoom: state.multiplayerRoom,
+        playerZoomIn: state.playerZoomIn,
+        playerZoomOut: state.playerZoomOut,
+        updateBackground: state.updateBackground,
+        maxPlayerZoom: state.maxPlayerZoom ?? 10.0,
+        minPlayerZoom: state.minPlayerZoom ?? 0.1,
+        cameraX: state.cameraX ?? 0,
+        cameraY: state.cameraY ?? 0,
+        feetPerTile: state.feetPerTile ?? 5,
+        movementLineColor: state.movementLineColor ?? '#FFD700',
+        movementLineWidth: state.movementLineWidth ?? 3,
+        windowScale: state.windowScale ?? 0.83
+    }));
 
     // Create a store wrapper object for InfiniteGridSystem
     // This ensures we pass an object with getState() method
@@ -3440,65 +3539,64 @@ export default function Grid() {
         subscribe: (listener) => useGameStore.subscribe(listener)
     }), []);
 
-    // gameState is always available when using the hook directly
-
     // Extract values from gameState with defaults
     const {
-        gridSize = 50,
+        gridSize,
         backgroundImage,
         backgroundImageUrl,
-        backgrounds = [],
+        backgrounds,
         activeBackgroundId,
-        gridOffsetX = 0,
-        gridOffsetY = 0,
-        gridLineColor = 'rgba(212, 175, 55, 0.8)',
-        gridLineThickness = 2,
-        gridMovesWithBackground = false,
-        backgroundSticksToGrid = false,
-        zoomLevel = 1,
-        playerZoom = 1,
-        showGrid = true,
-        showFogLayer = true,
-        showTileLayer = true,
-        showLightLayer = true,
-        showShadowLayer = true,
-        showDrawingLayer = true,
-        showPortalLayer = true,
-        showAtmosphericLayer = true,
-        showCreatureLayer = true,
-        showItemLayer = true,
-        showGMNotesLayer = true,
-        showCharacterLayer = true,
-        showEffectLayer = true,
-        showUILayer = true,
-        showDebugLayer = false,
+        gridOffsetX,
+        gridOffsetY,
+        gridLineColor,
+        gridLineThickness,
+        gridBackgroundColor,
+        gridMovesWithBackground,
+        backgroundSticksToGrid,
+        zoomLevel,
+        playerZoom,
+        showGrid,
+        showFogLayer,
+        showTileLayer,
+        showLightLayer,
+        showShadowLayer,
+        showDrawingLayer,
+        showPortalLayer,
+        showAtmosphericLayer,
+        showCreatureLayer,
+        showItemLayer,
+        showGMNotesLayer,
+        showCharacterLayer,
+        showEffectLayer,
+        showUILayer,
+        showDebugLayer,
         tileSize,
         moveCameraBy,
         setPlayerZoom,
         setGridSize,
         setGridOffset,
-        gridAlignmentStep = 0,
+        gridAlignmentStep,
         setGridAlignmentStep,
-        gridAlignmentRectangles = [],
+        gridAlignmentRectangles,
         addGridAlignmentRectangle,
         clearGridAlignmentRectangles,
-        showMovementVisualization = true,
-        isGridAlignmentMode = false,
-        isBackgroundManipulationMode = false,
-        isGMMode = true,
-        isInMultiplayer = false,
+        showMovementVisualization,
+        isGridAlignmentMode,
+        isBackgroundManipulationMode,
+        isGMMode,
+        isInMultiplayer,
         multiplayerRoom,
         playerZoomIn,
         playerZoomOut,
         updateBackground,
-        maxPlayerZoom = 10.0,
-        minPlayerZoom = 0.1,
-        cameraX = 0,
-        cameraY = 0,
-        feetPerTile = 5,
-        movementLineColor = '#FFD700',
-        movementLineWidth = 3,
-        windowScale = 0.83
+        maxPlayerZoom,
+        minPlayerZoom,
+        cameraX,
+        cameraY,
+        feetPerTile,
+        movementLineColor,
+        movementLineWidth,
+        windowScale
     } = gameState;
 
     // Pass all props to the actual Grid component
@@ -3514,6 +3612,7 @@ export default function Grid() {
             gridOffsetY={gridOffsetY}
             gridLineColor={gridLineColor}
             gridLineThickness={gridLineThickness}
+            gridBackgroundColor={gridBackgroundColor}
             gridMovesWithBackground={gridMovesWithBackground}
             backgroundSticksToGrid={backgroundSticksToGrid}
             zoomLevel={zoomLevel}

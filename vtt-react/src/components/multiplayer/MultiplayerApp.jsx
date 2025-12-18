@@ -98,14 +98,56 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
   const [connectionStatus, setConnectionStatus] = useState('disconnected'); // 'disconnected', 'connecting', 'connected', 'error'
   const [isJoiningRoom, setIsJoiningRoom] = useState(false);
 
-  // Get stores for state synchronization
-  const { setGMMode, setMultiplayerState, isGMMode, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, showCursorTracking, cursorUpdateThrottle } = useGameStore();
-  const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore();
-  const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore();
-  const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore();
-  const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken } = useCreatureStore();
-  const { setMultiplayerSocket } = useDialogueStore();
-  const { nextTurn, startCombat, getCombatState } = useCombatStore();
+  // PERFORMANCE OPTIMIZATION: Use selector functions to only subscribe to needed values
+  // This prevents re-renders when unrelated store values change
+  const { setGMMode, setMultiplayerState, isGMMode, gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, zoomLevel, showCursorTracking, cursorUpdateThrottle } = useGameStore((state) => ({
+    setGMMode: state.setGMMode,
+    setMultiplayerState: state.setMultiplayerState,
+    isGMMode: state.isGMMode,
+    gridSize: state.gridSize,
+    gridOffsetX: state.gridOffsetX,
+    gridOffsetY: state.gridOffsetY,
+    cameraX: state.cameraX,
+    cameraY: state.cameraY,
+    zoomLevel: state.zoomLevel,
+    showCursorTracking: state.showCursorTracking,
+    cursorUpdateThrottle: state.cursorUpdateThrottle
+  }));
+  const { updateCharacterInfo, setRoomName, getActiveCharacter, loadActiveCharacter, startCharacterSession, endCharacterSession } = useCharacterStore((state) => ({
+    updateCharacterInfo: state.updateCharacterInfo,
+    setRoomName: state.setRoomName,
+    getActiveCharacter: state.getActiveCharacter,
+    loadActiveCharacter: state.loadActiveCharacter,
+    startCharacterSession: state.startCharacterSession,
+    endCharacterSession: state.endCharacterSession
+  }));
+  const { addPartyMember, removePartyMember, createParty, updatePartyMember } = usePartyStore((state) => ({
+    addPartyMember: state.addPartyMember,
+    removePartyMember: state.removePartyMember,
+    createParty: state.createParty,
+    updatePartyMember: state.updatePartyMember
+  }));
+  const { addUser, removeUser, updateUser, addNotification, setMultiplayerIntegration, clearMultiplayerIntegration } = useChatStore((state) => ({
+    addUser: state.addUser,
+    removeUser: state.removeUser,
+    updateUser: state.updateUser,
+    addNotification: state.addNotification,
+    setMultiplayerIntegration: state.setMultiplayerIntegration,
+    clearMultiplayerIntegration: state.clearMultiplayerIntegration
+  }));
+  const { updateTokenPosition: updateCreatureTokenPosition, addCreature, addToken } = useCreatureStore((state) => ({
+    updateTokenPosition: state.updateTokenPosition,
+    addCreature: state.addCreature,
+    addToken: state.addToken
+  }));
+  const { setMultiplayerSocket } = useDialogueStore((state) => ({
+    setMultiplayerSocket: state.setMultiplayerSocket
+  }));
+  const { nextTurn, startCombat, getCombatState } = useCombatStore((state) => ({
+    nextTurn: state.nextTurn,
+    startCombat: state.startCombat,
+    getCombatState: state.getCombatState
+  }));
 
   // Remove enhanced multiplayer - causes conflicts with main system
 
