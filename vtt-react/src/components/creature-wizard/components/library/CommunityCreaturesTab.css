@@ -1,7 +1,8 @@
 /* Community Creatures Tab Styles - Pathfinder/D&D Theme */
 
+.community-creatures-container,
 .community-creatures-tab {
-  padding: 20px;
+  padding: 20px 20px 20px 30px; /* Extra left padding */
   background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
   min-height: 100%;
   font-family: 'Cinzel', serif;
@@ -272,21 +273,42 @@
 .community-creature-card-wrapper {
   position: relative;
   border-radius: 8px;
-  overflow: visible;
+  overflow: hidden;
   background: #fff;
   border: 2px solid #a08c70;
   transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .community-creature-card-wrapper:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(139, 69, 19, 0.2);
+  border-color: #8b4513;
 }
 
 .community-creature-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 12px;
-  background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 100%);
-  border-top: 1px solid #d5cbb0;
+  background: linear-gradient(to top, rgba(248, 244, 230, 0.98) 0%, rgba(237, 228, 211, 0.95) 100%);
+  backdrop-filter: blur(4px);
+  border-top: 1px solid rgba(213, 203, 176, 0.8);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.community-creature-card-wrapper:hover .community-creature-actions {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
 }
 
 .creature-stats {
@@ -295,6 +317,7 @@
   margin-bottom: 10px;
   font-size: 12px;
   color: #8b7355;
+  font-weight: 500;
 }
 
 .download-count,
@@ -304,28 +327,49 @@
   gap: 4px;
 }
 
+.download-count i,
+.rating i {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
 .download-creature-btn {
   width: 100%;
   padding: 8px 12px;
-  background: linear-gradient(145deg, #5a1e12 0%, #7a2518 50%, #9a2f1e 100%);
+  background: linear-gradient(145deg, #8b4513 0%, #a0522d 50%, #8b4513 100%);
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .download-creature-btn:hover:not(:disabled) {
-  background: linear-gradient(145deg, #7a2518 0%, #9a2f1e 50%, #ba3924 100%);
+  background: linear-gradient(145deg, #a0522d 0%, #cd853f 50%, #a0522d 100%);
   transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.download-creature-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .download-creature-btn:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+.download-creature-btn i {
+  font-size: 11px;
 }
 
 /* Empty State */

@@ -189,6 +189,83 @@ export async function getCreatureCategories() {
 }
 
 /**
+ * Get all shared community creatures (similar to getAllCommunitySpells)
+ */
+export async function getAllCommunityCreatures(pageSize = 20, lastDoc = null, sortBy = 'rating') {
+  try {
+    if (!checkFirebaseAvailable()) {
+      return {
+        creatures: [],
+        lastDoc: null,
+        hasMore: false
+      };
+    }
+
+    const creaturesRef = collection(db, COLLECTIONS.CREATURES);
+    
+    // Build query - get all public shared creatures
+    try {
+      let orderField = 'createdAt';
+      if (sortBy === 'rating') orderField = 'rating';
+      else if (sortBy === 'downloads') orderField = 'downloadCount';
+      else if (sortBy === 'newest') orderField = 'createdAt';
+
+      let q = query(
+        creaturesRef,
+        where('isPublic', '==', true),
+        orderBy(orderField, sortBy === 'rating' || sortBy === 'downloads' ? 'desc' : 'desc'),
+        limit(pageSize)
+      );
+
+      if (lastDoc) {
+        q = query(q, startAfter(lastDoc));
+      }
+
+      const snapshot = await getDocs(q);
+
+      return {
+        creatures: snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })),
+        lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+        hasMore: snapshot.docs.length === pageSize
+      };
+    } catch (queryError) {
+      // If orderBy fails, try without it
+      console.warn('Query with orderBy failed, trying without:', queryError);
+      let q = query(
+        creaturesRef,
+        where('isPublic', '==', true),
+        limit(pageSize)
+      );
+
+      if (lastDoc) {
+        q = query(q, startAfter(lastDoc));
+      }
+
+      const snapshot = await getDocs(q);
+
+      return {
+        creatures: snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })),
+        lastDoc: snapshot.docs[snapshot.docs.length - 1] || null,
+        hasMore: snapshot.docs.length === pageSize
+      };
+    }
+  } catch (error) {
+    console.error('Error fetching community creatures:', error);
+    return {
+      creatures: [],
+      lastDoc: null,
+      hasMore: false
+    };
+  }
+}
+
+/**
  * Get creatures by category with pagination
  */
 export async function getCreaturesByCategory(categoryId, pageSize = 20, lastDoc = null) {

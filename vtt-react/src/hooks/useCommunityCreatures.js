@@ -8,6 +8,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import {
   getCreatureCategories,
+  getAllCommunityCreatures,
   getCreaturesByCategory,
   searchCreatures,
   getFeaturedCreatures,
@@ -27,6 +28,7 @@ export function useCommunityCreatures() {
   const [searchTerm, setSearchTerm] = useState('');
   const [hasMore, setHasMore] = useState(false);
   const [lastDoc, setLastDoc] = useState(null);
+  const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
 
   // Load categories on mount
   useEffect(() => {
@@ -55,6 +57,33 @@ export function useCommunityCreatures() {
       console.error('Failed to load featured creatures:', err);
     }
   }, []);
+
+  const loadAllCreatures = useCallback(async (sortByValue = sortBy, loadMore = false) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const result = await getAllCommunityCreatures(
+        20,
+        loadMore ? lastDoc : null,
+        sortByValue
+      );
+      
+      if (loadMore) {
+        setCreatures(prev => [...prev, ...result.creatures]);
+      } else {
+        setCreatures(result.creatures);
+      }
+      
+      setHasMore(result.hasMore);
+      setLastDoc(result.lastDoc);
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to load creatures:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [sortBy, lastDoc]);
 
   const loadCreaturesByCategory = useCallback(async (categoryId, loadMore = false) => {
     try {
@@ -100,10 +129,14 @@ export function useCommunityCreatures() {
   }, []);
 
   const loadMoreCreatures = useCallback(() => {
-    if (selectedCategory && hasMore && !loading) {
-      loadCreaturesByCategory(selectedCategory, true);
+    if (hasMore && !loading && !searchTerm) {
+      if (selectedCategory) {
+        loadCreaturesByCategory(selectedCategory, true);
+      } else {
+        loadAllCreatures(sortBy, true);
+      }
     }
-  }, [selectedCategory, hasMore, loading, loadCreaturesByCategory]);
+  }, [selectedCategory, hasMore, loading, searchTerm, sortBy, loadCreaturesByCategory, loadAllCreatures]);
 
   const selectCategory = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
@@ -120,10 +153,25 @@ export function useCommunityCreatures() {
   const clearSelection = useCallback(() => {
     setSelectedCategory(null);
     setSearchTerm('');
-    setCreatures([]);
+    setLastDoc(null);
+    setHasMore(false);
+    loadAllCreatures();
+  }, [loadAllCreatures]);
+
+  const changeSortBy = useCallback((newSortBy) => {
+    setSortBy(newSortBy);
     setLastDoc(null);
     setHasMore(false);
   }, []);
+
+  // Load all creatures on mount and when sort changes
+  useEffect(() => {
+    loadFeaturedCreatures();
+    if (!searchTerm && !selectedCategory) {
+      loadAllCreatures();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortBy]);
 
   // Load creatures when category or search term changes
   useEffect(() => {
@@ -131,8 +179,11 @@ export function useCommunityCreatures() {
       loadCreaturesByCategory(selectedCategory);
     } else if (searchTerm) {
       performSearch(searchTerm);
+    } else {
+      loadAllCreatures();
     }
-  }, [selectedCategory, searchTerm, loadCreaturesByCategory, performSearch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory, searchTerm]);
 
   const downloadCommunityCreature = useCallback(async (creatureId) => {
     try {
@@ -195,12 +246,14 @@ export function useCommunityCreatures() {
     error,
     selectedCategory,
     searchTerm,
+    sortBy,
     hasMore,
     
     // Actions
     selectCategory,
     search,
     clearSelection,
+    changeSortBy,
     loadMoreCreatures,
     uploadCommunityCreature,
     downloadCommunityCreature,

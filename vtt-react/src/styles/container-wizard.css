@@ -57,19 +57,21 @@ div.container-wizard-overlay .wizard-container .wizard-header {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
 }
 
-.close-button {
-    background: none;
+.container-wizard-overlay .close-button {
+    background: #D2B48C;
     border: none;
-    color: #f0e6d2;
+    color: #000000;
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem;
     line-height: 0.5;
     transition: all 0.2s ease;
+    border-radius: 4px;
 }
 
-.close-button:hover {
-    color: #fff;
+.container-wizard-overlay .close-button:hover {
+    background: #C9A87A;
+    color: #000000;
     transform: scale(1.1);
 }
 

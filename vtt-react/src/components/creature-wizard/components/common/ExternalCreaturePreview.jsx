@@ -103,8 +103,8 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
     return previewCreature;
   }, [creatureData]);
 
-  // Only show when the wizard is open, we have creature data, AND we're in wizard/create mode (not library)
-  if (!isOpen || !creatureData || Object.keys(creatureData).length === 0 || activeView === 'library') {
+  // Only show when the wizard is open, we have creature data, AND we're in wizard/create mode (not library or community)
+  if (!isOpen || !creatureData || Object.keys(creatureData).length === 0 || activeView === 'library' || activeView === 'community') {
     return null;
   }
 

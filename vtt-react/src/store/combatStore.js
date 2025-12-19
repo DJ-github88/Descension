@@ -298,6 +298,14 @@ const useCombatStore = create((set, get) => ({
                         // Failed to decrement round-based conditions
                     }
 
+                    // Process turn-based cooldowns
+                    try {
+                        const { processTurnBasedCooldowns } = require('../components/spellcrafting-wizard/core/mechanics/cooldownSystem');
+                        processTurnBasedCooldowns();
+                    } catch (error) {
+                        console.warn('Failed to process turn-based cooldowns:', error);
+                    }
+
                     // Turn end - cleared movement data
                 }
 

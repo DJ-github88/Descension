@@ -11,6 +11,8 @@ import { useSpellLibrary } from '../spellcrafting-wizard/context/SpellLibraryCon
 import { useActionBarPersistence } from '../../hooks/useActionBarPersistence';
 import { useRoomContext } from '../../contexts/RoomContext';
 import HotkeyAssignmentPopup from './HotkeyAssignmentPopup';
+import SpellCastConfirmation from './SpellCastConfirmation';
+import CooldownAdjustmentMenu from './CooldownAdjustmentMenu';
 import actionBarPersistenceService from '../../services/actionBarPersistenceService';
 import ExperienceBar from './ExperienceBar';
 import './ActionBar.css';
@@ -49,6 +51,15 @@ const ActionBar = () => {
     const [hotkeySlotIndex, setHotkeySlotIndex] = useState(null);
     const [hotkeys, setHotkeys] = useState({});
 
+    // Spell cast confirmation state
+    const [showSpellConfirmation, setShowSpellConfirmation] = useState(false);
+    const [spellToCast, setSpellToCast] = useState(null);
+    const [spellSlotIndex, setSpellSlotIndex] = useState(null);
+
+    // Cooldown adjustment menu state
+    const [showCooldownMenu, setShowCooldownMenu] = useState(false);
+    const [cooldownMenuSlotIndex, setCooldownMenuSlotIndex] = useState(null);
+
     // Get spell library for spell tooltips (hooks must be called unconditionally)
     const spellLibrary = useSpellLibrary();
 
@@ -61,13 +72,25 @@ const ActionBar = () => {
 
     // Get character store functions for applying effects
     const updateResource = useCharacterStore(state => state.updateResource);
+    const gainClassResource = useCharacterStore(state => state.gainClassResource);
+    const consumeClassResource = useCharacterStore(state => state.consumeClassResource);
+    const updateClassResource = useCharacterStore(state => state.updateClassResource);
     const health = useCharacterStore(state => state.health);
     const mana = useCharacterStore(state => state.mana);
+    const actionPoints = useCharacterStore(state => state.actionPoints);
+    const classResource = useCharacterStore(state => state.classResource);
     const experience = useCharacterStore(state => state.experience || 0);
 
-    // Get combat store for turn restrictions
-    const { isInCombat, getCurrentCombatant } = useCombatStore();
+    // Get combat store for turn restrictions and cooldown progression
+    const { isInCombat, getCurrentCombatant, round, currentTurnIndex, turnOrder } = useCombatStore();
     const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
+    const characterName = useCharacterStore(state => state.name);
+    
+    // Track cooldown timers and types
+    const cooldownTimersRef = useRef({});
+    const cooldownTypesRef = useRef({});
+    const lastProcessedRoundRef = useRef(0);
+    const lastProcessedTurnRef = useRef(-1);
 
     // Load hotkeys on mount and when character/room changes
     useEffect(() => {
@@ -85,6 +108,57 @@ const ActionBar = () => {
             }
         }
     }, [currentCharacterId, currentRoomId]);
+
+    // Handle turn-based cooldown progression in combat
+    useEffect(() => {
+        if (!isInCombat || !turnOrder || turnOrder.length === 0) {
+            // Outside combat: time-based cooldowns still progress via their timers
+            // Turn-based cooldowns pause (don't decrement)
+            lastProcessedTurnRef.current = -1;
+            return;
+        }
+        
+        // Check if it's a new turn (track by round + turn index combination)
+        const turnKey = `${round}-${currentTurnIndex}`;
+        const lastTurnKey = `${lastProcessedRoundRef.current}-${lastProcessedTurnRef.current}`;
+        const isNewTurn = turnKey !== lastTurnKey;
+        
+        // Process turn-based cooldowns when it's a new turn
+        if (isNewTurn) {
+            lastProcessedRoundRef.current = round;
+            lastProcessedTurnRef.current = currentTurnIndex;
+            
+            updateActionSlots(currentSlots => {
+                const updatedSlots = [...currentSlots];
+                let hasChanges = false;
+                
+                currentSlots.forEach((item, index) => {
+                    if (item && item.type === 'spell' && item.cooldown > 0 && item.cooldownType === 'turn_based') {
+                        // Decrement turn-based cooldown on each turn (any combatant's turn)
+                        const newCooldown = Math.max(0, item.cooldown - 1);
+                        if (newCooldown !== item.cooldown) {
+                            updatedSlots[index] = {
+                                ...item,
+                                cooldown: newCooldown
+                            };
+                            hasChanges = true;
+                        }
+                    }
+                });
+                
+                return hasChanges ? updatedSlots : currentSlots;
+            });
+        }
+    }, [round, isInCombat, currentTurnIndex, turnOrder]);
+
+    // Cleanup timers on unmount
+    useEffect(() => {
+        return () => {
+            Object.values(cooldownTimersRef.current).forEach(timer => {
+                if (timer) clearInterval(timer);
+            });
+        };
+    }, []);
 
     // Keyboard event listener for hotkey activation
     useEffect(() => {
@@ -226,13 +300,19 @@ const ActionBar = () => {
             if (spellData) {
                 const spell = JSON.parse(spellData);
 
+                // Extract cooldown from cooldownConfig
+                const cooldownConfig = spell.cooldownConfig || {};
+                const cooldownValue = cooldownConfig.value || 0;
+                const cooldownType = cooldownConfig.type || 'none';
+                
                 // Update the action slot with the complete spell data
                 const newSpellSlot = {
                     // Store complete spell data for rich tooltip display
                     ...spell,
                     // Ensure action bar specific fields are set correctly
                     cooldown: 0, // Current cooldown (starts at 0)
-                    maxCooldown: spell.cooldown || 0, // Max cooldown from spell definition
+                    maxCooldown: cooldownValue, // Max cooldown from cooldownConfig
+                    cooldownType: cooldownType !== 'none' ? cooldownType : undefined, // Store cooldown type
                     type: 'spell' // Ensure action bar identifies this as a spell
                 };
                 updateSlot(slotIndex, newSpellSlot);
@@ -271,9 +351,19 @@ const ActionBar = () => {
         dragOverSlot.current = null;
     };
 
-    const handleSlotClick = (slotIndex) => {
+    const handleSlotClick = (slotIndex, e) => {
         const item = actionSlots[slotIndex];
-        if (!item || item.cooldown > 0) return;
+        if (!item) return;
+        
+        // If spell is on cooldown and user left-clicks, show cooldown menu instead of casting
+        if (item.type === 'spell' && item.cooldown > 0 && (!e || e.button === 0)) {
+            setCooldownMenuSlotIndex(slotIndex);
+            setShowCooldownMenu(true);
+            return;
+        }
+        
+        // Don't allow casting if on cooldown
+        if (item.cooldown > 0) return;
 
         // Check combat restrictions
         if (isInCombat) {
@@ -287,63 +377,14 @@ const ActionBar = () => {
         }
 
         if (item.type === 'spell') {
-            // IMPROVEMENT: Sync spell cast to multiplayer
-            try {
-                const gameStore = require('../../store/gameStore').default;
-                const gameState = gameStore.getState();
-                const characterStore = require('../../store/characterStore').default;
-                const characterState = characterStore.getState();
-                
-                if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
-                    // Get spell data
-                    const spellData = item.spell || item;
-                    const spellId = spellData.id || item.id;
-                    const spellName = spellData.name || item.name || 'Unknown Spell';
-                    const casterId = characterState.currentCharacterId || characterState.id;
-                    
-                    // Emit spell cast to server for synchronization
-                    gameState.multiplayerSocket.emit('spell_cast', {
-                        spellId: spellId,
-                        spellName: spellName,
-                        casterId: casterId,
-                        targetIds: [], // TODO: Add target selection
-                        targetPositions: [], // TODO: Add position targeting
-                        effects: spellData.effects || [],
-                        damage: spellData.damage || 0,
-                        healing: spellData.healing || 0,
-                        timestamp: Date.now()
-                    });
-                }
-            } catch (error) {
-                console.warn('Failed to sync spell cast to multiplayer:', error);
-                // Continue with local spell cast even if sync fails
-            }
+            // Try to find the spell in the library first for the most up-to-date data
+            const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
+            const spellToDisplay = librarySpell || item;
 
-            // Cast the spell
-
-            // Start cooldown if applicable
-            if (item.maxCooldown > 0) {
-                const itemWithCooldown = { ...item, cooldown: item.maxCooldown };
-                updateSlot(slotIndex, itemWithCooldown);
-
-                // Countdown timer
-                const timer = setInterval(() => {
-                    updateActionSlots(currentSlots => {
-                        const updatedSlots = [...currentSlots];
-                        if (updatedSlots[slotIndex] && updatedSlots[slotIndex].cooldown > 0) {
-                            updatedSlots[slotIndex] = {
-                                ...updatedSlots[slotIndex],
-                                cooldown: updatedSlots[slotIndex].cooldown - 1
-                            };
-
-                            if (updatedSlots[slotIndex].cooldown === 0) {
-                                clearInterval(timer);
-                            }
-                        }
-                        return updatedSlots;
-                    });
-                }, 1000);
-            }
+            // Show confirmation popup
+            setSpellToCast(spellToDisplay);
+            setSpellSlotIndex(slotIndex);
+            setShowSpellConfirmation(true);
         } else if (item.type === 'consumable') {
             // Use the consumable item
             const currentQuantity = getItemQuantity(item.originalItemId);
@@ -371,10 +412,26 @@ const ActionBar = () => {
     const handleRightClick = (e, slotIndex) => {
         e.preventDefault();
 
+        const item = actionSlots[slotIndex];
+        
         // Shift + Right Click = Open hotkey assignment popup
         if (e.shiftKey) {
             setHotkeySlotIndex(slotIndex);
             setShowHotkeyPopup(true);
+        } else if (item && item.type === 'spell') {
+            // Check if spell has cooldown configuration
+            const hasCooldown = item.cooldown > 0 || 
+                               item.maxCooldown > 0 || 
+                               (item.cooldownConfig && item.cooldownConfig.type !== 'none' && item.cooldownConfig.value > 0);
+            
+            if (hasCooldown) {
+                // Right Click on spell with cooldown = Open cooldown adjustment menu
+                setCooldownMenuSlotIndex(slotIndex);
+                setShowCooldownMenu(true);
+            } else {
+                // Regular Right Click = Remove spell/consumable from action bar
+                clearSlot(slotIndex);
+            }
         } else {
             // Regular Right Click = Remove spell/consumable from action bar
             clearSlot(slotIndex);
@@ -621,6 +678,330 @@ const ActionBar = () => {
         setTooltipSpell(null);
     };
 
+    // Handle confirmed spell cast
+    const handleSpellCastConfirm = () => {
+        if (!spellToCast || spellSlotIndex === null) {
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+            return;
+        }
+
+        const item = actionSlots[spellSlotIndex];
+        if (!item) {
+            setShowSpellConfirmation(false);
+            setSpellToCast(null);
+            setSpellSlotIndex(null);
+            return;
+        }
+
+        // Extract resource costs
+        const resourceCost = spellToCast.resourceCost || {};
+        const resourceValues = resourceCost.resourceValues || {};
+        const manaCost = resourceValues.mana || resourceCost.mana || 0;
+        const apCost = resourceCost.actionPoints || 0;
+        
+        // Extract class resource changes
+        // IMPORTANT: inferno_ascend is a GAIN, not a requirement - it should NOT block casting
+        // Only inferno_required should block casting
+        const infernoAscend = resourceValues.inferno_ascend || spellToCast.infernoAscend || 0;
+        const infernoDescend = resourceValues.inferno_descend || spellToCast.infernoDescend || 0;
+        
+        // CRITICAL: If a spell has inferno_ascend (gain), it means you're GAINING inferno
+        // Therefore, you should NOT need inferno to cast it - ignore inferno_required in this case
+        // This handles incorrectly configured spell data where both are set
+        let infernoRequired = 0;
+        if (infernoAscend === 0) {
+            // Only check inferno_required if there's no inferno_ascend (gain)
+            // If you're gaining inferno, you don't need it to cast
+            infernoRequired = resourceValues.inferno_required || spellToCast.infernoRequired || 0;
+        }
+        // If infernoAscend > 0, infernoRequired stays 0 (spell gains inferno, doesn't require it)
+
+        // Get fresh resource state
+        const currentMana = useCharacterStore.getState().mana;
+        const currentAP = useCharacterStore.getState().actionPoints;
+        const currentClassResource = useCharacterStore.getState().classResource;
+
+        // Check if player has enough resources (validation is now done in the popup, but double-check here)
+        // Note: infernoAscend is NOT checked - it's a gain, not a requirement
+        if (manaCost > 0 && currentMana.current < manaCost) {
+            console.log('Not enough mana to cast spell');
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        if (apCost > 0 && currentAP.current < apCost) {
+            console.log('Not enough action points to cast spell');
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        // Only check inferno_required - inferno_ascend does NOT block casting
+        if (infernoRequired > 0 && (!currentClassResource || currentClassResource.current < infernoRequired)) {
+            console.log('Not enough Inferno required to cast spell');
+            // Don't close popup - let it show the error
+            return;
+        }
+
+        // Apply resource costs - use updateResource with proper parameters
+        if (manaCost > 0) {
+            const newMana = Math.max(0, currentMana.current - manaCost);
+            console.log('Casting spell - Mana:', { before: currentMana.current, cost: manaCost, after: newMana });
+            
+            // Use updateResource - pass undefined for max to keep it unchanged
+            updateResource('mana', newMana, undefined);
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            mana: {
+                                current: newMana,
+                                max: currentMana.max
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync mana to party store:', error);
+            }
+        }
+
+        if (apCost > 0) {
+            const newAP = Math.max(0, currentAP.current - apCost);
+            console.log('Casting spell - AP:', { before: currentAP.current, cost: apCost, after: newAP });
+            
+            // Use updateResource - pass undefined for max to keep it unchanged
+            updateResource('actionPoints', newAP, undefined);
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            actionPoints: {
+                                current: newAP,
+                                max: currentAP.max
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync AP to party store:', error);
+            }
+        }
+
+        // Apply class resource changes (Inferno)
+        if (infernoAscend > 0 && currentClassResource) {
+            const beforeInferno = currentClassResource.current;
+            gainClassResource(infernoAscend);
+            const afterInferno = Math.min(currentClassResource.max, beforeInferno + infernoAscend);
+            console.log('Casting spell - Inferno Ascend:', { before: beforeInferno, gain: infernoAscend, after: afterInferno });
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                current: afterInferno
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync Inferno to party store:', error);
+            }
+        }
+        if (infernoDescend > 0 && currentClassResource) {
+            const beforeInferno = currentClassResource.current;
+            consumeClassResource(infernoDescend);
+            const afterInferno = Math.max(0, beforeInferno - infernoDescend);
+            console.log('Casting spell - Inferno Descend:', { before: beforeInferno, cost: infernoDescend, after: afterInferno });
+            
+            // Sync to party store for HUD updates
+            try {
+                const usePartyStore = require('../../store/partyStore').default;
+                const currentMember = usePartyStore.getState().partyMembers.find(m => m.id === 'current-player');
+                if (currentMember && currentMember.character?.classResource) {
+                    usePartyStore.getState().updatePartyMember('current-player', {
+                        character: {
+                            ...currentMember.character,
+                            classResource: {
+                                ...currentMember.character.classResource,
+                                current: afterInferno
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('Failed to sync Inferno to party store:', error);
+            }
+        }
+
+        // IMPROVEMENT: Sync spell cast to multiplayer
+        try {
+            const gameStore = require('../../store/gameStore').default;
+            const gameState = gameStore.getState();
+            const characterStore = require('../../store/characterStore').default;
+            const characterState = characterStore.getState();
+            
+            if (gameState.isInMultiplayer && gameState.multiplayerSocket && gameState.multiplayerSocket.connected) {
+                // Get spell data
+                const spellData = spellToCast;
+                const spellId = spellData.id || item.id;
+                const spellName = spellData.name || item.name || 'Unknown Spell';
+                const casterId = characterState.currentCharacterId || characterState.id;
+                
+                // Emit spell cast to server for synchronization
+                gameState.multiplayerSocket.emit('spell_cast', {
+                    spellId: spellId,
+                    spellName: spellName,
+                    casterId: casterId,
+                    targetIds: [], // TODO: Add target selection
+                    targetPositions: [], // TODO: Add position targeting
+                    effects: spellData.effects || [],
+                    damage: spellData.damage || 0,
+                    healing: spellData.healing || 0,
+                    timestamp: Date.now()
+                });
+            }
+        } catch (error) {
+            console.warn('Failed to sync spell cast to multiplayer:', error);
+            // Continue with local spell cast even if sync fails
+        }
+
+        // Start cooldown if applicable
+        const cooldownConfig = spellToCast.cooldownConfig || {};
+        const cooldownType = cooldownConfig.type || item.cooldownType || 'none';
+        const cooldownValue = cooldownConfig.value || item.maxCooldown || 0;
+        
+        if (cooldownValue > 0 && cooldownType !== 'none') {
+            // Store cooldown type for this slot
+            cooldownTypesRef.current[spellSlotIndex] = {
+                type: cooldownType,
+                value: cooldownValue,
+                startTime: Date.now(),
+                startRound: isInCombat ? round : null
+            };
+            
+            // Initialize cooldown based on type
+            if (cooldownType === 'turn_based') {
+                // Turn-based: store remaining turns
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'turn_based',
+                    cooldownStartRound: isInCombat ? round : null
+                };
+                updateSlot(spellSlotIndex, itemWithCooldown);
+            } else if (cooldownType === 'real_time') {
+                // Real-time: store end time
+                const endTime = Date.now() + (cooldownValue * 1000);
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType: 'real_time',
+                    cooldownEndTime: endTime
+                };
+                updateSlot(spellSlotIndex, itemWithCooldown);
+                
+                // Start real-time countdown timer
+                const timer = setInterval(() => {
+                    updateActionSlots(currentSlots => {
+                        const updatedSlots = [...currentSlots];
+                        const slotItem = updatedSlots[spellSlotIndex];
+                        if (slotItem && slotItem.cooldownEndTime) {
+                            const remaining = Math.max(0, Math.ceil((slotItem.cooldownEndTime - Date.now()) / 1000));
+                            if (remaining > 0) {
+                                updatedSlots[spellSlotIndex] = {
+                                    ...slotItem,
+                                    cooldown: remaining
+                                };
+                            } else {
+                                updatedSlots[spellSlotIndex] = {
+                                    ...slotItem,
+                                    cooldown: 0,
+                                    cooldownEndTime: undefined
+                                };
+                                clearInterval(timer);
+                                delete cooldownTimersRef.current[spellSlotIndex];
+                            }
+                        }
+                        return updatedSlots;
+                    });
+                }, 1000);
+                cooldownTimersRef.current[spellSlotIndex] = timer;
+            } else {
+                // Other types (short_rest, long_rest, etc.): use simple countdown for display
+                // These don't progress automatically, they reset on rest
+                const itemWithCooldown = { 
+                    ...item, 
+                    cooldown: cooldownValue,
+                    maxCooldown: cooldownValue,
+                    cooldownType 
+                };
+                updateSlot(spellSlotIndex, itemWithCooldown);
+            }
+        }
+
+        // Close confirmation popup
+        setShowSpellConfirmation(false);
+        setSpellToCast(null);
+        setSpellSlotIndex(null);
+    };
+
+    // Handle cancelled spell cast
+    const handleSpellCastCancel = () => {
+        setShowSpellConfirmation(false);
+        setSpellToCast(null);
+        setSpellSlotIndex(null);
+    };
+
+    // Handle cooldown adjustment
+    const handleCooldownAdjust = (newValue) => {
+        if (cooldownMenuSlotIndex === null) return;
+
+        const item = actionSlots[cooldownMenuSlotIndex];
+        if (!item) return;
+
+        const cooldownType = item.cooldownType || item.cooldownConfig?.type || 'none';
+        
+        // Update cooldown value
+        const updatedItem = {
+            ...item,
+            cooldown: newValue,
+            maxCooldown: newValue
+        };
+
+        // For real-time cooldowns, update end time
+        if (cooldownType === 'real_time' && newValue > 0) {
+            updatedItem.cooldownEndTime = Date.now() + (newValue * 1000);
+        }
+
+        updateSlot(cooldownMenuSlotIndex, updatedItem);
+    };
+
+    // Handle cooldown menu close
+    const handleCooldownMenuClose = () => {
+        setShowCooldownMenu(false);
+        setCooldownMenuSlotIndex(null);
+    };
+
     return (
         <>
             <div className="action-bar-container" ref={actionBarContainerRef}>
@@ -657,7 +1038,7 @@ const ActionBar = () => {
                             onDragOver={(e) => handleDragOver(e, index)}
                             onDragLeave={handleDragLeave}
                             onDrop={(e) => handleDrop(e, index)}
-                            onClick={() => handleSlotClick(index)}
+                            onClick={(e) => handleSlotClick(index, e)}
                             onContextMenu={(e) => handleRightClick(e, index)}
                             onMouseEnter={(e) => {
                                 if (item && item.type === 'consumable') {
@@ -698,7 +1079,21 @@ const ActionBar = () => {
                                 {/* Cooldown overlay for spells */}
                                 {item.cooldown > 0 && (
                                     <div className="cooldown-overlay">
-                                        <div className="cooldown-text">{item.cooldown}</div>
+                                        <div className="cooldown-text">
+                                            {item.cooldownType === 'turn_based' 
+                                                ? `${item.cooldown} turn${item.cooldown > 1 ? 's' : ''}`
+                                                : item.cooldownType === 'real_time'
+                                                ? (() => {
+                                                    const seconds = item.cooldown;
+                                                    const minutes = Math.floor(seconds / 60);
+                                                    const remainingSeconds = seconds % 60;
+                                                    return minutes > 0 
+                                                        ? `${minutes}m ${remainingSeconds}s`
+                                                        : `${seconds}s`;
+                                                })()
+                                                : item.cooldown
+                                            }
+                                        </div>
                                     </div>
                                 )}
 
@@ -752,6 +1147,26 @@ const ActionBar = () => {
                     onMouseEnter={handleSpellTooltipMouseEnter}
                     onMouseLeave={handleSpellTooltipMouseLeave}
                     smartPositioning={true} // Enable smart positioning for action bar tooltips
+                />
+            )}
+
+            {/* Spell Cast Confirmation */}
+            {showSpellConfirmation && spellToCast && (
+                <SpellCastConfirmation
+                    spell={spellToCast}
+                    onConfirm={handleSpellCastConfirm}
+                    onCancel={handleSpellCastCancel}
+                />
+            )}
+
+            {/* Cooldown Adjustment Menu */}
+            {showCooldownMenu && cooldownMenuSlotIndex !== null && actionSlots[cooldownMenuSlotIndex] && (
+                <CooldownAdjustmentMenu
+                    slotIndex={cooldownMenuSlotIndex}
+                    item={actionSlots[cooldownMenuSlotIndex]}
+                    onAdjust={handleCooldownAdjust}
+                    onClose={handleCooldownMenuClose}
+                    actionBarRef={actionBarContainerRef}
                 />
             )}
             </div>

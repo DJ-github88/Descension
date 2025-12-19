@@ -24,10 +24,12 @@ const CommunityCreaturesTab = () => {
     error,
     selectedCategory,
     searchTerm,
+    sortBy,
     hasMore,
     selectCategory,
     search,
     clearSelection,
+    changeSortBy,
     loadMoreCreatures,
     downloadCommunityCreature
   } = useCommunityCreatures();
@@ -67,6 +69,7 @@ const CommunityCreaturesTab = () => {
     const viewportHeight = window.innerHeight;
     const tooltipWidth = 380;
     const tooltipHeight = 450;
+    const padding = 20; // Padding from edges
 
     // Check if creature icon selector is open
     const iconSelectorModal = document.querySelector('.creature-icon-selector-modal');
@@ -74,21 +77,31 @@ const CommunityCreaturesTab = () => {
     if (iconSelectorModal) {
       // Position tooltip below the icon selector modal
       const modalRect = iconSelectorModal.getBoundingClientRect();
-      const x = Math.max(15, Math.min(e.clientX, viewportWidth - tooltipWidth - 15));
+      const x = Math.max(padding, Math.min(e.clientX, viewportWidth - tooltipWidth - padding));
       const y = modalRect.bottom + 15; // 15px below the modal
 
       // Ensure tooltip doesn't go off bottom of screen
-      const finalY = Math.min(y, viewportHeight - tooltipHeight - 15);
+      const finalY = Math.min(y, viewportHeight - tooltipHeight - padding);
 
       setTooltipPosition({ x, y: finalY });
       return;
     }
 
-    // Default positioning to the right of the element
+    // Default positioning to the right of the element with padding
     const rect = e.currentTarget.getBoundingClientRect();
+    let x = rect.right + 10;
+    
+    // If tooltip would go off screen, position it to the left instead
+    if (x + tooltipWidth > viewportWidth - padding) {
+      x = rect.left - tooltipWidth - 10;
+    }
+    
+    // Ensure tooltip stays within viewport with padding
+    x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
+    
     setTooltipPosition({
-      x: rect.right + 10,
-      y: rect.top
+      x,
+      y: Math.max(padding, Math.min(rect.top, viewportHeight - tooltipHeight - padding))
     });
   };
 
@@ -138,12 +151,28 @@ const CommunityCreaturesTab = () => {
 
   const renderCreatureCard = (creature) => {
     // Ensure complete creature data structure for proper tooltip display
+    // Merge creatureData with top-level properties to ensure all fields are available
     const completeCreature = {
       ...creature.creatureData,
-      name: creature.name,
-      description: creature.description,
-      type: creature.type,
-      size: creature.size,
+      // Override with top-level properties if they exist (they take precedence)
+      name: creature.name || creature.creatureData?.name,
+      description: creature.description || creature.creatureData?.description,
+      type: creature.type || creature.creatureData?.type,
+      size: creature.size || creature.creatureData?.size,
+      // Ensure all nested properties are included
+      stats: creature.creatureData?.stats || creature.stats || {},
+      resistances: creature.creatureData?.resistances || creature.resistances || {},
+      vulnerabilities: creature.creatureData?.vulnerabilities || creature.vulnerabilities || {},
+      abilities: creature.creatureData?.abilities || creature.abilities || [],
+      lootTable: creature.creatureData?.lootTable || creature.lootTable || {
+        currency: { gold: { min: 0, max: 0 }, silver: { min: 0, max: 0 }, copper: { min: 0, max: 0 } },
+        items: []
+      },
+      tokenIcon: creature.creatureData?.tokenIcon || creature.tokenIcon,
+      tokenBorder: creature.creatureData?.tokenBorder || creature.tokenBorder,
+      tags: creature.creatureData?.tags || creature.tags || [],
+      isShopkeeper: creature.creatureData?.isShopkeeper || creature.isShopkeeper || false,
+      shopInventory: creature.creatureData?.shopInventory || creature.shopInventory,
       // Add community-specific metadata
       downloadCount: creature.downloadCount || 0,
       rating: creature.rating || 0,
@@ -166,12 +195,15 @@ const CommunityCreaturesTab = () => {
               <i className="fas fa-download"></i> {creature.downloadCount || 0}
             </span>
             <span className="rating">
-              <i className="fas fa-star"></i> {creature.rating || 0} ({creature.ratingCount || 0})
+              <i className="fas fa-star"></i> {(creature.rating || 0).toFixed(1)} ({creature.ratingCount || 0})
             </span>
           </div>
           <button
             className="download-creature-btn"
-            onClick={() => handleDownloadCreature(creature)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDownloadCreature(creature);
+            }}
             disabled={downloadingCreatures.has(creature.id)}
           >
             {downloadingCreatures.has(creature.id) ? (
@@ -190,11 +222,19 @@ const CommunityCreaturesTab = () => {
   };
 
   return (
-    <div className="community-creatures-tab">
-      {/* Search Bar */}
-      <div className="community-tab-search-section community-search-section">
+    <div className="community-creatures-container">
+      {/* Header */}
+      <div className="community-header">
+        <h2 className="community-title">Community Creatures</h2>
+        <p className="community-subtitle">
+          Discover and download creatures created by the community
+        </p>
+      </div>
+
+      {/* Search Bar and Sort */}
+      <div className="community-tab-search-section community-search">
         <form onSubmit={handleSearch} className="community-tab-search-form search-form">
-          <div className="community-tab-search-input-group search-input-group">
+          <div className="community-tab-search-input-group">
             <input
               type="text"
               placeholder="Search community creatures..."
@@ -207,10 +247,22 @@ const CommunityCreaturesTab = () => {
             </button>
           </div>
         </form>
-
-        {(selectedCategory || searchTerm) && (
-          <button onClick={clearSelection} className="community-tab-clear-btn clear-selection-btn">
-            <i className="fas fa-times"></i> Clear Selection
+        <div className="sort-controls">
+          <label>Sort by:</label>
+          <select
+            value={sortBy}
+            onChange={(e) => changeSortBy(e.target.value)}
+            className="sort-select"
+            disabled={!!searchTerm || !!selectedCategory}
+          >
+            <option value="rating">Rating</option>
+            <option value="downloads">Downloads</option>
+            <option value="newest">Newest</option>
+          </select>
+        </div>
+        {(searchTerm || selectedCategory) && (
+          <button onClick={clearSelection} className="community-tab-clear-btn clear-search-btn" title="Clear search/filter">
+            <i className="fas fa-times"></i>
           </button>
         )}
       </div>
@@ -249,54 +301,111 @@ const CommunityCreaturesTab = () => {
         </div>
       )}
 
-      {/* Categories */}
+      {/* Browse Community Section */}
       {!selectedCategory && !searchTerm && (
-        <div className="community-categories">
-          <h3>Browse by Category</h3>
-          <div className="categories-grid">
-            {categories.map(category => (
-              <div
-                key={category.id}
-                className="category-card"
-                onClick={() => selectCategory(category.id)}
-                style={{
-                  '--category-color': category.color
-                }}
-              >
-                <div className="category-icon">
-                  <img
-                    src={`https://wow.zamimg.com/images/wow/icons/large/${category.icon}.jpg`}
-                    alt={category.name}
-                    onError={(e) => {
-                      e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
-                    }}
-                  />
+        <>
+          {/* Categories */}
+          <div className="community-categories">
+            <h3>Browse by Category</h3>
+            <div className="categories-grid">
+              {categories.map(category => (
+                <div
+                  key={category.id}
+                  className="category-card"
+                  onClick={() => selectCategory(category.id)}
+                  style={{
+                    '--category-color': category.color
+                  }}
+                >
+                  <div className="category-icon">
+                    <img
+                      src={`https://wow.zamimg.com/images/wow/icons/large/${category.icon}.jpg`}
+                      alt={category.name}
+                      onError={(e) => {
+                        e.target.src = "https://wow.zamimg.com/images/wow/icons/large/inv_misc_questionmark.jpg";
+                      }}
+                    />
+                  </div>
+                  <h4>{category.name}</h4>
+                  <p>{category.description}</p>
+                  {category.creatureCount !== undefined && (
+                    <div className="category-creature-count">
+                      <i className="fas fa-dragon"></i>
+                      {category.creatureCount} creatures
+                    </div>
+                  )}
                 </div>
-                <h4>{category.name}</h4>
-                <p>{category.description}</p>
-                {category.creatureCount !== undefined && (
-                  <div className="category-creature-count">
-                    <i className="fas fa-dragon"></i>
-                    {category.creatureCount} creatures
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Creatures */}
+          {featuredCreatures.length > 0 && (
+            <div className="featured-creatures">
+              <h3>Featured Creatures</h3>
+              <div className="creatures-grid">
+                {featuredCreatures.map(renderCreatureCard)}
+              </div>
+            </div>
+          )}
+
+          {/* All Community Creatures */}
+          <div className="creature-results">
+            <div className="results-header">
+              <h3>All Community Creatures</h3>
+              <span className="results-count">{creatures.length} creatures</span>
+            </div>
+
+            {loading && creatures.length === 0 ? (
+              <div className="loading-state">
+                <i className="fas fa-spinner fa-spin"></i>
+                <p>Loading creatures...</p>
+              </div>
+            ) : creatures.length === 0 ? (
+              <div className="empty-state">
+                <i className="fas fa-search"></i>
+                <p>No creatures found</p>
+              </div>
+            ) : (
+              <>
+                <div className="creatures-grid">
+                  {creatures
+                    .sort((a, b) => {
+                      // Sort by rating (highest first), then by download count
+                      const ratingA = a.rating || 0;
+                      const ratingB = b.rating || 0;
+                      if (ratingA !== ratingB) return ratingB - ratingA;
+                      return (b.downloadCount || 0) - (a.downloadCount || 0);
+                    })
+                    .map(renderCreatureCard)}
+                </div>
+                
+                {hasMore && (
+                  <div className="load-more">
+                    <button 
+                      onClick={loadMoreCreatures} 
+                      disabled={loading}
+                      className="load-more-btn"
+                    >
+                      {loading ? (
+                        <>
+                          <i className="fas fa-spinner fa-spin"></i> Loading...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-chevron-down"></i> Load More
+                        </>
+                      )}
+                    </button>
                   </div>
                 )}
-              </div>
-            ))}
+              </>
+            )}
           </div>
-        </div>
+        </>
       )}
 
-      {/* Featured Creatures */}
-      {!selectedCategory && !searchTerm && featuredCreatures.length > 0 && (
-        <div className="featured-creatures">
-          <h3>Featured Creatures</h3>
-          <div className="creatures-grid">
-            {featuredCreatures.map(renderCreatureCard)}
-          </div>
-        </div>
-      )}
-
-      {/* Creature Results */}
+      {/* Search/Category Results */}
       {(selectedCategory || searchTerm) && (
         <div className="creature-results">
           <div className="results-header">
