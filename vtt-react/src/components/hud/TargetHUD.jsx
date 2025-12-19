@@ -7,7 +7,6 @@ import useCharacterStore from '../../store/characterStore';
 import useCreatureStore from '../../store/creatureStore';
 import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
-import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
@@ -21,8 +20,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const nodeRef = useRef(null);
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
-    const [showResourceModal, setShowResourceModal] = useState(false);
-    const [resourceModalData, setResourceModalData] = useState(null);
     const [tooltip, setTooltip] = useState({ show: false, content: '', position: { x: 0, y: 0 } });
     const [currentTime, setCurrentTime] = useState(Date.now());
     const [conditionContextMenu, setConditionContextMenu] = useState({ show: false, condition: null, position: { x: 0, y: 0 } });
@@ -35,7 +32,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const { currentTarget, targetType, clearTarget, targetHUDPosition, setTargetHUDPosition, getTargetHUDPosition } = useTargetingStore();
     const { isGMMode } = useGameStore();
     const { updatePartyMember } = usePartyStore();
-    const { updateResource, updateClassResource, activeCharacter } = useCharacterStore();
+    const { updateResource, updateClassResource, activeCharacter, updateTempResource } = useCharacterStore();
     const { updateTokenState, getCreature, creatures } = useCreatureStore();
 
     // Get current player data for comparison
@@ -407,49 +404,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         setShowContextMenu(false);
     };
 
-    const handleResourceBarClick = (e, resourceType) => {
-        if (!isGMMode) return;
-
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        const rect = e?.currentTarget?.getBoundingClientRect();
-        const position = rect ? {
-            x: rect.right + 10,
-            y: rect.top
-        } : {
-            x: window.innerWidth / 2,
-            y: window.innerHeight / 2
-        };
-
-        let currentValue, maxValue;
-        switch (resourceType) {
-            case 'health':
-                currentValue = safeHealth.current;
-                maxValue = safeHealth.max;
-                break;
-            case 'mana':
-                currentValue = safeMana.current;
-                maxValue = safeMana.max;
-                break;
-            case 'actionPoints':
-                currentValue = safeActionPoints.current;
-                maxValue = safeActionPoints.max;
-                break;
-            default:
-                return;
-        }
-
-        setResourceModalData({
-            resourceType,
-            currentValue,
-            maxValue,
-            position
-        });
-        setShowResourceModal(true);
-    };
 
     // Handler for class resource updates (e.g., Inferno Veil)
     const handleClassResourceUpdate = (field, value) => {
@@ -479,10 +433,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         }
     };
 
-    const handleResourceAdjustment = (adjustment) => {
-        if (!resourceModalData) return;
-
-        const { resourceType } = resourceModalData;
+    // Handle resource adjustments (similar to PartyHUD)
+    const handleResourceAdjust = (resourceType, adjustment) => {
+        if (!currentTarget) return;
 
         if (targetType === 'party_member' || targetType === 'player') {
             // Update party member or player - get fresh data from stores
@@ -677,9 +630,111 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 console.error('❌ Token not found for creature:', tokenId);
             }
         }
+    };
 
-        setShowResourceModal(false);
-        setResourceModalData(null);
+    // Helper function to get target resource values
+    const getTargetResource = (resourceType) => {
+        if (!currentTarget || !targetData) return { current: 0, max: 0, temp: 0 };
+        
+        if (targetType === 'party_member' || targetType === 'player') {
+            const memberId = currentTarget.id;
+            if (memberId === 'current-player') {
+                const resource = currentPlayerData[resourceType];
+                const tempField = resourceType === 'health' ? 'tempHealth' : 
+                                 resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
+                return {
+                    current: resource?.current || 0,
+                    max: resource?.max || 0,
+                    temp: currentPlayerData[tempField] || 0
+                };
+            } else {
+                const partyState = usePartyStore.getState();
+                const member = partyState.partyMembers.find(m => m.id === memberId);
+                if (member) {
+                    const resource = member.character?.[resourceType];
+                    const tempField = resourceType === 'health' ? 'tempHealth' : 
+                                     resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
+                    return {
+                        current: resource?.current || 0,
+                        max: resource?.max || 0,
+                        temp: member.character?.[tempField] || 0
+                    };
+                }
+            }
+        } else if (targetType === 'creature') {
+            const safeResource = resourceType === 'health' ? safeHealth :
+                               resourceType === 'mana' ? safeMana : safeActionPoints;
+            return {
+                current: safeResource.current || 0,
+                max: safeResource.max || 0,
+                temp: 0 // Creatures don't have temporary resources
+            };
+        }
+        return { current: 0, max: 0, temp: 0 };
+    };
+
+    // Handle full restore all (HP, mana, and AP)
+    const handleFullRestoreAll = () => {
+        if (!currentTarget || !targetData) return;
+        const health = getTargetResource('health');
+        const mana = getTargetResource('mana');
+        const actionPoints = getTargetResource('actionPoints');
+        handleResourceAdjust('health', health.max - health.current);
+        handleResourceAdjust('mana', mana.max - mana.current);
+        handleResourceAdjust('actionPoints', actionPoints.max - actionPoints.current);
+        setShowContextMenu(false);
+    };
+
+    // Handle full drain all (HP, mana, and AP, including temporary)
+    const handleFullDrainAll = () => {
+        if (!currentTarget || !targetData) return;
+        const health = getTargetResource('health');
+        const mana = getTargetResource('mana');
+        const actionPoints = getTargetResource('actionPoints');
+        handleResourceAdjust('health', -(health.current + health.temp));
+        handleResourceAdjust('mana', -(mana.current + mana.temp));
+        handleResourceAdjust('actionPoints', -(actionPoints.current + actionPoints.temp));
+        setShowContextMenu(false);
+    };
+
+    // Handle full heal (only health)
+    const handleFullHeal = () => {
+        if (!currentTarget || !targetData) return;
+        const health = getTargetResource('health');
+        handleResourceAdjust('health', health.max - health.current);
+        setShowContextMenu(false);
+    };
+
+    // Handle kill (set health to 0, including temporary HP)
+    const handleKill = () => {
+        if (!currentTarget || !targetData) return;
+        const health = getTargetResource('health');
+        handleResourceAdjust('health', -(health.current + health.temp));
+        setShowContextMenu(false);
+    };
+
+    // Handle drain mana (set mana to 0, including temporary mana)
+    const handleDrainMana = () => {
+        if (!currentTarget || !targetData) return;
+        const mana = getTargetResource('mana');
+        handleResourceAdjust('mana', -(mana.current + mana.temp));
+        setShowContextMenu(false);
+    };
+
+    // Handle full restore mana (set mana to max)
+    const handleFullRestoreMana = () => {
+        if (!currentTarget || !targetData) return;
+        const mana = getTargetResource('mana');
+        handleResourceAdjust('mana', mana.max - mana.current);
+        setShowContextMenu(false);
+    };
+
+    // Handle drain AP (set action points to 0, including temporary AP)
+    const handleDrainAP = () => {
+        if (!currentTarget || !targetData) return;
+        const actionPoints = getTargetResource('actionPoints');
+        handleResourceAdjust('actionPoints', -(actionPoints.current + actionPoints.temp));
+        setShowContextMenu(false);
     };
 
     // Handle position changes from dragging with immediate visual feedback
@@ -907,9 +962,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                 <div className="resource-bars-container">
                                     {/* Health Bar */}
                                     <div
-                                        className={`resource-bar health-bar ${isGMMode ? 'clickable' : ''}`}
-                                        onClick={(e) => handleResourceBarClick(e, 'health')}
-                                        style={{ cursor: isGMMode ? 'pointer' : 'default' }}
+                                        className="resource-bar health-bar"
                                     >
                                         <div
                                             className="resource-fill"
@@ -925,9 +978,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
                                     {/* Mana Bar - Always show for consistency */}
                                     <div
-                                        className={`resource-bar mana-bar ${isGMMode ? 'clickable' : ''}`}
-                                        onClick={(e) => handleResourceBarClick(e, 'mana')}
-                                        style={{ cursor: isGMMode ? 'pointer' : 'default' }}
+                                        className="resource-bar mana-bar"
                                     >
                                         <div
                                             className="resource-fill"
@@ -943,9 +994,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
 
                                     {/* Action Points Bar - Always show for consistency */}
                                     <div
-                                        className={`resource-bar ap-bar ${isGMMode ? 'clickable' : ''}`}
-                                        onClick={(e) => handleResourceBarClick(e, 'actionPoints')}
-                                        style={{ cursor: isGMMode ? 'pointer' : 'default' }}
+                                        className="resource-bar ap-bar"
                                     >
                                         <div
                                             className="resource-fill"
@@ -965,7 +1014,6 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                             characterClass={targetData.class}
                                             classResource={targetData.classResource}
                                             isGMMode={isGMMode}
-                                            onResourceClick={(resourceType) => handleResourceBarClick(null, resourceType)}
                                             onClassResourceUpdate={handleClassResourceUpdate}
                                             size="small"
                                         />
@@ -1097,55 +1145,251 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             </div>
 
             {/* Context Menu - Outside draggable container */}
-            {showContextMenu && (
-                <UnifiedContextMenu
-                    visible={true}
-                    x={contextMenuPosition.x}
-                    y={contextMenuPosition.y}
-                    onClose={() => setShowContextMenu(false)}
-                    disableClickOutside={true}
-                    items={[
-                        {
-                            icon: <i className="fas fa-search"></i>,
-                            label: 'Inspect',
-                            onClick: (e) => {
-                                console.log('🎯 TargetHUD: Inspect clicked');
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false); // Close menu immediately
-                                handleInspectTarget();
-                            }
-                        },
-                        {
-                            icon: <i className="fas fa-times"></i>,
-                            label: 'Clear Target',
-                            onClick: (e) => {
-                                console.log('🎯 TargetHUD: Clear Target clicked');
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setShowContextMenu(false); // Close menu immediately
-                                handleClearTarget();
-                            }
-                        }
-                    ]}
-                />
-            )}
+            {showContextMenu && (() => {
+                const menuItems = [];
 
-            {/* Resource Adjustment Modal */}
-            {showResourceModal && resourceModalData && (
-                <ResourceAdjustmentModal
-                    show={showResourceModal}
-                    onClose={() => {
-                        setShowResourceModal(false);
-                        setResourceModalData(null);
-                    }}
-                    onAdjust={handleResourceAdjustment}
-                    resourceType={resourceModalData.resourceType}
-                    currentValue={resourceModalData.currentValue}
-                    maxValue={resourceModalData.maxValue}
-                    position={resourceModalData.position}
-                />
-            )}
+                // Inspect
+                menuItems.push({
+                    icon: <i className="fas fa-search"></i>,
+                    label: 'Inspect',
+                    onClick: (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setShowContextMenu(false);
+                        handleInspectTarget();
+                    }
+                });
+
+                // Clear Target
+                menuItems.push({
+                    icon: <i className="fas fa-times"></i>,
+                    label: 'Clear Target',
+                    onClick: (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setShowContextMenu(false);
+                        handleClearTarget();
+                    }
+                });
+
+                // Resource adjustment options - only show if GM mode and target is party member/player
+                if (isGMMode && (targetType === 'party_member' || targetType === 'player')) {
+                    menuItems.push({ type: 'separator' });
+
+                    // Full Restore All
+                    menuItems.push({
+                        icon: <i className="fas fa-redo"></i>,
+                        label: 'Full Restore All',
+                        onClick: handleFullRestoreAll,
+                        className: 'heal'
+                    });
+
+                    // Full Drain All
+                    menuItems.push({
+                        icon: <i className="fas fa-battery-empty"></i>,
+                        label: 'Full Drain All',
+                        onClick: handleFullDrainAll,
+                        className: 'danger'
+                    });
+
+                    menuItems.push({ type: 'separator' });
+
+                    // Health submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-heart"></i>,
+                        label: 'Health',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (5)',
+                                onClick: () => {
+                                    handleResourceAdjust('health', -5);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Damage (10)',
+                                onClick: () => {
+                                    handleResourceAdjust('health', -10);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (5)',
+                                onClick: () => {
+                                    handleResourceAdjust('health', 5);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Heal (10)',
+                                onClick: () => {
+                                    handleResourceAdjust('health', 10);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-heart"></i>,
+                                label: 'Full Heal',
+                                onClick: handleFullHeal,
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-skull"></i>,
+                                label: 'Kill',
+                                onClick: handleKill,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+
+                    // Mana submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-magic"></i>,
+                        label: 'Mana',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (5)',
+                                onClick: () => {
+                                    handleResourceAdjust('mana', -5);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Drain (10)',
+                                onClick: () => {
+                                    handleResourceAdjust('mana', -10);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (5)',
+                                onClick: () => {
+                                    handleResourceAdjust('mana', 5);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (10)',
+                                onClick: () => {
+                                    handleResourceAdjust('mana', 10);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-magic"></i>,
+                                label: 'Full Restore',
+                                onClick: handleFullRestoreMana,
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: handleDrainMana,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+
+                    // Action Points submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-bolt"></i>,
+                        label: 'Action Points',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (1)',
+                                onClick: () => {
+                                    handleResourceAdjust('actionPoints', -1);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (2)',
+                                onClick: () => {
+                                    handleResourceAdjust('actionPoints', -2);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (3)',
+                                onClick: () => {
+                                    handleResourceAdjust('actionPoints', -3);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (1)',
+                                onClick: () => {
+                                    handleResourceAdjust('actionPoints', 1);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (2)',
+                                onClick: () => {
+                                    handleResourceAdjust('actionPoints', 2);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (3)',
+                                onClick: () => {
+                                    handleResourceAdjust('actionPoints', 3);
+                                    setShowContextMenu(false);
+                                }
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-bolt"></i>,
+                                label: 'Full Restore',
+                                onClick: () => {
+                                    if (!currentTarget || !targetData) return;
+                                    const actionPoints = getTargetResource('actionPoints');
+                                    handleResourceAdjust('actionPoints', actionPoints.max - actionPoints.current);
+                                    setShowContextMenu(false);
+                                },
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: handleDrainAP,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+                }
+
+                return (
+                    <UnifiedContextMenu
+                        visible={true}
+                        x={contextMenuPosition.x}
+                        y={contextMenuPosition.y}
+                        onClose={() => setShowContextMenu(false)}
+                        disableClickOutside={true}
+                        items={menuItems}
+                    />
+                );
+            })()}
+
 
             {/* Condition Duration Modal */}
             {showDurationModal && durationModalCondition && (
