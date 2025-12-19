@@ -186,6 +186,10 @@ const useCharacterStore = create((set, get) => ({
         current: 1,
         max: 3
     },
+    // Temporary resources (overheal/overmana/overap)
+    tempHealth: 0,
+    tempMana: 0,
+    tempActionPoints: 0,
 
     // Class-specific resource system
     classResource: {
@@ -1440,6 +1444,21 @@ const useCharacterStore = create((set, get) => ({
                 [resource]: newResource,
                 ...(resource === 'health' ? { derivedStats: newDerivedStats } : {})
             };
+        });
+    },
+
+    // Temporary resource management
+    updateTempResource: (resourceType, amount) => {
+        set(state => {
+            const tempField = `temp${resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}`;
+            if (resourceType === 'health') {
+                return { tempHealth: Math.max(0, amount) };
+            } else if (resourceType === 'mana') {
+                return { tempMana: Math.max(0, amount) };
+            } else if (resourceType === 'actionPoints') {
+                return { tempActionPoints: Math.max(0, amount) };
+            }
+            return state;
         });
     },
 

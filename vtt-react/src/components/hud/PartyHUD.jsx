@@ -9,7 +9,6 @@ import useBuffStore from '../../store/buffStore';
 import useDebuffStore from '../../store/debuffStore';
 import useChatStore from '../../store/chatStore';
 import usePresenceStore from '../../store/presenceStore';
-import ResourceAdjustmentModal from './ResourceAdjustmentModal';
 import ClassResourceBar from './ClassResourceBar';
 import TooltipPortal from '../tooltips/TooltipPortal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
@@ -17,20 +16,32 @@ import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
 
-const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate }) => {
+const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onResourceAdjust, onBuffContextMenu, onClassResourceUpdate, onRegisterRefs }) => {
     const frameRef = useRef(null);
+    const healthBarRef = useRef(null);
+    const manaBarRef = useRef(null);
+    const apBarRef = useRef(null);
     const { setTarget, currentTarget, clearTarget } = useTargetingStore();
     const isGMMode = useGameStore(state => state.isGMMode);
     const { getBuffsForTarget, getRemainingTime, updateBuffTimers, removeBuff } = useBuffStore();
     const { getDebuffsForTarget, getRemainingTime: getDebuffRemainingTime, updateDebuffTimers } = useDebuffStore();
-    const [showResourceModal, setShowResourceModal] = useState(false);
-    const [resourceModalData, setResourceModalData] = useState(null);
     const [showTooltip, setShowTooltip] = useState(false);
     const [tooltipData, setTooltipData] = useState(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
     const [forceUpdate, setForceUpdate] = useState(0);
 
     const isTargeted = currentTarget?.id === member.id;
+
+    // Register refs with parent component
+    useEffect(() => {
+        if (onRegisterRefs) {
+            onRegisterRefs(member.id, {
+                health: healthBarRef,
+                mana: manaBarRef,
+                actionPoints: apBarRef
+            });
+        }
+    }, [member.id, onRegisterRefs]);
 
     // Timer to update buff and debuff displays every second
     useEffect(() => {
@@ -80,58 +91,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
         return '#F44336';
     };
 
-    const handleResourceBarClick = (e, resourceType) => {
-        if (!isGMMode) return;
-
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        const rect = e?.currentTarget?.getBoundingClientRect();
-        const position = rect ? {
-            x: rect.right + 10,
-            y: rect.top
-        } : {
-            x: window.innerWidth / 2,
-            y: window.innerHeight / 2
-        };
-
-        let currentValue, maxValue;
-        switch (resourceType) {
-            case 'health':
-                currentValue = member.character?.health?.current || 0;
-                maxValue = member.character?.health?.max || 0;
-                break;
-            case 'mana':
-                currentValue = member.character?.mana?.current || 0;
-                maxValue = member.character?.mana?.max || 0;
-                break;
-            case 'actionPoints':
-                currentValue = member.character?.actionPoints?.current || 0;
-                maxValue = member.character?.actionPoints?.max || 0;
-                break;
-            default:
-                return;
-        }
-
-        setResourceModalData({
-            resourceType,
-            currentValue,
-            maxValue,
-            position,
-            memberId: member.id
-        });
-        setShowResourceModal(true);
-    };
-
-    const handleResourceAdjustment = (adjustment) => {
-        if (onResourceAdjust && resourceModalData) {
-            onResourceAdjust(resourceModalData.memberId, resourceModalData.resourceType, adjustment, frameRef);
-        }
-        setShowResourceModal(false);
-        setResourceModalData(null);
-    };
 
     // Helper function to calculate buff tooltip position with viewport awareness
     const calculateBuffTooltipPosition = (mouseX, mouseY) => {
@@ -360,9 +319,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                     <div className="resource-bars-container">
                         {/* Health Bar */}
                         <div
-                            className={`resource-bar health-bar ${isGMMode ? 'clickable' : ''}`}
-                            onClick={(e) => handleResourceBarClick(e, 'health')}
-                            style={{ cursor: isGMMode ? 'pointer' : 'default' }}
+                            ref={healthBarRef}
+                            className="resource-bar health-bar"
                         >
                             <div
                                 className="resource-fill"
@@ -372,16 +330,22 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                                 }}
                             />
                             <div className="resource-text">
-                                {member.character?.health?.current || 0}/{member.character?.health?.max || 0}
+                                {(() => {
+                                    const current = member.character?.health?.current || 0;
+                                    const max = member.character?.health?.max || 0;
+                                    const temp = member.character?.tempHealth || 0;
+                                    return temp > 0 
+                                        ? `${current}/${max} +${temp} Temporary HP`
+                                        : `${current}/${max}`;
+                                })()}
                             </div>
                         </div>
 
                         {/* Mana Bar */}
                         {(member.character?.mana?.max || 0) > 0 && (
                             <div
-                                className={`resource-bar mana-bar ${isGMMode ? 'clickable' : ''}`}
-                                onClick={(e) => handleResourceBarClick(e, 'mana')}
-                                style={{ cursor: isGMMode ? 'pointer' : 'default' }}
+                                ref={manaBarRef}
+                                className="resource-bar mana-bar"
                             >
                                 <div
                                     className="resource-fill"
@@ -391,7 +355,14 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                                     }}
                                 />
                                 <div className="resource-text">
-                                    {member.character?.mana?.current || 0}/{member.character?.mana?.max || 0}
+                                    {(() => {
+                                        const current = member.character?.mana?.current || 0;
+                                        const max = member.character?.mana?.max || 0;
+                                        const temp = member.character?.tempMana || 0;
+                                        return temp > 0 
+                                            ? `${current}/${max} +${temp} Temporary Mana`
+                                            : `${current}/${max}`;
+                                    })()}
                                 </div>
                             </div>
                         )}
@@ -399,9 +370,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                         {/* Action Points Bar */}
                         {(member.character?.actionPoints?.max || 0) > 0 && (
                             <div
-                                className={`resource-bar ap-bar ${isGMMode ? 'clickable' : ''}`}
-                                onClick={(e) => handleResourceBarClick(e, 'actionPoints')}
-                                style={{ cursor: isGMMode ? 'pointer' : 'default' }}
+                                ref={apBarRef}
+                                className="resource-bar ap-bar"
                             >
                                 <div
                                     className="resource-fill"
@@ -411,7 +381,14 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                                     }}
                                 />
                                 <div className="resource-text">
-                                    {member.character?.actionPoints?.current || 0}/{member.character?.actionPoints?.max || 0} AP
+                                    {(() => {
+                                        const current = member.character?.actionPoints?.current || 0;
+                                        const max = member.character?.actionPoints?.max || 0;
+                                        const temp = member.character?.tempActionPoints || 0;
+                                        return temp > 0 
+                                            ? `${current}/${max} AP +${temp} Temporary AP`
+                                            : `${current}/${max} AP`;
+                                    })()}
                                 </div>
                             </div>
                         )}
@@ -547,24 +524,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, onContextMenu, onRe
                     </div>
                 </TooltipPortal>
             )}
-
-
-
-            {/* Resource Adjustment Modal */}
-            {showResourceModal && resourceModalData && (
-                <ResourceAdjustmentModal
-                    show={showResourceModal}
-                    onClose={() => {
-                        setShowResourceModal(false);
-                        setResourceModalData(null);
-                    }}
-                    onAdjust={handleResourceAdjustment}
-                    resourceType={resourceModalData.resourceType}
-                    currentValue={resourceModalData.currentValue}
-                    maxValue={resourceModalData.maxValue}
-                    position={resourceModalData.position}
-                />
-            )}
         </>
     );
 };
@@ -580,7 +539,10 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const [contextMenuBuff, setContextMenuBuff] = useState(null);
     const [showCustomAmountModal, setShowCustomAmountModal] = useState(false);
     const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal', 'xp'
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, memberId }
     const nodeRefs = useRef({});
+    const resourceBarRefs = useRef({}); // Store refs to resource bars for floating text positioning
 
     // Removed: Unused force update state
 
@@ -607,6 +569,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 health: state.health,
                 mana: state.mana,
                 actionPoints: state.actionPoints,
+                tempHealth: state.tempHealth || 0,
+                tempMana: state.tempMana || 0,
+                tempActionPoints: state.tempActionPoints || 0,
                 classResource: state.classResource,
                 lore: state.lore,
                 tokenSettings: state.tokenSettings
@@ -628,6 +593,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             health: characterData.health,
                             mana: characterData.mana,
                             actionPoints: characterData.actionPoints,
+                            tempHealth: characterData.tempHealth,
+                            tempMana: characterData.tempMana,
+                            tempActionPoints: characterData.tempActionPoints,
                             classResource: characterData.classResource,
                             lore: characterData.lore,
                             tokenSettings: characterData.tokenSettings
@@ -684,6 +652,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         health: state.health,
         mana: state.mana,
         actionPoints: state.actionPoints,
+        tempHealth: state.tempHealth || 0,
+        tempMana: state.tempMana || 0,
+        tempActionPoints: state.tempActionPoints || 0,
         derivedStats: state.derivedStats,
         equipmentBonuses: state.equipmentBonuses,
         classResource: state.classResource,
@@ -900,110 +871,234 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         }
     };
 
+    // Register resource bar refs from PartyMemberFrame
+    const handleRegisterRefs = useCallback((memberId, refs) => {
+        resourceBarRefs.current[memberId] = refs;
+    }, []);
+
     const handleResourceAdjust = (memberId, resourceType, adjustment, hudElementRef = null) => {
+        // Only handle positive adjustments (healing/restoring) for overheal detection
+        if (adjustment > 0) {
+            let currentValue, maxValue;
+            
+            if (memberId === 'current-player') {
+                currentValue = currentPlayerData[resourceType]?.current || 0;
+                maxValue = currentPlayerData[resourceType]?.max || 0;
+            } else {
+                const member = partyMembers.find(m => m.id === memberId);
+                if (!member) return;
+                currentValue = member.character?.[resourceType]?.current || 0;
+                maxValue = member.character?.[resourceType]?.max || 0;
+            }
+
+            // Check for overheal
+            const wouldOverheal = (currentValue + adjustment) > maxValue;
+            
+            if (wouldOverheal) {
+                // Show confirmation modal for temporary resources
+                const overhealAmount = (currentValue + adjustment) - maxValue;
+                setOverhealData({
+                    memberId,
+                    resourceType,
+                    adjustment,
+                    overhealAmount,
+                    currentValue,
+                    maxValue
+                });
+                setShowOverhealModal(true);
+                return; // Don't apply yet, wait for user confirmation
+            }
+        }
+
+        // Apply the adjustment (no overheal or negative adjustment)
+        applyResourceAdjustment(memberId, resourceType, adjustment, false);
+    };
+
+    const applyResourceAdjustment = (memberId, resourceType, adjustment, asTemporary = false) => {
+        const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+        };
+        const tempField = tempFieldMap[resourceType];
+
         if (memberId === 'current-player') {
             // Update current player's resources in character store
             const currentValue = currentPlayerData[resourceType]?.current || 0;
             const maxValue = currentPlayerData[resourceType]?.max || 0;
-            const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
-            updateResource(resourceType, newValue, maxValue);
+            const currentTemp = currentPlayerData[tempField] || 0;
+            
+            if (asTemporary && adjustment > 0) {
+                // Add as temporary resource (overheal)
+                const overhealAmount = (currentValue + adjustment) - maxValue;
+                
+                // Set resource to max and add overheal as temporary
+                updateResource(resourceType, maxValue, maxValue);
+                useCharacterStore.getState().updateTempResource(resourceType, currentTemp + overhealAmount);
+            } else if (adjustment < 0) {
+                // Taking damage/draining - reduce temporary resources first
+                const damageAmount = Math.abs(adjustment);
+                let remainingDamage = damageAmount;
+                let newTemp = currentTemp;
+                let newValue = currentValue;
 
-            // Show floating combat text for current player (only for health, mana, and action points)
-            if (window.showFloatingCombatText) {
-                // Determine text type based on resource and adjustment direction
-                let textType;
-                if (resourceType === 'health') {
-                    textType = adjustment > 0 ? 'heal' : 'damage';
-                } else if (resourceType === 'mana') {
-                    textType = adjustment > 0 ? 'mana' : 'mana-loss';
-                } else if (resourceType === 'actionPoints') {
-                    textType = adjustment > 0 ? 'ap' : 'ap-loss';
-                }
-
-                // Only show floating combat text for known resource types
-                if (textType) {
-                    // Get the actual HUD element position if available
-                    let floatingTextPosition;
-                    if (hudElementRef && hudElementRef.current) {
-                        const rect = hudElementRef.current.getBoundingClientRect();
-                        floatingTextPosition = {
-                            x: rect.left + rect.width / 2,
-                            y: rect.top + 10 // Slightly above the HUD for better visibility
-                        };
+                // First, reduce temporary resources
+                if (currentTemp > 0) {
+                    if (damageAmount <= currentTemp) {
+                        // All damage absorbed by temporary resources
+                        newTemp = currentTemp - damageAmount;
+                        remainingDamage = 0;
                     } else {
-                        // Fallback to main player HUD position (bottom-left corner of screen)
-                        floatingTextPosition = { x: 120, y: window.innerHeight - 100 };
+                        // Temporary resources exhausted, remaining damage goes to actual resource
+                        remainingDamage = damageAmount - currentTemp;
+                        newTemp = 0;
                     }
-
-                    window.showFloatingCombatText(
-                        Math.abs(adjustment).toString(),
-                        textType,
-                        floatingTextPosition
-                    );
                 }
+
+                // Apply remaining damage to actual resource
+                if (remainingDamage > 0) {
+                    newValue = Math.max(0, currentValue - remainingDamage);
+                }
+
+                // Update both resource and temporary resource
+                updateResource(resourceType, newValue, maxValue);
+                if (newTemp !== currentTemp) {
+                    useCharacterStore.getState().updateTempResource(resourceType, newTemp);
+                }
+            } else {
+                // Normal positive adjustment (healing/restoring, no overheal)
+                const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                updateResource(resourceType, newValue, maxValue);
             }
+
+            // Show floating combat text for current player
+            showFloatingTextForResource(memberId, resourceType, adjustment, 'current-player');
         } else {
             // Update party member's resources
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const currentValue = member.character?.[resourceType]?.current || 0;
                 const maxValue = member.character?.[resourceType]?.max || 0;
-                const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                const currentTemp = member.character?.[tempField] || 0;
+                
+                if (asTemporary && adjustment > 0) {
+                    // Add as temporary resource (overheal)
+                    const overhealAmount = (currentValue + adjustment) - maxValue;
+                    
+                    // Set resource to max and add overheal as temporary
+                    updatePartyMember(memberId, {
+                        character: {
+                            ...member.character,
+                            [resourceType]: {
+                                ...member.character[resourceType],
+                                current: maxValue
+                            },
+                            [tempField]: currentTemp + overhealAmount
+                        }
+                    });
+                } else if (adjustment < 0) {
+                    // Taking damage/draining - reduce temporary resources first
+                    const damageAmount = Math.abs(adjustment);
+                    let remainingDamage = damageAmount;
+                    let newTemp = currentTemp;
+                    let newValue = currentValue;
 
-                updatePartyMember(memberId, {
-                    character: {
-                        ...member.character,
-                        [resourceType]: {
-                            ...member.character[resourceType],
-                            current: newValue
+                    // First, reduce temporary resources
+                    if (currentTemp > 0) {
+                        if (damageAmount <= currentTemp) {
+                            // All damage absorbed by temporary resources
+                            newTemp = currentTemp - damageAmount;
+                            remainingDamage = 0;
+                        } else {
+                            // Temporary resources exhausted, remaining damage goes to actual resource
+                            remainingDamage = damageAmount - currentTemp;
+                            newTemp = 0;
                         }
                     }
-                });
 
-                // Show floating combat text for party member (only for health, mana, and action points)
-                if (window.showFloatingCombatText) {
-                    // Determine text type based on resource and adjustment direction
-                    let textType;
-                    if (resourceType === 'health') {
-                        textType = adjustment > 0 ? 'heal' : 'damage';
-                    } else if (resourceType === 'mana') {
-                        textType = adjustment > 0 ? 'mana' : 'mana-loss';
-                    } else if (resourceType === 'actionPoints') {
-                        textType = adjustment > 0 ? 'ap' : 'ap-loss';
+                    // Apply remaining damage to actual resource
+                    if (remainingDamage > 0) {
+                        newValue = Math.max(0, currentValue - remainingDamage);
                     }
 
-                    // Only show floating combat text for known resource types
-                    if (textType) {
-                        // Get the actual HUD element position if available
-                        let floatingTextPosition;
-                        if (hudElementRef && hudElementRef.current) {
-                            const rect = hudElementRef.current.getBoundingClientRect();
-                            floatingTextPosition = {
-                                x: rect.left + rect.width / 2,
-                                y: rect.top + 10 // Slightly above the HUD for better visibility
-                            };
-                        } else {
-                            // Fallback to stored position if HUD element ref not available
-                            const memberPosition = getMemberPosition(memberId);
-                            if (memberPosition) {
-                                floatingTextPosition = {
-                                    x: memberPosition.x + 100,
-                                    y: memberPosition.y + 20
-                                };
-                            } else {
-                                floatingTextPosition = { x: 200, y: 300 };
+                    // Update both resource and temporary resource
+                    updatePartyMember(memberId, {
+                        character: {
+                            ...member.character,
+                            [resourceType]: {
+                                ...member.character[resourceType],
+                                current: newValue
+                            },
+                            [tempField]: newTemp
+                        }
+                    });
+                } else {
+                    // Normal positive adjustment (healing/restoring, no overheal)
+                    const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                    updatePartyMember(memberId, {
+                        character: {
+                            ...member.character,
+                            [resourceType]: {
+                                ...member.character[resourceType],
+                                current: newValue
                             }
                         }
+                    });
+                }
 
-                        window.showFloatingCombatText(
-                            Math.abs(adjustment).toString(),
-                            textType,
-                            floatingTextPosition
-                        );
-                    }
+                // Show floating combat text for party member
+                showFloatingTextForResource(memberId, resourceType, adjustment, memberId);
+            }
+        }
+    };
+
+    const showFloatingTextForResource = (memberId, resourceType, adjustment, refMemberId) => {
+        if (!window.showFloatingCombatText) return;
+
+        // Determine text type based on resource and adjustment direction
+        let textType;
+        if (resourceType === 'health') {
+            textType = adjustment > 0 ? 'heal' : 'damage';
+        } else if (resourceType === 'mana') {
+            textType = adjustment > 0 ? 'mana' : 'mana-loss';
+        } else if (resourceType === 'actionPoints') {
+            textType = adjustment > 0 ? 'ap' : 'ap-loss';
+        }
+
+        if (!textType) return;
+
+        // Get the resource bar ref for this member and resource type
+        let floatingTextPosition;
+        const refs = resourceBarRefs.current[refMemberId];
+        
+        if (refs && refs[resourceType] && refs[resourceType].current) {
+            const rect = refs[resourceType].current.getBoundingClientRect();
+            floatingTextPosition = {
+                x: rect.left + rect.width / 2,
+                y: rect.top - 20 // Position above the bar
+            };
+        } else {
+            // Fallback positioning
+            if (memberId === 'current-player') {
+                floatingTextPosition = { x: 120, y: window.innerHeight - 100 };
+            } else {
+                const memberPosition = getMemberPosition(memberId);
+                if (memberPosition) {
+                    floatingTextPosition = {
+                        x: memberPosition.x + 100,
+                        y: memberPosition.y + 20
+                    };
+                } else {
+                    floatingTextPosition = { x: 200, y: 300 };
                 }
             }
         }
+
+        window.showFloatingCombatText(
+            Math.abs(adjustment).toString(),
+            textType,
+            floatingTextPosition
+        );
     };
 
     // Handle custom amount adjustments
@@ -1034,6 +1129,12 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                 break;
             case 'mana-heal':
                 handleResourceAdjust(memberId, 'mana', numAmount);
+                break;
+            case 'ap-spend':
+                handleResourceAdjust(memberId, 'actionPoints', -numAmount);
+                break;
+            case 'ap-restore':
+                handleResourceAdjust(memberId, 'actionPoints', numAmount);
                 break;
             case 'xp':
                 handleAwardXP(memberId, numAmount);
@@ -1073,7 +1174,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setShowContextMenu(false);
     };
 
-    // Handle full heal
+    // Handle full heal (only health)
     const handleFullHeal = () => {
         if (!contextMenuMember) return;
 
@@ -1081,18 +1182,47 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         if (memberId === 'current-player') {
             const maxHp = currentPlayerData.health?.max || 0;
-            const maxMp = currentPlayerData.mana?.max || 0;
-            handleResourceAdjust(memberId, 'health', maxHp - (currentPlayerData.health?.current || 0));
-            handleResourceAdjust(memberId, 'mana', maxMp - (currentPlayerData.mana?.current || 0));
+            const currentHp = currentPlayerData.health?.current || 0;
+            handleResourceAdjust(memberId, 'health', maxHp - currentHp);
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const maxHp = member.character?.health?.max || 0;
-                const maxMp = member.character?.mana?.max || 0;
                 const currentHp = member.character?.health?.current || 0;
+                handleResourceAdjust(memberId, 'health', maxHp - currentHp);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle full restore all (HP, mana, and AP)
+    const handleFullRestoreAll = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        if (memberId === 'current-player') {
+            const maxHp = currentPlayerData.health?.max || 0;
+            const currentHp = currentPlayerData.health?.current || 0;
+            const maxMp = currentPlayerData.mana?.max || 0;
+            const currentMp = currentPlayerData.mana?.current || 0;
+            const maxAp = currentPlayerData.actionPoints?.max || 0;
+            const currentAp = currentPlayerData.actionPoints?.current || 0;
+            handleResourceAdjust(memberId, 'health', maxHp - currentHp);
+            handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
+            handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
+        } else {
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member) {
+                const maxHp = member.character?.health?.max || 0;
+                const currentHp = member.character?.health?.current || 0;
+                const maxMp = member.character?.mana?.max || 0;
                 const currentMp = member.character?.mana?.current || 0;
+                const maxAp = member.character?.actionPoints?.max || 0;
+                const currentAp = member.character?.actionPoints?.current || 0;
                 handleResourceAdjust(memberId, 'health', maxHp - currentHp);
                 handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
+                handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
             }
         }
         setShowContextMenu(false);
@@ -1131,6 +1261,46 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
             if (member) {
                 const currentMp = member.character?.mana?.current || 0;
                 handleResourceAdjust(memberId, 'mana', -currentMp);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle full restore mana (set mana to max)
+    const handleFullRestoreMana = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        if (memberId === 'current-player') {
+            const maxMp = currentPlayerData.mana?.max || 0;
+            const currentMp = currentPlayerData.mana?.current || 0;
+            handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
+        } else {
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member) {
+                const maxMp = member.character?.mana?.max || 0;
+                const currentMp = member.character?.mana?.current || 0;
+                handleResourceAdjust(memberId, 'mana', maxMp - currentMp);
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle drain AP (set action points to 0)
+    const handleDrainAP = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        if (memberId === 'current-player') {
+            const currentAp = currentPlayerData.actionPoints?.current || 0;
+            handleResourceAdjust(memberId, 'actionPoints', -currentAp);
+        } else {
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member) {
+                const currentAp = member.character?.actionPoints?.current || 0;
+                handleResourceAdjust(memberId, 'actionPoints', -currentAp);
             }
         }
         setShowContextMenu(false);
@@ -1185,6 +1355,9 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     health: currentPlayerData.health,
                     mana: currentPlayerData.mana,
                     actionPoints: currentPlayerData.actionPoints,
+                    tempHealth: currentPlayerData.tempHealth,
+                    tempMana: currentPlayerData.tempMana,
+                    tempActionPoints: currentPlayerData.tempActionPoints,
                     classResource: currentPlayerData.classResource,
                     lore: currentPlayerData.lore,
                     tokenSettings: currentPlayerData.tokenSettings
@@ -1250,6 +1423,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                                     onResourceAdjust={handleResourceAdjust}
                                     onBuffContextMenu={handleBuffContextMenu}
                                     onClassResourceUpdate={handleClassResourceUpdate}
+                                    onRegisterRefs={handleRegisterRefs}
                                 />
                             </div>
                         </Draggable>
@@ -1299,6 +1473,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
                 // Health adjustment options - only show if GM mode
                 if (isGMMode) {
+                    menuItems.push({ type: 'separator' });
+
+                    // Full Restore All button (restores HP, mana, and AP)
+                    menuItems.push({
+                        icon: <i className="fas fa-redo"></i>,
+                        label: 'Full Restore All',
+                        onClick: handleFullRestoreAll,
+                        className: 'heal'
+                    });
+
                     menuItems.push({ type: 'separator' });
 
                     // Health submenu
@@ -1391,9 +1575,93 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             },
                             { type: 'separator' },
                             {
+                                icon: <i className="fas fa-magic"></i>,
+                                label: 'Full Restore',
+                                onClick: handleFullRestoreMana,
+                                className: 'heal'
+                            },
+                            {
                                 icon: <i className="fas fa-battery-empty"></i>,
                                 label: 'Drain All',
                                 onClick: handleDrainMana,
+                                className: 'danger'
+                            }
+                        ]
+                    });
+
+                    // Action Points submenu
+                    menuItems.push({
+                        icon: <i className="fas fa-bolt"></i>,
+                        label: 'Action Points',
+                        submenu: [
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (1)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', -1)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (2)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', -2)
+                            },
+                            {
+                                icon: <i className="fas fa-minus-circle"></i>,
+                                label: 'Spend (3)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', -3)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Spend',
+                                onClick: () => handleCustomAmount('ap-spend')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (1)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', 1)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (2)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', 2)
+                            },
+                            {
+                                icon: <i className="fas fa-plus-circle"></i>,
+                                label: 'Restore (3)',
+                                onClick: () => handleResourceAdjust(contextMenuMember.id, 'actionPoints', 3)
+                            },
+                            {
+                                icon: <i className="fas fa-edit"></i>,
+                                label: 'Custom Restore',
+                                onClick: () => handleCustomAmount('ap-restore')
+                            },
+                            { type: 'separator' },
+                            {
+                                icon: <i className="fas fa-bolt"></i>,
+                                label: 'Full Restore',
+                                onClick: () => {
+                                    if (!contextMenuMember) return;
+                                    const memberId = contextMenuMember.id;
+                                    if (memberId === 'current-player') {
+                                        const maxAp = currentPlayerData.actionPoints?.max || 0;
+                                        const currentAp = currentPlayerData.actionPoints?.current || 0;
+                                        handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
+                                    } else {
+                                        const member = partyMembers.find(m => m.id === memberId);
+                                        if (member) {
+                                            const maxAp = member.character?.actionPoints?.max || 0;
+                                            const currentAp = member.character?.actionPoints?.current || 0;
+                                            handleResourceAdjust(memberId, 'actionPoints', maxAp - currentAp);
+                                        }
+                                    }
+                                    setShowContextMenu(false);
+                                },
+                                className: 'heal'
+                            },
+                            {
+                                icon: <i className="fas fa-battery-empty"></i>,
+                                label: 'Drain All',
+                                onClick: handleDrainAP,
                                 className: 'danger'
                             }
                         ]
@@ -1760,6 +2028,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             {customAmountType === 'heal' && 'Custom Heal Amount'}
                             {customAmountType === 'mana-damage' && 'Custom Mana Drain Amount'}
                             {customAmountType === 'mana-heal' && 'Custom Mana Restore Amount'}
+                            {customAmountType === 'ap-spend' && 'Custom Action Points Spend Amount'}
+                            {customAmountType === 'ap-restore' && 'Custom Action Points Restore Amount'}
                             {customAmountType === 'xp' && 'Award Experience Points'}
                         </h3>
                         <input
@@ -1816,6 +2086,114 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                                 onClick={() => {
                                     setShowCustomAmountModal(false);
                                     setCustomAmountType('');
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && (
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '350px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                            Overheal Detected
+                        </h3>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
+                            This would restore {overhealData.adjustment} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}, 
+                            but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
+                            <br />
+                            <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.
+                        </p>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '13px', fontStyle: 'italic' }}>
+                            Would you like to add the excess as temporary {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}?
+                        </p>
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.adjustment, true);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Add as Temporary
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    // Just cap at max, don't add temporary
+                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.maxValue - overhealData.currentValue, false);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cap at Maximum
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#e8dcc0',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
                                 }}
                             >
                                 Cancel
