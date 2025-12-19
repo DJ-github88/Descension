@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
+import usePartyStore from '../../store/partyStore';
 import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import StatTooltip from '../tooltips/StatTooltip';
 import ResistanceTooltip from '../tooltips/ResistanceTooltip';
@@ -161,14 +162,18 @@ const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, o
     };
 
     const handleAdjustment = (amount) => {
-        const newValue = Math.max(0, Math.min(max, current + amount));
-        onUpdate(resourceType, newValue, max);
+        // Calculate the new value without capping (let onUpdate handle overheal detection)
+        const newValue = current + amount;
+        // Only cap negative values (damage)
+        const cappedValue = amount < 0 ? Math.max(0, newValue) : newValue;
+        onUpdate(resourceType, cappedValue, max);
     };
 
     const handleInputSubmit = () => {
         const value = parseInt(inputValue);
         if (!isNaN(value)) {
-            const newValue = Math.max(0, Math.min(max, value));
+            // For input, allow values above max to trigger overheal detection
+            const newValue = Math.max(0, value);
             onUpdate(resourceType, newValue, max);
         }
         setInputValue('');
@@ -413,6 +418,8 @@ export default function CharacterPanel() {
     const [unequipContextMenu, setUnequipContextMenu] = useState({ visible: false, x: 0, y: 0, item: null, slotName: null });
     const [lastRaceSubracePath, setLastRaceSubracePath] = useState({ race: '', subrace: '', path: '' });
     const [lastCharacterId, setLastCharacterId] = useState(null);
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, adjustment, currentValue, maxValue }
 
     // Get current character ID from store
     const currentCharacterId = characterStore?.currentCharacterId || null;
@@ -996,6 +1003,86 @@ export default function CharacterPanel() {
         </div>
     );
 
+    // Handler for resource updates with overheal detection
+    const handleResourceUpdate = (resourceType, newValue, maxValue) => {
+        // Get current resource values
+        const currentResource = dataSource[resourceType] || { current: 0, max: 0 };
+        const currentValue = currentResource.current || 0;
+        const actualMax = maxValue || currentResource.max || 0;
+        
+        // Calculate the adjustment amount
+        const adjustment = newValue - currentValue;
+        
+        // Check for overheal (positive adjustment that would exceed max)
+        if (adjustment > 0 && newValue > actualMax) {
+            const overhealAmount = newValue - actualMax;
+            setOverhealData({
+                resourceType,
+                adjustment,
+                overhealAmount,
+                currentValue,
+                maxValue: actualMax
+            });
+            setShowOverhealModal(true);
+            return; // Don't apply yet, wait for user confirmation
+        }
+        
+        // Normal update (no overheal or negative adjustment)
+        updateResource(resourceType, Math.max(0, Math.min(actualMax, newValue)), actualMax);
+    };
+
+    // Apply resource adjustment with optional temporary resource
+    const applyResourceAdjustment = (asTemporary = false) => {
+        if (!overhealData) return;
+        
+        const { resourceType, adjustment, currentValue, maxValue } = overhealData;
+        const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+        };
+        const tempField = tempFieldMap[resourceType];
+        const currentTemp = dataSource[tempField] || 0;
+        
+        if (asTemporary) {
+            // Add as temporary resource
+            const overhealAmount = (currentValue + adjustment) - maxValue;
+            
+            // Set resource to max
+            updateResource(resourceType, maxValue, maxValue);
+            
+            // Update temporary resource
+            if (inspectionData) {
+                // For inspected characters, update through party store
+                const partyState = usePartyStore.getState();
+                // Find member by name (inspection context provides name)
+                const member = partyState.partyMembers.find(m => m.name === inspectionData.name);
+                
+                if (member) {
+                    usePartyStore.getState().updatePartyMember(member.id, {
+                        character: {
+                            ...member.character,
+                            [tempField]: currentTemp + overhealAmount
+                        }
+                    });
+                } else {
+                    // If not found in party, might be current player being inspected
+                    // In that case, update character store directly
+                    useCharacterStore.getState().updateTempResource(resourceType, currentTemp + overhealAmount);
+                }
+            } else {
+                // Update current player's temporary resource
+                useCharacterStore.getState().updateTempResource(resourceType, currentTemp + overhealAmount);
+            }
+        } else {
+            // Just cap at max, don't add temporary
+            updateResource(resourceType, maxValue, maxValue);
+        }
+        
+        setShowOverhealModal(false);
+        setOverhealData(null);
+    };
+
     // Render resources section
     const renderResources = () => {
         // Get class resource configuration
@@ -1011,7 +1098,7 @@ export default function CharacterPanel() {
                         className="health"
                         label="Health"
                         resourceType="health"
-                        onUpdate={updateResource}
+                        onUpdate={handleResourceUpdate}
                         tooltipPosition={tooltipPosition}
                         setTooltipPosition={setTooltipPosition}
                     />
@@ -1022,7 +1109,7 @@ export default function CharacterPanel() {
                         className="mana"
                         label="Mana"
                         resourceType="mana"
-                        onUpdate={updateResource}
+                        onUpdate={handleResourceUpdate}
                         tooltipPosition={tooltipPosition}
                         setTooltipPosition={setTooltipPosition}
                     />
@@ -1033,7 +1120,7 @@ export default function CharacterPanel() {
                         className="action-points"
                         label="Action Points"
                         resourceType="actionPoints"
-                        onUpdate={updateResource}
+                        onUpdate={handleResourceUpdate}
                         tooltipPosition={tooltipPosition}
                         setTooltipPosition={setTooltipPosition}
                     />
@@ -1520,6 +1607,106 @@ export default function CharacterPanel() {
                     onClose={() => setUnequipContextMenu({ visible: false })}
                     onUnequip={handleUnequipItem}
                 />,
+                document.body
+            )}
+
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && ReactDOM.createPortal(
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '350px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                            Overheal Detected
+                        </h3>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
+                            This would restore {overhealData.adjustment} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}, 
+                            but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
+                            <br />
+                            <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.
+                        </p>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '13px', fontStyle: 'italic' }}>
+                            Would you like to add the excess as temporary {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}?
+                        </p>
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => applyResourceAdjustment(true)}
+                            >
+                                Add as Temporary
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => applyResourceAdjustment(false)}
+                            >
+                                Cap at Maximum
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#e8dcc0',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>,
                 document.body
             )}
         </div>
