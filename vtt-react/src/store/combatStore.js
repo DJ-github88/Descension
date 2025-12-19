@@ -486,7 +486,7 @@ const useCombatStore = create((set, get) => ({
 
             // Debug function to log current state
             debugCombatState: () => {
-                const state = get();
+                get();
                 // Combat store state debug
             },
 
@@ -1153,7 +1153,7 @@ if (typeof window !== 'undefined') {
             useCombatStore.getState().resetMovementState();
         },
         checkState: () => {
-            const state = useCombatStore.getState();
+            useCombatStore.getState();
             // Combat state checked
         },
         forceUnlockMovement: (tokenId) => {
@@ -1188,7 +1188,7 @@ if (typeof window !== 'undefined') {
             useCombatStore.getState().initializeStore();
         },
         testMovementConfirmation: (tokenId) => {
-            const state = useCombatStore.getState();
+            useCombatStore.getState();
             // Test movement confirmation
         },
         forceShowMovementDialog: (tokenId) => {
@@ -1238,7 +1238,7 @@ if (typeof window !== 'undefined') {
             return result;
         },
         debugMovementSystem: () => {
-            const state = useCombatStore.getState();
+            useCombatStore.getState();
             // Debug movement system
         }
     };

@@ -93,22 +93,6 @@ const CooldownAdjustmentMenu = ({ slotIndex, item, onAdjust, onClose, actionBarR
         onAdjust(newValue);
     };
 
-    // Format cooldown display
-    const formatCooldown = (value) => {
-        if (cooldownType === 'real_time') {
-            const hours = Math.floor(value / 3600);
-            const minutes = Math.floor((value % 3600) / 60);
-            const seconds = value % 60;
-            
-            if (hours > 0) return `${hours}h ${minutes}m`;
-            if (minutes > 0) return `${minutes}m ${seconds}s`;
-            return `${seconds}s`;
-        } else if (cooldownType === 'turn_based') {
-            return `${value} ${value === 1 ? 'turn' : 'turns'}`;
-        }
-        return `${value}`;
-    };
-
     return createPortal(
         <div className="cooldown-menu-overlay">
             <div

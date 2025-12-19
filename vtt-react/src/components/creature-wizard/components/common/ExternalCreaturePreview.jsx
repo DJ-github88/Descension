@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import SimpleCreatureTooltip from './SimpleCreatureTooltip';
 import useCreatureStore from '../../../../store/creatureStore';
@@ -111,7 +111,6 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
   // Calculate position with fallback values and live updates - REACTIVE
   // Use correct width based on activeView (library/wizard = 900px, community = 1100px)
   const defaultWidth = activeView === 'community' ? 1100 : 900;
-  const wizardWidth = (windowSize?.width || defaultWidth) * windowScale;
   const wizardX = windowPosition?.x ?? ((window.innerWidth - defaultWidth) / 2);
   const wizardY = windowPosition?.y ?? ((window.innerHeight - 800) / 2);
 

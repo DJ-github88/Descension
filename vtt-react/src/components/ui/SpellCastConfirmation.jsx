@@ -4,12 +4,12 @@ import useCharacterStore from '../../store/characterStore';
 import './SpellCastConfirmation.css';
 
 const SpellCastConfirmation = ({ spell, onConfirm, onCancel }) => {
-    if (!spell) return null;
-
-    // Get current resources to check availability
+    // Get current resources to check availability (hooks must be called unconditionally)
     const currentMana = useCharacterStore(state => state.mana);
     const currentAP = useCharacterStore(state => state.actionPoints);
     const currentClassResource = useCharacterStore(state => state.classResource);
+
+    if (!spell) return null;
 
     const handleOverlayClick = (e) => {
         // Only close if clicking directly on the overlay, not on the dialog content

@@ -34,7 +34,7 @@ export function useCommunityCreatures() {
   useEffect(() => {
     loadCategories();
     loadFeaturedCreatures();
-  }, []);
+  }, [loadCategories, loadFeaturedCreatures]);
 
   const loadCategories = useCallback(async () => {
     try {

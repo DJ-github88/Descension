@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import useInventoryStore from '../../store/inventoryStore';
 import useBuffStore from '../../store/buffStore';
 import useCharacterStore from '../../store/characterStore';
@@ -24,13 +24,10 @@ const ActionBar = () => {
     // Use the persistence hook instead of local state
     const {
         actionSlots,
-        isLoading,
         updateSlot,
         clearSlot,
         updateActionSlots
     } = useActionBarPersistence(currentRoomId);
-
-    const [draggedSpell, setDraggedSpell] = useState(null);
     const dragOverSlot = useRef(null);
     const actionBarContainerRef = useRef(null);
 
@@ -74,17 +71,13 @@ const ActionBar = () => {
     const updateResource = useCharacterStore(state => state.updateResource);
     const gainClassResource = useCharacterStore(state => state.gainClassResource);
     const consumeClassResource = useCharacterStore(state => state.consumeClassResource);
-    const updateClassResource = useCharacterStore(state => state.updateClassResource);
     const health = useCharacterStore(state => state.health);
     const mana = useCharacterStore(state => state.mana);
-    const actionPoints = useCharacterStore(state => state.actionPoints);
-    const classResource = useCharacterStore(state => state.classResource);
     const experience = useCharacterStore(state => state.experience || 0);
 
     // Get combat store for turn restrictions and cooldown progression
     const { isInCombat, getCurrentCombatant, round, currentTurnIndex, turnOrder } = useCombatStore();
     const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
-    const characterName = useCharacterStore(state => state.name);
     
     // Track cooldown timers and types
     const cooldownTimersRef = useRef({});
@@ -149,12 +142,13 @@ const ActionBar = () => {
                 return hasChanges ? updatedSlots : currentSlots;
             });
         }
-    }, [round, isInCombat, currentTurnIndex, turnOrder]);
+    }, [round, isInCombat, currentTurnIndex, turnOrder, updateActionSlots]);
 
     // Cleanup timers on unmount
     useEffect(() => {
+        const timers = cooldownTimersRef.current;
         return () => {
-            Object.values(cooldownTimersRef.current).forEach(timer => {
+            Object.values(timers).forEach(timer => {
                 if (timer) clearInterval(timer);
             });
         };
@@ -197,7 +191,7 @@ const ActionBar = () => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [hotkeys, showHotkeyPopup, actionSlots]);
+    }, [hotkeys, showHotkeyPopup, actionSlots, handleSlotClick]);
 
     // Helper function to get current quantity of a consumable item
     const getItemQuantity = (itemId) => {
@@ -351,7 +345,7 @@ const ActionBar = () => {
         dragOverSlot.current = null;
     };
 
-    const handleSlotClick = (slotIndex, e) => {
+    const handleSlotClick = useCallback((slotIndex, e) => {
         const item = actionSlots[slotIndex];
         if (!item) return;
         
@@ -390,9 +384,8 @@ const ActionBar = () => {
             const currentQuantity = getItemQuantity(item.originalItemId);
 
             if (currentQuantity > 0) {
-
                 // Apply consumable effects
-                const effectResults = applyConsumableEffects(item);
+                applyConsumableEffects(item);
 
                 // Remove one item from inventory
                 const inventoryItem = inventoryItems.find(invItem =>
@@ -407,7 +400,7 @@ const ActionBar = () => {
                 // Effects applied (instant and buff effects handled internally)
             }
         }
-    };
+    }, [actionSlots, isInCombat, getCurrentCombatant, spellLibrary, getItemQuantity, applyConsumableEffects, inventoryItems, removeItem]);
 
     const handleRightClick = (e, slotIndex) => {
         e.preventDefault();
