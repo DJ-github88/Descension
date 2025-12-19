@@ -1228,7 +1228,42 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setShowContextMenu(false);
     };
 
-    // Handle kill (set health to 0)
+    // Handle full drain all (HP, mana, and AP, including temporary resources)
+    const handleFullDrainAll = () => {
+        if (!contextMenuMember) return;
+
+        const memberId = contextMenuMember.id;
+
+        if (memberId === 'current-player') {
+            const currentHp = currentPlayerData.health?.current || 0;
+            const tempHp = currentPlayerData.tempHealth || 0;
+            const currentMp = currentPlayerData.mana?.current || 0;
+            const tempMp = currentPlayerData.tempMana || 0;
+            const currentAp = currentPlayerData.actionPoints?.current || 0;
+            const tempAp = currentPlayerData.tempActionPoints || 0;
+            // Drain all resources including temporary
+            handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
+            handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
+            handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
+        } else {
+            const member = partyMembers.find(m => m.id === memberId);
+            if (member) {
+                const currentHp = member.character?.health?.current || 0;
+                const tempHp = member.character?.tempHealth || 0;
+                const currentMp = member.character?.mana?.current || 0;
+                const tempMp = member.character?.tempMana || 0;
+                const currentAp = member.character?.actionPoints?.current || 0;
+                const tempAp = member.character?.tempActionPoints || 0;
+                // Drain all resources including temporary
+                handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
+                handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
+                handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
+            }
+        }
+        setShowContextMenu(false);
+    };
+
+    // Handle kill (set health to 0, including temporary HP)
     const handleKill = () => {
         if (!contextMenuMember) return;
 
@@ -1236,18 +1271,22 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         if (memberId === 'current-player') {
             const currentHp = currentPlayerData.health?.current || 0;
-            handleResourceAdjust(memberId, 'health', -currentHp);
+            const tempHp = currentPlayerData.tempHealth || 0;
+            // Drain both current and temporary HP
+            handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const currentHp = member.character?.health?.current || 0;
-                handleResourceAdjust(memberId, 'health', -currentHp);
+                const tempHp = member.character?.tempHealth || 0;
+                // Drain both current and temporary HP
+                handleResourceAdjust(memberId, 'health', -(currentHp + tempHp));
             }
         }
         setShowContextMenu(false);
     };
 
-    // Handle drain mana (set mana to 0)
+    // Handle drain mana (set mana to 0, including temporary mana)
     const handleDrainMana = () => {
         if (!contextMenuMember) return;
 
@@ -1255,12 +1294,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         if (memberId === 'current-player') {
             const currentMp = currentPlayerData.mana?.current || 0;
-            handleResourceAdjust(memberId, 'mana', -currentMp);
+            const tempMp = currentPlayerData.tempMana || 0;
+            // Drain both current and temporary mana
+            handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const currentMp = member.character?.mana?.current || 0;
-                handleResourceAdjust(memberId, 'mana', -currentMp);
+                const tempMp = member.character?.tempMana || 0;
+                // Drain both current and temporary mana
+                handleResourceAdjust(memberId, 'mana', -(currentMp + tempMp));
             }
         }
         setShowContextMenu(false);
@@ -1287,7 +1330,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
         setShowContextMenu(false);
     };
 
-    // Handle drain AP (set action points to 0)
+    // Handle drain AP (set action points to 0, including temporary AP)
     const handleDrainAP = () => {
         if (!contextMenuMember) return;
 
@@ -1295,12 +1338,16 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
 
         if (memberId === 'current-player') {
             const currentAp = currentPlayerData.actionPoints?.current || 0;
-            handleResourceAdjust(memberId, 'actionPoints', -currentAp);
+            const tempAp = currentPlayerData.tempActionPoints || 0;
+            // Drain both current and temporary AP
+            handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
         } else {
             const member = partyMembers.find(m => m.id === memberId);
             if (member) {
                 const currentAp = member.character?.actionPoints?.current || 0;
-                handleResourceAdjust(memberId, 'actionPoints', -currentAp);
+                const tempAp = member.character?.tempActionPoints || 0;
+                // Drain both current and temporary AP
+                handleResourceAdjust(memberId, 'actionPoints', -(currentAp + tempAp));
             }
         }
         setShowContextMenu(false);
@@ -1481,6 +1528,14 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         label: 'Full Restore All',
                         onClick: handleFullRestoreAll,
                         className: 'heal'
+                    });
+
+                    // Full Drain All button (drains HP, mana, and AP including temporary)
+                    menuItems.push({
+                        icon: <i className="fas fa-battery-empty"></i>,
+                        label: 'Full Drain All',
+                        onClick: handleFullDrainAll,
+                        className: 'danger'
                     });
 
                     menuItems.push({ type: 'separator' });
