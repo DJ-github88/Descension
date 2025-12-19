@@ -128,11 +128,16 @@ const InventoryWindow = memo(() => {
     }));
 
     // Character store for equipment management and resource updates
-    const { equipItem, updateResource, health, mana } = useCharacterStore(state => ({
+    const { equipItem, updateResource, health, mana, actionPoints, tempHealth, tempMana, tempActionPoints, updateTempResource } = useCharacterStore(state => ({
         equipItem: state.equipItem,
         updateResource: state.updateResource,
         health: state.health,
-        mana: state.mana
+        mana: state.mana,
+        actionPoints: state.actionPoints,
+        tempHealth: state.tempHealth || 0,
+        tempMana: state.tempMana || 0,
+        tempActionPoints: state.tempActionPoints || 0,
+        updateTempResource: state.updateTempResource
     }));
 
     // Crafting store for learning recipes
@@ -167,6 +172,10 @@ const InventoryWindow = memo(() => {
     const [itemToRename, setItemToRename] = useState(null);
     const [showSplitStackModal, setShowSplitStackModal] = useState(false);
     const [itemToSplit, setItemToSplit] = useState(null);
+    
+    // Overheal modal state
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, currentValue, maxValue, item }
     
     // Mobile detection
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -394,8 +403,212 @@ const InventoryWindow = memo(() => {
         setItemToSplit(null);
     };
 
+    // Apply resource adjustment with overheal detection
+    const applyResourceAdjustmentWithOverheal = useCallback((resourceType, amount, item) => {
+        const resourceMap = {
+            'health': health,
+            'mana': mana,
+            'actionPoints': actionPoints
+        };
+        
+        const currentResource = resourceMap[resourceType];
+        if (!currentResource) return false;
+        
+        const currentValue = currentResource.current || 0;
+        const maxValue = currentResource.max || 0;
+        const newValue = currentValue + amount;
+        
+        // Check for overheal (positive adjustment that would exceed max)
+        if (amount > 0 && newValue > maxValue) {
+            const overhealAmount = newValue - maxValue;
+            setOverhealData({
+                resourceType,
+                amount,
+                overhealAmount,
+                currentValue,
+                maxValue,
+                item
+            });
+            setShowOverhealModal(true);
+            return false; // Don't apply yet, wait for user confirmation
+        }
+        
+        // Normal application (no overheal or negative adjustment)
+        const finalValue = Math.max(0, Math.min(maxValue, newValue));
+        updateResource(resourceType, finalValue, maxValue);
+        return true;
+    }, [health, mana, actionPoints, updateResource]);
+
+    // Apply resource adjustment with temporary resource support
+    const applyResourceWithTemporary = useCallback((asTemporary) => {
+        if (!overhealData) return;
+        
+        const { resourceType, amount, currentValue, maxValue, item } = overhealData;
+        const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+        };
+        const tempField = tempFieldMap[resourceType];
+        const currentTemp = tempField === 'tempHealth' ? tempHealth : 
+                           tempField === 'tempMana' ? tempMana : tempActionPoints;
+        
+        if (asTemporary) {
+            // Add as temporary resource
+            const overhealAmount = (currentValue + amount) - maxValue;
+            
+            // Set resource to max
+            updateResource(resourceType, maxValue, maxValue);
+            
+            // Update temporary resource
+            updateTempResource(resourceType, currentTemp + overhealAmount);
+        } else {
+            // Just cap at max, don't add temporary
+            updateResource(resourceType, maxValue, maxValue);
+        }
+        
+        // Continue with the rest of consumable effects
+        if (item) {
+            applyRemainingConsumableEffects(item, resourceType);
+        }
+        
+        // Remove the item from inventory after decision is made
+        if (item) {
+            removeItem(item.id, 1);
+        }
+        
+        setShowOverhealModal(false);
+        setOverhealData(null);
+    }, [overhealData, tempHealth, tempMana, tempActionPoints, updateResource, updateTempResource, removeItem]);
+
+    // Apply remaining consumable effects (after overheal is handled)
+    const applyRemainingConsumableEffects = useCallback((item, skipResourceType = null) => {
+        const combatStats = item.combatStats || {};
+        const effects = {};
+        let hasBuffEffects = false;
+        let hasDebuffEffects = false;
+
+        // Collect stat buff effects from combatStats
+        ['strength', 'agility', 'intelligence', 'constitution', 'spirit', 'charisma'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value > 0) {
+                effects[stat] = combatStats[stat].value;
+                hasBuffEffects = true;
+            }
+        });
+
+        // Collect other combat stat effects
+        ['armor', 'damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value > 0) {
+                effects[stat] = combatStats[stat].value;
+                hasBuffEffects = true;
+            }
+        });
+
+        // Handle spell damage types
+        if (combatStats.spellDamage && combatStats.spellDamage.types) {
+            Object.entries(combatStats.spellDamage.types).forEach(([spellType, spellData]) => {
+                const value = typeof spellData === 'object' ? spellData.value : spellData;
+                if (value > 0) {
+                    effects[`${spellType}SpellPower`] = value;
+                    hasBuffEffects = true;
+                }
+            });
+        }
+
+        // Handle individual spell damage types
+        const spellDamageTypes = ['fire', 'frost', 'arcane', 'shadow', 'holy', 'nature', 'lightning', 'cold', 'acid', 'force', 'thunder'];
+        spellDamageTypes.forEach(type => {
+            const typeKey = `${type}Damage`;
+            const spellPowerKey = `${type}SpellPower`;
+
+            if (combatStats[typeKey] && combatStats[typeKey].value > 0) {
+                effects[spellPowerKey] = combatStats[typeKey].value;
+                hasBuffEffects = true;
+            }
+
+            if (combatStats[spellPowerKey] && combatStats[spellPowerKey].value > 0) {
+                effects[spellPowerKey] = combatStats[spellPowerKey].value;
+                hasBuffEffects = true;
+            }
+        });
+
+        // Handle resistances
+        if (combatStats.resistances) {
+            Object.entries(combatStats.resistances).forEach(([resistanceType, resData]) => {
+                const value = typeof resData === 'object' ? resData.value : resData;
+                if (value > 0) {
+                    effects[`${resistanceType}Resistance`] = value;
+                    hasBuffEffects = true;
+                }
+            });
+        }
+
+        // Check baseStats for buff/debuff effects
+        const baseStats = item.baseStats || {};
+        const buffEffects = { ...effects };
+        const debuffEffects = {};
+
+        Object.keys(baseStats).forEach(statName => {
+            const statData = baseStats[statName];
+            if (statData) {
+                const value = typeof statData === 'object' ? statData.value : statData;
+                if (value > 0) {
+                    buffEffects[statName] = value;
+                    hasBuffEffects = true;
+                } else if (value < 0) {
+                    debuffEffects[statName] = Math.abs(value);
+                    hasDebuffEffects = true;
+                }
+            }
+        });
+
+        // Check utilityStats for additional effects
+        const utilityStats = item.utilityStats || {};
+        Object.keys(utilityStats).forEach(statName => {
+            const statData = utilityStats[statName];
+            if (statData) {
+                const value = typeof statData === 'object' ? statData.value : statData;
+                if (value > 0) {
+                    const statMap = {
+                        movementSpeed: 'moveSpeed',
+                        carryingCapacity: 'carryingCapacity'
+                    };
+                    const mappedStat = statMap[statName] || statName;
+                    buffEffects[mappedStat] = value;
+                    hasBuffEffects = true;
+                }
+            }
+        });
+
+        // Apply buff effects if any exist
+        if (hasBuffEffects) {
+            addBuff({
+                name: item.name,
+                icon: `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`,
+                description: item.description || `Temporary enhancement from ${item.name}`,
+                effects: buffEffects,
+                duration: 180,
+                source: 'consumable',
+                stackable: false
+            });
+        }
+
+        // Apply debuff effects if any exist
+        if (hasDebuffEffects) {
+            addDebuff({
+                name: item.name,
+                icon: `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`,
+                description: item.description || `Temporary negative effect from ${item.name}`,
+                effects: debuffEffects,
+                duration: 180,
+                source: 'consumable',
+                stackable: false
+            });
+        }
+    }, [addBuff, addDebuff]);
+
     // Handle using a consumable item
-    const handleUseConsumable = (item) => {
+    const handleUseConsumable = useCallback((item) => {
         if (!item) return;
 
         try {
@@ -428,175 +641,65 @@ const InventoryWindow = memo(() => {
             // Handle regular consumables
             if (item.type !== 'consumable') return;
 
-            // Apply consumable effects (same logic as ActionBar)
+            // Apply consumable effects with overheal detection
             const combatStats = item.combatStats || {};
             let hasInstantEffects = false;
-            let hasBuffEffects = false;
-            let hasDebuffEffects = false;
-            const effects = {};
+            let pendingOverheal = false;
 
-            // Apply instant healing effects
+            // Apply instant healing effects with overheal detection
             if (combatStats.healthRestore) {
                 const healAmount = combatStats.healthRestore.value || 0;
                 if (healAmount > 0) {
-                    const newHealthValue = Math.min(health.max, health.current + healAmount);
-                    updateResource('health', newHealthValue, health.max);
-                    hasInstantEffects = true;
+                    const applied = applyResourceAdjustmentWithOverheal('health', healAmount, item);
+                    if (applied) {
+                        hasInstantEffects = true;
+                    } else {
+                        pendingOverheal = true;
+                    }
                 }
             }
 
-            // Apply instant mana restoration
+            // Apply instant mana restoration with overheal detection
             if (combatStats.manaRestore) {
                 const manaAmount = combatStats.manaRestore.value || 0;
                 if (manaAmount > 0) {
-                    const newManaValue = Math.min(mana.max, mana.current + manaAmount);
-                    updateResource('mana', newManaValue, mana.max);
-                    hasInstantEffects = true;
-                }
-            }
-
-            // Collect stat buff effects from combatStats
-            ['strength', 'agility', 'intelligence', 'constitution', 'spirit', 'charisma'].forEach(stat => {
-                if (combatStats[stat] && combatStats[stat].value > 0) {
-                    effects[stat] = combatStats[stat].value;
-                    hasBuffEffects = true;
-                }
-            });
-
-            // Collect other combat stat effects (armor, damage, etc.)
-            ['armor', 'damage', 'spellDamage', 'healingPower', 'healthRegen', 'manaRegen', 'moveSpeed'].forEach(stat => {
-                if (combatStats[stat] && combatStats[stat].value > 0) {
-                    effects[stat] = combatStats[stat].value;
-                    hasBuffEffects = true;
-                }
-            });
-
-            // Handle spell damage types
-            if (combatStats.spellDamage && combatStats.spellDamage.types) {
-                Object.entries(combatStats.spellDamage.types).forEach(([spellType, spellData]) => {
-                    const value = typeof spellData === 'object' ? spellData.value : spellData;
-                    if (value > 0) {
-                        effects[`${spellType}SpellPower`] = value;
-                        hasBuffEffects = true;
-                    }
-                });
-            }
-
-            // Handle individual spell damage types (fire, frost, etc.)
-            const spellDamageTypes = ['fire', 'frost', 'arcane', 'shadow', 'holy', 'nature', 'lightning', 'cold', 'acid', 'force', 'thunder'];
-            spellDamageTypes.forEach(type => {
-                const typeKey = `${type}Damage`;
-                const spellPowerKey = `${type}SpellPower`;
-
-                if (combatStats[typeKey] && combatStats[typeKey].value > 0) {
-                    effects[spellPowerKey] = combatStats[typeKey].value;
-                    hasBuffEffects = true;
-                }
-
-                if (combatStats[spellPowerKey] && combatStats[spellPowerKey].value > 0) {
-                    effects[spellPowerKey] = combatStats[spellPowerKey].value;
-                    hasBuffEffects = true;
-                }
-            });
-
-            // Handle resistances
-            if (combatStats.resistances) {
-                Object.entries(combatStats.resistances).forEach(([resistanceType, resData]) => {
-                    const value = typeof resData === 'object' ? resData.value : resData;
-                    if (value > 0) {
-                        effects[`${resistanceType}Resistance`] = value;
-                        hasBuffEffects = true;
-                    }
-                });
-            }
-
-            // Also check baseStats for buff/debuff effects (this is where elixirs store their stat bonuses)
-            const baseStats = item.baseStats || {};
-            const buffEffects = { ...effects }; // Start with effects from combatStats
-            const debuffEffects = {};
-
-            Object.keys(baseStats).forEach(statName => {
-                const statData = baseStats[statName];
-                if (statData) {
-                    const value = typeof statData === 'object' ? statData.value : statData;
-                    if (value > 0) {
-                        buffEffects[statName] = value;
-                        hasBuffEffects = true;
-                    } else if (value < 0) {
-                        debuffEffects[statName] = Math.abs(value); // Store as positive value, debuff store will make it negative
-                        hasDebuffEffects = true;
+                    const applied = applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
+                    if (applied) {
+                        hasInstantEffects = true;
+                    } else {
+                        pendingOverheal = true;
                     }
                 }
-            });
+            }
 
-            // Check utilityStats for additional effects
-            const utilityStats = item.utilityStats || {};
-            Object.keys(utilityStats).forEach(statName => {
-                const statData = utilityStats[statName];
-                if (statData) {
-                    const value = typeof statData === 'object' ? statData.value : statData;
-                    if (value > 0) {
-                        // Map utility stat names
-                        const statMap = {
-                            movementSpeed: 'moveSpeed',
-                            carryingCapacity: 'carryingCapacity'
-                        };
-                        const mappedStat = statMap[statName] || statName;
-                        buffEffects[mappedStat] = value;
-                        hasBuffEffects = true;
-                    } else if (value < 0) {
-                        const statMap = {
-                            movementSpeed: 'moveSpeed',
-                            carryingCapacity: 'carryingCapacity'
-                        };
-                        const mappedStat = statMap[statName] || statName;
-                        debuffEffects[mappedStat] = Math.abs(value);
-                        hasDebuffEffects = true;
+            // Apply action point restoration with overheal detection (if supported)
+            if (combatStats.actionPointRestore || combatStats.apRestore) {
+                const apAmount = (combatStats.actionPointRestore?.value || combatStats.apRestore?.value || 0);
+                if (apAmount > 0) {
+                    const applied = applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
+                    if (applied) {
+                        hasInstantEffects = true;
+                    } else {
+                        pendingOverheal = true;
                     }
                 }
-            });
-
-            // Apply buff effects if any exist
-            if (hasBuffEffects) {
-                addBuff({
-                    name: item.name,
-                    icon: `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`,
-                    description: item.description || `Temporary enhancement from ${item.name}`,
-                    effects: buffEffects,
-                    duration: 180, // 3 minutes (3 rounds)
-                    source: 'consumable',
-                    stackable: false
-                });
             }
 
-            // Apply debuff effects if any exist
-            if (hasDebuffEffects) {
-                addDebuff({
-                    name: item.name,
-                    icon: `https://wow.zamimg.com/images/wow/icons/large/${item.iconId}.jpg`,
-                    description: item.description || `Negative effects from ${item.name}`,
-                    effects: debuffEffects,
-                    duration: 180, // 3 minutes (3 rounds)
-                    source: 'consumable',
-                    stackable: false
-                });
+            // If there's a pending overheal, don't apply buffs yet (they'll be applied after modal)
+            if (pendingOverheal) {
+                return; // Don't remove item yet, wait for user decision
             }
 
-            // Remove one item from inventory
+            // Apply remaining consumable effects (buffs/debuffs)
+            applyRemainingConsumableEffects(item);
+
+            // Remove the item from inventory
             removeItem(item.id, 1);
-
-            // Log effect application
-            if (hasInstantEffects) {
-                console.log(`Applied instant effects from ${item.name}`);
-            }
-            if (hasBuffEffects) {
-                console.log(`Applied buff effects from ${item.name}`);
-            }
 
         } catch (error) {
             console.error('Error using consumable:', error);
         }
-    };
+    }, [applyResourceAdjustmentWithOverheal, applyRemainingConsumableEffects, removeItem]);
 
 
 
@@ -2105,6 +2208,110 @@ const InventoryWindow = memo(() => {
                     onClose={() => setEquipmentContextMenu({ visible: false })}
                     onEquip={handleEquipItem}
                 />,
+                document.body
+            )}
+
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && ReactDOM.createPortal(
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001,
+                        margin: 0,
+                        padding: 0
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '350px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                            Overheal Detected
+                        </h3>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
+                            <strong>{overhealData.item?.name || 'Item'}</strong>
+                            <br />
+                            This would restore {overhealData.amount} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}, 
+                            but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
+                            <br />
+                            <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.
+                        </p>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '13px', fontStyle: 'italic' }}>
+                            Would you like to add the excess as temporary {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}?
+                        </p>
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => applyResourceWithTemporary(true)}
+                            >
+                                Add as Temporary
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => applyResourceWithTemporary(false)}
+                            >
+                                Cap at Maximum
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#e8dcc0',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>,
                 document.body
             )}
 
