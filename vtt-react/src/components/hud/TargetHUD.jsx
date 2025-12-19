@@ -10,8 +10,6 @@ import useDebuffStore from '../../store/debuffStore';
 import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import EnhancedCreatureInspectView from '../creature-wizard/components/common/EnhancedCreatureInspectView';
-import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
-import '../../styles/unified-context-menu.css';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
 import './styles/ClassResourceBar.css';
@@ -20,6 +18,8 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const nodeRef = useRef(null);
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
+    const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
+    const contextMenuRef = useRef(null);
     const [tooltip, setTooltip] = useState({ show: false, content: '', position: { x: 0, y: 0 } });
     const [currentTime, setCurrentTime] = useState(Date.now());
     const [conditionContextMenu, setConditionContextMenu] = useState({ show: false, condition: null, position: { x: 0, y: 0 } });
@@ -56,14 +56,14 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             // Check if the click is inside any context menu
-            const isInsideContextMenu = event.target.closest('.party-context-menu') ||
+            const isInsideContextMenu = event.target.closest('.context-menu-container') ||
                                       event.target.closest('.buff-context-menu') ||
-                                      event.target.closest('.debuff-context-menu') ||
-                                      event.target.closest('.unified-context-menu');
+                                      event.target.closest('.debuff-context-menu');
 
             if (!isInsideContextMenu) {
                 if (showContextMenu) {
                     setShowContextMenu(false);
+                    setHoveredMenuItem(null);
                 }
                 if (conditionContextMenu.show) {
                     setConditionContextMenu({ show: false, condition: null, position: { x: 0, y: 0 } });
@@ -1379,14 +1379,155 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 }
 
                 return (
-                    <UnifiedContextMenu
-                        visible={true}
-                        x={contextMenuPosition.x}
-                        y={contextMenuPosition.y}
-                        onClose={() => setShowContextMenu(false)}
-                        disableClickOutside={true}
-                        items={menuItems}
-                    />
+                    <div
+                        ref={contextMenuRef}
+                        className="context-menu-container"
+                        style={{
+                            position: 'fixed',
+                            left: contextMenuPosition.x,
+                            top: contextMenuPosition.y,
+                            zIndex: 10000,
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            padding: '8px',
+                            display: 'flex',
+                            gap: '0',
+                            minWidth: hoveredMenuItem !== null && menuItems[hoveredMenuItem]?.submenu ? '280px' : '160px'
+                        }}
+                        onMouseLeave={() => {
+                            // Close menu when mouse leaves entire container
+                            setHoveredMenuItem(null);
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Main menu items */}
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                            {menuItems.map((item, index) => (
+                                <React.Fragment key={index}>
+                                    {item.type === 'separator' ? (
+                                        <hr style={{
+                                            border: 'none',
+                                            borderTop: '1px solid #a08c70',
+                                            margin: '4px 0',
+                                            width: '100%'
+                                        }} />
+                                    ) : (
+                                        <button
+                                            className="context-menu-button"
+                                            style={{
+                                                pointerEvents: 'auto',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                padding: '6px 12px',
+                                                border: '1px solid #a08c70',
+                                                borderRadius: '4px',
+                                                backgroundColor: hoveredMenuItem === index ? '#e8dcc0' : (item.className === 'danger' ? '#ffebee' : item.className === 'heal' ? '#e8f5e9' : '#d4c4a8'),
+                                                color: '#7a3b2e',
+                                                cursor: 'pointer',
+                                                fontSize: '12px',
+                                                fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                                                width: '100%',
+                                                textAlign: 'left',
+                                                margin: '2px 0',
+                                                minWidth: '140px'
+                                            }}
+                                            onMouseEnter={() => {
+                                                setHoveredMenuItem(index);
+                                            }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (item.submenu) {
+                                                    // Don't close on submenu items, just keep submenu open
+                                                    return;
+                                                }
+                                                if (item.onClick) {
+                                                    item.onClick(e);
+                                                }
+                                                if (!item.submenu) {
+                                                    setShowContextMenu(false);
+                                                }
+                                            }}
+                                            disabled={item.disabled}
+                                            title={item.title}
+                                        >
+                                            {item.icon}
+                                            <span>{item.label}</span>
+                                            {item.submenu && <i className="fas fa-chevron-right" style={{ marginLeft: 'auto', fontSize: '10px' }} />}
+                                        </button>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </div>
+
+                        {/* Submenu - always rendered but only visible when hovering */}
+                        {menuItems[hoveredMenuItem]?.submenu && (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    backgroundColor: '#f0e6d2',
+                                    border: '1px solid #a08c70',
+                                    borderLeft: 'none',
+                                    borderRadius: '0 4px 4px 0',
+                                    padding: '8px 4px',
+                                    minWidth: '130px',
+                                    marginLeft: '4px',
+                                    opacity: hoveredMenuItem !== null ? 1 : 0,
+                                    visibility: hoveredMenuItem !== null ? 'visible' : 'hidden',
+                                    transition: 'opacity 0.1s ease, visibility 0.1s ease'
+                                }}
+                            >
+                                {menuItems[hoveredMenuItem].submenu.map((subItem, subIndex) => (
+                                    <React.Fragment key={subIndex}>
+                                        {subItem.type === 'separator' ? (
+                                            <hr style={{
+                                                border: 'none',
+                                                borderTop: '1px solid #a08c70',
+                                                margin: '2px 0',
+                                                width: '100%'
+                                            }} />
+                                        ) : (
+                                            <button
+                                                className="context-menu-button"
+                                                style={{
+                                                    pointerEvents: 'auto',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '6px',
+                                                    padding: '4px 8px',
+                                                    border: '1px solid #a08c70',
+                                                    borderRadius: '3px',
+                                                    backgroundColor: subItem.className === 'danger' ? '#ffebee' : subItem.className === 'heal' ? '#e8f5e9' : '#d4c4a8',
+                                                    color: '#7a3b2e',
+                                                    cursor: 'pointer',
+                                                    fontSize: '11px',
+                                                    fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                                                    width: '100%',
+                                                    textAlign: 'left',
+                                                    margin: '1px 0'
+                                                }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (subItem.onClick) {
+                                                        subItem.onClick(e);
+                                                    }
+                                                    setShowContextMenu(false);
+                                                }}
+                                            >
+                                                {subItem.icon}
+                                                <span>{subItem.label}</span>
+                                            </button>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 );
             })()}
 
