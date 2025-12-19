@@ -143,6 +143,9 @@ export const InspectionProvider = ({ character, children }) => {
         health: calculatedResources.health,
         mana: calculatedResources.mana,
         actionPoints: characterData?.actionPoints || { current: 0, max: 0 },
+        tempHealth: characterData?.tempHealth || 0,
+        tempMana: characterData?.tempMana || 0,
+        tempActionPoints: characterData?.tempActionPoints || 0,
 
         // Stats
         stats: characterData?.stats || {

@@ -115,7 +115,7 @@ const getPassiveSummary = (passive = {}) => {
 
 
 
-const ResourceBar = ({ current, max, className, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
+const ResourceBar = ({ current, max, temp = 0, className, label, resourceType, onUpdate, tooltipPosition, setTooltipPosition }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -212,7 +212,14 @@ const ResourceBar = ({ current, max, className, label, resourceType, onUpdate, t
         <div className="resource-bar-container">
             <div className="resource-bar-header">
                 <span className="resource-bar-label">{label}</span>
-                <span className="resource-bar-values">{current} / {max}</span>
+                <span className="resource-bar-values">
+                    {current} / {max}
+                    {temp > 0 && (
+                        <span style={{ color: '#FF9800', marginLeft: '4px' }}>
+                            +{temp} Temporary {resourceType === 'health' ? 'HP' : resourceType === 'mana' ? 'Mana' : 'AP'}
+                        </span>
+                    )}
+                </span>
             </div>
 
             <div
@@ -308,6 +315,9 @@ export default function CharacterPanel() {
         health: state.health,
         mana: state.mana,
         actionPoints: state.actionPoints,
+        tempHealth: state.tempHealth || 0,
+        tempMana: state.tempMana || 0,
+        tempActionPoints: state.tempActionPoints || 0,
         classResource: state.classResource,
         name: state.name,
         baseName: state.baseName,
@@ -340,6 +350,9 @@ export default function CharacterPanel() {
         health,
         mana,
         actionPoints,
+        tempHealth = 0,
+        tempMana = 0,
+        tempActionPoints = 0,
         classResource,
         name,
         baseName,
@@ -994,6 +1007,7 @@ export default function CharacterPanel() {
                     <ResourceBar
                         current={health.current}
                         max={health.max}
+                        temp={tempHealth}
                         className="health"
                         label="Health"
                         resourceType="health"
@@ -1004,6 +1018,7 @@ export default function CharacterPanel() {
                     <ResourceBar
                         current={mana.current}
                         max={mana.max}
+                        temp={tempMana}
                         className="mana"
                         label="Mana"
                         resourceType="mana"
@@ -1014,6 +1029,7 @@ export default function CharacterPanel() {
                     <ResourceBar
                         current={actionPoints.current}
                         max={actionPoints.max}
+                        temp={tempActionPoints}
                         className="action-points"
                         label="Action Points"
                         resourceType="actionPoints"
