@@ -1624,7 +1624,9 @@ export default function CharacterPanel() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        zIndex: 10001
+                        zIndex: 10001,
+                        margin: 0,
+                        padding: 0
                     }}
                     onClick={() => {
                         setShowOverhealModal(false);

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import ReactDOM from 'react-dom';
 import useInventoryStore from '../../store/inventoryStore';
 import useBuffStore from '../../store/buffStore';
 import useCharacterStore from '../../store/characterStore';
@@ -213,60 +214,6 @@ const ActionBar = () => {
         updateResource(resourceType, finalValue, maxValue);
         return true;
     }, [health, mana, actionPoints, tempHealth, tempMana, tempActionPoints, updateResource]);
-
-    // Apply resource adjustment with temporary resource support
-    const applyResourceWithTemporary = useCallback((asTemporary) => {
-        if (!overhealData) return;
-        
-        const { resourceType, amount, currentValue, maxValue, item } = overhealData;
-        const tempFieldMap = {
-            'health': 'tempHealth',
-            'mana': 'tempMana',
-            'actionPoints': 'tempActionPoints'
-        };
-        const tempField = tempFieldMap[resourceType];
-        const currentTemp = tempField === 'tempHealth' ? tempHealth : 
-                           tempField === 'tempMana' ? tempMana : tempActionPoints;
-        
-        if (asTemporary) {
-            // Add as temporary resource
-            const overhealAmount = (currentValue + amount) - maxValue;
-            
-            // Set resource to max
-            updateResource(resourceType, maxValue, maxValue);
-            
-            // Update temporary resource
-            updateTempResource(resourceType, currentTemp + overhealAmount);
-        } else {
-            // Just cap at max, don't add temporary
-            updateResource(resourceType, maxValue, maxValue);
-        }
-        
-        // Continue with the rest of consumable effects
-        if (item) {
-            const inventoryItem = inventoryItems.find(invItem =>
-                invItem.originalItemId === item.originalItemId || 
-                invItem.id === item.originalItemId
-            );
-            if (inventoryItem) {
-                applyRemainingConsumableEffects(inventoryItem, resourceType);
-            }
-        }
-        
-        // Remove the item from inventory after decision is made
-        if (item) {
-            const inventoryItem = inventoryItems.find(invItem =>
-                invItem.originalItemId === item.originalItemId || 
-                invItem.id === item.originalItemId
-            );
-            if (inventoryItem) {
-                removeItem(inventoryItem.id, 1);
-            }
-        }
-        
-        setShowOverhealModal(false);
-        setOverhealData(null);
-    }, [overhealData, tempHealth, tempMana, tempActionPoints, updateResource, updateTempResource, inventoryItems, applyRemainingConsumableEffects, removeItem]);
 
     // Apply remaining consumable effects (after overheal is handled)
     const applyRemainingConsumableEffects = useCallback((inventoryItem, skipResourceType = null) => {
@@ -1335,7 +1282,7 @@ const ActionBar = () => {
             )}
 
             {/* Overheal Confirmation Modal */}
-            {showOverhealModal && overhealData && (
+            {showOverhealModal && overhealData && ReactDOM.createPortal(
                 <div
                     className="modal-overlay"
                     style={{
@@ -1348,7 +1295,9 @@ const ActionBar = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        zIndex: 10001
+                        zIndex: 10001,
+                        margin: 0,
+                        padding: 0
                     }}
                     onClick={() => {
                         setShowOverhealModal(false);
@@ -1446,7 +1395,8 @@ const ActionBar = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
             </div>
 
