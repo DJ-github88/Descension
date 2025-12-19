@@ -437,6 +437,13 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
     const handleResourceAdjust = (resourceType, adjustment) => {
         if (!currentTarget) return;
 
+        const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+        };
+        const tempField = tempFieldMap[resourceType];
+
         if (targetType === 'party_member' || targetType === 'player') {
             // Update party member or player - get fresh data from stores
             const memberId = currentTarget.id;
@@ -445,11 +452,47 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 // Update character store directly for current player
                 const characterState = useCharacterStore.getState();
                 const currentResource = characterState[resourceType];
-                const currentValue = currentResource.current;
-                const maxValue = currentResource.max;
-                const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                if (!currentResource) return;
+                
+                const currentValue = currentResource.current || 0;
+                const maxValue = currentResource.max || 0;
+                const currentTemp = characterState[tempField] || 0;
 
-                updateResource(resourceType, newValue, undefined); // Pass undefined for max to keep it unchanged
+                if (adjustment < 0) {
+                    // Taking damage/draining - reduce temporary resources first
+                    const damageAmount = Math.abs(adjustment);
+                    let remainingDamage = damageAmount;
+                    let newTemp = currentTemp;
+                    let newValue = currentValue;
+
+                    // First, reduce temporary resources
+                    if (currentTemp > 0) {
+                        if (damageAmount <= currentTemp) {
+                            // All damage absorbed by temporary resources
+                            newTemp = currentTemp - damageAmount;
+                            remainingDamage = 0;
+                        } else {
+                            // Temporary resources exhausted, remaining damage goes to actual resource
+                            remainingDamage = damageAmount - currentTemp;
+                            newTemp = 0;
+                        }
+                    }
+
+                    // Apply remaining damage to actual resource
+                    if (remainingDamage > 0) {
+                        newValue = Math.max(0, currentValue - remainingDamage);
+                    }
+
+                    // Update both resource and temporary resource
+                    updateResource(resourceType, newValue, maxValue);
+                    if (newTemp !== currentTemp) {
+                        updateTempResource(resourceType, newTemp);
+                    }
+                } else {
+                    // Positive adjustment (healing/restoring)
+                    const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                    updateResource(resourceType, newValue, maxValue);
+                }
 
                 // Show floating combat text for current player at Target HUD position
                 if (window.showFloatingCombatText && adjustment !== 0) {
@@ -499,21 +542,63 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 const partyState = usePartyStore.getState();
                 const member = partyState.partyMembers.find(m => m.id === memberId);
 
-                if (member) {
+                if (member && member.character) {
                     const currentResource = member.character[resourceType];
-                    const currentValue = currentResource.current;
-                    const maxValue = currentResource.max;
-                    const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                    if (!currentResource) return;
+                    
+                    const currentValue = currentResource.current || 0;
+                    const maxValue = currentResource.max || 0;
+                    const currentTemp = member.character[tempField] || 0;
 
-                    updatePartyMember(memberId, {
-                        character: {
-                            ...member.character,
-                            [resourceType]: {
-                                ...member.character[resourceType],
-                                current: newValue
+                    if (adjustment < 0) {
+                        // Taking damage/draining - reduce temporary resources first
+                        const damageAmount = Math.abs(adjustment);
+                        let remainingDamage = damageAmount;
+                        let newTemp = currentTemp;
+                        let newValue = currentValue;
+
+                        // First, reduce temporary resources
+                        if (currentTemp > 0) {
+                            if (damageAmount <= currentTemp) {
+                                // All damage absorbed by temporary resources
+                                newTemp = currentTemp - damageAmount;
+                                remainingDamage = 0;
+                            } else {
+                                // Temporary resources exhausted, remaining damage goes to actual resource
+                                remainingDamage = damageAmount - currentTemp;
+                                newTemp = 0;
                             }
                         }
-                    });
+
+                        // Apply remaining damage to actual resource
+                        if (remainingDamage > 0) {
+                            newValue = Math.max(0, currentValue - remainingDamage);
+                        }
+
+                        // Update both resource and temporary resource
+                        updatePartyMember(memberId, {
+                            character: {
+                                ...member.character,
+                                [resourceType]: {
+                                    ...member.character[resourceType],
+                                    current: newValue
+                                },
+                                [tempField]: newTemp
+                            }
+                        });
+                    } else {
+                        // Positive adjustment (healing/restoring)
+                        const newValue = Math.max(0, Math.min(maxValue, currentValue + adjustment));
+                        updatePartyMember(memberId, {
+                            character: {
+                                ...member.character,
+                                [resourceType]: {
+                                    ...member.character[resourceType],
+                                    current: newValue
+                                }
+                            }
+                        });
+                    }
 
                     // Show floating combat text for party member at Target HUD position
                     if (window.showFloatingCombatText && adjustment !== 0) {

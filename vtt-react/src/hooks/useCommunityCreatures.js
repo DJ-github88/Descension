@@ -30,12 +30,6 @@ export function useCommunityCreatures() {
   const [lastDoc, setLastDoc] = useState(null);
   const [sortBy, setSortBy] = useState('rating'); // 'rating', 'downloads', 'newest'
 
-  // Load categories on mount
-  useEffect(() => {
-    loadCategories();
-    loadFeaturedCreatures();
-  }, [loadCategories, loadFeaturedCreatures]);
-
   const loadCategories = useCallback(async () => {
     try {
       setError(null);
@@ -57,6 +51,12 @@ export function useCommunityCreatures() {
       console.error('Failed to load featured creatures:', err);
     }
   }, []);
+
+  // Load categories on mount
+  useEffect(() => {
+    loadCategories();
+    loadFeaturedCreatures();
+  }, [loadCategories, loadFeaturedCreatures]);
 
   const loadAllCreatures = useCallback(async (sortByValue = sortBy, loadMore = false) => {
     try {
