@@ -47,6 +47,10 @@ const ActionBar = () => {
     const [showHotkeyPopup, setShowHotkeyPopup] = useState(false);
     const [hotkeySlotIndex, setHotkeySlotIndex] = useState(null);
     const [hotkeys, setHotkeys] = useState({});
+    
+    // Overheal modal state
+    const [showOverhealModal, setShowOverhealModal] = useState(false);
+    const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, currentValue, maxValue, item }
 
     // Spell cast confirmation state
     const [showSpellConfirmation, setShowSpellConfirmation] = useState(false);
@@ -73,7 +77,12 @@ const ActionBar = () => {
     const consumeClassResource = useCharacterStore(state => state.consumeClassResource);
     const health = useCharacterStore(state => state.health);
     const mana = useCharacterStore(state => state.mana);
+    const actionPoints = useCharacterStore(state => state.actionPoints);
+    const tempHealth = useCharacterStore(state => state.tempHealth || 0);
+    const tempMana = useCharacterStore(state => state.tempMana || 0);
+    const tempActionPoints = useCharacterStore(state => state.tempActionPoints || 0);
     const experience = useCharacterStore(state => state.experience || 0);
+    const updateTempResource = useCharacterStore(state => state.updateTempResource);
 
     // Get combat store for turn restrictions and cooldown progression
     const { isInCombat, getCurrentCombatant, round, currentTurnIndex, turnOrder } = useCombatStore();
@@ -162,6 +171,142 @@ const ActionBar = () => {
         return item ? (item.quantity || 1) : 0;
     }, [inventoryItems]);
 
+    // Apply resource adjustment with optional temporary resource
+    const applyResourceAdjustmentWithOverheal = useCallback((resourceType, amount, item) => {
+        const resourceMap = {
+            'health': health,
+            'mana': mana,
+            'actionPoints': actionPoints
+        };
+        const tempMap = {
+            'health': tempHealth,
+            'mana': tempMana,
+            'actionPoints': tempActionPoints
+        };
+        
+        const currentResource = resourceMap[resourceType];
+        const currentTemp = tempMap[resourceType];
+        
+        if (!currentResource) return false;
+        
+        const currentValue = currentResource.current || 0;
+        const maxValue = currentResource.max || 0;
+        const newValue = currentValue + amount;
+        
+        // Check for overheal (positive adjustment that would exceed max)
+        if (amount > 0 && newValue > maxValue) {
+            const overhealAmount = newValue - maxValue;
+            setOverhealData({
+                resourceType,
+                amount,
+                overhealAmount,
+                currentValue,
+                maxValue,
+                item
+            });
+            setShowOverhealModal(true);
+            return false; // Don't apply yet, wait for user confirmation
+        }
+        
+        // Normal application (no overheal or negative adjustment)
+        const finalValue = Math.max(0, Math.min(maxValue, newValue));
+        updateResource(resourceType, finalValue, maxValue);
+        return true;
+    }, [health, mana, actionPoints, tempHealth, tempMana, tempActionPoints, updateResource]);
+
+    // Apply resource adjustment with temporary resource support
+    const applyResourceWithTemporary = useCallback((asTemporary) => {
+        if (!overhealData) return;
+        
+        const { resourceType, amount, currentValue, maxValue, item } = overhealData;
+        const tempFieldMap = {
+            'health': 'tempHealth',
+            'mana': 'tempMana',
+            'actionPoints': 'tempActionPoints'
+        };
+        const tempField = tempFieldMap[resourceType];
+        const currentTemp = tempField === 'tempHealth' ? tempHealth : 
+                           tempField === 'tempMana' ? tempMana : tempActionPoints;
+        
+        if (asTemporary) {
+            // Add as temporary resource
+            const overhealAmount = (currentValue + amount) - maxValue;
+            
+            // Set resource to max
+            updateResource(resourceType, maxValue, maxValue);
+            
+            // Update temporary resource
+            updateTempResource(resourceType, currentTemp + overhealAmount);
+        } else {
+            // Just cap at max, don't add temporary
+            updateResource(resourceType, maxValue, maxValue);
+        }
+        
+        // Continue with the rest of consumable effects
+        if (item) {
+            const inventoryItem = inventoryItems.find(invItem =>
+                invItem.originalItemId === item.originalItemId || 
+                invItem.id === item.originalItemId
+            );
+            if (inventoryItem) {
+                applyRemainingConsumableEffects(inventoryItem, resourceType);
+            }
+        }
+        
+        // Remove the item from inventory after decision is made
+        if (item) {
+            const inventoryItem = inventoryItems.find(invItem =>
+                invItem.originalItemId === item.originalItemId || 
+                invItem.id === item.originalItemId
+            );
+            if (inventoryItem) {
+                removeItem(inventoryItem.id, 1);
+            }
+        }
+        
+        setShowOverhealModal(false);
+        setOverhealData(null);
+    }, [overhealData, tempHealth, tempMana, tempActionPoints, updateResource, updateTempResource, inventoryItems, applyRemainingConsumableEffects, removeItem]);
+
+    // Apply remaining consumable effects (after overheal is handled)
+    const applyRemainingConsumableEffects = useCallback((inventoryItem, skipResourceType = null) => {
+        const combatStats = inventoryItem.combatStats || {};
+        const effects = {};
+        let hasBuffEffects = false;
+
+        // Collect stat buff effects from combatStats
+        ['strength', 'agility', 'intelligence', 'constitution', 'spirit', 'charisma'].forEach(stat => {
+            if (combatStats[stat] && combatStats[stat].value > 0) {
+                effects[stat] = combatStats[stat].value;
+                hasBuffEffects = true;
+            }
+        });
+
+        // Also check baseStats for buff effects
+        const baseStats = inventoryItem.baseStats || {};
+        Object.keys(baseStats).forEach(statName => {
+            const statData = baseStats[statName];
+            if (statData && (typeof statData === 'object' ? statData.value > 0 : statData > 0)) {
+                const value = typeof statData === 'object' ? statData.value : statData;
+                effects[statName] = value;
+                hasBuffEffects = true;
+            }
+        });
+
+        // Apply buff effects if any exist
+        if (hasBuffEffects) {
+            addBuff({
+                name: inventoryItem.name,
+                icon: `https://wow.zamimg.com/images/wow/icons/large/${inventoryItem.iconId}.jpg`,
+                description: inventoryItem.description || `Temporary enhancement from ${inventoryItem.name}`,
+                effects: effects,
+                duration: 180, // 3 minutes (3 rounds)
+                source: 'consumable',
+                stackable: false
+            });
+        }
+    }, [addBuff]);
+
     // Helper function to apply consumable effects
     const applyConsumableEffects = useCallback((item) => {
         // Get the full item data from inventory to access combat stats
@@ -175,27 +320,50 @@ const ActionBar = () => {
         const effects = {};
         let hasInstantEffects = false;
         let hasBuffEffects = false;
+        let pendingOverheal = false;
 
-        // Apply instant healing effects
+        // Apply instant healing effects with overheal detection
         if (combatStats.healthRestore) {
             const healAmount = combatStats.healthRestore.value || 0;
             if (healAmount > 0) {
-                // Add to current health instead of setting absolute value
-                const newHealthValue = Math.min(health.max, health.current + healAmount);
-                updateResource('health', newHealthValue, health.max);
-                hasInstantEffects = true;
+                const applied = applyResourceAdjustmentWithOverheal('health', healAmount, item);
+                if (applied) {
+                    hasInstantEffects = true;
+                } else {
+                    pendingOverheal = true;
+                }
             }
         }
 
-        // Apply instant mana restoration
+        // Apply instant mana restoration with overheal detection
         if (combatStats.manaRestore) {
             const manaAmount = combatStats.manaRestore.value || 0;
             if (manaAmount > 0) {
-                // Add to current mana instead of setting absolute value
-                const newManaValue = Math.min(mana.max, mana.current + manaAmount);
-                updateResource('mana', newManaValue, mana.max);
-                hasInstantEffects = true;
+                const applied = applyResourceAdjustmentWithOverheal('mana', manaAmount, item);
+                if (applied) {
+                    hasInstantEffects = true;
+                } else {
+                    pendingOverheal = true;
+                }
             }
+        }
+
+        // Apply action point restoration with overheal detection (if supported)
+        if (combatStats.actionPointRestore || combatStats.apRestore) {
+            const apAmount = (combatStats.actionPointRestore?.value || combatStats.apRestore?.value || 0);
+            if (apAmount > 0) {
+                const applied = applyResourceAdjustmentWithOverheal('actionPoints', apAmount, item);
+                if (applied) {
+                    hasInstantEffects = true;
+                } else {
+                    pendingOverheal = true;
+                }
+            }
+        }
+
+        // If there's a pending overheal, don't apply buffs yet (they'll be applied after modal)
+        if (pendingOverheal) {
+            return { hasInstantEffects: false, hasBuffEffects: false, pendingOverheal: true };
         }
 
         // Collect stat buff effects from combatStats
@@ -230,8 +398,8 @@ const ActionBar = () => {
             });
         }
 
-        return { hasInstantEffects, hasBuffEffects };
-    }, [inventoryItems, health, mana, updateResource, addBuff]);
+        return { hasInstantEffects, hasBuffEffects, pendingOverheal: false };
+    }, [inventoryItems, applyResourceAdjustmentWithOverheal, addBuff]);
 
     const handleSlotClick = useCallback((slotIndex, e) => {
         const item = actionSlots[slotIndex];
@@ -273,15 +441,18 @@ const ActionBar = () => {
 
             if (currentQuantity > 0) {
                 // Apply consumable effects
-                applyConsumableEffects(item);
+                const result = applyConsumableEffects(item);
 
-                // Remove one item from inventory
-                const inventoryItem = inventoryItems.find(invItem =>
-                    invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
-                );
+                // Only remove item if there's no pending overheal (user will decide in modal)
+                if (result && !result.pendingOverheal) {
+                    // Remove one item from inventory
+                    const inventoryItem = inventoryItems.find(invItem =>
+                        invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
+                    );
 
-                if (inventoryItem) {
-                    removeItem(inventoryItem.id, 1);
+                    if (inventoryItem) {
+                        removeItem(inventoryItem.id, 1);
+                    }
                 }
 
                 // Log effect application
@@ -1161,6 +1332,121 @@ const ActionBar = () => {
                     onClose={handleCooldownMenuClose}
                     actionBarRef={actionBarContainerRef}
                 />
+            )}
+
+            {/* Overheal Confirmation Modal */}
+            {showOverhealModal && overhealData && (
+                <div
+                    className="modal-overlay"
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 10001
+                    }}
+                    onClick={() => {
+                        setShowOverhealModal(false);
+                        setOverhealData(null);
+                    }}
+                >
+                    <div
+                        className="overheal-modal"
+                        style={{
+                            backgroundColor: '#f0e6d2',
+                            border: '2px solid #a08c70',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
+                            color: '#7a3b2e',
+                            minWidth: '350px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                            Overheal Detected
+                        </h3>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
+                            {(() => {
+                                if (overhealData.item) {
+                                    const inventoryItem = inventoryItems.find(invItem =>
+                                        invItem.originalItemId === overhealData.item.originalItemId || 
+                                        invItem.id === overhealData.item.originalItemId
+                                    );
+                                    const itemName = inventoryItem?.name || overhealData.item.name || 'Item';
+                                    return (
+                                        <>
+                                            <strong>{itemName}</strong>
+                                            <br />
+                                        </>
+                                    );
+                                }
+                                return null;
+                            })()}
+                            This would restore {overhealData.amount} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}, 
+                            but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
+                            <br />
+                            <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.
+                        </p>
+                        <p style={{ margin: '0 0 20px 0', fontSize: '13px', fontStyle: 'italic' }}>
+                            Would you like to add the excess as temporary {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}?
+                        </p>
+                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => applyResourceWithTemporary(true)}
+                            >
+                                Add as Temporary
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#d4c4a8',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => applyResourceWithTemporary(false)}
+                            >
+                                Cap at Maximum
+                            </button>
+                            <button
+                                style={{
+                                    padding: '8px 16px',
+                                    border: '1px solid #a08c70',
+                                    borderRadius: '4px',
+                                    backgroundColor: '#e8dcc0',
+                                    color: '#7a3b2e',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}
+                                onClick={() => {
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
             </div>
 
