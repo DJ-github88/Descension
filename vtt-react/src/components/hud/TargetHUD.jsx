@@ -639,7 +639,9 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         if (targetType === 'party_member' || targetType === 'player') {
             const memberId = currentTarget.id;
             if (memberId === 'current-player') {
+                if (!currentPlayerData) return { current: 0, max: 0, temp: 0 };
                 const resource = currentPlayerData[resourceType];
+                if (!resource) return { current: 0, max: 0, temp: 0 };
                 const tempField = resourceType === 'health' ? 'tempHealth' : 
                                  resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
                 return {
@@ -650,20 +652,22 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
             } else {
                 const partyState = usePartyStore.getState();
                 const member = partyState.partyMembers.find(m => m.id === memberId);
-                if (member) {
-                    const resource = member.character?.[resourceType];
+                if (member && member.character) {
+                    const resource = member.character[resourceType];
+                    if (!resource) return { current: 0, max: 0, temp: 0 };
                     const tempField = resourceType === 'health' ? 'tempHealth' : 
                                      resourceType === 'mana' ? 'tempMana' : 'tempActionPoints';
                     return {
                         current: resource?.current || 0,
                         max: resource?.max || 0,
-                        temp: member.character?.[tempField] || 0
+                        temp: member.character[tempField] || 0
                     };
                 }
             }
         } else if (targetType === 'creature') {
             const safeResource = resourceType === 'health' ? safeHealth :
                                resourceType === 'mana' ? safeMana : safeActionPoints;
+            if (!safeResource) return { current: 0, max: 0, temp: 0 };
             return {
                 current: safeResource.current || 0,
                 max: safeResource.max || 0,
