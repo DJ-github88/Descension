@@ -154,55 +154,16 @@ const ActionBar = () => {
         };
     }, []);
 
-    // Keyboard event listener for hotkey activation
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            // Don't handle if user is typing in an input field
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
-                return;
-            }
-
-            // Don't handle if hotkey popup is open
-            if (showHotkeyPopup) {
-                return;
-            }
-
-            // Build the pressed key combination
-            let pressedKey = '';
-            if (e.ctrlKey) pressedKey += 'Ctrl+';
-            if (e.altKey) pressedKey += 'Alt+';
-            if (e.shiftKey) pressedKey += 'Shift+';
-
-            let keyName = e.key.toUpperCase();
-            if (e.key === ' ') keyName = 'Space';
-            else if (e.key.length === 1) keyName = e.key.toUpperCase();
-            else keyName = e.key;
-
-            pressedKey += keyName;
-
-            // Find the slot with this hotkey
-            const slotIndex = Object.keys(hotkeys).find(index => hotkeys[index] === pressedKey);
-
-            if (slotIndex !== undefined) {
-                e.preventDefault();
-                handleSlotClick(parseInt(slotIndex));
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [hotkeys, showHotkeyPopup, actionSlots, handleSlotClick]);
-
     // Helper function to get current quantity of a consumable item
-    const getItemQuantity = (itemId) => {
+    const getItemQuantity = useCallback((itemId) => {
         const item = inventoryItems.find(invItem =>
             invItem.originalItemId === itemId || invItem.id === itemId
         );
         return item ? (item.quantity || 1) : 0;
-    };
+    }, [inventoryItems]);
 
     // Helper function to apply consumable effects
-    const applyConsumableEffects = (item) => {
+    const applyConsumableEffects = useCallback((item) => {
         // Get the full item data from inventory to access combat stats
         const inventoryItem = inventoryItems.find(invItem =>
             invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
@@ -270,7 +231,103 @@ const ActionBar = () => {
         }
 
         return { hasInstantEffects, hasBuffEffects };
-    };
+    }, [inventoryItems, health, mana, updateResource, addBuff]);
+
+    const handleSlotClick = useCallback((slotIndex, e) => {
+        const item = actionSlots[slotIndex];
+        if (!item) return;
+        
+        // If spell is on cooldown and user left-clicks, show cooldown menu instead of casting
+        if (item.type === 'spell' && item.cooldown > 0 && (!e || e.button === 0)) {
+            setCooldownMenuSlotIndex(slotIndex);
+            setShowCooldownMenu(true);
+            return;
+        }
+        
+        // Don't allow casting if on cooldown
+        if (item.cooldown > 0) return;
+
+        // Check combat restrictions
+        if (isInCombat) {
+            const currentCombatant = getCurrentCombatant();
+            // For now, we'll check if the current character is the active combatant
+            // This might need adjustment based on how character IDs are handled
+            if (!currentCombatant || currentCombatant.name !== useCharacterStore.getState().name) {
+                console.log('Cannot use action - not your turn in combat');
+                return;
+            }
+        }
+
+        if (item.type === 'spell') {
+            // Try to find the spell in the library first for the most up-to-date data
+            const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
+            const spellToDisplay = librarySpell || item;
+
+            // Show confirmation popup
+            setSpellToCast(spellToDisplay);
+            setSpellSlotIndex(slotIndex);
+            setShowSpellConfirmation(true);
+        } else if (item.type === 'consumable') {
+            // Use the consumable item
+            const currentQuantity = getItemQuantity(item.originalItemId);
+
+            if (currentQuantity > 0) {
+                // Apply consumable effects
+                applyConsumableEffects(item);
+
+                // Remove one item from inventory
+                const inventoryItem = inventoryItems.find(invItem =>
+                    invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
+                );
+
+                if (inventoryItem) {
+                    removeItem(inventoryItem.id, 1);
+                }
+
+                // Log effect application
+                // Effects applied (instant and buff effects handled internally)
+            }
+        }
+    }, [actionSlots, isInCombat, getCurrentCombatant, spellLibrary, getItemQuantity, applyConsumableEffects, inventoryItems, removeItem]);
+
+    // Keyboard event listener for hotkey activation
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            // Don't handle if user is typing in an input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+
+            // Don't handle if hotkey popup is open
+            if (showHotkeyPopup) {
+                return;
+            }
+
+            // Build the pressed key combination
+            let pressedKey = '';
+            if (e.ctrlKey) pressedKey += 'Ctrl+';
+            if (e.altKey) pressedKey += 'Alt+';
+            if (e.shiftKey) pressedKey += 'Shift+';
+
+            let keyName = e.key.toUpperCase();
+            if (e.key === ' ') keyName = 'Space';
+            else if (e.key.length === 1) keyName = e.key.toUpperCase();
+            else keyName = e.key;
+
+            pressedKey += keyName;
+
+            // Find the slot with this hotkey
+            const slotIndex = Object.keys(hotkeys).find(index => hotkeys[index] === pressedKey);
+
+            if (slotIndex !== undefined) {
+                e.preventDefault();
+                handleSlotClick(parseInt(slotIndex));
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [hotkeys, showHotkeyPopup, handleSlotClick]);
 
     const handleDragOver = (e, slotIndex) => {
         e.preventDefault();
@@ -344,63 +401,6 @@ const ActionBar = () => {
 
         dragOverSlot.current = null;
     };
-
-    const handleSlotClick = useCallback((slotIndex, e) => {
-        const item = actionSlots[slotIndex];
-        if (!item) return;
-        
-        // If spell is on cooldown and user left-clicks, show cooldown menu instead of casting
-        if (item.type === 'spell' && item.cooldown > 0 && (!e || e.button === 0)) {
-            setCooldownMenuSlotIndex(slotIndex);
-            setShowCooldownMenu(true);
-            return;
-        }
-        
-        // Don't allow casting if on cooldown
-        if (item.cooldown > 0) return;
-
-        // Check combat restrictions
-        if (isInCombat) {
-            const currentCombatant = getCurrentCombatant();
-            // For now, we'll check if the current character is the active combatant
-            // This might need adjustment based on how character IDs are handled
-            if (!currentCombatant || currentCombatant.name !== useCharacterStore.getState().name) {
-                console.log('Cannot use action - not your turn in combat');
-                return;
-            }
-        }
-
-        if (item.type === 'spell') {
-            // Try to find the spell in the library first for the most up-to-date data
-            const librarySpell = spellLibrary?.spells?.find(s => s.id === item.id);
-            const spellToDisplay = librarySpell || item;
-
-            // Show confirmation popup
-            setSpellToCast(spellToDisplay);
-            setSpellSlotIndex(slotIndex);
-            setShowSpellConfirmation(true);
-        } else if (item.type === 'consumable') {
-            // Use the consumable item
-            const currentQuantity = getItemQuantity(item.originalItemId);
-
-            if (currentQuantity > 0) {
-                // Apply consumable effects
-                applyConsumableEffects(item);
-
-                // Remove one item from inventory
-                const inventoryItem = inventoryItems.find(invItem =>
-                    invItem.originalItemId === item.originalItemId || invItem.id === item.originalItemId
-                );
-
-                if (inventoryItem) {
-                    removeItem(inventoryItem.id, 1);
-                }
-
-                // Log effect application
-                // Effects applied (instant and buff effects handled internally)
-            }
-        }
-    }, [actionSlots, isInCombat, getCurrentCombatant, spellLibrary, getItemQuantity, applyConsumableEffects, inventoryItems, removeItem]);
 
     const handleRightClick = (e, slotIndex) => {
         e.preventDefault();
