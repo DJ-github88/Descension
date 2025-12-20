@@ -30,6 +30,7 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [noteText, setNoteText] = useState('');
   const [noteUserId, setNoteUserId] = useState(null);
   const [noteUserType, setNoteUserType] = useState(null); // 'friend' or 'ignored'
+  const [showStatusMenu, setShowStatusMenu] = useState(false);
 
   const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);

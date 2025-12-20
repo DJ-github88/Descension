@@ -628,13 +628,18 @@ const ClassResourceBar = ({
         localModifiers
     } = chaosWeaverState;
 
+    // Get chat store for combat notifications (must be before early return)
+    const { addCombatNotification } = useChatStore();
+    
+    // Get GM mode status (must be before early return)
+    const isGMModeFromStore = useGameStore(state => state.isGMMode);
+    const effectiveGMMode = isGMMode || isGMModeFromStore;
+    
+    // Get current player name for actor name in logs (must be before early return)
+    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+
     // Get class configuration
     const config = getClassResourceConfig(characterClass);
-
-    // Don't render if no valid class or if class is the default 'Class' placeholder
-    if (!characterClass || characterClass === 'Class') {
-        return null;
-    }
 
     // If no config exists, create a default one for unknown classes
     const defaultConfig = {
@@ -659,15 +664,8 @@ const ClassResourceBar = ({
             description: 'Class-specific resource for special abilities'
         }
     };
-    // Get chat store for combat notifications
-    const { addCombatNotification } = useChatStore();
-    
-    // Get GM mode status
-    const isGMModeFromStore = useGameStore(state => state.isGMMode);
-    const effectiveGMMode = isGMMode || isGMModeFromStore;
-    
-    // Get current player name for actor name in logs
-    const currentPlayerName = useCharacterStore(state => state.name || 'Player');
+
+    const finalConfig = config || defaultConfig;
     
     // Helper function to get the actor name (current player, with GM suffix if in GM mode)
     const getActorName = () => {
@@ -955,7 +953,6 @@ const ClassResourceBar = ({
         }
     };
 
-    const finalConfig = config || defaultConfig;
     const finalClassResource = classResource || { current: 0, max: finalConfig.mechanics?.max || 20 };
 
     // Calculate and store menu positions
@@ -1153,6 +1150,12 @@ const ClassResourceBar = ({
     const stanceValue = context === 'account'
         ? (finalClassResource?.stance?.current ?? 'Flowing Water')
         : currentStance;
+
+    // Don't render if no valid class or if class is the default 'Class' placeholder
+    // (Check after all hooks to satisfy React rules)
+    if (!characterClass || characterClass === 'Class') {
+        return null;
+    }
 
     // Calculate percentage for progress bars
     const percentage = finalClassResource.max > 0 ? (finalClassResource.current / finalClassResource.max) * 100 : 0;
@@ -3220,6 +3223,29 @@ const ClassResourceBar = ({
         </div>
     );
 
+    // Medallion display (Exorcist)
+    const renderMedallion = () => (
+        <div className={`class-resource-bar medallion-display ${size}`}>
+            <div className="medallion-container">
+                <div className="holy-medallion" style={{ color: finalConfig.visual.activeColor }}>
+                    {finalConfig.visual.icon || '⛤'}
+                </div>
+                <div className="spirit-gems">
+                    {Array.from({ length: finalClassResource.max }, (_, i) => (
+                        <div
+                            key={i}
+                            className={`spirit-gem ${i < finalClassResource.current ? 'charged' : ''}`}
+                            style={{
+                                backgroundColor: i < finalClassResource.current ? finalConfig.visual.glowColor : finalConfig.visual.baseColor
+                            }}
+                        />
+                    ))}
+                </div>
+            </div>
+            <div className="resource-label">Spirit Gems: {finalClassResource.current}/{finalClassResource.max}</div>
+        </div>
+    );
+
     // Dominance Die display (Exorcist)
     const renderDominanceDie = () => {
         // Use local state for demo, fallback to classResource
@@ -3484,7 +3510,7 @@ const ClassResourceBar = ({
                                             <button 
                                                 className="exorcist-demon-btn danger" 
                                                 onClick={() => {
-                                                    if (confirm(`Release ${currentDemon.name}?`)) {
+                                                    if (window.confirm(`Release ${currentDemon.name}?`)) {
                                                         const updatedDemons = [...boundDemons];
                                                         updatedDemons[selectedDemonIndex] = null;
                                                         setBoundDemons(updatedDemons);
@@ -4099,7 +4125,7 @@ const ClassResourceBar = ({
                     setFormbenderState(prev => ({ ...prev, localWildInstinct: Math.max(0, wiValue - 1) }));
                 }
             }
-            setCurrentForm(formId);
+            setFormbenderState(prev => ({ ...prev, currentForm: formId }));
             setShowFormMenu(false);
         };
 
@@ -4705,7 +4731,7 @@ const ClassResourceBar = ({
                                             className={`primalist-spec-btn ${primalistSpec === specKey ? 'active' : ''}`}
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setPrimalistSpec(specKey);
+                                                setPrimalistState(prev => ({ ...prev, primalistSpec: specKey }));
                                             }}
                                             title={spec.name}
                                         >
@@ -8495,7 +8521,7 @@ const ClassResourceBar = ({
                                             key={spec}
                                             className={`menu-buttons`}
                                             onClick={() => {
-                                                setSelectedSpecialization(spec);
+                                                setBladedancerState(prev => ({ ...prev, selectedSpecialization: spec }));
                                                 setShowSpecPassiveMenu(false);
                                             }}
                                             style={{
