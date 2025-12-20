@@ -13,6 +13,7 @@ import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
+import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import '../../styles/pathfinder/main.css';
 import '../../styles/pathfinder/components/wow-spellbook.css';
 
@@ -179,11 +180,10 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
   const prevFiltersRef = useRef(null);
   const prevActiveCategoryRef = useRef(null);
 
-  // State for spell tooltip (hover preview)
-  const [hoveredSpell, setHoveredSpell] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: -1000, y: -1000 }); // Start off-screen
-  const [tooltipTimer, setTooltipTimer] = useState(null);
+  // State for spell popup (click to show)
+  const [selectedSpell, setSelectedSpell] = useState(null);
   const [previewPanelPosition, setPreviewPanelPosition] = useState({ x: 0, y: 0 });
+  const isShowingPopupRef = useRef(false);
 
   const libraryContentRef = React.useRef(null);
 
@@ -1256,15 +1256,15 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     activeChar
   ]);
 
-  // Reset page when category or filters actually change (but not when manually paginating)
+  // Reset page when category or filters actually change (but not when manually paginating or showing popup)
   useEffect(() => {
     // Only reset if we're not manually paginating AND the values actually changed
     const filtersChanged = JSON.stringify(prevFiltersRef.current) !== JSON.stringify(library.filters);
     const categoryChanged = prevActiveCategoryRef.current !== activeCategory;
     
-    // Check flag FIRST before doing anything
-    if (isManuallyPaginatingRef.current) {
-      // User is manually changing category/page, don't reset - just update refs
+    // Check flags FIRST before doing anything
+    if (isManuallyPaginatingRef.current || isShowingPopupRef.current) {
+      // User is manually changing category/page or showing popup, don't reset - just update refs
       prevFiltersRef.current = library.filters;
       prevActiveCategoryRef.current = activeCategory;
       // Don't clear or reset the timeout - let the button handlers manage it
@@ -1286,14 +1286,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
     prevActiveCategoryRef.current = activeCategory;
   }, [activeCategory, library.filters]);
 
-  // Cleanup tooltip timer on unmount
-  useEffect(() => {
-    return () => {
-      if (tooltipTimer) {
-        clearTimeout(tooltipTimer);
-      }
-    };
-  }, [tooltipTimer]);
 
   // Cleanup pagination timeout on unmount
   useEffect(() => {
@@ -2186,7 +2178,6 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                     <div
                       key={spell.id}
                       className="wow-spell-row"
-                      onMouseDown={(e) => { if (e.button === 2) handleSpellContextMenu(e, spell.id); }}
                       onContextMenu={(e) => handleSpellContextMenu(e, spell.id)}
                       draggable={true}
                       onDragStart={(e) => {
@@ -2209,55 +2200,49 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
                         e.dataTransfer.setData('application/json', JSON.stringify(spellData));
                         e.dataTransfer.effectAllowed = 'copy';
                       }}
-                      onMouseEnter={(e) => {
-                        // Clear any existing timer
-                        if (tooltipTimer) {
-                          clearTimeout(tooltipTimer);
+                      onMouseDown={(e) => {
+                        // Only handle right-click for context menu
+                        if (e.button === 2) {
+                          handleSpellContextMenu(e, spell.id);
+                        } else if (e.button === 0) {
+                          // Track mouse down position for left click
+                          e.currentTarget.dataset.mouseDownX = e.clientX;
+                          e.currentTarget.dataset.mouseDownY = e.clientY;
+                          e.currentTarget.dataset.mouseDownTime = Date.now();
                         }
-
-                        // Set hovered spell immediately and position tooltip
-                        setHoveredSpell(spell);
-
-                        // Position tooltip immediately next to the spell
-                        const rect = e.currentTarget.getBoundingClientRect();
-                        // Updated width to match CSS max-width (480px scaled to 0.9 = ~432px effective)
-                        const tooltipWidth = 450;
-                        const tooltipHeight = 400;
-
-                        let x = rect.right + 10;
-                        let y = rect.top;
-
-                        // Check if tooltip would go off right edge of screen
-                        if (x + tooltipWidth > window.innerWidth) {
-                          x = rect.left - tooltipWidth - 10;
-                        }
-
-                        // Check if tooltip would go off bottom edge of screen
-                        if (y + tooltipHeight > window.innerHeight) {
-                          y = window.innerHeight - tooltipHeight - 10;
-                        }
-
-                        // Ensure tooltip doesn't go off edges
-                        x = Math.max(10, Math.min(x, window.innerWidth - tooltipWidth - 10));
-                        y = Math.max(10, Math.min(y, window.innerHeight - tooltipHeight - 10));
-
-                        setTooltipPosition({ x, y });
-
-                        // Set a timer to refine position after delay (for WoW feel)
-                        const timer = setTimeout(() => {
-                          // Could do additional positioning refinements here if needed
-                        }, 300);
-
-                        setTooltipTimer(timer);
                       }}
-                      onMouseLeave={() => {
-                        // Clear timer and hide tooltip immediately
-                        if (tooltipTimer) {
-                          clearTimeout(tooltipTimer);
-                          setTooltipTimer(null);
+                      onMouseUp={(e) => {
+                        // Handle left-click to show popup (only if it wasn't a drag)
+                        if (e.button === 0) {
+                          const mouseDownX = parseFloat(e.currentTarget.dataset.mouseDownX || '0');
+                          const mouseDownY = parseFloat(e.currentTarget.dataset.mouseDownY || '0');
+                          const mouseDownTime = parseInt(e.currentTarget.dataset.mouseDownTime || '0');
+                          const mouseMoveDistance = Math.sqrt(
+                            Math.pow(e.clientX - mouseDownX, 2) + Math.pow(e.clientY - mouseDownY, 2)
+                          );
+                          const timeDiff = Date.now() - mouseDownTime;
+                          
+                          // Only show popup if it was a click (not a drag) - small movement and quick
+                          if (mouseMoveDistance < 5 && timeDiff < 300) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            // Set flag IMMEDIATELY and synchronously to prevent page reset
+                            isShowingPopupRef.current = true;
+                            // Set state immediately - the flag is already set
+                            setSelectedSpell(spell);
+                          }
                         }
-                        setHoveredSpell(null);
                       }}
+                      onClick={(e) => {
+                        // Fallback: if mouseUp didn't fire for some reason
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Set flag IMMEDIATELY and synchronously to prevent page reset
+                        isShowingPopupRef.current = true;
+                        // Set state immediately - the flag is already set
+                        setSelectedSpell(spell);
+                      }}
+                      style={{ cursor: 'pointer' }}
                     >
                       <div className="wow-spell-icon">
                         <img
@@ -2528,34 +2513,58 @@ const SpellLibrary = ({ onLoadSpell, hideHeader = false }) => {
         />
       )}
 
-      {/* Spell Tooltip - Shows full spell card on hover */}
-      {(() => {
-        const shouldShow = hoveredSpell && viewMode === 'compact';
-        return shouldShow && ReactDOM.createPortal(
+      {/* Spell Popup Modal - Shows full spell card on click */}
+      {selectedSpell && ReactDOM.createPortal(
         <div
-          className={`wow-spell-tooltip ${hoveredSpell ? 'visible' : ''}`}
+          className="spellbook-popup-overlay"
+          onClick={() => {
+            isShowingPopupRef.current = false;
+            setSelectedSpell(null);
+          }}
           style={{
-            left: `${tooltipPosition.x}px`,
-            top: `${tooltipPosition.y}px`
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 99999,
+            cursor: 'pointer',
+            margin: 0,
+            padding: 0
           }}
         >
-          <div className="review-spell-preview">
-            <SpellCardWithProcs
-              spell={mapSpellToUnifiedFormat(hoveredSpell)}
+          <div
+            className="spellbook-popup-content"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              padding: '20px',
+              maxWidth: '600px',
+              maxHeight: '90vh',
+              overflow: 'auto',
+              cursor: 'default'
+            }}
+          >
+            <UnifiedSpellCard
+              spell={mapSpellToUnifiedFormat(selectedSpell)}
               variant="wizard"
-              rollableTableData={getSpellRollableTable(hoveredSpell)}
               showActions={false}
               showDescription={true}
               showStats={true}
               showTags={true}
-              procPosition="right"
-              showProcs={true}
+              rollableTableData={getSpellRollableTable(selectedSpell)}
             />
           </div>
         </div>,
         document.body
-      );
-      })()}
+      )}
 
 
       {/* Confirmation Dialog for Spell Deletion */}

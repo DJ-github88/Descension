@@ -93,7 +93,7 @@ class AuthService {
   }
 
   // Sign in with Google
-  async signInWithGoogle() {
+  async signInWithGoogle(displayName = null, friendId = null) {
     if (!this.isConfigured || !auth || !googleProvider) {
       const errorMsg = 'Authentication not configured. Please check Firebase setup.';
       console.error('❌', errorMsg);
@@ -101,11 +101,24 @@ class AuthService {
     }
 
     try {
+      // Validate friendId if provided
+      if (friendId) {
+        const isAvailable = await this.checkFriendIdAvailable(friendId);
+        if (!isAvailable) {
+          return { error: 'Friend ID is already taken', success: false };
+        }
+      }
+
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      // Create or update user document in Firestore
-      await this.createUserDocument(user);
+      // Update profile with displayName if provided
+      if (displayName && displayName.trim()) {
+        await updateProfile(user, { displayName: displayName.trim() });
+      }
+
+      // Create or update user document in Firestore with friendId
+      await this.createUserDocument(user, friendId);
 
       return { user, success: true };
     } catch (error) {

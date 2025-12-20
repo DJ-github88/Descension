@@ -97,7 +97,24 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
 
   const handleGoogleSignIn = async () => {
     console.log('Starting Google sign-in process...');
-    const result = await signInWithGoogle();
+    
+    // If in register mode, validate and use form data
+    let displayName = null;
+    let friendId = null;
+    
+    if (mode === 'register') {
+      // Validate Friend ID if provided
+      if (formData.friendId && (formData.friendId.length < 3 || formData.friendId.length > 20)) {
+        setFriendIdError('Friend ID must be between 3 and 20 characters');
+        return;
+      }
+      
+      // Use form data if provided (Display Name is optional - will use Google's if not provided)
+      displayName = formData.displayName.trim() || null;
+      friendId = formData.friendId.trim() || null;
+    }
+    
+    const result = await signInWithGoogle(displayName, friendId);
     if (result.success) {
       console.log('Google sign-in successful!');
       onClose();

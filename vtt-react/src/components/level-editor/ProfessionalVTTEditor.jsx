@@ -2367,18 +2367,18 @@ const ProfessionalVTTEditor = () => {
                 </div>
 
                 {/* Layer Management - Right Side */}
-                <div className={`vtt-layer-panel ${isLayersPanelCollapsed ? 'collapsed' : ''}`}>
-                    <div className="layer-panel-header">
-                        <h4>Layers</h4>
-                        <button
-                            className="layer-panel-toggle"
-                            onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
-                            title={isLayersPanelCollapsed ? 'Expand Layers Panel' : 'Collapse Layers Panel'}
-                        >
-                            {isLayersPanelCollapsed ? '◀' : '▶'}
-                        </button>
-                    </div>
-                    {!isLayersPanelCollapsed && (
+                {!isLayersPanelCollapsed && (
+                    <div className="vtt-layer-panel">
+                        <div className="layer-panel-header">
+                            <h4>Layers</h4>
+                            <button
+                                className="layer-panel-toggle"
+                                onClick={() => setIsLayersPanelCollapsed(!isLayersPanelCollapsed)}
+                                title="Collapse Layers Panel"
+                            >
+                                ▶
+                            </button>
+                        </div>
                         <>
                             <div className="layer-list">
                                 {drawingLayers.map(layer => {
@@ -2475,8 +2475,8 @@ const ProfessionalVTTEditor = () => {
                                 </button>
                             </div>
                         </>
-                    )}
-                </div>
+                    </div>
+                )}
 
             </WowWindow>
 

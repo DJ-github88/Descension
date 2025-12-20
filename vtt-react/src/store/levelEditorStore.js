@@ -574,6 +574,7 @@ const initialState = {
     revealedAreas: {}, // { "x,y": boolean } - Areas revealed by token vision
     tokenVisionRanges: {}, // { tokenId: { range: number, type: 'normal'|'darkvision'|'blindsight' } }
     viewingFromToken: null, // Current token being viewed from (for highlighting and camera locking)
+    playerViewFromTokenDisabled: false, // Track if player has explicitly disabled view from token
     visibleArea: null, // Array of visible tile keys for FOV-based visibility (stored as array for React reactivity)
     visibilityPolygon: null, // Array of {x, y} points forming the raycast visibility polygon for accurate point-in-polygon checks
     
@@ -1479,9 +1480,13 @@ const useLevelEditorStore = create((set, get) => ({
                 } else {
                     // Switching to a different token or disabling view (token = null)
                     // Clear afterimages since we're changing perspective entirely
+                    // Track if player explicitly disabled view from token (token is null and we had a token before)
+                    const wasExplicitlyDisabled = !token && currentToken !== null;
                     set({
                         viewingFromToken: token,
-                        tokenAfterimages: {}
+                        tokenAfterimages: {},
+                        // If player explicitly disabled it, mark it so we don't auto-enable again
+                        playerViewFromTokenDisabled: wasExplicitlyDisabled
                     });
                 }
             },

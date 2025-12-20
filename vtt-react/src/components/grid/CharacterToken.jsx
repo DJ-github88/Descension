@@ -1733,16 +1733,18 @@ const CharacterToken = ({
                                 e.preventDefault();
                                 e.stopPropagation();
                                 setShowContextMenu(false);
-                                const { setViewingFromToken } = useLevelEditorStore.getState();
+                                const levelEditorStore = useLevelEditorStore.getState();
                                 if (isViewingFrom) {
                                     // Deselect view from token
-                                    setViewingFromToken(null);
+                                    levelEditorStore.setViewingFromToken(null);
                                 } else if (position) {
                                     // Enable dynamic fog if not already enabled
-                                    const { dynamicFogEnabled, setDynamicFogEnabled } = useLevelEditorStore.getState();
+                                    const { dynamicFogEnabled, setDynamicFogEnabled } = levelEditorStore;
                                     if (!dynamicFogEnabled) {
                                         setDynamicFogEnabled(true);
                                     }
+                                    // Reset the disabled flag since player is explicitly enabling it
+                                    levelEditorStore.playerViewFromTokenDisabled = false;
                                     // Set this token as the viewing token (restricts fog reveal to token's vision)
                                     const tokenData = {
                                         type: 'character',
@@ -1750,7 +1752,7 @@ const CharacterToken = ({
                                         characterId: tokenId,
                                         position: position
                                     };
-                                    setViewingFromToken(tokenData);
+                                    levelEditorStore.setViewingFromToken(tokenData);
                                     // Center camera on token initially (but don't lock it)
                                     setCameraPosition(position.x, position.y);
                                 }

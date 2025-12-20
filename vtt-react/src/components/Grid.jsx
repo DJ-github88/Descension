@@ -405,6 +405,10 @@ function GridComponent({
         // Reset tracking when switching between modes
         if (justSwitchedToGMMode || justSwitchedToPlayerMode) {
             hasSetPlayerViewRef.current = false;
+            // Reset the disabled flag when switching modes
+            if (justSwitchedToPlayerMode) {
+                useLevelEditorStore.setState({ playerViewFromTokenDisabled: false });
+            }
         }
 
         // GM mode should NOT auto-select viewingFromToken - GM has full visibility by default
@@ -413,9 +417,13 @@ function GridComponent({
             return; // GM doesn't need auto-detection of viewing token
         }
 
+        // Check if player has explicitly disabled view from token
+        const { playerViewFromTokenDisabled } = useLevelEditorStore.getState();
+        
         // Run on initial load OR when mode switches to player mode
         // ALSO run if viewingFromToken is not set (for auto-detection on any load) - ONLY for players
-        const shouldAutoDetect = isInitialLoad || justSwitchedToPlayerMode || !viewingFromToken;
+        // BUT don't auto-enable if player has explicitly disabled it
+        const shouldAutoDetect = (isInitialLoad || justSwitchedToPlayerMode || !viewingFromToken) && !playerViewFromTokenDisabled;
         if (!shouldAutoDetect && hasSetPlayerViewRef.current) {
             return;
         }

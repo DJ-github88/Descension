@@ -47,6 +47,8 @@ const useCharacterTokenStore = create((set, get) => ({
 
                     // Switch to player mode
                     gameStore.setGMMode(false);
+                    // Reset the disabled flag when placing a new token (so auto-enable works)
+                    levelEditorStore.playerViewFromTokenDisabled = false;
                     // Enable view from this character token
                     levelEditorStore.setViewingFromToken({
                         id: newToken.id,

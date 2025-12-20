@@ -298,12 +298,21 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   const renderResourceSystem = () => {
     const { resourceSystem } = classData;
 
+    // Safety check - return early if resourceSystem is missing
+    if (!resourceSystem) {
+      return (
+        <div className="class-detail-section">
+          <p>Resource system information not available for this class.</p>
+        </div>
+      );
+    }
+
     return (
       <div className="class-detail-section">
         <div className="class-intro">
           <h3>{resourceSystem.title}</h3>
-          <p className="class-subtitle">{resourceSystem.subtitle}</p>
-          <p className="class-description">{resourceSystem.description}</p>
+          {resourceSystem.subtitle && <p className="class-subtitle">{resourceSystem.subtitle}</p>}
+          {resourceSystem.description && <p className="class-description">{resourceSystem.description}</p>}
         </div>
 
         {resourceSystem.mechanics && (

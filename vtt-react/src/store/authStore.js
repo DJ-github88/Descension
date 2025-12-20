@@ -136,11 +136,11 @@ const useAuthStore = create(
       },
 
       // Sign in with Google
-      signInWithGoogle: async () => {
+      signInWithGoogle: async (displayName = null, friendId = null) => {
         set({ isLoading: true, error: null });
 
         try {
-          const result = await authService.signInWithGoogle();
+          const result = await authService.signInWithGoogle(displayName, friendId);
 
           if (result.success) {
             // User will be set via auth state listener
