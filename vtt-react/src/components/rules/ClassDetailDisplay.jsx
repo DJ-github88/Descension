@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
 import ClassResourceBar from '../hud/ClassResourceBar';
@@ -15,102 +15,19 @@ import './ClassDetailDisplay.css';
  */
 const ClassDetailDisplay = ({ classData, onBack }) => {
   const [activeTab, setActiveTab] = useState('overview');
-  const [hoveredSpell, setHoveredSpell] = useState(null);
-  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+  const [selectedSpell, setSelectedSpell] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const hoverTimeoutRef = useRef(null);
-  const hoverDelayTimeoutRef = useRef(null);
   const contentContainerRef = useRef(null);
 
-  // Handle hover for spell details with delay
-  const handleSpellHover = (spell, event) => {
-    // Clear any existing timeouts
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    if (hoverDelayTimeoutRef.current) {
-      clearTimeout(hoverDelayTimeoutRef.current);
-    }
-    
-    // Get the element reference and bounding rect immediately
-    const element = event.currentTarget;
-    if (!element) return;
-    
-    // Set up delayed tooltip display (500ms)
-    hoverDelayTimeoutRef.current = setTimeout(() => {
-      // Re-check element is still available
-      if (!element || !document.body.contains(element)) {
-        return;
-      }
-      
-      const rect = element.getBoundingClientRect();
-      const tooltipWidth = 500; // Tooltip width
-      const tooltipHeight = 600; // Approximate tooltip height
-      const padding = 20;
-      
-      // Position tooltip below the spell icon (centered horizontally)
-      let x = rect.left + (rect.width / 2) - (tooltipWidth / 2);
-      let y = rect.bottom + padding;
-      
-      // If tooltip would go off bottom, show above instead
-      if (y + tooltipHeight > window.innerHeight - padding) {
-        y = rect.top - tooltipHeight - padding;
-      }
-      
-      // If tooltip would go off top when positioned above, adjust y
-      if (y < padding) {
-        y = padding;
-      }
-      
-      // If tooltip would go off right edge, adjust x
-      if (x + tooltipWidth > window.innerWidth - padding) {
-        x = window.innerWidth - tooltipWidth - padding;
-      }
-      
-      // If tooltip would go off left edge, adjust x
-      if (x < padding) {
-        x = padding;
-      }
-      
-      setHoverPosition({ x, y });
-      setHoveredSpell(spell);
-    }, 500); // 500ms delay
+  // Handle click for spell details - show popup
+  const handleSpellClick = (spell) => {
+    setSelectedSpell(spell);
   };
 
-  const handleSpellLeave = () => {
-    // Clear the delay timeout if user leaves before delay completes
-    if (hoverDelayTimeoutRef.current) {
-      clearTimeout(hoverDelayTimeoutRef.current);
-      hoverDelayTimeoutRef.current = null;
-    }
-    
-    // Small delay before hiding tooltip to allow moving to it
-    hoverTimeoutRef.current = setTimeout(() => {
-      setHoveredSpell(null);
-    }, 200);
+  // Handle closing the spell popup
+  const handleCloseSpellPopup = () => {
+    setSelectedSpell(null);
   };
-
-  const handleTooltipEnter = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-  };
-
-  const handleTooltipLeave = () => {
-    setHoveredSpell(null);
-  };
-
-  // Cleanup hover timeouts on unmount
-  useEffect(() => {
-    return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current);
-      }
-      if (hoverDelayTimeoutRef.current) {
-        clearTimeout(hoverDelayTimeoutRef.current);
-      }
-    };
-  }, []);
 
   if (!classData) {
     return (
@@ -790,8 +707,8 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
               <div
                 key={spell.id}
                 className="spellbook-spell-icon"
-                onMouseEnter={(e) => handleSpellHover(spell, e)}
-                onMouseLeave={handleSpellLeave}
+                onClick={() => handleSpellClick(spell)}
+                style={{ cursor: 'pointer' }}
               >
                 <div className="spellbook-spell-icon-image">
                   <img
@@ -869,37 +786,59 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           </button>
         </div>
 
-        {/* Hover Tooltip with Spell Details */}
-        {hoveredSpell && (
+        {/* Spell Popup Modal */}
+        {selectedSpell && (
           <div
-            className="spellbook-hover-tooltip"
+            className="spellbook-popup-overlay"
+            onClick={handleCloseSpellPopup}
             style={{
-              left: `${hoverPosition.x}px`,
-              top: `${hoverPosition.y}px`
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 10000,
+              cursor: 'pointer'
             }}
-            onMouseEnter={handleTooltipEnter}
-            onMouseLeave={handleTooltipLeave}
           >
-            <UnifiedSpellCard
-              spell={{
-                ...hoveredSpell,
-                infernoRequired: hoveredSpell.specialMechanics?.infernoLevel?.required ||
-                               hoveredSpell.resourceCost?.resourceValues?.inferno_required,
-                infernoAscend: hoveredSpell.specialMechanics?.infernoLevel?.ascendBy ||
-                             hoveredSpell.resourceCost?.resourceValues?.inferno_ascend,
-                infernoDescend: hoveredSpell.specialMechanics?.infernoLevel?.descendBy ||
-                              hoveredSpell.resourceCost?.resourceValues?.inferno_descend,
-                ...(hoveredSpell.specialMechanics?.musicalCombo && {
-                  musicalCombo: hoveredSpell.specialMechanics.musicalCombo
-                })
+            <div
+              className="spellbook-popup-content"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                padding: '20px',
+                maxWidth: '600px',
+                maxHeight: '90vh',
+                overflow: 'auto',
+                cursor: 'default'
               }}
-              variant="wizard"
-              showActions={false}
-              showDescription={true}
-              showStats={true}
-              showTags={true}
-              rollableTableData={getSpellRollableTable(hoveredSpell)}
-            />
+            >
+              <UnifiedSpellCard
+                spell={{
+                  ...selectedSpell,
+                  infernoRequired: selectedSpell.specialMechanics?.infernoLevel?.required ||
+                                 selectedSpell.resourceCost?.resourceValues?.inferno_required,
+                  infernoAscend: selectedSpell.specialMechanics?.infernoLevel?.ascendBy ||
+                               selectedSpell.resourceCost?.resourceValues?.inferno_ascend,
+                  infernoDescend: selectedSpell.specialMechanics?.infernoLevel?.descendBy ||
+                                selectedSpell.resourceCost?.resourceValues?.inferno_descend,
+                  ...(selectedSpell.specialMechanics?.musicalCombo && {
+                    musicalCombo: selectedSpell.specialMechanics.musicalCombo
+                  })
+                }}
+                variant="wizard"
+                showActions={false}
+                showDescription={true}
+                showStats={true}
+                showTags={true}
+                rollableTableData={getSpellRollableTable(selectedSpell)}
+              />
+            </div>
           </div>
         )}
       </div>
