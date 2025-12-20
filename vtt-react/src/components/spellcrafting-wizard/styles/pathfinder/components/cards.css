@@ -143,6 +143,8 @@
   background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0));
   pointer-events: none;
   z-index: 1;
+  border-top-left-radius: var(--pf-border-radius-lg);
+  border-top-right-radius: var(--pf-border-radius-lg);
 }
 
 .spell-card-content {
@@ -230,6 +232,8 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 1px 3px rgba(45, 24, 16, 0.2) !important;
   overflow: visible !important; /* Allow priority tag to overflow above header */
+  border-top-left-radius: var(--pf-border-radius-lg) !important;
+  border-top-right-radius: var(--pf-border-radius-lg) !important;
 }
 
 /* Header Top Row - Icon, Name, and Resource Cost */
@@ -1438,6 +1442,8 @@
   font-family: var(--pf-font-body);
   font-size: var(--pf-text-xs);
   color: var(--pf-text-muted);
+  border-bottom-left-radius: var(--pf-border-radius-lg);
+  border-bottom-right-radius: var(--pf-border-radius-lg);
 }
 
 .pf-spell-range {
@@ -1724,6 +1730,8 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.2),
     0 1px 3px rgba(45, 24, 16, 0.2) !important;
+  border-top-left-radius: var(--pf-border-radius-lg) !important;
+  border-top-right-radius: var(--pf-border-radius-lg) !important;
 }
 
 /* Override any global interference from creature windows or other components */
@@ -3935,6 +3943,8 @@
   font-size: var(--pf-text-sm);
   color: var(--pf-text-secondary);
   min-height: 50px;
+  border-bottom-left-radius: var(--pf-border-radius-lg);
+  border-bottom-right-radius: var(--pf-border-radius-lg);
 }
 
 .spell-range-duration {
@@ -3957,6 +3967,8 @@
   margin-top: auto; /* Push to bottom of card */
   gap: var(--pf-space-2);
   z-index: 10;
+  border-bottom-left-radius: var(--pf-border-radius-lg);
+  border-bottom-right-radius: var(--pf-border-radius-lg);
 }
 
 /* Inferno Requirements */
