@@ -1074,6 +1074,13 @@ const CampaignManager = ({ user }) => {
                           <span className="player-char">{player.characterName || 'No character'} {player.class && `• ${player.class}`}</span>
                         </div>
                         <span className={`status-dot ${player.status}`}></span>
+                        <button
+                          className="player-remove-btn-small"
+                          onClick={() => removePlayer(player.id)}
+                          title="Remove player"
+                        >
+                          <i className="fas fa-times"></i>
+                        </button>
                       </div>
                     ))
                   ) : (

@@ -3956,8 +3956,6 @@
   min-height: 22px;
   margin-top: auto; /* Push to bottom of card */
   gap: var(--pf-space-2);
-  position: sticky;
-  bottom: 0;
   z-index: 10;
 }
 

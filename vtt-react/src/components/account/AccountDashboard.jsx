@@ -397,8 +397,8 @@ const AccountDashboard = ({ user }) => {
           <div className="tab-content">
             <div className="characters-full-view">
               <div className="characters-header">
-                <div className="characters-header-left">
-                  <h2>Character Management</h2>
+                <h2>Character Management</h2>
+                <div className="characters-header-actions">
                   {characterLimitInfo && (
                     <div className="character-limit-info">
                       <span className="character-count">
@@ -411,27 +411,19 @@ const AccountDashboard = ({ user }) => {
                       )}
                     </div>
                   )}
+                  <button
+                    className={`create-character-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
+                    onClick={handleCreateCharacter}
+                    disabled={characterLimitInfo && !characterLimitInfo.canCreate}
+                    title={characterLimitInfo && !characterLimitInfo.canCreate ?
+                      `Character limit reached (${characterLimitInfo.limit}). Upgrade your membership to create more characters.` :
+                      'Create a new character'
+                    }
+                  >
+                    <i className="fas fa-plus"></i>
+                    Create Character
+                  </button>
                 </div>
-                <button
-                  className={`create-character-btn ${characterLimitInfo && !characterLimitInfo.canCreate ? 'disabled' : ''}`}
-                  onClick={handleCreateCharacter}
-                  disabled={characterLimitInfo && !characterLimitInfo.canCreate}
-                  title={characterLimitInfo && !characterLimitInfo.canCreate ?
-                    `Character limit reached (${characterLimitInfo.limit}). Upgrade your membership to create more characters.` :
-                    'Create a new character'
-                  }
-                >
-                  <i className="fas fa-plus"></i>
-                  Create Character
-                </button>
-                <button
-                  className="create-character-btn"
-                  onClick={handleCreatePlaceholderCharacters}
-                  title="Create placeholder characters for testing (with all data filled out)"
-                >
-                  <i className="fas fa-magic"></i>
-                  Create Placeholder Characters
-                </button>
               </div>
 
               {characters && characters.length > 0 ? (
@@ -700,6 +692,14 @@ const AccountDashboard = ({ user }) => {
                   </div>
                   <h3>No Characters Yet</h3>
                   <p>Create your first character to begin your adventure in the world of Mythrill!</p>
+                  <button
+                    className="create-character-btn create-placeholder-btn"
+                    onClick={handleCreatePlaceholderCharacters}
+                    title="Create placeholder characters for testing (with all data filled out)"
+                  >
+                    <i className="fas fa-magic"></i>
+                    Create Placeholder Characters
+                  </button>
                 </div>
               )}
             </div>

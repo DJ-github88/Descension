@@ -635,6 +635,32 @@
   color: #8b7355;
 }
 
+.player-remove-btn-small {
+  background: transparent;
+  border: none;
+  color: #8b7355;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+}
+
+.player-remove-btn-small:hover {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  opacity: 1;
+}
+
+.player-quick-item:hover .player-remove-btn-small {
+  opacity: 0.8;
+}
+
 .status-dot {
   width: 10px;
   height: 10px;

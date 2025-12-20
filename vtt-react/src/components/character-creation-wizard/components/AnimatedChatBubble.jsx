@@ -112,7 +112,7 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
   const [isDragging, setIsDragging] = useState(false);
 
   // Visibility state
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   const messages = STEP_MESSAGES[currentStep] || STEP_MESSAGES[1];
   const intervalRef = useRef(null);
@@ -299,6 +299,10 @@ const AnimatedChatBubble = ({ currentStep, isEditing, customPosition, onPosition
   } : {
     cursor: isDragging ? 'grabbing' : 'grab'
   };
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <div
