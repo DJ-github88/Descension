@@ -609,7 +609,12 @@ export default function Navigation({ onReturnToLanding }) {
     const { isEditorMode, setEditorMode } = useLevelEditorStore();
 
     // Game store for GM mode and camera position
-    const { isGMMode, cameraX, cameraY, gridSize, gridBackgroundColor, setCameraPosition } = useGameStore();
+    const { isGMMode, cameraX, cameraY, gridSize, gridOffsetX, gridOffsetY, gridBackgroundColor, setCameraPosition } = useGameStore();
+
+    // State for coordinate input popup
+    const [showCoordinatePopup, setShowCoordinatePopup] = useState(false);
+    const [inputX, setInputX] = useState('');
+    const [inputY, setInputY] = useState('');
 
     // Combat store for selection mode
     const {
@@ -1298,8 +1303,10 @@ export default function Navigation({ onReturnToLanding }) {
             
             {/* Grid Coordinates Display */}
             {(() => {
-                const gridX = Math.round(-(cameraX || 0) / (gridSize || 50));
-                const gridY = Math.round(-(cameraY || 0) / (gridSize || 50));
+                // Calculate grid coordinates with decimal precision
+                // Note: Negative sign accounts for coordinate system inversion
+                const gridX = -(cameraX || 0) / (gridSize || 50);
+                const gridY = -(cameraY || 0) / (gridSize || 50);
                 
                 // Calculate a contrasting color based on background
                 const getContrastColor = (bgColor) => {
@@ -1355,12 +1362,193 @@ export default function Navigation({ onReturnToLanding }) {
                         }}
                     >
                         <i className="fas fa-crosshairs" style={{ marginRight: '6px', color: textColor, fontSize: '12px', opacity: 0.8 }}></i>
-                        <span style={{ color: textColor, fontWeight: '600' }}>X: {gridX}</span>
+                        <span style={{ color: textColor, fontWeight: '600' }}>X: {gridX.toFixed(1)}</span>
                         <span style={{ margin: '0 8px', color: textColor, opacity: 0.6 }}>|</span>
-                        <span style={{ color: textColor, fontWeight: '600' }}>Y: {gridY}</span>
+                        <span style={{ color: textColor, fontWeight: '600' }}>Y: {gridY.toFixed(1)}</span>
+                        <i 
+                            className="fas fa-map-marker-alt" 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setInputX(gridX.toFixed(1));
+                                setInputY(gridY.toFixed(1));
+                                setShowCoordinatePopup(true);
+                            }}
+                            style={{ 
+                                marginLeft: '8px', 
+                                color: textColor, 
+                                fontSize: '14px', 
+                                opacity: 0.8,
+                                cursor: 'pointer',
+                                transition: 'opacity 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.target.style.opacity = '1'}
+                            onMouseLeave={(e) => e.target.style.opacity = '0.8'}
+                            title="Jump to coordinates"
+                        ></i>
                     </div>
                 );
             })()}
+
+            {/* Coordinate Input Popup */}
+            {showCoordinatePopup && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        backgroundColor: '#2c1810',
+                        border: '2px solid #8b6f47',
+                        borderRadius: '8px',
+                        padding: '20px',
+                        zIndex: 100000,
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+                        minWidth: '300px',
+                        fontFamily: 'Bookman Old Style, Garamond, serif'
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <div style={{ marginBottom: '15px', color: '#d4c5b9', fontSize: '16px', fontWeight: '600' }}>
+                        Jump to Coordinates
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>X:</label>
+                            <input
+                                type="number"
+                                step="0.1"
+                                value={inputX}
+                                onChange={(e) => setInputX(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        const x = parseFloat(inputX) || 0;
+                                        const y = parseFloat(inputY) || 0;
+                                        // Convert grid coordinates to camera position
+                                        // Reverse of: gridX = -(cameraX || 0) / (gridSize || 50)
+                                        const cameraXPos = -(x * (gridSize || 50));
+                                        const cameraYPos = -(y * (gridSize || 50));
+                                        setCameraPosition(cameraXPos, cameraYPos);
+                                        setShowCoordinatePopup(false);
+                                    } else if (e.key === 'Escape') {
+                                        setShowCoordinatePopup(false);
+                                    }
+                                }}
+                                style={{
+                                    flex: 1,
+                                    padding: '8px',
+                                    backgroundColor: '#1a1008',
+                                    border: '1px solid #8b6f47',
+                                    borderRadius: '4px',
+                                    color: '#d4c5b9',
+                                    fontFamily: 'Courier New, Monaco, monospace',
+                                    fontSize: '14px'
+                                }}
+                                autoFocus
+                            />
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <label style={{ color: '#d4c5b9', minWidth: '30px', fontFamily: 'Courier New, Monaco, monospace' }}>Y:</label>
+                            <input
+                                type="number"
+                                step="0.1"
+                                value={inputY}
+                                onChange={(e) => setInputY(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        const x = parseFloat(inputX) || 0;
+                                        const y = parseFloat(inputY) || 0;
+                                        // Convert grid coordinates to camera position
+                                        const cameraXPos = -(x * (gridSize || 50));
+                                        const cameraYPos = -(y * (gridSize || 50));
+                                        setCameraPosition(cameraXPos, cameraYPos);
+                                        setShowCoordinatePopup(false);
+                                    } else if (e.key === 'Escape') {
+                                        setShowCoordinatePopup(false);
+                                    }
+                                }}
+                                style={{
+                                    flex: 1,
+                                    padding: '8px',
+                                    backgroundColor: '#1a1008',
+                                    border: '1px solid #8b6f47',
+                                    borderRadius: '4px',
+                                    color: '#d4c5b9',
+                                    fontFamily: 'Courier New, Monaco, monospace',
+                                    fontSize: '14px'
+                                }}
+                            />
+                        </div>
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                            <button
+                                onClick={() => {
+                                    const x = parseFloat(inputX) || 0;
+                                    const y = parseFloat(inputY) || 0;
+                                    // Convert grid coordinates to camera position
+                                    const cameraXPos = -(x * (gridSize || 50));
+                                    const cameraYPos = -(y * (gridSize || 50));
+                                    setCameraPosition(cameraXPos, cameraYPos);
+                                    setShowCoordinatePopup(false);
+                                }}
+                                style={{
+                                    flex: 1,
+                                    padding: '10px',
+                                    backgroundColor: '#8b6f47',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    color: '#f0e6d2',
+                                    fontFamily: 'Bookman Old Style, Garamond, serif',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = '#a08c70'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = '#8b6f47'}
+                            >
+                                Jump
+                            </button>
+                            <button
+                                onClick={() => setShowCoordinatePopup(false)}
+                                style={{
+                                    flex: 1,
+                                    padding: '10px',
+                                    backgroundColor: '#5a3b2e',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    color: '#d4c5b9',
+                                    fontFamily: 'Bookman Old Style, Garamond, serif',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = '#6b4a3a'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = '#5a3b2e'}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Backdrop to close popup when clicking outside */}
+            {showCoordinatePopup && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 99999
+                    }}
+                    onClick={() => setShowCoordinatePopup(false)}
+                />
+            )}
 
             {buttons.filter(button => button && button.id).map(button => (
                 <React.Fragment key={`window-${button.id}`}>
