@@ -5,7 +5,7 @@
  * Users can browse creatures by category, search, and download creatures to their local library.
  */
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useCommunityCreatures } from '../../../../hooks/useCommunityCreatures';
 import { useCreatureLibraryDispatch, libraryActionCreators } from '../../context/CreatureLibraryContext';
@@ -51,22 +51,57 @@ const CommunityCreaturesTab = () => {
     }
   };
 
-  // Tooltip handlers
-  const handleMouseEnter = (creature, e) => {
-    setHoveredCreature(creature);
-    updateTooltipPosition(e);
+  // Close tooltip when clicking outside (same as library section)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Close tooltip if clicking outside the tooltip and creature card
+      if (hoveredCreature) {
+        const tooltipElement = document.querySelector('.creature-card-hover-preview-portal');
+        const creatureCard = event.target.closest('.community-creature-card-wrapper');
+        
+        // Don't close if clicking on the tooltip itself or a creature card
+        if (!tooltipElement?.contains(event.target) && !creatureCard) {
+          setHoveredCreature(null);
+        }
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [hoveredCreature]);
+
+  // Tooltip handlers - click-based (same as library section)
+  const handleCreatureClick = (creature, event) => {
+    event.stopPropagation(); // Prevent document click handler from interfering
+    
+    // Toggle tooltip on click
+    if (hoveredCreature?.id === creature.id) {
+      // If clicking the same creature, close the tooltip
+      setHoveredCreature(null);
+    } else {
+      // Show tooltip for clicked creature
+      window.lastTooltipEvent = event; // Store for position recalculation
+      setHoveredCreature(creature);
+      updateTooltipPosition(event);
+    }
   };
 
   const handleMouseMove = (e) => {
     if (hoveredCreature) {
+      window.lastTooltipEvent = e; // Store for position recalculation
       updateTooltipPosition(e);
     }
   };
 
-  // Update tooltip position
-  const updateTooltipPosition = (e) => {
+  // Update tooltip position - position at mouse cursor (same as library section)
+  const updateTooltipPosition = (event) => {
+    // Get viewport dimensions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
+
+    // Tooltip dimensions
     const tooltipWidth = 380;
     const tooltipHeight = 450;
     const padding = 20; // Padding from edges
@@ -77,7 +112,7 @@ const CommunityCreaturesTab = () => {
     if (iconSelectorModal) {
       // Position tooltip below the icon selector modal
       const modalRect = iconSelectorModal.getBoundingClientRect();
-      const x = Math.max(padding, Math.min(e.clientX, viewportWidth - tooltipWidth - padding));
+      const x = Math.max(padding, Math.min(event.clientX, viewportWidth - tooltipWidth - padding));
       const y = modalRect.bottom + 15; // 15px below the modal
 
       // Ensure tooltip doesn't go off bottom of screen
@@ -87,26 +122,57 @@ const CommunityCreaturesTab = () => {
       return;
     }
 
-    // Default positioning to the right of the element with padding
-    const rect = e.currentTarget.getBoundingClientRect();
-    let x = rect.right + 10;
-    
-    // If tooltip would go off screen, position it to the left instead
-    if (x + tooltipWidth > viewportWidth - padding) {
-      x = rect.left - tooltipWidth - 10;
+    // Position tooltip at mouse cursor with offset
+    const offsetX = 15; // Horizontal offset from cursor
+    const offsetY = -10; // Vertical offset from cursor (above cursor)
+    const margin = 10; // Minimum margin from screen edges
+
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
+
+    // Calculate initial position relative to mouse cursor
+    let x = mouseX + offsetX;
+    let y = mouseY + offsetY;
+
+    // Adjust horizontal position if tooltip would go off screen
+    if (x + tooltipWidth > viewportWidth - margin) {
+      // Position to the left of cursor
+      x = mouseX - tooltipWidth - offsetX;
+
+      // If still off screen on the left, clamp to margin
+      if (x < margin) {
+        x = margin;
+      }
     }
-    
-    // Ensure tooltip stays within viewport with padding
-    x = Math.max(padding, Math.min(x, viewportWidth - tooltipWidth - padding));
-    
-    setTooltipPosition({
-      x,
-      y: Math.max(padding, Math.min(rect.top, viewportHeight - tooltipHeight - padding))
-    });
+
+    // Adjust vertical position if tooltip would go off screen
+    if (y + tooltipHeight > viewportHeight - margin) {
+      // Position above cursor
+      y = mouseY - tooltipHeight - Math.abs(offsetY);
+
+      // If still off screen at the top, clamp to margin
+      if (y < margin) {
+        y = margin;
+      }
+    }
+
+    // Ensure minimum Y position
+    if (y < margin) {
+      y = margin;
+    }
+
+    // Final safety check - ensure tooltip is always within viewport
+    x = Math.max(margin, Math.min(x, viewportWidth - tooltipWidth - margin));
+    y = Math.max(margin, Math.min(y, viewportHeight - tooltipHeight - margin));
+
+    setTooltipPosition({ x, y });
   };
 
-  const handleMouseLeave = () => {
-    setHoveredCreature(null);
+  const handleMouseLeave = (creature) => {
+    // Close tooltip immediately when leaving the card
+    if (hoveredCreature?.id === creature.id) {
+      setHoveredCreature(null);
+    }
   };
 
   const handleDownloadCreature = async (creature) => {
@@ -155,6 +221,7 @@ const CommunityCreaturesTab = () => {
     const completeCreature = {
       ...creature.creatureData,
       // Override with top-level properties if they exist (they take precedence)
+      id: creature.id || creature.creatureData?.id, // Include ID for comparison
       name: creature.name || creature.creatureData?.name,
       description: creature.description || creature.creatureData?.description,
       type: creature.type || creature.creatureData?.type,
@@ -184,9 +251,14 @@ const CommunityCreaturesTab = () => {
       <div
         key={creature.id}
         className="community-creature-card-wrapper"
-        onMouseEnter={(e) => handleMouseEnter(completeCreature, e)}
+        onClick={(e) => {
+          // Don't trigger if clicking the download button
+          if (!e.target.closest('.download-creature-btn')) {
+            handleCreatureClick(completeCreature, e);
+          }
+        }}
         onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onMouseLeave={() => handleMouseLeave(completeCreature)}
       >
         <CompactCreatureCard creature={completeCreature} />
         <div className="community-creature-actions">
